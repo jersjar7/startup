@@ -1,13 +1,9 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/kit.dart';
-import '../shared/widgets/engineering_grid.dart';
 import '../shared/widgets/math_text.dart';
-import 'discriminant_gate_game.dart' show Para, ParaPainter;
 import 'mechanics_pictures.dart';
 import 'mathematics_pictures.dart';
 import 'statistics_pictures.dart';
@@ -23,9 +19,6 @@ import 'structural_pictures.dart';
 import 'geotechnical_pictures.dart';
 import 'transportation_pictures.dart';
 import 'construction_pictures.dart';
-import 'oblique_figures.dart';
-import 'trig_figures.dart';
-import 'unit_circle_figures.dart';
 
 /// The idea behind a lesson, in a few lines and a picture, reachable both from
 /// the lesson node and from inside a sitting. It is a reference, not a
@@ -36,7 +29,6 @@ class BriefSection {
   const BriefSection({
     required this.title,
     this.body = '',
-    required this.figure,
     this.formula,
     this.formulas = const [],
     this.handbook,
@@ -70,385 +62,7 @@ class BriefSection {
   /// merely uses one. Without these a card can explain when to reach for a law
   /// and never show the law, which reads as arbitrary.
   final List<(String, String)> formulas;
-  final BriefFigure figure;
   final String? handbook;
-}
-
-enum BriefFigure {
-  /// No rule list: the sheet carries a picture and steps instead.
-  none,
-  slopePair,
-  discriminant,
-  grade,
-  logRules,
-  undoExponent,
-  combineLogs,
-  ratios,
-  sideNames,
-  components,
-  unitCircle,
-  quadrants,
-  identities,
-  circleForm,
-  conicForms,
-  completingSquare,
-  whichRule,
-  chainRule,
-  quotientOrder,
-  maxMin,
-  bendFlip,
-  whereOrHowMuch,
-  substitution,
-  liate,
-  finishing,
-  formCheck,
-  separately,
-  bothSides,
-  vectorAdd,
-  unitVector,
-  magnitude,
-  dotProduct,
-  dotAngle,
-  projection,
-  rightHand,
-  crossArea,
-  cofactor,
-  references,
-  precedence,
-  functions,
-  tracing,
-  selection,
-  iteration,
-  newton,
-  bisection,
-  methodChoice,
-  center,
-  spread,
-  weighted,
-  correlation,
-  regressionLine,
-  determination,
-  counting,
-  binomial,
-  normalTable,
-  expectedValue,
-  varianceShortcut,
-  combining,
-  marginOfError,
-  zOrT,
-  sampleSize,
-  hypotheses,
-  decisionRule,
-  goodnessOfFit,
-  publicFirst,
-  escalation,
-  proportion,
-  competence,
-  consent,
-  claims,
-  standing,
-  exemption,
-  holdingOut,
-  ladder,
-  discipline,
-  sections,
-  formation,
-  risk,
-  delivery,
-  standardOfCare,
-  negligence,
-  clocks,
-  property,
-  portfolio,
-  lifeCycle,
-  factors,
-  rates,
-  pieces,
-  annualCost,
-  studyPeriod,
-  methodsAgree,
-  costTypes,
-  breakEven,
-  payback,
-  lawChoice,
-  lawForms,
-  cosineSign,
-  bcRatio,
-  incremental,
-  rollback,
-  internalRate,
-  hurdle,
-  ratePerYear,
-  macrs,
-  bookValue,
-  dollarsMatch,
-  resolve,
-  moment,
-  sense,
-  supports,
-  resultant,
-  determinacy,
-  zeroForce,
-  senseOfForce,
-  section,
-  laws,
-  period,
-  ceiling,
-  belt,
-  normalForce,
-  screw,
-  twoForce,
-  lever,
-  whatItIs,
-  areaWeighted,
-  table,
-  reference,
-  farFromAxis,
-  transfer,
-  compositeI,
-  polar,
-  deformation,
-  units,
-  thermal,
-  polarJ,
-  twist,
-  thinWall,
-  curve,
-  stiffStrong,
-  linked,
-  slopeRules,
-  peak,
-  jump,
-  fiber,
-  cut,
-  governs,
-  tableLine,
-  bounce,
-  addUp,
-  transform,
-  join,
-  plastic,
-  circle,
-  build,
-  worst,
-  ends,
-  weakAxis,
-  slender,
-  missing,
-  flight,
-  bend,
-  spin,
-  spinInertia,
-  weight,
-  slope,
-  twoEquations,
-  ledger,
-  cancel,
-  power,
-  impact,
-  survives,
-  impulse,
-  natural,
-  resonance,
-  damping,
-  underneath,
-  trueStress,
-  crack,
-  toughness,
-  expand,
-  furnace,
-  tieLine,
-  mix,
-  exposure,
-  curing,
-  field,
-  weighing,
-  grading,
-  voids,
-  check,
-  moisture,
-  mortar,
-  factor,
-  blend,
-  isostrain,
-  galvanic,
-  picking,
-  threeNumbers,
-  viscosity,
-  capillary,
-  depth,
-  manometer,
-  gauge,
-  gate,
-  buoyancy,
-  continuity,
-  bernoulli,
-  torricelli,
-  reynolds,
-  darcy,
-  minor,
-  deflection,
-  thrust,
-  block,
-  metering,
-  coefficient,
-  similitude,
-  scaling,
-  bearing,
-  azimuth,
-  shot,
-  sightLine,
-  runRoles,
-  closure,
-  latDep,
-  compass,
-  precision,
-  shoelace,
-  weights,
-  method,
-  endArea,
-  stations,
-  solidShare,
-  cogo,
-  pair,
-  arctan,
-  roadCurve,
-  degreeOfCurve,
-  tangentOffset,
-  highPoint,
-  wetted,
-  manning,
-  unitFactor,
-  froude,
-  criticalDepth,
-  hydraulicJump,
-  weirShape,
-  weirExponent,
-  hazen,
-  pumpPower,
-  npsh,
-  rational,
-  runoffBlend,
-  curveNumber,
-  unitHydrograph,
-  concentration,
-  routing,
-  seepage,
-  wells,
-  bod,
-  rateTemperature,
-  overflow,
-  residence,
-  foodRatio,
-  chlorineDose,
-  contactTime,
-  tiers,
-  hardness,
-  efficiency,
-  determinacyCount,
-  stability,
-  momentCenter,
-  jointForce,
-  trussRoute,
-  unitLoad,
-  termSign,
-  redundant,
-  fixity,
-  lrfd,
-  controls,
-  reduction,
-  influenceRead,
-  influenceShapes,
-  influencePlace,
-  effectiveDepth,
-  stirrupLadder,
-  phiFactors,
-  columnFactors,
-  steelWindow,
-  bracing,
-  moduli,
-  flanges,
-  whichAxis,
-  columnTable,
-  twoLimits,
-  netArea,
-  shearLag,
-  phaseDiagram,
-  masterRelation,
-  unitWeights,
-  uscsTree,
-  plasticityChart,
-  gradation,
-  threeStresses,
-  waterTable,
-  buoyantWalk,
-  settlementCase,
-  clayMemory,
-  drainagePath,
-  mohrCoulomb,
-  drainage,
-  soilCircle,
-  flowNet,
-  quickCondition,
-  infiniteSlope,
-  slopeSeepage,
-  slipWedge,
-  threeTerms,
-  footingFix,
-  allowablePressure,
-  rankine,
-  pressureShape,
-  wallForce,
-  threeChecks,
-  middleThird,
-  basePressure,
-  proctor,
-  relativeDensity,
-  stabilizer,
-  pileCapacity,
-  goingDeep,
-  downdrag,
-  sightDistance,
-  gradeSign,
-  peakHour,
-  crestSag,
-  gradeBreak,
-  superelevation,
-  yellowInterval,
-  allRed,
-  pedestrianGreen,
-  greenshields,
-  speedDensity,
-  crashRate,
-  heavyVehicle,
-  demandFlow,
-  levelOfService,
-  fourStep,
-  gravity,
-  friction,
-  signCategory,
-  signalWarrant,
-  structuralNumber,
-  layerThickness,
-  esal,
-  rigidVsFlexible,
-  pavementJoint,
-  subgradeReaction,
-  forwardPass,
-  projectDuration,
-  passes,
-  float,
-  criticalPath,
-  earnedValue,
-  forecast,
-  excavation,
-  fallProtection,
-  yards,
-  deliveryFit,
-  curveConversion,
-  cornerOffset,
-  stiffness,
-  filterRate,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -484,7 +98,6 @@ const perpendicularBrief = BriefSection(
       'flip the slope over, then change its sign',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
@@ -528,7 +141,6 @@ const discriminantBrief = BriefSection(
       'b squared, take away four times a times c',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
@@ -566,7 +178,6 @@ const gradeBrief = BriefSection(
       'three plus zero zero means three hundred feet',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
@@ -614,7 +225,6 @@ const logRulesBrief = BriefSection(
     ),
     ('Power', r'\log_b(x^n) = n\log_b x', 'the power comes down in front'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
@@ -658,7 +268,6 @@ const undoExponentBrief = BriefSection(
       'the log is just the power, named the other way round',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
@@ -705,7 +314,6 @@ const combineLogsBrief = BriefSection(
       'a number in front moves up as a power',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 36-37',
 );
 
@@ -755,7 +363,6 @@ const ratiosBrief = BriefSection(
       'tangent is opposite over adjacent',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
@@ -793,7 +400,6 @@ const sideNamesBrief = BriefSection(
       'the side that misses it, and the side that touches it',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
@@ -835,7 +441,6 @@ const componentsBrief = BriefSection(
       'now across takes sine and up takes cosine',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
@@ -881,7 +486,6 @@ const whichLawBrief = BriefSection(
       'Pythagoras, with a correction taken off for the angle',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
@@ -924,7 +528,6 @@ const setupBrief = BriefSection(
       'the side facing the angle comes off the top',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
@@ -967,7 +570,6 @@ const obtuseBrief = BriefSection(
       'if the facing side squared wins, the angle is past square',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
@@ -1012,7 +614,6 @@ const unitCircleBrief = BriefSection(
       'at 45 the two match; at 30 across wins; at 60 up wins',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
@@ -1055,7 +656,6 @@ const quadrantBrief = BriefSection(
       'first is across then up, quarter by quarter',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
@@ -1103,7 +703,6 @@ const identitiesBrief = BriefSection(
       'cosine squared take away sine squared, that way round',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
@@ -1142,7 +741,6 @@ const circleFormBrief = BriefSection(
       'the center is h across and k up, and the reach is r',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 24',
 );
 
@@ -1193,7 +791,6 @@ const readingConicsBrief = BriefSection(
       'minus b over two a gives where the turning point sits',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 24',
 );
 
@@ -1236,7 +833,6 @@ const completeSquareBrief = BriefSection(
       'half of ten is five, five squared is twenty-five',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 24',
 );
 
@@ -1286,7 +882,6 @@ const whichRuleBrief = BriefSection(
       'the slope of the outside, times the slope of the inside',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 49',
 );
 
@@ -1327,7 +922,6 @@ const chainRuleBrief = BriefSection(
       'four brackets cubed, and then times three for the inside',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 49',
 );
 
@@ -1368,7 +962,6 @@ const quotientOrderBrief = BriefSection(
       'the bottom always goes first',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 49',
 );
 
@@ -1412,7 +1005,6 @@ const criticalPointBrief = BriefSection(
       'flat, and bending upward: a valley',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 46',
 );
 
@@ -1453,7 +1045,6 @@ const concavityBrief = BriefSection(
       'zero, and coming out the other side the other way',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 46',
 );
 
@@ -1495,7 +1086,6 @@ const askedForBrief = BriefSection(
       'put the place back in to get the height',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 46',
 );
 
@@ -1543,7 +1133,6 @@ const substitutionBrief = BriefSection(
       'a plain integral in u, with nothing wrapped',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 50',
 );
 
@@ -1585,7 +1174,6 @@ const byPartsBrief = BriefSection(
       'logs, inverse trig, algebra, trig, exponential',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 50',
 );
 
@@ -1628,7 +1216,6 @@ const finishingBrief = BriefSection(
       'the value at the top limit, take away the value at the bottom',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 50',
 );
 
@@ -1672,7 +1259,6 @@ const formCheckBrief = BriefSection(
       'zero over zero, or endless over endless',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 48',
 );
 
@@ -1709,7 +1295,6 @@ const separatelyBrief = BriefSection(
       'the one with a product and a squared bottom',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 48',
 );
 
@@ -1751,7 +1336,6 @@ const bothSidesBrief = BriefSection(
       'one branch up and one down, so there is no limit',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 48',
 );
 
@@ -1790,7 +1374,6 @@ const vectorAddBrief = BriefSection(
       'across with across, up with up',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -1832,7 +1415,6 @@ const unitVectorBrief = BriefSection(
       'the far end take away the near end',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -1873,7 +1455,6 @@ const magnitudeBrief = BriefSection(
       'two triangles that come up again and again',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -1911,7 +1492,6 @@ const dotProductBrief = BriefSection(
       'the answer is a plain number, with no direction',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -1957,7 +1537,6 @@ const dotAngleBrief = BriefSection(
       'zero means the two are at a square corner',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -1998,7 +1577,6 @@ const projectionBrief = BriefSection(
       'the force dotted with the unit arrow along the member',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -2046,7 +1624,6 @@ const rightHandBrief = BriefSection(
       'no turn at all, so nothing',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -2080,7 +1657,6 @@ const areaBrief = BriefSection(
     ),
     ('Triangle', r'\tfrac{1}{2}|\vec{A} \times \vec{B}|', 'half of that area'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -2123,7 +1699,6 @@ const cofactorBrief = BriefSection(
       'plus, then minus, then plus',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -2160,7 +1735,6 @@ const referencesBrief = BriefSection(
     ('Row pinned, column free', r'\text{A\$1}', 'slides across, never down'),
     ('Column pinned, row free', r'\text{\$A1}', 'slides down, never across'),
   ],
-  figure: BriefFigure.none,
   handbook: 'FE Handbook, spreadsheet section',
 );
 
@@ -2196,7 +1770,6 @@ const precedenceBrief = BriefSection(
       'five, then four fives',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'FE Handbook, spreadsheet section',
 );
 
@@ -2232,7 +1805,6 @@ const functionsBrief = BriefSection(
       'if the test passes give the middle one, otherwise the last one',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'FE Handbook, spreadsheet section',
 );
 
@@ -2274,7 +1846,6 @@ const tracingBrief = BriefSection(
       'the running total after each pass',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'FE Handbook, computational tools',
 );
 
@@ -2316,7 +1887,6 @@ const selectionBrief = BriefSection(
       'the first test it passes, and no other',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'FE Handbook, computational tools',
 );
 
@@ -2352,7 +1922,6 @@ const iterationBrief = BriefSection(
       'the value that failed the test, not the last one that passed',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'FE Handbook, computational tools',
 );
 
@@ -2396,7 +1965,6 @@ const newtonBrief = BriefSection(
       'height twelve, slope eight, so slide back one and a half',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 61',
 );
 
@@ -2437,7 +2005,6 @@ const bisectionBrief = BriefSection(
       'whichever side of the middle still changes sign',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 61',
 );
 
@@ -2474,7 +2041,6 @@ const methodChoiceBrief = BriefSection(
       'only two ends on opposite sides of the axis',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 61',
 );
 
@@ -2518,7 +2084,6 @@ const centerBrief = BriefSection(
       'the one in the middle of the line',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 63',
 );
 
@@ -2568,7 +2133,6 @@ const spreadBrief = BriefSection(
       'the spread as a share of the mean',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 63',
 );
 
@@ -2603,7 +2167,6 @@ const weightedBrief = BriefSection(
       'each value times its weight, added, over the weights added',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 63',
 );
 
@@ -2647,7 +2210,6 @@ const correlationBrief = BriefSection(
       'either a shapeless cloud, or a shape that is not straight',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 69',
 );
 
@@ -2696,7 +2258,6 @@ const regressionLineBrief = BriefSection(
       'sums from the data. The calculator does this one',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 69',
 );
 
@@ -2733,7 +2294,6 @@ const determinationBrief = BriefSection(
     ),
     ('What is left unexplained', r'1 - R^2', 'one minus the share explained'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 69',
 );
 
@@ -2778,7 +2338,6 @@ const countingBrief = BriefSection(
       'three picks can be ordered six ways, so divide by six',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 64',
 );
 
@@ -2821,7 +2380,6 @@ const binomialBrief = BriefSection(
       'tries, times the chance of a success, times the chance of a failure',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 66',
 );
 
@@ -2872,7 +2430,6 @@ const normalTableBrief = BriefSection(
       'right of the cut is one minus left of it',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 67',
 );
 
@@ -2916,7 +2473,6 @@ const expectedValueBrief = BriefSection(
       'three outcomes, three chances, one balance point',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 65',
 );
 
@@ -2960,7 +2516,6 @@ const varianceShortcutBrief = BriefSection(
       'second total, less the first total squared',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 65',
 );
 
@@ -3010,7 +2565,6 @@ const combiningBrief = BriefSection(
       'square each spread, add, take the root',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 65',
 );
 
@@ -3054,7 +2608,6 @@ const marginOfErrorBrief = BriefSection(
       '25 samples, root 5, a margin of about 2',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 74',
 );
 
@@ -3094,7 +2647,6 @@ const zOrTBrief = BriefSection(
       'the t multiplier is bigger, so the interval is wider',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 74',
 );
 
@@ -3139,7 +2691,6 @@ const sampleSizeBrief = BriefSection(
     ),
     ('Which means', r'n = 62', 'rounded up, never down'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 75',
 );
 
@@ -3183,7 +2734,6 @@ const hypothesesBrief = BriefSection(
       'the claim could go either way, so alpha is split',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 72',
 );
 
@@ -3233,7 +2783,6 @@ const decisionRuleBrief = BriefSection(
       'past the line, reject',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 73',
 );
 
@@ -3279,7 +2828,6 @@ const goodnessOfFitBrief = BriefSection(
       'the smaller gap hurts more, because less was expected',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 75',
 );
 
@@ -3323,7 +2871,6 @@ const publicFirstBrief = BriefSection(
       'when you are overruled and people are at risk, tell the employer then the authority; report a licensee who breaks the rules',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 4-5, Model Rules 240.15',
 );
 
@@ -3370,7 +2917,6 @@ const escalationBrief = BriefSection(
       'if someone is about to be hurt, stop first and go up the ladder after',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 4-5, Model Rules A.3, A.8',
 );
 
@@ -3417,7 +2963,6 @@ const proportionBrief = BriefSection(
       'leaving altogether, which nobody asked for',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 5, Model Rules B.6, B.8',
 );
 
@@ -3466,7 +3011,6 @@ const competenceBrief = BriefSection(
       'you can lead the whole project if every segment is sealed by the one who prepared it',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 5, Model Rules B.1 to B.3',
 );
 
@@ -3514,7 +3058,6 @@ const consentBrief = BriefSection(
       'no gratuities from anyone bidding on your work, and no jobs from a public body you sit on',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 5, Model Rules B.4 to B.8',
 );
 
@@ -3562,7 +3105,6 @@ const claimsBrief = BriefSection(
       'if you find a serious mistake in another engineer\'s work, tell them first',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 5, Model Rules C.1 to C.4',
 );
 
@@ -3611,7 +3153,6 @@ const standingBrief = BriefSection(
       'a seal is an act of a license; nobody else can use one',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 6, Model Law 110.20',
 );
 
@@ -3653,7 +3194,6 @@ const exemptionBrief = BriefSection(
       'the engineer is directing the work as it is done, not hearing about it later',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 11, Model Law 170.20 C',
 );
 
@@ -3697,7 +3237,6 @@ const holdingOutBrief = BriefSection(
       'claiming the title in any form, even without doing the work',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 6, Model Law 110.20 A.3',
 );
 
@@ -3741,7 +3280,6 @@ const ladderBrief = BriefSection(
       'a license from another state carries over when its requirements meet ours',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 8-9, Model Law 130.10',
 );
 
@@ -3788,7 +3326,6 @@ const disciplineBrief = BriefSection(
       'lying for the license, careless or incompetent work, or breaking a board rule',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 9, Model Law 150.10',
 );
 
@@ -3836,7 +3373,6 @@ const sectionsBrief = BriefSection(
       'a license that is gone puts you on the second road',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 9-10, Model Law 150.10 and 150.30',
 );
 
@@ -3885,7 +3421,6 @@ const formationBrief = BriefSection(
       'once you counter, the original offer is off the table',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Model Rules, contracts',
 );
 
@@ -3939,7 +3474,6 @@ const riskBrief = BriefSection(
       'past the guaranteed line, the construction manager pays',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Model Rules, contract types',
 );
 
@@ -3986,7 +3520,6 @@ const deliveryBrief = BriefSection(
       'two contracts, with the builder promising a top price',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Model Rules, project delivery',
 );
 
@@ -4029,7 +3562,6 @@ const standardOfCareBrief = BriefSection(
     ),
     ('Not', r'\text{intent}', 'negligence does not need you to have meant it'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Model Rules, liability',
 );
 
@@ -4067,7 +3599,6 @@ const negligenceBrief = BriefSection(
       'a mistake that hurt nobody is not a claim',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Model Rules, negligence',
 );
 
@@ -4115,7 +3646,6 @@ const clocksBrief = BriefSection(
       'a claim can be dead before anyone knew there was a problem',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Model Rules, time limits',
 );
 
@@ -4163,7 +3693,6 @@ const propertyBrief = BriefSection(
       'protects the words and drawings, not the thought behind them',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 12-13',
 );
 
@@ -4211,7 +3740,6 @@ const portfolioBrief = BriefSection(
       'the process nobody published',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 12-13',
 );
 
@@ -4255,7 +3783,6 @@ const lifeCycleBrief = BriefSection(
       'money, the planet, and people, all three counted',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 12-13',
 );
 
@@ -4306,7 +3833,6 @@ const factorsBrief = BriefSection(
       'the yearly payment that pays off P from today',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 229, tables pp. 232-236',
 );
 
@@ -4358,7 +3884,6 @@ const ratesBrief = BriefSection(
       'periodic one, nominal twelve, effective 12.68',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
@@ -4403,7 +3928,6 @@ const piecesBrief = BriefSection(
     ),
     ('Together', r'P = A(P/A) + G(P/G)', 'add the pieces at the end'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
@@ -4449,7 +3973,6 @@ const annualCostBrief = BriefSection(
       'already spent, so it cannot change the choice',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
@@ -4493,7 +4016,6 @@ const studyPeriodBrief = BriefSection(
       'dollars per year compare as they stand',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
@@ -4537,7 +4059,6 @@ const methodsAgreeBrief = BriefSection(
       'a different interest rate was used somewhere',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
@@ -4583,7 +4104,6 @@ const costTypesBrief = BriefSection(
       'what you gave up counts, even with no bill',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 230-231',
 );
 
@@ -4632,7 +4152,6 @@ const breakEvenBrief = BriefSection(
       'at small volumes the low starting cost matters most',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 230-231',
 );
 
@@ -4676,7 +4195,6 @@ const paybackBrief = BriefSection(
       'one point four million, over two hundred thousand a year',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 230-231',
 );
 
@@ -4711,7 +4229,6 @@ const ratioBrief = BriefSection(
     ),
     ('Justified when', r'B/C \geq 1', 'the ratio reaches one'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 231',
 );
 
@@ -4752,7 +4269,6 @@ const incrementalBrief = BriefSection(
       'the extra benefit covers the extra cost',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 231',
 );
 
@@ -4801,7 +4317,6 @@ const rollbackBrief = BriefSection(
       'four tenths of ten plus six tenths of five is seven',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 231',
 );
 
@@ -4845,7 +4360,6 @@ const irrBrief = BriefSection(
       '150 over the thousand you put in',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
@@ -4887,7 +4401,6 @@ const marrBrief = BriefSection(
       'the return on the extra money reaches the hurdle',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
@@ -4931,7 +4444,6 @@ const timingBrief = BriefSection(
       'twice the dollars, the same 15 percent',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
@@ -4980,7 +4492,6 @@ const macrsBrief = BriefSection(
       'year two of five year property, on a sixty thousand machine',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 231, MACRS factors',
 );
 
@@ -5023,7 +4534,6 @@ const bookValueBrief = BriefSection(
       'half a million, minus what has gone, is what is left',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 231',
 );
 
@@ -5068,7 +4578,6 @@ const inflationBrief = BriefSection(
       'today\'s money uses the real rate',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 230',
 );
 
@@ -5119,7 +4628,6 @@ const resolveBrief = BriefSection(
       'five thirteenths of thirteen hundred is five hundred',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -5170,7 +4678,6 @@ const momentBrief = BriefSection(
       'two equal opposite pushes: the same turn about any point',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -5219,7 +4726,6 @@ const senseBrief = BriefSection(
       'no arm means no turn',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -5255,7 +4761,6 @@ const supportsBrief = BriefSection(
     ('Pin', r'\text{2 unknowns}', 'two pushes, no turn'),
     ('Fixed', r'\text{3 unknowns}', 'two pushes and a turn'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -5303,7 +4808,6 @@ const resultantBrief = BriefSection(
       'three per meter over four meters is twelve, acting at two meters',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -5346,7 +4850,6 @@ const zeroForceBrief = BriefSection(
       'the pin has to be empty',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
@@ -5388,7 +4891,6 @@ const senseOfForceBrief = BriefSection(
     ('Positive', r'T > 0', 'stretched, so tension'),
     ('Negative', r'T < 0', 'squashed, so compression'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
@@ -5433,7 +4935,6 @@ const sectionBrief = BriefSection(
       'the other two drop out, leaving the one you want',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
@@ -5476,7 +4977,6 @@ const deformationBrief = BriefSection(
       'the stretch, as a share of the original length',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 130',
 );
 
@@ -5526,7 +5026,6 @@ const unitsBrief = BriefSection(
       'a length over a length, so no unit at all',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 130',
 );
 
@@ -5576,7 +5075,6 @@ const thermalBrief = BriefSection(
       'only the growth left over after the gap closes becomes stress',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 130',
 );
 
@@ -5632,7 +5130,6 @@ const polarJBrief = BriefSection(
       'c is half the outer diameter, and J is twice the bending I',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 133',
 );
 
@@ -5682,7 +5179,6 @@ const twistBrief = BriefSection(
       'G comes from E and Poisson\'s ratio',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 134',
 );
 
@@ -5729,7 +5225,6 @@ const thinWallBrief = BriefSection(
     ),
     ('Good while', r't < 0.1\,r', 'the wall is under a tenth of the radius'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 133',
 );
 
@@ -5782,7 +5277,6 @@ const curveBrief = BriefSection(
       'the original area, all the way to the break',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 129',
 );
 
@@ -5832,7 +5326,6 @@ const stiffStrongBrief = BriefSection(
       'how much longer it got before breaking, as a percent',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 129',
 );
 
@@ -5883,7 +5376,6 @@ const linkedBrief = BriefSection(
       'nu about 0.3, so G is a bit over a third of E',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 130',
 );
 
@@ -5935,7 +5427,6 @@ const slopeRulesBrief = BriefSection(
       'moment changes by the area under the shear',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 140',
 );
 
@@ -5986,7 +5477,6 @@ const peakBrief = BriefSection(
       'load per length times span squared, over eight',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 140',
 );
 
@@ -6031,7 +5521,6 @@ const jumpBrief = BriefSection(
     ),
     ('A pin or roller end', r'M = 0', 'no moment at a pinned or rolling end'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 140',
 );
 
@@ -6083,7 +5572,6 @@ const fiberBrief = BriefSection(
       'the balance point of the section',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 135',
 );
 
@@ -6137,7 +5625,6 @@ const cutBrief = BriefSection(
       'the same without b: force per length along the cut',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 135',
 );
 
@@ -6179,7 +5666,6 @@ const governsBrief = BriefSection(
     ),
     ('Span moves', r'M \text{, not } V', 'the moment, not the shear'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 135',
 );
 
@@ -6227,7 +5713,6 @@ const tableBrief2 = BriefSection(
       'w L to the fourth, over eight EI',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 140 to 141',
 );
 
@@ -6275,7 +5760,6 @@ const bounceBrief = BriefSection(
       'sag no more than the span over 360',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 140 to 141',
 );
 
@@ -6318,7 +5802,6 @@ const addBrief = BriefSection(
       'sag is proportional to load while the beam is elastic',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 140 to 141',
 );
 
@@ -6362,7 +5845,6 @@ const transformBrief = BriefSection(
       'the stiff part gets n times wider',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 136',
 );
 
@@ -6409,7 +5891,6 @@ const joinBrief = BriefSection(
       'the soft stress from the transformed I, times n for the stiff one',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 136',
 );
 
@@ -6455,7 +5936,6 @@ const plasticBrief = BriefSection(
       'how much more the beam carries after first yield',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 136 and 281',
 );
 
@@ -6506,7 +5986,6 @@ const circleBrief = BriefSection(
       'twice the angle turned in the material',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 131',
 );
 
@@ -6552,7 +6031,6 @@ const buildBrief = BriefSection(
     ),
     ('Equal both ways', r'R = 0', 'a point, no shear on any plane'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 131',
 );
 
@@ -6603,7 +6081,6 @@ const worstBrief = BriefSection(
       'half the far end, bigger than the radius',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 132',
 );
 
@@ -6651,7 +6128,6 @@ const endsBrief = BriefSection(
       'a bit under the length, and twice it',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 136',
 );
 
@@ -6691,7 +6167,6 @@ const weakAxisBrief = BriefSection(
     ),
     ('Square or round', r'I_x = I_y', 'the same both ways, so no weak axis'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 136',
 );
 
@@ -6737,7 +6212,6 @@ const slenderBrief = BriefSection(
       'pi times the square root of E over the yield stress, about 89 for mild steel',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 136',
 );
 
@@ -6791,7 +6265,6 @@ const missingBrief = BriefSection(
       'distance is the average of the two speeds, times the time',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 104',
 );
 
@@ -6842,7 +6315,6 @@ const flightBrief = BriefSection(
       'gravity pulls down the whole time, by the same amount',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 104',
 );
 
@@ -6891,7 +6363,6 @@ const bendBrief = BriefSection(
       'the two combined like the sides of a right triangle, never added up',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 103',
 );
 
@@ -6939,7 +6410,6 @@ const spinBrief = BriefSection(
       'turns a minute, times two pi, over sixty',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 103',
 );
 
@@ -6989,7 +6459,6 @@ const spinInertiaBrief = BriefSection(
       'add the weight times how far the axis moved, squared, always starting from the middle',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 110 and 114 to 115',
 );
 
@@ -7035,7 +6504,6 @@ const weightBrief = BriefSection(
       'about ten in metric units, about thirty two in US ones',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 105',
 );
 
@@ -7085,7 +6553,6 @@ const slopeBrief = BriefSection(
       'on a smooth ramp, gravity times the sine, whatever the weight',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 105',
 );
 
@@ -7133,7 +6600,6 @@ const twoEquationsBrief = BriefSection(
       'the force, times how far its line misses the middle by',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 105 and 109',
 );
 
@@ -7182,7 +6648,6 @@ const ledgerBrief = BriefSection(
       'weight times height, and half the stiffness times the squeeze squared',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 106',
 );
 
@@ -7232,7 +6697,6 @@ const cancelBrief = BriefSection(
       'more speed to a lighter block, since the mass sits underneath',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 106',
 );
 
@@ -7282,7 +6746,6 @@ const powerBrief = BriefSection(
       'the useful power, divided by the efficiency',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 107',
 );
 
@@ -7333,7 +6796,6 @@ const impactBrief = BriefSection(
     ),
     ('Perfect bounce', r'e = 1', 'they part exactly as fast as they closed'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 108',
 );
 
@@ -7382,7 +6844,6 @@ const survivesBrief = BriefSection(
       'add both bodies up, before and after',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 108',
 );
 
@@ -7432,7 +6893,6 @@ const impulseBrief = BriefSection(
       'the same change in momentum over more time is a smaller force',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 107',
 );
 
@@ -7487,7 +6947,6 @@ const underneathBrief = BriefSection(
       'the natural log of one plus the engineering strain',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 121',
 );
 
@@ -7539,7 +6998,6 @@ const trueStressBrief = BriefSection(
       'the bar keeps its volume, so its area shrinks by that same factor',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 121',
 );
 
@@ -7589,7 +7047,6 @@ const crackBrief = BriefSection(
       'factor one, and a is half of what you can see',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 122',
 );
 
@@ -7639,7 +7096,6 @@ const toughnessBrief = BriefSection(
       'square the toughness over the stress term, then divide by pi',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 122',
 );
 
@@ -7689,7 +7145,6 @@ const expandBrief = BriefSection(
       'aluminum moves about twice as much as steel for the same warming',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 126',
 );
 
@@ -7738,7 +7193,6 @@ const furnaceBrief = BriefSection(
       'warming a quenched part trades a little hardness for toughness',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 116',
 );
 
@@ -7789,7 +7243,6 @@ const tieLineBrief = BriefSection(
       'the two shares add up to the whole thing',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 127',
 );
 
@@ -7838,7 +7291,6 @@ const mixBrief = BriefSection(
       'a sloppy mix is worth about a third as much',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 125',
 );
 
@@ -7887,7 +7339,6 @@ const exposureBrief = BriefSection(
       'about a fifth of the strength, paid for with a lower ratio',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 125',
 );
 
@@ -7937,7 +7388,6 @@ const curingBrief = BriefSection(
       'barely more than half of what proper curing would have given',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 125',
 );
 
@@ -7988,7 +7438,6 @@ const fieldBrief = BriefSection(
       'stripped early into hot wind, it keeps about three fifths',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 125',
 );
 
@@ -8043,7 +7492,6 @@ const weighingBrief = BriefSection(
       'the water the pores hold, as a percent of the dry weight',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 123',
 );
 
@@ -8093,7 +7541,6 @@ const gradingBrief = BriefSection(
       'a bigger number is a coarser sand, not a finer one',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 123',
 );
 
@@ -8143,7 +7590,6 @@ const voidsBrief = BriefSection(
       'the binder as a percent of the space between the stones',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 124',
 );
 
@@ -8191,7 +7637,6 @@ const checkBrief = BriefSection(
       'a share of that space cannot be more than all of it',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 124',
 );
 
@@ -8241,7 +7686,6 @@ const moistureBrief = BriefSection(
       'drying below the threshold shrinks it and stiffens it',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 129',
 );
 
@@ -8290,7 +7734,6 @@ const mortarBrief = BriefSection(
       'the weaker ones are the easier ones to lay and the kinder to brick',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 130',
 );
 
@@ -8339,7 +7782,6 @@ const factorBrief = BriefSection(
       'a load that never comes off gets a penalty',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 129',
 );
 
@@ -8389,7 +7831,6 @@ const blendBrief = BriefSection(
       'a plain weighted average, whichever way the fibers run',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 123',
 );
 
@@ -8439,7 +7880,6 @@ const isostrainBrief = BriefSection(
       'the same stress passes through both, and the soft one moves most',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 123',
 );
 
@@ -8488,7 +7928,6 @@ const galvanicBrief = BriefSection(
       'remove any one of them and the corrosion stops',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 116',
 );
 
@@ -8537,7 +7976,6 @@ const pickingBrief = BriefSection(
       'neither is here for conducting heat',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 119',
 );
 
@@ -8587,7 +8025,6 @@ const threeNumbersBrief = BriefSection(
       'a thousand kilograms in a cubic meter, weighing 9,810 newtons',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 176',
 );
 
@@ -8637,7 +8074,6 @@ const viscosityBrief = BriefSection(
       'the kinematic one: viscosity divided by density',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 176',
 );
 
@@ -8686,7 +8122,6 @@ const capillaryBrief = BriefSection(
       'past ninety degrees the climb goes negative and it is pushed down',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 176',
 );
 
@@ -8735,7 +8170,6 @@ const depthBrief = BriefSection(
       'about 49 kilopascals, whatever the vessel looks like',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 177',
 );
 
@@ -8780,7 +8214,6 @@ const manometerBrief = BriefSection(
       'one walk written out: start known, add what you went down, subtract what you came up',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 178',
 );
 
@@ -8828,7 +8261,6 @@ const gaugeBrief = BriefSection(
       'any surface open to the sky reads zero gauge',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 177',
 );
 
@@ -8878,7 +8310,6 @@ const gateBrief = BriefSection(
       'the shape number for a rectangle: width times height cubed, over twelve',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 179',
 );
 
@@ -8927,7 +8358,6 @@ const buoyancyBrief = BriefSection(
       'a floating body has shoved aside exactly its own weight',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 179',
 );
 
@@ -8977,7 +8407,6 @@ const continuityBrief = BriefSection(
       'the speed goes up by the diameter ratio SQUARED',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 180',
 );
 
@@ -9026,7 +8455,6 @@ const bernoulliBrief = BriefSection(
       'a real pipe also loses head to rubbing, which never comes back',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 180',
 );
 
@@ -9074,7 +8502,6 @@ const torricelliBrief = BriefSection(
       'because the head sits under a square root',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 180',
 );
 
@@ -9124,7 +8551,6 @@ const reynoldsBrief = BriefSection(
       'over 10,000 you read the factor off the Moody chart',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 181',
 );
 
@@ -9171,7 +8597,6 @@ const darcyBrief = BriefSection(
       'double the bore and the loss falls to about a thirtieth',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 182',
 );
 
@@ -9220,7 +8645,6 @@ const minorBrief = BriefSection(
       'the same water speed runs through every fitting on the line',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 182',
 );
 
@@ -9265,7 +8689,6 @@ const deflectionBrief = BriefSection(
       'turned a hundred and eighty degrees: double the push',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 186',
 );
 
@@ -9315,7 +8738,6 @@ const thrustBrief = BriefSection(
       'the three places a main gets shoved',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 186',
 );
 
@@ -9364,7 +8786,6 @@ const blockBrief = BriefSection(
       'one part times the square root of two, about 1.41',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 186',
 );
 
@@ -9412,7 +8833,6 @@ const meteringBrief = BriefSection(
       'the pressure difference written as meters, plus any height difference',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 195',
 );
 
@@ -9460,7 +8880,6 @@ const coefficientBrief = BriefSection(
       'with no height change the elevation terms drop out entirely',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 194',
 );
 
@@ -9510,7 +8929,6 @@ const similitudeBrief = BriefSection(
       'the count of variables less the count of basic dimensions',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 196',
 );
 
@@ -9558,7 +8976,6 @@ const scalingBrief = BriefSection(
       'with no shrinking, both laws ask for the same speed',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 196',
 );
 
@@ -9607,7 +9024,6 @@ const bearingBrief = BriefSection(
       'the same angle, with each letter swapped for its opposite',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
@@ -9655,7 +9071,6 @@ const azimuthBrief = BriefSection(
       'a full turn minus the angle',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
@@ -9704,7 +9119,6 @@ const shotBrief = BriefSection(
       'the flat distance is never longer than the sloping one',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
@@ -9754,7 +9168,6 @@ const sightBrief = BriefSection(
       'a bigger rod reading always means lower ground',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
@@ -9804,7 +9217,6 @@ const runBrief = BriefSection(
       'a turning point, read forward from one setup and back from the next',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
@@ -9854,7 +9266,6 @@ const closureBrief = BriefSection(
       'four times the distance buys only twice the slack',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
@@ -9905,7 +9316,6 @@ const latDepBrief = BriefSection(
       'round a loop, both columns add up to nothing',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
@@ -9954,7 +9364,6 @@ const compassBrief = BriefSection(
       'the fix pushes back against the way the loop drifted',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
@@ -10003,7 +9412,6 @@ const precisionBrief = BriefSection(
       'a bigger bottom number means a tighter survey',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
@@ -10052,7 +9460,6 @@ const methodBrief = BriefSection(
       'the trapezoidal rule is the only one that fits',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 310',
 );
 
@@ -10101,7 +9508,6 @@ const weightsBrief = BriefSection(
       'multiply by the spacing, and divide by three for Simpson',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 310',
 );
 
@@ -10151,7 +9557,6 @@ const shoelaceBrief = BriefSection(
       'clockwise or not, the size of the answer is the same',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 310',
 );
 
@@ -10200,7 +9605,6 @@ const endAreaBrief = BriefSection(
       'the middle section is exactly the average of the two ends',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
@@ -10245,7 +9649,6 @@ const stationBrief = BriefSection(
       'station one plus zero zero is a hundred feet along',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
@@ -10285,7 +9688,6 @@ const solidBrief = BriefSection(
       'a third of the box: base times height over three',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
@@ -10334,7 +9736,6 @@ const cogoBrief = BriefSection(
       'the direction is the arctangent of east over north',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 310',
 );
 
@@ -10375,7 +9776,6 @@ const pairBrief = BriefSection(
     ),
     ('Northing', r'\text{up, the y of the grid}', 'how far up, which is the y'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 310',
 );
 
@@ -10425,7 +9825,6 @@ const arctanBrief = BriefSection(
       'add 360 to the negative answer',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 310',
 );
 
@@ -10474,7 +9873,6 @@ const roadCurveBrief = BriefSection(
       'the straight chord, plus how far the road misses the corner and the chord',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 302',
 );
 
@@ -10520,7 +9918,6 @@ const degreeBrief = BriefSection(
       'a small radius and a large degree are the same sharp curve',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 302',
 );
 
@@ -10570,7 +9967,6 @@ const tangentOffsetBrief = BriefSection(
       'the grade change times the curve length, over eight',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 301',
 );
 
@@ -10620,7 +10016,6 @@ const highPointBrief = BriefSection(
       'feet of curve bought per percent of grade change: bigger K is gentler',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 301',
 );
 
@@ -10668,7 +10063,6 @@ const wettedBrief = BriefSection(
     ),
     ('A pipe running full', r'R_H = \frac{D}{4}', 'a quarter of the diameter'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
@@ -10724,7 +10118,6 @@ const manningBrief = BriefSection(
       'a quarter of the diameter, either way',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
@@ -10773,7 +10166,6 @@ const unitFactorBrief = BriefSection(
       'the roughness and the slope are the same numbers in both systems',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
@@ -10815,7 +10207,6 @@ const froudeBrief = BriefSection(
     ('News gets upstream', r'Fr < 1', 'under one: deep, slow, tranquil'),
     ('Nothing gets upstream', r'Fr > 1', 'over one: shallow, fast, rapid'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 296',
 );
 
@@ -10865,7 +10256,6 @@ const criticalBrief = BriefSection(
       'the least energy is one and a half critical depths',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 296',
 );
 
@@ -10915,7 +10305,6 @@ const hydraulicJumpBrief = BriefSection(
       'energy afterwards is always less than before',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
@@ -10964,7 +10353,6 @@ const weirBrief = BriefSection(
       'coefficient times head to the five halves, no length',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
@@ -11013,7 +10401,6 @@ const exponentBrief = BriefSection(
       'the flows go as the head ratio raised to the power',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
@@ -11062,7 +10449,6 @@ const hazenBrief = BriefSection(
       'one point three one eight in feet, zero point eight four nine in meters',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
@@ -11113,7 +10499,6 @@ const pumpPowerBrief = BriefSection(
       'the shaft power divided by the motor efficiency',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 191',
 );
 
@@ -11161,7 +10546,6 @@ const npshBrief = BriefSection(
       'the margin you have beats the margin the pump needs',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 191',
 );
 
@@ -11211,7 +10595,6 @@ const rationalBrief = BriefSection(
       'add up C times area for each piece, then multiply by the rain',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 290',
 );
 
@@ -11254,7 +10637,6 @@ const catchmentBrief = BriefSection(
       'the rain times the sum of C times area',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 290',
 );
 
@@ -11302,7 +10684,6 @@ const curveNumberBrief = BriefSection(
       'if the rain does not clear the first slice, nothing runs off',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 290',
 );
 
@@ -11352,7 +10733,6 @@ const unitHydrographBrief = BriefSection(
       'a unit hydrograph carries exactly one inch of runoff',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 292',
 );
 
@@ -11397,7 +10777,6 @@ const concentrationBrief = BriefSection(
       'a short storm loses area, a long one loses intensity',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 290',
 );
 
@@ -11444,7 +10823,6 @@ const routingBrief = BriefSection(
       'the peak of the pond, on the falling side of the storm',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 290',
 );
 
@@ -11489,7 +10867,6 @@ const seepageBrief = BriefSection(
     ),
     ('The volume', r'Q = q A', 'the first number times the area of the face'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 292',
 );
 
@@ -11539,7 +10916,6 @@ const wellBrief = BriefSection(
       'conductivity times the thickness that cannot change',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 292 to 293',
 );
 
@@ -11590,7 +10966,6 @@ const bodBrief = BriefSection(
       'the reading divided by the share, which makes it bigger',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 321',
 );
 
@@ -11633,7 +11008,6 @@ const temperatureBrief = BriefSection(
     ('BOD, cold water', r'\theta = 1.135', 'from 4 to 20 degrees'),
     ('Oxygen from the air', r'\theta = 1.024', 'reaeration'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 322',
 );
 
@@ -11684,7 +11058,6 @@ const overflowBrief = BriefSection(
       'the volume over the flow, which is what depth does buy',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 339',
 );
 
@@ -11727,7 +11100,6 @@ const residenceBrief = BriefSection(
       'the solids held, over the solids leaving each day by both routes',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 333',
 );
 
@@ -11768,7 +11140,6 @@ const foodRatioBrief = BriefSection(
     ('The food', r'Q S_0', 'flow times incoming strength, a load per day'),
     ('The bugs', r'V X_A', 'basin volume times solids concentration, a mass'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 333',
 );
 
@@ -11817,7 +11188,6 @@ const doseBrief = BriefSection(
       'one milligram per liter is one gram per cubic meter',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 346',
 );
 
@@ -11866,7 +11236,6 @@ const contactBrief = BriefSection(
       'the required kill for each organism',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 346',
 );
 
@@ -11916,7 +11285,6 @@ const standardsBrief = BriefSection(
       'the conventional discharge standard',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, water quality standards',
 );
 
@@ -11958,7 +11326,6 @@ const hardnessBrief = BriefSection(
     ('Calcium', r'\times 2.5', 'fifty over twenty'),
     ('Magnesium', r'\times 4.12', 'fifty over twelve point one five'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, hardness',
 );
 
@@ -11998,7 +11365,6 @@ const efficiencyBrief = BriefSection(
       'what came out over what went in, which is one less the removal',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, treatment performance',
 );
 
@@ -12048,7 +11414,6 @@ const countBrief = BriefSection(
       'how many unknowns each kind of support puts in',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
@@ -12089,7 +11454,6 @@ const stabilityBrief = BriefSection(
       'either arrangement is unstable whatever the count says',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
@@ -12139,7 +11503,6 @@ const momentCenterBrief = BriefSection(
       'the up and down forces add up to nothing',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
@@ -12181,7 +11544,6 @@ const jointForceBrief = BriefSection(
     ('The flat bar', r'F\cos\theta', 'what is left over, pulling sideways'),
     ('Always', r'F > P', 'the bar force beats the load, every time'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
@@ -12230,7 +11592,6 @@ const unitLoadBrief = BriefSection(
       'ask with a twist if you want a twist',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
@@ -12275,7 +11636,6 @@ const termSignBrief = BriefSection(
     ),
     ('They agree', r'nN > 0', 'both pulling or both pushing, so the term adds'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
@@ -12325,7 +11685,6 @@ const redundantBrief = BriefSection(
       'the end it held has to end up with no turn in it',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
@@ -12374,7 +11733,6 @@ const fixityBrief = BriefSection(
       'load times span squared, over eight',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
@@ -12423,7 +11781,6 @@ const lrfdBrief = BriefSection(
       'the better we know a load, the smaller its factor',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, design loads',
 );
 
@@ -12473,7 +11830,6 @@ const controlsBrief = BriefSection(
       'the big multiplier on the snow or roof load instead',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, design loads',
 );
 
@@ -12522,7 +11878,6 @@ const reductionBrief = BriefSection(
       'never below half the full load, for a member carrying one floor',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, design loads',
 );
 
@@ -12571,7 +11926,6 @@ const influenceBrief = BriefSection(
       'never where you are measuring',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, influence lines',
 );
 
@@ -12621,7 +11975,6 @@ const shapesBrief = BriefSection(
       'the two sides of the step, which always differ by exactly one',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, influence lines',
 );
 
@@ -12670,7 +12023,6 @@ const placeBrief = BriefSection(
       'stop where the line changes side',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, influence lines',
 );
 
@@ -12721,7 +12073,6 @@ const whichDepthBrief = BriefSection(
       'the pull in the steel, times the gap between the two forces',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
@@ -12770,7 +12121,6 @@ const stirrupBrief = BriefSection(
       'more to carry means tighter spacing',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
@@ -12820,7 +12170,6 @@ const phiBrief = BriefSection(
       'divide first, then take the concrete share off',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
@@ -12870,7 +12219,6 @@ const columnFactorBrief = BriefSection(
       'both better, because a spiral holds the core together',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
@@ -12920,7 +12268,6 @@ const steelWindowBrief = BriefSection(
       'about two per cent in ordinary work',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
@@ -12971,7 +12318,6 @@ const bracingBrief = BriefSection(
       'it flops sideways while the steel is still springy',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, steel beams',
 );
 
@@ -13021,7 +12367,6 @@ const modulusBrief = BriefSection(
       'Z is about a tenth bigger on a rolled shape',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, steel beams',
 );
 
@@ -13071,7 +12416,6 @@ const flangeBrief = BriefSection(
       'six tenths of the yield stress, on the whole depth times the web thickness',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, steel beams',
 );
 
@@ -13121,7 +12465,6 @@ const axisBrief = BriefSection(
       'it does nothing for the other way',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, steel columns',
 );
 
@@ -13172,7 +12515,6 @@ const tableBrief3 = BriefSection(
       'depends on stiffness, so a stronger steel does not help',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, steel columns',
 );
 
@@ -13222,7 +12564,6 @@ const twoLimitsBrief = BriefSection(
       'whichever answer comes out smaller',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, tension members',
 );
 
@@ -13271,7 +12612,6 @@ const netAreaBrief = BriefSection(
       'the stretching check still uses the full area',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, tension members',
 );
 
@@ -13321,7 +12661,6 @@ const shearLagBrief = BriefSection(
       'all of it pulling, nothing to allow for',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, tension members',
 );
 
@@ -13372,7 +12711,6 @@ const phaseBrief = BriefSection(
       'the weight of the water, over the weight of the grains',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, soil phase relationships',
 );
 
@@ -13422,7 +12760,6 @@ const masterBrief = BriefSection(
       'the formula wants twenty percent written as zero point two',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, soil phase relationships',
 );
 
@@ -13474,7 +12811,6 @@ const gammaBrief = BriefSection(
       'the saturated weight, less the weight of water it floats in',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, soil phase relationships',
 );
 
@@ -13525,7 +12861,6 @@ const forkBrief = BriefSection(
       'their grain sizes stop mattering from there on',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, soil classification',
 );
 
@@ -13572,7 +12907,6 @@ const chartBrief = BriefSection(
       'the second letter of the symbol',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, soil classification',
 );
 
@@ -13622,7 +12956,6 @@ const gradationBrief = BriefSection(
       'one pass and one failure is still poorly graded',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, soil classification',
 );
 
@@ -13673,7 +13006,6 @@ const threeStressBrief = BriefSection(
       'no water pressure, so the grains carry all of it',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, effective stress',
 );
 
@@ -13725,7 +13057,6 @@ const waterTableBrief = BriefSection(
       'it lifts both sides of the subtraction equally',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, effective stress',
 );
 
@@ -13775,7 +13106,6 @@ const shortWayBrief = BriefSection(
       'never floated, whatever is underneath',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, effective stress',
 );
 
@@ -13827,7 +13157,6 @@ const caseBrief = BriefSection(
       'stiff up to the memory, then soft the rest of the way',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, consolidation',
 );
 
@@ -13877,7 +13206,6 @@ const memoryBrief = BriefSection(
       'doubling costs the same settlement wherever you start',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, consolidation',
 );
 
@@ -13928,7 +13256,6 @@ const drainageBrief = BriefSection(
       'the whole layer, so four times the wait',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, consolidation',
 );
 
@@ -13979,7 +13306,6 @@ const mohrCoulombBrief = BriefSection(
       'no slope, so the strength is one number',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, shear strength',
 );
 
@@ -14030,7 +13356,6 @@ const drainedBrief = BriefSection(
       'half the difference between the two test pressures',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, shear strength',
 );
 
@@ -14080,7 +13405,6 @@ const mohrCircleBrief = BriefSection(
       'the strength is the radius, which is half the extra push',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, shear strength',
 );
 
@@ -14130,7 +13454,6 @@ const flowNetBrief = BriefSection(
       'a longer journey means more steps and less water',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, seepage',
 );
 
@@ -14179,7 +13502,6 @@ const quickBrief = BriefSection(
       'the grains are pressing on each other with nothing at all',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, seepage',
 );
 
@@ -14228,7 +13550,6 @@ const infiniteSlopeBrief = BriefSection(
       'neither one appears in the answer',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, slope stability',
 );
 
@@ -14274,7 +13595,6 @@ const seepageSlopeBrief = BriefSection(
     ),
     ('The fix', r'\text{flatten it, or drain it}', 'there are only the two'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, slope stability',
 );
 
@@ -14325,7 +13645,6 @@ const wedgeBrief = BriefSection(
       'it comes from the length of the surface, not the weight',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, slope stability',
 );
 
@@ -14371,7 +13690,6 @@ const terzaghiBrief = BriefSection(
     ),
     ('A clean sand', r'c = 0', 'the first term goes entirely'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, bearing capacity',
 );
 
@@ -14419,7 +13737,6 @@ const footingFixBrief = BriefSection(
       'the soil floats, and both weight terms halve',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, bearing capacity',
 );
 
@@ -14469,7 +13786,6 @@ const allowableBrief = BriefSection(
       'strength and settlement are two different questions',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, bearing capacity',
 );
 
@@ -14519,7 +13835,6 @@ const threeChecksBrief = BriefSection(
       'the pressure the ground can take, over the pressure it gets',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, retaining wall stability',
 );
 
@@ -14568,7 +13883,6 @@ const middleThirdBrief = BriefSection(
       'within a sixth of the base, either side of center',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, retaining wall stability',
 );
 
@@ -14617,7 +13931,6 @@ const basePressureBrief = BriefSection(
       'no tilt, so just the load over the area',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, retaining wall stability',
 );
 
@@ -14667,7 +13980,6 @@ const proctorBrief = BriefSection(
       'which is how you catch the mistake',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, compaction',
 );
 
@@ -14715,7 +14027,6 @@ const relativeDensityBrief = BriefSection(
       'which is the check that catches the mistake',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, relative density',
 );
 
@@ -14763,7 +14074,6 @@ const stabilizerBrief = BriefSection(
       'before any treatment, or the water undoes it',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, soil stabilization',
 );
 
@@ -14811,7 +14121,6 @@ const pileCapacityBrief = BriefSection(
       'the tip is tiny and the side is enormous',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, deep foundations',
 );
 
@@ -14861,7 +14170,6 @@ const goingDeepBrief = BriefSection(
       'the cap stresses ground no single pile reaches',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, deep foundations',
 );
 
@@ -14911,7 +14219,6 @@ const downdragBrief = BriefSection(
       'the relative movement, and nothing else',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, deep foundations',
 );
 
@@ -14963,7 +14270,6 @@ const sightDistanceBrief = BriefSection(
       'both stretches, never one alone',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, stopping sight distance',
 );
 
@@ -15000,7 +14306,6 @@ const gradeSignBrief = BriefSection(
     ('Downhill', r'-G', 'the grade is subtracted, so the car needs more road'),
     ('As a decimal', r'4\% = 0.04', 'per cent divided by a hundred'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, stopping sight distance',
 );
 
@@ -15046,7 +14351,6 @@ const peakHourBrief = BriefSection(
     ),
     ('Its range', r'0.25 \leq PHF \leq 1.00', 'never above one'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, peak hour factor',
 );
 
@@ -15095,7 +14399,6 @@ const crestSagBrief = BriefSection(
       'if the curve came out shorter than the sight distance, switch formulas',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, vertical curves',
 );
 
@@ -15139,7 +14442,6 @@ const gradeBreakBrief = BriefSection(
       'feet of curve for each per cent of grade change; a bigger K is flatter',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, vertical curves',
 );
 
@@ -15189,7 +14491,6 @@ const superelevationBrief = BriefSection(
       'double the speed and the demand is four times as big',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, superelevation',
 );
 
@@ -15239,7 +14540,6 @@ const yellowBrief = BriefSection(
       'twice gravity: plus going up, minus going down',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, signal timing',
 );
 
@@ -15279,7 +14579,6 @@ const allRedBrief = BriefSection(
     ),
     ('Why the length', r'W + l', 'the back bumper decides, not the nose'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, signal timing',
 );
 
@@ -15318,7 +14617,6 @@ const pedestrianGreenBrief = BriefSection(
     ),
     ('The pace', r'S_p = 3.5 \text{ ft/s}', 'a slow walk, on purpose'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, signal timing',
 );
 
@@ -15366,7 +14664,6 @@ const greenshieldsBrief = BriefSection(
       'half the jam density and half the free speed, together',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, traffic flow',
 );
 
@@ -15412,7 +14709,6 @@ const speedDensityBrief = BriefSection(
     ),
     ('The ceiling', r'S \leq S_f', 'nothing beats the free flow speed'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, traffic flow',
 );
 
@@ -15456,7 +14752,6 @@ const crashRateBrief = BriefSection(
       'crashes per million vehicle miles',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, crash rates',
 );
 
@@ -15502,7 +14797,6 @@ const heavyVehicleBrief = BriefSection(
     ),
     ('Its range', r'0 < f_{HV} \leq 1', 'never above one'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, freeway capacity',
 );
 
@@ -15546,7 +14840,6 @@ const demandFlowBrief = BriefSection(
       'passenger cars, one lane, at the busiest quarter hour rate',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, freeway capacity',
 );
 
@@ -15590,7 +14883,6 @@ const levelOfServiceBrief = BriefSection(
     ),
     ('And on', r'D \leq 35, \; E \leq 45', 'anything above is F'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, level of service',
 );
 
@@ -15635,7 +14927,6 @@ const fourStepBrief = BriefSection(
       'then how they travel, then which road they take',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, travel demand',
 );
 
@@ -15684,7 +14975,6 @@ const gravityBrief = BriefSection(
       'the trips sent out equal the trips produced',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, gravity model',
 );
 
@@ -15733,7 +15023,6 @@ const frictionBrief = BriefSection(
       'the total still equals what the origin made',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, gravity model',
 );
 
@@ -15774,7 +15063,6 @@ const signCategoryBrief = BriefSection(
     ('Warning', r'\text{yellow diamond}', 'what is ahead, no order given'),
     ('Guide', r'\text{green}', 'directions and distances'),
   ],
-  figure: BriefFigure.none,
   handbook: 'MUTCD, sign categories',
 );
 
@@ -15824,7 +15112,6 @@ const warrantBrief = BriefSection(
       'the crashes that hurt people, traded for the ones that usually do not',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'MUTCD, signal warrants',
 );
 
@@ -15870,7 +15157,6 @@ const structuralNumberBrief = BriefSection(
     ),
     ('The surface', r'm_1 = 1.0', 'the top layer is not given a drainage cut'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, AASHTO flexible pavement',
 );
 
@@ -15915,7 +15201,6 @@ const layerThicknessBrief = BriefSection(
       'less from that layer, so more is needed from the rest',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, AASHTO flexible pavement',
 );
 
@@ -15962,7 +15247,6 @@ const esalBrief = BriefSection(
       'damage grows with the load multiplied by itself four times',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, load equivalency',
 );
 
@@ -16012,7 +15296,6 @@ const rigidVsFlexibleBrief = BriefSection(
       'the bending strength of the concrete',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, rigid pavement',
 );
 
@@ -16063,7 +15346,6 @@ const jointBrief = BriefSection(
       'the rough crack faces grip each other',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, rigid pavement joints',
 );
 
@@ -16105,7 +15387,6 @@ const subgradeReactionBrief = BriefSection(
     ('Units', r'\text{pci}', 'pounds per cubic inch'),
     ('Higher k', r'\text{stiffer ground}', 'less movement under the same push'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, rigid pavement',
 );
 
@@ -16156,7 +15437,6 @@ const forwardPassBrief = BriefSection(
       'days one after another simply add up',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, CPM scheduling',
 );
 
@@ -16205,7 +15485,6 @@ const projectDurationBrief = BriefSection(
       'those jobs can slip without moving the finish',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, CPM scheduling',
 );
 
@@ -16253,7 +15532,6 @@ const passesBrief = BriefSection(
       'the last job must finish on the date the forward sweep produced',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, CPM scheduling',
 );
 
@@ -16300,7 +15578,6 @@ const floatBrief = BriefSection(
     ),
     ('Critical', r'TF = 0', 'no room to slip at all'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, CPM scheduling',
 );
 
@@ -16349,7 +15626,6 @@ const criticalPathBrief = BriefSection(
       'delay on the critical chain moves the finish date straight away',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, CPM scheduling',
 );
 
@@ -16398,7 +15674,6 @@ const earnedValueBrief = BriefSection(
       'a minus sign means behind, or over budget',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, earned value',
 );
 
@@ -16444,7 +15719,6 @@ const forecastBrief = BriefSection(
       'what is already spent, plus what the rest will cost',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, earned value forecasting',
 );
 
@@ -16495,7 +15769,6 @@ const excavationBrief = BriefSection(
       'one and a half feet across for every foot down',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'OSHA 29 CFR 1926, excavations',
 );
 
@@ -16544,7 +15817,6 @@ const fallProtectionBrief = BriefSection(
       'five feet in the ground, six feet in the air',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'OSHA 29 CFR 1926, fall protection',
 );
 
@@ -16591,7 +15863,6 @@ const yardsBrief = BriefSection(
     ),
     ('Then', r'\div 27', 'cubic feet into cubic yards'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, earthwork volumes',
 );
 
@@ -16638,7 +15909,6 @@ const deliveryFitBrief = BriefSection(
       'the builder joins early and guarantees a maximum price',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, project delivery',
 );
 
@@ -16688,7 +15958,6 @@ const curveConversionBrief = BriefSection(
       'the length of road actually on the curve',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, horizontal curves',
 );
 
@@ -16733,7 +16002,6 @@ const cornerOffsetBrief = BriefSection(
       'the drop from the corner grows with the distance times itself',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, vertical curves',
 );
 
@@ -16784,7 +16052,6 @@ const stiffnessBrief = BriefSection(
       'steel is about three times as stiff as aluminum',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, mechanical properties',
 );
 
@@ -16829,7 +16096,6 @@ const filterRateBrief = BriefSection(
     ),
     ('Slow sand', r'\approx 0.1 \text{ gpm/ft}^2', 'about a hundredth as fast'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, filtration',
 );
 
@@ -16881,7 +16147,6 @@ const rankineBrief = BriefSection(
       'the wall did not move, so somewhere in between',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, lateral earth pressure',
 );
 
@@ -16931,7 +16196,6 @@ const diagramShapeBrief = BriefSection(
       'but each keeps its own height above the base',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, lateral earth pressure',
 );
 
@@ -16981,7 +16245,6 @@ const wallForceBrief = BriefSection(
       'four times the force, acting twice as high',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook, lateral earth pressure',
 );
 
@@ -17030,7 +16293,6 @@ const trussRouteBrief = BriefSection(
       'what the supports push back with',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
@@ -17084,7 +16346,6 @@ const naturalBrief = BriefSection(
       'the same shape, with twisting stiffness over how hard it is to spin',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 112 to 113',
 );
 
@@ -17134,7 +16395,6 @@ const resonanceBrief = BriefSection(
       'one cycle per second is sixty turns a minute',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 112',
 );
 
@@ -17190,7 +16450,6 @@ const dampingBrief = BriefSection(
     ),
     ('No swing, but slower', r'\zeta > 1', 'more than enough, and it drags'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 112',
 );
 
@@ -17239,7 +16498,6 @@ const farFromAxisBrief = BriefSection(
       'pi times the radius to the fourth, over four',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 98 to 100',
 );
 
@@ -17279,7 +16537,6 @@ const transferBrief = BriefSection(
     ('Leaving its own middle', r'+\,Ad^2', 'add the transfer term'),
     ('Arriving at its own middle', r'-\,Ad^2', 'take the transfer term off'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
@@ -17328,7 +16585,6 @@ const compositeIBrief = BriefSection(
       'squared, so material on the middle line is wasted',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
@@ -17369,7 +16625,6 @@ const polarBrief = BriefSection(
     ('Twisting', r'\tau = \frac{Tc}{J}', 'twisting stress uses the polar J'),
     ('And the polar one is', r'J = I_x + I_y', 'the two I values added'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
@@ -17415,7 +16670,6 @@ const areaWeightedBrief = BriefSection(
       'the top of that fraction on its own',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
@@ -17459,7 +16713,6 @@ const tableBrief = BriefSection(
       'four radii over three pi, about 0.42 of the radius',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook pp. 98 to 100',
 );
 
@@ -17497,7 +16750,6 @@ const referenceBrief = BriefSection(
       'not its edge, its middle',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
@@ -17546,7 +16798,6 @@ const twoForceBrief = BriefSection(
       'it bends, and its forces point anywhere',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 97',
 );
 
@@ -17594,7 +16845,6 @@ const leverBrief = BriefSection(
       'how many times your force is multiplied',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 97',
 );
 
@@ -17638,7 +16888,6 @@ const whatItIsBrief = BriefSection(
     ),
     ('Machine', r'\text{the parts move}', 'it is built to move'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 97',
 );
 
@@ -17688,7 +16937,6 @@ const lawsBrief = BriefSection(
       'A changes nothing, so just multiply',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 105',
 );
 
@@ -17729,7 +16977,6 @@ const periodBrief = BriefSection(
     ),
     ('Today', r'\text{mark } 0', 'where the line starts'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 230',
 );
 
@@ -17777,7 +17024,6 @@ const screwBrief = BriefSection(
       'the friction angle beats the thread angle',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 97',
 );
 
@@ -17826,7 +17072,6 @@ const ceilingBrief = BriefSection(
       'the tangent of the slope angle equals the friction number',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 96',
 );
 
@@ -17871,7 +17116,6 @@ const beltBrief = BriefSection(
     ),
     ('Half a turn', r'\theta = \pi', 'pi radians, never 180 in this formula'),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 96',
 );
 
@@ -17916,7 +17160,6 @@ const normalForceBrief = BriefSection(
       'the press, less the part of the push that lifts',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 96',
 );
 
@@ -17963,7 +17206,6 @@ const determinacyBrief = BriefSection(
       'more unknowns than equations',
     ),
   ],
-  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -18061,10 +17303,6 @@ class ConceptView extends StatelessWidget {
             SizedBox(height: i == 0 ? 22 : 10),
             _FormulaTile(label: label, latex: latex, words: words),
           ],
-          if (section.figure != BriefFigure.none) ...[
-            const SizedBox(height: 14),
-            BriefFigureView(figure: section.figure),
-          ],
           const SizedBox(height: 26),
           Text(
             'Knowing this is not the same as solving with it. The full '
@@ -18132,3997 +17370,4 @@ class _FormulaTile extends StatelessWidget {
       ),
     );
   }
-}
-
-class BriefFigureView extends StatelessWidget {
-  const BriefFigureView({super.key, required this.figure});
-
-  final BriefFigure figure;
-
-  @override
-  Widget build(BuildContext context) {
-    switch (figure) {
-      case BriefFigure.none:
-        return const SizedBox.shrink();
-      case BriefFigure.slopePair:
-        return Row(
-          children: [
-            Expanded(
-              child: _Panel(
-                caption: 'Parallel: same slope',
-                child: CustomPaint(painter: _SlopePairPainter(parallel: true)),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: _Panel(
-                caption: 'Perpendicular: flip and negate',
-                child: CustomPaint(painter: _SlopePairPainter(parallel: false)),
-              ),
-            ),
-          ],
-        );
-      case BriefFigure.discriminant:
-        return Row(
-          children: [
-            for (final e in const [
-              (1.1, 'positive: two roots'),
-              (0.0, 'zero: one root'),
-              (-0.7, 'negative: none'),
-            ]) ...[
-              Expanded(
-                child: _Panel(
-                  height: 92,
-                  caption: e.$2,
-                  child: CustomPaint(
-                    painter: ParaPainter(
-                      para: Para(opensUp: true, vertexY: -e.$1),
-                      color: AppColors.charcoal,
-                    ),
-                  ),
-                ),
-              ),
-              if (e.$2 != 'negative: none') const SizedBox(width: 8),
-            ],
-          ],
-        );
-      case BriefFigure.grade:
-        return _Panel(
-          height: 150,
-          caption: 'Station 3+00 is 300 feet from station 0+00',
-          child: CustomPaint(painter: _GradePainter()),
-        );
-      case BriefFigure.ratios:
-        return const _Panel(
-          height: 190,
-          caption: 'The marked angle decides which side is which',
-          child: CustomPaint(
-            painter: TrianglePainter(
-              angleAtTop: false,
-              mirror: false,
-              showNames: true,
-            ),
-          ),
-        );
-      case BriefFigure.sideNames:
-        return Row(
-          children: [
-            Expanded(
-              child: _Panel(
-                height: 150,
-                caption: 'Angle at the bottom',
-                child: CustomPaint(
-                  painter: TrianglePainter(
-                    angleAtTop: false,
-                    mirror: false,
-                    showNames: true,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: _Panel(
-                height: 150,
-                caption: 'Same triangle, angle at the top',
-                child: CustomPaint(
-                  painter: TrianglePainter(
-                    angleAtTop: true,
-                    mirror: false,
-                    showNames: true,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      case BriefFigure.components:
-        return Row(
-          children: [
-            Expanded(
-              child: _Panel(
-                height: 160,
-                caption: 'From horizontal: across is cosine',
-                child: CustomPaint(
-                  painter: ForcePainter(
-                    degrees: 40,
-                    fromVertical: false,
-                    highlightHorizontal: true,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: _Panel(
-                height: 160,
-                caption: 'From vertical: across is now sine',
-                child: CustomPaint(
-                  painter: ForcePainter(
-                    degrees: 40,
-                    fromVertical: true,
-                    highlightHorizontal: true,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      case BriefFigure.correlation:
-        return const _RuleList(
-          rules: [
-            (r"\text{leans up, tight} \;\Rightarrow\; r \approx +1", null),
-            (r"\text{leans down, tight} \;\Rightarrow\; r \approx -1", null),
-            (r"\text{no lean} \;\Rightarrow\; r \approx 0", null),
-            (
-              r"\text{an arch} \;\Rightarrow\; r \approx 0 \text{ as well}",
-              null,
-            ),
-          ],
-        );
-      case BriefFigure.regressionLine:
-        return const _RuleList(
-          rules: [
-            (
-              r"\hat{y} = a + bx \text{ passes through } (\bar{x}, \bar{y})",
-              true,
-            ),
-            (
-              r"\bar{y} = 75,\ b = 4.2,\ \bar{x} = 15 \;\Rightarrow\; a = 12",
-              true,
-            ),
-            (r"\hat{y}(20) = 12 + 4.2(20) = 96", true),
-            (r"\hat{y}(20) = 4.2(20) = 84", false),
-          ],
-        );
-      case BriefFigure.determination:
-        return const _RuleList(
-          rules: [
-            (r"r = -0.92 \;\Rightarrow\; R^2 = 0.846", true),
-            (r"r = -0.92 \;\Rightarrow\; R^2 = -0.846", false),
-            (r"r = -0.92 \;\Rightarrow\; R^2 = 0.92", false),
-            (r"1 - R^2 = \text{the share left unexplained}", true),
-          ],
-        );
-      case BriefFigure.counting:
-        return const _RuleList(
-          rules: [
-            (r"\text{a team of 3} \;\Rightarrow\; C(8,3) = 56", true),
-            (r"\text{3 named jobs} \;\Rightarrow\; P(8,3) = 336", true),
-            (r"\text{a team of 3} \;\Rightarrow\; P(8,3) = 336", false),
-            (r"\text{a team of 3} \;\Rightarrow\; 8^3 = 512", false),
-          ],
-        );
-      case BriefFigure.binomial:
-        return const _RuleList(
-          rules: [
-            (r"P(X=x) = C(n,x)\,p^x q^{\,n-x}", true),
-            (r"C(10,8)\,(0.90)^8(0.10)^2 = 0.194", true),
-            (r"(0.90)^8(0.10)^2 \text{ alone}", false),
-            (r"P(10,8)\,(0.90)^8(0.10)^2", false),
-          ],
-        );
-      case BriefFigure.normalTable:
-        return const _RuleList(
-          rules: [
-            (r"F(z) = \text{the area LEFT of } z", null),
-            (r"R(z) = \text{the area RIGHT of } z", null),
-            (r"W(z) = \text{the area between } -z \text{ and } z", null),
-            (r"F(-1.67) = 1 - F(1.67) = 0.0475", null),
-          ],
-        );
-      case BriefFigure.expectedValue:
-        return const _RuleList(
-          rules: [
-            (r"E(X) = \text{the balance point}", true),
-            (r"E(X) = \text{the most likely outcome}", false),
-            (r"E(X) = \text{the middle of the range}", false),
-            (r"E(X) \text{ need not be an outcome that can happen}", true),
-          ],
-        );
-      case BriefFigure.varianceShortcut:
-        return const _RuleList(
-          rules: [
-            (r"\text{Var}(X) = E(X^2) - [E(X)]^2 = 0.81", true),
-            (r"\text{Var}(X) = [E(X)]^2 - E(X^2) = -0.81", false),
-            (r"\text{Var}(X) = E(X) = 2.70", false),
-            (r"\text{Var}(X) = E(X^2) = 8.10", false),
-          ],
-        );
-      case BriefFigure.combining:
-        return const _RuleList(
-          rules: [
-            (r"\sigma_T = \sqrt{3^2 + 8^2} = 8.54", true),
-            (r"\sigma_T = 3 + 8 = 11", false),
-            (r"\sigma_T = 3^2 + 8^2 = 73", false),
-            (r"\text{Var}(2D + L) = 2^2\sigma_D^2 + \sigma_L^2", true),
-          ],
-        );
-      case BriefFigure.marginOfError:
-        return const _RuleList(
-          rules: [
-            (r"E = z_{\alpha/2}\frac{\sigma}{\sqrt{n}}", true),
-            (r"E = z_{\alpha/2}\frac{\sigma}{n}", false),
-            (r"E = z_{\alpha/2}\,\sigma", false),
-            (
-              r"4\times \text{the samples} \;\Rightarrow\; \tfrac{1}{2}\text{ the margin}",
-              true,
-            ),
-          ],
-        );
-      case BriefFigure.zOrT:
-        return const _RuleList(
-          rules: [
-            (r"\text{given } \sigma \;\Rightarrow\; z", true),
-            (r"\text{given } s \;\Rightarrow\; t \text{ with } v = n-1", true),
-            (
-              r"t \text{ is WIDER than } z \text{ at the same confidence}",
-              true,
-            ),
-            (
-              r"\text{a higher } \bar{x} \;\Rightarrow\; \text{a wider interval}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.sampleSize:
-        return const _RuleList(
-          rules: [
-            (
-              r"n = \left(\tfrac{1.960 \times 800}{200}\right)^2 = 61.47 \to 62",
-              true,
-            ),
-            (r"n = \tfrac{1.960 \times 800}{200} = 7.84 \to 8", false),
-            (r"n = 61.47", false),
-            (r"n = 61", false),
-          ],
-        );
-      case BriefFigure.hypotheses:
-        return const _RuleList(
-          rules: [
-            (r"\text{``exceeds''} \;\Rightarrow\; H_1: \mu > \mu_0", true),
-            (r"\text{``falls short''} \;\Rightarrow\; H_1: \mu < \mu_0", true),
-            (r"\text{``differs''} \;\Rightarrow\; H_1: \mu \neq \mu_0", true),
-            (r"\text{``exceeds''} \;\Rightarrow\; H_1: \mu \neq \mu_0", false),
-          ],
-        );
-      case BriefFigure.decisionRule:
-        return const _RuleList(
-          rules: [
-            (r"t = 2.4 > 1.753 \;\Rightarrow\; \text{reject}", true),
-            (r"|t| = 2.9 > 2.131 \;\Rightarrow\; \text{reject}", true),
-            (
-              r"\chi^2 = 5.0 < 7.815 \;\Rightarrow\; \text{fail to reject}",
-              true,
-            ),
-            (r"\text{fail to reject} \;\Rightarrow\; \mu = \mu_0", false),
-          ],
-        );
-      case BriefFigure.goodnessOfFit:
-        return const _RuleList(
-          rules: [
-            (r"E = \tfrac{200}{4} = 50 \text{ under a level model}", null),
-            (r"\tfrac{(60-50)^2}{50} = 2.0", null),
-            (r"\tfrac{(28-20)^2}{20} = 3.2 \text{, a smaller gap}", null),
-            (r"\text{bigger } \chi^2 \;\Rightarrow\; \text{a worse fit}", null),
-          ],
-        );
-      case BriefFigure.publicFirst:
-        return const _RuleList(
-          rules: [
-            (r"\text{public safety} > \text{employer} > \text{self}", true),
-            (r"\text{a seal says it meets accepted standards}", true),
-            (
-              r"\text{noting a deviation in the file makes it acceptable}",
-              false,
-            ),
-            (r"\text{every disagreement is a violation}", false),
-          ],
-        );
-      case BriefFigure.escalation:
-        return const _RuleList(
-          rules: [
-            (r"\text{colleague} \to \text{firm} \to \text{board}", true),
-            (r"\text{imminent danger: stop the work first}", true),
-            (r"\text{go to the client before the firm has been told}", false),
-            (r"\text{say nothing, it was not your drawing}", false),
-          ],
-        );
-      case BriefFigure.proportion:
-        return const _RuleList(
-          rules: [
-            (r"\text{disclose, then recuse from that decision}", true),
-            (r"\text{vote objectively and say nothing}", false),
-            (r"\text{resign from the committee altogether}", false),
-            (r"\text{the firm being qualified settles it}", false),
-          ],
-        );
-      case BriefFigure.competence:
-        return const _RuleList(
-          rules: [
-            (r"\text{your field, prepared under your direction}", true),
-            (r"\text{coordinate the set, seal your own segment}", true),
-            (r"\text{the field next door is close enough}", false),
-            (r"\text{a colleague reviewed it, so it is fine}", false),
-          ],
-        );
-      case BriefFigure.consent:
-        return const _RuleList(
-          rules: [
-            (r"\text{disclose, and get all payers to agree in writing}", true),
-            (r"\text{different scopes, so there is no conflict}", false),
-            (r"\text{decline outright, a conflict is fatal}", false),
-            (r"\text{a gratuity is fine once disclosed}", false),
-          ],
-        );
-      case BriefFigure.claims:
-        return const _RuleList(
-          rules: [
-            (r"\text{managed delivery; design by others}", true),
-            (r"\text{our firm designed it}", false),
-            (r"\text{we provided engineering services on it}", false),
-            (r"\text{our portfolio includes it}", false),
-          ],
-        );
-      case BriefFigure.standing:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{passed the FE} \;\Rightarrow\; \text{certified, not licensed}",
-              true,
-            ),
-            (r"\text{only a licensed PE may seal}", true),
-            (r"\text{an intern may seal if a PE reviews it}", false),
-            (
-              r"\text{writing ``Engineer Intern'' beside the seal fixes it}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.exemption:
-        return const _RuleList(
-          rules: [
-            (r"\text{under a PE's charge, no final decisions}", true),
-            (r"\text{comparing documents and flagging differences}", true),
-            (r"\text{choosing the size because the PE is away}", false),
-            (r"\text{a firm with nobody licensed in it}", false),
-          ],
-        );
-      case BriefFigure.holdingOut:
-        return const _RuleList(
-          rules: [
-            (r"\text{an app that sizes members for the public}", false),
-            (r"\text{``PE'' on the card of somebody unlicensed}", false),
-            (r"\text{tables prepared and sealed by a PE}", true),
-            (r"\text{a unit converter that decides nothing}", true),
-          ],
-        );
-      case BriefFigure.ladder:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{degree} \to \text{FE} \to \text{experience} \to \text{PE}",
-              true,
-            ),
-            (r"\text{BS and 4 years} \;\Rightarrow\; \text{ready}", true),
-            (r"\text{BS and 2 years} \;\Rightarrow\; \text{ready}", false),
-            (r"\text{the same degree counted twice}", false),
-          ],
-        );
-      case BriefFigure.discipline:
-        return const _RuleList(
-          rules: [
-            (r"\text{a felony, of any kind}", true),
-            (r"\text{a misdemeanour involving dishonesty}", true),
-            (r"\text{a misdemeanour involving neither}", false),
-            (r"\text{a clean record protects you from action}", false),
-          ],
-        );
-      case BriefFigure.sections:
-        return const _RuleList(
-          rules: [
-            (r"\text{licensed} \;\Rightarrow\; \text{the licensee list}", true),
-            (
-              r"\text{revoked} \;\Rightarrow\; \text{the unlicensed list}",
-              true,
-            ),
-            (r"\text{expired} \;\Rightarrow\; \text{the licensee list}", false),
-            (r"\text{rudeness} \;\Rightarrow\; \text{either list}", false),
-          ],
-        );
-      case BriefFigure.formation:
-        return const _RuleList(
-          rules: [
-            (r"\text{offer, taken as it stands, value both ways}", true),
-            (r"\text{a promise to do it for nothing}", false),
-            (r"\text{a counter-offer, then accepting the first price}", false),
-            (r"\text{unsigned by a notary}", true),
-          ],
-        );
-      case BriefFigure.risk:
-        return const _RuleList(
-          rules: [
-            (r"\text{lump sum} \;\Rightarrow\; \text{the contractor}", true),
-            (r"\text{cost plus} \;\Rightarrow\; \text{the owner}", true),
-            (r"\text{cost plus} \;\Rightarrow\; \text{the contractor}", false),
-            (
-              r"\text{a scope change} \;\Rightarrow\; \text{the contractor}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.delivery:
-        return const _RuleList(
-          rules: [
-            (r"\text{one contract} \;\Rightarrow\; \text{design-build}", true),
-            (
-              r"\text{two, design finished first} \;\Rightarrow\; \text{DBB}",
-              true,
-            ),
-            (
-              r"\text{two, with a guaranteed maximum} \;\Rightarrow\; \text{CMAR}",
-              true,
-            ),
-            (
-              r"\text{design-build} \;\Rightarrow\; \text{the owner holds the designer}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.standardOfCare:
-        return const _RuleList(
-          rules: [
-            (r"\text{a required check nobody ran}", false),
-            (r"\text{a peer would have done the same}", true),
-            (r"\text{the result was imperfect, so it is negligence}", false),
-            (r"\text{the client is unhappy, so it is negligence}", false),
-          ],
-        );
-      case BriefFigure.negligence:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{duty} + \text{breach} + \text{causation} + \text{damages}",
-              true,
-            ),
-            (r"\text{a breach with no measurable loss}", false),
-            (r"\text{a breach that did not cause the loss}", false),
-            (r"\text{intent is a fifth element}", false),
-          ],
-        );
-      case BriefFigure.clocks:
-        return const _RuleList(
-          rules: [
-            (r"\text{limitations: from discovery}", true),
-            (r"\text{repose: from substantial completion}", true),
-            (r"\text{repose can bar a claim before the harm appears}", true),
-            (r"\text{repose gives the plaintiff longer}", false),
-          ],
-        );
-      case BriefFigure.property:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{not disclosing it} \;\Rightarrow\; \text{a trade secret}",
-              true,
-            ),
-            (
-              r"\text{the brand on the box} \;\Rightarrow\; \text{a trademark}",
-              true,
-            ),
-            (
-              r"\text{the paper about it} \;\Rightarrow\; \text{a copyright}",
-              true,
-            ),
-            (r"\text{a trademark stops others making the goods}", false),
-          ],
-        );
-      case BriefFigure.portfolio:
-        return const _RuleList(
-          rules: [
-            (r"\text{one project, four protections}", true),
-            (r"\text{a patent covers the name as well}", false),
-            (r"\text{a patent covers the paper as well}", false),
-            (r"\text{a patent and a secret on the same thing}", false),
-          ],
-        );
-      case BriefFigure.lifeCycle:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{cheapest to build} \;\Rightarrow\; \text{cheapest to own}",
-              false,
-            ),
-            (r"\text{add every stage, including taking it away}", true),
-            (r"\text{sometimes the cheap option wins outright}", true),
-            (r"\text{always choose the costlier option}", false),
-          ],
-        );
-      case BriefFigure.factors:
-        return const _RuleList(
-          rules: [
-            (r"\text{known at the end} \;\Rightarrow\; (A/F)", true),
-            (r"\text{known today} \;\Rightarrow\; (A/P)", true),
-            (r"\text{a sinking fund uses } (A/P)", false),
-            (r"\text{dividing by } n \text{ instead of discounting}", false),
-          ],
-        );
-      case BriefFigure.rates:
-        return const _RuleList(
-          rules: [
-            (
-              r"n \text{ in months} \;\Rightarrow\; \text{the monthly rate}",
-              true,
-            ),
-            (r"12\% \text{ monthly} \;\Rightarrow\; i_e = 12.68\%", true),
-            (r"12\% \text{ monthly} \;\Rightarrow\; i_e = 12\%", false),
-            (r"\text{comparing two quoted rates directly}", false),
-          ],
-        );
-      case BriefFigure.pieces:
-        return const _RuleList(
-          rules: [
-            (r"\text{a growing series} = (P/A) + (P/G)", true),
-            (r"\text{a growing series} = (P/A) \text{ alone}", false),
-            (r"\text{a flat series} = (P/A) \text{ alone}", true),
-            (r"\text{adding the cash flows up undiscounted}", false),
-          ],
-        );
-      case BriefFigure.annualCost:
-        return const _RuleList(
-          rules: [
-            (r"\text{a cost inside the life} \;\Rightarrow\; \text{up}", true),
-            (r"\text{salvage} \;\Rightarrow\; \text{down}", true),
-            (r"\text{salvage} \;\Rightarrow\; \text{up}", false),
-            (r"\text{a sunk cost} \;\Rightarrow\; \text{in both}", false),
-          ],
-        );
-      case BriefFigure.studyPeriod:
-        return const _RuleList(
-          rules: [
-            (
-              r"6 \text{ and } 4 \text{ by PW} \;\Rightarrow\; 12 \text{ years}",
-              true,
-            ),
-            (
-              r"6 \text{ and } 4 \text{ by AW} \;\Rightarrow\; \text{as they are}",
-              true,
-            ),
-            (
-              r"6 \text{ and } 4 \text{ by PW} \;\Rightarrow\; \text{as they are}",
-              false,
-            ),
-            (
-              r"20 \text{ and } 20 \;\Rightarrow\; \text{a multiple is needed}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.methodsAgree:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{same period, same rate} \;\Rightarrow\; \text{same ranking}",
-              true,
-            ),
-            (
-              r"\text{unequal lives by PW} \;\Rightarrow\; \text{they can differ}",
-              true,
-            ),
-            (
-              r"\text{different MARRs} \;\Rightarrow\; \text{they can differ}",
-              true,
-            ),
-            (r"PW \text{ and } AW \text{ often just disagree}", false),
-          ],
-        );
-      case BriefFigure.costTypes:
-        return const _RuleList(
-          rules: [
-            (r"\text{rent, insurance} \;\Rightarrow\; \text{fixed}", true),
-            (r"\text{fuel per yard} \;\Rightarrow\; \text{variable}", true),
-            (
-              r"\text{a study already paid for} \;\Rightarrow\; \text{in}",
-              false,
-            ),
-            (r"\text{land you already own} \;\Rightarrow\; \text{free}", false),
-          ],
-        );
-      case BriefFigure.breakEven:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{below the crossing} \;\Rightarrow\; \text{the cheap start}",
-              true,
-            ),
-            (r"\text{above it} \;\Rightarrow\; \text{the cheap rate}", true),
-            (r"\text{compare the rates alone}", false),
-            (
-              r"\text{higher start AND steeper} \;\Rightarrow\; \text{a crossing}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.payback:
-        return const _RuleList(
-          rules: [
-            (r"\tfrac{1{,}400}{280 - 80} = 7 \text{ years}", true),
-            (r"\tfrac{1{,}400}{280} = 5 \text{ years}", false),
-            (r"\text{a one-off grant, in the annual figure}", false),
-            (
-              r"\text{new cost} > \text{saving} \;\Rightarrow\; \text{no payback}",
-              true,
-            ),
-          ],
-        );
-      case BriefFigure.bcRatio:
-        return const _RuleList(
-          rules: [
-            (r"\text{operating cost} \;\Rightarrow\; \text{denominator}", true),
-            (
-              r"\text{harm to the public} \;\Rightarrow\; \text{off the top}",
-              true,
-            ),
-            (
-              r"\text{harm to the public} \;\Rightarrow\; \text{denominator}",
-              false,
-            ),
-            (r"\text{only the construction cost underneath}", false),
-          ],
-        );
-      case BriefFigure.incremental:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{the highest } B/C \;\Rightarrow\; \text{build that one}",
-              false,
-            ),
-            (r"B/C < 1 \;\Rightarrow\; \text{out before you start}", true),
-            (r"\Delta B/C \geq 1 \;\Rightarrow\; \text{step up}", true),
-            (r"\text{compare against the last one that survived}", true),
-          ],
-        );
-      case BriefFigure.rollback:
-        return const _RuleList(
-          rules: [
-            (r"\text{a circle lands between its endings}", true),
-            (r"\text{the cost today} \;\Rightarrow\; \text{the branch}", false),
-            (
-              r"\text{the worst ending} \;\Rightarrow\; \text{the branch}",
-              false,
-            ),
-            (r"\text{an unlabeled branch carries the rest}", true),
-          ],
-        );
-      case BriefFigure.internalRate:
-        return const _RuleList(
-          rules: [
-            (r"\text{the rate where } PW_{\text{in}} = PW_{\text{out}}", true),
-            (r"\tfrac{1{,}150 - 1{,}000}{1{,}000} = 15\%", true),
-            (r"\tfrac{1{,}150 - 1{,}000}{1{,}150} = 13\%", false),
-            (r"\text{the biggest undiscounted profit}", false),
-          ],
-        );
-      case BriefFigure.hurdle:
-        return const _RuleList(
-          rules: [
-            (r"IRR \geq MARR \;\Rightarrow\; \text{accept}", true),
-            (r"IRR = MARR \;\Rightarrow\; \text{accept, it breaks even}", true),
-            (r"IRR > 0 \;\Rightarrow\; \text{accept}", false),
-            (
-              r"11\% \text{ against } 12\% \;\Rightarrow\; \text{close enough}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.ratePerYear:
-        return const _RuleList(
-          rules: [
-            (r"\text{sooner} \;\Rightarrow\; \text{a higher rate}", true),
-            (
-              r"\text{every cash flow doubled} \;\Rightarrow\; \text{same rate}",
-              true,
-            ),
-            (
-              r"\text{the bigger total} \;\Rightarrow\; \text{the higher rate}",
-              false,
-            ),
-            (
-              r"\text{the bigger project} \;\Rightarrow\; \text{the higher rate}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.macrs:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{5 year property} \;\Rightarrow\; 6 \text{ years of it}",
-              true,
-            ),
-            (
-              r"\text{MACRS} \;\Rightarrow\; \text{full cost, no salvage}",
-              true,
-            ),
-            (r"\text{MACRS} \;\Rightarrow\; \tfrac{C - S_n}{n}", false),
-            (
-              r"\text{5 year property} \;\Rightarrow\; 5 \text{ years of it}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.bookValue:
-        return const _RuleList(
-          rules: [
-            (r"BV_3 = C - (D_1 + D_2 + D_3)", true),
-            (r"BV_3 = C - D_3", false),
-            (r"BV_3 = D_1 + D_2 + D_3", false),
-            (r"\text{book value} = \text{what it would fetch}", false),
-          ],
-        );
-      case BriefFigure.dollarsMatch:
-        return const _RuleList(
-          rules: [
-            (r"\text{actual dollars} \;\Rightarrow\; d = i + f + if", true),
-            (r"\text{constant dollars} \;\Rightarrow\; i", true),
-            (r"\text{actual dollars} \;\Rightarrow\; i + f", false),
-            (r"\text{actual dollars} \;\Rightarrow\; i", false),
-          ],
-        );
-      case BriefFigure.resolve:
-        return const _RuleList(
-          rules: [
-            (
-              r"\theta \text{ off the horizontal} \;\Rightarrow\; F_x = F\cos\theta",
-              true,
-            ),
-            (
-              r"\theta \text{ off the vertical} \;\Rightarrow\; F_y = F\cos\theta",
-              true,
-            ),
-            (
-              r"\text{the horizontal leg} \;\Rightarrow\; \text{the horizontal component}",
-              true,
-            ),
-            (r"\text{a component larger than } F", false),
-          ],
-        );
-      case BriefFigure.moment:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{a vertical force} \;\Rightarrow\; \text{a horizontal arm}",
-              true,
-            ),
-            (r"\text{the line through the point} \;\Rightarrow\; M = 0", true),
-            (r"\text{the length of the member}", false),
-            (r"\text{the distance to where it is applied}", false),
-          ],
-        );
-      case BriefFigure.sense:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{down, right of the pin} \;\Rightarrow\; \text{clockwise}",
-              true,
-            ),
-            (
-              r"\text{up, left of the pin} \;\Rightarrow\; \text{clockwise}",
-              true,
-            ),
-            (r"\text{down} \;\Rightarrow\; \text{always clockwise}", false),
-            (r"\text{a couple} \;\Rightarrow\; \text{the two cancel}", false),
-          ],
-        );
-      case BriefFigure.supports:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{roller} \;\Rightarrow\; \text{1, square to the surface}",
-              true,
-            ),
-            (r"\text{pin} \;\Rightarrow\; \text{2, and no moment}", true),
-            (r"\text{fixed} \;\Rightarrow\; \text{2 and a moment}", true),
-            (
-              r"\text{a roller on a slope} \;\Rightarrow\; \text{vertical}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.resultant:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{uniform} \;\Rightarrow\; \text{middle of the loaded part}",
-              true,
-            ),
-            (
-              r"\text{triangle} \;\Rightarrow\; \tfrac{1}{3} \text{ from the heavy end}",
-              true,
-            ),
-            (
-              r"\text{uniform} \;\Rightarrow\; \text{middle of the member}",
-              false,
-            ),
-            (r"\text{at the far end of the load}", false),
-          ],
-        );
-      case BriefFigure.determinacy:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{pin} + \text{roller} = 3 \;\Rightarrow\; \text{solvable}",
-              true,
-            ),
-            (r"\text{fixed alone} = 3 \;\Rightarrow\; \text{solvable}", true),
-            (r"\text{a couple adds an unknown}", false),
-            (r"\text{two rollers} \;\Rightarrow\; \text{it stands up}", false),
-          ],
-        );
-      case BriefFigure.deformation:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{more load or more length} \;\Rightarrow\; \text{more stretch}",
-              true,
-            ),
-            (
-              r"\text{more area or a stiffer material} \;\Rightarrow\; \text{less}",
-              true,
-            ),
-            (r"\text{a longer bar carries more stress}", false),
-            (r"\text{doubling every dimension changes nothing}", false),
-          ],
-        );
-      case BriefFigure.units:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{N, mm and N/mm}^2 \;\Rightarrow\; \text{answers in mm}",
-              true,
-            ),
-            (r"\text{strain has no unit at all}", true),
-            (r"\text{cancelling units means the answer is right}", false),
-            (r"\text{meters beside millimeters is fine if they cancel}", false),
-          ],
-        );
-      case BriefFigure.thermal:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{restrained and warmed} \;\Rightarrow\; \text{compression}",
-              true,
-            ),
-            (
-              r"\text{restrained and cooled} \;\Rightarrow\; \text{tension}",
-              true,
-            ),
-            (r"\text{heating a bar makes stress}", false),
-            (r"\sigma_t \text{ depends on the cross-section}", false),
-          ],
-        );
-      case BriefFigure.compositeI:
-        return const _RuleList(
-          rules: [
-            (r"\text{each piece brings } \bar{I}_i + A_i d_i^2", true),
-            (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
-            (r"\text{a piece on the axis pulls its weight}", false),
-            (r"\text{the biggest piece contributes most}", false),
-          ],
-        );
-      case BriefFigure.natural:
-        return const _RuleList(
-          rules: [
-            (r"4\times k \Rightarrow 2\times \omega_n", true),
-            (r"\text{double both} \Rightarrow \text{no change}", true),
-            (r"\text{a bigger pull raises } \omega_n", false),
-            (r"\omega_n \text{ is already in hertz}", false),
-          ],
-        );
-      case BriefFigure.resonance:
-        return const _RuleList(
-          rules: [
-            (r"\text{trouble when } \omega = \omega_n", true),
-            (r"\text{far above or far below is safe}", true),
-            (r"\text{a structure resonates on its own}", false),
-            (
-              r"\mathrm{rpm} \text{ and } \mathrm{Hz} \text{ compare directly}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.underneath:
-        return const _RuleList(
-          rules: [
-            (r"\varepsilon \text{ has no units at all}", true),
-            (r"\text{engineering keeps } A_0 \text{ after necking}", true),
-            (r"\text{the stretch itself is the strain}", false),
-            (r"\sigma_T \text{ divides by } A_0", false),
-          ],
-        );
-      case BriefFigure.trueStress:
-        return const _RuleList(
-          rules: [
-            (r"\sigma_T > \sigma \text{ once it has stretched}", true),
-            (r"\text{UTS is the peak ENGINEERING stress}", true),
-            (r"\text{the drop at the end means it weakened}", false),
-            (r"\sigma_T = \sigma/(1 + \varepsilon)", false),
-          ],
-        );
-      case BriefFigure.crack:
-        return const _RuleList(
-          rules: [
-            (r"\text{an edge crack goes in whole}", true),
-            (r"\text{an internal crack is } 2a", true),
-            (r"Y = 1.0 \text{ for an edge crack}", false),
-            (r"\text{millimeters go straight in}", false),
-          ],
-        );
-      case BriefFigure.toughness:
-        return const _RuleList(
-          rules: [
-            (r"4a \Rightarrow 2 \times \text{the driving force}", true),
-            (r"2\sigma \Rightarrow 2 \times \text{the driving force}", true),
-            (r"\text{the longer crack is always worse}", false),
-            (r"K_{IC} \text{ is a stress}", false),
-          ],
-        );
-      case BriefFigure.expand:
-        return const _RuleList(
-          rules: [
-            (r"\Delta T \text{ is a difference, not a sum}", true),
-            (r"\text{twice the length, twice the movement}", true),
-            (r"\text{a thicker member moves more}", false),
-            (r"\text{steel and aluminum move alike}", false),
-          ],
-        );
-      case BriefFigure.furnace:
-        return const _RuleList(
-          rules: [
-            (r"\text{fast from austenite} \Rightarrow \text{martensite}", true),
-            (r"\text{tempering keeps most of the hardness}", true),
-            (r"\text{slow cooling} \Rightarrow \text{martensite}", false),
-            (r"\text{any quench hardens any steel}", false),
-          ],
-        );
-      case BriefFigure.tieLine:
-        return const _RuleList(
-          rules: [
-            (r"f_L \text{ uses the arm to } x_\alpha", true),
-            (r"f_L + f_\alpha = 1", true),
-            (r"f_L \text{ uses the arm to } x_L", false),
-            (r"\text{the denominator starts at zero}", false),
-          ],
-        );
-      case BriefFigure.mix:
-        return const _RuleList(
-          rules: [
-            (r"\text{more water} \Rightarrow \text{weaker}", true),
-            (
-              r"\text{more cement, same water} \Rightarrow \text{stronger}",
-              true,
-            ),
-            (r"W/C = \frac{\text{water}}{\text{whole batch}}", false),
-            (r"\text{aggregate changes } W/C", false),
-          ],
-        );
-      case BriefFigure.exposure:
-        return const _RuleList(
-          rules: [
-            (r"\text{it freezes wet} \Rightarrow \text{entrain air}", true),
-            (r"\text{air costs strength}", true),
-            (r"\text{air always improves concrete}", false),
-            (r"\text{water fixes workability}", false),
-          ],
-        );
-      case BriefFigure.curing:
-        return const _RuleList(
-          rules: [
-            (r"f_{c,28} = f_{c,7} \div 0.70", true),
-            (r"\text{toward the smaller number: multiply}", true),
-            (r"f_{c,28} = f_{c,7} \times 0.70", false),
-            (r"90\% \Rightarrow \text{multiply by } 0.10", false),
-          ],
-        );
-      case BriefFigure.field:
-        return const _RuleList(
-          rules: [
-            (r"\text{take the curing off, then compare}", true),
-            (r"\text{dried out early} \Rightarrow \text{a third gone}", true),
-            (r"\text{the lab break is what the slab has}", false),
-            (r"\text{a richer mix beats better curing}", false),
-          ],
-        );
-      case BriefFigure.weighing:
-        return const _RuleList(
-          rules: [
-            (r"B - C \text{ is the whole particle}", true),
-            (r"G_{sa} \text{ is the largest of the three}", true),
-            (r"\text{absorption divides by } B", false),
-            (r"A - C \text{ is the bulk volume}", false),
-          ],
-        );
-      case BriefFigure.grading:
-        return const _RuleList(
-          rules: [
-            (r"\text{a higher } FM \text{ is coarser}", true),
-            (r"\text{cumulative \% RETAINED}", true),
-            (r"\text{a higher } FM \text{ is finer}", false),
-            (r"FM \text{ describes the whole curve}", false),
-          ],
-        );
-      case BriefFigure.voids:
-        return const _RuleList(
-          rules: [
-            (r"VMA = V_a + \text{binder voids}", true),
-            (r"VFA \text{ is a share of } VMA", true),
-            (r"VFA \text{ is a share of the whole mix}", false),
-            (r"V_a \text{ is a share of } VMA", false),
-          ],
-        );
-      case BriefFigure.check:
-        return const _RuleList(
-          rules: [
-            (r"G_{mm} > G_{mb} \text{ always}", true),
-            (r"VMA > V_a \text{ always}", true),
-            (r"VFA \text{ may pass } 100\%", false),
-            (r"VMA \approx 86\% \text{ is normal}", false),
-          ],
-        );
-      case BriefFigure.moisture:
-        return const _RuleList(
-          rules: [
-            (r"MC \text{ divides by the DRY weight}", true),
-            (r"MC > 100\% \text{ is possible}", true),
-            (r"\text{drying above } 30\% \text{ shrinks it}", false),
-            (r"\text{wetter wood is stronger}", false),
-          ],
-        );
-      case BriefFigure.mortar:
-        return const _RuleList(
-          rules: [
-            (r"M > S > N > O", true),
-            (r"\text{the weakest works the easiest}", true),
-            (r"\text{the strongest is always the best}", false),
-            (r"\text{the order runs } M < S < N < O", false),
-          ],
-        );
-      case BriefFigure.factor:
-        return const _RuleList(
-          rules: [
-            (r"\text{wind: } C_D = 1.6", true),
-            (r"\text{wet service: } C_M < 1", true),
-            (r"\text{permanent load: } C_D > 1", false),
-            (r"C_D = 1 \text{ for every load}", false),
-          ],
-        );
-      case BriefFigure.blend:
-        return const _RuleList(
-          rules: [
-            (r"\text{along} \Rightarrow f_1E_1 + f_2E_2", true),
-            (r"\text{across gives the smaller } E_c", true),
-            (r"\text{across} \Rightarrow f_1E_1 + f_2E_2", false),
-            (r"\rho_c \text{ depends on direction}", false),
-          ],
-        );
-      case BriefFigure.isostrain:
-        return const _RuleList(
-          rules: [
-            (r"\text{along: } \varepsilon_1 = \varepsilon_2", true),
-            (r"\text{the stiffer phase takes the stress}", true),
-            (r"\text{along: } \sigma_1 = \sigma_2", false),
-            (r"\text{stress splits by volume}", false),
-          ],
-        );
-      case BriefFigure.galvanic:
-        return const _RuleList(
-          rules: [
-            (r"\text{the more active metal corrodes}", true),
-            (r"\text{no water} \Rightarrow \text{no cell}", true),
-            (r"\text{the exposed metal corrodes}", false),
-            (r"\text{a metal is safe on its own terms}", false),
-          ],
-        );
-      case BriefFigure.picking:
-        return const _RuleList(
-          rules: [
-            (r"\text{cross off column by column}", true),
-            (r"\text{nothing passing is an answer}", true),
-            (r"\text{the best conductor wins}", false),
-            (r"\text{one column decides it}", false),
-          ],
-        );
-      case BriefFigure.threeNumbers:
-        return const _RuleList(
-          rules: [
-            (r"SG \text{ has no units}", true),
-            (r"\gamma = \rho g", true),
-            (r"\gamma \text{ is in kg/m}^3", false),
-            (r"p = \rho h", false),
-          ],
-        );
-      case BriefFigure.viscosity:
-        return const _RuleList(
-          rules: [
-            (r"\text{thinner film} \Rightarrow \text{more shear}", true),
-            (r"\tau = \mu\, v / \delta", true),
-            (r"\text{thicker film} \Rightarrow \text{more shear}", false),
-            (r"\tau = \nu\, v / \delta", false),
-          ],
-        );
-      case BriefFigure.capillary:
-        return const _RuleList(
-          rules: [
-            (r"\text{half the bore} \Rightarrow \text{twice the rise}", true),
-            (r"\beta > 90^\circ \Rightarrow \text{it goes down}", true),
-            (r"\text{the radius goes underneath}", false),
-            (r"\text{a wider tube climbs higher}", false),
-          ],
-        );
-      case BriefFigure.depth:
-        return const _RuleList(
-          rules: [
-            (r"p = \gamma h", true),
-            (r"\text{same depth} \Rightarrow \text{same pressure}", true),
-            (r"\text{a wider vessel presses harder}", false),
-            (r"p = \rho h", false),
-          ],
-        );
-      case BriefFigure.manometer:
-        return const _RuleList(
-          rules: [
-            (r"\text{down a column} \Rightarrow +\gamma h", true),
-            (r"\text{sideways} \Rightarrow \text{no change}", true),
-            (r"\text{up a column} \Rightarrow +\gamma h", false),
-            (r"\text{one } \gamma \text{ for the whole tube}", false),
-          ],
-        );
-      case BriefFigure.gauge:
-        return const _RuleList(
-          rules: [
-            (r"P_{abs} = P_{atm} + P_{gauge}", true),
-            (r"\text{open to the air} \Rightarrow P_{gauge} = 0", true),
-            (r"\gamma h \text{ gives an absolute pressure}", false),
-            (r"P_{gauge} \text{ cannot be negative}", false),
-          ],
-        );
-      case BriefFigure.gate:
-        return const _RuleList(
-          rules: [
-            (r"F_R \text{ uses the centroid depth}", true),
-            (r"y_{CP} \text{ is always deeper than } y_C", true),
-            (r"F_R \text{ acts at the centroid}", false),
-            (r"F_R \text{ uses the bottom depth}", false),
-          ],
-        );
-      case BriefFigure.buoyancy:
-        return const _RuleList(
-          rules: [
-            (r"F_B = \gamma V_{displaced}", true),
-            (r"\text{floating} \Rightarrow F_B = W", true),
-            (r"F_B \text{ uses the body's own } \gamma", false),
-            (r"\text{hollow bodies displace less}", false),
-          ],
-        );
-      case BriefFigure.continuity:
-        return const _RuleList(
-          rules: [
-            (r"\text{half the bore} \Rightarrow 4v", true),
-            (r"\text{half the AREA} \Rightarrow 2v", true),
-            (r"\text{half the bore} \Rightarrow 2v", false),
-            (r"\text{a longer pipe runs slower}", false),
-          ],
-        );
-      case BriefFigure.bernoulli:
-        return const _RuleList(
-          rules: [
-            (r"\text{faster} \Rightarrow \text{lower pressure}", true),
-            (r"\text{continuity first, then Bernoulli}", true),
-            (r"\text{narrower} \Rightarrow \text{higher pressure}", false),
-            (r"\text{Bernoulli covers friction}", false),
-          ],
-        );
-      case BriefFigure.torricelli:
-        return const _RuleList(
-          rules: [
-            (r"v = \sqrt{2gh}", true),
-            (r"4h \Rightarrow 2v", true),
-            (r"\text{a bigger hole is a faster jet}", false),
-            (r"\text{a wider tank is a faster jet}", false),
-          ],
-        );
-      case BriefFigure.reynolds:
-        return const _RuleList(
-          rules: [
-            (r"Re < 2{,}100 \Rightarrow f = 64/Re", true),
-            (r"Re > 10{,}000 \Rightarrow \text{Moody}", true),
-            (r"\text{water mains are usually laminar}", false),
-            (r"Re \text{ has units of m/s}", false),
-          ],
-        );
-      case BriefFigure.darcy:
-        return const _RuleList(
-          rules: [
-            (r"2v \Rightarrow 4 h_f", true),
-            (r"2L \Rightarrow 2 h_f", true),
-            (r"2v \Rightarrow 2 h_f", false),
-            (r"f_{Fanning} \text{ goes in as is}", false),
-          ],
-        );
-      case BriefFigure.degreeOfCurve:
-        return const _RuleList(
-          rules: [
-            (r"D \times R \approx 5{,}730", true),
-            (r"\text{bigger } D \Rightarrow \text{sharper}", true),
-            (r"\text{bigger } D \Rightarrow \text{gentler}", false),
-            (r"D = 1° \Rightarrow R = 100 \text{ ft}", false),
-          ],
-        );
-      case BriefFigure.roadCurve:
-        return const _RuleList(
-          rules: [
-            (r"T = R\tan\tfrac{I}{2}", true),
-            (r"\text{the stationing runs round the arc}", true),
-            (r"T = R\tan I", false),
-            (r"\text{the arc is shorter than the chord}", false),
-          ],
-        );
-      case BriefFigure.tangentOffset:
-        return const _RuleList(
-          rules: [
-            (r"\text{the gap grows as } x^2", true),
-            (r"g_2 < g_1 \Rightarrow \text{road below the line}", true),
-            (r"\text{the PVI is on the road}", false),
-            (r"\text{the gap is the same all along}", false),
-          ],
-        );
-      case BriefFigure.highPoint:
-        return const _RuleList(
-          rules: [
-            (r"|g_1| = |g_2| \Rightarrow x_m = \tfrac{L}{2}", true),
-            (
-              r"x_m \text{ outside } 0..L \Rightarrow \text{none on the curve}",
-              true,
-            ),
-            (r"x_m \text{ is under the PVI}", false),
-            (r"x_m = K", false),
-          ],
-        );
-      case BriefFigure.wetted:
-        return const _RuleList(
-          rules: [
-            (r"P_{rect} = b + 2y", true),
-            (r"\text{a full pipe: } R_H = \tfrac{D}{4}", true),
-            (r"\text{the water surface counts}", false),
-            (r"\text{a full pipe: } R_H = \tfrac{D}{2}", false),
-          ],
-        );
-      case BriefFigure.manning:
-        return const _RuleList(
-          rules: [
-            (r"\text{half } n \Rightarrow \text{double } v", true),
-            (r"4S \Rightarrow 2v", true),
-            (r"\text{a full pipe beats a half full one}", false),
-            (r"4S \Rightarrow 4v", false),
-          ],
-        );
-      case BriefFigure.unitFactor:
-        return const _RuleList(
-          rules: [
-            (r"\text{feet} \Rightarrow K = 1.486", true),
-            (r"n \text{ is the same in both systems}", true),
-            (r"\text{the answer's units pick } K", false),
-            (r"\text{inches go straight in}", false),
-          ],
-        );
-      case BriefFigure.froude:
-        return const _RuleList(
-          rules: [
-            (r"Fr < 1 \Rightarrow \text{news gets upstream}", true),
-            (r"\text{ripple speed} = \sqrt{gy}", true),
-            (r"Fr > 1 \Rightarrow \text{subcritical}", false),
-            (r"\text{shallow always means } Fr > 1", false),
-          ],
-        );
-      case BriefFigure.criticalDepth:
-        return const _RuleList(
-          rules: [
-            (r"2q \Rightarrow 1.6\,y_c", true),
-            (r"E_{min} = 1.5\,y_c", true),
-            (r"\text{a steeper channel lowers } y_c", false),
-            (r"\text{a smoother lining lowers } y_c", false),
-          ],
-        );
-      case BriefFigure.hydraulicJump:
-        return const _RuleList(
-          rules: [
-            (r"y_2 > y_1 \text{ always}", true),
-            (r"\text{momentum across, energy lost}", true),
-            (r"\text{energy is conserved across a jump}", false),
-            (r"\text{a jump can run deep to shallow}", false),
-          ],
-        );
-      case BriefFigure.weirShape:
-        return const _RuleList(
-          rules: [
-            (r"\text{V-notch: } Q = C H^{5/2}", true),
-            (r"\text{contracted: } L - 0.2H", true),
-            (r"\text{a V-notch has a crest length}", false),
-            (r"\text{one } C \text{ fits every weir}", false),
-          ],
-        );
-      case BriefFigure.weirExponent:
-        return const _RuleList(
-          rules: [
-            (r"2H \Rightarrow 5.7Q \text{ on a V}", true),
-            (r"\text{only the ratio of heads counts}", true),
-            (r"2H \Rightarrow 2Q", false),
-            (r"\text{a longer crest responds faster}", false),
-          ],
-        );
-      case BriefFigure.hazen:
-        return const _RuleList(
-          rules: [
-            (r"\text{bigger } C \Rightarrow \text{smoother}", true),
-            (r"\frac{Q_A}{Q_B} = \frac{C_A}{C_B}", true),
-            (r"\text{bigger } C \Rightarrow \text{rougher}", false),
-            (r"\frac{Q_A}{Q_B} = \left(\frac{C_A}{C_B}\right)^{0.63}", false),
-          ],
-        );
-      case BriefFigure.pumpPower:
-        return const _RuleList(
-          rules: [
-            (r"\dot W_{brake} > \dot W_{fluid}", true),
-            (r"2Q \Rightarrow 2\dot W", true),
-            (r"\dot W_{brake} = \eta\,\gamma Q H", false),
-            (r"\text{a bigger motor draws more}", false),
-          ],
-        );
-      case BriefFigure.npsh:
-        return const _RuleList(
-          rules: [
-            (r"\text{a lift}: H_s < 0", true),
-            (r"\text{warm water lowers the margin}", true),
-            (r"\text{discharge losses lower the margin}", false),
-            (r"\text{a lift}: H_s > 0", false),
-          ],
-        );
-      case BriefFigure.rational:
-        return const _RuleList(
-          rules: [
-            (r"1 \text{ acre-in/hr} \approx 1 \text{ cfs}", true),
-            (r"C \text{ is dimensionless}", true),
-            (r"\text{convert the acres to square feet}", false),
-            (r"\text{good for a 2,000 acre basin}", false),
-          ],
-        );
-      case BriefFigure.runoffBlend:
-        return const _RuleList(
-          rules: [
-            (r"C = \frac{\sum C_i A_i}{\sum A_i}", true),
-            (r"\text{equal areas} \Rightarrow \text{halfway}", true),
-            (r"C = \frac{C_1 + C_2}{2}", false),
-            (r"\text{the bigger } C \text{ always wins}", false),
-          ],
-        );
-      case BriefFigure.curveNumber:
-        return const _RuleList(
-          rules: [
-            (r"P \le 0.2S \Rightarrow Q = 0", true),
-            (r"Q \text{ is a depth in inches}", true),
-            (r"Q \text{ is a discharge in cfs}", false),
-            (r"S = CN", false),
-          ],
-        );
-      case BriefFigure.unitHydrograph:
-        return const _RuleList(
-          rules: [
-            (r"3P \Rightarrow 3Q \text{ at the same } t", true),
-            (r"\text{another duration needs another UH}", true),
-            (r"3P \Rightarrow 3t", false),
-            (r"\text{one UH fits every storm}", false),
-          ],
-        );
-      case BriefFigure.concentration:
-        return const _RuleList(
-          rules: [
-            (r"D = t_c \Rightarrow \text{the largest peak}", true),
-            (r"D < t_c \Rightarrow \text{part of } A", true),
-            (r"\text{shorter is always worse for } I", false),
-            (r"D > t_c \Rightarrow \text{a bigger peak}", false),
-          ],
-        );
-      case BriefFigure.routing:
-        return const _RuleList(
-          rules: [
-            (r"I > O \Rightarrow \text{filling}", true),
-            (r"I = O \Rightarrow \text{fullest}", true),
-            (r"O - I = \frac{\Delta S}{\Delta t}", false),
-            (r"\text{the pond is fullest at the inflow peak}", false),
-          ],
-        );
-      case BriefFigure.seepage:
-        return const _RuleList(
-          rules: [
-            (r"v = \frac{q}{n} > q", true),
-            (r"qA \text{ is a volume a second}", true),
-            (r"v = q n", false),
-            (r"\text{a tracer moves at } q", false),
-          ],
-        );
-      case BriefFigure.wells:
-        return const _RuleList(
-          rules: [
-            (r"\text{confined} \Rightarrow \text{heads as they are}", true),
-            (r"\text{unconfined} \Rightarrow \text{heads squared}", true),
-            (r"\log_{10} \text{ in the denominator}", false),
-            (r"T = Kb \text{ for an unconfined aquifer}", false),
-          ],
-        );
-      case BriefFigure.bod:
-        return const _RuleList(
-          rules: [
-            (r"BOD_5 < L_0 \text{ always}", true),
-            (r"\text{exerted} + \text{remaining} = L_0", true),
-            (r"BOD_5 = 0.68 L_0 \text{ for any } k", false),
-            (r"BOD_5 = L_0", false),
-          ],
-        );
-      case BriefFigure.rateTemperature:
-        return const _RuleList(
-          rules: [
-            (r"T > 20 \Rightarrow \text{bigger } k", true),
-            (r"L_0 \text{ does not move}", true),
-            (r"\theta^{(20-T)}", false),
-            (r"\text{warm water raises } L_0", false),
-          ],
-        );
-      case BriefFigure.overflow:
-        return const _RuleList(
-          rules: [
-            (r"v_s > v_o \Rightarrow \text{captured}", true),
-            (r"\text{deeper changes } \theta, \text{ not } v_o", true),
-            (r"\text{a deeper tank captures more}", false),
-            (r"v_o = \frac{Q}{V}", false),
-          ],
-        );
-      case BriefFigure.residence:
-        return const _RuleList(
-          rules: [
-            (r"\theta \text{ in hours}, \theta_c \text{ in days}", true),
-            (r"\text{more wasting} \Rightarrow \text{shorter } \theta_c", true),
-            (r"\theta_c = \frac{V}{Q}", false),
-            (r"\text{the effluent solids do not count}", false),
-          ],
-        );
-      case BriefFigure.foodRatio:
-        return const _RuleList(
-          rules: [
-            (
-              r"2Q \text{ and } \tfrac{S_0}{2} \Rightarrow \text{no change}",
-              true,
-            ),
-            (r"\text{more MLSS} \Rightarrow \text{lower } F{:}M", true),
-            (r"\text{a bigger basin raises } F{:}M", false),
-            (r"F{:}M = \frac{Q S_0}{V}", false),
-          ],
-        );
-      case BriefFigure.chlorineDose:
-        return const _RuleList(
-          rules: [
-            (r"\text{dose} = \text{demand} + \text{residual}", true),
-            (r"1 \text{ mg/L} = 1 \text{ g/m}^3", true),
-            (r"\text{dose} = \text{residual}", false),
-            (r"\text{the demand is set by the plant}", false),
-          ],
-        );
-      case BriefFigure.contactTime:
-        return const _RuleList(
-          rules: [
-            (r"CT = C \times t_{10}", true),
-            (r"t_{10} < \frac{V}{Q}", true),
-            (r"CT = \text{dose} \times \frac{V}{Q}", false),
-            (r"\text{baffles do not change } t_{10}", false),
-          ],
-        );
-      case BriefFigure.tiers:
-        return const _RuleList(
-          rules: [
-            (r"\text{arsenic: primary}", true),
-            (r"\text{iron: secondary}", true),
-            (r"\text{a small limit means primary}", false),
-            (r"\text{secondary limits are enforceable}", false),
-          ],
-        );
-      case BriefFigure.hardness:
-        return const _RuleList(
-          rules: [
-            (r"Ca \times 2.5, \; Mg \times 4.12", true),
-            (r"\text{convert, then add}", true),
-            (r"\text{add, then convert}", false),
-            (r"\text{one multiplier fits both}", false),
-          ],
-        );
-      case BriefFigure.efficiency:
-        return const _RuleList(
-          rules: [
-            (r"E = \frac{S_0 - S}{S_0}", true),
-            (r"\text{the flow cancels}", true),
-            (r"E = \frac{S}{S_0}", false),
-            (r"\text{more flow raises the required } E", false),
-          ],
-        );
-      case BriefFigure.determinacyCount:
-        return const _RuleList(
-          rules: [
-            (r"\text{a fixed support is } r = 3", true),
-            (r"\text{each hinge adds one to } c", true),
-            (r"\text{a triangle is always a truss}", false),
-            (r"\text{a fixed support is } r = 2", false),
-          ],
-        );
-      case BriefFigure.stability:
-        return const _RuleList(
-          rules: [
-            (r"\text{parallel reactions} \Rightarrow \text{unstable}", true),
-            (r"\text{indeterminate can still be unstable}", true),
-            (r"m + r = 2j \Rightarrow \text{stable}", false),
-            (r"\text{more reactions always help}", false),
-          ],
-        );
-      case BriefFigure.momentCenter:
-        return const _RuleList(
-          rules: [
-            (r"\text{pivot where the unwanted two cross}", true),
-            (r"\text{parallel chords: use } \sum F_y", true),
-            (r"\text{one pivot suits every member}", false),
-            (r"\text{the pivot must be a joint you kept}", false),
-          ],
-        );
-      case BriefFigure.jointForce:
-        return const _RuleList(
-          rules: [
-            (r"F = \frac{P}{\sin\theta} > P", true),
-            (r"3\text{-}4\text{-}5: \; \sin = 0.6", true),
-            (r"F < P \text{ for a steep member}", false),
-            (r"F = P\sin\theta", false),
-          ],
-        );
-      case BriefFigure.trussRoute:
-        return const _RuleList(
-          rules: [
-            (r"\text{one deep member} \Rightarrow \text{sections}", true),
-            (r"\text{reactions before either}", true),
-            (r"\text{sections for a whole joint}", false),
-            (r"\text{joints is always quicker}", false),
-          ],
-        );
-      case BriefFigure.unitLoad:
-        return const _RuleList(
-          rules: [
-            (r"\text{a rotation wants a unit MOMENT}", true),
-            (r"\text{the unit load acts alone}", true),
-            (r"\text{put it where the real load is}", false),
-            (r"\text{one unit load suits every question}", false),
-          ],
-        );
-      case BriefFigure.termSign:
-        return const _RuleList(
-          rules: [
-            (r"n = 0 \Rightarrow \text{the term is gone}", true),
-            (r"\text{two compressions} \Rightarrow nN > 0", true),
-            (r"\text{a big } N \text{ always counts}", false),
-            (r"\delta < 0 \Rightarrow \text{a sign error}", false),
-          ],
-        );
-      case BriefFigure.redundant:
-        return const _RuleList(
-          rules: [
-            (r"\text{a released force} \Rightarrow \delta = 0", true),
-            (r"\text{a released moment} \Rightarrow \theta = 0", true),
-            (r"\text{only one release will do}", false),
-            (r"\text{releasing makes it a mechanism}", false),
-          ],
-        );
-      case BriefFigure.fixity:
-        return const _RuleList(
-          rules: [
-            (r"R_{prop} = \frac{3wL}{8} < \frac{wL}{2}", true),
-            (r"\text{symmetric: still } \frac{wL}{2} \text{ each end}", true),
-            (r"M_{end} = \frac{wL^2}{8}", false),
-            (r"\text{fixity raises the midspan moment}", false),
-          ],
-        );
-      case BriefFigure.lrfd:
-        return const _RuleList(
-          rules: [
-            (r"\text{LRFD: } 1.2D + 1.6L \le \phi R_n", true),
-            (r"\text{ASD: } D + L \le R_n/\Omega", true),
-            (r"\text{ASD: } 1.6L \le R_n/\Omega", false),
-            (r"\text{ASD is no longer allowed}", false),
-          ],
-        );
-      case BriefFigure.controls:
-        return const _RuleList(
-          rules: [
-            (r"\text{floor live biggest} \Rightarrow \text{combo 2}", true),
-            (r"\text{roof load biggest} \Rightarrow \text{combo 3}", true),
-            (r"\text{combo 2 always controls}", false),
-            (r"\text{combo 2 drops the snow}", false),
-          ],
-        );
-      case BriefFigure.reduction:
-        return const _RuleList(
-          rules: [
-            (r"\text{bigger } A_T \Rightarrow \text{bigger reduction}", true),
-            (r"K_{LL} = 4 \text{ for a column}", true),
-            (r"\text{dead load reduces too}", false),
-            (r"L \text{ may fall below } 0.5 L_o \text{ on one floor}", false),
-          ],
-        );
-      case BriefFigure.influenceRead:
-        return const _RuleList(
-          rules: [
-            (r"\text{across: where the load stands}", true),
-            (r"R = \sum P_i \eta_i", true),
-            (r"\text{it is the moment diagram}", false),
-            (r"\text{the height is the moment under the load}", false),
-          ],
-        );
-      case BriefFigure.influenceShapes:
-        return const _RuleList(
-          rules: [
-            (r"\text{a step of } 1 \Rightarrow \text{shear}", true),
-            (r"\eta_{peak} = \frac{a(L-a)}{L}", true),
-            (r"\text{the moment peak is at midspan}", false),
-            (r"\text{a reaction line is a triangle}", false),
-          ],
-        );
-      case BriefFigure.influencePlace:
-        return const _RuleList(
-          rules: [
-            (r"\text{the heaviest load on the peak}", true),
-            (r"\text{shear: just right of the section}", true),
-            (r"\text{straddle the peak evenly}", false),
-            (r"\text{a spread load covers the whole span}", false),
-          ],
-        );
-      case BriefFigure.effectiveDepth:
-        return const _RuleList(
-          rules: [
-            (r"d = h - \text{cover} - \text{stirrup} - d_b/2", true),
-            (r"\text{the arm is } d - a/2", true),
-            (r"d = h", false),
-            (r"\text{the arm is } d", false),
-          ],
-        );
-      case BriefFigure.stirrupLadder:
-        return const _RuleList(
-          rules: [
-            (r"V_u \le \phi V_c / 2 \Rightarrow \text{none}", true),
-            (r"V_s > 4V_c \Rightarrow \text{enlarge}", true),
-            (r"V_s = V_u - V_c", false),
-            (r"\text{tighter spacing always works}", false),
-          ],
-        );
-      case BriefFigure.phiFactors:
-        return const _RuleList(
-          rules: [
-            (r"\text{bending } 0.90, \text{ shear } 0.75", true),
-            (r"M_n \text{ carries no } \phi", true),
-            (r"\phi = 0.90 \text{ for shear}", false),
-            (r"\text{loads and capacity both go up}", false),
-          ],
-        );
-      case BriefFigure.columnFactors:
-        return const _RuleList(
-          rules: [
-            (r"\text{tied: } 0.80 \text{ and } \phi = 0.65", true),
-            (r"\text{spiral: } 0.85 \text{ and } \phi = 0.75", true),
-            (r"\text{beams get the } 0.80 \text{ too}", false),
-            (r"0.80 \text{ is the resistance factor}", false),
-          ],
-        );
-      case BriefFigure.steelWindow:
-        return const _RuleList(
-          rules: [
-            (r"0.01 \le \rho_g \le 0.08", true),
-            (r"\rho_g = 0.01 \text{ is allowed}", true),
-            (r"\rho_g = 0.009 \text{ is close enough}", false),
-            (r"\text{more steel is always safer}", false),
-          ],
-        );
-      case BriefFigure.bracing:
-        return const _RuleList(
-          rules: [
-            (r"L_b \le L_p \Rightarrow M_n = M_p", true),
-            (r"\text{a slab on top} \Rightarrow L_b = 0", true),
-            (r"\text{closer braces always add capacity}", false),
-            (r"L_p \text{ is the same for every shape}", false),
-          ],
-        );
-      case BriefFigure.moduli:
-        return const _RuleList(
-          rules: [
-            (r"M_p = F_y Z_x \text{ in both methods}", true),
-            (r"Z_x > S_x", true),
-            (r"S_x \text{ is the one for ASD}", false),
-            (r"Z_x \text{ appears in the buckling term}", false),
-          ],
-        );
-      case BriefFigure.flanges:
-        return const _RuleList(
-          rules: [
-            (r"\text{hogging: the BOTTOM flange buckles}", true),
-            (r"V_n = 0.6 F_y A_w", true),
-            (r"\text{the top flange is always the one}", false),
-            (r"\text{the flanges carry the shear}", false),
-          ],
-        );
-      case BriefFigure.whichAxis:
-        return const _RuleList(
-          rules: [
-            (r"\text{the larger } KL/r \text{ wins}", true),
-            (r"\text{a brace shortens one axis only}", true),
-            (r"\text{the weak axis always controls}", false),
-            (r"\text{more bracing always helps}", false),
-          ],
-        );
-      case BriefFigure.columnTable:
-        return const _RuleList(
-          rules: [
-            (r"\phi_c P_n = (\phi_c F_{cr}) A_g", true),
-            (r"\text{elastic buckling ignores } F_y", true),
-            (r"\text{multiply the table value by } 0.90", false),
-            (r"F_y A_g \text{ is the design strength}", false),
-          ],
-        );
-      case BriefFigure.twoLimits:
-        return const _RuleList(
-          rules: [
-            (r"\text{yielding: } 0.90 F_y A_g", true),
-            (r"\text{rupture: } 0.75 F_u A_e", true),
-            (r"F_u > F_y \Rightarrow \text{yielding controls}", false),
-            (r"\text{holes reduce } A_g", false),
-          ],
-        );
-      case BriefFigure.netArea:
-        return const _RuleList(
-          rules: [
-            (r"\text{each hole costs } d_b + \tfrac{1}{8}", true),
-            (r"\text{it comes off the width}", true),
-            (r"\text{bolts in a row all come off one cut}", false),
-            (r"\text{the bolt fills the hole}", false),
-          ],
-        );
-      case BriefFigure.shearLag:
-        return const _RuleList(
-          rules: [
-            (r"A_e = U A_n", true),
-            (r"\text{a longer connection raises } U", true),
-            (r"U \text{ applies to yielding too}", false),
-            (r"\text{an angle on one leg has } U = 1", false),
-          ],
-        );
-      case BriefFigure.phaseDiagram:
-        return const _RuleList(
-          rules: [
-            (r"e = \frac{V_v}{V_s} \text{ can pass } 1", true),
-            (r"\omega \text{ is a ratio of WEIGHTS}", true),
-            (r"n \text{ and } e \text{ are the same thing}", false),
-            (r"S = \frac{V_w}{V}", false),
-          ],
-        );
-      case BriefFigure.masterRelation:
-        return const _RuleList(
-          rules: [
-            (r"S e = \omega G_s", true),
-            (r"S = 1 \Rightarrow e = \omega G_s", true),
-            (r"e = \omega G_s \text{ always}", false),
-            (r"\omega = 20 \text{ goes straight in}", false),
-          ],
-        );
-      case BriefFigure.unitWeights:
-        return const _RuleList(
-          rules: [
-            (r"\gamma_{sat} > \gamma > \gamma_d", true),
-            (r"\gamma' = \gamma_{sat} - \gamma_w", true),
-            (r"\gamma_d \text{ uses a shrunken volume}", false),
-            (r"\text{use } \gamma \text{ below the water table}", false),
-          ],
-        );
-      case BriefFigure.uscsTree:
-        return const _RuleList(
-          rules: [
-            (r"\text{No. 200 decides coarse or fine}", true),
-            (r"\text{a gravel needs only } C_u \ge 4", true),
-            (r"\text{fines go on the grain size curve}", false),
-            (r"\text{half retained is coarse}", false),
-          ],
-        );
-      case BriefFigure.plasticityChart:
-        return const _RuleList(
-          rules: [
-            (r"\text{above the A-line} \Rightarrow \text{clay}", true),
-            (r"LL \ge 50 \Rightarrow H", true),
-            (r"\text{high } LL \Rightarrow \text{clay}", false),
-            (r"\text{below the A-line} \Rightarrow CL", false),
-          ],
-        );
-      case BriefFigure.gradation:
-        return const _RuleList(
-          rules: [
-            (r"\text{both } C_u \text{ and } C_c \text{ must pass}", true),
-            (r"1 \le C_c \le 3", true),
-            (r"\text{a big } C_u \text{ is enough}", false),
-            (r"C_u \ge 6 \text{ for every soil}", false),
-          ],
-        );
-      case BriefFigure.threeStresses:
-        return const _RuleList(
-          rules: [
-            (r"\sigma' = \sigma - u", true),
-            (r"u = 0 \text{ above the water table}", true),
-            (r"u \text{ is measured from the surface}", false),
-            (r"\text{a surcharge raises } u", false),
-          ],
-        );
-      case BriefFigure.waterTable:
-        return const _RuleList(
-          rules: [
-            (r"\text{pump it down} \Rightarrow \sigma' \uparrow", true),
-            (r"\text{standing water changes nothing}", true),
-            (r"\text{a rising table raises } \sigma'", false),
-            (r"\text{a surcharge raises } u \text{ for good}", false),
-          ],
-        );
-      case BriefFigure.buoyantWalk:
-        return const _RuleList(
-          rules: [
-            (r"\text{below the table use } \gamma'", true),
-            (r"\text{both routes agree exactly}", true),
-            (r"\text{buoy the layer above the table}", false),
-            (r"\text{a surcharge is buoyed too}", false),
-          ],
-        );
-      case BriefFigure.settlementCase:
-        return const _RuleList(
-          rules: [
-            (r"p_1 < p_c \Rightarrow C_r \text{ alone}", true),
-            (r"p_0 < p_c < p_1 \Rightarrow \text{both, in two}", true),
-            (r"\text{one index always does}", false),
-            (r"p_c \text{ is the current stress}", false),
-          ],
-        );
-      case BriefFigure.clayMemory:
-        return const _RuleList(
-          rules: [
-            (r"C_r \approx C_c/6", true),
-            (r"\text{the corner is } p_c", true),
-            (r"\text{the curve has one slope}", false),
-            (r"\text{a load alone gives the settlement}", false),
-          ],
-        );
-      case BriefFigure.drainagePath:
-        return const _RuleList(
-          rules: [
-            (r"t \propto H_{dr}^2", true),
-            (
-              r"\text{one rock face} \Rightarrow 4\times \text{ the wait}",
-              true,
-            ),
-            (r"\text{a bigger load settles slower}", false),
-            (r"H_{dr} = H \text{ when both faces drain}", false),
-          ],
-        );
-      case BriefFigure.mohrCoulomb:
-        return const _RuleList(
-          rules: [
-            (r"\text{a sand: } c' = 0", true),
-            (r"\text{a fast-loaded clay: } \phi_u = 0", true),
-            (r"\text{a sand is strong at the surface}", false),
-            (r"\text{pressing a fast clay harder helps}", false),
-          ],
-        );
-      case BriefFigure.drainage:
-        return const _RuleList(
-          rules: [
-            (r"c_u, \phi_u \text{ go with } \sigma", true),
-            (r"\text{long term} \Rightarrow \text{effective}", true),
-            (r"\phi' \text{ with a total stress}", false),
-            (r"\text{a clay is weakest in the long run}", false),
-          ],
-        );
-      case BriefFigure.soilCircle:
-        return const _RuleList(
-          rules: [
-            (r"c_u = \frac{\sigma_1-\sigma_3}{2}", true),
-            (r"\sin\phi = t/s \text{ when } c = 0", true),
-            (r"c_u = \sigma_1 - \sigma_3", false),
-            (r"\tan\phi = t/s", false),
-          ],
-        );
-      case BriefFigure.flowNet:
-        return const _RuleList(
-          rules: [
-            (r"q = k H \frac{N_f}{N_d}", true),
-            (r"\text{a channel is a lane, not a line}", true),
-            (r"q = k H \frac{N_d}{N_f}", false),
-            (r"\text{a more permeable soil changes the net}", false),
-          ],
-        );
-      case BriefFigure.quickCondition:
-        return const _RuleList(
-          rules: [
-            (r"i_c = \frac{G_s - 1}{1 + e}", true),
-            (r"\text{looser sand boils sooner}", true),
-            (r"i_c = 1 \text{ exactly}", false),
-            (r"\text{raise the upstream water to help}", false),
-          ],
-        );
-      case BriefFigure.infiniteSlope:
-        return const _RuleList(
-          rules: [
-            (r"FS = \tan\phi / \tan\beta", true),
-            (r"\text{depth cancels out}", true),
-            (r"\text{a deeper slope is less safe}", false),
-            (r"FS = \tan\beta / \tan\phi", false),
-          ],
-        );
-      case BriefFigure.slopeSeepage:
-        return const _RuleList(
-          rules: [
-            (r"\text{seepage} \Rightarrow FS \text{ about halved}", true),
-            (r"\gamma'/\gamma_{sat} \approx 0.5", true),
-            (r"\text{rain weakens the grains}", false),
-            (r"\text{a dry } FS = 1.1 \text{ is enough}", false),
-          ],
-        );
-      case BriefFigure.slipWedge:
-        return const _RuleList(
-          rules: [
-            (r"W\sin\alpha \text{ drives}, \; W\cos\alpha \text{ holds}", true),
-            (r"cL_s \text{ owes nothing to } W", true),
-            (r"\text{cohesion is a small term}", false),
-            (r"FS = \text{driving}/\text{resisting}", false),
-          ],
-        );
-      case BriefFigure.threeTerms:
-        return const _RuleList(
-          rules: [
-            (r"\text{on the surface: no depth term}", true),
-            (r"\phi = 0 \Rightarrow N_\gamma = 0", true),
-            (r"\text{a clean sand has a cohesion term}", false),
-            (r"\text{the factors must be memorized}", false),
-          ],
-        );
-      case BriefFigure.footingFix:
-        return const _RuleList(
-          rules: [
-            (r"\text{on sand, deeper beats wider}", true),
-            (r"\text{on clay, wider buys no pressure}", true),
-            (r"\text{widening always helps the soil}", false),
-            (r"\text{the water table does not matter}", false),
-          ],
-        );
-      case BriefFigure.allowablePressure:
-        return const _RuleList(
-          rules: [
-            (r"q_{allow} = q_{ult}/FS", true),
-            (r"\text{compare pressure with pressure}", true),
-            (r"\text{divide the load by } FS", false),
-            (r"\text{bearing covers settlement}", false),
-          ],
-        );
-      case BriefFigure.threeChecks:
-        return const _RuleList(
-          rules: [
-            (r"\text{overturning: moments about the toe}", true),
-            (r"\text{sliding: forces along the base}", true),
-            (r"\text{one good check covers another}", false),
-            (r"FS = M_O / \Sigma M_R", false),
-          ],
-        );
-      case BriefFigure.middleThird:
-        return const _RuleList(
-          rules: [
-            (r"\bar{x} = (\Sigma M_R - M_O)/\Sigma V", true),
-            (r"e = B/2 - \bar{x}", true),
-            (r"e = \bar{x}", false),
-            (r"\text{the middle third means } e \leq B/3", false),
-          ],
-        );
-      case BriefFigure.basePressure:
-        return const _RuleList(
-          rules: [
-            (r"e = 0 \Rightarrow q = \Sigma V / B", true),
-            (r"q_{toe} > \Sigma V/B > q_{heel}", true),
-            (r"q = \Sigma V / B \text{ always}", false),
-            (r"\text{the heel takes the most}", false),
-          ],
-        );
-      case BriefFigure.proctor:
-        return const _RuleList(
-          rules: [
-            (r"RC = \gamma_{d,field} / \gamma_{d,max}", true),
-            (r"\text{past the optimum, water loosens it}", true),
-            (r"\text{wetter is always denser}", false),
-            (r"RC = \gamma_{d,max} / \gamma_{d,field}", false),
-          ],
-        );
-      case BriefFigure.relativeDensity:
-        return const _RuleList(
-          rules: [
-            (r"D_r = (e_{max} - e)/(e_{max} - e_{min})", true),
-            (r"\text{low } e \Rightarrow \text{high } D_r", true),
-            (r"D_r = (e - e_{min})/(e_{max} - e_{min})", false),
-            (r"\text{clays get a relative density}", false),
-          ],
-        );
-      case BriefFigure.stabilizer:
-        return const _RuleList(
-          rules: [
-            (r"\text{plastic clay: lime}", true),
-            (r"\text{granular soil: cement}", true),
-            (r"\text{cement suits every soil}", false),
-            (r"\text{water improves a swelling clay}", false),
-          ],
-        );
-      case BriefFigure.pileCapacity:
-        return const _RuleList(
-          rules: [
-            (r"Q_{ult} = q_p A_p + f_s A_s", true),
-            (r"\text{on rock: mostly the tip}", true),
-            (r"Q_{ult} = q_p A_s", false),
-            (r"\text{the tip is always the larger part}", false),
-          ],
-        );
-      case BriefFigure.goingDeep:
-        return const _RuleList(
-          rules: [
-            (r"\text{deep to get past a settling layer}", true),
-            (r"\text{a group in clay: efficiency} < 1", true),
-            (r"\text{piles are chosen to save money}", false),
-            (r"\text{a group settles like one pile}", false),
-          ],
-        );
-      case BriefFigure.downdrag:
-        return const _RuleList(
-          rules: [
-            (r"\text{soil settling past it: a load}", true),
-            (r"\text{direction follows relative movement}", true),
-            (r"\text{downdrag adds capacity}", false),
-            (r"\text{friction is always a resistance}", false),
-          ],
-        );
-      case BriefFigure.sightDistance:
-        return const _RuleList(
-          rules: [
-            (r"SSD = 1.47Vt + \text{braking}", true),
-            (r"\text{braking grows as } V^2", true),
-            (r"SSD = \text{braking alone}", false),
-            (r"\text{both halves grow alike}", false),
-          ],
-        );
-      case BriefFigure.gradeSign:
-        return const _RuleList(
-          rules: [
-            (r"\text{uphill } +G: \text{ shorter}", true),
-            (r"\text{downhill } -G: \text{ longer}", true),
-            (r"\text{downhill is easier to stop on}", false),
-            (r"\text{the grade changes the thinking part}", false),
-          ],
-        );
-      case BriefFigure.peakHour:
-        return const _RuleList(
-          rules: [
-            (r"\text{flow rate} = 4V_{15} \geq V", true),
-            (r"0.25 \leq PHF \leq 1.00", true),
-            (r"\text{flow rate} = V \times PHF", false),
-            (r"\text{a low } PHF \text{ needs less capacity}", false),
-          ],
-        );
-      case BriefFigure.crestSag:
-        return const _RuleList(
-          rules: [
-            (r"\text{crest: divide by } 2{,}158", true),
-            (r"\text{sag: divide by } 400 + 3.5S", true),
-            (r"\text{a sag is set by daylight sight}", false),
-            (r"\text{the two denominators swap freely}", false),
-          ],
-        );
-      case BriefFigure.gradeBreak:
-        return const _RuleList(
-          rules: [
-            (r"+3 \text{ into } -5 \Rightarrow A = 8", true),
-            (r"g_2 < g_1 \Rightarrow \text{a crest}", true),
-            (r"+3 \text{ into } -5 \Rightarrow A = 2", false),
-            (r"\text{a negative } g_2 \text{ means a sag}", false),
-          ],
-        );
-      case BriefFigure.superelevation:
-        return const _RuleList(
-          rules: [
-            (r"0.01e = V^2/(15R) - f", true),
-            (r"2V \Rightarrow 4\times \text{ the demand}", true),
-            (r"0.01e = V^2/(15R) + f", false),
-            (r"e \text{ is quoted as a decimal}", false),
-          ],
-        );
-      case BriefFigure.yellowInterval:
-        return const _RuleList(
-          rules: [
-            (r"y = t + v/(2a)", true),
-            (r"v \text{ in feet per second}", true),
-            (r"y = t + v/a", false),
-            (r"v \text{ in miles per hour}", false),
-          ],
-        );
-      case BriefFigure.allRed:
-        return const _RuleList(
-          rules: [
-            (r"r = (W + l)/v", true),
-            (r"\text{the back bumper clears it}", true),
-            (r"r = W/v", false),
-            (r"r = v/(W + l)", false),
-          ],
-        );
-      case BriefFigure.pedestrianGreen:
-        return const _RuleList(
-          rules: [
-            (r"G_p = 3.2 + L/S_p + 0.27N", true),
-            (r"S_p = 3.5 \text{ ft/s}", true),
-            (r"G_p = 3.2 + L/S_p", false),
-            (r"S_p = 4.0 \text{ ft/s}", false),
-          ],
-        );
-      case BriefFigure.greenshields:
-        return const _RuleList(
-          rules: [
-            (r"V_m = D_j S_f / 4", true),
-            (r"D_o = D_j/2, \; S_o = S_f/2", true),
-            (r"V_m = D_j S_f", false),
-            (r"\text{max flow is a comfortable road}", false),
-          ],
-        );
-      case BriefFigure.speedDensity:
-        return const _RuleList(
-          rules: [
-            (r"S = S_f - (S_f/D_j)D", true),
-            (r"S \leq S_f \text{ always}", true),
-            (r"S = (S_f/D_j)D", false),
-            (r"S = S_f/2 \text{ at any density}", false),
-          ],
-        );
-      case BriefFigure.crashRate:
-        return const _RuleList(
-          rules: [
-            (r"RMEV = A \times 10^6 / (ADT \times 365)", true),
-            (r"\text{a segment carries its length}", true),
-            (r"RMEV = A \times 10^6 / ADT", false),
-            (r"\text{more crashes means more dangerous}", false),
-          ],
-        );
-      case BriefFigure.heavyVehicle:
-        return const _RuleList(
-          rules: [
-            (r"f_{HV} = 1/(1 + P_T(E_T - 1))", true),
-            (r"0 < f_{HV} \leq 1", true),
-            (r"f_{HV} > 1 \text{ with few trucks}", false),
-            (r"\text{multiply the volume by } f_{HV}", false),
-          ],
-        );
-      case BriefFigure.demandFlow:
-        return const _RuleList(
-          rules: [
-            (r"v_p = V/(PHF \cdot N \cdot f_{HV})", true),
-            (r"\text{per lane, in passenger cars}", true),
-            (r"v_p = V/(N \cdot f_{HV})", false),
-            (r"v_p = V \cdot PHF / N", false),
-          ],
-        );
-      case BriefFigure.levelOfService:
-        return const _RuleList(
-          rules: [
-            (r"D = v_p / S", true),
-            (r"\text{the letter follows the density}", true),
-            (r"\text{the letter follows the volume}", false),
-            (r"D = v_p \times S", false),
-          ],
-        );
-      case BriefFigure.fourStep:
-        return const _RuleList(
-          rules: [
-            (r"\text{generation, then distribution}", true),
-            (r"\text{the gravity model is step two}", true),
-            (r"\text{assignment comes first}", false),
-            (r"\text{mode choice sets the trip count}", false),
-          ],
-        );
-      case BriefFigure.gravity:
-        return const _RuleList(
-          rules: [
-            (r"T_{ij} = P_i \cdot \tfrac{A_j F_{ij}}{\sum_j A_j F_{ij}}", true),
-            (r"\textstyle\sum_j T_{ij} = P_i", true),
-            (r"T_{ij} = P_i A_j F_{ij}", false),
-            (r"\text{split by attractions alone}", false),
-          ],
-        );
-      case BriefFigure.friction:
-        return const _RuleList(
-          rules: [
-            (r"\text{longer trip} \Rightarrow F \text{ falls}", true),
-            (r"\text{a big zone can beat a far one}", true),
-            (r"\text{longer trip} \Rightarrow F \text{ rises}", false),
-            (r"\text{a faster road makes new trips}", false),
-          ],
-        );
-      case BriefFigure.signCategory:
-        return const _RuleList(
-          rules: [
-            (r"\text{yellow diamond: warning}", true),
-            (r"\text{red octagon: regulatory}", true),
-            (r"\text{green: regulatory}", false),
-            (r"\text{a warning sign sets a legal speed}", false),
-          ],
-        );
-      case BriefFigure.signalWarrant:
-        return const _RuleList(
-          rules: [
-            (r"\text{a warrant comes before a signal}", true),
-            (r"\text{a met warrant justifies, not requires}", true),
-            (r"\text{a signal is always an improvement}", false),
-            (r"\text{only volumes can meet a warrant}", false),
-          ],
-        );
-      case BriefFigure.structuralNumber:
-        return const _RuleList(
-          rules: [
-            (r"SN = \textstyle\sum a_i D_i m_i", true),
-            (r"1 \text{ in asphalt} \approx 3 \text{ in base}", true),
-            (r"m = 1 \text{ for every course}", false),
-            (r"SN \text{ is a thickness}", false),
-          ],
-        );
-      case BriefFigure.layerThickness:
-        return const _RuleList(
-          rules: [
-            (r"D_2 = (SN - \text{the rest})/(a_2 m_2)", true),
-            (r"\text{poor drainage} \Rightarrow \text{thicker base}", true),
-            (r"D_2 = SN/(a_2 m_2)", false),
-            (r"\text{a negative } D_2 \text{ is an error}", false),
-          ],
-        );
-      case BriefFigure.esal:
-        return const _RuleList(
-          rules: [
-            (r"\text{ESALs} = \text{passes} \times LEF", true),
-            (r"\text{damage climbs faster than load}", true),
-            (r"\text{every axle counts alike}", false),
-            (r"LEF \text{ is the weight ratio}", false),
-          ],
-        );
-      case BriefFigure.rigidVsFlexible:
-        return const _RuleList(
-          rules: [
-            (r"\text{a slab bends and spreads the load}", true),
-            (r"\text{rigid minds the subgrade less}", true),
-            (r"\text{rigid is designed on } SN", false),
-            (r"\text{flexible bridges a soft spot}", false),
-          ],
-        );
-      case BriefFigure.pavementJoint:
-        return const _RuleList(
-          rules: [
-            (r"\text{dowel: transfers load, lets it move}", true),
-            (r"\text{tie bar: holds the joint shut}", true),
-            (r"\text{a dowel ties the slabs together}", false),
-            (r"\text{joints are cut to save concrete}", false),
-          ],
-        );
-      case BriefFigure.subgradeReaction:
-        return const _RuleList(
-          rules: [
-            (r"k = \text{pressure} / \text{deflection}", true),
-            (r"\text{higher } k \Rightarrow \text{less movement}", true),
-            (r"k \text{ is a bearing capacity}", false),
-            (r"\text{higher } k \Rightarrow \text{more movement}", false),
-          ],
-        );
-      case BriefFigure.forwardPass:
-        return const _RuleList(
-          rules: [
-            (r"EF = ES + D", true),
-            (r"ES = \max(EF \text{ of predecessors})", true),
-            (r"ES = \min(EF \text{ of predecessors})", false),
-            (r"\text{durations in series multiply}", false),
-          ],
-        );
-      case BriefFigure.projectDuration:
-        return const _RuleList(
-          rules: [
-            (r"\text{duration} = \text{the longest path}", true),
-            (r"\text{off the path there is slack}", true),
-            (r"\text{duration} = \textstyle\sum D", false),
-            (r"\text{shortening any activity helps}", false),
-          ],
-        );
-      case BriefFigure.passes:
-        return const _RuleList(
-          rules: [
-            (r"\text{forward: } \max, \text{ backward: } \min", true),
-            (r"LS = LF - D", true),
-            (r"\text{backward runs first}", false),
-            (r"\text{a late start is the plan}", false),
-          ],
-        );
-      case BriefFigure.float:
-        return const _RuleList(
-          rules: [
-            (r"TF = LS - ES = LF - EF", true),
-            (r"FF \leq TF", true),
-            (r"TF = EF - ES", false),
-            (r"\text{each activity owns its total float}", false),
-          ],
-        );
-      case BriefFigure.criticalPath:
-        return const _RuleList(
-          rules: [
-            (r"\text{the longest path, } TF = 0", true),
-            (r"\text{two paths can be critical}", true),
-            (r"\text{the critical path is the shortest}", false),
-            (r"\text{a day lost off it delays the job}", false),
-          ],
-        );
-      case BriefFigure.earnedValue:
-        return const _RuleList(
-          rules: [
-            (r"CV = BCWP - ACWP", true),
-            (r"SV = BCWP - BCWS", true),
-            (r"CV = ACWP - BCWP", false),
-            (r"\text{a negative variance is good news}", false),
-          ],
-        );
-      case BriefFigure.forecast:
-        return const _RuleList(
-          rules: [
-            (r"CPI = BCWP / ACWP", true),
-            (r"EAC = ACWP + ETC", true),
-            (r"CPI = ACWP / BCWP", false),
-            (r"ETC = BAC - BCWP", false),
-          ],
-        );
-      case BriefFigure.excavation:
-        return const _RuleList(
-          rules: [
-            (r"\text{over } 5 \text{ ft: a protective system}", true),
-            (r"\text{over } 20 \text{ ft: designed by a PE}", true),
-            (r"\text{firm looking soil needs nothing}", false),
-            (r"\text{only shoring is acceptable}", false),
-          ],
-        );
-      case BriefFigure.fallProtection:
-        return const _RuleList(
-          rules: [
-            (r"6 \text{ ft in general construction}", true),
-            (r"15 \text{ ft for steel connectors}", true),
-            (r"10 \text{ ft in general construction}", false),
-            (r"\text{only a harness counts}", false),
-          ],
-        );
-      case BriefFigure.yards:
-        return const _RuleList(
-          rules: [
-            (r"1 \text{ yd}^3 = 27 \text{ ft}^3", true),
-            (r"\text{end areas} \geq \text{prismoidal, usually}", true),
-            (r"1 \text{ yd}^3 = 3 \text{ ft}^3", false),
-            (r"\text{the two methods always agree}", false),
-          ],
-        );
-      case BriefFigure.deliveryFit:
-        return const _RuleList(
-          rules: [
-            (r"\text{complete drawings: design, bid, build}", true),
-            (r"\text{a guaranteed maximum: manager at risk}", true),
-            (r"\text{design, bid, build can be fast-tracked}", false),
-            (r"\text{design-build keeps your own designer}", false),
-          ],
-        );
-      case BriefFigure.curveConversion:
-        return const _RuleList(
-          rules: [
-            (r"R = 5{,}729.58 / D", true),
-            (r"T = R\tan(I/2)", true),
-            (r"R = 5{,}729.58 \times D", false),
-            (r"T = R\tan I", false),
-          ],
-        );
-      case BriefFigure.cornerOffset:
-        return const _RuleList(
-          rules: [
-            (r"E = (g_2 - g_1)L/8", true),
-            (r"2L \Rightarrow 2E", true),
-            (r"E = (g_2 - g_1)L/4", false),
-            (r"\text{the break goes in as per cent}", false),
-          ],
-        );
-      case BriefFigure.stiffness:
-        return const _RuleList(
-          rules: [
-            (r"E = \sigma / \varepsilon", true),
-            (r"\text{stiffness is a slope}", true),
-            (r"\text{a stiff material is a strong one}", false),
-            (r"\varepsilon \text{ has units of mm}", false),
-          ],
-        );
-      case BriefFigure.filterRate:
-        return const _RuleList(
-          rules: [
-            (r"v = Q / A_{plan}", true),
-            (r"\text{rapid sand: } 2\text{ to }10 \text{ gpm/ft}^2", true),
-            (r"v = Q / L", false),
-            (r"\text{a clarifier range fits a filter}", false),
-          ],
-        );
-      case BriefFigure.rankine:
-        return const _RuleList(
-          rules: [
-            (r"K_a < K_0 < K_p", true),
-            (r"K_a K_p = 1", true),
-            (r"\text{a propped wall gets } K_a", false),
-            (r"\text{passive needs no movement}", false),
-          ],
-        );
-      case BriefFigure.pressureShape:
-        return const _RuleList(
-          rules: [
-            (r"\text{soil: a triangle, at } H/3", true),
-            (r"\text{surcharge: a rectangle, at } H/2", true),
-            (r"\text{a surcharge is triangular too}", false),
-            (r"\text{both act at the same height}", false),
-          ],
-        );
-      case BriefFigure.wallForce:
-        return const _RuleList(
-          rules: [
-            (r"P_a = \tfrac{1}{2}K_a\gamma H^2", true),
-            (r"2H \Rightarrow 4P, \; 8M", true),
-            (r"P_a = K_a \gamma H^2", false),
-            (r"2H \Rightarrow 2P", false),
-          ],
-        );
-      case BriefFigure.cogo:
-        return const _RuleList(
-          rules: [
-            (r"\text{one point and a course} \Rightarrow \text{forward}", true),
-            (r"\text{two points} \Rightarrow \text{inverse}", true),
-            (r"\text{forward needs two known points}", false),
-            (r"\text{an inverse is a field measurement}", false),
-          ],
-        );
-      case BriefFigure.pair:
-        return const _RuleList(
-          rules: [
-            (r"(E, N): \text{ across, then up}", true),
-            (r"\text{a swapped pair still computes}", true),
-            (r"(N, E) \text{ is the surveying order}", false),
-            (r"\text{a swapped pair will not close}", false),
-          ],
-        );
-      case BriefFigure.arctan:
-        return const _RuleList(
-          rules: [
-            (r"\Delta N < 0 \Rightarrow +180°", true),
-            (r"\Delta N > 0, \Delta E < 0 \Rightarrow +360°", true),
-            (r"\text{a negative answer is an azimuth}", false),
-            (r"\text{the arctangent knows the quadrant}", false),
-          ],
-        );
-      case BriefFigure.endArea:
-        return const _RuleList(
-          rules: [
-            (r"A_m = \tfrac{A_1+A_2}{2} \Rightarrow \text{they agree}", true),
-            (r"\text{a taper} \Rightarrow \text{end areas give more}", true),
-            (r"\text{the prismoid always gives more}", false),
-            (r"\text{end areas need a middle section}", false),
-          ],
-        );
-      case BriefFigure.stations:
-        return const _RuleList(
-          rules: [
-            (r"V = \Sigma \tfrac{L_i}{2}(A_i + A_{i+1})", true),
-            (r"1{+}00 = 100 \text{ ft}", true),
-            (r"\text{one sum end to end is the same}", false),
-            (r"\text{skipping always books too little}", false),
-          ],
-        );
-      case BriefFigure.solidShare:
-        return const _RuleList(
-          rules: [
-            (r"\text{to an edge} \Rightarrow \tfrac{1}{2}", true),
-            (r"\text{to a point} \Rightarrow \tfrac{1}{3}", true),
-            (r"\text{to a point} \Rightarrow \tfrac{1}{2}", false),
-            (r"\text{a cone differs from a pyramid}", false),
-          ],
-        );
-      case BriefFigure.method:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{straight sides, corners known} \Rightarrow \text{exact}",
-              true,
-            ),
-            (r"\text{odd offsets} \Rightarrow \text{Simpson fits}", true),
-            (r"\text{even offsets} \Rightarrow \text{Simpson fits}", false),
-            (r"\text{a curved boundary} \Rightarrow \text{coordinates}", false),
-          ],
-        );
-      case BriefFigure.weights:
-        return const _RuleList(
-          rules: [
-            (r"\text{trapezoidal: the two ends halved}", true),
-            (r"\text{Simpson: } 1, 4, 2, 4, 1", true),
-            (r"\text{trapezoidal: every offset halved}", false),
-            (r"\text{Simpson: the ends halved}", false),
-          ],
-        );
-      case BriefFigure.shoelace:
-        return const _RuleList(
-          rules: [
-            (r"\text{backwards is fine}", true),
-            (r"\text{the last corner pairs back to the first}", true),
-            (r"\text{a crossed listing gives the area}", false),
-            (r"\text{a corner left out will not close}", false),
-          ],
-        );
-      case BriefFigure.latDep:
-        return const _RuleList(
-          rules: [
-            (r"\text{Lat} = L\cos\theta", true),
-            (r"\text{south-west} \Rightarrow \text{both minus}", true),
-            (r"\text{Lat} = L\sin\theta", false),
-            (r"\text{every latitude is positive}", false),
-          ],
-        );
-      case BriefFigure.compass:
-        return const _RuleList(
-          rules: [
-            (r"\text{longest course, biggest share}", true),
-            (r"\text{the correction opposes the drift}", true),
-            (r"\text{an equal share for each course}", false),
-            (r"\text{all of it on the course that felt wrong}", false),
-          ],
-        );
-      case BriefFigure.precision:
-        return const _RuleList(
-          rules: [
-            (r"E = \sqrt{E_L^2 + E_D^2}", true),
-            (r"2E \text{ over } 2\Sigma L \Rightarrow \text{no change}", true),
-            (r"E = E_L + E_D", false),
-            (r"\text{the smaller gap is the better traverse}", false),
-          ],
-        );
-      case BriefFigure.sightLine:
-        return const _RuleList(
-          rules: [
-            (r"\text{the bigger reading is the lower point}", true),
-            (r"HI = \text{Elev} + BS", true),
-            (r"\text{the bigger reading is the higher point}", false),
-            (r"\text{the instrument must be above both}", false),
-          ],
-        );
-      case BriefFigure.runRoles:
-        return const _RuleList(
-          rules: [
-            (r"\text{a turning point is read twice}", true),
-            (r"\text{one backsight point, at the start}", true),
-            (r"\text{one } HI \text{ serves the whole run}", false),
-            (r"\text{a turning point is a foresight only}", false),
-          ],
-        );
-      case BriefFigure.closure:
-        return const _RuleList(
-          rules: [
-            (r"4M \Rightarrow 2 \times \text{ allowance}", true),
-            (r"\text{tighter work} \Rightarrow \text{smaller } C", true),
-            (r"4M \Rightarrow 4 \times \text{ allowance}", false),
-            (r"\text{longer always means more room}", false),
-          ],
-        );
-      case BriefFigure.bearing:
-        return const _RuleList(
-          rules: [
-            (r"\text{a bearing is never over } 90°", true),
-            (r"\text{the two letters pick the quadrant}", true),
-            (r"\text{the angle alone fixes the line}", false),
-            (r"\text{bearings run clockwise from north}", false),
-          ],
-        );
-      case BriefFigure.azimuth:
-        return const _RuleList(
-          rules: [
-            (r"\text{S } 45° \text{ W} \Rightarrow Az = 225°", true),
-            (r"\text{N } 68° \text{ W} \Rightarrow Az = 292°", true),
-            (r"\text{S } 45° \text{ W} \Rightarrow Az = 315°", false),
-            (r"\text{every quadrant subtracts}", false),
-          ],
-        );
-      case BriefFigure.shot:
-        return const _RuleList(
-          rules: [
-            (r"HD = SD\cos\alpha", true),
-            (r"SD \text{ is the longest of the three}", true),
-            (r"HD = SD/\cos\alpha", false),
-            (r"\text{the plan takes the slope length}", false),
-          ],
-        );
-      case BriefFigure.similitude:
-        return const _RuleList(
-          rules: [
-            (r"\text{free surface} \Rightarrow \text{Froude}", true),
-            (r"\text{no surface} \Rightarrow \text{Reynolds}", true),
-            (r"\text{match both at one scale}", false),
-            (r"\text{a wind tunnel needs Froude}", false),
-          ],
-        );
-      case BriefFigure.scaling:
-        return const _RuleList(
-          rules: [
-            (r"\text{Froude}, \tfrac{1}{25} \Rightarrow \tfrac{1}{5}v", true),
-            (r"\text{Reynolds}, \tfrac{1}{10} \Rightarrow 10v", true),
-            (r"\text{Reynolds always means faster}", false),
-            (r"\text{Froude}, \tfrac{1}{25} \Rightarrow \tfrac{1}{25}v", false),
-          ],
-        );
-      case BriefFigure.metering:
-        return const _RuleList(
-          rules: [
-            (r"\text{the area is the throat or the hole}", true),
-            (r"\text{the tappings say where the meter is}", true),
-            (r"\text{the area is the narrowest pipe drawn}", false),
-            (r"\text{meter on the squeezed jet, then apply } C", false),
-          ],
-        );
-      case BriefFigure.coefficient:
-        return const _RuleList(
-          rules: [
-            (r"\text{no } C \Rightarrow \text{the answer is too big}", true),
-            (
-              r"\text{level meter} \Rightarrow z_1 - z_2 \text{ changes nothing}",
-              true,
-            ),
-            (r"C > 1 \text{ for a good venturi}", false),
-            (r"\text{kPa left as kPa} \Rightarrow \text{too big}", false),
-          ],
-        );
-      case BriefFigure.deflection:
-        return const _RuleList(
-          rules: [
-            (r"\text{flat plate} \Rightarrow F = \rho A v^2", true),
-            (r"\text{turned right back} \Rightarrow 2\rho A v^2", true),
-            (r"\text{straight through} \Rightarrow \text{a push}", false),
-            (r"2v \Rightarrow 2F", false),
-          ],
-        );
-      case BriefFigure.thrust:
-        return const _RuleList(
-          rules: [
-            (r"\text{a bend needs holding}", true),
-            (r"\text{a dead end needs holding}", true),
-            (r"\text{high pressure alone needs holding}", false),
-            (r"\text{a longer straight needs holding}", false),
-          ],
-        );
-      case BriefFigure.block:
-        return const _RuleList(
-          rules: [
-            (r"F \propto \hat{u}_{in} - \hat{u}_{out}", true),
-            (r"F_R = F_x\sqrt{2} \text{ at a square bend}", true),
-            (r"\text{the push runs along the outlet leg}", false),
-            (r"F_R = 2F_x \text{ at a square bend}", false),
-          ],
-        );
-      case BriefFigure.minor:
-        return const _RuleList(
-          rules: [
-            (r"h_{total} = h_f + \Sigma C \frac{v^2}{2g}", true),
-            (r"\text{one } v^2/2g \text{ for every fitting}", true),
-            (r"\text{minor losses are always small}", false),
-            (r"\text{each fitting gets its own } v", false),
-          ],
-        );
-      case BriefFigure.damping:
-        return const _RuleList(
-          rules: [
-            (r"\zeta = 1 \text{ is back fastest, no swing}", true),
-            (r"\zeta = 0 \text{ swings and never shrinks}", true),
-            (r"\zeta > 1 \text{ is quicker still}", false),
-            (r"\text{real structures are near } \zeta = 1", false),
-          ],
-        );
-      case BriefFigure.impact:
-        return const _RuleList(
-          rules: [
-            (r"\text{stuck together} \Rightarrow e = 0", true),
-            (r"e \text{ between} \Rightarrow \text{two equations}", true),
-            (r"\text{stuck together} \Rightarrow e = 1", false),
-            (r"\text{momentum alone is always enough}", false),
-          ],
-        );
-      case BriefFigure.survives:
-        return const _RuleList(
-          rules: [
-            (r"\text{momentum survives every collision}", true),
-            (r"\text{energy survives only } e = 1", true),
-            (r"\text{energy survives a plastic crash}", false),
-            (r"\text{one body keeps its own momentum}", false),
-          ],
-        );
-      case BriefFigure.impulse:
-        return const _RuleList(
-          rules: [
-            (r"F\,\Delta t = m\,\Delta v \text{, the area}", true),
-            (r"\text{twice as long} \Rightarrow \text{half as hard}", true),
-            (r"\text{a longer stop is a harder one}", false),
-            (r"F\,\Delta t \text{ is a force}", false),
-          ],
-        );
-      case BriefFigure.ledger:
-        return const _RuleList(
-          rules: [
-            (r"\text{a spring stores and gives back}", true),
-            (r"\text{friction takes and never returns}", true),
-            (r"\text{energy is always conserved}", false),
-            (r"\text{a spring is a loss}", false),
-          ],
-        );
-      case BriefFigure.cancel:
-        return const _RuleList(
-          rules: [
-            (r"v = \sqrt{2gh} \text{, whatever the mass}", true),
-            (r"\text{a light block leaves a spring faster}", true),
-            (r"\text{mass always cancels}", false),
-            (r"\text{the heavy one always wins}", false),
-          ],
-        );
-      case BriefFigure.power:
-        return const _RuleList(
-          rules: [
-            (r"P_{in} = \frac{P_{out}}{\eta} > P_{out}", true),
-            (r"P = Fv \text{ at a steady speed}", true),
-            (r"P_{in} = P_{out}\,\eta", false),
-            (r"\text{the useful power is the bigger one}", false),
-          ],
-        );
-      case BriefFigure.weight:
-        return const _RuleList(
-          rules: [
-            (r"\text{newtons and pounds are FORCE}", true),
-            (r"m = \frac{W}{g} \text{, when given a weight}", true),
-            (r"\text{kilograms can go straight in as a force}", false),
-            (r"\text{convert every number you are given}", false),
-          ],
-        );
-      case BriefFigure.slope:
-        return const _RuleList(
-          rules: [
-            (r"\text{down the slope: } W\sin\theta", true),
-            (r"a = g\sin\theta \text{, whatever the mass}", true),
-            (r"\text{the driving piece is } W\cos\theta", false),
-            (r"\text{gravity pulls along the slope}", false),
-          ],
-        );
-      case BriefFigure.twoEquations:
-        return const _RuleList(
-          rules: [
-            (r"\text{an axle} \Rightarrow \text{moments only}", true),
-            (r"\text{through the center} \Rightarrow \text{no spin}", true),
-            (r"\text{a force can go straight into } \sum M", false),
-            (r"\text{one equation is always enough}", false),
-          ],
-        );
-      case BriefFigure.spin:
-        return const _RuleList(
-          rules: [
-            (r"\text{one } \omega \text{ for the whole body}", true),
-            (r"v = r\omega \text{, so the rim is fastest}", true),
-            (r"\text{every point has the same speed}", false),
-            (r"\text{rpm can go straight into } v = r\omega", false),
-          ],
-        );
-      case BriefFigure.spinInertia:
-        return const _RuleList(
-          rules: [
-            (r"\text{mass at the rim counts most}", true),
-            (
-              r"\text{rod about its end} = 4\times \text{about its middle}",
-              true,
-            ),
-            (r"I \text{ belongs to the body alone}", false),
-            (r"\text{transfer between any two axes}", false),
-          ],
-        );
-      case BriefFigure.missing:
-        return const _RuleList(
-          rules: [
-            (r"\text{no time given} \Rightarrow v^2 = v_0^2 + 2as", true),
-            (r"\text{slowing down} \Rightarrow a < 0", true),
-            (r"\text{they work for any acceleration}", false),
-            (r"\text{you always need all five}", false),
-          ],
-        );
-      case BriefFigure.flight:
-        return const _RuleList(
-          rules: [
-            (r"v_x \text{ never changes}", true),
-            (r"\text{at the top } v_y = 0", true),
-            (r"\text{the ball stops at the top}", false),
-            (r"\text{use } v_0 \text{, not } v_0\sin\theta", false),
-          ],
-        );
-      case BriefFigure.bend:
-        return const _RuleList(
-          rules: [
-            (r"\text{steady speed still accelerates}", true),
-            (r"a_n = \tfrac{v^2}{\rho} \text{, toward the middle}", true),
-            (r"a = a_t + a_n", false),
-            (
-              r"\text{constant speed} \Rightarrow \text{no acceleration}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.ends:
-        return const _RuleList(
-          rules: [
-            (r"\text{a free end} \Rightarrow K = 2", true),
-            (
-              r"\text{both fixed} \Rightarrow K = 0.5 \Rightarrow 4\times \text{the load}",
-              true,
-            ),
-            (r"\text{the length in the formula is the real length}", false),
-            (r"\text{fixing an end makes it weaker}", false),
-          ],
-        );
-      case BriefFigure.weakAxis:
-        return const _RuleList(
-          rules: [
-            (r"\text{use } I_{min} \text{, the smaller one}", true),
-            (r"\text{square or round} \Rightarrow \text{no weak axis}", true),
-            (r"\text{use } I \text{ about the stronger axis}", false),
-            (r"\text{it waits for the axis you loaded it about}", false),
-          ],
-        );
-      case BriefFigure.slender:
-        return const _RuleList(
-          rules: [
-            (r"\text{Euler holds while } \sigma_{cr} < \sigma_y", true),
-            (r"\text{stocky columns yield instead}", true),
-            (r"\text{a stronger steel helps a slender column}", false),
-            (r"\sigma_y \text{ appears in Euler's formula}", false),
-          ],
-        );
-      case BriefFigure.circle:
-        return const _RuleList(
-          rules: [
-            (r"\text{the ends are } \sigma_1 \text{ and } \sigma_2", true),
-            (r"\text{the radius is the worst in-plane shear}", true),
-            (r"\sigma_1 \text{ is the biggest in SIZE}", false),
-            (r"\text{the center moves as you rotate}", false),
-          ],
-        );
-      case BriefFigure.build:
-        return const _RuleList(
-          rules: [
-            (r"\text{pure shear sits on the origin}", true),
-            (r"\text{equal both ways is a point}", true),
-            (r"\text{the circle is centered on } \sigma_x", false),
-            (r"\sigma_1 = \sigma_x + \tau_{xy}", false),
-          ],
-        );
-      case BriefFigure.worst:
-        return const _RuleList(
-          rules: [
-            (r"\text{circle crosses zero} \Rightarrow \tau_{abs} = R", true),
-            (r"\text{circle clear of zero} \Rightarrow \tau_{abs} > R", true),
-            (r"\tau_{abs} = R \text{ always}", false),
-            (r"\sigma_3 \text{ can be ignored}", false),
-          ],
-        );
-      case BriefFigure.transform:
-        return const _RuleList(
-          rules: [
-            (r"\text{widen the STIFFER material by } n", true),
-            (r"\text{every depth stays exactly where it was}", true),
-            (r"\text{widen the softer one instead}", false),
-            (r"\text{divide the stiff width by } n", false),
-          ],
-        );
-      case BriefFigure.join:
-        return const _RuleList(
-          rules: [
-            (r"\varepsilon \text{ is equal across the join}", true),
-            (r"\sigma_{stiff} = n\,\sigma_{soft}", true),
-            (r"\sigma \text{ is equal across the join}", false),
-            (r"\text{the softer material takes more}", false),
-          ],
-        );
-      case BriefFigure.plastic:
-        return const _RuleList(
-          rules: [
-            (r"M_p = F_y Z \text{, the square block}", true),
-            (r"Z > S \text{, so } M_p > M_y", true),
-            (r"M_p = F_y S", false),
-            (r"\text{the section is finished at first yield}", false),
-          ],
-        );
-      case BriefFigure.tableLine:
-        return const _RuleList(
-          rules: [
-            (r"\text{point load} \;\Rightarrow\; L^3", true),
-            (r"\text{spread load} \;\Rightarrow\; L^4", true),
-            (r"\text{the supports hardly matter}", false),
-            (r"\text{a cantilever uses } \tfrac{PL^3}{48EI}", false),
-          ],
-        );
-      case BriefFigure.bounce:
-        return const _RuleList(
-          rules: [
-            (r"\text{depth is cubed inside } I", true),
-            (r"\text{span is cubed or to the fourth}", true),
-            (r"\text{a stronger steel sags less}", false),
-            (r"\text{width helps as much as depth}", false),
-          ],
-        );
-      case BriefFigure.addUp:
-        return const _RuleList(
-          rules: [
-            (r"\delta_{total} = \delta_1 + \delta_2", true),
-            (r"\text{the same line may be used twice}", true),
-            (r"\text{split the supports as well as the load}", false),
-            (r"\text{every beam needs splitting}", false),
-          ],
-        );
-      case BriefFigure.fiber:
-        return const _RuleList(
-          rules: [
-            (r"\text{bending: nothing at the axis, worst at the faces}", true),
-            (r"\text{shear: nothing at the faces, worst at the axis}", true),
-            (r"\text{the neutral axis is halfway up}", false),
-            (r"\text{both stresses peak in the same fiber}", false),
-          ],
-        );
-      case BriefFigure.cut:
-        return const _RuleList(
-          rules: [
-            (r"b = \text{the width AT the cut}", true),
-            (r"Q = \text{the material BEYOND the cut}", true),
-            (r"b = \text{the widest part of the section}", false),
-            (r"Q = \text{the first moment of the whole section}", false),
-          ],
-        );
-      case BriefFigure.governs:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{twice the span} \;\Rightarrow\; \text{twice } \sigma",
-              true,
-            ),
-            (
-              r"\text{twice the depth} \;\Rightarrow\; \sigma/4,\; \tau/2",
-              true,
-            ),
-            (
-              r"\text{twice the span} \;\Rightarrow\; \text{twice } \tau",
-              false,
-            ),
-            (r"\text{a stronger material lowers the stress}", false),
-          ],
-        );
-      case BriefFigure.slopeRules:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{no spread load} \;\Rightarrow\; V \text{ flat}, M \text{ straight}",
-              true,
-            ),
-            (
-              r"\text{uniform load} \;\Rightarrow\; V \text{ slopes}, M \text{ curves}",
-              true,
-            ),
-            (r"\text{a uniform load gives a straight } M", false),
-            (r"\text{a point load slopes } V", false),
-          ],
-        );
-      case BriefFigure.peak:
-        return const _RuleList(
-          rules: [
-            (r"M \text{ peaks where } V = 0", true),
-            (r"\text{one load} \;\Rightarrow\; \text{peak under it}", true),
-            (r"\text{the peak is at midspan}", false),
-            (r"\text{the worst moment is always sagging}", false),
-          ],
-        );
-      case BriefFigure.jump:
-        return const _RuleList(
-          rules: [
-            (r"\text{a force steps } V \text{ by its own size}", true),
-            (r"\text{a couple steps } M \text{, not } V", true),
-            (r"\text{a point load steps } M", false),
-            (r"\text{a spread load steps } V \text{ where it starts}", false),
-          ],
-        );
-      case BriefFigure.curve:
-        return const _RuleList(
-          rules: [
-            (r"\text{the top of the curve is } \sigma_u", true),
-            (r"\text{fracture sits BELOW the top}", true),
-            (r"\text{the curve ends at its highest stress}", false),
-            (r"E \text{ can be read anywhere on the curve}", false),
-          ],
-        );
-      case BriefFigure.stiffStrong:
-        return const _RuleList(
-          rules: [
-            (r"\text{steeper} \;\Rightarrow\; \text{stiffer}", true),
-            (r"\text{longer} \;\Rightarrow\; \text{more ductile}", true),
-            (r"\text{stronger} \;\Rightarrow\; \text{stiffer}", false),
-            (r"\text{stronger} \;\Rightarrow\; \text{more ductile}", false),
-          ],
-        );
-      case BriefFigure.linked:
-        return const _RuleList(
-          rules: [
-            (r"E \text{ and } \nu \;\Rightarrow\; G", true),
-            (r"\sigma \text{ and } \varepsilon \;\Rightarrow\; E", true),
-            (r"G = \tfrac{E}{2} \text{ or } \tfrac{E}{1+\nu}", false),
-            (r"\text{every given number is needed}", false),
-          ],
-        );
-      case BriefFigure.polarJ:
-        return const _RuleList(
-          rules: [
-            (r"J = \tfrac{\pi d^4}{32} \text{, and } c = \tfrac{d}{2}", true),
-            (r"\text{a bore subtracts } d_i^4 \text{, not } d_i^2", true),
-            (r"\text{use } I = \tfrac{\pi d^4}{64} \text{ for torsion}", false),
-            (r"\text{on a hollow shaft } c = \tfrac{d_i}{2}", false),
-          ],
-        );
-      case BriefFigure.twist:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{longer or softer} \;\Rightarrow\; \text{more twist}",
-              true,
-            ),
-            (
-              r"\text{longer or softer} \;\Rightarrow\; \text{same stress}",
-              true,
-            ),
-            (r"\text{torsion uses } E", false),
-            (r"\text{whatever moves } \phi \text{ moves } \tau", false),
-          ],
-        );
-      case BriefFigure.thinWall:
-        return const _RuleList(
-          rules: [
-            (r"A_m = \text{enclosed by the middle of the wall}", true),
-            (r"\text{any thin shape, not just round}", true),
-            (r"A_m = \text{the area of the metal}", false),
-            (r"A_m = \text{the area of the bore}", false),
-          ],
-        );
-      case BriefFigure.polar:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{bending} \;\Rightarrow\; I \text{, square to the load}",
-              true,
-            ),
-            (r"\text{twisting} \;\Rightarrow\; J = I_x + I_y", true),
-            (r"\text{bending is about the stronger axis}", false),
-            (r"\text{torsion uses } I", false),
-          ],
-        );
-      case BriefFigure.farFromAxis:
-        return const _RuleList(
-          rules: [
-            (r"\text{far from the axis} \;\Rightarrow\; \text{stiffer}", true),
-            (r"\text{depth is cubed, width is not}", true),
-            (
-              r"\text{twice the area} \;\Rightarrow\; \text{twice the stiffness}",
-              false,
-            ),
-            (r"\text{metal on the axis works as hard as any}", false),
-          ],
-        );
-      case BriefFigure.transfer:
-        return const _RuleList(
-          rules: [
-            (r"\text{leaving the centroidal axis} \;\Rightarrow\; +Ad^2", true),
-            (r"\text{arriving at it} \;\Rightarrow\; -Ad^2", true),
-            (r"\text{between two non-centroidal axes in one step}", false),
-            (r"\text{the } Ad^2 \text{ term is usually the small one}", false),
-          ],
-        );
-      case BriefFigure.areaWeighted:
-        return const _RuleList(
-          rules: [
-            (r"\text{the centroid follows the area}", true),
-            (r"\text{a hole counts as a negative area}", true),
-            (r"\bar{y} = \tfrac{1}{2}\,\text{height}", false),
-            (r"\bar{y} = \text{the average of the piece centroids}", false),
-          ],
-        );
-      case BriefFigure.table:
-        return const _RuleList(
-          rules: [
-            (r"\text{triangle: } \tfrac{h}{3} \text{ from the wide end}", true),
-            (
-              r"\text{half disc: } \tfrac{4r}{3\pi} \text{ from the flat side}",
-              true,
-            ),
-            (r"\text{triangle: } \tfrac{h}{2}", false),
-            (r"\text{the middle of the box it fits in}", false),
-          ],
-        );
-      case BriefFigure.reference:
-        return const _RuleList(
-          rules: [
-            (r"\text{every piece measured from ONE axis}", true),
-            (r"\text{to that piece's own centroid}", true),
-            (r"\text{to where the piece begins}", false),
-            (r"\text{a new axis for an awkward piece}", false),
-          ],
-        );
-      case BriefFigure.twoForce:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{2 points} \;\Rightarrow\; \text{along the line joining them}",
-              true,
-            ),
-            (r"\text{a bend in it does not move that line}", true),
-            (r"\text{a straight member is always two-force}", false),
-            (r"\text{a load at a pin makes its members bend}", false),
-          ],
-        );
-      case BriefFigure.lever:
-        return const _RuleList(
-          rules: [
-            (r"a_{in} > a_{out} \;\Rightarrow\; \text{more force out}", true),
-            (r"\text{effort and load on one side still works}", true),
-            (r"\text{a lever always multiplies force}", false),
-            (r"\text{a heavier bar gives more advantage}", false),
-          ],
-        );
-      case BriefFigure.whatItIs:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{all members two-force, and still} \;\Rightarrow\; \text{truss}",
-              true,
-            ),
-            (
-              r"\text{still, one member bends} \;\Rightarrow\; \text{frame}",
-              true,
-            ),
-            (r"\text{a frame may have a part that moves}", false),
-            (r"\text{a machine is solved a different way}", false),
-          ],
-        );
-      case BriefFigure.laws:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{exclusive} \;\Rightarrow\; P(A \cup B) = P(A) + P(B)",
-              true,
-            ),
-            (
-              r"\text{independent} \;\Rightarrow\; P(A \cap B) = P(A)P(B)",
-              true,
-            ),
-            (r"\text{exclusive events are independent}", false),
-            (r"\text{two events always overlap by } P(A)P(B)", false),
-          ],
-        );
-      case BriefFigure.period:
-        return const _RuleList(
-          rules: [
-            (r"\text{end of year } n \;\Rightarrow\; \text{period } n", true),
-            (
-              r"\text{beginning of year } n \;\Rightarrow\; \text{period } n-1",
-              true,
-            ),
-            (r"\text{a series starts at period 0}", false),
-            (r"\text{a gradient has a step in period 1}", false),
-          ],
-        );
-      case BriefFigure.screw:
-        return const _RuleList(
-          rules: [
-            (r"\text{raising} \;\Rightarrow\; M = Pr\tan(\alpha + \phi)", true),
-            (r"\phi > \alpha \;\Rightarrow\; \text{self-locking}", true),
-            (r"\text{a fine thread is always self-locking}", false),
-            (r"\text{greasing it cannot make it unsafe}", false),
-          ],
-        );
-      case BriefFigure.ceiling:
-        return const _RuleList(
-          rules: [
-            (r"F \le \mu_s N \;\text{ always}", true),
-            (r"F = \mu_s N \;\text{ only when motion is impending}", true),
-            (r"F = \mu_s N \;\text{ whenever it is sitting still}", false),
-            (
-              r"\text{a bigger } N \Rightarrow \text{ a bigger friction force}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.belt:
-        return const _RuleList(
-          rules: [
-            (r"F_1 \text{ is the end the belt is dragged toward}", true),
-            (r"\theta \text{ in radians}", true),
-            (r"F_1 = F_2 + \mu F_2", false),
-            (r"\theta \text{ can never pass } 2\pi", false),
-          ],
-        );
-      case BriefFigure.normalForce:
-        return const _RuleList(
-          rules: [
-            (r"\text{a push aimed into the surface raises } N", true),
-            (r"N = W \text{ on level ground, and nothing else on it}", true),
-            (r"N \text{ is the weight, wherever it is}", false),
-            (r"\text{a wider block grips better}", false),
-          ],
-        );
-      case BriefFigure.zeroForce:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{2 members, unloaded joint} \;\Rightarrow\; \text{both zero}",
-              true,
-            ),
-            (
-              r"\text{3 members, 2 in line, unloaded} \;\Rightarrow\; \text{odd one zero}",
-              true,
-            ),
-            (r"\text{2 members, load on the joint}", false),
-            (r"\text{a zero-force member can be removed}", false),
-          ],
-        );
-      case BriefFigure.senseOfForce:
-        return const _RuleList(
-          rules: [
-            (r"\text{assume tension, always}", true),
-            (
-              r"T > 0 \;\Rightarrow\; \text{tension, the member is stretched}",
-              true,
-            ),
-            (
-              r"T < 0 \;\Rightarrow\; \text{compression, the member is squashed}",
-              true,
-            ),
-            (r"\text{a magnitude on its own is the answer}", false),
-          ],
-        );
-      case BriefFigure.section:
-        return const _RuleList(
-          rules: [
-            (r"\text{the cut crosses the member you want}", true),
-            (r"\text{no more than 3 members cut}", true),
-            (r"\text{it gives you every member it severs}", true),
-            (r"\text{the cut must be vertical}", false),
-          ],
-        );
-      case BriefFigure.lawChoice:
-        return Row(
-          children: [
-            Expanded(
-              child: _Panel(
-                height: 160,
-                caption: 'A side with its own angle: Sines',
-                child: CustomPaint(
-                  painter: ObliqueTrianglePainter(
-                    knownSides: {'a'},
-                    knownAngles: {'A', 'B'},
-                    wanted: 'b',
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: _Panel(
-                height: 160,
-                caption: 'Two sides and the angle between: Cosines',
-                child: CustomPaint(
-                  painter: ObliqueTrianglePainter(
-                    knownSides: {'a', 'b'},
-                    knownAngles: {'C'},
-                    wanted: 'c',
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      case BriefFigure.lawForms:
-        return const _RuleList(
-          rules: [
-            (r'\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}', true),
-            (r'c^2 = a^2 + b^2 - 2ab\cos C', true),
-            (r'c^2 = a^2 + b^2 + 2ab\cos C', false),
-          ],
-        );
-      case BriefFigure.cosineSign:
-        return const _RuleList(
-          rules: [
-            (
-              r'c^2 < a^2 + b^2 \;\Rightarrow\; \cos C > 0 \;\Rightarrow\; \text{acute}',
-              true,
-            ),
-            (
-              r'c^2 = a^2 + b^2 \;\Rightarrow\; \cos C = 0 \;\Rightarrow\; 90^\circ',
-              true,
-            ),
-            (
-              r'c^2 > a^2 + b^2 \;\Rightarrow\; \cos C < 0 \;\Rightarrow\; \text{obtuse}',
-              true,
-            ),
-          ],
-        );
-      case BriefFigure.unitCircle:
-        return const _Panel(
-          height: 230,
-          caption: 'Cosine is the across, sine is the up',
-          child: CustomPaint(
-            painter: UnitCirclePainter(
-              choices: [0, 30, 45, 60, 90, 120, 135, 150, 180, 225, 270, 315],
-              showRayTo: 60,
-            ),
-          ),
-        );
-      case BriefFigure.quadrants:
-        return const _Panel(
-          height: 230,
-          caption: 'Across positive to the right, up positive above',
-          child: CustomPaint(painter: UnitCirclePainter(quadrantLabels: true)),
-        );
-      case BriefFigure.identities:
-        return const _RuleList(
-          rules: [
-            (r'\sin^2\theta + \cos^2\theta = 1', true),
-            (r'\sin 2\theta = 2\sin\theta\cos\theta', true),
-            (r'\sin 2\theta = 2\sin\theta', false),
-            (r'\cos 2\theta = \cos^2\theta - \sin^2\theta', true),
-          ],
-        );
-      case BriefFigure.circleForm:
-        return const _RuleList(
-          rules: [
-            (r'(y+3)^2 \;\Rightarrow\; k = -3', true),
-            (r'(y+3)^2 \;\Rightarrow\; k = +3', false),
-            (r'= 64 \;\Rightarrow\; r = 8', true),
-            (r'= 64 \;\Rightarrow\; r = 64', false),
-          ],
-        );
-      case BriefFigure.conicForms:
-        return const _RuleList(
-          rules: [
-            (r'\text{two squares, same sign: circle}', null),
-            (r'\text{one square: parabola}', null),
-            (r'\text{two squares, different denominators: ellipse}', null),
-          ],
-        );
-      case BriefFigure.completingSquare:
-        return const _RuleList(
-          rules: [
-            (r'x^2 - 10x + 25 = -18 + 25', true),
-            (r'x^2 - 10x + 25 = -18', false),
-          ],
-        );
-      case BriefFigure.whichRule:
-        return const _RuleList(
-          rules: [
-            (r'\text{multiplied} \Rightarrow \text{product}', null),
-            (r'\text{divided} \Rightarrow \text{quotient}', null),
-            (r'\text{argument is not plain } x \Rightarrow \text{chain}', null),
-          ],
-        );
-      case BriefFigure.chainRule:
-        return const _RuleList(
-          rules: [
-            (r'\frac{d}{dx}(3x+5)^4 = 12(3x+5)^3', true),
-            (r'\frac{d}{dx}(3x+5)^4 = 4(3x+5)^3', false),
-            (r'\frac{d}{dx}e^{3x} = 3e^{3x}', true),
-            (r'\frac{d}{dx}\sin(3x^2) = 6x\cos(3x^2)', true),
-          ],
-        );
-      case BriefFigure.quotientOrder:
-        return const _RuleList(
-          rules: [
-            (r'\frac{v\,du - u\,dv}{v^2}', true),
-            (r'\frac{u\,dv - v\,du}{v^2}', false),
-            (r'\frac{v\,du - u\,dv}{v}', false),
-          ],
-        );
-      case BriefFigure.maxMin:
-        return const _RuleList(
-          rules: [
-            (
-              r"f'(a) = 0 \;\text{and}\; f''(a) < 0 \Rightarrow \text{maximum}",
-              true,
-            ),
-            (
-              r"f'(a) = 0 \;\text{and}\; f''(a) > 0 \Rightarrow \text{minimum}",
-              true,
-            ),
-            (r"f'(a) = 0 \Rightarrow \text{maximum}", false),
-          ],
-        );
-      case BriefFigure.bendFlip:
-        return const _RuleList(
-          rules: [
-            (r"f''(x) > 0 \Rightarrow \text{concave up, a smile}", null),
-            (r"f''(x) < 0 \Rightarrow \text{concave down, a frown}", null),
-            (
-              r"f''(a) = 0 \text{ and the sign flips} \Rightarrow \text{inflection}",
-              true,
-            ),
-            (r"f'(a) = 0 \Rightarrow \text{inflection}", false),
-          ],
-        );
-      case BriefFigure.whereOrHowMuch:
-        return const _RuleList(
-          rules: [
-            (r"f'(x) = -4x + 16 = 0 \;\Rightarrow\; x = 4", null),
-            (r"\text{where the maximum is} \;\Rightarrow\; x = 4", null),
-            (r"\text{how big it is} \;\Rightarrow\; f(4) = 27", null),
-          ],
-        );
-      case BriefFigure.substitution:
-        return const _RuleList(
-          rules: [
-            (r"\int \sin^3 x\,\cos x\,dx \;\Rightarrow\; u = \sin x", true),
-            (r"\int (x^2+1)^5\,2x\,dx \;\Rightarrow\; u = x^2+1", true),
-            (r"\int x\,e^{2x}\,dx \;\Rightarrow\; u = e^{2x}", false),
-          ],
-        );
-      case BriefFigure.liate:
-        return const _RuleList(
-          rules: [
-            (r"\text{L} \;\; \text{logs, differentiate them}", null),
-            (r"\text{I} \;\; \text{inverse trig}", null),
-            (r"\text{A} \;\; \text{algebraic, the power drops}", null),
-            (r"\text{T} \;\; \text{trig}", null),
-            (r"\text{E} \;\; \text{exponential, integrate it}", null),
-          ],
-        );
-      case BriefFigure.finishing:
-        return const _RuleList(
-          rules: [
-            (r"\int 3x^2\,dx = x^3 + C", true),
-            (r"\int 3x^2\,dx = x^3", false),
-            (r"\int_1^2 3x^2\,dx = 8 - 1 = 7", true),
-            (r"\int_1^2 3x^2\,dx = 8 + C", false),
-          ],
-        );
-      case BriefFigure.formCheck:
-        return const _RuleList(
-          rules: [
-            (r"\frac{0}{0} \;\Rightarrow\; \text{the rule applies}", null),
-            (
-              r"\frac{\infty}{\infty} \;\Rightarrow\; \text{the rule applies}",
-              null,
-            ),
-            (r"\frac{1}{1} \;\Rightarrow\; \text{you already have it}", null),
-            (r"\frac{1}{0} \;\Rightarrow\; \text{a blow up, not a form}", null),
-          ],
-        );
-      case BriefFigure.separately:
-        return const _RuleList(
-          rules: [
-            (
-              r"\lim\frac{\sin x}{x} \;\Rightarrow\; \lim\frac{\cos x}{1}",
-              true,
-            ),
-            (
-              r"\lim\frac{\sin x}{x} \;\Rightarrow\; \lim\frac{x\cos x - \sin x}{x^2}",
-              false,
-            ),
-            (
-              r"\lim\frac{\sin x}{x} \;\Rightarrow\; \lim\frac{\cos x}{x}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.bothSides:
-        return const _RuleList(
-          rules: [
-            (r"\text{both sides run up} \;\Rightarrow\; +\infty", null),
-            (r"\text{both sides run down} \;\Rightarrow\; -\infty", null),
-            (
-              r"\text{sides disagree} \;\Rightarrow\; \text{does not exist}",
-              null,
-            ),
-          ],
-        );
-      case BriefFigure.vectorAdd:
-        return const _RuleList(
-          rules: [
-            (r"(3\hat{i}) + (0\hat{i} + 4\hat{j}) = 3\hat{i} + 4\hat{j}", true),
-            (
-              r"|3\hat{i}| + |4\hat{j}| = 7 \;\Rightarrow\; \text{the resultant}",
-              false,
-            ),
-            (r"(4\hat{i} + 4\hat{j}) + (-4\hat{i} - 4\hat{j}) = 0", true),
-          ],
-        );
-      case BriefFigure.unitVector:
-        return const _RuleList(
-          rules: [
-            (
-              r"\vec{d} = 3\hat{i} + 4\hat{j} \;\Rightarrow\; |\vec{d}| = 5",
-              null,
-            ),
-            (r"\hat{u} = 0.6\hat{i} + 0.8\hat{j}", null),
-            (r"25\,\hat{u} = 15\hat{i} + 20\hat{j}", null),
-            (r"-2\,\hat{u} \;\Rightarrow\; \text{same line, other way}", null),
-          ],
-        );
-      case BriefFigure.magnitude:
-        return const _RuleList(
-          rules: [
-            (r"|30\hat{i} + 40\hat{j}| = 50", true),
-            (r"|30\hat{i} + 40\hat{j}| = 70", false),
-            (r"|3\hat{i} + 4\hat{j}| = |5\hat{i}|", true),
-            (r"|-3\hat{i} + 4\hat{j}| = 5", true),
-          ],
-        );
-      case BriefFigure.dotProduct:
-        return const _RuleList(
-          rules: [
-            (r"(3)(-2) + (4)(5) = 14", true),
-            (r"(3)(5) + (4)(-2) = 7", false),
-            (r"(3)(-2) = -6 \;\Rightarrow\; \text{the whole answer}", false),
-          ],
-        );
-      case BriefFigure.dotAngle:
-        return const _RuleList(
-          rules: [
-            (
-              r"\theta < 90^\circ \;\Rightarrow\; \vec{A} \cdot \vec{B} > 0",
-              null,
-            ),
-            (
-              r"\theta = 90^\circ \;\Rightarrow\; \vec{A} \cdot \vec{B} = 0",
-              null,
-            ),
-            (
-              r"\theta > 90^\circ \;\Rightarrow\; \vec{A} \cdot \vec{B} < 0",
-              null,
-            ),
-            (
-              r"\cos\theta = \tfrac{1}{\sqrt{2}} \;\Rightarrow\; \theta = 45^\circ",
-              true,
-            ),
-          ],
-        );
-      case BriefFigure.projection:
-        return const _RuleList(
-          rules: [
-            (
-              r"\frac{\vec{F} \cdot \vec{d}}{|\vec{d}|} = \frac{1500}{3} = 500",
-              true,
-            ),
-            (
-              r"\vec{F} \cdot \vec{d} = 1500 \;\Rightarrow\; \text{the component}",
-              false,
-            ),
-            (
-              r"\frac{\vec{F} \cdot \vec{d}}{|\vec{F}|} \;\Rightarrow\; \text{the component}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.rightHand:
-        return const _RuleList(
-          rules: [
-            (r"\hat{i} \times \hat{j} = \hat{k}", true),
-            (r"\hat{j} \times \hat{i} = \hat{k}", false),
-            (r"\vec{M}_O = \vec{r} \times \vec{F}", true),
-            (r"\vec{M}_O = \vec{F} \times \vec{r}", false),
-          ],
-        );
-      case BriefFigure.crossArea:
-        return const _RuleList(
-          rules: [
-            (
-              r"|\vec{u} \times \vec{v}| \;\Rightarrow\; \text{parallelogram}",
-              null,
-            ),
-            (
-              r"\tfrac{1}{2}|\vec{u} \times \vec{v}| \;\Rightarrow\; \text{triangle}",
-              null,
-            ),
-            (
-              r"|\vec{u}||\vec{v}| \;\Rightarrow\; \text{the box round it}",
-              null,
-            ),
-          ],
-        );
-      case BriefFigure.cofactor:
-        return const _RuleList(
-          rules: [
-            (r"+\big[A_yB_z - A_zB_y\big]\hat{i}", true),
-            (r"-\big[A_xB_z - A_zB_x\big]\hat{j}", true),
-            (r"+\big[A_xB_z - A_zB_x\big]\hat{j}", false),
-            (r"+\big[A_xB_y - A_yB_x\big]\hat{k}", true),
-          ],
-        );
-      case BriefFigure.references:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{C1: =A1*\$B\$1} \;\Rightarrow\; \text{C2: =A2*\$B\$1}",
-              true,
-            ),
-            (
-              r"\text{C1: =A1*\$B\$1} \;\Rightarrow\; \text{C2: =A1*\$B\$2}",
-              false,
-            ),
-            (r"\text{C1: =A1*B1} \;\Rightarrow\; \text{C2: =A2*B2}", true),
-          ],
-        );
-      case BriefFigure.precedence:
-        return const _RuleList(
-          rules: [
-            (r"\text{brackets}", null),
-            (r"\text{powers, } \wedge", null),
-            (r"\text{times and divide, left to right}", null),
-            (r"\text{plus and minus, left to right}", null),
-          ],
-        );
-      case BriefFigure.functions:
-        return const _RuleList(
-          rules: [
-            (r"\text{=SUM(B1:B3)} \;\Rightarrow\; \text{adds all three}", null),
-            (r"\text{=COUNT(A1:A4)} \;\Rightarrow\; \text{numbers only}", null),
-            (
-              r"\text{=IF(test, yes, no)} \;\Rightarrow\; \text{one of the two}",
-              null,
-            ),
-            (r"\text{=IF(...)} \;\Rightarrow\; 1 \text{ for true}", false),
-          ],
-        );
-      case BriefFigure.tracing:
-        return const _RuleList(
-          rules: [
-            (r"\text{FOR i = 1 TO 4} \;\Rightarrow\; \text{4 passes}", true),
-            (r"\text{FOR i = 1 TO 4} \;\Rightarrow\; \text{3 passes}", false),
-            (r"\text{total} = 0+1+2+3+4 = 10", true),
-            (r"\text{total} = 4 \;\text{(the pass count)}", false),
-          ],
-        );
-      case BriefFigure.selection:
-        return const _RuleList(
-          rules: [
-            (r"x = 7 \;\Rightarrow\; y = 2", true),
-            (r"x = 7 \;\Rightarrow\; y = 3 \;\text{(the closing ELSE)}", false),
-            (r"x = 10 \;\Rightarrow\; x > 10 \text{ is false}", true),
-          ],
-        );
-      case BriefFigure.iteration:
-        return const _RuleList(
-          rules: [
-            (r"\text{stops with } x = 128", true),
-            (r"\text{stops with } x = 64", false),
-            (r"\text{stops with } x = 100", false),
-          ],
-        );
-      case BriefFigure.newton:
-        return const _RuleList(
-          rules: [
-            (r"x_1 = x_0 - \frac{f(x_0)}{f'(x_0)}", true),
-            (r"x_1 = x_0 + \frac{f(x_0)}{f'(x_0)}", false),
-            (r"x_1 = x_0 - f(x_0)", false),
-          ],
-        );
-      case BriefFigure.bisection:
-        return const _RuleList(
-          rules: [
-            (r"f(a)\cdot f(b) < 0 \;\Rightarrow\; \text{it can start}", true),
-            (
-              r"f(a) > 0 \text{ and } f(b) > 0 \;\Rightarrow\; \text{it can start}",
-              false,
-            ),
-            (
-              r"\text{two roots inside} \;\Rightarrow\; \text{it can start}",
-              false,
-            ),
-          ],
-        );
-      case BriefFigure.methodChoice:
-        return const _RuleList(
-          rules: [
-            (
-              r"\text{close guess, has } f' \;\Rightarrow\; \text{Newton}",
-              null,
-            ),
-            (
-              r"\text{only a sign change} \;\Rightarrow\; \text{bisection}",
-              null,
-            ),
-            (
-              r"f' \text{ near zero} \;\Rightarrow\; \text{Newton may run away}",
-              null,
-            ),
-            (
-              r"\text{far guess} \;\Rightarrow\; \text{Newton may run away}",
-              null,
-            ),
-          ],
-        );
-      case BriefFigure.center:
-        return const _RuleList(
-          rules: [
-            (r"11,\ 12,\ 13,\ 14,\ 16 \;\Rightarrow\; \text{median } 13", true),
-            (
-              r"10,\ 11,\ 12,\ 13,\ 14,\ 15,\ 24 \;\Rightarrow\; \text{median } 13",
-              true,
-            ),
-            (r"\text{the same set} \;\Rightarrow\; \text{mean } 14.1", true),
-            (r"\text{one stray reading moves the median}", false),
-          ],
-        );
-      case BriefFigure.spread:
-        return const _RuleList(
-          rules: [
-            (r"\text{a sample} \;\Rightarrow\; \text{divide by } n-1", true),
-            (r"\text{a sample} \;\Rightarrow\; \text{divide by } n", false),
-            (r"s = \sqrt{s^2}", true),
-            (r"s = s^2", false),
-          ],
-        );
-      case BriefFigure.weighted:
-        return const _RuleList(
-          rules: [
-            (r"\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}", null),
-            (
-              r"\text{equal weights} \;\Rightarrow\; \text{the plain mean}",
-              null,
-            ),
-            (
-              r"\text{roles swapped} \;\Rightarrow\; \text{a tidy wrong answer}",
-              null,
-            ),
-          ],
-        );
-      case BriefFigure.logRules:
-        return const _RuleList(
-          rules: [
-            (r'\log(xy) = \log x + \log y', true),
-            (r'\log\!\left(\frac{x}{y}\right) = \log x - \log y', true),
-            (r'\log(x^{c}) = c\,\log x', true),
-            (r'\log(x + y) = \log x + \log y', false),
-          ],
-        );
-      case BriefFigure.undoExponent:
-        return const _RuleList(
-          rules: [
-            (r'0.25 = e^{-0.03t}', null),
-            (r'\ln(0.25) = -0.03t', null),
-            (r't = \frac{\ln(0.25)}{-0.03}', null),
-          ],
-        );
-      case BriefFigure.combineLogs:
-        return const _RuleList(
-          rules: [
-            (r'\log a + \log b = \log(ab)', true),
-            (r'\log a - \log b = \log\!\left(\frac{a}{b}\right)', true),
-            (r'c\,\log a = \log(a^{c})', true),
-            (r'\log a \cdot \log b = \log(ab)', false),
-          ],
-        );
-    }
-  }
-}
-
-/// Rules, one per line, marked legal or not. A lesson with nothing to draw
-/// shows the moves themselves; a check or a cross is the picture.
-class _RuleList extends StatelessWidget {
-  const _RuleList({required this.rules});
-
-  /// Each entry is an expression and whether it is legal. Null means it is a
-  /// step in a worked line rather than a claim to judge.
-  final List<(String, bool?)> rules;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      decoration: BoxDecoration(
-        color: AppColors.cream,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          for (final (latex, legal) in rules)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
-              child: Row(
-                children: [
-                  if (legal != null)
-                    Icon(
-                      legal ? Icons.check_rounded : Icons.close_rounded,
-                      size: 18,
-                      color: legal ? AppColors.forest : AppColors.error,
-                    )
-                  else
-                    const Icon(
-                      Icons.arrow_right_rounded,
-                      size: 18,
-                      color: AppColors.ink3,
-                    ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: MathBlock(
-                      latex,
-                      fontSize: 15,
-                      align: Alignment.centerLeft,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Panel extends StatelessWidget {
-  const _Panel({required this.child, required this.caption, this.height = 118});
-
-  final Widget child;
-  final String caption;
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: SizedBox(
-            height: height,
-            width: double.infinity,
-            child: EngineeringGrid(minor: 14, major: 70, child: child),
-          ),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          caption,
-          style: const TextStyle(fontSize: 11.5, color: AppColors.ink2),
-        ),
-      ],
-    );
-  }
-}
-
-class _SlopePairPainter extends CustomPainter {
-  _SlopePairPainter({required this.parallel});
-
-  final bool parallel;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final base = Paint()
-      ..color = AppColors.charcoal
-      ..strokeWidth = 3
-      ..strokeCap = StrokeCap.round;
-    final second = Paint()
-      ..color = parallel ? AppColors.info : AppColors.forest
-      ..strokeWidth = 3
-      ..strokeCap = StrokeCap.round;
-
-    const m = 0.55; // the reference slope, drawn the same in both panels
-    final c = Offset(size.width / 2, size.height / 2);
-
-    void line(double slope, Offset through, Paint p) {
-      final d = Offset(1, -slope) / math.sqrt(1 + slope * slope);
-      final reach = size.width + size.height;
-      canvas.drawLine(through - d * reach, through + d * reach, p);
-    }
-
-    canvas.clipRect(Offset.zero & size);
-    if (parallel) {
-      line(m, c + const Offset(0, 22), base);
-      line(m, c - const Offset(0, 22), second);
-    } else {
-      line(m, c, base);
-      line(-1 / m, c, second);
-      // The right-angle mark that makes it unmistakable.
-      Offset u(double s) => Offset(1, -s) / math.sqrt(1 + s * s);
-      final a = u(m) * 14, b = u(-1 / m) * 14;
-      canvas.drawPath(
-        Path()
-          ..moveTo(c.dx + a.dx, c.dy + a.dy)
-          ..lineTo(c.dx + a.dx + b.dx, c.dy + a.dy + b.dy)
-          ..lineTo(c.dx + b.dx, c.dy + b.dy),
-        Paint()
-          ..color = AppColors.forest
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2,
-      );
-      canvas.drawCircle(c, 4, Paint()..color = AppColors.charcoal);
-    }
-  }
-
-  @override
-  bool shouldRepaint(_SlopePairPainter old) => old.parallel != parallel;
-}
-
-class _GradePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final left = size.width * 0.14, right = size.width * 0.86;
-    final base = size.height * 0.74, top = size.height * 0.3;
-
-    final ground = Paint()
-      ..color = AppColors.charcoal.withValues(alpha: 0.35)
-      ..strokeWidth = 2;
-    final road = Paint()
-      ..color = AppColors.ember
-      ..strokeWidth = 4
-      ..strokeCap = StrokeCap.round;
-
-    canvas.drawLine(Offset(left, base), Offset(right, base), ground);
-    canvas.drawLine(Offset(left, base), Offset(right, top), road);
-    canvas.drawLine(Offset(right, base), Offset(right, top), ground);
-
-    void label(String text, Offset at, {bool mono = true}) {
-      final tp = TextPainter(
-        text: TextSpan(
-          text: text,
-          style: mono
-              ? AppTheme.mono(size: 11, color: AppColors.ink2)
-              : const TextStyle(fontSize: 11, color: AppColors.ink2),
-        ),
-        textDirection: TextDirection.ltr,
-      )..layout();
-      tp.paint(canvas, at);
-    }
-
-    label('rise', Offset(right + 6, (base + top) / 2 - 8));
-    label('run', Offset((left + right) / 2 - 12, base + 6));
-    label('0+00', Offset(left - 12, base + 22));
-    label('3+00', Offset(right - 20, base + 22));
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter old) => false;
 }

@@ -165,11 +165,6 @@ void main() {
           );
         }
         expect(
-          c.figure,
-          BriefFigure.none,
-          reason: '"${c.title}" still carries a rule list',
-        );
-        expect(
           c.body,
           isEmpty,
           reason: '"${c.title}" still carries the old paragraph',
