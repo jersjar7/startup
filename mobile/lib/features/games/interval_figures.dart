@@ -49,9 +49,7 @@ class IntervalPainter extends CustomPainter {
 
   double _x(Size size, double v) =>
       _padL +
-      (v - (center - widest)) /
-          (2 * widest) *
-          (size.width - _padL - _padR);
+      (v - (center - widest)) / (2 * widest) * (size.width - _padL - _padR);
 
   Color _colorOf(BandTone tone) => switch (tone) {
     BandTone.live => AppColors.ember,
@@ -116,7 +114,10 @@ class IntervalPainter extends CustomPainter {
     int align = 0,
   }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     final dx = switch (align) {
@@ -176,8 +177,7 @@ class MarginCurvePainter extends CustomPainter {
   double _margin(double n) => k / math.sqrt(n);
 
   double _x(Size size, double n) =>
-      _padL +
-      (n - nFrom) / (nTo - nFrom) * (size.width - _padL - _padR);
+      _padL + (n - nFrom) / (nTo - nFrom) * (size.width - _padL - _padR);
 
   /// The band of margins worth showing: the candidates and the line they are
   /// being measured against, with room round them.
@@ -295,10 +295,12 @@ class MarginCurvePainter extends CustomPainter {
       _write(canvas, '$n', Offset(px, size.height - _padB + 6), color: color);
     }
 
+    // Started just inside the axis rather than at the panel edge, which ran
+    // the word straight through the axis it is naming.
     _write(
       canvas,
       'margin',
-      const Offset(2, _padT - 12),
+      const Offset(_padL + 5, _padT - 12),
       color: AppColors.ink3,
       align: 1,
     );
@@ -319,7 +321,10 @@ class MarginCurvePainter extends CustomPainter {
     int align = 0,
   }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     final dx = switch (align) {
