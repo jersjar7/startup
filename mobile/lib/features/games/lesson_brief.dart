@@ -1254,8 +1254,9 @@ const whichRuleBrief = BriefSection(
     ),
     (
       'Question one: is anything multiplied or divided',
-      'Two separate things stuck together with a times or a divide means the '
-          'product rule or the quotient rule.',
+      'Two separate things stuck together with a times or a divide. The '
+          'product rule then works in turns: change one and leave the other, '
+          'then swap, and the two go together. The lower picture shows it.',
     ),
     (
       'Question two: is anything wrapped inside anything',
@@ -2088,19 +2089,22 @@ const cofactorBrief = BriefSection(
   picture: cofactorPicture,
   steps: [
     (
-      'Three terms come out',
-      'The cross product is worked out from a three by three grid with i, j '
-          'and k across the top. Expanding it gives one term for each.',
+      'Cover one column at a time',
+      'Write the grid: i, j and k across the top, then each arrow on its own '
+          'row. Cover the i column and two columns are left over. Those two '
+          'make the i term. Do the same for j and for k.',
     ),
     (
-      'The middle one is taken away',
-      'Not added. That single minus sign is the whole of the tip, and it is '
-          'the reason so many moments come out pointing the wrong way.',
+      'The middle one had to jump a gap',
+      'Look at what survives each time. Covering i leaves columns 2 and 3, '
+          'side by side. Covering k leaves 1 and 2, side by side. Covering j '
+          'leaves 1 and 3, with a column jumped between them.',
     ),
     (
-      'A minus in front of a minus',
-      'The bracket it sits in often already holds a negative number. Two '
-          'negatives and a rushed line is exactly where the sign is lost.',
+      'That jump is what the minus pays for',
+      'The j term is the only one out of step, so it is the only one taken '
+          'away. Plus, minus, plus. Get it backwards and the moment points the '
+          'wrong way.',
     ),
     (
       'The answer is still a vector',
@@ -2109,9 +2113,9 @@ const cofactorBrief = BriefSection(
   ],
   spoken: [
     (
-      'Set out as a grid',
-      r'\hat{i},\ \hat{j},\ \hat{k} \;\text{on top, then each arrow on a row}',
-      'the directions on top, then each arrow on its own row',
+      'Cover a column, keep the rest',
+      r'\hat{i}: (A_yB_z - A_zB_y)',
+      'cover the i column and the two that are left make this piece',
     ),
     (
       'Expanded',
@@ -2633,11 +2637,14 @@ const correlationBrief = BriefSection(
       'from minus one, a perfect fall, to plus one, a perfect rise',
     ),
     (
-      'Correlation',
-      r'r = \frac{n\sum x_i y_i - \sum x_i \sum y_i}'
-          r'{\sqrt{\left[n\sum x_i^2 - (\sum x_i)^2\right]'
-          r'\left[n\sum y_i^2 - (\sum y_i)^2\right]}}',
-      'four sums from the data, combined. The calculator does this one',
+      'A perfect rise, and a perfect fall',
+      r'r = +1 \;\text{or}\; r = -1',
+      'every dot exactly on one straight line',
+    ),
+    (
+      'No straight line at all',
+      r'r \approx 0',
+      'either a shapeless cloud, or a shape that is not straight',
     ),
   ],
   figure: BriefFigure.none,
@@ -3186,22 +3193,27 @@ const decisionRuleBrief = BriefSection(
   steps: [
     (
       'One number against one line',
-      'Every test here boils down to a statistic worked out from the data '
-          'and a critical value looked up in a table. Put both on one scale. If '
-          'the statistic lands past the line, reject the null.',
+      'Work one number out of your data. Look one number up in a table. Put '
+          'both on the same scale. If your number lands past the line, the '
+          'boring claim is rejected. That is the whole test.',
     ),
     (
-      'Two-tailed tests compare size',
-      'When the claim had no direction, only the distance from zero '
-          'matters. A statistic of minus 2.9 against a critical value of 2.131 '
-          'is past the line. It rejects.',
+      'What the two numbers are',
+      'Yours says how far the sample strayed from the claim. The table one '
+          'is the line drawn where straying that far stops being believable. '
+          'It is called the critical value, and it is chosen before you look.',
     ),
     (
-      'Failing to reject is not a finding',
-      'If the statistic stays short of the line, the data did not catch the '
-          'null out. That is all. It does not prove the null true, and an '
-          'answer that says the mean equals the claimed value is wrong however '
-          'right the decision beside it looks.',
+      'With no direction, size is all that counts',
+      'When the claim did not say which way, only the distance from zero '
+          'matters. Minus 2.9 against a line at 2.131 is past it, because 2.9 '
+          'is further from zero. It rejects.',
+    ),
+    (
+      'Staying short of the line proves nothing',
+      'It means the data did not catch the boring claim out. That is all. '
+          'An answer saying the mean really does equal the claimed value is '
+          'wrong, however right the decision beside it looks.',
     ),
   ],
   spoken: [

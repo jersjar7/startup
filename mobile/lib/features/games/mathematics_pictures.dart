@@ -337,11 +337,23 @@ Widget completeSquarePicture() => const ConceptPicture(
 // ---------------------------------------------------------------------------
 // 07 derivatives
 
-Widget whichRulePicture() => const ConceptPicture(
-  painter: _ShapePainter(),
-  caption:
-      'read the shape before you reach for a rule. Two questions settle it',
-  height: 215,
+Widget whichRulePicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: _ShapePainter(),
+      caption:
+          'read the shape before you reach for a rule. Two questions settle it',
+      height: 180,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: _TakeTurnsPainter(),
+      caption:
+          'and this is what the product rule then does: each one takes a turn '
+          'at changing while the other waits, and the two go together',
+      height: 205,
+    ),
+  ],
 );
 
 Widget chainRulePicture() => const ConceptPicture(
@@ -459,16 +471,11 @@ Widget vectorAddPicture() => const ConceptPicture(
 );
 
 Widget unitVectorPicture() => const ConceptPicture(
-  painter: VectorPainter(
-    arrows: [
-      Arrow(Vec(3, 4), label: 'A, five long', color: AppColors.info),
-      Arrow(Vec(0.6, 0.8), label: 'one long', color: AppColors.ember),
-    ],
-    span: 5,
-    lattice: true,
-  ),
-  caption: 'the same direction, shrunk to a length of exactly one',
-  height: 220,
+  painter: _UnitArrowPainter(),
+  caption:
+      'the unit arrow is the first fifth of the same arrow. same line, same '
+      'direction, length exactly one',
+  height: 210,
 );
 
 Widget magnitudePicture() => const ConceptPicture(
@@ -531,9 +538,11 @@ Widget areaPicture() => const ConceptPair(
 );
 
 Widget cofactorPicture() => const ConceptPicture(
-  painter: _SignRowPainter(),
-  caption: 'three terms come out, and the middle one is taken away',
-  height: 185,
+  painter: _CofactorGridPainter(),
+  caption:
+      'cover one column at a time. the middle one is the only one whose two '
+      'leftover columns are not neighbors',
+  height: 172,
 );
 
 // ---------------------------------------------------------------------------
@@ -1222,6 +1231,168 @@ class _CompleteSquarePainter extends CustomPainter {
 }
 
 /// Two shapes side by side: something multiplied, and something wrapped.
+/// What the product rule actually DOES, for a reader who has never
+/// differentiated anything.
+///
+/// Knowing which rule to reach for is worth nothing without a feel for what
+/// happens next. Two things multiplied come apart into two lines: change the
+/// first and let the second sit still, then change the second and let the
+/// first sit still. Put those two together and that is the answer.
+/// One arrow, with its unit vector drawn as the first fifth of it.
+///
+/// Two arrows from a shared origin make the short one fight the axis labels
+/// for room, and the shrink is the whole point. Laying the unit arrow ALONG
+/// the one it came from says it instead: same line, same direction, and you
+/// can see it is a fifth of the length because it stops a fifth of the way.
+class _UnitArrowPainter extends CustomPainter {
+  const _UnitArrowPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // 3 across and 4 up is 5 long, so one unit of arrow is a fifth of it.
+    const per = 31.0;
+    final origin = Offset(size.width * 0.13, size.height * 0.80);
+    const dir = Offset(0.6, -0.8);
+    final tip = origin + dir * (per * 5);
+    final one = origin + dir * per;
+
+    // the ground the arrow leaves from, so the picture has a floor
+    canvas.drawLine(
+      Offset(origin.dx - 14, origin.dy),
+      Offset(size.width - 12, origin.dy),
+      _stroke(AppColors.ink3.withValues(alpha: 0.45), 1.2),
+    );
+
+    // the whole arrow
+    _arrow(canvas, origin, tip, _stroke(AppColors.info, 3));
+
+    // the unit arrow lying along it
+    canvas.drawLine(origin, one, _stroke(AppColors.ember, 7));
+
+    // a tick across the arrow where one unit ends
+    final across = Offset(-dir.dy, dir.dx) * 9;
+    canvas.drawLine(one - across, one + across, _stroke(AppColors.charcoal, 2));
+
+    _at(
+      canvas,
+      'A: 5 long',
+      Offset(tip.dx + 10, tip.dy - 6),
+      size: 11.5,
+      color: AppColors.info,
+      weight: FontWeight.w700,
+    );
+    _at(
+      canvas,
+      'exactly 1',
+      Offset(one.dx + 12, one.dy - 4),
+      size: 11.5,
+      color: AppColors.ember,
+      weight: FontWeight.w700,
+    );
+    _at(
+      canvas,
+      'divide by its own length, 5',
+      Offset(size.width / 2, size.height - 16),
+      center: true,
+      size: 11,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_UnitArrowPainter old) => false;
+}
+
+class _TakeTurnsPainter extends CustomPainter {
+  const _TakeTurnsPainter();
+
+  void _pair(
+    Canvas canvas,
+    double cx,
+    double y,
+    String a,
+    String b, {
+    int changed = -1,
+  }) {
+    const bw = 74.0;
+    const bh = 30.0;
+    final left = Rect.fromCenter(
+      center: Offset(cx - 58, y),
+      width: bw,
+      height: bh,
+    );
+    final right = Rect.fromCenter(
+      center: Offset(cx + 58, y),
+      width: bw,
+      height: bh,
+    );
+    _box(
+      canvas,
+      left,
+      a,
+      fill: changed == 0
+          ? AppColors.ember.withValues(alpha: 0.32)
+          : AppColors.cream,
+      size: 12.5,
+    );
+    _box(
+      canvas,
+      right,
+      b,
+      fill: changed == 1
+          ? AppColors.ember.withValues(alpha: 0.32)
+          : AppColors.cream,
+      size: 12.5,
+    );
+    _at(canvas, 'times', Offset(cx, y), center: true, size: 10.5);
+    if (changed >= 0) {
+      final under = changed == 0 ? left : right;
+      _at(
+        canvas,
+        'changed',
+        Offset(under.center.dx, y + 26),
+        center: true,
+        size: 9.5,
+        color: AppColors.ember,
+        weight: FontWeight.w700,
+      );
+      final other = changed == 0 ? right : left;
+      _at(
+        canvas,
+        'left alone',
+        Offset(other.center.dx, y + 26),
+        center: true,
+        size: 9.5,
+      );
+    }
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final cx = size.width / 2;
+    _pair(canvas, cx, 24, 'x sq', 'sin x');
+    _arrow(
+      canvas,
+      Offset(cx, 46),
+      Offset(cx, 68),
+      _stroke(AppColors.charcoal, 2),
+    );
+    _pair(canvas, cx, 92, '2x', 'sin x', changed: 0);
+    _at(
+      canvas,
+      'and',
+      Offset(cx, 130),
+      center: true,
+      size: 13,
+      color: AppColors.charcoal,
+      weight: FontWeight.w700,
+    );
+    _pair(canvas, cx, 158, 'x sq', 'cos x', changed: 1);
+  }
+
+  @override
+  bool shouldRepaint(_TakeTurnsPainter old) => false;
+}
+
 class _ShapePainter extends CustomPainter {
   const _ShapePainter();
 
@@ -2165,54 +2336,123 @@ class _ShadowPainter extends CustomPainter {
 }
 
 /// The three cofactor terms with their signs.
-class _SignRowPainter extends CustomPainter {
-  const _SignRowPainter();
+/// The same three by three grid three times, with one column covered each
+/// time.
+///
+/// The three signs are easy to copy and impossible to remember, because
+/// nothing on a sign row says WHY the middle one is a minus. Cover a column
+/// and look at the two that survive: for i they are columns two and three,
+/// side by side; for k they are one and two, side by side; for j they are one
+/// and three, with a column jumped between them. The middle term is the only
+/// one out of step, and that is what the minus pays for.
+class _CofactorGridPainter extends CustomPainter {
+  const _CofactorGridPainter();
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    const parts = [
-      ('+', 'i part', AppColors.forest),
-      ('-', 'j part', AppColors.error),
-      ('+', 'k part', AppColors.forest),
-    ];
-    final w = size.width / 3;
-    for (final (i, (sign, name, tone)) in parts.indexed) {
-      final c = Offset(w * (i + 0.5), size.height * 0.42);
-      _box(
-        canvas,
-        Rect.fromCenter(center: c, width: w * 0.62, height: 46),
-        name,
-        fill: AppColors.cream,
-        size: 12,
-      );
-      _at(
-        canvas,
-        sign,
-        Offset(c.dx, c.dy - 40),
-        center: true,
-        size: 20,
-        color: tone,
-      );
-    }
+  static const _rows = [
+    ['i', 'j', 'k'],
+    ['Ax', 'Ay', 'Az'],
+    ['Bx', 'By', 'Bz'],
+  ];
+
+  void _panel(Canvas canvas, Rect area, int covered, String sign, bool near) {
+    final tone = near ? AppColors.forest : AppColors.error;
     _at(
       canvas,
-      'the middle term is SUBTRACTED',
-      Offset(size.width / 2, size.height * 0.76),
+      sign,
+      Offset(area.center.dx, area.top + 12),
       center: true,
-      size: 12,
-      color: AppColors.error,
+      size: 22,
+      color: tone,
+      weight: FontWeight.w700,
+    );
+
+    const cellW = 30.0;
+    const cellH = 22.0;
+    final gridLeft = area.center.dx - cellW * 1.5;
+    final gridTop = area.top + 32;
+
+    for (var r = 0; r < 3; r++) {
+      for (var c = 0; c < 3; c++) {
+        final cell = Rect.fromLTWH(
+          gridLeft + c * cellW,
+          gridTop + r * cellH,
+          cellW,
+          cellH,
+        );
+        final isCovered = c == covered;
+        final survives = !isCovered && r > 0;
+        canvas.drawRect(
+          cell.deflate(1),
+          Paint()
+            ..color = isCovered
+                ? AppColors.ink3.withValues(alpha: 0.22)
+                : survives
+                ? AppColors.info.withValues(alpha: 0.26)
+                : AppColors.cream,
+        );
+        canvas.drawRect(
+          cell.deflate(1),
+          _stroke(AppColors.charcoal.withValues(alpha: 0.25), 1),
+        );
+        _at(
+          canvas,
+          _rows[r][c],
+          cell.center,
+          center: true,
+          size: 9.5,
+          color: isCovered ? AppColors.ink3 : AppColors.charcoal,
+        );
+      }
+    }
+
+    // the cover, drawn as a line straight through the column
+    final coverX = gridLeft + (covered + 0.5) * cellW;
+    canvas.drawLine(
+      Offset(coverX, gridTop - 3),
+      Offset(coverX, gridTop + cellH * 3 + 3),
+      _stroke(AppColors.ink2, 2),
+    );
+
+    // what is left, and whether the two columns are neighbors
+    final under = gridTop + cellH * 3 + 12;
+    final left = [0, 1, 2].where((c) => c != covered).toList();
+    _at(
+      canvas,
+      'left: ${left[0] + 1} and ${left[1] + 1}',
+      Offset(area.center.dx, under),
+      center: true,
+      size: 9.5,
     );
     _at(
       canvas,
-      'a minus in front of a minus points it the wrong way',
-      Offset(size.width / 2, size.height - 14),
+      near ? 'side by side' : 'a column jumped',
+      Offset(area.center.dx, under + 14),
       center: true,
-      size: 10,
+      size: 9.5,
+      color: tone,
+      weight: FontWeight.w700,
     );
   }
 
   @override
-  bool shouldRepaint(_SignRowPainter old) => false;
+  void paint(Canvas canvas, Size size) {
+    final w = size.width / 3;
+    final area = Rect.fromLTWH(0, 4, w, size.height - 34);
+    _panel(canvas, area, 0, '+', true);
+    _panel(canvas, area.translate(w, 0), 1, '-', false);
+    _panel(canvas, area.translate(w * 2, 0), 2, '+', true);
+    _at(
+      canvas,
+      'the odd one out is the one that gets the minus',
+      Offset(size.width / 2, size.height - 12),
+      center: true,
+      size: 11,
+      color: AppColors.charcoal,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_CofactorGridPainter old) => false;
 }
 
 /// A formula copied down a column, with and without a dollar sign.
