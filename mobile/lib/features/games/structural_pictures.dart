@@ -184,12 +184,28 @@ Widget pivotPicture() => const ConceptPicture(
   height: 210,
 );
 
-Widget jointForcePicture() => const ConceptPair(
-  left: CornerPainter(corner: Corner(load: 500, degrees: 45), answered: true),
-  right: CornerPainter(corner: Corner(load: 500, degrees: 15), answered: true),
-  leftCaption: 'a steep diagonal carries the 500 with room to spare',
-  rightCaption: 'the same 500 on a flat one needs a far bigger pull',
-  height: 200,
+// Stacked, not side by side: this painter writes four labels round one
+// joint, and at half width they land on each other.
+Widget jointForcePicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: CornerPainter(
+        corner: Corner(load: 500, degrees: 45),
+        answered: true,
+      ),
+      caption: 'a steep diagonal carries the 500 with room to spare',
+      height: 190,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: CornerPainter(
+        corner: Corner(load: 500, degrees: 15),
+        answered: true,
+      ),
+      caption: 'the same 500 on a flat one needs a far bigger pull',
+      height: 190,
+    ),
+  ],
 );
 
 const _routeTruss = Truss(
@@ -280,36 +296,55 @@ Widget termSignPicture() => const Column(
 // ---------------------------------------------------------------------------
 // 98 Indeterminate structures
 
-Widget redundantPicture() => const ConceptPair(
-  left: ReleasePainter(span: Span(ends: Ends.fixedRoller)),
-  right: ReleasePainter(
-    span: Span(ends: Ends.fixedRoller),
-    release: Release.theProp,
-    answered: true,
-  ),
-  leftCaption:
-      'built in at one end and propped at the other: one unknown too many',
-  rightCaption: 'let the prop go and a plain cantilever is left',
-  height: 200,
+// Stacked: at half width this painter's note wraps onto the beam and the
+// name of the released force runs into the view tag.
+Widget redundantPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: ReleasePainter(span: Span(ends: Ends.fixedRoller)),
+      caption:
+          'built in at one end and propped at the other: one unknown too many',
+      height: 165,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: ReleasePainter(
+        span: Span(ends: Ends.fixedRoller),
+        release: Release.theProp,
+        answered: true,
+      ),
+      caption: 'let the prop go and a plain cantilever is left',
+      height: 185,
+    ),
+  ],
 );
 
-Widget fixityPicture() => const ConceptPair(
-  left: SplitPainter(
-    ends: Ends.pinRoller,
-    marked: Marked.midMoment,
-    topNote: 'simply supported',
-    answered: true,
-  ),
-  right: SplitPainter(
-    ends: Ends.fixedFixed,
-    marked: Marked.midMoment,
-    topNote: 'both ends built in',
-    answered: true,
-  ),
-  leftCaption: 'ends hold nothing, so the middle carries it all',
-  rightCaption:
-      'stiff ends take a share, and the middle drops to a third of it',
-  height: 200,
+// Stacked: this painter writes a note over the beam as well as one above
+// it, and at half width the two land on the supports.
+Widget fixityPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: SplitPainter(
+        ends: Ends.pinRoller,
+        marked: Marked.midMoment,
+        topNote: 'simply supported',
+        answered: true,
+      ),
+      caption: 'ends hold nothing, so the middle carries it all',
+      height: 175,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: SplitPainter(
+        ends: Ends.fixedFixed,
+        marked: Marked.midMoment,
+        topNote: 'both ends built in',
+        answered: true,
+      ),
+      caption: 'stiff ends take a share, and the middle drops to a third of it',
+      height: 175,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
