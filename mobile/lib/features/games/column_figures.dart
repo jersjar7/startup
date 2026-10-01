@@ -11,10 +11,10 @@ enum End { pinned, fixed, free }
 
 extension EndWords on End {
   String get plain => switch (this) {
-        End.pinned => 'pinned',
-        End.fixed => 'fixed',
-        End.free => 'free',
-      };
+    End.pinned => 'pinned',
+    End.fixed => 'fixed',
+    End.free => 'free',
+  };
 }
 
 /// A column, what holds each end, and what it is made of.
@@ -63,12 +63,12 @@ class Post {
   double get effectiveLength => k * length;
 
   /// Euler's load. Note what is NOT in it: the strength of the steel.
-  double get criticalLoad => math.pi * math.pi * e * i / math.pow(effectiveLength, 2);
+  double get criticalLoad =>
+      math.pi * math.pi * e * i / math.pow(effectiveLength, 2);
 
   double get slenderness => effectiveLength / radius;
 
-  double get criticalStress =>
-      math.pi * math.pi * e / math.pow(slenderness, 2);
+  double get criticalStress => math.pi * math.pi * e / math.pow(slenderness, 2);
 
   /// Where buckling and yielding meet, for this material.
   double get transition => math.pi * math.sqrt(e / yieldStress);
@@ -95,7 +95,8 @@ List<Offset> buckledShape(Post post) {
   // how a cantilever column is normally drawn. When a round holds it the
   // other way up the curve has to be turned over with it, or the drawing
   // shows a free end that cannot move.
-  final flip = post.bottom == End.free ||
+  final flip =
+      post.bottom == End.free ||
       (post.bottom == End.pinned && post.top == End.fixed);
   for (var k = 0; k <= steps; k++) {
     final x = flip ? 1 - k / steps : k / steps;
@@ -207,8 +208,14 @@ class PostPainter extends CustomPainter {
     _write(canvas, 'P', Offset(x + 7, headY - 12), AppColors.info);
   }
 
-  void _drawEnd(Canvas canvas, Size size, Offset at, End end,
-      {required bool up, required Paint ink}) {
+  void _drawEnd(
+    Canvas canvas,
+    Size size,
+    Offset at,
+    End end, {
+    required bool up,
+    required Paint ink,
+  }) {
     final sign = up ? -1.0 : 1.0;
     switch (end) {
       case End.pinned:
@@ -241,19 +248,18 @@ class PostPainter extends CustomPainter {
 
   void _hatch(Canvas canvas, double x, double y, double sign, Paint ink) {
     for (var h = -14.0; h <= 14; h += 7) {
-      canvas.drawLine(
-        Offset(x + h, y),
-        Offset(x + h - 5, y + sign * 6),
-        ink,
-      );
+      canvas.drawLine(Offset(x + h, y), Offset(x + h - 5, y + sign * 6), ink);
     }
   }
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 11, color: color)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 11, color: color),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }
@@ -293,17 +299,17 @@ class ColumnCurvePainter extends CustomPainter {
   static const _ceiling = 620.0;
 
   Offset _at(Size size, double slenderness, double stress) => Offset(
-        _padL + slenderness / maxSlenderness * (size.width - _padL - 10),
-        size.height - _padB - stress / _ceiling * (size.height - _padB - _padT),
-      );
+    _padL + slenderness / maxSlenderness * (size.width - _padL - 10),
+    size.height - _padB - stress / _ceiling * (size.height - _padB - _padT),
+  );
 
   /// Where the column being asked about is drawn, so a tap target could sit
   /// on it.
   Offset markAt(Size size) => _at(
-        size,
-        math.min(post.slenderness, maxSlenderness),
-        math.min(post.criticalStress, _ceiling),
-      );
+    size,
+    math.min(post.slenderness, maxSlenderness),
+    math.min(post.criticalStress, _ceiling),
+  );
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -321,7 +327,11 @@ class ColumnCurvePainter extends CustomPainter {
     final capFrom = _at(size, 0, post.yieldStress);
     final capTo = _at(size, maxSlenderness, post.yieldStress);
     for (var x = capFrom.dx; x < capTo.dx; x += 8) {
-      canvas.drawLine(Offset(x, capFrom.dy), Offset(x + 4, capFrom.dy), capPaint);
+      canvas.drawLine(
+        Offset(x, capFrom.dy),
+        Offset(x + 4, capFrom.dy),
+        capPaint,
+      );
     }
 
     // Euler's hyperbola.
@@ -360,24 +370,58 @@ class ColumnCurvePainter extends CustomPainter {
         ..drawCircle(p, 5, Paint()..color = AppColors.ember);
     }
 
-    _write(canvas, 'stress', const Offset(2, 2), AppColors.ink3);
-    _write(canvas, 'slenderness KL/r',
-        Offset(size.width - 96, size.height - 13), AppColors.ink3);
-    _write(canvas, 'yield', Offset(_padL + 2, capFrom.dy - 12),
-        AppColors.error);
-    _write(canvas, 'short', Offset(_padL + 4, size.height - 13),
-        AppColors.ink3);
-    _write(canvas, 'long', Offset(cross.dx + 6, size.height - 13),
-        AppColors.ink3);
+    // Clear of the panel's rounded corner, which was cutting the first letter
+    // off, and clear of the yield line rather than sitting on it.
+    _write(canvas, 'stress', const Offset(10, 5), AppColors.ink3);
+    _write(
+      canvas,
+      'slenderness KL/r',
+      Offset(size.width - 96, size.height - 13),
+      AppColors.ink3,
+      bound: size,
+    );
+    _write(
+      canvas,
+      'yield',
+      Offset(_padL + 2, capFrom.dy - 18),
+      AppColors.error,
+    );
+    _write(
+      canvas,
+      'short',
+      Offset(_padL + 4, size.height - 13),
+      AppColors.ink3,
+    );
+    _write(
+      canvas,
+      'long',
+      Offset(cross.dx + 6, size.height - 13),
+      AppColors.ink3,
+    );
   }
 
-  void _write(Canvas canvas, String text, Offset at, Color color) {
-    TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
+  /// [bound] keeps a label inside the panel, whose rounded corner would
+  /// otherwise clip whatever is tucked into it.
+  void _write(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Color color, {
+    Size? bound,
+  }) {
+    final tp = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 9.5, color: color),
+      ),
       textDirection: TextDirection.ltr,
-    )
-      ..layout()
-      ..paint(canvas, at);
+    )..layout();
+    var x = at.dx;
+    if (bound != null) {
+      if (x + tp.width > bound.width - 8) x = bound.width - 8 - tp.width;
+      if (x < 8) x = 8;
+    }
+    tp.paint(canvas, Offset(x, at.dy));
   }
 
   @override
@@ -409,13 +453,25 @@ class AxisPainter extends CustomPainter {
     final box = profile.bounds;
     final centroid = profile.centroid;
     final left = ProfilePainter.toScreen(
-        profile, Offset(box.left, centroid.dy), size);
+      profile,
+      Offset(box.left, centroid.dy),
+      size,
+    );
     final right = ProfilePainter.toScreen(
-        profile, Offset(box.right, centroid.dy), size);
+      profile,
+      Offset(box.right, centroid.dy),
+      size,
+    );
     final bottom = ProfilePainter.toScreen(
-        profile, Offset(centroid.dx, box.top), size);
+      profile,
+      Offset(centroid.dx, box.top),
+      size,
+    );
     final top = ProfilePainter.toScreen(
-        profile, Offset(centroid.dx, box.top + box.height), size);
+      profile,
+      Offset(centroid.dx, box.top + box.height),
+      size,
+    );
 
     Color toneFor(bool horizontal) {
       if (locked && truth == horizontal) return AppColors.forest;
@@ -436,16 +492,23 @@ class AxisPainter extends CustomPainter {
       // Drawn as a chain line, which is how an axis is drawn on a section.
       final along = (b - a) / (b - a).distance;
       for (var d = 0.0; d < (b - a).distance; d += 9) {
-        canvas.drawLine(a + along * d, a + along * math.min(d + 5, (b - a).distance), paint);
+        canvas.drawLine(
+          a + along * d,
+          a + along * math.min(d + 5, (b - a).distance),
+          paint,
+        );
       }
       final label = horizontal ? 'x' : 'y';
       final at = horizontal
           ? Offset(b.dx + 2, b.dy - 6)
           : Offset(b.dx + 4, b.dy - 2);
       TextPainter(
-        text: TextSpan(text: label, style: AppTheme.mono(size: 11, color: tone)),
-        textDirection: TextDirection.ltr,
-      )
+          text: TextSpan(
+            text: label,
+            style: AppTheme.mono(size: 11, color: tone),
+          ),
+          textDirection: TextDirection.ltr,
+        )
         ..layout()
         ..paint(canvas, at);
     }
