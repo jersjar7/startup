@@ -222,6 +222,11 @@ void writeOn(
 ///
 /// A label in a pale ink is sitting on something dark and solid, where a pale
 /// patch would be the thing that hurts, so it is painted as it is.
+/// What a figure panel is actually painted on: the engineering grid lays this
+/// down across the whole panel before anything is drawn on it. A patch has to
+/// be this exact color, or it reads as a tinted box sitting on the drawing.
+const panelBase = Color(0xFFFDFCF8);
+
 void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
   if (!_wantsPatch(text)) {
     text.paint(canvas, at);
@@ -231,10 +236,7 @@ void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
     Rect.fromLTWH(at.dx - 2.5, at.dy - 1, text.width + 5, text.height + 2),
     const Radius.circular(3),
   );
-  canvas.drawRRect(
-    box,
-    Paint()..color = (patch ?? AppColors.creamDark).withValues(alpha: 0.93),
-  );
+  canvas.drawRRect(box, Paint()..color = patch ?? panelBase);
   text.paint(canvas, at);
 }
 
