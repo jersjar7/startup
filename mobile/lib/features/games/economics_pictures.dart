@@ -80,11 +80,15 @@ Widget studyPeriodPicture() => const ConceptPicture(
     span: 12,
     nameA: 'Pump X',
     nameB: 'Pump Y',
-    bracket: 12,
   ),
+  // No bracket: the painter writes its label a fixed distance from the top,
+  // which lands on the first row of bars at any height a sheet gives it. The
+  // drawing makes the point without it, since two lives and three end on the
+  // same mark.
   caption:
-      'a six year pump and a four year pump only end together at twelve years',
-  height: 170,
+      'a six year pump twice over, a four year pump three times. twelve is '
+      'the first year they both end on',
+  height: 180,
 );
 
 Widget methodsAgreePicture() => const ConceptPicture(
@@ -349,10 +353,8 @@ class _RatesPainter extends CustomPainter {
     nom.paint(canvas, Offset(right + 6, y(112) + 4));
     final start = _text('100 today', color: AppColors.charcoal);
     start.paint(canvas, Offset(left, base + 6));
-    final one = _text(
-      'one percent a month, twelve times',
-      color: AppColors.ember,
-    );
+    // Kept short so it cannot reach the two labels stacked at the right end.
+    final one = _text('one percent a month', color: AppColors.ember);
     one.paint(canvas, Offset(left + 8, top - 2));
   }
 
