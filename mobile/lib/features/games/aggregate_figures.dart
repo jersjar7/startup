@@ -13,22 +13,22 @@ enum Weighing { dry, ssd, submerged }
 extension WeighingWords on Weighing {
   /// The letter the handbook uses.
   String get letter => switch (this) {
-        Weighing.dry => 'A',
-        Weighing.ssd => 'B',
-        Weighing.submerged => 'C',
-      };
+    Weighing.dry => 'A',
+    Weighing.ssd => 'B',
+    Weighing.submerged => 'C',
+  };
 
   String get title => switch (this) {
-        Weighing.dry => 'oven dry',
-        Weighing.ssd => 'saturated, surface dry',
-        Weighing.submerged => 'submerged',
-      };
+    Weighing.dry => 'oven dry',
+    Weighing.ssd => 'saturated, surface dry',
+    Weighing.submerged => 'submerged',
+  };
 
   String get plain => switch (this) {
-        Weighing.dry => 'pores empty, weighed in air',
-        Weighing.ssd => 'pores full, surface wiped, weighed in air',
-        Weighing.submerged => 'pores full, weighed hanging in water',
-      };
+    Weighing.dry => 'pores empty, weighed in air',
+    Weighing.ssd => 'pores full, surface wiped, weighed in air',
+    Weighing.submerged => 'pores full, weighed hanging in water',
+  };
 }
 
 /// One aggregate sample, weighed three ways.
@@ -42,10 +42,10 @@ class Sample {
   final double submerged;
 
   double weight(Weighing which) => switch (which) {
-        Weighing.dry => dry,
-        Weighing.ssd => ssd,
-        Weighing.submerged => submerged,
-      };
+    Weighing.dry => dry,
+    Weighing.ssd => ssd,
+    Weighing.submerged => submerged,
+  };
 
   /// Water the pores hold, as a percentage of the dry mass.
   double get absorption => (ssd - dry) / dry * 100;
@@ -106,15 +106,29 @@ class SamplePainter extends CustomPainter {
       if (which == Weighing.submerged) _tank(canvas, cell);
       _stone(canvas, middle, which, tone);
 
-      _write(canvas, size, which.letter, Offset(cell.left + 8, cell.top + 6),
-          tone, 13);
-      _write(canvas, size, which.title, Offset(cell.left + 6, cell.top + 24),
-          AppColors.ink3, 9);
+      _write(
+        canvas,
+        size,
+        which.letter,
+        Offset(cell.left + 8, cell.top + 6),
+        tone,
+        13,
+      );
+      _write(
+        canvas,
+        size,
+        which.title,
+        Offset(cell.left + 6, cell.top + 24),
+        AppColors.ink3,
+        9,
+      );
       _write(
         canvas,
         size,
         '${sample.weight(which).round()} g',
-        Offset(cell.center.dx - 20, cell.bottom - 34),
+        // High enough to clear the caption under it: at 34 the number sat on
+        // the caption's first line and neither could be read.
+        Offset(cell.center.dx - 20, cell.bottom - 50),
         tone,
         11,
       );
@@ -122,15 +136,25 @@ class SamplePainter extends CustomPainter {
       // narrow, so it is hung high enough for the second line to land
       // inside the panel. At 18 the second line fell off the bottom and
       // half of every caption was invisible.
-      _write(canvas, size, which.plain, Offset(cell.left + 4, cell.bottom - 26),
-          AppColors.ink3, 8);
+      _write(
+        canvas,
+        size,
+        which.plain,
+        Offset(cell.left + 4, cell.bottom - 26),
+        AppColors.ink3,
+        8,
+      );
     }
   }
 
   /// The water it hangs in, for the third weighing.
   void _tank(Canvas canvas, Rect cell) {
     final tank = Rect.fromLTRB(
-        cell.left + 10, cell.top + 56, cell.right - 10, cell.bottom - 40);
+      cell.left + 10,
+      cell.top + 56,
+      cell.right - 10,
+      cell.bottom - 40,
+    );
     canvas
       ..drawRect(tank, Paint()..color = AppColors.info.withValues(alpha: 0.12))
       ..drawRect(
@@ -152,7 +176,10 @@ class SamplePainter extends CustomPainter {
       ..lineTo(at.dx + 16, at.dy + 16)
       ..close();
     canvas
-      ..drawPath(body, Paint()..color = AppColors.sunbeam.withValues(alpha: 0.35))
+      ..drawPath(
+        body,
+        Paint()..color = AppColors.sunbeam.withValues(alpha: 0.35),
+      )
       ..drawPath(
         body,
         Paint()
@@ -199,11 +226,19 @@ class SamplePainter extends CustomPainter {
 
   /// Laid out to a third of the panel, because each weighing gets its own
   /// column and a caption has to stay in its own.
-  void _write(Canvas canvas, Size size, String text, Offset at, Color color,
-      double points) {
+  void _write(
+    Canvas canvas,
+    Size size,
+    String text,
+    Offset at,
+    Color color,
+    double points,
+  ) {
     final painter = TextPainter(
-      text:
-          TextSpan(text: text, style: AppTheme.mono(size: points, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: points, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout(maxWidth: size.width / 3 - 6);
     paintInside(canvas, size, painter, at);
@@ -236,7 +271,7 @@ class Grading {
     'No 16',
     'No 30',
     'No 50',
-    'No 100'
+    'No 100',
   ];
 
   /// Cumulative percent retained on each sieve.
@@ -288,16 +323,23 @@ class GradingPainter extends CustomPainter {
     final most = math.log(Grading.sieves.first);
     final least = math.log(Grading.sieves.last);
     final on = (math.log(Grading.sieves[sieve]) - most) / (least - most);
-    return Offset(box.left + box.width * on,
-        box.bottom - box.height * passing / 100);
+    return Offset(
+      box.left + box.width * on,
+      box.bottom - box.height * passing / 100,
+    );
   }
 
-  static List<Offset> pointsOf(Size size, Grading g) =>
-      [for (var i = 0; i < g.passing.length; i++) at(size, i, g.passing[i])];
+  static List<Offset> pointsOf(Size size, Grading g) => [
+    for (var i = 0; i < g.passing.length; i++) at(size, i, g.passing[i]),
+  ];
 
   /// Which curve a tap is nearest.
-  static int? nearest(Size size, List<Grading> gradings, Offset tap,
-      {double within = 30}) {
+  static int? nearest(
+    Size size,
+    List<Grading> gradings,
+    Offset tap, {
+    double within = 30,
+  }) {
     int? best;
     var bestGap = within;
     for (var i = 0; i < gradings.length; i++) {
@@ -329,19 +371,45 @@ class GradingPainter extends CustomPainter {
       canvas.drawLine(
         Offset(box.left, y),
         Offset(box.right, y),
-        Paint()..color = AppColors.line..strokeWidth = 0.8,
+        Paint()
+          ..color = AppColors.line
+          ..strokeWidth = 0.8,
       );
       writeOn(canvas, size, '$pc', Offset(6, y - 6), AppColors.ink3);
     }
-    writeOn(canvas, size, 'percent passing', const Offset(2, 2), AppColors.ink3);
+    // Clear of the panel's rounded corner, which was cutting the first letter
+    // off.
+    writeOn(
+      canvas,
+      size,
+      'percent passing',
+      const Offset(10, 5),
+      AppColors.ink3,
+    );
     for (var i = 0; i < Grading.sieves.length; i += 2) {
       final x = at(size, i, 0).dx;
-      writeOn(canvas, size, Grading.names[i], Offset(x - 12, box.bottom + 5),
-          AppColors.ink3);
+      writeOn(
+        canvas,
+        size,
+        Grading.names[i],
+        Offset(x - 12, box.bottom + 5),
+        AppColors.ink3,
+      );
     }
-    writeOn(canvas, size, 'coarse', Offset(box.left, box.bottom + 17), AppColors.ink3);
-    writeOn(canvas, size, 'fine', Offset(box.right - 22, box.bottom + 17),
-        AppColors.ink3);
+    writeOn(
+      canvas,
+      size,
+      'coarse',
+      Offset(box.left, box.bottom + 17),
+      AppColors.ink3,
+    );
+    writeOn(
+      canvas,
+      size,
+      'fine',
+      Offset(box.right - 22, box.bottom + 17),
+      AppColors.ink3,
+    );
 
     for (var i = 0; i < gradings.length; i++) {
       final Color tone;
