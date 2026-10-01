@@ -56,72 +56,106 @@ class FilterPainter extends CustomPainter {
 
     final bedRect = Rect.fromLTWH(left, top, wide, tall);
     canvas
-      ..drawRect(bedRect, Paint()..color = AppColors.ink2.withValues(alpha: 0.30))
       ..drawRect(
-          bedRect,
-          Paint()
-            ..color = AppColors.charcoal
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.6);
+        bedRect,
+        Paint()..color = AppColors.ink2.withValues(alpha: 0.30),
+      )
+      ..drawRect(
+        bedRect,
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.6,
+      );
     // Sand, suggested by a few strokes.
     for (var x = bedRect.left + 6; x < bedRect.right - 4; x += 12) {
       canvas.drawLine(
-          Offset(x, bedRect.top + 4),
-          Offset(x, bedRect.bottom - 4),
-          Paint()
-            ..color = AppColors.ink3.withValues(alpha: 0.35)
-            ..strokeWidth = 1);
+        Offset(x, bedRect.top + 4),
+        Offset(x, bedRect.bottom - 4),
+        Paint()
+          ..color = AppColors.ink3.withValues(alpha: 0.35)
+          ..strokeWidth = 1,
+      );
     }
 
-    writeOn(canvas, size, '${bed.length.toStringAsFixed(0)} ft',
-        Offset(bedRect.center.dx - 16, bedRect.bottom + 6), AppColors.ink3,
-        fontSize: 9.5);
-    writeOn(canvas, size, '${bed.width.toStringAsFixed(0)} ft',
-        Offset(4, bedRect.center.dy - 6), AppColors.ink3, fontSize: 9.5);
     writeOn(
-        canvas,
-        size,
-        '${bed.flowGpm.toStringAsFixed(0)} gallons a minute onto the bed',
-        Offset(left - 30, 10),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${bed.length.toStringAsFixed(0)} ft',
+      Offset(bedRect.center.dx - 16, bedRect.bottom + 6),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        bed.rapid ? 'a rapid sand filter' : 'a slow sand filter',
-        Offset(left - 30, 24),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${bed.width.toStringAsFixed(0)} ft',
+      Offset(4, bedRect.center.dy - 6),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      '${bed.flowGpm.toStringAsFixed(0)} gallons a minute onto the bed',
+      Offset(left - 30, 10),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      bed.rapid ? 'a rapid sand filter' : 'a slow sand filter',
+      Offset(left - 30, 24),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'the rate through the sand comes out',
-          Offset(left - 30, size.height - 30), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'after the answer',
-          Offset(left - 30, size.height - 16), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'the rate through the sand comes out',
+        Offset(left - 30, size.height - 30),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'after the answer',
+        Offset(left - 30, size.height - 16),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
+    // The second note is laid under the first by the height the first
+    // actually took. Fourteen points apart, its patch covered the tails of
+    // the line above it.
+    const noteTop = 36.0;
+    final firstNote = writeOn(
+      canvas,
+      size,
+      '${bed.area.toStringAsFixed(0)} square feet of bed, so '
+      '${bed.loadingRate.toStringAsFixed(1)} gpm to the square foot',
+      Offset(left - 30, size.height - noteTop),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        '${bed.area.toStringAsFixed(0)} square feet of bed, so '
-            '${bed.loadingRate.toStringAsFixed(1)} gpm to the square foot',
-        Offset(left - 30, size.height - 30),
-        AppColors.ember,
-        fontSize: 9.5);
-    writeOn(
-        canvas,
-        size,
-        bed.rapid
-            ? (bed.withinRapidRange
+      canvas,
+      size,
+      bed.rapid
+          ? (bed.withinRapidRange
                 ? 'inside the usual two to ten for rapid sand'
                 : 'outside the usual two to ten for rapid sand')
-            : 'slow sand runs nearer a tenth of a gallon',
-        Offset(left - 30, size.height - 16),
-        bed.rapid && !bed.withinRapidRange
-            ? AppColors.error
-            : AppColors.forest,
-        fontSize: 9.5);
+          : 'slow sand runs nearer a tenth of a gallon',
+      Offset(left - 30, size.height - noteTop + firstNote.height + 3),
+      bed.rapid && !bed.withinRapidRange ? AppColors.error : AppColors.forest,
+      fontSize: 9.5,
+    );
 
     viewTag(canvas, size, Looking.plan, note: 'the bed');
   }

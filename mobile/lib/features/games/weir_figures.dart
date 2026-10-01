@@ -11,10 +11,10 @@ enum Notch { fullWidth, contracted, vee }
 
 extension NotchWords on Notch {
   String get plain => switch (this) {
-        Notch.fullWidth => 'a suppressed rectangular weir',
-        Notch.contracted => 'a contracted rectangular weir',
-        Notch.vee => 'a 90 degree V-notch weir',
-      };
+    Notch.fullWidth => 'a suppressed rectangular weir',
+    Notch.contracted => 'a contracted rectangular weir',
+    Notch.vee => 'a 90 degree V-notch weir',
+  };
 }
 
 /// A weir: a plate across the channel with the water spilling over it.
@@ -45,9 +45,9 @@ class Weir {
 
   /// The coefficient the handbook gives for this shape and unit system.
   double get coefficient => switch (notch) {
-        Notch.fullWidth || Notch.contracted => metric ? 1.84 : 3.33,
-        Notch.vee => metric ? 1.40 : 2.54,
-      };
+    Notch.fullWidth || Notch.contracted => metric ? 1.84 : 3.33,
+    Notch.vee => metric ? 1.40 : 2.54,
+  };
 
   /// How the head is powered. Three halves for anything with a flat crest,
   /// five halves for a V, because a V gets WIDER as the water rises and a
@@ -66,10 +66,13 @@ class Weir {
 
   /// What the same weir passes at another head, for the rounds that ask how
   /// much a weir notices a change.
-  double flowAt(double h) =>
-      Weir(notch: notch, head: h, crest: crest, channel: channel,
-              metric: metric)
-          .flow;
+  double flowAt(double h) => Weir(
+    notch: notch,
+    head: h,
+    crest: crest,
+    channel: channel,
+    metric: metric,
+  ).flow;
 }
 
 /// The plate seen from upstream: the channel walls either side, the notch
@@ -124,40 +127,49 @@ class WeirPainter extends CustomPainter {
       final outer = middle + side * (half + 14);
       final inner = middle + side * half;
       final wall = Path()
-        ..addRect(Rect.fromLTRB(math.min(outer, inner), plateTop - 12,
-            math.max(outer, inner), floorY));
+        ..addRect(
+          Rect.fromLTRB(
+            math.min(outer, inner),
+            plateTop - 12,
+            math.max(outer, inner),
+            floorY,
+          ),
+        );
       hatchIn(canvas, wall, step: 5);
       canvas.drawPath(
-          wall,
-          Paint()
-            ..color = AppColors.ink2
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.3);
+        wall,
+        Paint()
+          ..color = AppColors.ink2
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.3,
+      );
     }
 
     // The plate, with the notch taken out of it.
     final opening = _openingPath(middle, half, crestY, plateTop, scale);
     final plate = Path.combine(
-        PathOperation.difference,
-        Path()
-          ..addRect(Rect.fromLTRB(middle - half, plateTop, middle + half,
-              floorY)),
-        opening);
+      PathOperation.difference,
+      Path()..addRect(
+        Rect.fromLTRB(middle - half, plateTop, middle + half, floorY),
+      ),
+      opening,
+    );
     hatchIn(canvas, plate, step: 5, slope: -1);
     canvas.drawPath(
-        plate,
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.6);
+      plate,
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.6,
+    );
 
     // The water standing behind the plate, seen through the opening.
     final wet = Path.combine(
-        PathOperation.intersect,
-        opening,
-        Path()
-          ..addRect(
-              Rect.fromLTRB(middle - half, waterY, middle + half, floorY)));
+      PathOperation.intersect,
+      opening,
+      Path()
+        ..addRect(Rect.fromLTRB(middle - half, waterY, middle + half, floorY)),
+    );
     canvas.drawPath(wet, waterFill);
     // The surface line covers exactly the water you can see through the
     // opening, and no more. Running it on across the plate or into the
@@ -167,9 +179,12 @@ class WeirPainter extends CustomPainter {
       Notch.contracted => half * 0.62,
       Notch.vee => math.min(weir.head * scale, half),
     };
-    waterLevel(canvas, Offset(middle - surfaceHalf, waterY),
-        Offset(middle + surfaceHalf, waterY),
-        markAt: middle - surfaceHalf + math.min(14, surfaceHalf * 0.4));
+    waterLevel(
+      canvas,
+      Offset(middle - surfaceHalf, waterY),
+      Offset(middle + surfaceHalf, waterY),
+      markAt: middle - surfaceHalf + math.min(14, surfaceHalf * 0.4),
+    );
 
     // Where the water would stand after the change the round describes.
     if (thenHead != null) {
@@ -183,95 +198,135 @@ class WeirPainter extends CustomPainter {
       };
       for (var x = middle - thenHalf; x < middle + thenHalf; x += 9) {
         canvas.drawLine(
-            Offset(x, thenY),
-            Offset(x + 5, thenY),
-            Paint()
-              ..color = AppColors.forest
-              ..strokeWidth = 1.6);
+          Offset(x, thenY),
+          Offset(x + 5, thenY),
+          Paint()
+            ..color = AppColors.forest
+            ..strokeWidth = 1.6,
+        );
       }
-      writeOn(canvas, size, 'then H ${_num(thenHead!)}',
-          Offset(middle - thenHalf + 2, thenY - 13), AppColors.forest,
-          fontSize: 9);
+      // Clear above the dashes, not resting on them.
+      writeOn(
+        canvas,
+        size,
+        'then H ${_num(thenHead!)}',
+        Offset(middle - thenHalf + 2, thenY - 18),
+        AppColors.forest,
+        fontSize: 9,
+      );
     }
 
     // The head above the crest, which every weir formula runs on.
     final dim = math.min(middle + half + 22, size.width - 8);
     canvas
       ..drawLine(
-          Offset(dim, waterY),
-          Offset(dim, crestY),
-          Paint()
-            ..color = AppColors.ember
-            ..strokeWidth = 1.4)
+        Offset(dim, waterY),
+        Offset(dim, crestY),
+        Paint()
+          ..color = AppColors.ember
+          ..strokeWidth = 1.4,
+      )
       ..drawLine(
-          Offset(dim - 5, crestY),
-          Offset(dim + 5, crestY),
-          Paint()
-            ..color = AppColors.ember
-            ..strokeWidth = 1.4);
+        Offset(dim - 5, crestY),
+        Offset(dim + 5, crestY),
+        Paint()
+          ..color = AppColors.ember
+          ..strokeWidth = 1.4,
+      );
     // Above the dimension rather than beside it, so it never needs room
     // the panel does not have.
-    writeOn(canvas, size, 'H ${_num(weir.head)} ${weir.units}',
-        Offset(dim - 20, waterY - 14), AppColors.ember, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'H ${_num(weir.head)} ${weir.units}',
+      Offset(dim - 20, waterY - 14),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
 
     // The crest, and whether it reaches the walls.
     if (weir.notch != Notch.vee) {
       final reach = weir.notch == Notch.fullWidth ? half : half * 0.62;
       canvas.drawLine(
-          Offset(middle - reach, crestY + 9),
-          Offset(middle + reach, crestY + 9),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1);
-      writeOn(canvas, size, 'L ${_num(weir.crest)} ${weir.units}',
-          Offset(middle - 22, crestY + 12), AppColors.ink3, fontSize: 9.5);
+        Offset(middle - reach, crestY + 9),
+        Offset(middle + reach, crestY + 9),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1,
+      );
+      writeOn(
+        canvas,
+        size,
+        'L ${_num(weir.crest)} ${weir.units}',
+        Offset(middle - 22, crestY + 12),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       if (weir.notch == Notch.contracted) {
         for (final side in [-1, 1]) {
-          writeOn(canvas, size, 'gap',
-              Offset(middle + side * half - 12, crestY - 14), AppColors.ink3,
-              fontSize: 8.5);
+          writeOn(
+            canvas,
+            size,
+            'gap',
+            Offset(middle + side * half - 12, crestY - 14),
+            AppColors.ink3,
+            fontSize: 8.5,
+          );
         }
       }
     } else {
-      writeOn(canvas, size, '90 degrees', Offset(middle - 26, crestY - 16),
-          AppColors.ink3, fontSize: 9);
+      writeOn(
+        canvas,
+        size,
+        '90 degrees',
+        Offset(middle - 26, crestY - 16),
+        AppColors.ink3,
+        fontSize: 9,
+      );
     }
 
     writeOn(
-        canvas,
-        size,
-        tag == null
-            ? weir.notch.plain.toUpperCase()
-            : '$tag   ${weir.notch.plain.toUpperCase()}',
-        const Offset(8, 8),
-        AppColors.ember,
-        fontSize: 9);
+      canvas,
+      size,
+      tag == null
+          ? weir.notch.plain.toUpperCase()
+          : '$tag   ${weir.notch.plain.toUpperCase()}',
+      const Offset(8, 8),
+      AppColors.ember,
+      fontSize: 9,
+    );
     if (showFlow) {
       writeOn(
-          canvas,
-          size,
-          'Q ${weir.flow.toStringAsFixed(1)} '
-              '${weir.metric ? 'm3/s' : 'cfs'}',
-          const Offset(8, 22),
-          AppColors.forest,
-          fontSize: 9.5);
+        canvas,
+        size,
+        'Q ${weir.flow.toStringAsFixed(1)} '
+        '${weir.metric ? 'm3/s' : 'cfs'}',
+        const Offset(8, 22),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
     viewTag(canvas, size, Looking.elevation, note: 'the plate from upstream');
   }
 
   /// The hole in the plate the water goes through.
   Path _openingPath(
-      double middle, double half, double crestY, double plateTop, double scale) {
+    double middle,
+    double half,
+    double crestY,
+    double plateTop,
+    double scale,
+  ) {
     switch (weir.notch) {
       case Notch.fullWidth:
-        return Path()
-          ..addRect(
-              Rect.fromLTRB(middle - half, plateTop, middle + half, crestY));
+        return Path()..addRect(
+          Rect.fromLTRB(middle - half, plateTop, middle + half, crestY),
+        );
       case Notch.contracted:
         final reach = half * 0.62;
-        return Path()
-          ..addRect(
-              Rect.fromLTRB(middle - reach, plateTop, middle + reach, crestY));
+        return Path()..addRect(
+          Rect.fromLTRB(middle - reach, plateTop, middle + reach, crestY),
+        );
       case Notch.vee:
         // A right angle at the bottom, so the opening is as wide as it is
         // deep at every level. That is where the five halves comes from.

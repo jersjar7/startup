@@ -34,14 +34,12 @@ class Catchment {
 
   final List<Patch> patches;
 
-  double get acres =>
-      patches.fold(0.0, (sum, p) => sum + p.acres);
+  double get acres => patches.fold(0.0, (sum, p) => sum + p.acres);
 
   /// The area-weighted runoff coefficient, which is the only correct way to
   /// combine them. Averaging the coefficients without weighting is the trap
   /// this lesson names.
-  double get weighted =>
-      patches.fold(0.0, (sum, p) => sum + p.share) / acres;
+  double get weighted => patches.fold(0.0, (sum, p) => sum + p.share) / acres;
 
   /// What a plain average of the coefficients would have given, for the
   /// feedback to contrast against.
@@ -84,8 +82,8 @@ class CatchmentPainter extends CustomPainter {
     final bottom = size.height - 38;
     final left = _pad + 8;
     final full = size.width - _pad;
-    final right = left +
-        (full - left) * catchment.acres / (scaleTo ?? catchment.acres);
+    final right =
+        left + (full - left) * catchment.acres / (scaleTo ?? catchment.acres);
     var x = left;
 
     for (final patch in catchment.patches) {
@@ -96,22 +94,47 @@ class CatchmentPainter extends CustomPainter {
       // block is C times A: the thing being compared, drawn.
       canvas
         ..drawRect(
-            rect,
-            Paint()
-              ..color = AppColors.charcoal
-                  .withValues(alpha: 0.60 * patch.coefficient))
+          rect,
+          Paint()
+            ..color = AppColors.charcoal.withValues(
+              alpha: 0.60 * patch.coefficient,
+            ),
+        )
         ..drawRect(
-            rect,
-            Paint()
-              ..color = AppColors.ink2
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.3);
-      writeOn(canvas, size, patch.cover, Offset(x + 5, top + 6),
-          AppColors.charcoal, fontSize: 9.5);
-      writeOn(canvas, size, 'C ${patch.coefficient.toStringAsFixed(2)}',
-          Offset(x + 5, top + 20), AppColors.charcoal, fontSize: 9.5);
-      writeOn(canvas, size, '${_num(patch.acres)} acres',
-          Offset(x + 5, bottom - 16), AppColors.ink2, fontSize: 9.5);
+          rect,
+          Paint()
+            ..color = AppColors.ink2
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.3,
+        );
+      // A name is held to its own block, so a narrow patch wraps its name
+      // instead of running across the patch beside it and being painted out
+      // by it. The coefficient then sits under whatever the name took.
+      final named = writeOn(
+        canvas,
+        size,
+        patch.cover,
+        Offset(x + 5, top + 6),
+        AppColors.charcoal,
+        fontSize: 9.5,
+        maxWidth: width - 10,
+      );
+      writeOn(
+        canvas,
+        size,
+        'C ${patch.coefficient.toStringAsFixed(2)}',
+        Offset(x + 5, top + 8 + named.height),
+        AppColors.charcoal,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        '${_num(patch.acres)} acres',
+        Offset(x + 5, bottom - 16),
+        AppColors.ink2,
+        fontSize: 9.5,
+      );
       x += width;
     }
 
@@ -120,31 +143,51 @@ class CatchmentPainter extends CustomPainter {
     final inletAt = Offset((left + right) / 2, bottom + 10);
     canvas
       ..drawLine(
-          Offset(inletAt.dx, bottom),
-          inletAt,
-          Paint()
-            ..color = AppColors.info
-            ..strokeWidth = 2)
+        Offset(inletAt.dx, bottom),
+        inletAt,
+        Paint()
+          ..color = AppColors.info
+          ..strokeWidth = 2,
+      )
       ..drawCircle(inletAt, 4.5, Paint()..color = AppColors.info);
-    writeOn(canvas, size, 'one inlet', Offset(inletAt.dx + 8, bottom + 4),
-        AppColors.info, fontSize: 9);
+    writeOn(
+      canvas,
+      size,
+      'one inlet',
+      Offset(inletAt.dx + 8, bottom + 4),
+      AppColors.info,
+      fontSize: 9,
+    );
 
     if (tag != null) {
-      writeOn(canvas, size, tag!, const Offset(8, 8), AppColors.ember,
-          fontSize: 9);
+      writeOn(
+        canvas,
+        size,
+        tag!,
+        const Offset(8, 8),
+        AppColors.ember,
+        fontSize: 9,
+      );
     }
     if (intensity != null) {
-      writeOn(canvas, size, 'rain ${_num(intensity!)} in/hr',
-          Offset(size.width - 90, 8), AppColors.ink3, fontSize: 9);
+      writeOn(
+        canvas,
+        size,
+        'rain ${_num(intensity!)} in/hr',
+        Offset(size.width - 90, 8),
+        AppColors.ink3,
+        fontSize: 9,
+      );
     }
     if (showWeighted) {
       writeOn(
-          canvas,
-          size,
-          'area weighted C ${catchment.weighted.toStringAsFixed(3)}',
-          Offset(8, size.height - 16),
-          AppColors.forest,
-          fontSize: 9.5);
+        canvas,
+        size,
+        'area weighted C ${catchment.weighted.toStringAsFixed(3)}',
+        Offset(8, size.height - 16),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
     viewTag(canvas, size, Looking.plan, note: 'the catchment');
   }
@@ -211,68 +254,101 @@ class SoakPainter extends CustomPainter {
     canvas
       ..drawRect(Rect.fromLTRB(left, rainTop, left + width, baseY), waterFill)
       ..drawRect(
-          Rect.fromLTRB(left, rainTop, left + width, baseY),
-          Paint()
-            ..color = AppColors.info
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.6);
-    writeOn(canvas, size, 'the storm', Offset(left + 4, rainTop - 15),
-        AppColors.info, fontSize: 9.5);
-    writeOn(canvas, size, '${_num(soak.rain)} in',
-        Offset(left + 4, rainTop + 5), AppColors.info, fontSize: 10);
+        Rect.fromLTRB(left, rainTop, left + width, baseY),
+        Paint()
+          ..color = AppColors.info
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.6,
+      );
+    writeOn(
+      canvas,
+      size,
+      'the storm',
+      Offset(left + 4, rainTop - 15),
+      AppColors.info,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      '${_num(soak.rain)} in',
+      Offset(left + 4, rainTop + 5),
+      AppColors.info,
+      fontSize: 10,
+    );
 
     // The threshold the ground takes first.
     final markY = baseY - soak.abstraction * perInch;
     for (var x = left - 14.0; x < left + width + 96; x += 9) {
       canvas.drawLine(
-          Offset(x, markY),
-          Offset(x + 5, markY),
-          Paint()
-            ..color = AppColors.ember
-            ..strokeWidth = 1.8);
+        Offset(x, markY),
+        Offset(x + 5, markY),
+        Paint()
+          ..color = AppColors.ember
+          ..strokeWidth = 1.8,
+      );
     }
     // On a paved catchment the threshold is a whisker off the ground, so
     // the label gets lifted clear of the hatching rather than sitting in it.
-    final labelY = markY > baseY - 16 ? baseY - 30 : markY - 6;
+    final labelY = markY > baseY - 16 ? baseY - 30 : markY - 17;
     writeOn(
-        canvas,
-        size,
-        'the ground takes the first ${soak.abstraction.toStringAsFixed(2)} in',
-        Offset(left + width + 8, labelY),
-        AppColors.ember,
-        fontSize: 9);
+      canvas,
+      size,
+      'the ground takes the first ${soak.abstraction.toStringAsFixed(2)} in',
+      Offset(left + width + 8, labelY),
+      AppColors.ember,
+      fontSize: 9,
+    );
 
-    groundLine(canvas, Offset(left - 20, baseY),
-        Offset(size.width - 12, baseY));
+    groundLine(
+      canvas,
+      Offset(left - 20, baseY),
+      Offset(size.width - 12, baseY),
+    );
 
     if (answered) {
       final runTop = baseY - soak.runoff * perInch;
       final runLeft = left + width + 18;
       canvas
         ..drawRect(
-            Rect.fromLTRB(runLeft, runTop, runLeft + 44, baseY),
-            Paint()..color = AppColors.forest.withValues(alpha: 0.25))
+          Rect.fromLTRB(runLeft, runTop, runLeft + 44, baseY),
+          Paint()..color = AppColors.forest.withValues(alpha: 0.25),
+        )
         ..drawRect(
-            Rect.fromLTRB(runLeft, runTop, runLeft + 44, baseY),
-            Paint()
-              ..color = AppColors.forest
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.6);
+          Rect.fromLTRB(runLeft, runTop, runLeft + 44, baseY),
+          Paint()
+            ..color = AppColors.forest
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.6,
+        );
       writeOn(
-          canvas,
-          size,
-          soak.runoff <= 0
-              ? 'nothing runs off'
-              : 'runs off ${soak.runoff.toStringAsFixed(2)} in',
-          Offset(runLeft - 2, math.max(runTop - 15, 12)),
-          AppColors.forest,
-          fontSize: 9.5);
+        canvas,
+        size,
+        soak.runoff <= 0
+            ? 'nothing runs off'
+            : 'runs off ${soak.runoff.toStringAsFixed(2)} in',
+        Offset(runLeft - 2, math.max(runTop - 15, 12)),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
 
-    writeOn(canvas, size, 'CN ${_num(soak.curveNumber)}',
-        const Offset(8, 8), AppColors.ink2, fontSize: 10);
-    writeOn(canvas, size, 'S ${soak.retention.toStringAsFixed(2)} in',
-        const Offset(8, 22), AppColors.ink3, fontSize: 9);
+    writeOn(
+      canvas,
+      size,
+      'CN ${_num(soak.curveNumber)}',
+      const Offset(8, 8),
+      AppColors.ink2,
+      fontSize: 10,
+    );
+    writeOn(
+      canvas,
+      size,
+      'S ${soak.retention.toStringAsFixed(2)} in',
+      const Offset(8, 22),
+      AppColors.ink3,
+      fontSize: 9,
+    );
     viewTag(canvas, size, Looking.elevation, note: 'depths over the ground');
   }
 
