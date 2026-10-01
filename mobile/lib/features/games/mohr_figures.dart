@@ -26,8 +26,7 @@ class Stress {
 
   /// The radius: the half difference and the shear, combined the way the
   /// sides of a right triangle are.
-  double get radius =>
-      math.sqrt(math.pow((x - y) / 2, 2) + xy * xy).toDouble();
+  double get radius => math.sqrt(math.pow((x - y) / 2, 2) + xy * xy).toDouble();
 
   /// Algebraically largest and smallest, which is not the same as biggest and
   /// smallest in size.
@@ -93,12 +92,12 @@ enum Spot { s1, s2, center, topShear, xFace }
 
 extension SpotNames on Spot {
   String get plain => switch (this) {
-        Spot.s1 => 'the largest principal stress',
-        Spot.s2 => 'the smallest principal stress',
-        Spot.center => 'the center of the circle',
-        Spot.topShear => 'the largest in-plane shear',
-        Spot.xFace => 'the face the stresses were given on',
-      };
+    Spot.s1 => 'the largest principal stress',
+    Spot.s2 => 'the smallest principal stress',
+    Spot.center => 'the center of the circle',
+    Spot.topShear => 'the largest in-plane shear',
+    Spot.xFace => 'the face the stresses were given on',
+  };
 }
 
 /// Mohr's circle, drawn on its axes.
@@ -147,9 +146,9 @@ class MohrPainter extends CustomPainter {
   }
 
   static double _scaleFor(Size size, Window span) => math.min(
-        (size.width - _padX * 2) / (span.hi - span.lo),
-        (size.height - 30) / (2 * span.tall),
-      );
+    (size.width - _padX * 2) / (span.hi - span.lo),
+    (size.height - 30) / (2 * span.tall),
+  );
 
   /// Where a named place is drawn, so tap targets sit on the marks.
   static Offset spotAt(Stress s, Size size, Window span, Spot spot) {
@@ -191,14 +190,23 @@ class MohrPainter extends CustomPainter {
       ..strokeWidth = 1;
     final mid = at(size, span, Offset.zero);
     canvas
-      ..drawLine(Offset(_padX, mid.dy), Offset(size.width - _padX, mid.dy), axis)
+      ..drawLine(
+        Offset(_padX, mid.dy),
+        Offset(size.width - _padX, mid.dy),
+        axis,
+      )
       ..drawLine(Offset(mid.dx, 8), Offset(mid.dx, size.height - 18), axis);
 
     // Above the axis line rather than below it: a circle sitting far out in
     // tension runs right along the bottom of the axis and the label was
     // landing inside it.
-    _write(canvas, 'normal stress',
-        Offset(size.width - 74, size.height - 14), AppColors.ink3);
+    _write(
+      canvas,
+      'normal stress',
+      Offset(size.width - 74, size.height - 14),
+      AppColors.ink3,
+      bound: size,
+    );
     _write(canvas, 'shear', Offset(mid.dx + 4, 6), AppColors.ink3);
 
     if (showZero) {
@@ -230,27 +238,46 @@ class MohrPainter extends CustomPainter {
       final color = isTruth
           ? AppColors.forest
           : (locked && chosen)
-              ? AppColors.error
-              : chosen
-                  ? AppColors.ember
-                  : AppColors.ink2;
+          ? AppColors.error
+          : chosen
+          ? AppColors.ember
+          : AppColors.ink2;
       canvas
         ..drawCircle(p, 6, Paint()..color = AppColors.cream)
         ..drawCircle(p, chosen || isTruth ? 5.5 : 4, Paint()..color = color);
     }
 
     if (label.isNotEmpty) {
-      _write(canvas, label, const Offset(4, 2), AppColors.ink3);
+      _write(canvas, label, const Offset(10, 5), AppColors.ink3, bound: size);
     }
   }
 
-  void _write(Canvas canvas, String text, Offset at, Color color) {
-    TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
+  /// The panel is clipped to a 22pt rounded corner, so a label tucked right
+  /// into a corner loses its first or last letter. [bound] keeps it inside
+  /// the straight part of the edge.
+  void _write(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Color color, {
+    Size? bound,
+  }) {
+    final tp = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 9.5, color: color),
+      ),
       textDirection: TextDirection.ltr,
-    )
-      ..layout()
-      ..paint(canvas, at);
+    )..layout();
+    var x = at.dx;
+    var y = at.dy;
+    if (bound != null) {
+      if (x + tp.width > bound.width - 8) x = bound.width - 8 - tp.width;
+      if (x < 8) x = 8;
+      if (y + tp.height > bound.height - 5) y = bound.height - 5 - tp.height;
+      if (y < 4) y = 4;
+    }
+    tp.paint(canvas, Offset(x, y));
   }
 
   @override
@@ -272,8 +299,7 @@ class ElementPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final mid = Offset(size.width / 2, size.height / 2);
     final half = math.min(size.width, size.height) * 0.22;
-    final box = Rect.fromCenter(
-        center: mid, width: half * 2, height: half * 2);
+    final box = Rect.fromCenter(center: mid, width: half * 2, height: half * 2);
     canvas
       ..drawRect(box, Paint()..color = AppColors.cream)
       ..drawRect(
@@ -290,19 +316,26 @@ class ElementPainter extends CustomPainter {
     if (stress.xy.abs() > 0) _shear(canvas, box, stress.xy);
 
     if (label.isNotEmpty) {
+      // Clear of the panel's rounded corner, which was cutting the first
+      // letter off.
       TextPainter(
-        text: TextSpan(
-          text: label,
-          style: AppTheme.mono(size: 10, color: AppColors.ink3),
-        ),
-        textDirection: TextDirection.ltr,
-      )
+          text: TextSpan(
+            text: label,
+            style: AppTheme.mono(size: 10, color: AppColors.ink3),
+          ),
+          textDirection: TextDirection.ltr,
+        )
         ..layout()
-        ..paint(canvas, const Offset(4, 2));
+        ..paint(canvas, const Offset(10, 5));
     }
   }
 
-  void _pair(Canvas canvas, Rect box, double value, {required bool horizontal}) {
+  void _pair(
+    Canvas canvas,
+    Rect box,
+    double value, {
+    required bool horizontal,
+  }) {
     if (value == 0) return;
     final out = value > 0;
     const reach = 26.0;
@@ -314,9 +347,7 @@ class ElementPainter extends CustomPainter {
           ? Offset(side * reach, 0)
           : Offset(0, side * reach);
       final tip = out ? from + away : from + away;
-      out
-          ? _arrow(canvas, from, tip)
-          : _arrow(canvas, tip, from);
+      out ? _arrow(canvas, from, tip) : _arrow(canvas, tip, from);
     }
     final text = '${value > 0 ? '' : '-'}${value.abs().round()}';
     _label(
@@ -336,16 +367,31 @@ class ElementPainter extends CustomPainter {
     // pair turn the block one way and the two side arrows have to turn it
     // back, or the element would be spinning: that is what complementary
     // shear means, and drawing all four circulating the same way was wrong.
-    _arrow(canvas, Offset(box.left, box.top - 6),
-        Offset(box.left + reach * 1.6, box.top - 6));
-    _arrow(canvas, Offset(box.right, box.bottom + 6),
-        Offset(box.right - reach * 1.6, box.bottom + 6));
-    _arrow(canvas, Offset(box.right + 6, box.bottom),
-        Offset(box.right + 6, box.bottom - reach * 1.6));
-    _arrow(canvas, Offset(box.left - 6, box.top),
-        Offset(box.left - 6, box.top + reach * 1.6));
-    _label(canvas, value.abs().round().toString(),
-        Offset(box.right + 10, box.center.dy + 6));
+    _arrow(
+      canvas,
+      Offset(box.left, box.top - 6),
+      Offset(box.left + reach * 1.6, box.top - 6),
+    );
+    _arrow(
+      canvas,
+      Offset(box.right, box.bottom + 6),
+      Offset(box.right - reach * 1.6, box.bottom + 6),
+    );
+    _arrow(
+      canvas,
+      Offset(box.right + 6, box.bottom),
+      Offset(box.right + 6, box.bottom - reach * 1.6),
+    );
+    _arrow(
+      canvas,
+      Offset(box.left - 6, box.top),
+      Offset(box.left - 6, box.top + reach * 1.6),
+    );
+    _label(
+      canvas,
+      value.abs().round().toString(),
+      Offset(box.right + 10, box.center.dy + 6),
+    );
   }
 
   void _arrow(Canvas canvas, Offset from, Offset to) {
@@ -359,10 +405,14 @@ class ElementPainter extends CustomPainter {
     canvas.drawPath(
       Path()
         ..moveTo(to.dx, to.dy)
-        ..lineTo(to.dx - along.dx * 7 + side.dx * 3.5,
-            to.dy - along.dy * 7 + side.dy * 3.5)
-        ..lineTo(to.dx - along.dx * 7 - side.dx * 3.5,
-            to.dy - along.dy * 7 - side.dy * 3.5)
+        ..lineTo(
+          to.dx - along.dx * 7 + side.dx * 3.5,
+          to.dy - along.dy * 7 + side.dy * 3.5,
+        )
+        ..lineTo(
+          to.dx - along.dx * 7 - side.dx * 3.5,
+          to.dy - along.dy * 7 - side.dy * 3.5,
+        )
         ..close(),
       Paint()..color = AppColors.ember,
     );
@@ -370,12 +420,12 @@ class ElementPainter extends CustomPainter {
 
   void _label(Canvas canvas, String text, Offset at) {
     TextPainter(
-      text: TextSpan(
-        text: text,
-        style: AppTheme.mono(size: 10, color: AppColors.charcoal),
-      ),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 10, color: AppColors.charcoal),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }
