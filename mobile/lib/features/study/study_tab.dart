@@ -75,8 +75,6 @@ class _StudyTabState extends State<StudyTab> {
       builder: (context, _) {
         final progress = GameProgress.instance;
         final current = resumeTarget(progress)?.$1.id;
-        final shown = _chapters[_page];
-        final facts = ChapterFacts.of(shown, progress);
 
         return SafeArea(
           child: Padding(
@@ -105,15 +103,11 @@ class _StudyTabState extends State<StudyTab> {
                         chapter: _chapters[i],
                         progress: progress,
                         isCurrent: _chapters[i].id == current,
+                        onOpen: () => _open(context, _chapters[i]),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 18),
-                  PillButton(
-                    label: facts.button,
-                    onTap: () => _open(context, shown),
-                  ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 16),
                   _Dots(count: _chapters.length, page: _page, onTap: _toggle),
                   const SizedBox(height: 6),
                 ],
@@ -311,11 +305,17 @@ class _ChapterTile extends StatelessWidget {
     required this.chapter,
     required this.progress,
     required this.isCurrent,
+    required this.onOpen,
   });
 
   final ChapterMap chapter;
   final GameProgress progress;
   final bool isCurrent;
+
+  /// The pill lives at the foot of the card rather than under it (owner's
+  /// call, 2026-10-01), so the chapter and the way into it are one object
+  /// and each page carries its own button.
+  final VoidCallback onOpen;
 
   @override
   Widget build(BuildContext context) {
@@ -335,9 +335,18 @@ class _ChapterTile extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.cream,
-        borderRadius: BorderRadius.circular(36),
+        // The foot is rounder than the head by exactly the padding: the pill
+        // inside is 36, it sits 24 from the edge, so 60 keeps the two curves
+        // parallel. Two nested corners at the same radius do not look
+        // nested, they look wrong (owner's eye, 2026-10-02).
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(36),
+          topRight: Radius.circular(36),
+          bottomLeft: Radius.circular(60),
+          bottomRight: Radius.circular(60),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -388,6 +397,8 @@ class _ChapterTile extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: AppTheme.mono(size: 13, color: AppColors.ink2),
           ),
+          const SizedBox(height: 20),
+          PillButton(label: facts.button, onTap: onOpen),
         ],
       ),
     );
