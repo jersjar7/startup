@@ -107,7 +107,11 @@ class _StudyTabState extends State<StudyTab> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  // The pill moved inside the card, so the card must not also
+                  // take the room the pill used to occupy out here, or it
+                  // grows by that much and the chapter mark floats in the
+                  // middle of it. This is the old 18 + 72 + 14.
+                  const SizedBox(height: 104),
                   _Dots(count: _chapters.length, page: _page, onTap: _toggle),
                   const SizedBox(height: 6),
                 ],
