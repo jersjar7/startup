@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'package:mobile/core/network/api_client.dart';
 import 'package:mobile/core/storage/app_storage.dart';
+import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/features/auth/auth_controller.dart';
 import 'package:mobile/features/games/game_catalog.dart';
@@ -34,7 +35,9 @@ Widget _app(Map<String, dynamic> user) {
     child: MaterialApp(
       theme: AppTheme.light,
       debugShowCheckedModeBanner: false,
-      home: const Scaffold(body: StudyTab()),
+      // Fog, the ground the home shell actually puts this tab on. The theme
+      // default is cream, which hid the card's own edge in the goldens.
+      home: const Scaffold(backgroundColor: AppColors.fog, body: StudyTab()),
     ),
   );
 }
