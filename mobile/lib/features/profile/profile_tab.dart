@@ -62,6 +62,12 @@ class _ProfileTabState extends State<ProfileTab> {
         // Nothing in flight on day one: the hero offers Mathematics.
         final chapter = resume?.$1 ?? chapterMaps['mathematics']!;
         final facts = ChapterFacts.of(chapter, progress);
+        // How far through the app: chapters, not the 135 lessons underneath.
+        // Fifteen is a number a student can picture finishing (owner's call,
+        // 2026-10-01); every lesson is built, so every chapter is reachable.
+        final chaptersDone = chapterMaps.values
+            .where((c) => ChapterFacts.of(c, progress).cleared)
+            .length;
 
         return SafeArea(
           child: ListView(
@@ -89,7 +95,35 @@ class _ProfileTabState extends State<ProfileTab> {
                   ],
                 ),
               ),
-              _HeroTile(
+              // Two containers, in this order (owner's call, 2026-10-01):
+              // where you stand, then the thing to do about it. The app's own
+              // progress leads the first and the website's figures sit under
+              // it at half the size, so the phone never claims a number it
+              // did not earn.
+              _StandingCard(
+                chaptersDone: chaptersDone,
+                chaptersTotal: chapterMaps.length,
+                streak: streak,
+                examDays: days,
+                examIso: user['examDate'] as String?,
+                mastery: _mastery,
+                onExam: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        ExamDateScreen(initial: user['examDate'] as String?),
+                  ),
+                ),
+                onDays: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => StudyDaysScreen(count: streak),
+                  ),
+                ),
+                onMastery: (m) => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => MasteryScreen(mastery: m)),
+                ),
+              ),
+              const SizedBox(height: 12),
+              _ContinueCard(
                 chapter: chapter,
                 facts: facts,
                 onPlay: () => Navigator.of(context).push(
@@ -97,53 +131,6 @@ class _ProfileTabState extends State<ProfileTab> {
                     builder: (_) => ChapterMapScreen(chapter: chapter),
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: _ExamTile(
-                      days: days,
-                      iso: user['examDate'] as String?,
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => ExamDateScreen(
-                            initial: user['examDate'] as String?,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _StreakTile(
-                      streak: streak,
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => StudyDaysScreen(count: streak),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              FutureBuilder<Map<String, ChapterMastery>>(
-                future: _mastery,
-                builder: (context, snap) {
-                  final m = snap.data;
-                  return _MasteryRow(
-                    // The website's weighting, so one number shows everywhere.
-                    pct: m == null ? null : weightedMastery(totalsOf(m)),
-                    onTap: m == null
-                        ? null
-                        : () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => MasteryScreen(mastery: m),
-                            ),
-                          ),
-                  );
-                },
               ),
             ],
           ),
@@ -309,124 +296,126 @@ class _Avatar extends StatelessWidget {
 
 // ───────────────────────────── the tiles ───────────────────────────
 
-/// The spring hero: how many lessons are left in the chapter in flight, a
-/// play button, one pip per lesson, and what comes next.
-class _HeroTile extends StatelessWidget {
-  const _HeroTile({
-    required this.chapter,
-    required this.facts,
-    required this.onPlay,
+/// Where you stand: the app's own progress first, the website's figures
+/// under it at half the size.
+///
+/// One container, not three, so the screen stays at two blocks (owner's
+/// call, 2026-10-01). The app's number is the big one and the website's are
+/// rows, because the phone reflects those rather than earning them.
+class _StandingCard extends StatelessWidget {
+  const _StandingCard({
+    required this.chaptersDone,
+    required this.chaptersTotal,
+    required this.streak,
+    required this.examDays,
+    required this.examIso,
+    required this.mastery,
+    required this.onExam,
+    required this.onDays,
+    required this.onMastery,
   });
 
-  final ChapterMap chapter;
-  final ChapterFacts facts;
-  final VoidCallback onPlay;
+  final int chaptersDone;
+  final int chaptersTotal;
+  final int streak;
+  final int? examDays;
+  final String? examIso;
+  final Future<Map<String, ChapterMastery>> mastery;
+  final VoidCallback onExam;
+  final VoidCallback onDays;
+  final void Function(Map<String, ChapterMastery>) onMastery;
 
   @override
   Widget build(BuildContext context) {
-    final next = facts.next;
-    final lessonNo = next == null
-        ? facts.total
-        : chapter.lessons.indexOf(next) + 1;
-    final eyebrow = facts.cleared
-        ? '${cardNameFor(chapter)} · all cleared'
-        : '${cardNameFor(chapter)} · lesson $lessonNo of ${facts.total}';
-    final upNext = facts.cleared
-        ? 'Every lesson cleared. Pick another chapter.'
-        : next == null
-        ? 'Nothing left to play here yet'
-        : '${facts.started ? 'Up next' : 'Starts with'}: ${next.name}';
-
-    return GestureDetector(
-      onTap: onPlay,
-      child: Container(
-        constraints: const BoxConstraints(minHeight: 252),
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: AppColors.spring,
-          borderRadius: BorderRadius.circular(36),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              eyebrow.toUpperCase(),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTheme.eyebrow(),
-            ),
-            const SizedBox(height: 22),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.cream,
+        borderRadius: BorderRadius.circular(32),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(22, 22, 22, 18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: [
-                      Text(
-                        '${facts.remaining}',
+                Text(
+                  'IN THE APP',
+                  style: AppTheme.eyebrow(color: AppColors.ink2),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    Text(
+                      '$chaptersDone',
+                      style: AppTheme.display(
+                        size: 68,
+                        height: 0.82,
+                        tracking: -0.06,
+                      ),
+                    ),
+                    const SizedBox(width: 9),
+                    Flexible(
+                      child: Text(
+                        'of $chaptersTotal chapters',
                         style: AppTheme.display(
-                          size: 108,
-                          height: 0.8,
-                          tracking: -0.07,
+                          size: 18,
+                          weight: FontWeight.w700,
+                          height: 1,
+                          tracking: -0.02,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      Flexible(
-                        child: Text(
-                          'to go',
-                          style: AppTheme.display(
-                            size: 28,
-                            weight: FontWeight.w700,
-                            height: 1,
-                            tracking: -0.03,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                RoundIconButton(
-                  icon: Icons.play_arrow_rounded,
-                  onTap: onPlay,
-                  label: facts.started ? 'Continue' : 'Start',
-                  size: 76,
-                  iconColor: AppColors.spring,
-                ),
+                const SizedBox(height: 16),
+                Pips(count: chaptersTotal, filled: chaptersDone),
               ],
             ),
-            const SizedBox(height: 16),
-            Pips(count: facts.total, filled: facts.done),
-            const SizedBox(height: 10),
-            Text(
-              upNext,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTheme.body(
-                size: 14,
-                weight: FontWeight.w500,
-                height: 1.2,
-              ),
+          ),
+          const _Hairline(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(22, 16, 22, 4),
+            child: Text(
+              'FROM THE WEBSITE',
+              style: AppTheme.eyebrow(color: AppColors.ink2),
             ),
-          ],
-        ),
+          ),
+          FutureBuilder<Map<String, ChapterMastery>>(
+            future: mastery,
+            builder: (context, snap) {
+              final m = snap.data;
+              return _StatRow(
+                label: 'Total concept mastery',
+                value: m == null ? null : '${weightedMastery(totalsOf(m))}',
+                unit: '%',
+                onTap: m == null ? null : () => onMastery(m),
+              );
+            },
+          ),
+          _StatRow(
+            label: 'Days studied',
+            value: '$streak',
+            unit: streak == 1 ? 'day' : 'days',
+            onTap: onDays,
+          ),
+          _StatRow(
+            label: 'Exam day',
+            note: examIso == null ? null : _shortDate(examIso!),
+            value: examDays == null ? null : '$examDays',
+            unit: examDays == 1 ? 'day' : 'days',
+            placeholder: 'Not set',
+            onTap: onExam,
+            last: true,
+          ),
+        ],
       ),
     );
   }
-}
 
-/// Exam day on cream. Without a date it says so rather than counting; the
-/// date is set on the website today.
-class _ExamTile extends StatelessWidget {
-  const _ExamTile({required this.days, required this.iso, required this.onTap});
-
-  final int? days;
-  final String? iso;
-  final VoidCallback onTap;
-
-  static const _wd = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   static const _mo = [
     'Jan',
     'Feb',
@@ -442,100 +431,120 @@ class _ExamTile extends StatelessWidget {
     'Dec',
   ];
 
+  static String _shortDate(String iso) {
+    final d = DateTime.tryParse(iso);
+    return d == null ? '' : '${_mo[d.month - 1]} ${d.day}';
+  }
+}
+
+class _Hairline extends StatelessWidget {
+  const _Hairline();
+
+  @override
+  Widget build(BuildContext context) => Container(
+    height: 1,
+    margin: const EdgeInsets.symmetric(horizontal: 22),
+    color: AppColors.charcoal.withValues(alpha: 0.08),
+  );
+}
+
+/// One of the website's figures: a name, the number, and a chevron, because
+/// as a row in a card it has to look as tappable as the tile it replaced.
+class _StatRow extends StatelessWidget {
+  const _StatRow({
+    required this.label,
+    required this.value,
+    required this.unit,
+    required this.onTap,
+    this.note,
+    this.placeholder,
+    this.last = false,
+  });
+
+  final String label;
+  final String? value;
+  final String unit;
+  final String? note;
+  final String? placeholder;
+  final VoidCallback? onTap;
+  final bool last;
+
   @override
   Widget build(BuildContext context) {
-    final d = days;
-    final when = iso == null ? null : DateTime.tryParse(iso!);
-    return _HalfTile(
-      color: AppColors.cream,
-      eyebrow: 'Exam day',
+    final shown = value;
+    return InkWell(
       onTap: onTap,
-      child: d == null
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(22, 11, 14, last ? 16 : 11),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Text('Not set', style: AppTheme.display(size: 26, height: 1)),
-                const SizedBox(height: 6),
-                Text(
-                  'Tap to set it',
-                  style: AppTheme.mono(size: 11, color: AppColors.ink2),
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.body(
+                            size: 15,
+                            weight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      if (note != null) ...[
+                        const SizedBox(width: 6),
+                        Text(
+                          '· $note',
+                          style: AppTheme.body(size: 14, color: AppColors.ink2),
+                        ),
+                      ],
+                    ],
+                  ),
                 ),
-              ],
-            )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _BigNumber(value: '$d', unit: d == 1 ? 'day' : 'days'),
-                const SizedBox(height: 4),
-                Text(
-                  when == null
-                      ? ''
-                      : '${_wd[when.weekday - 1]}, ${_mo[when.month - 1]} ${when.day}',
-                  style: AppTheme.mono(size: 12, color: AppColors.ink2),
+                const SizedBox(width: 10),
+                if (shown == null)
+                  Text(
+                    placeholder ?? '',
+                    style: AppTheme.display(size: 20, height: 1),
+                  )
+                else ...[
+                  Text(
+                    shown,
+                    style: AppTheme.display(
+                      size: 24,
+                      height: 0.9,
+                      tracking: -0.04,
+                    ),
+                  ),
+                  const SizedBox(width: 3),
+                  Text(
+                    unit,
+                    style: AppTheme.display(
+                      size: 12,
+                      weight: FontWeight.w700,
+                      height: 1,
+                    ),
+                  ),
+                ],
+                Icon(
+                  Icons.chevron_right_rounded,
+                  size: 20,
+                  color: AppColors.charcoal.withValues(alpha: 0.35),
                 ),
               ],
             ),
-    );
-  }
-}
-
-/// Days studied on sunbeam, from the website's streak, with the last seven
-/// as pips.
-class _StreakTile extends StatelessWidget {
-  const _StreakTile({required this.streak, required this.onTap});
-
-  final int streak;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return _HalfTile(
-      color: AppColors.butter,
-      eyebrow: 'Days studied',
-      onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _BigNumber(value: '$streak', unit: streak == 1 ? 'day' : 'days'),
-          const SizedBox(height: 10),
-          Pips(count: 7, filled: streak.clamp(0, 7)),
-        ],
-      ),
-    );
-  }
-}
-
-class _HalfTile extends StatelessWidget {
-  const _HalfTile({
-    required this.color,
-    required this.eyebrow,
-    required this.child,
-    required this.onTap,
-  });
-
-  final Color color;
-  final String eyebrow;
-  final Widget child;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        height: 172,
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(32),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(eyebrow.toUpperCase(), style: AppTheme.eyebrow()),
-            const Spacer(),
-            child,
+            if (!last) ...[
+              const SizedBox(height: 11),
+              Container(
+                height: 1,
+                color: AppColors.charcoal.withValues(alpha: 0.07),
+              ),
+            ],
           ],
         ),
       ),
@@ -543,102 +552,91 @@ class _HalfTile extends StatelessWidget {
   }
 }
 
-class _BigNumber extends StatelessWidget {
-  const _BigNumber({required this.value, required this.unit});
+/// The thing to do about it: the chapter in flight, how far through it you
+/// are, and the one button on the screen.
+class _ContinueCard extends StatelessWidget {
+  const _ContinueCard({
+    required this.chapter,
+    required this.facts,
+    required this.onPlay,
+  });
 
-  final String value;
-  final String unit;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
-      children: [
-        Text(
-          value,
-          style: AppTheme.display(size: 64, height: 0.82, tracking: -0.06),
-        ),
-        const SizedBox(width: 6),
-        Text(
-          unit,
-          style: AppTheme.body(size: 15, weight: FontWeight.w600, height: 1),
-        ),
-      ],
-    );
-  }
-}
-
-/// The dark row: concept mastery, weighted the way the website weights it,
-/// with the standing honest line. Opens the breakdown, in the app.
-class _MasteryRow extends StatelessWidget {
-  const _MasteryRow({required this.pct, required this.onTap});
-
-  final int? pct;
-  final VoidCallback? onTap;
+  final ChapterMap chapter;
+  final ChapterFacts facts;
+  final VoidCallback onPlay;
 
   @override
   Widget build(BuildContext context) {
+    final next = facts.next;
+    final line = facts.cleared
+        ? 'Every lesson cleared. Pick another chapter.'
+        : next == null
+        ? 'Nothing left to play here yet'
+        : '${facts.started ? 'Up next' : 'Starts with'}: ${next.name}';
+
     return GestureDetector(
-      onTap: onTap,
+      onTap: onPlay,
       child: Container(
-        height: 96,
-        padding: const EdgeInsets.fromLTRB(22, 0, 12, 0),
+        padding: const EdgeInsets.all(22),
         decoration: BoxDecoration(
-          color: AppColors.tile,
+          color: AppColors.cream,
           borderRadius: BorderRadius.circular(32),
         ),
-        child: Row(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              pct == null ? '…' : '$pct%',
-              style: AppTheme.display(
-                size: 40,
-                height: 1,
-                tracking: -0.05,
-                color: AppColors.ember,
-              ),
+              cardNameFor(chapter).toUpperCase(),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTheme.eyebrow(color: AppColors.ink2),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Total concept mastery',
-                    style: AppTheme.body(
-                      size: 17,
-                      weight: FontWeight.w600,
-                      color: AppColors.cream,
-                      height: 1.2,
-                    ),
+            const SizedBox(height: 13),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        '${facts.done}',
+                        style: AppTheme.display(
+                          size: 64,
+                          height: 0.82,
+                          tracking: -0.06,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          'of ${facts.total} lessons',
+                          style: AppTheme.display(
+                            size: 16,
+                            weight: FontWeight.w700,
+                            height: 1,
+                            tracking: -0.02,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 3),
-                  Text(
-                    'Not a probability of passing',
-                    style: AppTheme.body(
-                      size: 13,
-                      color: AppColors.mutedOnDark,
-                      height: 1.2,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                RoundIconButton(
+                  icon: Icons.play_arrow_rounded,
+                  onTap: onPlay,
+                  label: facts.started ? 'Continue' : 'Start',
+                  size: 68,
+                  iconColor: AppColors.spring,
+                ),
+              ],
             ),
-            Container(
-              width: 52,
-              height: 52,
-              decoration: const BoxDecoration(
-                color: AppColors.tile2,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.chevron_right_rounded,
-                size: 24,
-                color: AppColors.cream,
-              ),
-            ),
+            const SizedBox(height: 15),
+            Pips(count: facts.total, filled: facts.done),
+            const SizedBox(height: 12),
+            Text(line, style: AppTheme.body(size: 15)),
           ],
         ),
       ),

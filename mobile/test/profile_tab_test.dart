@@ -92,10 +92,18 @@ void main() {
 
     expect(find.byType(ProfileTab), findsOneWidget);
     expect(find.textContaining('Jerson'), findsOneWidget);
-    expect(find.text('16'), findsOneWidget); // 16 lessons to go
+    // The card counts what is DONE, not what is left: 0 of 16 lessons here,
+    // 0 of 15 chapters above it (owner's call, 2026-10-01).
+    expect(find.text('of 16 lessons'), findsOneWidget);
+    expect(find.text('of 15 chapters'), findsOneWidget);
+    expect(
+      find.text('0'),
+      findsNWidgets(4),
+    ); // chapters, mastery, days studied, lessons
     expect(find.textContaining('Starts with:'), findsOneWidget);
     expect(find.text('Not set'), findsOneWidget);
-    expect(find.text('Not a probability of passing'), findsOneWidget);
+    expect(find.text('IN THE APP'), findsOneWidget);
+    expect(find.text('FROM THE WEBSITE'), findsOneWidget);
 
     await expectLater(
       find.byType(MaterialApp),
@@ -119,10 +127,11 @@ void main() {
     );
     await _settle(tester);
 
-    expect(find.text('13'), findsOneWidget); // 16 - 3 to go
+    expect(find.text('3'), findsOneWidget); // 3 of 16 lessons done
+    expect(find.text('of 16 lessons'), findsOneWidget);
     expect(find.textContaining('Up next:'), findsOneWidget);
-    expect(find.text('73'), findsOneWidget);
-    expect(find.text('6'), findsOneWidget);
+    expect(find.text('73'), findsOneWidget); // days to the exam
+    expect(find.text('6'), findsOneWidget); // days studied
 
     await expectLater(
       find.byType(MaterialApp),
