@@ -70,66 +70,101 @@ class GreenshieldsPainter extends CustomPainter {
       ..strokeWidth = 1.2;
     canvas
       ..drawLine(Offset(left, topPlot), Offset(left, midline - 12), axis)
-      ..drawLine(
-          Offset(left, midline - 12), Offset(right, midline - 12), axis)
+      ..drawLine(Offset(left, midline - 12), Offset(right, midline - 12), axis)
       ..drawLine(Offset(left, midline + 6), Offset(left, bottomPlot), axis)
       ..drawLine(Offset(left, bottomPlot), Offset(right, bottomPlot), axis);
-    writeOn(canvas, size, 'speed', Offset(4, topPlot - 2), AppColors.ink3,
-        fontSize: 9.5);
-    writeOn(canvas, size, 'flow', Offset(4, midline + 8), AppColors.ink3,
-        fontSize: 9.5);
-    writeOn(canvas, size, 'density, up to the jam', Offset(left, bottomPlot + 6),
-        AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'speed',
+      Offset(4, topPlot - 2),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'flow',
+      Offset(4, midline + 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    // Right-aligned on the axis it names, because the density marker writes
+    // its own reading at the left end of this same row.
+    final axisName = labelSize('density, up to the jam', fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'density, up to the jam',
+      Offset(right - axisName.width, bottomPlot + 6),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // Speed falls in a straight line from the free flow speed to nothing.
     canvas.drawLine(
-        Offset(xOf(0), speedY(stream.freeFlow)),
-        Offset(xOf(stream.jamDensity), speedY(0)),
-        Paint()
-          ..color = AppColors.info
-          ..strokeWidth = 2);
+      Offset(xOf(0), speedY(stream.freeFlow)),
+      Offset(xOf(stream.jamDensity), speedY(0)),
+      Paint()
+        ..color = AppColors.info
+        ..strokeWidth = 2,
+    );
 
     // Flow is the product of the two, so it is a parabola. Where it peaks
     // and how many densities give one flow are both questions, so the curve
     // itself waits for the answer.
     if (!answered) {
-      writeOn(canvas, size, 'the flow curve comes out after the answer',
-          Offset(left - 34, midline + 24), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'the flow curve comes out after the answer',
+        Offset(left - 34, midline + 24),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     } else {
-    final curve = Path();
-    for (var i = 0; i <= 50; i++) {
-      final d = stream.jamDensity * i / 50;
-      final p = Offset(xOf(d), flowY(stream.flowAt(d)));
-      i == 0 ? curve.moveTo(p.dx, p.dy) : curve.lineTo(p.dx, p.dy);
-    }
-    canvas.drawPath(
+      final curve = Path();
+      for (var i = 0; i <= 50; i++) {
+        final d = stream.jamDensity * i / 50;
+        final p = Offset(xOf(d), flowY(stream.flowAt(d)));
+        i == 0 ? curve.moveTo(p.dx, p.dy) : curve.lineTo(p.dx, p.dy);
+      }
+      canvas.drawPath(
         curve,
         Paint()
           ..color = AppColors.ember
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 2);
+          ..strokeWidth = 2,
+      );
     }
 
-    writeOn(
-        canvas,
-        size,
-        'empty road ${stream.freeFlow.toStringAsFixed(0)} mph, jam at '
-            '${stream.jamDensity.toStringAsFixed(0)} a mile',
-        Offset(left - 34, 8),
-        AppColors.ink3,
-        fontSize: 9.5);
+    final head = writeOn(
+      canvas,
+      size,
+      'empty road ${stream.freeFlow.toStringAsFixed(0)} mph, jam at '
+      '${stream.jamDensity.toStringAsFixed(0)} a mile',
+      Offset(left - 34, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     final d = stream.density;
     if (showPoint && d != null) {
       canvas.drawLine(
-          Offset(xOf(d), topPlot),
-          Offset(xOf(d), bottomPlot),
-          Paint()
-            ..color = AppColors.charcoal.withValues(alpha: 0.5)
-            ..strokeWidth = 1.4);
-      writeOn(canvas, size, '${d.toStringAsFixed(0)} a mile',
-          Offset(xOf(d) - 26, bottomPlot + 6), AppColors.charcoal,
-          fontSize: 9.5);
+        Offset(xOf(d), topPlot),
+        Offset(xOf(d), bottomPlot),
+        Paint()
+          ..color = AppColors.charcoal.withValues(alpha: 0.5)
+          ..strokeWidth = 1.4,
+      );
+      writeOn(
+        canvas,
+        size,
+        '${d.toStringAsFixed(0)} a mile',
+        Offset(xOf(d) - 26, bottomPlot + 6),
+        AppColors.charcoal,
+        fontSize: 9.5,
+      );
     }
 
     if (!answered) return;
@@ -138,26 +173,31 @@ class GreenshieldsPainter extends CustomPainter {
     final peak = Offset(xOf(stream.optimumDensity), flowY(stream.maxFlow));
     canvas.drawCircle(peak, 3.5, Paint()..color = AppColors.forest);
     writeOn(
+      canvas,
+      size,
+      '${stream.maxFlow.toStringAsFixed(0)} an hour at '
+      '${stream.optimumSpeed.toStringAsFixed(0)} mph',
+      Offset(peak.dx - 60, peak.dy - 14),
+      AppColors.forest,
+      fontSize: 9.5,
+    );
+    canvas.drawCircle(
+      Offset(xOf(stream.optimumDensity), speedY(stream.optimumSpeed)),
+      3,
+      Paint()..color = AppColors.forest,
+    );
+    if (d != null) {
+      // Stacked under the note at the top of the speed plot rather than put
+      // on the midline, where it met the peak's own reading.
+      writeOn(
         canvas,
         size,
-        '${stream.maxFlow.toStringAsFixed(0)} an hour at '
-            '${stream.optimumSpeed.toStringAsFixed(0)} mph',
-        Offset(peak.dx - 60, peak.dy - 14),
-        AppColors.forest,
-        fontSize: 9.5);
-    canvas.drawCircle(
-        Offset(xOf(stream.optimumDensity), speedY(stream.optimumSpeed)),
-        3,
-        Paint()..color = AppColors.forest);
-    if (d != null) {
-      writeOn(
-          canvas,
-          size,
-          'at ${d.toStringAsFixed(0)} a mile the speed is '
-              '${stream.speedAt(d).toStringAsFixed(0)} mph',
-          Offset(left - 34, midline - 8),
-          AppColors.charcoal,
-          fontSize: 9.5);
+        'at ${d.toStringAsFixed(0)} a mile the speed is '
+        '${stream.speedAt(d).toStringAsFixed(0)} mph',
+        Offset(left - 34, 8 + head.height + 3),
+        AppColors.charcoal,
+        fontSize: 9.5,
+      );
     }
   }
 
@@ -189,8 +229,7 @@ class CrashRate {
   bool get isSegment => miles != null;
 
   /// Entering vehicles, or vehicle miles.
-  double get exposure =>
-      dailyTraffic * days * (isSegment ? miles! : 1);
+  double get exposure => dailyTraffic * days * (isSegment ? miles! : 1);
 
   double get perMillion => crashes * 1000000 / exposure;
 
@@ -215,39 +254,43 @@ class ExposurePainter extends CustomPainter {
     var y = 44.0;
 
     writeOn(
-        canvas,
-        size,
-        rate.isSegment
-            ? '${rate.miles!.toStringAsFixed(0)} miles of road'
-            : 'one intersection',
-        Offset(left - 8, 8),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      rate.isSegment
+          ? '${rate.miles!.toStringAsFixed(0)} miles of road'
+          : 'one intersection',
+      Offset(left - 8, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        '${rate.crashes.toStringAsFixed(0)} crashes in '
-            '${(rate.days / 365).toStringAsFixed(0)} year'
-            '${rate.days > 400 ? 's' : ''}',
-        Offset(left - 8, 22),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${rate.crashes.toStringAsFixed(0)} crashes in '
+      '${(rate.days / 365).toStringAsFixed(0)} year'
+      '${rate.days > 400 ? 's' : ''}',
+      Offset(left - 8, 22),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // Each crash as a tick, so a dozen of them looks like a dozen.
     for (var i = 0; i < math.min(rate.crashes, 40); i++) {
       canvas.drawRect(
-          Rect.fromLTWH(left + (i % 20) * 9, y + (i ~/ 20) * 10, 5, 7),
-          Paint()..color = AppColors.error.withValues(alpha: 0.75));
+        Rect.fromLTWH(left + (i % 20) * 9, y + (i ~/ 20) * 10, 5, 7),
+        Paint()..color = AppColors.error.withValues(alpha: 0.75),
+      );
     }
     y += 30;
 
     writeOn(
-        canvas,
-        size,
-        '${rate.dailyTraffic.toStringAsFixed(0)} vehicles a day',
-        Offset(left - 8, y),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${rate.dailyTraffic.toStringAsFixed(0)} vehicles a day',
+      Offset(left - 8, y),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     y += 16;
 
     // The exposure as one long bar, labeled rather than scaled: it is
@@ -257,43 +300,66 @@ class ExposurePainter extends CustomPainter {
     final share = math.min(rate.exposure / 33000000, 1).toDouble();
     canvas
       ..drawRect(
-          Rect.fromLTRB(left, y, right, y + 14),
-          Paint()
-            ..color = AppColors.line
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1)
-      ..drawRect(Rect.fromLTRB(left, y, left + (right - left) * share, y + 14),
-          Paint()..color = AppColors.info.withValues(alpha: 0.35));
+        Rect.fromLTRB(left, y, right, y + 14),
+        Paint()
+          ..color = AppColors.line
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1,
+      )
+      ..drawRect(
+        Rect.fromLTRB(left, y, left + (right - left) * share, y + 14),
+        Paint()..color = AppColors.info.withValues(alpha: 0.35),
+      );
     if (answered) {
       writeOn(
-          canvas,
-          size,
-          '${(rate.exposure / 1000000).toStringAsFixed(2)} million '
-              '${rate.isSegment ? 'vehicle miles' : 'entering vehicles'}',
-          Offset(left + 2, y + 18),
-          AppColors.info,
-          fontSize: 9.5);
+        canvas,
+        size,
+        '${(rate.exposure / 1000000).toStringAsFixed(2)} million '
+        '${rate.isSegment ? 'vehicle miles' : 'entering vehicles'}',
+        Offset(left + 2, y + 18),
+        AppColors.info,
+        fontSize: 9.5,
+      );
     } else {
-      writeOn(canvas, size, 'the traffic that went through, which is',
-          Offset(left + 2, y + 18), AppColors.info, fontSize: 9.5);
-      writeOn(canvas, size, 'what the crashes are measured against',
-          Offset(left + 2, y + 32), AppColors.info, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'the traffic that went through, which is',
+        Offset(left + 2, y + 18),
+        AppColors.info,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'what the crashes are measured against',
+        Offset(left + 2, y + 32),
+        AppColors.info,
+        fontSize: 9.5,
+      );
     }
 
     if (!answered) {
-      writeOn(canvas, size, 'the rate comes out after the answer',
-          Offset(left - 8, size.height - 16), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'the rate comes out after the answer',
+        Offset(left - 8, size.height - 16),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
     writeOn(
-        canvas,
-        size,
-        '${rate.perMillion.toStringAsFixed(2)} crashes per million '
-            '${rate.isSegment ? 'vehicle miles' : 'entering'}',
-        Offset(left - 8, size.height - 16),
-        AppColors.charcoal,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${rate.perMillion.toStringAsFixed(2)} crashes per million '
+      '${rate.isSegment ? 'vehicle miles' : 'entering'}',
+      Offset(left - 8, size.height - 16),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
   }
 
   @override

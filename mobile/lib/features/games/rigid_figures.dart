@@ -51,16 +51,25 @@ class SlabPainter extends CustomPainter {
     if (rigid) {
       final slab = Rect.fromLTRB(left, top, right, top + 22);
       canvas
-        ..drawRect(slab,
-            Paint()..color = AppColors.ink2.withValues(alpha: 0.55))
         ..drawRect(
-            slab,
-            Paint()
-              ..color = AppColors.charcoal
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.6);
-      writeOn(canvas, size, 'one concrete slab', Offset(left + 4, top + 6),
-          AppColors.charcoal, fontSize: 9.5);
+          slab,
+          Paint()..color = AppColors.ink2.withValues(alpha: 0.55),
+        )
+        ..drawRect(
+          slab,
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.6,
+        );
+      writeOn(
+        canvas,
+        size,
+        'one concrete slab',
+        Offset(left + 4, top + 6),
+        AppColors.charcoal,
+        fontSize: 9.5,
+      );
     } else {
       var y = top;
       for (final (name, deep, alpha) in [
@@ -68,12 +77,15 @@ class SlabPainter extends CustomPainter {
         ('base', 15.0, 0.45),
         ('subbase', 15.0, 0.3),
       ]) {
-        canvas.drawRect(Rect.fromLTRB(left, y, right, y + deep),
-            Paint()..color = AppColors.charcoal.withValues(alpha: alpha));
+        canvas.drawRect(
+          Rect.fromLTRB(left, y, right, y + deep),
+          Paint()..color = AppColors.charcoal.withValues(alpha: alpha),
+        );
         final label = TextPainter(
           text: TextSpan(
-              text: name,
-              style: AppTheme.mono(size: 9, color: AppColors.white)),
+            text: name,
+            style: AppTheme.mono(size: 9, color: AppColors.white),
+          ),
           textDirection: TextDirection.ltr,
         )..layout();
         label.paint(canvas, Offset(left + 5, y + deep / 2 - label.height / 2));
@@ -83,26 +95,53 @@ class SlabPainter extends CustomPainter {
 
     final base = rigid ? top + 22 : top + 43;
     canvas.drawLine(
-        Offset(left, base),
-        Offset(right, base),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 1.4);
-    writeOn(canvas, size, 'the subgrade', Offset(left, base + 6),
-        AppColors.ink3, fontSize: 9.5);
+      Offset(left, base),
+      Offset(right, base),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 1.4,
+    );
+    writeOn(
+      canvas,
+      size,
+      'the subgrade',
+      Offset(left, base + 6),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // The wheel, in the middle.
     final wheelX = (left + right) / 2;
-    canvas.drawRect(Rect.fromLTWH(wheelX - 9, top - 16, 18, 14),
-        Paint()..color = AppColors.charcoal.withValues(alpha: 0.85));
-    writeOn(canvas, size, 'one wheel', Offset(wheelX - 24, top - 30),
-        AppColors.ink3, fontSize: 9.5);
+    canvas.drawRect(
+      Rect.fromLTWH(wheelX - 9, top - 16, 18, 14),
+      Paint()..color = AppColors.charcoal.withValues(alpha: 0.85),
+    );
+    writeOn(
+      canvas,
+      size,
+      'one wheel',
+      Offset(wheelX - 24, top - 30),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'how wide the load arrives comes out',
-          Offset(left, size.height - 30), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'after the answer', Offset(left, size.height - 16),
-          AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'how wide the load arrives comes out',
+        Offset(left, size.height - 30),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'after the answer',
+        Offset(left, size.height - 16),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       viewTag(canvas, size, Looking.section, note: 'the pavement');
       return;
     }
@@ -110,32 +149,34 @@ class SlabPainter extends CustomPainter {
     // The patch of subgrade that ends up carrying it.
     final half = math.min(9.0 * load.spread, (right - left) / 2 - 4);
     canvas.drawRect(
-        Rect.fromLTRB(wheelX - half, base, wheelX + half, base + 12),
-        Paint()..color = AppColors.ember.withValues(alpha: 0.35));
+      Rect.fromLTRB(wheelX - half, base, wheelX + half, base + 12),
+      Paint()..color = AppColors.ember.withValues(alpha: 0.35),
+    );
     canvas.drawLine(
-        Offset(wheelX - half, base + 16),
-        Offset(wheelX + half, base + 16),
-        Paint()
-          ..color = AppColors.ember
-          ..strokeWidth = 2);
+      Offset(wheelX - half, base + 16),
+      Offset(wheelX + half, base + 16),
+      Paint()
+        ..color = AppColors.ember
+        ..strokeWidth = 2,
+    );
     writeOn(
-        canvas,
-        size,
-        rigid
-            ? 'the slab bends and hands it to a wide patch'
-            : 'the courses pass it down to a narrow one',
-        Offset(left, base + 22),
-        AppColors.ember,
-        fontSize: 9.5);
+      canvas,
+      size,
+      rigid
+          ? 'the slab bends and hands it to a wide patch'
+          : 'the courses pass it down to a narrow one',
+      Offset(left, base + 22),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        rigid
-            ? 'so the subgrade matters less'
-            : 'so the subgrade has to be good',
-        Offset(left, size.height - 16),
-        AppColors.charcoal,
-        fontSize: 9.5);
+      canvas,
+      size,
+      rigid ? 'so the subgrade matters less' : 'so the subgrade has to be good',
+      Offset(left, size.height - 16),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
 
     viewTag(canvas, size, Looking.section, note: 'the pavement');
   }
@@ -185,65 +226,89 @@ class JointPainter extends CustomPainter {
       Rect.fromLTRB(gap + 3, top, right, top + deep),
     ]) {
       canvas
-        ..drawRect(slab,
-            Paint()..color = AppColors.ink2.withValues(alpha: 0.55))
         ..drawRect(
-            slab,
-            Paint()
-              ..color = AppColors.charcoal
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.4);
+          slab,
+          Paint()..color = AppColors.ink2.withValues(alpha: 0.55),
+        )
+        ..drawRect(
+          slab,
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.4,
+        );
     }
-    writeOn(canvas, size, joint.name, Offset(left, top - 26), AppColors.ink3,
-        fontSize: 9.5);
-    writeOn(canvas, size, 'the joint', Offset(gap - 22, top - 12),
-        AppColors.ink3, fontSize: 9.5);
+    // The name runs to two lines on a half-width panel, so it takes the top
+    // of the panel rather than a fixed 26 above the slab, where it landed on
+    // the pointer to the joint itself.
+    writeOn(
+      canvas,
+      size,
+      joint.name,
+      const Offset(4, 4),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'the joint',
+      Offset(gap - 22, top - 12),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (joint.steel != Steel.nothing) {
       canvas.drawRect(
-          Rect.fromLTWH(gap - 34, top + deep / 2 - 3, 68, 6),
-          Paint()
-            ..color = (joint.steel == Steel.dowel
-                    ? AppColors.ember
-                    : AppColors.info)
-                .withValues(alpha: 0.85));
+        Rect.fromLTWH(gap - 34, top + deep / 2 - 3, 68, 6),
+        Paint()
+          ..color =
+              (joint.steel == Steel.dowel ? AppColors.ember : AppColors.info)
+                  .withValues(alpha: 0.85),
+      );
       writeOn(
-          canvas,
-          size,
-          joint.steel == Steel.dowel
-              ? 'a smooth dowel bar'
-              : 'a deformed tie bar',
-          Offset(gap - 40, top + deep + 8),
-          joint.steel == Steel.dowel ? AppColors.ember : AppColors.info,
-          fontSize: 9.5);
+        canvas,
+        size,
+        joint.steel == Steel.dowel
+            ? 'a smooth dowel bar'
+            : 'a deformed tie bar',
+        Offset(gap - 40, top + deep + 8),
+        joint.steel == Steel.dowel ? AppColors.ember : AppColors.info,
+        fontSize: 9.5,
+      );
     }
 
     canvas.drawLine(
-        Offset(left, top + deep),
-        Offset(right, top + deep),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 1.2);
+      Offset(left, top + deep),
+      Offset(right, top + deep),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 1.2,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'what the steel is for comes out',
-          Offset(left, size.height - 30), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'after the answer', Offset(left, size.height - 16),
-          AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'what the steel is for comes out after the answer',
+        Offset(left, size.height - 30),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
-    writeOn(canvas, size, joint.whatItDoes, Offset(left, size.height - 30),
-        AppColors.charcoal, fontSize: 9.5);
+    // One sentence, wrapped by the panel. As two lines a fixed 14 apart the
+    // first wrapped onto the second on every half-width panel.
     writeOn(
-        canvas,
-        size,
-        joint.lets
-            ? 'and the slabs can still move'
-            : 'and the joint is held shut',
-        Offset(left, size.height - 16),
-        AppColors.charcoal,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${joint.whatItDoes}, '
+      '${joint.lets ? 'and the slabs can still move' : 'and the joint is held shut'}',
+      Offset(left, size.height - 30),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
   }
 
   @override
@@ -268,18 +333,29 @@ class SupportPainter extends CustomPainter {
 
     // A stiff bed gives little; a soft one gives a lot.
     final give = math.min(200 / stiffness * 6, 22.0);
-    final slab = Rect.fromLTRB(left, top + (answered ? give : 0), right,
-        top + 20 + (answered ? give : 0));
+    final slab = Rect.fromLTRB(
+      left,
+      top + (answered ? give : 0),
+      right,
+      top + 20 + (answered ? give : 0),
+    );
     canvas
       ..drawRect(slab, Paint()..color = AppColors.ink2.withValues(alpha: 0.55))
       ..drawRect(
-          slab,
-          Paint()
-            ..color = AppColors.charcoal
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.6);
-    writeOn(canvas, size, 'the slab, pressed down', Offset(left + 4, slab.top + 5),
-        AppColors.charcoal, fontSize: 9.5);
+        slab,
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.6,
+      );
+    writeOn(
+      canvas,
+      size,
+      'the slab, pressed down',
+      Offset(left + 4, slab.top + 5),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
 
     // The springs.
     final bedTop = top + 46;
@@ -292,35 +368,54 @@ class SupportPainter extends CustomPainter {
       }
       path.lineTo(x, bedTop);
       canvas.drawPath(
-          path,
-          Paint()
-            ..color = AppColors.ink3
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.2);
+        path,
+        Paint()
+          ..color = AppColors.ink3
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.2,
+      );
     }
     canvas.drawLine(
-        Offset(left, bedTop),
-        Offset(right, bedTop),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 1.6);
-    writeOn(canvas, size, 'the subgrade, which gives a little',
-        Offset(left, bedTop + 8), AppColors.ink3, fontSize: 9.5);
+      Offset(left, bedTop),
+      Offset(right, bedTop),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 1.6,
+    );
+    writeOn(
+      canvas,
+      size,
+      'the subgrade, which gives a little',
+      Offset(left, bedTop + 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'how much it gives comes out after the answer',
-          Offset(left - 12, size.height - 16), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'how much it gives comes out after the answer',
+        Offset(left - 12, size.height - 16),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
     writeOn(
-        canvas,
-        size,
-        'k = ${stiffness.toStringAsFixed(0)} pounds per cubic inch: '
-            '${stiffness >= 300 ? 'stiff, and it hardly moves' : stiffness >= 150 ? 'ordinary' : 'soft, and it gives a long way'}',
-        Offset(left - 12, size.height - 16),
-        AppColors.charcoal,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'k = ${stiffness.toStringAsFixed(0)} pounds per cubic inch: '
+      '${stiffness >= 300
+          ? 'stiff, and it hardly moves'
+          : stiffness >= 150
+          ? 'ordinary'
+          : 'soft, and it gives a long way'}',
+      Offset(left - 12, size.height - 16),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
   }
 
   @override

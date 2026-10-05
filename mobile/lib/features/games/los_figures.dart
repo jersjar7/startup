@@ -47,8 +47,7 @@ class Freeway {
 
   /// Passenger cars an hour in one lane, at the rate of the busiest quarter
   /// hour.
-  double get flowPerLane =>
-      volume / (peakHourFactor * lanes * mix.factor);
+  double get flowPerLane => volume / (peakHourFactor * lanes * mix.factor);
 
   /// The same thing with one adjustment left out, which is how the lesson's
   /// wrong answers are made.
@@ -105,54 +104,68 @@ class TruckPainter extends CustomPainter {
       final isTruck = i >= shown - trucksShown;
       final w = slot * (isTruck ? mix.equivalent : 1) - 3;
       canvas.drawRect(
-          Rect.fromLTWH(x, y - 9, math.max(w, 2), 16),
-          Paint()
-            ..color = (isTruck ? AppColors.ember : AppColors.charcoal)
-                .withValues(alpha: isTruck ? 0.55 : 0.7));
+        Rect.fromLTWH(x, y - 9, math.max(w, 2), 16),
+        Paint()
+          ..color = (isTruck ? AppColors.ember : AppColors.charcoal).withValues(
+            alpha: isTruck ? 0.55 : 0.7,
+          ),
+      );
       x += w + 3;
     }
 
+    // Stacked off the height the first line actually drew: on a narrow panel
+    // it wraps to two lines, and a fixed 14 put the second note on top of it.
+    final mixNote = writeOn(
+      canvas,
+      size,
+      '${(mix.trucks * 100).toStringAsFixed(0)} per cent trucks, '
+      '${mix.rolling ? 'rolling ground' : 'level ground'}',
+      Offset(left - 8, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        '${(mix.trucks * 100).toStringAsFixed(0)} per cent trucks, '
-            '${mix.rolling ? 'rolling ground' : 'level ground'}',
-        Offset(left - 8, 8),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'a truck takes the room of ${mix.equivalent.toStringAsFixed(0)} cars',
+      Offset(left - 8, 8 + mixNote.height + 3),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'a truck takes the room of ${mix.equivalent.toStringAsFixed(0)} cars',
-        Offset(left - 8, 22),
-        AppColors.ink3,
-        fontSize: 9.5);
-    writeOn(canvas, size, 'ten vehicles, drawn to the room they take',
-        Offset(left - 8, y + 16), AppColors.ink3, fontSize: 9.5);
+      canvas,
+      size,
+      'ten vehicles, drawn to the room they take',
+      Offset(left - 8, y + 16),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'what that does to the count comes out',
-          Offset(left - 8, size.height - 30), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'after the answer',
-          Offset(left - 8, size.height - 16), AppColors.ink3, fontSize: 9.5);
+      // One sentence rather than two lines a fixed 14 apart: writeOn wraps it
+      // to the panel, so it cannot land on itself.
+      writeOn(
+        canvas,
+        size,
+        'what that does to the count comes out after the answer',
+        Offset(left - 8, size.height - 30),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
+    // The verdict is one sentence, wrapped by the panel, rather than two
+    // lines a fixed 14 apart that collide the moment either wraps.
     writeOn(
-        canvas,
-        size,
-        '100 vehicles fill ${mix.carSpaces.toStringAsFixed(0)} car spaces',
-        Offset(left - 8, size.height - 30),
-        AppColors.ember,
-        fontSize: 9.5);
-    writeOn(
-        canvas,
-        size,
-        'so the factor is ${mix.factor.toStringAsFixed(3)}, and you DIVIDE '
-            'by it',
-        Offset(left - 8, size.height - 16),
-        AppColors.ember,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '100 vehicles fill ${mix.carSpaces.toStringAsFixed(0)} car spaces, so '
+      'the factor is ${mix.factor.toStringAsFixed(3)} and you DIVIDE by it',
+      Offset(left - 8, size.height - 30),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
   }
 
   @override
@@ -191,35 +204,45 @@ class LosPainter extends CustomPainter {
     double xOf(double d) => left + (d / 55) * (right - left);
 
     writeOn(
-        canvas,
-        size,
-        '${road.volume.toStringAsFixed(0)} an hour, ${road.lanes} lanes, '
-            'peak factor ${road.peakHourFactor.toStringAsFixed(2)}',
-        Offset(left - 34, 8),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${road.volume.toStringAsFixed(0)} an hour, ${road.lanes} lanes, '
+      'peak factor ${road.peakHourFactor.toStringAsFixed(2)}',
+      Offset(left - 34, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        '${(road.mix.trucks * 100).toStringAsFixed(0)} per cent trucks at '
-            '${road.mix.equivalent.toStringAsFixed(0)} cars each, '
-            '${road.speed.toStringAsFixed(0)} mph',
-        Offset(left - 34, 22),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${(road.mix.trucks * 100).toStringAsFixed(0)} per cent trucks at '
+      '${road.mix.equivalent.toStringAsFixed(0)} cars each, '
+      '${road.speed.toStringAsFixed(0)} mph',
+      Offset(left - 34, 22),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (showSteps) {
       var y = 44.0;
       for (final (label, value) in [
-        ('cars an hour in one lane', answered
-            ? road.flowPerLane.toStringAsFixed(0)
-            : 'after the answer'),
-        ('vehicles to a mile of lane', answered
-            ? road.density.toStringAsFixed(1)
-            : 'after the answer'),
+        (
+          'cars an hour in one lane',
+          answered ? road.flowPerLane.toStringAsFixed(0) : 'after the answer',
+        ),
+        (
+          'vehicles to a mile of lane',
+          answered ? road.density.toStringAsFixed(1) : 'after the answer',
+        ),
       ]) {
-        writeOn(canvas, size, '$label: $value', Offset(left - 34, y),
-            answered ? AppColors.charcoal : AppColors.ink3, fontSize: 9.5);
+        writeOn(
+          canvas,
+          size,
+          '$label: $value',
+          Offset(left - 34, y),
+          answered ? AppColors.charcoal : AppColors.ink3,
+          fontSize: 9.5,
+        );
         y += 15;
       }
     }
@@ -229,48 +252,75 @@ class LosPainter extends CustomPainter {
       final rect = Rect.fromLTRB(xOf(from), top, xOf(to), top + 18);
       canvas
         ..drawRect(
-            rect,
-            Paint()
-              ..color = AppColors.ink2
-                  .withValues(alpha: 0.10 + bands.indexWhere(
-                              (b) => b.$1 == letter) *
-                          0.06))
+          rect,
+          Paint()
+            ..color = AppColors.ink2.withValues(
+              alpha: 0.10 + bands.indexWhere((b) => b.$1 == letter) * 0.06,
+            ),
+        )
         ..drawRect(
-            rect,
-            Paint()
-              ..color = AppColors.line
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1);
-      writeOn(canvas, size, letter, Offset(rect.center.dx - 3, top + 3),
-          AppColors.ink3, fontSize: 9.5);
+          rect,
+          Paint()
+            ..color = AppColors.line
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1,
+        );
+      writeOn(
+        canvas,
+        size,
+        letter,
+        Offset(rect.center.dx - 3, top + 3),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       if (letter != 'F') {
-        writeOn(canvas, size, to.toStringAsFixed(0),
-            Offset(rect.right - 7, top + 20), AppColors.ink3, fontSize: 9.5);
+        writeOn(
+          canvas,
+          size,
+          to.toStringAsFixed(0),
+          Offset(rect.right - 7, top + 20),
+          AppColors.ink3,
+          fontSize: 9.5,
+        );
       }
     }
-    writeOn(canvas, size, 'vehicles to a mile of lane',
-        Offset(left - 34, top + 34), AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'vehicles to a mile of lane',
+      Offset(left - 34, top + 34),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'where this road lands comes out after the answer',
-          Offset(left - 34, top - 16), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'where this road lands comes out after the answer',
+        Offset(left - 34, top - 16),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
     final x = xOf(math.min(road.density, 55));
     canvas.drawLine(
-        Offset(x, top - 10),
-        Offset(x, top + 18),
-        Paint()
-          ..color = AppColors.ember
-          ..strokeWidth = 2.4);
+      Offset(x, top - 10),
+      Offset(x, top + 18),
+      Paint()
+        ..color = AppColors.ember
+        ..strokeWidth = 2.4,
+    );
     writeOn(
-        canvas,
-        size,
-        '${road.density.toStringAsFixed(1)} a mile, service ${road.level}',
-        Offset(math.max(x - 60, left - 34), top - 24),
-        AppColors.ember,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${road.density.toStringAsFixed(1)} a mile, service ${road.level}',
+      Offset(math.max(x - 60, left - 34), top - 24),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
   }
 
   @override
