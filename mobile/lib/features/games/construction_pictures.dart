@@ -316,7 +316,13 @@ class _TriggerPainter extends CustomPainter {
       canvas.drawLine(Offset(x, trigger), Offset(x + 5, trigger), dash);
     }
     final rule = _text('6 ft, where protection starts', color: AppColors.error);
-    inkLabel(canvas, rule, Offset(16, trigger - rule.height - 3));
+    // At the right end of the line: the worker standing at five feet has his
+    // own label just above it, and at the left the two sat on each other.
+    inkLabel(
+      canvas,
+      rule,
+      Offset(size.width - rule.width - 16, trigger - rule.height - 3),
+    );
 
     void worker(double centerX, double feet, String label, Color tone) {
       final deck = yOf(feet);

@@ -11,24 +11,17 @@ enum Shaped { rectangle, trapezoid, circle }
 /// A named piece of the boundary. The whole of this lesson's first trap is
 /// which of these the water is actually rubbing against: the free surface
 /// is not one of them, and neither is anything above the water line.
-enum Edge {
-  bed,
-  leftWet,
-  rightWet,
-  surface,
-  leftDry,
-  rightDry,
-}
+enum Edge { bed, leftWet, rightWet, surface, leftDry, rightDry }
 
 extension EdgeWords on Edge {
   String get plain => switch (this) {
-        Edge.bed => 'the bed',
-        Edge.leftWet => 'the left wall, up to the water',
-        Edge.rightWet => 'the right wall, up to the water',
-        Edge.surface => 'the water surface',
-        Edge.leftDry => 'the left wall above the water',
-        Edge.rightDry => 'the right wall above the water',
-      };
+    Edge.bed => 'the bed',
+    Edge.leftWet => 'the left wall, up to the water',
+    Edge.rightWet => 'the right wall, up to the water',
+    Edge.surface => 'the water surface',
+    Edge.leftDry => 'the left wall above the water',
+    Edge.rightDry => 'the right wall above the water',
+  };
 }
 
 /// A channel cut across, with water in it.
@@ -80,20 +73,20 @@ class Channel {
   }
 
   double get area => switch (shape) {
-        Shaped.rectangle => width * depth,
-        Shaped.trapezoid => depth * (width + sideRun * depth),
-        Shaped.circle => isFull
-            ? math.pi * width * width / 4
-            : width * width / 8 * (_theta - math.sin(_theta)),
-      };
+    Shaped.rectangle => width * depth,
+    Shaped.trapezoid => depth * (width + sideRun * depth),
+    Shaped.circle =>
+      isFull
+          ? math.pi * width * width / 4
+          : width * width / 8 * (_theta - math.sin(_theta)),
+  };
 
   /// What the water rubs against. The free surface is not in it.
   double get wetted => switch (shape) {
-        Shaped.rectangle => width + 2 * depth,
-        Shaped.trapezoid =>
-          width + 2 * depth * math.sqrt(1 + sideRun * sideRun),
-        Shaped.circle => isFull ? math.pi * width : width * _theta / 2,
-      };
+    Shaped.rectangle => width + 2 * depth,
+    Shaped.trapezoid => width + 2 * depth * math.sqrt(1 + sideRun * sideRun),
+    Shaped.circle => isFull ? math.pi * width : width * _theta / 2,
+  };
 
   /// Area per unit of rubbing. It is not a radius of anything: on a full
   /// pipe it comes to a quarter of the diameter, half the physical radius.
@@ -104,18 +97,17 @@ class Channel {
   /// surface is. Leaving the freeboard out of this once ran the banks off
   /// both sides of the panel.
   double get brimWidth => switch (shape) {
-        Shaped.rectangle => width,
-        Shaped.trapezoid => width + 2 * sideRun * (depth + rim),
-        Shaped.circle => width,
-      };
+    Shaped.rectangle => width,
+    Shaped.trapezoid => width + 2 * sideRun * (depth + rim),
+    Shaped.circle => width,
+  };
 
   /// The width of the free surface, which a covered full pipe does not have.
   double get topWidth => switch (shape) {
-        Shaped.rectangle => width,
-        Shaped.trapezoid => width + 2 * sideRun * depth,
-        Shaped.circle =>
-          isFull ? 0 : width * math.sin(_theta / 2),
-      };
+    Shaped.rectangle => width,
+    Shaped.trapezoid => width + 2 * sideRun * depth,
+    Shaped.circle => isFull ? 0 : width * math.sin(_theta / 2),
+  };
 
   /// Straight sided sections have named boundary pieces to point at. A
   /// circle is one curve and is asked about a different way.
@@ -166,8 +158,7 @@ class SectionPainter extends CustomPainter {
   /// drawn with the vertical exaggerated, which is ordinary drafting, and
   /// the drawing says so when it happens. A pipe never is: a stretched
   /// circle is a lie about the shape.
-  static double _across(Channel c) =>
-      math.max(c.brimWidth, c.topWidth) * 1.1;
+  static double _across(Channel c) => math.max(c.brimWidth, c.topWidth) * 1.1;
 
   static double _up(Channel c) =>
       c.shape == Shaped.circle ? c.width : c.depth + c.rim + 0.6;
@@ -186,8 +177,7 @@ class SectionPainter extends CustomPainter {
     // To scale unless the shallower water would come out too thin to point
     // at, and then stretched by just enough to read, never more.
     const readable = 60.0;
-    final thinnest =
-        other == null ? c.depth : math.min(c.depth, other.depth);
+    final thinnest = other == null ? c.depth : math.min(c.depth, other.depth);
     if (thinnest * flat >= readable) return (flat, flat);
     final wanted = readable / math.max(thinnest, 0.01);
     return (flat, wanted.clamp(flat, math.min(sy, flat * 3)));
@@ -203,12 +193,13 @@ class SectionPainter extends CustomPainter {
   static Offset originOf(Size size, Channel c, {Channel? other}) {
     final (_, sy) = scaleOf(size, c, other: other);
     final up = math.max(
-        c.shape == Shaped.circle ? c.width : c.depth + c.rim,
-        other == null
-            ? 0.0
-            : (other.shape == Shaped.circle
+      c.shape == Shaped.circle ? c.width : c.depth + c.rim,
+      other == null
+          ? 0.0
+          : (other.shape == Shaped.circle
                 ? other.width
-                : other.depth + other.rim));
+                : other.depth + other.rim),
+    );
     return Offset(size.width / 2, (size.height - 30 + up * sy) / 2);
   }
 
@@ -263,8 +254,10 @@ class SectionPainter extends CustomPainter {
     final run = b - a;
     final len2 = run.dx * run.dx + run.dy * run.dy;
     if (len2 < 0.01) return (p - a).distance;
-    final t =
-        (((p - a).dx * run.dx + (p - a).dy * run.dy) / len2).clamp(0.0, 1.0);
+    final t = (((p - a).dx * run.dx + (p - a).dy * run.dy) / len2).clamp(
+      0.0,
+      1.0,
+    );
     return (p - (a + run * t)).distance;
   }
 
@@ -297,19 +290,28 @@ class SectionPainter extends CustomPainter {
       }
       if (tone == null) continue;
       canvas.drawLine(
-          a,
-          b,
-          Paint()
-            ..color = tone
-            ..strokeWidth = tracedHere ? 3.4 : 2.6
-            ..strokeCap = StrokeCap.round);
+        a,
+        b,
+        Paint()
+          ..color = tone
+          ..strokeWidth = tracedHere ? 3.4 : 2.6
+          ..strokeCap = StrokeCap.round,
+      );
     }
 
     if (showDimensions) _dimension(canvas, size, sx, sy, o);
     final stretch = stretchOf(size, channel, other: alongside);
     if (stretch > 1.2) {
-      writeOn(canvas, size, 'vertical x${stretch.toStringAsFixed(1)}',
-          Offset(8, size.height - 26), AppColors.ink3, fontSize: 8.5);
+      // Above the view tag, not beside it: on a half width panel the tag
+      // runs nearly the whole way across and the two met.
+      writeOn(
+        canvas,
+        size,
+        'vertical x${stretch.toStringAsFixed(1)}',
+        Offset(8, size.height - 32),
+        AppColors.ink3,
+        fontSize: 8.5,
+      );
     }
     if (caption != null) {
       writeOn(canvas, size, caption!, const Offset(8, 8), AppColors.ink2);
@@ -317,8 +319,7 @@ class SectionPainter extends CustomPainter {
     viewTag(canvas, size, Looking.section, note: note ?? 'across the channel');
   }
 
-  void _paintOpen(
-      Canvas canvas, Size size, double sx, double sy, Offset o) {
+  void _paintOpen(Canvas canvas, Size size, double sx, double sy, Offset o) {
     final halfBed = channel.width / 2 * sx;
     final water = channel.depth * sy;
     final rim = channel.rim * sy;
@@ -346,11 +347,12 @@ class SectionPainter extends CustomPainter {
       ..close();
     hatchIn(canvas, wall, step: 4.5);
     canvas.drawPath(
-        wall,
-        Paint()
-          ..color = AppColors.ink2
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.4);
+      wall,
+      Paint()
+        ..color = AppColors.ink2
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.4,
+    );
 
     // The water, filled to its surface.
     final wet = Path()
@@ -360,14 +362,18 @@ class SectionPainter extends CustomPainter {
       ..lineTo(o.dx + halfBed + runWet, o.dy - water)
       ..close();
     canvas.drawPath(wet, waterFill);
-    waterLevel(canvas, Offset(o.dx - halfBed - runWet, o.dy - water),
-        Offset(o.dx + halfBed + runWet, o.dy - water));
+    waterLevel(
+      canvas,
+      Offset(o.dx - halfBed - runWet, o.dy - water),
+      Offset(o.dx + halfBed + runWet, o.dy - water),
+    );
     canvas.drawPath(
-        inside,
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.6);
+      inside,
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.6,
+    );
   }
 
   void _paintPipe(Canvas canvas, Size size, double s, Offset o) {
@@ -375,43 +381,48 @@ class SectionPainter extends CustomPainter {
     final middle = Offset(o.dx, o.dy - r);
     final bore = Path()..addOval(Rect.fromCircle(center: middle, radius: r));
     final barrel = Path.combine(
-        PathOperation.difference,
-        Path()
-          ..addOval(Rect.fromCircle(center: middle, radius: r + _lining)),
-        bore);
+      PathOperation.difference,
+      Path()..addOval(Rect.fromCircle(center: middle, radius: r + _lining)),
+      bore,
+    );
     hatchIn(canvas, barrel, step: 4.5);
     canvas.drawPath(
-        barrel,
-        Paint()
-          ..color = AppColors.ink2
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.4);
+      barrel,
+      Paint()
+        ..color = AppColors.ink2
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.4,
+    );
 
     if (channel.isFull) {
       canvas.drawPath(bore, waterFill);
     } else {
       final water = channel.depth * s;
       final wet = Path.combine(
-          PathOperation.intersect,
-          bore,
-          Path()
-            ..addRect(Rect.fromLTWH(
-                middle.dx - r, o.dy - water, 2 * r, water + 2)));
+        PathOperation.intersect,
+        bore,
+        Path()..addRect(
+          Rect.fromLTWH(middle.dx - r, o.dy - water, 2 * r, water + 2),
+        ),
+      );
       canvas.drawPath(wet, waterFill);
       final half = channel.topWidth / 2 * s;
-      waterLevel(canvas, Offset(middle.dx - half, o.dy - water),
-          Offset(middle.dx + half, o.dy - water));
+      waterLevel(
+        canvas,
+        Offset(middle.dx - half, o.dy - water),
+        Offset(middle.dx + half, o.dy - water),
+      );
     }
     canvas.drawPath(
-        bore,
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.6);
+      bore,
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.6,
+    );
   }
 
-  void _dimension(
-      Canvas canvas, Size size, double sx, double sy, Offset o) {
+  void _dimension(Canvas canvas, Size size, double sx, double sy, Offset o) {
     final ink = Paint()
       ..color = AppColors.ink3
       ..strokeWidth = 1;
@@ -421,8 +432,13 @@ class SectionPainter extends CustomPainter {
       final r = channel.width / 2 * sx;
       final y = o.dy + _lining + 12;
       canvas.drawLine(Offset(o.dx - r, y), Offset(o.dx + r, y), ink);
-      writeOn(canvas, size, 'D ${_num(channel.width)} ${channel.unit}',
-          Offset(o.dx - 24, y + 2), AppColors.ink3);
+      writeOn(
+        canvas,
+        size,
+        'D ${_num(channel.width)} ${channel.unit}',
+        Offset(o.dx - 24, y + 2),
+        AppColors.ink3,
+      );
       return;
     }
     final halfBed = channel.width / 2 * sx;
@@ -430,14 +446,24 @@ class SectionPainter extends CustomPainter {
     // The bed width, dimensioned below the lining.
     final y = o.dy + _lining + 12;
     canvas.drawLine(Offset(o.dx - halfBed, y), Offset(o.dx + halfBed, y), ink);
-    writeOn(canvas, size, 'b ${_num(channel.width)} ${channel.unit}',
-        Offset(o.dx - 24, y + 2), AppColors.ink3);
+    writeOn(
+      canvas,
+      size,
+      'b ${_num(channel.width)} ${channel.unit}',
+      Offset(o.dx - 24, y + 2),
+      AppColors.ink3,
+    );
     // The depth, dimensioned inside the water and far enough off the wall
     // that its label does not sit on the boundary being asked about.
     final x = o.dx - halfBed + math.max(22, halfBed * 0.15);
     canvas.drawLine(Offset(x, o.dy), Offset(x, o.dy - water), ink);
-    writeOn(canvas, size, 'y ${_num(channel.depth)} ${channel.unit}',
-        Offset(x + 4, o.dy - water / 2 - 6), AppColors.ink3);
+    writeOn(
+      canvas,
+      size,
+      'y ${_num(channel.depth)} ${channel.unit}',
+      Offset(x + 4, o.dy - water / 2 - 6),
+      AppColors.ink3,
+    );
   }
 
   @override

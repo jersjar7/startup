@@ -66,7 +66,9 @@ class ValuePainter extends CustomPainter {
     final left = 108.0;
     final right = size.width - 74;
     final biggest = math.max(
-        progress.planned, math.max(progress.earned, progress.actual));
+      progress.planned,
+      math.max(progress.earned, progress.actual),
+    );
     double lengthOf(double v) =>
         biggest <= 0 ? 0 : v / biggest * (right - left);
 
@@ -76,50 +78,75 @@ class ValuePainter extends CustomPainter {
       ('earned so far', progress.earned, AppColors.ember),
       ('actually spent', progress.actual, AppColors.info),
     ]) {
-      writeOn(canvas, size, label, Offset(6, y - 2), AppColors.ink3,
-          fontSize: 9.5);
-      canvas.drawRect(
-          Rect.fromLTWH(left, y - 2, math.max(lengthOf(value), 1), 14),
-          Paint()..color = color.withValues(alpha: 0.45));
       writeOn(
-          canvas,
-          size,
-          '${(value / 1000).toStringAsFixed(0)}k',
-          Offset(left + lengthOf(value) + 6, y - 2),
-          color,
-          fontSize: 9.5);
+        canvas,
+        size,
+        label,
+        Offset(6, y - 2),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      canvas.drawRect(
+        Rect.fromLTWH(left, y - 2, math.max(lengthOf(value), 1), 14),
+        Paint()..color = color.withValues(alpha: 0.45),
+      );
+      writeOn(
+        canvas,
+        size,
+        '${(value / 1000).toStringAsFixed(0)}k',
+        Offset(left + lengthOf(value) + 6, y - 2),
+        color,
+        fontSize: 9.5,
+      );
       y += 30;
     }
 
-    writeOn(canvas, size, 'everything in dollars, on one date',
-        const Offset(6, 8), AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'everything in dollars, on one date',
+      const Offset(6, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'the two variances come out after the answer',
-          Offset(6, size.height - 16), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'the two variances come out after the answer',
+        Offset(6, size.height - 16),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
     final cv = progress.costVariance;
     final sv = progress.scheduleVariance;
-    writeOn(
-        canvas,
-        size,
-        'cost: earned less spent, '
-            '${(cv / 1000).toStringAsFixed(0)}k, '
-            '${progress.overBudget ? 'over budget' : 'under budget'}',
-        Offset(6, size.height - 30),
-        progress.overBudget ? AppColors.error : AppColors.forest,
-        fontSize: 9.5);
-    writeOn(
-        canvas,
-        size,
-        'schedule: earned less planned, '
-            '${(sv / 1000).toStringAsFixed(0)}k, '
-            '${progress.behindSchedule ? 'behind' : 'ahead'}',
-        Offset(6, size.height - 16),
-        progress.behindSchedule ? AppColors.error : AppColors.forest,
-        fontSize: 9.5);
+    // Stacked from the foot, measured: these were placed 14 apart and both
+    // wrap to two lines on a narrow panel, so the lower one ate the upper.
+    writeStack(
+      canvas,
+      size,
+      [
+        (
+          'cost: earned less spent, '
+              '${(cv / 1000).toStringAsFixed(0)}k, '
+              '${progress.overBudget ? 'over budget' : 'under budget'}',
+          progress.overBudget ? AppColors.error : AppColors.forest,
+        ),
+        (
+          'schedule: earned less planned, '
+              '${(sv / 1000).toStringAsFixed(0)}k, '
+              '${progress.behindSchedule ? 'behind' : 'ahead'}',
+          progress.behindSchedule ? AppColors.error : AppColors.forest,
+        ),
+      ],
+      fontSize: 9.5,
+      left: 6,
+      bottom: 8,
+    );
   }
 
   @override
@@ -151,56 +178,79 @@ class ForecastPainter extends CustomPainter {
       if (answered) ('forecast total', progress.atCompletion, AppColors.error),
     ];
     for (final (label, value, color) in rows) {
-      writeOn(canvas, size, label, Offset(6, y - 2), AppColors.ink3,
-          fontSize: 9.5);
-      canvas.drawRect(
-          Rect.fromLTWH(left, y - 2, math.max(lengthOf(value), 1), 14),
-          Paint()..color = color.withValues(alpha: 0.45));
       writeOn(
-          canvas,
-          size,
-          '${(value / 1000000).toStringAsFixed(2)}M',
-          Offset(left + lengthOf(value) + 6, y - 2),
-          color,
-          fontSize: 9.5);
+        canvas,
+        size,
+        label,
+        Offset(6, y - 2),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      canvas.drawRect(
+        Rect.fromLTWH(left, y - 2, math.max(lengthOf(value), 1), 14),
+        Paint()..color = color.withValues(alpha: 0.45),
+      );
+      writeOn(
+        canvas,
+        size,
+        '${(value / 1000000).toStringAsFixed(2)}M',
+        Offset(left + lengthOf(value) + 6, y - 2),
+        color,
+        fontSize: 9.5,
+      );
       y += 28;
     }
 
     // The budget line, drawn across everything for comparison.
     canvas.drawLine(
-        Offset(left + lengthOf(budget), 34),
-        Offset(left + lengthOf(budget), y - 8),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 1.4);
+      Offset(left + lengthOf(budget), 34),
+      Offset(left + lengthOf(budget), y - 8),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 1.4,
+    );
 
-    writeOn(canvas, size, 'the whole job, in dollars', const Offset(6, 8),
-        AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'the whole job, in dollars',
+      const Offset(6, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'what the rest will cost comes out after the '
-          'answer', Offset(6, size.height - 16), AppColors.ink3,
-          fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'what the rest will cost comes out after the '
+        'answer',
+        Offset(6, size.height - 16),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
     writeOn(
-        canvas,
-        size,
-        'earning ${progress.costIndex.toStringAsFixed(2)} of value for each '
-            'dollar spent',
-        Offset(6, size.height - 30),
-        AppColors.charcoal,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'earning ${progress.costIndex.toStringAsFixed(2)} of value for each '
+      'dollar spent',
+      Offset(6, size.height - 30),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'so the rest costs '
-            '${(progress.toComplete / 1000000).toStringAsFixed(2)}M, not '
-            '${(progress.remainingAtBudget / 1000000).toStringAsFixed(2)}M',
-        Offset(6, size.height - 16),
-        AppColors.error,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'so the rest costs '
+      '${(progress.toComplete / 1000000).toStringAsFixed(2)}M, not '
+      '${(progress.remainingAtBudget / 1000000).toStringAsFixed(2)}M',
+      Offset(6, size.height - 16),
+      AppColors.error,
+      fontSize: 9.5,
+    );
   }
 
   @override

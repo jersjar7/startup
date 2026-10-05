@@ -43,10 +43,16 @@ void viewTag(Canvas canvas, Size size, Looking view, {String? note}) {
   // letter lost its bottom right to the clip: "PLAN" came out "PLAM".
   final at = Offset(size.width - painter.width - 10, size.height - 17);
   // A patch behind it, because it often sits over ground hatching.
-  canvas.drawRect(
-    Rect.fromLTWH(at.dx - 3, at.dy - 1, painter.width + 6, painter.height + 2),
-    Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+  final patch = Rect.fromLTWH(
+    at.dx - 3,
+    at.dy - 1,
+    painter.width + 6,
+    painter.height + 2,
   );
+  canvas.drawRect(patch, Paint()..color = panelBase);
+  // Recorded like any other label: it is the one that sits in a corner a
+  // foot note can run into, and it was invisible to the overlap test.
+  _recordLabel(canvas, patch, text);
   painter.paint(canvas, at);
 }
 
@@ -241,17 +247,23 @@ void writeStack(
   double left = 8,
   double bottom = 8,
   double gap = 3,
+  double? maxWidth,
 }) {
   var y = size.height - bottom;
   for (final (text, color) in lines.reversed) {
     if (text.isEmpty) continue;
-    final h = labelSize(
-      text,
-      fontSize: fontSize,
-      maxWidth: size.width - left * 2,
-    ).height;
+    final wide = maxWidth ?? size.width - left * 2;
+    final h = labelSize(text, fontSize: fontSize, maxWidth: wide).height;
     y -= h;
-    writeOn(canvas, size, text, Offset(left, y), color, fontSize: fontSize);
+    writeOn(
+      canvas,
+      size,
+      text,
+      Offset(left, y),
+      color,
+      fontSize: fontSize,
+      maxWidth: wide,
+    );
     y -= gap;
   }
 }
