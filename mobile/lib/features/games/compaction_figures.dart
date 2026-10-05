@@ -85,10 +85,27 @@ class ProctorPainter extends CustomPainter {
     canvas
       ..drawLine(Offset(left, top), Offset(left, bottom), axis)
       ..drawLine(Offset(left, bottom), Offset(right, bottom), axis);
-    writeOn(canvas, size, 'dry unit weight', const Offset(4, 8),
-        AppColors.ink3, fontSize: 9.5);
-    writeOn(canvas, size, 'water added', Offset(right - 62, top - 16),
-        AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'dry unit weight',
+      const Offset(4, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'water added',
+      // Under the x-axis, where an x-axis name belongs. It used to sit above
+      // the plot, holding the end of the row the verdict needs.
+      Offset(
+        right - labelSize('water added', fontSize: 9.5).width,
+        bottom + 10,
+      ),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     final curve = Path();
     for (var i = 0; i <= 60; i++) {
@@ -98,23 +115,36 @@ class ProctorPainter extends CustomPainter {
       i == 0 ? curve.moveTo(p.dx, p.dy) : curve.lineTo(p.dx, p.dy);
     }
     canvas.drawPath(
-        curve,
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2);
+      curve,
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
 
     if (showField) {
       final p = Offset(xOf(test.fieldMoisture), yOf(test.fieldDryUnitWeight));
       canvas.drawCircle(p, 4, Paint()..color = AppColors.ember);
-      writeOn(canvas, size, 'the field test', Offset(p.dx - 22, p.dy + 8),
-          AppColors.ember, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'the field test',
+        Offset(p.dx - 22, p.dy + 8),
+        AppColors.ember,
+        fontSize: 9.5,
+      );
     }
 
     if (!answered) {
-      writeOn(canvas, size, 'the peak and the specification come out after '
-          'the answer', Offset(left - 34, bottom + 10), AppColors.ink3,
-          fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'the peak and the specification come out after '
+        'the answer',
+        Offset(left - 34, bottom + 10),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
@@ -123,43 +153,68 @@ class ProctorPainter extends CustomPainter {
     canvas
       ..drawCircle(peak, 3.5, Paint()..color = AppColors.forest)
       ..drawLine(
-          Offset(peak.dx, peak.dy),
-          Offset(peak.dx, bottom),
-          Paint()
-            ..color = AppColors.forest
-            ..strokeWidth = 1);
-    writeOn(canvas, size, 'the laboratory maximum',
-        Offset(peak.dx - 40, peak.dy - 14), AppColors.forest, fontSize: 9.5);
-    writeOn(canvas, size, 'optimum moisture', Offset(peak.dx - 34, bottom + 10),
-        AppColors.forest, fontSize: 9.5);
+        Offset(peak.dx, peak.dy),
+        Offset(peak.dx, bottom),
+        Paint()
+          ..color = AppColors.forest
+          ..strokeWidth = 1,
+      );
+    writeOn(
+      canvas,
+      size,
+      'the laboratory maximum',
+      Offset(peak.dx - 40, peak.dy - 14),
+      AppColors.forest,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'optimum moisture',
+      Offset(peak.dx - 34, bottom + 10),
+      AppColors.forest,
+      fontSize: 9.5,
+    );
 
     // The line the job will not accept anything below.
     final spec = test.maxDryUnitWeight * test.specification / 100;
     final y = yOf(spec);
     for (var x = left; x < right; x += 9) {
       canvas.drawLine(
-          Offset(x, y),
-          Offset(x + 5, y),
-          Paint()
-            ..color = AppColors.info
-            ..strokeWidth = 1.4);
+        Offset(x, y),
+        Offset(x + 5, y),
+        Paint()
+          ..color = AppColors.info
+          ..strokeWidth = 1.4,
+      );
     }
     writeOn(
-        canvas,
-        size,
-        '${test.specification.toStringAsFixed(0)} per cent of it',
-        Offset(left + 4, y - 13),
-        AppColors.info,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${test.specification.toStringAsFixed(0)} per cent of it',
+      Offset(left + 4, y - 13),
+      AppColors.info,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        '${test.relativeCompaction.toStringAsFixed(1)} per cent, '
-            '${test.passes ? 'it passes' : 'short'}',
-        Offset(left + 4, top - 18),
-        test.passes ? AppColors.forest : AppColors.error,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${test.relativeCompaction.toStringAsFixed(1)} per cent, '
+      '${test.passes ? 'it passes' : 'short'}',
+      // The right end of the top row, now that the x-axis name has gone to
+      // the bottom. The left end is the y-axis name and the plot itself is
+      // full of curve, peak and specification line.
+      Offset(size.width - 4 - _verdictWidth(test), top - 18),
+      test.passes ? AppColors.forest : AppColors.error,
+      fontSize: 9.5,
+    );
   }
+
+  static double _verdictWidth(Proctor test) => labelSize(
+    '${test.relativeCompaction.toStringAsFixed(1)} per cent, '
+    '${test.passes ? 'it passes' : 'short'}',
+    fontSize: 9.5,
+  ).width;
 
   @override
   bool shouldRepaint(ProctorPainter old) =>
@@ -184,8 +239,7 @@ class Granular {
   final double densest;
   final double inPlace;
 
-  double get relativeDensity =>
-      (loosest - inPlace) / (loosest - densest) * 100;
+  double get relativeDensity => (loosest - inPlace) / (loosest - densest) * 100;
 
   /// What the numerator becomes if the two terms are swapped, which is the
   /// lesson's own wrong answer.
@@ -224,30 +278,44 @@ class PackingPainter extends CustomPainter {
     final right = size.width - 44;
     final y = size.height * 0.52;
 
-
     double xOf(double e) =>
-        left + (e - soil.densest) / (soil.loosest - soil.densest) * (right - left);
+        left +
+        (e - soil.densest) / (soil.loosest - soil.densest) * (right - left);
 
     canvas.drawLine(
-        Offset(left, y),
-        Offset(right, y),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 2);
+      Offset(left, y),
+      Offset(right, y),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 2,
+    );
     for (final (x, label, note) in [
       (left, soil.densest, 'as tight as it packs'),
       (right, soil.loosest, 'as loose as it sits'),
     ]) {
       canvas.drawLine(
-          Offset(x, y - 8),
-          Offset(x, y + 8),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 2);
-      writeOn(canvas, size, 'e = ${label.toStringAsFixed(2)}',
-          Offset(x - 22, y + 12), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, note, Offset(x - 34, y + 26), AppColors.ink3,
-          fontSize: 9.5);
+        Offset(x, y - 8),
+        Offset(x, y + 8),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 2,
+      );
+      writeOn(
+        canvas,
+        size,
+        'e = ${label.toStringAsFixed(2)}',
+        Offset(x - 22, y + 12),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        note,
+        Offset(x - 34, y + 26),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
 
     if (!applies) {
@@ -255,58 +323,90 @@ class PackingPainter extends CustomPainter {
       // the answer away, so the scale simply stands there with nothing on
       // it until the round is over.
       if (!answered) return;
-      canvas.drawRect(Offset.zero & size,
-          Paint()..color = AppColors.cream.withValues(alpha: 0.72));
-      writeOn(canvas, size, 'a clay has no loosest and tightest packing to '
-          'sit between', Offset(left - 46, y - 20), AppColors.charcoal,
-          fontSize: 9.5);
-      writeOn(canvas, size, 'so this scale is not the one to use',
-          Offset(left - 46, y + 4), AppColors.charcoal, fontSize: 9.5);
+      canvas.drawRect(
+        Offset.zero & size,
+        Paint()..color = AppColors.cream.withValues(alpha: 0.72),
+      );
+      writeOn(
+        canvas,
+        size,
+        'a clay has no loosest and tightest packing to '
+        'sit between',
+        Offset(left - 46, y - 20),
+        AppColors.charcoal,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'so this scale is not the one to use',
+        Offset(left - 46, y + 4),
+        AppColors.charcoal,
+        fontSize: 9.5,
+      );
       return;
     }
 
     final at = xOf(soil.inPlace);
     canvas.drawLine(
-        Offset(at, y - 24),
-        Offset(at, y + 4),
-        Paint()
-          ..color = AppColors.ember
-          ..strokeWidth = 2.4);
-    writeOn(canvas, size, 'e = ${soil.inPlace.toStringAsFixed(2)} in place',
-        Offset(at - 38, y - 38), AppColors.ember, fontSize: 9.5);
+      Offset(at, y - 24),
+      Offset(at, y + 4),
+      Paint()
+        ..color = AppColors.ember
+        ..strokeWidth = 2.4,
+    );
+    writeOn(
+      canvas,
+      size,
+      'e = ${soil.inPlace.toStringAsFixed(2)} in place',
+      Offset(at - 38, y - 38),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'the reading comes out after the answer',
-          Offset(left - 30, size.height - 14), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'the reading comes out after the answer',
+        Offset(left - 30, size.height - 14),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
     // The reading is taken from the LOOSE end, so a tight soil scores high.
     final barY = y - 56;
     canvas.drawLine(
-        Offset(right, barY),
-        Offset(math.max(at, left), barY),
-        Paint()
-          ..color = AppColors.forest
-          ..strokeWidth = 5);
+      Offset(right, barY),
+      Offset(math.max(at, left), barY),
+      Paint()
+        ..color = AppColors.forest
+        ..strokeWidth = 5,
+    );
     writeOn(
-        canvas,
-        size,
-        '${soil.relativeDensity.toStringAsFixed(0)} per cent, ${soil.state}',
-        Offset(left - 30, barY - 14),
-        AppColors.forest,
-        fontSize: 9.5);
-    writeOn(canvas, size, 'measured from the loose end',
-        Offset(left - 30, size.height - 14), AppColors.forest, fontSize: 9.5);
+      canvas,
+      size,
+      '${soil.relativeDensity.toStringAsFixed(0)} per cent, ${soil.state}',
+      Offset(left - 30, barY - 14),
+      AppColors.forest,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'measured from the loose end',
+      Offset(left - 30, size.height - 14),
+      AppColors.forest,
+      fontSize: 9.5,
+    );
   }
 
   @override
   bool shouldRepaint(PackingPainter old) =>
-      old.soil != soil ||
-      old.applies != applies ||
-      old.answered != answered;
+      old.soil != soil || old.applies != applies || old.answered != answered;
 }
-
 
 /// What a soil gets when compaction alone will not do.
 enum Fix { lime, cement, geosynthetic, drainage }
@@ -350,11 +450,12 @@ class StabilizerPainter extends CustomPainter {
     double xOf(double pi) => left + math.min(pi, 40) / 40 * (right - left);
 
     canvas.drawLine(
-        Offset(left, y),
-        Offset(right, y),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 2);
+      Offset(left, y),
+      Offset(right, y),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 2,
+    );
     for (final (pi, label) in [
       (0.0, 'clean sand'),
       (12.0, 'silty, a little plastic'),
@@ -362,35 +463,67 @@ class StabilizerPainter extends CustomPainter {
     ]) {
       final x = xOf(pi);
       canvas.drawLine(
-          Offset(x, y - 6),
-          Offset(x, y + 6),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 1.4);
-      writeOn(canvas, size, label, Offset(x - 26, y + 10), AppColors.ink3,
-          fontSize: 9.5);
+        Offset(x, y - 6),
+        Offset(x, y + 6),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 1.4,
+      );
+      writeOn(
+        canvas,
+        size,
+        label,
+        Offset(x - 26, y + 10),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
-    writeOn(canvas, size, 'plasticity, left to right', Offset(left - 26, y + 30),
-        AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'plasticity, left to right',
+      Offset(left - 26, y + 30),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     final at = xOf(ground.plasticityIndex);
     canvas.drawLine(
-        Offset(at, y - 30),
-        Offset(at, y - 2),
-        Paint()
-          ..color = AppColors.ember
-          ..strokeWidth = 2.4);
-    writeOn(canvas, size, ground.name, Offset(at - 40, y - 44),
-        AppColors.ember, fontSize: 9.5);
+      Offset(at, y - 30),
+      Offset(at, y - 2),
+      Paint()
+        ..color = AppColors.ember
+        ..strokeWidth = 2.4,
+    );
+    writeOn(
+      canvas,
+      size,
+      ground.name,
+      Offset(at - 40, y - 44),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
     if (ground.wet) {
-      writeOn(canvas, size, 'and the water keeps coming back',
-          Offset(left - 26, y - 58), AppColors.info, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'and the water keeps coming back',
+        Offset(left - 26, y - 58),
+        AppColors.info,
+        fontSize: 9.5,
+      );
     }
 
     if (!answered) {
-      writeOn(canvas, size, 'which additive suits which end comes out after '
-          'the answer', Offset(left - 30, size.height - 14), AppColors.ink3,
-          fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'which additive suits which end comes out after '
+        'the answer',
+        Offset(left - 30, size.height - 14),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
@@ -400,13 +533,22 @@ class StabilizerPainter extends CustomPainter {
       canvas
         ..drawRect(r, Paint()..color = color.withValues(alpha: 0.25))
         ..drawRect(
-            r,
-            Paint()
-              ..color = color
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.2);
-      writeOn(canvas, size, label, Offset(r.left + 4, band - 12), color,
-          fontSize: 9.5);
+          r,
+          Paint()
+            ..color = color
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.2,
+        );
+      // Under its own band. Above it is the axis caption, and 8 points of
+      // gap is less than a line of text.
+      writeOn(
+        canvas,
+        size,
+        label,
+        Offset(r.left + 4, band + 15),
+        color,
+        fontSize: 9.5,
+      );
     }
 
     mark(0, 10, 'cement', AppColors.forest);

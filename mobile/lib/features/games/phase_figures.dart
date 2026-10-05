@@ -13,11 +13,7 @@ enum Phase { air, water, solids, voids, whole }
 /// else worked out rather than written down beside the drawing.
 @immutable
 class Soil {
-  const Soil({
-    required this.gs,
-    required this.water,
-    required this.voidRatio,
-  });
+  const Soil({required this.gs, required this.water, required this.voidRatio});
 
   /// Specific gravity of the solids.
   final double gs;
@@ -66,8 +62,11 @@ class PhaseDiagramPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final left = 78.0;
-    final right = size.width - 78;
+    // Each gutter carries three things: the bracket, its label, and the
+    // volume or weight beside the block. At 78 the bracket label had
+    // nowhere to go and was clamped onto the volume label.
+    final left = 88.0;
+    final right = size.width - 88;
     final top = 32.0;
     final bottom = size.height - 34;
     final height = bottom - top;
@@ -97,13 +96,20 @@ class PhaseDiagramPainter extends CustomPainter {
       canvas
         ..drawRect(rect, Paint()..color = fill)
         ..drawRect(
-            rect,
-            Paint()
-              ..color = AppColors.charcoal
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.4);
-      writeOn(canvas, size, name, Offset(left + 8, (a + b) / 2 - 6),
-          AppColors.ink3, fontSize: 9.5);
+          rect,
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.4,
+        );
+      writeOn(
+        canvas,
+        size,
+        name,
+        Offset(left + 8, (a + b) / 2 - 6),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
 
       // Each block is measured on both sides, which is the whole point of
       // the drawing: a volume on the left, a weight on the right, and air
@@ -119,32 +125,94 @@ class PhaseDiagramPainter extends CustomPainter {
         Phase.water => 'Ww',
         _ => 'Ws',
       };
-      writeOn(canvas, size, volume, Offset(left - 26, middle), AppColors.ink3,
-          fontSize: 9.5);
-      writeOn(canvas, size, weight, Offset(right + 6, middle), AppColors.ink3,
-          fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        volume,
+        Offset(left - 26, middle),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        weight,
+        Offset(right + 6, middle),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
 
     // What each side of the drawing measures.
-    writeOn(canvas, size, 'VOLUME', Offset(4, top - 18), AppColors.ink3,
-        fontSize: 9.5);
-    writeOn(canvas, size, 'WEIGHT', Offset(right - 6, top - 18),
-        AppColors.ink3, fontSize: 9.5);
-    writeOn(canvas, size, 'the whole sample', Offset(left - 4, bottom + 8),
-        AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'VOLUME',
+      Offset(4, top - 18),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'WEIGHT',
+      Offset(right - 6, top - 18),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'the whole sample',
+      Offset(left - 4, bottom + 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!answered || over == null || under == null) return;
 
     // The top of the ratio, filled, and the bottom of it, bracketed.
-    _span(canvas, size, over!, left - 40, top, airTo, waterTo, bottom,
-        AppColors.ember, 'over this', true);
-    _span(canvas, size, under!, right + 34, top, airTo, waterTo, bottom,
-        AppColors.forest, 'under this', false);
+    _span(
+      canvas,
+      size,
+      over!,
+      left - 40,
+      top,
+      airTo,
+      waterTo,
+      bottom,
+      AppColors.ember,
+      'over',
+      true,
+    );
+    _span(
+      canvas,
+      size,
+      under!,
+      right + 34,
+      top,
+      airTo,
+      waterTo,
+      bottom,
+      AppColors.forest,
+      'under',
+      false,
+    );
   }
 
-  void _span(Canvas canvas, Size size, Phase phase, double x, double top,
-      double airTo, double waterTo, double bottom, Color tone, String label,
-      bool onTheLeft) {
+  void _span(
+    Canvas canvas,
+    Size size,
+    Phase phase,
+    double x,
+    double top,
+    double airTo,
+    double waterTo,
+    double bottom,
+    Color tone,
+    String label,
+    bool onTheLeft,
+  ) {
     final (a, b) = switch (phase) {
       Phase.air => (top, airTo),
       Phase.water => (airTo, waterTo),
@@ -159,9 +227,15 @@ class PhaseDiagramPainter extends CustomPainter {
       ..drawLine(Offset(x, a), Offset(x, b), ink)
       ..drawLine(Offset(x - 5, a), Offset(x + 5, a), ink)
       ..drawLine(Offset(x - 5, b), Offset(x + 5, b), ink);
-    writeOn(canvas, size, label,
-        Offset(onTheLeft ? x - 52 : x + 7, (a + b) / 2 - 6), tone,
-        fontSize: 9.5);
+    final w = labelSize(label, fontSize: 9.5).width;
+    writeOn(
+      canvas,
+      size,
+      label,
+      Offset(onTheLeft ? x - 9 - w : x + 9, (a + b) / 2 - 6),
+      tone,
+      fontSize: 9.5,
+    );
   }
 
   @override
@@ -193,37 +267,63 @@ class UnitWeightPainter extends CustomPainter {
     final left = 78.0;
     final wide = size.width - left - 56;
 
-    writeOn(canvas, size, 'pounds per cubic foot, all one scale',
-        const Offset(8, 6), AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'pounds per cubic foot, all one scale',
+      const Offset(8, 6),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     var y = 26.0;
     for (final (name, value) in rows) {
-      writeOn(canvas, size, name, Offset(8, y - 1), AppColors.ink3,
-          fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        name,
+        Offset(8, y - 1),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       // The lengths ARE the answer to the first two rounds, so before the
       // round is over there is only an empty rail to show what is being
       // compared.
       if (answered) {
         final length = value / top * wide;
         canvas.drawRect(
-            Rect.fromLTWH(left, y, math.max(length, 1), 13),
-            Paint()..color = AppColors.charcoal.withValues(alpha: 0.55));
-        writeOn(canvas, size, value.toStringAsFixed(0),
-            Offset(left + length + 6, y - 1), AppColors.ember, fontSize: 9.5);
+          Rect.fromLTWH(left, y, math.max(length, 1), 13),
+          Paint()..color = AppColors.charcoal.withValues(alpha: 0.55),
+        );
+        writeOn(
+          canvas,
+          size,
+          value.toStringAsFixed(0),
+          Offset(left + length + 6, y - 1),
+          AppColors.ember,
+          fontSize: 9.5,
+        );
       } else {
         canvas.drawRect(
-            Rect.fromLTWH(left, y, wide, 13),
-            Paint()
-              ..color = AppColors.line
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1);
+          Rect.fromLTWH(left, y, wide, 13),
+          Paint()
+            ..color = AppColors.line
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1,
+        );
       }
       y += 22;
     }
 
     if (!answered) {
-      writeOn(canvas, size, 'the four of them, for one soil at one void ratio',
-          Offset(8, y + 2), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'the four of them, for one soil at one void ratio',
+        Offset(8, y + 2),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
   }
 
