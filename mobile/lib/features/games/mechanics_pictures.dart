@@ -58,7 +58,7 @@ class ConceptPicture extends StatelessWidget {
               minor: 18,
               major: 90,
               child: CustomPaint(
-                painter: painter,
+                painter: _Panelled(painter),
                 child: const SizedBox.expand(),
               ),
             ),
@@ -69,6 +69,30 @@ class ConceptPicture extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Counts panels for the label-overlap test, and does nothing else.
+///
+/// Each panel paints in its own coordinates, so two labels in two panels can
+/// share a rect while sitting far apart on screen. Stamping a panel number on
+/// every label is what lets the test tell a real collision from that.
+class _Panelled extends CustomPainter {
+  const _Panelled(this.inner);
+
+  final CustomPainter inner;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (debugLabelRects != null) debugPanelId++;
+    inner.paint(canvas, size);
+  }
+
+  @override
+  bool shouldRepaint(_Panelled old) =>
+      // A different painter altogether means repaint: handing one painter's
+      // shouldRepaint another painter's type throws.
+      old.inner.runtimeType != inner.runtimeType ||
+      inner.shouldRepaint(old.inner);
 }
 
 /// Two drawings side by side, sharing one caption line each.

@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -207,7 +208,7 @@ Size writeOn(
     painter.height + 2,
   );
   canvas.drawRect(patch, Paint()..color = panelBase);
-  _recordLabel(patch);
+  _recordLabel(canvas, patch);
   painter.paint(canvas, place);
   return painter.size;
 }
@@ -242,7 +243,7 @@ const panelBase = Color(0xFFFDFCF8);
 
 void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
   if (!_wantsPatch(text)) {
-    _recordLabel(Rect.fromLTWH(at.dx, at.dy, text.width, text.height));
+    _recordLabel(canvas, Rect.fromLTWH(at.dx, at.dy, text.width, text.height));
     text.paint(canvas, at);
     return;
   }
@@ -251,7 +252,7 @@ void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
     const Radius.circular(3),
   );
   canvas.drawRRect(box, Paint()..color = patch ?? panelBase);
-  _recordLabel(box.outerRect);
+  _recordLabel(canvas, box.outerRect);
   text.paint(canvas, at);
 }
 
@@ -270,4 +271,21 @@ bool _wantsPatch(TextPainter text) {
 /// asks it to. See `test/label_overlap_test.dart`.
 List<Rect>? debugLabelRects;
 
-void _recordLabel(Rect r) => debugLabelRects?.add(r);
+/// Which panel a label was drawn in. A figure is often several panels side
+/// by side, and every painter draws in ITS OWN coordinates, so the left
+/// panel's "0" and the right panel's "0" have the same rect and look like a
+/// collision when they are nowhere near each other on screen. Only labels
+/// sharing a panel can actually overlap.
+List<int>? debugLabelPanel;
+int debugPanelId = 0;
+
+void _recordLabel(Canvas canvas, Rect r) {
+  if (debugLabelRects == null) return;
+  // Through the canvas transform, so a label drawn inside a save/rotate
+  // block is recorded where it actually lands. Several figures turn the
+  // canvas to write down a narrow band, and untransformed they all recorded
+  // the same rect near the origin and looked like a pile-up.
+  final m = Matrix4.fromFloat64List(canvas.getTransform());
+  debugLabelRects!.add(MatrixUtils.transformRect(m, r));
+  debugLabelPanel?.add(debugPanelId);
+}

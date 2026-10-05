@@ -73,7 +73,9 @@ void main() {
       final bad = <String>[];
       for (final picture in chapter.value.entries) {
         final rects = <Rect>[];
+        final panels = <int>[];
         debugLabelRects = rects;
+        debugLabelPanel = panels;
         await tester.pumpWidget(
           MaterialApp(
             theme: AppTheme.light,
@@ -89,9 +91,11 @@ void main() {
         );
         await tester.pumpAndSettle();
         debugLabelRects = null;
+        debugLabelPanel = null;
 
         for (var i = 0; i < rects.length; i++) {
           for (var j = i + 1; j < rects.length; j++) {
+            if (panels[i] != panels[j]) continue;
             final hit = rects[i].deflate(slack).intersect(rects[j]);
             if (hit.width > 0 && hit.height > 0) {
               bad.add(
