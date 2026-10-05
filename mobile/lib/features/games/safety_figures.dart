@@ -25,8 +25,7 @@ class Trench {
     return Protection.none;
   }
 
-  bool get violation =>
-      required_ != Protection.none && !protected;
+  bool get violation => required_ != Protection.none && !protected;
 }
 
 /// A worker at a height, and whether fall protection is required.
@@ -57,7 +56,9 @@ class TrenchPainter extends CustomPainter {
     final ground = 34.0;
     final bottom = size.height - 34;
     const scaleTop = 25.0;
-    final perFoot = (bottom - ground) / math.max(trench.depth, 1) *
+    final perFoot =
+        (bottom - ground) /
+        math.max(trench.depth, 1) *
         math.min(trench.depth / 24, 1);
     final deep = math.min(trench.depth * perFoot, bottom - ground);
     final left = size.width * 0.30;
@@ -65,49 +66,73 @@ class TrenchPainter extends CustomPainter {
 
     // The ground and the hole in it.
     canvas
-      ..drawRect(Rect.fromLTRB(10, ground, left, bottom + 10),
-          Paint()..color = AppColors.ink2.withValues(alpha: 0.35))
-      ..drawRect(Rect.fromLTRB(right, ground, size.width - 10, bottom + 10),
-          Paint()..color = AppColors.ink2.withValues(alpha: 0.35));
+      ..drawRect(
+        Rect.fromLTRB(10, ground, left, bottom + 10),
+        Paint()..color = AppColors.ink2.withValues(alpha: 0.35),
+      )
+      ..drawRect(
+        Rect.fromLTRB(right, ground, size.width - 10, bottom + 10),
+        Paint()..color = AppColors.ink2.withValues(alpha: 0.35),
+      );
     groundLine(canvas, Offset(10, ground), Offset(left, ground));
     groundLine(canvas, Offset(right, ground), Offset(size.width - 10, ground));
     canvas.drawLine(
-        Offset(left, ground + deep),
-        Offset(right, ground + deep),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 1.6);
+      Offset(left, ground + deep),
+      Offset(right, ground + deep),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 1.6,
+    );
 
     if (trench.protected) {
       for (final x in [left + 3, right - 6]) {
         canvas.drawRect(
-            Rect.fromLTWH(x, ground + 2, 3, deep - 4),
-            Paint()..color = AppColors.forest.withValues(alpha: 0.8));
+          Rect.fromLTWH(x, ground + 2, 3, deep - 4),
+          Paint()..color = AppColors.forest.withValues(alpha: 0.8),
+        );
       }
-      writeOn(canvas, size, 'shored', Offset(left + 8, ground + 6),
-          AppColors.forest, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'shored',
+        Offset(left + 8, ground + 6),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
 
     // A depth scale down the left hand side.
     canvas.drawLine(
-        Offset(22, ground),
-        Offset(22, ground + deep),
-        Paint()
-          ..color = AppColors.ink3
-          ..strokeWidth = 1.2);
+      Offset(22, ground),
+      Offset(22, ground + deep),
+      Paint()
+        ..color = AppColors.ink3
+        ..strokeWidth = 1.2,
+    );
     writeOn(
-        canvas,
-        size,
-        '${trench.depth.toStringAsFixed(0)} ft deep',
-        Offset(6, scaleTop - 18),
-        AppColors.charcoal,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${trench.depth.toStringAsFixed(0)} ft deep',
+      Offset(6, scaleTop - 18),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'what the rules ask for comes out',
-          Offset(10, size.height - 28), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'after the answer', Offset(10, size.height - 14),
-          AppColors.ink3, fontSize: 9.5);
+      // One sentence, wrapped by the panel, rather than two lines placed 14
+      // apart: at a narrow width the first ran into the trench above it.
+      writeStack(
+        canvas,
+        size,
+        const [
+          ('what the rules ask for comes out after the answer', AppColors.ink3),
+        ],
+        fontSize: 9.5,
+        left: 10,
+        bottom: 10,
+        // Stops short of the view tag in the corner.
+        maxWidth: size.width - 160,
+      );
       viewTag(canvas, size, Looking.section, note: 'the trench');
       return;
     }
@@ -118,38 +143,50 @@ class TrenchPainter extends CustomPainter {
       final y = ground + at * perFoot;
       for (var x = 14.0; x < size.width - 12; x += 9) {
         canvas.drawLine(
-            Offset(x, y),
-            Offset(x + 5, y),
-            Paint()
-              ..color = AppColors.error
-              ..strokeWidth = 1.2);
+          Offset(x, y),
+          Offset(x + 5, y),
+          Paint()
+            ..color = AppColors.error
+            ..strokeWidth = 1.2,
+        );
       }
-      writeOn(canvas, size, label, Offset(size.width - 74, y - 13),
-          AppColors.error, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        label,
+        Offset(size.width - 74, y - 13),
+        AppColors.error,
+        fontSize: 9.5,
+      );
     }
 
-    writeOn(
-        canvas,
-        size,
-        switch (trench.required_) {
-          Protection.none => 'under five feet: no system required',
-          Protection.anySystem =>
-            'over five feet: sloping, shoring or a trench box',
-          Protection.engineerDesigned =>
-            'over twenty feet: an engineer has to design the system',
-        },
-        Offset(10, size.height - 28),
-        AppColors.charcoal,
-        fontSize: 9.5);
-    writeOn(
-        canvas,
-        size,
-        trench.violation
-            ? 'and there is nothing in this one: a violation'
-            : 'and this one has what it needs',
-        Offset(10, size.height - 14),
-        trench.violation ? AppColors.error : AppColors.forest,
-        fontSize: 9.5);
+    // Stacked from the foot, measured: these two were placed by hand 14
+    // apart, which is less than the line they are set in.
+    writeStack(
+      canvas,
+      size,
+      [
+        (
+          switch (trench.required_) {
+            Protection.none => 'under five feet: no system required',
+            Protection.anySystem =>
+              'over five feet: sloping, shoring or a trench box',
+            Protection.engineerDesigned =>
+              'over twenty feet: an engineer has to design the system',
+          },
+          AppColors.charcoal,
+        ),
+        (
+          trench.violation
+              ? 'and there is nothing in this one: a violation'
+              : 'and this one has what it needs',
+          trench.violation ? AppColors.error : AppColors.forest,
+        ),
+      ],
+      fontSize: 9.5,
+      left: 10,
+      bottom: 10,
+    );
 
     viewTag(canvas, size, Looking.section, note: 'the trench');
   }
@@ -172,38 +209,54 @@ class HeightPainter extends CustomPainter {
     final groundY = size.height - 42;
     final top = 40.0;
     final tallest = math.max(work.height, work.trigger) * 1.25;
-    double yOf(double feet) =>
-        groundY - feet / tallest * (groundY - top);
+    double yOf(double feet) => groundY - feet / tallest * (groundY - top);
 
     canvas.drawLine(
-        Offset(12, groundY),
-        Offset(size.width - 12, groundY),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 2);
+      Offset(12, groundY),
+      Offset(size.width - 12, groundY),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 2,
+    );
 
     // The platform and the worker on it.
     final deck = yOf(work.height);
     canvas
-      ..drawRect(Rect.fromLTRB(size.width * 0.42, deck, size.width - 24,
-          deck + 6), Paint()..color = AppColors.charcoal.withValues(alpha: 0.7))
       ..drawRect(
-          Rect.fromLTWH(size.width * 0.58, deck - 18, 9, 18),
-          Paint()..color = AppColors.charcoal.withValues(alpha: 0.85));
+        Rect.fromLTRB(size.width * 0.42, deck, size.width - 24, deck + 6),
+        Paint()..color = AppColors.charcoal.withValues(alpha: 0.7),
+      )
+      ..drawRect(
+        Rect.fromLTWH(size.width * 0.58, deck - 18, 9, 18),
+        Paint()..color = AppColors.charcoal.withValues(alpha: 0.85),
+      );
     writeOn(
-        canvas,
-        size,
-        '${work.height.toStringAsFixed(0)} ft up'
-            '${work.steelConnector ? ', connecting steel' : ''}',
-        Offset(size.width * 0.42, deck - 34),
-        AppColors.charcoal,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${work.height.toStringAsFixed(0)} ft up'
+      '${work.steelConnector ? ', connecting steel' : ''}',
+      Offset(size.width * 0.42, deck - 34),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'whether anything is required comes out',
-          Offset(10, size.height - 28), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'after the answer', Offset(10, size.height - 14),
-          AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'whether anything is required comes out',
+        Offset(10, size.height - 28),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'after the answer',
+        Offset(10, size.height - 14),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       viewTag(canvas, size, Looking.elevation, note: 'the work');
       return;
     }
@@ -211,28 +264,31 @@ class HeightPainter extends CustomPainter {
     final y = yOf(work.trigger);
     for (var x = 14.0; x < size.width - 12; x += 9) {
       canvas.drawLine(
-          Offset(x, y),
-          Offset(x + 5, y),
-          Paint()
-            ..color = AppColors.error
-            ..strokeWidth = 1.2);
+        Offset(x, y),
+        Offset(x + 5, y),
+        Paint()
+          ..color = AppColors.error
+          ..strokeWidth = 1.2,
+      );
     }
     writeOn(
-        canvas,
-        size,
-        '${work.trigger.toStringAsFixed(0)} ft, where protection starts',
-        Offset(12, y - 13),
-        AppColors.error,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${work.trigger.toStringAsFixed(0)} ft, where protection starts',
+      Offset(12, y - 13),
+      AppColors.error,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        work.needsProtection
-            ? 'guardrails, a net or a harness are required here'
-            : 'below the trigger: nothing is required by the rule',
-        Offset(10, size.height - 14),
-        work.needsProtection ? AppColors.error : AppColors.forest,
-        fontSize: 9.5);
+      canvas,
+      size,
+      work.needsProtection
+          ? 'guardrails, a net or a harness are required here'
+          : 'below the trigger: nothing is required by the rule',
+      Offset(10, size.height - 14),
+      work.needsProtection ? AppColors.error : AppColors.forest,
+      fontSize: 9.5,
+    );
 
     viewTag(canvas, size, Looking.elevation, note: 'the work');
   }

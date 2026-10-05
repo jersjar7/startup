@@ -43,10 +43,16 @@ void viewTag(Canvas canvas, Size size, Looking view, {String? note}) {
   // letter lost its bottom right to the clip: "PLAN" came out "PLAM".
   final at = Offset(size.width - painter.width - 10, size.height - 17);
   // A patch behind it, because it often sits over ground hatching.
-  canvas.drawRect(
-    Rect.fromLTWH(at.dx - 3, at.dy - 1, painter.width + 6, painter.height + 2),
-    Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+  final patch = Rect.fromLTWH(
+    at.dx - 3,
+    at.dy - 1,
+    painter.width + 6,
+    painter.height + 2,
   );
+  canvas.drawRect(patch, Paint()..color = panelBase);
+  // Recorded like any other label: it is the one that sits in a corner a
+  // foot note can run into, and it was invisible to the overlap test.
+  _recordLabel(canvas, patch, text);
   painter.paint(canvas, at);
 }
 
@@ -216,14 +222,50 @@ Size writeOn(
 /// How big a label will be before it is drawn, for a painter that has to
 /// place it against something: to the left of a peak, under the line above
 /// it, inside a box of its own.
-Size labelSize(String text, {double fontSize = 10}) {
+Size labelSize(String text, {double fontSize = 10, double? maxWidth}) {
   return (TextPainter(
     text: TextSpan(
       text: text,
       style: AppTheme.mono(size: fontSize),
     ),
     textDirection: TextDirection.ltr,
-  )..layout()).size;
+  )..layout(maxWidth: maxWidth ?? double.infinity)).size;
+}
+
+/// Notes stacked up from the foot of a panel, each clear of the one above.
+///
+/// Painters used to place these by hand at height - 30 and height - 16, a gap
+/// of 14 for a line that is 13 tall before its patch, so the lower note's
+/// patch ate the upper note's letters. Worse when the upper one wrapped to
+/// two lines, which the panel width decides and the author cannot see.
+/// Measuring each line and stacking from the bottom removes the guess.
+void writeStack(
+  Canvas canvas,
+  Size size,
+  List<(String, Color)> lines, {
+  double fontSize = 10,
+  double left = 8,
+  double bottom = 8,
+  double gap = 3,
+  double? maxWidth,
+}) {
+  var y = size.height - bottom;
+  for (final (text, color) in lines.reversed) {
+    if (text.isEmpty) continue;
+    final wide = maxWidth ?? size.width - left * 2;
+    final h = labelSize(text, fontSize: fontSize, maxWidth: wide).height;
+    y -= h;
+    writeOn(
+      canvas,
+      size,
+      text,
+      Offset(left, y),
+      color,
+      fontSize: fontSize,
+      maxWidth: wide,
+    );
+    y -= gap;
+  }
 }
 
 /// Paints a label that has already been laid out, with a patch of the panel
@@ -246,7 +288,7 @@ void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
     _recordLabel(
       canvas,
       Rect.fromLTWH(at.dx, at.dy, text.width, text.height),
-      text.plainText,
+      _plain(text),
     );
     text.paint(canvas, at);
     return;
@@ -256,7 +298,7 @@ void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
     const Radius.circular(3),
   );
   canvas.drawRRect(box, Paint()..color = patch ?? panelBase);
-  _recordLabel(canvas, box.outerRect, text.plainText);
+  _recordLabel(canvas, box.outerRect, _plain(text));
   text.paint(canvas, at);
 }
 
@@ -270,34 +312,39 @@ bool _wantsPatch(TextPainter text) {
   return l < 0.72;
 }
 
-/// Where every label landed, for the test that looks for one sitting on
-/// another. Null in a running app: a figure records nothing unless a test
-/// asks it to. See `test/label_overlap_test.dart`.
-List<Rect>? debugLabelRects;
-
-/// What each of those labels said, filled in step with [debugLabelRects] when
-/// it is listening. Naming the two labels is the difference between knowing
-/// a figure is wrong and knowing which words to move.
-List<String>? debugLabelTexts;
-
-/// Which panel a label was drawn in. A figure is often several panels side
-/// by side, and every painter draws in ITS OWN coordinates, so the left
-/// panel's "0" and the right panel's "0" can land on the same place on
-/// screen without being anywhere near each other on the page. Only labels
-/// sharing a panel can actually collide.
-List<int>? debugLabelPanel;
-int debugPanelId = 0;
-
-/// Recorded in the ROOT's coordinates, not the painter's.
+/// Where every label landed, grouped by the panel it landed in, for the test
+/// that looks for one sitting on another. Null in a running app: a figure
+/// records nothing unless a test asks it to.
 ///
-/// Several figures turn the canvas to write down a narrow band. Untransformed,
-/// every one of those recorded the same rect near the origin and looked like a
-/// pile-up. Through the transform, a pair only reads as an overlap when the ink
-/// really lands on the ink.
+/// Grouped because a painter draws in its own coordinates, starting at zero.
+/// Two panels stacked in one picture both write their foot note at the same
+/// local spot, which is not an overlap at all, and comparing them flat
+/// reported every stacked picture as broken. See
+/// `test/label_overlap_test.dart`.
+List<List<(Rect, String)>>? debugLabelPanels;
+
+/// Called once per panel, before anything is drawn in it.
+void debugLabelBoundary() => debugLabelPanels?.add(<(Rect, String)>[]);
+
 void _recordLabel(Canvas canvas, Rect r, String text) {
-  if (debugLabelRects == null && debugLabelTexts == null) return;
-  final m = Matrix4.fromFloat64List(canvas.getTransform());
-  debugLabelRects?.add(MatrixUtils.transformRect(m, r));
-  debugLabelTexts?.add(text);
-  debugLabelPanel?.add(debugPanelId);
+  final panels = debugLabelPanels;
+  if (panels == null) return;
+  if (panels.isEmpty) panels.add(<(Rect, String)>[]);
+  // Through the canvas's own transform: a painter that lays three columns
+  // out with translate() writes each label at the same local spot, and
+  // recording that raw reported every such row as three labels on top of
+  // one another.
+  panels.last.add((
+    MatrixUtils.transformRect(
+      Matrix4.fromFloat64List(canvas.getTransform()),
+      r,
+    ),
+    text,
+  ));
+}
+
+/// The words inside a laid-out label, for the overlap test's report.
+String _plain(TextPainter text) {
+  final span = text.text;
+  return span is TextSpan ? (span.toPlainText()) : '';
 }

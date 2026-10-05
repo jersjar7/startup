@@ -10,11 +10,7 @@ import 'figure_ink.dart';
 /// what has to finish before it can start.
 @immutable
 class Task {
-  const Task({
-    required this.name,
-    required this.days,
-    this.after = const [],
-  });
+  const Task({required this.name, required this.days, this.after = const []});
 
   final String name;
   final double days;
@@ -57,11 +53,10 @@ class Network {
   }
 
   Map<String, double> get earlyFinish => {
-        for (final t in tasks) t.name: earlyStart[t.name]! + t.days,
-      };
+    for (final t in tasks) t.name: earlyStart[t.name]! + t.days,
+  };
 
-  double get duration =>
-      earlyFinish.values.fold(0, (a, b) => math.max(a, b));
+  double get duration => earlyFinish.values.fold(0, (a, b) => math.max(a, b));
 
   /// The backward pass: an activity must finish before the EARLIEST of the
   /// things waiting on it has to start.
@@ -85,12 +80,11 @@ class Network {
   }
 
   Map<String, double> get lateStart => {
-        for (final t in tasks) t.name: lateFinish[t.name]! - t.days,
-      };
+    for (final t in tasks) t.name: lateFinish[t.name]! - t.days,
+  };
 
   /// How far an activity can slip without pushing the end of the project.
-  double totalFloatOf(String name) =>
-      lateStart[name]! - earlyStart[name]!;
+  double totalFloatOf(String name) => lateStart[name]! - earlyStart[name]!;
 
   /// And how far it can slip without pushing anything else at all.
   double freeFloatOf(String name) {
@@ -158,8 +152,8 @@ class NetworkPainter extends CustomPainter {
       final here = columns[keys[c]]!;
       for (var r = 0; r < here.length; r++) {
         final x = left + c * wide + (wide - boxW) / 2;
-        final y = 44.0 + r * (boxH + 14) +
-            (here.length == 1 ? (boxH + 14) / 2 : 0);
+        final y =
+            44.0 + r * (boxH + 14) + (here.length == 1 ? (boxH + 14) / 2 : 0);
         at[here[r].name] = Offset(x, y);
       }
     }
@@ -169,16 +163,18 @@ class NetworkPainter extends CustomPainter {
       for (final p in t.after) {
         final from = at[p]!;
         final to = at[t.name]!;
-        final critical = answered &&
+        final critical =
+            answered &&
             markCritical &&
             network.isCritical(p) &&
             network.isCritical(t.name);
         canvas.drawLine(
-            Offset(from.dx + boxW, from.dy + boxH / 2),
-            Offset(to.dx, to.dy + boxH / 2),
-            Paint()
-              ..color = critical ? AppColors.ember : AppColors.ink3
-              ..strokeWidth = critical ? 2.4 : 1.2);
+          Offset(from.dx + boxW, from.dy + boxH / 2),
+          Offset(to.dx, to.dy + boxH / 2),
+          Paint()
+            ..color = critical ? AppColors.ember : AppColors.ink3
+            ..strokeWidth = critical ? 2.4 : 1.2,
+        );
       }
     }
 
@@ -189,24 +185,33 @@ class NetworkPainter extends CustomPainter {
       final critical = answered && markCritical && network.isCritical(t.name);
       canvas
         ..drawRect(
-            box,
-            Paint()
-              ..color = (picked
-                      ? AppColors.ember
-                      : critical
-                          ? AppColors.ember
-                          : AppColors.ink2)
-                  .withValues(alpha: picked ? 0.28 : critical ? 0.16 : 0.16))
+          box,
+          Paint()
+            ..color =
+                (picked
+                        ? AppColors.ember
+                        : critical
+                        ? AppColors.ember
+                        : AppColors.ink2)
+                    .withValues(
+                      alpha: picked
+                          ? 0.28
+                          : critical
+                          ? 0.16
+                          : 0.16,
+                    ),
+        )
         ..drawRect(
-            box,
-            Paint()
-              ..color = picked
-                  ? AppColors.ember
-                  : critical
-                      ? AppColors.ember
-                      : AppColors.line
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = picked ? 2 : 1.2);
+          box,
+          Paint()
+            ..color = picked
+                ? AppColors.ember
+                : critical
+                ? AppColors.ember
+                : AppColors.line
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = picked ? 2 : 1.2,
+        );
 
       final title = TextPainter(
         text: TextSpan(
@@ -221,7 +226,8 @@ class NetworkPainter extends CustomPainter {
         if (showEarly) {
           final early = TextPainter(
             text: TextSpan(
-              text: '${es[t.name]!.toStringAsFixed(0)} to '
+              text:
+                  '${es[t.name]!.toStringAsFixed(0)} to '
                   '${ef[t.name]!.toStringAsFixed(0)}',
               style: AppTheme.mono(size: 9, color: AppColors.info),
             ),
@@ -232,24 +238,34 @@ class NetworkPainter extends CustomPainter {
         if (showLate) {
           final late = TextPainter(
             text: TextSpan(
-              text: '${ls[t.name]!.toStringAsFixed(0)} to '
+              text:
+                  '${ls[t.name]!.toStringAsFixed(0)} to '
                   '${lf[t.name]!.toStringAsFixed(0)}',
               style: AppTheme.mono(size: 9, color: AppColors.forest),
             ),
             textDirection: TextDirection.ltr,
           )..layout();
           late.paint(
-              canvas, Offset(box.left + 5, box.top + (showEarly ? 25 : 18)));
+            canvas,
+            Offset(box.left + 5, box.top + (showEarly ? 25 : 18)),
+          );
         }
       }
     }
 
-    writeOn(canvas, size, 'each box is an activity and its days',
-        const Offset(8, 8), AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'each box is an activity and its days',
+      const Offset(8, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'the dates come out after the answer',
-          Offset(8, size.height - 16), AppColors.ink3, fontSize: 9.5);
+      writeStack(canvas, size, const [
+        ('the dates come out after the answer', AppColors.ink3),
+      ], fontSize: 9.5);
       return;
     }
 
@@ -257,16 +273,16 @@ class NetworkPainter extends CustomPainter {
     if (showEarly) legend.write('early start to finish in blue');
     if (showEarly && showLate) legend.write(', ');
     if (showLate) legend.write('late start to finish in green');
-    writeOn(canvas, size, legend.toString(), Offset(8, size.height - 30),
-        AppColors.ink3, fontSize: 9.5);
-    writeOn(
-        canvas,
-        size,
+    // Stacked, not placed: the legend wraps to two lines on a narrow panel
+    // and used to land on the line below it.
+    writeStack(canvas, size, [
+      (legend.toString(), AppColors.ink3),
+      (
         '${network.duration.toStringAsFixed(0)} days in all'
             '${markCritical ? ', and the critical chain is marked' : ''}',
-        Offset(8, size.height - 16),
         AppColors.charcoal,
-        fontSize: 9.5);
+      ),
+    ], fontSize: 9.5);
   }
 
   @override
