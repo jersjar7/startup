@@ -125,136 +125,152 @@ class _StudyDaysScreenState extends State<StudyDaysScreen> {
     return Scaffold(
       backgroundColor: AppColors.butter,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+        // Tightens on the two small phones (568 and 667 tall) where the
+        // hero figure and the month grid no longer both fit; every other
+        // phone keeps the proportions.
+        child: LayoutBuilder(
+          builder: (context, box) {
+            final tight = box.maxHeight < 700;
+            return Padding(
+              padding: EdgeInsets.fromLTRB(24, 8, 24, tight ? 18 : 34),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  RoundIconButton(
-                    icon: Icons.chevron_left_rounded,
-                    label: 'Back',
-                    onTap: () => Navigator.of(context).maybePop(),
-                  ),
-                  const Spacer(),
-                  Text(
-                    'DAYS STUDIED',
-                    style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              Text.rich(
-                TextSpan(
-                  text: '${widget.count}',
-                  style: AppTheme.display(
-                    size: 124,
-                    height: 0.82,
-                    tracking: -0.07,
-                  ),
-                  children: [
-                    const TextSpan(text: ' '),
-                    TextSpan(
-                      text: widget.count == 1 ? 'day' : 'days',
-                      style: AppTheme.display(
-                        size: 28,
-                        weight: FontWeight.w700,
-                        height: 0.82,
-                        tracking: -0.03,
+                  Row(
+                    children: [
+                      RoundIconButton(
+                        icon: Icons.chevron_left_rounded,
+                        label: 'Back',
+                        onTap: () => Navigator.of(context).maybePop(),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 14),
-              Text(
-                _failed
-                    ? 'Could not load your days. Pull back and try again.'
-                    : since == null
-                    ? 'Every day you play a game or open a lesson counts once, '
-                          'and the number only ever goes up.'
-                    : 'Since ${_months[since.month - 1].substring(0, 3)} ${since.day}. '
-                          'Every day you play a game or open a lesson counts once, '
-                          'and the number only ever goes up.',
-                style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
-              ),
-              const Spacer(),
-              SizedBox(
-                height: 40,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  children: [
-                    for (final m in months) ...[
-                      _MonthChip(
-                        label: _months[m.month - 1].substring(0, 3),
-                        on: m == _month,
-                        onTap: () => setState(() => _month = m),
-                      ),
-                      const SizedBox(width: 6),
-                    ],
-                  ],
-                ),
-              ),
-              const SizedBox(height: 22),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  Text(
-                    _months[_month.month - 1],
-                    style: AppTheme.display(size: 34),
-                  ),
-                  const Spacer(),
-                  Text(
-                    elapsed == 0 ? '' : '$studiedThisMonth OF $elapsed DAYS',
-                    style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              GridView.count(
-                crossAxisCount: 7,
-                mainAxisSpacing: 4,
-                crossAxisSpacing: 4,
-                childAspectRatio: 1,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  for (final w in const [
-                    'MO',
-                    'TU',
-                    'WE',
-                    'TH',
-                    'FR',
-                    'SA',
-                    'SU',
-                  ])
-                    Center(
-                      child: Text(
-                        w,
+                      const Spacer(),
+                      Text(
+                        'DAYS STUDIED',
                         style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
                       ),
-                    ),
-                  for (var i = 0; i < lead; i++) const SizedBox.shrink(),
-                  for (var d = 1; d <= daysInMonth; d++)
-                    _Cell(
-                      day: d,
-                      studied: days.contains(
-                        _iso(DateTime(_month.year, _month.month, d)),
+                    ],
+                  ),
+                  SizedBox(height: tight ? 12 : 30),
+                  Text.rich(
+                    TextSpan(
+                      text: '${widget.count}',
+                      style: AppTheme.display(
+                        size: tight ? 86 : 124,
+                        height: 0.82,
+                        tracking: -0.07,
                       ),
-                      today: DateTime(_month.year, _month.month, d) == _today,
-                      future: DateTime(
-                        _month.year,
-                        _month.month,
-                        d,
-                      ).isAfter(_today),
+                      children: [
+                        const TextSpan(text: ' '),
+                        TextSpan(
+                          text: widget.count == 1 ? 'day' : 'days',
+                          style: AppTheme.display(
+                            size: tight ? 20 : 28,
+                            weight: FontWeight.w700,
+                            height: 0.82,
+                            tracking: -0.03,
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    _failed
+                        ? 'Could not load your days. Pull back and try again.'
+                        : since == null
+                        ? 'Every day you play a game or open a lesson counts once, '
+                              'and the number only ever goes up.'
+                        : 'Since ${_months[since.month - 1].substring(0, 3)} ${since.day}. '
+                              'Every day you play a game or open a lesson counts once, '
+                              'and the number only ever goes up.',
+                    style: AppTheme.body(
+                      size: 15,
+                      color: AppColors.mutedOnLight,
+                    ),
+                  ),
+                  const Spacer(),
+                  SizedBox(
+                    height: 40,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        for (final m in months) ...[
+                          _MonthChip(
+                            label: _months[m.month - 1].substring(0, 3),
+                            on: m == _month,
+                            onTap: () => setState(() => _month = m),
+                          ),
+                          const SizedBox(width: 6),
+                        ],
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: tight ? 12 : 22),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        _months[_month.month - 1],
+                        style: AppTheme.display(size: 34),
+                      ),
+                      const Spacer(),
+                      Text(
+                        elapsed == 0
+                            ? ''
+                            : '$studiedThisMonth OF $elapsed DAYS',
+                        style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  GridView.count(
+                    crossAxisCount: 7,
+                    mainAxisSpacing: 4,
+                    crossAxisSpacing: 4,
+                    childAspectRatio: 1,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      for (final w in const [
+                        'MO',
+                        'TU',
+                        'WE',
+                        'TH',
+                        'FR',
+                        'SA',
+                        'SU',
+                      ])
+                        Center(
+                          child: Text(
+                            w,
+                            style: AppTheme.eyebrow(
+                              color: AppColors.mutedOnLight,
+                            ),
+                          ),
+                        ),
+                      for (var i = 0; i < lead; i++) const SizedBox.shrink(),
+                      for (var d = 1; d <= daysInMonth; d++)
+                        _Cell(
+                          day: d,
+                          studied: days.contains(
+                            _iso(DateTime(_month.year, _month.month, d)),
+                          ),
+                          today:
+                              DateTime(_month.year, _month.month, d) == _today,
+                          future: DateTime(
+                            _month.year,
+                            _month.month,
+                            d,
+                          ).isAfter(_today),
+                        ),
+                    ],
+                  ),
                 ],
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

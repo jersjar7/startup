@@ -145,113 +145,131 @@ class _ExamDateScreenState extends State<ExamDateScreen> {
     return Scaffold(
       backgroundColor: AppColors.spring,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RoundIconButton(
-                icon: Icons.chevron_left_rounded,
-                label: 'Back',
-                onTap: () => Navigator.of(context).maybePop(),
-              ),
-              const SizedBox(height: 30),
-              Text("When's the\nbig day?", style: AppTheme.display(size: 48)),
-              const Spacer(),
-              SizedBox(
-                height: 40,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  children: [
-                    for (final m in _monthStarts) ...[
-                      _MonthChip(
-                        label: _months[m.month - 1],
-                        on: m.year == _picked.year && m.month == _picked.month,
-                        onTap: () => _pickMonth(m),
-                      ),
-                      const SizedBox(width: 6),
-                    ],
-                  ],
-                ),
-              ),
-              const SizedBox(height: 18),
-              Text(
-                '${_months[_picked.month - 1]} ${_picked.day}',
-                style: AppTheme.display(size: 96, height: 0.9, tracking: -0.06),
-              ),
-              const SizedBox(height: 14),
-              Row(
+        // The smallest phone Apple still supports is 568 tall, where the
+        // headline, the date and the strip no longer fit at full size. The
+        // screen keeps its proportions on every other phone and tightens
+        // only where it has to.
+        child: LayoutBuilder(
+          builder: (context, box) {
+            final tight = box.maxHeight < 620;
+            return Padding(
+              padding: EdgeInsets.fromLTRB(24, 8, 24, tight ? 18 : 34),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    _weekdayNames[_picked.weekday - 1].toUpperCase(),
-                    style: AppTheme.eyebrow(size: 13),
+                  RoundIconButton(
+                    icon: Icons.chevron_left_rounded,
+                    label: 'Back',
+                    onTap: () => Navigator.of(context).maybePop(),
                   ),
-                  const SizedBox(width: 12),
-                  Container(
-                    height: 34,
-                    padding: const EdgeInsets.symmetric(horizontal: 14),
-                    decoration: BoxDecoration(
-                      color: AppColors.charcoal,
-                      borderRadius: BorderRadius.circular(17),
+                  SizedBox(height: tight ? 14 : 30),
+                  Text(
+                    "When's the\nbig day?",
+                    style: AppTheme.display(size: tight ? 36 : 48),
+                  ),
+                  const Spacer(),
+                  SizedBox(
+                    height: 40,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        for (final m in _monthStarts) ...[
+                          _MonthChip(
+                            label: _months[m.month - 1],
+                            on:
+                                m.year == _picked.year &&
+                                m.month == _picked.month,
+                            onTap: () => _pickMonth(m),
+                          ),
+                          const SizedBox(width: 6),
+                        ],
+                      ],
                     ),
-                    child: Center(
-                      widthFactor: 1,
-                      child: Text(
-                        outLabel,
-                        style: AppTheme.mono(
-                          size: 13,
-                          weight: FontWeight.w600,
-                          color: AppColors.spring,
+                  ),
+                  const SizedBox(height: 18),
+                  Text(
+                    '${_months[_picked.month - 1]} ${_picked.day}',
+                    style: AppTheme.display(
+                      size: tight ? 68 : 96,
+                      height: 0.9,
+                      tracking: -0.06,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Row(
+                    children: [
+                      Text(
+                        _weekdayNames[_picked.weekday - 1].toUpperCase(),
+                        style: AppTheme.eyebrow(size: 13),
+                      ),
+                      const SizedBox(width: 12),
+                      Container(
+                        height: 34,
+                        padding: const EdgeInsets.symmetric(horizontal: 14),
+                        decoration: BoxDecoration(
+                          color: AppColors.charcoal,
+                          borderRadius: BorderRadius.circular(17),
+                        ),
+                        child: Center(
+                          widthFactor: 1,
+                          child: Text(
+                            outLabel,
+                            style: AppTheme.mono(
+                              size: 13,
+                              weight: FontWeight.w600,
+                              color: AppColors.spring,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              Row(
-                children: [
-                  for (final d in _strip)
-                    Expanded(
-                      child: _DayCell(
-                        weekday: _weekdays[d.weekday - 1],
-                        day: d.day,
-                        on: d == _picked,
-                        enabled: _allowed(d),
-                        onTap: () => setState(() => _picked = d),
+                  const SizedBox(height: 30),
+                  Row(
+                    children: [
+                      for (final d in _strip)
+                        Expanded(
+                          child: _DayCell(
+                            weekday: _weekdays[d.weekday - 1],
+                            day: d.day,
+                            on: d == _picked,
+                            enabled: _allowed(d),
+                            onTap: () => setState(() => _picked = d),
+                          ),
+                        ),
+                    ],
+                  ),
+                  if (_error != null) ...[
+                    const SizedBox(height: 16),
+                    Text(
+                      _error!,
+                      style: AppTheme.body(size: 14, color: AppColors.charcoal),
+                    ),
+                  ],
+                  const SizedBox(height: 34),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextAction(
+                        label: hasDate ? 'Clear the date' : 'No date yet',
+                        onTap: _saving
+                            ? () {}
+                            : hasDate
+                            ? () => _write(null)
+                            : () => Navigator.of(context).maybePop(),
                       ),
-                    ),
-                ],
-              ),
-              if (_error != null) ...[
-                const SizedBox(height: 16),
-                Text(
-                  _error!,
-                  style: AppTheme.body(size: 14, color: AppColors.charcoal),
-                ),
-              ],
-              const SizedBox(height: 34),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextAction(
-                    label: hasDate ? 'Clear the date' : 'No date yet',
-                    onTap: _saving
-                        ? () {}
-                        : hasDate
-                        ? () => _write(null)
-                        : () => Navigator.of(context).maybePop(),
-                  ),
-                  RoundNextButton(
-                    label: 'Save',
-                    loading: _saving,
-                    onTap: () => _write(_iso(_picked)),
+                      RoundNextButton(
+                        label: 'Save',
+                        loading: _saving,
+                        onTap: () => _write(_iso(_picked)),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
