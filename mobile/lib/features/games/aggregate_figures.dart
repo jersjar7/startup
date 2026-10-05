@@ -313,8 +313,11 @@ class GradingPainter extends CustomPainter {
   // them ("No 100") and is written centered under its own tick. At 12 it
   // ran off the side of the panel and the last point on the chart had no
   // label at all.
+  // The foot carries TWO rows of labels, the sieve names and then coarse /
+  // fine under them. At 30 there was room for one, so the second row sat on
+  // the first and its patch wiped it.
   static Rect plot(Size size) =>
-      Rect.fromLTRB(34, 28, size.width - 28, size.height - 30);
+      Rect.fromLTRB(34, 28, size.width - 28, size.height - 44);
 
   /// Where a sieve and a percentage land. The size axis is logarithmic,
   /// which is how every gradation chart in the world is drawn.
@@ -400,14 +403,14 @@ class GradingPainter extends CustomPainter {
       canvas,
       size,
       'coarse',
-      Offset(box.left, box.bottom + 17),
+      Offset(box.left, box.bottom + 19),
       AppColors.ink3,
     );
     writeOn(
       canvas,
       size,
       'fine',
-      Offset(box.right - 22, box.bottom + 17),
+      Offset(box.right - 22, box.bottom + 19),
       AppColors.ink3,
     );
 

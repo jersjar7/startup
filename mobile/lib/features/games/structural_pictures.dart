@@ -1160,11 +1160,13 @@ class _StepZoomPainter extends CustomPainter {
       );
     final one = _text('1', size: 20, color: AppColors.ember, bold: true);
     inkLabel(canvas, one, Offset(x + 12, (aboveAtSpot + belowAtSpot) / 2 - 12));
+    // Clear of the 20pt "1" above it: at +10 the two patches met and the
+    // word lost its top.
     final exactly = _text('exactly', size: 9.5, color: AppColors.ember);
     inkLabel(
       canvas,
       exactly,
-      Offset(x + 12, (aboveAtSpot + belowAtSpot) / 2 + 10),
+      Offset(x + 12, (aboveAtSpot + belowAtSpot) / 2 + 17),
     );
 
     for (final (at, label) in [

@@ -14,11 +14,7 @@ enum Response { leftReaction, rightReaction, shearAt, momentAt }
 /// ordinate an item draws or quotes comes out of here.
 @immutable
 class Influence {
-  const Influence({
-    required this.span,
-    required this.response,
-    this.at = 0,
-  });
+  const Influence({required this.span, required this.response, this.at = 0});
 
   final double span;
   final Response response;
@@ -46,18 +42,18 @@ class Influence {
 
   /// The biggest height the line reaches, ignoring sign.
   double get peak => switch (response) {
-        Response.leftReaction || Response.rightReaction => 1,
-        Response.shearAt => math.max(1 - at / span, at / span),
-        Response.momentAt => at * (span - at) / span,
-      };
+    Response.leftReaction || Response.rightReaction => 1,
+    Response.shearAt => math.max(1 - at / span, at / span),
+    Response.momentAt => at * (span - at) / span,
+  };
 
   /// What the line is worth in the plainest words.
   String get plain => switch (response) {
-        Response.leftReaction => 'the reaction at the left support',
-        Response.rightReaction => 'the reaction at the right support',
-        Response.shearAt => 'the shear at the section',
-        Response.momentAt => 'the moment at the section',
-      };
+    Response.leftReaction => 'the reaction at the left support',
+    Response.rightReaction => 'the reaction at the right support',
+    Response.shearAt => 'the shear at the section',
+    Response.momentAt => 'the moment at the section',
+  };
 
   /// Whether the line has a step in it, which only shear does.
   bool get jumps => response == Response.shearAt;
@@ -105,11 +101,12 @@ class InfluencePainter extends CustomPainter {
 
     // The beam itself, with its two supports.
     canvas.drawLine(
-        Offset(left, beamY),
-        Offset(right, beamY),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 3);
+      Offset(left, beamY),
+      Offset(right, beamY),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 3,
+    );
     pinMark(canvas, Offset(left, beamY));
     rollerMark(canvas, Offset(right, beamY));
 
@@ -119,48 +116,64 @@ class InfluencePainter extends CustomPainter {
       final sx = xOf(line.at);
       for (var y = beamY - 16.0; y < zero + 16; y += 8) {
         canvas.drawLine(
-            Offset(sx, y),
-            Offset(sx, y + 4),
-            Paint()
-              ..color = AppColors.info
-              ..strokeWidth = 1.4);
+          Offset(sx, y),
+          Offset(sx, y + 4),
+          Paint()
+            ..color = AppColors.info
+            ..strokeWidth = 1.4,
+        );
       }
       // With loads standing on the beam their labels own the space above it,
       // so the section names itself down by the plot instead.
       writeOn(
-          canvas,
-          size,
-          'the section',
-          loads.isEmpty
-              ? Offset(sx - 24, beamY - 30)
-              : Offset(sx - 24, zero + 18),
-          AppColors.info,
-          fontSize: 9.5);
+        canvas,
+        size,
+        'the section',
+        loads.isEmpty
+            ? Offset(sx - 24, beamY - 30)
+            : Offset(sx - 24, zero + 18),
+        AppColors.info,
+        fontSize: 9.5,
+      );
     }
 
     // The base line of the plot, and what its across-ness means.
     canvas.drawLine(
-        Offset(left, zero),
-        Offset(right, zero),
-        Paint()
-          ..color = AppColors.ink3
-          ..strokeWidth = 1.2);
-    writeOn(canvas, size, 'across: where the unit load is standing',
-        Offset(left - 6, size.height - 16), AppColors.ink3, fontSize: 9.5);
+      Offset(left, zero),
+      Offset(right, zero),
+      Paint()
+        ..color = AppColors.ink3
+        ..strokeWidth = 1.2,
+    );
     writeOn(
-        canvas,
-        size,
-        named ? 'up: ${line.plain}' : 'up: one answer, at the marked place',
-        Offset(left - 6, zero - 74),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'across: where the unit load is standing',
+      Offset(left - 6, size.height - 16),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    // Under the beam, not a fixed 74 above the base line: on a short panel
+    // that put it level with the section's own label above the beam and the
+    // two patches wiped each other. Below the beam there is always room,
+    // because the plot starts lower than the beam does.
+    writeOn(
+      canvas,
+      size,
+      named ? 'up: ${line.plain}' : 'up: one answer, at the marked place',
+      Offset(left - 6, beamY + 9),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // The line itself.
     // The plot has to finish above the caption at the foot of the panel,
     // because a shear line with its section near the far end reaches a long
     // way below the axis.
     final tall = math.min(
-        math.min(zero - beamY - 26, size.height - 26 - zero), 52.0);
+      math.min(zero - beamY - 26, size.height - 26 - zero),
+      52.0,
+    );
     double yOf(double v) => zero - v / line.peak * tall;
 
     final ink = Paint()
@@ -189,11 +202,12 @@ class InfluencePainter extends CustomPainter {
         // jump it is rather than as a piece of the structure.
         for (var y = above; y < below; y += 7) {
           canvas.drawLine(
-              Offset(sx, y),
-              Offset(sx, math.min(y + 4, below)),
-              Paint()
-                ..color = AppColors.ember
-                ..strokeWidth = 1.6);
+            Offset(sx, y),
+            Offset(sx, math.min(y + 4, below)),
+            Paint()
+              ..color = AppColors.ember
+              ..strokeWidth = 1.6,
+          );
         }
     }
 
@@ -203,24 +217,38 @@ class InfluencePainter extends CustomPainter {
       final v = line.ordinateAt(at);
       canvas
         ..drawLine(
-            Offset(x, beamY - 26),
-            Offset(x, beamY - 5),
-            Paint()
-              ..color = AppColors.forest
-              ..strokeWidth = 2.4)
+          Offset(x, beamY - 26),
+          Offset(x, beamY - 5),
+          Paint()
+            ..color = AppColors.forest
+            ..strokeWidth = 2.4,
+        )
         ..drawPath(
-            Path()
-              ..moveTo(x, beamY - 1)
-              ..lineTo(x - 4, beamY - 9)
-              ..lineTo(x + 4, beamY - 9)
-              ..close(),
-            Paint()..color = AppColors.forest)
+          Path()
+            ..moveTo(x, beamY - 1)
+            ..lineTo(x - 4, beamY - 9)
+            ..lineTo(x + 4, beamY - 9)
+            ..close(),
+          Paint()..color = AppColors.forest,
+        )
         ..drawCircle(Offset(x, yOf(v)), 3.4, Paint()..color = AppColors.forest);
-      writeOn(canvas, size, label, Offset(x + 5, beamY - 34), AppColors.forest,
-          fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        label,
+        Offset(x + 5, beamY - 34),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
       if (showOrdinates) {
-        writeOn(canvas, size, _num(v), Offset(x + 5, yOf(v) - 4),
-            AppColors.forest, fontSize: 9.5);
+        writeOn(
+          canvas,
+          size,
+          _num(v),
+          Offset(x + 5, yOf(v) - 4),
+          AppColors.forest,
+          fontSize: 9.5,
+        );
       }
     }
   }

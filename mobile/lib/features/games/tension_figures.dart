@@ -88,24 +88,29 @@ class TiePainter extends CustomPainter {
     final barLength = size.width - 40;
     final cy = size.height * 0.48;
     final rect = Rect.fromCenter(
-        center: Offset(size.width / 2, cy), width: barLength, height: w);
+      center: Offset(size.width / 2, cy),
+      width: barLength,
+      height: w,
+    );
 
     canvas.drawRect(
-        rect,
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2);
+      rect,
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
 
     // The pull, both ends.
     for (final dir in [-1.0, 1.0]) {
       final from = Offset(rect.center.dx + dir * (barLength / 2 + 4), cy);
       canvas.drawLine(
-          from,
-          from + Offset(dir * 16, 0),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 2);
+        from,
+        from + Offset(dir * 16, 0),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 2,
+      );
     }
 
     // The holes, on one cross-section two thirds of the way along, with any
@@ -116,12 +121,13 @@ class TiePainter extends CustomPainter {
       canvas
         ..drawCircle(at, math.max(r, 3), Paint()..color = AppColors.cream)
         ..drawCircle(
-            at,
-            math.max(r, 3),
-            Paint()
-              ..color = AppColors.charcoal
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.4);
+          at,
+          math.max(r, 3),
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.4,
+        );
     }
 
     for (var i = 0; i < tie.holes; i++) {
@@ -140,37 +146,52 @@ class TiePainter extends CustomPainter {
     }
 
     writeOn(
-        canvas,
-        size,
-        '${_num(tie.width)} in wide, ${_num(tie.thickness)} in thick',
-        Offset(rect.right - 92, rect.top - 22),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${_num(tie.width)} in wide, ${_num(tie.thickness)} in thick',
+      Offset(rect.right - 92, rect.top - 22),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     final bolts = tie.holes + tie.trailing;
     if (bolts > 0) {
       writeOn(
-          canvas,
-          size,
-          '$bolts bolts of ${_num(tie.boltDiameter)} in',
-          Offset(rect.left, rect.top - 22),
-          AppColors.ink3,
-          fontSize: 9.5);
+        canvas,
+        size,
+        '$bolts bolts of ${_num(tie.boltDiameter)} in',
+        Offset(rect.left, rect.top - 22),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
     viewTag(canvas, size, Looking.plan, note: 'the bar');
   }
 
-  void _cut(Canvas canvas, Size size, double x, Rect rect, Color tone,
-      String label) {
+  void _cut(
+    Canvas canvas,
+    Size size,
+    double x,
+    Rect rect,
+    Color tone,
+    String label,
+  ) {
     for (var y = rect.top - 8; y < rect.bottom + 8; y += 7) {
       canvas.drawLine(
-          Offset(x, y),
-          Offset(x, math.min(y + 4, rect.bottom + 8)),
-          Paint()
-            ..color = tone
-            ..strokeWidth = 1.6);
+        Offset(x, y),
+        Offset(x, math.min(y + 4, rect.bottom + 8)),
+        Paint()
+          ..color = tone
+          ..strokeWidth = 1.6,
+      );
     }
-    writeOn(canvas, size, label, Offset(x - 28, rect.bottom + 24), tone,
-        fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      label,
+      Offset(x - 28, rect.bottom + 24),
+      tone,
+      fontSize: 9.5,
+    );
   }
 
   static String _num(double v) {
@@ -207,10 +228,19 @@ class GripPainter extends CustomPainter {
       case Grip.allOfIt:
         // A flat bar, gripped right across.
         final bar = Rect.fromCenter(
-            center: Offset(cx, cy), width: 108, height: t + 3);
+          center: Offset(cx, cy),
+          width: 108,
+          height: t + 3,
+        );
         canvas.drawRect(bar, Paint()..color = AppColors.ember);
-        writeOn(canvas, size, 'a flat bar, bolted across its whole width',
-            Offset(cx - 96, cy - 30), AppColors.ink3, fontSize: 9.5);
+        writeOn(
+          canvas,
+          size,
+          'a flat bar, bolted across its whole width',
+          Offset(cx - 96, cy - 30),
+          AppColors.ink3,
+          fontSize: 9.5,
+        );
       case Grip.oneLeg:
         // An angle: the vertical leg connected, the horizontal one not.
         final upright = Rect.fromLTWH(cx - 34, cy - 42, t, 84);
@@ -218,11 +248,23 @@ class GripPainter extends CustomPainter {
         canvas
           ..drawRect(upright, Paint()..color = AppColors.ember)
           ..drawRect(out, Paint()..color = AppColors.charcoal);
-        writeOn(canvas, size, 'bolted through this leg only',
-            Offset(cx - 96, cy - 54), AppColors.ember, fontSize: 9.5);
+        writeOn(
+          canvas,
+          size,
+          'bolted through this leg only',
+          Offset(cx - 96, cy - 54),
+          AppColors.ember,
+          fontSize: 9.5,
+        );
         if (answered) {
-          writeOn(canvas, size, 'this leg has to catch up along the length',
-              Offset(cx - 30, cy + 48), AppColors.forest, fontSize: 9.5);
+          writeOn(
+            canvas,
+            size,
+            'this leg has to catch up along the length',
+            Offset(cx - 30, cy + 48),
+            AppColors.forest,
+            fontSize: 9.5,
+          );
         }
       case Grip.flangesOnly:
         // A W shape connected through its flanges, the web left out.
@@ -233,16 +275,37 @@ class GripPainter extends CustomPainter {
           ..drawRect(top, Paint()..color = AppColors.ember)
           ..drawRect(bottom, Paint()..color = AppColors.ember)
           ..drawRect(web, Paint()..color = AppColors.charcoal);
-        writeOn(canvas, size, 'bolted through the flanges only',
-            Offset(cx - 96, cy - 54), AppColors.ember, fontSize: 9.5);
+        writeOn(
+          canvas,
+          size,
+          'bolted through the flanges only',
+          Offset(cx - 96, cy - 54),
+          AppColors.ember,
+          fontSize: 9.5,
+        );
         if (answered) {
-          writeOn(canvas, size, 'the web has to catch up',
-              Offset(cx + 12, cy), AppColors.forest, fontSize: 9.5);
+          writeOn(
+            canvas,
+            size,
+            'the web has to catch up',
+            Offset(cx + 12, cy),
+            AppColors.forest,
+            fontSize: 9.5,
+          );
         }
     }
 
-    writeOn(canvas, size, 'orange: what the bolts actually hold',
-        Offset(8, size.height - 16), AppColors.ember, fontSize: 9.5);
+    // The key goes at the top. At the foot it met the note that explains the
+    // unconnected leg, which has to sit under the shape, and the two patches
+    // cut into each other.
+    writeOn(
+      canvas,
+      size,
+      'orange: what the bolts actually hold',
+      const Offset(8, 4),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
     viewTag(canvas, size, Looking.section, note: 'the member');
   }
 

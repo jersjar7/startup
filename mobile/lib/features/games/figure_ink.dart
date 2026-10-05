@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -279,16 +280,24 @@ List<Rect>? debugLabelRects;
 /// a figure is wrong and knowing which words to move.
 List<String>? debugLabelTexts;
 
-/// Recorded in the ROOT's coordinates, not the panel's.
+/// Which panel a label was drawn in. A figure is often several panels side
+/// by side, and every painter draws in ITS OWN coordinates, so the left
+/// panel's "0" and the right panel's "0" can land on the same place on
+/// screen without being anywhere near each other on the page. Only labels
+/// sharing a panel can actually collide.
+List<int>? debugLabelPanel;
+int debugPanelId = 0;
+
+/// Recorded in the ROOT's coordinates, not the painter's.
 ///
-/// A figure built of two panels draws each one through its own canvas
-/// translation, so two labels in the same place on two different panels have
-/// the same local rect and look like a collision when nothing is wrong. Put
-/// every rect through the canvas transform and a pair only reads as an
-/// overlap when the ink really lands on the ink.
+/// Several figures turn the canvas to write down a narrow band. Untransformed,
+/// every one of those recorded the same rect near the origin and looked like a
+/// pile-up. Through the transform, a pair only reads as an overlap when the ink
+/// really lands on the ink.
 void _recordLabel(Canvas canvas, Rect r, String text) {
   if (debugLabelRects == null && debugLabelTexts == null) return;
   final m = Matrix4.fromFloat64List(canvas.getTransform());
   debugLabelRects?.add(MatrixUtils.transformRect(m, r));
   debugLabelTexts?.add(text);
+  debugLabelPanel?.add(debugPanelId);
 }

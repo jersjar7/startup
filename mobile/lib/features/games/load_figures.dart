@@ -36,10 +36,10 @@ class Bundle {
   double get combo3 => 1.2 * dead + 1.6 * roof + live;
 
   double totalOf(Combo which) => switch (which) {
-        Combo.one => combo1,
-        Combo.two => combo2,
-        Combo.three => combo3,
-      };
+    Combo.one => combo1,
+    Combo.two => combo2,
+    Combo.three => combo3,
+  };
 
   double get worst => math.max(combo1, math.max(combo2, combo3));
 
@@ -81,8 +81,17 @@ class LoadBarPainter extends CustomPainter {
       if (bundle.roofLive > 0) ('roof live', bundle.roofLive),
     ];
 
-    writeOn(canvas, size, 'what is on it, in $unit', const Offset(8, 4),
-        AppColors.ink3, fontSize: 9.5);
+    // Both headings advance by the height they actually drew. On a half
+    // width panel they wrap to two or three lines, and a fixed step put the
+    // first bar on top of the heading above it.
+    final head = writeOn(
+      canvas,
+      size,
+      'what is on it, in $unit',
+      const Offset(8, 4),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // One scale for the service loads and the totals alike, because the
     // whole question is how they compare. No combination can come out
@@ -90,7 +99,7 @@ class LoadBarPainter extends CustomPainter {
     // whether or not it has been shown yet.
     final wide = size.width - _left - 54;
     final top = bundle.worst;
-    var y = 22.0;
+    var y = math.max(22.0, 4 + head.height + 6);
     for (final (name, value) in rows) {
       _bar(canvas, size, y, name, value, top, wide, AppColors.charcoal, false);
       y += 20;
@@ -99,33 +108,70 @@ class LoadBarPainter extends CustomPainter {
     if (!answered) return;
 
     y += 8;
-    writeOn(canvas, size, 'what the combinations make of it', Offset(8, y),
-        AppColors.forest, fontSize: 9.5);
-    y += 16;
+    final head2 = writeOn(
+      canvas,
+      size,
+      'what the combinations make of it',
+      Offset(8, y),
+      AppColors.forest,
+      fontSize: 9.5,
+    );
+    y += head2.height + 5;
     for (final c in Combo.values) {
       final lit = c == bundle.controls;
-      _bar(canvas, size, y, _name(c), bundle.totalOf(c), top, wide,
-          lit ? AppColors.forest : AppColors.ink2, lit);
+      _bar(
+        canvas,
+        size,
+        y,
+        _name(c),
+        bundle.totalOf(c),
+        top,
+        wide,
+        lit ? AppColors.forest : AppColors.ink2,
+        lit,
+      );
       y += 20;
     }
   }
 
   static String _name(Combo c) => switch (c) {
-        Combo.one => 'combo 1',
-        Combo.two => 'combo 2',
-        Combo.three => 'combo 3',
-      };
+    Combo.one => 'combo 1',
+    Combo.two => 'combo 2',
+    Combo.three => 'combo 3',
+  };
 
-  void _bar(Canvas canvas, Size size, double y, String name, double value,
-      double top, double wide, Color tone, bool lit) {
-    writeOn(canvas, size, name, Offset(8, y - 1), AppColors.ink3,
-        fontSize: 9.5);
+  void _bar(
+    Canvas canvas,
+    Size size,
+    double y,
+    String name,
+    double value,
+    double top,
+    double wide,
+    Color tone,
+    bool lit,
+  ) {
+    writeOn(
+      canvas,
+      size,
+      name,
+      Offset(8, y - 1),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     final length = top <= 0 ? 0.0 : value / top * wide;
     canvas.drawRect(
-        Rect.fromLTWH(_left, y, math.max(length, 1), 11),
-        Paint()..color = tone.withValues(alpha: lit ? 0.95 : 0.55));
-    writeOn(canvas, size, _num(value), Offset(_left + length + 5, y - 1), tone,
-        fontSize: 9.5);
+      Rect.fromLTWH(_left, y, math.max(length, 1), 11),
+      Paint()..color = tone.withValues(alpha: lit ? 0.95 : 0.55),
+    );
+    writeOn(
+      canvas,
+      size,
+      _num(value),
+      Offset(_left + length + 5, y - 1),
+      tone,
+      fontSize: 9.5,
+    );
   }
 
   static String _num(double v) =>
@@ -192,23 +238,40 @@ class TributaryPainter extends CustomPainter {
     // With two panels the larger of the pair sets the scale; with one, a
     // fixed reference does, so a small bay looks small in its own round and
     // not merely small beside itself.
-    final biggest =
-        other == null ? math.max(left.area, 2000.0) : math.max(left.area, other.area);
+    final biggest = other == null
+        ? math.max(left.area, 2000.0)
+        : math.max(left.area, other.area);
     if (other == null) {
-      _plan(canvas, size, Rect.fromLTWH(0, 18, size.width, size.height - 34),
-          left, biggest);
+      _plan(
+        canvas,
+        size,
+        Rect.fromLTWH(0, 18, size.width, size.height - 34),
+        left,
+        biggest,
+      );
     } else {
       final w = size.width / 2;
-      _plan(canvas, size, Rect.fromLTWH(0, 18, w, size.height - 34), left,
-          biggest);
-      _plan(canvas, size, Rect.fromLTWH(w, 18, w, size.height - 34), other,
-          biggest);
+      _plan(
+        canvas,
+        size,
+        Rect.fromLTWH(0, 18, w, size.height - 34),
+        left,
+        biggest,
+      );
+      _plan(
+        canvas,
+        size,
+        Rect.fromLTWH(w, 18, w, size.height - 34),
+        other,
+        biggest,
+      );
       canvas.drawLine(
-          Offset(w, 22),
-          Offset(w, size.height - 22),
-          Paint()
-            ..color = AppColors.line
-            ..strokeWidth = 1);
+        Offset(w, 22),
+        Offset(w, size.height - 22),
+        Paint()
+          ..color = AppColors.line
+          ..strokeWidth = 1,
+      );
     }
     viewTag(canvas, size, Looking.plan, note: 'the floor above');
   }
@@ -221,33 +284,43 @@ class TributaryPainter extends CustomPainter {
     final center = Offset(box.center.dx, box.top + (box.height - 18) / 2);
     final rect = Rect.fromCenter(center: center, width: side, height: side);
     canvas.drawRect(
-        rect,
-        Paint()
-          ..color = AppColors.ember
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.6);
+      rect,
+      Paint()
+        ..color = AppColors.ember
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.6,
+    );
     hatchIn(canvas, Path()..addRect(rect), step: 8, color: AppColors.ember);
 
     // The member itself, at the middle of what it carries.
     if (t.column) {
       canvas.drawRect(
-          Rect.fromCenter(center: center, width: 11, height: 11),
-          Paint()..color = AppColors.charcoal);
+        Rect.fromCenter(center: center, width: 11, height: 11),
+        Paint()..color = AppColors.charcoal,
+      );
     } else {
       canvas.drawRect(
-          Rect.fromLTRB(rect.left, center.dy - 3, rect.right, center.dy + 3),
-          Paint()..color = AppColors.charcoal);
+        Rect.fromLTRB(rect.left, center.dy - 3, rect.right, center.dy + 3),
+        Paint()..color = AppColors.charcoal,
+      );
     }
 
-    writeOn(canvas, size, t.column ? 'a column' : 'a beam',
-        Offset(box.left + 8, box.top - 12), AppColors.ink3, fontSize: 9.5);
     writeOn(
-        canvas,
-        size,
-        '${_num(t.area)} sq ft, K = ${t.kll}',
-        Offset(box.left + 8, box.bottom - 10),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      t.column ? 'a column' : 'a beam',
+      Offset(box.left + 8, box.top - 12),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      '${_num(t.area)} sq ft, K = ${t.kll}',
+      Offset(box.left + 8, box.bottom - 10),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
   }
 
   static String _num(double v) =>
