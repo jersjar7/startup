@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +38,13 @@ class TitlesScreen extends StatefulWidget {
 class _TitlesScreenState extends State<TitlesScreen>
     with SingleTickerProviderStateMixin {
   /// The whole sequence, in milliseconds from the first frame.
-  static const _total = 5300;
+  static const _total = 5400;
+
+  /// When the ember disc starts opening, and how long it takes to close over
+  /// the screen. Nothing hands off before the two add up.
+  static const _bloomAt = 4250;
+  static const _bloomFor = 760;
+  static const _leaveAt = _bloomAt + _bloomFor;
 
   late final AnimationController _c = AnimationController(
     vsync: this,
@@ -59,7 +67,9 @@ class _TitlesScreenState extends State<TitlesScreen>
   }
 
   void _maybeLeave() {
-    if (_c.value * _total >= 4950) _leave();
+    // Only once the disc has covered the screen. Leaving while it was still
+    // growing let the tour slide in beside a circle that had not closed.
+    if (_c.value * _total >= _leaveAt) _leave();
   }
 
   /// Walk on to the tour. Marked so the gate does not play the titles again
@@ -101,10 +111,16 @@ class _TitlesScreenState extends State<TitlesScreen>
               final mark = _beat(1350, 860, landing);
               final tail = _beat(2600, 860, landing);
               final lift = _beat(4150, 520, Curves.easeInCubic);
-              final bloom = _beat(4250, 760, Curves.easeInOutCubic);
+              final bloom = _beat(_bloomAt, _bloomFor, Curves.easeInOutCubic);
 
-              // The disc has to cover the longest dimension from the centre.
-              final reach = (size.width + size.height) * 0.75;
+              // The disc is centred, so it only covers the screen once its
+              // diameter passes the full diagonal. A little over, so the
+              // corners are filled rather than just touched.
+              final reach =
+                  math.sqrt(
+                    size.width * size.width + size.height * size.height,
+                  ) *
+                  1.06;
 
               return Stack(
                 fit: StackFit.expand,
@@ -154,12 +170,21 @@ class _TitlesScreenState extends State<TitlesScreen>
                   ),
                   if (bloom > 0)
                     Center(
-                      child: Container(
-                        width: reach * bloom,
-                        height: reach * bloom,
-                        decoration: const BoxDecoration(
-                          color: AppColors.ember,
-                          shape: BoxShape.circle,
+                      // Without this the stack's own constraints clamp the
+                      // disc to the screen box, so it stopped growing the
+                      // moment it touched an edge and never closed over the
+                      // corners (owner, 2026-10-05).
+                      child: OverflowBox(
+                        maxWidth: double.infinity,
+                        maxHeight: double.infinity,
+                        child: Container(
+                          key: const ValueKey('bloom'),
+                          width: reach * bloom,
+                          height: reach * bloom,
+                          decoration: const BoxDecoration(
+                            color: AppColors.ember,
+                            shape: BoxShape.circle,
+                          ),
                         ),
                       ),
                     ),

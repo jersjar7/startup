@@ -97,6 +97,44 @@ void main() {
     expect(_auth!.titlesShown, isTrue);
   });
 
+  testWidgets('the ember disc has covered the screen before the hand off', (
+    tester,
+  ) async {
+    _phone(tester);
+    await tester.pumpWidget(_app());
+    const screen = Size(390, 844);
+    final corners = [
+      Offset.zero,
+      Offset(screen.width, 0),
+      Offset(0, screen.height),
+      Offset(screen.width, screen.height),
+    ];
+    final centre = Offset(screen.width / 2, screen.height / 2);
+
+    // Walk the disc's whole opening, a frame at a time. At no point may the
+    // tour appear while a corner of the screen is still outside the circle:
+    // that is what let the pages slide in beside an unclosed disc.
+    var sawDisc = false;
+    await tester.pump(const Duration(milliseconds: 4200));
+    for (var t = 4200; t <= 5100; t += 50) {
+      await tester.pump(const Duration(milliseconds: 50));
+      final disc = find.byKey(const ValueKey('bloom'));
+      if (disc.evaluate().isEmpty) continue;
+      sawDisc = true;
+      final radius = tester.getSize(disc).width / 2;
+      final covered = corners.every((c) => (c - centre).distance <= radius);
+      if (find.text('the tour').evaluate().isNotEmpty) {
+        expect(covered, isTrue, reason: 'handed off at ${t}ms, disc still short');
+      }
+    }
+    expect(sawDisc, isTrue);
+
+    // And by the end it really has closed over every corner.
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pumpAndSettle();
+    expect(find.text('the tour'), findsOneWidget);
+  });
+
   testWidgets('the card, with all three beats in place', (tester) async {
     _phone(tester);
     await tester.pumpWidget(_app());
