@@ -3,18 +3,18 @@
     "w": 1320,
     "h": 2868
   },
-  "note": "Eight slots. The first three sit side by side in search results, so they carry the whole pitch on their own: who it is for, what one round feels like, and why the method works. Slot 1 shows the home screen rather than the opening title card: App Review guideline 2.3.3 names a splash screen as something a screenshot may not merely be. Counts are measured from the app, not estimated: 15 chapters, 135 lessons, 375 games, 2269 rounds, 370 concept sheets.",
+  "note": "Eight slots. The first three sit side by side in search results and carry the whole pitch on their own. Slot 1 pairs the claim that separates us from every paid FE app with the most arresting drawing in the library, because a stranger has to be sold there and nowhere else. The home screen is not in the set: it shows an account months in, which means nothing to someone who has never opened the app. Counts are measured from the catalogue, not estimated: 15 chapters, 135 lessons, 375 games, 2269 rounds, 370 concept sheets.",
   "frames": [
     {
       "name": "01-free",
-      "shot": "home.png",
+      "shot": "round-seepage.png",
       "pill": "ember",
-      "overline": "FE Civil exam",
+      "overline": "FE Civil exam prep",
       "headline": "The whole exam,<br><em>completely free</em>"
     },
     {
       "name": "02-round",
-      "shot": "round-seepage.png",
+      "shot": "round-mohr.png",
       "pill": "forest",
       "overline": "One concept at a time",
       "headline": "Read the drawing.<br>Make the call."
@@ -28,7 +28,7 @@
     },
     {
       "name": "04-figures",
-      "shot": "round-mohr.png",
+      "shot": "round-metering.png",
       "pill": "ember",
       "overline": "Built for Civil",
       "headline": "The figures the<br><em>exam</em> actually uses"

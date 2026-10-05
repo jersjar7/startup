@@ -43,3 +43,24 @@ word is about a third larger.
 Headlines, overline pills and which screen goes in which slot all live in
 `frames.json`. `<em>` inside a headline sets that word in ember. Rebuild with
 the second command above.
+
+## Loading the listing
+
+    python3 design/appstore/listing.py
+
+Writes the eight screenshots, the description, keywords, promotional text,
+subtitle, URLs, category and the build onto version 1.0. It is safe to re-run:
+it replaces the screenshots in the set rather than adding to them. It does NOT
+submit, and it does not touch App Privacy, the age rating or export compliance.
+Those three are the owner's, and the first of them is not in Apple's API at all.
+
+The copy itself lives at the top of that file, which is the source of truth for
+what is on the store page.
+
+**Mint one token and reuse it.** `asc.py` caches the JWT for fifteen minutes.
+Generating a fresh one per request trips Apple's rate limit and comes back as a
+bare 401 that reads exactly like a bad key. That cost one failed run halfway
+through an upload.
+
+**1320 x 2868 is called `APP_IPHONE_67` in the API.** There is no
+`APP_IPHONE_69`; sending it returns a 409 on the attribute type.
