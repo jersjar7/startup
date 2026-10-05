@@ -89,3 +89,33 @@ Future<void> loadMathFonts() async {
     }
   }
 }
+
+/// The Material icon font, from the Flutter SDK's own cache.
+///
+/// A test binding registers the app's bundled fonts but not the engine's, so
+/// every [Icon] in a widget test comes out as an empty box. Harmless in a
+/// golden that is only compared against itself, fatal in a screenshot that
+/// goes to Apple.
+Future<void> loadIconFont() async {
+  final root = Platform.environment['FLUTTER_ROOT'] ?? _flutterRootFromPath();
+  if (root == null) return;
+  final file = File(
+    '$root/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf',
+  );
+  if (!file.existsSync()) return;
+  final loader = FontLoader('MaterialIcons')
+    ..addFont(Future.value(file.readAsBytesSync().buffer.asByteData()));
+  await loader.load();
+}
+
+String? _flutterRootFromPath() {
+  for (final dir in (Platform.environment['PATH'] ?? '').split(':')) {
+    final bin = File('$dir/flutter');
+    if (!bin.existsSync()) continue;
+    final resolved = File(bin.resolveSymbolicLinksSync()).parent.parent.path;
+    if (Directory('$resolved/bin/cache/artifacts/material_fonts').existsSync()) {
+      return resolved;
+    }
+  }
+  return null;
+}
