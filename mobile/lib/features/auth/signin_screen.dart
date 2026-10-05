@@ -20,8 +20,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  /// Picked once, so it never changes under the cursor.
-  final _emailHint = emailHint();
+  /// Resolved once: a test can pin it, everyone else gets the roll.
+  final _hint = emailHintField();
 
   final _email = TextEditingController();
   final _password = TextEditingController();
@@ -147,7 +147,9 @@ class _SignInScreenState extends State<SignInScreen> {
                             key: const ValueKey('email'),
                             controller: _email,
                             label: 'Email',
-                            hint: _emailHint,
+                            hint: _hint.head,
+                            hintTail: _hint.tail,
+                            hintTailEvery: emailHintEvery,
                             keyboardType: TextInputType.emailAddress,
                             autofillHints: const [AutofillHints.email],
                             caption: expired

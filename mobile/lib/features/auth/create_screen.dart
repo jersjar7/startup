@@ -21,8 +21,8 @@ class CreateScreen extends StatefulWidget {
 }
 
 class _CreateScreenState extends State<CreateScreen> {
-  /// Picked once, so it never changes under the cursor.
-  final _emailHint = emailHint();
+  /// Resolved once: a test can pin it, everyone else gets the roll.
+  final _hint = emailHintField();
 
   final _email = TextEditingController();
   final _password = TextEditingController();
@@ -140,7 +140,9 @@ class _CreateScreenState extends State<CreateScreen> {
                           key: const ValueKey('email'),
                           controller: _email,
                           label: 'Email',
-                          hint: _emailHint,
+                          hint: _hint.head,
+                          hintTail: _hint.tail,
+                          hintTailEvery: emailHintEvery,
                           keyboardType: TextInputType.emailAddress,
                           autofillHints: const [AutofillHints.email],
                           caption:

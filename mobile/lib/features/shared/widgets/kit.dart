@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -366,6 +368,8 @@ class XLField extends StatelessWidget {
     this.onSubmitted,
     this.accent = AppColors.forest,
     this.autofillHints,
+    this.hintTail,
+    this.hintTailEvery = const Duration(milliseconds: 1500),
   });
 
   final TextEditingController controller;
@@ -379,6 +383,13 @@ class XLField extends StatelessWidget {
   final ValueChanged<String>? onSubmitted;
   final Color accent;
   final Iterable<String>? autofillHints;
+
+  /// When set, [hint] is the fixed head of the placeholder and these roll
+  /// through underneath it, one every [hintTailEvery], for as long as the
+  /// field is empty. Used by the email fields so the domain never reads as a
+  /// requirement. Leave null for an ordinary still placeholder.
+  final List<String>? hintTail;
+  final Duration hintTailEvery;
 
   @override
   Widget build(BuildContext context) {
@@ -400,7 +411,37 @@ class XLField extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border(bottom: BorderSide(color: line, width: 3)),
             ),
-            child: TextField(
+            child: Stack(
+              children: [
+                if (hintTail != null)
+                  Positioned.fill(
+                    child: IgnorePointer(
+                      child: ExcludeSemantics(
+                        child: ValueListenableBuilder<TextEditingValue>(
+                          valueListenable: controller,
+                          builder: (_, value, _) => value.text.isEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    0,
+                                    8,
+                                    0,
+                                    10,
+                                  ),
+                                  child: _RollingHint(
+                                    head: hint,
+                                    tail: hintTail!,
+                                    every: hintTailEvery,
+                                    style: style.copyWith(
+                                      color: AppColors.placeholder,
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
+                        ),
+                      ),
+                    ),
+                  ),
+                TextField(
               controller: controller,
               keyboardType: keyboardType,
               obscureText: obscure,
@@ -416,9 +457,11 @@ class XLField extends StatelessWidget {
                 isDense: true,
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.fromLTRB(0, 8, 0, 10),
-                hintText: hint,
+                hintText: hintTail == null ? hint : null,
                 hintStyle: style.copyWith(color: AppColors.placeholder),
               ),
+                ),
+              ],
             ),
           ),
         ),
@@ -715,6 +758,153 @@ class Grabber extends StatelessWidget {
           borderRadius: BorderRadius.circular(3),
         ),
       ),
+    );
+  }
+}
+
+/// The placeholder whose tail rolls: [head] stays put and one of [tail] sits
+/// after it, replaced every [every] by the next, the old one travelling up and
+/// out while its replacement comes up into the space it left.
+///
+/// The box is as wide as the longest tail, so nothing to the right of it moves
+/// as the words change. Anyone who has asked their phone to reduce motion gets
+/// the first tail, standing still.
+class _RollingHint extends StatefulWidget {
+  const _RollingHint({
+    required this.head,
+    required this.tail,
+    required this.style,
+    required this.every,
+  });
+
+  final String head;
+  final List<String> tail;
+  final TextStyle style;
+  final Duration every;
+
+  @override
+  State<_RollingHint> createState() => _RollingHintState();
+}
+
+class _RollingHintState extends State<_RollingHint>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 420),
+    value: 1, // at rest the current tail is already in place
+  );
+  Timer? _timer;
+  int _now = 0;
+  int _before = 0;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final still =
+        (MediaQuery.maybeDisableAnimationsOf(context) ?? false) ||
+        widget.tail.length < 2;
+    _timer?.cancel();
+    if (still) return;
+    _timer = Timer.periodic(widget.every, (_) {
+      if (!mounted) return;
+      setState(() {
+        _before = _now;
+        _now = (_now + 1) % widget.tail.length;
+      });
+      _c.forward(from: 0);
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _c.dispose();
+    super.dispose();
+  }
+
+  /// The widest tail, so the box never resizes under the words.
+  double _widest(double maxWidth) {
+    var widest = 0.0;
+    for (final word in widget.tail) {
+      final painter = TextPainter(
+        text: TextSpan(text: word, style: widget.style),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      widest = widest > painter.width ? widest : painter.width;
+      painter.dispose();
+    }
+    return widest > maxWidth ? maxWidth : widest;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final line =
+        (widget.style.fontSize ?? 30) * (widget.style.height ?? 1.2);
+
+    return LayoutBuilder(
+      builder: (context, box) {
+        final head = TextPainter(
+          text: TextSpan(text: widget.head, style: widget.style),
+          textDirection: TextDirection.ltr,
+        )..layout();
+        final headWidth = head.width;
+        head.dispose();
+
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(widget.head, style: widget.style),
+              SizedBox(
+                width: _widest(
+                  (box.maxWidth - headWidth).clamp(0.0, double.infinity),
+                ),
+                height: line,
+                child: ClipRect(
+                  child: AnimatedBuilder(
+                    animation: _c,
+                    builder: (context, _) {
+                      final t = Curves.easeOutCubic.transform(_c.value);
+                      return Stack(
+                        clipBehavior: Clip.hardEdge,
+                        children: [
+                          if (t < 1 && _before != _now)
+                            Positioned(
+                              left: 0,
+                              top: -t * line,
+                              child: Opacity(
+                                opacity: 1 - t,
+                                child: Text(
+                                  widget.tail[_before],
+                                  style: widget.style,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ),
+                          Positioned(
+                            left: 0,
+                            top: (1 - t) * line,
+                            child: Opacity(
+                              opacity: t,
+                              child: Text(
+                                widget.tail[_now],
+                                style: widget.style,
+                                maxLines: 1,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

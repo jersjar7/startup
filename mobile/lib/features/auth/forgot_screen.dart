@@ -21,8 +21,8 @@ class ForgotScreen extends StatefulWidget {
 }
 
 class _ForgotScreenState extends State<ForgotScreen> {
-  /// Picked once, so it never changes under the cursor.
-  final _emailHint = emailHint();
+  /// Resolved once: a test can pin it, everyone else gets the roll.
+  final _hint = emailHintField();
 
   final _email = TextEditingController();
   bool _loading = false;
@@ -101,7 +101,9 @@ class _ForgotScreenState extends State<ForgotScreen> {
             XLField(
               controller: _email,
               label: 'Email',
-              hint: _emailHint,
+              hint: _hint.head,
+              hintTail: _hint.tail,
+              hintTailEvery: emailHintEvery,
               keyboardType: TextInputType.emailAddress,
               autofillHints: const [AutofillHints.email],
               caption: "We'll email you a reset link.",

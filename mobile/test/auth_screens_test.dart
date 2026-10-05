@@ -83,10 +83,10 @@ Future<void> _golden(WidgetTester tester, String name) => expectLater(
 void main() {
   setUpAll(loadBrandFonts);
 
-  // The email placeholder is picked at random per screen. Pin it, or every
-  // photograph of a form changes between runs.
-  setUp(() => debugEmailHint = 'you@school.edu');
-  tearDown(() => debugEmailHint = null);
+  // The email placeholder's domain rolls on a 1.5s clock. Pin it, or every
+  // photograph of a form changes between runs and nothing ever settles.
+  setUp(() => debugEmailHintStatic = 'school.edu');
+  tearDown(() => debugEmailHintStatic = null);
 
   testWidgets('splash', (tester) async {
     _phone(tester);
