@@ -22,6 +22,10 @@ class AuthController extends ChangeNotifier {
   Map<String, dynamic>? user;
   bool onboardingSeen = false;
 
+  /// The opening titles play once per launch, before the tour. Not stored:
+  /// a title card is for the start of a session, not once in a lifetime.
+  bool titlesShown = false;
+
   /// Set when a live session was rejected, so Sign in can show the
   /// "Your session expired" banner. Cleared after it's shown / on next sign in.
   bool sessionExpired = false;

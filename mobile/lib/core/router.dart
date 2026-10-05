@@ -386,6 +386,7 @@ import '../features/games/wider_or_narrower_game.dart';
 import '../features/games/will_it_hold_itself_game.dart';
 import '../features/home/home_shell.dart';
 import '../features/onboarding/onboarding_screen.dart';
+import '../features/onboarding/titles_screen.dart';
 import '../features/onboarding/welcome_screen.dart';
 import '../features/splash/splash_screen.dart';
 
@@ -414,6 +415,7 @@ GoRouter buildRouter(AuthController auth) {
     '/create',
     '/forgot',
     '/onboarding',
+    '/titles',
   };
 
   return GoRouter(
@@ -447,7 +449,10 @@ GoRouter buildRouter(AuthController auth) {
       // (owner's call, 2026-10-04). After that the welcome screen is the
       // root, as it always was. Never home.
       if (loc == '/splash' || loc == '/home' || loc == '/verify') {
-        return auth.onboardingSeen ? '/welcome' : '/onboarding';
+        if (auth.onboardingSeen) return '/welcome';
+        // The opening titles come first on a cold launch, then the tour
+        // (owner's call, 2026-10-05).
+        return auth.titlesShown ? '/onboarding' : '/titles';
       }
       return null;
     },
@@ -459,6 +464,10 @@ GoRouter buildRouter(AuthController auth) {
       GoRoute(
         path: '/welcome',
         pageBuilder: (_, s) => _fade(s, const WelcomeScreen()),
+      ),
+      GoRoute(
+        path: '/titles',
+        pageBuilder: (_, s) => _fade(s, const TitlesScreen()),
       ),
       GoRoute(path: '/onboarding', builder: (_, _) => const OnboardingScreen()),
       GoRoute(path: '/signin', builder: (_, _) => const SignInScreen()),
