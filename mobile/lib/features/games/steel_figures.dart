@@ -144,9 +144,9 @@ class BracePainter extends CustomPainter {
     // The three lengths, to one scale, under the beam.
     var row = y + 44;
     for (final (v, name, tone) in [
-      (beam.unbraced, 'the gap between braces', AppColors.ember),
-      (beam.lp, 'the full strength limit', AppColors.info),
-      (beam.lr, 'the buckling limit', AppColors.ink3),
+      (beam.unbraced, 'gap between braces', AppColors.ember),
+      (beam.lp, 'full strength limit', AppColors.info),
+      (beam.lr, 'buckling limit', AppColors.ink3),
     ]) {
       final end = xOf(math.min(v, beam.span));
       canvas
@@ -167,18 +167,20 @@ class BracePainter extends CustomPainter {
           Offset(math.max(end, left + 1), row + 4),
           Paint()..color = tone,
         );
-      // Advanced by the height the label actually took. These names run to
-      // two lines whenever the bar reaches well across the panel, and a
-      // fixed 18 then put each one on the row below it.
+      // Under its own bar, and advanced by the height the label actually
+      // took. Off the end of the bar these names had nowhere to go: the
+      // panel clamped them back to the left margin, where a fixed 18 put
+      // each one on the row below it and the patch behind the words wiped
+      // out the bar it was naming. The bars are the whole comparison.
       final written = writeOn(
         canvas,
         size,
         '$name, ${_num(v)} ft',
-        Offset(math.max(end, left + 1) + 6, row - 5),
+        Offset(left, row + 4),
         tone,
         fontSize: 9.5,
       );
-      row += math.max(18, written.height + 7);
+      row += written.height + 10;
     }
 
     viewTag(canvas, size, Looking.elevation, note: 'the beam');

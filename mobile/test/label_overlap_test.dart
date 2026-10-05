@@ -74,8 +74,10 @@ void main() {
       for (final picture in chapter.value.entries) {
         final rects = <Rect>[];
         final panels = <int>[];
+        final texts = <String>[];
         debugLabelRects = rects;
         debugLabelPanel = panels;
+        debugLabelTexts = texts;
         await tester.pumpWidget(
           MaterialApp(
             theme: AppTheme.light,
@@ -92,14 +94,20 @@ void main() {
         await tester.pumpAndSettle();
         debugLabelRects = null;
         debugLabelPanel = null;
+        debugLabelTexts = null;
 
         for (var i = 0; i < rects.length; i++) {
           for (var j = i + 1; j < rects.length; j++) {
             if (panels[i] != panels[j]) continue;
             final hit = rects[i].deflate(slack).intersect(rects[j]);
             if (hit.width > 0 && hit.height > 0) {
+              // Naming the two labels is the difference between knowing a
+              // figure is wrong and knowing which words to move.
+              String say(int k) => k < texts.length
+                  ? '"${texts[k].replaceAll('\n', ' ')}"'
+                  : '?';
               bad.add(
-                '${picture.key}: labels overlap by '
+                '${picture.key}: ${say(i)} and ${say(j)} overlap by '
                 '${hit.width.toStringAsFixed(0)} by '
                 '${hit.height.toStringAsFixed(0)}',
               );

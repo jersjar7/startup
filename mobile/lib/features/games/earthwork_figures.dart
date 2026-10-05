@@ -201,12 +201,15 @@ class HaulPainter extends CustomPainter {
         AppColors.error,
       );
     }
-    final units = labelSize('areas in square feet');
+    // Short enough to share the line: the headroom above the tallest section
+    // is one caption row, so a unit note pushed onto a second row lands on
+    // that section's own number.
+    final units = labelSize('areas in sq ft');
     final unitsX = size.width - units.width - 10;
     writeOn(
       canvas,
       size,
-      'areas in square feet',
+      'areas in sq ft',
       Offset(unitsX, unitsX > 12 + skip.width + 6 ? 6 : 6 + skip.height + 2),
       AppColors.ink3,
     );

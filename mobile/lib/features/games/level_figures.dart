@@ -389,17 +389,26 @@ class LoopPainter extends CustomPainter {
     writeOn(canvas, size, 'BM', bm + const Offset(9, -14), AppColors.charcoal);
     // Both halves of the allowance are on the drawing, or there is nothing
     // to judge it by: how far it runs, and what class of work it is.
-    // One line, not two 12 apart: at 11pt that gap is less than a line, so
-    // the distance and the class of work were printed on each other.
+    // Stacked off the height the first line actually drew. These were a
+    // fixed 12 apart, which at 10pt is less than a line, so the class of
+    // work printed on the distance. One merged line does not work either:
+    // on the two-up panel a game draws, it runs out under the view tag.
     final miles = loop.miles == 1
         ? '1 mile round'
         : '${_num(loop.miles)} miles round';
+    final run = writeOn(
+      canvas,
+      size,
+      miles,
+      Offset(10, size.height - 32),
+      AppColors.ink3,
+    );
     writeOn(
       canvas,
       size,
-      '$miles, C = ${loop.constant}',
-      Offset(10, size.height - 18),
-      AppColors.ink3,
+      'C = ${loop.constant}',
+      Offset(10, size.height - 31 + run.height),
+      AppColors.ember,
     );
     viewTag(canvas, size, Looking.plan);
   }
