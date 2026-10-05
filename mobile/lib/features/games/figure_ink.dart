@@ -206,10 +206,8 @@ Size writeOn(
     painter.width + 4,
     painter.height + 2,
   );
-  canvas.drawRect(
-    patch,
-    Paint()..color = AppColors.cream.withValues(alpha: 0.92),
-  );
+  canvas.drawRect(patch, Paint()..color = panelBase);
+  _recordLabel(patch);
   painter.paint(canvas, place);
   return painter.size;
 }
@@ -244,6 +242,7 @@ const panelBase = Color(0xFFFDFCF8);
 
 void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
   if (!_wantsPatch(text)) {
+    _recordLabel(Rect.fromLTWH(at.dx, at.dy, text.width, text.height));
     text.paint(canvas, at);
     return;
   }
@@ -252,6 +251,7 @@ void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
     const Radius.circular(3),
   );
   canvas.drawRRect(box, Paint()..color = patch ?? panelBase);
+  _recordLabel(box.outerRect);
   text.paint(canvas, at);
 }
 
@@ -264,3 +264,10 @@ bool _wantsPatch(TextPainter text) {
   final l = (0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b);
   return l < 0.72;
 }
+
+/// Where every label landed, for the test that looks for one sitting on
+/// another. Null in a running app: a figure records nothing unless a test
+/// asks it to. See `test/label_overlap_test.dart`.
+List<Rect>? debugLabelRects;
+
+void _recordLabel(Rect r) => debugLabelRects?.add(r);

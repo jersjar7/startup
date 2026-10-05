@@ -102,7 +102,7 @@ void main() {
     ); // chapters, mastery, days studied, lessons
     expect(find.textContaining('Starts with:'), findsOneWidget);
     expect(find.text('Not set'), findsOneWidget);
-    expect(find.text('IN THE APP'), findsOneWidget);
+    expect(find.text('IN THIS APP'), findsOneWidget);
     expect(find.text('FROM THE WEBSITE'), findsOneWidget);
 
     await expectLater(

@@ -341,7 +341,7 @@ class _StandingCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'IN THE APP',
+                  'IN THIS APP',
                   style: AppTheme.eyebrow(color: AppColors.ink2),
                 ),
                 const SizedBox(height: 12),
