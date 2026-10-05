@@ -103,8 +103,9 @@ void main() {
     await _settle(tester);
     expect(find.text('25%', findRichText: true), findsOneWidget);
     expect(find.text('MASTERED'), findsOneWidget); // ethics
-    expect(find.text('games 5 of 10 cleared'), findsNWidgets(3)); // the three played
-    expect(find.text('no games yet'), findsWidgets);
+    // The app never says "games" to a student (owner directive, 2026-09-07).
+    expect(find.text('in this app: 5 of 10 done'), findsNWidgets(3));
+    expect(find.text('nothing in this app yet'), findsWidgets);
     await expectLater(
       find.byType(MaterialApp),
       matchesGoldenFile('goldens/home/mastery.png'),

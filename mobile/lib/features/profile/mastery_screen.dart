@@ -4,9 +4,11 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../games/game_catalog.dart';
 import '../shared/widgets/kit.dart';
+import '../games/chapter_map_screen.dart';
 import '../study/chapter_marks.dart';
 import '../study/content_repository.dart';
 import 'mastery_model.dart';
+import 'priority_field.dart';
 
 /// The breakdown behind the dark mastery row on home (reference 16): the
 /// weighted figure, the three chapters where effort moves it most, then
@@ -21,7 +23,6 @@ class MasteryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final totals = totalsOf(mastery);
     final overall = weightedMastery(totals);
-    final focus = focusChapters(totals);
 
     return Scaffold(
       backgroundColor: AppColors.fog,
@@ -73,32 +74,22 @@ class MasteryScreen extends StatelessWidget {
               Text(
                 'Of the concepts the FE Civil tests, weighted by how many '
                 'questions each chapter gets. Earned at the desk on the '
-                'website. Games here do not count toward it. Not a '
-                'probability of passing.',
+                'website. What you do in this app does not count toward it. '
+                'Not a probability of passing.',
                 style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
               ),
               const SizedBox(height: 22),
               Text(
-                'WHERE EFFORT MOVES IT MOST',
+                'WHERE EFFORT PAYS',
                 style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
               ),
               const SizedBox(height: 10),
-              // Three across, as tall as the longest name needs.
-              IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    for (var i = 0; i < focus.length; i++) ...[
-                      if (i > 0) const SizedBox(width: 8),
-                      Expanded(
-                        child: _ChapterTile(
-                          chapter: chapterMaps[focus[i]]!,
-                          mastery: mastery[focus[i]],
-                          fill: AppColors.peach,
-                        ),
-                      ),
-                    ],
-                  ],
+              PriorityField(
+                mastery: mastery,
+                onOpen: (chapter) => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ChapterMapScreen(chapter: chapter),
+                  ),
                 ),
               ),
               const SizedBox(height: 22),
@@ -107,11 +98,16 @@ class MasteryScreen extends StatelessWidget {
                 style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
               ),
               const SizedBox(height: 10),
-              GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-                childAspectRatio: 167 / 206,
+              // A fixed height, not a fixed ratio: on a 320 wide phone a ratio
+              // makes the tile shorter exactly where the chapter names need
+              // three lines, and the tile overflows.
+              GridView(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                  mainAxisExtent: 206,
+                ),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
@@ -131,21 +127,20 @@ class MasteryScreen extends StatelessWidget {
 }
 
 class _ChapterTile extends StatelessWidget {
-  const _ChapterTile({required this.chapter, required this.mastery, this.fill});
+  const _ChapterTile({required this.chapter, required this.mastery});
 
   final ChapterMap chapter;
   final ChapterMastery? mastery;
-
-  /// Peach for a focus tile; otherwise spring when mastered, cream below.
-  final Color? fill;
 
   @override
   Widget build(BuildContext context) {
     final pct = mastery?.total ?? 0;
     final cleared = mastery?.gamesCleared ?? 0;
     final total = mastery?.gamesTotal ?? 0;
-    final accent = fill != null;
-    final color = fill ?? (pct >= 80 ? AppColors.spring : AppColors.cream);
+    // Spring once a chapter is mastered, cream below it. The peach the
+    // focus tiles used lives on the field above now.
+    final accent = pct >= 80;
+    final color = accent ? AppColors.spring : AppColors.cream;
     final muted = accent ? AppColors.charcoal : AppColors.mutedOnLight;
     return Container(
       constraints: const BoxConstraints(minHeight: 196),
@@ -217,7 +212,9 @@ class _ChapterTile extends StatelessWidget {
           // The games count, so the phone's part is visible without ever
           // reading as part of the number.
           Text(
-            total == 0 ? 'no games yet' : 'games $cleared of $total cleared',
+            total == 0
+                ? 'nothing in this app yet'
+                : 'in this app: $cleared of $total done',
             style: AppTheme.mono(size: 10.5, color: muted),
           ),
         ],
