@@ -136,14 +136,17 @@ class ProctorPainter extends CustomPainter {
     }
 
     if (!answered) {
+      // The top row, where the verdict goes once there is one. The bottom
+      // row is the x-axis name's, and this note is wide enough to bury it.
       writeOn(
         canvas,
         size,
         'the peak and the specification come out after '
         'the answer',
-        Offset(left - 34, bottom + 10),
+        Offset(left + 70, top - 18),
         AppColors.ink3,
         fontSize: 9.5,
+        maxWidth: size.width - left - 74,
       );
       return;
     }

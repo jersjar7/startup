@@ -31,12 +31,10 @@ class Bank {
   double get buoyantWeight => saturatedWeight - waterWeight;
 
   /// What buoyancy leaves of the factor of safety: about a half.
-  double get seepageFactor =>
-      seeping ? buoyantWeight / saturatedWeight : 1;
+  double get seepageFactor => seeping ? buoyantWeight / saturatedWeight : 1;
 
   double get dryFactor =>
-      math.tan(friction * math.pi / 180) /
-      math.tan(slopeAngle * math.pi / 180);
+      math.tan(friction * math.pi / 180) / math.tan(slopeAngle * math.pi / 180);
 
   double get factorOfSafety => seepageFactor * dryFactor;
 
@@ -66,13 +64,16 @@ class BankPainter extends CustomPainter {
       ..lineTo(right, base)
       ..close();
     canvas.drawPath(
-        face, Paint()..color = AppColors.ink2.withValues(alpha: 0.22));
+      face,
+      Paint()..color = AppColors.ink2.withValues(alpha: 0.22),
+    );
     canvas.drawLine(
-        Offset(left, base),
-        Offset(right, top),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 2.4);
+      Offset(left, base),
+      Offset(right, top),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 2.4,
+    );
     groundLine(canvas, Offset(left, base), Offset(right, base));
 
     // The slope angle, drawn where the face meets the flat.
@@ -88,19 +89,21 @@ class BankPainter extends CustomPainter {
     );
     // The two angles, clear of the arc and of each other.
     writeOn(
-        canvas,
-        size,
-        'slope ${bank.slopeAngle.toStringAsFixed(0)} degrees',
-        Offset(left + 46, base - 26),
-        AppColors.ember,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'slope ${bank.slopeAngle.toStringAsFixed(0)} degrees',
+      Offset(left + 46, base - 26),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'the soil can muster ${bank.friction.toStringAsFixed(0)} degrees',
-        Offset(left + 46, base - 12),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'the soil can muster ${bank.friction.toStringAsFixed(0)} degrees',
+      Offset(left + 46, base - 12),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (bank.seeping) {
       // Rain on the face and water running down inside it.
@@ -110,32 +113,44 @@ class BankPainter extends CustomPainter {
         final y = base - rise * t;
         canvas
           ..drawLine(
-              Offset(x, y - 26),
-              Offset(x, y - 8),
-              Paint()
-                ..color = AppColors.info
-                ..strokeWidth = 1.4)
+            Offset(x, y - 26),
+            Offset(x, y - 8),
+            Paint()
+              ..color = AppColors.info
+              ..strokeWidth = 1.4,
+          )
           ..drawLine(
-              Offset(x - 10, y + 14),
-              Offset(x + 12, y + 14 - 22 * math.tan(bank.slopeAngle * math.pi / 180)),
-              Paint()
-                ..color = AppColors.info
-                ..strokeWidth = 1.6);
+            Offset(x - 10, y + 14),
+            Offset(
+              x + 12,
+              y + 14 - 22 * math.tan(bank.slopeAngle * math.pi / 180),
+            ),
+            Paint()
+              ..color = AppColors.info
+              ..strokeWidth = 1.6,
+          );
       }
-      writeOn(canvas, size, 'rain, and seepage down the slope',
-          Offset(left + 4, top - 18), AppColors.info, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'rain, and seepage down the slope',
+        Offset(left + 4, top - 18),
+        AppColors.info,
+        fontSize: 9.5,
+      );
     }
 
     if (answered) {
       writeOn(
-          canvas,
-          size,
-          bank.stands
-              ? 'it stands: ${bank.factorOfSafety.toStringAsFixed(2)}'
-              : 'it slides: ${bank.factorOfSafety.toStringAsFixed(2)}',
-          Offset(right - 120, base + 8),
-          bank.stands ? AppColors.forest : AppColors.error,
-          fontSize: 9.5);
+        canvas,
+        size,
+        bank.stands
+            ? 'it stands: ${bank.factorOfSafety.toStringAsFixed(2)}'
+            : 'it slides: ${bank.factorOfSafety.toStringAsFixed(2)}',
+        Offset(right - 120, base + 8),
+        bank.stands ? AppColors.forest : AppColors.error,
+        fontSize: 9.5,
+      );
     }
 
     viewTag(canvas, size, Looking.section, note: 'the slope');
@@ -208,64 +223,95 @@ class WedgePainter extends CustomPainter {
     canvas
       ..drawPath(block, Paint()..color = AppColors.ink2.withValues(alpha: 0.25))
       ..drawPath(
-          block,
-          Paint()
-            ..color = AppColors.charcoal
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.6)
+        block,
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.6,
+      )
       ..drawLine(
-          Offset(left - 6, base + 4),
-          Offset(right + 6, top + 4),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 2.6);
-    writeOn(canvas, size, 'the slip surface', Offset(left + 6, base + 10),
-        AppColors.ink3, fontSize: 9.5);
+        Offset(left - 6, base + 4),
+        Offset(right + 6, top + 4),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 2.6,
+      );
+    writeOn(
+      canvas,
+      size,
+      'the slip surface',
+      Offset(left + 6, base + 10),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // The weight, and where it goes.
     final centre = Offset((left + right) / 2 + 6, (base + top) / 2 - 16);
     canvas
       ..drawLine(
-          centre,
-          centre + const Offset(0, 30),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 2.4)
+        centre,
+        centre + const Offset(0, 30),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 2.4,
+      )
       ..drawPath(
-          Path()
-            ..moveTo(centre.dx, centre.dy + 36)
-            ..lineTo(centre.dx - 4, centre.dy + 28)
-            ..lineTo(centre.dx + 4, centre.dy + 28)
-            ..close(),
-          Paint()..color = AppColors.charcoal);
-    writeOn(canvas, size, 'weight ${wedge.weight.toStringAsFixed(0)}',
-        centre + const Offset(6, 8), AppColors.charcoal, fontSize: 9.5);
+        Path()
+          ..moveTo(centre.dx, centre.dy + 36)
+          ..lineTo(centre.dx - 4, centre.dy + 28)
+          ..lineTo(centre.dx + 4, centre.dy + 28)
+          ..close(),
+        Paint()..color = AppColors.charcoal,
+      );
+    writeOn(
+      canvas,
+      size,
+      'weight ${wedge.weight.toStringAsFixed(0)}',
+      centre + const Offset(6, 8),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
 
     writeOn(
-        canvas,
-        size,
-        'slip at ${wedge.slipAngle.toStringAsFixed(0)} degrees, '
-            'friction ${wedge.friction.toStringAsFixed(0)}',
-        Offset(left, 10),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'slip at ${wedge.slipAngle.toStringAsFixed(0)} degrees, '
+      'friction ${wedge.friction.toStringAsFixed(0)}',
+      Offset(left, 10),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'cohesion along it: ${wedge.cohesionForce.toStringAsFixed(0)}',
-        Offset(left, 24),
-        AppColors.ember,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'cohesion along it: ${wedge.cohesionForce.toStringAsFixed(0)}',
+      Offset(left, 24),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
 
     if (answered) {
       writeOn(
-          canvas,
-          size,
-          'holds ${wedge.resisting.toStringAsFixed(0)}, '
-              'drives ${wedge.driving.toStringAsFixed(0)}',
-          Offset(left, base + 24),
-          AppColors.forest,
-          fontSize: 9.5);
+        canvas,
+        size,
+        'holds ${wedge.resisting.toStringAsFixed(0)}, '
+        'drives ${wedge.driving.toStringAsFixed(0)}',
+        // The right end of the top row, opposite the setup line. Under the
+        // slope it sat 14 points below the surface label, which is less than
+        // a line, and there is no room further down: the panel clamps it.
+        Offset(
+          size.width -
+              4 -
+              labelSize(
+                'holds ${wedge.resisting.toStringAsFixed(0)}, '
+                'drives ${wedge.driving.toStringAsFixed(0)}',
+                fontSize: 9.5,
+              ).width,
+          10,
+        ),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
 
     viewTag(canvas, size, Looking.section, note: 'the wedge');

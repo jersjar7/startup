@@ -62,58 +62,88 @@ class FootingPainter extends CustomPainter {
     // The ground, and the excavation the footing sits in.
     final soil = Rect.fromLTRB(left, ground, right, bottom);
     canvas.drawRect(
-        soil, Paint()..color = AppColors.ink2.withValues(alpha: 0.18));
+      soil,
+      Paint()..color = AppColors.ink2.withValues(alpha: 0.18),
+    );
     groundLine(canvas, Offset(left, ground), Offset(right, ground));
 
     // The footing itself.
-    final scale = math.min((right - left) * 0.5 / math.max(footing.width, 1),
-        (bottom - ground) * 0.5 / math.max(footing.depth, 1));
+    final scale = math.min(
+      (right - left) * 0.5 / math.max(footing.width, 1),
+      (bottom - ground) * 0.5 / math.max(footing.depth, 1),
+    );
     final b = math.max(footing.width * scale, 26.0);
     final d = footing.depth * scale;
     final base = ground + d;
     final middle = (left + right) / 2;
     final pad = Rect.fromLTRB(middle - b / 2, base - 12, middle + b / 2, base);
     canvas
-      ..drawRect(pad, Paint()..color = AppColors.charcoal.withValues(alpha: 0.75))
+      ..drawRect(
+        pad,
+        Paint()..color = AppColors.charcoal.withValues(alpha: 0.75),
+      )
       ..drawLine(
-          Offset(middle, base - 12),
-          Offset(middle, ground - 22),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 5);
+        Offset(middle, base - 12),
+        Offset(middle, ground - 22),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 5,
+      );
 
     // The width and the depth, dimensioned.
     canvas.drawLine(
-        Offset(pad.left, base + 12),
-        Offset(pad.right, base + 12),
-        Paint()
-          ..color = AppColors.ember
-          ..strokeWidth = 1.6);
-    writeOn(canvas, size, 'B = ${footing.width.toStringAsFixed(0)} ft',
-        Offset(middle - 20, base + 16), AppColors.ember, fontSize: 9.5);
+      Offset(pad.left, base + 12),
+      Offset(pad.right, base + 12),
+      Paint()
+        ..color = AppColors.ember
+        ..strokeWidth = 1.6,
+    );
+    writeOn(
+      canvas,
+      size,
+      'B = ${footing.width.toStringAsFixed(0)} ft',
+      Offset(middle - 20, base + 16),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
     if (footing.depth > 0) {
       canvas.drawLine(
-          Offset(left + 12, ground),
-          Offset(left + 12, base),
-          Paint()
-            ..color = AppColors.info
-            ..strokeWidth = 1.6);
-      writeOn(canvas, size, 'D = ${footing.depth.toStringAsFixed(0)} ft',
-          Offset(left - 8, (ground + base) / 2 - 6), AppColors.info,
-          fontSize: 9.5);
+        Offset(left + 12, ground),
+        Offset(left + 12, base),
+        Paint()
+          ..color = AppColors.info
+          ..strokeWidth = 1.6,
+      );
+      writeOn(
+        canvas,
+        size,
+        'D = ${footing.depth.toStringAsFixed(0)} ft',
+        Offset(left - 8, (ground + base) / 2 - 6),
+        AppColors.info,
+        fontSize: 9.5,
+      );
     } else {
-      writeOn(canvas, size, 'on the surface', Offset(left - 8, ground + 6),
-          AppColors.info, fontSize: 9.5);
+      // Above the ground line. With no depth to measure, ground and base are
+      // the same line, and below it belongs to the B dimension.
+      writeOn(
+        canvas,
+        size,
+        'on the surface',
+        Offset(left - 8, ground - 19),
+        AppColors.info,
+        fontSize: 9.5,
+      );
     }
 
     writeOn(
-        canvas,
-        size,
-        'c = ${footing.cohesion.toStringAsFixed(0)}, '
-            'unit weight ${footing.unitWeight.toStringAsFixed(0)}',
-        Offset(left, bottom + 8),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'c = ${footing.cohesion.toStringAsFixed(0)}, '
+      'unit weight ${footing.unitWeight.toStringAsFixed(0)}',
+      Offset(left, bottom + 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (answered) {
       // The three terms, to one scale, so which of them carries the load is
@@ -128,10 +158,17 @@ class FootingPainter extends CustomPainter {
         ('width', footing.widthTerm),
       ]) {
         canvas.drawRect(
-            Rect.fromLTWH(x, y, math.max(value / top * wide, 1), 11),
-            Paint()..color = AppColors.forest.withValues(alpha: 0.7));
-        writeOn(canvas, size, '$name ${value.toStringAsFixed(0)}',
-            Offset(x, y + 13), AppColors.forest, fontSize: 9.5);
+          Rect.fromLTWH(x, y, math.max(value / top * wide, 1), 11),
+          Paint()..color = AppColors.forest.withValues(alpha: 0.7),
+        );
+        writeOn(
+          canvas,
+          size,
+          '$name ${value.toStringAsFixed(0)}',
+          Offset(x, y + 13),
+          AppColors.forest,
+          fontSize: 9.5,
+        );
         y += 30;
       }
     }
