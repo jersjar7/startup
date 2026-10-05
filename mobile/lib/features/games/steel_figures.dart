@@ -72,23 +72,26 @@ class BracePainter extends CustomPainter {
     // The beam, drawn as a shallow I with a top flange the braces hold.
     canvas
       ..drawLine(
-          Offset(left, y),
-          Offset(right, y),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 4)
+        Offset(left, y),
+        Offset(right, y),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 4,
+      )
       ..drawLine(
-          Offset(left, y + 12),
-          Offset(right, y + 12),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 4)
+        Offset(left, y + 12),
+        Offset(right, y + 12),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 4,
+      )
       ..drawLine(
-          Offset(left, y + 6),
-          Offset(right, y + 6),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1.4);
+        Offset(left, y + 6),
+        Offset(right, y + 6),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1.4,
+      );
     pinMark(canvas, Offset(left, y + 12));
     rollerMark(canvas, Offset(right, y + 12));
 
@@ -96,29 +99,46 @@ class BracePainter extends CustomPainter {
       // A slab sitting on the top flange, hatched, holding it everywhere.
       final slab = Rect.fromLTRB(left - 6, y - 14, right + 6, y - 3);
       canvas.drawRect(
-          slab,
-          Paint()
-            ..color = AppColors.ink2
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.4);
+        slab,
+        Paint()
+          ..color = AppColors.ink2
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.4,
+      );
       hatchIn(canvas, Path()..addRect(slab), step: 7);
-      writeOn(canvas, size, 'a slab along the whole top flange',
-          Offset(left, y - 28), AppColors.forest, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'a slab along the whole top flange',
+        Offset(left, y - 28),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     } else {
       for (final at in beam.braces) {
         final x = xOf(at);
         canvas
           ..drawLine(
-              Offset(x, y - 16),
-              Offset(x, y - 2),
-              Paint()
-                ..color = AppColors.forest
-                ..strokeWidth = 2.4)
+            Offset(x, y - 16),
+            Offset(x, y - 2),
+            Paint()
+              ..color = AppColors.forest
+              ..strokeWidth = 2.4,
+          )
           ..drawCircle(
-              Offset(x, y - 18), 2.6, Paint()..color = AppColors.forest);
+            Offset(x, y - 18),
+            2.6,
+            Paint()..color = AppColors.forest,
+          );
       }
-      writeOn(canvas, size, 'braces on the top flange', Offset(left, y - 34),
-          AppColors.forest, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'braces on the top flange',
+        Offset(left, y - 34),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
 
     // The three lengths, to one scale, under the beam.
@@ -131,18 +151,34 @@ class BracePainter extends CustomPainter {
       final end = xOf(math.min(v, beam.span));
       canvas
         ..drawLine(
-            Offset(left, row),
-            Offset(math.max(end, left + 1), row),
-            Paint()
-              ..color = tone
-              ..strokeWidth = 3)
-        ..drawLine(Offset(left, row - 4), Offset(left, row + 4),
-            Paint()..color = tone)
-        ..drawLine(Offset(math.max(end, left + 1), row - 4),
-            Offset(math.max(end, left + 1), row + 4), Paint()..color = tone);
-      writeOn(canvas, size, '$name, ${_num(v)} ft',
-          Offset(math.max(end, left + 1) + 6, row - 5), tone, fontSize: 9.5);
-      row += 18;
+          Offset(left, row),
+          Offset(math.max(end, left + 1), row),
+          Paint()
+            ..color = tone
+            ..strokeWidth = 3,
+        )
+        ..drawLine(
+          Offset(left, row - 4),
+          Offset(left, row + 4),
+          Paint()..color = tone,
+        )
+        ..drawLine(
+          Offset(math.max(end, left + 1), row - 4),
+          Offset(math.max(end, left + 1), row + 4),
+          Paint()..color = tone,
+        );
+      // Advanced by the height the label actually took. These names run to
+      // two lines whenever the bar reaches well across the panel, and a
+      // fixed 18 then put each one on the row below it.
+      final written = writeOn(
+        canvas,
+        size,
+        '$name, ${_num(v)} ft',
+        Offset(math.max(end, left + 1) + 6, row - 5),
+        tone,
+        fontSize: 9.5,
+      );
+      row += math.max(18, written.height + 7);
     }
 
     viewTag(canvas, size, Looking.elevation, note: 'the beam');
@@ -185,9 +221,18 @@ class ShapePainter extends CustomPainter {
     const halfH = 40.0;
     const t = 9.0;
 
-    final top = Rect.fromLTRB(cx - halfW, cy - halfH, cx + halfW, cy - halfH + t);
-    final bottom =
-        Rect.fromLTRB(cx - halfW, cy + halfH - t, cx + halfW, cy + halfH);
+    final top = Rect.fromLTRB(
+      cx - halfW,
+      cy - halfH,
+      cx + halfW,
+      cy - halfH + t,
+    );
+    final bottom = Rect.fromLTRB(
+      cx - halfW,
+      cy + halfH - t,
+      cx + halfW,
+      cy + halfH,
+    );
     final web = Rect.fromLTRB(cx - 5, cy - halfH + t, cx + 5, cy + halfH - t);
 
     // Nothing is lit when the round is asking the reader to find the part
@@ -203,24 +248,36 @@ class ShapePainter extends CustomPainter {
       canvas.drawRect(r, Paint()..color = toneFor(which));
     }
 
-    writeOn(canvas, size, sagging ? 'sagging: the middle of a span' : 'hogging: over a support',
-        const Offset(8, 8), AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      sagging ? 'sagging: the middle of a span' : 'hogging: over a support',
+      const Offset(8, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (answered) {
       final compressed = sagging ? top : bottom;
-      writeOn(canvas, size, 'this flange is in compression',
-          Offset(cx - 74, compressed.center.dy - 26), AppColors.forest,
-          fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'this flange is in compression',
+        Offset(cx - 74, compressed.center.dy - 26),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
       // Which way it wants to go, drawn as a pair of arrows sideways.
       for (final dir in [-1.0, 1.0]) {
         final from = Offset(cx + dir * (halfW + 4), compressed.center.dy);
         final to = from + Offset(dir * 22, 0);
         canvas.drawLine(
-            from,
-            to,
-            Paint()
-              ..color = AppColors.forest
-              ..strokeWidth = 2);
+          from,
+          to,
+          Paint()
+            ..color = AppColors.forest
+            ..strokeWidth = 2,
+        );
       }
     }
 
@@ -286,16 +343,25 @@ class AxisPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final half = size.width / 2;
-    _one(canvas, size, Rect.fromLTWH(0, 16, half, size.height - 34),
-        strong: true);
-    _one(canvas, size, Rect.fromLTWH(half, 16, half, size.height - 34),
-        strong: false);
+    _one(
+      canvas,
+      size,
+      Rect.fromLTWH(0, 16, half, size.height - 34),
+      strong: true,
+    );
+    _one(
+      canvas,
+      size,
+      Rect.fromLTWH(half, 16, half, size.height - 34),
+      strong: false,
+    );
     canvas.drawLine(
-        Offset(half, 20),
-        Offset(half, size.height - 20),
-        Paint()
-          ..color = AppColors.line
-          ..strokeWidth = 1);
+      Offset(half, 20),
+      Offset(half, size.height - 20),
+      Paint()
+        ..color = AppColors.line
+        ..strokeWidth = 1,
+    );
     viewTag(canvas, size, Looking.elevation, note: 'the column');
   }
 
@@ -306,22 +372,24 @@ class AxisPainter extends CustomPainter {
     final pieces = strong ? post.strongBraces : post.weakBraces;
 
     canvas.drawLine(
-        Offset(x, top),
-        Offset(x, bottom),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 4);
+      Offset(x, top),
+      Offset(x, bottom),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 4,
+    );
 
     // The braces that count for this axis, drawn as a pair of stubs.
     for (var i = 1; i < pieces; i++) {
       final y = top + (bottom - top) * i / pieces;
       for (final dir in [-1.0, 1.0]) {
         canvas.drawLine(
-            Offset(x + dir * 3, y),
-            Offset(x + dir * 20, y),
-            Paint()
-              ..color = AppColors.forest
-              ..strokeWidth = 2.4);
+          Offset(x + dir * 3, y),
+          Offset(x + dir * 20, y),
+          Paint()
+            ..color = AppColors.forest
+            ..strokeWidth = 2.4,
+        );
       }
     }
 
@@ -334,28 +402,31 @@ class AxisPainter extends CustomPainter {
       bow.quadraticBezierTo(x + side * 16, a + piece / 2, x, a + piece);
     }
     canvas.drawPath(
-        bow,
-        Paint()
-          ..color = AppColors.ember
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.8);
+      bow,
+      Paint()
+        ..color = AppColors.ember
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.8,
+    );
 
     writeOn(
-        canvas,
-        size,
-        strong ? 'the deep way' : 'the shallow way',
-        Offset(box.left + 8, box.top - 12),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      strong ? 'the deep way' : 'the shallow way',
+      Offset(box.left + 8, box.top - 12),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        strong
-            ? 'r = ${_num(post.rx)} in, free over ${_num(post.strongLength)} ft'
-            : 'r = ${_num(post.ry)} in, free over ${_num(post.weakLength)} ft',
-        Offset(box.left + 8, box.bottom - 6),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      strong
+          ? 'r = ${_num(post.rx)} in, free over ${_num(post.strongLength)} ft'
+          : 'r = ${_num(post.ry)} in, free over ${_num(post.weakLength)} ft',
+      Offset(box.left + 8, box.bottom - 6),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
   }
 
   static String _num(double v) =>

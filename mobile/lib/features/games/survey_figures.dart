@@ -10,11 +10,11 @@ enum Quad { ne, se, sw, nw }
 
 extension QuadWords on Quad {
   String get letters => switch (this) {
-        Quad.ne => 'NE',
-        Quad.se => 'SE',
-        Quad.sw => 'SW',
-        Quad.nw => 'NW',
-      };
+    Quad.ne => 'NE',
+    Quad.se => 'SE',
+    Quad.sw => 'SW',
+    Quad.nw => 'NW',
+  };
 }
 
 /// The rule that turns a bearing into an azimuth. Which one applies is the
@@ -24,11 +24,11 @@ enum Rule { same, fromHalf, plusHalf, fromWhole }
 
 extension RuleWords on Rule {
   String get plain => switch (this) {
-        Rule.same => 'The azimuth is that same number',
-        Rule.fromHalf => '180 degrees minus it',
-        Rule.plusHalf => '180 degrees plus it',
-        Rule.fromWhole => '360 degrees minus it',
-      };
+    Rule.same => 'The azimuth is that same number',
+    Rule.fromHalf => '180 degrees minus it',
+    Rule.plusHalf => '180 degrees plus it',
+    Rule.fromWhole => '360 degrees minus it',
+  };
 }
 
 /// A bearing: an angle turned off the meridian, toward the east or the west,
@@ -44,19 +44,19 @@ class Bearing {
 
   /// Clockwise from north, 0 to 360, worked out rather than declared.
   double get azimuth => switch (quad) {
-        Quad.ne => degrees,
-        Quad.se => 180 - degrees,
-        Quad.sw => 180 + degrees,
-        Quad.nw => 360 - degrees,
-      };
+    Quad.ne => degrees,
+    Quad.se => 180 - degrees,
+    Quad.sw => 180 + degrees,
+    Quad.nw => 360 - degrees,
+  };
 
   /// Which rule got it there.
   Rule get rule => switch (quad) {
-        Quad.ne => Rule.same,
-        Quad.se => Rule.fromHalf,
-        Quad.sw => Rule.plusHalf,
-        Quad.nw => Rule.fromWhole,
-      };
+    Quad.ne => Rule.same,
+    Quad.se => Rule.fromHalf,
+    Quad.sw => Rule.plusHalf,
+    Quad.nw => Rule.fromWhole,
+  };
 
   String get plain {
     final from = quad == Quad.ne || quad == Quad.nw ? 'N' : 'S';
@@ -163,19 +163,21 @@ class RosePainter extends CustomPainter {
     final arrow = Paint()..color = AppColors.charcoal;
     canvas
       ..drawPath(
-          Path()
-            ..moveTo(nx, ny)
-            ..lineTo(nx - 5, ny + 20)
-            ..lineTo(nx, ny + 15)
-            ..lineTo(nx + 5, ny + 20)
-            ..close(),
-          arrow)
+        Path()
+          ..moveTo(nx, ny)
+          ..lineTo(nx - 5, ny + 20)
+          ..lineTo(nx, ny + 15)
+          ..lineTo(nx + 5, ny + 20)
+          ..close(),
+        arrow,
+      )
       ..drawLine(
-          Offset(nx, ny + 15),
-          Offset(nx, ny + 26),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 1.2);
+        Offset(nx, ny + 15),
+        Offset(nx, ny + 26),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 1.2,
+      );
     writeOn(canvas, size, 'N', Offset(nx - 3, ny + 27), AppColors.charcoal);
 
     // The angle off the meridian, when the round is showing it.
@@ -183,7 +185,8 @@ class RosePainter extends CustomPainter {
       final b = shots[arcOn!].bearing;
       final fromNorth = b.quad == Quad.ne || b.quad == Quad.nw;
       final start = fromNorth ? -math.pi / 2 : math.pi / 2;
-      final sweep = (b.quad == Quad.ne || b.quad == Quad.sw ? 1 : -1) *
+      final sweep =
+          (b.quad == Quad.ne || b.quad == Quad.sw ? 1 : -1) *
           b.degrees *
           math.pi /
           180;
@@ -198,11 +201,13 @@ class RosePainter extends CustomPainter {
           ..strokeWidth = 1.6,
       );
       final mid = start + sweep / 2;
-      writeOn(          canvas,
-          size,
-          '${_num(b.degrees)}°',
-          o + Offset(math.cos(mid), math.sin(mid)) * 48 + const Offset(-9, -6),
-          AppColors.ember);
+      writeOn(
+        canvas,
+        size,
+        '${_num(b.degrees)}°',
+        o + Offset(math.cos(mid), math.sin(mid)) * 48 + const Offset(-9, -6),
+        AppColors.ember,
+      );
     }
 
     // The lines themselves, each running to a marked point.
@@ -219,44 +224,50 @@ class RosePainter extends CustomPainter {
         tone = AppColors.charcoal;
       }
       canvas.drawLine(
-          o,
-          end,
-          Paint()
-            ..color = tone
-            ..strokeWidth = (picked == i || (locked && answer == i)) ? 2.6 : 1.8);
+        o,
+        end,
+        Paint()
+          ..color = tone
+          ..strokeWidth = (picked == i || (locked && answer == i)) ? 2.6 : 1.8,
+      );
       // The point at the far end, drawn as a survey point is drawn.
       canvas
         ..drawCircle(end, 11, Paint()..color = AppColors.cream)
         ..drawCircle(
-            end,
-            9,
-            Paint()
-              ..color = tone
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2)
+          end,
+          9,
+          Paint()
+            ..color = tone
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2,
+        )
         ..drawCircle(end, 2.4, Paint()..color = tone);
-      writeOn(canvas, size, shots[i].name, end + const Offset(10, -16), tone);
+      // Beside the ring rather than above it: a shot running nearly due
+      // north ends just under the meridian's own N, and the two letters met.
+      writeOn(canvas, size, shots[i].name, end + const Offset(12, -6), tone);
     }
 
     // The station: the triangle a control point is drawn with.
     canvas
       ..drawPath(
-          Path()
-            ..moveTo(o.dx, o.dy - 7)
-            ..lineTo(o.dx - 6, o.dy + 4)
-            ..lineTo(o.dx + 6, o.dy + 4)
-            ..close(),
-          Paint()..color = AppColors.cream)
+        Path()
+          ..moveTo(o.dx, o.dy - 7)
+          ..lineTo(o.dx - 6, o.dy + 4)
+          ..lineTo(o.dx + 6, o.dy + 4)
+          ..close(),
+        Paint()..color = AppColors.cream,
+      )
       ..drawPath(
-          Path()
-            ..moveTo(o.dx, o.dy - 7)
-            ..lineTo(o.dx - 6, o.dy + 4)
-            ..lineTo(o.dx + 6, o.dy + 4)
-            ..close(),
-          Paint()
-            ..color = AppColors.charcoal
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.6)
+        Path()
+          ..moveTo(o.dx, o.dy - 7)
+          ..lineTo(o.dx - 6, o.dy + 4)
+          ..lineTo(o.dx + 6, o.dy + 4)
+          ..close(),
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.6,
+      )
       ..drawCircle(o, 1.6, Paint()..color = AppColors.charcoal);
 
     viewTag(canvas, size, Looking.plan, note: 'north up the sheet');
@@ -276,10 +287,10 @@ enum Side3 { slope, flat, rise }
 
 extension Side3Words on Side3 {
   String get plain => switch (this) {
-        Side3.slope => 'the slope distance',
-        Side3.flat => 'the horizontal distance',
-        Side3.rise => 'the difference in elevation',
-      };
+    Side3.slope => 'the slope distance',
+    Side3.flat => 'the horizontal distance',
+    Side3.rise => 'the difference in elevation',
+  };
 }
 
 /// One shot up or down a hillside: what the instrument reads, what the plan
@@ -342,8 +353,7 @@ class SlopePainter extends CustomPainter {
     // from the other one. On a downhill shot they otherwise land together.
     final up = sight.angle >= 0 ? 1 : -1;
     return switch (side) {
-      Side3.slope =>
-        Offset((a.dx + b.dx) / 2, (a.dy + b.dy) / 2 - 13 * up),
+      Side3.slope => Offset((a.dx + b.dx) / 2, (a.dy + b.dy) / 2 - 13 * up),
       Side3.flat => Offset((a.dx + corner.dx) / 2, a.dy + 16 * up),
       Side3.rise => Offset(corner.dx + 16, (corner.dy + b.dy) / 2),
     };
@@ -375,11 +385,12 @@ class SlopePainter extends CustomPainter {
       ..close();
     hatchIn(canvas, hill, step: 8);
     canvas.drawPath(
-        hill,
-        Paint()
-          ..color = AppColors.ink2
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.4);
+      hill,
+      Paint()
+        ..color = AppColors.ink2
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.4,
+    );
 
     // The instrument on its tripod, and the rod at the far end.
     final ink = Paint()
@@ -390,12 +401,14 @@ class SlopePainter extends CustomPainter {
       ..drawLine(a, Offset(a.dx + 8, groundA), ink)
       ..drawLine(a, Offset(a.dx, groundA), ink)
       ..drawRect(
-          Rect.fromCenter(center: a + const Offset(0, -5), width: 14, height: 9),
-          Paint()..color = AppColors.charcoal)
+        Rect.fromCenter(center: a + const Offset(0, -5), width: 14, height: 9),
+        Paint()..color = AppColors.charcoal,
+      )
       ..drawLine(b, Offset(b.dx, groundB), ink)
       ..drawRect(
-          Rect.fromCenter(center: b, width: 7, height: 12),
-          Paint()..color = AppColors.charcoal);
+        Rect.fromCenter(center: b, width: 7, height: 12),
+        Paint()..color = AppColors.charcoal,
+      );
 
     // The horizontal through the instrument, which is what the angle is
     // measured from, and the upright at the far end.
@@ -417,33 +430,46 @@ class SlopePainter extends CustomPainter {
 
     canvas
       ..drawLine(
-          a,
-          b,
-          Paint()
-            ..color = toneFor(Side3.slope)
-            ..strokeWidth = picked == Side3.slope ? 3.4 : 2.4)
+        a,
+        b,
+        Paint()
+          ..color = toneFor(Side3.slope)
+          ..strokeWidth = picked == Side3.slope ? 3.4 : 2.4,
+      )
       ..drawLine(
-          a,
-          corner,
-          Paint()
-            ..color = toneFor(Side3.flat)
-            ..strokeWidth = picked == Side3.flat ? 3.4 : 2.4)
+        a,
+        corner,
+        Paint()
+          ..color = toneFor(Side3.flat)
+          ..strokeWidth = picked == Side3.flat ? 3.4 : 2.4,
+      )
       ..drawLine(
-          corner,
-          b,
-          Paint()
-            ..color = toneFor(Side3.rise)
-            ..strokeWidth = picked == Side3.rise ? 3.4 : 2.4);
+        corner,
+        b,
+        Paint()
+          ..color = toneFor(Side3.rise)
+          ..strokeWidth = picked == Side3.rise ? 3.4 : 2.4,
+      );
 
     // The vertical angle at the instrument.
     final sweep = -sight.angle * math.pi / 180;
-    canvas.drawArc(Rect.fromCircle(center: a, radius: 30), 0, sweep, false,
-        Paint()
-          ..color = AppColors.ember
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.4);
-    writeOn(canvas, size, '${_num(sight.angle.abs())}°',
-        a + Offset(34, sight.angle >= 0 ? -20 : 10), AppColors.ember);
+    canvas.drawArc(
+      Rect.fromCircle(center: a, radius: 30),
+      0,
+      sweep,
+      false,
+      Paint()
+        ..color = AppColors.ember
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.4,
+    );
+    writeOn(
+      canvas,
+      size,
+      '${_num(sight.angle.abs())}°',
+      a + Offset(34, sight.angle >= 0 ? -20 : 10),
+      AppColors.ember,
+    );
 
     for (final side in Side3.values) {
       final spot = spotOf(size, sight, side);
@@ -451,12 +477,13 @@ class SlopePainter extends CustomPainter {
       canvas
         ..drawCircle(spot, 9, Paint()..color = AppColors.cream)
         ..drawCircle(
-            spot,
-            7.5,
-            Paint()
-              ..color = tone
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2);
+          spot,
+          7.5,
+          Paint()
+            ..color = tone
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2,
+        );
     }
 
     viewTag(canvas, size, Looking.section);
@@ -472,4 +499,3 @@ class SlopePainter extends CustomPainter {
 
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
-

@@ -186,10 +186,14 @@ class HaulPainter extends CustomPainter {
       writeOn(canvas, size, s.name, Offset(x - 14, base + 6), AppColors.ink3);
     }
 
+    // Both notes live along the top, which is the only clear band: the
+    // stationing runs along the bottom and the section areas sit on their
+    // own bars. The unit note was at the foot and landed on the first
+    // station; up here it shares the line with the end-to-end note only
+    // when the panel is wide enough for both, and drops below it when not.
+    var skip = Size.zero;
     if (skipMiddle) {
-      // Along the top, which is clear: the stationing runs along the
-      // bottom and the section numbers sit on their own bars.
-      writeOn(
+      skip = writeOn(
         canvas,
         size,
         'worked end to end, the middle ignored',
@@ -197,14 +201,13 @@ class HaulPainter extends CustomPainter {
         AppColors.error,
       );
     }
-    // Top right, not the foot: along the bottom every section writes its own
-    // stationing, and this unit note was landing on the first of them.
     final units = labelSize('areas in square feet');
+    final unitsX = size.width - units.width - 10;
     writeOn(
       canvas,
       size,
       'areas in square feet',
-      Offset(size.width - units.width - 10, 6),
+      Offset(unitsX, unitsX > 12 + skip.width + 6 ? 6 : 6 + skip.height + 2),
       AppColors.ink3,
     );
     viewTag(canvas, size, Looking.elevation, note: 'along the job');

@@ -13,10 +13,10 @@ enum Peg { back, fore, turning }
 
 extension PegWords on Peg {
   String get plain => switch (this) {
-        Peg.back => 'A backsight: its reading is added',
-        Peg.fore => 'A foresight: its reading is taken off',
-        Peg.turning => 'Both, at two setups: a turning point',
-      };
+    Peg.back => 'A backsight: its reading is added',
+    Peg.fore => 'A foresight: its reading is taken off',
+    Peg.turning => 'Both, at two setups: a turning point',
+  };
 }
 
 /// One point on the ground, with the elevation nobody is allowed to see
@@ -136,27 +136,37 @@ class LevelPainter extends CustomPainter {
 
     // The ground, when the round is allowed to show it.
     if (showGround) {
-      final ground = Path()..moveTo(8, yOf(size, level, level.marks[0].elevation));
+      final ground = Path()
+        ..moveTo(8, yOf(size, level, level.marks[0].elevation));
       for (var i = 0; i < level.marks.length; i++) {
-        ground.lineTo(xOf(size, level, i),
-            yOf(size, level, level.marks[i].elevation));
+        ground.lineTo(
+          xOf(size, level, i),
+          yOf(size, level, level.marks[i].elevation),
+        );
       }
       ground
-        ..lineTo(size.width - 8, yOf(size, level,
-            level.marks[level.marks.length - 1].elevation))
+        ..lineTo(
+          size.width - 8,
+          yOf(size, level, level.marks[level.marks.length - 1].elevation),
+        )
         ..lineTo(size.width - 8, size.height)
         ..lineTo(8, size.height)
         ..close();
       hatchIn(canvas, ground, step: 9);
       canvas.drawPath(
-          ground,
-          Paint()
-            ..color = AppColors.ink2
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.4);
+        ground,
+        Paint()
+          ..color = AppColors.ink2
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.4,
+      );
     } else {
-      groundLine(canvas, Offset(8, flat), Offset(size.width - 8, flat),
-          color: AppColors.ink3);
+      groundLine(
+        canvas,
+        Offset(8, flat),
+        Offset(size.width - 8, flat),
+        color: AppColors.ink3,
+      );
     }
 
     final ink = Paint()
@@ -167,8 +177,11 @@ class LevelPainter extends CustomPainter {
       final sightY = yOf(size, level, level.sightAt(s));
       final x = (xOf(size, level, s) + xOf(size, level, s + 1)) / 2;
       final foot = showGround
-          ? yOf(size, level,
-              math.min(level.marks[s].elevation, level.marks[s + 1].elevation))
+          ? yOf(
+              size,
+              level,
+              math.min(level.marks[s].elevation, level.marks[s + 1].elevation),
+            )
           : flat;
 
       // The line of sight, dead level, reaching both rods.
@@ -185,11 +198,16 @@ class LevelPainter extends CustomPainter {
         ..drawLine(Offset(x, sightY), Offset(x + 9, foot), ink)
         ..drawLine(Offset(x, sightY), Offset(x, foot), ink)
         ..drawRect(
-            Rect.fromCenter(
-                center: Offset(x, sightY - 4), width: 16, height: 9),
-            Paint()..color = AppColors.charcoal);
-      writeOn(canvas, size, 'setup ${s + 1}', Offset(x - 20, sightY - 20),
-          AppColors.ink3);
+          Rect.fromCenter(center: Offset(x, sightY - 4), width: 16, height: 9),
+          Paint()..color = AppColors.charcoal,
+        );
+      writeOn(
+        canvas,
+        size,
+        'setup ${s + 1}',
+        Offset(x - 20, sightY - 20),
+        AppColors.ink3,
+      );
     }
 
     // The rods, and the readings on them.
@@ -201,10 +219,7 @@ class LevelPainter extends CustomPainter {
       // Every setup that can see this rod. A turning point is read by two,
       // which is the whole of what makes it a turning point, so the rod has
       // to reach both sight lines and be marked on both.
-      final seenBy = <int>[
-        if (i > 0) i - 1,
-        if (i < level.setups) i,
-      ];
+      final seenBy = <int>[if (i > 0) i - 1, if (i < level.setups) i];
       final sightY = seenBy
           .map((s) => yOf(size, level, level.sightAt(s)))
           .reduce(math.min);
@@ -224,38 +239,51 @@ class LevelPainter extends CustomPainter {
       canvas
         ..drawRect(rod, Paint()..color = AppColors.cream)
         ..drawRect(
-            rod,
-            Paint()
-              ..color = tone
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.6);
+          rod,
+          Paint()
+            ..color = tone
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.6,
+        );
       // Rod graduations, so it reads as a staff rather than a post.
       for (var y = base - 6; y > rod.top; y -= 7) {
         canvas.drawLine(
-            Offset(x - 3.5, y),
-            Offset(x + 3.5, y),
-            Paint()
-              ..color = tone.withValues(alpha: 0.45)
-              ..strokeWidth = 1);
+          Offset(x - 3.5, y),
+          Offset(x + 3.5, y),
+          Paint()
+            ..color = tone.withValues(alpha: 0.45)
+            ..strokeWidth = 1,
+        );
       }
       // A mark wherever a line of sight crosses the rod, one per setup that
       // reads it.
       for (final seen in seenBy) {
         final y = yOf(size, level, level.sightAt(seen));
         canvas.drawLine(
-            Offset(x - 7, y),
-            Offset(x + 7, y),
-            Paint()
-              ..color = AppColors.info
-              ..strokeWidth = 2.2);
+          Offset(x - 7, y),
+          Offset(x + 7, y),
+          Paint()
+            ..color = AppColors.info
+            ..strokeWidth = 2.2,
+        );
       }
 
       if (readings) {
-        writeOn(canvas, size, level.readingAt(s, i).toStringAsFixed(2),
-            Offset(x + 9, yOf(size, level, level.sightAt(s)) - 6),
-            AppColors.info);
+        writeOn(
+          canvas,
+          size,
+          level.readingAt(s, i).toStringAsFixed(2),
+          Offset(x + 9, yOf(size, level, level.sightAt(s)) - 6),
+          AppColors.info,
+        );
       }
-      writeOn(canvas, size, level.marks[i].name, Offset(x - 12, base + 6), tone);
+      writeOn(
+        canvas,
+        size,
+        level.marks[i].name,
+        Offset(x - 12, base + 6),
+        tone,
+      );
 
       // The point itself, marked where the rod stands.
       canvas
@@ -264,8 +292,13 @@ class LevelPainter extends CustomPainter {
     }
 
     if (!showGround) {
-      writeOn(canvas, size, 'the ground is drawn once you answer',
-          const Offset(10, 6), AppColors.ink3);
+      writeOn(
+        canvas,
+        size,
+        'the ground is drawn once you answer',
+        const Offset(10, 6),
+        AppColors.ink3,
+      );
     }
     viewTag(canvas, size, Looking.section, note: 'sight line level');
   }
@@ -309,8 +342,8 @@ class LoopPainter extends CustomPainter {
     final c = Offset(size.width / 2, size.height * 0.46);
     // Longer runs are drawn bigger, but only by the root, so the drawing
     // does not become the answer by itself.
-    final r = (size.height * 0.17) *
-        (0.62 + 0.38 * math.sqrt(loop.miles / biggest));
+    final r =
+        (size.height * 0.17) * (0.62 + 0.38 * math.sqrt(loop.miles / biggest));
     final path = Path();
     const corners = 5;
     for (var i = 0; i < corners; i++) {
@@ -324,39 +357,50 @@ class LoopPainter extends CustomPainter {
     }
     path.close();
     canvas.drawPath(
-        path,
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.8);
+      path,
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.8,
+    );
 
     // The benchmark it leaves from and comes back to.
     final bm = c + Offset(0, -r);
     canvas
       ..drawPath(
-          Path()
-            ..moveTo(bm.dx, bm.dy - 7)
-            ..lineTo(bm.dx - 6, bm.dy + 4)
-            ..lineTo(bm.dx + 6, bm.dy + 4)
-            ..close(),
-          Paint()..color = AppColors.cream)
+        Path()
+          ..moveTo(bm.dx, bm.dy - 7)
+          ..lineTo(bm.dx - 6, bm.dy + 4)
+          ..lineTo(bm.dx + 6, bm.dy + 4)
+          ..close(),
+        Paint()..color = AppColors.cream,
+      )
       ..drawPath(
-          Path()
-            ..moveTo(bm.dx, bm.dy - 7)
-            ..lineTo(bm.dx - 6, bm.dy + 4)
-            ..lineTo(bm.dx + 6, bm.dy + 4)
-            ..close(),
-          Paint()
-            ..color = AppColors.charcoal
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.6);
+        Path()
+          ..moveTo(bm.dx, bm.dy - 7)
+          ..lineTo(bm.dx - 6, bm.dy + 4)
+          ..lineTo(bm.dx + 6, bm.dy + 4)
+          ..close(),
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.6,
+      );
     writeOn(canvas, size, 'BM', bm + const Offset(9, -14), AppColors.charcoal);
     // Both halves of the allowance are on the drawing, or there is nothing
     // to judge it by: how far it runs, and what class of work it is.
-    final miles = loop.miles == 1 ? '1 mile round' : '${_num(loop.miles)} miles round';
-    writeOn(canvas, size, miles, Offset(10, size.height - 28), AppColors.ink3);
-    writeOn(canvas, size, 'C = ${loop.constant}', Offset(10, size.height - 16),
-        AppColors.ember);
+    // One line, not two 12 apart: at 11pt that gap is less than a line, so
+    // the distance and the class of work were printed on each other.
+    final miles = loop.miles == 1
+        ? '1 mile round'
+        : '${_num(loop.miles)} miles round';
+    writeOn(
+      canvas,
+      size,
+      '$miles, C = ${loop.constant}',
+      Offset(10, size.height - 18),
+      AppColors.ink3,
+    );
     viewTag(canvas, size, Looking.plan);
   }
 
@@ -367,4 +411,3 @@ class LoopPainter extends CustomPainter {
 
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
-
