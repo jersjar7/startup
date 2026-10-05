@@ -7,6 +7,7 @@ import 'package:mobile/core/network/api_client.dart';
 import 'package:mobile/core/storage/app_storage.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/features/auth/auth_controller.dart';
+import 'package:mobile/features/auth/email_hint.dart';
 import 'package:mobile/features/auth/create_screen.dart';
 import 'package:mobile/features/auth/forgot_screen.dart';
 import 'package:mobile/features/auth/signin_screen.dart';
@@ -81,6 +82,11 @@ Future<void> _golden(WidgetTester tester, String name) => expectLater(
 
 void main() {
   setUpAll(loadBrandFonts);
+
+  // The email placeholder is picked at random per screen. Pin it, or every
+  // photograph of a form changes between runs.
+  setUp(() => debugEmailHint = 'you@school.edu');
+  tearDown(() => debugEmailHint = null);
 
   testWidgets('splash', (tester) async {
     _phone(tester);

@@ -8,6 +8,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/kit.dart';
 import 'auth_controller.dart';
+import 'email_hint.dart';
 import 'verify_screen.dart' show FadedCards, Sheet;
 
 /// Reset your password: one oversized field, then the check-your-email
@@ -20,6 +21,9 @@ class ForgotScreen extends StatefulWidget {
 }
 
 class _ForgotScreenState extends State<ForgotScreen> {
+  /// Picked once, so it never changes under the cursor.
+  final _emailHint = emailHint();
+
   final _email = TextEditingController();
   bool _loading = false;
   bool _sent = false;
@@ -97,7 +101,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
             XLField(
               controller: _email,
               label: 'Email',
-              hint: 'you@school.edu',
+              hint: _emailHint,
               keyboardType: TextInputType.emailAddress,
               autofillHints: const [AutofillHints.email],
               caption: "We'll email you a reset link.",

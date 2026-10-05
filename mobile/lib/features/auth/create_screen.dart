@@ -8,6 +8,7 @@ import '../../core/theme/app_theme.dart';
 import '../shared/widgets/kit.dart';
 import '../shared/widgets/legal_line.dart';
 import 'auth_controller.dart';
+import 'email_hint.dart';
 
 /// Create an account as two steps: the email on fog, the password on
 /// spring, then the check-your-email sheet (`/verify`). Same request as
@@ -20,6 +21,9 @@ class CreateScreen extends StatefulWidget {
 }
 
 class _CreateScreenState extends State<CreateScreen> {
+  /// Picked once, so it never changes under the cursor.
+  final _emailHint = emailHint();
+
   final _email = TextEditingController();
   final _password = TextEditingController();
   int _step = 0;
@@ -136,7 +140,7 @@ class _CreateScreenState extends State<CreateScreen> {
                           key: const ValueKey('email'),
                           controller: _email,
                           label: 'Email',
-                          hint: 'you@school.edu',
+                          hint: _emailHint,
                           keyboardType: TextInputType.emailAddress,
                           autofillHints: const [AutofillHints.email],
                           caption:

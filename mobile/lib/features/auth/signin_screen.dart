@@ -7,6 +7,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/kit.dart';
 import 'auth_controller.dart';
+import 'email_hint.dart';
 
 /// Log in as two steps, one oversized field each: the email, then the
 /// password. Same request as before; only the screen changed
@@ -19,6 +20,9 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  /// Picked once, so it never changes under the cursor.
+  final _emailHint = emailHint();
+
   final _email = TextEditingController();
   final _password = TextEditingController();
   int _step = 0;
@@ -143,7 +147,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             key: const ValueKey('email'),
                             controller: _email,
                             label: 'Email',
-                            hint: 'you@school.edu',
+                            hint: _emailHint,
                             keyboardType: TextInputType.emailAddress,
                             autofillHints: const [AutofillHints.email],
                             caption: expired
