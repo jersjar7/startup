@@ -545,8 +545,21 @@ class _ReadoutPainter extends CustomPainter {
         Offset(screen.right - 22 - v.width, y - v.height / 2),
       );
       if (mark) {
+        // Backed off the reading's own left edge, not placed at a fixed 92
+        // from the left: on a narrow screen that offset ran the note into
+        // the number it is there to explain.
         final note = _text('sample: n - 1', size: 10, color: AppColors.spring);
-        inkLabel(canvas, note, Offset(screen.left + 92, y - note.height / 2));
+        inkLabel(
+          canvas,
+          note,
+          Offset(
+            math.max(
+              screen.left + 22 + l.width + 10,
+              screen.right - 22 - v.width - note.width - 10,
+            ),
+            y - note.height / 2,
+          ),
+        );
       }
     }
   }
@@ -864,36 +877,34 @@ class _TwoColumnsPainter extends CustomPainter {
       y += rowH;
     }
     y += size.height * 0.04;
-    final a = _text(
-      '9.50',
-      size: 13,
-      color: AppColors.forest,
-      weight: FontWeight.w700,
-    );
-    final b = _text(
-      ' - (2.90)² = 9.50 - 8.41 = ',
-      size: 13,
-      color: AppColors.charcoal,
-      weight: FontWeight.w600,
-    );
-    final c = _text(
-      '1.09',
-      size: 13,
-      color: AppColors.charcoal,
-      weight: FontWeight.w700,
-    );
-    var x = size.width * 0.12;
-    inkLabel(canvas, a, Offset(x, y));
-    x += a.width;
-    inkLabel(canvas, b, Offset(x, y));
-    x += b.width;
-    inkLabel(canvas, c, Offset(x, y));
+    // The line of scratch work, with the total it starts from picked out.
+    // ONE label with coloured spans, not three butted together: three made
+    // the kerning the sum of three separate layouts, and each adjacent pair
+    // read as two labels sitting on each other.
+    const pieces = <(String, Color, FontWeight)>[
+      ('9.50', AppColors.forest, FontWeight.w700),
+      (' - (2.90)² = 9.50 - 8.41 = ', AppColors.charcoal, FontWeight.w600),
+      ('1.09', AppColors.charcoal, FontWeight.w700),
+    ];
+    final sum = TextPainter(
+      text: TextSpan(
+        children: [
+          for (final (piece, ink, weight) in pieces)
+            TextSpan(
+              text: piece,
+              style: AppTheme.mono(size: 13, color: ink, weight: weight),
+            ),
+        ],
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    inkLabel(canvas, sum, Offset(size.width * 0.12, y));
     final note = _text(
       'mean of the squares, less the square of the mean',
       size: 10,
       color: AppColors.ink2,
     );
-    inkLabel(canvas, note, Offset(size.width * 0.12, y + a.height + 4));
+    inkLabel(canvas, note, Offset(size.width * 0.12, y + sum.height + 4));
   }
 
   @override

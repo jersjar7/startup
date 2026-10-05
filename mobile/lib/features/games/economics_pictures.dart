@@ -842,8 +842,11 @@ class _MacrsPainter extends CustomPainter {
     inkLabel(canvas, a, Offset(left, size.height * 0.03));
     final b = _text('straight line, 20 each', color: AppColors.ember);
     inkLabel(canvas, b, Offset(left + a.width + 14, size.height * 0.03));
+    // A line below the year numbers, not beside them: the last bar's number
+    // sits almost at the right end of the axis, and the axis name was
+    // reaching back into it.
     final yr = _text('year');
-    inkLabel(canvas, yr, Offset(right - yr.width, base + 5));
+    inkLabel(canvas, yr, Offset(right - yr.width, base + 7 + yr.height));
   }
 
   @override
