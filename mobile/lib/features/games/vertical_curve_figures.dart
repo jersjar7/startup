@@ -87,10 +87,7 @@ class Criterion {
 /// parabola easing between them. The offset at the middle is a question in
 /// one item, so it is drawn only once the round is answered.
 class VerticalCurvePainter extends CustomPainter {
-  const VerticalCurvePainter({
-    required this.curve,
-    this.answered = false,
-  });
+  const VerticalCurvePainter({required this.curve, this.answered = false});
 
   final Vertical curve;
   final bool answered;
@@ -128,11 +125,23 @@ class VerticalCurvePainter extends CustomPainter {
       ..drawCircle(corner, 3, Paint()..color = AppColors.ink3);
     // The label goes above the corner where there is room for it, and
     // below when the corner is already near the top of the panel.
-    final cornerLabelY =
-        curve.crest && corner.dy - 22 < 26 ? corner.dy + 10 : corner.dy - 22;
-    writeOn(canvas, size, 'the grades cross here',
-        Offset(corner.dx - 50, curve.crest ? cornerLabelY : corner.dy + 10),
-        AppColors.ink3, fontSize: 9.5);
+    final cornerLabelY = curve.crest && corner.dy - 22 < 26
+        ? corner.dy + 10
+        : corner.dy - 22;
+    // Ends just left of the corner, because the drop to the curve writes its
+    // own reading immediately to the right of it.
+    final crossName = labelSize('the grades cross here', fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'the grades cross here',
+      Offset(
+        corner.dx - crossName.width - 6,
+        curve.crest ? cornerLabelY : corner.dy + 10,
+      ),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // The curve itself.
     final path = Path();
@@ -143,53 +152,80 @@ class VerticalCurvePainter extends CustomPainter {
       i == 0 ? path.moveTo(p.dx, p.dy) : path.lineTo(p.dx, p.dy);
     }
     canvas.drawPath(
-        path,
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2.4);
+      path,
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.4,
+    );
 
     String per(double g) =>
         '${g > 0 ? '+' : ''}${g.toStringAsFixed(0)} per cent';
-    writeOn(canvas, size, per(curve.gradeIn),
-        Offset(left, start.dy + (curve.crest ? 6 : -16)), AppColors.ink3,
-        fontSize: 9.5);
-    writeOn(canvas, size, per(curve.gradeOut),
-        Offset(right - 60, end.dy + (curve.crest ? -16 : 6)), AppColors.ink3,
-        fontSize: 9.5);
-    writeOn(canvas, size, '${curve.length.toStringAsFixed(0)} ft of curve',
-        Offset(left, size.height - 16), AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      per(curve.gradeIn),
+      Offset(left, start.dy + (curve.crest ? 6 : -16)),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      per(curve.gradeOut),
+      Offset(right - 60, end.dy + (curve.crest ? -16 : 6)),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      '${curve.length.toStringAsFixed(0)} ft of curve',
+      Offset(left, size.height - 16),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (answered) {
-      final middleRise = startRise +
+      final middleRise =
+          startRise +
           curve.gradeIn / 100 * (curve.length / 2) +
           curve.offsetAt(curve.length / 2);
       final onCurve = Offset(corner.dx, yOf(middleRise));
       canvas.drawLine(
-          corner,
-          onCurve,
-          Paint()
-            ..color = AppColors.ember
-            ..strokeWidth = 2);
+        corner,
+        onCurve,
+        Paint()
+          ..color = AppColors.ember
+          ..strokeWidth = 2,
+      );
       writeOn(
-          canvas,
-          size,
-          '${curve.offsetAtMiddle.toStringAsFixed(1)} ft '
-              '${curve.crest ? 'below' : 'above'}',
-          Offset(corner.dx + 8, (corner.dy + onCurve.dy) / 2 - 6),
-          AppColors.ember,
-          fontSize: 9.5);
+        canvas,
+        size,
+        '${curve.offsetAtMiddle.toStringAsFixed(1)} ft '
+        '${curve.crest ? 'below' : 'above'}',
+        Offset(corner.dx + 8, (corner.dy + onCurve.dy) / 2 - 6),
+        AppColors.ember,
+        fontSize: 9.5,
+      );
       writeOn(
-          canvas,
-          size,
-          'a ${curve.crest ? 'crest' : 'sag'}, '
-              '${curve.breakSize.toStringAsFixed(0)} per cent of break',
-          Offset(left, 8),
-          AppColors.charcoal,
-          fontSize: 9.5);
+        canvas,
+        size,
+        'a ${curve.crest ? 'crest' : 'sag'}, '
+        '${curve.breakSize.toStringAsFixed(0)} per cent of break',
+        Offset(left, 8),
+        AppColors.charcoal,
+        fontSize: 9.5,
+      );
     } else {
-      writeOn(canvas, size, 'the rest comes out after the answer',
-          Offset(left, 8), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'the rest comes out after the answer',
+        Offset(left, 8),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
 
     viewTag(canvas, size, Looking.elevation, note: 'the road');
@@ -205,10 +241,7 @@ class VerticalCurvePainter extends CustomPainter {
 /// question, so the beam or the sight line is drawn from the start but the
 /// lengths it produces wait for the answer.
 class CriterionPainter extends CustomPainter {
-  const CriterionPainter({
-    required this.criterion,
-    this.answered = false,
-  });
+  const CriterionPainter({required this.criterion, this.answered = false});
 
   final Criterion criterion;
   final bool answered;
@@ -230,18 +263,27 @@ class CriterionPainter extends CustomPainter {
       path.lineTo(x, y);
     }
     canvas.drawPath(
-        path,
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2.4);
+      path,
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.4,
+    );
 
     // The car, at the left hand end of the curve.
     final carX = left + 28;
-    final carY = road + bulge * (1 - 4 * math.pow((carX - left) /
-        (right - left) - 0.5, 2).toDouble());
-    canvas.drawRect(Rect.fromLTWH(carX - 8, carY - 12, 18, 9),
-        Paint()..color = AppColors.charcoal.withValues(alpha: 0.8));
+    final carY =
+        road +
+        bulge *
+            (1 -
+                4 *
+                    math
+                        .pow((carX - left) / (right - left) - 0.5, 2)
+                        .toDouble());
+    canvas.drawRect(
+      Rect.fromLTWH(carX - 8, carY - 12, 18, 9),
+      Paint()..color = AppColors.charcoal.withValues(alpha: 0.8),
+    );
 
     if (criterion.sag) {
       // A headlight beam, tipped one degree up, running into the dip.
@@ -251,61 +293,99 @@ class CriterionPainter extends CustomPainter {
         ..lineTo(right - 18, carY - 4)
         ..close();
       canvas.drawPath(
-          beam, Paint()..color = AppColors.sunbeam.withValues(alpha: 0.30));
-      writeOn(canvas, size, 'headlights, tipped a degree up',
-          Offset(carX + 14, carY - 40), AppColors.charcoal, fontSize: 9.5);
-      writeOn(canvas, size, 'the beam has to reach as far as the driver '
-          'needs to stop', Offset(left, size.height - 30), AppColors.ink3,
-          fontSize: 9.5);
+        beam,
+        Paint()..color = AppColors.sunbeam.withValues(alpha: 0.30),
+      );
+      writeOn(
+        canvas,
+        size,
+        'headlights, tipped a degree up',
+        Offset(carX + 14, carY - 40),
+        AppColors.charcoal,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'the beam has to reach as far as the driver '
+        'needs to stop',
+        Offset(left, size.height - 30),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     } else {
       // An eye at 3.5 ft seeing an object at 2 ft over the hump.
       final eye = Offset(carX + 4, carY - 16);
       final object = Offset(right - 30, road - 6);
       canvas
         ..drawLine(
-            eye,
-            object,
-            Paint()
-              ..color = AppColors.info
-              ..strokeWidth = 1.6)
-        ..drawRect(Rect.fromLTWH(object.dx - 3, object.dy, 6, 8),
-            Paint()..color = AppColors.error.withValues(alpha: 0.8));
-      writeOn(canvas, size, 'the driver\'s eye', Offset(carX - 4, eye.dy - 14),
-          AppColors.info, fontSize: 9.5);
-      writeOn(canvas, size, 'the sight line just grazes the hill',
-          Offset(left, size.height - 30), AppColors.ink3, fontSize: 9.5);
+          eye,
+          object,
+          Paint()
+            ..color = AppColors.info
+            ..strokeWidth = 1.6,
+        )
+        ..drawRect(
+          Rect.fromLTWH(object.dx - 3, object.dy, 6, 8),
+          Paint()..color = AppColors.error.withValues(alpha: 0.8),
+        );
+      writeOn(
+        canvas,
+        size,
+        'the driver\'s eye',
+        Offset(carX - 4, eye.dy - 14),
+        AppColors.info,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'the sight line just grazes the hill',
+        Offset(left, size.height - 30),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
 
     if (!answered) {
-      writeOn(canvas, size, 'the length it needs comes out after the answer',
-          Offset(left, 8), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'the length it needs comes out after the answer',
+        Offset(left, 8),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       viewTag(canvas, size, Looking.elevation, note: 'the road');
       return;
     }
 
     writeOn(
-        canvas,
-        size,
-        '${criterion.breakSize.toStringAsFixed(0)} per cent of break, '
-            '${criterion.sight.toStringAsFixed(0)} ft to see',
-        Offset(left, 8),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${criterion.breakSize.toStringAsFixed(0)} per cent of break, '
+      '${criterion.sight.toStringAsFixed(0)} ft to see',
+      Offset(left, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'needs ${criterion.length.toStringAsFixed(0)} ft of curve',
-        Offset(mid - 60, 24),
-        AppColors.forest,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'needs ${criterion.length.toStringAsFixed(0)} ft of curve',
+      Offset(mid - 60, 24),
+      AppColors.forest,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'the other rule would say '
-            '${criterion.underTheOtherOne.toStringAsFixed(0)} ft',
-        Offset(mid - 60, 40),
-        AppColors.error,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'the other rule would say '
+      '${criterion.underTheOtherOne.toStringAsFixed(0)} ft',
+      Offset(mid - 60, 40),
+      AppColors.error,
+      fontSize: 9.5,
+    );
 
     viewTag(canvas, size, Looking.elevation, note: 'the road');
   }

@@ -187,14 +187,19 @@ class GreenshieldsPainter extends CustomPainter {
       Paint()..color = AppColors.forest,
     );
     if (d != null) {
-      // Stacked under the note at the top of the speed plot rather than put
-      // on the midline, where it met the peak's own reading.
+      // Right-aligned under the head note: on the midline it met the peak's
+      // own reading, and at the left it met the "speed" axis name.
+      final read =
+          'at ${d.toStringAsFixed(0)} a mile the speed is '
+          '${stream.speedAt(d).toStringAsFixed(0)} mph';
       writeOn(
         canvas,
         size,
-        'at ${d.toStringAsFixed(0)} a mile the speed is '
-        '${stream.speedAt(d).toStringAsFixed(0)} mph',
-        Offset(left - 34, 8 + head.height + 3),
+        read,
+        Offset(
+          right - labelSize(read, fontSize: 9.5).width,
+          8 + head.height + 3,
+        ),
         AppColors.charcoal,
         fontSize: 9.5,
       );

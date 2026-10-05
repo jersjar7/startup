@@ -10,22 +10,22 @@ enum Bit { radius, tangent, arc, chord, external, middle }
 
 extension BitWords on Bit {
   String get plain => switch (this) {
-        Bit.radius => 'the radius, R',
-        Bit.tangent => 'the tangent distance, T',
-        Bit.arc => 'the curve length, L',
-        Bit.chord => 'the long chord, LC',
-        Bit.external => 'the external distance, E',
-        Bit.middle => 'the middle ordinate, M',
-      };
+    Bit.radius => 'the radius, R',
+    Bit.tangent => 'the tangent distance, T',
+    Bit.arc => 'the curve length, L',
+    Bit.chord => 'the long chord, LC',
+    Bit.external => 'the external distance, E',
+    Bit.middle => 'the middle ordinate, M',
+  };
 
   String get short => switch (this) {
-        Bit.radius => 'R',
-        Bit.tangent => 'T',
-        Bit.arc => 'L',
-        Bit.chord => 'LC',
-        Bit.external => 'E',
-        Bit.middle => 'M',
-      };
+    Bit.radius => 'R',
+    Bit.tangent => 'T',
+    Bit.arc => 'L',
+    Bit.chord => 'LC',
+    Bit.external => 'E',
+    Bit.middle => 'M',
+  };
 }
 
 /// A circular curve joining two tangents, held the way the lesson holds it:
@@ -58,13 +58,13 @@ class Bend2 {
   double get degree => 5729.58 / radius;
 
   double lengthOf(Bit piece) => switch (piece) {
-        Bit.radius => radius,
-        Bit.tangent => tangent,
-        Bit.arc => arc,
-        Bit.chord => chord,
-        Bit.external => external,
-        Bit.middle => middle,
-      };
+    Bit.radius => radius,
+    Bit.tangent => tangent,
+    Bit.arc => arc,
+    Bit.chord => chord,
+    Bit.external => external,
+    Bit.middle => middle,
+  };
 }
 
 /// The curve drawn in plan the way every alignment sheet draws it: the two
@@ -110,18 +110,22 @@ class AlignPainter extends CustomPainter {
   /// the radius is far longer than the piece of curve being shown. The turn
   /// is marked where it is actually marked, at the PI, between the back
   /// tangent carried on and the tangent ahead.
-  static ({Offset pc, Offset pt, Offset pi, Offset crest, double r})
-      _frame(Size size, Bend2 bend, {Bend2? other}) {
+  static ({Offset pc, Offset pt, Offset pi, Offset crest, double r}) _frame(
+    Size size,
+    Bend2 bend, {
+    Bend2? other,
+  }) {
     final half = bend.turn / 2 * math.pi / 180;
     // In units of the radius: the box the drawing has to fit.
     final wide = 2 * math.sin(half);
     final tall = (1 / math.cos(half) - 1) + (1 - math.cos(half));
-    final r = math.min((size.width - 90) / math.max(wide, 0.2),
-        (size.height - 96) / math.max(tall, 0.12));
+    final r = math.min(
+      (size.width - 90) / math.max(wide, 0.2),
+      (size.height - 96) / math.max(tall, 0.12),
+    );
     // The PI stands E above the crest and the chord hangs M below it, so
     // the crest goes E down from the top of the space.
-    final crest =
-        Offset(size.width / 2, 34 + (1 / math.cos(half) - 1) * r);
+    final crest = Offset(size.width / 2, 34 + (1 / math.cos(half) - 1) * r);
     final centre = crest + Offset(0, r);
     final pc = centre + Offset(-math.sin(half) * r, -math.cos(half) * r);
     final pt = centre + Offset(math.sin(half) * r, -math.cos(half) * r);
@@ -133,7 +137,10 @@ class AlignPainter extends CustomPainter {
   /// The second curve, drawn to the first one's scale and tucked into the
   /// same corner: its own PC and PT lie on the same two tangents.
   static ({Offset pc, Offset pt, Offset crest, double r}) _inner(
-      Size size, Bend2 bend, Bend2 other) {
+    Size size,
+    Bend2 bend,
+    Bend2 other,
+  ) {
     final f = _frame(size, bend, other: other);
     final half = bend.turn / 2 * math.pi / 180;
     final share = other.radius / bend.radius;
@@ -143,8 +150,7 @@ class AlignPainter extends CustomPainter {
     final t = other.tangent / other.radius * r;
     final pc = f.pi - back * t;
     final pt = f.pi + ahead * t;
-    final centre = pc +
-        Offset(math.sin(half), math.cos(half)) * r;
+    final centre = pc + Offset(math.sin(half), math.cos(half)) * r;
     return (pc: pc, pt: pt, crest: centre + Offset(0, -r), r: r);
   }
 
@@ -157,19 +163,21 @@ class AlignPainter extends CustomPainter {
     return switch (piece) {
       // Along the stub that runs off toward the center.
       Bit.radius => f.pc + (centre - f.pc) / (centre - f.pc).distance * 30,
-      Bit.tangent =>
-        Offset((f.pc.dx + f.pi.dx) / 2, (f.pc.dy + f.pi.dy) / 2),
+      Bit.tangent => Offset((f.pc.dx + f.pi.dx) / 2, (f.pc.dy + f.pi.dy) / 2),
       // On the arc, most of the way round toward the PT. Near the PC end
       // a shallow arc runs so close to its own tangent that the two spots
       // land on top of each other.
-      Bit.arc => centre +
-          Offset(math.sin(half * 0.4) * f.r, -math.cos(half * 0.4) * f.r),
+      Bit.arc =>
+        centre +
+            Offset(math.sin(half * 0.4) * f.r, -math.cos(half * 0.4) * f.r),
       Bit.chord => chordMid,
       Bit.external => Offset(f.pi.dx, (f.pi.dy + f.crest.dy) / 2),
       // Up near the crest end of the middle ordinate, so it stays clear of
       // the chord marker at the other end of it.
-      Bit.middle =>
-        Offset(f.crest.dx, chordMid.dy + (f.crest.dy - chordMid.dy) * 0.75),
+      Bit.middle => Offset(
+        f.crest.dx,
+        chordMid.dy + (f.crest.dy - chordMid.dy) * 0.75,
+      ),
     };
   }
 
@@ -215,10 +223,13 @@ class AlignPainter extends CustomPainter {
       if (run.distance < 1) return;
       final unit = run / run.distance;
       for (var k = 0.0; k < run.distance; k += 8) {
-        canvas.drawLine(a + unit * k, a + unit * math.min(k + 4, run.distance),
-            Paint()
-              ..color = color
-              ..strokeWidth = w);
+        canvas.drawLine(
+          a + unit * k,
+          a + unit * math.min(k + 4, run.distance),
+          Paint()
+            ..color = color
+            ..strokeWidth = w,
+        );
       }
     }
 
@@ -247,16 +258,25 @@ class AlignPainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.4,
     );
-    writeOn(canvas, size, 'I ${_num(bend.turn)}°',
-        f.pi + Offset(14, -6), AppColors.ember);
+    writeOn(
+      canvas,
+      size,
+      'I ${_num(bend.turn)}°',
+      f.pi + Offset(14, -6),
+      AppColors.ember,
+    );
 
     // The radius: a stub off each end running toward a center that is not
     // on the sheet, with an arrow to say the line keeps going.
     for (final (at, isLeft) in [(f.pc, true), (f.pt, false)]) {
       final toCentre = (centre - at) / (centre - at).distance;
       final end = at + toCentre * 54;
-      dashed(at, end, isLeft ? _tone(Bit.radius) : AppColors.ink3,
-          isLeft ? _weight(Bit.radius) : 1.1);
+      dashed(
+        at,
+        end,
+        isLeft ? _tone(Bit.radius) : AppColors.ink3,
+        isLeft ? _weight(Bit.radius) : 1.1,
+      );
       final side = Offset(-toCentre.dy, toCentre.dx) * 4;
       final tip = Paint()
         ..color = isLeft ? _tone(Bit.radius) : AppColors.ink3
@@ -265,26 +285,60 @@ class AlignPainter extends CustomPainter {
         ..drawLine(end, end - toCentre * 8 + side, tip)
         ..drawLine(end, end - toCentre * 8 - side, tip);
     }
-    writeOn(canvas, size, 'to the center, off the sheet',
-        Offset(size.width / 2 - 78, size.height - 30), AppColors.ink3);
+    // The caption at the foot can run to two lines, so this sits above
+    // whatever height that one actually took rather than a fixed 30 up.
+    final foot = writeOn(
+      canvas,
+      size,
+      label ?? 'R ${_num(bend.radius)} ft',
+      Offset(10, size.height - 16),
+      AppColors.ink3,
+    );
+    writeOn(
+      canvas,
+      size,
+      'to the center, off the sheet',
+      Offset(size.width / 2 - 78, size.height - 20 - foot.height),
+      AppColors.ink3,
+    );
 
     // The pieces, each drawn where it lies.
     canvas
-      ..drawLine(f.pc, f.pi, Paint()
-        ..color = _tone(Bit.tangent)
-        ..strokeWidth = _weight(Bit.tangent))
-      ..drawLine(f.pi, f.pt, Paint()
-        ..color = AppColors.ink3
-        ..strokeWidth = 1.2)
-      ..drawLine(f.pc, f.pt, Paint()
-        ..color = _tone(Bit.chord)
-        ..strokeWidth = _weight(Bit.chord))
-      ..drawLine(f.pi, f.crest, Paint()
-        ..color = _tone(Bit.external)
-        ..strokeWidth = _weight(Bit.external))
-      ..drawLine(chordMid, f.crest, Paint()
-        ..color = _tone(Bit.middle)
-        ..strokeWidth = _weight(Bit.middle))
+      ..drawLine(
+        f.pc,
+        f.pi,
+        Paint()
+          ..color = _tone(Bit.tangent)
+          ..strokeWidth = _weight(Bit.tangent),
+      )
+      ..drawLine(
+        f.pi,
+        f.pt,
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1.2,
+      )
+      ..drawLine(
+        f.pc,
+        f.pt,
+        Paint()
+          ..color = _tone(Bit.chord)
+          ..strokeWidth = _weight(Bit.chord),
+      )
+      ..drawLine(
+        f.pi,
+        f.crest,
+        Paint()
+          ..color = _tone(Bit.external)
+          ..strokeWidth = _weight(Bit.external),
+      )
+      ..drawLine(
+        chordMid,
+        f.crest,
+        Paint()
+          ..color = _tone(Bit.middle)
+          ..strokeWidth = _weight(Bit.middle),
+      )
       ..drawArc(
         Rect.fromCircle(center: centre, radius: f.r),
         -math.pi / 2 - half,
@@ -294,12 +348,12 @@ class AlignPainter extends CustomPainter {
           ..color = other == null
               ? _tone(Bit.arc)
               : (locked && answerCurve == 0)
-                  ? AppColors.forest
-                  : (locked && pickedCurve == 0)
-                      ? AppColors.error
-                      : pickedCurve == 0
-                          ? AppColors.ember
-                          : AppColors.charcoal
+              ? AppColors.forest
+              : (locked && pickedCurve == 0)
+              ? AppColors.error
+              : pickedCurve == 0
+              ? AppColors.ember
+              : AppColors.charcoal
           ..style = PaintingStyle.stroke
           ..strokeWidth = math.max(_weight(Bit.arc), 2.4),
       );
@@ -313,12 +367,13 @@ class AlignPainter extends CustomPainter {
       canvas
         ..drawCircle(at, 4.5, Paint()..color = AppColors.cream)
         ..drawCircle(
-            at,
-            4.5,
-            Paint()
-              ..color = AppColors.charcoal
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.8);
+          at,
+          4.5,
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.8,
+        );
       writeOn(canvas, size, name, at + off, AppColors.charcoal);
     }
 
@@ -351,31 +406,44 @@ class AlignPainter extends CustomPainter {
         canvas
           ..drawCircle(at, 3.6, Paint()..color = AppColors.cream)
           ..drawCircle(
-              at,
-              3.6,
-              Paint()
-                ..color = tone(1)
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 1.6);
+            at,
+            3.6,
+            Paint()
+              ..color = tone(1)
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1.6,
+          );
       }
       if (names != null) {
         // One name on each curve's own shoulder, and on opposite sides, so
         // the two never end up in the gap between the arcs together.
         final outerCentre = f.crest + Offset(0, f.r);
-        final outerAt = outerCentre +
+        final outerAt =
+            outerCentre +
             Offset(-math.sin(half * 0.6) * f.r, -math.cos(half * 0.6) * f.r);
-        final innerAt = centre +
-            Offset(math.sin(halfOther * 0.6) * g.r,
-                -math.cos(halfOther * 0.6) * g.r);
-        writeOn(canvas, size, names!.$1, outerAt + const Offset(-18, 2),
-            tone(0));
-        writeOn(canvas, size, names!.$2, innerAt + const Offset(8, -4),
-            tone(1));
+        final innerAt =
+            centre +
+            Offset(
+              math.sin(halfOther * 0.6) * g.r,
+              -math.cos(halfOther * 0.6) * g.r,
+            );
+        writeOn(
+          canvas,
+          size,
+          names!.$1,
+          outerAt + const Offset(-18, 2),
+          tone(0),
+        );
+        writeOn(
+          canvas,
+          size,
+          names!.$2,
+          innerAt + const Offset(8, -4),
+          tone(1),
+        );
       }
     }
 
-    writeOn(canvas, size, label ?? 'R ${_num(bend.radius)} ft',
-        Offset(10, size.height - 16), AppColors.ink3);
     viewTag(canvas, size, Looking.plan);
   }
 
@@ -394,4 +462,3 @@ class AlignPainter extends CustomPainter {
 
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toStringAsFixed(1);
-

@@ -38,7 +38,8 @@ class Haul {
   double get byEndAreas {
     var total = 0.0;
     for (var i = 0; i < slabs.length - 1; i++) {
-      total += (slabs[i + 1].station - slabs[i].station) /
+      total +=
+          (slabs[i + 1].station - slabs[i].station) /
           2 *
           (slabs[i].area + slabs[i + 1].area);
     }
@@ -116,17 +117,25 @@ class HaulPainter extends CustomPainter {
 
     // The ground line the sections stand on, which is the center line of
     // the job seen from the side.
-    groundLine(canvas, Offset(10, base), Offset(size.width - 10, base),
-        color: AppColors.ink3);
+    groundLine(
+      canvas,
+      Offset(10, base),
+      Offset(size.width - 10, base),
+      color: AppColors.ink3,
+    );
 
     // The solid between the sections, which is what the volume is.
     final body = Path()..moveTo(_x(size, haul, haul.slabs.first.station), base);
     if (skipMiddle) {
       body
-        ..lineTo(_x(size, haul, haul.slabs.first.station),
-            _y(size, haul, haul.slabs.first.area))
-        ..lineTo(_x(size, haul, haul.slabs.last.station),
-            _y(size, haul, haul.slabs.last.area));
+        ..lineTo(
+          _x(size, haul, haul.slabs.first.station),
+          _y(size, haul, haul.slabs.first.area),
+        )
+        ..lineTo(
+          _x(size, haul, haul.slabs.last.station),
+          _y(size, haul, haul.slabs.last.area),
+        );
     } else {
       for (final s in haul.slabs) {
         body.lineTo(_x(size, haul, s.station), _y(size, haul, s.area));
@@ -136,18 +145,21 @@ class HaulPainter extends CustomPainter {
       ..lineTo(_x(size, haul, haul.slabs.last.station), base)
       ..close();
     canvas.drawPath(
-        body, Paint()..color = AppColors.sunbeam.withValues(alpha: 0.25));
+      body,
+      Paint()..color = AppColors.sunbeam.withValues(alpha: 0.25),
+    );
 
     // The average of the two ends, for the round that compares against it.
     if (showEndAverage) {
       final y = _y(size, haul, haul.endAverage);
       for (var x = 14.0; x < size.width - 14; x += 9) {
         canvas.drawLine(
-            Offset(x, y),
-            Offset(x + 5, y),
-            Paint()
-              ..color = AppColors.info
-              ..strokeWidth = 1.4);
+          Offset(x, y),
+          Offset(x + 5, y),
+          Paint()
+            ..color = AppColors.info
+            ..strokeWidth = 1.4,
+        );
       }
       // In the margin at the left end of the line, where no section stands.
       writeOn(canvas, size, 'avg', Offset(6, y - 5), AppColors.info);
@@ -161,11 +173,12 @@ class HaulPainter extends CustomPainter {
       final tone = faded ? AppColors.ink3 : AppColors.charcoal;
       // The section itself, drawn as a bar standing on the line.
       canvas.drawLine(
-          Offset(x, base),
-          Offset(x, top),
-          Paint()
-            ..color = tone
-            ..strokeWidth = faded ? 1.2 : 3);
+        Offset(x, base),
+        Offset(x, top),
+        Paint()
+          ..color = tone
+          ..strokeWidth = faded ? 1.2 : 3,
+      );
       if (s.area > 0) {
         canvas.drawCircle(Offset(x, top), 3, Paint()..color = tone);
       }
@@ -176,11 +189,24 @@ class HaulPainter extends CustomPainter {
     if (skipMiddle) {
       // Along the top, which is clear: the stationing runs along the
       // bottom and the section numbers sit on their own bars.
-      writeOn(canvas, size, 'worked end to end, the middle ignored',
-          const Offset(12, 6), AppColors.error);
+      writeOn(
+        canvas,
+        size,
+        'worked end to end, the middle ignored',
+        const Offset(12, 6),
+        AppColors.error,
+      );
     }
-    writeOn(canvas, size, 'areas in square feet', Offset(12, size.height - 16),
-        AppColors.ink3);
+    // Top right, not the foot: along the bottom every section writes its own
+    // stationing, and this unit note was landing on the first of them.
+    final units = labelSize('areas in square feet');
+    writeOn(
+      canvas,
+      size,
+      'areas in square feet',
+      Offset(size.width - units.width - 10, 6),
+      AppColors.ink3,
+    );
     viewTag(canvas, size, Looking.elevation, note: 'along the job');
   }
 
@@ -197,17 +223,17 @@ enum Solid { prism, wedge, point }
 
 extension SolidWords on Solid {
   String get plain => switch (this) {
-        Solid.prism => 'the same section all the way',
-        Solid.wedge => 'tapering to an edge',
-        Solid.point => 'tapering to a point',
-      };
+    Solid.prism => 'the same section all the way',
+    Solid.wedge => 'tapering to an edge',
+    Solid.point => 'tapering to a point',
+  };
 
   /// How much of the box around it the solid actually fills.
   double get share => switch (this) {
-        Solid.prism => 1,
-        Solid.wedge => 0.5,
-        Solid.point => 1 / 3,
-      };
+    Solid.prism => 1,
+    Solid.wedge => 0.5,
+    Solid.point => 1 / 3,
+  };
 }
 
 /// The three solids drawn in a plain axonometric, with the box around them
@@ -268,7 +294,12 @@ class SolidPainter extends CustomPainter {
 
     switch (solid) {
       case Solid.prism:
-        final front = face([at(0, 0, 0), at(1, 0, 0), at(1, 1, 0), at(0, 1, 0)]);
+        final front = face([
+          at(0, 0, 0),
+          at(1, 0, 0),
+          at(1, 1, 0),
+          at(0, 1, 0),
+        ]);
         final top = face([at(0, 1, 0), at(1, 1, 0), at(1, 1, 1), at(0, 1, 1)]);
         final side = face([at(1, 0, 0), at(1, 0, 1), at(1, 1, 1), at(1, 1, 0)]);
         canvas
@@ -281,9 +312,24 @@ class SolidPainter extends CustomPainter {
       case Solid.wedge:
         // Full section at the near end, closing to a horizontal edge at the
         // far end: a half.
-        final front = face([at(0, 0, 0), at(0, 0, 1), at(0, 1, 1), at(0, 1, 0)]);
-        final slope = face([at(0, 1, 0), at(0, 1, 1), at(1, 0, 1), at(1, 0, 0)]);
-        final bottom = face([at(0, 0, 0), at(1, 0, 0), at(1, 0, 1), at(0, 0, 1)]);
+        final front = face([
+          at(0, 0, 0),
+          at(0, 0, 1),
+          at(0, 1, 1),
+          at(0, 1, 0),
+        ]);
+        final slope = face([
+          at(0, 1, 0),
+          at(0, 1, 1),
+          at(1, 0, 1),
+          at(1, 0, 0),
+        ]);
+        final bottom = face([
+          at(0, 0, 0),
+          at(1, 0, 0),
+          at(1, 0, 1),
+          at(0, 0, 1),
+        ]);
         canvas
           ..drawPath(bottom, fill)
           ..drawPath(slope, fill)
@@ -294,7 +340,12 @@ class SolidPainter extends CustomPainter {
       case Solid.point:
         // Full section at the near end, closing to a single point: a third.
         final tip = at(1, 0, 0.5);
-        final front = face([at(0, 0, 0), at(0, 0, 1), at(0, 1, 1), at(0, 1, 0)]);
+        final front = face([
+          at(0, 0, 0),
+          at(0, 0, 1),
+          at(0, 1, 1),
+          at(0, 1, 0),
+        ]);
         canvas
           ..drawPath(front, fill)
           ..drawPath(face([at(0, 1, 0), at(0, 1, 1), tip]), fill)
@@ -305,11 +356,21 @@ class SolidPainter extends CustomPainter {
           ..drawPath(face([at(0, 0, 0), at(0, 0, 1), tip]), ink);
     }
 
-    writeOn(canvas, size, 'the section', Offset(o.dx - 22, o.dy - tall - 20),
-        AppColors.charcoal);
+    writeOn(
+      canvas,
+      size,
+      'the section',
+      Offset(o.dx - 22, o.dy - tall - 20),
+      AppColors.charcoal,
+    );
     if (showBox) {
-      writeOn(canvas, size, 'the box around it',
-          Offset(size.width - 110, size.height - 30), AppColors.ink3);
+      writeOn(
+        canvas,
+        size,
+        'the box around it',
+        Offset(size.width - 110, size.height - 30),
+        AppColors.ink3,
+      );
     }
     viewTag(canvas, size, Looking.elevation, note: 'drawn in the round');
   }
@@ -321,4 +382,3 @@ class SolidPainter extends CustomPainter {
 
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
-
