@@ -281,7 +281,9 @@ class LevelPainter extends CustomPainter {
         canvas,
         size,
         level.marks[i].name,
-        Offset(x - 12, base + 6),
+        // Above the view tag's row: the names run along the bottom and the
+        // right-hand one met the tag.
+        Offset(x - 12, math.min(base + 6, size.height - 32)),
         tone,
       );
 

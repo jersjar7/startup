@@ -50,8 +50,9 @@ class Squeeze {
     return switch (which) {
       Case.recompression => scale * cr * _log10(after / now),
       Case.normally => scale * cc * _log10(after / now),
-      Case.crossing => scale *
-          (cr * _log10(remembered / now) + cc * _log10(after / remembered)),
+      Case.crossing =>
+        scale *
+            (cr * _log10(remembered / now) + cc * _log10(after / remembered)),
     };
   }
 
@@ -76,60 +77,78 @@ class StressLinePainter extends CustomPainter {
     double xOf(double p) => left + p / top * (right - left);
 
     canvas.drawLine(
-        Offset(left, y),
-        Offset(right, y),
-        Paint()
-          ..color = AppColors.ink3
-          ..strokeWidth = 1.4);
-    writeOn(canvas, size, 'effective stress, pounds per square foot',
-        Offset(left - 8, size.height - 16), AppColors.ink3, fontSize: 9.5);
+      Offset(left, y),
+      Offset(right, y),
+      Paint()
+        ..color = AppColors.ink3
+        ..strokeWidth = 1.4,
+    );
+    writeOn(
+      canvas,
+      size,
+      'effective stress, pounds per square foot',
+      Offset(left - 8, size.height - 16),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // What the clay carries now, and where the load takes it.
     final a = xOf(squeeze.now);
     final b = xOf(squeeze.after);
     canvas.drawRect(
-        Rect.fromLTRB(a, y - 9, b, y + 9),
-        Paint()..color = AppColors.ember.withValues(alpha: 0.30));
+      Rect.fromLTRB(a, y - 9, b, y + 9),
+      Paint()..color = AppColors.ember.withValues(alpha: 0.30),
+    );
     for (final (x, label, drop) in [
       (a, 'carries now ${squeeze.now.toStringAsFixed(0)}', -34.0),
       (b, 'after the load ${squeeze.after.toStringAsFixed(0)}', -20.0),
     ]) {
       canvas.drawLine(
-          Offset(x, y - 12),
-          Offset(x, y + 12),
-          Paint()
-            ..color = AppColors.ember
-            ..strokeWidth = 2);
-      writeOn(canvas, size, label, Offset(x - 34, y + drop), AppColors.ember,
-          fontSize: 9.5);
+        Offset(x, y - 12),
+        Offset(x, y + 12),
+        Paint()
+          ..color = AppColors.ember
+          ..strokeWidth = 2,
+      );
+      writeOn(
+        canvas,
+        size,
+        label,
+        Offset(x - 34, y + drop),
+        AppColors.ember,
+        fontSize: 9.5,
+      );
     }
 
     // What it remembers, which is the line the case turns on.
     final pc = xOf(squeeze.remembered);
     for (var t = y - 22.0; t < y + 22; t += 7) {
       canvas.drawLine(
-          Offset(pc, t),
-          Offset(pc, math.min(t + 4, y + 22)),
-          Paint()
-            ..color = AppColors.info
-            ..strokeWidth = 2);
+        Offset(pc, t),
+        Offset(pc, math.min(t + 4, y + 22)),
+        Paint()
+          ..color = AppColors.info
+          ..strokeWidth = 2,
+      );
     }
     writeOn(
-        canvas,
-        size,
-        'remembers ${squeeze.remembered.toStringAsFixed(0)}',
-        Offset(pc - 30, y + 26),
-        AppColors.info,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'remembers ${squeeze.remembered.toStringAsFixed(0)}',
+      Offset(pc - 30, y + 26),
+      AppColors.info,
+      fontSize: 9.5,
+    );
 
     if (answered) {
       writeOn(
-          canvas,
-          size,
-          'settles ${(squeeze.settlement * 12).toStringAsFixed(1)} inches',
-          Offset(left, 10),
-          AppColors.forest,
-          fontSize: 9.5);
+        canvas,
+        size,
+        'settles ${(squeeze.settlement * 12).toStringAsFixed(1)} inches',
+        Offset(left, 10),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
   }
 
@@ -168,21 +187,35 @@ class ElogPPainter extends CustomPainter {
 
     canvas
       ..drawLine(
-          Offset(left, top),
-          Offset(left, bottom),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1.2)
+        Offset(left, top),
+        Offset(left, bottom),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1.2,
+      )
       ..drawLine(
-          Offset(left, bottom),
-          Offset(right, bottom),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1.2);
-    writeOn(canvas, size, 'void ratio', Offset(2, top - 14), AppColors.ink3,
-        fontSize: 9.5);
-    writeOn(canvas, size, 'stress, log scale', Offset(left + 6, bottom + 8),
-        AppColors.ink3, fontSize: 9.5);
+        Offset(left, bottom),
+        Offset(right, bottom),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1.2,
+      );
+    writeOn(
+      canvas,
+      size,
+      'void ratio',
+      Offset(2, top - 14),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'stress, log scale',
+      Offset(left + 6, bottom + 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // The flat recompression line up to what the clay remembers, then the
     // steep virgin line beyond it.
@@ -194,29 +227,56 @@ class ElogPPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.4;
     canvas
-      ..drawLine(Offset(xOf(from), yOf(e0 + squeeze.cr * Squeeze._log10(squeeze.now / from))),
-          Offset(xOf(pc), yOf(eAtPc)), ink)
-      ..drawLine(Offset(xOf(pc), yOf(eAtPc)),
-          Offset(xOf(to), yOf(eAtPc - squeeze.cc * Squeeze._log10(to / pc))), ink);
+      ..drawLine(
+        Offset(
+          xOf(from),
+          yOf(e0 + squeeze.cr * Squeeze._log10(squeeze.now / from)),
+        ),
+        Offset(xOf(pc), yOf(eAtPc)),
+        ink,
+      )
+      ..drawLine(
+        Offset(xOf(pc), yOf(eAtPc)),
+        Offset(xOf(to), yOf(eAtPc - squeeze.cc * Squeeze._log10(to / pc))),
+        ink,
+      );
 
     // Where the memory sits.
     for (var t = top; t < bottom; t += 7) {
       canvas.drawLine(
-          Offset(xOf(pc), t),
-          Offset(xOf(pc), math.min(t + 4, bottom)),
-          Paint()
-            ..color = AppColors.info
-            ..strokeWidth = 1.2);
+        Offset(xOf(pc), t),
+        Offset(xOf(pc), math.min(t + 4, bottom)),
+        Paint()
+          ..color = AppColors.info
+          ..strokeWidth = 1.2,
+      );
     }
-    writeOn(canvas, size, 'what it remembers', Offset(xOf(pc) - 30, top - 14),
-        AppColors.info, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'what it remembers',
+      Offset(xOf(pc) - 30, top - 14),
+      AppColors.info,
+      fontSize: 9.5,
+    );
 
     if (answered) {
-      writeOn(canvas, size, 'shallow: recompression',
-          Offset(left + 4, yOf(e0) - 16), AppColors.forest, fontSize: 9.5);
-      writeOn(canvas, size, 'steep: virgin compression',
-          Offset(xOf(pc) + 6, yOf(eAtPc - squeeze.cc * 0.5) + 4),
-          AppColors.forest, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'shallow: recompression',
+        Offset(left + 4, yOf(e0) - 16),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'steep: virgin compression',
+        Offset(xOf(pc) + 6, yOf(eAtPc - squeeze.cc * 0.5) + 4),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
   }
 
@@ -267,15 +327,21 @@ class DrainagePainter extends CustomPainter {
 
     final clay = Rect.fromLTRB(left, top, right, bottom);
     canvas.drawRect(
-        clay,
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.6);
+      clay,
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.6,
+    );
     hatchIn(canvas, Path()..addRect(clay), step: 8, color: AppColors.ink2);
-    writeOn(canvas, size, 'clay, ${drain.thickness.toStringAsFixed(0)} ft',
-        Offset(left + 8, (top + bottom) / 2 - 6), AppColors.ink3,
-        fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'clay, ${drain.thickness.toStringAsFixed(0)} ft',
+      Offset(left + 8, (top + bottom) / 2 - 6),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     for (final (edge, drains, name) in [
       (top, drain.topDrains, 'above'),
@@ -286,47 +352,67 @@ class DrainagePainter extends CustomPainter {
         for (var x = left + 14; x < right; x += 26) {
           canvas
             ..drawLine(
-                Offset(x, edge + outward * 4),
-                Offset(x, edge + outward * 20),
-                Paint()
-                  ..color = AppColors.info
-                  ..strokeWidth = 2)
+              Offset(x, edge + outward * 4),
+              Offset(x, edge + outward * 20),
+              Paint()
+                ..color = AppColors.info
+                ..strokeWidth = 2,
+            )
             ..drawPath(
-                Path()
-                  ..moveTo(x, edge + outward * 26)
-                  ..lineTo(x - 3.5, edge + outward * 18)
-                  ..lineTo(x + 3.5, edge + outward * 18)
-                  ..close(),
-                Paint()..color = AppColors.info);
+              Path()
+                ..moveTo(x, edge + outward * 26)
+                ..lineTo(x - 3.5, edge + outward * 18)
+                ..lineTo(x + 3.5, edge + outward * 18)
+                ..close(),
+              Paint()..color = AppColors.info,
+            );
         }
-        writeOn(canvas, size, 'sand $name: water gets out',
-            Offset(right + 6, edge + outward * 14 - 6), AppColors.info,
-            fontSize: 9.5);
+        writeOn(
+          canvas,
+          size,
+          'sand $name: water gets out',
+          Offset(right + 6, edge + outward * 14 - 6),
+          AppColors.info,
+          fontSize: 9.5,
+        );
       } else {
         final cap = Rect.fromLTRB(
-            left, edge == top ? edge - 12 : edge, right,
-            edge == top ? edge : edge + 12);
+          left,
+          edge == top ? edge - 12 : edge,
+          right,
+          edge == top ? edge : edge + 12,
+        );
         canvas.drawRect(
-            cap,
-            Paint()
-              ..color = AppColors.charcoal
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.4);
+          cap,
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.4,
+        );
         hatchIn(canvas, Path()..addRect(cap), step: 5, slope: -1);
-        writeOn(canvas, size, 'rock $name: nothing gets out',
-            Offset(right + 6, (cap.top + cap.bottom) / 2 - 6),
-            AppColors.charcoal, fontSize: 9.5);
+        writeOn(
+          canvas,
+          size,
+          'rock $name: nothing gets out',
+          Offset(right + 6, (cap.top + cap.bottom) / 2 - 6),
+          AppColors.charcoal,
+          fontSize: 9.5,
+        );
       }
     }
 
     if (answered) {
       writeOn(
-          canvas,
-          size,
-          'drainage path ${drain.path.toStringAsFixed(0)} ft',
-          Offset(left, bottom + 26),
-          AppColors.forest,
-          fontSize: 9.5);
+        canvas,
+        size,
+        'drainage path ${drain.path.toStringAsFixed(0)} ft',
+        // Along the top, the only band this figure leaves clear: the foot
+        // carries the view tag and the rock note sits beside the bottom cap,
+        // and the path note ran into both.
+        Offset(left, 6),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
 
     viewTag(canvas, size, Looking.section, note: 'the layer');

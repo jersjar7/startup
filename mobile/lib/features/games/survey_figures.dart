@@ -145,7 +145,9 @@ class RosePainter extends CustomPainter {
     // Each arm runs as far as the panel allows, so the letter on the end of
     // it is always inside the drawing.
     final up = math.min(reach + 26, o.dy - 16);
-    final down = math.min(reach + 26, size.height - o.dy - 30);
+    // 38, not 30: at 30 the S ended level with the view tag's row and the
+    // tag's patch clipped it.
+    final down = math.min(reach + 26, size.height - o.dy - 38);
     final right = math.min(reach + 26, size.width - o.dx - 20);
     final left = math.min(reach + 26, o.dx - 20);
     dashed(o, o + Offset(0, -up));

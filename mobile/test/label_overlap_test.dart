@@ -33,10 +33,11 @@ import 'support/fonts.dart';
 ///
 /// So the figures record where each label landed and this looks for pairs
 /// that touch. Reading 372 sheets by eye cannot be done twice; this can.
-// 354 pairs on 98 of the 372 figures when this was written (2026-10-04).
-// Skipped until those are fixed chapter by chapter, so the suite stays
-// honest about what is green; drop the skip to see the current list.
-const _knownBad = true;
+// It reported 508 pairs when it was first written, which turned out to be
+// mostly the measuring: labels in different panels, and labels drawn through
+// a canvas rotation, both recorded rects that looked like collisions and were
+// nowhere near each other. With those fixed the real count was 79, and all of
+// them are gone (2026-10-04). It guards for real now: no skip.
 
 void main() {
   setUpAll(loadBrandFonts);
@@ -109,6 +110,6 @@ void main() {
         }
       }
       expect(bad, isEmpty, reason: bad.join('\n'));
-    }, skip: _knownBad);
+    });
   }
 }

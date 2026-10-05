@@ -285,20 +285,20 @@ class AlignPainter extends CustomPainter {
         ..drawLine(end, end - toCentre * 8 + side, tip)
         ..drawLine(end, end - toCentre * 8 - side, tip);
     }
-    // The caption at the foot can run to two lines, so this sits above
-    // whatever height that one actually took rather than a fixed 30 up.
-    final foot = writeOn(
-      canvas,
-      size,
-      label ?? 'R ${_num(bend.radius)} ft',
-      Offset(10, size.height - 16),
-      AppColors.ink3,
-    );
+    // Both notes are measured and then stacked up from the view tag's row,
+    // so the caption's last line clears the tag and the centre note clears
+    // the caption however many lines it takes.
+    final text = label ?? 'R ${_num(bend.radius)} ft';
+    final box = labelSize(text, maxWidth: size.width - 20);
+    final footTop = size.height - 24 - box.height;
+    writeOn(canvas, size, text, Offset(10, footTop), AppColors.ink3);
+    const centreNote = 'to the center, off the sheet';
+    final centreBox = labelSize(centreNote);
     writeOn(
       canvas,
       size,
-      'to the center, off the sheet',
-      Offset(size.width / 2 - 78, size.height - 20 - foot.height),
+      centreNote,
+      Offset(size.width / 2 - 78, footTop - 5 - centreBox.height),
       AppColors.ink3,
     );
 

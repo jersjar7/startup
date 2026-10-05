@@ -76,11 +76,7 @@ class Gauge {
 
 /// The meter in section, with the stations numbered along the center line.
 class GaugePainter extends CustomPainter {
-  const GaugePainter({
-    required this.gauge,
-    this.picked,
-    this.locked = false,
-  });
+  const GaugePainter({required this.gauge, this.picked, this.locked = false});
 
   final Gauge gauge;
   final int? picked;
@@ -124,42 +120,53 @@ class GaugePainter extends CustomPainter {
     // The water, as the whole flow path filled in.
     final water = Path.from(side(gauge.wall, -1));
     for (var i = gauge.wall.length - 1; i >= 0; i--) {
-      water.lineTo(_x(size, gauge.wall[i].$1),
-          middle + _half(size, gauge, gauge.wall[i].$2));
+      water.lineTo(
+        _x(size, gauge.wall[i].$1),
+        middle + _half(size, gauge, gauge.wall[i].$2),
+      );
     }
     canvas.drawPath(
-        water..close(), Paint()..color = AppColors.info.withValues(alpha: 0.2));
+      water..close(),
+      Paint()..color = AppColors.info.withValues(alpha: 0.2),
+    );
 
     if (gauge.jet != null) {
       final jet = Path.from(side(gauge.jet!, -1));
       for (var i = gauge.jet!.length - 1; i >= 0; i--) {
-        jet.lineTo(_x(size, gauge.jet![i].$1),
-            middle + _half(size, gauge, gauge.jet![i].$2));
+        jet.lineTo(
+          _x(size, gauge.jet![i].$1),
+          middle + _half(size, gauge, gauge.jet![i].$2),
+        );
       }
       canvas.drawPath(
-          jet..close(), Paint()..color = AppColors.info.withValues(alpha: 0.3));
+        jet..close(),
+        Paint()..color = AppColors.info.withValues(alpha: 0.3),
+      );
     }
 
     // The pipe wall itself, as a band of steel rather than a bare line: the
     // flow path offset outward by a wall thickness, hatched between the two.
     final outer = [
-      for (final w in gauge.wall) (w.$1, w.$2 + 2 * 0.09 * gauge.widest)
+      for (final w in gauge.wall) (w.$1, w.$2 + 2 * 0.09 * gauge.widest),
     ];
     for (final sign in [-1, 1]) {
       final band = Path.from(side(outer, sign));
       for (var i = gauge.wall.length - 1; i >= 0; i--) {
-        band.lineTo(_x(size, gauge.wall[i].$1),
-            middle + sign * _half(size, gauge, gauge.wall[i].$2));
+        band.lineTo(
+          _x(size, gauge.wall[i].$1),
+          middle + sign * _half(size, gauge, gauge.wall[i].$2),
+        );
       }
       band.close();
       canvas.drawPath(band, Paint()..color = AppColors.cream);
       hatchIn(canvas, band, step: 6);
       canvas.drawPath(
-          band,
-          Paint()
-            ..color = AppColors.charcoal
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.4);
+        band,
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.4,
+      );
     }
 
     // The plate, drawn in from both walls to the edge of the hole.
@@ -169,16 +176,23 @@ class GaugePainter extends CustomPainter {
       final outerHalf = _half(size, gauge, gauge.widest);
       for (final sign in [-1, 1]) {
         final leaf = Path()
-          ..addRect(Rect.fromLTRB(x - 2.5, middle + sign * hole, x + 2.5,
-              middle + sign * outerHalf));
+          ..addRect(
+            Rect.fromLTRB(
+              x - 2.5,
+              middle + sign * hole,
+              x + 2.5,
+              middle + sign * outerHalf,
+            ),
+          );
         canvas.drawPath(leaf, Paint()..color = AppColors.cream);
         hatchIn(canvas, leaf, step: 4);
         canvas.drawPath(
-            leaf,
-            Paint()
-              ..color = AppColors.charcoal
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.4);
+          leaf,
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.4,
+        );
       }
     }
 
@@ -203,8 +217,13 @@ class GaugePainter extends CustomPainter {
         ..drawLine(Offset(x, top), Offset(x, top - 16), stand)
         ..drawCircle(Offset(x, top - 20), 4, stand);
     }
-    writeOn(canvas, size, 'the two tappings', Offset(_x(size, 0.5) - 42, 6),
-        AppColors.ember);
+    writeOn(
+      canvas,
+      size,
+      'the two tappings',
+      Offset(_x(size, 0.5) - 42, 6),
+      AppColors.ember,
+    );
     viewTag(canvas, size, Looking.section);
 
     for (var i = 0; i < gauge.stations.length; i++) {
@@ -222,20 +241,24 @@ class GaugePainter extends CustomPainter {
       canvas
         ..drawCircle(spot, 11, Paint()..color = AppColors.cream)
         ..drawCircle(
-            spot,
-            10,
-            Paint()
-              ..color = tone
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2.2);
+          spot,
+          10,
+          Paint()
+            ..color = tone
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2.2,
+        );
       writeOn(canvas, size, '${i + 1}', spot + const Offset(-3, -6), tone);
       // Two rows of bore labels, so neighboring stations never write over
       // each other.
-      writeOn(          canvas,
-          size,
-          '${_num(gauge.stations[i].bore ?? gauge.boreAt(gauge.stations[i].at))} mm',
-          Offset(spot.dx - 20, size.height - (i.isEven ? 27 : 15)),
-          AppColors.ink3);
+      writeOn(
+        canvas,
+        size,
+        '${_num(gauge.stations[i].bore ?? gauge.boreAt(gauge.stations[i].at))} mm',
+        // Both rows above the view tag's: the lower one used to sit in it.
+        Offset(spot.dx - 20, size.height - (i.isEven ? 43 : 31)),
+        AppColors.ink3,
+      );
     }
   }
 
@@ -247,4 +270,3 @@ class GaugePainter extends CustomPainter {
 /// Bores are written to the nearest millimeter: a tenth of a millimeter on
 /// a drawing of a water main is noise.
 String _num(double v) => v.round().toString();
-

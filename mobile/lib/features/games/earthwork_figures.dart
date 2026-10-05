@@ -183,7 +183,15 @@ class HaulPainter extends CustomPainter {
         canvas.drawCircle(Offset(x, top), 3, Paint()..color = tone);
       }
       writeOn(canvas, size, _num(s.area), Offset(x - 12, top - 15), tone);
-      writeOn(canvas, size, s.name, Offset(x - 14, base + 6), AppColors.ink3);
+      // Above the view tag's row: the stationing runs along the bottom and
+      // the right-hand one ran straight into the tag.
+      writeOn(
+        canvas,
+        size,
+        s.name,
+        Offset(x - 14, math.min(base + 6, size.height - 32)),
+        AppColors.ink3,
+      );
     }
 
     // Both notes live along the top, which is the only clear band: the
@@ -374,7 +382,9 @@ class SolidPainter extends CustomPainter {
         canvas,
         size,
         'the box around it',
-        Offset(size.width - 110, size.height - 30),
+        // Well clear of the view tag, which on this figure carries a note
+        // and runs most of the way across the foot.
+        Offset(size.width - 110, size.height - 52),
         AppColors.ink3,
       );
     }
