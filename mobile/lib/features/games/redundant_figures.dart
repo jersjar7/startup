@@ -282,7 +282,7 @@ class ReleasePainter extends CustomPainter {
       canvas,
       size,
       label,
-      at + Offset(-box.width - 12, 14),
+      Offset(at.dx - box.width - 12, math.min(at.dy + 14, size.height - 32)),
       AppColors.forest,
       fontSize: 9.5,
     );

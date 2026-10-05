@@ -425,7 +425,9 @@ class AxisPainter extends CustomPainter {
       strong
           ? 'r = ${_num(post.rx)} in, free over ${_num(post.strongLength)} ft'
           : 'r = ${_num(post.ry)} in, free over ${_num(post.weakLength)} ft',
-      Offset(box.left + 8, box.bottom - 6),
+      // Never into the view tag's row at the foot: on a short panel the box
+      // reaches it and the tag's patch takes the radius off the front.
+      Offset(box.left + 8, math.min(box.bottom - 6, size.height - 32)),
       AppColors.ink3,
       fontSize: 9.5,
     );

@@ -317,7 +317,8 @@ class TributaryPainter extends CustomPainter {
       canvas,
       size,
       '${_num(t.area)} sq ft, K = ${t.kll}',
-      Offset(box.left + 8, box.bottom - 10),
+      // Clear of the view tag's row at the foot of the panel.
+      Offset(box.left + 8, math.min(box.bottom - 10, size.height - 32)),
       AppColors.ink3,
       fontSize: 9.5,
     );
