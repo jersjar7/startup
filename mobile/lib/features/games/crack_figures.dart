@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';
 
 /// Where the crack is, which is the only thing that decides both numbers the
@@ -14,10 +13,10 @@ extension FlawWords on Flaw {
   bool get isEdge => this != Flaw.internal;
 
   String get plain => switch (this) {
-        Flaw.edgeLeft => 'an edge crack',
-        Flaw.edgeRight => 'an edge crack on the far side',
-        Flaw.internal => 'an internal crack',
-      };
+    Flaw.edgeLeft => 'an edge crack',
+    Flaw.edgeRight => 'an edge crack on the far side',
+    Flaw.internal => 'an internal crack',
+  };
 }
 
 /// A cracked plate under tension.
@@ -93,11 +92,11 @@ class PlatePainter extends CustomPainter {
 
   /// The plate itself, inside the room the arrows and labels need.
   static Rect body(Size size) => Rect.fromLTRB(
-        18,
-        size.height * 0.24,
-        size.width - 18,
-        size.height * 0.78,
-      );
+    18,
+    size.height * 0.24,
+    size.width - 18,
+    size.height * 0.78,
+  );
 
   /// Where the crack is drawn, as a line across the plate.
   static (Offset, Offset) crackLine(Plate plate, Size size) {
@@ -111,9 +110,9 @@ class PlatePainter extends CustomPainter {
       Flaw.edgeLeft => (Offset(box.left, y), Offset(box.left + drawn, y)),
       Flaw.edgeRight => (Offset(box.right - drawn, y), Offset(box.right, y)),
       Flaw.internal => (
-          Offset(box.center.dx - drawn / 2, y),
-          Offset(box.center.dx + drawn / 2, y)
-        ),
+        Offset(box.center.dx - drawn / 2, y),
+        Offset(box.center.dx + drawn / 2, y),
+      ),
     };
   }
 
@@ -141,8 +140,13 @@ class PlatePainter extends CustomPainter {
       }
     }
     if (showStress) {
-      _write(canvas, '${plate.stress.round()} MPa', Offset(box.right - 58, 2),
-          AppColors.ink3, size);
+      _write(
+        canvas,
+        '${plate.stress.round()} MPa',
+        Offset(box.right - 58, 2),
+        AppColors.ink3,
+        size,
+      );
     }
 
     final (from, to) = crackLine(plate, size);
@@ -164,19 +168,28 @@ class PlatePainter extends CustomPainter {
           : '${_mm(plate.crackMm)} mm long';
       final mid = Offset((from.dx + to.dx) / 2, from.dy);
       _span(canvas, from + const Offset(0, 14), to + const Offset(0, 14));
-      _write(canvas, label, Offset(mid.dx - 34, mid.dy + 18), AppColors.error,
-          size);
+      _write(
+        canvas,
+        label,
+        Offset(mid.dx - 34, mid.dy + 18),
+        AppColors.error,
+        size,
+      );
     }
 
     if (showMaterial) {
       _write(
         canvas,
         '${plate.material}  K = ${_mm(plate.toughness)}',
-        Offset(box.left, size.height - 14),
+        // Above the view tag's row, not level with it: on a half width
+        // panel the tag runs most of the way across and buried this.
+        Offset(box.left, size.height - 32),
         AppColors.ink3,
         size,
       );
     }
+
+    viewTag(canvas, size, Looking.elevation, note: 'plate seen flat');
   }
 
   static String _mm(double v) =>
@@ -203,24 +216,15 @@ class PlatePainter extends CustomPainter {
       ..drawLine(b + const Offset(0, -3), b + const Offset(0, 3), paint);
   }
 
-  /// A label, kept inside the panel: a narrow panel used to cut the number
-  /// off the front of "10 mm deep" and leave "mm deep".
-  void _write(
-      Canvas canvas, String text, Offset at, Color color, Size size) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    var x = at.dx;
-    if (x + painter.width > size.width - 3) x = size.width - 3 - painter.width;
-    if (x < 3) x = 3;
-    at = Offset(x, at.dy);
-    final patch = Rect.fromLTWH(
-        at.dx - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-    painter.paint(canvas, at);
-    viewTag(canvas, size, Looking.elevation, note: 'plate seen flat');
+  /// A label, through the one helper every other figure writes with, so it
+  /// gets the panel's own patch behind it and the overlap test can see it.
+  /// It used to lay its own out and clip a narrow panel, which cut the number
+  /// off the front of "10 mm deep" and left "mm deep"; the helper wraps.
+  ///
+  /// It also used to draw the view tag, so the tag was redrawn once per label
+  /// and landed on itself three times over.
+  void _write(Canvas canvas, String text, Offset at, Color color, Size size) {
+    writeOn(canvas, size, text, at, color);
   }
 
   @override
