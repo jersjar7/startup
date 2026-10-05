@@ -7,6 +7,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
 import '../games/chapter_map_screen.dart';
+import '../onboarding/onboarding_screen.dart';
 import '../games/game_catalog.dart';
 import '../games/game_progress.dart';
 import '../shared/widgets/kit.dart';
@@ -44,7 +45,23 @@ class _ProfileTabState extends State<ProfileTab> {
     auth.refreshMe(); // freshen XP / days / badges
     final repo = ContentRepository(auth.api);
     _mastery = repo.mastery();
+    // Anyone who signed up before the tour existed, or who tapped past it,
+    // has never been told how the phone and the website relate. Show it
+    // once, here, where they land (owner's call, 2026-10-04). It is also in
+    // the account sheet for good.
+    if (!auth.onboardingSeen) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _openTour();
+      });
+    }
   }
+
+  Future<void> _openTour() => Navigator.of(context).push(
+    MaterialPageRoute<void>(
+      builder: (_) => const OnboardingScreen(replay: true),
+      fullscreenDialog: true,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -155,8 +172,11 @@ class _ProfileTabState extends State<ProfileTab> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
       ),
-      builder: (_) =>
-          AccountSheet(auth: auth, onDelete: () => _confirmDelete(auth)),
+      builder: (_) => AccountSheet(
+        auth: auth,
+        onDelete: () => _confirmDelete(auth),
+        onTour: _openTour,
+      ),
     );
   }
 
@@ -649,16 +669,28 @@ class _ContinueCard extends StatelessWidget {
 /// Name, email, three numbers, and the account actions that used to be
 /// hairline rows on the tab.
 class AccountSheet extends StatelessWidget {
-  const AccountSheet({super.key, required this.auth, required this.onDelete});
+  const AccountSheet({
+    super.key,
+    required this.auth,
+    required this.onDelete,
+    required this.onTour,
+  });
 
   final AuthController auth;
   final VoidCallback onDelete;
 
+  /// Replays the tour, so the two halves can be explained again at any time.
+  final VoidCallback onTour;
+
   @override
   Widget build(BuildContext context) {
     final user = auth.user ?? const {};
-    final name = (user['displayName'] ?? user['email'] ?? '') as String;
+    // Without a display name the email IS the name, so it is shown once as
+    // the name rather than twice (owner's catch, 2026-10-04).
+    final shown = (user['displayName'] ?? '') as String;
     final email = (user['email'] ?? '') as String;
+    final name = shown.isNotEmpty ? shown : email;
+    final subtitle = shown.isNotEmpty ? email : '';
     final xp = (user['totalXp'] ?? 0) as int;
     final badges = (user['badges'] as List?)?.length ?? 0;
     final held = conceptsHeld(GameProgress.instance);
@@ -718,9 +750,9 @@ class AccountSheet extends StatelessWidget {
                           tracking: -0.03,
                         ),
                       ),
-                      if (email.isNotEmpty)
+                      if (subtitle.isNotEmpty)
                         Text(
-                          email,
+                          subtitle,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: AppTheme.mono(size: 12, color: AppColors.ink2),
@@ -749,13 +781,33 @@ class AccountSheet extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            SheetButton(
-              label: 'Sign out',
-              filled: false,
-              onTap: () {
-                Navigator.of(context).pop();
-                auth.signOut();
-              },
+            // Three identical bars gave three unequal things equal weight.
+            // One action, then the two that are read rather than done
+            // (owner's call, 2026-10-04).
+            Row(
+              children: [
+                Expanded(
+                  child: SheetButton(
+                    label: 'How it works',
+                    filled: false,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      onTour();
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: SheetButton(
+                    label: 'Sign out',
+                    filled: false,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      auth.signOut();
+                    },
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 18),
             Center(

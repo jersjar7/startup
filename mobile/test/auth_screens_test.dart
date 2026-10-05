@@ -146,7 +146,7 @@ void main() {
     _phone(tester);
     await tester.pumpWidget(_app(const OnboardingScreen()));
     await _settle(tester);
-    expect(find.text('Short games.\nOne concept each.'), findsOneWidget);
+    expect(find.text('One concept.\nA minute each.'), findsOneWidget);
     expect(find.text('WHICH WAY IS IT BEING WORKED'), findsOneWidget);
     await _golden(tester, 'onboarding-1-games');
 
@@ -166,14 +166,15 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Back'));
     await tester.pumpAndSettle();
-    expect(find.text('Short games.\nOne concept each.'), findsOneWidget);
+    expect(find.text('One concept.\nA minute each.'), findsOneWidget);
 
-    // Skip is a way to sign-up, not to the last page. Remembering "seen"
-    // goes through the keychain plugin, absent here; the hand-off must
-    // still happen.
+    // The tour is the root on a first run now, so Skip hands off to the
+    // welcome screen rather than jumping a student into sign-up.
+    // Remembering "seen" goes through the keychain plugin, absent here; the
+    // hand-off must still happen.
     await tester.tap(find.text('Skip'));
     await _settle(tester);
-    expect(find.text('at /create'), findsOneWidget);
+    expect(find.text('at /welcome'), findsOneWidget);
   });
 
   testWidgets('create account: email, then password on spring', (tester) async {

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
-import '../auth/auth_controller.dart';
 import '../shared/widgets/kit.dart';
 import '../study/chapter_marks.dart';
 
@@ -20,7 +18,6 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final seen = context.select<AuthController, bool>((a) => a.onboardingSeen);
     return Scaffold(
       backgroundColor: AppColors.fog,
       body: SafeArea(
@@ -42,7 +39,9 @@ class WelcomeScreen extends StatelessWidget {
               const SizedBox(height: 22),
               PillButton(
                 label: "Let's go",
-                onTap: () => context.push(seen ? '/create' : '/onboarding'),
+                // The tour runs before this screen now, so there is only one
+                // road from here.
+                onTap: () => context.push('/create'),
               ),
               const SizedBox(height: 14),
               Center(

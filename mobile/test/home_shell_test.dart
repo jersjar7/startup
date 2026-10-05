@@ -23,7 +23,10 @@ void main() {
 
     final auth = AuthController(api: ApiClient(), storage: AppStorage())
       ..user = {'firstName': 'Jerson', 'email': 'j@example.com'}
-      ..status = AuthStatus.authenticated;
+      ..status = AuthStatus.authenticated
+      // Already toured: these tests are about the screen, not the tour, which
+      // otherwise opens over it on first launch.
+      ..onboardingSeen = true;
     await tester.pumpWidget(
       ChangeNotifierProvider<AuthController>.value(
         value: auth,

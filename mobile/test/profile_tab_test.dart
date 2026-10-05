@@ -21,7 +21,10 @@ import 'support/fonts.dart';
 Widget _app(Map<String, dynamic> user) {
   final auth = AuthController(api: ApiClient(), storage: AppStorage())
     ..user = user
-    ..status = AuthStatus.authenticated;
+    ..status = AuthStatus.authenticated
+    // Already toured: these tests are about the screen, not the tour, which
+    // otherwise opens over it on first launch.
+    ..onboardingSeen = true;
   return ChangeNotifierProvider<AuthController>.value(
     value: auth,
     child: MaterialApp(

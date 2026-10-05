@@ -23,7 +23,14 @@ import '../shared/widgets/legal_line.dart';
 /// percent (service/mastery.js, ADR 0012). The pages that were here before
 /// showed a paper hand-off the app does not have.
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+  const OnboardingScreen({super.key, this.replay = false});
+
+  /// Replayed by someone who already has an account, from the account sheet
+  /// or on their first launch after the tour existed (owner's call,
+  /// 2026-10-04: a student who signed up before this was written has never
+  /// been told how the two halves relate). It ends by closing rather than
+  /// walking on to sign-up.
+  final bool replay;
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -53,11 +60,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     try {
       await context.read<AuthController>().completeOnboarding();
     } catch (_) {}
-    if (mounted) context.push(route);
+    if (!mounted) return;
+    if (widget.replay) {
+      _leave();
+      return;
+    }
+    context.push(route);
   }
 
-  /// Back from the first page returns to the root, sliding back.
-  void _leave() => context.canPop() ? context.pop() : context.go('/welcome');
+  /// Back from the first page returns wherever it was opened from: the
+  /// account sheet for a replay, the welcome screen otherwise.
+  void _leave() => context.canPop()
+      ? context.pop()
+      : context.go(widget.replay ? '/home' : '/welcome');
 
   @override
   Widget build(BuildContext context) {
@@ -72,15 +87,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             _Games(
               onBack: _leave,
-              onSkip: () => _go('/create'),
+              onSkip: () => _go('/welcome'),
               onNext: () => _to(1),
             ),
             _Together(
               onBack: () => _to(0),
-              onSkip: () => _go('/create'),
+              onSkip: () => _go('/welcome'),
               onNext: () => _to(2),
             ),
             _Honest(
+              replay: widget.replay,
               onBack: () => _to(1),
               onCreate: () => _go('/create'),
               onSignIn: () => _go('/signin'),
@@ -143,10 +159,10 @@ class _Games extends StatelessWidget {
           children: [
             _StepRow(at: 1, onBack: onBack, onSkip: onSkip),
             const SizedBox(height: 30),
-            Text('Short games.\nOne concept each.', style: AppTheme.display()),
+            Text('One concept.\nA minute each.', style: AppTheme.display()),
             const SizedBox(height: 12),
             Text(
-              'Every lesson on the phone is a few quick rounds: read the figure, make the call. Fifteen chapters, and nothing locks.',
+              'Every lesson here is a few quick rounds: read the figure, make the call. Fifteen chapters, and nothing locks.',
               style: AppTheme.body(
                 size: 16,
                 height: 1.45,
@@ -333,9 +349,9 @@ class _Together extends StatelessWidget {
               eyebrow: 'This phone',
               title: 'Keep it',
               lines: [
-                '375 concept games, a minute each',
+                '375 concepts, a minute each',
                 'Any chapter, any time',
-                'Counts toward the same mastery',
+                'Warms up the work you do there',
               ],
             ),
             const SizedBox(height: 22),
@@ -419,11 +435,14 @@ class _PlaceTile extends StatelessWidget {
 
 class _Honest extends StatelessWidget {
   const _Honest({
+    required this.replay,
     required this.onBack,
     required this.onCreate,
     required this.onSignIn,
   });
 
+  /// A reader who already has an account just closes the tour.
+  final bool replay;
   final VoidCallback onBack;
   final VoidCallback onCreate;
   final VoidCallback onSignIn;
@@ -441,7 +460,7 @@ class _Honest extends StatelessWidget {
             Text('Honest by\ndesign.', style: AppTheme.display()),
             const SizedBox(height: 12),
             Text(
-              'A game proves you know the concept, not that you can solve the full problem. So phone play counts toward mastery, but only so far. The rest is earned at a desk.',
+              'Knowing a concept is not the same as solving with it. So what you do here does not count toward your mastery. It is the warm-up; the mastery is earned at a desk.',
               style: AppTheme.body(size: 16, height: 1.45),
             ),
             const Spacer(),
@@ -455,7 +474,7 @@ class _Honest extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'WHAT THE PHONE CAN EARN',
+                    'WHERE MASTERY COMES FROM',
                     style: AppTheme.eyebrow(size: 11, color: AppColors.ink2),
                   ),
                   const SizedBox(height: 14),
@@ -464,9 +483,9 @@ class _Honest extends StatelessWidget {
                     textBaseline: TextBaseline.alphabetic,
                     children: [
                       Text(
-                        '60',
+                        '100',
                         style: AppTheme.display(
-                          size: 88,
+                          size: 76,
                           height: 0.82,
                           tracking: -0.06,
                         ),
@@ -474,7 +493,7 @@ class _Honest extends StatelessWidget {
                       Text(
                         '%',
                         style: AppTheme.display(
-                          size: 34,
+                          size: 30,
                           weight: FontWeight.w700,
                           height: 1,
                         ),
@@ -482,7 +501,7 @@ class _Honest extends StatelessWidget {
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          'of a chapter\'s mastery',
+                          'the problems you work\non the website',
                           style: AppTheme.body(
                             size: 14,
                             weight: FontWeight.w600,
@@ -493,10 +512,10 @@ class _Honest extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  const Pips(count: 10, filled: 6),
+                  const Pips(count: 10, filled: 10),
                   const SizedBox(height: 10),
                   Text(
-                    'The other 40 comes from problems worked on the website.',
+                    'This phone moves none of it, and says so everywhere it shows the number.',
                     style: AppTheme.body(
                       size: 13,
                       color: AppColors.ink2,
@@ -507,21 +526,25 @@ class _Honest extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 22),
-            PillButton(label: 'Create my account', onTap: onCreate),
+            PillButton(
+              label: replay ? 'Got it' : 'Create my account',
+              onTap: onCreate,
+            ),
             const SizedBox(height: 6),
-            Center(
-              child: TextButton(
-                onPressed: onSignIn,
-                child: Text(
-                  'I already have an account',
-                  style: AppTheme.body(
-                    size: 15,
-                    weight: FontWeight.w500,
-                    color: AppColors.charcoal,
+            if (!replay)
+              Center(
+                child: TextButton(
+                  onPressed: onSignIn,
+                  child: Text(
+                    'I already have an account',
+                    style: AppTheme.body(
+                      size: 15,
+                      weight: FontWeight.w500,
+                      color: AppColors.charcoal,
+                    ),
                   ),
                 ),
               ),
-            ),
             const LegalLine(),
           ],
         ),

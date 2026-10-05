@@ -442,10 +442,12 @@ GoRouter buildRouter(AuthController auth) {
         return null;
       }
 
-      // Signed out: the welcome screen is the root, every time. It decides
-      // between the tour and sign-up itself. Never home.
+      // Signed out. The tour is the root on a first run, so nobody reaches
+      // sign-up without being told how the phone and the website relate
+      // (owner's call, 2026-10-04). After that the welcome screen is the
+      // root, as it always was. Never home.
       if (loc == '/splash' || loc == '/home' || loc == '/verify') {
-        return '/welcome';
+        return auth.onboardingSeen ? '/welcome' : '/onboarding';
       }
       return null;
     },
