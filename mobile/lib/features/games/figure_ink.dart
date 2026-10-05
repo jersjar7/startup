@@ -207,7 +207,7 @@ Size writeOn(
     painter.height + 2,
   );
   canvas.drawRect(patch, Paint()..color = panelBase);
-  _recordLabel(patch);
+  _recordLabel(canvas, patch, text);
   painter.paint(canvas, place);
   return painter.size;
 }
@@ -242,7 +242,11 @@ const panelBase = Color(0xFFFDFCF8);
 
 void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
   if (!_wantsPatch(text)) {
-    _recordLabel(Rect.fromLTWH(at.dx, at.dy, text.width, text.height));
+    _recordLabel(
+      canvas,
+      Rect.fromLTWH(at.dx, at.dy, text.width, text.height),
+      text.plainText,
+    );
     text.paint(canvas, at);
     return;
   }
@@ -251,7 +255,7 @@ void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
     const Radius.circular(3),
   );
   canvas.drawRRect(box, Paint()..color = patch ?? panelBase);
-  _recordLabel(box.outerRect);
+  _recordLabel(canvas, box.outerRect, text.plainText);
   text.paint(canvas, at);
 }
 
@@ -270,4 +274,21 @@ bool _wantsPatch(TextPainter text) {
 /// asks it to. See `test/label_overlap_test.dart`.
 List<Rect>? debugLabelRects;
 
-void _recordLabel(Rect r) => debugLabelRects?.add(r);
+/// What each of those labels said, filled in step with [debugLabelRects] when
+/// it is listening. Naming the two labels is the difference between knowing
+/// a figure is wrong and knowing which words to move.
+List<String>? debugLabelTexts;
+
+/// Recorded in the ROOT's coordinates, not the panel's.
+///
+/// A figure built of two panels draws each one through its own canvas
+/// translation, so two labels in the same place on two different panels have
+/// the same local rect and look like a collision when nothing is wrong. Put
+/// every rect through the canvas transform and a pair only reads as an
+/// overlap when the ink really lands on the ink.
+void _recordLabel(Canvas canvas, Rect r, String text) {
+  if (debugLabelRects == null && debugLabelTexts == null) return;
+  final m = Matrix4.fromFloat64List(canvas.getTransform());
+  debugLabelRects?.add(MatrixUtils.transformRect(m, r));
+  debugLabelTexts?.add(text);
+}
