@@ -812,10 +812,11 @@ class _MortarPainter extends CustomPainter {
       Offset(size.width - 20 - tail.width, top - tail.height - 2),
     );
 
-    // The phrase, with the letters that name the mortars picked out.
-    var x = 20.0;
-    final y = size.height * 0.90;
-    for (final (piece, ink) in <(String, Color)>[
+    // The phrase, with the letters that name the mortars picked out. ONE
+    // label with coloured spans, not eight labels in a row: eight made the
+    // kerning the sum of eight separate layouts, and every pair of adjacent
+    // letters read as two labels sitting on each other.
+    const pieces = <(String, Color)>[
       ('M', AppColors.ember),
       ('a', AppColors.ink3),
       ('S', AppColors.ember),
@@ -824,11 +825,20 @@ class _MortarPainter extends CustomPainter {
       (' w', AppColors.ink3),
       ('O', AppColors.ember),
       ('rK', AppColors.ink3),
-    ]) {
-      final t = _label(piece, size: 13, color: ink);
-      inkLabel(canvas, t, Offset(x, y));
-      x += t.width;
-    }
+    ];
+    final phrase = TextPainter(
+      text: TextSpan(
+        children: [
+          for (final (piece, ink) in pieces)
+            TextSpan(
+              text: piece,
+              style: AppTheme.mono(size: 13, color: ink),
+            ),
+        ],
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    inkLabel(canvas, phrase, Offset(20, size.height * 0.90));
   }
 
   @override

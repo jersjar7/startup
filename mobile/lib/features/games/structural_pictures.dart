@@ -668,6 +668,7 @@ TextPainter _text(
   double size = 11,
   Color color = AppColors.ink2,
   bool bold = false,
+  TextAlign align = TextAlign.start,
 }) {
   return TextPainter(
     text: TextSpan(
@@ -678,6 +679,7 @@ TextPainter _text(
         weight: bold ? FontWeight.w700 : FontWeight.w500,
       ),
     ),
+    textAlign: align,
     textDirection: TextDirection.ltr,
   )..layout();
 }
@@ -1072,16 +1074,20 @@ class _AgreePainter extends CustomPainter {
         inkLabel(canvas, t, Offset(mid - t.width / 2, y + 12));
       }
 
+      // Two lines, not one: in one line 'the term TAKES AWAY' is wider than
+      // its own half of the panel, so it reached back over the divider and
+      // printed on the verdict of the panel beside it.
       final verdict = _text(
-        agree ? 'the term ADDS' : 'the term TAKES AWAY',
+        agree ? 'the term\nADDS' : 'the term\nTAKES AWAY',
         size: 11,
         color: agree ? AppColors.forest : AppColors.error,
         bold: true,
+        align: TextAlign.center,
       );
       inkLabel(
         canvas,
         verdict,
-        Offset(mid - verdict.width / 2, size.height * 0.84),
+        Offset(mid - verdict.width / 2, size.height * 0.80),
       );
     }
 

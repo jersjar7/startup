@@ -190,11 +190,17 @@ class StoppingPainter extends CustomPainter {
       AppColors.info,
       fontSize: 9.5,
     );
+    // Right-aligned on the end of the braking stretch: started at its left
+    // edge it ran back into the thinking label whenever reaction was short.
+    final brakingText = 'braking ${b.brakingDistance.toStringAsFixed(0)} ft';
     writeOn(
       canvas,
       size,
-      'braking ${b.brakingDistance.toStringAsFixed(0)} ft',
-      Offset(left + lengthOf(b.reactionDistance), y - 34),
+      brakingText,
+      Offset(
+        left + lengthOf(b.total) - labelSize(brakingText, fontSize: 9.5).width,
+        y - 34,
+      ),
       AppColors.ember,
       fontSize: 9.5,
     );

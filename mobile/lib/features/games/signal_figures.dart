@@ -67,11 +67,7 @@ class Clearance {
 /// more when a crowd has to leave the curb.
 @immutable
 class Walk {
-  const Walk({
-    required this.crosswalk,
-    this.pace = 3.5,
-    required this.people,
-  });
+  const Walk({required this.crosswalk, this.pace = 3.5, required this.people});
 
   /// Feet, feet per second, and a count.
   final double crosswalk;
@@ -106,76 +102,109 @@ class YellowPainter extends CustomPainter {
         math.min(seconds / span, 1) * (right - left);
 
     canvas.drawRect(
-        Rect.fromLTRB(left, y - 14, right, y + 14),
-        Paint()
-          ..color = AppColors.line
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.2);
+      Rect.fromLTRB(left, y - 14, right, y + 14),
+      Paint()
+        ..color = AppColors.line
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2,
+    );
     for (var s = 1; s < span; s++) {
       final x = left + lengthOf(s.toDouble());
       canvas.drawLine(
-          Offset(x, y + 14),
-          Offset(x, y + 19),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1);
-      writeOn(canvas, size, '$s', Offset(x - 3, y + 20), AppColors.ink3,
-          fontSize: 9.5);
+        Offset(x, y + 14),
+        Offset(x, y + 19),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1,
+      );
+      writeOn(
+        canvas,
+        size,
+        '$s',
+        Offset(x - 3, y + 20),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
-    writeOn(canvas, size, 'seconds', Offset(left - 8, y + 34), AppColors.ink3,
-        fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'seconds',
+      Offset(left - 8, y + 34),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     writeOn(
-        canvas,
-        size,
-        '${yellow.speedMph.toStringAsFixed(0)} mph coming up to the light',
-        Offset(left - 8, 8),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${yellow.speedMph.toStringAsFixed(0)} mph coming up to the light',
+      Offset(left - 8, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'that is ${yellow.speedFps.toStringAsFixed(1)} feet a second',
-        Offset(left - 8, 22),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'that is ${yellow.speedFps.toStringAsFixed(1)} feet a second',
+      Offset(left - 8, 22),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'what the yellow is made of comes out',
-          Offset(left - 8, y - 40), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'after the answer', Offset(left - 8, y - 26),
-          AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'what the yellow is made of comes out after the answer',
+        Offset(left - 8, y - 40),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
     final reacting = lengthOf(yellow.reaction);
     final slowing = lengthOf(yellow.seconds) - reacting;
     canvas
-      ..drawRect(Rect.fromLTWH(left, y - 14, reacting, 28),
-          Paint()..color = AppColors.info.withValues(alpha: 0.45))
-      ..drawRect(Rect.fromLTWH(left + reacting, y - 14, slowing, 28),
-          Paint()..color = AppColors.ember.withValues(alpha: 0.5));
+      ..drawRect(
+        Rect.fromLTWH(left, y - 14, reacting, 28),
+        Paint()..color = AppColors.info.withValues(alpha: 0.45),
+      )
+      ..drawRect(
+        Rect.fromLTWH(left + reacting, y - 14, slowing, 28),
+        Paint()..color = AppColors.ember.withValues(alpha: 0.5),
+      );
     writeOn(
-        canvas,
-        size,
-        'reacting ${yellow.reaction.toStringAsFixed(1)}',
-        Offset(left + 2, y - 30),
-        AppColors.info,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'reacting ${yellow.reaction.toStringAsFixed(1)}',
+      Offset(left + 2, y - 30),
+      AppColors.info,
+      fontSize: 9.5,
+    );
+    // Right-aligned on the end of its own block: started at the block's left
+    // edge it ran back into the reacting label whenever reaction was short.
+    final slowingText = 'slowing ${yellow.slowing.toStringAsFixed(1)}';
     writeOn(
-        canvas,
-        size,
-        'slowing ${yellow.slowing.toStringAsFixed(1)}',
-        Offset(left + reacting + 4, y - 30),
-        AppColors.ember,
-        fontSize: 9.5);
+      canvas,
+      size,
+      slowingText,
+      Offset(
+        left + reacting + slowing - labelSize(slowingText, fontSize: 9.5).width,
+        y - 30,
+      ),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        '${yellow.seconds.toStringAsFixed(1)} seconds of yellow',
-        Offset(left - 8, size.height - 16),
-        AppColors.charcoal,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${yellow.seconds.toStringAsFixed(1)} seconds of yellow',
+      Offset(left - 8, size.height - 16),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
   }
 
   @override
@@ -208,57 +237,76 @@ class CrossingPainter extends CustomPainter {
     canvas
       ..drawRect(box, Paint()..color = AppColors.ink2.withValues(alpha: 0.18))
       ..drawLine(
-          Offset(left, top),
-          Offset(left, bottom),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 1.6)
+        Offset(left, top),
+        Offset(left, bottom),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 1.6,
+      )
       ..drawLine(
-          Offset(right, top),
-          Offset(right, bottom),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 1.6);
+        Offset(right, top),
+        Offset(right, bottom),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 1.6,
+      );
     writeOn(
-        canvas,
-        size,
-        '${clearance.width.toStringAsFixed(0)} ft curb to curb',
-        Offset(left + 4, top - 16),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${clearance.width.toStringAsFixed(0)} ft curb to curb',
+      Offset(left + 4, top - 16),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // The vehicle, just short of the near curb, pointing across.
     final carY = (top + bottom) / 2;
     canvas.drawRect(
-        Rect.fromLTWH(left - carLength - 2, carY - 7, carLength, 14),
-        Paint()..color = AppColors.charcoal.withValues(alpha: 0.8));
+      Rect.fromLTWH(left - carLength - 2, carY - 7, carLength, 14),
+      Paint()..color = AppColors.charcoal.withValues(alpha: 0.8),
+    );
     writeOn(
-        canvas,
-        size,
-        '${clearance.vehicleLength.toStringAsFixed(0)} ft of vehicle',
-        Offset(4, carY + 12),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${clearance.vehicleLength.toStringAsFixed(0)} ft of vehicle',
+      Offset(4, carY + 12),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'entered on yellow at ${clearance.speedMph.toStringAsFixed(0)} mph',
-        Offset(4, 8),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'entered on yellow at ${clearance.speedMph.toStringAsFixed(0)} mph',
+      Offset(4, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'that is ${clearance.speedFps.toStringAsFixed(1)} ft a second',
-        Offset(4, 22),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'that is ${clearance.speedFps.toStringAsFixed(1)} ft a second',
+      Offset(4, 22),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'how far it still has to go comes out',
-          Offset(4, bottom + 10), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'after the answer', Offset(4, bottom + 24),
-          AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'how far it still has to go comes out',
+        Offset(4, bottom + 10),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'after the answer',
+        Offset(4, bottom + 24),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       viewTag(canvas, size, Looking.plan, note: 'the intersection');
       return;
     }
@@ -266,19 +314,21 @@ class CrossingPainter extends CustomPainter {
     // The distance the back bumper has to travel: the width and the car.
     final dimY = bottom + 14;
     canvas.drawLine(
-        Offset(left - carLength - 2, dimY),
-        Offset(right, dimY),
-        Paint()
-          ..color = AppColors.ember
-          ..strokeWidth = 2);
+      Offset(left - carLength - 2, dimY),
+      Offset(right, dimY),
+      Paint()
+        ..color = AppColors.ember
+        ..strokeWidth = 2,
+    );
     writeOn(
-        canvas,
-        size,
-        '${clearance.distance.toStringAsFixed(0)} ft altogether, '
-            '${clearance.seconds.toStringAsFixed(1)} seconds',
-        Offset(4, dimY + 6),
-        AppColors.ember,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${clearance.distance.toStringAsFixed(0)} ft altogether, '
+      '${clearance.seconds.toStringAsFixed(1)} seconds',
+      Offset(4, dimY + 6),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
     viewTag(canvas, size, Looking.plan, note: 'the intersection');
   }
 
@@ -302,57 +352,67 @@ class WalkPainter extends CustomPainter {
     // A ninety foot crossing has to look wider than a fifty six foot one,
     // so the stripes are drawn to scale against the widest road any round
     // uses.
-    final right = left +
-        (size.width - 56) * math.min(walk.crosswalk / 90, 1).toDouble();
+    final right =
+        left + (size.width - 56) * math.min(walk.crosswalk / 90, 1).toDouble();
     final curbY = size.height * 0.34;
 
     // The crosswalk in plan: two curbs and the stripes between them.
     canvas
       ..drawLine(
-          Offset(left, curbY),
-          Offset(right, curbY),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 2)
+        Offset(left, curbY),
+        Offset(right, curbY),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 2,
+      )
       ..drawLine(
-          Offset(left, curbY + 34),
-          Offset(right, curbY + 34),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 2);
+        Offset(left, curbY + 34),
+        Offset(right, curbY + 34),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 2,
+      );
     for (var x = left + 8; x < right - 6; x += 14) {
       canvas.drawRect(
-          Rect.fromLTWH(x, curbY + 4, 6, 26),
-          Paint()..color = AppColors.ink2.withValues(alpha: 0.35));
+        Rect.fromLTWH(x, curbY + 4, 6, 26),
+        Paint()..color = AppColors.ink2.withValues(alpha: 0.35),
+      );
     }
     writeOn(
-        canvas,
-        size,
-        '${walk.crosswalk.toStringAsFixed(0)} ft to cross at '
-            '${walk.pace.toStringAsFixed(1)} ft a second',
-        Offset(left - 8, 8),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${walk.crosswalk.toStringAsFixed(0)} ft to cross at '
+      '${walk.pace.toStringAsFixed(1)} ft a second',
+      Offset(left - 8, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        '${walk.people.toStringAsFixed(0)} people waiting',
-        Offset(left - 8, 22),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${walk.people.toStringAsFixed(0)} people waiting',
+      Offset(left - 8, 22),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     final barY = size.height - 52;
     if (!answered) {
       canvas.drawRect(
-          Rect.fromLTRB(left, barY, right, barY + 16),
-          Paint()
-            ..color = AppColors.line
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.2);
-      writeOn(canvas, size, 'what the green is made of comes out',
-          Offset(left, barY + 22), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'after the answer', Offset(left, barY + 36),
-          AppColors.ink3, fontSize: 9.5);
+        Rect.fromLTRB(left, barY, right, barY + 16),
+        Paint()
+          ..color = AppColors.line
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.2,
+      );
+      writeOn(
+        canvas,
+        size,
+        'what the green is made of comes out after the answer',
+        Offset(left, barY + 22),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       viewTag(canvas, size, Looking.plan, note: 'the crosswalk');
       return;
     }
@@ -365,20 +425,31 @@ class WalkPainter extends CustomPainter {
       (walk.forTheCrowd, 'for the crowd', AppColors.forest),
     ]) {
       final w = part / walk.seconds * wide;
-      canvas.drawRect(Rect.fromLTWH(x, barY, w, 16),
-          Paint()..color = color.withValues(alpha: 0.45));
-      writeOn(canvas, size, '${part.toStringAsFixed(1)} $label',
-          Offset(x + 2, barY + (label == 'walking' ? -14 : 22)), color,
-          fontSize: 9.5);
-      x += w;
-    }
-    writeOn(
+      canvas.drawRect(
+        Rect.fromLTWH(x, barY, w, 16),
+        Paint()..color = color.withValues(alpha: 0.45),
+      );
+      writeOn(
         canvas,
         size,
-        '${walk.seconds.toStringAsFixed(1)} seconds of green',
-        Offset(left, size.height - 16),
-        AppColors.charcoal,
-        fontSize: 9.5);
+        '${part.toStringAsFixed(1)} $label',
+        Offset(x + 2, barY + (label == 'walking' ? -14 : 22)),
+        color,
+        fontSize: 9.5,
+      );
+      x += w;
+    }
+    // In the open band between the crosswalk and the bar. Below the bar it
+    // sat on the seconds the first and last pieces write, just above it on
+    // the walking piece, and on the top row on the crossing's own note.
+    writeOn(
+      canvas,
+      size,
+      '${walk.seconds.toStringAsFixed(1)} seconds of green',
+      Offset(left - 8, curbY + 44),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
     viewTag(canvas, size, Looking.plan, note: 'the crosswalk');
   }
 

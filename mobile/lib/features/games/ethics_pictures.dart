@@ -11,6 +11,8 @@
 // where a claim has to land. They draw the SITUATION the rule is about, so
 // the rule has something to point at.
 
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -843,7 +845,13 @@ class _BadgesPainter extends CustomPainter {
       note: 'passed both, the years\nlicensed',
       radius: 12,
     );
-    final seal = Offset(pe.right - 4, pe.top + 2);
+    // Above the badge, not on its top corner: the badge's own name fills it
+    // corner to corner once those two words wrap, and the seal was landing
+    // on the end of it.
+    final seal = Offset(
+      math.min(pe.right - 8, size.width - 17),
+      math.max(16, pe.top - 16),
+    );
     canvas.drawCircle(seal, 15, Paint()..color = AppColors.spring);
     canvas.drawCircle(seal, 10, _stroke(AppColors.charcoal, 1.8));
     final s = _text(
