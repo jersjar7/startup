@@ -166,3 +166,4 @@ ever gains another capability, delete and recreate the profile the same way.
 | 1016  | An opening titles card between the splash and the tour: "Welcome to" drops in from above the screen, the wordmark slides in from past the right edge, "the mobile app" from past the left, each holding about a second. The wordmark is a sticker cut, a five point white margin grown from each letter. A tap skips |
 | 1019  | The ember disc closes over the whole screen before the tour arrives. It was clamped to the screen box, so it stopped the moment it touched an edge, and the hand off fired before it had finished opening |
 | 1021  | The email placeholder stops asking for a school address: four domains spanning personal mail, Apple, work and school, one picked per screen |
+| 1023  | The email placeholder's domain rolls: "you@" stays put and the part after it changes every 1.5 seconds, old up and out, next up into its place. Stops on typing, holds still under reduce motion |
