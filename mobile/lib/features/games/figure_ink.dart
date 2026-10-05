@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -207,7 +208,7 @@ Size writeOn(
     painter.height + 2,
   );
   canvas.drawRect(patch, Paint()..color = panelBase);
-  _recordLabel(patch);
+  _recordLabel(canvas, patch);
   painter.paint(canvas, place);
   return painter.size;
 }
@@ -215,14 +216,44 @@ Size writeOn(
 /// How big a label will be before it is drawn, for a painter that has to
 /// place it against something: to the left of a peak, under the line above
 /// it, inside a box of its own.
-Size labelSize(String text, {double fontSize = 10}) {
+Size labelSize(String text, {double fontSize = 10, double? maxWidth}) {
   return (TextPainter(
     text: TextSpan(
       text: text,
       style: AppTheme.mono(size: fontSize),
     ),
     textDirection: TextDirection.ltr,
-  )..layout()).size;
+  )..layout(maxWidth: maxWidth ?? double.infinity)).size;
+}
+
+/// Notes stacked up from the foot of a panel, each clear of the one above.
+///
+/// Painters used to place these by hand at height - 30 and height - 16, a gap
+/// of 14 for a line that is 13 tall before its patch, so the lower note's
+/// patch ate the upper note's letters. Worse when the upper one wrapped to
+/// two lines, which the panel width decides and the author cannot see.
+/// Measuring each line and stacking from the bottom removes the guess.
+void writeStack(
+  Canvas canvas,
+  Size size,
+  List<(String, Color)> lines, {
+  double fontSize = 10,
+  double left = 8,
+  double bottom = 8,
+  double gap = 3,
+}) {
+  var y = size.height - bottom;
+  for (final (text, color) in lines.reversed) {
+    if (text.isEmpty) continue;
+    final h = labelSize(
+      text,
+      fontSize: fontSize,
+      maxWidth: size.width - left * 2,
+    ).height;
+    y -= h;
+    writeOn(canvas, size, text, Offset(left, y), color, fontSize: fontSize);
+    y -= gap;
+  }
 }
 
 /// Paints a label that has already been laid out, with a patch of the panel
@@ -242,7 +273,7 @@ const panelBase = Color(0xFFFDFCF8);
 
 void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
   if (!_wantsPatch(text)) {
-    _recordLabel(Rect.fromLTWH(at.dx, at.dy, text.width, text.height));
+    _recordLabel(canvas, Rect.fromLTWH(at.dx, at.dy, text.width, text.height));
     text.paint(canvas, at);
     return;
   }
@@ -251,7 +282,7 @@ void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
     const Radius.circular(3),
   );
   canvas.drawRRect(box, Paint()..color = patch ?? panelBase);
-  _recordLabel(box.outerRect);
+  _recordLabel(canvas, box.outerRect);
   text.paint(canvas, at);
 }
 
@@ -265,9 +296,32 @@ bool _wantsPatch(TextPainter text) {
   return l < 0.72;
 }
 
-/// Where every label landed, for the test that looks for one sitting on
-/// another. Null in a running app: a figure records nothing unless a test
-/// asks it to. See `test/label_overlap_test.dart`.
-List<Rect>? debugLabelRects;
+/// Where every label landed, grouped by the panel it landed in, for the test
+/// that looks for one sitting on another. Null in a running app: a figure
+/// records nothing unless a test asks it to.
+///
+/// Grouped because a painter draws in its own coordinates, starting at zero.
+/// Two panels stacked in one picture both write their foot note at the same
+/// local spot, which is not an overlap at all, and comparing them flat
+/// reported every stacked picture as broken. See
+/// `test/label_overlap_test.dart`.
+List<List<Rect>>? debugLabelPanels;
 
-void _recordLabel(Rect r) => debugLabelRects?.add(r);
+/// Called once per panel, before anything is drawn in it.
+void debugLabelBoundary() => debugLabelPanels?.add(<Rect>[]);
+
+void _recordLabel(Canvas canvas, Rect r) {
+  final panels = debugLabelPanels;
+  if (panels == null) return;
+  if (panels.isEmpty) panels.add(<Rect>[]);
+  // Through the canvas's own transform: a painter that lays three columns
+  // out with translate() writes each label at the same local spot, and
+  // recording that raw reported every such row as three labels on top of
+  // one another.
+  panels.last.add(
+    MatrixUtils.transformRect(
+      Matrix4.fromFloat64List(canvas.getTransform()),
+      r,
+    ),
+  );
+}

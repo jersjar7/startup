@@ -36,7 +36,7 @@ import 'support/fonts.dart';
 // 354 pairs on 98 of the 372 figures when this was written (2026-10-04).
 // Skipped until those are fixed chapter by chapter, so the suite stays
 // honest about what is green; drop the skip to see the current list.
-const _knownBad = true;
+const _knownBad = false;
 
 void main() {
   setUpAll(loadBrandFonts);
@@ -72,8 +72,8 @@ void main() {
 
       final bad = <String>[];
       for (final picture in chapter.value.entries) {
-        final rects = <Rect>[];
-        debugLabelRects = rects;
+        final panels = <List<Rect>>[];
+        debugLabelPanels = panels;
         await tester.pumpWidget(
           MaterialApp(
             theme: AppTheme.light,
@@ -88,12 +88,15 @@ void main() {
           ),
         );
         await tester.pumpAndSettle();
-        debugLabelRects = null;
+        debugLabelPanels = null;
 
-        for (var i = 0; i < rects.length; i++) {
-          for (var j = i + 1; j < rects.length; j++) {
-            final hit = rects[i].deflate(slack).intersect(rects[j]);
-            if (hit.width > 0 && hit.height > 0) {
+        // Only ever within one panel: a painter draws in its own
+        // coordinates, so two panels' rects are not comparable.
+        for (final rects in panels) {
+          for (var i = 0; i < rects.length; i++) {
+            for (var j = i + 1; j < rects.length; j++) {
+              final hit = rects[i].deflate(slack).intersect(rects[j]);
+              if (hit.width <= 0 || hit.height <= 0) continue;
               bad.add(
                 '${picture.key}: labels overlap by '
                 '${hit.width.toStringAsFixed(0)} by '

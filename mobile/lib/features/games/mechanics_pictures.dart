@@ -58,7 +58,7 @@ class ConceptPicture extends StatelessWidget {
               minor: 18,
               major: 90,
               child: CustomPaint(
-                painter: painter,
+                painter: _PanelPainter(painter),
                 child: const SizedBox.expand(),
               ),
             ),
@@ -69,6 +69,25 @@ class ConceptPicture extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Marks where one panel's drawing begins, so the label-overlap test can tell
+/// two stacked panels apart: each painter draws in its own coordinates, so
+/// without this a foot note in the lower panel reads as sitting on the foot
+/// note of the upper one. Does nothing in a running app.
+class _PanelPainter extends CustomPainter {
+  _PanelPainter(this.inner);
+
+  final CustomPainter inner;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    debugLabelBoundary();
+    inner.paint(canvas, size);
+  }
+
+  @override
+  bool shouldRepaint(covariant _PanelPainter old) => old.inner != inner;
 }
 
 /// Two drawings side by side, sharing one caption line each.
