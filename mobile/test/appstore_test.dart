@@ -40,11 +40,18 @@ import 'support/fonts.dart';
 /// taken at the same size with the same seeded account, so the set looks
 /// like one app rather than eleven screenshots taken on different days.
 
-/// 6.9 inch: the largest class Apple asks for, and the one every smaller
-/// size is derived from.
+/// The poster is 1320 by 2868, the 6.9 inch class, and the app screen sits
+/// inside a card about 84 percent of that width. A screen captured at its
+/// natural 440 points would then carry 17 point body text at about 45 pixels
+/// on the poster, which is grey noise in the 150 pixel search tile.
+///
+/// So the app is rendered on a narrower screen, 340 points, at 4x. That is
+/// the real app laying itself out for a small phone, not a faked screen, and
+/// once it is scaled into the card every word is about a third larger. 740
+/// points of height holds the poster's own 2.173 aspect.
 void _appStore(WidgetTester tester) {
-  tester.view.physicalSize = const Size(1320, 2868);
-  tester.view.devicePixelRatio = 3;
+  tester.view.physicalSize = const Size(1360, 2956);
+  tester.view.devicePixelRatio = 4;
   addTearDown(tester.view.reset);
 }
 

@@ -1,0 +1,65 @@
+{
+  "size": {
+    "w": 1320,
+    "h": 2868
+  },
+  "note": "Eight slots. The first three sit side by side in search results, so they carry the whole pitch on their own: who it is for, what one round feels like, and why the method works. Slot 1 shows the home screen rather than the opening title card: App Review guideline 2.3.3 names a splash screen as something a screenshot may not merely be. Counts are measured from the app, not estimated: 15 chapters, 135 lessons, 375 games, 2269 rounds, 370 concept sheets.",
+  "frames": [
+    {
+      "name": "01-free",
+      "shot": "home.png",
+      "pill": "ember",
+      "overline": "FE Civil exam",
+      "headline": "The whole exam,<br><em>completely free</em>"
+    },
+    {
+      "name": "02-round",
+      "shot": "round-seepage.png",
+      "pill": "forest",
+      "overline": "One concept at a time",
+      "headline": "Read the drawing.<br>Make the call."
+    },
+    {
+      "name": "03-sheet",
+      "shot": "sheet-piles.png",
+      "pill": "sunbeam",
+      "overline": "Why it works that way",
+      "headline": "Every idea starts<br>with a <em>picture</em>"
+    },
+    {
+      "name": "04-figures",
+      "shot": "round-mohr.png",
+      "pill": "ember",
+      "overline": "Built for Civil",
+      "headline": "The figures the<br><em>exam</em> actually uses"
+    },
+    {
+      "name": "05-map",
+      "shot": "map.png",
+      "pill": "forest",
+      "overline": "Fifteen chapters",
+      "headline": "One path through<br>the whole exam"
+    },
+    {
+      "name": "06-coverage",
+      "shot": "study.png",
+      "pill": "sunbeam",
+      "overline": "135 lessons",
+      "headline": "<em>2,269</em> rounds.<br>Nothing locked."
+    },
+    {
+      "name": "07-mastery",
+      "shot": "mastery.png",
+      "pill": "ember",
+      "overline": "Where you stand",
+      "headline": "See which chapter<br>to study <em>next</em>"
+    },
+    {
+      "name": "08-days",
+      "shot": "calendar.png",
+      "pill": "forest",
+      "overline": "Every day counts",
+      "headline": "A few minutes<br>counts as a day"
+    }
+  ]
+}
