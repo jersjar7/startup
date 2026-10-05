@@ -47,13 +47,13 @@ enum Piece3 { air, lift, flooded, suctionLine, warmth, dischargeLine }
 
 extension Piece3Words on Piece3 {
   String get plain => switch (this) {
-        Piece3.air => 'the atmosphere pressing on the water surface',
-        Piece3.lift => 'the pump standing above the water it draws from',
-        Piece3.flooded => 'the pump standing below the water it draws from',
-        Piece3.suctionLine => 'friction in the suction line',
-        Piece3.warmth => 'pumping warm water rather than cold',
-        Piece3.dischargeLine => 'a longer pipe on the discharge side',
-      };
+    Piece3.air => 'the atmosphere pressing on the water surface',
+    Piece3.lift => 'the pump standing above the water it draws from',
+    Piece3.flooded => 'the pump standing below the water it draws from',
+    Piece3.suctionLine => 'friction in the suction line',
+    Piece3.warmth => 'pumping warm water rather than cold',
+    Piece3.dischargeLine => 'a longer pipe on the discharge side',
+  };
 }
 
 /// A pumping arrangement, drawn from the side: the water it draws from, the
@@ -96,79 +96,120 @@ class PumpSystemPainter extends CustomPainter {
     final sump = Rect.fromLTRB(sumpLeft, sumpTop, sumpRight, groundY);
     canvas.drawRect(sump, waterFill);
     canvas
-      ..drawLine(Offset(sumpLeft, sumpTop - 20), Offset(sumpLeft, groundY),
-          Paint()
-            ..color = AppColors.ink2
-            ..strokeWidth = 1.6)
-      ..drawLine(Offset(sumpRight, sumpTop - 20), Offset(sumpRight, groundY),
-          Paint()
-            ..color = AppColors.ink2
-            ..strokeWidth = 1.6);
-    groundLine(canvas, Offset(sumpLeft, groundY), Offset(size.width - 14,
-        groundY));
+      ..drawLine(
+        Offset(sumpLeft, sumpTop - 20),
+        Offset(sumpLeft, groundY),
+        Paint()
+          ..color = AppColors.ink2
+          ..strokeWidth = 1.6,
+      )
+      ..drawLine(
+        Offset(sumpRight, sumpTop - 20),
+        Offset(sumpRight, groundY),
+        Paint()
+          ..color = AppColors.ink2
+          ..strokeWidth = 1.6,
+      );
+    groundLine(
+      canvas,
+      Offset(sumpLeft, groundY),
+      Offset(size.width - 14, groundY),
+    );
     waterLevel(
-        canvas, Offset(sumpLeft, sumpTop), Offset(sumpRight, sumpTop),
-        markAt: sumpLeft + 24,
-        color: highlight == Piece3.warmth ? AppColors.error : null);
+      canvas,
+      Offset(sumpLeft, sumpTop),
+      Offset(sumpRight, sumpTop),
+      markAt: sumpLeft + 24,
+      color: highlight == Piece3.warmth ? AppColors.error : null,
+    );
 
     // The suction line, from the sump to the pump.
     final suction = highlight == Piece3.suctionLine
         ? (Paint()
-          ..color = AppColors.ember
-          ..strokeWidth = 3.4)
+            ..color = AppColors.ember
+            ..strokeWidth = 3.4)
         : (Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 2.4);
+            ..color = AppColors.charcoal
+            ..strokeWidth = 2.4);
     canvas
-      ..drawLine(Offset(sumpLeft + 46, sumpTop + 12),
-          Offset(sumpLeft + 46, pumpY), suction)
-      ..drawLine(Offset(sumpLeft + 46, pumpY), Offset(pumpX - 13, pumpY),
-          suction);
+      ..drawLine(
+        Offset(sumpLeft + 46, sumpTop + 12),
+        Offset(sumpLeft + 46, pumpY),
+        suction,
+      )
+      ..drawLine(
+        Offset(sumpLeft + 46, pumpY),
+        Offset(pumpX - 13, pumpY),
+        suction,
+      );
 
     // The pump.
     canvas
       ..drawCircle(Offset(pumpX, pumpY), 13, Paint()..color = AppColors.cream)
       ..drawCircle(
-          Offset(pumpX, pumpY),
-          13,
-          Paint()
-            ..color = AppColors.charcoal
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 2)
+        Offset(pumpX, pumpY),
+        13,
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2,
+      )
       ..drawPath(
-          Path()
-            ..moveTo(pumpX - 5, pumpY - 6)
-            ..lineTo(pumpX + 7, pumpY)
-            ..lineTo(pumpX - 5, pumpY + 6)
-            ..close(),
-          Paint()..color = AppColors.charcoal);
-    writeOn(canvas, size, 'pump', Offset(pumpX - 13, pumpY + 16),
-        AppColors.ink2, fontSize: 9);
+        Path()
+          ..moveTo(pumpX - 5, pumpY - 6)
+          ..lineTo(pumpX + 7, pumpY)
+          ..lineTo(pumpX - 5, pumpY + 6)
+          ..close(),
+        Paint()..color = AppColors.charcoal,
+      );
+    writeOn(
+      canvas,
+      size,
+      'pump',
+      Offset(pumpX - 13, pumpY + 16),
+      AppColors.ink2,
+      fontSize: 9,
+    );
 
     // The delivery side.
     final discharge = highlight == Piece3.dischargeLine
         ? (Paint()
-          ..color = AppColors.ember
-          ..strokeWidth = 3.4)
+            ..color = AppColors.ember
+            ..strokeWidth = 3.4)
         : (Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 2.4);
+            ..color = AppColors.charcoal
+            ..strokeWidth = 2.4);
     final tankTop = 44.0;
     canvas
-      ..drawLine(Offset(pumpX + 13, pumpY),
-          Offset(tankLeft + 30, pumpY), discharge)
-      ..drawLine(Offset(tankLeft + 30, pumpY),
-          Offset(tankLeft + 30, tankTop + 14), discharge);
-    final tank = Rect.fromLTRB(tankLeft, tankTop, size.width - 14, tankTop + 46);
+      ..drawLine(
+        Offset(pumpX + 13, pumpY),
+        Offset(tankLeft + 30, pumpY),
+        discharge,
+      )
+      ..drawLine(
+        Offset(tankLeft + 30, pumpY),
+        Offset(tankLeft + 30, tankTop + 14),
+        discharge,
+      );
+    final tank = Rect.fromLTRB(
+      tankLeft,
+      tankTop,
+      size.width - 14,
+      tankTop + 46,
+    );
     canvas.drawRect(tank, waterFill);
     canvas.drawRect(
-        tank,
-        Paint()
-          ..color = AppColors.ink2
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.6);
-    waterLevel(canvas, Offset(tankLeft, tankTop), Offset(size.width - 14,
-        tankTop));
+      tank,
+      Paint()
+        ..color = AppColors.ink2
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.6,
+    );
+    waterLevel(
+      canvas,
+      Offset(tankLeft, tankTop),
+      Offset(size.width - 14, tankTop),
+    );
 
     // The lift, which is the thing the drawing exists to show.
     final dimX = pumpX + 26;
@@ -176,55 +217,85 @@ class PumpSystemPainter extends CustomPainter {
         ? AppColors.ember
         : AppColors.ink3;
     canvas
-      ..drawLine(Offset(dimX, sumpTop), Offset(dimX, pumpY),
-          Paint()
-            ..color = tone
-            ..strokeWidth = 1.4)
-      ..drawLine(Offset(dimX - 5, sumpTop), Offset(dimX + 5, sumpTop),
-          Paint()
-            ..color = tone
-            ..strokeWidth = 1.2)
-      ..drawLine(Offset(dimX - 5, pumpY), Offset(dimX + 5, pumpY),
-          Paint()
-            ..color = tone
-            ..strokeWidth = 1.2);
+      ..drawLine(
+        Offset(dimX, sumpTop),
+        Offset(dimX, pumpY),
+        Paint()
+          ..color = tone
+          ..strokeWidth = 1.4,
+      )
+      ..drawLine(
+        Offset(dimX - 5, sumpTop),
+        Offset(dimX + 5, sumpTop),
+        Paint()
+          ..color = tone
+          ..strokeWidth = 1.2,
+      )
+      ..drawLine(
+        Offset(dimX - 5, pumpY),
+        Offset(dimX + 5, pumpY),
+        Paint()
+          ..color = tone
+          ..strokeWidth = 1.2,
+      );
     writeOn(
-        canvas,
-        size,
-        above ? 'suction LIFT' : 'flooded suction',
-        Offset(dimX + 7, (sumpTop + pumpY) / 2 - 6),
-        tone,
-        fontSize: 9);
+      canvas,
+      size,
+      above ? 'suction LIFT' : 'flooded suction',
+      Offset(dimX + 7, (sumpTop + pumpY) / 2 - 6),
+      tone,
+      fontSize: 9,
+    );
 
     if (highlight == Piece3.air) {
       for (var i = 0; i < 3; i++) {
         final x = sumpLeft + 18 + i * 28.0;
         canvas.drawLine(
-            Offset(x, sumpTop - 22),
-            Offset(x, sumpTop - 6),
-            Paint()
-              ..color = AppColors.ember
-              ..strokeWidth = 1.6);
+          Offset(x, sumpTop - 22),
+          Offset(x, sumpTop - 6),
+          Paint()
+            ..color = AppColors.ember
+            ..strokeWidth = 1.6,
+        );
         canvas.drawPath(
-            Path()
-              ..moveTo(x, sumpTop - 2)
-              ..lineTo(x - 4, sumpTop - 9)
-              ..lineTo(x + 4, sumpTop - 9)
-              ..close(),
-            Paint()..color = AppColors.ember);
+          Path()
+            ..moveTo(x, sumpTop - 2)
+            ..lineTo(x - 4, sumpTop - 9)
+            ..lineTo(x + 4, sumpTop - 9)
+            ..close(),
+          Paint()..color = AppColors.ember,
+        );
       }
-      writeOn(canvas, size, 'air pressing down',
-          Offset(sumpLeft, sumpTop - 36), AppColors.ember, fontSize: 9);
+      writeOn(
+        canvas,
+        size,
+        'air pressing down',
+        Offset(sumpLeft, sumpTop - 36),
+        AppColors.ember,
+        fontSize: 9,
+      );
     }
 
     if (highlight == Piece3.warmth) {
-      writeOn(canvas, size, 'warm', Offset(sumpLeft + 52, sumpTop + 6),
-          AppColors.error, fontSize: 9);
+      writeOn(
+        canvas,
+        size,
+        'warm',
+        Offset(sumpLeft + 52, sumpTop + 6),
+        AppColors.error,
+        fontSize: 9,
+      );
     }
 
     if (note != null) {
-      writeOn(canvas, size, note!, const Offset(8, 8), AppColors.ink3,
-          fontSize: 9);
+      writeOn(
+        canvas,
+        size,
+        note!,
+        const Offset(8, 8),
+        AppColors.ink3,
+        fontSize: 9,
+      );
     }
     viewTag(canvas, size, Looking.elevation, note: 'the pumping arrangement');
   }
@@ -259,18 +330,39 @@ class PowerBarPainter extends CustomPainter {
     ];
     final most = rows.last.$2;
     final room = size.width - 156;
-    var y = 16.0;
+    // Under the caption, not on it: the first bar's label used to start at
+    // 14 while the caption ran from 2 to about 14.
+    final capHeight = labelSize(
+      caption,
+      fontSize: 9,
+      maxWidth: size.width - 16,
+    ).height;
+    var y = capHeight + 12;
     for (final (label, value, tone) in rows) {
       final width = math.max(room * value / most, 4.0);
-      canvas.drawRect(Rect.fromLTWH(96, y, width, 9),
-          Paint()..color = tone.withValues(alpha: 0.85));
+      canvas.drawRect(
+        Rect.fromLTWH(96, y, width, 9),
+        Paint()..color = tone.withValues(alpha: 0.85),
+      );
       writeOn(canvas, size, label, Offset(8, y - 2), tone, fontSize: 9);
-      writeOn(canvas, size, '${(value / 1000).toStringAsFixed(1)} kW',
-          Offset(100 + width, y - 2), tone, fontSize: 9);
+      writeOn(
+        canvas,
+        size,
+        '${(value / 1000).toStringAsFixed(1)} kW',
+        Offset(100 + width, y - 2),
+        tone,
+        fontSize: 9,
+      );
       y += 16;
     }
-    writeOn(canvas, size, caption, const Offset(8, 2), AppColors.ink3,
-        fontSize: 8.5);
+    writeOn(
+      canvas,
+      size,
+      caption,
+      const Offset(8, 2),
+      AppColors.ink3,
+      fontSize: 8.5,
+    );
   }
 
   @override

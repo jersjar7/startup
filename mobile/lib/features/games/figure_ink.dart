@@ -208,7 +208,7 @@ Size writeOn(
     painter.height + 2,
   );
   canvas.drawRect(patch, Paint()..color = panelBase);
-  _recordLabel(canvas, patch);
+  _recordLabel(canvas, patch, text);
   painter.paint(canvas, place);
   return painter.size;
 }
@@ -273,7 +273,11 @@ const panelBase = Color(0xFFFDFCF8);
 
 void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
   if (!_wantsPatch(text)) {
-    _recordLabel(canvas, Rect.fromLTWH(at.dx, at.dy, text.width, text.height));
+    _recordLabel(
+      canvas,
+      Rect.fromLTWH(at.dx, at.dy, text.width, text.height),
+      _plain(text),
+    );
     text.paint(canvas, at);
     return;
   }
@@ -282,7 +286,7 @@ void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
     const Radius.circular(3),
   );
   canvas.drawRRect(box, Paint()..color = patch ?? panelBase);
-  _recordLabel(canvas, box.outerRect);
+  _recordLabel(canvas, box.outerRect, _plain(text));
   text.paint(canvas, at);
 }
 
@@ -305,23 +309,30 @@ bool _wantsPatch(TextPainter text) {
 /// local spot, which is not an overlap at all, and comparing them flat
 /// reported every stacked picture as broken. See
 /// `test/label_overlap_test.dart`.
-List<List<Rect>>? debugLabelPanels;
+List<List<(Rect, String)>>? debugLabelPanels;
 
 /// Called once per panel, before anything is drawn in it.
-void debugLabelBoundary() => debugLabelPanels?.add(<Rect>[]);
+void debugLabelBoundary() => debugLabelPanels?.add(<(Rect, String)>[]);
 
-void _recordLabel(Canvas canvas, Rect r) {
+void _recordLabel(Canvas canvas, Rect r, String text) {
   final panels = debugLabelPanels;
   if (panels == null) return;
-  if (panels.isEmpty) panels.add(<Rect>[]);
+  if (panels.isEmpty) panels.add(<(Rect, String)>[]);
   // Through the canvas's own transform: a painter that lays three columns
   // out with translate() writes each label at the same local spot, and
   // recording that raw reported every such row as three labels on top of
   // one another.
-  panels.last.add(
+  panels.last.add((
     MatrixUtils.transformRect(
       Matrix4.fromFloat64List(canvas.getTransform()),
       r,
     ),
-  );
+    text,
+  ));
+}
+
+/// The words inside a laid-out label, for the overlap test's report.
+String _plain(TextPainter text) {
+  final span = text.text;
+  return span is TextSpan ? (span.toPlainText()) : '';
 }

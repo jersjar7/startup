@@ -72,7 +72,7 @@ void main() {
 
       final bad = <String>[];
       for (final picture in chapter.value.entries) {
-        final panels = <List<Rect>>[];
+        final panels = <List<(Rect, String)>>[];
         debugLabelPanels = panels;
         await tester.pumpWidget(
           MaterialApp(
@@ -95,11 +95,13 @@ void main() {
         for (final rects in panels) {
           for (var i = 0; i < rects.length; i++) {
             for (var j = i + 1; j < rects.length; j++) {
-              final hit = rects[i].deflate(slack).intersect(rects[j]);
+              final hit = rects[i].$1
+                  .deflate(slack)
+                  .intersect(rects[j].$2.isEmpty ? rects[j].$1 : rects[j].$1);
               if (hit.width <= 0 || hit.height <= 0) continue;
               bad.add(
-                '${picture.key}: labels overlap by '
-                '${hit.width.toStringAsFixed(0)} by '
+                '${picture.key}: "${rects[i].$2}" and "${rects[j].$2}" '
+                'overlap by ${hit.width.toStringAsFixed(0)} by '
                 '${hit.height.toStringAsFixed(0)}',
               );
             }

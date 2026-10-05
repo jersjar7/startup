@@ -69,95 +69,153 @@ class ClarifierPainter extends CustomPainter {
     // The tank: water in it, a weir at the far end, a hopper under it.
     canvas.drawRect(Rect.fromLTRB(left, top, right, bottom), waterFill);
     canvas.drawPath(
-        Path()
-          ..moveTo(left, top - 14)
-          ..lineTo(left, bottom)
-          ..lineTo(right, bottom)
-          ..lineTo(right, top - 14),
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2);
-    waterLevel(canvas, Offset(left, top), Offset(right, top), markAt: left + 24);
+      Path()
+        ..moveTo(left, top - 14)
+        ..lineTo(left, bottom)
+        ..lineTo(right, bottom)
+        ..lineTo(right, top - 14),
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
+    waterLevel(
+      canvas,
+      Offset(left, top),
+      Offset(right, top),
+      markAt: left + 24,
+    );
 
     // In at the left, over the weir at the right.
     canvas.drawLine(
-        Offset(8, top + 12),
-        Offset(left, top + 12),
-        Paint()
-          ..color = AppColors.info
-          ..strokeWidth = 3);
-    writeOn(canvas, size, 'in', const Offset(10, 22), AppColors.info,
-        fontSize: 9);
+      Offset(8, top + 12),
+      Offset(left, top + 12),
+      Paint()
+        ..color = AppColors.info
+        ..strokeWidth = 3,
+    );
+    writeOn(
+      canvas,
+      size,
+      'in',
+      // On its own pipe: at a fixed 22 it sat on the second header line.
+      Offset(10, top + 16),
+      AppColors.info,
+      fontSize: 9.5,
+    );
     canvas.drawLine(
-        Offset(right, top),
-        Offset(size.width - 8, top + 6),
-        Paint()
-          ..color = AppColors.info
-          ..strokeWidth = 3);
-    writeOn(canvas, size, 'over the weir', Offset(right - 10, top - 16),
-        AppColors.info, fontSize: 9);
+      Offset(right, top),
+      Offset(size.width - 8, top + 6),
+      Paint()
+        ..color = AppColors.info
+        ..strokeWidth = 3,
+    );
+    writeOn(
+      canvas,
+      size,
+      'over the weir',
+      Offset(right - 10, top - 16),
+      AppColors.info,
+      fontSize: 9,
+    );
 
     // The rise velocity: the overflow rate, drawn as what it is.
-    final scale = 26 / math.max(
-        math.max(clarifier.riseFeetPerHour, settlingFeetPerHour), 0.01);
+    final scale =
+        26 /
+        math.max(
+          math.max(clarifier.riseFeetPerHour, settlingFeetPerHour),
+          0.01,
+        );
     final middle = (left + right) / 2;
-    void arrow(double x, double up, Color tone, String text, bool rising) {
+    void arrow(
+      double x,
+      double up,
+      Color tone,
+      String text,
+      bool rising, {
+      double dy = 0,
+    }) {
       final length = math.max(up * scale, 8).toDouble();
       final from = Offset(x, rising ? bottom - 20 : top + 20);
       final to = Offset(x, rising ? from.dy - length : from.dy + length);
       canvas
         ..drawLine(
-            from,
-            to,
-            Paint()
-              ..color = tone
-              ..strokeWidth = 2.6)
+          from,
+          to,
+          Paint()
+            ..color = tone
+            ..strokeWidth = 2.6,
+        )
         ..drawPath(
-            Path()
-              ..moveTo(to.dx, to.dy + (rising ? -7 : 7))
-              ..lineTo(to.dx - 4.5, to.dy)
-              ..lineTo(to.dx + 4.5, to.dy)
-              ..close(),
-            Paint()..color = tone);
-      writeOn(canvas, size, text, Offset(x + 8, (from.dy + to.dy) / 2 - 6),
-          tone, fontSize: 9.5);
+          Path()
+            ..moveTo(to.dx, to.dy + (rising ? -7 : 7))
+            ..lineTo(to.dx - 4.5, to.dy)
+            ..lineTo(to.dx + 4.5, to.dy)
+            ..close(),
+          Paint()..color = tone,
+        );
+      writeOn(
+        canvas,
+        size,
+        text,
+        Offset(x + 8, (from.dy + to.dy) / 2 - 6 + dy),
+        tone,
+        fontSize: 9.5,
+      );
     }
 
-    arrow(middle - 54, clarifier.riseFeetPerHour, AppColors.info,
-        'water rises ${clarifier.riseFeetPerHour.toStringAsFixed(1)} ft/hr',
-        true);
-    arrow(middle + 46, settlingFeetPerHour, AppColors.charcoal,
-        'grit falls ${settlingFeetPerHour.toStringAsFixed(1)} ft/hr', false);
+    // The two arrows stand 100 apart and each label is about 110 wide, so
+    // side by side the first one's tail ran under the second's head. They
+    // take different lines instead.
+    arrow(
+      middle - 54,
+      clarifier.riseFeetPerHour,
+      AppColors.info,
+      'water rises ${clarifier.riseFeetPerHour.toStringAsFixed(1)} ft/hr',
+      true,
+      dy: 13,
+    );
+    arrow(
+      middle + 46,
+      settlingFeetPerHour,
+      AppColors.charcoal,
+      'grit falls ${settlingFeetPerHour.toStringAsFixed(1)} ft/hr',
+      false,
+    );
 
     if (answered) {
       writeOn(
-          canvas,
-          size,
-          caught ? 'it reaches the floor' : 'it goes over the weir',
-          Offset(left + 6, bottom - 14),
-          caught ? AppColors.forest : AppColors.error,
-          fontSize: 9.5);
+        canvas,
+        size,
+        caught ? 'it reaches the floor' : 'it goes over the weir',
+        // Under the floor, not inside the tank: in there it shared the
+        // lower left with the rise arrow's label.
+        Offset(left + 6, bottom + 7),
+        caught ? AppColors.forest : AppColors.error,
+        fontSize: 9.5,
+      );
     }
 
     // The floor the sludge collects on.
     groundLine(canvas, Offset(left, bottom), Offset(right, bottom));
 
     writeOn(
-        canvas,
-        size,
-        '${_num(clarifier.diameter)} ft across, '
-            '${_num(clarifier.depth)} ft deep',
-        const Offset(8, 8),
-        AppColors.ink2,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${_num(clarifier.diameter)} ft across, '
+      '${_num(clarifier.depth)} ft deep',
+      const Offset(8, 8),
+      AppColors.ink2,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'overflow rate ${clarifier.overflowRate.toStringAsFixed(0)} gpd/ft2',
-        const Offset(8, 22),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'overflow rate ${clarifier.overflowRate.toStringAsFixed(0)} gpd/ft2',
+      const Offset(8, 22),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     viewTag(canvas, size, Looking.section, note: 'through the clarifier');
   }
 
@@ -188,11 +246,17 @@ class PlantPainter extends CustomPainter {
     final mid = size.height / 2 - 12;
     final basin = Rect.fromLTRB(58, mid - 30, size.width / 2 - 12, mid + 30);
     final tank = Rect.fromLTRB(
-        size.width / 2 + 16, mid - 30, size.width - 52, mid + 30);
-    final waterTone =
-        highlight == Loop2.water ? AppColors.ember : AppColors.info;
-    final solidsTone =
-        highlight == Loop2.solids ? AppColors.ember : AppColors.ink2;
+      size.width / 2 + 16,
+      mid - 30,
+      size.width - 52,
+      mid + 30,
+    );
+    final waterTone = highlight == Loop2.water
+        ? AppColors.ember
+        : AppColors.info;
+    final solidsTone = highlight == Loop2.solids
+        ? AppColors.ember
+        : AppColors.ink2;
 
     for (final (rect, label) in [
       (basin, 'aeration basin'),
@@ -201,71 +265,127 @@ class PlantPainter extends CustomPainter {
       canvas
         ..drawRect(rect, waterFill)
         ..drawRect(
-            rect,
-            Paint()
-              ..color = AppColors.charcoal
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.8);
-      writeOn(canvas, size, label, Offset(rect.left + 4, rect.top - 14),
-          AppColors.charcoal, fontSize: 9.5);
+          rect,
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.8,
+        );
+      writeOn(
+        canvas,
+        size,
+        label,
+        Offset(rect.left + 4, rect.top - 14),
+        AppColors.charcoal,
+        fontSize: 9.5,
+      );
     }
 
     void run(Offset from, Offset to, Color tone, {double width = 3}) {
       canvas.drawLine(
-          from,
-          to,
-          Paint()
-            ..color = tone
-            ..strokeWidth = width);
+        from,
+        to,
+        Paint()
+          ..color = tone
+          ..strokeWidth = width,
+      );
       final along = to - from;
       if (along.distance < 1) return;
       final unit = along / along.distance;
       final back = to - unit * 8;
       final side = Offset(-unit.dy, unit.dx) * 4.5;
       canvas.drawPath(
-          Path()
-            ..moveTo(to.dx, to.dy)
-            ..lineTo(back.dx + side.dx, back.dy + side.dy)
-            ..lineTo(back.dx - side.dx, back.dy - side.dy)
-            ..close(),
-          Paint()..color = tone);
+        Path()
+          ..moveTo(to.dx, to.dy)
+          ..lineTo(back.dx + side.dx, back.dy + side.dy)
+          ..lineTo(back.dx - side.dx, back.dy - side.dy)
+          ..close(),
+        Paint()..color = tone,
+      );
     }
 
     // The water: in, across, out. Once through and gone.
     run(Offset(8, mid), Offset(basin.left, mid), waterTone);
     run(Offset(basin.right, mid), Offset(tank.left, mid), waterTone);
     run(Offset(tank.right, mid), Offset(size.width - 8, mid), waterTone);
-    writeOn(canvas, size, 'water', Offset(10, mid - 16), waterTone,
-        fontSize: 9.5);
-    writeOn(canvas, size, 'out', Offset(size.width - 32, mid - 16), waterTone,
-        fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'water',
+      Offset(10, mid - 16),
+      waterTone,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'out',
+      Offset(size.width - 32, mid - 16),
+      waterTone,
+      fontSize: 9.5,
+    );
 
     // The solids: down out of the clarifier, back to the basin, round and
     // round, with a little wasted.
     final loopY = mid + 56;
-    canvas.drawLine(Offset(tank.center.dx, mid + 30), Offset(tank.center.dx,
-        loopY),
-        Paint()
-          ..color = solidsTone
-          ..strokeWidth = 3);
-    run(Offset(tank.center.dx, loopY), Offset(basin.center.dx, loopY),
-        solidsTone);
-    run(Offset(basin.center.dx, loopY), Offset(basin.center.dx, mid + 30),
-        solidsTone);
-    writeOn(canvas, size, 'returned sludge',
-        Offset(basin.center.dx + 6, loopY + 4), solidsTone, fontSize: 9.5);
-    run(Offset(tank.center.dx, loopY), Offset(size.width - 8, loopY),
-        solidsTone,
-        width: 2);
-    writeOn(canvas, size, 'wasted', Offset(size.width - 54, loopY - 15),
-        solidsTone, fontSize: 9);
+    canvas.drawLine(
+      Offset(tank.center.dx, mid + 30),
+      Offset(tank.center.dx, loopY),
+      Paint()
+        ..color = solidsTone
+        ..strokeWidth = 3,
+    );
+    run(
+      Offset(tank.center.dx, loopY),
+      Offset(basin.center.dx, loopY),
+      solidsTone,
+    );
+    run(
+      Offset(basin.center.dx, loopY),
+      Offset(basin.center.dx, mid + 30),
+      solidsTone,
+    );
+    writeOn(
+      canvas,
+      size,
+      'returned sludge',
+      Offset(basin.center.dx + 6, loopY + 4),
+      solidsTone,
+      fontSize: 9.5,
+    );
+    run(
+      Offset(tank.center.dx, loopY),
+      Offset(size.width - 8, loopY),
+      solidsTone,
+      width: 2,
+    );
+    writeOn(
+      canvas,
+      size,
+      'wasted',
+      Offset(size.width - 54, loopY - 15),
+      solidsTone,
+      fontSize: 9,
+    );
 
     if (note != null) {
-      writeOn(canvas, size, note!, const Offset(8, 8), AppColors.ink3,
-          fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        note!,
+        const Offset(8, 8),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
-    writeOn(canvas, size, 'FLOW DIAGRAM', Offset(size.width, size.height - 14),
-        AppColors.ink3, fontSize: 8.5);
+    writeOn(
+      canvas,
+      size,
+      'FLOW DIAGRAM',
+      Offset(size.width, size.height - 14),
+      AppColors.ink3,
+      fontSize: 8.5,
+    );
   }
 
   @override
