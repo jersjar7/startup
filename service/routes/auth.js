@@ -215,6 +215,11 @@ router.get('/me', verifyAuth, async (req, res) => {
         }
       : null,
     examOutcomeResolved: outcomeAnswered(user),
+    // How many times the card has been put away, so the phone can work out
+    // which ask in the sequence it is on without a second request.
+    examOutcomeSnoozes: Array.isArray(user.examOutcome?.snoozes)
+      ? user.examOutcome.snoozes.length
+      : 0,
     problemsAnswered,
   });
 });
@@ -295,6 +300,13 @@ router.post('/exam-outcome', verifyAuth, async (req, res) => {
 
   if (parsed.declined) {
     await DB.setUserFields(req.user.email, { 'examOutcome.declinedAt': new Date() });
+    return res.send({ ok: true });
+  }
+  // Putting the card away is NOT an answer. It moves to the next ask in the
+  // same sequence the email uses, so the phone is as persistent as the email
+  // instead of giving up after one dismissal (owner, 2026-10-06).
+  if (parsed.snoozed) {
+    await DB.pushUserField(req.user.email, 'examOutcome.snoozes', new Date());
     return res.send({ ok: true });
   }
   await DB.setUserFields(req.user.email, {

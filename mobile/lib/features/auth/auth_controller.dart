@@ -116,6 +116,13 @@ class AuthController extends ChangeNotifier {
     await refreshMe();
   }
 
+  /// Putting the card away is not an answer. It moves to the next ask in the
+  /// same sequence the email uses, so one dismissal does not end the question.
+  Future<void> snoozeExamOutcome() async {
+    await api.post('/user/exam-outcome', {'snoozed': true});
+    await refreshMe();
+  }
+
   /// Re-check verification status (called when the app returns to foreground on
   /// the Verify screen).
   Future<void> refreshMe() async {

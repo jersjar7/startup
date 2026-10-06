@@ -85,6 +85,30 @@ void main() {
       expect(shouldAskOutcome(user, on('2026-06-01')), isFalse);
     });
 
+    test('comes back on the same schedule the email uses', () {
+      // 9, 16, 30 and 60 days after the exam, mirroring ASK_DAYS on the server.
+      expect(outcomeAskDays, [9, 16, 30, 60]);
+      String after(int d) {
+        final x = DateTime.utc(2026, 4, 10 + d);
+        return x.toIso8601String().substring(0, 10);
+      }
+      for (var put = 0; put < outcomeAskDays.length; put++) {
+        final user = {'examDate': '2026-04-10', 'examOutcomeSnoozes': put};
+        final due = outcomeAskDays[put];
+        expect(shouldAskOutcome(user, on(after(due - 1))), isFalse,
+            reason: 'ask ${put + 1} showed a day early');
+        expect(shouldAskOutcome(user, on(after(due))), isTrue,
+            reason: 'ask ${put + 1} did not show');
+      }
+    });
+
+    test('goes quiet for good after the fourth', () {
+      final user = {'examDate': '2026-04-10', 'examOutcomeSnoozes': 4};
+      expect(shouldAskOutcome(user, on('2027-06-01')), isFalse);
+      expect(shouldAskOutcome({'examDate': '2026-04-10', 'examOutcomeSnoozes': 9},
+          on('2027-06-01')), isFalse);
+    });
+
     test('a rubbish exam date is not an exam date', () {
       expect(shouldAskOutcome({'examDate': 'soon'}, on('2026-06-01')), isFalse);
     });
@@ -142,7 +166,9 @@ void main() {
       expect(body.containsKey('passed'), isFalse);
     });
 
-    testWidgets('closing it records a refusal, so it is never asked again', (tester) async {
+    testWidgets('closing it is a snooze, not a refusal', (tester) async {
+      // One dismissal used to end the question forever while the email went
+      // on asking four times. The phone is now as persistent as the email.
       final api = _RecordingApi();
       final auth = _auth(api);
       await tester.pumpWidget(_host(auth, ExamOutcomeCard(auth: auth)));
@@ -153,6 +179,20 @@ void main() {
 
       final (path, body) = api.posts.first;
       expect(path, '/user/exam-outcome');
+      expect(body!['snoozed'], true);
+      expect(body.containsKey('declined'), isFalse);
+    });
+
+    testWidgets('there is a real way out, and it does refuse for good', (tester) async {
+      final api = _RecordingApi();
+      final auth = _auth(api);
+      await tester.pumpWidget(_host(auth, ExamOutcomeCard(auth: auth)));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Do not ask again'));
+      await tester.pumpAndSettle();
+
+      final (_, body) = api.posts.first;
       expect(body!['declined'], true);
     });
 

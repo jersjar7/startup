@@ -24,15 +24,31 @@ String _today(DateTime now) => now.toIso8601String().substring(0, 10);
 /// recent enough to be remembered precisely.
 const outcomeAskAfterDays = 9;
 
+/// When each ask is due, in days after the exam. Mirrors ASK_DAYS in
+/// service/examOutcome.js, so the phone and the email are equally persistent
+/// rather than the phone giving up after one dismissal (owner, 2026-10-06).
+///
+/// Four touches and then silence. The sequence exists because non-response is
+/// biased: somebody who failed is less likely to say so, and a pass rate built
+/// from mostly passers is inflated and worse than no data at all.
+const outcomeAskDays = [outcomeAskAfterDays, 16, 30, 60];
+
 /// Whether the card belongs on screen. Pure, so it is the thing under test.
 bool shouldAskOutcome(Map<String, dynamic>? user, DateTime now) {
   if (user == null) return false;
+  // Only an explicit refusal, or an answer, ends it.
   if (user['examOutcomeResolved'] == true) return false;
   final iso = user['examDate'] as String?;
   if (iso == null || iso.isEmpty) return false;
   final exam = DateTime.tryParse(iso);
   if (exam == null) return false;
-  final due = DateTime.utc(exam.year, exam.month, exam.day + outcomeAskAfterDays);
+
+  // Putting the card away moves to the next ask rather than ending the
+  // sequence. After the fourth it goes quiet for good.
+  final put = (user['examOutcomeSnoozes'] as int?) ?? 0;
+  if (put >= outcomeAskDays.length) return false;
+
+  final due = DateTime.utc(exam.year, exam.month, exam.day + outcomeAskDays[put]);
   return _today(now).compareTo(_today(due)) >= 0;
 }
 
@@ -66,13 +82,29 @@ class _ExamOutcomeCardState extends State<ExamOutcomeCard> {
     }
   }
 
+  /// The X. Not an answer: it moves to the next ask in the sequence, the same
+  /// way the email does, so one dismissal does not end the question forever.
+  Future<void> _snooze() async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    try {
+      await widget.auth.snoozeExamOutcome();
+    } catch (_) {
+      /* never trap anyone behind a research question */
+    }
+    widget.onDone?.call();
+    if (mounted) setState(() => _busy = false);
+  }
+
+  /// The explicit refusal, which does end it. Offered plainly so that putting
+  /// the card away repeatedly is never the only way out.
   Future<void> _decline() async {
     if (_busy) return;
     setState(() => _busy = true);
     try {
       await widget.auth.declineExamOutcome();
     } catch (_) {
-      /* same: the card comes back rather than blocking */
+      /* same */
     }
     widget.onDone?.call();
     if (mounted) setState(() => _busy = false);
@@ -98,7 +130,7 @@ class _ExamOutcomeCardState extends State<ExamOutcomeCard> {
                 ),
               ),
               GestureDetector(
-                onTap: _busy ? null : _decline,
+                onTap: _busy ? null : _snooze,
                 child: Icon(Icons.close, size: 20, color: AppColors.ink2),
               ),
             ],
@@ -143,17 +175,32 @@ class _ExamOutcomeCardState extends State<ExamOutcomeCard> {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
-            GestureDetector(
-              onTap: _busy ? null : () => _answer(sat: false),
-              child: Text(
-                'I did not sit it',
-                style: AppTheme.body(
-                  size: 14,
-                  color: AppColors.ink2,
-                  weight: FontWeight.w600,
-                ).copyWith(decoration: TextDecoration.underline),
-              ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: _busy ? null : () => _answer(sat: false),
+                  child: Text(
+                    'I did not sit it',
+                    style: AppTheme.body(
+                      size: 14,
+                      color: AppColors.ink2,
+                      weight: FontWeight.w600,
+                    ).copyWith(decoration: TextDecoration.underline),
+                  ),
+                ),
+                // The real way out. Without it, somebody who does not want to
+                // answer has only the X, which brings the card back three more
+                // times.
+                GestureDetector(
+                  onTap: _busy ? null : _decline,
+                  child: Text(
+                    'Do not ask again',
+                    style: AppTheme.body(size: 13.5, color: AppColors.ink3),
+                  ),
+                ),
+              ],
             ),
           ] else ...[
             Text(

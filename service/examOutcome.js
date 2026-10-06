@@ -80,6 +80,9 @@ function shouldAsk(user, today = dayString(new Date())) {
 function parseOutcome(body) {
   if (!body || typeof body !== 'object') return null;
   if (body.declined === true) return { declined: true };
+  // Deliberately distinct from declined: putting the card away is "not now",
+  // not "never". Only an explicit refusal ends the sequence.
+  if (body.snoozed === true) return { snoozed: true };
 
   if (typeof body.sat !== 'boolean') return null;
   // Someone who did not sit it has no result and no attempt number, and

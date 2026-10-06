@@ -99,6 +99,14 @@ describe('what an answer may say', () => {
     expect(parseOutcome({ declined: true })).toEqual({ declined: true });
   });
 
+  it('keeps putting the card away separate from refusing', () => {
+    // One dismissal used to end the question forever on the phone while the
+    // email went on asking four times. "Not now" and "never" are different.
+    expect(parseOutcome({ snoozed: true })).toEqual({ snoozed: true });
+    expect(parseOutcome({ snoozed: true }).declined).toBeUndefined();
+    expect(parseOutcome({ declined: true }).snoozed).toBeUndefined();
+  });
+
   it('allows a missing attempt number, since people forget', () => {
     expect(parseOutcome({ sat: true, passed: true }).attemptNumber).toBeNull();
     expect(parseOutcome({ sat: true, passed: true, attemptNumber: '' }).attemptNumber).toBeNull();

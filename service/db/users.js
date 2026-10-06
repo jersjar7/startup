@@ -37,6 +37,12 @@ async function setUserFields(email, fields) {
   await userCollection.updateOne({ email }, { $set: fields });
 }
 
+/// Appends to an array field. Used for the outcome snoozes, where each
+/// dismissal has to be counted rather than overwrite the last one.
+async function pushUserField(email, field, value) {
+  await userCollection.updateOne({ email }, { $push: { [field]: value } });
+}
+
 async function unsetUserFields(email, fields) {
   const unsetObj = {};
   for (const f of fields) unsetObj[f] = '';
@@ -52,5 +58,6 @@ module.exports = {
   getUserByResetToken,
   getUserByVerificationToken,
   setUserFields,
+  pushUserField,
   unsetUserFields,
 };
