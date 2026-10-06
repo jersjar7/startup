@@ -128,3 +128,16 @@
 @media (prefers-reduced-motion: reduce) {
   .school-prompt-overlay { animation: none; }
 }
+
+/* The reason, in the student's own interest. An earlier draft said the
+   department would see how its students were doing, which reads as being
+   reported on rather than helped (owner's catch, 2026-10-06). */
+.school-prompt-why {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-3, #6B6358);
+  margin: 0.25rem 0 0.75rem;
+  max-width: 44ch;
+}

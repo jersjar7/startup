@@ -258,8 +258,8 @@ class _SchoolEditorState extends State<SchoolEditor> {
             Text('Where do you study?', style: AppTheme.display(size: 30, height: 1.05)),
             const SizedBox(height: 8),
             Text(
-              'So your department can see how its students are doing as a group. '
-              'Nothing with your name on it ever leaves this app.',
+              'So we can show you how you compare with other students at '
+              'your school.',
               style: AppTheme.body(size: 14.5, color: AppColors.ink2, height: 1.5),
             ),
             const SizedBox(height: 24),
@@ -267,6 +267,7 @@ class _SchoolEditorState extends State<SchoolEditor> {
               controller: _name,
               label: 'School',
               hint: 'Your university',
+              textCapitalization: TextCapitalization.words,
               error: _error,
               autofocus: true,
               onSubmitted: (_) => _save(),

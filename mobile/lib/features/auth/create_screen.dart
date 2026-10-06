@@ -189,12 +189,12 @@ class _CreateScreenState extends State<CreateScreen> {
                           controller: _school,
                           label: 'School',
                           hint: 'Your university',
+                          textCapitalization: TextCapitalization.words,
                           autofocus: true,
                           accent: AppColors.charcoal,
                           caption:
-                              'So your department can see how its students are '
-                              'doing as a group. Nothing with your name on it '
-                              'ever leaves this app.',
+                              'So we can show you how you compare with other '
+                              'students at your school.',
                           error: _error,
                           onSubmitted: (_) => _submit(),
                         )

@@ -86,6 +86,9 @@ export function SchoolPrompt({ onClose, dismissible = true, className = '' }) {
         </button>
       )}
       <span className="school-prompt-q">Where are you studying?</span>
+      <span className="school-prompt-why">
+        So we can show you how you compare with other students at your school.
+      </span>
       <input
         className="school-prompt-input"
         type="text"

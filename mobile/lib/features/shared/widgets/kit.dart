@@ -363,6 +363,7 @@ class XLField extends StatelessWidget {
     this.caption,
     this.error,
     this.keyboardType,
+    this.textCapitalization = TextCapitalization.none,
     this.obscure = false,
     this.autofocus = false,
     this.onSubmitted,
@@ -378,6 +379,11 @@ class XLField extends StatelessWidget {
   final String? caption;
   final String? error;
   final TextInputType? keyboardType;
+
+  /// None by default, which is right for the email and password this field
+  /// was built for. A field holding a proper noun, such as a school, has to
+  /// ask for words or the keyboard opens lowercase on the first letter.
+  final TextCapitalization textCapitalization;
   final bool obscure;
   final bool autofocus;
   final ValueChanged<String>? onSubmitted;
@@ -444,6 +450,7 @@ class XLField extends StatelessWidget {
                 TextField(
               controller: controller,
               keyboardType: keyboardType,
+              textCapitalization: textCapitalization,
               obscureText: obscure,
               autofocus: autofocus,
               autocorrect: false,
