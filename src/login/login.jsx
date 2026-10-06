@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { SignIn, UserPlus, PaperPlaneTilt, ArrowLeft, Eye, EyeSlash } from '@phosphor-icons/react';
 import { SourcePrompt } from '../dashboard/SourcePrompt';
+import { SchoolPrompt } from '../dashboard/SchoolPrompt';
 import { examDateBounds } from '../data/examDateBounds';
 import './index.css';
 
@@ -26,11 +27,16 @@ export function Login({ userName, onLogin }) {
   // Set once registration succeeds: swaps the form for the one attribution
   // question, then routes on. See handleRegister.
   const [justRegistered, setJustRegistered] = React.useState(false);
-  // Onboarding runs two one-tap steps before the dashboard: attribution, then
-  // the exam date. The date gates the countdown, the near-exam pitch and the
-  // whole reminder ladder, yet only ~24% of users ever set it from the buried
-  // dashboard card. Asking here is the only point every new user passes through.
-  const [onboardStep, setOnboardStep] = React.useState('source'); // source | examDate
+  // Onboarding runs three short steps before the dashboard: attribution, then
+  // school, then the exam date. The date gates the countdown, the near-exam
+  // pitch and the whole reminder ladder, yet only ~24% of users ever set it
+  // from the buried dashboard card. Asking here is the only point every new
+  // user passes through.
+  //
+  // They run in sequence, one screen each, which is also what guarantees the
+  // attribution and school questions are never on screen together. Attribution
+  // goes first because it is the perishable one.
+  const [onboardStep, setOnboardStep] = React.useState('source'); // source | school | examDate
   const [examDate, setExamDate] = React.useState('');
   const [savingExamDate, setSavingExamDate] = React.useState(false);
   const EXAM_BOUNDS = React.useMemo(() => examDateBounds(), []);
@@ -210,6 +216,18 @@ export function Login({ userName, onLogin }) {
             <>
               <p className="login-subtitle">One quick question before you start.</p>
               <SourcePrompt
+                className="is-standalone"
+                dismissible={false}
+                onClose={() => setOnboardStep('school')}
+              />
+            </>
+          ) : onboardStep === 'school' ? (
+            <>
+              <p className="login-subtitle">Two more and you&rsquo;re done.</p>
+              {/* Not dismissible for the same reason as the question above it:
+                  this screen exists to ask. The prompt carries its own
+                  "Not a student" out, so nobody is stuck here. */}
+              <SchoolPrompt
                 className="is-standalone"
                 dismissible={false}
                 onClose={() => setOnboardStep('examDate')}

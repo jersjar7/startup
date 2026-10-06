@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SourcePrompt } from './SourcePrompt';
 import { shouldAskSource } from './acquisitionGate';
+import { SchoolPrompt } from './SchoolPrompt';
+import { shouldAskSchool } from './schoolGate';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { SimPitchBanner } from './SimPitchBanner';
 import {
@@ -103,6 +105,11 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   // (src/login/login.jsx); this catches anyone who slipped past that. Seeded
   // `true` so a slow or failed /me never triggers a duplicate ask.
   const [acqResolved, setAcqResolved] = React.useState(true);
+  // School safety net, on the same terms and seeded `true` for the same reason.
+  // Separate flag, not folded into acqResolved: the two questions resolve
+  // independently, and a user who answered one before the other existed must
+  // still be asked the one they have not seen.
+  const [schoolResolved, setSchoolResolved] = React.useState(true);
   const [problemsAnswered, setProblemsAnswered] = React.useState(0);
   const [error, setError] = React.useState('');
   const [events, setEvents] = React.useState([]);
@@ -172,6 +179,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         });
         // Server-side truth: answered OR dismissed, on any device.
         setAcqResolved(Boolean(data.acquisitionResolved));
+        setSchoolResolved(Boolean(data.schoolResolved));
         setProblemsAnswered(data.problemsAnswered || 0);
       } else {
         errors.push('stats');
@@ -318,14 +326,18 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   // Ask until resolved, never after. The never-ask-twice rule lives in
   // shouldAskSource(), which is unit tested.
   const showSource = shouldAskSource({ acquisitionResolved: acqResolved });
+  // Never both at once. shouldAskSchool() stands down while the source question
+  // is still outstanding, so the school ask surfaces on the next render after
+  // attribution resolves rather than stacking on top of it.
+  const showSchool = shouldAskSchool({ acquisitionResolved: acqResolved, schoolResolved });
 
   // Freeze the page behind the modal so the dashboard does not scroll under it.
   React.useEffect(() => {
-    if (!showSource) return undefined;
+    if (!showSource && !showSchool) return undefined;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = prev; };
-  }, [showSource]);
+  }, [showSource, showSchool]);
 
   // SourcePrompt has already POSTed the answer by the time it calls back; this
   // just closes the modal for the rest of the session. The server is the source
@@ -333,6 +345,13 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   // rather than silently lost.
   function resolveAcquisition() {
     setAcqResolved(true);
+  }
+
+  // Same contract as resolveAcquisition: SchoolPrompt has already POSTed by the
+  // time it calls back, and the server is the truth on the next load, so a
+  // failed POST means they get asked again rather than silently losing it.
+  function resolveSchool() {
+    setSchoolResolved(true);
   }
 
   function handleDiagnosticSkip() {
@@ -741,6 +760,15 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       {showSource && (
         <div className="source-prompt-overlay" role="dialog" aria-modal="true" aria-label="How did you find us?">
           <SourcePrompt className="is-modal" dismissible={false} onClose={resolveAcquisition} />
+        </div>
+      )}
+      {/* School safety net, queued behind the attribution one so a brand new
+          account never meets two modals in the same breath. "Not a student" is
+          the out, and it resolves server-side so it is a real answer rather
+          than a dismissal we would ask about again tomorrow. */}
+      {showSchool && (
+        <div className="school-prompt-overlay" role="dialog" aria-modal="true" aria-label="Where are you studying?">
+          <SchoolPrompt className="is-modal" dismissible={false} onClose={resolveSchool} />
         </div>
       )}
       <ScoringModal open={scoringOpen} onClose={() => setScoringOpen(false)} />

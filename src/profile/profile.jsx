@@ -18,11 +18,16 @@ import {
   CheckCircle,
   IdentificationCard,
   CalendarBlank,
+  GraduationCap,
 } from '@phosphor-icons/react';
 import './profile.css';
 import { examDateBounds } from '../data/examDateBounds';
+import { gradYearOptions } from '../dashboard/SchoolPrompt';
 
 const EXAM_DATE_BOUNDS = examDateBounds();
+// Borrowed from the prompt rather than re-declared, so the window the sign-up
+// question offers and the window this page accepts can never drift apart.
+const GRAD_YEARS = gradYearOptions();
 
 export function Profile({ userName, onLogout }) {
   useDocumentTitle('Profile');
@@ -41,9 +46,11 @@ export function Profile({ userName, onLogout }) {
   const [showNewPw, setShowNewPw] = React.useState(false);
   const [showConfirmPw, setShowConfirmPw] = React.useState(false);
 
-  // Details (name + exam date) state
+  // Details (name + school + exam date) state
   const [detFirst, setDetFirst] = React.useState('');
   const [detLast, setDetLast] = React.useState('');
+  const [detSchool, setDetSchool] = React.useState('');
+  const [detGradYear, setDetGradYear] = React.useState('');
   const [detExam, setDetExam] = React.useState('');
   const [detError, setDetError] = React.useState('');
   const [detSuccess, setDetSuccess] = React.useState('');
@@ -71,6 +78,8 @@ export function Profile({ userName, onLogout }) {
         setUserData(userResult.value);
         setDetFirst(userResult.value.firstName || '');
         setDetLast(userResult.value.lastName || '');
+        setDetSchool(userResult.value.school?.name || '');
+        setDetGradYear(userResult.value.school?.graduationYear ? String(userResult.value.school.graduationYear) : '');
         setDetExam(userResult.value.examDate || '');
       } else {
         navigate('/login');
@@ -124,28 +133,74 @@ export function Profile({ userName, onLogout }) {
     }
   }
 
+  // School lives behind its own route, so one Save button means two writes.
+  // Only send it when the pair actually moved: otherwise somebody who came here
+  // to fix a typo in their surname would get a school write (and any error it
+  // carries) they never asked for.
+  function schoolEdited(existing) {
+    const name = detSchool.trim();
+    const year = detGradYear ? Number(detGradYear) : null;
+    return name !== (existing?.name || '') || year !== (existing?.graduationYear ?? null);
+  }
+
   async function handleSaveDetails(e) {
     e.preventDefault();
     setDetError('');
     setDetSuccess('');
     setDetSubmitting(true);
+    const sendSchool = schoolEdited(userData?.school);
     try {
-      const res = await fetch('/api/user/profile', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName: detFirst.trim(),
-          lastName: detLast.trim(),
-          examDate: detExam || null,
+      // Independent requests on purpose. A school write that fails must not
+      // throw away a name or exam date that saved fine, so they are settled
+      // separately and only the part that failed is reported.
+      const [profileResult, schoolResult] = await Promise.allSettled([
+        fetch('/api/user/profile', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstName: detFirst.trim(),
+            lastName: detLast.trim(),
+            examDate: detExam || null,
+          }),
         }),
-      });
-      const body = await res.json().catch(() => ({}));
-      if (res.ok) {
-        setDetSuccess('Saved');
-        setUserData((u) => ({ ...u, ...body }));
+        sendSchool
+          ? fetch('/api/user/school', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: detSchool.trim(),
+              graduationYear: detGradYear ? Number(detGradYear) : null,
+            }),
+          })
+          : Promise.resolve(null),
+      ]);
+
+      const problems = [];
+
+      if (profileResult.status === 'fulfilled') {
+        const res = profileResult.value;
+        const body = await res.json().catch(() => ({}));
+        if (res.ok) {
+          setUserData((u) => ({ ...u, ...body }));
+        } else {
+          problems.push(body.msg || 'Could not save your details');
+        }
       } else {
-        setDetError(body.msg || 'Could not save your details');
+        problems.push('Network error');
       }
+
+      if (sendSchool) {
+        const ok = schoolResult.status === 'fulfilled' && schoolResult.value?.ok;
+        if (ok) {
+          const body = await schoolResult.value.json().catch(() => ({}));
+          setUserData((u) => ({ ...u, school: body.school ?? u?.school }));
+        } else {
+          problems.push('Could not save your school');
+        }
+      }
+
+      if (problems.length) setDetError(problems.join('. '));
+      else setDetSuccess('Saved');
     } catch {
       setDetError('Network error');
     } finally {
@@ -238,7 +293,9 @@ export function Profile({ userName, onLogout }) {
         </div>
       </section>
 
-      {/* Your details — name (for Live Activity) + exam date */}
+      {/* Your details: name (for Live Activity) + school + exam date. School
+          is editable here and not only at sign-up: people transfer, and the
+          one-time prompt is deliberately never shown twice. */}
       <section className="profile-card">
         <h2 className="profile-section-title">
           <IdentificationCard size={20} weight="bold" /> Your Details
@@ -260,6 +317,32 @@ export function Profile({ userName, onLogout }) {
           </div>
           <p className="details-hint">
             Shown as <strong>{previewName}</strong> in Live Activity — other students never see your email.
+          </p>
+
+          <div className="details-row">
+            <div className="details-field">
+              <label className="profile-input-label" htmlFor="school-name">
+                <GraduationCap size={15} weight="bold" style={{ verticalAlign: '-2px', marginRight: '0.3rem' }} />
+                School
+              </label>
+              <input id="school-name" type="text" autoComplete="organization" maxLength={120}
+                placeholder="University of West Florida" value={detSchool}
+                onChange={(e) => setDetSchool(e.target.value)} />
+            </div>
+            <div className="details-field">
+              <label className="profile-input-label" htmlFor="grad-year">Graduation year</label>
+              {/* Bounded to the same five-year window the sign-up prompt offers,
+                  for the same reason the exam date is bounded: the two surfaces
+                  must not be able to store values the other cannot show. */}
+              <input id="grad-year" type="number" inputMode="numeric" step={1}
+                min={GRAD_YEARS[0]} max={GRAD_YEARS[GRAD_YEARS.length - 1]}
+                placeholder={String(GRAD_YEARS[0])} value={detGradYear}
+                onChange={(e) => setDetGradYear(e.target.value)} />
+            </div>
+          </div>
+          <p className="details-hint">
+            Tells us which programmes our students come from, so we know whose
+            syllabus to follow. Leave the year blank if you have already graduated.
           </p>
 
           <label className="profile-input-label" htmlFor="exam-date">
