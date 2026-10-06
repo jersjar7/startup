@@ -9,10 +9,14 @@ import { buildMetrics, SUMMARY_IDS } from './metricDefs';
 import { StatCard, GrowthPanel, EngagementPanel, RevenuePanel, UsersPanel } from './panels';
 import './admin.css';
 
+// "All" is a word, not a number, so the server works the window out from the
+// first real account. A fixed ceiling would have silently started truncating
+// all-time once the platform was a year old, with nothing on the page saying so.
 const RANGES = [
   { days: 7, label: '7d' },
   { days: 30, label: '30d' },
   { days: 90, label: '90d' },
+  { days: 'all', label: 'All' },
 ];
 
 // Four groups, each answering one question the owner actually asks:

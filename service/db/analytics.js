@@ -9,6 +9,7 @@ const {
 const { dateAxis, seriesFor, cumulative } = require('../analytics');
 const { NOT_EXCLUDED } = require('../internalAccounts');
 const { COLLECTED_SALE } = require('../collectedSales');
+const { resolveWindow, isAllTime } = require('../analyticsWindow.js');
 
 
 // Daily buckets are computed in the owner's local timezone so "today" lines up
@@ -153,8 +154,22 @@ async function activeUsersSince(since) {
 // snapshot of point-in-time KPIs. Everything is reconstructed from raw
 // timestamped collections, so history is complete back to launch and each new
 // event lands in its day's bucket automatically — no nightly job required.
+/// The earliest real account, which is where "all time" starts. Only read
+/// when it is actually needed.
+async function firstAccountAt() {
+  const first = await userCollection
+    .find({ email: NOT_EXCLUDED, createdAt: { $exists: true } })
+    .sort({ createdAt: 1 })
+    .limit(1)
+    .project({ createdAt: 1 })
+    .toArray();
+  return first.length ? first[0].createdAt : null;
+}
+
 async function getDailyAnalytics(days = 30) {
-  const window = Math.min(Math.max(Number(days) || 30, 7), 365);
+  const window = resolveWindow(days, {
+    firstAccountAt: isAllTime(days) ? await firstAccountAt() : null,
+  });
   const axis = dateAxis(todayYmd(), window);
   // Generous lower bound; zero-fill clips to the exact axis afterward.
   const since = new Date(Date.now() - (window + 2) * 86400000);
@@ -195,6 +210,9 @@ async function getDailyAnalytics(days = 30) {
   return {
     tz: TZ,
     days: window,
+    // So the page can label the range honestly rather than printing a day
+    // count nobody asked for.
+    allTime: isAllTime(days),
     axis,
     series: {
       signups: signupSeries,

@@ -15,9 +15,10 @@ const AXIS = ['2026-10-01', '2026-10-02', '2026-10-03'];
 
 const series = (a, b, c) => [a, b, c];
 
-const timeseries = (days) => ({
+const timeseries = (days, allTime = false) => ({
   tz: 'America/Los_Angeles',
   days,
+  allTime,
   axis: AXIS,
   series: {
     signups: series(1, 2, 3),
@@ -112,9 +113,11 @@ function mockFetch() {
     const ok = (body) => Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(body) });
     if (u.startsWith('/api/admin/metrics')) return ok(METRICS);
     if (u.startsWith('/api/admin/timeseries')) {
-      const days = Number(new URL(u, 'http://x').searchParams.get('days'));
-      tsRequests.push(days);
-      return ok(timeseries(days));
+      // Kept as sent: "all" is a word, and coercing it to a number here would
+      // hide the one case this needs to prove.
+      const raw = new URL(u, 'http://x').searchParams.get('days');
+      tsRequests.push(raw === 'all' ? 'all' : Number(raw));
+      return ok(timeseries(raw === 'all' ? 126 : Number(raw), raw === 'all'));
     }
     if (u.startsWith('/api/admin/recent')) return ok(RECENT);
     if (u.startsWith('/api/admin/acquisition')) return ok(ACQUISITION);
@@ -238,6 +241,34 @@ describe('Admin dashboard', () => {
     fireEvent.click(range('7d'));
     await waitFor(() => expect(range('7d')).toHaveAttribute('aria-selected', 'true'));
     expect(tsRequests).toContain(7);
+  });
+
+  it('offers all time, and asks the server for it by name rather than a number', async () => {
+    // A fixed ceiling would have silently started truncating all-time once the
+    // platform was a year old, with nothing on the page saying so. The server
+    // works the window out from the first real account instead.
+    const { container } = await renderAdmin();
+    const range = (label) => within(container.querySelector('.admin-range')).getByText(label);
+
+    fireEvent.click(range('All'));
+    await waitFor(() => expect(range('All')).toHaveAttribute('aria-selected', 'true'));
+    expect(tsRequests).toContain('all');
+    expect(tsRequests).not.toContain(NaN);
+  });
+
+  it('keeps all time selected across every tab', async () => {
+    const { container } = await renderAdmin();
+    const range = (label) => within(container.querySelector('.admin-range')).getByText(label);
+    fireEvent.click(range('All'));
+    await waitFor(() => expect(range('All')).toHaveAttribute('aria-selected', 'true'));
+
+    const before = tsRequests.length;
+    for (const name of ['Engagement', 'Revenue', 'Users', 'Growth']) {
+      await openTab(name);
+      expect(range('All')).toHaveAttribute('aria-selected', 'true');
+      expect(range('30d')).toHaveAttribute('aria-selected', 'false');
+    }
+    expect(tsRequests.length).toBe(before);
   });
 
   it('a metric definition still opens from the summary row', async () => {
