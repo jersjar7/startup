@@ -201,11 +201,23 @@ void main() {
     expect(find.text('Pick a\npassword.'), findsOneWidget);
     await _golden(tester, 'create-2-password');
 
-    // A short password is refused before any request goes out.
+    // A short password is refused before anyone fills in a third screen.
     await tester.enterText(find.byType(TextField), 'short');
-    await tester.tap(find.byTooltip('Create account'));
+    await tester.tap(find.byTooltip('Next'));
     await tester.pumpAndSettle();
     expect(find.text('Use at least 8 characters.'), findsOneWidget);
+
+    // Then the school, which is what makes a cohort report possible at all.
+    // It is skippable: nobody is held at the door over a research field.
+    await tester.enterText(find.byType(TextField), 'longenough');
+    await tester.tap(find.byTooltip('Next'));
+    await tester.pumpAndSettle();
+    expect(find.text('Where do\nyou study?'), findsOneWidget);
+    expect(find.text('Skip'), findsOneWidget);
+    // Real years, not a template that printed its own variable name.
+    expect(find.text('${DateTime.now().year}'), findsOneWidget);
+    expect(find.text('Already have'), findsOneWidget);
+    await _golden(tester, 'create-3-school');
   });
 
   testWidgets('log in: email, then password', (tester) async {

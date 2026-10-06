@@ -9,6 +9,7 @@ import '../shared/widgets/kit.dart';
 import '../shared/widgets/legal_line.dart';
 import 'auth_controller.dart';
 import 'email_hint.dart';
+import '../profile/account_extras.dart' show graduationYears, YearChip;
 
 /// Create an account as two steps: the email on fog, the password on
 /// spring, then the check-your-email sheet (`/verify`). Same request as
@@ -26,6 +27,8 @@ class _CreateScreenState extends State<CreateScreen> {
 
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final _school = TextEditingController();
+  int? _gradYear;
   int _step = 0;
   bool _loading = false;
   String? _error;
@@ -35,20 +38,34 @@ class _CreateScreenState extends State<CreateScreen> {
   void dispose() {
     _email.dispose();
     _password.dispose();
+    _school.dispose();
     super.dispose();
   }
 
   void _next() {
     FocusManager.instance.primaryFocus?.unfocus();
-    final email = _email.text.trim();
-    if (email.isEmpty || !email.contains('@')) {
-      setState(() => _error = 'Enter your email.');
+    if (_step == 0) {
+      final email = _email.text.trim();
+      if (email.isEmpty || !email.contains('@')) {
+        setState(() => _error = 'Enter your email.');
+        return;
+      }
+      setState(() {
+        _error = null;
+        _emailTaken = false;
+        _step = 1;
+      });
+      return;
+    }
+    // Password is checked here rather than at submit, so nobody fills in their
+    // school and only then learns the password was too short.
+    if (_password.text.length < 8) {
+      setState(() => _error = 'Use at least 8 characters.');
       return;
     }
     setState(() {
       _error = null;
-      _emailTaken = false;
-      _step = 1;
+      _step = 2;
     });
   }
 
@@ -57,7 +74,10 @@ class _CreateScreenState extends State<CreateScreen> {
     final email = _email.text.trim();
     final password = _password.text;
     if (password.length < 8) {
-      setState(() => _error = 'Use at least 8 characters.');
+      setState(() {
+        _error = 'Use at least 8 characters.';
+        _step = 1;
+      });
       return;
     }
     setState(() {
@@ -66,7 +86,12 @@ class _CreateScreenState extends State<CreateScreen> {
       _emailTaken = false;
     });
     try {
-      await context.read<AuthController>().register(email, password);
+      await context.read<AuthController>().register(
+        email,
+        password,
+        school: _school.text,
+        graduationYear: _gradYear,
+      );
       if (mounted) context.go('/verify');
     } on ApiException catch (e) {
       // The server returns a 4xx with a message; flag the "already exists"
@@ -85,9 +110,15 @@ class _CreateScreenState extends State<CreateScreen> {
   @override
   Widget build(BuildContext context) {
     final onEmail = _step == 0;
+    final onPassword = _step == 1;
+    final onSchool = _step == 2;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 320),
-      color: onEmail ? AppColors.fog : AppColors.spring,
+      color: onEmail
+          ? AppColors.fog
+          : onPassword
+          ? AppColors.spring
+          : AppColors.peach,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -106,12 +137,12 @@ class _CreateScreenState extends State<CreateScreen> {
                                 ? context.pop()
                                 : context.go('/welcome')
                           : () => setState(() {
-                              _step = 0;
+                              _step -= 1;
                               _error = null;
                             }),
                     ),
                     const SizedBox(width: 14),
-                    Expanded(child: StepBar(count: 3, at: onEmail ? 1 : 2)),
+                    Expanded(child: StepBar(count: 4, at: _step + 1)),
                   ],
                 ),
                 const SizedBox(height: 30),
@@ -131,7 +162,9 @@ class _CreateScreenState extends State<CreateScreen> {
                                   ),
                                 ],
                               )
-                            : const TextSpan(text: 'Pick a\npassword.'),
+                            : onPassword
+                            ? const TextSpan(text: 'Pick a\npassword.')
+                            : const TextSpan(text: 'Where do\nyou study?'),
                         style: AppTheme.display(),
                       ),
                       const SizedBox(height: 30),
@@ -150,6 +183,21 @@ class _CreateScreenState extends State<CreateScreen> {
                           error: _error,
                           onSubmitted: (_) => _next(),
                         )
+                      else if (onSchool)
+                        XLField(
+                          key: const ValueKey('school'),
+                          controller: _school,
+                          label: 'School',
+                          hint: 'Your university',
+                          autofocus: true,
+                          accent: AppColors.charcoal,
+                          caption:
+                              'So your department can see how its students are '
+                              'doing as a group. Nothing with your name on it '
+                              'ever leaves this app.',
+                          error: _error,
+                          onSubmitted: (_) => _submit(),
+                        )
                       else
                         XLField(
                           key: const ValueKey('password'),
@@ -165,11 +213,47 @@ class _CreateScreenState extends State<CreateScreen> {
                           error: _error,
                           onSubmitted: (_) => _submit(),
                         ),
+                      if (onSchool) ...[
+                        const SizedBox(height: 24),
+                        Text(
+                          'GRADUATING',
+                          style: AppTheme.eyebrow(size: 11, color: AppColors.ink2),
+                        ),
+                        const SizedBox(height: 10),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            for (final y in graduationYears())
+                              YearChip(
+                                label: '$y',
+                                on: _gradYear == y,
+                                onTap: () => setState(
+                                  () => _gradYear = _gradYear == y ? null : y,
+                                ),
+                              ),
+                            YearChip(
+                              label: 'Already have',
+                              on: false,
+                              onTap: () => setState(() => _gradYear = null),
+                            ),
+                          ],
+                        ),
+                      ],
                       const SizedBox(height: 30),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          if (onEmail)
+                          if (onSchool)
+                            TextAction(
+                              label: 'Skip',
+                              onTap: () {
+                                _school.clear();
+                                _gradYear = null;
+                                _submit();
+                              },
+                            )
+                          else if (onEmail)
                             TextAction(
                               label: _emailTaken
                                   ? 'Log in with it instead'
@@ -179,8 +263,8 @@ class _CreateScreenState extends State<CreateScreen> {
                           else
                             const SizedBox.shrink(),
                           RoundNextButton(
-                            onTap: onEmail ? _next : _submit,
-                            label: onEmail ? 'Next' : 'Create account',
+                            onTap: onSchool ? _submit : _next,
+                            label: onSchool ? 'Create account' : 'Next',
                             loading: _loading,
                           ),
                         ],
@@ -188,7 +272,7 @@ class _CreateScreenState extends State<CreateScreen> {
                     ],
                   ),
                 ),
-                if (!onEmail) ...[const Spacer(), const LegalLine()],
+                if (onSchool) ...[const Spacer(), const LegalLine()],
               ],
             ),
           ),

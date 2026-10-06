@@ -1,4 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Study reminders are LOCAL notifications, scheduled on the phone from
+         the exam date and today's activity. Nothing is pushed from a server,
+         so there is no internet permission needed for them and no Firebase.
+
+         POST_NOTIFICATIONS is the runtime permission Android 13 and up
+         requires. RECEIVE_BOOT_COMPLETED is what lets the schedule survive a
+         restart; without it a student who reboots their phone silently stops
+         being reminded.
+
+         Deliberately NOT requesting SCHEDULE_EXACT_ALARM: the reminders use
+         inexact scheduling, which is accurate to within a few minutes, needs
+         no Play Store justification and is far kinder to the battery. A study
+         nudge does not need to land on the second. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
         android:label="mobile"
         android:name="${applicationName}"

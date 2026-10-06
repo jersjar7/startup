@@ -18,6 +18,9 @@ import 'exam_date_screen.dart';
 import 'mastery_model.dart';
 import 'mastery_screen.dart';
 import 'study_days_screen.dart';
+import '../../core/notifications/notifications.dart';
+import 'account_extras.dart';
+import 'exam_outcome_card.dart';
 
 /// Tab 1 — Profile, the tab the app opens on: a greeting, the next-concept
 /// hero tile, exam day and days studied, the mastery row. Account actions
@@ -38,11 +41,21 @@ class ProfileTab extends StatefulWidget {
 class _ProfileTabState extends State<ProfileTab> {
   late Future<Map<String, ChapterMastery>> _mastery; // chapterId -> both halves
 
+  /// Local only. Every reminder is worked out on the phone from the exam date
+  /// and today's activity, so there is no server, no push certificate and no
+  /// network involved. See core/notifications/notification_plan.dart.
+  final _notifications = Notifications();
+
+  /// Set when the outcome card has been answered, so it goes away at once
+  /// rather than waiting for the account read to come back.
+  bool _outcomeDone = false;
+
   @override
   void initState() {
     super.initState();
     final auth = context.read<AuthController>();
-    auth.refreshMe(); // freshen XP / days / badges
+    auth.refreshMe().then((_) => _armReminders());
+    _armReminders();
     final repo = ContentRepository(auth.api);
     _mastery = repo.mastery();
     // Anyone who signed up before the tour existed, or who tapped past it,
@@ -54,6 +67,21 @@ class _ProfileTabState extends State<ProfileTab> {
         if (mounted) _openTour();
       });
     }
+  }
+
+  /// Re-armed on every open. Two of the inputs move between launches: how
+  /// close the exam is, and whether anything was studied today. Cheap enough
+  /// to do unconditionally, and it also extends the window of days that are
+  /// scheduled, which iOS caps at 64 pending notifications.
+  Future<void> _armReminders() async {
+    if (!mounted) return;
+    final auth = context.read<AuthController>();
+    final user = auth.user;
+    if (user == null) return;
+    await _notifications.rearm(
+      examDay: user['examDate'] as String?,
+      lastStudyDay: user['lastSessionDate'] as String?,
+    );
   }
 
   Future<void> _openTour() => Navigator.of(context).push(
@@ -112,6 +140,13 @@ class _ProfileTabState extends State<ProfileTab> {
                   ],
                 ),
               ),
+              if (!_outcomeDone && shouldAskOutcome(user, appClock())) ...[
+                ExamOutcomeCard(
+                  auth: auth,
+                  onDone: () => setState(() => _outcomeDone = true),
+                ),
+                const SizedBox(height: 14),
+              ],
               // Two containers, in this order (owner's call, 2026-10-01):
               // where you stand, then the thing to do about it. The app's own
               // progress leads the first and the website's figures sit under
@@ -176,6 +211,7 @@ class _ProfileTabState extends State<ProfileTab> {
         auth: auth,
         onDelete: () => _confirmDelete(auth),
         onTour: _openTour,
+        notifications: _notifications,
       ),
     );
   }
@@ -674,10 +710,15 @@ class AccountSheet extends StatelessWidget {
     required this.auth,
     required this.onDelete,
     required this.onTour,
+    this.notifications,
   });
 
   final AuthController auth;
   final VoidCallback onDelete;
+
+  /// Optional so the sheet can still be photographed in a widget test without
+  /// a plugin behind it.
+  final Notifications? notifications;
 
   /// Replays the tour, so the two halves can be explained again at any time.
   final VoidCallback onTour;
@@ -772,7 +813,16 @@ class AccountSheet extends StatelessWidget {
                 _Figure(label: 'Concepts', value: '$held'),
               ],
             ),
-            const SizedBox(height: 22),
+            const SizedBox(height: 18),
+            // Where they study, and whether they want reminding. Both are
+            // settings rather than actions, so they sit above the buttons.
+            SchoolRow(auth: auth),
+            if (notifications != null)
+              RemindersRow(
+                notifications: notifications!,
+                examIso: user['examDate'] as String?,
+              ),
+            const SizedBox(height: 18),
             SheetButton(
               label: 'Open the website',
               onTap: () => launchUrl(

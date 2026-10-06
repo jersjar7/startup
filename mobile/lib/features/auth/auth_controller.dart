@@ -62,11 +62,55 @@ class AuthController extends ChangeNotifier {
     await _accept(data);
   }
 
-  Future<void> register(String email, String password) async {
-    final data =
-        await api.post('/auth/create', {'email': email, 'password': password})
-            as Map<String, dynamic>;
+  /// [school] and [graduationYear] are asked for on the sign-up screen, so
+  /// they ride along with the account rather than costing a second round trip.
+  /// Both are optional: somebody who has already graduated has no year, and a
+  /// student who would rather not say is never blocked.
+  Future<void> register(
+    String email,
+    String password, {
+    String? school,
+    int? graduationYear,
+  }) async {
+    final body = {'email': email, 'password': password};
+    if (school != null && school.trim().isNotEmpty) {
+      body['school'] = school.trim();
+      if (graduationYear != null) body['graduationYear'] = '\$graduationYear';
+    }
+    final data = await api.post('/auth/create', body) as Map<String, dynamic>;
     await _accept(data);
+  }
+
+  /// Where they study, and when they finish. A university only ever buys a
+  /// report about a cohort, and a cohort cannot be computed without this.
+  /// Re-postable: students transfer, and a stale school quietly corrupts a
+  /// report they are counted in.
+  Future<void> setSchool(String name, int? graduationYear) async {
+    await api.post('/user/school', {
+      'name': name,
+      'graduationYear': ?graduationYear,
+    });
+    await refreshMe();
+  }
+
+  /// Did they sit the exam, and did they pass. Asked nine days after their own
+  /// exam date. The single most valuable record the platform collects.
+  Future<void> setExamOutcome({
+    required bool sat,
+    bool? passed,
+    int? attemptNumber,
+  }) async {
+    await api.post('/user/exam-outcome', {
+      'sat': sat,
+      'passed': ?passed,
+      'attemptNumber': ?attemptNumber,
+    });
+    await refreshMe();
+  }
+
+  Future<void> declineExamOutcome() async {
+    await api.post('/user/exam-outcome', {'declined': true});
+    await refreshMe();
   }
 
   /// Re-check verification status (called when the app returns to foreground on
