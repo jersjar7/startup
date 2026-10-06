@@ -20,6 +20,7 @@ const { daysUntilExam } = require('./profile.js');
 const { hasPurchased } = require('./db/purchases.js');
 const { shouldPitchSimInDigest } = require('./digestPitch.js');
 const { canSendLifecycle, counts: budgetCounts, DAILY_CAP, MONTHLY_CAP } = require('./sendBudget.js');
+const { digestActiveSince, inDigestAudience, audienceNote, DIGEST_ACTIVE_DAYS } = require('./digestAudience.js');
 
 const TZ = process.env.LIFECYCLE_TZ || TZ_DEFAULT;
 const SEND_HOUR = Number(process.env.LIFECYCLE_HOUR) || 8;
@@ -257,13 +258,47 @@ async function sendExamOutcomeAsks(now) {
 
 async function sendWeeklyDigests(now) {
   const todayIdx = WEEKDAYS.indexOf(etWeekday(now, TZ));
+
+  // Only people who have actually studied recently. This used to go to every
+  // verified address, which was 394 people, 56 a day, against a lifecycle
+  // ceiling of 65 — the digest was eating the whole free-tier budget and
+  // starving the exam outcome question. See digestAudience.js.
+  //
+  // One distinct() for the batch rather than a lookup per user. If it throws,
+  // the digest is skipped entirely rather than falling back to everybody: the
+  // old behaviour is the bug, and restoring it silently on a bad day is worse
+  // than missing one morning's digests.
+  let activeEmails;
+  try {
+    activeEmails = new Set(await sessionLogCollection.distinct('email', {
+      completedAt: { $gte: digestActiveSince(now) },
+    }));
+  } catch (e) {
+    console.error('[lifecycle] digest audience lookup failed, skipping digests:', e.message);
+    return 0;
+  }
+
   const users = await userCollection.find({
     emailVerified: true,
     lifecycleOptOut: { $ne: true },
+    // Narrowing here rather than in the loop also retires a quiet bug: the pool
+    // was 394 against a limit of 300, so 94 people could never be reached on
+    // their digest day at all.
+    email: { $in: [...activeEmails] },
   }).limit(MAX_PER_RUN).toArray();
+
+  // Printed once a day so the audience is visible in the log rather than
+  // something to go and measure. If this starts climbing back toward the whole
+  // verified list, the budget squeeze is back.
+  const eligible = await userCollection.countDocuments({
+    emailVerified: true,
+    lifecycleOptOut: { $ne: true },
+  });
+  console.log(`[lifecycle] ${audienceNote(eligible, users.length)}`);
 
   let sent = 0;
   for (const u of users) {
+    if (!inDigestAudience(u, activeEmails)) continue;
     if (digestDay(u.email) !== todayIdx) continue;                     // only this user's assigned digest day
     if (u.lastWeeklyAt && daysSince(u.lastWeeklyAt, now) < 6) continue; // already sent this week
     if (!(await canSendLifecycle(now))) break;                         // out of daily/monthly send budget
