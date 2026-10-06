@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 import 'dart:math';
 
 import '../../core/network/api_client.dart';
+import '../../core/notifications/notifications.dart';
 
 /// One graded moment inside a game: the student answered, we know whether they
 /// got it, and we know which real problem the item came from.
@@ -73,6 +74,20 @@ class GameSync {
         ],
         'device': Platform.isIOS ? 'iPhone' : 'Android',
       });
+      // They studied, so tonight's "you have not studied today" is now wrong.
+      // The schedule used to be rebuilt only when the Profile tab first loaded,
+      // which meant studying in the evening still earned the seven o'clock
+      // telling-off. Rebuilt from the newest event rather than from now, so a
+      // batch that was queued offline overnight does not credit the wrong day.
+      //
+      // Never allowed to fail the push: the work IS recorded, and a notification
+      // that is merely stale must not be reported as lost study.
+      try {
+        final latest = events
+            .map((e) => e.ts)
+            .reduce((a, b) => a.isAfter(b) ? a : b);
+        await Notifications().studiedOn(latest);
+      } catch (_) {}
       return true;
     } catch (_) {
       return false;

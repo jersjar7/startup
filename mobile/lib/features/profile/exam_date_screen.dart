@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/network/api_exception.dart';
+import '../../core/notifications/notifications.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
@@ -115,6 +116,11 @@ class _ExamDateScreenState extends State<ExamDateScreen> {
     try {
       await auth.api.put('/user/profile', {'examDate': iso});
       await auth.refreshMe();
+      // The whole schedule hangs off this date: the countdowns, the quiet days
+      // before the exam, and the day the outcome question is asked. Saving a new
+      // date without rebuilding it left every one of them pointing at the old
+      // one until the app was next launched cold.
+      await Notifications().examDayChanged(iso);
       if (!mounted) return;
       Navigator.of(context).maybePop();
     } on ApiException catch (e) {

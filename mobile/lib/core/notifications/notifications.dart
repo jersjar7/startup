@@ -169,15 +169,66 @@ class Notifications {
     return granted;
   }
 
+  /// The last inputs the schedule was built from.
+  ///
+  /// Kept because the two things that invalidate a schedule happen far from the
+  /// screen that builds it: saving a new exam date, and studying. Before this
+  /// existed, [rearm] ran only when the Profile tab first loaded, so a student
+  /// who moved their exam date was counted down to the old one until the next
+  /// cold launch, and somebody who studied in the evening was still told off at
+  /// seven for not having studied.
+  static String? _lastExamDay;
+  static String? _lastStudyDay;
+
   /// Replaces the whole schedule with the current plan.
   ///
   /// Cancel-then-schedule rather than reconcile: the plan is at most sixty
   /// items, the ids are deterministic, and a reconcile that drifts would leave
   /// a student being nudged about an exam they have already sat.
   Future<void> rearm({String? examDay, String? lastStudyDay}) async {
+    _lastExamDay = examDay ?? _lastExamDay;
+    _lastStudyDay = lastStudyDay ?? _lastStudyDay;
     if (!await isEnabled()) return;
-    await _guard(() => _rearm(examDay: examDay, lastStudyDay: lastStudyDay));
+    await _guard(() => _rearm(examDay: _lastExamDay, lastStudyDay: _lastStudyDay));
   }
+
+  /// The exam date moved, or was cleared. Rebuild against whatever it is now.
+  ///
+  /// Assigns rather than going through [rearm]'s `??`, because null here means
+  /// "they cleared it" and must drop the old date, not fall back to it. Clearing
+  /// the date and keeping its countdowns would be the worse of the two bugs.
+  ///
+  /// Takes the day explicitly rather than reading it back from the server: the
+  /// caller has just written it, and a refresh that failed would otherwise leave
+  /// the schedule pointing at the old date silently.
+  Future<void> examDayChanged(String? examDay) async {
+    _lastExamDay = examDay;
+    if (!await isEnabled()) return;
+    await _guard(() => _rearm(examDay: _lastExamDay, lastStudyDay: _lastStudyDay));
+  }
+
+  /// Something was studied today, so today's evening reminder is now wrong.
+  ///
+  /// Cheap to call on every successful sync: [rearm] rebuilds a fixed plan from
+  /// fixed inputs, so calling it twice in a day changes nothing the second time.
+  Future<void> studiedOn(DateTime day) => rearm(
+    lastStudyDay: '${day.year.toString().padLeft(4, '0')}-'
+        '${day.month.toString().padLeft(2, '0')}-'
+        '${day.day.toString().padLeft(2, '0')}',
+  );
+
+  /// Test seam. The cached inputs are static, so one test's schedule would
+  /// otherwise leak into the next.
+  static void resetCachedInputs() {
+    _lastExamDay = null;
+    _lastStudyDay = null;
+  }
+
+  @visibleForTesting
+  static String? get debugExamDay => _lastExamDay;
+
+  @visibleForTesting
+  static String? get debugStudyDay => _lastStudyDay;
 
   Future<void> _rearm({String? examDay, String? lastStudyDay}) async {
     await init();
