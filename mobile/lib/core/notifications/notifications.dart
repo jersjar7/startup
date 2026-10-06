@@ -27,6 +27,33 @@ class Notifications {
   final FlutterLocalNotificationsPlugin _plugin;
   final DateTime Function() now;
 
+  /// Which notification was tapped to open the app, if any.
+  ///
+  /// Read once by whoever acts on it and then cleared. The outcome question is
+  /// the only one that leads anywhere specific: tapping it has to land on the
+  /// question, not on wherever the app happened to be, or the tap has cost the
+  /// person something and given them nothing.
+  static final tapped = ValueNotifier<NotifyKind?>(null);
+
+  /// Set when the app was launched BY a notification rather than opened with
+  /// one already running. Checked at startup, since the callback fires before
+  /// any screen exists to react to it.
+  static NotifyKind? launchedBy;
+
+  /// Avoids a package dependency for one lookup.
+  static NotifyKind? _kindNamed(String? name) {
+    for (final k in NotifyKind.values) {
+      if (k.name == name) return k;
+    }
+    return null;
+  }
+
+  static void _onTap(NotificationResponse r) {
+    final kind = _kindNamed(r.payload);
+    if (kind == null) return;
+    tapped.value = kind;
+  }
+
   static const _askedKey = 'notif_permission_asked';
   static const _enabledKey = 'notif_enabled';
 
@@ -70,6 +97,7 @@ class Notifications {
       // whatever the package defaults to. Better than none.
     }
     await _plugin.initialize(
+      onDidReceiveNotificationResponse: _onTap,
       settings: const InitializationSettings(
         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
         iOS: DarwinInitializationSettings(
@@ -83,6 +111,15 @@ class Notifications {
     await _plugin
         .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(_channel);
+
+    // A notification that launched the app from cold is not delivered through
+    // the callback above, so it has to be asked for.
+    final launch = await _plugin.getNotificationAppLaunchDetails();
+    if (launch?.didNotificationLaunchApp == true) {
+      final payload = launch!.notificationResponse?.payload;
+      launchedBy = _kindNamed(payload);
+      if (launchedBy != null) tapped.value = launchedBy;
+    }
     _ready = true;
   }
 

@@ -627,12 +627,12 @@ async function sendWinbackEmail(toEmail, { focusChapter = null, unsubUrl } = {})
 // The tone matters more than usual here. Somebody who failed is being asked
 // about it, so the mail has to be worth opening either way and must not
 // celebrate before it knows.
-async function sendExamOutcomeEmail(toEmail, { unsubUrl, firstName = null, trackToken = null, attempt = 1 } = {}) {
+async function sendExamOutcomeEmail(toEmail, { unsubUrl, firstName = null, outcomeToken = null, attempt = 1 } = {}) {
   const hi = firstName ? `${firstName}, how` : 'How';
-  const link = (answer) => {
-    const base = `${appUrl}/exam-result?a=${answer}`;
-    return trackToken ? `${base}&t=${encodeURIComponent(trackToken)}` : base;
-  };
+  // One tap records the answer. No sign in: requiring one would lose most of
+  // the replies, and the non-response is exactly what is biased here.
+  const link = (answer) =>
+    `${appUrl}/api/email/exam-result/${encodeURIComponent(outcomeToken || '')}?a=${answer}`;
 
   // Three answers, three identical buttons.
   //
@@ -640,15 +640,26 @@ async function sendExamOutcomeEmail(toEmail, { unsubUrl, firstName = null, track
   // grey links, which is exactly the bias this email exists to avoid: if the
   // easy answer is the happy one, mostly passers reply and the pass rate
   // computed from this is inflated and worse than no data at all.
-  const answers = [
-    ['I passed', 'passed'],
-    ['I did not pass', 'failed'],
-    ['I did not sit it', 'missed'],
-  ].map(([label, a]) => `<tr><td style="padding:0 0 10px;">
-      <table role="presentation" cellpadding="0" cellspacing="0" width="100%"><tr>
-        <td align="center" bgcolor="${C.cream}" style="border-radius:10px;border:1.5px solid ${C.ember};">
-          <a href="${link(a)}" target="_blank" style="display:block;padding:14px 20px;font-family:${SANS};font-weight:600;font-size:15px;line-height:1;color:${C.ember};text-decoration:none;">${label}</a>
-        </td></tr></table></td></tr>`).join('');
+  // The two real outcomes side by side and equal, because if the happy answer
+  // is the easier one then mostly passers reply and the pass rate computed
+  // from this is inflated. "I did not sit it" is a different kind of answer,
+  // so it sits underneath as a plain centred link (owner, 2026-10-06).
+  const choice = (label, a) =>
+    `<table role="presentation" cellpadding="0" cellspacing="0" width="100%"><tr>
+      <td align="center" bgcolor="${C.cream}" style="border-radius:10px;border:1.5px solid ${C.ember};">
+        <a href="${link(a)}" target="_blank" style="display:block;padding:14px 10px;font-family:${SANS};font-weight:600;font-size:15px;line-height:1.2;color:${C.ember};text-decoration:none;">${label}</a>
+      </td></tr></table>`;
+
+  const answers = `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:6px 0 14px;">
+      <tr>
+        <td width="48%" valign="top">${choice('I passed', 'passed')}</td>
+        <td width="4%">&nbsp;</td>
+        <td width="48%" valign="top">${choice('I did not pass', 'failed')}</td>
+      </tr>
+      <tr><td colspan="3" align="center" style="padding-top:14px;">
+        <a href="${link('missed')}" target="_blank" style="font-family:${BODYF};font-weight:600;font-size:14px;color:${C.mute};text-decoration:underline;">I did not sit it</a>
+      </td></tr>
+    </table>`;
 
   // Reminders say less, not more. The first ask carries the reasoning; a
   // follow-up just reopens the door.
@@ -667,10 +678,10 @@ async function sendExamOutcomeEmail(toEmail, { unsubUrl, firstName = null, track
       unsubUrl,
       inner:
         body +
-        `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:6px 0 18px;">${answers}</table>` +
+        answers +
         // The strongest thing available for making the honest answer easier.
         // Both figures are NCEES's own, from Squared 2025.
-        para(`<span style="color:${C.muted};">Only 61 percent pass the FE Civil first time, and plenty of good engineers need a second go. Whatever happened, it is useful to know, and it stays between us. Nothing identifying ever goes into a report.</span>`) +
+        para(`<span style="color:${C.mute};">Only 61 percent pass the FE Civil first time, and plenty of good engineers need a second go. Whatever happened, it is useful to know, and it stays between us. Nothing identifying ever goes into a report.</span>`) +
         signatureBlock('Thanks either way,'),
     }),
   });

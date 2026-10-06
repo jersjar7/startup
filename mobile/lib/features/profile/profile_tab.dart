@@ -18,6 +18,7 @@ import 'exam_date_screen.dart';
 import 'mastery_model.dart';
 import 'mastery_screen.dart';
 import 'study_days_screen.dart';
+import '../../core/notifications/notification_plan.dart';
 import '../../core/notifications/notifications.dart';
 import 'account_extras.dart';
 import 'exam_outcome_card.dart';
@@ -50,12 +51,22 @@ class _ProfileTabState extends State<ProfileTab> {
   /// rather than waiting for the account read to come back.
   bool _outcomeDone = false;
 
+  /// Forced open by tapping the outcome notification. Without this, tapping it
+  /// nine days after an exam opens the app to the home screen and the person
+  /// has to find the question themselves, which is the whole friction the
+  /// notification was meant to remove.
+  final _scroll = ScrollController();
+
   @override
   void initState() {
     super.initState();
     final auth = context.read<AuthController>();
     auth.refreshMe().then((_) => _armReminders());
     _armReminders();
+    Notifications.tapped.addListener(_onNotificationTap);
+    if (Notifications.tapped.value != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _onNotificationTap());
+    }
     final repo = ContentRepository(auth.api);
     _mastery = repo.mastery();
     // Anyone who signed up before the tour existed, or who tapped past it,
@@ -73,6 +84,13 @@ class _ProfileTabState extends State<ProfileTab> {
   /// close the exam is, and whether anything was studied today. Cheap enough
   /// to do unconditionally, and it also extends the window of days that are
   /// scheduled, which iOS caps at 64 pending notifications.
+  @override
+  void dispose() {
+    Notifications.tapped.removeListener(_onNotificationTap);
+    _scroll.dispose();
+    super.dispose();
+  }
+
   Future<void> _armReminders() async {
     if (!mounted) return;
     final auth = context.read<AuthController>();
@@ -82,6 +100,25 @@ class _ProfileTabState extends State<ProfileTab> {
       examDay: user['examDate'] as String?,
       lastStudyDay: user['lastSessionDate'] as String?,
     );
+  }
+
+  /// Tapping the outcome notification brings the question into view, and
+  /// clears the flag so it only happens once per tap.
+  void _onNotificationTap() {
+    final kind = Notifications.tapped.value;
+    if (kind == null || !mounted) return;
+    Notifications.tapped.value = null;
+    if (kind != NotifyKind.outcome) return;
+    setState(() => _outcomeDone = false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scroll.hasClients) {
+        _scroll.animateTo(
+          0,
+          duration: const Duration(milliseconds: 280),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 
   Future<void> _openTour() => Navigator.of(context).push(
@@ -116,6 +153,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
         return SafeArea(
           child: ListView(
+            controller: _scroll,
             padding: const EdgeInsets.fromLTRB(16, 6, 16, 24),
             children: [
               Padding(

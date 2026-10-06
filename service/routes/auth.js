@@ -95,6 +95,9 @@ router.post('/create', async (req, res) => {
       verificationSentAt: new Date(),
       verifiedAt: null,
       unsubToken: generateToken(), // for one-click unsubscribe from lifecycle emails
+      // Separate from the unsubscribe token on purpose: an unsubscribe link
+      // that leaks must not also be able to write an exam result.
+      outcomeToken: generateToken(),
     };
     const acq = sanitizeAcq(req.body.acq);
     if (acq) user.acquisition = acq;

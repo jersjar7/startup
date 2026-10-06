@@ -221,10 +221,20 @@ async function sendExamOutcomeAsks(now) {
     if (!(await canSendLifecycle(now))) break;
     try {
       const token = await ensureUnsubToken(u);
+      // Every account created before this existed has no outcome token, so
+      // mint one the first time it is needed rather than backfilling 500 rows.
+      let outcome = u.outcomeToken;
+      if (!outcome) {
+        outcome = generateToken();
+        await userCollection.updateOne(
+          { email: u.email },
+          { $set: { outcomeToken: outcome } },
+        );
+      }
       await sendExamOutcomeEmail(u.email, {
         unsubUrl: unsubUrl(token),
         firstName: u.firstName || null,
-        trackToken: token,
+        outcomeToken: outcome,
         attempt,
       });
       // Recorded whether or not they ever reply, so the sequence advances and
