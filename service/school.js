@@ -71,6 +71,20 @@ function groupingKey(school) {
   return school.domain || school.key || null;
 }
 
+/// Which term they finish in. A May and a December graduate are a full exam
+/// cycle apart, so the year alone blurs two different cohorts, but twelve
+/// months is too much friction on a field people already skip. Four terms is
+/// two taps and it is how universities actually talk (owner, 2026-10-06).
+const GRAD_TERMS = ['winter', 'spring', 'summer', 'fall'];
+
+/// undefined means invalid, null means not given. Optional on purpose: a
+/// repeat taker who graduated years ago has no term to offer.
+function validGraduationTerm(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const term = String(value).toLowerCase().trim();
+  return GRAD_TERMS.includes(term) ? term : undefined;
+}
+
 function validGraduationYear(value, now = new Date()) {
   if (value === null || value === undefined || value === '') return null;
   const year = Number(value);
@@ -84,6 +98,8 @@ module.exports = {
   isSchoolResolved,
   normalizeSchoolName,
   academicDomain,
+  validGraduationTerm,
+  GRAD_TERMS,
   groupingKey,
   validGraduationYear,
   MAX_NAME,

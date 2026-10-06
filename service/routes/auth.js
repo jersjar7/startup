@@ -3,7 +3,13 @@ const bcrypt = require('bcryptjs');
 const rateLimit = require('express-rate-limit');
 const DB = require('../database.js');
 const { isAcquisitionResolved } = require('../acquisition.js');
-const { isSchoolResolved, normalizeSchoolName, academicDomain, validGraduationYear } = require('../school.js');
+const {
+  isSchoolResolved,
+  normalizeSchoolName,
+  academicDomain,
+  validGraduationTerm,
+  validGraduationYear,
+} = require('../school.js');
 const { parseOutcome, isAnswered: outcomeAnswered } = require('../examOutcome.js');
 const { verifyAuth, setAuthCookie, clearAuthCookie, authCookieName } = require('../middleware/auth.js');
 const { getBadgeDetails, getAllBadges } = require('../badges.js');
@@ -97,11 +103,13 @@ router.post('/create', async (req, res) => {
     const school = normalizeSchoolName(req.body.school);
     if (school) {
       const gradYear = validGraduationYear(req.body.graduationYear);
+      const gradTerm = validGraduationTerm(req.body.graduationTerm);
       user.school = {
         name: school.name,
         key: school.key,
         domain: academicDomain(email),
         graduationYear: gradYear === undefined ? null : gradYear,
+        graduationTerm: gradTerm === undefined ? null : gradTerm,
         answeredAt: new Date(),
       };
     }
@@ -189,7 +197,11 @@ router.get('/me', verifyAuth, async (req, res) => {
     acquisitionSource: user.acquisition?.source || null,
     acquisitionResolved: isAcquisitionResolved(user),
     school: user.school?.name
-      ? { name: user.school.name, graduationYear: user.school.graduationYear ?? null }
+      ? {
+          name: user.school.name,
+          graduationYear: user.school.graduationYear ?? null,
+          graduationTerm: user.school.graduationTerm ?? null,
+        }
       : null,
     schoolResolved: isSchoolResolved(user),
     examOutcome: user.examOutcome?.answeredAt
@@ -255,11 +267,15 @@ router.post('/school', verifyAuth, async (req, res) => {
   const year = validGraduationYear(req.body.graduationYear);
   if (year === undefined) return res.status(400).send({ msg: 'That graduation year is not valid' });
 
+  const term = validGraduationTerm(req.body.graduationTerm);
+  if (term === undefined) return res.status(400).send({ msg: 'That graduation term is not valid' });
+
   await DB.setUserFields(req.user.email, {
     'school.name': parsed.name,
     'school.key': parsed.key,
     'school.domain': academicDomain(req.user.email, req.user.verifiedStudentEmail),
     'school.graduationYear': year,
+    'school.graduationTerm': term,
     'school.answeredAt': new Date(),
   });
   res.send({ ok: true, school: { name: parsed.name, graduationYear: year } });

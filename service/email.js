@@ -627,26 +627,50 @@ async function sendWinbackEmail(toEmail, { focusChapter = null, unsubUrl } = {})
 // The tone matters more than usual here. Somebody who failed is being asked
 // about it, so the mail has to be worth opening either way and must not
 // celebrate before it knows.
-async function sendExamOutcomeEmail(toEmail, { unsubUrl, firstName = null, trackToken = null } = {}) {
+async function sendExamOutcomeEmail(toEmail, { unsubUrl, firstName = null, trackToken = null, attempt = 1 } = {}) {
   const hi = firstName ? `${firstName}, how` : 'How';
   const link = (answer) => {
     const base = `${appUrl}/exam-result?a=${answer}`;
     return trackToken ? `${base}&t=${encodeURIComponent(trackToken)}` : base;
   };
+
+  // Three answers, three identical buttons.
+  //
+  // The first draft made "I passed" an ember button and the other two small
+  // grey links, which is exactly the bias this email exists to avoid: if the
+  // easy answer is the happy one, mostly passers reply and the pass rate
+  // computed from this is inflated and worse than no data at all.
+  const answers = [
+    ['I passed', 'passed'],
+    ['I did not pass', 'failed'],
+    ['I did not sit it', 'missed'],
+  ].map(([label, a]) => `<tr><td style="padding:0 0 10px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%"><tr>
+        <td align="center" bgcolor="${C.cream}" style="border-radius:10px;border:1.5px solid ${C.ember};">
+          <a href="${link(a)}" target="_blank" style="display:block;padding:14px 20px;font-family:${SANS};font-weight:600;font-size:15px;line-height:1;color:${C.ember};text-decoration:none;">${label}</a>
+        </td></tr></table></td></tr>`).join('');
+
+  // Reminders say less, not more. The first ask carries the reasoning; a
+  // follow-up just reopens the door.
+  const body = attempt === 1
+    ? para('Your exam date has been and gone, and results are usually out by now. Would you tell us how it went?') +
+      para('It takes one tap. We use it to work out which study patterns actually lead to a pass, which is the only way this gets better for the people sitting it after you.')
+    : para('Still hoping to hear how your exam went. One tap, whichever it was.');
+
   return sendEmail({
     to: toEmail,
-    subject: 'How did the FE go?',
+    subject: attempt === 1 ? 'How did the FE go?' : 'How did the FE go? (one tap)',
     headers: lifecycleHeaders(unsubUrl),
     html: emailLayout({
-      preheader: 'Two taps, and it helps every student after you.',
+      preheader: 'One tap, and it helps every student after you.',
       heading: `${hi} did it go?`,
       unsubUrl,
       inner:
-        para('Your exam date has been and gone, and results are usually out by now. Would you tell us how it went?') +
-        para('It takes two taps. We use it to work out which study patterns actually lead to a pass, which is the only way this gets better for the people sitting it after you.') +
-        button('I passed', link('passed')) +
-        para(`<a href="${link('failed')}">I did not pass this time</a> &nbsp;·&nbsp; <a href="${link('missed')}">I did not sit it</a>`) +
-        para('Whatever the answer, it is useful, and it stays between us. Nothing identifying ever goes into a report.') +
+        body +
+        `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:6px 0 18px;">${answers}</table>` +
+        // The strongest thing available for making the honest answer easier.
+        // Both figures are NCEES's own, from Squared 2025.
+        para(`<span style="color:${C.muted};">Only 61 percent pass the FE Civil first time, and plenty of good engineers need a second go. Whatever happened, it is useful to know, and it stays between us. Nothing identifying ever goes into a report.</span>`) +
         signatureBlock('Thanks either way,'),
     }),
   });

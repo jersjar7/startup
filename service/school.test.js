@@ -5,6 +5,8 @@ import {
   academicDomain,
   groupingKey,
   validGraduationYear,
+  validGraduationTerm,
+  GRAD_TERMS,
   MAX_NAME,
 } from './school.js';
 
@@ -120,5 +122,41 @@ describe('graduation year', () => {
   it('allows an incoming freshman but not an unborn one', () => {
     expect(validGraduationYear(2032, now)).toBe(2032);
     expect(validGraduationYear(2033, now)).toBeUndefined();
+  });
+});
+
+describe('graduation term', () => {
+  it('is the four the owner named, in calendar order', () => {
+    // A May and a December graduate are a full exam cycle apart, so the year
+    // alone blurs two cohorts. Twelve months would be too much friction on a
+    // field people already skip.
+    expect(GRAD_TERMS).toEqual(['winter', 'spring', 'summer', 'fall']);
+  });
+
+  it('takes a term however it is cased or spaced', () => {
+    expect(validGraduationTerm('Fall')).toBe('fall');
+    expect(validGraduationTerm('SPRING')).toBe('spring');
+    expect(validGraduationTerm('  summer ')).toBe('summer');
+  });
+
+  it('accepts no answer, because a repeat taker graduated years ago', () => {
+    expect(validGraduationTerm(null)).toBeNull();
+    expect(validGraduationTerm('')).toBeNull();
+    expect(validGraduationTerm(undefined)).toBeNull();
+  });
+
+  it('rejects anything that is not one of the four', () => {
+    // undefined is the invalid signal, distinct from null meaning "not given"
+    expect(validGraduationTerm('autumn')).toBeUndefined();
+    expect(validGraduationTerm('q3')).toBeUndefined();
+    expect(validGraduationTerm('May')).toBeUndefined();
+    expect(validGraduationTerm(3)).toBeUndefined();
+  });
+
+  it('separates two cohorts a year alone would merge', () => {
+    const may = { year: validGraduationYear(2027), term: validGraduationTerm('spring') };
+    const december = { year: validGraduationYear(2027), term: validGraduationTerm('fall') };
+    expect(may.year).toBe(december.year);
+    expect(may.term).not.toBe(december.term);
   });
 });

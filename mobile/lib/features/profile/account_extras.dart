@@ -19,6 +19,72 @@ List<int> graduationYears([DateTime? now]) {
   return [for (var i = 0; i <= 4; i++) y + i];
 }
 
+/// Which term they finish in. A May and a December graduate are a full exam
+/// cycle apart, so the year alone blurs two different cohorts, but twelve
+/// months is too much friction on a field people already skip. Four terms is
+/// two taps and it is how universities actually talk (owner, 2026-10-06).
+const graduationTerms = ['Winter', 'Spring', 'Summer', 'Fall'];
+
+/// Both halves of the answer, each optional on its own.
+class GraduationPicker extends StatelessWidget {
+  const GraduationPicker({
+    super.key,
+    required this.year,
+    required this.term,
+    required this.onYear,
+    required this.onTerm,
+  });
+
+  final int? year;
+  final String? term;
+  final ValueChanged<int?> onYear;
+  final ValueChanged<String?> onTerm;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('GRADUATING', style: AppTheme.eyebrow(size: 11, color: AppColors.ink2)),
+        const SizedBox(height: 10),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final t in graduationTerms)
+              YearChip(
+                label: t,
+                on: term == t,
+                onTap: () => onTerm(term == t ? null : t),
+              ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final y in graduationYears())
+              YearChip(
+                label: '$y',
+                on: year == y,
+                onTap: () => onYear(year == y ? null : y),
+              ),
+            YearChip(
+              label: 'Already have',
+              on: false,
+              onTap: () {
+                onYear(null);
+                onTerm(null);
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
 /// A row that reads like the stat rows above it: a label, the current value,
 /// and a chevron. Used for both school and reminders.
 class SheetRow extends StatelessWidget {
@@ -191,6 +257,7 @@ class SchoolEditor extends StatefulWidget {
 class _SchoolEditorState extends State<SchoolEditor> {
   late final TextEditingController _name;
   int? _year;
+  String? _term;
   bool _busy = false;
   String? _error;
 
@@ -200,6 +267,15 @@ class _SchoolEditorState extends State<SchoolEditor> {
     final school = widget.auth.user?['school'] as Map<String, dynamic>?;
     _name = TextEditingController(text: (school?['name'] ?? '') as String);
     _year = school?['graduationYear'] as int?;
+    final t = school?['graduationTerm'] as String?;
+    _term = t == null
+        ? null
+        : graduationTerms.firstWhere(
+            (x) => x.toLowerCase() == t.toLowerCase(),
+            orElse: () => '',
+          ).isEmpty
+        ? null
+        : graduationTerms.firstWhere((x) => x.toLowerCase() == t.toLowerCase());
   }
 
   @override
@@ -220,7 +296,7 @@ class _SchoolEditorState extends State<SchoolEditor> {
       _error = null;
     });
     try {
-      await widget.auth.setSchool(name, _year);
+      await widget.auth.setSchool(name, _year, _term);
       if (mounted) Navigator.of(context).pop();
     } catch (_) {
       if (mounted) setState(() => _error = 'Could not save that. Try again.');
@@ -273,24 +349,11 @@ class _SchoolEditorState extends State<SchoolEditor> {
               onSubmitted: (_) => _save(),
             ),
             const SizedBox(height: 22),
-            Text('GRADUATING', style: AppTheme.eyebrow(size: 11, color: AppColors.ink2)),
-            const SizedBox(height: 10),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                for (final y in graduationYears())
-                  YearChip(
-                    label: '$y',
-                    on: _year == y,
-                    onTap: () => setState(() => _year = _year == y ? null : y),
-                  ),
-                YearChip(
-                  label: 'Already have',
-                  on: false,
-                  onTap: () => setState(() => _year = null),
-                ),
-              ],
+            GraduationPicker(
+              year: _year,
+              term: _term,
+              onYear: (y) => setState(() => _year = y),
+              onTerm: (t) => setState(() => _term = t),
             ),
             const SizedBox(height: 26),
             PillButton(label: _busy ? 'Saving' : 'Save', onTap: _busy ? null : _save),

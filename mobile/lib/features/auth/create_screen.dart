@@ -9,7 +9,7 @@ import '../shared/widgets/kit.dart';
 import '../shared/widgets/legal_line.dart';
 import 'auth_controller.dart';
 import 'email_hint.dart';
-import '../profile/account_extras.dart' show graduationYears, YearChip;
+import '../profile/account_extras.dart' show GraduationPicker;
 
 /// Create an account as two steps: the email on fog, the password on
 /// spring, then the check-your-email sheet (`/verify`). Same request as
@@ -29,6 +29,7 @@ class _CreateScreenState extends State<CreateScreen> {
   final _password = TextEditingController();
   final _school = TextEditingController();
   int? _gradYear;
+  String? _gradTerm;
   int _step = 0;
   bool _loading = false;
   String? _error;
@@ -91,6 +92,7 @@ class _CreateScreenState extends State<CreateScreen> {
         password,
         school: _school.text,
         graduationYear: _gradYear,
+        graduationTerm: _gradTerm,
       );
       if (mounted) context.go('/verify');
     } on ApiException catch (e) {
@@ -215,29 +217,11 @@ class _CreateScreenState extends State<CreateScreen> {
                         ),
                       if (onSchool) ...[
                         const SizedBox(height: 24),
-                        Text(
-                          'GRADUATING',
-                          style: AppTheme.eyebrow(size: 11, color: AppColors.ink2),
-                        ),
-                        const SizedBox(height: 10),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: [
-                            for (final y in graduationYears())
-                              YearChip(
-                                label: '$y',
-                                on: _gradYear == y,
-                                onTap: () => setState(
-                                  () => _gradYear = _gradYear == y ? null : y,
-                                ),
-                              ),
-                            YearChip(
-                              label: 'Already have',
-                              on: false,
-                              onTap: () => setState(() => _gradYear = null),
-                            ),
-                          ],
+                        GraduationPicker(
+                          year: _gradYear,
+                          term: _gradTerm,
+                          onYear: (y) => setState(() => _gradYear = y),
+                          onTerm: (t) => setState(() => _gradTerm = t),
                         ),
                       ],
                       const SizedBox(height: 30),
@@ -250,6 +234,7 @@ class _CreateScreenState extends State<CreateScreen> {
                               onTap: () {
                                 _school.clear();
                                 _gradYear = null;
+                                _gradTerm = null;
                                 _submit();
                               },
                             )

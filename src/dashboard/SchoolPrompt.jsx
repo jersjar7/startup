@@ -26,6 +26,12 @@ import './SchoolPrompt.css';
 // "ask until resolved, never after" (see src/dashboard/schoolGate.js).
 const GRAD_YEAR_SPAN = 5;
 
+// A May and a December graduate are a full exam cycle apart, so the year alone
+// blurs two different cohorts. Four terms is two taps and it is how
+// universities actually talk; twelve months would be too much friction on a
+// field people already skip (owner, 2026-10-06).
+export const GRAD_TERMS = ['Winter', 'Spring', 'Summer', 'Fall'];
+
 // Chips are generated, not hardcoded, so the window does not quietly rot into
 // a list of past years the next time nobody is looking.
 export function gradYearOptions(now = new Date()) {
@@ -48,6 +54,7 @@ async function postSchool(body) {
 export function SchoolPrompt({ onClose, dismissible = true, className = '' }) {
   const [name, setName] = React.useState('');
   const [year, setYear] = React.useState(null); // a year, or 'graduated'
+  const [term, setTerm] = React.useState(null);
   const [busy, setBusy] = React.useState(false);
   const years = React.useMemo(() => gradYearOptions(), []);
 
@@ -64,6 +71,7 @@ export function SchoolPrompt({ onClose, dismissible = true, className = '' }) {
       await postSchool({
         name: trimmed,
         graduationYear: typeof year === 'number' ? year : null,
+        graduationTerm: term ? term.toLowerCase() : null,
       });
     } catch { /* non-blocking: never trap a user behind a profile question */ }
     onClose(true);
@@ -102,6 +110,20 @@ export function SchoolPrompt({ onClose, dismissible = true, className = '' }) {
       />
       <span className="school-prompt-sub">When do you graduate?</span>
       <div className="school-prompt-chips">
+        {GRAD_TERMS.map((t) => (
+          <button
+            key={t}
+            type="button"
+            className={`school-chip ${term === t ? 'is-picked' : ''}`.trim()}
+            aria-pressed={term === t}
+            disabled={busy}
+            onClick={() => setTerm(term === t ? null : t)}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+      <div className="school-prompt-chips">
         {years.map((y) => (
           <button
             key={y}
@@ -119,7 +141,10 @@ export function SchoolPrompt({ onClose, dismissible = true, className = '' }) {
           className={`school-chip ${year === 'graduated' ? 'is-picked' : ''}`.trim()}
           aria-pressed={year === 'graduated'}
           disabled={busy}
-          onClick={() => setYear(year === 'graduated' ? null : 'graduated')}
+          onClick={() => {
+            setYear(year === 'graduated' ? null : 'graduated');
+            setTerm(null);
+          }}
         >
           Already graduated
         </button>

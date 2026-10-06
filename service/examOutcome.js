@@ -14,6 +14,15 @@
 
 const ASK_AFTER_DAYS = 9;
 
+/// When each ask goes out, in days after the exam.
+///
+/// Four touches and then silence forever. The gaps widen so it reads as
+/// persistence rather than nagging, and the whole sequence exists because of
+/// response BIAS, not response volume: somebody who failed is less likely to
+/// say so, and if mostly passers answer then the pass rate computed from this
+/// is inflated and worse than having no data (owner, 2026-10-06).
+const ASK_DAYS = [ASK_AFTER_DAYS, 16, 30, 60];
+
 /// A date-only string, so nothing here depends on the time of day the
 /// scheduler happens to run.
 function dayString(d) {
@@ -35,15 +44,35 @@ function isAnswered(user) {
   return Boolean(o && (o.answeredAt || o.declinedAt));
 }
 
-/// Who should be asked today. Pure, so the scheduler and the tests see the
-/// same rule.
+/// How many times they have already been asked.
+function asksSent(user) {
+  const o = user && user.examOutcome;
+  if (!o) return 0;
+  if (Array.isArray(o.asks)) return o.asks.length;
+  // The first version stamped a single askedAt. Treat it as one ask so the
+  // people already asked are not asked a second time from scratch.
+  return o.askedAt ? 1 : 0;
+}
+
+/// Which ask is due today, one-based, or 0 for none. Pure, so the scheduler
+/// and the tests see the same rule.
+///
+/// Returns 0 once all four have gone out, so nobody is ever asked a fifth
+/// time no matter how long they go without replying.
+function askDue(user, today = dayString(new Date())) {
+  if (!user || !user.examDate) return 0;
+  if (isAnswered(user)) return 0;
+  const sent = asksSent(user);
+  if (sent >= ASK_DAYS.length) return 0;
+  const due = dueDate(user.examDate, ASK_DAYS[sent]);
+  if (!due) return 0;
+  return today >= due ? sent + 1 : 0;
+}
+
+/// Kept for readability at the call sites that only care whether anything is
+/// due at all.
 function shouldAsk(user, today = dayString(new Date())) {
-  if (!user || !user.examDate) return false;
-  if (isAnswered(user)) return false;
-  if (user.examOutcome && user.examOutcome.askedAt) return false;
-  const due = dueDate(user.examDate);
-  if (!due) return false;
-  return today >= due;
+  return askDue(user, today) > 0;
 }
 
 /// Validates a submitted answer. Returns null when the body is unusable, so a
@@ -68,4 +97,14 @@ function parseOutcome(body) {
   return { sat: true, passed: body.passed, attemptNumber: attempt };
 }
 
-module.exports = { ASK_AFTER_DAYS, dueDate, shouldAsk, isAnswered, parseOutcome, dayString };
+module.exports = {
+  ASK_AFTER_DAYS,
+  ASK_DAYS,
+  dueDate,
+  askDue,
+  shouldAsk,
+  asksSent,
+  isAnswered,
+  parseOutcome,
+  dayString,
+};

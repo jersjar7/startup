@@ -201,20 +201,23 @@ async function sendWinbacks(now) {
 // have. Lowest priority in the batch: it is research, and it must never be the
 // reason a verification email does not send.
 async function sendExamOutcomeAsks(now) {
-  const { shouldAsk, dayString } = require('./examOutcome.js');
+  const { askDue, dayString, ASK_DAYS } = require('./examOutcome.js');
   const today = dayString(now);
   const users = await userCollection.find({
     emailVerified: true,
     examDate: { $exists: true, $ne: null },
-    'examOutcome.askedAt': { $exists: false },
     'examOutcome.answeredAt': { $exists: false },
     'examOutcome.declinedAt': { $exists: false },
+    // Four touches and then silence. Anyone who has had all of them is out of
+    // the query entirely rather than filtered in memory every morning.
+    [`examOutcome.asks.${ASK_DAYS.length - 1}`]: { $exists: false },
     lifecycleOptOut: { $ne: true },
   }).limit(MAX_PER_RUN).toArray();
 
   let sent = 0;
   for (const u of users) {
-    if (!shouldAsk(u, today)) continue;
+    const attempt = askDue(u, today);
+    if (!attempt) continue;
     if (!(await canSendLifecycle(now))) break;
     try {
       const token = await ensureUnsubToken(u);
@@ -222,11 +225,16 @@ async function sendExamOutcomeAsks(now) {
         unsubUrl: unsubUrl(token),
         firstName: u.firstName || null,
         trackToken: token,
+        attempt,
       });
-      // Stamped whether or not they ever reply, so nobody is asked twice.
+      // Recorded whether or not they ever reply, so the sequence advances and
+      // stops on its own.
       await userCollection.updateOne(
         { email: u.email },
-        { $set: { 'examOutcome.askedAt': new Date() } },
+        {
+          $push: { 'examOutcome.asks': new Date() },
+          $set: { 'examOutcome.askedAt': new Date() },
+        },
       );
       sent += 1;
       await sleep(SEND_GAP_MS);
@@ -454,7 +462,11 @@ async function runLifecycleEmails(now = new Date()) {
     const exam = await sendExamCountdowns(now, 'morning');
     const weekly = await sendWeeklyDigests(now);
     const winback = await sendWinbacks(now);
-    const outcome = await sendExamOutcomeAsks(now);
+    // Held until the owner has read the email. Turn on with
+    // EXAM_OUTCOME_ENABLED=1 once approved (owner, 2026-10-06).
+    const outcome = process.env.EXAM_OUTCOME_ENABLED === '1'
+      ? await sendExamOutcomeAsks(now)
+      : 0;
     const purged = await purgeStaleUnverified(now);
     if (welcome || verify || winback || exam || weekly || simFollow || outcome || purged) {
       // Report the day's remaining headroom alongside the batch. The batch runs

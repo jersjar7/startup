@@ -192,6 +192,7 @@ void main() {
 
       await tester.enterText(find.byType(TextField), 'Brigham Young University');
       await tester.tap(find.text('${graduationYears().first}'));
+      await tester.tap(find.text('Spring'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Save'));
       await tester.pumpAndSettle();
@@ -200,6 +201,56 @@ void main() {
       expect(path, '/user/school');
       expect(body!['name'], 'Brigham Young University');
       expect(body['graduationYear'], graduationYears().first);
+      // Sent lowercase, which is what the server stores.
+      expect(body['graduationTerm'], 'spring');
+    });
+
+    testWidgets('offers the four terms the owner named', (tester) async {
+      final auth = _auth(_RecordingApi());
+      await tester.pumpWidget(_host(auth, SchoolEditor(auth: auth)));
+      await tester.pumpAndSettle();
+      for (final t in graduationTerms) {
+        expect(find.text(t), findsOneWidget);
+      }
+      expect(graduationTerms, ['Winter', 'Spring', 'Summer', 'Fall']);
+    });
+
+    testWidgets('a term without a year still saves, and the reverse too', (tester) async {
+      // A May and a December graduate are a full exam cycle apart, so the term
+      // is worth having even when somebody skips the year.
+      final api = _RecordingApi();
+      final auth = _auth(api);
+      await tester.pumpWidget(_host(auth, SchoolEditor(auth: auth)));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byType(TextField), 'Purdue');
+      await tester.tap(find.text('Fall'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+
+      final (_, body) = api.posts.first;
+      expect(body!['graduationTerm'], 'fall');
+      expect(body.containsKey('graduationYear'), isFalse);
+    });
+
+    testWidgets('"Already have" clears both halves', (tester) async {
+      final api = _RecordingApi();
+      final auth = _auth(api);
+      await tester.pumpWidget(_host(auth, SchoolEditor(auth: auth)));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byType(TextField), 'Purdue');
+      await tester.tap(find.text('Spring'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Already have'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+
+      final (_, body) = api.posts.first;
+      expect(body!.containsKey('graduationTerm'), isFalse);
+      expect(body.containsKey('graduationYear'), isFalse);
     });
 
     testWidgets('allows no year, because repeat takers have already graduated', (tester) async {

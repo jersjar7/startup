@@ -1,7 +1,7 @@
 import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { SchoolPrompt, gradYearOptions } from './SchoolPrompt';
+import { SchoolPrompt, gradYearOptions, GRAD_TERMS } from './SchoolPrompt';
 
 // What matters about this prompt is not how it looks, it is that it cannot trap
 // anybody and cannot lose what they typed. Both of those are behaviour, so they
@@ -53,7 +53,11 @@ describe('SchoolPrompt', () => {
 
     await waitFor(() => expect(onClose).toHaveBeenCalledWith(true));
     expect(fetchFn).toHaveBeenCalledWith('/api/user/school', expect.objectContaining({ method: 'POST' }));
-    expect(lastBody(fetchFn)).toEqual({ name: 'Brigham Young University', graduationYear: years[1] });
+    expect(lastBody(fetchFn)).toEqual({
+      name: 'Brigham Young University',
+      graduationYear: years[1],
+      graduationTerm: null,
+    });
   });
 
   it('accepts a school with no year, because half an answer is still useful', async () => {
@@ -65,7 +69,7 @@ describe('SchoolPrompt', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
     await waitFor(() => expect(onClose).toHaveBeenCalledWith(true));
-    expect(lastBody(fetchFn)).toEqual({ name: 'UWF', graduationYear: null });
+    expect(lastBody(fetchFn)).toEqual({ name: 'UWF', graduationYear: null, graduationTerm: null });
   });
 
   it('sends a null year for someone who has already graduated', async () => {
@@ -76,7 +80,7 @@ describe('SchoolPrompt', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Already graduated' }));
     fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
-    await waitFor(() => expect(lastBody(fetchFn)).toEqual({ name: 'UWF', graduationYear: null }));
+    await waitFor(() => expect(lastBody(fetchFn)).toEqual({ name: 'UWF', graduationYear: null, graduationTerm: null }));
   });
 
   it('lets a year be unpicked, so a mis-tap is not permanent', async () => {
@@ -92,7 +96,7 @@ describe('SchoolPrompt', () => {
     expect(chip).toHaveAttribute('aria-pressed', 'false');
 
     fireEvent.click(screen.getByRole('button', { name: 'Save' }));
-    await waitFor(() => expect(lastBody(fetchFn)).toEqual({ name: 'UWF', graduationYear: null }));
+    await waitFor(() => expect(lastBody(fetchFn)).toEqual({ name: 'UWF', graduationYear: null, graduationTerm: null }));
   });
 
   it('resolves the question server-side when skipped, so it is not asked again', async () => {
@@ -170,5 +174,56 @@ describe('SchoolPrompt', () => {
     expect(fetchFn).toHaveBeenCalledTimes(1);
     release();
     await waitFor(() => expect(onClose).toHaveBeenCalledTimes(1));
+  });
+});
+
+describe('the graduation term', () => {
+  // A May and a December graduate are a full exam cycle apart, so the year
+  // alone merges two different cohorts into one row of a report.
+  it('offers the four terms and sends the chosen one lowercase', async () => {
+    const fetchFn = mockFetch();
+    render(<SchoolPrompt onClose={() => {}} />);
+    for (const t of GRAD_TERMS) expect(screen.getByText(t)).toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText('School name'), { target: { value: 'Purdue' } });
+    fireEvent.click(screen.getByText('Fall'));
+    fireEvent.click(screen.getByRole('button', { name: /save/i }));
+    await waitFor(() => expect(lastBody(fetchFn).graduationTerm).toBe('fall'));
+  });
+
+  it('sends a term without a year, and a year without a term', async () => {
+    const fetchFn = mockFetch();
+    const { unmount } = render(<SchoolPrompt onClose={() => {}} />);
+    fireEvent.change(screen.getByLabelText('School name'), { target: { value: 'Purdue' } });
+    fireEvent.click(screen.getByText('Spring'));
+    fireEvent.click(screen.getByRole('button', { name: /save/i }));
+    await waitFor(() => {
+      expect(lastBody(fetchFn).graduationTerm).toBe('spring');
+      expect(lastBody(fetchFn).graduationYear).toBeNull();
+    });
+    unmount();
+
+    const f2 = mockFetch();
+    render(<SchoolPrompt onClose={() => {}} />);
+    fireEvent.change(screen.getByLabelText('School name'), { target: { value: 'Purdue' } });
+    fireEvent.click(screen.getByText(String(gradYearOptions()[0])));
+    fireEvent.click(screen.getByRole('button', { name: /save/i }));
+    await waitFor(() => {
+      expect(lastBody(f2).graduationYear).toBe(gradYearOptions()[0]);
+      expect(lastBody(f2).graduationTerm).toBeNull();
+    });
+  });
+
+  it('"Already graduated" clears the term too', async () => {
+    const fetchFn = mockFetch();
+    render(<SchoolPrompt onClose={() => {}} />);
+    fireEvent.change(screen.getByLabelText('School name'), { target: { value: 'Purdue' } });
+    fireEvent.click(screen.getByText('Summer'));
+    fireEvent.click(screen.getByText('Already graduated'));
+    fireEvent.click(screen.getByRole('button', { name: /save/i }));
+    await waitFor(() => {
+      expect(lastBody(fetchFn).graduationTerm).toBeNull();
+      expect(lastBody(fetchFn).graduationYear).toBeNull();
+    });
   });
 });
