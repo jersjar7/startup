@@ -9,6 +9,7 @@ const { generateToken, hashToken } = require('./crypto.js');
 const { deleteAllUserData } = require('./db/accountDeletion.js');
 const {
   sendWelcomeEmail, sendWeeklyDigestEmail, sendWinbackEmail, sendExamCountdownEmail,
+  sendExamOutcomeEmail,
   sendVerifyReminderEmail, sendSimFollowupEmail, sendSimPitchFollowupEmail,
 } = require('./email.js');
 const {
@@ -190,6 +191,47 @@ async function sendWinbacks(now) {
       await sleep(SEND_GAP_MS);
     } catch (e) {
       console.error('[lifecycle] winback failed for', u.email, e.message);
+    }
+  }
+  return sent;
+}
+
+// Nine days after their exam date, ask how it went. See examOutcome.js for
+// why nine, and why this is the most valuable record the platform does not yet
+// have. Lowest priority in the batch: it is research, and it must never be the
+// reason a verification email does not send.
+async function sendExamOutcomeAsks(now) {
+  const { shouldAsk, dayString } = require('./examOutcome.js');
+  const today = dayString(now);
+  const users = await userCollection.find({
+    emailVerified: true,
+    examDate: { $exists: true, $ne: null },
+    'examOutcome.askedAt': { $exists: false },
+    'examOutcome.answeredAt': { $exists: false },
+    'examOutcome.declinedAt': { $exists: false },
+    lifecycleOptOut: { $ne: true },
+  }).limit(MAX_PER_RUN).toArray();
+
+  let sent = 0;
+  for (const u of users) {
+    if (!shouldAsk(u, today)) continue;
+    if (!(await canSendLifecycle(now))) break;
+    try {
+      const token = await ensureUnsubToken(u);
+      await sendExamOutcomeEmail(u.email, {
+        unsubUrl: unsubUrl(token),
+        firstName: u.firstName || null,
+        trackToken: token,
+      });
+      // Stamped whether or not they ever reply, so nobody is asked twice.
+      await userCollection.updateOne(
+        { email: u.email },
+        { $set: { 'examOutcome.askedAt': new Date() } },
+      );
+      sent += 1;
+      await sleep(SEND_GAP_MS);
+    } catch (e) {
+      console.error('[lifecycle] exam outcome ask failed for', u.email, e.message);
     }
   }
   return sent;
@@ -412,16 +454,17 @@ async function runLifecycleEmails(now = new Date()) {
     const exam = await sendExamCountdowns(now, 'morning');
     const weekly = await sendWeeklyDigests(now);
     const winback = await sendWinbacks(now);
+    const outcome = await sendExamOutcomeAsks(now);
     const purged = await purgeStaleUnverified(now);
-    if (welcome || verify || winback || exam || weekly || simFollow || purged) {
+    if (welcome || verify || winback || exam || weekly || simFollow || outcome || purged) {
       // Report the day's remaining headroom alongside the batch. The batch runs
       // mid-UTC-day, so what is left here has to cover every signup for the rest
       // of the US day; seeing it in the log is how a squeeze gets noticed before
       // a verification email is the thing that fails.
       const { day, month } = await budgetCounts(now);
-      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam} weekly=${weekly} simFollow=${simFollow} purged=${purged} — budget ${day}/${DAILY_CAP} today (${Math.max(0, DAILY_CAP - day)} left for verification and reset), ${month}/${MONTHLY_CAP} this month`);
+      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam} weekly=${weekly} simFollow=${simFollow} outcome=${outcome} purged=${purged} — budget ${day}/${DAILY_CAP} today (${Math.max(0, DAILY_CAP - day)} left for verification and reset), ${month}/${MONTHLY_CAP} this month`);
     }
-    return { welcome, verify, winback, exam, weekly, simFollow, purged };
+    return { welcome, verify, winback, exam, weekly, simFollow, outcome, purged };
   } catch (e) {
     console.error('[lifecycle] run failed:', e.message);
     return { error: e.message };

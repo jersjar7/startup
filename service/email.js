@@ -619,6 +619,39 @@ async function sendWinbackEmail(toEmail, { focusChapter = null, unsubUrl } = {})
   });
 }
 
+// Asked nine days after the exam date the user entered themselves. The single
+// most valuable record the platform does not collect: without it there is no
+// way to show a department the product moved their pass rate, and no way to
+// calibrate a readiness prediction. Two questions, one tap each.
+//
+// The tone matters more than usual here. Somebody who failed is being asked
+// about it, so the mail has to be worth opening either way and must not
+// celebrate before it knows.
+async function sendExamOutcomeEmail(toEmail, { unsubUrl, firstName = null, trackToken = null } = {}) {
+  const hi = firstName ? `${firstName}, how` : 'How';
+  const link = (answer) => {
+    const base = `${appUrl}/exam-result?a=${answer}`;
+    return trackToken ? `${base}&t=${encodeURIComponent(trackToken)}` : base;
+  };
+  return sendEmail({
+    to: toEmail,
+    subject: 'How did the FE go?',
+    headers: lifecycleHeaders(unsubUrl),
+    html: emailLayout({
+      preheader: 'Two taps, and it helps every student after you.',
+      heading: `${hi} did it go?`,
+      unsubUrl,
+      inner:
+        para('Your exam date has been and gone, and results are usually out by now. Would you tell us how it went?') +
+        para('It takes two taps. We use it to work out which study patterns actually lead to a pass, which is the only way this gets better for the people sitting it after you.') +
+        button('I passed', link('passed')) +
+        para(`<a href="${link('failed')}">I did not pass this time</a> &nbsp;·&nbsp; <a href="${link('missed')}">I did not sit it</a>`) +
+        para('Whatever the answer, it is useful, and it stays between us. Nothing identifying ever goes into a report.') +
+        signatureBlock('Thanks either way,'),
+    }),
+  });
+}
+
 // Internal owner alert — fires when someone buys the Exam Simulation. Goes to
 // OWNER_ALERT_EMAIL (defaults to the owner's inbox). Not a lifecycle email, so
 // no unsubscribe; it's a private notification.
@@ -675,6 +708,7 @@ function getEmailConfig() {
 }
 
 module.exports = {
+  sendExamOutcomeEmail,
   sendSaleAlertEmail,
   sendFeedbackAlertEmail,
   sendPasswordResetEmail,

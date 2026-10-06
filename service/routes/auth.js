@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const rateLimit = require('express-rate-limit');
 const DB = require('../database.js');
 const { isAcquisitionResolved } = require('../acquisition.js');
+const { isSchoolResolved, normalizeSchoolName, academicDomain, validGraduationYear } = require('../school.js');
+const { parseOutcome, isAnswered: outcomeAnswered } = require('../examOutcome.js');
 const { verifyAuth, setAuthCookie, clearAuthCookie, authCookieName } = require('../middleware/auth.js');
 const { getBadgeDetails, getAllBadges } = require('../badges.js');
 const { generateToken, hashToken } = require('../crypto.js');
@@ -90,6 +92,19 @@ router.post('/create', async (req, res) => {
     };
     const acq = sanitizeAcq(req.body.acq);
     if (acq) user.acquisition = acq;
+    // Both clients ask for the school on the sign-up screen, so accept it here
+    // rather than making every new account do a second round trip.
+    const school = normalizeSchoolName(req.body.school);
+    if (school) {
+      const gradYear = validGraduationYear(req.body.graduationYear);
+      user.school = {
+        name: school.name,
+        key: school.key,
+        domain: academicDomain(email),
+        graduationYear: gradYear === undefined ? null : gradYear,
+        answeredAt: new Date(),
+      };
+    }
     await DB.addUser(user);
     const sessionToken = await DB.createSession(email, req.headers['x-client'] === 'mobile' ? 'mobile' : 'web');
     setAuthCookie(res, sessionToken);
@@ -173,6 +188,18 @@ router.get('/me', verifyAuth, async (req, res) => {
     allBadges: getAllBadges(),
     acquisitionSource: user.acquisition?.source || null,
     acquisitionResolved: isAcquisitionResolved(user),
+    school: user.school?.name
+      ? { name: user.school.name, graduationYear: user.school.graduationYear ?? null }
+      : null,
+    schoolResolved: isSchoolResolved(user),
+    examOutcome: user.examOutcome?.answeredAt
+      ? {
+          sat: user.examOutcome.sat,
+          passed: user.examOutcome.passed ?? null,
+          attemptNumber: user.examOutcome.attemptNumber ?? null,
+        }
+      : null,
+    examOutcomeResolved: outcomeAnswered(user),
     problemsAnswered,
   });
 });
@@ -203,6 +230,60 @@ router.post('/acquisition', verifyAuth, async (req, res) => {
     'acquisition.source': source,
     'acquisition.sourceDetail': detail,
     'acquisition.answeredAt': new Date(),
+  });
+  res.send({ ok: true });
+});
+
+// Which school they are at, and when they graduate. A university only ever
+// buys a cohort report and a cohort cannot be computed without this, so unlike
+// the acquisition question it is worth asking in both clients.
+//
+// Re-postable on purpose, unlike acquisition: a student transfers, or mistypes
+// their own university, and a stale school quietly corrupts a report they are
+// counted in. Attribution history has to be stable; this does not.
+router.post('/school', verifyAuth, async (req, res) => {
+  if (req.body.dismissed === true) {
+    if (!isSchoolResolved(req.user)) {
+      await DB.setUserFields(req.user.email, { 'school.dismissedAt': new Date() });
+    }
+    return res.send({ ok: true, school: null });
+  }
+
+  const parsed = normalizeSchoolName(req.body.name);
+  if (!parsed) return res.status(400).send({ msg: 'A school name is required' });
+
+  const year = validGraduationYear(req.body.graduationYear);
+  if (year === undefined) return res.status(400).send({ msg: 'That graduation year is not valid' });
+
+  await DB.setUserFields(req.user.email, {
+    'school.name': parsed.name,
+    'school.key': parsed.key,
+    'school.domain': academicDomain(req.user.email, req.user.verifiedStudentEmail),
+    'school.graduationYear': year,
+    'school.answeredAt': new Date(),
+  });
+  res.send({ ok: true, school: { name: parsed.name, graduationYear: year } });
+});
+
+// Did they sit the exam, and did they pass. Asked nine days after their own
+// exam date, by email and in the phone app. See examOutcome.js for why.
+router.post('/exam-outcome', verifyAuth, async (req, res) => {
+  if (outcomeAnswered(req.user)) {
+    return res.send({ ok: true, alreadyAnswered: true });
+  }
+  const parsed = parseOutcome(req.body);
+  if (!parsed) return res.status(400).send({ msg: 'Tell us whether you sat the exam' });
+
+  if (parsed.declined) {
+    await DB.setUserFields(req.user.email, { 'examOutcome.declinedAt': new Date() });
+    return res.send({ ok: true });
+  }
+  await DB.setUserFields(req.user.email, {
+    'examOutcome.sat': parsed.sat,
+    'examOutcome.passed': parsed.passed,
+    'examOutcome.attemptNumber': parsed.attemptNumber,
+    'examOutcome.examDateAtAnswer': req.user.examDate || null,
+    'examOutcome.answeredAt': new Date(),
   });
   res.send({ ok: true });
 });
