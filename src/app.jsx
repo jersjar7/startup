@@ -28,6 +28,10 @@ const ExamResults = React.lazy(() => import('./exam/ExamResults').then(m => ({ d
 const ExamReview = React.lazy(() => import('./exam/ExamReview').then(m => ({ default: m.ExamReview })));
 const ResetPassword = React.lazy(() => import('./login/ResetPassword').then(m => ({ default: m.ResetPassword })));
 const VerifyEmail = React.lazy(() => import('./login/VerifyEmail').then(m => ({ default: m.VerifyEmail })));
+// Reached from the outcome email with no sign in. Deliberately not prerendered
+// and not in the sitemap: it is personal and tokenised, and a crawler following
+// it would be following somebody's private link.
+const PassCard = React.lazy(() => import('./passCard/PassCard'));
 const Profile = React.lazy(() => import('./profile/profile').then(m => ({ default: m.Profile })));
 const Admin = React.lazy(() => import('./admin/admin').then(m => ({ default: m.Admin })));
 const ExamGuide = React.lazy(() => import('./public/ExamGuide').then(m => ({ default: m.ExamGuide })));
@@ -204,6 +208,7 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
             <Route path="/login" element={<Login userName={userName} onLogin={onLogin} />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
+            <Route path="/pass-card/:token" element={<PassCard />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/fe-civil-exam-guide" element={<ExamGuide />} />

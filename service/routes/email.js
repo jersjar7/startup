@@ -8,6 +8,7 @@ const {
   validAttempt,
   resultCopy,
 } = require('../examResultLink.js');
+const { canSeeCard, cardPayload, mayNameAccount, splitName } = require('../passCardAccess.js');
 
 const router = express.Router();
 
@@ -111,11 +112,22 @@ router.get('/exam-result/:token', async (req, res) => {
   }
 
   const copy = copyFor(isAnswered(user));
-  const extra = copy.offerAttempt ? attemptButtons(req.params.token) : '';
+  // A pass earns the card, and it is offered above the attempt question: the
+  // reward comes before the second piece of research, not after it.
+  const card = canSeeCard(user) ? cardButton(req.params.token) : '';
+  const extra = card + (copy.offerAttempt ? attemptButtons(req.params.token) : '');
   res.status(200).type('html').send(
     page({ ok: true, heading: copy.heading, msg: copy.msg, extra }),
   );
 });
+
+function cardButton(token) {
+  return `<p style="font-size:15px;line-height:1.6;color:${C.body};margin:0 0 16px;">You have
+            something to show for it. Take the card.</p>
+          <div style="margin:0 0 26px;">
+            <a href="${appUrl()}/pass-card/${token}" style="display:inline-block;background:${C.ember};color:#fff;font-family:'DM Sans',Arial,sans-serif;font-weight:600;font-size:15px;padding:13px 30px;border-radius:10px;text-decoration:none;">Get my card</a>
+          </div>`;
+}
 
 function attemptButtons(token) {
   const labels = { 1: 'First', 2: 'Second', 3: 'Third or more' };
@@ -125,6 +137,88 @@ function attemptButtons(token) {
   return `<p style="font-size:14px;color:${C.mute};margin:4px 0 12px;">One optional extra: which attempt was it?</p>
           <div style="margin:0 0 22px;">${links}</div>`;
 }
+
+// GET /api/email/pass-card/:token — what the card page needs to draw itself.
+//
+// No sign in, deliberately. The reward for passing has to arrive in the same
+// tap as the answer or most people never see it, and this is only safe because
+// the card carries nothing private: a name, a month, and the exam's own chapter
+// list. See service/passCardAccess.js.
+router.get('/pass-card/:token', async (req, res) => {
+  let user = null;
+  try {
+    user = await userCollection.findOne(
+      { outcomeToken: req.params.token },
+      { projection: { firstName: 1, lastName: 1, examOutcome: 1 } },
+    );
+  } catch (e) {
+    console.error('[email/pass-card] lookup failed:', e.message);
+    return res.status(503).send({ msg: 'Could not load your card. Try again in a moment.' });
+  }
+  const payload = cardPayload(user);
+  // One answer for "no such token" and for "did not pass", so the endpoint
+  // cannot be used to find out whether a given token belongs to a passer.
+  if (!payload) return res.status(404).send({ msg: 'No card here.' });
+  res.status(200).send(payload);
+});
+
+// POST /api/email/pass-card/:token/name — the name to print, for the many
+// accounts that have none.
+//
+// Account creation has never collected a name, so this is the ordinary path
+// rather than a fallback. It can only ever fill a blank: a forwarded email must
+// not let somebody else rename the account, and changing a name that exists
+// stays behind a sign in where it always was.
+router.post('/pass-card/:token/name', async (req, res) => {
+  let user = null;
+  try {
+    user = await userCollection.findOne(
+      { outcomeToken: req.params.token },
+      { projection: { firstName: 1, lastName: 1, examOutcome: 1 } },
+    );
+  } catch (e) {
+    console.error('[email/pass-card/name] lookup failed:', e.message);
+    return res.status(503).send({ msg: 'Could not save that. Try again in a moment.' });
+  }
+
+  if (!mayNameAccount(user, req.body?.name)) {
+    // Already named is not an error worth explaining: the card draws fine.
+    if (cardPayload(user)?.hasName) return res.status(200).send(cardPayload(user));
+    return res.status(400).send({ msg: 'That does not look like a name.' });
+  }
+
+  const parts = splitName(req.body.name);
+  try {
+    await userCollection.updateOne(
+      { outcomeToken: req.params.token },
+      { $set: { firstName: parts.firstName, lastName: parts.lastName } },
+    );
+  } catch (e) {
+    console.error('[email/pass-card/name] save failed:', e.message);
+    return res.status(503).send({ msg: 'Could not save that. Try again in a moment.' });
+  }
+  res.status(200).send({ ...parts, hasName: true, answeredAt: user.examOutcome.answeredAt });
+});
+
+// POST /api/email/pass-card/:token/pe — would they want PE prep.
+//
+// The one question asked of somebody who has just passed, and the only place we
+// can size that market with people who have proved they are the buyer. Asked
+// after the card, never before: a celebration is not a toll gate for research.
+//
+// Always answers 200. They have their card; a research answer that failed to
+// save is our problem and there is nothing useful to tell them about it.
+router.post('/pass-card/:token/pe', async (req, res) => {
+  try {
+    await userCollection.updateOne(
+      { outcomeToken: req.params.token, 'examOutcome.passed': true },
+      { $set: { peInterest: { wants: req.body?.wants === true, askedAt: new Date() } } },
+    );
+  } catch (e) {
+    console.error('[email/pass-card/pe] failed:', e.message);
+  }
+  res.status(200).end();
+});
 
 // The optional second tap. Never required, and it cannot change the result.
 router.get('/exam-attempt/:token', async (req, res) => {

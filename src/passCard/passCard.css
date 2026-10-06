@@ -1,0 +1,153 @@
+/* The pass card page.
+ *
+ * Reached from an email, usually on a phone, usually by somebody who has just
+ * found out they passed. So: one column, nothing to navigate, and the card
+ * itself as early on the page as it can be.
+ *
+ * Left-aligned body text, per the brand rules. The old result pages centre
+ * theirs, which they inherited from the unsubscribe page they were copied from.
+ */
+
+.pc-page {
+  min-height: 100vh;
+  background: var(--cream, #FFF9F0);
+  padding: 40px 20px 80px;
+  font-family: 'Inter', system-ui, sans-serif;
+  /* The app shell is a flex column and this is one of its items. A flex item
+   * will not shrink below its content, and the card canvas is intrinsically
+   * 1200px wide, so this is the guard against the page scrolling sideways on a
+   * phone. Measured at 500px (headless Chrome will not go narrower): no element
+   * overflows and scrollWidth equals clientWidth. Narrower than that is
+   * unverified here and wants one look in a real browser. */
+  min-width: 0;
+}
+
+.pc-card {
+  max-width: 480px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  border-top: 4px solid var(--ember, #E8683A);
+  box-shadow: 0 1px 3px rgba(44, 44, 44, 0.04), 0 6px 22px rgba(44, 44, 44, 0.07);
+  padding: 36px 32px;
+}
+.pc-page--wide .pc-card { max-width: 720px; }
+
+.pc-h1 {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.03em;
+  color: var(--charcoal, #2C2C2C);
+  margin: 0 0 12px;
+}
+
+.pc-body {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #5C584F;
+  margin: 0 0 24px;
+}
+
+.pc-quiet {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #8C8377;
+  margin: 14px 0 0;
+}
+
+.pc-canvas {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(44, 44, 44, 0.1);
+}
+
+/* While they are still typing a name, the card is a promise rather than a
+ * product: visible enough to be worth finishing, not so solid it looks done. */
+.pc-faded {
+  margin-top: 26px;
+  opacity: 0.45;
+  filter: saturate(0.6);
+}
+
+.pc-form { display: flex; flex-direction: column; gap: 10px; }
+
+.pc-label {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8C8377;
+}
+
+.pc-input {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 17px;
+  padding: 13px 14px;
+  border: 1.5px solid rgba(44, 44, 44, 0.18);
+  border-radius: 10px;
+  background: var(--cream, #FFF9F0);
+  color: var(--charcoal, #2C2C2C);
+}
+.pc-input:focus {
+  outline: 2px solid var(--ember, #E8683A);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+.pc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pc-btn {
+  display: inline-block;
+  background: var(--ember, #E8683A);
+  color: #fff;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 13px 26px;
+  border: 1.5px solid var(--ember, #E8683A);
+  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+}
+.pc-btn:disabled { opacity: 0.45; cursor: default; }
+.pc-btn:focus-visible { outline: 2px solid var(--charcoal, #2C2C2C); outline-offset: 2px; }
+
+.pc-btn--ghost { background: transparent; color: var(--ember, #E8683A); }
+
+.pc-ask {
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(44, 44, 44, 0.09);
+}
+.pc-ask-q {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--charcoal, #2C2C2C);
+  margin: 0;
+}
+
+.pc-problem {
+  margin: 18px 0 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--error, #D64045);
+}
+
+@media (max-width: 420px) {
+  .pc-page { padding: 32px 16px 64px; }
+  .pc-card { padding: 28px 20px; }
+  .pc-actions .pc-btn { flex: 1 1 100%; }
+}
