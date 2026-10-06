@@ -78,21 +78,25 @@ describe('answered', () => {
 });
 
 describe('what an answer may say', () => {
+  // Every answer also records which surface it came from, so a reply rate can
+  // be read per surface rather than guessed at. Absent means the app.
   it('takes a pass with an attempt number', () => {
     expect(parseOutcome({ sat: true, passed: true, attemptNumber: 1 }))
-      .toEqual({ sat: true, passed: true, attemptNumber: 1 });
+      .toEqual({ sat: true, passed: true, attemptNumber: 1, via: 'app' });
   });
 
   it('takes a fail, which is the more valuable record of the two', () => {
-    expect(parseOutcome({ sat: true, passed: false, attemptNumber: 2 }))
-      .toEqual({ sat: true, passed: false, attemptNumber: 2 });
+    expect(parseOutcome({ sat: true, passed: false, attemptNumber: 2, via: 'email' }))
+      .toEqual({ sat: true, passed: false, attemptNumber: 2, via: 'email' });
   });
 
   it('records somebody who did not sit it as having no result at all', () => {
     // Storing passed:false against a no-show would make every pass rate
     // computed from this field wrong, in the direction that flatters nobody.
-    expect(parseOutcome({ sat: false })).toEqual({ sat: false, passed: null, attemptNumber: null });
-    expect(parseOutcome({ sat: false, passed: false })).toEqual({ sat: false, passed: null, attemptNumber: null });
+    expect(parseOutcome({ sat: false }))
+      .toEqual({ sat: false, passed: null, attemptNumber: null, via: 'app' });
+    expect(parseOutcome({ sat: false, passed: false, via: 'notification' }))
+      .toEqual({ sat: false, passed: null, attemptNumber: null, via: 'notification' });
   });
 
   it('takes a refusal to answer', () => {
