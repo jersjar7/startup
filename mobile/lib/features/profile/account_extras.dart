@@ -25,7 +25,17 @@ List<int> graduationYears([DateTime? now]) {
 /// two taps and it is how universities actually talk (owner, 2026-10-06).
 const graduationTerms = ['Winter', 'Spring', 'Summer', 'Fall'];
 
-/// Both halves of the answer, each optional on its own.
+/// Both halves of one answer, laid out the way the exam date screen already
+/// does it: a strip, a big readout, a second strip.
+///
+/// The first version was two wrapping sets of chips, which put Fall alone on
+/// its own row and left "Already have" sitting among the years as though it
+/// were one (owner's catch, 2026-10-06). The real fault was treating a term
+/// and a year as two unrelated tag sets when they are one answer with two
+/// coordinates. This reads as a sentence instead: Spring 2027.
+///
+/// Matching "When's the big day?" is deliberate. The app now asks two
+/// date-shaped questions and they should not look like different products.
 class GraduationPicker extends StatelessWidget {
   const GraduationPicker({
     super.key,
@@ -33,6 +43,7 @@ class GraduationPicker extends StatelessWidget {
     required this.term,
     required this.onYear,
     required this.onTerm,
+    this.onClear,
   });
 
   final int? year;
@@ -40,47 +51,118 @@ class GraduationPicker extends StatelessWidget {
   final ValueChanged<int?> onYear;
   final ValueChanged<String?> onTerm;
 
+  /// "I have already graduated", which is a different kind of answer from a
+  /// year and so is a text action rather than another chip, exactly as
+  /// "Clear the date" is on the exam date screen.
+  final VoidCallback? onClear;
+
   @override
   Widget build(BuildContext context) {
+    final years = graduationYears();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('GRADUATING', style: AppTheme.eyebrow(size: 11, color: AppColors.ink2)),
-        const SizedBox(height: 10),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
+        const SizedBox(height: 12),
+        // Four terms fit one row exactly, so nothing can ever wrap.
+        Row(
           children: [
             for (final t in graduationTerms)
-              YearChip(
-                label: t,
-                on: term == t,
-                onTap: () => onTerm(term == t ? null : t),
+              Expanded(
+                child: StripChip(
+                  label: t,
+                  on: term == t,
+                  onTap: () => onTerm(term == t ? null : t),
+                ),
               ),
           ],
         ),
-        const SizedBox(height: 10),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            for (final y in graduationYears())
-              YearChip(
-                label: '$y',
-                on: year == y,
-                onTap: () => onYear(year == y ? null : y),
-              ),
-            YearChip(
-              label: 'Already have',
-              on: false,
-              onTap: () {
-                onYear(null);
-                onTerm(null);
-              },
+        const SizedBox(height: 16),
+        Text(
+          term == null && year == null
+              ? 'Not set'
+              : '${term ?? 'Term'} ${year?.toString() ?? ''}'.trim(),
+          style: AppTheme.display(size: 38, height: 1.0, tracking: -0.05),
+        ),
+        const SizedBox(height: 14),
+        // Years scroll rather than spill onto a second line.
+        SizedBox(
+          height: 40,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            children: [
+              for (final y in years) ...[
+                StripChip(
+                  label: '$y',
+                  on: year == y,
+                  onTap: () => onYear(year == y ? null : y),
+                ),
+                const SizedBox(width: 4),
+              ],
+            ],
+          ),
+        ),
+        if (onClear != null) ...[
+          const SizedBox(height: 16),
+          GestureDetector(
+            onTap: onClear,
+            child: Text(
+              'I have already graduated',
+              style: AppTheme.body(
+                size: 14,
+                weight: FontWeight.w600,
+                color: AppColors.ink2,
+              ).copyWith(decoration: TextDecoration.underline),
             ),
-          ],
-        ),
+          ),
+        ],
       ],
+    );
+  }
+}
+
+/// The exam date screen's month chip, shared rather than copied so the two
+/// date-shaped questions cannot drift apart.
+class StripChip extends StatelessWidget {
+  const StripChip({
+    super.key,
+    required this.label,
+    required this.on,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool on;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        height: 40,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          color: on ? AppColors.charcoal : Colors.transparent,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Center(
+          widthFactor: 1,
+          child: Opacity(
+            opacity: on ? 1 : 0.7,
+            child: Text(
+              label.toUpperCase(),
+              maxLines: 1,
+              style: AppTheme.eyebrow(
+                size: 12,
+                color: on ? AppColors.spring : AppColors.charcoal,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -354,6 +436,10 @@ class _SchoolEditorState extends State<SchoolEditor> {
               term: _term,
               onYear: (y) => setState(() => _year = y),
               onTerm: (t) => setState(() => _term = t),
+              onClear: () => setState(() {
+                _year = null;
+                _term = null;
+              }),
             ),
             const SizedBox(height: 26),
             PillButton(label: _busy ? 'Saving' : 'Save', onTap: _busy ? null : _save),
@@ -364,42 +450,3 @@ class _SchoolEditorState extends State<SchoolEditor> {
   }
 }
 
-/// Shared with the sign-up screen, so the two places that ask for a
-/// graduation year cannot drift apart.
-class YearChip extends StatelessWidget {
-  const YearChip({
-    super.key,required this.label,
-    required this.on,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool on;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
-        decoration: BoxDecoration(
-          color: on ? AppColors.charcoal : AppColors.cream,
-          borderRadius: BorderRadius.circular(999),
-          border: Border.all(
-            color: on ? AppColors.charcoal : AppColors.charcoal.withValues(alpha: 0.18),
-            width: 1.5,
-          ),
-        ),
-        child: Text(
-          label,
-          style: AppTheme.body(
-            size: 14.5,
-            weight: FontWeight.w600,
-            color: on ? AppColors.cream : AppColors.charcoal,
-          ),
-        ),
-      ),
-    );
-  }
-}

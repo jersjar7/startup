@@ -222,6 +222,10 @@ class _CreateScreenState extends State<CreateScreen> {
                           term: _gradTerm,
                           onYear: (y) => setState(() => _gradYear = y),
                           onTerm: (t) => setState(() => _gradTerm = t),
+                          onClear: () => setState(() {
+                            _gradYear = null;
+                            _gradTerm = null;
+                          }),
                         ),
                       ],
                       const SizedBox(height: 30),

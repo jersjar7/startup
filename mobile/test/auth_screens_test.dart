@@ -216,7 +216,12 @@ void main() {
     expect(find.text('Skip'), findsOneWidget);
     // Real years, not a template that printed its own variable name.
     expect(find.text('${DateTime.now().year}'), findsOneWidget);
-    expect(find.text('Already have'), findsOneWidget);
+    // The four terms sit in one row that cannot wrap, and the
+    // already-graduated answer is a text action rather than another chip,
+    // exactly as "Clear the date" is on the exam date screen.
+    expect(find.text('SPRING'), findsOneWidget);
+    expect(find.text('FALL'), findsOneWidget);
+    expect(find.text('I have already graduated'), findsOneWidget);
     await _golden(tester, 'create-3-school');
   });
 

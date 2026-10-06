@@ -192,7 +192,7 @@ void main() {
 
       await tester.enterText(find.byType(TextField), 'Brigham Young University');
       await tester.tap(find.text('${graduationYears().first}'));
-      await tester.tap(find.text('Spring'));
+      await tester.tap(find.text('SPRING'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Save'));
       await tester.pumpAndSettle();
@@ -210,7 +210,8 @@ void main() {
       await tester.pumpWidget(_host(auth, SchoolEditor(auth: auth)));
       await tester.pumpAndSettle();
       for (final t in graduationTerms) {
-        expect(find.text(t), findsOneWidget);
+        // Uppercase, matching the exam date screen's month strip.
+        expect(find.text(t.toUpperCase()), findsOneWidget);
       }
       expect(graduationTerms, ['Winter', 'Spring', 'Summer', 'Fall']);
     });
@@ -224,7 +225,7 @@ void main() {
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byType(TextField), 'Purdue');
-      await tester.tap(find.text('Fall'));
+      await tester.tap(find.text('FALL'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Save'));
       await tester.pumpAndSettle();
@@ -234,16 +235,16 @@ void main() {
       expect(body.containsKey('graduationYear'), isFalse);
     });
 
-    testWidgets('"Already have" clears both halves', (tester) async {
+    testWidgets('the already-graduated action clears both halves', (tester) async {
       final api = _RecordingApi();
       final auth = _auth(api);
       await tester.pumpWidget(_host(auth, SchoolEditor(auth: auth)));
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byType(TextField), 'Purdue');
-      await tester.tap(find.text('Spring'));
+      await tester.tap(find.text('SPRING'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Already have'));
+      await tester.tap(find.text('I have already graduated'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Save'));
       await tester.pumpAndSettle();
