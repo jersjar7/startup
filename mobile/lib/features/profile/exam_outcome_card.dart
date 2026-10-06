@@ -12,9 +12,16 @@ import '../auth/auth_controller.dart';
 /// prediction, and no way to learn what coverage actually corresponds to a
 /// pass. Everything else the app measures is a proxy for this.
 ///
-/// It appears at the top of the home screen rather than as a dialog, and it
-/// can be put away. Somebody who failed is being asked about it, so the card
-/// has to be easy to dismiss and must not celebrate before it knows.
+/// It appears at the top of the home screen rather than as a dialog, and the X
+/// puts it away at once. Somebody who failed is being asked about it, so the
+/// card has to be easy to dismiss and must not celebrate before it knows.
+///
+/// There is deliberately NO permanent "never ask me" here (owner, 2026-10-06).
+/// After the exam this is a departing user with perhaps one or two opens left,
+/// so a one-tap way to remove themselves from the only dataset that matters
+/// costs more than it protects. What makes that fair rather than nagging is
+/// that the sequence ends itself: four asks across sixty days and then silence,
+/// with the X giving immediate relief every time.
 
 /// Date-only, matching how the account stores an exam date.
 String _today(DateTime now) => now.toIso8601String().substring(0, 10);
@@ -91,20 +98,6 @@ class _ExamOutcomeCardState extends State<ExamOutcomeCard> {
       await widget.auth.snoozeExamOutcome();
     } catch (_) {
       /* never trap anyone behind a research question */
-    }
-    widget.onDone?.call();
-    if (mounted) setState(() => _busy = false);
-  }
-
-  /// The explicit refusal, which does end it. Offered plainly so that putting
-  /// the card away repeatedly is never the only way out.
-  Future<void> _decline() async {
-    if (_busy) return;
-    setState(() => _busy = true);
-    try {
-      await widget.auth.declineExamOutcome();
-    } catch (_) {
-      /* same */
     }
     widget.onDone?.call();
     if (mounted) setState(() => _busy = false);
@@ -188,16 +181,6 @@ class _ExamOutcomeCardState extends State<ExamOutcomeCard> {
                       color: AppColors.ink2,
                       weight: FontWeight.w600,
                     ).copyWith(decoration: TextDecoration.underline),
-                  ),
-                ),
-                // The real way out. Without it, somebody who does not want to
-                // answer has only the X, which brings the card back three more
-                // times.
-                GestureDetector(
-                  onTap: _busy ? null : _decline,
-                  child: Text(
-                    'Do not ask again',
-                    style: AppTheme.body(size: 13.5, color: AppColors.ink3),
                   ),
                 ),
               ],

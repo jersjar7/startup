@@ -183,17 +183,18 @@ void main() {
       expect(body.containsKey('declined'), isFalse);
     });
 
-    testWidgets('there is a real way out, and it does refuse for good', (tester) async {
-      final api = _RecordingApi();
-      final auth = _auth(api);
+    testWidgets('offers no permanent refusal, on purpose', (tester) async {
+      // After the exam this is a departing user with one or two opens left. A
+      // one-tap way to remove themselves from the only dataset that matters
+      // costs more than it protects, and the sequence ends itself anyway.
+      final auth = _auth(_RecordingApi());
       await tester.pumpWidget(_host(auth, ExamOutcomeCard(auth: auth)));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Do not ask again'));
-      await tester.pumpAndSettle();
-
-      final (_, body) = api.posts.first;
-      expect(body!['declined'], true);
+      expect(find.textContaining('ask again'), findsNothing);
+      expect(find.textContaining('Never'), findsNothing);
+      // But putting it away is always one tap, every single time.
+      expect(find.byIcon(Icons.close), findsOneWidget);
     });
 
     testWidgets('a failed request still lets the card go away', (tester) async {

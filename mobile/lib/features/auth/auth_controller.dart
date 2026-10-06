@@ -111,11 +111,6 @@ class AuthController extends ChangeNotifier {
     await refreshMe();
   }
 
-  Future<void> declineExamOutcome() async {
-    await api.post('/user/exam-outcome', {'declined': true});
-    await refreshMe();
-  }
-
   /// Putting the card away is not an answer. It moves to the next ask in the
   /// same sequence the email uses, so one dismissal does not end the question.
   Future<void> snoozeExamOutcome() async {
