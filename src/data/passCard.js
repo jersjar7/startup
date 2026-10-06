@@ -74,7 +74,10 @@ export const CARD = {
   footnote: { size: 17, y: 283, text: 'Prepared with FE for Raccoons' },
 
   // Right column: the index of what the exam covers.
-  index: { x: 700, top: 72, rowHeight: 25.6, numberGap: 36, rule: 'rgba(44,44,44,0.10)' },
+  // top was 72, which left only 16px of baseline between the heading above it
+  // and the first chapter, so the two read as one block. 104 gives the heading
+  // room to be a heading (owner, 2026-10-06).
+  index: { x: 700, top: 104, rowHeight: 25.6, numberGap: 36, rule: 'rgba(44,44,44,0.10)' },
 
   // The title block, read the way a drawing sheet is read.
   titleBlock: { fromBottom: 78, ruleWidth: 2.5, cellPitch: 232, labelY: 18, valueY: 41 },

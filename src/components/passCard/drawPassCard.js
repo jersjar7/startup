@@ -105,7 +105,10 @@ export function drawPassCard(canvas, data) {
   const CX = CARD.index.x;
   ctx.fillStyle = CARD_INK.soft;
   ctx.font = '600 13px "JetBrains Mono", monospace';
-  tracked(ctx, `ALL FIFTEEN CHAPTERS. ${data.totalQuestions} QUESTIONS.`, CX, PAD + 4, 2.2);
+  // The same baseline as the left eyebrow. It used to sit 12px higher, which
+  // read as a mistake once the two were seen side by side.
+  tracked(ctx, `ALL FIFTEEN CHAPTERS. ${data.totalQuestions} QUESTIONS.`,
+    CX, PAD + CARD.eyebrow.y, 2.2);
 
   data.chapters.forEach((name, i) => {
     const y = CARD.index.top + i * CARD.index.rowHeight;

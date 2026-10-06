@@ -142,15 +142,15 @@ class PassCardPainter extends CustomPainter {
     _text(
       canvas,
       'FUNDAMENTALS OF ENGINEERING',
-      Offset(_pad, _pad + 16 - 15),
+      Offset(_pad, _pad + 16),
       AppTheme.mono(size: 15, weight: FontWeight.w700, color: AppColors.ember)
           .copyWith(letterSpacing: 2.6),
     );
 
     final headline = AppTheme.display(size: 84, weight: FontWeight.w800)
         .copyWith(height: 1.0, letterSpacing: -3.4, color: AppColors.charcoal);
-    _text(canvas, 'FE Civil', Offset(_pad - 4, _pad + 108 - 84), headline);
-    _text(canvas, 'passed.', Offset(_pad - 4, _pad + 188 - 84), headline);
+    _text(canvas, 'FE Civil', Offset(_pad - 4, _pad + 108), headline);
+    _text(canvas, 'passed.', Offset(_pad - 4, _pad + 188), headline);
 
     // A card with no name is a bug upstream, not something to paper over here.
     // Drawing nothing is louder than drawing a placeholder, and far better than
@@ -159,7 +159,7 @@ class PassCardPainter extends CustomPainter {
       _text(
         canvas,
         data.name!,
-        Offset(_pad - 2, _pad + 252 - 37),
+        Offset(_pad - 2, _pad + 252),
         AppTheme.display(size: 37, weight: FontWeight.w700)
             .copyWith(color: AppColors.charcoal, letterSpacing: -1.2),
       );
@@ -168,21 +168,23 @@ class PassCardPainter extends CustomPainter {
     _text(
       canvas,
       'Prepared with FE for Raccoons',
-      Offset(_pad - 1, _pad + 283 - 17),
+      Offset(_pad - 1, _pad + 283),
       AppTheme.body(size: 17, color: _mute),
     );
   }
 
   void _index(Canvas canvas) {
     const cx = 700.0;
-    const top = 72.0;
+    // Was 72, which left only 16px of baseline between the heading and the
+    // first chapter so the two read as one block (owner, 2026-10-06).
+    const top = 104.0;
     const rowHeight = 25.6;
     const numberGap = 36.0;
 
     _text(
       canvas,
       'ALL FIFTEEN CHAPTERS. $passCardTotalQuestions QUESTIONS.',
-      const Offset(cx, _pad + 4 - 13),
+      const Offset(cx, _pad + 16),
       AppTheme.mono(size: 13, weight: FontWeight.w600, color: AppColors.ink2)
           .copyWith(letterSpacing: 2.2),
     );
@@ -196,13 +198,13 @@ class PassCardPainter extends CustomPainter {
       _text(
         canvas,
         '${i + 1}'.padLeft(2, '0'),
-        Offset(cx, y - 13),
+        Offset(cx, y),
         AppTheme.mono(size: 13, weight: FontWeight.w600, color: AppColors.ember),
       );
       _text(
         canvas,
         passCardChapters[i],
-        Offset(cx + numberGap, y - 17),
+        Offset(cx + numberGap, y),
         AppTheme.body(size: 17, color: AppColors.charcoal)
             .copyWith(fontWeight: FontWeight.w500),
       );
@@ -233,14 +235,14 @@ class PassCardPainter extends CustomPainter {
       _text(
         canvas,
         cell.$1,
-        Offset(x, ty + 18 - 11),
+        Offset(x, ty + 18),
         AppTheme.mono(size: 11, weight: FontWeight.w500, color: _mute)
             .copyWith(letterSpacing: 1.8),
       );
       _text(
         canvas,
         cell.$2,
-        Offset(x, ty + 41 - 17),
+        Offset(x, ty + 41),
         AppTheme.display(size: 17, weight: FontWeight.w600)
             .copyWith(color: AppColors.charcoal),
       );
@@ -250,13 +252,17 @@ class PassCardPainter extends CustomPainter {
     _text(
       canvas,
       'FE4RACCOONS',
-      const Offset(passCardWidth - _pad, ty + 41 - 23),
+      const Offset(passCardWidth - _pad, ty + 41),
       AppTheme.display(size: 23, weight: FontWeight.w700)
           .copyWith(color: AppColors.charcoal),
       align: TextAlign.right,
     );
   }
 
+  /// Draws [text] with its BASELINE at [at], which is what canvas fillText does
+  /// on the web. Positioning by the top and guessing the ascent from the font
+  /// size, as this used to, put every line a few pixels out and the two
+  /// renderers quietly disagreed.
   void _text(
     Canvas canvas,
     String text,
@@ -269,7 +275,9 @@ class PassCardPainter extends CustomPainter {
       textDirection: TextDirection.ltr,
       textAlign: align,
     )..layout();
-    tp.paint(canvas, align == TextAlign.right ? at.translate(-tp.width, 0) : at);
+    final ascent = tp.computeDistanceToActualBaseline(TextBaseline.alphabetic);
+    final dx = align == TextAlign.right ? -tp.width : 0.0;
+    tp.paint(canvas, Offset(at.dx + dx, at.dy - ascent));
   }
 
   @override
