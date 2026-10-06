@@ -1,7 +1,96 @@
 .admin {
   max-width: 1120px;
   margin: 0 auto;
+  /* The page shell (main) already carries a 2rem / 1rem side gutter, so the
+     dashboard never needs its own. Nothing here may widen past the shell. */
+  width: 100%;
 }
+/* Every figure on this page is a number in a column, so lock the digits to a
+   fixed advance width and the columns line up. */
+.admin .kpi-value,
+.admin .funnel-value,
+.admin .funnel-conv,
+.admin .acq-count,
+.admin .recent-num,
+.admin .recent-email,
+.admin .budget-nums,
+.admin .cal-month-total,
+.admin .cal-count,
+.admin .pitch-step-value,
+.admin .pitch-step-rate,
+.admin .recent-purchase-row,
+.admin .uc-v,
+.admin .user-card-purchases {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* ── Dashboard grid ──────────────────────────────────────────────────────────
+   One system for the whole page: cards sit side by side while there is room
+   and stack on a phone. minmax(0, …) keeps a wide table or chart from pushing
+   the grid, and with it the page, sideways. */
+.admin-grid {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.admin-grid--summary {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+.admin-grid--charts {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+}
+/* auto-FILL, not auto-fit: a row of two or three small number tiles keeps tile
+   size instead of stretching each one across half the page. */
+.admin-grid--stats {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  gap: 0.85rem;
+}
+.admin-grid--halves {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+}
+
+/* ── Section tabs ── */
+.admin-tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin: 0 0 1.25rem;
+  padding-bottom: 2px;
+  border-bottom: 2px solid var(--cream-dark);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.admin-tabs::-webkit-scrollbar { display: none; }
+.admin-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 0 0 auto;
+  border: none;
+  background: transparent;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: -0.01em;
+  color: var(--gray-500);
+  padding: 0.6rem 0.95rem;
+  border-radius: 10px 10px 0 0;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -4px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+.admin-tab:hover { color: var(--charcoal); background: var(--cream-dark); }
+.admin-tab.is-active {
+  color: var(--ember);
+  border-bottom-color: var(--ember);
+  background: transparent;
+}
+.admin-tab svg { flex: 0 0 auto; }
+.admin-panel { min-width: 0; }
+.admin-summary { margin-bottom: 1.25rem; }
 
 .admin-header {
   display: flex;
@@ -178,12 +267,6 @@
 }
 
 /* ── KPI cards ── */
-.kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 0.85rem;
-  margin-bottom: 1.5rem;
-}
 .kpi-card {
   position: relative;
   display: flex;
@@ -258,18 +341,9 @@
 }
 @keyframes kpi-pulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 0.85; } }
 
-/* ── Chart grid + cards ── */
-.chart-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-.chart-grid--thirds {
-  grid-template-columns: repeat(3, 1fr);
-  margin-bottom: 1.75rem;
-}
+/* ── Chart cards ── */
 .chart-card {
+  min-width: 0;
   background: white;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
@@ -353,12 +427,13 @@
 
 /* ── Responsive ── */
 @media (max-width: 860px) {
-  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
-  .chart-grid, .chart-grid--thirds { grid-template-columns: 1fr; }
+  .admin-grid--summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 520px) {
-  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
   .admin-header { flex-direction: column; }
+  .admin-header-right { width: 100%; justify-content: space-between; }
+  .admin-tab { padding: 0.55rem 0.7rem; font-size: 0.85rem; }
+  .admin-grid { gap: 0.75rem; }
 }
 
 /* ── Recent users (masked) + lookup ── */
@@ -485,7 +560,7 @@
 }
 .recent-purchase-row > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* On phones the grid columns are too narrow for an anchored bubble — it gets
+/* On phones the grid columns are too narrow for an anchored bubble, so it gets
    clipped off-screen. Show the definition as a fixed bottom sheet instead, so
    it's always fully visible no matter which card or funnel stage was tapped. */
 @media (max-width: 768px) {
@@ -507,13 +582,8 @@
 }
 
 /* ── How users found us ── */
-.acq-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
 .acq-block {
+  min-width: 0;
   background: #fff;
   border: 1px solid var(--gray-200);
   border-radius: 12px;
@@ -541,7 +611,6 @@
 .acq-bar-fill--alt { background: var(--info, #3B82B8); }
 .acq-count { font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: var(--charcoal); text-align: right; }
 .acq-empty { font-family: var(--font-body); font-size: 0.82rem; color: var(--gray-400); line-height: 1.5; margin: 0; }
-@media (max-width: 768px) { .acq-grid { grid-template-columns: 1fr; } }
 
 /* Worked example inside a KPI / funnel definition tooltip */
 .kpi-tip .tip-eg,
@@ -556,8 +625,7 @@
 .funnel-tip .tip-eg strong { color: var(--cream); font-weight: 600; }
 
 /* ── Email budget (Resend free plan) ── */
-.budget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 4px 0 8px; }
-.budget-card { background: #fff; border-radius: var(--radius-md); padding: 16px 18px; box-shadow: var(--shadow-card); }
+.budget-card { min-width: 0; background: #fff; border-radius: var(--radius-md); padding: 16px 18px; box-shadow: var(--shadow-card); }
 .budget-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 11px; }
 .budget-label { font-family: var(--font-heading); font-weight: 600; color: var(--charcoal); font-size: 0.95rem; }
 .budget-nums { font-family: var(--font-mono); color: var(--gray-600); font-size: 0.88rem; }
@@ -569,7 +637,6 @@
 .budget-fill--over { background: var(--error); }
 .budget-soft { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--charcoal); opacity: .5; }
 .budget-note { display: block; margin-top: 8px; font-size: 0.75rem; color: var(--gray-500); }
-@media (max-width: 640px) { .budget-grid { grid-template-columns: 1fr; } }
 
 /* ── Exam-date calendar ── */
 .cal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: 18px; margin: 4px 0 8px; }
@@ -589,11 +656,12 @@
 /* ── Exam-sim pitch funnel ────────────────────────────────────────────────── */
 .pitch-funnel {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   margin-bottom: 8px;
 }
 .pitch-step {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
