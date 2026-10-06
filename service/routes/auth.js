@@ -314,6 +314,7 @@ router.post('/exam-outcome', verifyAuth, async (req, res) => {
     'examOutcome.passed': parsed.passed,
     'examOutcome.attemptNumber': parsed.attemptNumber,
     'examOutcome.examDateAtAnswer': req.user.examDate || null,
+    'examOutcome.via': parsed.via,
     'examOutcome.answeredAt': new Date(),
   });
   res.send({ ok: true });

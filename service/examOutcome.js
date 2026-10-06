@@ -75,6 +75,19 @@ function shouldAsk(user, today = dayString(new Date())) {
   return askDue(user, today) > 0;
 }
 
+/// Which surface an answer came from.
+///
+/// Worth recording because the phone's notification path does not offer a
+/// dismissal, so the cheapest way out of it is tapping an answer. If that is
+/// pushing people to "I did not sit it" rather than the true one, the share of
+/// no-shows by surface is where it shows up (owner, 2026-10-06).
+const SURFACES = ['app', 'notification', 'email'];
+
+function readVia(v) {
+  const via = String(v || 'app').toLowerCase();
+  return SURFACES.includes(via) ? via : 'app';
+}
+
 /// Validates a submitted answer. Returns null when the body is unusable, so a
 /// caller can reject rather than store something meaningless.
 function parseOutcome(body) {
@@ -88,7 +101,9 @@ function parseOutcome(body) {
   // Someone who did not sit it has no result and no attempt number, and
   // recording a false "did not pass" against them would poison every rate
   // computed from this field.
-  if (!body.sat) return { sat: false, passed: null, attemptNumber: null };
+  if (!body.sat) {
+    return { sat: false, passed: null, attemptNumber: null, via: readVia(body.via) };
+  }
 
   if (typeof body.passed !== 'boolean') return null;
   let attempt = body.attemptNumber;
@@ -97,7 +112,7 @@ function parseOutcome(body) {
     attempt = Number(attempt);
     if (!Number.isInteger(attempt) || attempt < 1 || attempt > 20) return null;
   }
-  return { sat: true, passed: body.passed, attemptNumber: attempt };
+  return { sat: true, passed: body.passed, attemptNumber: attempt, via: readVia(body.via) };
 }
 
 module.exports = {
@@ -109,5 +124,7 @@ module.exports = {
   asksSent,
   isAnswered,
   parseOutcome,
+  readVia,
+  SURFACES,
   dayString,
 };

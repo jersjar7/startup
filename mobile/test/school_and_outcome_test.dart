@@ -197,8 +197,9 @@ void main() {
       expect(find.byIcon(Icons.close), findsOneWidget);
     });
 
-    testWidgets('a failed request still lets the card go away', (tester) async {
-      // Never trap anyone behind a research question.
+    testWidgets('a failed request still moves on, and the way out is still there', (tester) async {
+      // Never trap anyone behind a research question. The answer not saving
+      // must not strand them on the question.
       var done = false;
       final auth = _auth(_RecordingApi(fail: true));
       await tester.pumpWidget(
@@ -208,7 +209,101 @@ void main() {
 
       await tester.tap(find.text('I did not sit it'));
       await tester.pumpAndSettle();
+      expect(find.text('That happens.'), findsOneWidget);
+
+      await tester.tap(find.text('Not now'));
+      await tester.pumpAndSettle();
       expect(done, isTrue);
+    });
+
+    testWidgets('a fail ends on what to do next, not on thanks', (tester) async {
+      // Somebody who failed is the most motivated user on the platform and is
+      // about to sit again. Thanking them and vanishing is the wrong ending.
+      final auth = _auth(_RecordingApi(), {'email': 'a@b.com', 'examDate': '2026-04-10'});
+      await tester.pumpWidget(_host(
+        auth,
+        ExamOutcomeCard(
+          auth: auth,
+          mastery: const {'mathematics': 70, 'water-resources': 12},
+          onSetExamDate: () {},
+        ),
+      ));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Not this time'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Second'));
+      await tester.pumpAndSettle();
+
+      expect(find.textContaining('repeat takers'), findsOneWidget);
+      expect(find.text('Set a new exam date'), findsOneWidget);
+    });
+
+    testWidgets('a no-show is not given a diagnosis it cannot have', (tester) async {
+      final auth = _auth(_RecordingApi());
+      await tester.pumpWidget(_host(
+        auth,
+        ExamOutcomeCard(
+          auth: auth,
+          mastery: const {'mathematics': 70, 'water-resources': 12},
+          onSetExamDate: () {},
+        ),
+      ));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('I did not sit it'));
+      await tester.pumpAndSettle();
+      expect(find.text('That happens.'), findsOneWidget);
+      // No weakest chapter: they did not sit it, so there is nothing to
+      // diagnose and the panel would be one the copy never refers to.
+      expect(find.textContaining('WEAKEST'), findsNothing);
+      expect(find.text('Set a new exam date'), findsOneWidget);
+    });
+
+    testWidgets('a pass ends cleanly, with no what-now', (tester) async {
+      var done = false;
+      final auth = _auth(_RecordingApi());
+      await tester.pumpWidget(
+        _host(auth, ExamOutcomeCard(auth: auth, onDone: () => done = true)),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('I passed'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('First'));
+      await tester.pumpAndSettle();
+      expect(done, isTrue);
+      expect(find.text('WHAT NOW'), findsNothing);
+    });
+
+    testWidgets('the notification path offers no way out but answering', (tester) async {
+      final auth = _auth(_RecordingApi());
+      await tester.pumpWidget(
+        _host(auth, ExamOutcomeCard(auth: auth, dismissible: false)),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.close), findsNothing);
+      expect(find.text('I passed'), findsOneWidget);
+      expect(find.text('Not this time'), findsOneWidget);
+      expect(find.text('I did not sit it'), findsOneWidget);
+    });
+
+    testWidgets('an answer records which surface it came from', (tester) async {
+      // The notification path has no dismissal, so the cheapest way out of it
+      // is tapping an answer. If that is pushing people to "I did not sit it"
+      // rather than the true one, the share of no-shows by surface is where it
+      // shows up, which is why this is recorded at all.
+      final api = _RecordingApi();
+      final auth = _auth(api);
+      await tester.pumpWidget(
+        _host(auth, ExamOutcomeCard(auth: auth, dismissible: false, via: 'notification')),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('I did not sit it'));
+      await tester.pumpAndSettle();
+      expect(api.posts.first.$2!['via'], 'notification');
     });
 
     testWidgets('it does not celebrate before it knows', (tester) async {

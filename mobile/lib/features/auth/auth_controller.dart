@@ -102,11 +102,13 @@ class AuthController extends ChangeNotifier {
     required bool sat,
     bool? passed,
     int? attemptNumber,
+    String via = 'app',
   }) async {
     await api.post('/user/exam-outcome', {
       'sat': sat,
       'passed': ?passed,
       'attemptNumber': ?attemptNumber,
+      'via': via,
     });
     await refreshMe();
   }

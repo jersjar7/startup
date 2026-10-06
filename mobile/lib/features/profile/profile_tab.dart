@@ -179,9 +179,19 @@ class _ProfileTabState extends State<ProfileTab> {
                 ),
               ),
               if (!_outcomeDone && shouldAskOutcome(user, appClock())) ...[
-                ExamOutcomeCard(
-                  auth: auth,
-                  onDone: () => setState(() => _outcomeDone = true),
+                FutureBuilder<Map<String, ChapterMastery>>(
+                  future: _mastery,
+                  builder: (context, snap) => ExamOutcomeCard(
+                    auth: auth,
+                    mastery: snap.data == null ? null : totalsOf(snap.data!),
+                    onSetExamDate: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            ExamDateScreen(initial: user['examDate'] as String?),
+                      ),
+                    ),
+                    onDone: () => setState(() => _outcomeDone = true),
+                  ),
                 ),
                 const SizedBox(height: 14),
               ],
