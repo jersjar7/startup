@@ -37,9 +37,16 @@ Future<void> loadBrandFonts() async {
     plain
         .putIfAbsent(family, () => FontLoader(family))
         .addFont(Future.value(bytes));
-    final variant = FontLoader('${family}_$weight')
-      ..addFont(Future.value(bytes));
-    await variant.load();
+    // Registered under BOTH spellings. google_fonts asks for the file's own
+    // prefix with no space ("DMSans_800"); registering only the display name
+    // ("DM Sans_800") meant DM Sans and JetBrains Mono were never registered
+    // under the name actually requested, and any text drawn before
+    // google_fonts finished loading them from assets came out as boxes. Inter
+    // hid it, because its two spellings are identical.
+    for (final key in {'${family}_$weight', '${parts[0]}_$weight'}) {
+      final variant = FontLoader(key)..addFont(Future.value(bytes));
+      await variant.load();
+    }
   }
   for (final loader in plain.values) {
     await loader.load();
