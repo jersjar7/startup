@@ -18,10 +18,20 @@
 // what makes two students at one university land in one bucket. The free text
 // is what stops a list we got wrong from blocking anybody.
 //
-// The directory is a SEED, not an authority. It covers the institutions most
-// likely to be typed, with the abbreviations students actually use. It lives on
-// the server rather than in the app so it can be corrected without shipping a
-// build, which matters because it is certainly incomplete.
+// The directory is 2,360 US institutions from the public university-domains
+// dataset, with abbreviations layered on by hand because that dataset has none
+// and "UCI" is what people actually type. Where a curated campus was missing
+// from the dataset it was kept; where the dataset had the campus, it gained the
+// abbreviations.
+//
+// It lives on the server rather than in the app so it can be corrected without
+// shipping a build. Still not an authority: institutions merge, rename and open,
+// so free text stays available underneath and the search returns nothing rather
+// than guessing.
+//
+// Most entries carry their email domain, which is how [schoolForDomain] can
+// name the institution of anybody who signed up with a .edu address without
+// asking them at all.
 
 const DIRECTORY = require('./data/schools.json');
 
@@ -92,6 +102,42 @@ function searchSchools(query, { limit = MAX_RESULTS } = {}) {
   return hits.slice(0, limit).map((h) => h.name);
 }
 
+/// Every email domain in the directory, pointing at its institution.
+///
+/// Built once. 2,337 of the 2,360 rows carry one, which is the whole reason the
+/// dataset was worth taking over a hand-written list: school.js already pulls
+/// the academic domain off an email address, and this turns that domain into a
+/// name. Only 69 of 500 accounts had a knowable school on 2026-10-06, and
+/// nobody has to be asked for a school this can already answer.
+const BY_DOMAIN = (() => {
+  const map = new Map();
+  for (const school of DIRECTORY) {
+    for (const domain of school.domains || []) {
+      // First writer wins, so a shared domain cannot reassign an institution
+      // out from under an earlier one.
+      if (!map.has(domain)) map.set(domain, school.name);
+    }
+  }
+  return map;
+})();
+
+/// The institution that owns an email domain, or null.
+///
+/// Exact matches first, then one level up, so "eng.berkeley.edu" still finds
+/// Berkeley. Never guesses beyond that: two labels is where a domain stops
+/// identifying one institution.
+function schoolForDomain(domain) {
+  const d = String(domain || '').toLowerCase().trim().replace(/^\.+|\.+$/g, '');
+  if (!d) return null;
+  if (BY_DOMAIN.has(d)) return BY_DOMAIN.get(d);
+  const parts = d.split('.');
+  for (let i = 1; i < parts.length - 1; i++) {
+    const parent = parts.slice(i).join('.');
+    if (BY_DOMAIN.has(parent)) return BY_DOMAIN.get(parent);
+  }
+  return null;
+}
+
 /// The canonical name for something already stored, or null when it is not in
 /// the directory. Used to fold the records collected before this existed.
 function canonicalSchool(raw) {
@@ -109,4 +155,5 @@ module.exports = {
   fold,
   searchSchools,
   canonicalSchool,
+  schoolForDomain,
 };

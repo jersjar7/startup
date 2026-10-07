@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { searchSchools, canonicalSchool, fold, DIRECTORY } from './schoolDirectory.js';
+import {
+  searchSchools, canonicalSchool, fold, DIRECTORY, schoolForDomain,
+} from './schoolDirectory.js';
 import { normalizeSchoolName } from './school.js';
 
 // Measured on production, 2026-10-07: 19 users had given a school and there
@@ -100,8 +102,8 @@ describe('what it must not do', () => {
 });
 
 describe('the directory itself', () => {
-  it('is a seed worth having, not a stub', () => {
-    expect(DIRECTORY.length).toBeGreaterThanOrEqual(150);
+  it('is a real directory, not a stub', () => {
+    expect(DIRECTORY.length).toBeGreaterThanOrEqual(2000);
   });
 
   it('has no duplicate institutions, which would defeat the purpose', () => {
@@ -127,5 +129,87 @@ describe('the directory itself', () => {
         expect(fold(alias)).not.toBe(fold(school.name));
       }
     }
+  });
+});
+
+// The hand-written seed was replaced by 2,360 US institutions from the public
+// university-domains dataset, with the curated abbreviations layered on top
+// because that dataset has none and "UCI" is what people type.
+describe('the real dataset', () => {
+  it('is thousands of institutions, not hundreds', () => {
+    expect(DIRECTORY.length).toBeGreaterThan(2000);
+  });
+
+  it('kept every curated abbreviation, which the dataset does not have', () => {
+    for (const [typed, expected] of [
+      ['UCI', 'University of California, Irvine'],
+      ['CSULB', 'California State University, Long Beach'],
+      ['BYU', 'Brigham Young University'],
+      ['Cal Poly', 'California Polytechnic State University, San Luis Obispo'],
+      ['NCSU', 'North Carolina State University'],
+      ['Virginia Tech', 'Virginia Polytechnic Institute and State University'],
+    ]) {
+      expect(searchSchools(typed)[0], `"${typed}" no longer resolves`).toBe(expected);
+    }
+  });
+
+  it('reaches schools the hand-written list never had', () => {
+    expect(searchSchools('marywood').length).toBeGreaterThan(0);
+    expect(searchSchools('gallaudet').length).toBeGreaterThan(0);
+  });
+});
+
+describe('naming a school from an email domain', () => {
+  it('resolves a .edu address without asking anybody', () => {
+    // Only 69 of 500 accounts had a knowable school. This is the cheapest way
+    // to raise that: the domain is already on the account.
+    expect(schoolForDomain('byu.edu')).toBe('Brigham Young University');
+    expect(schoolForDomain('mit.edu')).toBe('Massachusetts Institute of Technology');
+  });
+
+  it('climbs to the parent domain, so a department still resolves', () => {
+    expect(schoolForDomain('eng.berkeley.edu')).toBe('University of California, Berkeley');
+    expect(schoolForDomain('students.uwf.edu')).toBe('University of West Florida');
+  });
+
+  it('says nothing for an address that is not a school', () => {
+    // 380 of 500 signed up with a personal address. Guessing here would invent
+    // institutions, which is the thing this whole file exists to stop.
+    for (const d of ['gmail.com', 'outlook.com', '', null, undefined, '.', 'edu']) {
+      expect(schoolForDomain(d)).toBeNull();
+    }
+  });
+
+  it('is not confused by case or stray dots', () => {
+    expect(schoolForDomain('BYU.EDU')).toBe('Brigham Young University');
+    expect(schoolForDomain('.byu.edu.')).toBe('Brigham Young University');
+  });
+});
+
+describe('one institution, one bucket', () => {
+  it('never lists a school whose name is another school\'s alias', () => {
+    // The dataset shipped "Virginia Tech" as its own institution alongside
+    // "Virginia Polytechnic Institute and State University", so students at one
+    // university would have landed in two buckets, which is the exact failure
+    // this directory exists to prevent. Merged on 2026-10-07; this is the guard
+    // that the next dataset refresh cannot reintroduce it.
+    const owner = new Map();
+    for (const school of DIRECTORY) {
+      for (const alias of school.aka || []) owner.set(fold(alias), school.name);
+    }
+    for (const school of DIRECTORY) {
+      const clash = owner.get(fold(school.name));
+      expect(
+        clash === undefined || fold(clash) === fold(school.name),
+        `"${school.name}" is also an alias of "${clash}"`,
+      ).toBe(true);
+    }
+  });
+
+  it('kept the merged school reachable by both name and domain', () => {
+    expect(searchSchools('Virginia Tech')[0])
+      .toBe('Virginia Polytechnic Institute and State University');
+    expect(schoolForDomain('vt.edu'))
+      .toBe('Virginia Polytechnic Institute and State University');
   });
 });
