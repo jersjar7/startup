@@ -4,7 +4,7 @@
 // loop is idempotent — running it twice in the same hour (or after a restart)
 // never double-sends.
 
-const { userCollection, userStatsCollection, sessionLogCollection, examAttemptsCollection, funnelEventsCollection } = require('./db/connection.js');
+const { userCollection, userStatsCollection, sessionLogCollection, examAttemptsCollection, funnelEventsCollection, purchasesCollection } = require('./db/connection.js');
 const { generateToken, hashToken } = require('./crypto.js');
 const { deleteAllUserData } = require('./db/accountDeletion.js');
 const {
@@ -195,9 +195,42 @@ async function purgeStaleUnverified(now) {
     emailVerified: { $ne: true },
   }).limit(MAX_PER_RUN).toArray();
 
+  // Who among them has actually used the product. Measured on 2026-10-06:
+  // 58 of 88 unverified accounts had studied, the heaviest with 116 sessions
+  // and still active that week, and 3 of them had PAID. Verification is not
+  // enforced anywhere, so these are ordinary students who never happened to
+  // click a link in an email, and this job was deleting them and all their
+  // work on a thirty-day timer. 20 were within a week of going.
+  //
+  // One query for the batch rather than a lookup per user, and it fails CLOSED:
+  // if it throws, nothing is purged. The job is housekeeping, and skipping a
+  // day of housekeeping costs nothing, while deleting a studying customer is
+  // not recoverable.
+  let active;
+  let paid;
+  try {
+    const emails = users.map((u) => u.email);
+    active = new Set(await sessionLogCollection.distinct('email', { email: { $in: emails } }));
+    const ids = users.map((u) => String(u.userId || u._id));
+    paid = new Set(
+      (await purchasesCollection.distinct('userId', { userId: { $in: ids } })).map(String),
+    );
+  } catch (e) {
+    console.error('[lifecycle] purge skipped, could not check for activity:', e.message);
+    return 0;
+  }
+
   let purged = 0;
+  let spared = 0;
   for (const u of users) {
     if (!isStaleUnverified(u.createdAt, now)) continue;
+    // An account with work in it is not an abandoned signup, whatever the
+    // verification flag says. The purge exists to clear out dead rows, and a
+    // student with sessions behind them is not a dead row.
+    if (active.has(u.email) || paid.has(String(u.userId || u._id))) {
+      spared += 1;
+      continue;
+    }
     try {
       // Labelled, because this is the bulk of all deletions and it is us, not
       // them. Counting a purged signup as somebody leaving would make the
@@ -208,6 +241,7 @@ async function purgeStaleUnverified(now) {
       console.error('[lifecycle] purge failed for', u.email, e.message);
     }
   }
+  if (spared) console.log(`[lifecycle] purge spared ${spared} unverified account(s) with work in them`);
   return purged;
 }
 
