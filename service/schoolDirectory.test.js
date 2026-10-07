@@ -213,3 +213,40 @@ describe('one institution, one bucket', () => {
       .toBe('Virginia Polytechnic Institute and State University');
   });
 });
+
+describe('typing it and resolving it from a domain agree', () => {
+  // The two sources name campuses differently: the curated list says
+  // "Texas A&M University", the dataset said "Texas A&M University - College
+  // Station". Left alone, a student who typed the name and a student whose
+  // .edu address resolved would land in different buckets at the same
+  // university, which is the failure this whole directory exists to prevent.
+  //
+  // Eleven campuses were merged one at a time rather than by a rule, because a
+  // rule would have merged "University of Alabama" with "University of Alabama
+  // at Birmingham", which are different universities.
+  it('gives one name whether it was typed or inferred', () => {
+    for (const [typed, domain] of [
+      ['Texas A&M', 'tamu.edu'],
+      ['University of Michigan', 'umich.edu'],
+      ['UA', 'ua.edu'],
+      ['UT Austin', 'utexas.edu'],
+      ['UVA', 'virginia.edu'],
+      ['Ohio State University', 'osu.edu'],
+      ['University of Maryland', 'umd.edu'],
+    ]) {
+      const byTyping = searchSchools(typed)[0];
+      const byDomain = schoolForDomain(domain);
+      expect(byDomain, `${domain} resolved to nothing`).toBeTruthy();
+      expect(byTyping, `"${typed}" and ${domain} disagree`).toBe(byDomain);
+    }
+  });
+
+  it('keeps universities that merely share a name apart', () => {
+    // Alabama and UAB are different institutions. So are Michigan and Michigan
+    // Dearborn. A merge rule based on name prefixes would have collapsed them.
+    expect(schoolForDomain('ua.edu')).not.toBe(schoolForDomain('uab.edu'));
+    expect(schoolForDomain('ua.edu')).not.toBe(schoolForDomain('uah.edu'));
+    expect(schoolForDomain('umich.edu')).not.toBe(schoolForDomain('umdearborn.edu'));
+    expect(schoolForDomain('umich.edu')).not.toBe(schoolForDomain('umflint.edu'));
+  });
+});
