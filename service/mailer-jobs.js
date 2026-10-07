@@ -20,6 +20,7 @@ const { hasPurchased } = require('./db/purchases.js');
 const { shouldPitchSimInDigest } = require('./digestPitch.js');
 const { canSendLifecycle, counts: budgetCounts, DAILY_CAP, MONTHLY_CAP } = require('./sendBudget.js');
 const { digestActiveSince, inDigestAudience, audienceNote, DIGEST_ACTIVE_DAYS } = require('./digestAudience.js');
+const { outcomePriorityActive } = require('./outcomePriority.js');
 
 const TZ = process.env.LIFECYCLE_TZ || TZ_DEFAULT;
 const SEND_HOUR = Number(process.env.LIFECYCLE_HOUR) || 8;
@@ -482,23 +483,36 @@ async function runLifecycleEmails(now = new Date()) {
     const welcome = await sendWelcomes(now);
     const verify = await sendVerifyReminders(now);
     const simFollow = process.env.SIM_FOLLOWUP_ENABLED === '1' ? await sendSimFollowups(now) : 0;
-    const exam = await sendExamCountdowns(now, 'morning');
-    const weekly = await sendWeeklyDigests(now);
-    const winback = await sendWinbacks(now);
-    // Held until the owner has read the email. Turn on with
-    // EXAM_OUTCOME_ENABLED=1 once approved (owner, 2026-10-06).
+    // Ahead of countdowns, digests and win-backs until OUTCOME_PRIORITY_UNTIL
+    // passes (owner, 2026-10-07).
+    //
+    // The first batch sent four of a 65-person backlog, because the ask sits
+    // last and countdowns and win-backs had already taken the day's headroom.
+    // Sixteen days to drain is too slow for a question whose value is catching
+    // somebody before they drift away, and the first ask is the one most likely
+    // to be answered.
+    //
+    // A countdown to an exam weeks out and a win-back to a dormant account are
+    // both worth less than asking somebody who has just sat the thing. This is
+    // deliberately temporary: the date below restores the usual order on its
+    // own, so nobody has to remember to put it back.
+    const outcomeFirst = outcomePriorityActive(now);
     const outcome = process.env.EXAM_OUTCOME_ENABLED === '1'
       ? await sendExamOutcomeAsks(now)
       : 0;
-    if (welcome || verify || winback || exam || weekly || simFollow || outcome) {
+    const exam = outcomeFirst ? 0 : await sendExamCountdowns(now, 'morning');
+    const weekly = await sendWeeklyDigests(now);
+    const winback = await sendWinbacks(now);
+    const examLate = outcomeFirst ? await sendExamCountdowns(now, 'morning') : 0;
+    if (welcome || verify || winback || exam || examLate || weekly || simFollow || outcome) {
       // Report the day's remaining headroom alongside the batch. The batch runs
       // mid-UTC-day, so what is left here has to cover every signup for the rest
       // of the US day; seeing it in the log is how a squeeze gets noticed before
       // a verification email is the thing that fails.
       const { day, month } = await budgetCounts(now);
-      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam} weekly=${weekly} simFollow=${simFollow} outcome=${outcome} — budget ${day}/${DAILY_CAP} today (${Math.max(0, DAILY_CAP - day)} left for verification and reset), ${month}/${MONTHLY_CAP} this month`);
+      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam + examLate} weekly=${weekly} simFollow=${simFollow} outcome=${outcome} — budget ${day}/${DAILY_CAP} today (${Math.max(0, DAILY_CAP - day)} left for verification and reset), ${month}/${MONTHLY_CAP} this month`);
     }
-    return { welcome, verify, winback, exam, weekly, simFollow, outcome };
+    return { welcome, verify, winback, exam: exam + examLate, weekly, simFollow, outcome };
   } catch (e) {
     console.error('[lifecycle] run failed:', e.message);
     return { error: e.message };

@@ -10,6 +10,7 @@ const {
   validGraduationTerm,
   validGraduationYear,
 } = require('../school.js');
+const { searchSchools } = require('../schoolDirectory.js');
 const { parseOutcome, isAnswered: outcomeAnswered } = require('../examOutcome.js');
 const { verifyAuth, setAuthCookie, clearAuthCookie, authCookieName } = require('../middleware/auth.js');
 const { getBadgeDetails, getAllBadges } = require('../badges.js');
@@ -261,6 +262,18 @@ router.post('/acquisition', verifyAuth, async (req, res) => {
 // Re-postable on purpose, unlike acquisition: a student transfers, or mistypes
 // their own university, and a stale school quietly corrupts a report they are
 // counted in. Attribution history has to be stable; this does not.
+// GET /api/auth/schools?q= — typeahead suggestions for the school field.
+//
+// Suggestions only. The caller must always accept what somebody typed, because
+// the directory is a seed and an incomplete list cannot be allowed to block
+// anybody from answering. See service/schoolDirectory.js.
+//
+// Behind verifyAuth because only a signed-in person is ever asked for a school,
+// and there is no reason to serve this to anyone else.
+router.get('/schools', verifyAuth, (req, res) => {
+  res.send({ schools: searchSchools(req.query.q) });
+});
+
 router.post('/school', verifyAuth, async (req, res) => {
   if (req.body.dismissed === true) {
     if (!isSchoolResolved(req.user)) {
