@@ -44,36 +44,18 @@ function isVerifyReminderDue(createdAt, now, tz = TZ_DEFAULT) {
   return etDate(new Date(createdAt), tz) < etDate(now, tz);
 }
 
-// Accounts left unverified this many days are purged (DB hygiene). The full
-// account-deletion cascade runs, so no orphaned rows are left behind.
+// There is no automatic deletion, and there must not be one.
 //
-// Was 30, raised to 45 on 2026-10-06. The logs showed this quietly removing one
-// to three accounts EVERY day, 216 of them since launch, and somebody who signs
-// up, gets distracted and comes back six weeks later should still have an
-// account. 45 days also leaves room for the warning below.
-const STALE_UNVERIFIED_DAYS = 45;
-function isStaleUnverified(createdAt, now, days = STALE_UNVERIFIED_DAYS) {
-  return daysSince(createdAt, now) >= days;
-}
-
-// The one warning before an unverified account is removed.
+// A hygiene job used to purge accounts left unverified past 30 days. It ran
+// daily from 2026-06-04 and removed 216 accounts. Verification gates nothing in
+// the product, so those were not abandoned signups: two thirds of the accounts
+// it targeted had study sessions behind them, the heaviest with 116, and three
+// had paid. It was deleting students and their work on a timer.
 //
-// Until now the sequence was: one reminder the morning after signup, then four
-// weeks of silence, then deletion with no notice at all. A week's warning is
-// the least this should do before throwing away somebody's account.
-//
-// Deliberately a single send, a week out. Anyone whose address hard-bounced on
-// the first reminder is already suppressed by the sender, so this does not
-// stack more mail onto a dead address.
-const FINAL_WARNING_DAYS = STALE_UNVERIFIED_DAYS - 7;
-function isFinalWarningDue(createdAt, now, days = FINAL_WARNING_DAYS) {
-  if (!createdAt) return false;
-  const age = daysSince(createdAt, now);
-  // Never fires for an account already past the purge line: if it somehow
-  // reaches that age unwarned, deleting it quietly is better than warning
-  // somebody about a deletion that already happened.
-  return age >= days && age < STALE_UNVERIFIED_DAYS;
-}
+// Removed on 2026-10-06 (owner's call): an account a person created stays until
+// that person asks for it to go. The only deletion path left is the one they
+// trigger themselves. See docs/EXAM-OUTCOME-AND-PASS-CARD.md and
+// research/recovered/lifecycle-batches.log for what was lost.
 
 // Whether the weekly digest should use the upbeat "active" copy vs the gentle
 // re-engagement copy.
@@ -100,6 +82,5 @@ function examMilestoneToSend(daysLeft, sent = [], milestones = EXAM_MILESTONES) 
 module.exports = {
   TZ_DEFAULT, etDate, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive,
   EXAM_MILESTONES, examMilestoneToSend,
-  isVerifyReminderDue, isStaleUnverified, STALE_UNVERIFIED_DAYS,
-  isFinalWarningDue, FINAL_WARNING_DAYS,
+  isVerifyReminderDue,
 };

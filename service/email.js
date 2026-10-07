@@ -418,30 +418,6 @@ async function sendVerifyReminderEmail(toEmail, rawToken) {
   });
 }
 
-// The one warning before an unverified account is removed.
-//
-// Sent a week out. Until this existed the sequence was a reminder the morning
-// after signup, four weeks of silence, then deletion with no notice: 216
-// accounts went that way since launch.
-//
-// Says plainly what will happen and when, because that is the whole point of
-// it, and makes verifying the only thing to do. No pitch, no digest, nothing
-// else competing with the one action that saves the account.
-async function sendVerifyFinalWarningEmail(toEmail, rawToken, { days = 7 } = {}) {
-  const when = days === 1 ? 'tomorrow' : `in ${days} days`;
-  return sendEmail({
-    to: toEmail,
-    subject: `Your FE for Raccoons account will be removed ${when}`,
-    html: ctaEmail({
-      heading: `Verify ${when}, or we will close the account`,
-      body: `You signed up a while ago but never confirmed this address, so the account has been sitting unused. We clear those out, and yours is due to go ${when}. One tap keeps it, along with anything you have studied.`,
-      ctaText: 'Keep my account',
-      ctaUrl: `${appUrl}/verify-email/${rawToken}`,
-      note: "If you did not create this account, do nothing and it will be removed on its own.",
-    }),
-  });
-}
-
 // Weekly recap (Sunday morning). Active users get the upbeat version; inactive
 // users get a gentle restart so they don't just see a wall of zeros.
 async function sendWeeklyDigestEmail(toEmail, d = {}) {
@@ -773,7 +749,6 @@ module.exports = {
   sendPasswordResetEmail,
   sendVerificationEmail,
   sendVerifyReminderEmail,
-  sendVerifyFinalWarningEmail,
   sendStudentCodeEmail,
   sendTestEmail,
   sendWelcomeEmail,

@@ -1,8 +1,7 @@
 import { describe, it, expect } from 'vitest';
 const {
   etDate, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive, examMilestoneToSend,
-  isVerifyReminderDue, isStaleUnverified, STALE_UNVERIFIED_DAYS,
-  isFinalWarningDue, FINAL_WARNING_DAYS,
+  isVerifyReminderDue,
 } = require('./lifecycle');
 
 const TZ = 'America/New_York';
@@ -67,23 +66,6 @@ describe('isVerifyReminderDue (morning after signup, still unverified)', () => {
   });
 });
 
-describe('isStaleUnverified', () => {
-  it('is false before the stale window', () => {
-    const created = new Date('2026-06-01T00:00:00Z');
-    const now = new Date('2026-06-20T00:00:00Z'); // 19 days
-    expect(isStaleUnverified(created, now)).toBe(false);
-  });
-  it('is true at/after the stale window', () => {
-    const created = new Date('2026-06-01T00:00:00Z');
-    const now = new Date(`2026-06-01T00:00:00Z`);
-    const past = new Date(now.getTime() + STALE_UNVERIFIED_DAYS * 86400000);
-    expect(isStaleUnverified(created, past)).toBe(true);
-  });
-  it('treats a missing createdAt as stale (orphan cleanup)', () => {
-    expect(isStaleUnverified(null, new Date())).toBe(true);
-  });
-});
-
 describe('daysSince', () => {
   it('floors whole days between instants', () => {
     const now = new Date('2026-06-10T00:00:00Z');
@@ -129,38 +111,20 @@ describe('examMilestoneToSend', () => {
   });
 });
 
-// Until 2026-10-06 an unverified account got one reminder the morning after
-// signup, then four weeks of silence, then deletion with no notice. The logs
-// showed that removing 216 accounts since launch, one to three every day.
-describe('before an unverified account is thrown away', () => {
-  const now = new Date('2026-10-06T12:00:00Z');
-  const daysAgo = (n) => new Date(now.getTime() - n * 86400000);
-
-  it('gives them six and a half weeks, not four', () => {
-    expect(STALE_UNVERIFIED_DAYS).toBe(45);
-    expect(isStaleUnverified(daysAgo(44), now)).toBe(false);
-    expect(isStaleUnverified(daysAgo(45), now)).toBe(true);
+// There is no automatic deletion any more. The purge that used to run here was
+// removed on 2026-10-06 after it turned out to be deleting studying users; the
+// guard is that neither the predicate nor the job comes back by accident.
+describe('an account a person created stays', () => {
+  it('exposes no staleness predicate for anything to purge on', () => {
+    const lifecycle = require('./lifecycle');
+    expect(lifecycle.isStaleUnverified).toBeUndefined();
+    expect(lifecycle.STALE_UNVERIFIED_DAYS).toBeUndefined();
+    expect(lifecycle.isFinalWarningDue).toBeUndefined();
   });
 
-  it('warns a week before, not on the day', () => {
-    expect(FINAL_WARNING_DAYS).toBe(38);
-    expect(isFinalWarningDue(daysAgo(37), now)).toBe(false);
-    expect(isFinalWarningDue(daysAgo(38), now)).toBe(true);
-    expect(isFinalWarningDue(daysAgo(44), now)).toBe(true);
-  });
-
-  it('never warns somebody whose account is already past the line', () => {
-    // Warning about a deletion that has already happened is worse than silence.
-    expect(isFinalWarningDue(daysAgo(45), now)).toBe(false);
-    expect(isFinalWarningDue(daysAgo(90), now)).toBe(false);
-  });
-
-  it('leaves a full week between the warning and the deletion', () => {
-    expect(STALE_UNVERIFIED_DAYS - FINAL_WARNING_DAYS).toBe(7);
-  });
-
-  it('does nothing without a creation date rather than guessing', () => {
-    expect(isFinalWarningDue(null, now)).toBe(false);
-    expect(isFinalWarningDue(undefined, now)).toBe(false);
+  it('still reminds them once, the morning after, which is all it should do', () => {
+    const now = new Date('2026-10-06T12:00:00Z');
+    expect(isVerifyReminderDue(new Date('2026-10-05T12:00:00Z'), now, TZ)).toBe(true);
+    expect(isVerifyReminderDue(now, now, TZ)).toBe(false);
   });
 });

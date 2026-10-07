@@ -6,17 +6,14 @@
 
 const { userCollection, userStatsCollection, sessionLogCollection, examAttemptsCollection, funnelEventsCollection, purchasesCollection } = require('./db/connection.js');
 const { generateToken, hashToken } = require('./crypto.js');
-const { deleteAllUserData } = require('./db/accountDeletion.js');
 const {
   sendWelcomeEmail, sendWeeklyDigestEmail, sendWinbackEmail, sendExamCountdownEmail,
   sendExamOutcomeEmail,
-  sendVerifyReminderEmail, sendVerifyFinalWarningEmail,
-  sendSimFollowupEmail, sendSimPitchFollowupEmail,
+  sendVerifyReminderEmail, sendSimFollowupEmail, sendSimPitchFollowupEmail,
 } = require('./email.js');
 const {
   TZ_DEFAULT, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive, examMilestoneToSend,
-  isVerifyReminderDue, isStaleUnverified, isFinalWarningDue,
-  STALE_UNVERIFIED_DAYS, FINAL_WARNING_DAYS,
+  isVerifyReminderDue,
 } = require('./lifecycle.js');
 const { daysUntilExam } = require('./profile.js');
 const { hasPurchased } = require('./db/purchases.js');
@@ -146,103 +143,6 @@ async function sendVerifyReminders(now) {
     }
   }
   return sent;
-}
-
-// The one warning before an unverified account is removed, sent a week out.
-//
-// Ranked just under the verification reminder and above everything else: it is
-// the last chance to save somebody's account, which beats any digest. Sent once
-// (guarded by finalWarningSentAt), with a freshly issued token so the link in
-// it actually works after all this time.
-async function sendFinalWarnings(now) {
-  const users = await userCollection.find({
-    emailVerified: { $ne: true },
-    finalWarningSentAt: { $exists: false },
-    lifecycleOptOut: { $ne: true },
-  }).limit(MAX_PER_RUN).toArray();
-
-  let sent = 0;
-  for (const u of users) {
-    if (!isFinalWarningDue(u.createdAt, now)) continue;
-    if (!(await canSendLifecycle(now))) break;
-    try {
-      const rawToken = generateToken();
-      await userCollection.updateOne(
-        { email: u.email },
-        { $set: {
-          verificationToken: hashToken(rawToken),
-          verificationSentAt: new Date(),
-          finalWarningSentAt: new Date(),
-        } },
-      );
-      await sendVerifyFinalWarningEmail(u.email, rawToken, {
-        days: STALE_UNVERIFIED_DAYS - FINAL_WARNING_DAYS,
-      });
-      sent += 1;
-      await sleep(SEND_GAP_MS);
-    } catch (e) {
-      console.error('[lifecycle] final warning failed for', u.email, e.message);
-    }
-  }
-  return sent;
-}
-
-// DB hygiene: delete accounts left unverified past the stale window. Full
-// cascade so no orphaned rows remain. Anyone who verifies first drops out of the
-// query, so only genuinely-abandoned signups are removed.
-async function purgeStaleUnverified(now) {
-  const users = await userCollection.find({
-    emailVerified: { $ne: true },
-  }).limit(MAX_PER_RUN).toArray();
-
-  // Who among them has actually used the product. Measured on 2026-10-06:
-  // 58 of 88 unverified accounts had studied, the heaviest with 116 sessions
-  // and still active that week, and 3 of them had PAID. Verification is not
-  // enforced anywhere, so these are ordinary students who never happened to
-  // click a link in an email, and this job was deleting them and all their
-  // work on a thirty-day timer. 20 were within a week of going.
-  //
-  // One query for the batch rather than a lookup per user, and it fails CLOSED:
-  // if it throws, nothing is purged. The job is housekeeping, and skipping a
-  // day of housekeeping costs nothing, while deleting a studying customer is
-  // not recoverable.
-  let active;
-  let paid;
-  try {
-    const emails = users.map((u) => u.email);
-    active = new Set(await sessionLogCollection.distinct('email', { email: { $in: emails } }));
-    const ids = users.map((u) => String(u.userId || u._id));
-    paid = new Set(
-      (await purchasesCollection.distinct('userId', { userId: { $in: ids } })).map(String),
-    );
-  } catch (e) {
-    console.error('[lifecycle] purge skipped, could not check for activity:', e.message);
-    return 0;
-  }
-
-  let purged = 0;
-  let spared = 0;
-  for (const u of users) {
-    if (!isStaleUnverified(u.createdAt, now)) continue;
-    // An account with work in it is not an abandoned signup, whatever the
-    // verification flag says. The purge exists to clear out dead rows, and a
-    // student with sessions behind them is not a dead row.
-    if (active.has(u.email) || paid.has(String(u.userId || u._id))) {
-      spared += 1;
-      continue;
-    }
-    try {
-      // Labelled, because this is the bulk of all deletions and it is us, not
-      // them. Counting a purged signup as somebody leaving would make the
-      // churn figure meaningless.
-      await deleteAllUserData(u.email, u.userId, { reason: 'stalePurge' });
-      purged += 1;
-    } catch (e) {
-      console.error('[lifecycle] purge failed for', u.email, e.message);
-    }
-  }
-  if (spared) console.log(`[lifecycle] purge spared ${spared} unverified account(s) with work in them`);
-  return purged;
 }
 
 async function sendWinbacks(now) {
@@ -581,9 +481,6 @@ async function runLifecycleEmails(now = new Date()) {
     // PITCH_HOUR. (The weekly digest runs EVERY day, sending only each user's shard.)
     const welcome = await sendWelcomes(now);
     const verify = await sendVerifyReminders(now);
-    // Above everything else that follows: it is the last chance to save an
-    // account, which outranks any digest.
-    const lastCall = await sendFinalWarnings(now);
     const simFollow = process.env.SIM_FOLLOWUP_ENABLED === '1' ? await sendSimFollowups(now) : 0;
     const exam = await sendExamCountdowns(now, 'morning');
     const weekly = await sendWeeklyDigests(now);
@@ -593,16 +490,15 @@ async function runLifecycleEmails(now = new Date()) {
     const outcome = process.env.EXAM_OUTCOME_ENABLED === '1'
       ? await sendExamOutcomeAsks(now)
       : 0;
-    const purged = await purgeStaleUnverified(now);
-    if (welcome || verify || lastCall || winback || exam || weekly || simFollow || outcome || purged) {
+    if (welcome || verify || winback || exam || weekly || simFollow || outcome) {
       // Report the day's remaining headroom alongside the batch. The batch runs
       // mid-UTC-day, so what is left here has to cover every signup for the rest
       // of the US day; seeing it in the log is how a squeeze gets noticed before
       // a verification email is the thing that fails.
       const { day, month } = await budgetCounts(now);
-      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} lastCall=${lastCall} winback=${winback} exam=${exam} weekly=${weekly} simFollow=${simFollow} outcome=${outcome} purged=${purged} — budget ${day}/${DAILY_CAP} today (${Math.max(0, DAILY_CAP - day)} left for verification and reset), ${month}/${MONTHLY_CAP} this month`);
+      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam} weekly=${weekly} simFollow=${simFollow} outcome=${outcome} — budget ${day}/${DAILY_CAP} today (${Math.max(0, DAILY_CAP - day)} left for verification and reset), ${month}/${MONTHLY_CAP} this month`);
     }
-    return { welcome, verify, lastCall, winback, exam, weekly, simFollow, outcome, purged };
+    return { welcome, verify, winback, exam, weekly, simFollow, outcome };
   } catch (e) {
     console.error('[lifecycle] run failed:', e.message);
     return { error: e.message };
