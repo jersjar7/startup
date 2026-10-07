@@ -11,11 +11,18 @@ import './SchoolPrompt.css';
 // says whether somebody is sitting the FE this spring or in three years, which
 // is the difference between a buyer and a long nurture.
 //
-// School is FREE TEXT on purpose. There are roughly 1,600 ABET-accredited
-// civil programmes in the US alone, and that is before international schools
-// and the people who type "BYU" when the dropdown says "Brigham Young
-// University". A select box long enough to be correct is unusable on a phone,
-// so we take the typing and normalise on our side when we aggregate.
+// School stays FREE TEXT, with suggestions over the top. A select box long
+// enough to be correct is unusable on a phone, which is why there is no
+// dropdown, but free text alone was measured on 2026-10-07 and produced
+// nothing usable: 19 users had given a school and there were 19 distinct
+// names, with "UCI" and "University of California, Irvine" counted as separate
+// institutions. Normalising on our side cannot fix that, because its grouping
+// key strips "university" and "of" and the two forms can never meet.
+//
+// So the field suggests canonical names from a 2,348-school directory as you
+// type, and still accepts anything. The suggestion is what makes two students
+// at one university save the same string; the free text is what stops an
+// incomplete list blocking anybody. See service/schoolDirectory.js.
 //
 // Graduation year is the opposite: a short fixed set, because every plausible
 // answer for a student studying for the FE sits in a five-year window, and
@@ -53,6 +60,49 @@ async function postSchool(body) {
 // answer to give, and there is no "Other" chip that would cover them.
 export function SchoolPrompt({ onClose, dismissible = true, className = '' }) {
   const [name, setName] = React.useState('');
+  const [suggestions, setSuggestions] = React.useState([]);
+  // Set when a suggestion is clicked and cleared on the next keystroke, so the
+  // list does not reopen underneath the name they just chose.
+  const justPicked = React.useRef(false);
+  // What the field held when the last request went out, so a reply that
+  // arrives after they have typed on is dropped rather than flashing stale
+  // names under the cursor.
+  const inFlightFor = React.useRef('');
+
+  React.useEffect(() => {
+    if (justPicked.current) {
+      justPicked.current = false;
+      return undefined;
+    }
+    const q = name.trim();
+    if (q.length < 2) {
+      setSuggestions([]);
+      return undefined;
+    }
+    // Typing is faster than the network, so one request per keystroke makes
+    // the list jump around behind the cursor.
+    const timer = setTimeout(async () => {
+      inFlightFor.current = q;
+      try {
+        const res = await fetch(`/api/auth/schools?q=${encodeURIComponent(q)}`);
+        if (!res.ok) throw new Error('no suggestions');
+        const data = await res.json();
+        if (inFlightFor.current !== q) return;
+        setSuggestions(Array.isArray(data.schools) ? data.schools : []);
+      } catch {
+        // Suggestions are a convenience. Losing them must never stop somebody
+        // typing their own school.
+        setSuggestions([]);
+      }
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [name]);
+
+  const pick = (school) => {
+    justPicked.current = true;
+    setName(school);
+    setSuggestions([]);
+  };
   const [year, setYear] = React.useState(null); // a year, or 'graduated'
   const [term, setTerm] = React.useState(null);
   const [busy, setBusy] = React.useState(false);
@@ -108,6 +158,25 @@ export function SchoolPrompt({ onClose, dismissible = true, className = '' }) {
         disabled={busy}
         onChange={(e) => setName(e.target.value)}
       />
+      {suggestions.length > 0 && (
+        <div className="school-suggestions" role="listbox" aria-label="Matching schools">
+          {suggestions.map((school) => (
+            <button
+              key={school}
+              type="button"
+              role="option"
+              aria-selected="false"
+              className="school-suggestion"
+              onClick={() => pick(school)}
+            >
+              {school}
+            </button>
+          ))}
+          <span className="school-suggestion-note">
+            Not listed? Type it and we will take it.
+          </span>
+        </div>
+      )}
       <span className="school-prompt-sub">When do you graduate?</span>
       <div className="school-prompt-chips">
         {GRAD_TERMS.map((t) => (

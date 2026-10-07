@@ -141,3 +141,42 @@
   margin: 0.25rem 0 0.75rem;
   max-width: 44ch;
 }
+
+/* Suggestions under the school field. Only ever a shortcut: whatever is in the
+   input is what gets saved, which is why the "not listed" line is always part
+   of the list rather than an error state. */
+.school-suggestions {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  border: 1px solid rgba(44, 44, 44, 0.12);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.school-suggestion {
+  appearance: none;
+  border: 0;
+  border-bottom: 1px solid rgba(44, 44, 44, 0.07);
+  background: transparent;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: var(--charcoal, #2C2C2C);
+  text-align: left;
+  padding: 11px 14px;
+  cursor: pointer;
+}
+
+.school-suggestion:hover,
+.school-suggestion:focus-visible {
+  background: var(--cream-dark, #F5EDE0);
+  outline: none;
+}
+
+.school-suggestion-note {
+  font-size: 0.8rem;
+  color: #8C8377;
+  padding: 9px 14px 11px;
+}
