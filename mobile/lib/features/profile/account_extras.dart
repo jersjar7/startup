@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../core/notifications/notifications.dart';
@@ -365,11 +367,34 @@ class _SchoolEditorState extends State<SchoolEditor> {
   bool _busy = false;
   String? _error;
 
+  /// Suggestions for what has been typed so far.
+  ///
+  /// Free text is still the thing being collected; these only make it likely
+  /// that two students at one university type the SAME thing. Measured before
+  /// this existed: 19 users had given a school and there were 19 distinct
+  /// names, with "UCI" and "University of California, Irvine" counted as
+  /// separate institutions.
+  List<String> _suggestions = const [];
+  Timer? _debounce;
+
+  /// What the field held when the last request went out, so a reply that
+  /// arrives after they have typed on is dropped instead of flashing stale
+  /// suggestions under the cursor.
+  String _inFlightFor = '';
+
+  /// Set when a suggestion is tapped, cleared the moment they type again. It
+  /// stops the list reopening underneath the name they just chose.
+  bool _justPicked = false;
+
   @override
   void initState() {
     super.initState();
     final school = widget.auth.user?['school'] as Map<String, dynamic>?;
     _name = TextEditingController(text: (school?['name'] ?? '') as String);
+    // After the controller exists, not before: _name is late final and
+    // touching it first throws LateInitializationError and takes the screen
+    // down with it.
+    _name.addListener(_onTyped);
     _year = school?['graduationYear'] as int?;
     final t = school?['graduationTerm'] as String?;
     _term = t == null
@@ -386,8 +411,53 @@ class _SchoolEditorState extends State<SchoolEditor> {
 
   @override
   void dispose() {
+    _debounce?.cancel();
+    _name.removeListener(_onTyped);
     _name.dispose();
     super.dispose();
+  }
+
+  void _onTyped() {
+    if (_justPicked) {
+      _justPicked = false;
+      return;
+    }
+    _debounce?.cancel();
+    final q = _name.text.trim();
+    if (q.length < 2) {
+      if (_suggestions.isNotEmpty) setState(() => _suggestions = const []);
+      return;
+    }
+    // Typing is faster than the network. Without this every keystroke is a
+    // request and the list jumps around behind the cursor.
+    _debounce = Timer(const Duration(milliseconds: 250), () => _fetch(q));
+  }
+
+  Future<void> _fetch(String q) async {
+    _inFlightFor = q;
+    try {
+      final res = await widget.auth.api.get(
+        '/auth/schools?q=${Uri.encodeQueryComponent(q)}',
+      );
+      if (!mounted || _inFlightFor != q) return;
+      final list =
+          (res as Map<String, dynamic>)['schools'] as List? ?? const [];
+      setState(() => _suggestions = list.cast<String>());
+    } catch (_) {
+      // Suggestions are a convenience. Losing them must never stop somebody
+      // typing their own school, so a failure is simply no list.
+      if (mounted) setState(() => _suggestions = const []);
+    }
+  }
+
+  void _pick(String name) {
+    _justPicked = true;
+    _name.value = TextEditingValue(
+      text: name,
+      selection: TextSelection.collapsed(offset: name.length),
+    );
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() => _suggestions = const []);
   }
 
   Future<void> _save() async {
@@ -515,6 +585,45 @@ class _SchoolEditorState extends State<SchoolEditor> {
                 // before they have read it (owner, 2026-10-07).
                 onSubmitted: (_) => _save(),
               ),
+              // Suggestions sit under the field and are only ever a shortcut.
+              // Whatever is in the box is what gets saved, so a university the
+              // directory has never heard of is still a valid answer.
+              if (_suggestions.isNotEmpty) ...[
+                const SizedBox(height: 10),
+                for (final name in _suggestions)
+                  GestureDetector(
+                    onTap: () => _pick(name),
+                    behavior: HitTestBehavior.opaque,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 11),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              name,
+                              style: AppTheme.body(size: 15.5, height: 1.25),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Icon(
+                            Icons.north_west_rounded,
+                            size: 15,
+                            color: AppColors.ink3,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4, bottom: 2),
+                  child: Text(
+                    'Not listed? Type it and we will take it.',
+                    style: AppTheme.body(size: 13, color: AppColors.ink3),
+                  ),
+                ),
+              ],
               const SizedBox(height: 22),
               GraduationPicker(
                 year: _year,
