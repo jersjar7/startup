@@ -255,11 +255,16 @@ class _ProfileTabState extends State<ProfileTab> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
       ),
-      builder: (_) => AccountSheet(
+      // One container whose contents swap, rather than a sheet on a sheet.
+      // See AccountSheetHost.
+      builder: (_) => AccountSheetHost(
         auth: auth,
-        onDelete: () => _confirmDelete(auth),
-        onTour: _openTour,
-        notifications: _notifications,
+        account: AccountSheet(
+          auth: auth,
+          onDelete: () => _confirmDelete(auth),
+          onTour: _openTour,
+          notifications: _notifications,
+        ),
       ),
     );
   }

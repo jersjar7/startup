@@ -62,7 +62,10 @@ class GraduationPicker extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('GRADUATING', style: AppTheme.eyebrow(size: 11, color: AppColors.ink2)),
+        Text(
+          'GRADUATING',
+          style: AppTheme.eyebrow(size: 11, color: AppColors.ink2),
+        ),
         const SizedBox(height: 12),
         // Four terms fit one row exactly, so nothing can ever wrap.
         Row(
@@ -193,7 +196,10 @@ class SheetRow extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Text(label, style: AppTheme.body(size: 15.5, weight: FontWeight.w500)),
+              child: Text(
+                label,
+                style: AppTheme.body(size: 15.5, weight: FontWeight.w500),
+              ),
             ),
             const SizedBox(width: 12),
             if (trailing != null)
@@ -265,7 +271,9 @@ class _RemindersRowState extends State<RemindersRow> {
       if (!granted && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Reminders are off for this app in your phone settings.'),
+            content: Text(
+              'Reminders are off for this app in your phone settings.',
+            ),
           ),
         );
       }
@@ -309,7 +317,17 @@ class SchoolRow extends StatelessWidget {
     return SheetRow(
       label: 'School',
       value: shown,
-      onTap: () => showSchoolEditor(context, auth),
+      // Swaps the content of the sheet it is already in. Opening a second sheet
+      // on top left the first one visible behind at its own taller height, and
+      // the two rounded tops stacked read as a mistake (owner, 2026-10-07).
+      onTap: () {
+        final host = AccountSheetHost.of(context);
+        if (host != null) {
+          host.showSchool();
+        } else {
+          showSchoolEditor(context, auth);
+        }
+      },
     );
   }
 }
@@ -328,9 +346,13 @@ Future<void> showSchoolEditor(BuildContext context, AuthController auth) {
 }
 
 class SchoolEditor extends StatefulWidget {
-  const SchoolEditor({super.key, required this.auth});
+  const SchoolEditor({super.key, required this.auth, this.onDone});
 
   final AuthController auth;
+
+  /// Called instead of popping, when this is shown inside another sheet rather
+  /// than as its own. See [AccountSheetHost].
+  final VoidCallback? onDone;
 
   @override
   State<SchoolEditor> createState() => _SchoolEditorState();
@@ -352,10 +374,12 @@ class _SchoolEditorState extends State<SchoolEditor> {
     final t = school?['graduationTerm'] as String?;
     _term = t == null
         ? null
-        : graduationTerms.firstWhere(
-            (x) => x.toLowerCase() == t.toLowerCase(),
-            orElse: () => '',
-          ).isEmpty
+        : graduationTerms
+              .firstWhere(
+                (x) => x.toLowerCase() == t.toLowerCase(),
+                orElse: () => '',
+              )
+              .isEmpty
         ? null
         : graduationTerms.firstWhere((x) => x.toLowerCase() == t.toLowerCase());
   }
@@ -379,7 +403,12 @@ class _SchoolEditorState extends State<SchoolEditor> {
     });
     try {
       await widget.auth.setSchool(name, _year, _term);
-      if (mounted) Navigator.of(context).pop();
+      if (!mounted) return;
+      if (widget.onDone != null) {
+        widget.onDone!();
+      } else {
+        Navigator.of(context).pop();
+      }
     } catch (_) {
       if (mounted) setState(() => _error = 'Could not save that. Try again.');
     } finally {
@@ -391,62 +420,199 @@ class _SchoolEditorState extends State<SchoolEditor> {
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          24,
-          16,
-          24,
-          24 + MediaQuery.viewInsetsOf(context).bottom,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Center(
-              child: Container(
-                width: 44,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: AppColors.charcoal.withValues(alpha: 0.25),
-                  borderRadius: BorderRadius.circular(3),
+      // Scrollable, because this is a form and the keyboard eats roughly half
+      // a short phone. Without it the column simply overflows its box and the
+      // save button is the part that goes.
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            24,
+            16,
+            24,
+            24 + MediaQuery.viewInsetsOf(context).bottom,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Container(
+                  width: 44,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: AppColors.charcoal.withValues(alpha: 0.25),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 22),
-            Text('Where do you study?', style: AppTheme.display(size: 30, height: 1.05)),
-            const SizedBox(height: 8),
-            Text(
-              'So we can show you how you compare with other students at '
-              'your school.',
-              style: AppTheme.body(size: 14.5, color: AppColors.ink2, height: 1.5),
-            ),
-            const SizedBox(height: 24),
-            XLField(
-              controller: _name,
-              label: 'School',
-              hint: 'Your university',
-              textCapitalization: TextCapitalization.words,
-              error: _error,
-              autofocus: true,
-              onSubmitted: (_) => _save(),
-            ),
-            const SizedBox(height: 22),
-            GraduationPicker(
-              year: _year,
-              term: _term,
-              onYear: (y) => setState(() => _year = y),
-              onTerm: (t) => setState(() => _term = t),
-              onClear: () => setState(() {
-                _year = null;
-                _term = null;
-              }),
-            ),
-            const SizedBox(height: 26),
-            PillButton(label: _busy ? 'Saving' : 'Save', onTap: _busy ? null : _save),
-          ],
+              const SizedBox(height: 14),
+              // The way back, when this is one level inside the account sheet
+              // rather than a sheet of its own. The system back gesture works
+              // too, but a gesture nobody can see is not a way out.
+              if (widget.onDone != null)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: GestureDetector(
+                    onTap: () {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      widget.onDone!();
+                    },
+                    behavior: HitTestBehavior.opaque,
+                    child: Padding(
+                      // Generous, because it is a small mark and it is the only
+                      // way out somebody can see.
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 4,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.arrow_back_rounded,
+                            size: 18,
+                            color: AppColors.ink2,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Account',
+                            style: AppTheme.body(
+                              size: 14.5,
+                              color: AppColors.ink2,
+                              weight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              SizedBox(height: widget.onDone != null ? 12 : 22),
+              Text(
+                'Where do you study?',
+                style: AppTheme.display(size: 30, height: 1.05),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'So we can show you how you compare with other students at '
+                'your school.',
+                style: AppTheme.body(
+                  size: 14.5,
+                  color: AppColors.ink2,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: 24),
+              XLField(
+                controller: _name,
+                label: 'School',
+                hint: 'Your university',
+                textCapitalization: TextCapitalization.words,
+                error: _error,
+                // Not autofocused. One tap on "School" used to open a sheet,
+                // focus the field and throw up the keyboard all at once, which
+                // is a lot of movement for one tap and hides half the sheet
+                // before they have read it (owner, 2026-10-07).
+                onSubmitted: (_) => _save(),
+              ),
+              const SizedBox(height: 22),
+              GraduationPicker(
+                year: _year,
+                term: _term,
+                onYear: (y) => setState(() => _year = y),
+                onTerm: (t) => setState(() => _term = t),
+                onClear: () => setState(() {
+                  _year = null;
+                  _term = null;
+                }),
+              ),
+              const SizedBox(height: 26),
+              PillButton(
+                label: _busy ? 'Saving' : 'Save',
+                onTap: _busy ? null : _save,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
+/// One bottom sheet whose contents change, rather than a stack of sheets.
+///
+/// Tapping "School" used to call showModalBottomSheet again, which left the
+/// account sheet sitting behind the new one at its own taller height, with two
+/// rounded tops visible and a dimming layer between them. The owner read that
+/// as a mistake, and it is: nothing moved the user to a new place, they only
+/// went one level deeper into the same panel.
+///
+/// So the sheet keeps one container and swaps what is inside it. The container
+/// takes the height of whatever it is showing, so going from the account list
+/// to the school form shrinks it instead of leaving a taller ghost behind.
+class AccountSheetHost extends StatefulWidget {
+  const AccountSheetHost({
+    super.key,
+    required this.account,
+    required this.auth,
+  });
+
+  /// The sheet's resting content.
+  final Widget account;
+  final AuthController auth;
+
+  static AccountSheetHostState? of(BuildContext context) =>
+      context.findAncestorStateOfType<AccountSheetHostState>();
+
+  @override
+  State<AccountSheetHost> createState() => AccountSheetHostState();
+}
+
+class AccountSheetHostState extends State<AccountSheetHost> {
+  bool _school = false;
+
+  void showSchool() => setState(() => _school = true);
+  void showAccount() => setState(() => _school = false);
+
+  @override
+  Widget build(BuildContext context) {
+    // The back gesture closes the school form first and the sheet second, so
+    // the two levels unwind in the order they were entered.
+    return PopScope(
+      canPop: !_school,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop && _school) showAccount();
+      },
+      child: AnimatedSize(
+        duration: const Duration(milliseconds: 220),
+        curve: Curves.easeOutCubic,
+        alignment: Alignment.topCenter,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 180),
+          // Slides in from the right the way a push would, so going deeper
+          // still reads as going deeper.
+          transitionBuilder: (child, animation) => SlideTransition(
+            position: Tween(
+              begin: Offset(
+                child.key == const ValueKey('school') ? 0.06 : -0.06,
+                0,
+              ),
+              end: Offset.zero,
+            ).animate(animation),
+            child: FadeTransition(opacity: animation, child: child),
+          ),
+          child: _school
+              ? SchoolEditor(
+                  key: const ValueKey('school'),
+                  auth: widget.auth,
+                  onDone: showAccount,
+                )
+              : KeyedSubtree(
+                  key: const ValueKey('account'),
+                  child: widget.account,
+                ),
+        ),
+      ),
+    );
+  }
+}
