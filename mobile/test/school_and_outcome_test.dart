@@ -471,7 +471,7 @@ void main() {
       await tester.pumpWidget(_host(auth, SchoolRow(auth: auth)));
       await tester.pumpAndSettle();
       expect(find.textContaining('Purdue'), findsOneWidget);
-      expect(find.textContaining('add graduation'), findsOneWidget);
+      expect(find.textContaining('Add graduation'), findsOneWidget);
     });
   });
 }

@@ -10,7 +10,9 @@ const {
   validGraduationTerm,
   validGraduationYear,
 } = require('../school.js');
-const { searchSchools, schoolForDomain } = require('../schoolDirectory.js');
+const {
+  searchSchools, schoolForDomain, shortSchoolName,
+} = require('../schoolDirectory.js');
 const { parseOutcome, isAnswered: outcomeAnswered } = require('../examOutcome.js');
 const { verifyAuth, setAuthCookie, clearAuthCookie, authCookieName } = require('../middleware/auth.js');
 const { getBadgeDetails, getAllBadges } = require('../badges.js');
@@ -225,6 +227,11 @@ router.get('/me', verifyAuth, async (req, res) => {
     school: user.school?.name
       ? {
           name: user.school.name,
+          // Display only. Some institutions run to fifty characters and a row
+          // on a phone ellipsizes them down to the first two words, which
+          // identifies nothing. The full name stays the stored value and the
+          // grouping key, so no report changes (owner, 2026-10-07).
+          short: shortSchoolName(user.school.name),
           graduationYear: user.school.graduationYear ?? null,
           graduationTerm: user.school.graduationTerm ?? null,
         }

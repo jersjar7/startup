@@ -138,6 +138,36 @@ function schoolForDomain(domain) {
   return null;
 }
 
+/// A short form for display, where one exists.
+///
+/// "Brigham Young University" is what we store and group on; "BYU" is what a
+/// row on a phone can actually show. Some institutions run to fifty characters
+/// and get ellipsized down to the first two words, which identifies nothing
+/// (owner, 2026-10-07).
+///
+/// Display ONLY. The full name stays the stored value and the grouping key, so
+/// nothing about a report changes.
+///
+/// Returns the full name unless an abbreviation is both known and meaningfully
+/// shorter. A short form that saves four characters is not worth the loss of
+/// clarity, and a name nobody abbreviates should not be abbreviated by us.
+function shortSchoolName(name) {
+  const q = fold(name);
+  if (!q) return null;
+  const entry = INDEX.find((e) => e.folded.includes(q));
+  if (!entry || entry.aka.length === 0) return entry ? entry.name : name;
+  // The shortest alias of at least three characters. Two-letter forms exist
+  // ("VT") and identify nothing on their own, so Virginia Tech shows as
+  // "Virginia Tech" rather than "VT" while BYU still shows as "BYU".
+  const usable = entry.aka.filter((a) => a.length >= 3);
+  if (usable.length === 0) return entry.name;
+  const shortest = usable.reduce((a, b) => (b.length < a.length ? b : a));
+  // An abbreviation that saves almost nothing is not worth the loss of
+  // clarity, and a name nobody shortens should not be shortened by us.
+  if (shortest.length > entry.name.length - 8) return entry.name;
+  return shortest;
+}
+
 /// The canonical name for something already stored, or null when it is not in
 /// the directory. Used to fold the records collected before this existed.
 function canonicalSchool(raw) {
@@ -156,4 +186,5 @@ module.exports = {
   searchSchools,
   canonicalSchool,
   schoolForDomain,
+  shortSchoolName,
 };

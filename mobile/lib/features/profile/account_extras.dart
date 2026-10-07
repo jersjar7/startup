@@ -181,12 +181,30 @@ class SheetRow extends StatelessWidget {
     required this.value,
     this.onTap,
     this.trailing,
+    this.note,
+    this.valueCompact,
   });
 
   final String label;
   final String value;
   final VoidCallback? onTap;
   final Widget? trailing;
+
+  /// A shorter spelling of [value], used only when the full one will not fit.
+  ///
+  /// Measured against the width this row actually gets rather than decided in
+  /// advance: "Brigham Young University, 2027" fits on a Pro Max and not on an
+  /// SE, and picking the abbreviation on both throws away a name that would
+  /// have been readable (owner, 2026-10-07).
+  final String? valueCompact;
+
+  /// What is still missing, on its own line under the value.
+  ///
+  /// It cannot share the value's line: that line is one ellipsized row, so a
+  /// long school name eats any suffix and the thing being pointed out is the
+  /// part that disappears. Found by rendering the row rather than by reading
+  /// it (2026-10-07).
+  final String? note;
 
   @override
   Widget build(BuildContext context) {
@@ -197,22 +215,38 @@ class SheetRow extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 4),
         child: Row(
           children: [
-            Expanded(
-              child: Text(
-                label,
-                style: AppTheme.body(size: 15.5, weight: FontWeight.w500),
-              ),
+            // The label takes its own width and no more. It used to be
+            // Expanded, which made "School" claim half the row while the value
+            // beside it was ellipsized down to "Brigham Young U...". The label
+            // is short and fixed; the value is the part worth reading.
+            Text(
+              label,
+              style: AppTheme.body(size: 15.5, weight: FontWeight.w500),
             ),
             const SizedBox(width: 12),
             if (trailing != null)
               trailing!
             else ...[
-              Flexible(
-                child: Text(
-                  value,
-                  textAlign: TextAlign.right,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.body(size: 15, color: AppColors.ink2),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _FittingText(
+                      full: value,
+                      compact: valueCompact,
+                      style: AppTheme.body(size: 15, color: AppColors.ink2),
+                    ),
+                    if (note != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Text(
+                          note!,
+                          textAlign: TextAlign.right,
+                          style: AppTheme.body(size: 13, color: AppColors.ember),
+                        ),
+                      ),
+                  ],
                 ),
               ),
               const SizedBox(width: 6),
@@ -310,6 +344,10 @@ class SchoolRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final school = auth.user?['school'] as Map<String, dynamic>?;
     final name = (school?['name'] ?? '') as String;
+    // The abbreviation the server knows, if any ("BYU", "Virginia Tech"). Used
+    // only when the full name will not fit the row, which depends on the phone.
+    // Display only: what is stored and grouped on is always the full name.
+    final short = school?['short'] as String?;
     final year = school?['graduationYear'] as int?;
     // A name with no graduation year is NOT done, and the row has to say so.
     //
@@ -321,14 +359,25 @@ class SchoolRow extends StatelessWidget {
     //
     // This is not special-cased to inferred schools. Anybody missing a year
     // should be able to see it from the row (owner, 2026-10-07).
-    final shown = name.isEmpty
-        ? 'Not set'
-        : year == null
-        ? '$name · add graduation'
-        : '$name, $year';
+    String withYear(String n) => year == null ? n : '$n, $year';
+    final shown = name.isEmpty ? 'Not set' : withYear(name);
+    final shownCompact =
+        name.isEmpty || short == null || short == name ? null : withYear(short);
     return SheetRow(
       label: 'School',
       value: shown,
+      // A name with no graduation year is NOT done, and the row has to say so.
+      //
+      // Since 2026-10-07 a school can arrive inferred from a .edu address
+      // without anybody typing it, and a bare name reads as finished, so there
+      // is no reason to open the sheet and the year, which lives only in that
+      // sheet, is never set. A cohort needs it: a May and a December graduate
+      // are a full exam cycle apart.
+      //
+      // On its own line because the value line truncates. Not special-cased to
+      // inferred schools either: anybody missing a year should see it here.
+      valueCompact: shownCompact,
+      note: name.isNotEmpty && year == null ? 'Add graduation' : null,
       // Swaps the content of the sheet it is already in. Opening a second sheet
       // on top left the first one visible behind at its own taller height, and
       // the two rounded tops stacked read as a mistake (owner, 2026-10-07).
@@ -732,6 +781,56 @@ class AccountSheetHostState extends State<AccountSheetHost> {
                 ),
         ),
       ),
+    );
+  }
+}
+
+/// Shows [full] when it fits the width this row actually has, and [compact]
+/// when it does not.
+///
+/// A university name can run to fifty characters. Deciding in advance to always
+/// abbreviate throws away a name that would have been perfectly readable on a
+/// larger phone; always showing the full one ellipsizes it down to its first
+/// two words on a smaller one, which identifies nothing. So it is measured.
+///
+/// Falls back to [full] when there is no compact form, which is the case for
+/// any school the directory has never heard of.
+class _FittingText extends StatelessWidget {
+  const _FittingText({required this.full, required this.compact, required this.style});
+
+  final String full;
+  final String? compact;
+  final TextStyle style;
+
+  @override
+  Widget build(BuildContext context) {
+    final short = compact;
+    if (short == null || short == full) {
+      return Text(
+        full,
+        textAlign: TextAlign.right,
+        overflow: TextOverflow.ellipsis,
+        style: style,
+      );
+    }
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final painter = TextPainter(
+          text: TextSpan(text: full, style: style),
+          maxLines: 1,
+          textDirection: TextDirection.ltr,
+          textScaler: MediaQuery.textScalerOf(context),
+        )..layout();
+        // The full name wins whenever there is room for all of it. Only a
+        // genuine overflow is worth trading a readable name for an acronym.
+        final fits = painter.width <= constraints.maxWidth;
+        return Text(
+          fits ? full : short,
+          textAlign: TextAlign.right,
+          overflow: TextOverflow.ellipsis,
+          style: style,
+        );
+      },
     );
   }
 }

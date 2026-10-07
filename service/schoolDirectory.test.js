@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
-  searchSchools, canonicalSchool, fold, DIRECTORY, schoolForDomain,
+  searchSchools, canonicalSchool, fold, DIRECTORY, schoolForDomain, shortSchoolName,
 } from './schoolDirectory.js';
 import { normalizeSchoolName } from './school.js';
 
@@ -248,5 +248,46 @@ describe('typing it and resolving it from a domain agree', () => {
     expect(schoolForDomain('ua.edu')).not.toBe(schoolForDomain('uah.edu'));
     expect(schoolForDomain('umich.edu')).not.toBe(schoolForDomain('umdearborn.edu'));
     expect(schoolForDomain('umich.edu')).not.toBe(schoolForDomain('umflint.edu'));
+  });
+});
+
+describe('a short form for a small screen', () => {
+  // Some institutions run to fifty characters, and a row on a phone ellipsizes
+  // them down to the first two words, which identifies nothing. This is for
+  // display only: the full name stays the stored value and the grouping key.
+  it('uses the abbreviation people actually say', () => {
+    expect(shortSchoolName('Brigham Young University')).toBe('BYU');
+    expect(shortSchoolName('University of California, Irvine')).toBe('UCI');
+    expect(shortSchoolName('Massachusetts Institute of Technology')).toBe('MIT');
+    expect(shortSchoolName('California State University, Long Beach')).toBe('CSULB');
+  });
+
+  it('will not shorten to two letters, which identify nothing', () => {
+    // "VT" is a real alias and a terrible label on its own.
+    expect(shortSchoolName('Virginia Polytechnic Institute and State University'))
+      .toBe('Virginia Tech');
+  });
+
+  it('leaves a name alone when shortening saves almost nothing', () => {
+    expect(shortSchoolName('Clemson University')).toBe('Clemson University');
+    expect(shortSchoolName('Purdue University')).toBe('Purdue University');
+  });
+
+  it('returns an unknown school exactly as given', () => {
+    // Somebody typed a university the directory has never heard of. It must
+    // come back untouched, not blank and not guessed at.
+    expect(shortSchoolName('Universidad Nacional de Ingenieria'))
+      .toBe('Universidad Nacional de Ingenieria');
+  });
+
+  it('is nothing when there is nothing', () => {
+    expect(shortSchoolName('')).toBeNull();
+    expect(shortSchoolName(null)).toBeNull();
+  });
+
+  it('never changes what is stored or grouped on', () => {
+    // The guard that this stays cosmetic: the canonical name is unaffected.
+    expect(canonicalSchool('BYU')).toBe('Brigham Young University');
+    expect(canonicalSchool('Brigham Young University')).toBe('Brigham Young University');
   });
 });

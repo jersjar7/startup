@@ -116,6 +116,7 @@ void main() {
   });
 
   suggestionTests();
+  fittingNameTests();
 
   testWidgets('the keyboard does not open itself', (t) async {
     t.view.physicalSize = const Size(1170, 1400);
@@ -236,3 +237,56 @@ Widget _suggestHost(AuthController auth) => ChangeNotifierProvider.value(
     ),
   ),
 );
+
+/// A university name can run to fifty characters. Always abbreviating throws
+/// away a name that reads fine on a large phone; never abbreviating ellipsizes
+/// it down to its first two words on a small one, which identifies nothing. So
+/// the row measures what it has and picks (owner, 2026-10-07).
+void fittingNameTests() {
+  Widget rowAt(double width, Map<String, dynamic> school) {
+    final auth = _auth();
+    auth.user = {'email': 'a@b.com', 'school': school};
+    return ChangeNotifierProvider.value(
+      value: auth,
+      child: MaterialApp(
+        theme: AppTheme.light,
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          backgroundColor: AppColors.cream,
+          body: Center(child: SizedBox(width: width, child: SchoolRow(auth: auth))),
+        ),
+      ),
+    );
+  }
+
+  const byu = {
+    'name': 'Brigham Young University',
+    'short': 'BYU',
+    'graduationYear': 2027,
+  };
+
+  testWidgets('shows the full name when there is room for it', (t) async {
+    await t.pumpWidget(rowAt(900, byu));
+    await t.pumpAndSettle();
+    expect(find.text('Brigham Young University, 2027'), findsOneWidget);
+    expect(find.text('BYU, 2027'), findsNothing);
+  });
+
+  testWidgets('falls back to the abbreviation when it will not fit', (t) async {
+    await t.pumpWidget(rowAt(250, byu));
+    await t.pumpAndSettle();
+    expect(find.text('BYU, 2027'), findsOneWidget);
+    expect(find.text('Brigham Young University, 2027'), findsNothing);
+  });
+
+  testWidgets('keeps the full name when there is no abbreviation to fall back to', (t) async {
+    // A school the directory has never heard of. It must not be mangled into
+    // something else just because the row is narrow.
+    await t.pumpWidget(rowAt(250, {
+      'name': 'Universidad Nacional de Ingenieria',
+      'graduationYear': 2027,
+    }));
+    await t.pumpAndSettle();
+    expect(find.textContaining('Universidad Nacional'), findsOneWidget);
+  });
+}
