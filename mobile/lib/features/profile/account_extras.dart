@@ -311,10 +311,20 @@ class SchoolRow extends StatelessWidget {
     final school = auth.user?['school'] as Map<String, dynamic>?;
     final name = (school?['name'] ?? '') as String;
     final year = school?['graduationYear'] as int?;
+    // A name with no graduation year is NOT done, and the row has to say so.
+    //
+    // Since 2026-10-07 a school can arrive inferred from a .edu address without
+    // anybody typing it. Showing that name alone made the row read as finished,
+    // so there was no reason to open the sheet, and the graduation year, which
+    // only lives in that sheet, would never be set. A cohort needs the year: a
+    // May and a December graduate are a full exam cycle apart.
+    //
+    // This is not special-cased to inferred schools. Anybody missing a year
+    // should be able to see it from the row (owner, 2026-10-07).
     final shown = name.isEmpty
         ? 'Not set'
         : year == null
-        ? name
+        ? '$name · add graduation'
         : '$name, $year';
     return SheetRow(
       label: 'School',

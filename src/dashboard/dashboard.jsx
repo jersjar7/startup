@@ -110,6 +110,9 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   // independently, and a user who answered one before the other existed must
   // still be asked the one they have not seen.
   const [schoolResolved, setSchoolResolved] = React.useState(true);
+  // The school we already worked out from their .edu address, if any, so the
+  // prompt opens with it filled in rather than asking them to retype it.
+  const [knownSchool, setKnownSchool] = React.useState('');
   const [problemsAnswered, setProblemsAnswered] = React.useState(0);
   const [error, setError] = React.useState('');
   const [events, setEvents] = React.useState([]);
@@ -180,6 +183,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         // Server-side truth: answered OR dismissed, on any device.
         setAcqResolved(Boolean(data.acquisitionResolved));
         setSchoolResolved(Boolean(data.schoolResolved));
+        setKnownSchool(data.school?.name || '');
         setProblemsAnswered(data.problemsAnswered || 0);
       } else {
         errors.push('stats');
@@ -768,7 +772,12 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           than a dismissal we would ask about again tomorrow. */}
       {showSchool && (
         <div className="school-prompt-overlay" role="dialog" aria-modal="true" aria-label="Where are you studying?">
-          <SchoolPrompt className="is-modal" dismissible={false} onClose={resolveSchool} />
+          <SchoolPrompt
+            className="is-modal"
+            dismissible={false}
+            onClose={resolveSchool}
+            initialName={knownSchool}
+          />
         </div>
       )}
       <ScoringModal open={scoringOpen} onClose={() => setScoringOpen(false)} />

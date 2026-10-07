@@ -458,14 +458,20 @@ void main() {
       expect(find.text('Purdue, 2027'), findsOneWidget);
     });
 
-    testWidgets('shows the school alone when there is no year', (tester) async {
+    testWidgets('asks for the graduation when only the school is known', (tester) async {
+      // It used to show the name alone, which was fine when a name could only
+      // get there by somebody typing it. Since 2026-10-07 a school can be
+      // inferred from a .edu address without anybody being asked, and a bare
+      // name made the row read as finished, so nobody opened the sheet and the
+      // graduation year, which only lives in that sheet, was never set.
       final auth = _auth(_RecordingApi(), {
         'email': 'a@b.com',
         'school': {'name': 'Purdue', 'graduationYear': null},
       });
       await tester.pumpWidget(_host(auth, SchoolRow(auth: auth)));
       await tester.pumpAndSettle();
-      expect(find.text('Purdue'), findsOneWidget);
+      expect(find.textContaining('Purdue'), findsOneWidget);
+      expect(find.textContaining('add graduation'), findsOneWidget);
     });
   });
 }

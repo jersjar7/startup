@@ -58,8 +58,17 @@ async function postSchool(body) {
 // `dismissible`  show the X. False where the ask is the point of the screen.
 // The skip button is always there regardless: a user with no school has no true
 // answer to give, and there is no "Other" chip that would cover them.
-export function SchoolPrompt({ onClose, dismissible = true, className = '' }) {
-  const [name, setName] = React.useState('');
+export function SchoolPrompt({
+  onClose,
+  dismissible = true,
+  className = '',
+  // The school we already worked out from their .edu address, if any. Starts
+  // the field filled in so they confirm rather than retype, and so the prompt
+  // is mostly about the graduation year, which is the part a domain can never
+  // tell us (2026-10-07).
+  initialName = '',
+}) {
+  const [name, setName] = React.useState(initialName);
   const [suggestions, setSuggestions] = React.useState([]);
   // Set when a suggestion is clicked and cleared on the next keystroke, so the
   // list does not reopen underneath the name they just chose.

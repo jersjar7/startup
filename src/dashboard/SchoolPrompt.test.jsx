@@ -300,3 +300,23 @@ describe('suggesting a school', () => {
     expect(screen.queryByRole('listbox')).toBeNull();
   });
 });
+
+// A school can arrive inferred from a .edu address. The prompt must still
+// appear, because the graduation year is the half a domain can never give us,
+// but it should not make them retype a university we already know.
+describe('a school we already worked out', () => {
+  it('opens with the name filled in', () => {
+    render(<SchoolPrompt onClose={() => {}} initialName="Brigham Young University" />);
+    expect(screen.getByLabelText(/school name/i).value).toBe('Brigham Young University');
+  });
+
+  it('still asks for the graduation, which is the point of showing it', () => {
+    render(<SchoolPrompt onClose={() => {}} initialName="Brigham Young University" />);
+    expect(screen.getByText(/when do you graduate/i)).toBeTruthy();
+  });
+
+  it('is empty when we know nothing', () => {
+    render(<SchoolPrompt onClose={() => {}} />);
+    expect(screen.getByLabelText(/school name/i).value).toBe('');
+  });
+});
