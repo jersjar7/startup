@@ -249,3 +249,46 @@
     gap: 0.5rem;
   }
 }
+
+/* Changing the email address. Collapsed until asked for, because it is rare
+   and it asks for a password, which should not sit on screen by default. */
+.profile-link-btn {
+  appearance: none;
+  background: none;
+  border: 0;
+  margin-left: 10px;
+  padding: 0;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--ember, #E8683A);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.profile-email-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0 4px;
+  padding: 16px;
+  border: 1px solid rgba(44, 44, 44, 0.12);
+  border-radius: 12px;
+  background: var(--cream, #FFF9F0);
+}
+
+.profile-email-form input {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  padding: 10px 12px;
+  border: 1.5px solid rgba(44, 44, 44, 0.18);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.profile-hint {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #8C8377;
+  margin: 2px 0 6px;
+}

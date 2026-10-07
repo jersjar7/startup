@@ -13,6 +13,8 @@ const {
 const {
   searchSchools, schoolForDomain, shortSchoolName,
 } = require('../schoolDirectory.js');
+const { emailChangeProblem, emailChangeUpdate } = require('../emailChange.js');
+const { changeAccountEmail } = require('../db/accountEmail.js');
 const { parseOutcome, isAnswered: outcomeAnswered } = require('../examOutcome.js');
 const { verifyAuth, setAuthCookie, clearAuthCookie, authCookieName } = require('../middleware/auth.js');
 const { getBadgeDetails, getAllBadges } = require('../badges.js');
@@ -505,6 +507,65 @@ router.post('/change-password', verifyAuth, async (req, res) => {
   const out = { msg: 'Password changed successfully' };
   if (req.headers['x-client'] === 'mobile') out.token = sessionToken;
   res.send(out);
+});
+
+// POST /api/auth/change-email { email, password } — move the account to a new
+// address.
+//
+// Until this existed there was no way to fix a mistyped address, and "resend
+// verification" mailed the same broken one, so the account was stuck for good.
+//
+// The password is required. Without it, five minutes at an unlocked laptop is
+// enough to move somebody's account to your own address and take it over.
+router.post('/change-email', verifyAuth, async (req, res) => {
+  const { email, password } = req.body || {};
+  const user = req.user;
+
+  const problem = emailChangeProblem({
+    current: user.email,
+    next: email,
+    password,
+    normalize: DB.normalizeEmail,
+  });
+  if (problem) return res.status(400).send({ msg: problem });
+
+  if (!(await bcrypt.compare(password, user.password))) {
+    return res.status(401).send({ msg: 'Password is incorrect.' });
+  }
+
+  const next = DB.normalizeEmail(email);
+  if (await DB.getUser(next)) {
+    // Deliberately the same wording whoever owns it. Telling a stranger that
+    // an address already has an account here is a disclosure, not help.
+    return res.status(409).send({ msg: 'That email address cannot be used.' });
+  }
+
+  const rawToken = generateToken();
+  const update = {
+    ...emailChangeUpdate(next),
+    verificationToken: hashToken(rawToken),
+    verificationSentAt: new Date(),
+  };
+
+  let moved;
+  try {
+    moved = await changeAccountEmail(user.email, next, update);
+  } catch (e) {
+    console.error('[auth/change-email] rename failed:', e.message);
+    return res.status(500).send({ msg: 'That could not be saved. Try again.' });
+  }
+  console.log(`[auth/change-email] moved account: ${JSON.stringify(moved)}`);
+
+  // Sent after the rename, so a failed mail never leaves the address changed
+  // in one place and not the other. If this throws they still have the new
+  // address and can ask for another verification email.
+  try {
+    await sendVerificationEmail(next, rawToken);
+  } catch (e) {
+    console.error('[auth/change-email] verification mail failed:', e.message);
+  }
+
+  res.send({ email: next, emailVerified: false });
 });
 
 // Delete account (requires auth)

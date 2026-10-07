@@ -869,6 +869,7 @@ class AccountSheet extends StatelessWidget {
             const SizedBox(height: 18),
             // Where they study, and whether they want reminding. Both are
             // settings rather than actions, so they sit above the buttons.
+            EmailRow(auth: auth),
             SchoolRow(auth: auth),
             if (notifications != null)
               RemindersRow(

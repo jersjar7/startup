@@ -46,6 +46,48 @@ export function Profile({ userName, onLogout }) {
   const [showNewPw, setShowNewPw] = React.useState(false);
   const [showConfirmPw, setShowConfirmPw] = React.useState(false);
 
+  // Changing the email address.
+  //
+  // Until 2026-10-07 this was impossible, and "resend verification" mailed the
+  // SAME address, so anybody who mistyped theirs at sign-up was stuck: still
+  // able to study, but never receiving anything we send.
+  const [emailOpen, setEmailOpen] = React.useState(false);
+  const [newEmail, setNewEmail] = React.useState('');
+  const [emailPw, setEmailPw] = React.useState('');
+  const [emailError, setEmailError] = React.useState('');
+  const [emailSuccess, setEmailSuccess] = React.useState('');
+  const [emailBusy, setEmailBusy] = React.useState(false);
+
+  async function handleChangeEmail(e) {
+    e.preventDefault();
+    setEmailError('');
+    setEmailSuccess('');
+    setEmailBusy(true);
+    try {
+      const res = await fetch('/api/auth/change-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: newEmail, password: emailPw }),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setEmailError(body.msg || 'That could not be saved.');
+        return;
+      }
+      setEmailSuccess(`Changed. We have sent a verification email to ${body.email}.`);
+      setNewEmail('');
+      setEmailPw('');
+      setEmailOpen(false);
+      // The address and the verified badge both change, and the badge is the
+      // part that tells them to go and click the link.
+      setUserData((u) => ({ ...u, email: body.email, emailVerified: false }));
+    } catch {
+      setEmailError('Network error. Check your connection and try again.');
+    } finally {
+      setEmailBusy(false);
+    }
+  }
+
   // Details (name + school + exam date) state
   const [detFirst, setDetFirst] = React.useState('');
   const [detLast, setDetLast] = React.useState('');
@@ -273,8 +315,50 @@ export function Profile({ userName, onLogout }) {
         <h2 className="profile-section-title">Account</h2>
         <div className="profile-field">
           <span className="profile-label">Email</span>
-          <span className="profile-value">{userData.email}</span>
+          <span className="profile-value">
+            {userData.email}
+            <button
+              type="button"
+              className="profile-link-btn"
+              onClick={() => { setEmailOpen((v) => !v); setEmailError(''); setEmailSuccess(''); }}
+            >
+              {emailOpen ? 'Cancel' : 'Change'}
+            </button>
+          </span>
         </div>
+        {emailSuccess && <p className="success-banner" role="status">{emailSuccess}</p>}
+        {emailOpen && (
+          <form className="profile-email-form" onSubmit={handleChangeEmail}>
+            {emailError && <p className="error-banner" role="alert">{emailError}</p>}
+            <label className="profile-label" htmlFor="new-email">New email</label>
+            <input
+              id="new-email"
+              type="email"
+              autoComplete="email"
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+              disabled={emailBusy}
+            />
+            <label className="profile-label" htmlFor="email-pw">Your password</label>
+            <input
+              id="email-pw"
+              type="password"
+              autoComplete="current-password"
+              value={emailPw}
+              onChange={(e) => setEmailPw(e.target.value)}
+              disabled={emailBusy}
+            />
+            {/* Said before they submit, because it is the consequence people
+                do not expect: the new address starts unverified. */}
+            <p className="profile-hint">
+              We will send a verification link to the new address. Your account
+              stays signed in.
+            </p>
+            <button type="submit" className="btn-primary" disabled={emailBusy}>
+              {emailBusy ? 'Saving' : 'Change email'}
+            </button>
+          </form>
+        )}
         {joinedDate && (
           <div className="profile-field">
             <span className="profile-label">Joined</span>

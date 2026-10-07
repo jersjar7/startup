@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../core/notifications/notifications.dart';
+import '../../core/network/api_exception.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
@@ -224,9 +225,13 @@ class SheetRow extends StatelessWidget {
               style: AppTheme.body(size: 15.5, weight: FontWeight.w500),
             ),
             const SizedBox(width: 12),
-            if (trailing != null)
-              trailing!
-            else ...[
+            if (trailing != null) ...[
+              // Pushed to the far right, so a control sits where the values in
+              // every other row sit rather than floating beside the label
+              // (owner, 2026-10-07).
+              const Spacer(),
+              trailing!,
+            ] else ...[
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -737,19 +742,22 @@ class AccountSheetHost extends StatefulWidget {
 }
 
 class AccountSheetHostState extends State<AccountSheetHost> {
-  bool _school = false;
+  /// Which page the one container is showing.
+  String _page = 'account';
 
-  void showSchool() => setState(() => _school = true);
-  void showAccount() => setState(() => _school = false);
+  void showSchool() => setState(() => _page = 'school');
+  void showEmail() => setState(() => _page = 'email');
+  void showAccount() => setState(() => _page = 'account');
 
   @override
   Widget build(BuildContext context) {
     // The back gesture closes the school form first and the sheet second, so
     // the two levels unwind in the order they were entered.
+    final deeper = _page != 'account';
     return PopScope(
-      canPop: !_school,
+      canPop: !deeper,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop && _school) showAccount();
+        if (!didPop && deeper) showAccount();
       },
       child: AnimatedSize(
         duration: const Duration(milliseconds: 220),
@@ -769,16 +777,22 @@ class AccountSheetHostState extends State<AccountSheetHost> {
             ).animate(animation),
             child: FadeTransition(opacity: animation, child: child),
           ),
-          child: _school
-              ? SchoolEditor(
-                  key: const ValueKey('school'),
-                  auth: widget.auth,
-                  onDone: showAccount,
-                )
-              : KeyedSubtree(
-                  key: const ValueKey('account'),
-                  child: widget.account,
-                ),
+          child: switch (_page) {
+            'school' => SchoolEditor(
+              key: const ValueKey('school'),
+              auth: widget.auth,
+              onDone: showAccount,
+            ),
+            'email' => EmailEditor(
+              key: const ValueKey('email'),
+              auth: widget.auth,
+              onDone: showAccount,
+            ),
+            _ => KeyedSubtree(
+              key: const ValueKey('account'),
+              child: widget.account,
+            ),
+          },
         ),
       ),
     );
@@ -830,6 +844,207 @@ class _FittingText extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: style,
         );
+      },
+    );
+  }
+}
+
+/// Changing the address on the account.
+///
+/// Until 2026-10-07 this was impossible, and "resend verification" mailed the
+/// SAME address, so anybody who mistyped theirs at sign-up was stuck for good:
+/// able to study, because verification gates nothing, but never receiving
+/// anything we send. One real account has been in that state since 2 October.
+///
+/// The password is required. Without it, a few minutes with an unlocked phone
+/// is enough to move somebody's account to another address and take it over.
+class EmailEditor extends StatefulWidget {
+  const EmailEditor({super.key, required this.auth, this.onDone});
+
+  final AuthController auth;
+
+  /// Called instead of popping, when this is one page inside the account sheet
+  /// rather than a screen of its own. See [AccountSheetHost].
+  final VoidCallback? onDone;
+
+  @override
+  State<EmailEditor> createState() => _EmailEditorState();
+}
+
+class _EmailEditorState extends State<EmailEditor> {
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  bool _busy = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    if (_busy) return;
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      await widget.auth.changeEmail(
+        email: _email.text,
+        password: _password.text,
+      );
+      if (!mounted) return;
+      widget.onDone?.call();
+    } on ApiException catch (e) {
+      // The server's wording already says what to do rather than what went
+      // wrong, so it is shown as it is.
+      if (mounted) setState(() => _error = e.message);
+    } catch (_) {
+      if (mounted) {
+        setState(() => _error = 'That could not be saved. Check your connection.');
+      }
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final current = (widget.auth.user?['email'] ?? '') as String;
+    return SafeArea(
+      top: false,
+      // Scrollable: this is a form, and the keyboard takes roughly half a short
+      // phone. Without it the column overflows and the save button is what goes.
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            24,
+            16,
+            24,
+            24 + MediaQuery.viewInsetsOf(context).bottom,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Container(
+                  width: 44,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: AppColors.charcoal.withValues(alpha: 0.25),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 14),
+              if (widget.onDone != null)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: GestureDetector(
+                    onTap: () {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      widget.onDone!();
+                    },
+                    behavior: HitTestBehavior.opaque,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 4,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.arrow_back_rounded,
+                            size: 18,
+                            color: AppColors.ink2,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Account',
+                            style: AppTheme.body(
+                              size: 14.5,
+                              color: AppColors.ink2,
+                              weight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              SizedBox(height: widget.onDone != null ? 12 : 22),
+              Text(
+                'Change your email',
+                style: AppTheme.display(size: 30, height: 1.05),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                current.isEmpty
+                    ? 'We will send a link to the new address to confirm it.'
+                    : 'Signed in as $current. We will send a link to the new '
+                          'address to confirm it.',
+                style: AppTheme.body(
+                  size: 14.5,
+                  color: AppColors.ink2,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: 24),
+              XLField(
+                controller: _email,
+                label: 'New email',
+                hint: 'you@school.edu',
+                keyboardType: TextInputType.emailAddress,
+                autofillHints: const [AutofillHints.email],
+                error: _error,
+              ),
+              const SizedBox(height: 18),
+              XLField(
+                controller: _password,
+                label: 'Your password',
+                hint: 'To prove it is you',
+                obscure: true,
+                autofillHints: const [AutofillHints.password],
+                onSubmitted: (_) => _save(),
+              ),
+              const SizedBox(height: 26),
+              PillButton(
+                label: _busy ? 'Saving' : 'Change email',
+                onTap: _busy ? null : _save,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The address on the account, and the way to change it.
+///
+/// Shows whether it is confirmed, because an unverified address is the symptom
+/// of the bug this row exists to fix: everything we send is being lost, and
+/// nothing else on the phone says so.
+class EmailRow extends StatelessWidget {
+  const EmailRow({super.key, required this.auth});
+
+  final AuthController auth;
+
+  @override
+  Widget build(BuildContext context) {
+    final email = (auth.user?['email'] ?? '') as String;
+    final verified = auth.user?['emailVerified'] == true;
+    return SheetRow(
+      label: 'Email',
+      value: email.isEmpty ? 'Not set' : email,
+      note: email.isNotEmpty && !verified ? 'Not confirmed' : null,
+      onTap: () {
+        final host = AccountSheetHost.of(context);
+        if (host != null) host.showEmail();
       },
     );
   }

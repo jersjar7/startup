@@ -102,3 +102,85 @@ describe('Profile school fields', () => {
     expect(fetchFn.mock.calls.some(([url, opts]) => url === '/api/user/profile' && opts?.method === 'PUT')).toBe(true);
   });
 });
+
+// Until 2026-10-07 an email could never be changed, and "resend verification"
+// mailed the SAME address, so anybody who mistyped theirs at sign-up was stuck:
+// still able to study, but never receiving anything we send. One real account
+// has been in that state since 2 October.
+describe('changing the email address', () => {
+  function openForm() {
+    fireEvent.click(screen.getByRole('button', { name: /^change$/i }));
+  }
+
+  /// Mounts with a scripted answer from the change-email endpoint.
+  function mountWithChange(answer) {
+    return mountProfile({
+      onFetch: (url) => (url === '/api/auth/change-email'
+        ? Promise.resolve({ ok: answer.ok, json: () => Promise.resolve(answer.body) })
+        : null),
+    });
+  }
+
+  function fillForm(email, password) {
+    fireEvent.change(screen.getByLabelText(/new email/i), { target: { value: email } });
+    fireEvent.change(screen.getByLabelText(/your password/i), { target: { value: password } });
+    fireEvent.click(screen.getByRole('button', { name: /change email/i }));
+  }
+
+  it('is not on screen until asked for', async () => {
+    mountProfile();
+    await screen.findByText('raccoon@uwf.edu');
+    expect(screen.queryByLabelText(/new email/i)).toBeNull();
+  });
+
+  it('asks for the password, not just the new address', async () => {
+    // Without it, five minutes at an unlocked laptop is enough to move the
+    // account to somebody else's address.
+    mountProfile();
+    await screen.findByText('raccoon@uwf.edu');
+    openForm();
+    expect(screen.getByLabelText(/your password/i)).toBeTruthy();
+  });
+
+  it('warns that the new address starts unverified', async () => {
+    mountProfile();
+    await screen.findByText('raccoon@uwf.edu');
+    openForm();
+    expect(screen.getByText(/verification link to the new address/i)).toBeTruthy();
+  });
+
+  it('sends both the address and the password', async () => {
+    const fetchFn = mountWithChange({
+      ok: true, body: { email: 'fixed@school.edu', emailVerified: false },
+    });
+    await screen.findByText('raccoon@uwf.edu');
+    openForm();
+    fillForm('fixed@school.edu', 'hunter2');
+    await waitFor(() => {
+      const call = fetchFn.mock.calls.find(([u]) => u === '/api/auth/change-email');
+      expect(call).toBeTruthy();
+      const sent = JSON.parse(call[1].body);
+      expect(sent.email).toBe('fixed@school.edu');
+      expect(sent.password).toBe('hunter2');
+    });
+  });
+
+  it('shows the new address and that it needs verifying', async () => {
+    mountWithChange({ ok: true, body: { email: 'fixed@school.edu', emailVerified: false } });
+    await screen.findByText('raccoon@uwf.edu');
+    openForm();
+    fillForm('fixed@school.edu', 'hunter2');
+    expect(await screen.findByText(/verification email to fixed@school.edu/i)).toBeTruthy();
+    expect(await screen.findByText('fixed@school.edu')).toBeTruthy();
+  });
+
+  it('keeps what they typed when the server refuses', async () => {
+    // A wrong password must not cost them the address they just typed.
+    mountWithChange({ ok: false, body: { msg: 'Password is incorrect.' } });
+    await screen.findByText('raccoon@uwf.edu');
+    openForm();
+    fillForm('fixed@school.edu', 'wrong');
+    expect(await screen.findByText(/password is incorrect/i)).toBeTruthy();
+    expect(screen.getByLabelText(/new email/i).value).toBe('fixed@school.edu');
+  });
+});

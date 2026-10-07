@@ -122,6 +122,30 @@ class AuthController extends ChangeNotifier {
 
   /// Re-check verification status (called when the app returns to foreground on
   /// the Verify screen).
+  /// Move the account to a new email address.
+  ///
+  /// Until 2026-10-07 this was impossible, and "resend verification" mailed the
+  /// SAME address, so anybody who mistyped theirs at sign-up was stuck: able to
+  /// study, but never receiving anything we send.
+  ///
+  /// The password is required by the server. Without it, a few minutes with an
+  /// unlocked phone is enough to move somebody's account to another address.
+  ///
+  /// Throws [ApiException] carrying the server's wording, which already says
+  /// what to do rather than what went wrong.
+  Future<void> changeEmail({
+    required String email,
+    required String password,
+  }) async {
+    await api.post('/auth/change-email', {
+      'email': email.trim(),
+      'password': password,
+    });
+    // The address and the verified flag both moved, so take the account fresh
+    // rather than patching one field and leaving the rest stale.
+    await refreshMe();
+  }
+
   Future<void> refreshMe() async {
     try {
       user = await api.get('/auth/me') as Map<String, dynamic>;

@@ -22,6 +22,14 @@ const { schoolForDomain } = require('../schoolDirectory.js');
 
 const WRITE = process.argv.includes('--write');
 
+// Domains that name a university SYSTEM rather than one of its campuses.
+//
+// umsystem.edu covers Columbia, Kansas City, St Louis and Rolla. Resolving it
+// to the flagship would put somebody in a cohort they are not in, and a report
+// would never show the mistake. Found by reading the 38 real domains before
+// writing anything (2026-10-07).
+const SYSTEM_DOMAINS = new Set(['umsystem.edu']);
+
 async function main() {
   const users = await userCollection
     .find({}, { projection: { email: 1, school: 1 } })
@@ -31,11 +39,20 @@ async function main() {
   let academic = 0;
   let unresolved = 0;
   let alreadyNamed = 0;
+  let ambiguous = 0;
 
   for (const user of users) {
     const domain = academicDomain(user.email);
     if (!domain) continue;
     academic += 1;
+
+    if (SYSTEM_DOMAINS.has(domain)) {
+      // Names a university SYSTEM, not one of its campuses. Picking the
+      // flagship would be a guess, and this is the one backfill where a guess
+      // is permanent and invisible. They get asked like anybody else.
+      ambiguous += 1;
+      continue;
+    }
 
     const name = schoolForDomain(domain);
     if (!name) {
@@ -58,6 +75,7 @@ async function main() {
   console.log(`academic address:       ${academic}`);
   console.log(`  already named:        ${alreadyNamed}`);
   console.log(`  domain not in list:   ${unresolved}`);
+  console.log(`  system, not a campus: ${ambiguous}`);
   console.log(`  to fill:              ${plan.length}`);
   console.log(`distinct institutions:  ${byName.size}`);
   for (const [name, n] of [...byName].sort((a, b) => b[1] - a[1]).slice(0, 10)) {
@@ -65,6 +83,18 @@ async function main() {
   }
 
   if (!WRITE) {
+    // Every assignment, so each one can be checked before anything is written.
+    // The whole risk here is naming somebody's university wrongly, and a
+    // wrong institution is worse than a missing one because it gets counted.
+    console.log('\nEvery assignment, domain to institution:');
+    const seen = new Map();
+    for (const row of plan) {
+      seen.set(row.domain, (seen.get(row.domain) || 0) + 1);
+    }
+    for (const [domain, n] of [...seen].sort()) {
+      const name = schoolForDomain(domain);
+      console.log(`  ${domain.padEnd(32)} x${n}  ->  ${name}`);
+    }
     console.log('\nDry run. Nothing written. Pass --write to apply.');
     return;
   }
