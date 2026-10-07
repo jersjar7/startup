@@ -5,6 +5,7 @@ const {
   examAttemptsCollection,
   purchasesCollection,
   funnelEventsCollection,
+  deletionLogCollection,
 } = require('./connection');
 const { dateAxis, seriesFor, cumulative } = require('../analytics');
 const { NOT_EXCLUDED } = require('../internalAccounts');
@@ -38,6 +39,29 @@ function signupsByDay(since) {
     { $match: { createdAt: { $gte: since }, email: NOT_EXCLUDED } },
     { $group: { _id: dayOf('$createdAt'), count: { $sum: 1 } } },
     { $project: { _id: 0, day: '$_id', count: 1 } },
+  ]).toArray();
+}
+
+// Deletions per day, split by reason.
+//
+// Without this the account total just drops and nothing says why, which is
+// exactly what the owner hit (2026-10-06). The two reasons have to stay apart:
+// the lifecycle purge of unverified signups removes one to three a day and is
+// us, not them. Counted as churn it would drown the handful of real departures.
+//
+// Reads the tally in deletionLog, which carries no identifying fields. See
+// service/deletionRecord.js.
+function deletionsByDay(since) {
+  return deletionLogCollection.aggregate([
+    { $match: { at: { $gte: since } } },
+    { $group: {
+      _id: dayOf('$at'),
+      count: { $sum: 1 },
+      byUser: { $sum: { $cond: [{ $eq: ['$reason', 'user'] }, 1, 0] } },
+      purged: { $sum: { $cond: [{ $eq: ['$reason', 'stale-purge'] }, 1, 0] } },
+      paying: { $sum: { $cond: ['$hadPurchased', 1, 0] } },
+    } },
+    { $project: { _id: 0, day: '$_id', count: 1, byUser: 1, purged: 1, paying: 1 } },
   ]).toArray();
 }
 
@@ -177,11 +201,12 @@ async function getDailyAnalytics(days = 30) {
   const d30 = new Date(Date.now() - 30 * 86400000);
 
   const [
-    signups, sessions, diagnostics, examSims, checkoutStarts, purchases,
+    signups, deletions, sessions, diagnostics, examSims, checkoutStarts, purchases,
     quickstartActivations, actStats, cohortStats,
     totalUsers, totalRevenueAgg, active7, active30,
   ] = await Promise.all([
     signupsByDay(since),
+    deletionsByDay(since),
     sessionsByDay(since),
     diagnosticsByDay(since),
     examSimsByDay(since),
@@ -216,6 +241,11 @@ async function getDailyAnalytics(days = 30) {
     axis,
     series: {
       signups: signupSeries,
+      // Split on purpose: "deletions" is everything, "accountsDeleted" is only
+      // people who asked to go. The gap between them is our own purge.
+      deletions: seriesFor(deletions, axis, 'count'),
+      accountsDeleted: seriesFor(deletions, axis, 'byUser'),
+      stalePurged: seriesFor(deletions, axis, 'purged'),
       cumulativeUsers: cumulative(signupSeries, totalUsers - windowSignups),
       activeUsers: seriesFor(sessions, axis, 'activeUsers'),
       sessions: seriesFor(sessions, axis, 'sessions'),
@@ -231,6 +261,11 @@ async function getDailyAnalytics(days = 30) {
     },
     snapshot: {
       totalUsers,
+      // So a total that moved can be explained without going to the logs.
+      deletedInWindow: deletions.reduce((n, d) => n + (d.count || 0), 0),
+      deletedByUserInWindow: deletions.reduce((n, d) => n + (d.byUser || 0), 0),
+      stalePurgedInWindow: deletions.reduce((n, d) => n + (d.purged || 0), 0),
+      payingDeletedInWindow: deletions.reduce((n, d) => n + (d.paying || 0), 0),
       activeUsers7d: active7,
       activeUsers30d: active30,
       totalPurchases: totalRev.count,

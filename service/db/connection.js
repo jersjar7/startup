@@ -22,6 +22,8 @@ const sessionsCollection = db.collection('sessions');
 // Daily/monthly email send counters (keyed 'day:YYYY-MM-DD' / 'month:YYYY-MM'),
 // so the mailer can stay under Resend's free 100/day + 3000/month caps.
 const mailMetaCollection = db.collection('mailMeta');
+// A tally of deletions, never a record of who. See service/deletionRecord.js.
+const deletionLogCollection = db.collection('deletionLog');
 
 // Test connection and create indexes on startup
 // Unit tests import route modules that pull this in; they never touch the
@@ -71,6 +73,7 @@ async function ping() {
 }
 
 module.exports = {
+  deletionLogCollection,
   client,
   db,
   ping,

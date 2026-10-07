@@ -158,7 +158,10 @@ async function purgeStaleUnverified(now) {
   for (const u of users) {
     if (!isStaleUnverified(u.createdAt, now)) continue;
     try {
-      await deleteAllUserData(u.email, u.userId);
+      // Labelled, because this is the bulk of all deletions and it is us, not
+      // them. Counting a purged signup as somebody leaving would make the
+      // churn figure meaningless.
+      await deleteAllUserData(u.email, u.userId, { reason: 'stalePurge' });
       purged += 1;
     } catch (e) {
       console.error('[lifecycle] purge failed for', u.email, e.message);
