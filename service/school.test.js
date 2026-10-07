@@ -22,7 +22,11 @@ describe('resolution', () => {
   });
 
   it('counts an answer and a dismissal the same, so nobody is asked twice', () => {
-    expect(isSchoolResolved({ school: { name: 'BYU' } })).toBe(true);
+    // A name alone is no longer enough: since 2026-10-07 a school can arrive
+    // inferred from an email domain, and a guess is not an answer. Verified on
+    // production before changing this: all 23 records with a school name carry
+    // answeredAt, so nobody already answered gets asked again.
+    expect(isSchoolResolved({ school: { name: 'BYU', answeredAt: new Date() } })).toBe(true);
     expect(isSchoolResolved({ school: { dismissedAt: new Date() } })).toBe(true);
   });
 });
@@ -158,5 +162,28 @@ describe('graduation term', () => {
     const december = { year: validGraduationYear(2027), term: validGraduationTerm('fall') };
     expect(may.year).toBe(december.year);
     expect(may.term).not.toBe(december.term);
+  });
+});
+
+// A school inferred from an email domain is not an answer. We worked it out
+// ourselves, and the domain never carries a graduation year, which a cohort
+// needs. Added 2026-10-07 when .edu addresses started resolving automatically.
+describe('an inferred school is not an answer', () => {
+  it('still counts as unresolved, so they are asked once', () => {
+    const inferred = { school: { name: 'Brigham Young University', inferredAt: new Date() } };
+    expect(isSchoolResolved(inferred)).toBe(false);
+  });
+
+  it('is resolved once they actually tell us', () => {
+    expect(isSchoolResolved({ school: { name: 'X', answeredAt: new Date() } })).toBe(true);
+  });
+
+  it('is resolved if they declined to say', () => {
+    expect(isSchoolResolved({ school: { dismissedAt: new Date() } })).toBe(true);
+  });
+
+  it('is unresolved with no school at all', () => {
+    expect(isSchoolResolved({})).toBe(false);
+    expect(isSchoolResolved(null)).toBe(false);
   });
 });

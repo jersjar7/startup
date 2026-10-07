@@ -10,7 +10,7 @@ const {
   validGraduationTerm,
   validGraduationYear,
 } = require('../school.js');
-const { searchSchools } = require('../schoolDirectory.js');
+const { searchSchools, schoolForDomain } = require('../schoolDirectory.js');
 const { parseOutcome, isAnswered: outcomeAnswered } = require('../examOutcome.js');
 const { verifyAuth, setAuthCookie, clearAuthCookie, authCookieName } = require('../middleware/auth.js');
 const { getBadgeDetails, getAllBadges } = require('../badges.js');
@@ -105,17 +105,39 @@ router.post('/create', async (req, res) => {
     // Both clients ask for the school on the sign-up screen, so accept it here
     // rather than making every new account do a second round trip.
     const school = normalizeSchoolName(req.body.school);
+    const domain = academicDomain(email);
     if (school) {
       const gradYear = validGraduationYear(req.body.graduationYear);
       const gradTerm = validGraduationTerm(req.body.graduationTerm);
       user.school = {
         name: school.name,
         key: school.key,
-        domain: academicDomain(email),
+        domain,
         graduationYear: gradYear === undefined ? null : gradYear,
         graduationTerm: gradTerm === undefined ? null : gradTerm,
         answeredAt: new Date(),
       };
+    } else {
+      // Nobody typed a school, but the address may already name one. 55 of 511
+      // accounts signed up with a .edu and every one of them resolves, so this
+      // is the cheapest school we will ever learn (owner, 2026-10-07).
+      //
+      // Marked `inferredAt` rather than `answeredAt`: they did not tell us
+      // this, we worked it out, and a report should be able to tell the
+      // difference. It also leaves them still worth asking, since the domain
+      // gives an institution but never a graduation year.
+      const inferred = domain ? schoolForDomain(domain) : null;
+      if (inferred) {
+        const norm = normalizeSchoolName(inferred);
+        user.school = {
+          name: norm.name,
+          key: norm.key,
+          domain,
+          graduationYear: null,
+          graduationTerm: null,
+          inferredAt: new Date(),
+        };
+      }
     }
     await DB.addUser(user);
     const sessionToken = await DB.createSession(email, req.headers['x-client'] === 'mobile' ? 'mobile' : 'web');

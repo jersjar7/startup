@@ -24,10 +24,19 @@ const MAX_NAME = 120;
 const GRAD_YEAR_MIN = 1960;
 const GRAD_YEAR_AHEAD = 6;
 
+/// Whether we are done asking this person about their school.
+///
+/// A school INFERRED from an email domain does not count. We worked that out
+/// ourselves, and the domain gives an institution but never a graduation year,
+/// which a cohort needs: a May and a December graduate are a full exam cycle
+/// apart. So somebody whose school we guessed is still worth one ask, and the
+/// form arrives with the university already filled in.
+///
+/// Resolved means they told us, or they said no.
 function isSchoolResolved(user) {
   const s = user && user.school;
   if (!s) return false;
-  return Boolean(s.name || s.dismissedAt);
+  return Boolean(s.answeredAt || s.dismissedAt);
 }
 
 /// Collapses the spelling differences that would otherwise split one school
