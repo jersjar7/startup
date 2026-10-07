@@ -10,11 +10,13 @@ const { deleteAllUserData } = require('./db/accountDeletion.js');
 const {
   sendWelcomeEmail, sendWeeklyDigestEmail, sendWinbackEmail, sendExamCountdownEmail,
   sendExamOutcomeEmail,
-  sendVerifyReminderEmail, sendSimFollowupEmail, sendSimPitchFollowupEmail,
+  sendVerifyReminderEmail, sendVerifyFinalWarningEmail,
+  sendSimFollowupEmail, sendSimPitchFollowupEmail,
 } = require('./email.js');
 const {
   TZ_DEFAULT, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive, examMilestoneToSend,
-  isVerifyReminderDue, isStaleUnverified,
+  isVerifyReminderDue, isStaleUnverified, isFinalWarningDue,
+  STALE_UNVERIFIED_DAYS, FINAL_WARNING_DAYS,
 } = require('./lifecycle.js');
 const { daysUntilExam } = require('./profile.js');
 const { hasPurchased } = require('./db/purchases.js');
@@ -141,6 +143,45 @@ async function sendVerifyReminders(now) {
       await sleep(SEND_GAP_MS);
     } catch (e) {
       console.error('[lifecycle] verify reminder failed for', u.email, e.message);
+    }
+  }
+  return sent;
+}
+
+// The one warning before an unverified account is removed, sent a week out.
+//
+// Ranked just under the verification reminder and above everything else: it is
+// the last chance to save somebody's account, which beats any digest. Sent once
+// (guarded by finalWarningSentAt), with a freshly issued token so the link in
+// it actually works after all this time.
+async function sendFinalWarnings(now) {
+  const users = await userCollection.find({
+    emailVerified: { $ne: true },
+    finalWarningSentAt: { $exists: false },
+    lifecycleOptOut: { $ne: true },
+  }).limit(MAX_PER_RUN).toArray();
+
+  let sent = 0;
+  for (const u of users) {
+    if (!isFinalWarningDue(u.createdAt, now)) continue;
+    if (!(await canSendLifecycle(now))) break;
+    try {
+      const rawToken = generateToken();
+      await userCollection.updateOne(
+        { email: u.email },
+        { $set: {
+          verificationToken: hashToken(rawToken),
+          verificationSentAt: new Date(),
+          finalWarningSentAt: new Date(),
+        } },
+      );
+      await sendVerifyFinalWarningEmail(u.email, rawToken, {
+        days: STALE_UNVERIFIED_DAYS - FINAL_WARNING_DAYS,
+      });
+      sent += 1;
+      await sleep(SEND_GAP_MS);
+    } catch (e) {
+      console.error('[lifecycle] final warning failed for', u.email, e.message);
     }
   }
   return sent;
@@ -506,6 +547,9 @@ async function runLifecycleEmails(now = new Date()) {
     // PITCH_HOUR. (The weekly digest runs EVERY day, sending only each user's shard.)
     const welcome = await sendWelcomes(now);
     const verify = await sendVerifyReminders(now);
+    // Above everything else that follows: it is the last chance to save an
+    // account, which outranks any digest.
+    const lastCall = await sendFinalWarnings(now);
     const simFollow = process.env.SIM_FOLLOWUP_ENABLED === '1' ? await sendSimFollowups(now) : 0;
     const exam = await sendExamCountdowns(now, 'morning');
     const weekly = await sendWeeklyDigests(now);
@@ -516,15 +560,15 @@ async function runLifecycleEmails(now = new Date()) {
       ? await sendExamOutcomeAsks(now)
       : 0;
     const purged = await purgeStaleUnverified(now);
-    if (welcome || verify || winback || exam || weekly || simFollow || outcome || purged) {
+    if (welcome || verify || lastCall || winback || exam || weekly || simFollow || outcome || purged) {
       // Report the day's remaining headroom alongside the batch. The batch runs
       // mid-UTC-day, so what is left here has to cover every signup for the rest
       // of the US day; seeing it in the log is how a squeeze gets noticed before
       // a verification email is the thing that fails.
       const { day, month } = await budgetCounts(now);
-      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam} weekly=${weekly} simFollow=${simFollow} outcome=${outcome} purged=${purged} — budget ${day}/${DAILY_CAP} today (${Math.max(0, DAILY_CAP - day)} left for verification and reset), ${month}/${MONTHLY_CAP} this month`);
+      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} lastCall=${lastCall} winback=${winback} exam=${exam} weekly=${weekly} simFollow=${simFollow} outcome=${outcome} purged=${purged} — budget ${day}/${DAILY_CAP} today (${Math.max(0, DAILY_CAP - day)} left for verification and reset), ${month}/${MONTHLY_CAP} this month`);
     }
-    return { welcome, verify, winback, exam, weekly, simFollow, outcome, purged };
+    return { welcome, verify, lastCall, winback, exam, weekly, simFollow, outcome, purged };
   } catch (e) {
     console.error('[lifecycle] run failed:', e.message);
     return { error: e.message };

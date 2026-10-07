@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 const {
   etDate, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive, examMilestoneToSend,
   isVerifyReminderDue, isStaleUnverified, STALE_UNVERIFIED_DAYS,
+  isFinalWarningDue, FINAL_WARNING_DAYS,
 } = require('./lifecycle');
 
 const TZ = 'America/New_York';
@@ -125,5 +126,41 @@ describe('examMilestoneToSend', () => {
   it('returns null with no date or after the exam', () => {
     expect(examMilestoneToSend(null, [])).toBeNull();
     expect(examMilestoneToSend(-2, [])).toBeNull();
+  });
+});
+
+// Until 2026-10-06 an unverified account got one reminder the morning after
+// signup, then four weeks of silence, then deletion with no notice. The logs
+// showed that removing 216 accounts since launch, one to three every day.
+describe('before an unverified account is thrown away', () => {
+  const now = new Date('2026-10-06T12:00:00Z');
+  const daysAgo = (n) => new Date(now.getTime() - n * 86400000);
+
+  it('gives them six and a half weeks, not four', () => {
+    expect(STALE_UNVERIFIED_DAYS).toBe(45);
+    expect(isStaleUnverified(daysAgo(44), now)).toBe(false);
+    expect(isStaleUnverified(daysAgo(45), now)).toBe(true);
+  });
+
+  it('warns a week before, not on the day', () => {
+    expect(FINAL_WARNING_DAYS).toBe(38);
+    expect(isFinalWarningDue(daysAgo(37), now)).toBe(false);
+    expect(isFinalWarningDue(daysAgo(38), now)).toBe(true);
+    expect(isFinalWarningDue(daysAgo(44), now)).toBe(true);
+  });
+
+  it('never warns somebody whose account is already past the line', () => {
+    // Warning about a deletion that has already happened is worse than silence.
+    expect(isFinalWarningDue(daysAgo(45), now)).toBe(false);
+    expect(isFinalWarningDue(daysAgo(90), now)).toBe(false);
+  });
+
+  it('leaves a full week between the warning and the deletion', () => {
+    expect(STALE_UNVERIFIED_DAYS - FINAL_WARNING_DAYS).toBe(7);
+  });
+
+  it('does nothing without a creation date rather than guessing', () => {
+    expect(isFinalWarningDue(null, now)).toBe(false);
+    expect(isFinalWarningDue(undefined, now)).toBe(false);
   });
 });

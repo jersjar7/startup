@@ -1,0 +1,155 @@
+# Recovered: the lifecycle batch log
+
+Pulled off the production box on 2026-10-06, before pm2 rotated it away.
+
+Why it is here. Deleting an account removes every trace of the person, which
+is correct, but it meant the account total dropped with nothing to explain it.
+These log lines were the only surviving record of what happened. From
+2026-10-06 the deletionLog collection keeps a proper tally; everything before
+that date exists only in this file.
+
+What it says:
+
+  - 128 daily batches, one per morning since launch.
+  - 216 accounts purged in total. Every one of them an account that signed up,
+    never verified, and passed the stale window.
+  - One to three a day, every day. This was never a spike; it was a slow leak.
+  - 26 of the lines carry a monthly send counter, which is the only
+    dating available, since pm2 was not configured to timestamp. Those cover
+    57 of the purges. The remaining 159 happened earlier and cannot
+    be dated more precisely than "before September".
+
+What changed because of it: the stale window went from 30 days to 45, and a
+warning email now goes out a week before an account is removed. Until
+2026-10-06 there was none.
+
+Raw lines follow.
+
+[lifecycle] sent welcome=1 verify=2 winback=0 exam=1 weekly=0 purged=5
+[lifecycle] sent welcome=2 verify=2 winback=0 exam=0 weekly=0 purged=0
+[lifecycle] sent welcome=4 verify=0 winback=0 exam=0 weekly=8 simFollow=1 purged=0
+[lifecycle] sent welcome=2 verify=8 winback=0 exam=0 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=12 verify=12 winback=0 exam=2 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=15 verify=16 winback=0 exam=3 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=14 verify=10 winback=0 exam=1 weekly=0 simFollow=1 purged=0
+[lifecycle] sent welcome=6 verify=4 winback=0 exam=1 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=0 verify=0 winback=0 exam=0 weekly=0 simFollow=1 purged=0
+[lifecycle] sent welcome=3 verify=3 winback=1 exam=0 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=1 verify=2 winback=1 exam=4 weekly=59 simFollow=0 purged=0
+[lifecycle] sent welcome=3 verify=0 winback=1 exam=1 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=4 verify=1 winback=10 exam=3 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=1 verify=5 winback=13 exam=3 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=4 verify=0 winback=12 exam=0 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=3 verify=1 winback=4 exam=0 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=1 verify=0 winback=4 exam=0 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=1 verify=0 winback=1 exam=0 weekly=73 simFollow=0 purged=0
+[lifecycle] sent welcome=1 verify=4 winback=5 exam=1 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=5 verify=6 winback=4 exam=0 weekly=0 simFollow=1 purged=0
+[lifecycle] sent welcome=1 verify=3 winback=1 exam=0 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=4 verify=4 winback=3 exam=2 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=2 verify=0 winback=1 exam=2 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=2 verify=0 winback=2 exam=0 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=1 verify=0 winback=1 exam=0 weekly=89 simFollow=1 purged=0
+[lifecycle] sent welcome=2 verify=0 winback=0 exam=1 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=7 verify=2 winback=5 exam=0 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=2 verify=4 winback=2 exam=1 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=1 verify=2 winback=2 exam=1 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=2 verify=1 winback=4 exam=3 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=1 verify=3 winback=3 exam=1 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=1 verify=0 winback=2 exam=0 weekly=104 simFollow=0 purged=1
+[lifecycle] sent welcome=3 verify=1 winback=4 exam=1 weekly=0 simFollow=0 purged=2
+[lifecycle] sent welcome=2 verify=0 winback=5 exam=3 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=2 verify=0 winback=3 exam=0 weekly=0 simFollow=0 purged=10
+[lifecycle] sent welcome=3 verify=2 winback=2 exam=1 weekly=0 simFollow=0 purged=9
+[lifecycle] sent welcome=3 verify=3 winback=2 exam=2 weekly=0 simFollow=0 purged=12
+[lifecycle] sent welcome=2 verify=2 winback=1 exam=2 weekly=0 simFollow=0 purged=10
+[lifecycle] sent welcome=1 verify=2 winback=0 exam=0 weekly=120 simFollow=0 purged=3
+[lifecycle] sent welcome=2 verify=3 winback=2 exam=1 weekly=0 simFollow=0 purged=1
+[lifecycle] sent welcome=0 verify=0 winback=0 exam=1 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=2 verify=2 winback=3 exam=5 weekly=0 simFollow=0 purged=1
+[lifecycle] sent welcome=2 verify=0 winback=0 exam=3 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=0 verify=1 winback=1 exam=2 weekly=0 simFollow=0 purged=2
+[lifecycle] sent welcome=2 verify=1 winback=2 exam=2 weekly=0 simFollow=0 purged=3
+[lifecycle] sent welcome=1 verify=2 winback=0 exam=8 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=3 verify=2 winback=3 exam=0 weekly=132 simFollow=0 purged=1
+[lifecycle] sent welcome=5 verify=3 winback=3 exam=4 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=3 verify=9 winback=2 exam=3 weekly=1 simFollow=0 purged=0
+[lifecycle] sent welcome=2 verify=3 winback=2 exam=3 weekly=3 simFollow=0 purged=3
+[lifecycle] sent welcome=6 verify=4 winback=1 exam=1 weekly=2 simFollow=0 purged=6
+[lifecycle] sent welcome=5 verify=3 winback=3 exam=3 weekly=2 simFollow=0 purged=2
+[lifecycle] sent welcome=2 verify=3 winback=2 exam=5 weekly=2 simFollow=0 purged=3
+[lifecycle] sent welcome=0 verify=0 winback=0 exam=0 weekly=17 simFollow=0 purged=0
+[lifecycle] sent welcome=0 verify=4 winback=2 exam=0 weekly=17 simFollow=0 purged=0
+[lifecycle] sent welcome=9 verify=3 winback=2 exam=1 weekly=22 simFollow=0 purged=0
+[lifecycle] sent welcome=5 verify=2 winback=3 exam=1 weekly=25 simFollow=0 purged=0
+[lifecycle] sent welcome=3 verify=5 winback=4 exam=6 weekly=31 simFollow=0 purged=0
+[lifecycle] sent welcome=7 verify=4 winback=6 exam=1 weekly=27 simFollow=0 purged=1
+[lifecycle] sent welcome=0 verify=0 winback=1 exam=0 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=2 verify=3 winback=2 exam=5 weekly=25 simFollow=0 purged=3
+[lifecycle] sent welcome=2 verify=4 winback=1 exam=5 weekly=24 simFollow=0 purged=1
+[lifecycle] sent welcome=7 verify=3 winback=3 exam=4 weekly=23 simFollow=0 purged=3
+[lifecycle] sent welcome=1 verify=2 winback=9 exam=1 weekly=26 simFollow=0 purged=0
+[lifecycle] sent welcome=6 verify=2 winback=3 exam=6 weekly=30 simFollow=0 purged=0
+[lifecycle] sent welcome=2 verify=1 winback=4 exam=2 weekly=34 simFollow=0 purged=1
+[lifecycle] sent welcome=3 verify=4 winback=5 exam=2 weekly=30 simFollow=0 purged=0
+[lifecycle] sent welcome=3 verify=4 winback=3 exam=2 weekly=29 simFollow=0 purged=0
+[lifecycle] sent welcome=0 verify=3 winback=2 exam=2 weekly=27 simFollow=0 purged=2
+[lifecycle] sent welcome=1 verify=0 winback=7 exam=0 weekly=24 simFollow=0 purged=1
+[lifecycle] sent welcome=1 verify=0 winback=0 exam=0 weekly=26 simFollow=0 purged=2
+[lifecycle] sent welcome=0 verify=0 winback=1 exam=0 weekly=0 simFollow=0 purged=0
+[lifecycle] sent welcome=2 verify=5 winback=5 exam=3 weekly=31 simFollow=0 purged=3
+[lifecycle] sent welcome=5 verify=2 winback=4 exam=7 weekly=36 simFollow=0 purged=1
+[lifecycle] sent welcome=5 verify=0 winback=2 exam=11 weekly=32 simFollow=0 purged=2
+[lifecycle] sent welcome=4 verify=2 winback=4 exam=9 weekly=33 simFollow=0 purged=0
+[lifecycle] sent welcome=3 verify=0 winback=0 exam=5 weekly=29 simFollow=0 purged=2
+[lifecycle] sent welcome=1 verify=1 winback=1 exam=1 weekly=28 simFollow=0 purged=0
+[lifecycle] sent welcome=1 verify=4 winback=2 exam=9 weekly=30 simFollow=0 purged=1
+[lifecycle] sent welcome=4 verify=10 winback=3 exam=5 weekly=34 simFollow=0 purged=2
+[lifecycle] sent welcome=5 verify=1 winback=1 exam=4 weekly=40 simFollow=0 purged=3
+[lifecycle] sent welcome=2 verify=3 winback=4 exam=2 weekly=33 simFollow=0 purged=9
+[lifecycle] sent welcome=2 verify=3 winback=6 exam=4 weekly=34 simFollow=0 purged=1
+[lifecycle] sent welcome=2 verify=2 winback=2 exam=6 weekly=30 simFollow=0 purged=4
+[lifecycle] sent welcome=3 verify=1 winback=0 exam=3 weekly=31 simFollow=0 purged=3
+[lifecycle] sent welcome=5 verify=1 winback=0 exam=4 weekly=32 simFollow=0 purged=2
+[lifecycle] sent welcome=0 verify=3 winback=4 exam=8 weekly=39 simFollow=0 purged=3
+[lifecycle] sent welcome=2 verify=1 winback=3 exam=4 weekly=42 simFollow=0 purged=3
+[lifecycle] sent welcome=5 verify=6 winback=3 exam=7 weekly=34 simFollow=0 purged=0
+[lifecycle] sent welcome=8 verify=8 winback=1 exam=7 weekly=35 simFollow=0 purged=5
+[lifecycle] sent welcome=5 verify=3 winback=3 exam=7 weekly=38 simFollow=0 purged=3
+[lifecycle] sent welcome=2 verify=1 winback=3 exam=2 weekly=34 simFollow=0 purged=3
+[lifecycle] sent welcome=8 verify=0 winback=4 exam=4 weekly=37 simFollow=0 purged=3
+[lifecycle] sent welcome=4 verify=2 winback=2 exam=4 weekly=44 simFollow=0 purged=2
+[lifecycle] sent welcome=6 verify=2 winback=3 exam=7 weekly=44 simFollow=0 purged=2
+[lifecycle] sent welcome=5 verify=4 winback=2 exam=8 weekly=41 simFollow=0 purged=2
+[lifecycle] sent welcome=4 verify=2 winback=6 exam=3 weekly=39 simFollow=0 purged=0
+[lifecycle] sent welcome=5 verify=3 winback=4 exam=3 weekly=35 simFollow=0 purged=8
+[lifecycle] sent welcome=1 verify=2 winback=7 exam=6 weekly=40 simFollow=0 purged=1
+[lifecycle] sent welcome=5 verify=4 winback=3 exam=4 weekly=50 simFollow=0 purged=0
+[lifecycle] sent welcome=8 verify=6 winback=0 exam=15 weekly=49 simFollow=0 purged=1
+[lifecycle] sent welcome=15 verify=7 winback=6 exam=12 weekly=42 simFollow=0 purged=2
+[lifecycle] sent welcome=4 verify=8 winback=10 exam=1 weekly=38 simFollow=0 purged=1 — budget 62/100 today (38 left for verification and reset), 746/3000 this month
+[lifecycle] sent welcome=3 verify=2 winback=3 exam=6 weekly=43 simFollow=0 purged=0 — budget 58/100 today (42 left for verification and reset), 808/3000 this month
+[lifecycle] sent welcome=1 verify=4 winback=1 exam=5 weekly=37 simFollow=0 purged=2 — budget 51/100 today (49 left for verification and reset), 866/3000 this month
+[lifecycle] sent welcome=4 verify=7 winback=0 exam=8 weekly=39 simFollow=0 purged=0 — budget 65/100 today (35 left for verification and reset), 943/3000 this month
+[lifecycle] sent welcome=5 verify=11 winback=0 exam=8 weekly=34 simFollow=0 purged=1 — budget 65/100 today (35 left for verification and reset), 1019/3000 this month
+[lifecycle] sent welcome=6 verify=4 winback=0 exam=22 weekly=29 simFollow=0 purged=4 — budget 65/100 today (35 left for verification and reset), 1088/3000 this month
+[lifecycle] sent welcome=2 verify=0 winback=9 exam=9 weekly=42 simFollow=0 purged=7 — budget 65/100 today (35 left for verification and reset), 1155/3000 this month
+[lifecycle] sent welcome=5 verify=2 winback=10 exam=4 weekly=38 simFollow=0 purged=1 — budget 65/100 today (35 left for verification and reset), 1225/3000 this month
+[lifecycle] sent welcome=3 verify=4 winback=6 exam=8 weekly=43 simFollow=0 purged=3 — budget 65/100 today (35 left for verification and reset), 1292/3000 this month
+[lifecycle] sent welcome=0 verify=1 winback=4 exam=6 weekly=37 simFollow=0 purged=2 — budget 53/100 today (47 left for verification and reset), 1345/3000 this month
+[lifecycle] sent welcome=1 verify=1 winback=2 exam=4 weekly=40 simFollow=0 purged=1 — budget 51/100 today (49 left for verification and reset), 1408/3000 this month
+[lifecycle] sent welcome=2 verify=6 winback=0 exam=10 weekly=46 simFollow=0 purged=1 — budget 65/100 today (35 left for verification and reset), 1482/3000 this month
+[lifecycle] sent welcome=3 verify=3 winback=0 exam=22 weekly=34 simFollow=0 purged=1 — budget 65/100 today (35 left for verification and reset), 1551/3000 this month
+[lifecycle] sent welcome=8 verify=2 winback=0 exam=12 weekly=39 simFollow=0 purged=3 — budget 65/100 today (35 left for verification and reset), 1624/3000 this month
+[lifecycle] sent welcome=1 verify=1 winback=13 exam=9 weekly=38 simFollow=0 purged=2 — budget 64/100 today (36 left for verification and reset), 1688/3000 this month
+[lifecycle] sent welcome=2 verify=1 winback=3 exam=10 weekly=43 simFollow=0 purged=5 — budget 62/100 today (38 left for verification and reset), 1751/3000 this month
+[lifecycle] sent welcome=0 verify=5 winback=2 exam=5 weekly=37 simFollow=0 purged=8 — budget 50/100 today (50 left for verification and reset), 1804/3000 this month
+[lifecycle] sent welcome=4 verify=2 winback=3 exam=10 weekly=40 simFollow=0 purged=2 — budget 61/100 today (39 left for verification and reset), 1879/3000 this month
+[lifecycle] sent welcome=3 verify=2 winback=0 exam=10 weekly=45 simFollow=0 purged=1 — budget 65/100 today (35 left for verification and reset), 1951/3000 this month
+[lifecycle] sent welcome=3 verify=3 winback=0 exam=20 weekly=36 simFollow=0 purged=0 — budget 65/100 today (35 left for verification and reset), 2022/3000 this month
+[lifecycle] sent welcome=2 verify=5 winback=4 exam=11 weekly=42 simFollow=0 purged=1 — budget 65/100 today (35 left for verification and reset), 65/3000 this month
+[lifecycle] sent welcome=2 verify=4 winback=6 exam=13 weekly=38 simFollow=0 purged=2 — budget 65/100 today (35 left for verification and reset), 136/3000 this month
+[lifecycle] sent welcome=1 verify=3 winback=6 exam=10 weekly=43 simFollow=0 purged=3 — budget 65/100 today (35 left for verification and reset), 205/3000 this month
+[lifecycle] sent welcome=1 verify=1 winback=3 exam=7 weekly=37 simFollow=0 purged=3 — budget 49/100 today (51 left for verification and reset), 256/3000 this month
+[lifecycle] sent welcome=1 verify=0 winback=5 exam=12 weekly=40 simFollow=0 purged=1 — budget 59/100 today (41 left for verification and reset), 321/3000 this month
+[lifecycle] sent welcome=7 verify=0 winback=0 exam=13 weekly=43 simFollow=0 purged=2 — budget 65/100 today (35 left for verification and reset), 395/3000 this month
