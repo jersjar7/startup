@@ -15,6 +15,7 @@ const {
 } = require('../schoolDirectory.js');
 const { emailChangeProblem, emailChangeUpdate } = require('../emailChange.js');
 const { changeAccountEmail } = require('../db/accountEmail.js');
+const { queueVerificationRetry } = require('../db/emailRetries.js');
 const { parseOutcome, isAnswered: outcomeAnswered } = require('../examOutcome.js');
 const { verifyAuth, setAuthCookie, clearAuthCookie, authCookieName } = require('../middleware/auth.js');
 const { getBadgeDetails, getAllBadges } = require('../badges.js');
@@ -147,8 +148,14 @@ router.post('/create', async (req, res) => {
     const sessionToken = await DB.createSession(email, req.headers['x-client'] === 'mobile' ? 'mobile' : 'web');
     setAuthCookie(res, sessionToken);
 
-    // Fire-and-forget verification email
-    sendVerificationEmail(email, rawVerifyToken);
+    // Fire and forget, but no longer forget a FAILURE. On 2026-10-07, 34 sends
+    // were refused with "API key is invalid" during deploy windows, when the
+    // service is briefly up with no environment. Each one was logged and
+    // dropped, so somebody signing up in that window got an account and no
+    // email, and nothing noticed.
+    sendVerificationEmail(email, rawVerifyToken).then((r) => {
+      if (r && r.ok === false) queueVerificationRetry(email, r.error);
+    }).catch((e) => queueVerificationRetry(email, e.message));
 
     // Mobile can't use the cookie jar — hand it the bearer token explicitly.
     const body = { email: user.email };

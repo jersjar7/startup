@@ -24,6 +24,9 @@ const sessionsCollection = db.collection('sessions');
 const mailMetaCollection = db.collection('mailMeta');
 // A tally of deletions, never a record of who. See service/deletionRecord.js.
 const deletionLogCollection = db.collection('deletionLog');
+// Verification emails that failed to send, to try again. Holds the intent
+// only, never the email. See service/emailRetry.js.
+const emailRetriesCollection = db.collection('emailRetries');
 
 // Test connection and create indexes on startup
 // Unit tests import route modules that pull this in; they never touch the
@@ -74,6 +77,7 @@ async function ping() {
 
 module.exports = {
   deletionLogCollection,
+  emailRetriesCollection,
   client,
   db,
   ping,

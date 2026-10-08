@@ -21,6 +21,9 @@ const { shouldPitchSimInDigest } = require('./digestPitch.js');
 const { canSendLifecycle, counts: budgetCounts, DAILY_CAP, MONTHLY_CAP } = require('./sendBudget.js');
 const { digestActiveSince, inDigestAudience, audienceNote, DIGEST_ACTIVE_DAYS } = require('./digestAudience.js');
 const { outcomePriorityActive } = require('./outcomePriority.js');
+const {
+  queueVerificationRetry, dueVerificationRetries, clearVerificationRetry,
+} = require('./db/emailRetries.js');
 
 const TZ = process.env.LIFECYCLE_TZ || TZ_DEFAULT;
 const SEND_HOUR = Number(process.env.LIFECYCLE_HOUR) || 8;
@@ -112,6 +115,63 @@ async function sendWelcomes(now) {
       await sleep(SEND_GAP_MS);
     } catch (e) {
       console.error('[lifecycle] welcome failed for', u.email, e.message);
+    }
+  }
+  return sent;
+}
+
+// Verification emails that failed to send, tried again.
+//
+// Added 2026-10-07 after 34 sends were refused with "API key is invalid"
+// during deploy windows, when the service is briefly up with no environment.
+// They were logged and dropped, so somebody signing up in that window got an
+// account and no email.
+//
+// A fresh token is minted rather than resending the old link: only the hash of
+// a token is stored, by design, so the original cannot be recovered. That also
+// means a retry invalidates any earlier link, which is correct, because the
+// earlier one never reached anybody.
+//
+// Runs on the half-hourly loop rather than the morning batch: a deploy at noon
+// should not leave somebody waiting until tomorrow.
+async function retryFailedVerifications(now) {
+  let due;
+  try {
+    due = await dueVerificationRetries(now);
+  } catch (e) {
+    console.error('[emailRetry] could not read the queue:', e.message);
+    return 0;
+  }
+
+  let sent = 0;
+  for (const row of due) {
+    try {
+      const user = await userCollection.findOne(
+        { email: row.email },
+        { projection: { emailVerified: 1 } },
+      );
+      // Gone, or they verified another way. Either way there is nothing to do.
+      if (!user || user.emailVerified) {
+        await clearVerificationRetry(row.email);
+        continue;
+      }
+      const rawToken = generateToken();
+      await userCollection.updateOne(
+        { email: row.email },
+        { $set: { verificationToken: hashToken(rawToken), verificationSentAt: new Date() } },
+      );
+      const res = await sendVerificationEmail(row.email, rawToken);
+      if (res && res.ok === false) {
+        // Still failing. Queue the next attempt, or let it expire.
+        await queueVerificationRetry(row.email, res.error, row.attempts);
+        continue;
+      }
+      await clearVerificationRetry(row.email);
+      sent += 1;
+      console.log(`[emailRetry] delivered to ${row.email} on attempt ${row.attempts}`);
+      await sleep(SEND_GAP_MS);
+    } catch (e) {
+      await queueVerificationRetry(row.email, e.message, row.attempts);
     }
   }
   return sent;
@@ -468,14 +528,22 @@ async function runLifecycleEmails(now = new Date()) {
   running = true;
   try {
     const hour = etHour(now, TZ);
+
+    // BEFORE the hour gates, every pass. A verification email that failed
+    // during a deploy at noon should not wait until tomorrow morning: the
+    // person is sitting there now, looking at an unverified account. This is
+    // the only job in this file that is not on the morning schedule.
+    const retried = await retryFailedVerifications(now);
+    if (retried) console.log(`[lifecycle] re-sent ${retried} verification email(s)`);
+
     // Evening run: ONLY the exam-sim sales pitch, in its own window.
     if (hour === PITCH_HOUR) {
       const pitch = await sendExamCountdowns(now, 'evening');
       const pitchFollow = process.env.PITCH_FOLLOWUP_ENABLED === '1' ? await sendSimPitchFollowups(now) : 0;
       if (pitch || pitchFollow) console.log(`[lifecycle] evening pitch=${pitch} pitchFollow=${pitchFollow}`);
-      return { pitch, pitchFollow };
+      return { pitch, pitchFollow, retried };
     }
-    if (hour !== SEND_HOUR) return { skipped: 'off-hour' };
+    if (hour !== SEND_HOUR) return { skipped: 'off-hour', retried };
     // Morning batch. Priority order: when the daily/monthly budget is tight,
     // higher-priority emails send first and lower-priority ones defer to the next
     // day. Exam countdowns here are motivational only — the pitch waits for
@@ -512,7 +580,7 @@ async function runLifecycleEmails(now = new Date()) {
       const { day, month } = await budgetCounts(now);
       console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam + examLate} weekly=${weekly} simFollow=${simFollow} outcome=${outcome} — budget ${day}/${DAILY_CAP} today (${Math.max(0, DAILY_CAP - day)} left for verification and reset), ${month}/${MONTHLY_CAP} this month`);
     }
-    return { welcome, verify, winback, exam: exam + examLate, weekly, simFollow, outcome };
+    return { welcome, verify, winback, exam: exam + examLate, weekly, simFollow, outcome, retried };
   } catch (e) {
     console.error('[lifecycle] run failed:', e.message);
     return { error: e.message };
