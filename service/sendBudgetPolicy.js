@@ -9,8 +9,20 @@
 // only thing standing between a new signup and a rejected verification email is
 // lifecycle mail stopping early enough to leave room under the plan's daily cap.
 
-const DAILY_CAP = 100;            // Resend free: emails/day
-const MONTHLY_CAP = 3000;         // Resend free: emails/month
+// Resend Pro since 2026-10-07: 50,000 emails a month and NO daily limit.
+//
+// These numbers are no longer the provider's limits, they are ours. The daily
+// one stays as a blast radius: a bug that mails every user in a loop should
+// still hit a wall rather than spend the month's allowance in an hour. 1,000 a
+// day against 539 accounts is roughly two emails per person per day, which no
+// correct run will ever reach.
+//
+// The free tier's 100 a day was the real constraint before this: the weekly
+// digest alone took 56 of it, the morning batch hit the 65 lifecycle ceiling
+// most days, and the exam outcome ask got four sends out of a 65-person
+// backlog because it sits last. That is what the money bought.
+const DAILY_CAP = 1000;           // ours, not Resend's: a blast radius
+const MONTHLY_CAP = 50000;        // Resend Pro: emails/month
 
 // Headroom kept for transactional email.
 //
@@ -24,9 +36,12 @@ const MONTHLY_CAP = 3000;         // Resend free: emails/month
 // 35 covers that worst observed day with margin. It costs lifecycle volume (the
 // daily shard of the weekly digest defers first), which is the right trade: a
 // digest can slip a day, a verification email cannot.
-const DAILY_RESERVE = 35;
-const DAILY_LIFECYCLE_MAX = DAILY_CAP - DAILY_RESERVE;  // 65 — lifecycle stops here
-const MONTHLY_SOFT = 2800;        // buffer under the monthly cap
+// Still held back for verification and password reset, which must never fail
+// because marketing filled the day. Verification does not actually check this
+// budget, only records against it, so the reserve is belt and braces.
+const DAILY_RESERVE = 100;
+const DAILY_LIFECYCLE_MAX = DAILY_CAP - DAILY_RESERVE;  // 900 — lifecycle stops here
+const MONTHLY_SOFT = 45000;       // buffer under the monthly cap
 
 // Is there room for one more LIFECYCLE email, given what has already gone out
 // today and this month?

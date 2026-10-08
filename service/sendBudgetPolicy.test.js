@@ -17,12 +17,35 @@ describe('send budget policy', () => {
 
   // 2026-09-09: 23 signups plus resets and resends needed 25 transactional
   // sends AFTER the morning batch had already run, against a reserve of 15.
-  // The day closed at 103 sends against a 100/day plan cap. The reserve has to
-  // cover a day like that, or the mail that fails is what a new user is waiting
-  // on. Lower this only with newer numbers showing the tail actually shrank.
+  // The day closed at 103 against a 100/day plan cap.
+  //
+  // 2026-10-07 beat it: 39 signups in 24 hours after a LinkedIn post from a
+  // senior engineer at Kiewit, against 6 the day before. Every one of those
+  // needs a verification email, and a day like that is exactly when a new
+  // user is sitting there waiting for it.
+  //
+  // The reserve has to cover the worst day seen, not the average one. Lower it
+  // only with newer numbers showing the tail actually shrank.
   it('reserves enough for the worst day actually observed', () => {
-    const WORST_OBSERVED_TRANSACTIONAL_TAIL = 25;
+    const WORST_OBSERVED_TRANSACTIONAL_TAIL = 39;
     expect(DAILY_RESERVE).toBeGreaterThanOrEqual(WORST_OBSERVED_TRANSACTIONAL_TAIL);
+  });
+
+  // Resend Pro since 2026-10-07: 50,000 a month, no daily limit. The numbers
+  // here stopped being the provider's and became ours.
+  it('no longer squeezes the lifecycle batch', () => {
+    // The free tier left 65 a day for everything: the weekly digest alone took
+    // 56 of it and the exam outcome ask got 4 sends out of a 65-person
+    // backlog. Anything in that range must now pass without question.
+    expect(lifecycleAllowed(65, 500)).toBe(true);
+    expect(lifecycleAllowed(200, 2000)).toBe(true);
+  });
+
+  it('still stops a runaway rather than spending the month in an hour', () => {
+    // The cap is a blast radius now, not a plan limit. A bug that mails every
+    // user in a loop has to hit a wall.
+    expect(lifecycleAllowed(DAILY_LIFECYCLE_MAX, 0)).toBe(false);
+    expect(lifecycleAllowed(0, MONTHLY_SOFT)).toBe(false);
   });
 
   it('allows a lifecycle send while under the daily line', () => {

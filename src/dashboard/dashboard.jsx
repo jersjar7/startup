@@ -291,7 +291,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     return 'New';
   };
   // Mastery is desk-earned (ADR 0020): coverage of the chapter's problems,
-  // with the readiness read as a floor worth at most 25. Games on the phone
+  // with the readiness read as a floor worth at most 25. Practice on the phone
   // are a warm-up; their count is shown, never added.
   const getProgress = (chapter) => {
     const cm = chapterMastery[chapter.id];
@@ -472,7 +472,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             return (
               <p className="ch-phone-line">
                 <DeviceMobile weight="bold" size={13} />
-                <b>Games played on your phone</b> show under a chapter&apos;s bar. Last synced {when} from {device}.
+                <b>Practice done in the app</b> shows under a chapter&apos;s bar. Last synced {when} from {device}.
               </p>
             );
           })()}
@@ -523,7 +523,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                         nobody sees it for an app they cannot use. It sits off
                         the bar because it is not part of the number. */}
                     {prog.gamesCleared > 0 ? (
-                      <span className="ch-games" title="Games on the app are a warm-up. They do not count toward mastery."><DeviceMobile weight="regular" size={10} /> warm-up {prog.gamesCleared} of {prog.gamesTotal} games</span>
+                      <span className="ch-games" title="Practice in the app is a warm-up. It does not count toward mastery."><DeviceMobile weight="regular" size={10} /> warm-up {prog.gamesCleared} of {prog.gamesTotal}</span>
                     ) : null}
                   </div>
                   {/* badge color encodes exam weight (one scale), not the chapter's accent */}
@@ -566,7 +566,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                     : <>Nothing from the app today. </>}
                   Last synced {when} from {device}.
                 </p>
-                <p className="phone-block-sub">Games on the app are a warm-up. Mastery is earned here, one problem at a time.</p>
+                <p className="phone-block-sub">Practice in the app is a warm-up. Mastery is earned here, one problem at a time.</p>
                 {chMeta && (
                   <button className="tonight-btn" onClick={() => navigate(`/problems/${topCh}`)}>
                     Practice what the app missed: {chMeta.name} <ArrowRight weight="bold" size={13} />
