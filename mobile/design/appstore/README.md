@@ -64,3 +64,15 @@ through an upload.
 
 **1320 x 2868 is called `APP_IPHONE_67` in the API.** There is no
 `APP_IPHONE_69`; sending it returns a 409 on the attribute type.
+
+## What we told Apple
+
+`declarations.md` records every declaration made in App Store Connect, with the
+check that proves each one: content rights, age rating, export compliance,
+device and orientation, and the review account. `app-privacy.md` has the
+data-collection detail; `review-notes.md` is the text pasted into App Review
+Information.
+
+Re-read declarations.md before every submission. Several answers change the
+moment a feature lands: a leaderboard changes the age rating AND the privacy
+answers, and saving the pass card to photos adds a permission to declare.
