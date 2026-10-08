@@ -10,7 +10,12 @@
 // was excluded from `scripts/baseline-report.js` (which strips plus-tags) while
 // still counting as a real user everywhere on the server — two sources of truth
 // disagreeing about whether the same account existed.
-const EXCLUDED_EMAILS = (process.env.EXCLUDED_ACCOUNTS || 'admin@oqupa.com,qa-bot@fe4raccoons.com')
+// appreview@ is the demo account Apple and Google reviewers sign in with. It
+// is a REAL account, because review tests what real users get, but a reviewer
+// poking around must not move the numbers we judge the product by
+// (added 2026-10-08 for the App Store submission).
+const EXCLUDED_EMAILS = (process.env.EXCLUDED_ACCOUNTS
+  || 'admin@oqupa.com,qa-bot@fe4raccoons.com,appreview@fe4raccoons.com')
   .split(',')
   .map((s) => s.trim().toLowerCase())
   .filter(Boolean);
