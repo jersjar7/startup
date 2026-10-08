@@ -4,6 +4,31 @@ Ask first. The owner said so on 2026-09-08 after a build was spent on a
 one-line change that was also wrong. Lessons land on `development` and wait;
 they do not each get a build.
 
+## iOS notification delivery: VERIFIED 2026-10-07
+
+Measured, on a real iPhone running TestFlight build 1065. The 7pm "nothing
+studied today" reminder arrived on the lock screen reading "A few minutes
+counts / One round is enough to put today on your calendar", and tapping it
+opened the app.
+
+That one observation covers four things no simulator run could:
+
+  - the permission was granted through the real iOS dialog, which no automated
+    run can tap;
+  - zonedSchedule actually fires on iOS, not just Android;
+  - the schedule survived the app being closed, since these are local
+    notifications with no server involved;
+  - the tap handler routes, rather than opening to wherever the app happened
+    to be.
+
+Before this, 1032's line below said Android was verified against a real
+operating system and iOS was not. That gap is closed. It was the last
+unverified thing standing between this app and an App Store submission.
+
+Still unverified: that the OUTCOME notification lands on the question rather
+than the home screen. It fires nine days after an exam date, so the cheapest
+test is setting an exam date nine days in the past on a throwaway account.
+
 ## The four steps
 
 ```sh
