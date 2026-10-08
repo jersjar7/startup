@@ -3,12 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'app.dart';
+import 'core/licenses.dart';
 import 'core/storage/app_storage.dart';
 import 'features/games/game_progress.dart';
 import 'features/games/lesson_node_rive.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // The bundled fonts carry an Open Font License that has to be shown. Cheap
+  // and synchronous: it only registers a callback, nothing is read until
+  // somebody opens the licence page.
+  registerFontLicenses();
   // Half-finished sittings are restored before the first frame, so a lesson
   // opens where it was left rather than at the top.
   await GameProgress.instance.load(AppStorage());

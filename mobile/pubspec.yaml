@@ -71,6 +71,11 @@ flutter:
     # The brand fonts, bundled rather than fetched at runtime: the app is for
     # studying on a bus, and type that arrives late (or never) is not type.
     - assets/fonts/
+    # The Open Font License requires its text and copyright notice to travel
+    # with the fonts wherever they are distributed. Shipping the .ttf files
+    # without it is a licence violation even though the use itself is allowed
+    # (found 2026-10-08, before the first App Store submission).
+    - assets/licenses/
     # The lesson node artwork, built from mobile/rive/lesson_node with the
     # Rive CLI (see docs/mobile/lesson-node-rive.md).
     - assets/rive/

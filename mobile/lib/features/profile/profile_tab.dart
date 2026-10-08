@@ -914,6 +914,23 @@ class AccountSheet extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 18),
+            // The bundled fonts carry an Open Font License that requires its
+            // notice to be shown wherever they are distributed. Bundling the
+            // text and never surfacing it would satisfy nothing, so it is
+            // reachable here. Flutter's own page, so the packages' licences
+            // are listed too rather than only ours.
+            Center(
+              child: TextAction(
+                label: 'Licences',
+                color: AppColors.ink3,
+                onTap: () => showLicensePage(
+                  context: context,
+                  applicationName: 'FE for Raccoons',
+                  applicationLegalese: '\u00a9 2026 Oqupa LLC',
+                ),
+              ),
+            ),
+            const SizedBox(height: 14),
             Center(
               child: TextAction(
                 label: 'Delete account',
