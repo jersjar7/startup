@@ -4,6 +4,35 @@ Ask first. The owner said so on 2026-09-08 after a build was spent on a
 one-line change that was also wrong. Lessons land on `development` and wait;
 they do not each get a build.
 
+## Submitted to the App Store: 2026-10-08
+
+Version 1.0, build 1075, WAITING_FOR_REVIEW. Submission ID
+91d8bf7c-a987-4530-be57-b62c72db13f2. Set to release automatically once
+approved.
+
+Four things were found and fixed during the submission itself, each a
+framework or tooling default rather than a decision anybody made:
+
+  - iPad support. The app was universal by Flutter's default, with nothing
+    in the design documentation mentioning a tablet, and study days
+    overflowed by 473px in iPad landscape. Apple blocked the submission
+    asking for 13-inch screenshots; dropping iPad was the honest answer and
+    removed the requirement.
+  - Landscape. Enabled by default, and three screens broke in it: study
+    46px, exam date 160px, study days 589px.
+  - Font licences. DM Sans, Inter and JetBrains Mono ship as .ttf files
+    under the OFL, which requires its notice to travel with them. They
+    shipped without it.
+  - The attached build was 1023, from three days earlier, which predated
+    notifications entirely.
+
+What is still unverified, and was submitted knowing it: the OUTCOME
+notification landing on the question screen rather than home. It fires nine
+days after an exam date, so it could not be tested before submission. The
+daily reminder was verified on a real iPhone (see below), which covers
+delivery, permission, scheduling and tap handling; this is the routing of
+one notification type.
+
 ## iOS notification delivery: VERIFIED 2026-10-07
 
 Measured, on a real iPhone running TestFlight build 1065. The 7pm "nothing
