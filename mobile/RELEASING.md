@@ -28,19 +28,38 @@ The INTERNET row is the one that matters. Before the fix it was granted only
 in the debug and profile manifests, so that same screen would have failed with
 a network error instead of the server's answer.
 
-**Still unverified, and it needs a signed-in session:**
+Note the round and game content is bundled Dart (`lesson_brief.dart` is 17k
+lines), so the figure rendering above proves the app, not the API.
 
-  - the content endpoints (`/content/chapters`, `/account/state`, `/sync/*`).
-    Low risk, since they use the same Dio client and host the 401 came back
-    from, but not the same thing as seeing them work.
-  - **POST_NOTIFICATIONS**, the Android 13+ runtime prompt, and whether a study
-    reminder actually schedules and fires on Android. iOS was verified on a
-    real phone on 2026-10-07; Android has never been.
-  - Note the round and game content is bundled Dart (`lesson_brief.dart` is
-    17k lines), so the figure rendering above proves the app, not the API.
+**Signed in on the emulator, same session:**
 
-**Cheapest way to close them:** sign in on the emulator with the review
-account, open a chapter, then turn on Study reminders in the account sheet.
+| Check | Result |
+|---|---|
+| Content endpoints | home drew 15 chapters, concept mastery, days studied and the exam countdown from the server; the Study tab and the chapter map both loaded |
+| POST_NOTIFICATIONS prompt | fired, titled **"Allow FE4Raccoons to send you notifications?"**, which also proves the launcher-name fix |
+| Permission after Allow | `granted=true` |
+| Notification channel | `study_reminders` created, importance DEFAULT |
+| Schedule registered with Android | daily `RTC_WAKEUP` alarms on `ScheduledNotificationReceiver`, first at 19:00, then 24h apart |
+| `integration_test/notifications_test.dart` | **all four passed on Android**, the first time that check has run anywhere but iOS |
+
+### Delivery on Android: Unverified, and the emulator cannot answer it
+
+The 19:00 alarm was forced by moving the device clock. It was consumed, and no
+banner appeared. That is NOT evidence of a bug: the same emulator does not
+surface a notification posted by the operating system's own
+`adb shell cmd notification post` either. The channel is created and the
+command reports success, and nothing reaches the shade or the live records.
+So this AVD does not display notifications, and it cannot settle the question
+either way.
+
+What is known: Android accepts the whole schedule and holds it. What is not:
+that a banner appears when one comes due.
+
+**Cheapest test that would settle it: any physical Android phone**, which the
+owner does not have. Until one is borrowed, this ships unverified on Android.
+The exposure is small, because study reminders are **off by default** and the
+same code and the same library deliver correctly on iOS, verified on real
+hardware on 2026-10-07.
 
 ## Android: first Play release, started 2026-10-08
 
