@@ -4,6 +4,32 @@ Ask first. The owner said so on 2026-09-08 after a build was spent on a
 one-line change that was also wrong. Lessons land on `development` and wait;
 they do not each get a build.
 
+## Android: first Play release, started 2026-10-08
+
+The bundle, the signing key, the icon and the listing assets are ready and the
+record of every declaration is in `design/play/declarations.md`. Creating the
+app in the Play Console and the Data Safety form have no API, so those steps
+are the owner's. The runbook is `design/play/README.md`.
+
+Four Flutter template defaults were found and fixed in the process, each one
+invisible in a debug run:
+
+  - The release build signed with the DEBUG key. Play rejects such a bundle.
+  - INTERNET was granted only in the debug and profile manifests. A release
+    build would have installed, opened, and failed every single request, with
+    every screen empty.
+  - The launcher name was "mobile", the project folder.
+  - There was no adaptive icon, so Android 8 and up would have shrunk the
+    square PNG onto a plate.
+
+`test/android_release_test.dart` reads the real build files and fails if any
+of the four comes back.
+
+Still open: App Links do not verify until the Play app signing certificate's
+SHA-256 is set as `ANDROID_CERT_SHA256` on the server, which cannot happen
+until the first bundle is uploaded. Until then the verification link opens the
+website, which is the correct fallback.
+
 ## Submitted to the App Store: 2026-10-08
 
 Version 1.0, build 1075, WAITING_FOR_REVIEW. Submission ID

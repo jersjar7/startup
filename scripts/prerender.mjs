@@ -41,7 +41,17 @@ const TOPICS = [
 // /exam-simulation is the public page for the paid product. Prerendered like
 // the guides so crawlers and AI answer engines see real content and structured
 // data rather than an empty SPA shell.
-const ROUTES = ['/fe-civil-exam-guide', '/exam-simulation', ...TOPICS.map(([id]) => `/fe-civil/${id}`)];
+//
+// /delete-account is prerendered for a different reason: Google Play requires
+// a public URL on the Data Safety form where someone can delete their account,
+// and the fetcher behind that field does not run JavaScript. An SPA shell
+// there reads as a page with no deletion instructions on it.
+const ROUTES = [
+  '/fe-civil-exam-guide',
+  '/exam-simulation',
+  '/delete-account',
+  ...TOPICS.map(([id]) => `/fe-civil/${id}`),
+];
 
 function writeFile(rel, contents) {
   const full = path.join('dist', rel);
@@ -57,7 +67,9 @@ try {
   for (const route of ROUTES) {
     await page.goto(BASE + route, { waitUntil: 'networkidle' });
     await page.waitForSelector('[data-seo-ready="1"]', { timeout: 20000 });
-    await page.waitForSelector('main.pub h1', { timeout: 20000 });
+    // `main h1`, not `main.pub h1`: the public guides are .pub, /delete-account
+    // is a legal-card page. Every prerendered page has one main with one h1.
+    await page.waitForSelector('main h1', { timeout: 20000 });
     const html = '<!DOCTYPE html>\n' + (await page.evaluate(() => document.documentElement.outerHTML));
     writeFile(path.join(route, 'index.html'), html);
     const bytes = Buffer.byteLength(html);
@@ -75,6 +87,7 @@ const urls = [
   { loc: `${SITE}/exam-simulation`, priority: '0.9', freq: 'weekly' },
   ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}`, priority: '0.8', freq: 'monthly' })),
   { loc: `${SITE}/login`, priority: '0.4', freq: 'monthly' },
+  { loc: `${SITE}/delete-account`, priority: '0.3', freq: 'yearly' },
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

@@ -10,6 +10,6 @@
 // for anything unmatched. The page looks correct in a browser and every crawler
 // gets the generic landing title with none of the page's JSON-LD.
 // prerenderedRoutes.test.js fails if a prerendered route is not covered here.
-const PRERENDERED_ROUTE_PATTERN = /^\/(fe-civil-exam-guide|exam-simulation|fe-civil\/[a-z-]+)\/?$/;
+const PRERENDERED_ROUTE_PATTERN = /^\/(fe-civil-exam-guide|exam-simulation|delete-account|fe-civil\/[a-z-]+)\/?$/;
 
 module.exports = { PRERENDERED_ROUTE_PATTERN };

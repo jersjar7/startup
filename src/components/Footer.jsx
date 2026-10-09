@@ -8,6 +8,8 @@ export function Footer() {
         <Link to="/terms">Terms of Service</Link>
         <span className="footer-divider">|</span>
         <Link to="/privacy">Privacy Policy</Link>
+        <span className="footer-divider">|</span>
+        <Link to="/delete-account">Delete your account</Link>
       </div>
       <div className="footer-row">
         <span>Created by Jerson J. Garcia, EIT</span>

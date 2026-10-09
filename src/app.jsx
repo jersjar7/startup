@@ -9,6 +9,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { Landing } from './landing/landing';
 import { Terms } from './legal/terms';
 import { Privacy } from './legal/privacy';
+import { DeleteAccount } from './legal/deleteAccount';
 import 'katex/dist/katex.min.css';
 import './app.css';
 
@@ -211,6 +212,7 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
             <Route path="/pass-card/:token" element={<PassCard />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/delete-account" element={<DeleteAccount />} />
             <Route path="/fe-civil-exam-guide" element={<ExamGuide />} />
             <Route path="/exam-simulation" element={<ExamSimulation />} />
             <Route path="/fe-civil/:topicId" element={<PublicTopic />} />
