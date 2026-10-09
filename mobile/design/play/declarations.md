@@ -126,6 +126,23 @@ promises to erase matches what `service/db/accountDeletion.js` actually clears.
 It is honest about the one thing deletion keeps: a counter row with a date, a
 reason and three aggregate facts, and no identifier of any kind.
 
+### Measured, 2026-10-08: the policy URL served nothing
+
+Before the fix, `curl https://fe4raccoons.com/privacy` returned HTTP 200 with
+the generic landing title and zero words of the policy. So did `/terms` and
+`/delete-account`. All three were client-rendered SPA routes, and the SPA
+catch-all answers 200 for anything, so nothing anywhere would have reported a
+problem. Fixed by prerendering all three.
+
+**Unverified:** whether Google's automated check would actually have rejected
+the listing over it. That cannot be tested without submitting. The cheapest
+test is the submission itself; the fix costs one deploy and removes the
+question, so it was not worth finding out the expensive way.
+
+**Check after the next deploy:**
+
+    curl -s https://fe4raccoons.com/privacy | grep -c "Data Retention"
+
 ---
 
 ## Content rating (IARC)
