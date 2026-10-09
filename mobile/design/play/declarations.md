@@ -84,7 +84,7 @@ Nothing below is **shared** with anybody, and nothing is processed ephemerally.
 | Personal info · User IDs | Required | App functionality, Account management |
 | Personal info · Other info | Optional | App functionality |
 | App activity · App interactions | Required | App functionality, **Analytics** |
-| App activity · Other user-generated content | Optional | App functionality |
+| App activity · Other user-generated content | Required | App functionality |
 
 - **Other info** is the exam date, the school and the graduation term. Play has
   no better home for them and under-declaring is the costly direction.
@@ -92,7 +92,18 @@ Nothing below is **shared** with anybody, and nothing is processed ephemerally.
   right. It drives the progress the person sees, and we read it in aggregate to
   judge the product, so both purposes are true and both are ticked.
 - **Other user-generated content** is their answers to practice rounds and to
-  the post-exam outcome question.
+  the post-exam outcome question. Marked **required**, not optional: the
+  outcome question is genuinely optional, but answering rounds is the core
+  action of the app and is recorded whenever it happens. Play takes one answer
+  per data type, and over-declaring is the cheap direction.
+
+Two more answers the form asks that are not in the table:
+
+- **Can users request that SOME of their data is deleted, without deleting the
+  account?** **No.** There is no partial-deletion flow in the product. The
+  deletion page does offer, in writing, to leave out the counter row on
+  request, but a sentence in an email route is not a feature, and claiming one
+  invites a reviewer to look for something that does not exist.
 
 ### Not collected
 
@@ -199,6 +210,8 @@ children's section states the platform is designed for adults.
   its exercises internally.
 - **Category: Education.**
 - **Contact email:** admin@oqupa.com. **Website:** https://fe4raccoons.com.
+  The website field prefills `http://` and keeps it unless the full URL is
+  typed. Check it reads **https** after saving.
 - **Privacy policy:** https://fe4raccoons.com/privacy.
 
 ---
