@@ -52,3 +52,9 @@ test/failures/
 # wording does: they are a review pass, not a regression baseline.
 test/goldens/answered/
 build/review/
+
+# Release signing. android/.gitignore already covers key.properties; these
+# catch the keystore itself wherever it lands. A leaked upload key lets
+# someone else publish as us until Google resets it.
+*.jks
+*.keystore

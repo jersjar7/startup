@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="launch_fog">#E3DFD7</color>
+    <!-- The adaptive icon's ground. This is the ground in
+         design/icon-master-1024.png, not the brand charcoal #2C2C2C: the
+         master drifted by three levels, and matching the master is what makes
+         the foreground's transparent areas invisible. Fixing the drift means
+         redrawing the master, which would change every icon on both stores. -->
+    <color name="ic_launcher_background">#2F2F2F</color>
 </resources>

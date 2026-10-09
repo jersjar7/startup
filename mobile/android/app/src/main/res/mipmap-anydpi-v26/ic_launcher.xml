@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 8 and up. Without this the launcher treats the square PNG as a
+     legacy icon and shrinks it onto a white plate, which is a visibly worse
+     icon than the iOS one for the same app.
+
+     The foreground carries only the artwork: the ground, the 4's counter and
+     the raccoon's mask are transparent, so the colour below shows through and
+     the two layers cannot seam when a launcher shifts them for parallax. -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ic_launcher_background" />
+    <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+</adaptive-icon>

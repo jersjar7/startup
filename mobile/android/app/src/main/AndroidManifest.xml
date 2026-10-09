@@ -14,8 +14,18 @@
          nudge does not need to land on the second. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- INTERNET belongs HERE, not only in the debug and profile manifests
+         where Flutter's template puts it. This app is a thin online client:
+         without this the release build installs, opens, and then fails every
+         single request, so every chapter, every card and the sign-in screen
+         come back empty. Nothing in a debug run shows it, because the debug
+         manifest grants it. android/app/src/debug and /profile still declare
+         it; a duplicate across manifests merges to one. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:label="mobile"
+        android:label="FE4Raccoons"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
