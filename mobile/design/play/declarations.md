@@ -158,20 +158,49 @@ question, so it was not worth finding out the expensive way.
 
 ## Content rating (IARC)
 
-**Category: Reference, News or Educational. Every content question: No.**
+**Submitted 2026-10-09. IARC status: Completed.** Contact admin@oqupa.com.
 
-Nothing in the app depicts violence, sex, drugs, gambling, crude humour or
-fear. There is no user-to-user contact, no sharing of location, and no digital
-purchase.
+The form's own wording, not the wording this file predicted. There is no
+"Reference, News or Educational" category: the choice is **Game**, **Social or
+Communication**, or **All Other App Types**, whose examples include "tools,
+emoji sets, fitness apps, magazines". Education lives in the third.
 
-Expected outcome: **Everyone / PEGI 3 / ESRB Everyone**, matching Apple's
-calculated 4+.
+| Question | Answer |
+|---|---|
+| Category | **All Other App Types** |
+| Ratings-relevant content in the app package | No |
+| Users can interact or exchange content with other users | No |
+| **Features or promotes content not part of the initial download** | **Yes** |
+| Violence, sexuality, offensive language, controlled substances | No to all four |
+| Focus on promoting or selling age-restricted items | No |
+| Shares the user's precise location with other users | No |
+| Allows purchase of digital goods | No |
+| Cash rewards, gift cards, play-to-earn, crypto, NFTs | No |
+| Is a web browser or search engine | No |
+| **Is primarily a news or educational product** | **Yes** |
+
+**The online-content Yes is not a slip.** The app is a thin client: every
+chapter, round, figure and concept sheet is fetched from our API at runtime and
+none of it is in the package, so content "not part of the initial app download"
+is literally what the app is. Answering No would have been false. It opens the
+violence/sexuality/language/drugs block, all of which are No, and it did not
+raise the rating.
+
+### Ratings issued
+
+| Authority | Rating |
+|---|---|
+| ESRB (North America) | Everyone |
+| PEGI (Europe) | PEGI 3 |
+| ClassInd (Brazil) | All ages |
+| USK (Germany) | All ages, descriptor "Contents for Different Age Groups" |
+| IARC Generic, Russia, South Korea | Rated for 3+ |
+
+That matches what this file predicted before the questionnaire was opened.
 
 **This changes the day a leaderboard ships.** Students seeing each other's
-names makes the "users can interact" and "shares user-provided content"
-questions both Yes, which raises the rating in several regions.
-
----
+names makes "users can interact or exchange content" a Yes, which raises the
+rating in several regions.
 
 ## Target audience and content
 
