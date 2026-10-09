@@ -4,6 +4,44 @@ Ask first. The owner said so on 2026-09-08 after a build was spent on a
 one-line change that was also wrong. Lessons land on `development` and wait;
 they do not each get a build.
 
+## Android: verified on the emulator, 2026-10-09
+
+There is no physical Android device, so the emulator carries the whole
+verification. What was run: a Pixel AVD on **Android 15 (API 35), arm64**, with
+the real shipping artefact installed, not a debug build. The AAB was turned
+into device APKs with `bundletool build-apks --connected-device` and installed
+with `install-apks`, so what ran is the upload-key-signed bundle itself.
+
+**Measured:**
+
+| Check | Result |
+|---|---|
+| Installs from the release AAB | yes, versionCode 1086, minSdk 24, targetSdk 36 |
+| INTERNET granted at install | **granted=true** |
+| Reaches production over HTTPS | a deliberately wrong login returned the server's own "Incorrect email or password", and the box logged `POST /api/auth/login 401` at the same second |
+| Renders app content | the onboarding round drew its truss figure correctly |
+| Adaptive icon under a launcher mask | correct, nothing clipped |
+| Portrait lock | held with the device rotated to landscape, which on Android comes from `setPreferredOrientations` in Dart, not from the manifest |
+| Runtime errors | none; logcat shows only emulator frame-timing warnings from the keyboard animation |
+
+The INTERNET row is the one that matters. Before the fix it was granted only
+in the debug and profile manifests, so that same screen would have failed with
+a network error instead of the server's answer.
+
+**Still unverified, and it needs a signed-in session:**
+
+  - the content endpoints (`/content/chapters`, `/account/state`, `/sync/*`).
+    Low risk, since they use the same Dio client and host the 401 came back
+    from, but not the same thing as seeing them work.
+  - **POST_NOTIFICATIONS**, the Android 13+ runtime prompt, and whether a study
+    reminder actually schedules and fires on Android. iOS was verified on a
+    real phone on 2026-10-07; Android has never been.
+  - Note the round and game content is bundled Dart (`lesson_brief.dart` is
+    17k lines), so the figure rendering above proves the app, not the API.
+
+**Cheapest way to close them:** sign in on the emulator with the review
+account, open a chapter, then turn on Study reminders in the account sheet.
+
 ## Android: first Play release, started 2026-10-08
 
 The bundle, the signing key, the icon and the listing assets are ready and the
