@@ -178,10 +178,10 @@ class _StudyDaysScreenState extends State<StudyDaysScreen> {
                     _failed
                         ? 'Could not load your days. Pull back and try again.'
                         : since == null
-                        ? 'Every day you play a game or open a lesson counts once, '
+                        ? 'Every day you finish a round or open a lesson counts once, '
                               'and the number only ever goes up.'
                         : 'Since ${_months[since.month - 1].substring(0, 3)} ${since.day}. '
-                              'Every day you play a game or open a lesson counts once, '
+                              'Every day you finish a round or open a lesson counts once, '
                               'and the number only ever goes up.',
                     style: AppTheme.body(
                       size: 15,
