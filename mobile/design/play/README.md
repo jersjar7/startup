@@ -43,6 +43,27 @@ deobfuscate crash reports. What a phone actually downloads is about 16.5 MB:
       --ks=../secrets/fe4raccoons-upload.jks --ks-key-alias=upload
     bundletool get-size total --apks=/tmp/app.apks --dimensions=ABI
 
+## Uploading the graphics, and the order trap
+
+**Play attaches a multi-file upload in completion order, not filename order.**
+Uploading all eight screenshots at once put them on the listing as 05, 01, 06,
+07, 02, 03, 04, 08, which puts the wrong poster in slot 1. The first three sit
+side by side in search and were designed as one composition, so the order is
+not cosmetic.
+
+There is no reorder control on the tiles, only Remove. The fix is to upload one
+file at a time and press Add after each: each one appends to the end, so the
+order comes out exactly as uploaded.
+
+**The "price or promotion" warning under the short description is static.**
+It reads "Your app may not be promoted on Google Play because your short
+description does not meet the following guidelines: Should not use keywords
+that indicate price or promotion", which looks like it is flagging the word
+"free". Measured on 2026-10-09: the identical warning appears for a short
+description containing no price or promotional word at all. It is standing
+guidance, not a check on the text, so it is not a reason to drop "completely
+free" from the line.
+
 ## Rules worth not relearning
 
 - **The release build signed with the debug key** until 2026-10-08. That is
