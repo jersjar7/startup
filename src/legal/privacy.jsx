@@ -1,11 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { useSeo } from '../seo/useSeo';
 import { ArrowLeft } from '@phosphor-icons/react';
 import './legal.css';
 
 export function Privacy() {
-  useDocumentTitle('Privacy Policy');
+  // useSeo rather than useDocumentTitle: this page is prerendered.
+  // Google Play requires the privacy policy to be "displayed on a
+  // standard, non-editable webpage", and the checker behind that
+  // field does not run JavaScript, so an SPA shell reads as a blank
+  // page. Apple accepted the client-rendered version; Google is the
+  // one that fetches it.
+  useSeo({
+    title: 'Privacy Policy | FE for Raccoons',
+    description:
+      'What FE for Raccoons collects, why, who it is shared with, and how to delete it. Covers both the website and the mobile app.',
+    canonical: 'https://fe4raccoons.com/privacy',
+  });
 
   return (
     <main className="legal-main">

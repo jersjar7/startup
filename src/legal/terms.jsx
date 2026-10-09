@@ -1,12 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { useSeo } from '../seo/useSeo';
 import { ArrowLeft } from '@phosphor-icons/react';
 import { STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
 import './legal.css';
 
 export function Terms() {
-  useDocumentTitle('Terms of Service');
+  // useSeo rather than useDocumentTitle: this page is prerendered.
+  // Google Play requires the privacy policy to be "displayed on a
+  // standard, non-editable webpage", and the checker behind that
+  // field does not run JavaScript, so an SPA shell reads as a blank
+  // page. Apple accepted the client-rendered version; Google is the
+  // one that fetches it.
+  useSeo({
+    title: 'Terms of Service | FE for Raccoons',
+    description:
+      'The terms for using FE for Raccoons: accounts, the Exam Simulation purchase, acceptable use and termination.',
+    canonical: 'https://fe4raccoons.com/terms',
+  });
 
   return (
     <main className="legal-main">

@@ -50,6 +50,11 @@ const ROUTES = [
   '/fe-civil-exam-guide',
   '/exam-simulation',
   '/delete-account',
+  // /privacy and /terms for the same reason: Play fetches the privacy policy
+  // URL and requires a real page there, and Apple links to both from the
+  // store listing.
+  '/privacy',
+  '/terms',
   ...TOPICS.map(([id]) => `/fe-civil/${id}`),
 ];
 
@@ -88,6 +93,8 @@ const urls = [
   ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}`, priority: '0.8', freq: 'monthly' })),
   { loc: `${SITE}/login`, priority: '0.4', freq: 'monthly' },
   { loc: `${SITE}/delete-account`, priority: '0.3', freq: 'yearly' },
+  { loc: `${SITE}/privacy`, priority: '0.3', freq: 'yearly' },
+  { loc: `${SITE}/terms`, priority: '0.3', freq: 'yearly' },
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
