@@ -90,7 +90,8 @@ void main() {
         expect(
           dot.abs(),
           greaterThan(1e-9),
-          reason: 'perpendicular edges make the box and the parallelogram the '
+          reason:
+              'perpendicular edges make the box and the parallelogram the '
               'same shape',
         );
       }
@@ -110,8 +111,8 @@ void main() {
       }
       expect(
         pairs.values.any(
-          (s) => s.contains(Region.triangle) &&
-              s.contains(Region.parallelogram),
+          (s) =>
+              s.contains(Region.triangle) && s.contains(Region.parallelogram),
         ),
         isTrue,
         reason: 'the factor of two only lands when the picture is identical',

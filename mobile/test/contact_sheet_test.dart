@@ -3017,10 +3017,7 @@ void main() {
       ('flight', flightBrief),
       ('bend', bendBrief),
     ],
-    '53-rigid-body': [
-      ('spin', spinBrief),
-      ('spin-inertia', spinInertiaBrief),
-    ],
+    '53-rigid-body': [('spin', spinBrief), ('spin-inertia', spinInertiaBrief)],
     '54-force-accel': [
       ('weight', weightBrief),
       ('slope', slopeBrief),
@@ -3046,44 +3043,23 @@ void main() {
       ('true-stress', trueStressBrief),
       ('stiffness', stiffnessBrief),
     ],
-    '59-fracture': [
-      ('crack', crackBrief),
-      ('toughness', toughnessBrief),
-    ],
+    '59-fracture': [('crack', crackBrief), ('toughness', toughnessBrief)],
     '60-thermal': [
       ('expand', expandBrief),
       ('furnace', furnaceBrief),
       ('tie-line', tieLineBrief),
     ],
-    '61-concrete-mix': [
-      ('mix', mixBrief),
-      ('exposure', exposureBrief),
-    ],
-    '62-curing': [
-      ('curing', curingBrief),
-      ('field', fieldBrief),
-    ],
-    '63-aggregate': [
-      ('weighing', weighingBrief),
-      ('grading', gradingBrief),
-    ],
-    '64-asphalt': [
-      ('voids', voidsBrief),
-      ('check', checkBrief),
-    ],
+    '61-concrete-mix': [('mix', mixBrief), ('exposure', exposureBrief)],
+    '62-curing': [('curing', curingBrief), ('field', fieldBrief)],
+    '63-aggregate': [('weighing', weighingBrief), ('grading', gradingBrief)],
+    '64-asphalt': [('voids', voidsBrief), ('check', checkBrief)],
     '65-wood': [
       ('moisture', moistureBrief),
       ('mortar', mortarBrief),
       ('factor', factorBrief),
     ],
-    '66-composites': [
-      ('blend', blendBrief),
-      ('isostrain', isostrainBrief),
-    ],
-    '67-corrosion': [
-      ('galvanic', galvanicBrief),
-      ('picking', pickingBrief),
-    ],
+    '66-composites': [('blend', blendBrief), ('isostrain', isostrainBrief)],
+    '67-corrosion': [('galvanic', galvanicBrief), ('picking', pickingBrief)],
     '68-fluid-properties': [
       ('three-numbers', threeNumbersBrief),
       ('viscosity', viscosityBrief),
@@ -3094,10 +3070,7 @@ void main() {
       ('gauge', gaugeBrief),
       ('manometer', manometerBrief),
     ],
-    '70-gates': [
-      ('gate', gateBrief),
-      ('buoyancy', buoyancyBrief),
-    ],
+    '70-gates': [('gate', gateBrief), ('buoyancy', buoyancyBrief)],
     '71-bernoulli': [
       ('continuity', continuityBrief),
       ('bernoulli', bernoulliBrief),
@@ -3151,10 +3124,7 @@ void main() {
       ('pair', pairBrief),
       ('arctan', arctanBrief),
     ],
-    '82-curves': [
-      ('curve', roadCurveBrief),
-      ('degree', degreeBrief),
-    ],
+    '82-curves': [('curve', roadCurveBrief), ('degree', degreeBrief)],
     '83-profile': [
       ('tangent', tangentOffsetBrief),
       ('highpoint', highPointBrief),
@@ -3174,23 +3144,14 @@ void main() {
       ('exponent', exponentBrief),
       ('hazen', hazenBrief),
     ],
-    '87-pumps': [
-      ('power', pumpPowerBrief),
-      ('npsh', npshBrief),
-    ],
+    '87-pumps': [('power', pumpPowerBrief), ('npsh', npshBrief)],
     '96-trussmethods': [
       ('pivot', momentCenterBrief),
       ('joint', jointForceBrief),
       ('route', trussRouteBrief),
     ],
-    '97-deflection': [
-      ('unit', unitLoadBrief),
-      ('terms', termSignBrief),
-    ],
-    '98-indeterminate': [
-      ('release', redundantBrief),
-      ('fixity', fixityBrief),
-    ],
+    '97-deflection': [('unit', unitLoadBrief), ('terms', termSignBrief)],
+    '98-indeterminate': [('release', redundantBrief), ('fixity', fixityBrief)],
     '99-loads': [
       ('method', lrfdBrief),
       ('controls', controlsBrief),
@@ -3215,10 +3176,7 @@ void main() {
       ('moduli', modulusBrief),
       ('flanges', flangeBrief),
     ],
-    '104-steelcolumns': [
-      ('axis', axisBrief),
-      ('table', tableBrief3),
-    ],
+    '104-steelcolumns': [('axis', axisBrief), ('table', tableBrief3)],
     '105-tension': [
       ('limits', twoLimitsBrief),
       ('net', netAreaBrief),
@@ -3249,10 +3207,7 @@ void main() {
       ('drained', drainedBrief),
       ('circle', mohrCircleBrief),
     ],
-    '111-seepage': [
-      ('net', flowNetBrief),
-      ('quick', quickBrief),
-    ],
+    '111-seepage': [('net', flowNetBrief), ('quick', quickBrief)],
     '112-slopes': [
       ('dry', infiniteSlopeBrief),
       ('wet', seepageSlopeBrief),
@@ -3263,33 +3218,20 @@ void main() {
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
     ],
-    '134-earthwork': [
-      ('yards', yardsBrief),
-    ],
-    '135-delivery': [
-      ('fit', deliveryFitBrief),
-    ],
+    '134-earthwork': [('yards', yardsBrief)],
+    '135-delivery': [('fit', deliveryFitBrief)],
     '133-safety': [
       ('trench', excavationBrief),
       ('height', fallProtectionBrief),
     ],
-    '131-earnedvalue': [
-      ('variances', earnedValueBrief),
-    ],
-    '132-forecast': [
-      ('forecast', forecastBrief),
-    ],
+    '131-earnedvalue': [('variances', earnedValueBrief)],
+    '132-forecast': [('forecast', forecastBrief)],
     '128-cpm': [
       ('forward', forwardPassBrief),
       ('duration', projectDurationBrief),
     ],
-    '129-passes': [
-      ('passes', passesBrief),
-    ],
-    '130-float': [
-      ('float', floatBrief),
-      ('critical', criticalPathBrief),
-    ],
+    '129-passes': [('passes', passesBrief)],
+    '130-float': [('float', floatBrief), ('critical', criticalPathBrief)],
     '127-rigid': [
       ('slab', rigidVsFlexibleBrief),
       ('joints', jointBrief),
@@ -3300,10 +3242,7 @@ void main() {
       ('thickness', layerThicknessBrief),
       ('esals', esalBrief),
     ],
-    '125-devices': [
-      ('signs', signCategoryBrief),
-      ('warrants', warrantBrief),
-    ],
+    '125-devices': [('signs', signCategoryBrief), ('warrants', warrantBrief)],
     '124-demand': [
       ('steps', fourStepBrief),
       ('gravity', gravityBrief),
@@ -3358,10 +3297,7 @@ void main() {
       ('shapes', diagramShapeBrief),
       ('force', wallForceBrief),
     ],
-    '95-determinacy': [
-      ('count', countBrief),
-      ('stability', stabilityBrief),
-    ],
+    '95-determinacy': [('count', countBrief), ('stability', stabilityBrief)],
     '94-standards': [
       ('tiers', standardsBrief),
       ('hardness', hardnessBrief),
@@ -3377,14 +3313,8 @@ void main() {
       ('residence', residenceBrief),
       ('foodratio', foodRatioBrief),
     ],
-    '91-bod': [
-      ('bod', bodBrief),
-      ('temperature', temperatureBrief),
-    ],
-    '90-groundwater': [
-      ('seepage', seepageBrief),
-      ('wells', wellBrief),
-    ],
+    '91-bod': [('bod', bodBrief), ('temperature', temperatureBrief)],
+    '90-groundwater': [('seepage', seepageBrief), ('wells', wellBrief)],
     '89-hydrograph': [
       ('unit', unitHydrographBrief),
       ('concentration', concentrationBrief),
@@ -3652,7 +3582,7 @@ void main() {
         if (Platform.environment['FIGURE_BOUNDS'] != null) {
           await _checkBounds(tester, id, round, 'asked');
           if (Platform.environment['FIGURE_BOUNDS'] != null &&
-      Platform.environment['FIGURE_BOUNDS'] != 'fail') {
+              Platform.environment['FIGURE_BOUNDS'] != 'fail') {
             await _answerSomething(tester);
             await _checkBounds(tester, id, round, 'answered');
           }
@@ -3743,10 +3673,12 @@ Future<void> _answerSomething(WidgetTester tester) async {
     final box = tester.getRect(figure);
     for (var row = 1; row <= 5; row++) {
       for (var col = 1; col <= 5; col++) {
-        await tester.tapAt(Offset(
-          box.left + box.width * col / 6,
-          box.top + box.height * row / 6,
-        ));
+        await tester.tapAt(
+          Offset(
+            box.left + box.width * col / 6,
+            box.top + box.height * row / 6,
+          ),
+        );
         await tester.pumpAndSettle();
         if (await lockIn()) return;
       }

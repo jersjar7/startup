@@ -48,9 +48,13 @@ void main() {
     test('the answer is the root on a denominator round', () {
       for (final r in underRounds.where((r) => r.blank == Blank.denominator)) {
         expect(r.options[r.answer], r'\sqrt{n}', reason: r.subject);
-        expect(r.options.toSet(), {r'\sqrt{n}', r'n', r'1'},
-            reason: '${r.subject}: the three denominators are the three '
-                'the lesson warns about');
+        expect(
+          r.options.toSet(),
+          {r'\sqrt{n}', r'n', r'1'},
+          reason:
+              '${r.subject}: the three denominators are the three '
+              'the lesson warns about',
+        );
       }
     });
 
@@ -61,11 +65,17 @@ void main() {
           (k) => r.given.contains('$k\\%'),
           orElse: () => '',
         );
-        expect(level, isNotEmpty,
-            reason: '${r.subject} never says what confidence it wants');
+        expect(
+          level,
+          isNotEmpty,
+          reason: '${r.subject} never says what confidence it wants',
+        );
         expect(r.options[r.answer], table[level], reason: r.subject);
-        expect(double.parse(r.options[r.answer]), closeTo(r.z, 0.001),
-            reason: '${r.subject}: the round and its own picture disagree');
+        expect(
+          double.parse(r.options[r.answer]),
+          closeTo(r.z, 0.001),
+          reason: '${r.subject}: the round and its own picture disagree',
+        );
       }
     });
 
@@ -75,8 +85,11 @@ void main() {
           for (var i = 0; i < r.options.length; i++) _marginFor(r, i),
         ]..sort();
         for (var i = 1; i < widths.length; i++) {
-          expect(widths[i] / widths[i - 1], greaterThan(1.15),
-              reason: '${r.subject}: two candidates draw the same interval');
+          expect(
+            widths[i] / widths[i - 1],
+            greaterThan(1.15),
+            reason: '${r.subject}: two candidates draw the same interval',
+          );
         }
       }
     });
@@ -92,20 +105,31 @@ void main() {
     });
 
     test('both blanks are used, and the answer moves around', () {
-      expect(underRounds.where((r) => r.blank == Blank.denominator).length,
-          greaterThanOrEqualTo(3));
-      expect(underRounds.where((r) => r.blank == Blank.multiplier).length,
-          greaterThanOrEqualTo(3));
-      expect(underRounds.map((r) => r.answer).toSet(), {0, 1, 2},
-          reason: 'the right piece has to appear in all three positions, or '
-              'the board can be cleared by muscle memory');
+      expect(
+        underRounds.where((r) => r.blank == Blank.denominator).length,
+        greaterThanOrEqualTo(3),
+      );
+      expect(
+        underRounds.where((r) => r.blank == Blank.multiplier).length,
+        greaterThanOrEqualTo(3),
+      );
+      expect(
+        underRounds.map((r) => r.answer).toSet(),
+        {0, 1, 2},
+        reason:
+            'the right piece has to appear in all three positions, or '
+            'the board can be cleared by muscle memory',
+      );
     });
 
     test('every candidate on the picture has a name in words', () {
       for (final r in underRounds) {
         expect(r.names.length, r.options.length, reason: r.subject);
-        expect(r.names.toSet().length, r.names.length,
-            reason: '${r.subject}: two bands would be labeled the same');
+        expect(
+          r.names.toSet().length,
+          r.names.length,
+          reason: '${r.subject}: two bands would be labeled the same',
+        );
         for (final n in r.names) {
           expect(n.trim(), isNotEmpty, reason: r.subject);
         }
@@ -146,8 +170,11 @@ void main() {
       expect(quadrupled.after, closeTo(math.sqrt(25 / 100), 0.001));
 
       final toT = moveRounds.firstWhere((r) => r.change.contains('t with'));
-      expect(toT.after, closeTo(2.262 / 1.960, 0.005),
-          reason: 'the widening is the multiplier ratio, not a guess');
+      expect(
+        toT.after,
+        closeTo(2.262 / 1.960, 0.005),
+        reason: 'the widening is the multiplier ratio, not a guess',
+      );
     });
 
     test('the confidence change is the ratio of the two multipliers', () {
@@ -157,14 +184,20 @@ void main() {
 
     test('the round where nothing moves is about the mean', () {
       final still = moveRounds.firstWhere((r) => r.answer == Move.same);
-      expect(still.change.contains('mean'), isTrue,
-          reason: 'the only thing that leaves the width alone is the mean, and '
-              'that is the whole point of including it');
+      expect(
+        still.change.contains('mean'),
+        isTrue,
+        reason:
+            'the only thing that leaves the width alone is the mean, and '
+            'that is the whole point of including it',
+      );
     });
 
     test('more than one problem is drawn on', () {
-      expect(moveRounds.map((r) => r.source).toSet().length,
-          greaterThanOrEqualTo(3));
+      expect(
+        moveRounds.map((r) => r.source).toSet().length,
+        greaterThanOrEqualTo(3),
+      );
     });
   });
 
@@ -176,10 +209,14 @@ void main() {
             if (marginAt(r, n) <= r.target * 1.0005) n,
         ];
         expect(enough, isNotEmpty, reason: '${r.subject}: nothing is enough');
-        expect(r.candidates[r.answer], enough.first,
-            reason: '${r.subject}: ${r.candidates[r.answer]} gives a margin of '
-                '${marginAt(r, r.candidates[r.answer]).toStringAsFixed(2)} '
-                'against a target of ${r.target}');
+        expect(
+          r.candidates[r.answer],
+          enough.first,
+          reason:
+              '${r.subject}: ${r.candidates[r.answer]} gives a margin of '
+              '${marginAt(r, r.candidates[r.answer]).toStringAsFixed(2)} '
+              'against a target of ${r.target}',
+        );
       }
     });
 
@@ -187,8 +224,11 @@ void main() {
       for (final r in sizeRounds) {
         for (final n in r.candidates) {
           if (n >= r.candidates[r.answer]) continue;
-          expect(marginAt(r, n), greaterThan(r.target),
-              reason: '${r.subject}: $n also clears the line');
+          expect(
+            marginAt(r, n),
+            greaterThan(r.target),
+            reason: '${r.subject}: $n also clears the line',
+          );
         }
       }
     });
@@ -197,8 +237,11 @@ void main() {
       for (final r in sizeRounds) {
         final sorted = [...r.candidates]..sort();
         expect(sorted, r.candidates, reason: r.subject);
-        expect(r.candidates.toSet().length, r.candidates.length,
-            reason: '${r.subject}: a count is offered twice');
+        expect(
+          r.candidates.toSet().length,
+          r.candidates.length,
+          reason: '${r.subject}: a count is offered twice',
+        );
       }
     });
 
@@ -219,12 +262,17 @@ void main() {
         return r.candidates[r.answer] / first;
       }
 
-      expect(sizeRounds.any((r) => (ratio(r) - 4).abs() < 0.01), isTrue,
-          reason: 'halving the margin costs four times the samples, and that '
-              'has to be met head on');
       expect(
-        sizeRounds.any((r) =>
-            r.why.contains('nine times') || r.why.contains('A third')),
+        sizeRounds.any((r) => (ratio(r) - 4).abs() < 0.01),
+        isTrue,
+        reason:
+            'halving the margin costs four times the samples, and that '
+            'has to be met head on',
+      );
+      expect(
+        sizeRounds.any(
+          (r) => r.why.contains('nine times') || r.why.contains('A third'),
+        ),
         isTrue,
       );
     });
@@ -235,8 +283,11 @@ void main() {
 
     test('the curve has room to be drawn either side of the answer', () {
       for (final r in sizeRounds) {
-        expect(r.k / math.sqrt(r.candidates.first), greaterThan(r.target * 0.4),
-            reason: '${r.subject}: the whole curve is under the line already');
+        expect(
+          r.k / math.sqrt(r.candidates.first),
+          greaterThan(r.target * 0.4),
+          reason: '${r.subject}: the whole curve is under the line already',
+        );
         expect(r.target, greaterThan(0));
       }
     });

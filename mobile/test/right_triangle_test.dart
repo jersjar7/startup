@@ -33,8 +33,7 @@ void main() {
       const bottom = TriangleGeometry(box);
       const top = TriangleGeometry(box, angleAtTop: true);
 
-      expect(bottom.endsOf(TriSide.hypotenuse),
-          top.endsOf(TriSide.hypotenuse));
+      expect(bottom.endsOf(TriSide.hypotenuse), top.endsOf(TriSide.hypotenuse));
       expect(bottom.endsOf(TriSide.opposite), top.endsOf(TriSide.adjacent));
       expect(bottom.endsOf(TriSide.adjacent), top.endsOf(TriSide.opposite));
     });
@@ -115,8 +114,9 @@ void main() {
       expect(find.text('1/8'), findsOneWidget);
     });
 
-    testWidgets('nothing on screen names the side before you commit',
-        (tester) async {
+    testWidgets('nothing on screen names the side before you commit', (
+      tester,
+    ) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: TapTheSideGame()));
 
@@ -139,12 +139,16 @@ void main() {
 
       expect(find.textContaining('adjacent'), findsNothing);
       expect(find.textContaining('picked'), findsNothing);
-      expect(find.textContaining('hypotenuse'), findsOneWidget,
-          reason: 'only the question itself should name a side');
+      expect(
+        find.textContaining('hypotenuse'),
+        findsOneWidget,
+        reason: 'only the question itself should name a side',
+      );
     });
 
-    testWidgets('tapping the hypotenuse answers the first round',
-        (tester) async {
+    testWidgets('tapping the hypotenuse answers the first round', (
+      tester,
+    ) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: TapTheSideGame()));
 
@@ -161,8 +165,9 @@ void main() {
       expect(find.text('CORRECT'), findsOneWidget);
     });
 
-    testWidgets('an angle from the vertical flips which one is cosine',
-        (tester) async {
+    testWidgets('an angle from the vertical flips which one is cosine', (
+      tester,
+    ) async {
       size(tester);
       // Round three is the first one quoted from the vertical.
       for (var i = 0; i < 2; i++) {

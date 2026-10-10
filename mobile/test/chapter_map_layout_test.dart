@@ -15,15 +15,16 @@ void main() {
   const widths = [320.0, 360.0, 375.0, 390.0, 420.0, 430.0];
 
   Widget app(double width) => MediaQuery(
-        data: MediaQueryData(size: Size(width, 850)),
-        child: const MaterialApp(
-          home: ChapterMapScreen(chapter: mathematicsMap, masteryPct: 24),
-        ),
-      );
+    data: MediaQueryData(size: Size(width, 850)),
+    child: const MaterialApp(
+      home: ChapterMapScreen(chapter: mathematicsMap, masteryPct: 24),
+    ),
+  );
 
   for (final width in widths) {
-    testWidgets('lays out with no overflow at ${width.toInt()}pt',
-        (tester) async {
+    testWidgets('lays out with no overflow at ${width.toInt()}pt', (
+      tester,
+    ) async {
       tester.view.physicalSize = Size(width, 850);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
@@ -32,8 +33,9 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('keeps every lesson label on screen at ${width.toInt()}pt',
-        (tester) async {
+    testWidgets('keeps every lesson label on screen at ${width.toInt()}pt', (
+      tester,
+    ) async {
       tester.view.physicalSize = Size(width, 850);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
@@ -44,10 +46,16 @@ void main() {
         final finder = find.text(lesson.name);
         if (finder.evaluate().isEmpty) continue; // below the fold, not laid out
         final rect = tester.getRect(finder);
-        expect(rect.left, greaterThanOrEqualTo(0),
-            reason: '${lesson.name} runs off the left at ${width}pt');
-        expect(rect.right, lessThanOrEqualTo(width),
-            reason: '${lesson.name} runs off the right at ${width}pt');
+        expect(
+          rect.left,
+          greaterThanOrEqualTo(0),
+          reason: '${lesson.name} runs off the left at ${width}pt',
+        );
+        expect(
+          rect.right,
+          lessThanOrEqualTo(width),
+          reason: '${lesson.name} runs off the right at ${width}pt',
+        );
       }
     });
   }

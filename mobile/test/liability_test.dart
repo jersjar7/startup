@@ -33,15 +33,21 @@ void main() {
   group('is that negligence', () {
     test('every verdict is the answer twice', () {
       for (final f in Fault.values) {
-        expect(faultRounds.where((r) => r.answer == f).length, 2,
-            reason: '$f appears the wrong number of times');
+        expect(
+          faultRounds.where((r) => r.answer == f).length,
+          2,
+          reason: '$f appears the wrong number of times',
+        );
       }
     });
 
     test('the verdict never repeats round to round', () {
       for (var i = 1; i < faultRounds.length; i++) {
-        expect(faultRounds[i].answer, isNot(faultRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous verdict');
+        expect(
+          faultRounds[i].answer,
+          isNot(faultRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous verdict',
+        );
       }
     });
 
@@ -50,23 +56,30 @@ void main() {
       // establishes knowledge cannot be the deliberate answer.
       for (final r in faultRounds.where((r) => r.answer == Fault.deliberate)) {
         final text = r.scene.toLowerCase();
-        expect(text.contains('knew') || text.contains('knowing'), isTrue,
-            reason: '${r.subject}: nothing in it says they knew');
+        expect(
+          text.contains('knew') || text.contains('knowing'),
+          isTrue,
+          reason: '${r.subject}: nothing in it says they knew',
+        );
       }
     });
 
     test('a not-negligent round has something go wrong anyway', () {
       // Otherwise the round is trivial: nothing happened, so nobody is liable.
-      for (final r
-          in faultRounds.where((r) => r.answer == Fault.notNegligent)) {
+      for (final r in faultRounds.where(
+        (r) => r.answer == Fault.notNegligent,
+      )) {
         expect(r.scene.length, greaterThan(120), reason: r.subject);
       }
     });
 
     test('no scene uses the word negligent', () {
       for (final r in faultRounds) {
-        expect(r.scene.toLowerCase().contains('negligen'), isFalse,
-            reason: '${r.subject} says it');
+        expect(
+          r.scene.toLowerCase().contains('negligen'),
+          isFalse,
+          reason: '${r.subject} says it',
+        );
       }
     });
   });
@@ -79,11 +92,18 @@ void main() {
 
     test('every element is the gap somewhere, and one claim holds', () {
       final answers = elementRounds.map((r) => r.answer).toSet();
-      expect(answers.contains(4), isTrue,
-          reason: 'a board where a claim always fails teaches somebody to hunt '
-              'rather than to check');
-      expect(answers.length, greaterThanOrEqualTo(4),
-          reason: 'only ${answers.length} of the five ever come up');
+      expect(
+        answers.contains(4),
+        isTrue,
+        reason:
+            'a board where a claim always fails teaches somebody to hunt '
+            'rather than to check',
+      );
+      expect(
+        answers.length,
+        greaterThanOrEqualTo(4),
+        reason: 'only ${answers.length} of the five ever come up',
+      );
     });
 
     test('causation is the gap at least once', () {
@@ -110,38 +130,56 @@ void main() {
   group('which clock ran out', () {
     test('the dates run in order', () {
       for (final r in clockRounds) {
-        expect(r.discovery, greaterThanOrEqualTo(r.completion),
-            reason: '${r.subject}: found before it was built');
-        expect(r.filed, greaterThanOrEqualTo(r.discovery),
-            reason: '${r.subject}: filed before it was found');
+        expect(
+          r.discovery,
+          greaterThanOrEqualTo(r.completion),
+          reason: '${r.subject}: found before it was built',
+        );
+        expect(
+          r.filed,
+          greaterThanOrEqualTo(r.discovery),
+          reason: '${r.subject}: filed before it was found',
+        );
       }
     });
 
     test('every verdict happens, and none twice running', () {
       for (final c in Clock.values) {
-        expect(clockRounds.where((r) => r.answer == c).length,
-            greaterThanOrEqualTo(2),
-            reason: '$c is barely used');
+        expect(
+          clockRounds.where((r) => r.answer == c).length,
+          greaterThanOrEqualTo(2),
+          reason: '$c is barely used',
+        );
       }
       for (var i = 1; i < clockRounds.length; i++) {
-        expect(clockRounds[i].answer, isNot(clockRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous verdict');
+        expect(
+          clockRounds[i].answer,
+          isNot(clockRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous verdict',
+        );
       }
     });
 
     test('a repose round is inside the limitations window', () {
       // Otherwise both clocks have run and the round does not isolate either.
       for (final r in clockRounds.where((r) => r.answer == Clock.repose)) {
-        expect(r.filed, lessThanOrEqualTo(r.discovery + ClockRound.limitationYears),
-            reason: '${r.subject}: both clocks have run, so the round proves '
-                'nothing about which one bit');
+        expect(
+          r.filed,
+          lessThanOrEqualTo(r.discovery + ClockRound.limitationYears),
+          reason:
+              '${r.subject}: both clocks have run, so the round proves '
+              'nothing about which one bit',
+        );
       }
     });
 
     test('a limitations round is inside the repose window', () {
       for (final r in clockRounds.where((r) => r.answer == Clock.limitations)) {
-        expect(r.filed, lessThanOrEqualTo(r.completion + ClockRound.reposeYears),
-            reason: r.subject);
+        expect(
+          r.filed,
+          lessThanOrEqualTo(r.completion + ClockRound.reposeYears),
+          reason: r.subject,
+        );
       }
     });
 
@@ -151,17 +189,24 @@ void main() {
       final late = clockRounds.any(
         (r) => r.discovery > r.completion + ClockRound.reposeYears,
       );
-      expect(late, isTrue,
-          reason: 'nothing here shows a claim barred before the harm existed');
+      expect(
+        late,
+        isTrue,
+        reason: 'nothing here shows a claim barred before the harm existed',
+      );
     });
 
     test('one round turns on discovery being later than the harm', () {
       final latent = clockRounds.any(
         (r) => r.discovery - r.completion > 5 && r.answer == Clock.inTime,
       );
-      expect(latent, isTrue,
-          reason: 'the limitations clock starting at discovery is half the '
-              'rule and needs a round of its own');
+      expect(
+        latent,
+        isTrue,
+        reason:
+            'the limitations clock starting at discovery is half the '
+            'rule and needs a round of its own',
+      );
     });
 
     test('every drawn year fits inside the axis', () {
@@ -205,8 +250,9 @@ void main() {
       tester,
     ) async {
       size(tester);
-      await tester
-          .pumpWidget(const MaterialApp(home: WhichElementMissingGame()));
+      await tester.pumpWidget(
+        const MaterialApp(home: WhichElementMissingGame()),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.byKey(const ValueKey('element-1')));

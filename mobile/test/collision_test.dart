@@ -12,8 +12,11 @@ void main() {
     test('the locked bumpers leave at 10 meters a second', () {
       const cars = Crash(massA: 2000, massB: 1000, speedA: 15, e: 0);
       expect(cars.afterA, closeTo(10, 1e-9));
-      expect(cars.afterB, closeTo(10, 1e-9),
-          reason: 'they are stuck together and must leave at one speed');
+      expect(
+        cars.afterB,
+        closeTo(10, 1e-9),
+        reason: 'they are stuck together and must leave at one speed',
+      );
       // Its named wrong answer: the wrong total mass underneath.
       expect(30000 / 4000, closeTo(7.5, 1e-9));
     });
@@ -28,8 +31,11 @@ void main() {
       expect(stuck.afterA, closeTo(4, 1e-9));
       expect(stuck.afterB, closeTo(4, 1e-9));
       const perfect = Crash(massA: 2, massB: 2, speedA: 8, e: 1);
-      expect(perfect.afterA, closeTo(0, 1e-9),
-          reason: 'at e of one with equal masses the striker stops dead');
+      expect(
+        perfect.afterA,
+        closeTo(0, 1e-9),
+        reason: 'at e of one with equal masses the striker stops dead',
+      );
       expect(perfect.afterB, closeTo(8, 1e-9));
     });
 
@@ -45,8 +51,11 @@ void main() {
   group('what a collision keeps', () {
     test('momentum survives every crash on the board', () {
       for (final r in surviveRounds) {
-        expect(r.crash.momentumKept, isTrue,
-            reason: '${r.subject}: momentum is not conserved');
+        expect(
+          r.crash.momentumKept,
+          isTrue,
+          reason: '${r.subject}: momentum is not conserved',
+        );
       }
       for (final r in impactRounds) {
         expect(r.crash.momentumKept, isTrue, reason: r.subject);
@@ -55,22 +64,32 @@ void main() {
 
     test('energy survives exactly the perfect bounces', () {
       for (final r in surviveRounds) {
-        expect(r.crash.energyKept, r.crash.e == 1,
-            reason: '${r.subject}: the energy and the restitution disagree');
+        expect(
+          r.crash.energyKept,
+          r.crash.e == 1,
+          reason: '${r.subject}: the energy and the restitution disagree',
+        );
       }
     });
 
     test('a crash never ends with more energy than it started with', () {
       for (final r in surviveRounds) {
-        expect(r.crash.energyAfter, lessThanOrEqualTo(r.crash.energyBefore + 1e-6),
-            reason: '${r.subject}');
+        expect(
+          r.crash.energyAfter,
+          lessThanOrEqualTo(r.crash.energyBefore + 1e-6),
+          reason: '${r.subject}',
+        );
       }
     });
 
     test('the bullet loses almost all of it and the coupling loses a lot', () {
-      final bullet = surviveRounds.firstWhere((r) => r.subject.contains('bullet'));
+      final bullet = surviveRounds.firstWhere(
+        (r) => r.subject.contains('bullet'),
+      );
       expect(bullet.energyLeft, lessThan(2));
-      final wagons = surviveRounds.firstWhere((r) => r.subject.contains('wagon'));
+      final wagons = surviveRounds.firstWhere(
+        (r) => r.subject.contains('wagon'),
+      );
       expect(wagons.energyLeft, inInclusiveRange(30, 80));
     });
   });
@@ -95,8 +114,11 @@ void main() {
 
     test('a sticking crash really does leave both at one speed', () {
       for (final r in impactRounds.where((r) => r.crash.sticks)) {
-        expect(r.crash.afterA, closeTo(r.crash.afterB, 1e-9),
-            reason: '${r.subject}: they stick but leave at different speeds');
+        expect(
+          r.crash.afterA,
+          closeTo(r.crash.afterB, 1e-9),
+          reason: '${r.subject}: they stick but leave at different speeds',
+        );
       }
     });
 
@@ -111,9 +133,13 @@ void main() {
         if (!r.setting.contains('same')) continue;
         if (r.setting.contains('do NOT') || r.setting.contains('not')) continue;
         final areas = r.options.map((p) => p.impulse).toSet();
-        expect(areas.length, 1,
-            reason: '${r.subject}: the round claims equal impulses and the '
-                'pulses do not agree');
+        expect(
+          areas.length,
+          1,
+          reason:
+              '${r.subject}: the round claims equal impulses and the '
+              'pulses do not agree',
+        );
       }
     });
 
@@ -123,40 +149,53 @@ void main() {
         for (var i = 0; i < r.options.length; i++) {
           if (i == r.answer) continue;
           final other = r.options[i];
-          final same = other.force == chosen.force &&
-              other.seconds == chosen.seconds;
-          expect(same, isFalse,
-              reason: '${r.subject}: two pulses are identical');
+          final same =
+              other.force == chosen.force && other.seconds == chosen.seconds;
+          expect(
+            same,
+            isFalse,
+            reason: '${r.subject}: two pulses are identical',
+          );
         }
       }
     });
 
-    test('the gentle rounds pick the longest and the harsh ones the tallest',
-        () {
-      for (final r in pulseRounds) {
-        final chosen = r.options[r.answer];
-        if (r.asked.contains('easiest') || r.asked.contains('drawing back')) {
-          expect(chosen.seconds,
+    test(
+      'the gentle rounds pick the longest and the harsh ones the tallest',
+      () {
+        for (final r in pulseRounds) {
+          final chosen = r.options[r.answer];
+          if (r.asked.contains('easiest') || r.asked.contains('drawing back')) {
+            expect(
+              chosen.seconds,
               r.options.map((p) => p.seconds).reduce((a, b) => a > b ? a : b),
-              reason: '${r.subject}: the gentle one should last longest');
-        }
-        if (r.asked.contains('biggest force') ||
-            r.asked.contains('pile driver')) {
-          expect(chosen.force,
+              reason: '${r.subject}: the gentle one should last longest',
+            );
+          }
+          if (r.asked.contains('biggest force') ||
+              r.asked.contains('pile driver')) {
+            expect(
+              chosen.force,
               r.options.map((p) => p.force).reduce((a, b) => a > b ? a : b),
-              reason: '${r.subject}: the harsh one should be the tallest');
+              reason: '${r.subject}: the harsh one should be the tallest',
+            );
+          }
         }
-      }
-    });
+      },
+    );
 
     test('the round about a bigger impulse really has a bigger one', () {
-      final bigger =
-          pulseRounds.firstWhere((r) => r.asked.contains('changes the momentum'));
+      final bigger = pulseRounds.firstWhere(
+        (r) => r.asked.contains('changes the momentum'),
+      );
       final chosen = bigger.options[bigger.answer];
       for (var i = 0; i < bigger.options.length; i++) {
         if (i == bigger.answer) continue;
-        expect(bigger.options[i].impulse, lessThan(chosen.impulse),
-            reason: 'the answer should carry the biggest impulse');
+        expect(
+          bigger.options[i].impulse,
+          lessThan(chosen.impulse),
+          reason: 'the answer should carry the biggest impulse',
+        );
       }
     });
   });

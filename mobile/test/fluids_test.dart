@@ -43,12 +43,16 @@ void main() {
     });
 
     test('every property is asked for, and from both directions', () {
-      expect(propertyRounds.map((r) => r.answer).toSet(),
-          Property.values.toSet());
+      expect(
+        propertyRounds.map((r) => r.answer).toSet(),
+        Property.values.toSet(),
+      );
       for (final p in Property.values) {
-        expect(propertyRounds.where((r) => r.answer == p).length,
-            greaterThanOrEqualTo(2),
-            reason: '${p.name} comes up only once');
+        expect(
+          propertyRounds.where((r) => r.answer == p).length,
+          greaterThanOrEqualTo(2),
+          reason: '${p.name} comes up only once',
+        );
       }
     });
 
@@ -80,16 +84,22 @@ void main() {
           case Drags.right:
             expect(r.right.shear, greaterThan(r.left.shear), reason: r.subject);
           case Drags.same:
-            expect(r.left.shear, closeTo(r.right.shear, 1e-9),
-                reason: r.subject);
+            expect(
+              r.left.shear,
+              closeTo(r.right.shear, 1e-9),
+              reason: r.subject,
+            );
         }
       }
     });
 
     test('a round with a winner has a clear one', () {
       for (final r in dragRounds.where((r) => r.answer != Drags.same)) {
-        expect(r.ratio, greaterThan(1.4),
-            reason: '${r.subject}: too close to call by eye');
+        expect(
+          r.ratio,
+          greaterThan(1.4),
+          reason: '${r.subject}: too close to call by eye',
+        );
       }
     });
 
@@ -105,9 +115,13 @@ void main() {
           if (r.left.millimeters != r.right.millimeters) 'film',
         ];
         expect(moved, isNotEmpty, reason: '${r.subject}: nothing differs');
-        expect(moved.length, lessThanOrEqualTo(2),
-            reason: '${r.subject}: three things at once is not a question, '
-                'it is arithmetic');
+        expect(
+          moved.length,
+          lessThanOrEqualTo(2),
+          reason:
+              '${r.subject}: three things at once is not a question, '
+              'it is arithmetic',
+        );
       }
     });
 
@@ -118,8 +132,11 @@ void main() {
         final thickest = r.thickest;
         for (final f in [r.left, r.right]) {
           final gap = math.max(14.0, 54 * f.millimeters / thickest);
-          expect(plate.bottom + gap, lessThan(size.height - 20),
-              reason: '${r.subject}: the film runs off the bottom');
+          expect(
+            plate.bottom + gap,
+            lessThan(size.height - 20),
+            reason: '${r.subject}: the film runs off the bottom',
+          );
         }
       }
     });
@@ -136,8 +153,10 @@ void main() {
     });
 
     test('half the bore is twice the climb', () {
-      expect(const Straw(millimeters: 1).rise,
-          closeTo(const Straw(millimeters: 2).rise * 2, 1e-9));
+      expect(
+        const Straw(millimeters: 1).rise,
+        closeTo(const Straw(millimeters: 2).rise * 2, 1e-9),
+      );
     });
 
     test('a liquid that does not wet the glass goes down', () {
@@ -160,8 +179,7 @@ void main() {
           case Climbs.right:
             expect(r.right.rise, greaterThan(r.left.rise), reason: r.subject);
           case Climbs.level:
-            expect(r.left.rise, closeTo(r.right.rise, 1e-9),
-                reason: r.subject);
+            expect(r.left.rise, closeTo(r.right.rise, 1e-9), reason: r.subject);
         }
       }
     });
@@ -169,8 +187,11 @@ void main() {
     test('a round with a winner is clear about it', () {
       for (final r in tubeRounds.where((r) => r.answer != Climbs.level)) {
         final small = math.min(r.left.rise.abs(), r.right.rise.abs());
-        expect(r.spread / math.max(small, 1), greaterThan(0.25),
-            reason: '${r.subject}: the two climbs are too close to see');
+        expect(
+          r.spread / math.max(small, 1),
+          greaterThan(0.25),
+          reason: '${r.subject}: the two climbs are too close to see',
+        );
       }
     });
 
@@ -183,8 +204,11 @@ void main() {
       for (final r in tubeRounds) {
         final a = CapillaryPainter.tubeOf(size, r.both, 0);
         final b = CapillaryPainter.tubeOf(size, r.both, 1);
-        expect(b.left - a.right, greaterThan(30),
-            reason: '${r.subject}: the tubes are too close together');
+        expect(
+          b.left - a.right,
+          greaterThan(30),
+          reason: '${r.subject}: the tubes are too close together',
+        );
         expect(CapillaryPainter.at(size, r.both, a.center), 0);
         expect(CapillaryPainter.at(size, r.both, b.center), 1);
       }
@@ -195,10 +219,16 @@ void main() {
       for (final r in tubeRounds) {
         for (var i = 0; i < 2; i++) {
           final level = CapillaryPainter.levelOf(size, r.both, i);
-          expect(level, greaterThanOrEqualTo(0),
-              reason: '${r.subject}: a column runs off the top');
-          expect(level, lessThanOrEqualTo(size.height),
-              reason: '${r.subject}: a column runs off the bottom');
+          expect(
+            level,
+            greaterThanOrEqualTo(0),
+            reason: '${r.subject}: a column runs off the top',
+          );
+          expect(
+            level,
+            lessThanOrEqualTo(size.height),
+            reason: '${r.subject}: a column runs off the bottom',
+          );
         }
       }
     });
@@ -225,9 +255,11 @@ void main() {
 
     test('the shape of the vessel never changes the answer', () {
       for (final shape in Shape4.values) {
-        expect(Pot(shape: shape, depth: 4).pressure,
-            closeTo(const Pot(shape: Shape4.straight, depth: 4).pressure, 1e-9),
-            reason: shape.name);
+        expect(
+          Pot(shape: shape, depth: 4).pressure,
+          closeTo(const Pot(shape: Shape4.straight, depth: 4).pressure, 1e-9),
+          reason: shape.name,
+        );
       }
     });
 
@@ -235,22 +267,34 @@ void main() {
       for (final r in depthRounds) {
         switch (r.answer) {
           case Harder.left:
-            expect(r.left.pressure, greaterThan(r.right.pressure),
-                reason: r.subject);
+            expect(
+              r.left.pressure,
+              greaterThan(r.right.pressure),
+              reason: r.subject,
+            );
           case Harder.right:
-            expect(r.right.pressure, greaterThan(r.left.pressure),
-                reason: r.subject);
+            expect(
+              r.right.pressure,
+              greaterThan(r.left.pressure),
+              reason: r.subject,
+            );
           case Harder.alike:
-            expect(r.left.pressure, closeTo(r.right.pressure, 1e-9),
-                reason: r.subject);
+            expect(
+              r.left.pressure,
+              closeTo(r.right.pressure, 1e-9),
+              reason: r.subject,
+            );
         }
       }
     });
 
     test('a round with a winner is clear about it', () {
       for (final r in depthRounds.where((r) => r.answer != Harder.alike)) {
-        expect(r.ratio, greaterThan(1.1),
-            reason: '${r.subject}: too close to call');
+        expect(
+          r.ratio,
+          greaterThan(1.1),
+          reason: '${r.subject}: too close to call',
+        );
       }
     });
 
@@ -258,10 +302,13 @@ void main() {
       final ties = depthRounds.where((r) => r.answer == Harder.alike);
       expect(ties, isNotEmpty);
       for (final r in ties) {
-        expect(r.left.shape == r.right.shape && r.left.depth == r.right.depth,
-            isFalse,
-            reason: '${r.subject}: a tie between two identical vessels '
-                'teaches nothing');
+        expect(
+          r.left.shape == r.right.shape && r.left.depth == r.right.depth,
+          isFalse,
+          reason:
+              '${r.subject}: a tie between two identical vessels '
+              'teaches nothing',
+        );
       }
     });
 
@@ -289,18 +336,27 @@ void main() {
         final up = b.dy < a.dy - 1;
         switch (r.answer) {
           case Step2.rises:
-            expect(down && !sideways, isTrue,
-                reason: '${r.subject}: only going down adds');
+            expect(
+              down && !sideways,
+              isTrue,
+              reason: '${r.subject}: only going down adds',
+            );
           case Step2.falls:
-            expect(up && !sideways, isTrue,
-                reason: '${r.subject}: only coming up subtracts');
+            expect(
+              up && !sideways,
+              isTrue,
+              reason: '${r.subject}: only coming up subtracts',
+            );
           case Step2.holds:
             // Either sideways, or a stretch of air where nothing weighs
             // anything worth counting.
-            expect(sideways || r.from == Stop.line || r.to == Stop.open,
-                isTrue,
-                reason: '${r.subject}: a step through liquid must move the '
-                    'pressure');
+            expect(
+              sideways || r.from == Stop.line || r.to == Stop.open,
+              isTrue,
+              reason:
+                  '${r.subject}: a step through liquid must move the '
+                  'pressure',
+            );
         }
       }
     });
@@ -345,8 +401,11 @@ void main() {
 
     test('the rounds that need nothing are the ones open to the air', () {
       for (final r in gaugeRounds.where((r) => r.answer == Fix.nothing)) {
-        expect(r.wanted.toLowerCase().contains('gauge'), isTrue,
-            reason: '${r.subject}: only a gauge question can already be done');
+        expect(
+          r.wanted.toLowerCase().contains('gauge'),
+          isTrue,
+          reason: '${r.subject}: only a gauge question can already be done',
+        );
       }
     });
 
@@ -376,37 +435,52 @@ void main() {
       expect(1.5 + 3 / 3, closeTo(2.5, 1e-9));
     });
 
-    test('the center of pressure is always deeper, and closes up with depth',
-        () {
-      var lastOffset = double.infinity;
-      for (final top in [0.0, 2.0, 6.0, 12.0]) {
-        final gate = Gate(wide: 2, tall: 3, topDepth: top);
-        expect(gate.centerOfPressure, greaterThan(gate.centroid));
-        expect(gate.offset, lessThan(lastOffset));
-        lastOffset = gate.offset;
-      }
-      expect(const Gate(wide: 2, tall: 3, topDepth: 12).offset, lessThan(0.07));
-    });
+    test(
+      'the center of pressure is always deeper, and closes up with depth',
+      () {
+        var lastOffset = double.infinity;
+        for (final top in [0.0, 2.0, 6.0, 12.0]) {
+          final gate = Gate(wide: 2, tall: 3, topDepth: top);
+          expect(gate.centerOfPressure, greaterThan(gate.centroid));
+          expect(gate.offset, lessThan(lastOffset));
+          lastOffset = gate.offset;
+        }
+        expect(
+          const Gate(wide: 2, tall: 3, topDepth: 12).offset,
+          lessThan(0.07),
+        );
+      },
+    );
 
     test('a round that offers the center of pressure can be tapped', () {
       const size = Size(340, 260);
       for (final r in pushRounds2) {
         for (var i = 0; i < r.among.length; i++) {
           for (var j = i + 1; j < r.among.length; j++) {
-            final gap = (GatePainter.spotOf(size, r.gate, r.among[i]) -
-                    GatePainter.spotOf(size, r.gate, r.among[j]))
-                .distance;
-            expect(gap, greaterThan(28),
-                reason: '${r.subject}: ${r.among[i].name} and '
-                    '${r.among[j].name} are ${gap.round()} apart');
+            final gap =
+                (GatePainter.spotOf(size, r.gate, r.among[i]) -
+                        GatePainter.spotOf(size, r.gate, r.among[j]))
+                    .distance;
+            expect(
+              gap,
+              greaterThan(28),
+              reason:
+                  '${r.subject}: ${r.among[i].name} and '
+                  '${r.among[j].name} are ${gap.round()} apart',
+            );
           }
         }
         for (final mark in r.among) {
           expect(
-              GatePainter.nearest(
-                  size, r.gate, r.among, GatePainter.spotOf(size, r.gate, mark)),
-              mark,
-              reason: r.subject);
+            GatePainter.nearest(
+              size,
+              r.gate,
+              r.among,
+              GatePainter.spotOf(size, r.gate, mark),
+            ),
+            mark,
+            reason: r.subject,
+          );
         }
       }
     });
@@ -414,17 +488,23 @@ void main() {
     test('the deep rounds do not offer a point nobody could hit', () {
       for (final r in pushRounds2) {
         if (r.gate.offset < 0.2) {
-          expect(r.among.contains(Mark3.pressure), isFalse,
-              reason: '${r.subject}: the center of pressure is '
-                  '${(r.gate.offset * 100).round()} cm from the centroid');
+          expect(
+            r.among.contains(Mark3.pressure),
+            isFalse,
+            reason:
+                '${r.subject}: the center of pressure is '
+                '${(r.gate.offset * 100).round()} cm from the centroid',
+          );
         }
       }
     });
 
     test('both problems are drawn on, and every point is an answer', () {
       expect(pushRounds2.map((r) => r.source).toSet().length, 2);
-      expect(pushRounds2.map((r) => r.answer).toSet(),
-          {Mark3.centroid, Mark3.pressure});
+      expect(pushRounds2.map((r) => r.answer).toSet(), {
+        Mark3.centroid,
+        Mark3.pressure,
+      });
     });
 
     test('every marked point is inside the panel', () {
@@ -450,14 +530,23 @@ void main() {
       for (final r in floatRounds) {
         switch (r.answer) {
           case Goes2.up:
-            expect(r.lump.buoyancy, greaterThan(r.lump.weight),
-                reason: r.subject);
+            expect(
+              r.lump.buoyancy,
+              greaterThan(r.lump.weight),
+              reason: r.subject,
+            );
           case Goes2.down:
-            expect(r.lump.weight, greaterThan(r.lump.buoyancy),
-                reason: r.subject);
+            expect(
+              r.lump.weight,
+              greaterThan(r.lump.buoyancy),
+              reason: r.subject,
+            );
           case Goes2.still:
-            expect(r.lump.buoyancy, closeTo(r.lump.weight, 0.01),
-                reason: r.subject);
+            expect(
+              r.lump.buoyancy,
+              closeTo(r.lump.weight, 0.01),
+              reason: r.subject,
+            );
         }
       }
     });
@@ -465,8 +554,11 @@ void main() {
     test('no round is decided by a hair', () {
       for (final r in floatRounds.where((r) => r.answer != Goes2.still)) {
         final gap = r.lump.net.abs() / r.lump.buoyancy;
-        expect(gap, greaterThan(0.1),
-            reason: '${r.subject}: too close to call');
+        expect(
+          gap,
+          greaterThan(0.1),
+          reason: '${r.subject}: too close to call',
+        );
       }
     });
 
@@ -502,8 +594,11 @@ void main() {
       // And every factor offered is a different number, so no two choices
       // are the same answer wearing different words.
       for (final r in fasterRounds) {
-        expect(r.options.map((o) => o.times).toSet().length, r.options.length,
-            reason: r.subject);
+        expect(
+          r.options.map((o) => o.times).toSet().length,
+          r.options.length,
+          reason: r.subject,
+        );
       }
     });
 
@@ -521,10 +616,16 @@ void main() {
         final i = r.answer;
         for (var j = 0; j < r.run.bores.length; j++) {
           if (j == i) continue;
-          expect(r.run.speedAt(i), greaterThan(r.run.speedAt(j)),
-              reason: r.subject);
-          expect(r.run.pressureAt(i), lessThan(r.run.pressureAt(j)),
-              reason: r.subject);
+          expect(
+            r.run.speedAt(i),
+            greaterThan(r.run.speedAt(j)),
+            reason: r.subject,
+          );
+          expect(
+            r.run.pressureAt(i),
+            lessThan(r.run.pressureAt(j)),
+            reason: r.subject,
+          );
         }
       }
     });
@@ -548,8 +649,10 @@ void main() {
     });
 
     test('the answer is not always the last section', () {
-      expect(pressureRounds.map((r) => r.answer).toSet().length,
-          greaterThan(1));
+      expect(
+        pressureRounds.map((r) => r.answer).toSet().length,
+        greaterThan(1),
+      );
     });
 
     test('every section is wide enough to tap and drawn in the panel', () {
@@ -560,9 +663,11 @@ void main() {
           expect(rect.width, greaterThan(40), reason: r.subject);
           expect(rect.top, greaterThan(0), reason: r.subject);
           expect(rect.bottom, lessThan(size.height), reason: r.subject);
-          expect(RunPainter.at(size, r.run, RunPainter.spotOf(size, r.run, i)),
-              i,
-              reason: r.subject);
+          expect(
+            RunPainter.at(size, r.run, RunPainter.spotOf(size, r.run, i)),
+            i,
+            reason: r.subject,
+          );
         }
       }
     });
@@ -585,8 +690,10 @@ void main() {
     });
 
     test('four times the head is twice the jet', () {
-      expect(const Squirt(head: 12).speed,
-          closeTo(const Squirt(head: 3).speed * 2, 1e-9));
+      expect(
+        const Squirt(head: 12).speed,
+        closeTo(const Squirt(head: 3).speed * 2, 1e-9),
+      );
     });
 
     test('the answer follows from the two heads', () {
@@ -597,19 +704,23 @@ void main() {
           case Quicker2.right:
             expect(r.right.speed, greaterThan(r.left.speed), reason: r.subject);
           case Quicker2.tie:
-            expect(r.left.head, closeTo(r.right.head, 1e-9),
-                reason: r.subject);
+            expect(r.left.head, closeTo(r.right.head, 1e-9), reason: r.subject);
         }
       }
     });
 
     test('the ties differ in something other than the head', () {
       for (final r in jetRounds.where((r) => r.answer == Quicker2.tie)) {
-        final same = r.left.holeMillimeters == r.right.holeMillimeters &&
+        final same =
+            r.left.holeMillimeters == r.right.holeMillimeters &&
             r.left.tankWide == r.right.tankWide;
-        expect(same, isFalse,
-            reason: '${r.subject}: a tie between two identical tanks teaches '
-                'nothing');
+        expect(
+          same,
+          isFalse,
+          reason:
+              '${r.subject}: a tie between two identical tanks teaches '
+              'nothing',
+        );
       }
     });
 
@@ -649,7 +760,10 @@ void main() {
     });
 
     test('all three bands come up', () {
-      expect(reynoldsRounds.map((r) => r.answer).toSet(), Regime.values.toSet());
+      expect(
+        reynoldsRounds.map((r) => r.answer).toSet(),
+        Regime.values.toSet(),
+      );
     });
   });
 
@@ -659,8 +773,7 @@ void main() {
       double l = 100,
       double d = 0.2,
       double v = 3,
-    }) =>
-        f * (l / d) * v * v / (2 * 9.81);
+    }) => f * (l / d) * v * v / (2 * 9.81);
 
     test('the lesson\'s pipe loses 4.59 meters', () {
       expect(loss(), closeTo(4.59, 0.01));
@@ -715,8 +828,10 @@ void main() {
         expect(r.options.contains(r.answer), isTrue, reason: r.subject);
         expect(r.options.toSet().length, r.options.length, reason: r.subject);
       }
-      expect(tallyRounds.map((r) => r.options.indexOf(r.answer)).toSet().length,
-          greaterThan(1));
+      expect(
+        tallyRounds.map((r) => r.options.indexOf(r.answer)).toSet().length,
+        greaterThan(1),
+      );
     });
 
     test('every named mistake in the lesson is one of the rounds', () {
@@ -782,10 +897,14 @@ void main() {
 
     test('speed and bore both count twice over', () {
       const plain = Hit(face: Face.plate);
-      expect(const Hit(face: Face.plate, speed: 2).push / plain.push,
-          closeTo(4, 1e-9));
-      expect(const Hit(face: Face.plate, bore: 2).push / plain.push,
-          closeTo(4, 1e-9));
+      expect(
+        const Hit(face: Face.plate, speed: 2).push / plain.push,
+        closeTo(4, 1e-9),
+      );
+      expect(
+        const Hit(face: Face.plate, bore: 2).push / plain.push,
+        closeTo(4, 1e-9),
+      );
       // However fast or fat, a jet that is not turned delivers nothing.
       expect(const Hit(face: Face.through, speed: 3, bore: 2).push, 0);
     });
@@ -810,27 +929,36 @@ void main() {
 
   group('where a main needs holding', () {
     test('a plain joint in a straight length carries nothing', () {
-      const straight = Trunk(legs: [
-        Leg(heading: Heading.east),
-        Leg(heading: Heading.east),
-      ]);
+      const straight = Trunk(
+        legs: [
+          Leg(heading: Heading.east),
+          Leg(heading: Heading.east),
+        ],
+      );
       expect(straight.jointAt(0), Fitting.coupling);
       expect(straight.thrustsAt(0), isFalse);
     });
 
     test('a turn, a change of bore and a stop each leave a force', () {
-      const bend = Trunk(legs: [
-        Leg(heading: Heading.east),
-        Leg(heading: Heading.north),
-      ]);
-      const reducer = Trunk(legs: [
-        Leg(heading: Heading.east),
-        Leg(heading: Heading.east, bore: 150),
-      ]);
-      const capped = Trunk(legs: [
-        Leg(heading: Heading.east),
-        Leg(heading: Heading.east),
-      ], capped: true);
+      const bend = Trunk(
+        legs: [
+          Leg(heading: Heading.east),
+          Leg(heading: Heading.north),
+        ],
+      );
+      const reducer = Trunk(
+        legs: [
+          Leg(heading: Heading.east),
+          Leg(heading: Heading.east, bore: 150),
+        ],
+      );
+      const capped = Trunk(
+        legs: [
+          Leg(heading: Heading.east),
+          Leg(heading: Heading.east),
+        ],
+        capped: true,
+      );
       expect(bend.jointAt(0), Fitting.bend);
       expect(reducer.jointAt(0), Fitting.reducer);
       expect(capped.jointAt(1), Fitting.cap);
@@ -854,8 +982,7 @@ void main() {
     });
 
     test('all three kinds of thrust turn up across the rounds', () {
-      final kinds =
-          anchorRounds.map((r) => r.trunk.jointAt(r.answer)).toSet();
+      final kinds = anchorRounds.map((r) => r.trunk.jointAt(r.answer)).toSet();
       expect(kinds.contains(Fitting.bend), isTrue);
       expect(kinds.contains(Fitting.reducer), isTrue);
       expect(kinds.contains(Fitting.cap), isTrue);
@@ -866,9 +993,10 @@ void main() {
       for (final r in anchorRounds) {
         for (var i = 0; i < r.trunk.spots; i++) {
           for (var j = i + 1; j < r.trunk.spots; j++) {
-            final gap = (TrunkPainter.spotOf(size, r.trunk, i) -
-                    TrunkPainter.spotOf(size, r.trunk, j))
-                .distance;
+            final gap =
+                (TrunkPainter.spotOf(size, r.trunk, i) -
+                        TrunkPainter.spotOf(size, r.trunk, j))
+                    .distance;
             expect(gap, greaterThan(30), reason: '${r.subject} $i and $j');
           }
         }
@@ -880,10 +1008,16 @@ void main() {
       for (final r in anchorRounds) {
         for (var i = 0; i < r.trunk.spots; i++) {
           final at = TrunkPainter.spotOf(size, r.trunk, i);
-          expect(at.dx, inInclusiveRange(12, size.width - 12),
-              reason: r.subject);
-          expect(at.dy, inInclusiveRange(12, size.height - 12),
-              reason: r.subject);
+          expect(
+            at.dx,
+            inInclusiveRange(12, size.width - 12),
+            reason: r.subject,
+          );
+          expect(
+            at.dy,
+            inInclusiveRange(12, size.height - 12),
+            reason: r.subject,
+          );
         }
       }
     });
@@ -918,7 +1052,7 @@ void main() {
         final outOf = Elbow.unit(bend.goesTo);
         final legs = [-into, outOf];
         final away = [
-          for (final leg in legs) leg.dx * bend.push.dx + leg.dy * bend.push.dy
+          for (final leg in legs) leg.dx * bend.push.dx + leg.dy * bend.push.dy,
         ];
         // It leans away from both legs by the same amount, and away means
         // away: the push is never along either leg.
@@ -930,10 +1064,14 @@ void main() {
     test('a sharper turn is a bigger push', () {
       double size(Elbow e) =>
           (Elbow.unit(e.comesFrom) - Elbow.unit(e.goesTo)).distance;
-      expect(size(const Elbow(comesFrom: 0, goesTo: 45)),
-          lessThan(size(const Elbow(comesFrom: 0, goesTo: 90))));
-      expect(size(const Elbow(comesFrom: 0, goesTo: 90)),
-          lessThan(size(const Elbow(comesFrom: 0, goesTo: 135))));
+      expect(
+        size(const Elbow(comesFrom: 0, goesTo: 45)),
+        lessThan(size(const Elbow(comesFrom: 0, goesTo: 90))),
+      );
+      expect(
+        size(const Elbow(comesFrom: 0, goesTo: 90)),
+        lessThan(size(const Elbow(comesFrom: 0, goesTo: 135))),
+      );
       // A square bend puts the same force in both directions, and the two
       // of them together are the root of two times one, not twice one.
       final square = size(const Elbow(comesFrom: 0, goesTo: 90));
@@ -950,12 +1088,17 @@ void main() {
         for (var i = 0; i < 4; i++) {
           if (i == r.answer) continue;
           final other = r.elbow.directionOf(i);
-          expect(right.dx * other.dx + right.dy * other.dy, lessThan(0.01),
-              reason: '${r.subject} $i');
+          expect(
+            right.dx * other.dx + right.dy * other.dy,
+            lessThan(0.01),
+            reason: '${r.subject} $i',
+          );
         }
       }
-      expect(blockRounds.map((r) => r.answer).toSet().length,
-          greaterThanOrEqualTo(4));
+      expect(
+        blockRounds.map((r) => r.answer).toSet().length,
+        greaterThanOrEqualTo(4),
+      );
     });
 
     test('the four blocks sit well apart and inside the panel', () {
@@ -963,10 +1106,16 @@ void main() {
       for (final r in blockRounds) {
         for (var i = 0; i < 4; i++) {
           final at = ElbowPainter.spotOf(size, r.elbow, i);
-          expect(at.dx, inInclusiveRange(16, size.width - 16),
-              reason: r.subject);
-          expect(at.dy, inInclusiveRange(14, size.height - 14),
-              reason: r.subject);
+          expect(
+            at.dx,
+            inInclusiveRange(16, size.width - 16),
+            reason: r.subject,
+          );
+          expect(
+            at.dy,
+            inInclusiveRange(14, size.height - 14),
+            reason: r.subject,
+          );
           for (var j = i + 1; j < 4; j++) {
             final gap = (at - ElbowPainter.spotOf(size, r.elbow, j)).distance;
             expect(gap, greaterThan(34), reason: '${r.subject} $i and $j');
@@ -998,7 +1147,10 @@ void main() {
       // coefficient left off, the ratio not squared, and the pipe metered
       // on instead of the throat.
       expect(a2 * root, closeTo(0.0726, 0.0001));
-      expect(0.98 * a2 * math.sqrt(2 * 9.81 * head / 0.75), closeTo(0.0795, 0.0001));
+      expect(
+        0.98 * a2 * math.sqrt(2 * 9.81 * head / 0.75),
+        closeTo(0.0795, 0.0001),
+      );
       expect(0.98 * a1 * root, closeTo(0.284, 0.001));
     });
 
@@ -1013,17 +1165,26 @@ void main() {
       // one, the pipe metered on, and the 2 gone from under the root.
       expect(0.98 * a0 * root, closeTo(0.0154, 0.0001));
       expect(0.62 * pipe * root, closeTo(0.0390, 0.0001));
-      expect(0.62 * a0 * math.sqrt(9.81 * head / 0.9375), closeTo(0.00689, 0.00001));
+      expect(
+        0.62 * a0 * math.sqrt(9.81 * head / 0.9375),
+        closeTo(0.00689, 0.00001),
+      );
     });
   });
 
   group('which opening a meter meters on', () {
     test('every round marks exactly one metering opening', () {
       for (final r in meterRounds) {
-        expect(r.gauge.stations.where((s) => s.meters).length, 1,
-            reason: r.subject);
-        expect(r.gauge.stations.length, greaterThanOrEqualTo(4),
-            reason: r.subject);
+        expect(
+          r.gauge.stations.where((s) => s.meters).length,
+          1,
+          reason: r.subject,
+        );
+        expect(
+          r.gauge.stations.length,
+          greaterThanOrEqualTo(4),
+          reason: r.subject,
+        );
         expect(r.answer, greaterThanOrEqualTo(0), reason: r.subject);
       }
       expect(meterRounds.map((r) => r.answer).toSet().length, greaterThan(2));
@@ -1033,10 +1194,16 @@ void main() {
       for (final r in meterRounds) {
         final at = r.gauge.stations[r.answer].at;
         final (first, second) = r.gauge.taps;
-        expect(at, greaterThanOrEqualTo(math.min(first, second)),
-            reason: r.subject);
-        expect(at, lessThanOrEqualTo(math.max(first, second)),
-            reason: r.subject);
+        expect(
+          at,
+          greaterThanOrEqualTo(math.min(first, second)),
+          reason: r.subject,
+        );
+        expect(
+          at,
+          lessThanOrEqualTo(math.max(first, second)),
+          reason: r.subject,
+        );
       }
     });
 
@@ -1052,8 +1219,11 @@ void main() {
             continue;
           }
           if (s.bore != null) continue;
-          expect(r.gauge.boreAt(s.at), greaterThanOrEqualTo(bore - 0.01),
-              reason: r.subject);
+          expect(
+            r.gauge.boreAt(s.at),
+            greaterThanOrEqualTo(bore - 0.01),
+            reason: r.subject,
+          );
         }
       }
       // At least two rounds put something narrower outside the tappings, so
@@ -1061,8 +1231,9 @@ void main() {
       final decoyed = meterRounds.where((r) {
         final answer = r.gauge.stations[r.answer];
         final bore = answer.bore ?? r.gauge.boreAt(answer.at);
-        return r.gauge.stations.any((s) =>
-            (s.bore ?? r.gauge.boreAt(s.at)) < bore);
+        return r.gauge.stations.any(
+          (s) => (s.bore ?? r.gauge.boreAt(s.at)) < bore,
+        );
       });
       expect(decoyed.length, greaterThanOrEqualTo(2));
     });
@@ -1082,8 +1253,11 @@ void main() {
           final at = GaugePainter.spotOf(size, r.gauge, i);
           // Clear of the panel edges and of the flow arrow drawn at the head
           // of the run.
-          expect(at.dx, inInclusiveRange(40, size.width - 12),
-              reason: r.subject);
+          expect(
+            at.dx,
+            inInclusiveRange(40, size.width - 12),
+            reason: r.subject,
+          );
           for (var j = i + 1; j < r.gauge.stations.length; j++) {
             final gap = (at - GaugePainter.spotOf(size, r.gauge, j)).distance;
             // Far enough apart for a thumb, and for the bore labels, which
@@ -1167,8 +1341,11 @@ void main() {
           expect(r.answer, Law.either, reason: r.subject);
           continue;
         }
-        expect(r.answer, r.bench.hasSurface ? Law.froude : Law.reynolds,
-            reason: r.subject);
+        expect(
+          r.answer,
+          r.bench.hasSurface ? Law.froude : Law.reynolds,
+          reason: r.subject,
+        );
       }
     });
 
@@ -1185,22 +1362,32 @@ void main() {
     });
 
     test('every kind of rig gets used', () {
-      expect(benchRounds.map((r) => r.bench).toSet().length,
-          Bench.values.length);
+      expect(
+        benchRounds.map((r) => r.bench).toSet().length,
+        Bench.values.length,
+      );
     });
   });
 
   group('what the law asks of the model speed', () {
     test('Froude scales as the root, Reynolds as the inverse', () {
-      expect(const Twins(law: Law.froude, model: 1, proto: 25).ratio,
-          closeTo(0.2, 1e-9));
-      expect(const Twins(law: Law.reynolds, model: 1, proto: 10).ratio,
-          closeTo(10, 1e-9));
+      expect(
+        const Twins(law: Law.froude, model: 1, proto: 25).ratio,
+        closeTo(0.2, 1e-9),
+      );
+      expect(
+        const Twins(law: Law.reynolds, model: 1, proto: 10).ratio,
+        closeTo(10, 1e-9),
+      );
       // Both laws agree the moment the model stops being smaller.
-      expect(const Twins(law: Law.froude, model: 1, proto: 1).ratio,
-          closeTo(1, 1e-9));
-      expect(const Twins(law: Law.reynolds, model: 1, proto: 1).ratio,
-          closeTo(1, 1e-9));
+      expect(
+        const Twins(law: Law.froude, model: 1, proto: 1).ratio,
+        closeTo(1, 1e-9),
+      );
+      expect(
+        const Twins(law: Law.reynolds, model: 1, proto: 1).ratio,
+        closeTo(1, 1e-9),
+      );
     });
 
     test('neither law means faster or slower on its own', () {
@@ -1209,8 +1396,10 @@ void main() {
       expect(froude.map((r) => r.answer).toSet().length, greaterThan(1));
       expect(reynolds.map((r) => r.answer).toSet().length, greaterThan(1));
       // An oversized model is what turns each rule around.
-      expect(twinRounds.where((r) => r.twins.model > r.twins.proto).length,
-          greaterThanOrEqualTo(2));
+      expect(
+        twinRounds.where((r) => r.twins.model > r.twins.proto).length,
+        greaterThanOrEqualTo(2),
+      );
     });
 
     test('all three answers turn up', () {
@@ -1219,7 +1408,7 @@ void main() {
 
     test('the lesson\'s own two scales are both rounds', () {
       final scales = {
-        for (final r in twinRounds) '${r.twins.law.name}-${r.twins.proto}'
+        for (final r in twinRounds) '${r.twins.law.name}-${r.twins.proto}',
       };
       expect(scales.contains('froude-25.0'), isTrue);
       expect(scales.contains('reynolds-10.0'), isTrue);

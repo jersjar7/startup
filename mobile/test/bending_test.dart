@@ -52,8 +52,10 @@ void main() {
       // does.
       expect(beam.shearStressAt(beam.crown, 45000), closeTo(0, 1e-6));
       expect(beam.shearStressAt(beam.baseline, 45000), closeTo(0, 1e-6));
-      expect(beam.shearStressAt(beam.centroid.dy + 75, 45000),
-          closeTo(1.5 * 0.75, 0.001));
+      expect(
+        beam.shearStressAt(beam.centroid.dy + 75, 45000),
+        closeTo(1.5 * 0.75, 0.001),
+      );
     });
 
     test('the I-beam junction is twenty one megapascals, through the web', () {
@@ -112,8 +114,11 @@ void main() {
         final above = beam.qAbove(y);
         final whole = beam.qAbove(beam.baseline);
         final below = whole - above;
-        expect(below.abs(), closeTo(above.abs(), 1e-6),
-            reason: 'the two sides of a cut at $y do not balance');
+        expect(
+          below.abs(),
+          closeTo(above.abs(), 1e-6),
+          reason: 'the two sides of a cut at $y do not balance',
+        );
       }
       // And the first moment of the WHOLE section about its own centroid is
       // nothing at all, which is what being the centroid means.
@@ -131,20 +136,26 @@ void main() {
       // So the bottom fiber is further from the axis and works harder under
       // the same moment.
       expect(tee.cBottom, greaterThan(tee.cTop));
-      expect(tee.bendingStressAt(tee.baseline, 10e6).abs(),
-          greaterThan(tee.bendingStressAt(tee.crown, 10e6).abs()));
+      expect(
+        tee.bendingStressAt(tee.baseline, 10e6).abs(),
+        greaterThan(tee.bendingStressAt(tee.crown, 10e6).abs()),
+      );
     });
 
     test('the bending stress runs straight and the shear does not', () {
       final beam = boxSection(100, 200);
       // Straight: half way out from the axis is half the stress.
       final edge = beam.bendingStressAt(beam.baseline, 5e6);
-      expect(beam.bendingStressAt(beam.centroid.dy - 50, 5e6),
-          closeTo(edge / 2, 1e-6));
+      expect(
+        beam.bendingStressAt(beam.centroid.dy - 50, 5e6),
+        closeTo(edge / 2, 1e-6),
+      );
       // Curved: half way out from the axis is three quarters of the peak.
       final peak = beam.shearStressAt(beam.centroid.dy, 30000);
-      expect(beam.shearStressAt(beam.centroid.dy - 50, 30000),
-          closeTo(peak * 0.75, 1e-6));
+      expect(
+        beam.shearStressAt(beam.centroid.dy - 50, 30000),
+        closeTo(peak * 0.75, 1e-6),
+      );
     });
 
     test('the two stresses peak in opposite places', () {
@@ -170,33 +181,39 @@ void main() {
     test('the neutral axis is a marked layer, wherever it falls', () {
       for (final r in fiberRounds) {
         final axis = r.section.centroid.dy;
-        expect(r.layers.any((l) => (l.y - axis).abs() < 1e-6), isTrue,
-            reason: '${r.subject}: the axis itself is not on offer');
+        expect(
+          r.layers.any((l) => (l.y - axis).abs() < 1e-6),
+          isTrue,
+          reason: '${r.subject}: the axis itself is not on offer',
+        );
       }
     });
 
     test('the tee round really does have its axis away from the middle', () {
       final tee = fiberRounds.firstWhere((r) => r.subject.contains('tee'));
-      expect((tee.section.centroid.dy - tee.section.midHeight).abs(),
-          greaterThan(tee.section.bounds.height * 0.08),
-          reason: 'a tee whose axis sits at mid height teaches nothing');
+      expect(
+        (tee.section.centroid.dy - tee.section.midHeight).abs(),
+        greaterThan(tee.section.bounds.height * 0.08),
+        reason: 'a tee whose axis sits at mid height teaches nothing',
+      );
     });
 
     test('no round has two layers that tie for the answer', () {
       for (final r in fiberRounds) {
         double score(double y) => switch (r.wanted) {
-              Wanted.mostTension => r.section.bendingStressAt(y, r.moment),
-              Wanted.mostCompression => -r.section.bendingStressAt(y, r.moment),
-              Wanted.noBending =>
-                -r.section.bendingStressAt(y, r.moment).abs(),
-              Wanted.mostShear =>
-                r.section.shearStressAt(y, FiberRound.shear),
-            };
+          Wanted.mostTension => r.section.bendingStressAt(y, r.moment),
+          Wanted.mostCompression => -r.section.bendingStressAt(y, r.moment),
+          Wanted.noBending => -r.section.bendingStressAt(y, r.moment).abs(),
+          Wanted.mostShear => r.section.shearStressAt(y, FiberRound.shear),
+        };
         final best = score(r.layers[r.answer].y);
         for (var i = 0; i < r.layers.length; i++) {
           if (i == r.answer) continue;
-          expect(score(r.layers[i].y), lessThan(best - 1e-6),
-              reason: '${r.subject}: layer ${i + 1} ties with the answer');
+          expect(
+            score(r.layers[i].y),
+            lessThan(best - 1e-6),
+            reason: '${r.subject}: layer ${i + 1} ties with the answer',
+          );
         }
       }
     });
@@ -209,8 +226,11 @@ void main() {
             LayerPainter.layerAt(r.section, size, l.y).dy,
         ]..sort();
         for (var i = 1; i < ys.length; i++) {
-          expect(ys[i] - ys[i - 1], greaterThan(26),
-              reason: '${r.subject}: two layers are on top of each other');
+          expect(
+            ys[i] - ys[i - 1],
+            greaterThan(26),
+            reason: '${r.subject}: two layers are on top of each other',
+          );
         }
       }
     });
@@ -221,10 +241,13 @@ void main() {
       for (final r in sliceRounds.where((r) => r.asks == Asks.width)) {
         final marked = r.marks[r.answer];
         expect(marked.isWidth, isTrue);
-        expect(r.section.widthAt(marked.y),
-            closeTo(r.section.widthAt(r.cut), 1e-6),
-            reason: '${r.subject}: the marked width is not the width at the '
-                'cut');
+        expect(
+          r.section.widthAt(marked.y),
+          closeTo(r.section.widthAt(r.cut), 1e-6),
+          reason:
+              '${r.subject}: the marked width is not the width at the '
+              'cut',
+        );
       }
     });
 
@@ -236,10 +259,16 @@ void main() {
         // either is right, and both give the same first moment.
         final above = marked.from == r.cut && marked.to >= r.section.crown;
         final below = marked.to == r.cut && marked.from <= r.section.baseline;
-        expect(above || below, isTrue,
-            reason: '${r.subject}: the marked band is not one side of the cut');
-        expect(r.section.qAbove(r.cut).abs(), greaterThan(0),
-            reason: '${r.subject}: a cut with no Q teaches nothing');
+        expect(
+          above || below,
+          isTrue,
+          reason: '${r.subject}: the marked band is not one side of the cut',
+        );
+        expect(
+          r.section.qAbove(r.cut).abs(),
+          greaterThan(0),
+          reason: '${r.subject}: a cut with no Q teaches nothing',
+        );
       }
     });
 
@@ -254,20 +283,27 @@ void main() {
           final below = m.to == r.cut && m.from <= r.section.baseline;
           if (above || below) valid++;
         }
-        expect(valid, 1,
-            reason: '${r.subject}: $valid of the three panels are correct');
+        expect(
+          valid,
+          1,
+          reason: '${r.subject}: $valid of the three panels are correct',
+        );
       }
     });
 
     test('the whole section is offered, and it is worth nothing', () {
       // The distractor that matters most: Q of the entire section about its
       // own centroid is zero, so anyone choosing it is choosing a dead number.
-      final whole = sliceRounds.where((r) =>
-          r.asks == Asks.area &&
-          r.marks.any((m) =>
-              !m.isWidth &&
-              m.from <= r.section.baseline &&
-              m.to >= r.section.crown));
+      final whole = sliceRounds.where(
+        (r) =>
+            r.asks == Asks.area &&
+            r.marks.any(
+              (m) =>
+                  !m.isWidth &&
+                  m.from <= r.section.baseline &&
+                  m.to >= r.section.crown,
+            ),
+      );
       expect(whole, isNotEmpty);
       for (final r in whole) {
         expect(r.section.qAbove(r.section.baseline), closeTo(0, 1e-6));
@@ -281,8 +317,11 @@ void main() {
           final key = m.isWidth
               ? 'w${r.section.widthAt(m.y)}'
               : 'b${m.from}-${m.to}';
-          expect(seen.add(key), isTrue,
-              reason: '${r.subject}: two panels mark the same thing');
+          expect(
+            seen.add(key),
+            isTrue,
+            reason: '${r.subject}: two panels mark the same thing',
+          );
         }
       }
     });
@@ -298,16 +337,20 @@ void main() {
       expect(longer.answer, Worse.bending);
       expect(longer.after.span, longer.before.span * 2);
       // And the reactions really are unchanged, which is the whole point.
-      expect(longer.after.leftReaction,
-          closeTo(longer.before.leftReaction, 1e-9));
+      expect(
+        longer.after.leftReaction,
+        closeTo(longer.before.leftReaction, 1e-9),
+      );
     });
 
     test('turning the section on its side leaves the area alone', () {
       final onSide = swapRounds[2];
       expect(onSide.answer, Worse.bending);
       expect(onSide.sectionAfter.area, closeTo(onSide.section.area, 1e-9));
-      expect(onSide.sectionAfter.sectionModulus,
-          lessThan(onSide.section.sectionModulus));
+      expect(
+        onSide.sectionAfter.sectionModulus,
+        lessThan(onSide.section.sectionModulus),
+      );
     });
 
     test('a deeper section improves bending faster than shear', () {

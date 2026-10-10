@@ -37,13 +37,19 @@ void main() {
   group('where does it go', () {
     test('every slot is the answer, and costs more than once', () {
       for (final s in Slot.values) {
-        expect(slotRounds.where((r) => r.answer == s).length,
-            greaterThanOrEqualTo(1),
-            reason: '$s never comes up');
+        expect(
+          slotRounds.where((r) => r.answer == s).length,
+          greaterThanOrEqualTo(1),
+          reason: '$s never comes up',
+        );
       }
-      expect(slotRounds.where((r) => r.answer == Slot.cost).length, 2,
-          reason: 'the operating cost belongs underneath and one round of it '
-              'is not enough, because leaving it out is the named trap');
+      expect(
+        slotRounds.where((r) => r.answer == Slot.cost).length,
+        2,
+        reason:
+            'the operating cost belongs underneath and one round of it '
+            'is not enough, because leaving it out is the named trap',
+      );
     });
 
     test('the two disbenefit rounds are harm rather than spending', () {
@@ -54,9 +60,13 @@ void main() {
         final text = r.item.toLowerCase();
         expect(text.contains('paid by the agency'), isFalse, reason: r.subject);
       }
-      expect(slotRounds.where((r) => r.answer == Slot.disbenefit).length, 2,
-          reason: 'misfiling a disbenefit into the denominator is the other '
-              'named trap and needs more than one round');
+      expect(
+        slotRounds.where((r) => r.answer == Slot.disbenefit).length,
+        2,
+        reason:
+            'misfiling a disbenefit into the denominator is the other '
+            'named trap and needs more than one round',
+      );
     });
 
     test('no item names its own slot', () {
@@ -64,23 +74,29 @@ void main() {
       for (final r in slotRounds) {
         final text = r.item.toLowerCase();
         for (final word in giveaways) {
-          expect(text.contains(word), isFalse,
-              reason: '${r.subject} says "$word"');
+          expect(
+            text.contains(word),
+            isFalse,
+            reason: '${r.subject} says "$word"',
+          );
         }
       }
     });
 
     test('the slot never repeats three times running', () {
       for (var i = 2; i < slotRounds.length; i++) {
-        final same = slotRounds[i].answer == slotRounds[i - 1].answer &&
+        final same =
+            slotRounds[i].answer == slotRounds[i - 1].answer &&
             slotRounds[i].answer == slotRounds[i - 2].answer;
         expect(same, isFalse, reason: 'rounds ${i - 1} to ${i + 1} are a rut');
       }
     });
 
     test('both of the lesson problems are drawn on', () {
-      expect(slotRounds.map((r) => r.source).toSet().length,
-          greaterThanOrEqualTo(2));
+      expect(
+        slotRounds.map((r) => r.source).toSet().length,
+        greaterThanOrEqualTo(2),
+      );
     });
   });
 
@@ -106,17 +122,24 @@ void main() {
     test('the answer is what incremental analysis actually gives', () {
       for (final r in buildRounds) {
         expect(r.answer, worked(r), reason: r.subject);
-        expect(r.answer, greaterThanOrEqualTo(0),
-            reason: '${r.subject}: nothing survives, so there is no answer');
+        expect(
+          r.answer,
+          greaterThanOrEqualTo(0),
+          reason: '${r.subject}: nothing survives, so there is no answer',
+        );
       }
     });
 
     test('the options are in order of cost, which the analysis needs', () {
       for (final r in buildRounds) {
         for (var i = 1; i < r.options.length; i++) {
-          expect(r.options[i].cost, greaterThan(r.options[i - 1].cost),
-              reason: '${r.subject}: option ${i + 1} is not dearer than the '
-                  'one before it');
+          expect(
+            r.options[i].cost,
+            greaterThan(r.options[i - 1].cost),
+            reason:
+                '${r.subject}: option ${i + 1} is not dearer than the '
+                'one before it',
+          );
         }
       }
     });
@@ -132,25 +155,39 @@ void main() {
         }
         if (top == r.answer) tempted++;
       }
-      expect(tempted, lessThanOrEqualTo(1),
-          reason: 'the highest individual ratio wins $tempted rounds out of '
-              '${buildRounds.length}, so the wrong method mostly works');
+      expect(
+        tempted,
+        lessThanOrEqualTo(1),
+        reason:
+            'the highest individual ratio wins $tempted rounds out of '
+            '${buildRounds.length}, so the wrong method mostly works',
+      );
     });
 
     test('one round throws an option out before the stepping starts', () {
       final anyBelowOne = buildRounds.where(
         (r) => r.options.any((o) => o.ratio < 1),
       );
-      expect(anyBelowOne, isNotEmpty,
-          reason: 'checking each option on its own first is half the method '
-              'and never comes up');
+      expect(
+        anyBelowOne,
+        isNotEmpty,
+        reason:
+            'checking each option on its own first is half the method '
+            'and never comes up',
+      );
     });
 
     test('one round stops at the cheapest and one goes all the way', () {
-      expect(buildRounds.any((r) => r.answer == 0), isTrue,
-          reason: 'a step that does not pay for itself never happens');
-      expect(buildRounds.any((r) => r.answer == r.options.length - 1), isTrue,
-          reason: 'stepping all the way up never happens');
+      expect(
+        buildRounds.any((r) => r.answer == 0),
+        isTrue,
+        reason: 'a step that does not pay for itself never happens',
+      );
+      expect(
+        buildRounds.any((r) => r.answer == r.options.length - 1),
+        isTrue,
+        reason: 'stepping all the way up never happens',
+      );
     });
 
     test('the reveal only prints comparisons the analysis made', () {
@@ -158,19 +195,28 @@ void main() {
       // already been beaten, which is not what incremental analysis does.
       for (final r in buildRounds) {
         expect(r.steps.length, r.options.length, reason: r.subject);
-        expect(r.steps.last.contains('out') || r.steps.last.contains('keep') ||
-            r.steps.last.contains('stop') || r.steps.last.contains('in'),
-            isTrue,
-            reason: '${r.subject}: the last step says nothing');
+        expect(
+          r.steps.last.contains('out') ||
+              r.steps.last.contains('keep') ||
+              r.steps.last.contains('stop') ||
+              r.steps.last.contains('in'),
+          isTrue,
+          reason: '${r.subject}: the last step says nothing',
+        );
       }
     });
 
     test('the answer is not always in the same place', () {
-      expect(buildRounds.map((r) => r.answer).toSet().length,
-          greaterThanOrEqualTo(3));
+      expect(
+        buildRounds.map((r) => r.answer).toSet().length,
+        greaterThanOrEqualTo(3),
+      );
       for (var i = 1; i < buildRounds.length; i++) {
-        expect(buildRounds[i].answer, isNot(buildRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous position');
+        expect(
+          buildRounds[i].answer,
+          isNot(buildRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous position',
+        );
       }
     });
   });
@@ -183,8 +229,11 @@ void main() {
           for (final e in b.ends) {
             total += e.p;
           }
-          expect(total, closeTo(1, 0.0001),
-              reason: '${r.subject}: ${b.name} adds to $total');
+          expect(
+            total,
+            closeTo(1, 0.0001),
+            reason: '${r.subject}: ${b.name} adds to $total',
+          );
         }
       }
     });
@@ -205,10 +254,13 @@ void main() {
       for (final r in treeRounds) {
         final values = [for (final b in r.branches) b.expected]..sort();
         for (var i = 1; i < values.length; i++) {
-          expect((values[i] - values[i - 1]).abs() / values[i],
-              greaterThan(0.08),
-              reason: '${r.subject}: two branches are ${values[i - 1]} and '
-                  '${values[i]}, which is too close to call by eye');
+          expect(
+            (values[i] - values[i - 1]).abs() / values[i],
+            greaterThan(0.08),
+            reason:
+                '${r.subject}: two branches are ${values[i - 1]} and '
+                '${values[i]}, which is too close to call by eye',
+          );
         }
       }
     });
@@ -218,7 +270,11 @@ void main() {
       for (final r in treeRounds) {
         for (final b in r.branches.where((b) => b.isChance)) {
           final (lo, hi) = b.span;
-          expect(b.expected, greaterThan(lo), reason: '${r.subject}: ${b.name}');
+          expect(
+            b.expected,
+            greaterThan(lo),
+            reason: '${r.subject}: ${b.name}',
+          );
           expect(b.expected, lessThan(hi), reason: '${r.subject}: ${b.name}');
         }
       }
@@ -233,9 +289,13 @@ void main() {
         final (_, hi) = win.span;
         return r.branches.every((b) => b == win || b.expected > hi);
       });
-      expect(free.length, 1,
-          reason: 'bracketing the answer before weighing it is the first '
-              'thing to try and it needs exactly one round');
+      expect(
+        free.length,
+        1,
+        reason:
+            'bracketing the answer before weighing it is the first '
+            'thing to try and it needs exactly one round',
+      );
     });
 
     test('taking the worst ending as certain loses a round', () {
@@ -249,9 +309,13 @@ void main() {
         }
         return pick != r.answer;
       });
-      expect(punished.length, greaterThanOrEqualTo(2),
-          reason: 'treating the worst case as certain gets through all but '
-              '${punished.length} rounds');
+      expect(
+        punished.length,
+        greaterThanOrEqualTo(2),
+        reason:
+            'treating the worst case as certain gets through all but '
+            '${punished.length} rounds',
+      );
     });
 
     test('counting only the cheapest ending loses a round', () {
@@ -263,18 +327,26 @@ void main() {
         }
         return pick != r.answer;
       });
-      expect(punished.length, greaterThanOrEqualTo(2),
-          reason: 'reading the price today as the price of the branch gets '
-              'through too much of this');
+      expect(
+        punished.length,
+        greaterThanOrEqualTo(2),
+        reason:
+            'reading the price today as the price of the branch gets '
+            'through too much of this',
+      );
     });
 
     test('one round hides a probability, and it is the one that decides', () {
       final hidden = treeRounds.where(
         (r) => r.branches.any((b) => b.ends.any((e) => e.note != null)),
       );
-      expect(hidden.length, 1,
-          reason: 'the lesson warns that an unlabeled branch still carries '
-              'whatever is left over, and it needs exactly one round');
+      expect(
+        hidden.length,
+        1,
+        reason:
+            'the lesson warns that an unlabeled branch still carries '
+            'whatever is left over, and it needs exactly one round',
+      );
       final r = hidden.first;
       final b = r.branches.firstWhere((b) => b.isChance);
       final loose = b.ends.firstWhere((e) => e.note != null);
@@ -288,19 +360,31 @@ void main() {
         }
         return total / mass;
       }();
-      expect(withoutIt, lessThan(r.branches[r.answer].expected),
-          reason: 'skipping the loose branch has to CHANGE the decision, or '
-              'the round does not teach the warning');
-      expect(loose.cost, greaterThan(b.expected),
-          reason: 'the loose branch has to be the expensive one to matter');
+      expect(
+        withoutIt,
+        lessThan(r.branches[r.answer].expected),
+        reason:
+            'skipping the loose branch has to CHANGE the decision, or '
+            'the round does not teach the warning',
+      );
+      expect(
+        loose.cost,
+        greaterThan(b.expected),
+        reason: 'the loose branch has to be the expensive one to matter',
+      );
     });
 
     test('the answer moves around', () {
-      expect(treeRounds.map((r) => r.answer).toSet().length,
-          greaterThanOrEqualTo(3));
+      expect(
+        treeRounds.map((r) => r.answer).toSet().length,
+        greaterThanOrEqualTo(3),
+      );
       for (var i = 1; i < treeRounds.length; i++) {
-        expect(treeRounds[i].answer, isNot(treeRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous branch position');
+        expect(
+          treeRounds[i].answer,
+          isNot(treeRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous branch position',
+        );
       }
     });
 
@@ -317,9 +401,11 @@ void main() {
         for (final b in r.branches) {
           if (!b.isChance) continue;
           // Twenty-six points per ending plus room for the branch name.
-          expect(TreePainter.rowHeight(b),
-              greaterThanOrEqualTo(26.0 * b.ends.length + 26),
-              reason: '${r.subject}: ${b.name} would draw over itself');
+          expect(
+            TreePainter.rowHeight(b),
+            greaterThanOrEqualTo(26.0 * b.ends.length + 26),
+            reason: '${r.subject}: ${b.name} would draw over itself',
+          );
         }
       }
     });
@@ -351,7 +437,9 @@ void main() {
 
     testWidgets('picking the best individual ratio is caught', (tester) async {
       size(tester);
-      await tester.pumpWidget(const MaterialApp(home: WhichOneDoYouBuildGame()));
+      await tester.pumpWidget(
+        const MaterialApp(home: WhichOneDoYouBuildGame()),
+      );
       await tester.pumpAndSettle();
 
       // Round one is the lesson's own drainage problem, where the cheapest
@@ -372,7 +460,9 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('THAT BRANCH'), findsNothing);
 
-      await tester.tap(find.byKey(ValueKey('branch-${treeRounds.first.answer}')));
+      await tester.tap(
+        find.byKey(ValueKey('branch-${treeRounds.first.answer}')),
+      );
       await tester.pumpAndSettle();
       await tester.tap(find.text('Lock it in'));
       await tester.pumpAndSettle();

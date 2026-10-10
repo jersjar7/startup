@@ -62,9 +62,13 @@ void main() {
         final nearest = rChoices.reduce(
           (a, b) => (a - r).abs() <= (b - r).abs() ? a : b,
         );
-        expect(nearest, rChoices[round.answer],
-            reason: '"${round.subject}" has r = ${r.toStringAsFixed(3)}, which '
-                'is nearest $nearest, not ${rChoices[round.answer]}');
+        expect(
+          nearest,
+          rChoices[round.answer],
+          reason:
+              '"${round.subject}" has r = ${r.toStringAsFixed(3)}, which '
+              'is nearest $nearest, not ${rChoices[round.answer]}',
+        );
       }
     });
 
@@ -74,9 +78,13 @@ void main() {
       for (final round in scatterRounds) {
         final r = _r(round.points);
         final gaps = [for (final c in rChoices) (c - r).abs()]..sort();
-        expect(gaps[1] - gaps[0], greaterThan(0.12),
-            reason: '"${round.subject}" at r = ${r.toStringAsFixed(3)} is too '
-                'close to two of the choices');
+        expect(
+          gaps[1] - gaps[0],
+          greaterThan(0.12),
+          reason:
+              '"${round.subject}" at r = ${r.toStringAsFixed(3)} is too '
+              'close to two of the choices',
+        );
       }
     });
 
@@ -97,15 +105,22 @@ void main() {
       final ys = arch.points.map((p) => p.y).toList();
       final rises = ys.first < ys[ys.length ~/ 2];
       final falls = ys[ys.length ~/ 2] > ys.last;
-      expect(rises && falls, isTrue,
-          reason: 'the zero-correlation round has to have a real shape, or it '
-              'teaches nothing');
+      expect(
+        rises && falls,
+        isTrue,
+        reason:
+            'the zero-correlation round has to have a real shape, or it '
+            'teaches nothing',
+      );
     });
 
     test('both signs and both extremes are somewhere in the set', () {
       final answers = scatterRounds.map((r) => r.answer).toSet();
-      expect(answers, containsAll([0, 2, 4]),
-          reason: 'strong negative, none, and strong positive all get shown');
+      expect(
+        answers,
+        containsAll([0, 2, 4]),
+        reason: 'strong negative, none, and strong positive all get shown',
+      );
     });
   });
 
@@ -114,11 +129,18 @@ void main() {
       for (final round in meansRounds) {
         final (a, b) = _fit(round.points);
         final picked = round.lines[round.answer];
-        expect((picked.intercept - a).abs(), lessThan(0.06),
-            reason: '${round.subject}: intercept should be '
-                '${a.toStringAsFixed(3)}');
-        expect((picked.slope - b).abs(), lessThan(0.02),
-            reason: '${round.subject}: slope should be ${b.toStringAsFixed(3)}');
+        expect(
+          (picked.intercept - a).abs(),
+          lessThan(0.06),
+          reason:
+              '${round.subject}: intercept should be '
+              '${a.toStringAsFixed(3)}',
+        );
+        expect(
+          (picked.slope - b).abs(),
+          lessThan(0.02),
+          reason: '${round.subject}: slope should be ${b.toStringAsFixed(3)}',
+        );
       }
     });
 
@@ -142,12 +164,18 @@ void main() {
           for (final (i, l) in round.lines.indexed)
             if (i != round.answer && (l.slope - b).abs() < 0.02) i,
         ];
-        expect(rightLean, isNotEmpty,
-            reason: '${round.subject} can be answered on the lean alone');
         expect(
-          round.lines.every((l) => (l.intercept - a).abs() >= 0.06 ||
-              (l.slope - b).abs() >= 0.02 ||
-              round.lines.indexOf(l) == round.answer),
+          rightLean,
+          isNotEmpty,
+          reason: '${round.subject} can be answered on the lean alone',
+        );
+        expect(
+          round.lines.every(
+            (l) =>
+                (l.intercept - a).abs() >= 0.06 ||
+                (l.slope - b).abs() >= 0.02 ||
+                round.lines.indexOf(l) == round.answer,
+          ),
           isTrue,
         );
       }
@@ -160,9 +188,13 @@ void main() {
           (l) => l.slope == 0 && (l.intercept - my).abs() < 0.06,
         );
       });
-      expect(flat.length, greaterThanOrEqualTo(2),
-          reason: 'a flat line at the mean of y passes through the means and '
-              'is still not a regression line; that trap needs showing');
+      expect(
+        flat.length,
+        greaterThanOrEqualTo(2),
+        reason:
+            'a flat line at the mean of y passes through the means and '
+            'is still not a regression line; that trap needs showing',
+      );
     });
 
     test('every line is visible inside the plotted box', () {
@@ -172,25 +204,36 @@ void main() {
             for (var x = 0; x <= round.xTo * 10; x++)
               if (l.at(x / 10) >= 0 && l.at(x / 10) <= round.yTo) x,
           ];
-          expect(inside.length, greaterThan(round.xTo * 3),
-              reason: '${round.subject}: line ${l.label} barely appears');
+          expect(
+            inside.length,
+            greaterThan(round.xTo * 3),
+            reason: '${round.subject}: line ${l.label} barely appears',
+          );
         }
       }
     });
 
     test('the mean point is on the grid the student is looking at', () {
       for (final round in meansRounds) {
-        expect(_mean(round.points.map((p) => p.x)),
-            lessThanOrEqualTo(round.xTo.toDouble()));
-        expect(_mean(round.points.map((p) => p.y)),
-            lessThanOrEqualTo(round.yTo.toDouble()));
+        expect(
+          _mean(round.points.map((p) => p.x)),
+          lessThanOrEqualTo(round.xTo.toDouble()),
+        );
+        expect(
+          _mean(round.points.map((p) => p.y)),
+          lessThanOrEqualTo(round.yTo.toDouble()),
+        );
       }
     });
 
     test('a falling relationship is in the set', () {
-      expect(meansRounds.any((r) => _fit(r.points).$2 < 0), isTrue,
-          reason: 'the rule is about the means, not about the sign, and that '
-              'only lands if a falling cloud is shown');
+      expect(
+        meansRounds.any((r) => _fit(r.points).$2 < 0),
+        isTrue,
+        reason:
+            'the rule is about the means, not about the sign, and that '
+            'only lands if a falling cloud is shown',
+      );
     });
   });
 
@@ -203,25 +246,35 @@ void main() {
     });
 
     test('the impossible answer is on the board', () {
-      final negatives = rRounds.where((round) =>
-          round.ask.contains('determination') &&
-          round.options.any((o) => o.value.startsWith('−')));
-      expect(negatives, isNotEmpty,
-          reason: 'a negative coefficient of determination is the one wrong '
-              'answer you can spot without arithmetic');
+      final negatives = rRounds.where(
+        (round) =>
+            round.ask.contains('determination') &&
+            round.options.any((o) => o.value.startsWith('−')),
+      );
+      expect(
+        negatives,
+        isNotEmpty,
+        reason:
+            'a negative coefficient of determination is the one wrong '
+            'answer you can spot without arithmetic',
+      );
     });
 
     test('the answer is never in the same place twice running', () {
       for (var i = 1; i < rRounds.length; i++) {
-        expect(rRounds[i].answer, isNot(rRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous position');
+        expect(
+          rRounds[i].answer,
+          isNot(rRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous position',
+        );
       }
     });
 
     test('both readings are asked for, in English', () {
       final wantsR = rRounds.where((r) => r.ask.contains('correlation'));
-      final wantsR2 = rRounds.where((r) =>
-          r.ask.contains('variation') || r.ask.contains('determination'));
+      final wantsR2 = rRounds.where(
+        (r) => r.ask.contains('variation') || r.ask.contains('determination'),
+      );
       expect(wantsR.length, greaterThanOrEqualTo(2));
       expect(wantsR2.length, greaterThanOrEqualTo(3));
     });
@@ -231,9 +284,11 @@ void main() {
         for (final o in round.options) {
           expect(o.meaning.trim(), isNotEmpty, reason: round.ask);
         }
-        expect(round.options.map((o) => o.meaning).toSet().length,
-            round.options.length,
-            reason: '${round.ask} explains two options the same way');
+        expect(
+          round.options.map((o) => o.meaning).toSet().length,
+          round.options.length,
+          reason: '${round.ask} explains two options the same way',
+        );
       }
     });
   });
@@ -250,7 +305,9 @@ void main() {
       expect(find.text('NOT THAT ONE'), findsNothing);
     });
 
-    testWidgets('reading the first cloud as negative is caught', (tester) async {
+    testWidgets('reading the first cloud as negative is caught', (
+      tester,
+    ) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: ReadTheScatterGame()));
       await tester.pumpAndSettle();

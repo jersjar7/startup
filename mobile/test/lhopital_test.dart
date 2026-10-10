@@ -97,7 +97,10 @@ void main() {
     });
 
     test('both indeterminate forms show up', () {
-      final shown = [for (final r in loopRounds) for (final s in r.steps) s.shown];
+      final shown = [
+        for (final r in loopRounds)
+          for (final s in r.steps) s.shown,
+      ];
       expect(shown, contains(r'\frac{0}{0}'));
       expect(shown, contains(r'\frac{\infty}{\infty}'));
     });

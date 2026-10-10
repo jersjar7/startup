@@ -33,8 +33,11 @@ void main() {
     test('every exchange has four turns and a valid answer', () {
       for (final r in dealRounds) {
         expect(r.lines.length, 4, reason: r.subject);
-        expect(r.answer == noDeal || (r.answer >= 0 && r.answer < 4), isTrue,
-            reason: r.subject);
+        expect(
+          r.answer == noDeal || (r.answer >= 0 && r.answer < 4),
+          isTrue,
+          reason: r.subject,
+        );
         expect(r.rule.trim(), isNotEmpty, reason: r.subject);
       }
     });
@@ -50,20 +53,30 @@ void main() {
     test('the two sides alternate, so an offer is answered by the other', () {
       for (final r in dealRounds) {
         for (var i = 1; i < r.lines.length; i++) {
-          expect(r.lines[i].who, isNot(r.lines[i - 1].who),
-              reason: '${r.subject}: the same party speaks twice running');
+          expect(
+            r.lines[i].who,
+            isNot(r.lines[i - 1].who),
+            reason: '${r.subject}: the same party speaks twice running',
+          );
         }
       }
     });
 
     test('the binding moment is not always in the same place', () {
       final answers = dealRounds.map((r) => r.answer).toSet();
-      expect(answers.contains(noDeal), isTrue,
-          reason: 'a set where something always forms teaches half the rule');
+      expect(
+        answers.contains(noDeal),
+        isTrue,
+        reason: 'a set where something always forms teaches half the rule',
+      );
       expect(answers.length, greaterThanOrEqualTo(2));
-      expect(dealRounds.where((r) => r.answer == noDeal).length, 2,
-          reason: 'exactly two, so it stays a real possibility and not the '
-              'obvious one');
+      expect(
+        dealRounds.where((r) => r.answer == noDeal).length,
+        2,
+        reason:
+            'exactly two, so it stays a real possibility and not the '
+            'obvious one',
+      );
     });
 
     test('both ways a deal fails are shown', () {
@@ -71,18 +84,26 @@ void main() {
           .where((r) => r.answer == noDeal)
           .map((r) => r.rule)
           .toSet();
-      expect(failures.length, 2,
-          reason: 'the two failures are for different reasons, or one of them '
-              'is never met');
+      expect(
+        failures.length,
+        2,
+        reason:
+            'the two failures are for different reasons, or one of them '
+            'is never met',
+      );
     });
 
     test('the counter-offer round really contains a counter-offer', () {
       final counter = dealRounds.firstWhere(
         (r) => r.rule.contains('counter-offer') && r.answer != noDeal,
       );
-      expect(counter.answer, greaterThanOrEqualTo(2),
-          reason: 'a counter-offer needs an offer before it and an acceptance '
-              'after it, so it cannot bind before the third turn');
+      expect(
+        counter.answer,
+        greaterThanOrEqualTo(2),
+        reason:
+            'a counter-offer needs an offer before it and an acceptance '
+            'after it, so it cannot bind before the third turn',
+      );
     });
   });
 
@@ -97,9 +118,11 @@ void main() {
 
     test('both parties pay somewhere, and neither always', () {
       for (final p in Payer.values) {
-        expect(overrunRounds.where((r) => r.answer == p).length,
-            greaterThanOrEqualTo(2),
-            reason: '$p never carries it');
+        expect(
+          overrunRounds.where((r) => r.answer == p).length,
+          greaterThanOrEqualTo(2),
+          reason: '$p never carries it',
+        );
       }
     });
 
@@ -108,15 +131,20 @@ void main() {
         (r) => r.contract.toLowerCase().startsWith('lump sum'),
       )) {
         final scopeMoved = r.contract.toLowerCase().contains('change');
-        expect(r.answer, scopeMoved ? Payer.owner : Payer.contractor,
-            reason: '${r.contract}: a fixed price is fixed against a scope, '
-                'and this round has the risk on the wrong side of that');
+        expect(
+          r.answer,
+          scopeMoved ? Payer.owner : Payer.contractor,
+          reason:
+              '${r.contract}: a fixed price is fixed against a scope, '
+              'and this round has the risk on the wrong side of that',
+        );
       }
     });
 
     test('reimbursed contracts always fall on the owner', () {
       for (final r in overrunRounds) {
-        final reimbursed = r.contract.toLowerCase().contains('cost plus') ||
+        final reimbursed =
+            r.contract.toLowerCase().contains('cost plus') ||
             r.contract.toLowerCase().contains('time and materials') ||
             r.contract.toLowerCase().contains('unit price');
         if (reimbursed) {
@@ -129,54 +157,75 @@ void main() {
       final gmp = overrunRounds.firstWhere(
         (r) => r.contract.toLowerCase().contains('guaranteed maximum'),
       );
-      expect(gmp.answer, Payer.contractor,
-          reason: 'above the guarantee is the whole meaning of "at risk"');
+      expect(
+        gmp.answer,
+        Payer.contractor,
+        reason: 'above the guarantee is the whole meaning of "at risk"',
+      );
     });
 
     test('every contract type in the lesson appears once', () {
       final kinds = overrunRounds.map((r) => r.contract).toSet();
-      expect(kinds.length, overrunRounds.length,
-          reason: 'a contract type is used twice, which wastes a round');
+      expect(
+        kinds.length,
+        overrunRounds.length,
+        reason: 'a contract type is used twice, which wastes a round',
+      );
     });
   });
 
   group('which delivery', () {
     test('every method is the answer twice', () {
       for (final d in Delivery.values) {
-        expect(deliveryRounds.where((r) => r.answer == d).length, 2,
-            reason: '$d appears the wrong number of times');
+        expect(
+          deliveryRounds.where((r) => r.answer == d).length,
+          2,
+          reason: '$d appears the wrong number of times',
+        );
       }
     });
 
     test('the method never repeats round to round', () {
       for (var i = 1; i < deliveryRounds.length; i++) {
-        expect(deliveryRounds[i].answer, isNot(deliveryRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous method');
+        expect(
+          deliveryRounds[i].answer,
+          isNot(deliveryRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous method',
+        );
       }
     });
 
     test('the drawn shapes really differ in how many the owner holds', () {
       int held(Delivery d) => boxesFor(d).where((b) => b.$2).length;
-      expect(held(Delivery.designBuild), 1,
-          reason: 'design-build is one contract, and that is the whole point');
+      expect(
+        held(Delivery.designBuild),
+        1,
+        reason: 'design-build is one contract, and that is the whole point',
+      );
       expect(held(Delivery.designBidBuild), 2);
       expect(held(Delivery.cmAtRisk), 2);
     });
 
     test('the design-build shape has somebody the owner does not hold', () {
       final loose = boxesFor(Delivery.designBuild).where((b) => !b.$2);
-      expect(loose, isNotEmpty,
-          reason: 'without a party hanging off the design-builder, the picture '
-              'does not show what the owner gave up');
+      expect(
+        loose,
+        isNotEmpty,
+        reason:
+            'without a party hanging off the design-builder, the picture '
+            'does not show what the owner gave up',
+      );
     });
 
     test('no description names its own answer', () {
       const names = ['design-build', 'design-bid-build', 'at risk', 'CMAR'];
       for (final r in deliveryRounds) {
         for (final name in names) {
-          expect(r.description.toLowerCase().contains(name.toLowerCase()),
-              isFalse,
-              reason: '${r.subject} says "$name"');
+          expect(
+            r.description.toLowerCase().contains(name.toLowerCase()),
+            isFalse,
+            reason: '${r.subject} says "$name"',
+          );
         }
       }
     });

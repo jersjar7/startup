@@ -68,10 +68,9 @@ Future<void> _fonts() async {
     'Inter': 'Inter',
     'JetBrains Mono': 'JetBrainsMono',
   }.entries) {
-    final files = dir
-        .listSync()
-        .whereType<File>()
-        .where((f) => f.path.contains(family.value));
+    final files = dir.listSync().whereType<File>().where(
+      (f) => f.path.contains(family.value),
+    );
     if (files.isEmpty) continue;
     final loader = FontLoader(family.key);
     for (final f in files) {
@@ -106,17 +105,19 @@ void _shadow(Canvas canvas, Path shape, Color color, double blur, double dy) {
   );
 }
 
-void _dashedLine(Canvas canvas, Offset a, Offset b, Paint paint, double on,
-    double off) {
+void _dashedLine(
+  Canvas canvas,
+  Offset a,
+  Offset b,
+  Paint paint,
+  double on,
+  double off,
+) {
   final total = (b - a).distance;
   if (total < 0.5) return;
   final unit = (b - a) / total;
   for (var t = 0.0; t < total; t += on + off) {
-    canvas.drawLine(
-      a + unit * t,
-      a + unit * math.min(t + on, total),
-      paint,
-    );
+    canvas.drawLine(a + unit * t, a + unit * math.min(t + on, total), paint);
   }
 }
 
@@ -151,8 +152,14 @@ class InkLevel extends _Direction {
     switch (stop.look) {
       case Look.notBuilt:
         canvas.drawPath(circle, Paint()..color = const Color(0xFFFAF3E7));
-        _dashedCircle(canvas, c, d / 2, const Color(0xFFC9BFAE), 0.022 * d,
-            0.036 * d);
+        _dashedCircle(
+          canvas,
+          c,
+          d / 2,
+          const Color(0xFFC9BFAE),
+          0.022 * d,
+          0.036 * d,
+        );
         _glyph(canvas, Icons.more_horiz, c, 0.26 * d, const Color(0xFFA79B87));
       case Look.untouched:
         _shadow(canvas, circle, const Color(0x1A2C2C2C), 7, 6);
@@ -172,8 +179,9 @@ class InkLevel extends _Direction {
           Paint()..color = const Color(0xFF2D7A5F),
         );
         // The meniscus, so the surface reads as a surface.
-        final half = math.sqrt(math.max(0, (d / 2) * (d / 2) -
-            math.pow(top - c.dy, 2)));
+        final half = math.sqrt(
+          math.max(0, (d / 2) * (d / 2) - math.pow(top - c.dy, 2)),
+        );
         canvas.drawLine(
           Offset(c.dx - half, top),
           Offset(c.dx + half, top),
@@ -218,8 +226,13 @@ class Milestone extends _Direction {
         final small = 0.62 * d;
         canvas.drawCircle(c, small / 2, Paint()..color = _page);
         _rim(canvas, c, small, const Color(0xFFD8CCB8), 0.018 * d);
-        _glyph(canvas, Icons.more_horiz, c, 0.24 * small,
-            const Color(0xFFA79B87));
+        _glyph(
+          canvas,
+          Icons.more_horiz,
+          c,
+          0.24 * small,
+          const Color(0xFFA79B87),
+        );
       case Look.untouched:
         final circle = Path()
           ..addOval(Rect.fromCircle(center: c, radius: d / 2));
@@ -241,8 +254,10 @@ class Milestone extends _Direction {
           ..style = PaintingStyle.stroke
           ..strokeWidth = 0.045 * d;
         canvas.drawArc(rect, 0, 2 * math.pi, false, track);
-        final sweep = (stop.fraction * 2 * math.pi)
-            .clamp(28 * math.pi / 180, 348 * math.pi / 180);
+        final sweep = (stop.fraction * 2 * math.pi).clamp(
+          28 * math.pi / 180,
+          348 * math.pi / 180,
+        );
         canvas.drawArc(
           rect,
           -math.pi / 2,
@@ -260,8 +275,13 @@ class Milestone extends _Direction {
         _shadow(canvas, circle, const Color(0x142C2C2C), 5, 4);
         canvas.drawPath(circle, Paint()..color = Colors.white);
         _rim(canvas, c, d, const Color(0xFF2D7A5F), 0.027 * d);
-        _glyph(canvas, Icons.check_rounded, c, 0.40 * d,
-            const Color(0xFF2D7A5F));
+        _glyph(
+          canvas,
+          Icons.check_rounded,
+          c,
+          0.40 * d,
+          const Color(0xFF2D7A5F),
+        );
     }
   }
 }
@@ -310,12 +330,14 @@ class Silhouette extends _Direction {
     return switch (plinth) {
       Plinth.stone => const Color(0xFFCDBFA8),
       Plinth.mid => const Color(0xFF8A7F6E),
-      Plinth.darker => stop.look == Look.finished
-          ? const Color(0xFF161616)
-          : const Color(0xFFCDBFA8),
-      Plinth.sameHue => stop.look == Look.finished
-          ? const Color(0xFF625D57)
-          : const Color(0xFFCDBFA8),
+      Plinth.darker =>
+        stop.look == Look.finished
+            ? const Color(0xFF161616)
+            : const Color(0xFFCDBFA8),
+      Plinth.sameHue =>
+        stop.look == Look.finished
+            ? const Color(0xFF625D57)
+            : const Color(0xFFCDBFA8),
     };
   }
 
@@ -350,8 +372,13 @@ class Silhouette extends _Direction {
           Radius.circular(0.28 * side),
         );
         canvas.drawRRect(r, Paint()..color = const Color(0xFFF5EDE0));
-        _glyph(canvas, Icons.more_horiz, c, 0.34 * side,
-            const Color(0xFFA79B87));
+        _glyph(
+          canvas,
+          Icons.more_horiz,
+          c,
+          0.34 * side,
+          const Color(0xFFA79B87),
+        );
       case Look.untouched:
         final circle = Path()
           ..addOval(Rect.fromCircle(center: c, radius: d / 2));
@@ -365,8 +392,10 @@ class Silhouette extends _Direction {
         canvas.drawPath(circle, Paint()..color = Colors.white);
         // A pie gauge: the white that is left IS the work that is left.
         final inset = 0.027 * d / 2 + 0.014 * d;
-        final sweep = (stop.fraction * 2 * math.pi)
-            .clamp(54 * math.pi / 180, 330 * math.pi / 180);
+        final sweep = (stop.fraction * 2 * math.pi).clamp(
+          54 * math.pi / 180,
+          330 * math.pi / 180,
+        );
         canvas.drawArc(
           Rect.fromCircle(center: c, radius: d / 2 - inset),
           -math.pi / 2,
@@ -419,7 +448,13 @@ abstract class _Direction {
   }
 
   void _dashedCircle(
-      Canvas canvas, Offset c, double r, Color color, double w, double dash) {
+    Canvas canvas,
+    Offset c,
+    double r,
+    Color color,
+    double w,
+    double dash,
+  ) {
     final paint = Paint()
       ..color = color
       ..style = PaintingStyle.stroke
@@ -466,8 +501,14 @@ class _PathPainter extends CustomPainter {
         ..strokeWidth = look.roadWidth * d
         ..strokeCap = StrokeCap.round;
       if (look.roadDashed(stops[i], stops[i + 1])) {
-        _dashedLine(canvas, centers[i], centers[i + 1], paint, 0.09 * d,
-            0.07 * d);
+        _dashedLine(
+          canvas,
+          centers[i],
+          centers[i + 1],
+          paint,
+          0.09 * d,
+          0.07 * d,
+        );
       } else {
         canvas.drawLine(centers[i], centers[i + 1], paint);
       }
@@ -490,11 +531,14 @@ class _PathPainter extends CustomPainter {
   bool shouldRepaint(_PathPainter old) => false;
 }
 
-
 /// A closer look at one direction with every state raised, laid out the way
 /// the real screen is: nodes on a winding road with a label card beside each.
 class _RealisticPainter extends CustomPainter {
-  const _RealisticPainter({required this.look, required this.d, required this.rows});
+  const _RealisticPainter({
+    required this.look,
+    required this.d,
+    required this.rows,
+  });
 
   final _Direction look;
   final double d;
@@ -517,8 +561,14 @@ class _RealisticPainter extends CustomPainter {
         ..strokeWidth = look.roadWidth * d
         ..strokeCap = StrokeCap.round;
       if (look.roadDashed(rows[i].$1, rows[i + 1].$1)) {
-        _dashedLine(canvas, centers[i], centers[i + 1], paint, 0.09 * d,
-            0.07 * d);
+        _dashedLine(
+          canvas,
+          centers[i],
+          centers[i + 1],
+          paint,
+          0.09 * d,
+          0.07 * d,
+        );
       } else {
         canvas.drawLine(centers[i], centers[i + 1], paint);
       }
@@ -538,8 +588,14 @@ class _RealisticPainter extends CustomPainter {
   }
 
   /// The white label card, so the node is judged next to what it sits beside.
-  void _card(Canvas canvas, Size size, Offset c, double d, String name,
-      String detail) {
+  void _card(
+    Canvas canvas,
+    Size size,
+    Offset c,
+    double d,
+    String name,
+    String detail,
+  ) {
     final onLeft = c.dx > size.width * 0.45;
     const w = 150.0;
     final left = onLeft ? c.dx - d / 2 - 12 - w : c.dx + d / 2 + 12;

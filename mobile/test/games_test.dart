@@ -17,8 +17,9 @@ void main() {
   });
 
   group('Grade Sense', () {
-    testWidgets('the steepest is the short run, not the big rise',
-        (tester) async {
+    testWidgets('the steepest is the short run, not the big rise', (
+      tester,
+    ) async {
       tester.view.physicalSize = const Size(420, 1400);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
@@ -91,8 +92,11 @@ void main() {
     // set must mix a plain-feet run in with the stations.
     for (var i = 0; i < gradeRounds.length; i++) {
       final r = gradeRounds[i];
-      expect(r.byNaiveStation, isNot(r.answer),
-          reason: 'round ${i + 1} gives the same order either way');
+      expect(
+        r.byNaiveStation,
+        isNot(r.answer),
+        reason: 'round ${i + 1} gives the same order either way',
+      );
     }
   });
 
@@ -101,13 +105,17 @@ void main() {
     // answer arbitrary and the game unwinnable by reasoning.
     for (var i = 0; i < gradeRounds.length; i++) {
       final grades = gradeRounds[i].stretches.map((s) => s.grade).toList();
-      expect(grades.toSet().length, grades.length,
-          reason: 'round ${i + 1} has two stretches at the same grade');
+      expect(
+        grades.toSet().length,
+        grades.length,
+        reason: 'round ${i + 1} has two stretches at the same grade',
+      );
     }
   });
 
-  testWidgets('the last answer is read before the summary appears',
-      (tester) async {
+  testWidgets('the last answer is read before the summary appears', (
+    tester,
+  ) async {
     tester.view.physicalSize = const Size(420, 1400);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
@@ -138,8 +146,9 @@ void main() {
   });
 
   group('Discriminant Gate', () {
-    testWidgets('a curve through the axis twice has two real roots',
-        (tester) async {
+    testWidgets('a curve through the axis twice has two real roots', (
+      tester,
+    ) async {
       tester.view.physicalSize = const Size(420, 1400);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
@@ -155,8 +164,9 @@ void main() {
       expect(find.text('1/8'), findsOneWidget);
     });
 
-    testWidgets('a wrong count is explained by where the curve sits',
-        (tester) async {
+    testWidgets('a wrong count is explained by where the curve sits', (
+      tester,
+    ) async {
       tester.view.physicalSize = const Size(420, 1400);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
@@ -172,8 +182,9 @@ void main() {
       expect(find.text('0/8'), findsOneWidget);
     });
 
-    testWidgets('nothing can be locked in before a choice is made',
-        (tester) async {
+    testWidgets('nothing can be locked in before a choice is made', (
+      tester,
+    ) async {
       tester.view.physicalSize = const Size(420, 1400);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);

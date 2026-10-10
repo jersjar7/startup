@@ -100,7 +100,8 @@ void main() {
 
     test('an indeterminate structure can be unstable too', () {
       final spare = standRounds.firstWhere(
-          (r) => r.skeleton.parallelReactions && r.skeleton.degree > 0);
+        (r) => r.skeleton.parallelReactions && r.skeleton.degree > 0,
+      );
       expect(spare.answer, WillItStand.unstable);
     });
 
@@ -125,8 +126,9 @@ void main() {
     });
 
     test('the concurrent round really is concurrent', () {
-      final round =
-          standRounds.firstWhere((r) => r.skeleton.concurrentReactions);
+      final round = standRounds.firstWhere(
+        (r) => r.skeleton.concurrentReactions,
+      );
       // A pin and a roller whose one reaction is horizontal, both at the
       // same level: every line of action passes through the pin.
       expect(round.skeleton.holds.values, contains(Hold.wallRoller));
@@ -136,8 +138,10 @@ void main() {
       final roller = round.skeleton.holds.entries
           .firstWhere((e) => e.value == Hold.wallRoller)
           .key;
-      expect(round.skeleton.joints[pin].dy,
-          closeTo(round.skeleton.joints[roller].dy, 0.001));
+      expect(
+        round.skeleton.joints[pin].dy,
+        closeTo(round.skeleton.joints[roller].dy, 0.001),
+      );
     });
 
     test('every skeleton is drawn inside its panel', () {
@@ -167,34 +171,46 @@ void main() {
     test('the pivot is where the other two cut members meet', () {
       for (final r in pivotRounds) {
         if (r.answer == Pivot.neither) continue;
-        final anchor = r.answer == Pivot.first ? r.anchors.first : r.anchors.last;
-        final others =
-            r.cut.through(r.truss).where((m) => m != r.target).toList();
+        final anchor = r.answer == Pivot.first
+            ? r.anchors.first
+            : r.anchors.last;
+        final others = r.cut
+            .through(r.truss)
+            .where((m) => m != r.target)
+            .toList();
         for (final m in others) {
           final (a, b) = r.truss.members[m];
           final p = r.truss.joints[a].at;
           final q = r.truss.joints[b].at;
           // The anchor lies on the line of every member it is meant to
           // kill, which is what gives it no lever arm about it.
-          final cross = (q.dx - p.dx) * (anchor.at.dy - p.dy) -
+          final cross =
+              (q.dx - p.dx) * (anchor.at.dy - p.dy) -
               (q.dy - p.dy) * (anchor.at.dx - p.dx);
-          expect(cross.abs(), lessThan(0.001),
-              reason: '${r.subject}: member $m misses the pivot');
+          expect(
+            cross.abs(),
+            lessThan(0.001),
+            reason: '${r.subject}: member $m misses the pivot',
+          );
         }
       }
     });
 
     test('the parallel chord rounds really have no pivot', () {
       for (final r in pivotRounds.where((r) => r.answer == Pivot.neither)) {
-        final others =
-            r.cut.through(r.truss).where((m) => m != r.target).toList();
+        final others = r.cut
+            .through(r.truss)
+            .where((m) => m != r.target)
+            .toList();
         expect(others.length, 2, reason: r.subject);
         // Both are horizontal, so they never cross.
         for (final m in others) {
           final (a, b) = r.truss.members[m];
-          expect(r.truss.joints[a].at.dy,
-              closeTo(r.truss.joints[b].at.dy, 0.001),
-              reason: r.subject);
+          expect(
+            r.truss.joints[a].at.dy,
+            closeTo(r.truss.joints[b].at.dy, 0.001),
+            reason: r.subject,
+          );
         }
       }
       expect(pivotRounds.map((r) => r.answer).toSet().length, 3);
@@ -204,15 +220,26 @@ void main() {
   group('the force in a diagonal', () {
     test('it is the load over the sine, and always the larger', () {
       for (final r in webRounds) {
-        expect(r.corner.diagonal, greaterThan(r.corner.load),
-            reason: r.subject);
+        expect(
+          r.corner.diagonal,
+          greaterThan(r.corner.load),
+          reason: r.subject,
+        );
         final sine = math.sin(r.corner.degrees * math.pi / 180);
-        expect(r.corner.diagonal, closeTo(r.corner.load / sine, 0.001),
-            reason: r.subject);
+        expect(
+          r.corner.diagonal,
+          closeTo(r.corner.load / sine, 0.001),
+          reason: r.subject,
+        );
         expect(r.corner.ratio, closeTo(1 / sine, 0.001), reason: r.subject);
-        expect(r.corner.flat,
-            closeTo(r.corner.diagonal * math.cos(r.corner.degrees * math.pi / 180), 0.001),
-            reason: r.subject);
+        expect(
+          r.corner.flat,
+          closeTo(
+            r.corner.diagonal * math.cos(r.corner.degrees * math.pi / 180),
+            0.001,
+          ),
+          reason: r.subject,
+        );
       }
     });
 
@@ -233,16 +260,21 @@ void main() {
       const steep = Corner(load: 10, degrees: 75);
       const flat = Corner(load: 10, degrees: 10);
       expect(flat.diagonal, greaterThan(steep.diagonal));
-      expect(webRounds.map((r) => r.answer).toSet().length, 2,
-          reason: 'smaller than the load can never happen');
+      expect(
+        webRounds.map((r) => r.answer).toSet().length,
+        2,
+        reason: 'smaller than the load can never happen',
+      );
     });
   });
 
   group('choosing the method', () {
     test('every round names one of the three routes', () {
       expect(routeRounds.map((r) => r.answer).toSet().length, 3);
-      expect(routeRounds.where((r) => r.answer == Route3.reactions).length,
-          greaterThanOrEqualTo(2));
+      expect(
+        routeRounds.where((r) => r.answer == Route3.reactions).length,
+        greaterThanOrEqualTo(2),
+      );
     });
   });
 
@@ -267,16 +299,22 @@ void main() {
       final sway = hangRounds.where((r) => r.probe.measured == Measured.sway);
       expect(sway, isNotEmpty);
       for (final r in sway) {
-        expect(r.options[r.answer].toLowerCase(), contains('horizontal'),
-            reason: r.subject);
+        expect(
+          r.options[r.answer].toLowerCase(),
+          contains('horizontal'),
+          reason: r.subject,
+        );
       }
     });
 
     test('every round marks a point on the structure', () {
       for (final r in hangRounds) {
         expect(r.probe.at >= 0 && r.probe.at <= 1, isTrue, reason: r.subject);
-        expect(r.probe.loadAt >= 0 && r.probe.loadAt <= 1, isTrue,
-            reason: r.subject);
+        expect(
+          r.probe.loadAt >= 0 && r.probe.loadAt <= 1,
+          isTrue,
+          reason: r.subject,
+        );
       }
     });
 
@@ -319,8 +357,11 @@ void main() {
       final r = termRounds.firstWhere((r) => r.term.virt == 0);
       final (a, b) = ContributionPainter.members[r.term.member];
       final foot = a < b ? a : b;
-      expect(foot, isNot(r.term.hangAt),
-          reason: 'the unit load is sitting on the member it is said to miss');
+      expect(
+        foot,
+        isNot(r.term.hangAt),
+        reason: 'the unit load is sitting on the member it is said to miss',
+      );
       final touching = <int>[
         for (final (p, q) in ContributionPainter.members)
           if (p == foot) q else if (q == foot) p,
@@ -356,13 +397,17 @@ void main() {
     });
 
     test('both kinds of release get an outing', () {
-      expect(letGoRounds.map((r) => r.release).toSet(),
-          {Release.theProp, Release.theFixedMoment});
+      expect(letGoRounds.map((r) => r.release).toSet(), {
+        Release.theProp,
+        Release.theFixedMoment,
+      });
     });
 
     test('the rounds lean on more than one of the lesson\'s problems', () {
-      expect(letGoRounds.map((r) => r.source).toSet().length,
-          greaterThanOrEqualTo(3));
+      expect(
+        letGoRounds.map((r) => r.source).toSet().length,
+        greaterThanOrEqualTo(3),
+      );
     });
   });
 
@@ -371,15 +416,20 @@ void main() {
       final same = compareRounds.where((r) => r.answer == Change.same);
       expect(same, isNotEmpty);
       for (final r in same) {
-        expect(r.ends, Ends.fixedFixed,
-            reason: 'only a symmetric beam splits its load evenly');
-        expect(r.topNote, r.bottomNote,
-            reason: 'the same answer has to be written on both beams');
+        expect(
+          r.ends,
+          Ends.fixedFixed,
+          reason: 'only a symmetric beam splits its load evenly',
+        );
+        expect(
+          r.topNote,
+          r.bottomNote,
+          reason: 'the same answer has to be written on both beams',
+        );
       }
     });
 
-    test('a quantity that changes is written differently on the two beams',
-        () {
+    test('a quantity that changes is written differently on the two beams', () {
       for (final r in compareRounds.where((r) => r.answer != Change.same)) {
         expect(r.topNote, isNot(r.bottomNote), reason: r.subject);
       }
@@ -387,10 +437,12 @@ void main() {
 
     test('the propped cantilever gives up at one end what it takes at the '
         'other', () {
-      final prop =
-          compareRounds.firstWhere((r) => r.subject.contains('the prop'));
-      final wall =
-          compareRounds.firstWhere((r) => r.subject.contains('built-in end'));
+      final prop = compareRounds.firstWhere(
+        (r) => r.subject.contains('the prop'),
+      );
+      final wall = compareRounds.firstWhere(
+        (r) => r.subject.contains('built-in end'),
+      );
       expect(prop.answer, Change.less);
       expect(wall.answer, Change.more);
       expect(prop.bottomNote, '3wL/8');
@@ -398,14 +450,15 @@ void main() {
     });
 
     test('fixity moves moment from the middle to the ends', () {
-      final mid =
-          compareRounds.firstWhere((r) => r.marked == Marked.midMoment);
-      final end =
-          compareRounds.firstWhere((r) => r.marked == Marked.endMoment);
+      final mid = compareRounds.firstWhere((r) => r.marked == Marked.midMoment);
+      final end = compareRounds.firstWhere((r) => r.marked == Marked.endMoment);
       expect(mid.answer, Change.less);
       expect(end.answer, Change.more);
-      expect(end.topNote, 'zero',
-          reason: 'a simple support carries no moment at all');
+      expect(
+        end.topNote,
+        'zero',
+        reason: 'a simple support carries no moment at all',
+      );
     });
 
     test('all three answers are used', () {
@@ -449,12 +502,14 @@ void main() {
       expect(b.controls, Combo.two);
     });
 
-    test('a roof load bigger than the floor load hands it to combination 3',
-        () {
-      const b = Bundle(dead: 30, live: 10, snow: 60);
-      expect(b.controls, Combo.three);
-      expect(b.combo3, greaterThan(b.combo2));
-    });
+    test(
+      'a roof load bigger than the floor load hands it to combination 3',
+      () {
+        const b = Bundle(dead: 30, live: 10, snow: 60);
+        expect(b.controls, Combo.three);
+        expect(b.combo3, greaterThan(b.combo2));
+      },
+    );
 
     test('almost no live load hands it to combination 1', () {
       const b = Bundle(dead: 100, live: 5);
@@ -468,8 +523,11 @@ void main() {
           r.bundle.live,
           r.bundle.snow,
         ].reduce((a, b) => a > b ? a : b);
-        expect(r.bundle.worst, greaterThanOrEqualTo(biggest),
-            reason: r.subject);
+        expect(
+          r.bundle.worst,
+          greaterThanOrEqualTo(biggest),
+          reason: r.subject,
+        );
       }
     });
 
@@ -555,8 +613,11 @@ void main() {
 
     test('only the shear line jumps', () {
       for (final r in ilShapeRounds) {
-        expect(r.line.jumps, r.line.response == Response.shearAt,
-            reason: r.subject);
+        expect(
+          r.line.jumps,
+          r.line.response == Response.shearAt,
+          reason: r.subject,
+        );
       }
     });
 
@@ -582,19 +643,25 @@ void main() {
       for (final r in parkRounds.where((r) => r.parked.length == 1)) {
         final me = r.line.ordinateAt(r.parked.first.$1);
         for (var x = 0.0; x <= r.line.span; x += r.line.span / 40) {
-          expect(me, greaterThanOrEqualTo(r.line.ordinateAt(x) - 0.001),
-              reason: '${r.subject}: a taller spot exists');
+          expect(
+            me,
+            greaterThanOrEqualTo(r.line.ordinateAt(x) - 0.001),
+            reason: '${r.subject}: a taller spot exists',
+          );
         }
       }
     });
 
     test('the shear round parks on the tall side of the step', () {
-      final shear = parkRounds.firstWhere((r) =>
-          r.line.response == Response.shearAt && r.parked.isNotEmpty);
+      final shear = parkRounds.firstWhere(
+        (r) => r.line.response == Response.shearAt && r.parked.isNotEmpty,
+      );
       final at = shear.parked.first.$1;
       expect(at, greaterThanOrEqualTo(shear.line.at));
-      expect(shear.line.ordinateAt(at),
-          greaterThan(shear.line.ordinateAt(at, fromRight: false)));
+      expect(
+        shear.line.ordinateAt(at),
+        greaterThan(shear.line.ordinateAt(at, fromRight: false)),
+      );
     });
   });
 
@@ -619,8 +686,10 @@ void main() {
     });
 
     test('every dimension the item names gets a round', () {
-      expect(rcDepthRounds.map((r) => r.marked).toSet().length,
-          Depth.values.length);
+      expect(
+        rcDepthRounds.map((r) => r.marked).toSet().length,
+        Depth.values.length,
+      );
     });
   });
 
@@ -642,14 +711,22 @@ void main() {
 
     test('the bands run in order', () {
       const concrete = 26.3;
-      expect(const ShearCheck(concrete: concrete, demand: 5).verdict,
-          Stirrups.none);
-      expect(const ShearCheck(concrete: concrete, demand: 15).verdict,
-          Stirrups.minimum);
-      expect(const ShearCheck(concrete: concrete, demand: 30).verdict,
-          Stirrups.designed);
-      expect(const ShearCheck(concrete: concrete, demand: 200).verdict,
-          Stirrups.tooSmall);
+      expect(
+        const ShearCheck(concrete: concrete, demand: 5).verdict,
+        Stirrups.none,
+      );
+      expect(
+        const ShearCheck(concrete: concrete, demand: 15).verdict,
+        Stirrups.minimum,
+      );
+      expect(
+        const ShearCheck(concrete: concrete, demand: 30).verdict,
+        Stirrups.designed,
+      );
+      expect(
+        const ShearCheck(concrete: concrete, demand: 200).verdict,
+        Stirrups.tooSmall,
+      );
     });
 
     test('landing on the threshold stays in the band below it', () {
@@ -698,8 +775,13 @@ void main() {
 
     test('a spiral improves both multipliers', () {
       const tied = Cage(width: 16, depth: 16, bars: 8, barArea: 1.0);
-      const spiral =
-          Cage(width: 16, depth: 16, bars: 8, barArea: 1.0, spiral: true);
+      const spiral = Cage(
+        width: 16,
+        depth: 16,
+        bars: 8,
+        barArea: 1.0,
+        spiral: true,
+      );
       expect(tied.allowance, 0.80);
       expect(tied.phi, 0.65);
       expect(spiral.allowance, greaterThan(tied.allowance));
@@ -718,18 +800,30 @@ void main() {
 
   group('the braced beam', () {
     test('a slab on top leaves nothing unbraced', () {
-      const b = Braced(span: 30, braceEvery: 0, lp: 8, lr: 25, continuous: true);
+      const b = Braced(
+        span: 30,
+        braceEvery: 0,
+        lp: 8,
+        lr: 25,
+        continuous: true,
+      );
       expect(b.unbraced, 0);
       expect(b.reach, Gets.fullPlastic);
     });
 
     test('the three bands run in order', () {
-      expect(const Braced(span: 30, braceEvery: 6, lp: 8, lr: 25).reach,
-          Gets.fullPlastic);
-      expect(const Braced(span: 30, braceEvery: 15, lp: 8, lr: 25).reach,
-          Gets.inelastic);
-      expect(const Braced(span: 30, braceEvery: 30, lp: 8, lr: 25).reach,
-          Gets.elastic);
+      expect(
+        const Braced(span: 30, braceEvery: 6, lp: 8, lr: 25).reach,
+        Gets.fullPlastic,
+      );
+      expect(
+        const Braced(span: 30, braceEvery: 15, lp: 8, lr: 25).reach,
+        Gets.inelastic,
+      );
+      expect(
+        const Braced(span: 30, braceEvery: 30, lp: 8, lr: 25).reach,
+        Gets.elastic,
+      );
     });
 
     test('landing exactly on the first limit keeps everything', () {
@@ -800,12 +894,13 @@ void main() {
   group('the tension member', () {
     test('a hole costs the bolt plus an eighth', () {
       const t = Tie(
-          width: 10,
-          thickness: 0.5,
-          holes: 2,
-          boltDiameter: 0.875,
-          fy: 36,
-          fu: 58);
+        width: 10,
+        thickness: 0.5,
+        holes: 2,
+        boltDiameter: 0.875,
+        fy: 36,
+        fu: 58,
+      );
       expect(t.holeLoss, closeTo(1.0, 0.0001));
       // The lesson works this one out: 4.00 square inches.
       expect(t.net, closeTo(4.0, 0.0001));
@@ -814,12 +909,13 @@ void main() {
 
     test('the lesson\'s own bar with no holes yields first', () {
       const t = Tie(
-          width: 6,
-          thickness: 0.5,
-          holes: 0,
-          boltDiameter: 0.75,
-          fy: 36,
-          fu: 58);
+        width: 6,
+        thickness: 0.5,
+        holes: 0,
+        boltDiameter: 0.75,
+        fy: 36,
+        fu: 58,
+      );
       expect(t.net, t.gross);
       expect(t.yieldStrength, closeTo(97.2, 0.1));
       expect(t.controls, Limit.yielding);
@@ -827,12 +923,13 @@ void main() {
 
     test('the lesson\'s hard problem ruptures at 152 kips', () {
       const t = Tie(
-          width: 8,
-          thickness: 0.5,
-          holes: 2,
-          boltDiameter: 0.75,
-          fy: 50,
-          fu: 65);
+        width: 8,
+        thickness: 0.5,
+        holes: 2,
+        boltDiameter: 0.75,
+        fy: 50,
+        fu: 65,
+      );
       expect(t.net, closeTo(3.125, 0.001));
       expect(t.yieldStrength, closeTo(180, 0.1));
       expect(t.ruptureStrength, closeTo(152.3, 0.1));
@@ -843,19 +940,21 @@ void main() {
     test('the design strength is always the smaller of the two', () {
       for (final t in [
         const Tie(
-            width: 8,
-            thickness: 0.5,
-            holes: 2,
-            boltDiameter: 0.75,
-            fy: 50,
-            fu: 65),
+          width: 8,
+          thickness: 0.5,
+          holes: 2,
+          boltDiameter: 0.75,
+          fy: 50,
+          fu: 65,
+        ),
         const Tie(
-            width: 6,
-            thickness: 0.5,
-            holes: 0,
-            boltDiameter: 0.75,
-            fy: 36,
-            fu: 58),
+          width: 6,
+          thickness: 0.5,
+          holes: 0,
+          boltDiameter: 0.75,
+          fy: 36,
+          fu: 58,
+        ),
       ]) {
         expect(t.design, lessThanOrEqualTo(t.yieldStrength));
         expect(t.design, lessThanOrEqualTo(t.ruptureStrength));
@@ -864,41 +963,48 @@ void main() {
 
     test('shear lag only ever takes capacity away', () {
       const full = Tie(
-          width: 8,
-          thickness: 0.5,
-          holes: 2,
-          boltDiameter: 0.75,
-          fy: 50,
-          fu: 65);
+        width: 8,
+        thickness: 0.5,
+        holes: 2,
+        boltDiameter: 0.75,
+        fy: 50,
+        fu: 65,
+      );
       const lagged = Tie(
-          width: 8,
-          thickness: 0.5,
-          holes: 2,
-          boltDiameter: 0.75,
-          fy: 50,
-          fu: 65,
-          u: 0.85);
+        width: 8,
+        thickness: 0.5,
+        holes: 2,
+        boltDiameter: 0.75,
+        fy: 50,
+        fu: 65,
+        u: 0.85,
+      );
       expect(lagged.effective, lessThan(full.effective));
-      expect(lagged.yieldStrength, full.yieldStrength,
-          reason: 'the yielding check never sees U');
+      expect(
+        lagged.yieldStrength,
+        full.yieldStrength,
+        reason: 'the yielding check never sees U',
+      );
       expect(lagged.ruptureStrength, lessThan(full.ruptureStrength));
     });
 
     test('a thicker plate loses more area to the same bolt', () {
       const thin = Tie(
-          width: 10,
-          thickness: 0.25,
-          holes: 2,
-          boltDiameter: 0.875,
-          fy: 36,
-          fu: 58);
+        width: 10,
+        thickness: 0.25,
+        holes: 2,
+        boltDiameter: 0.875,
+        fy: 36,
+        fu: 58,
+      );
       const thick = Tie(
-          width: 10,
-          thickness: 0.75,
-          holes: 2,
-          boltDiameter: 0.875,
-          fy: 36,
-          fu: 58);
+        width: 10,
+        thickness: 0.75,
+        holes: 2,
+        boltDiameter: 0.875,
+        fy: 36,
+        fu: 58,
+      );
       expect(thick.gross - thick.net, greaterThan(thin.gross - thin.net));
     });
   });

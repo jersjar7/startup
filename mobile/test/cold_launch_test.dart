@@ -16,7 +16,11 @@ void main() {
   setUpAll(() => GoogleFonts.config.allowRuntimeFetching = false);
 
   setUp(() {
-    for (final id in ['perpendicular-flip', 'discriminant-gate', 'grade-sense']) {
+    for (final id in [
+      'perpendicular-flip',
+      'discriminant-gate',
+      'grade-sense',
+    ]) {
       GameProgress.instance.reset(id);
     }
   });
@@ -25,8 +29,11 @@ void main() {
     for (final chapter in chapterMaps.values) {
       for (final lesson in chapter.lessons) {
         for (final game in lesson.builtGames) {
-          expect(game.rounds, greaterThan(0),
-              reason: '${game.name} does not say how many rounds it has');
+          expect(
+            game.rounds,
+            greaterThan(0),
+            reason: '${game.name} does not say how many rounds it has',
+          );
         }
       }
     }
@@ -45,7 +52,11 @@ void main() {
     addTearDown(tester.view.reset);
 
     // Everything in lesson one, finished in some earlier run.
-    for (final id in ['perpendicular-flip', 'discriminant-gate', 'grade-sense']) {
+    for (final id in [
+      'perpendicular-flip',
+      'discriminant-gate',
+      'grade-sense',
+    ]) {
       for (var i = 0; i < GameProgress.roundsIn(id); i++) {
         GameProgress.instance.markRoundCleared(id, i, firstTry: true);
       }
@@ -58,7 +69,8 @@ void main() {
     final node = tester
         .widgetList<LessonNodeWidget>(find.byType(LessonNodeWidget))
         .firstWhere(
-            (w) => (w.key as ValueKey).value == 'straight-lines-quadratics');
+          (w) => (w.key as ValueKey).value == 'straight-lines-quadratics',
+        );
 
     expect(node.state, NodeState.cleared);
     expect(node.fractionTo, 1);
@@ -69,7 +81,8 @@ void main() {
     final road = tester
         .widgetList<RoadSegment>(find.byType(RoadSegment))
         .firstWhere(
-            (w) => (w.key as ValueKey).value == 'road-straight-lines-quadratics');
+          (w) => (w.key as ValueKey).value == 'road-straight-lines-quadratics',
+        );
     expect(road.travelled, 1);
   });
 
@@ -78,8 +91,11 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
 
-    GameProgress.instance
-        .markRoundCleared('perpendicular-flip', 0, firstTry: true);
+    GameProgress.instance.markRoundCleared(
+      'perpendicular-flip',
+      0,
+      firstTry: true,
+    );
 
     await tester.pumpWidget(
       const MaterialApp(home: ChapterMapScreen(chapter: mathematicsMap)),
@@ -88,7 +104,8 @@ void main() {
     final road = tester
         .widgetList<RoadSegment>(find.byType(RoadSegment))
         .firstWhere(
-            (w) => (w.key as ValueKey).value == 'road-straight-lines-quadratics');
+          (w) => (w.key as ValueKey).value == 'road-straight-lines-quadratics',
+        );
     expect(road.travelled, 0);
   });
 }

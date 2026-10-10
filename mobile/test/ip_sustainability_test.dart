@@ -33,11 +33,18 @@ void main() {
   group('which protection', () {
     test('every protection on the board is the answer exactly once', () {
       final answers = protectionRounds.map((r) => r.answer).toList();
-      expect(answers.toSet().length, answers.length,
-          reason: 'a protection is the answer twice while another never is');
-      expect(answers.toSet().length, protections.length,
-          reason: 'the six are the whole taxonomy and all of them should '
-              'come up');
+      expect(
+        answers.toSet().length,
+        answers.length,
+        reason: 'a protection is the answer twice while another never is',
+      );
+      expect(
+        answers.toSet().length,
+        protections.length,
+        reason:
+            'the six are the whole taxonomy and all of them should '
+            'come up',
+      );
     });
 
     test('no asset names the protection it needs', () {
@@ -45,8 +52,11 @@ void main() {
       for (final r in protectionRounds) {
         final text = r.asset.toLowerCase();
         for (final word in giveaways) {
-          expect(text.contains(word), isFalse,
-              reason: '${r.subject} says "$word"');
+          expect(
+            text.contains(word),
+            isFalse,
+            reason: '${r.subject} says "$word"',
+          );
         }
       }
     });
@@ -59,7 +69,8 @@ void main() {
       expect(
         text.contains('no intention of telling') || text.contains('never'),
         isTrue,
-        reason: 'without an unwillingness to disclose, a patent would do just '
+        reason:
+            'without an unwillingness to disclose, a patent would do just '
             'as well and the round has two answers',
       );
     });
@@ -68,10 +79,14 @@ void main() {
       final patent = protectionRounds.firstWhere(
         (r) => protections[r.answer].$1 == 'Utility patent',
       );
-      expect(patent.asset.toLowerCase().contains('publish'), isTrue,
-          reason: 'the patent bargain is disclosure, and a round that does not '
-              'mention it is asking the student to guess which way the firm '
-              'would jump');
+      expect(
+        patent.asset.toLowerCase().contains('publish'),
+        isTrue,
+        reason:
+            'the patent bargain is disclosure, and a round that does not '
+            'mention it is asking the student to guess which way the firm '
+            'would jump',
+      );
     });
 
     test('every round explains itself at length', () {
@@ -85,11 +100,20 @@ void main() {
   group('how many protections', () {
     test('the answers are not all the same size', () {
       final sizes = countRounds.map((r) => r.answer.length).toSet();
-      expect(sizes.length, greaterThanOrEqualTo(3),
-          reason: 'if the count barely varies the board can be cleared by '
-              'counting rather than by reading');
-      expect(sizes, contains(4), reason: 'the four-protection project is the '
-          'lesson\'s own problem and has to be in the set');
+      expect(
+        sizes.length,
+        greaterThanOrEqualTo(3),
+        reason:
+            'if the count barely varies the board can be cleared by '
+            'counting rather than by reading',
+      );
+      expect(
+        sizes,
+        contains(4),
+        reason:
+            'the four-protection project is the '
+            'lesson\'s own problem and has to be in the set',
+      );
       expect(sizes, contains(1));
     });
 
@@ -108,18 +132,27 @@ void main() {
       // cannot happen is a round where they are the only two and the scene
       // has just one thing in it.
       for (final r in countRounds) {
-        if (r.answer.length == 2 && r.answer.contains(0) && r.answer.contains(3)) {
-          expect(r.project.toLowerCase().contains('coating'), isTrue,
-              reason: '${r.subject}: a patent and a secret together need two '
-                  'separate assets in the scene');
+        if (r.answer.length == 2 &&
+            r.answer.contains(0) &&
+            r.answer.contains(3)) {
+          expect(
+            r.project.toLowerCase().contains('coating'),
+            isTrue,
+            reason:
+                '${r.subject}: a patent and a secret together need two '
+                'separate assets in the scene',
+          );
         }
       }
     });
 
     test('every protection is needed somewhere', () {
       final used = <int>{for (final r in countRounds) ...r.answer};
-      expect(used.length, kinds.length,
-          reason: 'a protection nobody ever needs is a dead row');
+      expect(
+        used.length,
+        kinds.length,
+        reason: 'a protection nobody ever needs is a dead row',
+      );
     });
   });
 
@@ -129,9 +162,13 @@ void main() {
         final totals = r.options.map((o) => o.total).toList();
         final shortest = totals[0] <= totals[1] ? 0 : 1;
         expect(r.answer, shortest, reason: r.subject);
-        expect(totals[0], isNot(totals[1]),
-            reason: '${r.subject}: the two totals are equal, so there is no '
-                'answer to give');
+        expect(
+          totals[0],
+          isNot(totals[1]),
+          reason:
+              '${r.subject}: the two totals are equal, so there is no '
+              'answer to give',
+        );
       }
     });
 
@@ -141,9 +178,13 @@ void main() {
         for (final o in r.options) {
           expect(o.stages.length, stageNames.length, reason: r.subject);
           for (final s in o.stages) {
-            expect(s, greaterThan(0),
-                reason: '${r.subject}: a stage that costs nothing is not a '
-                    'stage of a life');
+            expect(
+              s,
+              greaterThan(0),
+              reason:
+                  '${r.subject}: a stage that costs nothing is not a '
+                  'stage of a life',
+            );
           }
         }
       }
@@ -155,18 +196,26 @@ void main() {
       final trap = lifeRounds
           .where((r) => r.cheapestToBuild != r.answer)
           .length;
-      expect(trap, greaterThanOrEqualTo(4),
-          reason: 'only $trap of ${lifeRounds.length} rounds punish reading '
-              'the first segment on its own');
+      expect(
+        trap,
+        greaterThanOrEqualTo(4),
+        reason:
+            'only $trap of ${lifeRounds.length} rounds punish reading '
+            'the first segment on its own',
+      );
     });
 
     test('one round has the cheapest to build win outright', () {
       final honest = lifeRounds
           .where((r) => r.cheapestToBuild == r.answer)
           .length;
-      expect(honest, greaterThanOrEqualTo(1),
-          reason: 'a set where the expensive option always wins trains '
-              'somebody to pick the expensive option');
+      expect(
+        honest,
+        greaterThanOrEqualTo(1),
+        reason:
+            'a set where the expensive option always wins trains '
+            'somebody to pick the expensive option',
+      );
     });
 
     test('the deciding stage is not always the same one', () {
@@ -187,9 +236,13 @@ void main() {
         }
         deciders.add(at);
       }
-      expect(deciders.length, greaterThanOrEqualTo(3),
-          reason: 'only ${deciders.length} of the four stages ever decide a '
-              'round');
+      expect(
+        deciders.length,
+        greaterThanOrEqualTo(3),
+        reason:
+            'only ${deciders.length} of the four stages ever decide a '
+            'round',
+      );
     });
   });
 
@@ -225,8 +278,9 @@ void main() {
       tester,
     ) async {
       size(tester);
-      await tester
-          .pumpWidget(const MaterialApp(home: HowManyProtectionsGame()));
+      await tester.pumpWidget(
+        const MaterialApp(home: HowManyProtectionsGame()),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.byKey(const ValueKey('kind-0')));
@@ -238,8 +292,9 @@ void main() {
 
     testWidgets('all four together are accepted', (tester) async {
       size(tester);
-      await tester
-          .pumpWidget(const MaterialApp(home: HowManyProtectionsGame()));
+      await tester.pumpWidget(
+        const MaterialApp(home: HowManyProtectionsGame()),
+      );
       await tester.pumpAndSettle();
 
       for (final i in countRounds.first.answer) {

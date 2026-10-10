@@ -28,8 +28,11 @@ void main() {
           for (final game in lesson.builtGames) game.id,
     ];
     for (final id in built) {
-      expect(() => auditFor(id), returnsNormally,
-          reason: '$id is playable but not audited');
+      expect(
+        () => auditFor(id),
+        returnsNormally,
+        reason: '$id is playable but not audited',
+      );
     }
     expect(audits.length, built.length);
   });
@@ -38,8 +41,11 @@ void main() {
     // They disagreed once: the map could not tell finished work from unstarted
     // work on a cold launch because only the item knew its own length.
     for (final audit in audits) {
-      expect(audit.rounds.length, GameProgress.roundsIn(audit.gameId),
-          reason: '${audit.gameId} declares a different number of rounds');
+      expect(
+        audit.rounds.length,
+        GameProgress.roundsIn(audit.gameId),
+        reason: '${audit.gameId} declares a different number of rounds',
+      );
     }
   });
 
@@ -49,9 +55,13 @@ void main() {
     for (final audit in audits) {
       for (var i = 0; i < audit.rounds.length; i++) {
         final source = audit.rounds[i].source;
-        expect(source, startsWith(audit.problemPrefix),
-            reason: '${audit.gameId} round ${i + 1} cites $source, which is '
-                'not a problem in ${audit.lessonId}');
+        expect(
+          source,
+          startsWith(audit.problemPrefix),
+          reason:
+              '${audit.gameId} round ${i + 1} cites $source, which is '
+              'not a problem in ${audit.lessonId}',
+        );
       }
     }
   });
@@ -65,8 +75,11 @@ void main() {
         final round = audit.rounds[i];
         final options = round.options;
         if (options.isEmpty || round.positional) continue;
-        expect(options.toSet().length, options.length,
-            reason: '${audit.gameId} round ${i + 1} repeats an option');
+        expect(
+          options.toSet().length,
+          options.length,
+          reason: '${audit.gameId} round ${i + 1} repeats an option',
+        );
       }
     }
   });
@@ -76,19 +89,29 @@ void main() {
       for (var i = 0; i < audit.rounds.length; i++) {
         final r = audit.rounds[i];
         if (r.options.isEmpty) continue;
-        expect(r.answer, isNotNull,
-            reason: '${audit.gameId} round ${i + 1} has choices but no answer');
-        expect(r.answer! >= 0 && r.answer! < r.options.length, isTrue,
-            reason: '${audit.gameId} round ${i + 1} points outside its own '
-                'choices');
+        expect(
+          r.answer,
+          isNotNull,
+          reason: '${audit.gameId} round ${i + 1} has choices but no answer',
+        );
+        expect(
+          r.answer! >= 0 && r.answer! < r.options.length,
+          isTrue,
+          reason:
+              '${audit.gameId} round ${i + 1} points outside its own '
+              'choices',
+        );
       }
     }
   });
 
   test('a board is long enough to be worth opening', () {
     for (final audit in audits) {
-      expect(audit.rounds.length, greaterThanOrEqualTo(4),
-          reason: '${audit.gameId} is too short to be a sitting');
+      expect(
+        audit.rounds.length,
+        greaterThanOrEqualTo(4),
+        reason: '${audit.gameId} is too short to be a sitting',
+      );
     }
   });
 

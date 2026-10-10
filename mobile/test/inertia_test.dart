@@ -56,12 +56,20 @@ void main() {
     test('counting the shape agrees with the table value', () {
       for (final piece in everyPiece()) {
         final counted = byCounting(piece);
-        expect(counted.ix, closeTo(piece.ownIx, piece.ownIx * 0.02),
-            reason: 'a ${piece.kind.name} of ${piece.box.size} has the wrong '
-                'Ix');
-        expect(counted.iy, closeTo(piece.ownIy, piece.ownIy * 0.02),
-            reason: 'a ${piece.kind.name} of ${piece.box.size} has the wrong '
-                'Iy');
+        expect(
+          counted.ix,
+          closeTo(piece.ownIx, piece.ownIx * 0.02),
+          reason:
+              'a ${piece.kind.name} of ${piece.box.size} has the wrong '
+              'Ix',
+        );
+        expect(
+          counted.iy,
+          closeTo(piece.ownIy, piece.ownIy * 0.02),
+          reason:
+              'a ${piece.kind.name} of ${piece.box.size} has the wrong '
+              'Iy',
+        );
       }
     });
 
@@ -119,8 +127,10 @@ void main() {
       for (final r in axisRounds) {
         final home = r.profile.ownIx;
         for (final away in [-40.0, -5.0, 5.0, 40.0]) {
-          expect(r.profile.iAboutX(r.profile.centroid.dy + away),
-              greaterThan(home));
+          expect(
+            r.profile.iAboutX(r.profile.centroid.dy + away),
+            greaterThan(home),
+          );
         }
       }
     });
@@ -139,8 +149,11 @@ void main() {
 
     test('the app and the hand-worked order agree', () {
       for (var i = 0; i < rankRounds.length; i++) {
-        expect(rankRounds[i].answer, expected[i],
-            reason: 'round ${i + 1} of rank-by-stiffness');
+        expect(
+          rankRounds[i].answer,
+          expected[i],
+          reason: 'round ${i + 1} of rank-by-stiffness',
+        );
       }
     });
 
@@ -151,9 +164,13 @@ void main() {
         for (var k = 0; k + 1 < r.answer.length; k++) {
           final more = r.shapes[r.answer[k]].ownIx;
           final less = r.shapes[r.answer[k + 1]].ownIx;
-          expect(more / less, greaterThan(1.5),
-              reason: 'round ${i + 1}: two of these are too close to rank by '
-                  'eye');
+          expect(
+            more / less,
+            greaterThan(1.5),
+            reason:
+                'round ${i + 1}: two of these are too close to rank by '
+                'eye',
+          );
         }
       }
     });
@@ -162,9 +179,13 @@ void main() {
       for (final i in [0, 1, 2, 4]) {
         final areas = rankRounds[i].shapes.map((s) => s.area).toList();
         for (final a in areas) {
-          expect(a, closeTo(areas.first, areas.first * 0.02),
-              reason: 'round ${i + 1} says the sections match and they do '
-                  'not');
+          expect(
+            a,
+            closeTo(areas.first, areas.first * 0.02),
+            reason:
+                'round ${i + 1} says the sections match and they do '
+                'not',
+          );
         }
       }
     });
@@ -175,16 +196,22 @@ void main() {
       // them only shares the area.
       final beam = rankRounds[2].shapes[2].bounds.height;
       final solid = rankRounds[2].shapes[0].bounds.height;
-      expect(beam, closeTo(solid, 0.5),
-          reason: 'the I-beam round no longer compares like with like');
+      expect(
+        beam,
+        closeTo(solid, 0.5),
+        reason: 'the I-beam round no longer compares like with like',
+      );
     });
 
     test('every round offers three, and the answer covers all of them', () {
       for (var i = 0; i < rankRounds.length; i++) {
         final r = rankRounds[i];
         expect(r.shapes.length, 3);
-        expect(r.answer.toSet().length, 3,
-            reason: 'round ${i + 1} ranks one section twice');
+        expect(
+          r.answer.toSet().length,
+          3,
+          reason: 'round ${i + 1} ranks one section twice',
+        );
       }
     });
 
@@ -197,11 +224,17 @@ void main() {
             LineUpPainter.cellFor(r.shapes, size, k),
         ];
         for (var a = 0; a < cells.length; a++) {
-          expect(cells[a].width, greaterThan(44),
-              reason: 'round ${i + 1}: a section is too narrow to tap');
+          expect(
+            cells[a].width,
+            greaterThan(44),
+            reason: 'round ${i + 1}: a section is too narrow to tap',
+          );
           for (var b = a + 1; b < cells.length; b++) {
-            expect(cells[a].overlaps(cells[b]), isFalse,
-                reason: 'round ${i + 1}: two sections share a tap target');
+            expect(
+              cells[a].overlaps(cells[b]),
+              isFalse,
+              reason: 'round ${i + 1}: two sections share a tap target',
+            );
           }
         }
       }
@@ -215,9 +248,11 @@ void main() {
         final s = LineUpPainter.scaleFor(r.shapes, size);
         expect(s, greaterThan(0));
         for (final shape in r.shapes) {
-          expect(shape.bounds.width * s,
-              lessThanOrEqualTo(LineUpPainter.cellFor(r.shapes, size, 0).width),
-              reason: 'a section is drawn wider than its cell');
+          expect(
+            shape.bounds.width * s,
+            lessThanOrEqualTo(LineUpPainter.cellFor(r.shapes, size, 0).width),
+            reason: 'a section is drawn wider than its cell',
+          );
         }
       }
     });
@@ -235,8 +270,11 @@ void main() {
 
     test('the app and the hand-worked set agree', () {
       for (var i = 0; i < axisRounds.length; i++) {
-        expect(axisRounds[i].answer, expected[i],
-            reason: 'round ${i + 1} of move-it-right');
+        expect(
+          axisRounds[i].answer,
+          expected[i],
+          reason: 'round ${i + 1} of move-it-right',
+        );
       }
     });
 
@@ -245,10 +283,13 @@ void main() {
         final r = axisRounds[i];
         if (r.answer != Transfer.cannot) continue;
         for (final d in [r.from, r.to]) {
-          expect((d.y - r.profile.centroid.dy).abs(),
-              greaterThan(r.profile.bounds.height * 0.05),
-              reason: 'round ${i + 1} has an axis close enough to the centroid '
-                  'to argue about');
+          expect(
+            (d.y - r.profile.centroid.dy).abs(),
+            greaterThan(r.profile.bounds.height * 0.05),
+            reason:
+                'round ${i + 1} has an axis close enough to the centroid '
+                'to argue about',
+          );
         }
       }
     });
@@ -257,9 +298,10 @@ void main() {
       for (var i = 0; i < axisRounds.length; i++) {
         final r = axisRounds[i];
         if (r.answer == Transfer.cannot) continue;
-        final on = [r.from, r.to]
-            .where((d) => (d.y - r.profile.centroid.dy).abs() < 0.01)
-            .length;
+        final on = [
+          r.from,
+          r.to,
+        ].where((d) => (d.y - r.profile.centroid.dy).abs() < 0.01).length;
         expect(on, 1, reason: 'round ${i + 1} has $on centroidal axes');
       }
     });
@@ -267,9 +309,11 @@ void main() {
     test('the two axes of a round are never the same line', () {
       for (var i = 0; i < axisRounds.length; i++) {
         final r = axisRounds[i];
-        expect((r.from.y - r.to.y).abs(),
-            greaterThan(r.profile.bounds.height * 0.05),
-            reason: 'round ${i + 1} draws its two axes on top of each other');
+        expect(
+          (r.from.y - r.to.y).abs(),
+          greaterThan(r.profile.bounds.height * 0.05),
+          reason: 'round ${i + 1} draws its two axes on top of each other',
+        );
       }
     });
 
@@ -297,8 +341,11 @@ void main() {
 
     test('the app and the hand-worked set agree', () {
       for (var i = 0; i < jobRounds.length; i++) {
-        expect(jobRounds[i].answer, expected[i],
-            reason: 'round ${i + 1} of which-second-moment');
+        expect(
+          jobRounds[i].answer,
+          expected[i],
+          reason: 'round ${i + 1} of which-second-moment',
+        );
       }
     });
 
@@ -309,8 +356,11 @@ void main() {
         final r = jobRounds[i];
         if (r.job.twists) continue;
         final downward = r.job.load.dy.abs() > r.job.load.dx.abs();
-        expect(r.answer, downward ? Needs.iAboutX : Needs.iAboutY,
-            reason: 'round ${i + 1} bends about the wrong axis for its load');
+        expect(
+          r.answer,
+          downward ? Needs.iAboutX : Needs.iAboutY,
+          reason: 'round ${i + 1} bends about the wrong axis for its load',
+        );
       }
     });
 
@@ -319,9 +369,13 @@ void main() {
         final r = jobRounds[i];
         if (r.answer != Needs.polarJ) continue;
         expect(r.job.twists, isTrue);
-        expect(r.job.load, Offset.zero,
-            reason: 'round ${i + 1} draws a push on a member that is only '
-                'being twisted');
+        expect(
+          r.job.load,
+          Offset.zero,
+          reason:
+              'round ${i + 1} draws a push on a member that is only '
+              'being twisted',
+        );
       }
     });
 
@@ -330,9 +384,13 @@ void main() {
       // weak about it, so the section had better BE weak about it.
       final r = jobRounds[4];
       expect(r.answer, Needs.iAboutX);
-      expect(r.profile.ownIx, lessThan(r.profile.ownIy),
-          reason: 'the beam on its side is not actually weaker about the '
-              'axis the load picks, so the round proves nothing');
+      expect(
+        r.profile.ownIx,
+        lessThan(r.profile.ownIy),
+        reason:
+            'the beam on its side is not actually weaker about the '
+            'axis the load picks, so the round proves nothing',
+      );
     });
 
     test('the round about the usual way up is the other way round', () {
@@ -364,8 +422,11 @@ void main() {
 
     test('the app and the hand-worked set agree', () {
       for (var i = 0; i < shareRounds.length; i++) {
-        expect(shareRounds[i].answer, expected[i],
-            reason: 'round ${i + 1} of which-barely-matters');
+        expect(
+          shareRounds[i].answer,
+          expected[i],
+          reason: 'round ${i + 1} of which-barely-matters',
+        );
       }
     });
 
@@ -373,13 +434,18 @@ void main() {
       for (var i = 0; i < shareRounds.length; i++) {
         final r = shareRounds[i];
         final shares = [
-          for (var k = 0; k < r.profile.pieces.length; k++) r.profile.shareOf(k),
+          for (var k = 0; k < r.profile.pieces.length; k++)
+            r.profile.shareOf(k),
         ]..sort();
         // A negative contribution, which is what a hole gives, is the least
         // by a mile and needs no ratio.
-        expect(shares[0] < 0 || shares[1] / shares[0] > 1.55, isTrue,
-            reason: 'round ${i + 1}: the two smallest contributions are too '
-                'close to call');
+        expect(
+          shares[0] < 0 || shares[1] / shares[0] > 1.55,
+          isTrue,
+          reason:
+              'round ${i + 1}: the two smallest contributions are too '
+              'close to call',
+        );
       }
     });
 
@@ -396,16 +462,23 @@ void main() {
         }
         if (fattest == r.answer) biggest++;
       }
-      expect(biggest, greaterThanOrEqualTo(2),
-          reason: 'no round has the biggest piece doing the least work');
+      expect(
+        biggest,
+        greaterThanOrEqualTo(2),
+        reason: 'no round has the biggest piece doing the least work',
+      );
     });
 
     test('every piece is named', () {
       for (var i = 0; i < shareRounds.length; i++) {
         final r = shareRounds[i];
-        expect(r.names.length, r.profile.pieces.length,
-            reason: 'round ${i + 1} names a different number of pieces than it '
-                'draws');
+        expect(
+          r.names.length,
+          r.profile.pieces.length,
+          reason:
+              'round ${i + 1} names a different number of pieces than it '
+              'draws',
+        );
         expect(r.names.toSet().length, r.names.length);
       }
     });
@@ -414,8 +487,11 @@ void main() {
       for (var i = 0; i < shareRounds.length; i++) {
         final r = shareRounds[i];
         final want = r.names[r.answer].replaceFirst('the ', '');
-        expect(r.why.toLowerCase(), contains(want.toLowerCase()),
-            reason: 'round ${i + 1} never mentions ${r.names[r.answer]}');
+        expect(
+          r.why.toLowerCase(),
+          contains(want.toLowerCase()),
+          reason: 'round ${i + 1} never mentions ${r.names[r.answer]}',
+        );
       }
     });
 
@@ -433,8 +509,11 @@ void main() {
             // laid over the plate's, so that pair is allowed to overlap.
             if (r.profile.pieces[a].hole || r.profile.pieces[b].hole) continue;
             final overlap = boxes[a].intersect(boxes[b]);
-            expect(overlap.width <= 1 || overlap.height <= 1, isTrue,
-                reason: 'round ${i + 1}: two pieces are drawn over each other');
+            expect(
+              overlap.width <= 1 || overlap.height <= 1,
+              isTrue,
+              reason: 'round ${i + 1}: two pieces are drawn over each other',
+            );
           }
         }
       }

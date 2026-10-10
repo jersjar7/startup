@@ -50,8 +50,7 @@ void main() {
       expect(level.total, closeTo(566, 1));
     });
 
-    test('downhill is longer and uphill is shorter, by the lesson numbers',
-        () {
+    test('downhill is longer and uphill is shorter, by the lesson numbers', () {
       expect(down.total, closeTo(610, 1));
       expect(up.total, closeTo(530, 1));
       expect(down.total, greaterThan(level.total));
@@ -73,8 +72,14 @@ void main() {
 
     test('thinking grows with speed, braking with its square', () {
       const half = Braking(speed: 30);
-      expect(half.reactionDistance / level.reactionDistance, closeTo(0.5, 0.001));
-      expect(half.brakingDistance / level.brakingDistance, closeTo(0.25, 0.001));
+      expect(
+        half.reactionDistance / level.reactionDistance,
+        closeTo(0.5, 0.001),
+      );
+      expect(
+        half.brakingDistance / level.brakingDistance,
+        closeTo(0.25, 0.001),
+      );
       // So at the lower speed the thinking half is the larger one.
       expect(half.reactionDistance, greaterThan(half.brakingDistance));
       expect(level.reactionDistance, lessThan(level.brakingDistance));
@@ -132,8 +137,7 @@ void main() {
         [100.0, 120.0, 90.0, 140.0],
       ]) {
         final h = Hour(counts: counts);
-        expect(h.flowRate, greaterThanOrEqualTo(h.volume),
-            reason: '$counts');
+        expect(h.flowRate, greaterThanOrEqualTo(h.volume), reason: '$counts');
         expect(h.phf, lessThanOrEqualTo(1.0));
         expect(h.phf, greaterThanOrEqualTo(0.25));
       }
@@ -171,8 +175,11 @@ void main() {
         hillRounds.map((r) => r.answer).toList(),
         surgeRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
   });
@@ -185,15 +192,17 @@ void main() {
       expect(crest.length, closeTo(927, 1));
     });
 
-    test('the sag length matches the lesson, and the crest rule undershoots',
-        () {
-      const sag = Criterion(breakSize: 8, sight: 300, sag: true);
-      expect(sag.lengthShortSight, closeTo(497, 1));
-      expect(sag.fitsInside, isTrue);
-      // The lesson's own wrong answer, from using 2,158 on a sag.
-      expect(sag.underTheOtherOne, closeTo(334, 1));
-      expect(sag.underTheOtherOne, lessThan(sag.length));
-    });
+    test(
+      'the sag length matches the lesson, and the crest rule undershoots',
+      () {
+        const sag = Criterion(breakSize: 8, sight: 300, sag: true);
+        expect(sag.lengthShortSight, closeTo(497, 1));
+        expect(sag.fitsInside, isTrue);
+        // The lesson's own wrong answer, from using 2,158 on a sag.
+        expect(sag.underTheOtherOne, closeTo(334, 1));
+        expect(sag.underTheOtherOne, lessThan(sag.length));
+      },
+    );
 
     test('a gentle crest fails the check and switches formulas', () {
       const gentle = Criterion(breakSize: 2, sight: 600, sag: false);
@@ -209,14 +218,20 @@ void main() {
       for (final s in [200.0, 300.0, 450.0]) {
         final sag = Criterion(breakSize: 6, sight: s, sag: true);
         final crest = Criterion(breakSize: 6, sight: s, sag: false);
-        expect(sag.lengthShortSight, greaterThan(crest.lengthShortSight),
-            reason: '$s ft of sight distance');
+        expect(
+          sag.lengthShortSight,
+          greaterThan(crest.lengthShortSight),
+          reason: '$s ft of sight distance',
+        );
       }
       for (final s in [600.0, 800.0]) {
         final sag = Criterion(breakSize: 6, sight: s, sag: true);
         final crest = Criterion(breakSize: 6, sight: s, sag: false);
-        expect(crest.lengthShortSight, greaterThan(sag.lengthShortSight),
-            reason: '$s ft of sight distance');
+        expect(
+          crest.lengthShortSight,
+          greaterThan(sag.lengthShortSight),
+          reason: '$s ft of sight distance',
+        );
       }
     });
 
@@ -236,8 +251,7 @@ void main() {
       expect(const Vertical(gradeIn: -5, gradeOut: -2).sag, isTrue);
     });
 
-    test('the offset at the middle matches the lesson and scales straight',
-        () {
+    test('the offset at the middle matches the lesson and scales straight', () {
       const curve = Vertical(gradeIn: 3, gradeOut: -5, length: 800);
       const longer = Vertical(gradeIn: 3, gradeOut: -5, length: 1600);
       expect(curve.offsetAtMiddle, closeTo(8.0, 0.001));
@@ -248,8 +262,7 @@ void main() {
 
     test('the offset really is largest at the middle of the curve', () {
       const curve = Vertical(gradeIn: 3, gradeOut: -5, length: 800);
-      double gapAt(double x) =>
-          (curve.offsetAt(x) - 0).abs();
+      double gapAt(double x) => (curve.offsetAt(x) - 0).abs();
       expect(gapAt(400), greaterThan(gapAt(200)));
       expect(gapAt(400), lessThan(gapAt(800)));
       // Half way along is a quarter of the full tangent offset, which is
@@ -277,12 +290,14 @@ void main() {
         criterionRounds.map((r) => r.answer).toList(),
         breakRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
   });
-
 
   group('superelevation', () {
     // The lesson's own curve: 45 mph round 600 ft, side friction 0.15.
@@ -342,18 +357,19 @@ void main() {
     });
   });
 
-
   group('signal timing', () {
     const approach = Yellow(speedMph: 50);
 
-    test('the yellow matches the lesson, and so do its three wrong answers',
-        () {
-      expect(approach.speedFps, closeTo(73.3, 0.1));
-      expect(approach.seconds, closeTo(4.7, 0.05));
-      expect(approach.usingMilesPerHour, closeTo(3.5, 0.05));
-      expect(approach.withoutReaction, closeTo(3.7, 0.05));
-      expect(approach.halvingNothing, closeTo(8.3, 0.05));
-    });
+    test(
+      'the yellow matches the lesson, and so do its three wrong answers',
+      () {
+        expect(approach.speedFps, closeTo(73.3, 0.1));
+        expect(approach.seconds, closeTo(4.7, 0.05));
+        expect(approach.usingMilesPerHour, closeTo(3.5, 0.05));
+        expect(approach.withoutReaction, closeTo(3.7, 0.05));
+        expect(approach.halvingNothing, closeTo(8.3, 0.05));
+      },
+    );
 
     test('a slower approach keeps the whole reaction second', () {
       const slow = Yellow(speedMph: 30);
@@ -426,8 +442,7 @@ void main() {
     test('each round uses the case its words describe', () {
       for (final r in clearanceRounds) {
         if (r.subject.contains('longer vehicle')) {
-          expect(r.clearance.vehicleLength, greaterThan(40),
-              reason: r.subject);
+          expect(r.clearance.vehicleLength, greaterThan(40), reason: r.subject);
         }
       }
       for (final r in greenRounds) {
@@ -446,12 +461,14 @@ void main() {
         clearanceRounds.map((r) => r.answer).toList(),
         greenRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
   });
-
 
   group('traffic flow', () {
     const freeway = Stream(freeFlow: 70, jamDensity: 180);
@@ -467,16 +484,23 @@ void main() {
     test('the peak really does sit at half of each', () {
       expect(freeway.optimumDensity, closeTo(90, 0.001));
       expect(freeway.optimumSpeed, closeTo(35, 0.001));
-      expect(freeway.speedAt(freeway.optimumDensity),
-          closeTo(freeway.optimumSpeed, 0.001));
-      expect(freeway.flowAt(freeway.optimumDensity),
-          closeTo(freeway.maxFlow, 0.001));
+      expect(
+        freeway.speedAt(freeway.optimumDensity),
+        closeTo(freeway.optimumSpeed, 0.001),
+      );
+      expect(
+        freeway.flowAt(freeway.optimumDensity),
+        closeTo(freeway.maxFlow, 0.001),
+      );
     });
 
     test('nothing on the curve beats the peak', () {
       for (var d = 0.0; d <= freeway.jamDensity; d += 5) {
-        expect(freeway.flowAt(d), lessThanOrEqualTo(freeway.maxFlow + 0.001),
-            reason: '$d a mile');
+        expect(
+          freeway.flowAt(d),
+          lessThanOrEqualTo(freeway.maxFlow + 0.001),
+          reason: '$d a mile',
+        );
       }
     });
 
@@ -496,12 +520,13 @@ void main() {
       expect(arterial.lostAt(40), closeTo(20, 0.001));
       // And the optimum speed, which belongs to a different density.
       expect(arterial.optimumSpeed, closeTo(30, 0.001));
-      expect(arterial.speedAt(arterial.optimumDensity),
-          closeTo(arterial.optimumSpeed, 0.001));
+      expect(
+        arterial.speedAt(arterial.optimumDensity),
+        closeTo(arterial.optimumSpeed, 0.001),
+      );
     });
 
-    test('speed never exceeds the free flow speed and never goes negative',
-        () {
+    test('speed never exceeds the free flow speed and never goes negative', () {
       for (var d = 0.0; d <= arterial.jamDensity; d += 10) {
         expect(arterial.speedAt(d), lessThanOrEqualTo(arterial.freeFlow));
         expect(arterial.speedAt(d), greaterThanOrEqualTo(-0.001));
@@ -541,8 +566,11 @@ void main() {
         speedRounds.map((r) => r.answer).toList(),
         exposureRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
 
@@ -554,7 +582,6 @@ void main() {
       }
     });
   });
-
 
   group('freeway capacity and level of service', () {
     const level = TruckMix(trucks: 0.10, equivalent: 2.0);
@@ -587,7 +614,11 @@ void main() {
 
     test('the flow rate matches the lesson, and both its wrong answers', () {
       const road = Freeway(
-          volume: 4500, peakHourFactor: 0.92, lanes: 3, mix: level);
+        volume: 4500,
+        peakHourFactor: 0.92,
+        lanes: 3,
+        mix: level,
+      );
       expect(road.flowPerLane, closeTo(1793, 1));
       expect(road.withoutTrucks, closeTo(1630, 1));
       expect(road.withoutPeak, closeTo(1650, 1));
@@ -598,18 +629,34 @@ void main() {
 
     test('fewer lanes and a peakier hour both raise the flow per lane', () {
       const three = Freeway(
-          volume: 4500, peakHourFactor: 0.92, lanes: 3, mix: level);
+        volume: 4500,
+        peakHourFactor: 0.92,
+        lanes: 3,
+        mix: level,
+      );
       const two = Freeway(
-          volume: 4500, peakHourFactor: 0.92, lanes: 2, mix: level);
+        volume: 4500,
+        peakHourFactor: 0.92,
+        lanes: 2,
+        mix: level,
+      );
       const peaky = Freeway(
-          volume: 4500, peakHourFactor: 0.78, lanes: 3, mix: level);
+        volume: 4500,
+        peakHourFactor: 0.78,
+        lanes: 3,
+        mix: level,
+      );
       expect(two.flowPerLane / three.flowPerLane, closeTo(1.5, 0.001));
       expect(peaky.flowPerLane, greaterThan(three.flowPerLane));
     });
 
     test('the lesson case comes out at service E', () {
       const road = Freeway(
-          volume: 3600, peakHourFactor: 0.90, lanes: 2, mix: level);
+        volume: 3600,
+        peakHourFactor: 0.90,
+        lanes: 2,
+        mix: level,
+      );
       expect(road.flowPerLane, closeTo(2200, 1));
       expect(road.density, closeTo(36.7, 0.1));
       expect(road.level, 'E');
@@ -617,25 +664,37 @@ void main() {
 
     test('forgetting the trucks reports one band too good', () {
       const road = Freeway(
-          volume: 3600, peakHourFactor: 0.90, lanes: 2, mix: level);
+        volume: 3600,
+        peakHourFactor: 0.90,
+        lanes: 2,
+        mix: level,
+      );
       final wrongDensity = road.withoutTrucks / road.speed;
       expect(wrongDensity, closeTo(33.3, 0.1));
       expect(road.levelFor(wrongDensity), 'D');
       expect(road.level, 'E');
     });
 
-    test('a third lane improves the letter and slower traffic worsens it',
-        () {
+    test('a third lane improves the letter and slower traffic worsens it', () {
       const two = Freeway(
-          volume: 3600, peakHourFactor: 0.90, lanes: 2, mix: level);
+        volume: 3600,
+        peakHourFactor: 0.90,
+        lanes: 2,
+        mix: level,
+      );
       const three = Freeway(
-          volume: 3600, peakHourFactor: 0.90, lanes: 3, mix: level);
+        volume: 3600,
+        peakHourFactor: 0.90,
+        lanes: 3,
+        mix: level,
+      );
       const slow = Freeway(
-          volume: 3600,
-          peakHourFactor: 0.90,
-          lanes: 2,
-          mix: level,
-          speed: 45);
+        volume: 3600,
+        peakHourFactor: 0.90,
+        lanes: 2,
+        mix: level,
+        speed: 45,
+      );
       expect(three.density, lessThan(two.density));
       expect(three.level, 'C');
       expect(slow.density, greaterThan(two.density));
@@ -644,7 +703,11 @@ void main() {
 
     test('the bands run in order and cover the ladder', () {
       const road = Freeway(
-          volume: 3600, peakHourFactor: 0.90, lanes: 2, mix: level);
+        volume: 3600,
+        peakHourFactor: 0.90,
+        lanes: 2,
+        mix: level,
+      );
       expect(road.levelFor(5), 'A');
       expect(road.levelFor(11), 'A');
       expect(road.levelFor(11.1), 'B');
@@ -660,8 +723,11 @@ void main() {
         divideRounds.map((r) => r.answer).toList(),
         letterRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
 
@@ -673,7 +739,6 @@ void main() {
       }
     });
   });
-
 
   group('travel demand', () {
     const lesson = Spread(
@@ -697,26 +762,34 @@ void main() {
     test('the trips always add up to what the origin produced', () {
       for (final spread in [
         lesson,
-        const Spread(produced: 1200, destinations: [
-          Destination(name: 'a', attractions: 200, friction: 0.5),
-          Destination(name: 'b', attractions: 300, friction: 0.2),
-          Destination(name: 'c', attractions: 100, friction: 0.4),
-        ]),
+        const Spread(
+          produced: 1200,
+          destinations: [
+            Destination(name: 'a', attractions: 200, friction: 0.5),
+            Destination(name: 'b', attractions: 300, friction: 0.2),
+            Destination(name: 'c', attractions: 100, friction: 0.4),
+          ],
+        ),
       ]) {
-        final sent = spread.destinations
-            .fold<double>(0, (sum, d) => sum + spread.tripsTo(d));
+        final sent = spread.destinations.fold<double>(
+          0,
+          (sum, d) => sum + spread.tripsTo(d),
+        );
         expect(sent, closeTo(spread.produced, 0.001));
-        final shares = spread.destinations
-            .fold<double>(0, (sum, d) => sum + spread.shareOf(d));
+        final shares = spread.destinations.fold<double>(
+          0,
+          (sum, d) => sum + spread.shareOf(d),
+        );
         expect(shares, closeTo(1, 0.000001));
       }
     });
 
     test('attractions alone gives the lesson wrong answer', () {
-      expect(lesson.attractionsOnly(lesson.destinations[0]),
-          closeTo(400, 0.5));
-      expect(lesson.attractionsOnly(lesson.destinations[0]),
-          lessThan(lesson.tripsTo(lesson.destinations[0])));
+      expect(lesson.attractionsOnly(lesson.destinations[0]), closeTo(400, 0.5));
+      expect(
+        lesson.attractionsOnly(lesson.destinations[0]),
+        lessThan(lesson.tripsTo(lesson.destinations[0])),
+      );
     });
 
     test('equal weights split the trips evenly', () {
@@ -727,8 +800,10 @@ void main() {
           Destination(name: 'b', attractions: 400, friction: 0.2),
         ],
       );
-      expect(even.destinations[0].weight,
-          closeTo(even.destinations[1].weight, 0.001));
+      expect(
+        even.destinations[0].weight,
+        closeTo(even.destinations[1].weight, 0.001),
+      );
       expect(even.tripsTo(even.destinations[0]), closeTo(500, 0.5));
     });
 
@@ -741,8 +816,10 @@ void main() {
           Destination(name: 'zone 3', attractions: 100, friction: 0.4),
         ],
       );
-      expect(three.shareOf(three.destinations[0]),
-          lessThan(lesson.shareOf(lesson.destinations[0])));
+      expect(
+        three.shareOf(three.destinations[0]),
+        lessThan(lesson.shareOf(lesson.destinations[0])),
+      );
       expect(three.total, greaterThan(lesson.total));
     });
 
@@ -754,8 +831,10 @@ void main() {
           Destination(name: 'far', attractions: 250, friction: 0.15),
         ],
       );
-      expect(nearFar.tripsTo(nearFar.destinations[0]),
-          greaterThan(nearFar.tripsTo(nearFar.destinations[1])));
+      expect(
+        nearFar.tripsTo(nearFar.destinations[0]),
+        greaterThan(nearFar.tripsTo(nearFar.destinations[1])),
+      );
       expect(nearFar.shareOf(nearFar.destinations[0]), closeTo(0.8, 0.001));
     });
 
@@ -767,8 +846,10 @@ void main() {
           Destination(name: 'far', attractions: 1200, friction: 0.15),
         ],
       );
-      expect(farButBig.tripsTo(farButBig.destinations[1]),
-          greaterThan(farButBig.tripsTo(farButBig.destinations[0])));
+      expect(
+        farButBig.tripsTo(farButBig.destinations[1]),
+        greaterThan(farButBig.tripsTo(farButBig.destinations[0])),
+      );
     });
 
     test('a faster road moves trips without making any', () {
@@ -786,26 +867,37 @@ void main() {
           Destination(name: 'far', attractions: 250, friction: 0.35),
         ],
       );
-      expect(after.shareOf(after.destinations[1]),
-          greaterThan(before.shareOf(before.destinations[1])));
+      expect(
+        after.shareOf(after.destinations[1]),
+        greaterThan(before.shareOf(before.destinations[1])),
+      );
       expect(after.produced, before.produced);
     });
 
     test('the four steps stay in their order', () {
-      expect(Forecast.values.map((s) => s.title).toList(),
-          ['generation', 'distribution', 'mode choice', 'assignment']);
-      expect(Forecast.values.indexOf(Forecast.generation),
-          lessThan(Forecast.values.indexOf(Forecast.distribution)));
+      expect(Forecast.values.map((s) => s.title).toList(), [
+        'generation',
+        'distribution',
+        'mode choice',
+        'assignment',
+      ]);
+      expect(
+        Forecast.values.indexOf(Forecast.generation),
+        lessThan(Forecast.values.indexOf(Forecast.distribution)),
+      );
     });
 
-    test('every step is asked about at least once, and never twice over',
-        () {
-      expect(forecastStepRounds.map((r) => r.answer).toSet(),
-          Forecast.values.toSet());
+    test('every step is asked about at least once, and never twice over', () {
+      expect(
+        forecastStepRounds.map((r) => r.answer).toSet(),
+        Forecast.values.toSet(),
+      );
       for (var i = 1; i < forecastStepRounds.length; i++) {
-        expect(forecastStepRounds[i].answer,
-            isNot(forecastStepRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the step above it');
+        expect(
+          forecastStepRounds[i].answer,
+          isNot(forecastStepRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the step above it',
+        );
       }
     });
 
@@ -820,12 +912,14 @@ void main() {
         tripShareRounds.map((r) => r.answer).toList(),
         frictionRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
   });
-
 
   group('traffic control devices', () {
     test('every sign in the item is the category its face implies', () {
@@ -846,11 +940,16 @@ void main() {
     });
 
     test('all three categories are asked about, and never twice running', () {
-      expect(signKindRounds.map((r) => r.answer).toSet(),
-          SignKind.values.toSet());
+      expect(
+        signKindRounds.map((r) => r.answer).toSet(),
+        SignKind.values.toSet(),
+      );
       for (var i = 1; i < signKindRounds.length; i++) {
-        expect(signKindRounds[i].answer, isNot(signKindRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the category above it');
+        expect(
+          signKindRounds[i].answer,
+          isNot(signKindRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the category above it',
+        );
       }
     });
 
@@ -874,34 +973,41 @@ void main() {
     });
 
     test('the quiet crossroads meets no warrant, and says why', () {
-      final quiet = warrantRounds
-          .firstWhere((r) => r.subject.contains('quiet'));
+      final quiet = warrantRounds.firstWhere(
+        (r) => r.subject.contains('quiet'),
+      );
       expect(quiet.crossing.warrantMet, isNull);
       expect(quiet.crossing.note, isNotNull);
     });
 
     test('the warrants cover more than vehicle counts', () {
-      expect(WarrantPainter.warrants.where((w) => w.contains('foot')),
-          isNotEmpty);
-      expect(WarrantPainter.warrants.where((w) => w.contains('school')),
-          isNotEmpty);
-      expect(WarrantPainter.warrants.where((w) => w.contains('crash')),
-          isNotEmpty);
+      expect(
+        WarrantPainter.warrants.where((w) => w.contains('foot')),
+        isNotEmpty,
+      );
+      expect(
+        WarrantPainter.warrants.where((w) => w.contains('school')),
+        isNotEmpty,
+      );
+      expect(
+        WarrantPainter.warrants.where((w) => w.contains('crash')),
+        isNotEmpty,
+      );
     });
 
     test('the signal item keeps the answer moving between the slots', () {
-      expect(warrantRounds.map((r) => r.answer).toSet().length,
-          greaterThan(1));
+      expect(warrantRounds.map((r) => r.answer).toSet().length, greaterThan(1));
     });
   });
 
-
   group('pavement design', () {
-    const lesson = Pavement(courses: [
-      Course(name: 'asphalt', coefficient: 0.44, thickness: 3),
-      Course(name: 'base', coefficient: 0.14, thickness: 8),
-      Course(name: 'subbase', coefficient: 0.11, thickness: 10),
-    ]);
+    const lesson = Pavement(
+      courses: [
+        Course(name: 'asphalt', coefficient: 0.44, thickness: 3),
+        Course(name: 'base', coefficient: 0.14, thickness: 8),
+        Course(name: 'subbase', coefficient: 0.11, thickness: 10),
+      ],
+    );
 
     test('the structural number matches the lesson', () {
       expect(lesson.structuralNumber, closeTo(3.54, 0.001));
@@ -917,28 +1023,35 @@ void main() {
     });
 
     test('poor drainage costs the section its share', () {
-      const wet = Pavement(courses: [
-        Course(name: 'asphalt', coefficient: 0.44, thickness: 3),
-        Course(name: 'base', coefficient: 0.14, thickness: 8),
-        Course(
+      const wet = Pavement(
+        courses: [
+          Course(name: 'asphalt', coefficient: 0.44, thickness: 3),
+          Course(name: 'base', coefficient: 0.14, thickness: 8),
+          Course(
             name: 'subbase',
             coefficient: 0.11,
             thickness: 10,
-            drainage: 0.80),
-      ]);
+            drainage: 0.80,
+          ),
+        ],
+      );
       expect(wet.structuralNumber, closeTo(3.32, 0.001));
       expect(wet.courses[2].contribution, closeTo(0.88, 0.001));
       expect(wet.structuralNumber, lessThan(lesson.structuralNumber));
     });
 
     test('the sum is linear in every thickness', () {
-      const thicker = Pavement(courses: [
-        Course(name: 'asphalt', coefficient: 0.44, thickness: 6),
-        Course(name: 'base', coefficient: 0.14, thickness: 8),
-        Course(name: 'subbase', coefficient: 0.11, thickness: 10),
-      ]);
-      expect(thicker.structuralNumber - lesson.structuralNumber,
-          closeTo(1.32, 0.001));
+      const thicker = Pavement(
+        courses: [
+          Course(name: 'asphalt', coefficient: 0.44, thickness: 6),
+          Course(name: 'base', coefficient: 0.14, thickness: 8),
+          Course(name: 'subbase', coefficient: 0.11, thickness: 10),
+        ],
+      );
+      expect(
+        thicker.structuralNumber - lesson.structuralNumber,
+        closeTo(1.32, 0.001),
+      );
     });
 
     test('solving for the base matches the lesson', () {
@@ -947,10 +1060,11 @@ void main() {
         courses: [
           Course(name: 'asphalt', coefficient: 0.44, thickness: 4),
           Course(
-              name: 'subbase',
-              coefficient: 0.11,
-              thickness: 12,
-              drainage: 0.80),
+            name: 'subbase',
+            coefficient: 0.11,
+            thickness: 12,
+            drainage: 0.80,
+          ),
         ],
       );
       const base = Course(name: 'base', coefficient: 0.14, thickness: 0);
@@ -976,10 +1090,11 @@ void main() {
         courses: [
           Course(name: 'asphalt', coefficient: 0.44, thickness: 4),
           Course(
-              name: 'subbase',
-              coefficient: 0.11,
-              thickness: 12,
-              drainage: 0.80),
+            name: 'subbase',
+            coefficient: 0.11,
+            thickness: 12,
+            drainage: 0.80,
+          ),
         ],
       );
       const base = Course(name: 'base', coefficient: 0.14, thickness: 0);
@@ -988,14 +1103,19 @@ void main() {
     });
 
     test('the round that claims a negative answer really has one', () {
-      final r = thicknessRounds
-          .firstWhere((r) => r.subject.contains('nothing more'));
+      final r = thicknessRounds.firstWhere(
+        (r) => r.subject.contains('nothing more'),
+      );
       expect(r.pavement.shortfall, lessThan(0));
     });
 
     test('the standard load conversion matches the lesson', () {
       const truck = Axle(
-          name: 'the truck here', kips: 24, factor: 3.03, passes: 1000);
+        name: 'the truck here',
+        kips: 24,
+        factor: 3.03,
+        passes: 1000,
+      );
       expect(truck.esals, closeTo(3030, 0.5));
       expect(truck.esals, greaterThan(truck.passes));
     });
@@ -1021,12 +1141,14 @@ void main() {
         thicknessRounds.map((r) => r.answer).toList(),
         loadRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
   });
-
 
   group('rigid pavement', () {
     test('a slab spreads the load much wider than a flexible section', () {
@@ -1051,11 +1173,20 @@ void main() {
 
     test('a dowel lets the slabs move and a tie bar does not', () {
       const dowel = Joint(
-          name: 'transverse', steel: Steel.dowel, whatItDoes: 'transfers');
-      const tie =
-          Joint(name: 'longitudinal', steel: Steel.tie, whatItDoes: 'holds');
-      const plain =
-          Joint(name: 'contraction', steel: Steel.nothing, whatItDoes: 'none');
+        name: 'transverse',
+        steel: Steel.dowel,
+        whatItDoes: 'transfers',
+      );
+      const tie = Joint(
+        name: 'longitudinal',
+        steel: Steel.tie,
+        whatItDoes: 'holds',
+      );
+      const plain = Joint(
+        name: 'contraction',
+        steel: Steel.nothing,
+        whatItDoes: 'none',
+      );
       expect(dowel.lets, isTrue);
       expect(tie.lets, isFalse);
       expect(plain.lets, isTrue);
@@ -1087,10 +1218,12 @@ void main() {
         jointRounds.map((r) => r.answer).toList(),
         supportRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
   });
-
 }

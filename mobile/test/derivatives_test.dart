@@ -51,8 +51,11 @@ void main() {
     test('single-rule, multi-rule and table-only rounds all appear', () {
       expect(ruleRounds.any((r) => r.rules.isEmpty), isTrue);
       expect(ruleRounds.any((r) => r.rules.length == 1), isTrue);
-      expect(ruleRounds.any((r) => r.rules.length > 1), isTrue,
-          reason: 'the whole point of a set answer is that sets happen');
+      expect(
+        ruleRounds.any((r) => r.rules.length > 1),
+        isTrue,
+        reason: 'the whole point of a set answer is that sets happen',
+      );
     });
 
     test('every slip points at a real line and a real reason', () {
@@ -80,8 +83,9 @@ void main() {
   });
 
   group('playing', () {
-    testWidgets('naming only the product rule is not the full set',
-        (tester) async {
+    testWidgets('naming only the product rule is not the full set', (
+      tester,
+    ) async {
       size(tester);
       // Round two needs product AND chain.
       GameProgress.instance.markRoundCleared('every-rule', 0, firstTry: true);
@@ -139,8 +143,9 @@ void main() {
       expect(find.text('1/6'), findsOneWidget);
     });
 
-    testWidgets('tapping the inner function answers the first round',
-        (tester) async {
+    testWidgets('tapping the inner function answers the first round', (
+      tester,
+    ) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: PointAtTheInsideGame()));
 

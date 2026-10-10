@@ -13,9 +13,9 @@ void main() {
   /// A timber joist with a steel plate bolted under it, which is the classic
   /// transformed section.
   Composite plated() => const Composite([
-        Slice(Offset(0, 0), Size(200, 10), Made.steel),
-        Slice(Offset(50, 10), Size(100, 200), Made.timber),
-      ]);
+    Slice(Offset(0, 0), Size(200, 10), Made.steel),
+    Slice(Offset(50, 10), Size(100, 200), Made.timber),
+  ]);
 
   group('the engine reproduces the lesson it was built from', () {
     test('the modular ratio is the stiffer over the softer', () {
@@ -60,10 +60,14 @@ void main() {
       final before = beam.profile;
       final after = beam.transformed();
       // The steel plate is the first slice, and it is the one that grows.
-      expect(after.pieces[0].box.width,
-          closeTo(before.pieces[0].box.width * beam.n, 1e-9));
-      expect(after.pieces[1].box.width,
-          closeTo(before.pieces[1].box.width, 1e-9));
+      expect(
+        after.pieces[0].box.width,
+        closeTo(before.pieces[0].box.width * beam.n, 1e-9),
+      );
+      expect(
+        after.pieces[1].box.width,
+        closeTo(before.pieces[1].box.width, 1e-9),
+      );
     });
 
     test('it never moves material up or down', () {
@@ -73,17 +77,24 @@ void main() {
       final before = beam.profile;
       final after = beam.transformed();
       for (var i = 0; i < before.pieces.length; i++) {
-        expect(after.pieces[i].box.top, closeTo(before.pieces[i].box.top, 1e-9));
-        expect(after.pieces[i].box.height,
-            closeTo(before.pieces[i].box.height, 1e-9));
+        expect(
+          after.pieces[i].box.top,
+          closeTo(before.pieces[i].box.top, 1e-9),
+        );
+        expect(
+          after.pieces[i].box.height,
+          closeTo(before.pieces[i].box.height, 1e-9),
+        );
       }
     });
 
     test('widening the steel pulls the neutral axis down toward it', () {
       final beam = plated();
-      expect(beam.transformed().centroid.dy,
-          lessThan(beam.profile.centroid.dy),
-          reason: 'the transformed section has more material at the bottom');
+      expect(
+        beam.transformed().centroid.dy,
+        lessThan(beam.profile.centroid.dy),
+        reason: 'the transformed section has more material at the bottom',
+      );
     });
 
     test('transforming the wrong way round gives a different beam', () {
@@ -134,8 +145,11 @@ void main() {
           for (var k = 0; k < 11; k++) {
             if ((shapes[a]![k] - shapes[b]![k]).abs() > 0.02) same = false;
           }
-          expect(same, isFalse,
-              reason: '${a.name} and ${b.name} draw the same block');
+          expect(
+            same,
+            isFalse,
+            reason: '${a.name} and ${b.name} draw the same block',
+          );
         }
       }
     });
@@ -144,9 +158,11 @@ void main() {
       for (final state in Spread3.values) {
         final painter = StressBlockPainter(profile: rect, state: state);
         for (var k = 0; k <= 40; k++) {
-          expect(painter.shareAt(rect.baseline + 200 * k / 40).abs(),
-              lessThanOrEqualTo(1 + 1e-9),
-              reason: '${state.name} runs past the yield line');
+          expect(
+            painter.shareAt(rect.baseline + 200 * k / 40).abs(),
+            lessThanOrEqualTo(1 + 1e-9),
+            reason: '${state.name} runs past the yield line',
+          );
         }
       }
     });
@@ -164,8 +180,10 @@ void main() {
 
     test('first yield reaches the line and the elastic stage does not', () {
       expect(
-        StressBlockPainter(profile: rect, state: Spread3.firstYield)
-            .shareAt(200),
+        StressBlockPainter(
+          profile: rect,
+          state: Spread3.firstYield,
+        ).shareAt(200),
         closeTo(1, 1e-9),
       );
       expect(
@@ -184,12 +202,21 @@ void main() {
           final want = was.made == r.beam.stiffer
               ? was.size.width * r.beam.n
               : was.size.width;
-          expect(drawn[i].size.width, closeTo(want, 1e-9),
-              reason: '${r.subject}: slice $i is the wrong width');
-          expect(drawn[i].size.height, closeTo(was.size.height, 1e-9),
-              reason: '${r.subject}: the transform changed a depth');
-          expect(drawn[i].at.dy, closeTo(was.at.dy, 1e-9),
-              reason: '${r.subject}: the transform moved a slice');
+          expect(
+            drawn[i].size.width,
+            closeTo(want, 1e-9),
+            reason: '${r.subject}: slice $i is the wrong width',
+          );
+          expect(
+            drawn[i].size.height,
+            closeTo(was.size.height, 1e-9),
+            reason: '${r.subject}: the transform changed a depth',
+          );
+          expect(
+            drawn[i].at.dy,
+            closeTo(was.at.dy, 1e-9),
+            reason: '${r.subject}: the transform moved a slice',
+          );
         }
       }
     });
@@ -203,8 +230,11 @@ void main() {
               '${s.size.width.toStringAsFixed(2)}x'
                   '${s.size.height.toStringAsFixed(2)}@${s.at.dy}',
           ].join('|');
-          expect(seen.add(key), isTrue,
-              reason: '${r.subject}: two panels are the same picture');
+          expect(
+            seen.add(key),
+            isTrue,
+            reason: '${r.subject}: two panels are the same picture',
+          );
         }
       }
     });
@@ -213,8 +243,11 @@ void main() {
       // A modular ratio close to one would make the right answer and the
       // wrong ones almost the same drawing, and the round would be a guess.
       for (final r in transformRounds) {
-        expect(r.beam.n, greaterThan(3),
-            reason: '${r.subject}: the ratio is too small to read');
+        expect(
+          r.beam.n,
+          greaterThan(3),
+          reason: '${r.subject}: the ratio is too small to read',
+        );
       }
     });
 
@@ -229,8 +262,11 @@ void main() {
   group('same-strain answers from the materials', () {
     test('a stress round names the stiffer material', () {
       for (final r in joinRounds.where((r) => r.about == Feels.stress)) {
-        expect(r.answer, Across.stiffer,
-            reason: '${r.subject}: the stiffer material always carries more');
+        expect(
+          r.answer,
+          Across.stiffer,
+          reason: '${r.subject}: the stiffer material always carries more',
+        );
       }
     });
 
@@ -245,14 +281,17 @@ void main() {
         final made = <Made>{};
         for (final s in r.beam.slices) {
           final top = s.at.dy + s.size.height;
-          if ((s.at.dy - r.join).abs() < 1e-9 ||
-              (top - r.join).abs() < 1e-9) {
+          if ((s.at.dy - r.join).abs() < 1e-9 || (top - r.join).abs() < 1e-9) {
             made.add(s.made);
           }
         }
-        expect(made.length, 2,
-            reason: '${r.subject}: the marked line is not a join between two '
-                'materials');
+        expect(
+          made.length,
+          2,
+          reason:
+              '${r.subject}: the marked line is not a join between two '
+              'materials',
+        );
       }
     });
 
@@ -267,8 +306,11 @@ void main() {
   group('how-far-has-it-yielded matches its words to its blocks', () {
     test('every round offers three different stages', () {
       for (final r in yieldRounds) {
-        expect(r.options.toSet().length, 3,
-            reason: '${r.subject}: a stage is offered twice');
+        expect(
+          r.options.toSet().length,
+          3,
+          reason: '${r.subject}: a stage is offered twice',
+        );
       }
     });
 
@@ -284,18 +326,20 @@ void main() {
         Spread3.partly,
       ];
       for (var i = 0; i < yieldRounds.length; i++) {
-        expect(yieldRounds[i].options[yieldRounds[i].answer], wanted[i],
-            reason: '${yieldRounds[i].subject}: the block and the words '
-                'disagree');
+        expect(
+          yieldRounds[i].options[yieldRounds[i].answer],
+          wanted[i],
+          reason:
+              '${yieldRounds[i].subject}: the block and the words '
+              'disagree',
+        );
       }
     });
 
     test('all four stages get used across the item', () {
       final shown = {for (final r in yieldRounds) ...r.options};
       expect(shown, Spread3.values.toSet());
-      final answers = {
-        for (final r in yieldRounds) r.options[r.answer],
-      };
+      final answers = {for (final r in yieldRounds) r.options[r.answer]};
       expect(answers, Spread3.values.toSet());
     });
   });

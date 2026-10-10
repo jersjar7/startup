@@ -8,29 +8,33 @@ import 'package:mobile/features/games/road_segment.dart';
 /// behavior a chapter map depends on.
 void main() {
   Widget host(RoadSegment segment) => MaterialApp(
-        home: Scaffold(
-          body: Stack(children: [segment]),
-        ),
-      );
+    home: Scaffold(body: Stack(children: [segment])),
+  );
 
   testWidgets('a walked road is walked from the first frame', (tester) async {
-    await tester.pumpWidget(host(const RoadSegment(
-      from: Offset(100, 100),
-      to: Offset(220, 260),
-      travelled: 1,
-    )));
+    await tester.pumpWidget(
+      host(
+        const RoadSegment(
+          from: Offset(100, 100),
+          to: Offset(220, 260),
+          travelled: 1,
+        ),
+      ),
+    );
     await tester.pump();
     expect(tester.takeException(), isNull);
   });
 
   testWidgets('opening a road animates rather than snapping', (tester) async {
-    Widget at(double t) => host(RoadSegment(
-          from: const Offset(100, 100),
-          to: const Offset(220, 260),
-          travelled: t,
-          startDelay: const Duration(milliseconds: 50),
-          duration: const Duration(milliseconds: 400),
-        ));
+    Widget at(double t) => host(
+      RoadSegment(
+        from: const Offset(100, 100),
+        to: const Offset(220, 260),
+        travelled: t,
+        startDelay: const Duration(milliseconds: 50),
+        duration: const Duration(milliseconds: 400),
+      ),
+    );
 
     await tester.pumpWidget(at(0));
     await tester.pumpWidget(at(1));
@@ -73,10 +77,16 @@ void main() {
     final head = metric.getTangentForOffset(0)!.position;
     final tail = metric.getTangentForOffset(metric.length)!.position;
 
-    expect((head - from).distance, closeTo(radius - 3, 4),
-        reason: 'the road should leave from the edge of the first node');
-    expect((tail - to).distance, closeTo(radius - 3, 4),
-        reason: 'the road should arrive at the edge of the second node');
+    expect(
+      (head - from).distance,
+      closeTo(radius - 3, 4),
+      reason: 'the road should leave from the edge of the first node',
+    );
+    expect(
+      (tail - to).distance,
+      closeTo(radius - 3, 4),
+      reason: 'the road should arrive at the edge of the second node',
+    );
   });
 
   test('a road that goes straight down still has a box with width', () {

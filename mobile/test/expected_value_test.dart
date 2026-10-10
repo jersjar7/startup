@@ -17,10 +17,8 @@ import 'package:mobile/features/games/where_it_balances_game.dart';
 double _expected(List<Outcome> outcomes) =>
     outcomes.fold<double>(0, (a, o) => a + o.value * o.percent / 100);
 
-double _expectedOfSquares(List<Outcome> outcomes) => outcomes.fold<double>(
-  0,
-  (a, o) => a + o.value * o.value * o.percent / 100,
-);
+double _expectedOfSquares(List<Outcome> outcomes) =>
+    outcomes.fold<double>(0, (a, o) => a + o.value * o.value * o.percent / 100);
 
 /// The net moment about a point. Zero is level.
 double _moment(List<Outcome> outcomes, double at) =>
@@ -30,7 +28,11 @@ void main() {
   setUpAll(() => GoogleFonts.config.allowRuntimeFetching = false);
 
   setUp(() {
-    for (final id in ['where-it-balances', 'mind-the-order', 'add-the-squares']) {
+    for (final id in [
+      'where-it-balances',
+      'mind-the-order',
+      'add-the-squares',
+    ]) {
       GameProgress.instance.reset(id);
     }
   });
@@ -52,10 +54,16 @@ void main() {
     test('the answering fulcrum is where the beam actually balances', () {
       for (final r in balanceRounds) {
         final at = r.fulcrums[r.answer];
-        expect(at, closeTo(_expected(r.outcomes), 0.001),
-            reason: '${r.subject}: E(X) is ${_expected(r.outcomes)}, not $at');
-        expect(_moment(r.outcomes, at), closeTo(0, 0.01),
-            reason: '${r.subject}: the winning fulcrum still tips');
+        expect(
+          at,
+          closeTo(_expected(r.outcomes), 0.001),
+          reason: '${r.subject}: E(X) is ${_expected(r.outcomes)}, not $at',
+        );
+        expect(
+          _moment(r.outcomes, at),
+          closeTo(0, 0.01),
+          reason: '${r.subject}: the winning fulcrum still tips',
+        );
       }
     });
 
@@ -63,9 +71,13 @@ void main() {
       for (final r in balanceRounds) {
         for (var i = 0; i < r.fulcrums.length; i++) {
           if (i == r.answer) continue;
-          expect(_moment(r.outcomes, r.fulcrums[i]).abs(), greaterThan(20),
-              reason: '${r.subject}: fulcrum $i is too close to level to be '
-                  'visibly wrong');
+          expect(
+            _moment(r.outcomes, r.fulcrums[i]).abs(),
+            greaterThan(20),
+            reason:
+                '${r.subject}: fulcrum $i is too close to level to be '
+                'visibly wrong',
+          );
         }
       }
     });
@@ -75,8 +87,11 @@ void main() {
         final sorted = [...r.fulcrums]..sort();
         expect(sorted, r.fulcrums, reason: '${r.subject}: A B C run backwards');
         for (var i = 1; i < sorted.length; i++) {
-          expect(sorted[i] - sorted[i - 1], greaterThanOrEqualTo(1.4),
-              reason: '${r.subject}: two fulcrums are a thumb apart');
+          expect(
+            sorted[i] - sorted[i - 1],
+            greaterThanOrEqualTo(1.4),
+            reason: '${r.subject}: two fulcrums are a thumb apart',
+          );
         }
       }
     });
@@ -84,8 +99,7 @@ void main() {
     test('everything drawn is inside the beam', () {
       for (final r in balanceRounds) {
         for (final o in r.outcomes) {
-          expect(o.value, inInclusiveRange(0, r.to.toInt()),
-              reason: r.subject);
+          expect(o.value, inInclusiveRange(0, r.to.toInt()), reason: r.subject);
         }
         for (final f in r.fulcrums) {
           expect(f, inInclusiveRange(0, r.to), reason: r.subject);
@@ -105,50 +119,68 @@ void main() {
             r.fulcrums[r.answer] != heaviest;
       });
       final averageOffered = balanceRounds.any((r) {
-        final plain = r.outcomes.fold<int>(0, (a, o) => a + o.value) /
-            r.outcomes.length;
+        final plain =
+            r.outcomes.fold<int>(0, (a, o) => a + o.value) / r.outcomes.length;
         return r.fulcrums.any((f) => (f - plain).abs() < 0.001) &&
             (r.fulcrums[r.answer] - plain).abs() > 0.001;
       });
       expect(modeOffered, isTrue, reason: 'no round offers the tallest block');
-      expect(averageOffered, isTrue,
-          reason: 'no round offers the unweighted average');
+      expect(
+        averageOffered,
+        isTrue,
+        reason: 'no round offers the unweighted average',
+      );
     });
 
     test('one round balances on a value that cannot occur', () {
       final ghost = balanceRounds.any(
         (r) => !r.outcomes.any((o) => o.value == r.fulcrums[r.answer]),
       );
-      expect(ghost, isTrue,
-          reason: 'an expected value that is not an outcome is the fact this '
-              'item exists to show');
+      expect(
+        ghost,
+        isTrue,
+        reason:
+            'an expected value that is not an outcome is the fact this '
+            'item exists to show',
+      );
     });
 
     test('one round is symmetric, so the tallest block IS the answer', () {
       final symmetric = balanceRounds.any((r) {
-        final heaviest =
-            r.outcomes.reduce((a, b) => a.percent >= b.percent ? a : b);
+        final heaviest = r.outcomes.reduce(
+          (a, b) => a.percent >= b.percent ? a : b,
+        );
         return r.fulcrums[r.answer] == heaviest.value;
       });
-      expect(symmetric, isTrue,
-          reason: 'the mode trap works because it is sometimes right, and an '
-              'item that never shows that is teaching a superstition');
+      expect(
+        symmetric,
+        isTrue,
+        reason:
+            'the mode trap works because it is sometimes right, and an '
+            'item that never shows that is teaching a superstition',
+      );
     });
   });
 
   group('mind the order', () {
     test('the probabilities of a round add up to one', () {
       for (final r in orderRounds) {
-        expect(r.outcomes.fold<int>(0, (a, o) => a + o.percent), 100,
-            reason: r.subject);
+        expect(
+          r.outcomes.fold<int>(0, (a, o) => a + o.percent),
+          100,
+          reason: r.subject,
+        );
       }
     });
 
     test('the two answering totals are the two the formula names', () {
       for (final r in orderRounds) {
         expect(r.first, isNonNegative, reason: '${r.subject}: no E(X squared)');
-        expect(r.second, isNonNegative,
-            reason: '${r.subject}: no square of the mean');
+        expect(
+          r.second,
+          isNonNegative,
+          reason: '${r.subject}: no square of the mean',
+        );
         expect(r.first, isNot(r.second));
         expect(r.totals[r.first].role, TotalRole.eSquared);
         expect(r.totals[r.second].role, TotalRole.meanSquared);
@@ -159,34 +191,50 @@ void main() {
       for (final r in orderRounds) {
         expect(r.mean, closeTo(_expected(r.outcomes), 1e-9));
         expect(r.meanOfSquares, closeTo(_expectedOfSquares(r.outcomes), 1e-9));
-        expect(r.variance,
-            closeTo(_expectedOfSquares(r.outcomes) -
-                math.pow(_expected(r.outcomes), 2), 1e-9));
+        expect(
+          r.variance,
+          closeTo(
+            _expectedOfSquares(r.outcomes) - math.pow(_expected(r.outcomes), 2),
+            1e-9,
+          ),
+        );
       }
     });
 
     test('a variance is positive, and the wrong order makes it negative', () {
       for (final r in orderRounds) {
         expect(r.variance, greaterThan(0), reason: r.subject);
-        expect(r.mean * r.mean - r.meanOfSquares, lessThan(0),
-            reason: '${r.subject}: the wrong order has to be visibly wrong');
+        expect(
+          r.mean * r.mean - r.meanOfSquares,
+          lessThan(0),
+          reason: '${r.subject}: the wrong order has to be visibly wrong',
+        );
       }
     });
 
     test('every round offers all five totals, each named once', () {
       for (final r in orderRounds) {
         expect(r.totals.length, 5, reason: r.subject);
-        expect(r.totals.map((t) => t.role).toSet().length, 5,
-            reason: '${r.subject}: two chips claim the same role');
-        expect(r.totals.map((t) => t.latex).toSet().length, 5,
-            reason: '${r.subject}: two chips are written the same');
+        expect(
+          r.totals.map((t) => t.role).toSet().length,
+          5,
+          reason: '${r.subject}: two chips claim the same role',
+        );
+        expect(
+          r.totals.map((t) => t.latex).toSet().length,
+          5,
+          reason: '${r.subject}: two chips are written the same',
+        );
       }
     });
 
     test('the answer is not in the same place round after round', () {
       for (var i = 1; i < orderRounds.length; i++) {
-        expect(orderRounds[i].first, isNot(orderRounds[i - 1].first),
-            reason: 'round ${i + 1} keeps the first total where it was');
+        expect(
+          orderRounds[i].first,
+          isNot(orderRounds[i - 1].first),
+          reason: 'round ${i + 1} keeps the first total where it was',
+        );
       }
     });
 
@@ -195,8 +243,7 @@ void main() {
       final tight = orderRounds.any(
         (r) => (r.meanOfSquares - r.mean * r.mean) / r.meanOfSquares < 0.15,
       );
-      expect(tight, isTrue,
-          reason: 'nothing here punishes a careless swap');
+      expect(tight, isTrue, reason: 'nothing here punishes a careless swap');
     });
   });
 
@@ -205,12 +252,14 @@ void main() {
       for (final r in squaresRounds) {
         final variance = r.legA * r.legA + r.legB * r.legB;
         final wanted = r.wantsVariance ? variance : math.sqrt(variance);
-        final stated = double.parse(
-          r.options[r.answer].split(' ').first,
+        final stated = double.parse(r.options[r.answer].split(' ').first);
+        expect(
+          stated,
+          closeTo(wanted, 0.01),
+          reason:
+              '${r.subject}: the answer says ${r.options[r.answer]} and '
+              'the legs give $wanted',
         );
-        expect(stated, closeTo(wanted, 0.01),
-            reason: '${r.subject}: the answer says ${r.options[r.answer]} and '
-                'the legs give $wanted');
       }
     });
 
@@ -227,8 +276,11 @@ void main() {
           final v = double.tryParse(o.split(' ').first);
           return v != null && (v - wrong).abs() < 0.05;
         });
-        expect(offered, isTrue,
-            reason: '${r.subject}: nobody is offered ${wrong.toInt()}');
+        expect(
+          offered,
+          isTrue,
+          reason: '${r.subject}: nobody is offered ${wrong.toInt()}',
+        );
       }
     });
 
@@ -236,12 +288,18 @@ void main() {
       for (final r in squaresRounds) {
         final answer = double.parse(r.options[r.answer].split(' ').first);
         final sum = r.legA + r.legB;
-        expect(answer, isNot(closeTo(r.wantsVariance ? sum * sum : sum, 0.05)),
-            reason: r.subject);
+        expect(
+          answer,
+          isNot(closeTo(r.wantsVariance ? sum * sum : sum, 0.05)),
+          reason: r.subject,
+        );
       }
       for (var i = 1; i < squaresRounds.length; i++) {
-        expect(squaresRounds[i].answer, isNot(squaresRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous position');
+        expect(
+          squaresRounds[i].answer,
+          isNot(squaresRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous position',
+        );
       }
     });
 
@@ -257,23 +315,28 @@ void main() {
 
     test('a variance round is in the set, and hides the hypotenuse', () {
       final variance = squaresRounds.where((r) => r.wantsVariance);
-      expect(variance, isNotEmpty,
-          reason: 'forgetting the square root is one of the two named traps');
+      expect(
+        variance,
+        isNotEmpty,
+        reason: 'forgetting the square root is one of the two named traps',
+      );
       for (final r in variance) {
         expect(r.ask.contains('VARIANCE'), isTrue, reason: r.subject);
       }
     });
 
-    test('a round carries a coefficient, and doubles the leg before drawing',
-        () {
-      final scaled = squaresRounds.firstWhere(
-        (r) => r.combination.contains('2D'),
-      );
-      // The leg drawn has to be 2 sigma, not sigma, or the picture would
-      // disagree with the formula it sits under.
-      expect(scaled.legA, 6);
-      expect(scaled.aLabel.contains('2('), isTrue);
-    });
+    test(
+      'a round carries a coefficient, and doubles the leg before drawing',
+      () {
+        final scaled = squaresRounds.firstWhere(
+          (r) => r.combination.contains('2D'),
+        );
+        // The leg drawn has to be 2 sigma, not sigma, or the picture would
+        // disagree with the formula it sits under.
+        expect(scaled.legA, 6);
+        expect(scaled.aLabel.contains('2('), isTrue);
+      },
+    );
 
     test('the legs are different lengths, so the triangle reads as one', () {
       for (final r in squaresRounds) {

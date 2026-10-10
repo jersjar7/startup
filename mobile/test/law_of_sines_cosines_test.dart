@@ -33,8 +33,11 @@ void main() {
         );
         // Two angles give the third, which completes a pair as well.
         final twoAngles = r.knownAngles.length >= 2;
-        expect(r.sines, hasPair || twoAngles,
-            reason: '${r.pattern}: ${r.context}');
+        expect(
+          r.sines,
+          hasPair || twoAngles,
+          reason: '${r.pattern}: ${r.context}',
+        );
       }
     });
 
@@ -42,8 +45,10 @@ void main() {
       expect(lawRounds.any((r) => r.sines), isTrue);
       expect(lawRounds.any((r) => !r.sines), isTrue);
       expect(lawRounds.any((r) => r.pattern == 'SSA'), isTrue);
-      expect(lawRounds.map((r) => r.pattern).toSet().length,
-          greaterThanOrEqualTo(4));
+      expect(
+        lawRounds.map((r) => r.pattern).toSet().length,
+        greaterThanOrEqualTo(4),
+      );
     });
 
     test('what is wanted is never already known', () {
@@ -110,8 +115,10 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('CORRECT'), findsOneWidget);
-      expect(find.textContaining('nothing to subtract from 180'),
-          findsOneWidget);
+      expect(
+        find.textContaining('nothing to subtract from 180'),
+        findsOneWidget,
+      );
     });
   });
 }

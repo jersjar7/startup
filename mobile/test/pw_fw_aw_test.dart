@@ -41,39 +41,51 @@ void main() {
   group('which way it pushes', () {
     test('every direction is the answer at least once', () {
       for (final p in Push.values) {
-        expect(pushRounds.where((r) => r.answer == p).length,
-            greaterThanOrEqualTo(1),
-            reason: '$p never comes up');
+        expect(
+          pushRounds.where((r) => r.answer == p).length,
+          greaterThanOrEqualTo(1),
+          reason: '$p never comes up',
+        );
       }
-      expect(pushRounds.where((r) => r.answer == Push.up).length,
-          greaterThanOrEqualTo(2),
-          reason: 'costs are the common case and should look like it');
+      expect(
+        pushRounds.where((r) => r.answer == Push.up).length,
+        greaterThanOrEqualTo(2),
+        reason: 'costs are the common case and should look like it',
+      );
     });
 
     test('the direction never repeats round to round', () {
       for (var i = 1; i < pushRounds.length; i++) {
-        expect(pushRounds[i].answer, isNot(pushRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous direction');
+        expect(
+          pushRounds[i].answer,
+          isNot(pushRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous direction',
+        );
       }
     });
 
     test('the salvage round is one of the ones that pushes down', () {
       // The trap the lesson names. If salvage is not in the set, the item is
       // not doing the job it was written for.
-      final salvage = pushRounds.firstWhere(
-        (r) => r.item.contains('sell for'),
-      );
+      final salvage = pushRounds.firstWhere((r) => r.item.contains('sell for'));
       expect(salvage.answer, Push.down);
     });
 
     test('the sunk cost round says the money is already gone', () {
       for (final r in pushRounds.where((r) => r.answer == Push.neither)) {
         final text = r.item.toLowerCase();
-        expect(text.contains('spent') || text.contains('last year'), isTrue,
-            reason: '${r.subject}: nothing says the money is already gone');
-        expect(text.contains('whichever') || text.contains('whatever'), isTrue,
-            reason: '${r.subject}: a sunk cost has to be sunk for BOTH '
-                'alternatives, or it is just a cost');
+        expect(
+          text.contains('spent') || text.contains('last year'),
+          isTrue,
+          reason: '${r.subject}: nothing says the money is already gone',
+        );
+        expect(
+          text.contains('whichever') || text.contains('whatever'),
+          isTrue,
+          reason:
+              '${r.subject}: a sunk cost has to be sunk for BOTH '
+              'alternatives, or it is just a cost',
+        );
       }
     });
 
@@ -82,8 +94,11 @@ void main() {
       for (final r in pushRounds) {
         final text = r.item.toLowerCase();
         for (final word in giveaways) {
-          expect(text.contains(word), isFalse,
-              reason: '${r.subject} says "$word"');
+          expect(
+            text.contains(word),
+            isFalse,
+            reason: '${r.subject} says "$word"',
+          );
         }
       }
     });
@@ -92,9 +107,13 @@ void main() {
   group('how long to compare over', () {
     test('the multiple a round computes is the real one', () {
       for (final r in studyRounds) {
-        expect(r.multiple, _lcm(r.lifeA, r.lifeB),
-            reason: '${r.subject}: ${r.lifeA} and ${r.lifeB} meet at '
-                '${_lcm(r.lifeA, r.lifeB)}, and the round says ${r.multiple}');
+        expect(
+          r.multiple,
+          _lcm(r.lifeA, r.lifeB),
+          reason:
+              '${r.subject}: ${r.lifeA} and ${r.lifeB} meet at '
+              '${_lcm(r.lifeA, r.lifeB)}, and the round says ${r.multiple}',
+        );
       }
     });
 
@@ -112,37 +131,54 @@ void main() {
 
     test('a round answering with their own life has equal lives', () {
       for (final r in studyRounds.where((r) => r.answer == Study.shorter)) {
-        expect(r.lifeA, r.lifeB,
-            reason: '${r.subject}: the lives differ, so their own life is not '
-                'a common period');
+        expect(
+          r.lifeA,
+          r.lifeB,
+          reason:
+              '${r.subject}: the lives differ, so their own life is not '
+              'a common period',
+        );
       }
     });
 
     test('an annual worth round says so in the setting', () {
       for (final r in studyRounds) {
         final wantsAw = r.setting.contains('ANNUAL WORTH');
-        expect(r.answer == Study.annualWorth, wantsAw,
-            reason: '${r.subject}: the method the setting names and the answer '
-                'do not match');
+        expect(
+          r.answer == Study.annualWorth,
+          wantsAw,
+          reason:
+              '${r.subject}: the method the setting names and the answer '
+              'do not match',
+        );
       }
     });
 
     test('every answer happens twice', () {
       for (final s in Study.values) {
-        expect(studyRounds.where((r) => r.answer == s).length, 2,
-            reason: '$s appears the wrong number of times');
+        expect(
+          studyRounds.where((r) => r.answer == s).length,
+          2,
+          reason: '$s appears the wrong number of times',
+        );
       }
     });
 
     test('the drawn span covers the multiple when that is the answer', () {
       for (final r in studyRounds) {
         if (r.answer == Study.multiple) {
-          expect(r.span, greaterThanOrEqualTo(r.multiple),
-              reason: '${r.subject}: the mark would fall off the picture');
+          expect(
+            r.span,
+            greaterThanOrEqualTo(r.multiple),
+            reason: '${r.subject}: the mark would fall off the picture',
+          );
         }
         expect(r.span, greaterThan(0), reason: r.subject);
-        expect(r.span, lessThanOrEqualTo(30),
-            reason: '${r.subject}: past thirty the blocks are slivers');
+        expect(
+          r.span,
+          lessThanOrEqualTo(30),
+          reason: '${r.subject}: past thirty the blocks are slivers',
+        );
       }
     });
 
@@ -150,7 +186,9 @@ void main() {
       // Five into fifteen is the case where the multiple is just the longer
       // life, and it looks different enough to be worth its own round.
       final divides = studyRounds.any(
-        (r) => r.lifeA != r.lifeB && r.multiple == (r.lifeA > r.lifeB ? r.lifeA : r.lifeB),
+        (r) =>
+            r.lifeA != r.lifeB &&
+            r.multiple == (r.lifeA > r.lifeB ? r.lifeA : r.lifeB),
       );
       expect(divides, isTrue);
     });
@@ -159,15 +197,21 @@ void main() {
   group('do they agree', () {
     test('every cause is the answer twice', () {
       for (final c in Cause.values) {
-        expect(agreeRounds.where((r) => r.answer == c).length, 2,
-            reason: '$c appears the wrong number of times');
+        expect(
+          agreeRounds.where((r) => r.answer == c).length,
+          2,
+          reason: '$c appears the wrong number of times',
+        );
       }
     });
 
     test('the cause never repeats round to round', () {
       for (var i = 1; i < agreeRounds.length; i++) {
-        expect(agreeRounds[i].answer, isNot(agreeRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous cause');
+        expect(
+          agreeRounds[i].answer,
+          isNot(agreeRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous cause',
+        );
       }
     });
 
@@ -176,9 +220,13 @@ void main() {
       // it, so the report has to close off the other two explanations.
       for (final r in agreeRounds.where((r) => r.answer == Cause.arithmetic)) {
         final text = r.report.toLowerCase();
-        expect(text.contains('same') || text.contains('both'), isTrue,
-            reason: '${r.subject}: nothing in the report closes off the other '
-                'two explanations, so a slip is not the only answer left');
+        expect(
+          text.contains('same') || text.contains('both'),
+          isTrue,
+          reason:
+              '${r.subject}: nothing in the report closes off the other '
+              'two explanations, so a slip is not the only answer left',
+        );
       }
     });
 
@@ -195,16 +243,23 @@ void main() {
             .allMatches(r.report)
             .map((m) => m.group(1)!.toLowerCase())
             .toSet();
-        expect(lives.length, greaterThanOrEqualTo(2),
-            reason: '${r.subject}: found $lives, so nothing in the report '
-                'supports two different periods');
+        expect(
+          lives.length,
+          greaterThanOrEqualTo(2),
+          reason:
+              '${r.subject}: found $lives, so nothing in the report '
+              'supports two different periods',
+        );
       }
     });
 
     test('a rate round never states one rate for both', () {
       for (final r in agreeRounds.where((r) => r.answer == Cause.rate)) {
-        expect(r.report.contains('the same rate'), isFalse,
-            reason: '${r.subject}: the report rules out its own answer');
+        expect(
+          r.report.contains('the same rate'),
+          isFalse,
+          reason: '${r.subject}: the report rules out its own answer',
+        );
       }
     });
 

@@ -14,7 +14,11 @@ void main() {
   setUpAll(() => GoogleFonts.config.allowRuntimeFetching = false);
 
   setUp(() {
-    for (final id in ['walk-the-circle', 'quadrant-signs', 'build-the-identity']) {
+    for (final id in [
+      'walk-the-circle',
+      'quadrant-signs',
+      'build-the-identity',
+    ]) {
       GameProgress.instance.reset(id);
     }
   });
@@ -64,8 +68,11 @@ void main() {
       for (final r in circleRounds) {
         expect(r.choices, contains(r.answer));
         for (final c in r.choices) {
-          expect(unitCirclePoints.containsKey(c), isTrue,
-              reason: '$c has no coordinates on file');
+          expect(
+            unitCirclePoints.containsKey(c),
+            isTrue,
+            reason: '$c has no coordinates on file',
+          );
         }
       }
     });
@@ -83,11 +90,17 @@ void main() {
     test('every identity is buildable from the parts it offers', () {
       for (final i in identities) {
         for (final slot in i.slots) {
-          expect(i.chips, contains(slot),
-              reason: '"${i.left}" needs $slot and does not offer it');
+          expect(
+            i.chips,
+            contains(slot),
+            reason: '"${i.left}" needs $slot and does not offer it',
+          );
         }
-        expect(i.chips.length, greaterThan(i.slots.length),
-            reason: '"${i.left}" offers no wrong parts at all');
+        expect(
+          i.chips.length,
+          greaterThan(i.slots.length),
+          reason: '"${i.left}" offers no wrong parts at all',
+        );
         expect(i.chips.toSet().length, i.chips.length);
       }
     });
@@ -95,8 +108,11 @@ void main() {
     test('the doubling trap is on offer as a wrong part', () {
       final doubling = identities.firstWhere((i) => i.left.contains(r'\sin 2'));
       expect(doubling.slots.first, '2');
-      expect(doubling.slots.contains(r'\cos\theta'), isTrue,
-          reason: 'sin 2θ needs BOTH functions, which is the whole trap');
+      expect(
+        doubling.slots.contains(r'\cos\theta'),
+        isTrue,
+        reason: 'sin 2θ needs BOTH functions, which is the whole trap',
+      );
     });
   });
 
@@ -117,8 +133,9 @@ void main() {
       expect(find.text('1/8'), findsOneWidget);
     });
 
-    testWidgets('tapping the second quadrant answers the first round',
-        (tester) async {
+    testWidgets('tapping the second quadrant answers the first round', (
+      tester,
+    ) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: QuadrantSignsGame()));
 
@@ -133,8 +150,9 @@ void main() {
       expect(find.text('CORRECT'), findsOneWidget);
     });
 
-    testWidgets('nothing can be locked in until every slot is filled',
-        (tester) async {
+    testWidgets('nothing can be locked in until every slot is filled', (
+      tester,
+    ) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: BuildTheIdentityGame()));
 

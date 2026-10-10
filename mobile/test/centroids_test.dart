@@ -35,10 +35,7 @@ void main() {
         sy += y;
       }
     }
-    return (
-      area: hits * dx * dy,
-      centroid: Offset(sx / hits, sy / hits),
-    );
+    return (area: hits * dx * dy, centroid: Offset(sx / hits, sy / hits));
   }
 
   Iterable<Piece> everyPiece() sync* {
@@ -58,17 +55,27 @@ void main() {
       for (final piece in everyPiece()) {
         final counted = byCounting(piece);
         final scale = math.max(piece.box.width, piece.box.height);
-        expect(counted.area, closeTo(piece.span, piece.span * 0.01),
-            reason: 'a ${piece.kind.name} of ${piece.box.size} has the wrong '
-                'area');
-        expect(counted.centroid.dx,
-            closeTo(piece.centroid.dx, scale * 0.01),
-            reason: 'a ${piece.kind.name} of ${piece.box.size} has its '
-                'centroid in the wrong place across');
-        expect(counted.centroid.dy,
-            closeTo(piece.centroid.dy, scale * 0.01),
-            reason: 'a ${piece.kind.name} of ${piece.box.size} has its '
-                'centroid in the wrong place up');
+        expect(
+          counted.area,
+          closeTo(piece.span, piece.span * 0.01),
+          reason:
+              'a ${piece.kind.name} of ${piece.box.size} has the wrong '
+              'area',
+        );
+        expect(
+          counted.centroid.dx,
+          closeTo(piece.centroid.dx, scale * 0.01),
+          reason:
+              'a ${piece.kind.name} of ${piece.box.size} has its '
+              'centroid in the wrong place across',
+        );
+        expect(
+          counted.centroid.dy,
+          closeTo(piece.centroid.dy, scale * 0.01),
+          reason:
+              'a ${piece.kind.name} of ${piece.box.size} has its '
+              'centroid in the wrong place up',
+        );
       }
     });
 
@@ -113,8 +120,8 @@ void main() {
       // Ignoring the hole gives a hundred, and adding it instead of
       // subtracting it gives a hundred and two and a half.
       expect(plate.midHeight, closeTo(100, 0.05));
-      final added = (60000 * 100 + math.pi * 900 * 150) /
-          (60000 + math.pi * 900);
+      final added =
+          (60000 * 100 + math.pi * 900 * 150) / (60000 + math.pi * 900);
       expect(added, closeTo(102.4, 0.2));
     });
 
@@ -146,8 +153,11 @@ void main() {
 
     test('the app and the hand-worked set agree', () {
       for (var i = 0; i < sitRounds.length; i++) {
-        expect(sitRounds[i].answer, expected[i],
-            reason: 'round ${i + 1} of above-or-below-middle');
+        expect(
+          sitRounds[i].answer,
+          expected[i],
+          reason: 'round ${i + 1} of above-or-below-middle',
+        );
       }
     });
 
@@ -155,10 +165,13 @@ void main() {
       for (var i = 0; i < sitRounds.length; i++) {
         final r = sitRounds[i];
         if (r.answer != Sit.onIt) continue;
-        expect((r.profile.centroid.dy - r.profile.midHeight).abs(),
-            lessThan(0.001),
-            reason: 'round ${i + 1} is called symmetric and is only nearly '
-                'symmetric');
+        expect(
+          (r.profile.centroid.dy - r.profile.midHeight).abs(),
+          lessThan(0.001),
+          reason:
+              'round ${i + 1} is called symmetric and is only nearly '
+              'symmetric',
+        );
       }
     });
 
@@ -168,8 +181,11 @@ void main() {
         final r = sitRounds[i];
         if (r.answer == Sit.onIt) continue;
         final gap = (r.profile.centroid.dy - r.profile.midHeight).abs();
-        expect(gap, greaterThan(r.profile.bounds.height * 0.012),
-            reason: 'round ${i + 1} sits too near halfway to call by eye');
+        expect(
+          gap,
+          greaterThan(r.profile.bounds.height * 0.012),
+          reason: 'round ${i + 1} sits too near halfway to call by eye',
+        );
       }
     });
 
@@ -208,16 +224,26 @@ void main() {
           for (final s in r.spots)
             if ((s - truth).distance < 0.02) s,
         ];
-        expect(near.length, 1,
-            reason: 'round ${i + 1} of tap-its-centroid has ${near.length} '
-                'candidates on the answer');
+        expect(
+          near.length,
+          1,
+          reason:
+              'round ${i + 1} of tap-its-centroid has ${near.length} '
+              'candidates on the answer',
+        );
         for (var k = 0; k < r.spots.length; k++) {
           if (k == r.answer) continue;
           final scale = math.max(
-              r.profile.bounds.width, r.profile.bounds.height);
-          expect((r.spots[k] - truth).distance, greaterThan(scale * 0.12),
-              reason: 'round ${i + 1} candidate ${k + 1} is so near the '
-                  'answer it cannot be told apart');
+            r.profile.bounds.width,
+            r.profile.bounds.height,
+          );
+          expect(
+            (r.spots[k] - truth).distance,
+            greaterThan(scale * 0.12),
+            reason:
+                'round ${i + 1} candidate ${k + 1} is so near the '
+                'answer it cannot be told apart',
+          );
         }
       }
     });
@@ -226,18 +252,26 @@ void main() {
       for (var i = 0; i < spotRounds.length; i++) {
         final r = spotRounds[i];
         final tips = [
-          for (final s in r.spots)
-            ProfilePainter.toScreen(r.profile, s, size),
+          for (final s in r.spots) ProfilePainter.toScreen(r.profile, s, size),
         ];
         for (var a = 0; a < tips.length; a++) {
           for (var b = a + 1; b < tips.length; b++) {
-            expect((tips[a] - tips[b]).distance, greaterThan(44),
-                reason: 'round ${i + 1}: candidates land on each other');
+            expect(
+              (tips[a] - tips[b]).distance,
+              greaterThan(44),
+              reason: 'round ${i + 1}: candidates land on each other',
+            );
           }
-          expect(tips[a].dx > 4 && tips[a].dx < size.width - 4, isTrue,
-              reason: 'round ${i + 1}: a candidate is off the side');
-          expect(tips[a].dy > 4 && tips[a].dy < size.height - 4, isTrue,
-              reason: 'round ${i + 1}: a candidate is off the top or bottom');
+          expect(
+            tips[a].dx > 4 && tips[a].dx < size.width - 4,
+            isTrue,
+            reason: 'round ${i + 1}: a candidate is off the side',
+          );
+          expect(
+            tips[a].dy > 4 && tips[a].dy < size.height - 4,
+            isTrue,
+            reason: 'round ${i + 1}: a candidate is off the top or bottom',
+          );
         }
       }
     });
@@ -245,8 +279,11 @@ void main() {
     test('the words under the round name the candidate it grades', () {
       for (var i = 0; i < spotRounds.length; i++) {
         final r = spotRounds[i];
-        expect(r.why, startsWith('Point ${r.answer + 1}'),
-            reason: 'round ${i + 1} explains a different point than it marks');
+        expect(
+          r.why,
+          startsWith('Point ${r.answer + 1}'),
+          reason: 'round ${i + 1} explains a different point than it marks',
+        );
       }
     });
 
@@ -262,11 +299,16 @@ void main() {
     test('the answer of the last round lies outside the metal', () {
       // An angle's centroid falls in the notch, which is worth having seen.
       final r = spotRounds.last;
-      final inside = r.profile.pieces
-          .any((p) => p.outline().contains(r.profile.centroid));
-      expect(inside, isFalse,
-          reason: 'the angle round no longer shows a centroid outside the '
-              'shape, which was the point of it');
+      final inside = r.profile.pieces.any(
+        (p) => p.outline().contains(r.profile.centroid),
+      );
+      expect(
+        inside,
+        isFalse,
+        reason:
+            'the angle round no longer shows a centroid outside the '
+            'shape, which was the point of it',
+      );
     });
   });
 
@@ -283,9 +325,13 @@ void main() {
                 (r.drops[k].to - want).abs() < 0.01)
               k,
         ];
-        expect(good.length, 1,
-            reason: 'round ${i + 1} of which-distance-goes-in has '
-                '${good.length} workable distances');
+        expect(
+          good.length,
+          1,
+          reason:
+              'round ${i + 1} of which-distance-goes-in has '
+              '${good.length} workable distances',
+        );
         expect(r.answer, good.single);
       }
     });
@@ -294,13 +340,19 @@ void main() {
       for (var i = 0; i < dropRounds.length; i++) {
         final r = dropRounds[i];
         for (final d in r.drops) {
-          expect((d.to - d.from).abs(), greaterThan(0),
-              reason: 'round ${i + 1} offers a distance of nothing');
+          expect(
+            (d.to - d.from).abs(),
+            greaterThan(0),
+            reason: 'round ${i + 1} offers a distance of nothing',
+          );
           for (final at in [d.from, d.to]) {
-            expect(at >= r.profile.baseline - 0.01 &&
-                at <= r.profile.crown + 0.01, isTrue,
-                reason: 'round ${i + 1} measures to somewhere off the '
-                    'section');
+            expect(
+              at >= r.profile.baseline - 0.01 && at <= r.profile.crown + 0.01,
+              isTrue,
+              reason:
+                  'round ${i + 1} measures to somewhere off the '
+                  'section',
+            );
           }
         }
         expect(r.drops.map((d) => d.label).toSet().length, r.drops.length);
@@ -332,8 +384,11 @@ void main() {
     test('the words under the round name the distance it grades', () {
       for (var i = 0; i < dropRounds.length; i++) {
         final r = dropRounds[i];
-        expect(r.why, startsWith('Distance ${r.answer + 1}'),
-            reason: 'round ${i + 1} explains a different distance');
+        expect(
+          r.why,
+          startsWith('Distance ${r.answer + 1}'),
+          reason: 'round ${i + 1} explains a different distance',
+        );
       }
     });
 
@@ -346,11 +401,17 @@ void main() {
         ];
         for (var a = 0; a < lanes.length; a++) {
           for (var b = a + 1; b < lanes.length; b++) {
-            expect((lanes[a] - lanes[b]).abs(), greaterThan(44),
-                reason: 'round ${i + 1}: two dimensions share a lane');
+            expect(
+              (lanes[a] - lanes[b]).abs(),
+              greaterThan(44),
+              reason: 'round ${i + 1}: two dimensions share a lane',
+            );
           }
-          expect(lanes[a] > 4 && lanes[a] < size.width - 4, isTrue,
-              reason: 'round ${i + 1}: a dimension is off the figure');
+          expect(
+            lanes[a] > 4 && lanes[a] < size.width - 4,
+            isTrue,
+            reason: 'round ${i + 1}: a dimension is off the figure',
+          );
         }
       }
     });
@@ -358,8 +419,11 @@ void main() {
     test('the piece asked about is one of the pieces drawn', () {
       for (var i = 0; i < dropRounds.length; i++) {
         final r = dropRounds[i];
-        expect(r.piece >= 0 && r.piece < r.profile.pieces.length, isTrue,
-            reason: 'round ${i + 1} points at a piece that is not there');
+        expect(
+          r.piece >= 0 && r.piece < r.profile.pieces.length,
+          isTrue,
+          reason: 'round ${i + 1} points at a piece that is not there',
+        );
       }
     });
 
@@ -367,8 +431,10 @@ void main() {
       final r = dropRounds.last;
       expect(r.profile.pieces[r.piece].hole, isTrue);
       expect(r.drops[r.answer].from, r.profile.baseline);
-      expect(r.drops[r.answer].to,
-          closeTo(r.profile.pieces[r.piece].centroid.dy, 0.01));
+      expect(
+        r.drops[r.answer].to,
+        closeTo(r.profile.pieces[r.piece].centroid.dy, 0.01),
+      );
     });
   });
 }

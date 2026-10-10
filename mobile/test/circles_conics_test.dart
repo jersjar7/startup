@@ -78,10 +78,16 @@ void main() {
     test('the radius is never the number written in the equation', () {
       for (final r in centerRounds) {
         final rhs = double.parse(r.equation.split('=').last.trim());
-        expect(r.radius * r.radius, closeTo(rhs, 0.001),
-            reason: '${r.equation} does not describe radius ${r.radius}');
-        expect(r.radius, isNot(rhs),
-            reason: 'a round where r equals r squared teaches nothing');
+        expect(
+          r.radius * r.radius,
+          closeTo(rhs, 0.001),
+          reason: '${r.equation} does not describe radius ${r.radius}',
+        );
+        expect(
+          r.radius,
+          isNot(rhs),
+          reason: 'a round where r equals r squared teaches nothing',
+        );
       }
     });
 
@@ -94,13 +100,19 @@ void main() {
 
     test('completing the square is asked on both sides every time', () {
       for (final b in balances) {
-        expect(b.answers.length, greaterThan(b.slotsOnLeft),
-            reason: 'the right-hand side has no blank, so nothing is balanced');
+        expect(
+          b.answers.length,
+          greaterThan(b.slotsOnLeft),
+          reason: 'the right-hand side has no blank, so nothing is balanced',
+        );
         // What goes on the left has to reappear on the right.
         final left = b.answers.take(b.slotsOnLeft).toList();
         final right = b.answers.skip(b.slotsOnLeft).toList();
-        expect(right, left,
-            reason: 'the two sides of "${b.left.first}" do not match');
+        expect(
+          right,
+          left,
+          reason: 'the two sides of "${b.left.first}" do not match',
+        );
         for (final a in b.answers) {
           expect(b.chips, contains(a));
         }
@@ -110,8 +122,11 @@ void main() {
     test('the halve-without-squaring mistake is always on offer', () {
       for (final b in balances) {
         final wrong = b.chips.where((c) => !b.answers.contains(c));
-        expect(wrong, isNotEmpty,
-            reason: '"${b.left.first}" offers no wrong number at all');
+        expect(
+          wrong,
+          isNotEmpty,
+          reason: '"${b.left.first}" offers no wrong number at all',
+        );
       }
     });
   });
@@ -133,8 +148,9 @@ void main() {
       expect(find.text('1/8'), findsOneWidget);
     });
 
-    testWidgets('flipping the sign of the center is marked wrong',
-        (tester) async {
+    testWidgets('flipping the sign of the center is marked wrong', (
+      tester,
+    ) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: PlaceTheCenterGame()));
 
@@ -151,8 +167,9 @@ void main() {
       expect(find.textContaining('sign inside flips'), findsOneWidget);
     });
 
-    testWidgets('tapping the right-hand side answers the radius question',
-        (tester) async {
+    testWidgets('tapping the right-hand side answers the radius question', (
+      tester,
+    ) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: ReadTheEquationGame()));
 
@@ -165,8 +182,9 @@ void main() {
       expect(find.textContaining('radius SQUARED'), findsOneWidget);
     });
 
-    testWidgets('filling only the left-hand side is not balanced',
-        (tester) async {
+    testWidgets('filling only the left-hand side is not balanced', (
+      tester,
+    ) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: BalanceBothSidesGame()));
 

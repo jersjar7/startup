@@ -90,8 +90,10 @@ void main() {
     });
 
     test('a bimodal set is in the set', () {
-      expect(lineRounds.any((r) => r.answer.length == 2 &&
-          r.ask.contains('mode')), isTrue);
+      expect(
+        lineRounds.any((r) => r.answer.length == 2 && r.ask.contains('mode')),
+        isTrue,
+      );
     });
   });
 
@@ -103,11 +105,14 @@ void main() {
       }
     });
 
-    test('the sample line and the population line are both right somewhere', () {
-      final answers = readoutRounds.map((r) => r.answer).toSet();
-      expect(answers, contains(2), reason: 'Sx has to be right somewhere');
-      expect(answers, contains(3), reason: 'and so does sigma x');
-    });
+    test(
+      'the sample line and the population line are both right somewhere',
+      () {
+        final answers = readoutRounds.map((r) => r.answer).toSet();
+        expect(answers, contains(2), reason: 'Sx has to be right somewhere');
+        expect(answers, contains(3), reason: 'and so does sigma x');
+      },
+    );
 
     test('a round asks for something the screen does not have', () {
       expect(
@@ -123,7 +128,8 @@ void main() {
       expect(
         sample.values,
         population.values,
-        reason: 'the point is that the same screen answers two questions '
+        reason:
+            'the point is that the same screen answers two questions '
             'differently, which is invisible if the numbers change too',
       );
     });
@@ -174,8 +180,9 @@ void main() {
       // Repeated weights are fine and realistic; what would be pointless is a
       // round where every weight is the same and the item still asks you to
       // find one. Exactly one round is allowed to be that, deliberately.
-      final flat = weightRounds
-          .where((r) => r.rows.map((row) => row[r.weight]).toSet().length == 1);
+      final flat = weightRounds.where(
+        (r) => r.rows.map((row) => row[r.weight]).toSet().length == 1,
+      );
       expect(flat.length, 1, reason: 'found ${flat.length} flat-weight rounds');
     });
   });

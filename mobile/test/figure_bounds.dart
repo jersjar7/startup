@@ -46,7 +46,8 @@ class Spill {
   final int reach;
 
   @override
-  String toString() => '$painter: $pixels px over the $side edge, '
+  String toString() =>
+      '$painter: $pixels px over the $side edge, '
       'reaching ${reach}px out';
 }
 
@@ -150,7 +151,8 @@ Future<List<Spill>> _spillsOf(
 
   for (var y = 0; y < height; y++) {
     for (var x = 0; x < width; x++) {
-      final inside = x >= left - _grace &&
+      final inside =
+          x >= left - _grace &&
           x < right + _grace &&
           y >= top - _grace &&
           y < bottom + _grace;

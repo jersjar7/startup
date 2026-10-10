@@ -89,7 +89,11 @@ void main() {
         final up = r.bendsUp;
         for (var i = 0; i < r.cuts.length; i++) {
           if (r.cuts[i] != flip) {
-            expect(up[i], up[i + 1], reason: 'cut ${r.cuts[i]} of ${r.subject}');
+            expect(
+              up[i],
+              up[i + 1],
+              reason: 'cut ${r.cuts[i]} of ${r.subject}',
+            );
           }
         }
       }
@@ -126,7 +130,11 @@ void main() {
   group('what was asked', () {
     test('every quantity in a round is distinct', () {
       for (final r in askedRounds) {
-        expect(r.quantities.toSet().length, r.quantities.length, reason: r.question);
+        expect(
+          r.quantities.toSet().length,
+          r.quantities.length,
+          reason: r.question,
+        );
       }
     });
 
@@ -138,15 +146,22 @@ void main() {
       expect(
         byWorking.values.any((answers) => answers.length > 1),
         isTrue,
-        reason: 'the point of the item is that the question decides, not the '
+        reason:
+            'the point of the item is that the question decides, not the '
             'working',
       );
     });
 
     test('a location and a value are both correct answers somewhere', () {
       final answers = [for (final r in askedRounds) r.quantities[r.answer]];
-      expect(answers.any((a) => a.startsWith('x =') || a.startsWith('h =')), isTrue);
-      expect(answers.any((a) => a.contains('(4)') || a.contains('(6)')), isTrue);
+      expect(
+        answers.any((a) => a.startsWith('x =') || a.startsWith('h =')),
+        isTrue,
+      );
+      expect(
+        answers.any((a) => a.contains('(4)') || a.contains('(6)')),
+        isTrue,
+      );
     });
   });
 

@@ -59,10 +59,14 @@ void main() {
       // bars that never quite meet and an item that is lying about itself.
       for (final r in meetRounds) {
         final truth = _irr(r.project.flows);
-        expect(r.stops[r.answer] / 100, closeTo(truth, 0.0005),
-            reason: '${r.subject}: the rate is '
-                '${(truth * 100).toStringAsFixed(2)}% and the nearest stop is '
-                '${r.stops[r.answer]}%');
+        expect(
+          r.stops[r.answer] / 100,
+          closeTo(truth, 0.0005),
+          reason:
+              '${r.subject}: the rate is '
+              '${(truth * 100).toStringAsFixed(2)}% and the nearest stop is '
+              '${r.stops[r.answer]}%',
+        );
       }
     });
 
@@ -73,16 +77,23 @@ void main() {
           final gap =
               (r.project.pwIn(at) - r.project.pwOut(at)).abs() / r.reference;
           if (i == r.answer) {
-            expect(gap, lessThan(0.002),
-                reason: '${r.subject}: the bars do not meet at the answer');
+            expect(
+              gap,
+              lessThan(0.002),
+              reason: '${r.subject}: the bars do not meet at the answer',
+            );
           } else {
             // Four percent of the bar's own width, which is about a dozen
             // pixels on a phone. Below that the picture cannot be read and
             // the round becomes a guess.
-            expect(gap, greaterThan(0.035),
-                reason: '${r.subject}: at ${r.stops[i]}% the bars are within '
-                    '${(gap * 100).toStringAsFixed(1)}% of each other, which '
-                    'is too close to tell from the answer');
+            expect(
+              gap,
+              greaterThan(0.035),
+              reason:
+                  '${r.subject}: at ${r.stops[i]}% the bars are within '
+                  '${(gap * 100).toStringAsFixed(1)}% of each other, which '
+                  'is too close to tell from the answer',
+            );
           }
         }
       }
@@ -101,10 +112,13 @@ void main() {
     test('raising the rate never lengthens the money-in bar', () {
       for (final r in meetRounds) {
         for (var i = 1; i < r.stops.length; i++) {
-          expect(r.project.pwIn(r.stops[i] / 100),
-              lessThan(r.project.pwIn(r.stops[i - 1] / 100)),
-              reason: '${r.subject}: the bar grows between '
-                  '${r.stops[i - 1]}% and ${r.stops[i]}%');
+          expect(
+            r.project.pwIn(r.stops[i] / 100),
+            lessThan(r.project.pwIn(r.stops[i - 1] / 100)),
+            reason:
+                '${r.subject}: the bar grows between '
+                '${r.stops[i - 1]}% and ${r.stops[i]}%',
+          );
         }
       }
     });
@@ -115,25 +129,37 @@ void main() {
       final later = meetRounds.where(
         (r) => r.project.flows.any((f) => f.$1 > 0 && f.$2 < 0),
       );
-      expect(later.length, 1,
-          reason: 'every cost sitting at period zero would teach that only '
-              'benefits get discounted');
+      expect(
+        later.length,
+        1,
+        reason:
+            'every cost sitting at period zero would teach that only '
+            'benefits get discounted',
+      );
     });
 
     test('one round is another round scaled, and earns the same', () {
       final doubled = meetRounds.last;
       final original = meetRounds.first;
-      expect(_irr(doubled.project.flows),
-          closeTo(_irr(original.project.flows), 0.0001),
-          reason: 'the point of the last round is that scale changes nothing');
-      expect(doubled.project.total, closeTo(original.project.total * 2, 0.01),
-          reason: 'and it has to actually be the doubled one');
+      expect(
+        _irr(doubled.project.flows),
+        closeTo(_irr(original.project.flows), 0.0001),
+        reason: 'the point of the last round is that scale changes nothing',
+      );
+      expect(
+        doubled.project.total,
+        closeTo(original.project.total * 2, 0.01),
+        reason: 'and it has to actually be the doubled one',
+      );
     });
 
     test('the answer never repeats round to round', () {
       for (var i = 1; i < meetRounds.length; i++) {
-        expect(meetRounds[i].answer, isNot(meetRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous stop position');
+        expect(
+          meetRounds[i].answer,
+          isNot(meetRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous stop position',
+        );
       }
     });
 
@@ -143,8 +169,11 @@ void main() {
         expect(r.stops.length, greaterThanOrEqualTo(5), reason: r.subject);
         expect(r.stops.toSet().length, r.stops.length, reason: r.subject);
         for (var i = 1; i < r.stops.length; i++) {
-          expect(r.stops[i], greaterThan(r.stops[i - 1]),
-              reason: '${r.subject}: the stops are out of order');
+          expect(
+            r.stops[i],
+            greaterThan(r.stops[i - 1]),
+            reason: '${r.subject}: the stops are out of order',
+          );
         }
       }
     });
@@ -165,14 +194,23 @@ void main() {
       final onTheLine = hurdleRounds.where(
         (r) => r.projects.any((p) => p.$2 == r.marr),
       );
-      expect(onTheLine.length, greaterThanOrEqualTo(2),
-          reason: 'the tip the lesson gives is that IRR = MARR breaks even '
-              'and clears, and one round of it is not enough');
+      expect(
+        onTheLine.length,
+        greaterThanOrEqualTo(2),
+        reason:
+            'the tip the lesson gives is that IRR = MARR breaks even '
+            'and clears, and one round of it is not enough',
+      );
       for (final r in onTheLine) {
         for (var i = 0; i < r.projects.length; i++) {
           if (r.projects[i].$2 == r.marr) {
-            expect(r.answer, contains(i), reason: '${r.subject}: on the line '
-                'and rejected');
+            expect(
+              r.answer,
+              contains(i),
+              reason:
+                  '${r.subject}: on the line '
+                  'and rejected',
+            );
           }
         }
       }
@@ -185,8 +223,11 @@ void main() {
       for (final r in hurdleRounds) {
         if (r.projects.any((p) => p.$2 > 0 && p.$2 < r.marr)) rounds++;
       }
-      expect(rounds, greaterThanOrEqualTo(4),
-          reason: 'only $rounds rounds punish accepting any positive return');
+      expect(
+        rounds,
+        greaterThanOrEqualTo(4),
+        reason: 'only $rounds rounds punish accepting any positive return',
+      );
     });
 
     test('a near miss turns up, and misses by little', () {
@@ -194,18 +235,27 @@ void main() {
       final near = <String>[];
       for (final r in hurdleRounds) {
         for (final p in r.projects) {
-          if (p.$2 < r.marr && r.marr - p.$2 <= 1) near.add('${r.subject}/${p.$1}');
+          if (p.$2 < r.marr && r.marr - p.$2 <= 1)
+            near.add('${r.subject}/${p.$1}');
         }
       }
-      expect(near.length, greaterThanOrEqualTo(2),
-          reason: 'nothing misses the hurdle by a single point, so the '
-              'close-enough rule is never tested');
+      expect(
+        near.length,
+        greaterThanOrEqualTo(2),
+        reason:
+            'nothing misses the hurdle by a single point, so the '
+            'close-enough rule is never tested',
+      );
     });
 
     test('one round accepts nobody', () {
-      expect(hurdleRounds.where((r) => r.answer.isEmpty).length, 1,
-          reason: 'rejecting everything is a real outcome and needs exactly '
-              'one round, or the board teaches that something always clears');
+      expect(
+        hurdleRounds.where((r) => r.answer.isEmpty).length,
+        1,
+        reason:
+            'rejecting everything is a real outcome and needs exactly '
+            'one round, or the board teaches that something always clears',
+      );
     });
 
     test('the same project clears one hurdle and fails another', () {
@@ -216,15 +266,22 @@ void main() {
           rates.putIfAbsent(p.$2, () => <bool>{}).add(p.$2 >= r.marr);
         }
       }
-      expect(rates.values.any((outcomes) => outcomes.length == 2), isTrue,
-          reason: 'no single return is ever both accepted and rejected, so '
-              'nothing on the board shows that the hurdle is what moved');
+      expect(
+        rates.values.any((outcomes) => outcomes.length == 2),
+        isTrue,
+        reason:
+            'no single return is ever both accepted and rejected, so '
+            'nothing on the board shows that the hurdle is what moved',
+      );
     });
 
     test('the number of acceptances moves around', () {
       final sizes = hurdleRounds.map((r) => r.answer.length).toSet();
-      expect(sizes.length, greaterThanOrEqualTo(4),
-          reason: 'the size of the answer is guessable');
+      expect(
+        sizes.length,
+        greaterThanOrEqualTo(4),
+        reason: 'the size of the answer is guessable',
+      );
       expect(sizes, contains(0));
     });
 
@@ -232,12 +289,18 @@ void main() {
       for (final r in hurdleRounds) {
         expect(r.span, greaterThan(r.marr), reason: r.subject);
         for (final p in r.projects) {
-          expect(p.$2, lessThan(r.span),
-              reason: '${r.subject}: ${p.$1} runs off the end');
+          expect(
+            p.$2,
+            lessThan(r.span),
+            reason: '${r.subject}: ${p.$1} runs off the end',
+          );
           expect(p.$2, greaterThanOrEqualTo(0), reason: r.subject);
         }
-        expect(r.projects.map((p) => p.$1).toSet().length, r.projects.length,
-            reason: '${r.subject}: two projects share a name');
+        expect(
+          r.projects.map((p) => p.$1).toSet().length,
+          r.projects.length,
+          reason: '${r.subject}: two projects share a name',
+        );
       }
     });
   });
@@ -250,9 +313,13 @@ void main() {
         final worked = (a - b).abs() < 0.0005
             ? Earns.same
             : (a > b ? Earns.first : Earns.second);
-        expect(r.answer, worked,
-            reason: '${r.subject}: ${(a * 100).toStringAsFixed(1)}% against '
-                '${(b * 100).toStringAsFixed(1)}%');
+        expect(
+          r.answer,
+          worked,
+          reason:
+              '${r.subject}: ${(a * 100).toStringAsFixed(1)}% against '
+              '${(b * 100).toStringAsFixed(1)}%',
+        );
       }
     });
 
@@ -261,10 +328,14 @@ void main() {
         if (r.answer == Earns.same) continue;
         final a = _irr(r.first.flows);
         final b = _irr(r.second.flows);
-        expect((a - b).abs(), greaterThan(0.03),
-            reason: '${r.subject}: the two are within '
-                '${((a - b).abs() * 100).toStringAsFixed(1)} points, which is '
-                'a calculation rather than a judgment');
+        expect(
+          (a - b).abs(),
+          greaterThan(0.03),
+          reason:
+              '${r.subject}: the two are within '
+              '${((a - b).abs() * 100).toStringAsFixed(1)} points, which is '
+              'a calculation rather than a judgment',
+        );
       }
     });
 
@@ -274,25 +345,37 @@ void main() {
       var misleading = 0;
       for (final r in earnsRounds) {
         if (r.answer == Earns.same) continue;
-        final richer = r.first.total > r.second.total ? Earns.first : Earns.second;
+        final richer = r.first.total > r.second.total
+            ? Earns.first
+            : Earns.second;
         if (r.first.total == r.second.total) continue;
         if (richer != r.answer) misleading++;
       }
-      expect(misleading, greaterThanOrEqualTo(2),
-          reason: 'only $misleading rounds punish reading the totals');
+      expect(
+        misleading,
+        greaterThanOrEqualTo(2),
+        reason: 'only $misleading rounds punish reading the totals',
+      );
     });
 
     test('one round is the same project at two sizes', () {
       final same = earnsRounds.where((r) => r.answer == Earns.same);
-      expect(same.length, 1,
-          reason: 'scale leaving the rate alone is worth exactly one round');
+      expect(
+        same.length,
+        1,
+        reason: 'scale leaving the rate alone is worth exactly one round',
+      );
       final r = same.first;
       final ratio = r.second.biggest / r.first.biggest;
       for (final (n, a) in r.first.flows) {
         final match = r.second.flows.firstWhere((f) => f.$1 == n);
-        expect(match.$2, closeTo(a * ratio, 0.01),
-            reason: '${r.subject}: period $n is not scaled by the same factor, '
-                'so the round is not the thing it claims to be');
+        expect(
+          match.$2,
+          closeTo(a * ratio, 0.01),
+          reason:
+              '${r.subject}: period $n is not scaled by the same factor, '
+              'so the round is not the thing it claims to be',
+        );
       }
     });
 
@@ -303,11 +386,13 @@ void main() {
         final win = r.answer == Earns.first ? r.first : r.second;
         final lose = r.answer == Earns.first ? r.second : r.first;
         if (r.answer == Earns.same) return false;
-        return win.total > lose.total &&
-            win.flows.length > lose.flows.length;
+        return win.total > lose.total && win.flows.length > lose.flows.length;
       });
-      expect(strictly, isNotEmpty,
-          reason: 'nothing on the board rewards the extra money');
+      expect(
+        strictly,
+        isNotEmpty,
+        reason: 'nothing on the board rewards the extra money',
+      );
 
       final sooner = earnsRounds.where((r) {
         if (r.answer == Earns.same) return false;
@@ -315,20 +400,40 @@ void main() {
         final lose = r.answer == Earns.first ? r.second : r.first;
         return win.total == lose.total && win.lastPeriod < lose.lastPeriod;
       });
-      expect(sooner, isNotEmpty,
-          reason: 'nothing on the board isolates timing alone');
+      expect(
+        sooner,
+        isNotEmpty,
+        reason: 'nothing on the board isolates timing alone',
+      );
     });
 
     test('both diagrams share a scale and a span', () {
       for (final r in earnsRounds) {
-        expect(r.scale, greaterThanOrEqualTo(r.first.biggest), reason: r.subject);
-        expect(r.scale, greaterThanOrEqualTo(r.second.biggest), reason: r.subject);
-        expect(r.periods, greaterThanOrEqualTo(r.first.lastPeriod),
-            reason: r.subject);
-        expect(r.periods, greaterThanOrEqualTo(r.second.lastPeriod),
-            reason: r.subject);
-        expect(r.periods, lessThanOrEqualTo(6),
-            reason: '${r.subject}: past six periods the ticks crowd');
+        expect(
+          r.scale,
+          greaterThanOrEqualTo(r.first.biggest),
+          reason: r.subject,
+        );
+        expect(
+          r.scale,
+          greaterThanOrEqualTo(r.second.biggest),
+          reason: r.subject,
+        );
+        expect(
+          r.periods,
+          greaterThanOrEqualTo(r.first.lastPeriod),
+          reason: r.subject,
+        );
+        expect(
+          r.periods,
+          greaterThanOrEqualTo(r.second.lastPeriod),
+          reason: r.subject,
+        );
+        expect(
+          r.periods,
+          lessThanOrEqualTo(6),
+          reason: '${r.subject}: past six periods the ticks crowd',
+        );
       }
     });
 
@@ -337,17 +442,24 @@ void main() {
         for (final p in [r.first, r.second]) {
           final first = p.flows.first;
           expect(first.$1, 0, reason: '${r.subject}: ${p.name}');
-          expect(first.$2, lessThan(0),
-              reason: '${r.subject}: ${p.name} does not begin by spending '
-                  'anything, so it has no rate of return to speak of');
+          expect(
+            first.$2,
+            lessThan(0),
+            reason:
+                '${r.subject}: ${p.name} does not begin by spending '
+                'anything, so it has no rate of return to speak of',
+          );
         }
       }
     });
 
     test('the answer moves around', () {
       for (var i = 1; i < earnsRounds.length; i++) {
-        expect(earnsRounds[i].answer, isNot(earnsRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous answer');
+        expect(
+          earnsRounds[i].answer,
+          isNot(earnsRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous answer',
+        );
       }
       expect(earnsRounds.map((r) => r.answer).toSet().length, 3);
     });
@@ -391,7 +503,9 @@ void main() {
       expect(find.text('THEY MEET'), findsOneWidget);
     });
 
-    testWidgets('leaving out the project on the line is caught', (tester) async {
+    testWidgets('leaving out the project on the line is caught', (
+      tester,
+    ) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: OverTheBarGame()));
       await tester.pumpAndSettle();
@@ -438,7 +552,9 @@ void main() {
       await tester.pumpWidget(const MaterialApp(home: WhichEarnsMoreGame()));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(ValueKey('earns-${earnsRounds.first.answer.name}')));
+      await tester.tap(
+        find.byKey(ValueKey('earns-${earnsRounds.first.answer.name}')),
+      );
       await tester.pumpAndSettle();
       await tester.tap(find.text('Lock it in'));
       await tester.pumpAndSettle();

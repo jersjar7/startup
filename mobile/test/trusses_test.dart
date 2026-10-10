@@ -70,7 +70,11 @@ void main() {
       for (var i = 0; i < idleRounds.length; i++) {
         final truss = idleRounds[i].truss;
         final app = idleRounds[i].answer.map(truss.memberName).toSet();
-        expect(app, byAngles(truss), reason: 'round ${i + 1} of which-carry-nothing');
+        expect(
+          app,
+          byAngles(truss),
+          reason: 'round ${i + 1} of which-carry-nothing',
+        );
       }
     });
 
@@ -90,34 +94,51 @@ void main() {
         final r = idleRounds[i];
         final names = r.answer.map(r.truss.memberName);
         for (final name in names) {
-          expect(r.why, contains(name),
-              reason: 'round ${i + 1} never mentions $name');
+          expect(
+            r.why,
+            contains(name),
+            reason: 'round ${i + 1} never mentions $name',
+          );
         }
         if (r.answer.isEmpty) {
-          expect(r.why.toLowerCase(), startsWith('none'),
-              reason: 'round ${i + 1} has no idle members and does not say so');
+          expect(
+            r.why.toLowerCase(),
+            startsWith('none'),
+            reason: 'round ${i + 1} has no idle members and does not say so',
+          );
         }
       }
     });
 
     test('one round has nothing to find, and more than one has something', () {
       final counts = [for (final r in idleRounds) r.answer.length];
-      expect(counts, contains(0), reason: 'no round punishes finding a member '
-          'that is not there');
+      expect(
+        counts,
+        contains(0),
+        reason:
+            'no round punishes finding a member '
+            'that is not there',
+      );
       expect(counts.where((c) => c > 1).length, greaterThanOrEqualTo(1));
       expect(counts.where((c) => c == 1).length, greaterThanOrEqualTo(2));
     });
 
-    test('the pair that differs only by where the load sits really differs', () {
-      // The whole point of the last two rounds: same geometry, one loaded
-      // joint apart, different answers.
-      final a = idleRounds[4];
-      final b = idleRounds[5];
-      expect(a.truss.members, b.truss.members);
-      expect(a.truss.joints.map((j) => j.at), b.truss.joints.map((j) => j.at));
-      expect(a.truss.loads, isNot(b.truss.loads));
-      expect(a.answer, isNot(b.answer));
-    });
+    test(
+      'the pair that differs only by where the load sits really differs',
+      () {
+        // The whole point of the last two rounds: same geometry, one loaded
+        // joint apart, different answers.
+        final a = idleRounds[4];
+        final b = idleRounds[5];
+        expect(a.truss.members, b.truss.members);
+        expect(
+          a.truss.joints.map((j) => j.at),
+          b.truss.joints.map((j) => j.at),
+        );
+        expect(a.truss.loads, isNot(b.truss.loads));
+        expect(a.answer, isNot(b.answer));
+      },
+    );
   });
 
   group('every truss drawn is one that could stand up', () {
@@ -139,9 +160,13 @@ void main() {
     test('members plus reactions equals two per joint', () {
       // Statically determinate, which is the only kind this lesson solves.
       for (final t in allTrusses()) {
-        expect(t.members.length + reactionsIn(t), 2 * t.joints.length,
-            reason: 'a truss with joints ${t.joints.map((j) => j.name)} is not '
-                'determinate');
+        expect(
+          t.members.length + reactionsIn(t),
+          2 * t.joints.length,
+          reason:
+              'a truss with joints ${t.joints.map((j) => j.name)} is not '
+              'determinate',
+        );
       }
     });
 
@@ -151,15 +176,21 @@ void main() {
           // A joint bolted to a wall may carry one member. A joint hanging in
           // the truss on one member is a drawing mistake.
           final least = t.supports.containsKey(j) ? 1 : 2;
-          expect(t.at(j).length, greaterThanOrEqualTo(least),
-              reason: 'joint ${t.joints[j].name} has too few members');
+          expect(
+            t.at(j).length,
+            greaterThanOrEqualTo(least),
+            reason: 'joint ${t.joints[j].name} has too few members',
+          );
         }
         final seen = <String>{};
         for (var m = 0; m < t.members.length; m++) {
           final (a, b) = t.members[m];
           expect(a, isNot(b));
-          expect(seen.add(a < b ? '$a-$b' : '$b-$a'), isTrue,
-              reason: 'the member ${t.memberName(m)} is drawn twice');
+          expect(
+            seen.add(a < b ? '$a-$b' : '$b-$a'),
+            isTrue,
+            reason: 'the member ${t.memberName(m)} is drawn twice',
+          );
         }
       }
     });
@@ -179,13 +210,20 @@ void main() {
         final middles = [
           for (final (a, b) in t.members)
             TrussPainter.toScreen(
-                t, (t.joints[a].at + t.joints[b].at) / 2, size),
+              t,
+              (t.joints[a].at + t.joints[b].at) / 2,
+              size,
+            ),
         ];
         for (var a = 0; a < middles.length; a++) {
           for (var b = a + 1; b < middles.length; b++) {
-            expect((middles[a] - middles[b]).distance, greaterThan(44),
-                reason: '${t.memberName(a)} and ${t.memberName(b)} are tapped '
-                    'in the same place');
+            expect(
+              (middles[a] - middles[b]).distance,
+              greaterThan(44),
+              reason:
+                  '${t.memberName(a)} and ${t.memberName(b)} are tapped '
+                  'in the same place',
+            );
           }
         }
       }
@@ -199,9 +237,13 @@ void main() {
         ];
         for (var a = 0; a < places.length; a++) {
           for (var b = a + 1; b < places.length; b++) {
-            expect((places[a] - places[b]).distance, greaterThan(30),
-                reason: '${t.joints[a].name} and ${t.joints[b].name} are drawn '
-                    'on top of each other');
+            expect(
+              (places[a] - places[b]).distance,
+              greaterThan(30),
+              reason:
+                  '${t.joints[a].name} and ${t.joints[b].name} are drawn '
+                  'on top of each other',
+            );
           }
         }
       }
@@ -213,10 +255,14 @@ void main() {
       for (var i = 0; i < workRounds.length; i++) {
         final r = workRounds[i];
         final idle = r.truss.idle.contains(r.member);
-        expect(idle, r.answer == Working.neither,
-            reason: 'round ${i + 1} of stretched-or-squashed calls '
-                '${r.truss.memberName(r.member)} ${r.answer.name} and the two '
-                'rules say otherwise');
+        expect(
+          idle,
+          r.answer == Working.neither,
+          reason:
+              'round ${i + 1} of stretched-or-squashed calls '
+              '${r.truss.memberName(r.member)} ${r.answer.name} and the two '
+              'rules say otherwise',
+        );
       }
     });
 
@@ -228,8 +274,10 @@ void main() {
       for (final w in Working.values) {
         expect(counts[w], greaterThanOrEqualTo(1), reason: '${w.name} never');
       }
-      expect(counts.values.reduce(math.max),
-          lessThanOrEqualTo(workRounds.length - 2));
+      expect(
+        counts.values.reduce(math.max),
+        lessThanOrEqualTo(workRounds.length - 2),
+      );
     });
 
     test('the same member name is asked twice and answered differently', () {
@@ -241,15 +289,21 @@ void main() {
             .putIfAbsent(r.truss.memberName(r.member), () => <Working>{})
             .add(r.answer);
       }
-      expect(byName.values.where((s) => s.length > 1), isNotEmpty,
-          reason: 'no member is asked about twice with different answers');
+      expect(
+        byName.values.where((s) => s.length > 1),
+        isNotEmpty,
+        reason: 'no member is asked about twice with different answers',
+      );
     });
 
     test('the words under the round name the member above them', () {
       for (var i = 0; i < workRounds.length; i++) {
         final r = workRounds[i];
-        expect(r.member >= 0 && r.member < r.truss.members.length, isTrue,
-            reason: 'round ${i + 1} points at a member that is not drawn');
+        expect(
+          r.member >= 0 && r.member < r.truss.members.length,
+          isTrue,
+          reason: 'round ${i + 1} points at a member that is not drawn',
+        );
       }
     });
   });
@@ -264,9 +318,13 @@ void main() {
                 r.cuts[c].through(r.truss).contains(r.member))
               c,
         ];
-        expect(good.length, 1,
-            reason: 'round ${i + 1} of where-do-you-cut has ${good.length} '
-                'workable cuts, not one');
+        expect(
+          good.length,
+          1,
+          reason:
+              'round ${i + 1} of where-do-you-cut has ${good.length} '
+              'workable cuts, not one',
+        );
         expect(r.answer, good.single);
       }
     });
@@ -282,9 +340,13 @@ void main() {
         ];
         for (var a = 0; a < tops.length; a++) {
           for (var b = a + 1; b < tops.length; b++) {
-            expect((tops[a] - tops[b]).distance, greaterThan(46),
-                reason: 'round ${i + 1}: ${r.cuts[a].label} and '
-                    '${r.cuts[b].label} reach the top too close together');
+            expect(
+              (tops[a] - tops[b]).distance,
+              greaterThan(46),
+              reason:
+                  'round ${i + 1}: ${r.cuts[a].label} and '
+                  '${r.cuts[b].label} reach the top too close together',
+            );
           }
         }
       }
@@ -294,9 +356,13 @@ void main() {
       for (var i = 0; i < cutRounds.length; i++) {
         final r = cutRounds[i];
         for (var c = 0; c < r.cuts.length; c++) {
-          expect(r.cuts[c].through(r.truss), isNotEmpty,
-              reason: 'round ${i + 1} offers ${r.cuts[c].label}, which misses '
-                  'the truss entirely');
+          expect(
+            r.cuts[c].through(r.truss),
+            isNotEmpty,
+            reason:
+                'round ${i + 1} offers ${r.cuts[c].label}, which misses '
+                'the truss entirely',
+          );
         }
       }
     });
@@ -312,23 +378,32 @@ void main() {
           if (through.contains(r.member) && through.length > 3) tempting++;
         }
       }
-      expect(tempting, greaterThanOrEqualTo(2),
-          reason: 'nothing in this item punishes cutting four members');
+      expect(
+        tempting,
+        greaterThanOrEqualTo(2),
+        reason: 'nothing in this item punishes cutting four members',
+      );
     });
 
     test('the words under the round name the cut the geometry picks', () {
       for (var i = 0; i < cutRounds.length; i++) {
         final r = cutRounds[i];
-        expect(r.why, startsWith(_capital(r.cuts[r.answer].label)),
-            reason: 'round ${i + 1} explains a different cut than it grades');
+        expect(
+          r.why,
+          startsWith(_capital(r.cuts[r.answer].label)),
+          reason: 'round ${i + 1} explains a different cut than it grades',
+        );
       }
     });
 
     test('the wanted member is one of the ones drawn', () {
       for (var i = 0; i < cutRounds.length; i++) {
         final r = cutRounds[i];
-        expect(r.member >= 0 && r.member < r.truss.members.length, isTrue,
-            reason: 'round ${i + 1} wants a member that is not on the drawing');
+        expect(
+          r.member >= 0 && r.member < r.truss.members.length,
+          isTrue,
+          reason: 'round ${i + 1} wants a member that is not on the drawing',
+        );
       }
     });
 
@@ -355,9 +430,11 @@ void main() {
   });
 
   test('every support drawn is one the painter knows how to draw', () {
-    for (final r in [...idleRounds.map((r) => r.truss),
-                     ...workRounds.map((r) => r.truss),
-                     ...cutRounds.map((r) => r.truss)]) {
+    for (final r in [
+      ...idleRounds.map((r) => r.truss),
+      ...workRounds.map((r) => r.truss),
+      ...cutRounds.map((r) => r.truss),
+    ]) {
       for (final kind in r.supports.values) {
         expect(const [Prop.pin, Prop.roller], contains(kind));
       }

@@ -10,20 +10,22 @@ import 'package:mobile/features/games/which_circle_is_it_game.dart';
 /// three answers and against the wrong ones it names.
 void main() {
   group('the circle reproduces the lesson it was built from', () {
-    test('with no shear, the stresses given are already the principal ones',
-        () {
-      // Problem one: 80 tension, 20 compression, no shear.
-      const s = Stress(x: 80, y: -20, xy: 0);
-      expect(s.center, closeTo(30, 1e-9));
-      expect(s.radius, closeTo(50, 1e-9));
-      expect(s.s1, closeTo(80, 1e-9));
-      expect(s.s2, closeTo(-20, 1e-9));
+    test(
+      'with no shear, the stresses given are already the principal ones',
+      () {
+        // Problem one: 80 tension, 20 compression, no shear.
+        const s = Stress(x: 80, y: -20, xy: 0);
+        expect(s.center, closeTo(30, 1e-9));
+        expect(s.radius, closeTo(50, 1e-9));
+        expect(s.s1, closeTo(80, 1e-9));
+        expect(s.s2, closeTo(-20, 1e-9));
 
-      // Its named wrong answers: the center on its own, and the radius on its
-      // own.
-      expect(s.center, closeTo(30, 1e-9));
-      expect([s.radius, -s.radius], [50, -50]);
-    });
+        // Its named wrong answers: the center on its own, and the radius on its
+        // own.
+        expect(s.center, closeTo(30, 1e-9));
+        expect([s.radius, -s.radius], [50, -50]);
+      },
+    );
 
     test('the three four five triangle hiding in the second problem', () {
       // Problem two: 60, 0, shear 40.
@@ -75,17 +77,19 @@ void main() {
       expect(s.absoluteShear, greaterThan(s.inPlaneShear));
     });
 
-    test('equal stresses both ways is a single point, with no shear anywhere',
-        () {
-      const s = Stress(x: 50, y: 50, xy: 0);
-      expect(s.radius, closeTo(0, 1e-12));
-      expect(s.s1, closeTo(50, 1e-9));
-      expect(s.s2, closeTo(50, 1e-9));
-      expect(s.inPlaneShear, closeTo(0, 1e-12));
-      // And yet the worst shear at the point is not zero, because the third
-      // principal stress is still zero and the spread is still 50.
-      expect(s.absoluteShear, closeTo(25, 1e-9));
-    });
+    test(
+      'equal stresses both ways is a single point, with no shear anywhere',
+      () {
+        const s = Stress(x: 50, y: 50, xy: 0);
+        expect(s.radius, closeTo(0, 1e-12));
+        expect(s.s1, closeTo(50, 1e-9));
+        expect(s.s2, closeTo(50, 1e-9));
+        expect(s.inPlaneShear, closeTo(0, 1e-12));
+        // And yet the worst shear at the point is not zero, because the third
+        // principal stress is still zero and the spread is still 50.
+        expect(s.absoluteShear, closeTo(25, 1e-9));
+      },
+    );
 
     test('pure shear is a circle centered on the origin', () {
       const s = Stress(x: 0, y: 0, xy: 40);
@@ -128,8 +132,11 @@ void main() {
       final middle = MohrPainter.at(size, span, Offset(s.center, 0));
       final right = MohrPainter.spotAt(s, size, span, Spot.s1);
       final top = MohrPainter.spotAt(s, size, span, Spot.topShear);
-      expect((right - middle).distance, closeTo((top - middle).distance, 0.01),
-          reason: 'the two axes are drawn to different scales');
+      expect(
+        (right - middle).distance,
+        closeTo((top - middle).distance, 0.01),
+        reason: 'the two axes are drawn to different scales',
+      );
     });
 
     test('every marked place lands on the circle it belongs to', () {
@@ -139,8 +146,11 @@ void main() {
       final r = (MohrPainter.spotAt(s, size, span, Spot.s1) - middle).distance;
       for (final spot in [Spot.s1, Spot.s2, Spot.topShear, Spot.xFace]) {
         final p = MohrPainter.spotAt(s, size, span, spot);
-        expect((p - middle).distance, closeTo(r, 0.01),
-            reason: '${spot.name} is drawn off the circle');
+        expect(
+          (p - middle).distance,
+          closeTo(r, 0.01),
+          reason: '${spot.name} is drawn off the circle',
+        );
       }
       // The center is the one marked place that is NOT on it.
       expect(
@@ -167,8 +177,11 @@ void main() {
         for (var j = i + 1; j < spots.length; j++) {
           final a = MohrPainter.spotAt(s, size, span, spots[i]);
           final b = MohrPainter.spotAt(s, size, span, spots[j]);
-          expect((a - b).distance, greaterThan(24),
-              reason: '${spots[i].name} and ${spots[j].name} overlap');
+          expect(
+            (a - b).distance,
+            greaterThan(24),
+            reason: '${spots[i].name} and ${spots[j].name} overlap',
+          );
         }
       }
     });
@@ -191,8 +204,11 @@ void main() {
     test('every round has a single place that answers it', () {
       for (final r in mohrRounds) {
         expect(MohrRound.spots.contains(r.answer), isTrue);
-        expect(r.stress.radius, greaterThan(0),
-            reason: '${r.subject}: a point circle has no places to tap');
+        expect(
+          r.stress.radius,
+          greaterThan(0),
+          reason: '${r.subject}: a point circle has no places to tap',
+        );
       }
     });
 
@@ -201,13 +217,25 @@ void main() {
         final window = Window.over([r.stress]);
         for (var i = 0; i < MohrRound.spots.length; i++) {
           for (var j = i + 1; j < MohrRound.spots.length; j++) {
-            final a =
-                MohrPainter.spotAt(r.stress, size, window, MohrRound.spots[i]);
-            final b =
-                MohrPainter.spotAt(r.stress, size, window, MohrRound.spots[j]);
-            expect((a - b).distance, greaterThan(22),
-                reason: '${r.subject}: ${MohrRound.spots[i].name} and '
-                    '${MohrRound.spots[j].name} are on top of each other');
+            final a = MohrPainter.spotAt(
+              r.stress,
+              size,
+              window,
+              MohrRound.spots[i],
+            );
+            final b = MohrPainter.spotAt(
+              r.stress,
+              size,
+              window,
+              MohrRound.spots[j],
+            );
+            expect(
+              (a - b).distance,
+              greaterThan(22),
+              reason:
+                  '${r.subject}: ${MohrRound.spots[i].name} and '
+                  '${MohrRound.spots[j].name} are on top of each other',
+            );
           }
         }
       }
@@ -225,8 +253,10 @@ void main() {
     });
 
     test('every kind of place gets asked for', () {
-      expect(mohrRounds.map((r) => r.answer).toSet().length,
-          greaterThanOrEqualTo(4));
+      expect(
+        mohrRounds.map((r) => r.answer).toSet().length,
+        greaterThanOrEqualTo(4),
+      );
     });
   });
 
@@ -241,8 +271,11 @@ void main() {
           final wrong = r.circleFor(option);
           final sameCenter = (wrong.center - right.center).abs() < 1e-6;
           final sameRadius = (wrong.radius - right.radius).abs() < 1e-6;
-          expect(sameCenter && sameRadius, isFalse,
-              reason: '${r.subject}: ${option.name} draws the right circle');
+          expect(
+            sameCenter && sameRadius,
+            isFalse,
+            reason: '${r.subject}: ${option.name} draws the right circle',
+          );
         }
       }
     });
@@ -252,21 +285,28 @@ void main() {
         final seen = <String>{};
         for (final option in r.options) {
           final c = r.circleFor(option);
-          final key = '${c.center.toStringAsFixed(3)}'
+          final key =
+              '${c.center.toStringAsFixed(3)}'
               '|${c.radius.toStringAsFixed(3)}';
-          expect(seen.add(key), isTrue,
-              reason: '${r.subject}: two candidates are the same circle');
+          expect(
+            seen.add(key),
+            isTrue,
+            reason: '${r.subject}: two candidates are the same circle',
+          );
         }
       }
     });
 
     test('the three special cases are all in the item', () {
-      final pureShear = madeRounds.where((r) =>
-          r.stress.center.abs() < 1e-9 && r.stress.radius > 0);
-      final uniaxial = madeRounds.where((r) =>
-          r.stress.xy == 0 &&
-          (r.stress.x == 0 || r.stress.y == 0) &&
-          r.stress.radius > 0);
+      final pureShear = madeRounds.where(
+        (r) => r.stress.center.abs() < 1e-9 && r.stress.radius > 0,
+      );
+      final uniaxial = madeRounds.where(
+        (r) =>
+            r.stress.xy == 0 &&
+            (r.stress.x == 0 || r.stress.y == 0) &&
+            r.stress.radius > 0,
+      );
       final point = madeRounds.where((r) => r.stress.radius < 1e-9);
       expect(pureShear, isNotEmpty, reason: 'pure shear is not shown');
       expect(uniaxial, isNotEmpty, reason: 'uniaxial tension is not shown');
@@ -277,17 +317,22 @@ void main() {
       // Three circles on three scales would be three unrelated pictures.
       const size = Size(312, 118);
       for (final r in madeRounds) {
-        final window =
-            Window.over([for (final o in r.options) r.circleFor(o)]);
+        final window = Window.over([for (final o in r.options) r.circleFor(o)]);
         for (final option in r.options) {
           final c = r.circleFor(option);
           final middle = MohrPainter.at(size, window, Offset(c.center, 0));
           final edge = MohrPainter.at(size, window, Offset(c.s1, 0));
           final r2 = (edge - middle).distance;
-          expect(middle.dx - r2, greaterThan(-1),
-              reason: '${r.subject}: ${option.name} runs off the left');
-          expect(middle.dx + r2, lessThan(size.width + 1),
-              reason: '${r.subject}: ${option.name} runs off the right');
+          expect(
+            middle.dx - r2,
+            greaterThan(-1),
+            reason: '${r.subject}: ${option.name} runs off the left',
+          );
+          expect(
+            middle.dx + r2,
+            lessThan(size.width + 1),
+            reason: '${r.subject}: ${option.name} runs off the right',
+          );
         }
       }
     });
@@ -296,15 +341,21 @@ void main() {
   group('is-r-the-worst is decided by where the circle sits', () {
     test('a circle that crosses zero answers with the radius', () {
       for (final r in worstRounds.where((r) => !r.stress.clearOfZero)) {
-        expect(r.answer, Worst.radius,
-            reason: '${r.subject}: zero is inside the spread already');
+        expect(
+          r.answer,
+          Worst.radius,
+          reason: '${r.subject}: zero is inside the spread already',
+        );
       }
     });
 
     test('a circle clear of zero answers with the far end', () {
       for (final r in worstRounds.where((r) => r.stress.clearOfZero)) {
-        expect(r.answer, isNot(Worst.radius),
-            reason: '${r.subject}: the radius understates the shear here');
+        expect(
+          r.answer,
+          isNot(Worst.radius),
+          reason: '${r.subject}: the radius understates the shear here',
+        );
         expect(r.sizeOf(r.answer), closeTo(r.stress.absoluteShear, 1e-9));
         expect(r.sizeOf(r.answer), greaterThan(r.stress.radius));
       }
@@ -315,9 +366,13 @@ void main() {
         final best = r.sizeOf(r.answer);
         for (final w in Worst.values) {
           if (w == r.answer) continue;
-          expect(r.sizeOf(w), lessThan(best * 0.95),
-              reason: '${r.subject}: ${w.name} is within five percent of the '
-                  'answer, which cannot be judged by eye');
+          expect(
+            r.sizeOf(w),
+            lessThan(best * 0.95),
+            reason:
+                '${r.subject}: ${w.name} is within five percent of the '
+                'answer, which cannot be judged by eye',
+          );
         }
       }
     });
@@ -325,7 +380,10 @@ void main() {
     test('both sides of the trap are covered, and the compression one too', () {
       expect(worstRounds.where((r) => r.answer == Worst.radius), isNotEmpty);
       expect(worstRounds.where((r) => r.answer == Worst.halfTop), isNotEmpty);
-      expect(worstRounds.where((r) => r.answer == Worst.halfBottom), isNotEmpty);
+      expect(
+        worstRounds.where((r) => r.answer == Worst.halfBottom),
+        isNotEmpty,
+      );
     });
 
     test('the lesson\'s own hard problem comes out at sixty five', () {

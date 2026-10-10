@@ -16,7 +16,11 @@ void main() {
   setUpAll(() => GoogleFonts.config.allowRuntimeFetching = false);
 
   setUp(() {
-    for (final id in ['which-way-points', 'reject-or-not', 'which-cell-hurts']) {
+    for (final id in [
+      'which-way-points',
+      'reject-or-not',
+      'which-cell-hurts',
+    ]) {
       GameProgress.instance.reset(id);
     }
   });
@@ -36,8 +40,11 @@ void main() {
             : h1.contains('>')
             ? Tail.right
             : Tail.left;
-        expect(r.answer, expected,
-            reason: '${r.subject}: the picture and the hypotheses disagree');
+        expect(
+          r.answer,
+          expected,
+          reason: '${r.subject}: the picture and the hypotheses disagree',
+        );
       }
     });
 
@@ -45,16 +52,21 @@ void main() {
       const directional = ['EXCEEDS', 'FALLS SHORT', 'REDUCE', 'STRONGER'];
       for (final r in pointRounds) {
         final hasWord = directional.any(r.claim.contains);
-        expect(hasWord, r.answer != Tail.both,
-            reason: '${r.subject}: the claim and the tail do not match');
+        expect(
+          hasWord,
+          r.answer != Tail.both,
+          reason: '${r.subject}: the claim and the tail do not match',
+        );
       }
     });
 
     test('every arrangement is asked for, more than once', () {
       for (final tail in Tail.values) {
-        expect(pointRounds.where((r) => r.answer == tail).length,
-            greaterThanOrEqualTo(2),
-            reason: '$tail is barely asked for');
+        expect(
+          pointRounds.where((r) => r.answer == tail).length,
+          greaterThanOrEqualTo(2),
+          reason: '$tail is barely asked for',
+        );
       }
     });
 
@@ -66,8 +78,10 @@ void main() {
     });
 
     test('both problems that set up a test are drawn on', () {
-      expect(pointRounds.map((r) => r.source).toSet().length,
-          greaterThanOrEqualTo(2));
+      expect(
+        pointRounds.map((r) => r.source).toSet().length,
+        greaterThanOrEqualTo(2),
+      );
     });
   });
 
@@ -76,26 +90,40 @@ void main() {
       for (final r in verdictRounds) {
         final says = r.options[r.answer].toLowerCase();
         if (r.rejects) {
-          expect(says.startsWith('reject'), isTrue,
-              reason: '${r.subject}: ${r.statistic} beats ${r.critical} and '
-                  'the answer says "$says"');
+          expect(
+            says.startsWith('reject'),
+            isTrue,
+            reason:
+                '${r.subject}: ${r.statistic} beats ${r.critical} and '
+                'the answer says "$says"',
+          );
         } else {
-          expect(says.startsWith('fail to reject'), isTrue,
-              reason: '${r.subject}: ${r.statistic} does not beat '
-                  '${r.critical} and the answer says "$says"');
+          expect(
+            says.startsWith('fail to reject'),
+            isTrue,
+            reason:
+                '${r.subject}: ${r.statistic} does not beat '
+                '${r.critical} and the answer says "$says"',
+          );
         }
       }
     });
 
-    test('the comparison is on size, so a negative statistic still rejects',
-        () {
-      final negative = verdictRounds.firstWhere((r) => r.statistic < 0);
-      expect(negative.twoTailed, isTrue,
-          reason: 'a negative statistic only makes sense against a two-tailed '
-              'critical value here');
-      expect(negative.rejects, isTrue);
-      expect(negative.statistic.abs(), greaterThan(negative.critical));
-    });
+    test(
+      'the comparison is on size, so a negative statistic still rejects',
+      () {
+        final negative = verdictRounds.firstWhere((r) => r.statistic < 0);
+        expect(
+          negative.twoTailed,
+          isTrue,
+          reason:
+              'a negative statistic only makes sense against a two-tailed '
+              'critical value here',
+        );
+        expect(negative.rejects, isTrue);
+        expect(negative.statistic.abs(), greaterThan(negative.critical));
+      },
+    );
 
     test('every round offers the right decision with the wrong reason', () {
       // Two options share the decision and only one of them is right. Without
@@ -108,9 +136,13 @@ void main() {
               ? low.startsWith('reject')
               : low.startsWith('fail to reject');
         });
-        expect(matching.length, greaterThanOrEqualTo(2),
-            reason: '${r.subject}: only one option says "$want", so the '
-                'wording is never tested');
+        expect(
+          matching.length,
+          greaterThanOrEqualTo(2),
+          reason:
+              '${r.subject}: only one option says "$want", so the '
+              'wording is never tested',
+        );
       }
     });
 
@@ -122,10 +154,14 @@ void main() {
     });
 
     test('both decisions happen, and the answer moves around', () {
-      expect(verdictRounds.where((r) => r.rejects).length,
-          greaterThanOrEqualTo(2));
-      expect(verdictRounds.where((r) => !r.rejects).length,
-          greaterThanOrEqualTo(2));
+      expect(
+        verdictRounds.where((r) => r.rejects).length,
+        greaterThanOrEqualTo(2),
+      );
+      expect(
+        verdictRounds.where((r) => !r.rejects).length,
+        greaterThanOrEqualTo(2),
+      );
       expect(verdictRounds.map((r) => r.answer).toSet(), {0, 1, 2});
     });
 
@@ -142,9 +178,13 @@ void main() {
         expect(r.critical, lessThan(r.to), reason: r.subject);
         expect(r.critical, greaterThan(0), reason: r.subject);
         if (!r.twoTailed) {
-          expect(r.statistic, greaterThanOrEqualTo(0),
-              reason: '${r.subject}: a one-tailed scale starts at zero, so a '
-                  'negative statistic would be drawn off the end');
+          expect(
+            r.statistic,
+            greaterThanOrEqualTo(0),
+            reason:
+                '${r.subject}: a one-tailed scale starts at zero, so a '
+                'negative statistic would be drawn off the end',
+          );
         }
       }
     });
@@ -155,10 +195,14 @@ void main() {
       for (final r in hurtRounds) {
         final contributions = [for (final c in r.cells) c.contribution];
         final biggest = contributions.reduce((a, b) => a > b ? a : b);
-        expect(r.cells[r.answer].contribution, biggest,
-            reason: '${r.subject}: ${r.cells[r.answer].name} adds '
-                '${r.cells[r.answer].contribution.toStringAsFixed(2)} and '
-                'something else adds ${biggest.toStringAsFixed(2)}');
+        expect(
+          r.cells[r.answer].contribution,
+          biggest,
+          reason:
+              '${r.subject}: ${r.cells[r.answer].name} adds '
+              '${r.cells[r.answer].contribution.toStringAsFixed(2)} and '
+              'something else adds ${biggest.toStringAsFixed(2)}',
+        );
       }
     });
 
@@ -166,9 +210,13 @@ void main() {
       for (final r in hurtRounds) {
         final sorted = [for (final c in r.cells) c.contribution]
           ..sort((a, b) => b.compareTo(a));
-        expect(sorted[0] - sorted[1], greaterThan(0.2),
-            reason: '${r.subject}: two cells are close enough to be a coin '
-                'toss');
+        expect(
+          sorted[0] - sorted[1],
+          greaterThan(0.2),
+          reason:
+              '${r.subject}: two cells are close enough to be a coin '
+              'toss',
+        );
       }
     });
 
@@ -186,14 +234,15 @@ void main() {
       // The whole item. If the answer is always the tallest bar, the division
       // by E is never met.
       final tricky = hurtRounds.where((r) {
-        final gaps = [
-          for (final c in r.cells) (c.observed - c.expected).abs(),
-        ];
+        final gaps = [for (final c in r.cells) (c.observed - c.expected).abs()];
         final widest = gaps.reduce((a, b) => a > b ? a : b);
         return gaps[r.answer] < widest;
       });
-      expect(tricky.length, greaterThanOrEqualTo(3),
-          reason: 'only ${tricky.length} rounds punish reading the chart');
+      expect(
+        tricky.length,
+        greaterThanOrEqualTo(3),
+        reason: 'only ${tricky.length} rounds punish reading the chart',
+      );
     });
 
     test('a cell that lands exactly on its expectation is shown', () {
@@ -212,21 +261,30 @@ void main() {
         (r) => r.cells.map((c) => c.expected).toSet().length > 1,
       );
       expect(level.length, greaterThanOrEqualTo(2));
-      expect(uneven.length, greaterThanOrEqualTo(2),
-          reason: 'a model that expects the same everywhere hides the reason '
-              'for dividing by E');
+      expect(
+        uneven.length,
+        greaterThanOrEqualTo(2),
+        reason:
+            'a model that expects the same everywhere hides the reason '
+            'for dividing by E',
+      );
     });
 
     test('every answer position gets used, and no expectation is zero', () {
-      expect(hurtRounds.map((r) => r.answer).toSet().length,
-          greaterThanOrEqualTo(3));
+      expect(
+        hurtRounds.map((r) => r.answer).toSet().length,
+        greaterThanOrEqualTo(3),
+      );
       for (final r in hurtRounds) {
         for (final c in r.cells) {
           expect(c.expected, greaterThan(0), reason: r.subject);
           expect(c.observed, greaterThanOrEqualTo(0), reason: r.subject);
         }
-        expect(r.cells.map((c) => c.name).toSet().length, r.cells.length,
-            reason: '${r.subject}: two categories share a name');
+        expect(
+          r.cells.map((c) => c.name).toSet().length,
+          r.cells.length,
+          reason: '${r.subject}: two categories share a name',
+        );
       }
     });
   });

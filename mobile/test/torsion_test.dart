@@ -31,8 +31,7 @@ void main() {
 
     test('the forty millimeter shaft twists 0.0224 radians', () {
       // Problem two: 40 mm solid, 1.5 m, 300 N.m, G = 80 GPa.
-      const shaft =
-          Shaft(outerD: 40, length: 1500, torque: 300000, g: 80000);
+      const shaft = Shaft(outerD: 40, length: 1500, torque: 300000, g: 80000);
       expect(shaft.j, closeTo(251327, 1));
       expect(shaft.twist, closeTo(0.0224, 0.0001));
 
@@ -91,14 +90,19 @@ void main() {
       }
     });
 
-    test('the only round with no right expression is the one that is not round',
-        () {
-      for (final r in jRounds) {
-        expect(r.answer == -1, r.circular == false,
-            reason: 'a formula fits a round section and only a round section');
-      }
-      expect(jRounds.where((r) => !r.circular).length, 1);
-    });
+    test(
+      'the only round with no right expression is the one that is not round',
+      () {
+        for (final r in jRounds) {
+          expect(
+            r.answer == -1,
+            r.circular == false,
+            reason: 'a formula fits a round section and only a round section',
+          );
+        }
+        expect(jRounds.where((r) => !r.circular).length, 1);
+      },
+    );
   });
 
   group('stress-or-twist works its answers out rather than declaring them', () {
@@ -109,8 +113,11 @@ void main() {
       for (final r in shaftRounds) {
         expect(Moves.values.contains(r.answer), isTrue);
       }
-      expect(shaftRounds.map((r) => r.answer).toSet(),
-          {Moves.twistOnly, Moves.both, Moves.neither});
+      expect(shaftRounds.map((r) => r.answer).toSet(), {
+        Moves.twistOnly,
+        Moves.both,
+        Moves.neither,
+      });
     });
 
     test('the length and the shear modulus move the twist alone', () {
@@ -149,8 +156,10 @@ void main() {
     });
 
     test('the right panel is not always in the same place', () {
-      expect(areaRounds.map((r) => r.answer).toSet().length,
-          greaterThanOrEqualTo(3));
+      expect(
+        areaRounds.map((r) => r.answer).toSet().length,
+        greaterThanOrEqualTo(3),
+      );
     });
 
     test('the median area sits between the bore and the outside', () {
@@ -170,12 +179,21 @@ void main() {
     test('the metal is a small fraction of what the formula wants', () {
       // The reason the wrong answer is worth a round: on a thin wall it is not
       // a few percent out, it is an order of magnitude.
-      const thin = Tube(shape: TubeShape.round, width: 100, height: 100, wall: 4);
+      const thin = Tube(
+        shape: TubeShape.round,
+        width: 100,
+        height: 100,
+        wall: 4,
+      );
       expect(thin.thin, isTrue);
       expect(thin.materialArea / thin.medianArea, lessThan(0.2));
 
-      const heavy =
-          Tube(shape: TubeShape.round, width: 100, height: 100, wall: 16);
+      const heavy = Tube(
+        shape: TubeShape.round,
+        width: 100,
+        height: 100,
+        wall: 16,
+      );
       expect(heavy.thin, isFalse);
     });
 
@@ -188,8 +206,11 @@ void main() {
       for (final r in areaRounds) {
         final wall = TubePainter.drawnWall(r.tube, box);
         final scale = TubePainter.scaleFor(r.tube, box);
-        expect(wall * scale / 2, greaterThan(5),
-            reason: '${r.subject}: the median line has no daylight around it');
+        expect(
+          wall * scale / 2,
+          greaterThan(5),
+          reason: '${r.subject}: the median line has no daylight around it',
+        );
         // And the drawing never UNDERSTATES a wall, so a heavy section still
         // looks heavy.
         expect(wall, greaterThanOrEqualTo(r.tube.wall));
@@ -198,8 +219,11 @@ void main() {
         // is drawn narrow, the opened-up wall eats the bore, and what was a
         // tube reads as a solid bar. The hole has to stay a hole.
         final bore = TubePainter.outlineAt(r.tube, box, wall).getBounds();
-        expect(math.min(bore.width, bore.height), greaterThan(20),
-            reason: '${r.subject}: the bore has closed up');
+        expect(
+          math.min(bore.width, bore.height),
+          greaterThan(20),
+          reason: '${r.subject}: the bore has closed up',
+        );
       }
     });
 
@@ -208,8 +232,12 @@ void main() {
       // panels of a row share one tube and one box, so the outside face must
       // land in exactly the same place in all three, and only the shading may
       // differ. Measured off the painter's own layout, not assumed.
-      const tube =
-          Tube(shape: TubeShape.square, width: 80, height: 80, wall: 4);
+      const tube = Tube(
+        shape: TubeShape.square,
+        width: 80,
+        height: 80,
+        wall: 4,
+      );
       const box = Size(96, 118);
       final wall = TubePainter.drawnWall(tube, box);
       final outside = TubePainter.outlineAt(tube, box, 0).getBounds();
@@ -220,8 +248,10 @@ void main() {
       // halfway through the wall.
       expect(median.width, lessThan(outside.width));
       expect(bore.width, lessThan(median.width));
-      expect(outside.width - median.width,
-          closeTo(median.width - bore.width, 0.01));
+      expect(
+        outside.width - median.width,
+        closeTo(median.width - bore.width, 0.01),
+      );
 
       // And it fits the box it was given, whichever region is shaded.
       expect(outside.width, lessThanOrEqualTo(box.width));

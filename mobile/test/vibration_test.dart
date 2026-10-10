@@ -77,16 +77,22 @@ void main() {
           case Quicker.right:
             expect(r.right.omega, greaterThan(r.left.omega), reason: r.subject);
           case Quicker.same:
-            expect(r.left.omega, closeTo(r.right.omega, 1e-6),
-                reason: r.subject);
+            expect(
+              r.left.omega,
+              closeTo(r.right.omega, 1e-6),
+              reason: r.subject,
+            );
         }
       }
     });
 
     test('a round with a winner has a clear one', () {
       for (final r in pairRounds3.where((r) => r.answer != Quicker.same)) {
-        expect(r.ratio, greaterThan(1.3),
-            reason: '${r.subject}: the two are too close to judge');
+        expect(
+          r.ratio,
+          greaterThan(1.3),
+          reason: '${r.subject}: the two are too close to judge',
+        );
       }
     });
 
@@ -120,9 +126,13 @@ void main() {
     test('the safe rounds are clear of the peak by a long way', () {
       for (final r in tuneRounds.where((r) => r.answer != Danger.resonant)) {
         final ratio = r.forcingHz / r.naturalHz;
-        expect(ratio > 2 || ratio < 0.5, isTrue,
-            reason: '${r.subject}: safe should mean well clear, not just '
-                'outside the band');
+        expect(
+          ratio > 2 || ratio < 0.5,
+          isTrue,
+          reason:
+              '${r.subject}: safe should mean well clear, not just '
+              'outside the band',
+        );
       }
     });
 
@@ -135,8 +145,9 @@ void main() {
       // number only matches once converted.
       final rpm = tuneRounds.firstWhere((r) => r.setting.contains('150 rpm'));
       expect(rpm.forcingHz, closeTo(150 / 60, 0.01));
-      final rads =
-          tuneRounds.firstWhere((r) => r.setting.contains('31.4 radians'));
+      final rads = tuneRounds.firstWhere(
+        (r) => r.setting.contains('31.4 radians'),
+      );
       expect(rads.forcingHz, closeTo(31.4 / (2 * math.pi), 0.01));
     });
   });
@@ -175,8 +186,11 @@ void main() {
         return 0;
       }
 
-      expect(settleTime(Damped.critical), lessThan(settleTime(Damped.over)),
-          reason: 'past critical, more damping should be slower');
+      expect(
+        settleTime(Damped.critical),
+        lessThan(settleTime(Damped.over)),
+        reason: 'past critical, more damping should be slower',
+      );
     });
 
     test('every round offers all three, and the answer is among them', () {
@@ -191,8 +205,9 @@ void main() {
     });
 
     test('the pulled-aside round shows the two pulls it talks about', () {
-      final pull =
-          pairRounds3.firstWhere((r) => r.subject.contains('pulled further'));
+      final pull = pairRounds3.firstWhere(
+        (r) => r.subject.contains('pulled further'),
+      );
       expect(pull.pulls, isNotNull);
       expect(pull.pulls!.$1, pull.pulls!.$2 * 2);
       // No other round draws one, because no other round is about it.

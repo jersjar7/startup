@@ -65,8 +65,7 @@ void main() {
       // The named slip: the stretch used as though it were already a strain,
       // which is out by the whole gauge length.
       expect(175 / coupon.stretch, closeTo(1400, 1));
-      expect((175 / coupon.stretch) * coupon.lengthBefore,
-          closeTo(70000, 1));
+      expect((175 / coupon.stretch) * coupon.lengthBefore, closeTo(70000, 1));
     });
 
     test('true stress at the onset of necking is 598', () {
@@ -83,12 +82,19 @@ void main() {
   group('the coupon drawing says what the round is about', () {
     test('a measurement taken now is never the one taken before', () {
       for (final r in dimRounds) {
-        expect(r.coupon.lengthNow, greaterThan(r.coupon.lengthBefore),
-            reason: r.subject);
+        expect(
+          r.coupon.lengthNow,
+          greaterThan(r.coupon.lengthBefore),
+          reason: r.subject,
+        );
         if (r.answer == Dim.areaNow) {
-          expect(r.coupon.necked, isTrue,
-              reason: '${r.subject}: a round about the area right now needs a '
-                  'bar that has visibly drawn in');
+          expect(
+            r.coupon.necked,
+            isTrue,
+            reason:
+                '${r.subject}: a round about the area right now needs a '
+                'bar that has visibly drawn in',
+          );
         }
       }
     });
@@ -101,8 +107,11 @@ void main() {
           final gap =
               (CouponPainter.tagAt(size, a) - CouponPainter.tagAt(size, b))
                   .distance;
-          expect(gap, greaterThan(30),
-              reason: '${a.name} and ${b.name} are ${gap.round()} apart');
+          expect(
+            gap,
+            greaterThan(30),
+            reason: '${a.name} and ${b.name} are ${gap.round()} apart',
+          );
         }
       }
     });
@@ -121,8 +130,10 @@ void main() {
     });
 
     test('both problems about the original bar are cited', () {
-      expect(dimRounds.map((r) => r.source).toSet().length,
-          greaterThanOrEqualTo(2));
+      expect(
+        dimRounds.map((r) => r.source).toSet().length,
+        greaterThanOrEqualTo(2),
+      );
     });
   });
 
@@ -135,8 +146,11 @@ void main() {
         final plain = r.specimen.trace;
         final real = r.specimen.trueTrace;
         for (var i = 0; i < plain.length; i++) {
-          expect(real[i].dy, greaterThanOrEqualTo(plain[i].dy - 1e-9),
-              reason: '${r.subject} at strain ${plain[i].dx}');
+          expect(
+            real[i].dy,
+            greaterThanOrEqualTo(plain[i].dy - 1e-9),
+            reason: '${r.subject} at strain ${plain[i].dx}',
+          );
         }
       }
     });
@@ -145,9 +159,13 @@ void main() {
       for (final r in readingRounds) {
         final real = r.specimen.trueTrace;
         for (var i = 1; i < real.length; i++) {
-          expect(real[i].dy, greaterThanOrEqualTo(real[i - 1].dy - 1e-6),
-              reason: '${r.subject}: the true stress dipped at strain '
-                  '${real[i].dx}, which no real test does');
+          expect(
+            real[i].dy,
+            greaterThanOrEqualTo(real[i - 1].dy - 1e-6),
+            reason:
+                '${r.subject}: the true stress dipped at strain '
+                '${real[i].dx}, which no real test does',
+          );
         }
       }
     });
@@ -155,8 +173,11 @@ void main() {
     test('the engineering curve does come down at the end', () {
       for (final r in readingRounds) {
         final plain = r.specimen.trace;
-        expect(plain.last.dy, lessThan(r.specimen.ultimate),
-            reason: '${r.subject}: nothing to read if it does not turn over');
+        expect(
+          plain.last.dy,
+          lessThan(r.specimen.ultimate),
+          reason: '${r.subject}: nothing to read if it does not turn over',
+        );
       }
     });
 
@@ -166,9 +187,11 @@ void main() {
       final real = s.trueTrace;
       for (var i = 0; i < plain.length; i++) {
         if (plain[i].dx > s.yieldStrain) break;
-        expect((real[i].dy - plain[i].dy) / math.max(plain[i].dy, 1),
-            lessThan(0.01),
-            reason: 'they should be within a percent of each other here');
+        expect(
+          (real[i].dy - plain[i].dy) / math.max(plain[i].dy, 1),
+          lessThan(0.01),
+          reason: 'they should be within a percent of each other here',
+        );
       }
     });
 
@@ -186,13 +209,24 @@ void main() {
       for (final r in readingRounds) {
         if (r.answer == Reading.same) continue;
         final frame = Frame.over([r.specimen], headroom: 1.85);
-        final plain =
-            BothPainter.pointsOf(r.specimen, frame, size, BothPainter.engineering);
-        final real =
-            BothPainter.pointsOf(r.specimen, frame, size, BothPainter.truth);
+        final plain = BothPainter.pointsOf(
+          r.specimen,
+          frame,
+          size,
+          BothPainter.engineering,
+        );
+        final real = BothPainter.pointsOf(
+          r.specimen,
+          frame,
+          size,
+          BothPainter.truth,
+        );
         // At the end of the test, where every one of these rounds is looking.
-        expect((plain.last - real.last).distance, greaterThan(34),
-            reason: '${r.subject}: the two ends are on top of each other');
+        expect(
+          (plain.last - real.last).distance,
+          greaterThan(34),
+          reason: '${r.subject}: the two ends are on top of each other',
+        );
       }
     });
 
@@ -200,14 +234,26 @@ void main() {
       const size = Size(340, 230);
       final r = readingRounds.firstWhere((x) => x.answer == Reading.real);
       final frame = Frame.over([r.specimen], headroom: 1.85);
-      final real =
-          BothPainter.pointsOf(r.specimen, frame, size, BothPainter.truth);
+      final real = BothPainter.pointsOf(
+        r.specimen,
+        frame,
+        size,
+        BothPainter.truth,
+      );
       final plain = BothPainter.pointsOf(
-          r.specimen, frame, size, BothPainter.engineering);
-      expect(BothPainter.nearest(r.specimen, frame, size, real.last),
-          BothPainter.truth);
-      expect(BothPainter.nearest(r.specimen, frame, size, plain.last),
-          BothPainter.engineering);
+        r.specimen,
+        frame,
+        size,
+        BothPainter.engineering,
+      );
+      expect(
+        BothPainter.nearest(r.specimen, frame, size, real.last),
+        BothPainter.truth,
+      );
+      expect(
+        BothPainter.nearest(r.specimen, frame, size, plain.last),
+        BothPainter.engineering,
+      );
     });
 
     test('the whole of both curves stays on the panel', () {
@@ -215,18 +261,32 @@ void main() {
       for (final r in readingRounds) {
         final frame = Frame.over([r.specimen], headroom: 1.85);
         for (final which in [BothPainter.engineering, BothPainter.truth]) {
-          for (final p in BothPainter.pointsOf(r.specimen, frame, size, which)) {
-            expect(p.dy, greaterThanOrEqualTo(0),
-                reason: '${r.subject} runs off the top');
-            expect(p.dy, lessThanOrEqualTo(size.height),
-                reason: '${r.subject} runs off the bottom');
+          for (final p in BothPainter.pointsOf(
+            r.specimen,
+            frame,
+            size,
+            which,
+          )) {
+            expect(
+              p.dy,
+              greaterThanOrEqualTo(0),
+              reason: '${r.subject} runs off the top',
+            );
+            expect(
+              p.dy,
+              lessThanOrEqualTo(size.height),
+              reason: '${r.subject} runs off the bottom',
+            );
           }
         }
       }
     });
 
     test('all three answers are used', () {
-      expect(readingRounds.map((r) => r.answer).toSet(), Reading.values.toSet());
+      expect(
+        readingRounds.map((r) => r.answer).toSet(),
+        Reading.values.toSet(),
+      );
     });
   });
 
@@ -308,7 +368,10 @@ void main() {
     });
 
     test('both geometries are asked about', () {
-      expect(crackRounds.map((r) => r.plate.flaw.isEdge).toSet(), {true, false});
+      expect(crackRounds.map((r) => r.plate.flaw.isEdge).toSet(), {
+        true,
+        false,
+      });
     });
 
     test('the crack is drawn inside the plate it is in', () {
@@ -316,13 +379,23 @@ void main() {
       final box = PlatePainter.body(size);
       for (final r in crackRounds) {
         final (from, to) = PlatePainter.crackLine(r.plate, size);
-        expect(from.dx, greaterThanOrEqualTo(box.left - 0.01), reason: r.subject);
+        expect(
+          from.dx,
+          greaterThanOrEqualTo(box.left - 0.01),
+          reason: r.subject,
+        );
         expect(to.dx, lessThanOrEqualTo(box.right + 0.01), reason: r.subject);
-        expect(to.dx - from.dx, greaterThan(14),
-            reason: '${r.subject}: the crack is too small to see');
+        expect(
+          to.dx - from.dx,
+          greaterThan(14),
+          reason: '${r.subject}: the crack is too small to see',
+        );
         if (r.plate.flaw == Flaw.internal) {
-          expect(from.dx, greaterThan(box.left + 8),
-              reason: '${r.subject}: an internal crack must not touch an edge');
+          expect(
+            from.dx,
+            greaterThan(box.left + 8),
+            reason: '${r.subject}: an internal crack must not touch an edge',
+          );
           expect(to.dx, lessThan(box.right - 8), reason: r.subject);
         }
       }
@@ -334,22 +407,34 @@ void main() {
       for (final r in firstRounds) {
         switch (r.answer) {
           case Goes.left:
-            expect(r.left.usedUp, greaterThan(r.right.usedUp),
-                reason: r.subject);
+            expect(
+              r.left.usedUp,
+              greaterThan(r.right.usedUp),
+              reason: r.subject,
+            );
           case Goes.right:
-            expect(r.right.usedUp, greaterThan(r.left.usedUp),
-                reason: r.subject);
+            expect(
+              r.right.usedUp,
+              greaterThan(r.left.usedUp),
+              reason: r.subject,
+            );
           case Goes.together:
-            expect(r.left.usedUp, closeTo(r.right.usedUp, 1e-9),
-                reason: r.subject);
+            expect(
+              r.left.usedUp,
+              closeTo(r.right.usedUp, 1e-9),
+              reason: r.subject,
+            );
         }
       }
     });
 
     test('a round with a winner has a clear one', () {
       for (final r in firstRounds.where((r) => r.answer != Goes.together)) {
-        expect(r.ratio, greaterThan(1.3),
-            reason: '${r.subject}: too close to call by eye');
+        expect(
+          r.ratio,
+          greaterThan(1.3),
+          reason: '${r.subject}: too close to call by eye',
+        );
       }
     });
 
@@ -374,8 +459,9 @@ void main() {
     test('the pair that measures the same is drawn the same', () {
       // The round about an edge crack against an internal one of the same
       // length would be a trick if the drawing gave it away by length.
-      final r = firstRounds
-          .firstWhere((x) => x.subject.contains('an internal one'));
+      final r = firstRounds.firstWhere(
+        (x) => x.subject.contains('an internal one'),
+      );
       expect(r.left.crackMm, r.right.crackMm);
       expect(r.left.flaw.isEdge, isTrue);
       expect(r.right.flaw.isEdge, isFalse);
@@ -384,8 +470,7 @@ void main() {
 
   group('thermal movement reproduces the lesson', () {
     test('the twenty five meter girder moves 10.2 millimeters', () {
-      const girder =
-          Member(stuff: Stuff.steel, meters: 25, from: 5, to: 40);
+      const girder = Member(stuff: Stuff.steel, meters: 25, from: 5, to: 40);
       expect(girder.change, 35);
       expect(girder.movement, closeTo(10.24, 0.02));
 
@@ -406,8 +491,11 @@ void main() {
 
     test('every round can be called without a calculator', () {
       for (final r in growRounds.where((r) => r.answer != Biggest.same)) {
-        expect(r.lead, greaterThan(1.4),
-            reason: '${r.subject}: the top two are too close');
+        expect(
+          r.lead,
+          greaterThan(1.4),
+          reason: '${r.subject}: the top two are too close',
+        );
       }
     });
 
@@ -415,9 +503,13 @@ void main() {
       final tie = growRounds.firstWhere((r) => r.answer == Biggest.same);
       final travels = tie.members.map((m) => m.travel).toSet();
       expect(travels.length, 1);
-      expect(tie.members.map((m) => m.note).toSet().length, 3,
-          reason: 'the three have to differ in something, or there is no '
-              'question');
+      expect(
+        tie.members.map((m) => m.note).toSet().length,
+        3,
+        reason:
+            'the three have to differ in something, or there is no '
+            'question',
+      );
     });
 
     test('the answer matches the arithmetic in every round', () {
@@ -444,8 +536,10 @@ void main() {
     test('a tap lands in the row it looks like', () {
       const size = Size(340, 270);
       for (var i = 0; i < 3; i++) {
-        expect(MemberPainter.rowAt(size, Offset(100, MemberPainter.rowY(size, i))),
-            i);
+        expect(
+          MemberPainter.rowAt(size, Offset(100, MemberPainter.rowY(size, i))),
+          i,
+        );
       }
     });
   });
@@ -463,11 +557,17 @@ void main() {
         switch (r.answer) {
           case Comes.hardBrittle:
           case Comes.hardTough:
-            expect(crossing, lessThan(1),
-                reason: '${r.subject}: martensite needs a fast drop');
+            expect(
+              crossing,
+              lessThan(1),
+              reason: '${r.subject}: martensite needs a fast drop',
+            );
           case Comes.softDuctile:
-            expect(crossing, greaterThan(1),
-                reason: '${r.subject}: the soft pair needs a slow one');
+            expect(
+              crossing,
+              greaterThan(1),
+              reason: '${r.subject}: the soft pair needs a slow one',
+            );
           case Comes.unchanged:
             fail('${r.subject}: it was austenite, so something happened');
         }
@@ -498,8 +598,9 @@ void main() {
     });
 
     test('the right answer moves around', () {
-      final spots =
-          furnaceRounds.map((r) => r.options.indexOf(r.answer)).toSet();
+      final spots = furnaceRounds
+          .map((r) => r.options.indexOf(r.answer))
+          .toSet();
       expect(spots.length, greaterThan(2));
     });
 
@@ -528,17 +629,18 @@ void main() {
     });
 
     test('an alloy near a boundary is mostly that phase', () {
-      final near = tieRounds
-          .firstWhere((r) => r.subject.contains('close to the solid'));
+      final near = tieRounds.firstWhere(
+        (r) => r.subject.contains('close to the solid'),
+      );
       expect(near.tie.liquidShare, lessThan(0.25));
-      final far = tieRounds
-          .firstWhere((r) => r.subject.contains('close to the liquid'));
+      final far = tieRounds.firstWhere(
+        (r) => r.subject.contains('close to the liquid'),
+      );
       expect(far.tie.solidShare, lessThan(0.3));
     });
 
     test('the halfway round really is halfway', () {
-      final half =
-          tieRounds.firstWhere((r) => r.subject.contains('halfway'));
+      final half = tieRounds.firstWhere((r) => r.subject.contains('halfway'));
       expect(half.tie.liquidShare, closeTo(0.5, 1e-9));
     });
 
@@ -557,15 +659,24 @@ void main() {
       const size = Size(340, 255);
       for (final r in tieRounds) {
         final bars = {
-          for (final a in Arm.values) a: TiePainter.barOf(size, r.tie, a)
+          for (final a in Arm.values) a: TiePainter.barOf(size, r.tie, a),
         };
-        expect(bars[Arm.toSolid]!.overlaps(bars[Arm.toLiquid]!), isFalse,
-            reason: r.subject);
+        expect(
+          bars[Arm.toSolid]!.overlaps(bars[Arm.toLiquid]!),
+          isFalse,
+          reason: r.subject,
+        );
         for (final a in Arm.values) {
-          expect(bars[a]!.width, greaterThan(24),
-              reason: '${r.subject}: ${a.name} is too narrow to tap');
-          expect(TiePainter.nearest(size, r.tie, bars[a]!.center), a,
-              reason: r.subject);
+          expect(
+            bars[a]!.width,
+            greaterThan(24),
+            reason: '${r.subject}: ${a.name} is too narrow to tap',
+          );
+          expect(
+            TiePainter.nearest(size, r.tie, bars[a]!.center),
+            a,
+            reason: r.subject,
+          );
         }
       }
     });
@@ -616,14 +727,23 @@ void main() {
       for (final r in batchRounds) {
         switch (r.answer) {
           case Way.up:
-            expect(r.after.strength, greaterThan(r.before.strength),
-                reason: r.subject);
+            expect(
+              r.after.strength,
+              greaterThan(r.before.strength),
+              reason: r.subject,
+            );
           case Way.down:
-            expect(r.after.strength, lessThan(r.before.strength),
-                reason: r.subject);
+            expect(
+              r.after.strength,
+              lessThan(r.before.strength),
+              reason: r.subject,
+            );
           case Way.level:
-            expect(r.after.strength, closeTo(r.before.strength, 1),
-                reason: r.subject);
+            expect(
+              r.after.strength,
+              closeTo(r.before.strength, 1),
+              reason: r.subject,
+            );
         }
       }
     });
@@ -632,8 +752,11 @@ void main() {
       for (final r in batchRounds.where((r) => r.answer != Way.level)) {
         final gap =
             (r.after.strength - r.before.strength).abs() / r.before.strength;
-        expect(gap, greaterThan(0.1),
-            reason: '${r.subject}: too small a move to call');
+        expect(
+          gap,
+          greaterThan(0.1),
+          reason: '${r.subject}: too small a move to call',
+        );
       }
     });
 
@@ -652,9 +775,15 @@ void main() {
   group('what-this-job-needs has one mix that passes both tests', () {
     test('exactly one of the three suits the job', () {
       for (final r in siteRounds) {
-        final good = [for (final m in r.mixes) if (r.suits(m)) m];
-        expect(good.length, 1,
-            reason: '${r.subject}: ${good.length} mixes suit it');
+        final good = [
+          for (final m in r.mixes)
+            if (r.suits(m)) m,
+        ];
+        expect(
+          good.length,
+          1,
+          reason: '${r.subject}: ${good.length} mixes suit it',
+        );
         expect(r.suits(r.mixes[r.answer]), isTrue, reason: r.subject);
       }
     });
@@ -666,8 +795,11 @@ void main() {
           final m = r.mixes[i];
           final weak = m.strength < r.needs;
           final wrongAir = m.entrained != r.freezes;
-          expect(weak || wrongAir, isTrue,
-              reason: '${r.subject}: mix ${i + 1} is not wrong at all');
+          expect(
+            weak || wrongAir,
+            isTrue,
+            reason: '${r.subject}: mix ${i + 1} is not wrong at all',
+          );
         }
       }
     });
@@ -685,14 +817,19 @@ void main() {
       for (final r in siteRounds) {
         for (var i = 0; i < r.mixes.length; i++) {
           for (var j = i + 1; j < r.mixes.length; j++) {
-            final gap = (MixPainter.at(size, r.mixes[i]) -
-                    MixPainter.at(size, r.mixes[j]))
-                .distance;
+            final gap =
+                (MixPainter.at(size, r.mixes[i]) -
+                        MixPainter.at(size, r.mixes[j]))
+                    .distance;
             // The choosing is done on the rows below, so these only have to
             // be told apart by eye, not hit by a thumb.
-            expect(gap, greaterThan(16),
-                reason: '${r.subject}: dots ${i + 1} and ${j + 1} are '
-                    '${gap.round()} apart');
+            expect(
+              gap,
+              greaterThan(16),
+              reason:
+                  '${r.subject}: dots ${i + 1} and ${j + 1} are '
+                  '${gap.round()} apart',
+            );
           }
         }
       }
@@ -704,8 +841,11 @@ void main() {
       for (final r in siteRounds) {
         for (final m in r.mixes) {
           final p = MixPainter.at(size, m);
-          expect(box.inflate(1).contains(p), isTrue,
-              reason: '${r.subject}: ${m.plain} is off the chart');
+          expect(
+            box.inflate(1).contains(p),
+            isTrue,
+            reason: '${r.subject}: ${m.plain} is off the chart',
+          );
         }
       }
     });
@@ -745,15 +885,21 @@ void main() {
         expect(r.options.toSet().length, 4, reason: r.subject);
         expect(r.options.contains(r.answer), isTrue, reason: r.subject);
         final labels = r.options.map(r.labelFor).toSet();
-        expect(labels.length, 4,
-            reason: '${r.subject}: two choices read the same');
+        expect(
+          labels.length,
+          4,
+          reason: '${r.subject}: two choices read the same',
+        );
       }
     });
 
     test('the leftover share is never the right answer', () {
       for (final r in stepRounds) {
-        expect(r.answer == Doing.times || r.answer == Doing.over, isTrue,
-            reason: r.subject);
+        expect(
+          r.answer == Doing.times || r.answer == Doing.over,
+          isTrue,
+          reason: r.subject,
+        );
       }
     });
 
@@ -795,8 +941,11 @@ void main() {
       for (final r in slabRounds) {
         // Ten percent of the required strength is about fourteen pixels of
         // bar on a phone. Less than that is not a question, it is a coin.
-        expect(r.closest, greaterThan(0.09),
-            reason: '${r.subject}: too close to read off the bars');
+        expect(
+          r.closest,
+          greaterThan(0.09),
+          reason: '${r.subject}: too close to read off the bars',
+        );
       }
     });
 
@@ -818,8 +967,7 @@ void main() {
       const size = Size(340, 250);
       final box = PourPainter.plot(size);
       for (final r in slabRounds) {
-        final painter =
-            PourPainter(pours: [r.left, r.right], needs: r.needs);
+        final painter = PourPainter(pours: [r.left, r.right], needs: r.needs);
         expect(painter.pours.length, 2);
         expect(box.height, greaterThan(60), reason: r.subject);
       }
@@ -828,10 +976,22 @@ void main() {
     test('a tap lands on the bar it looks like', () {
       const size = Size(340, 250);
       final box = PourPainter.plot(size);
-      expect(PourPainter.barAt(size, 2, Offset(box.left + box.width * 0.25, box.center.dy)),
-          0);
-      expect(PourPainter.barAt(size, 2, Offset(box.left + box.width * 0.75, box.center.dy)),
-          1);
+      expect(
+        PourPainter.barAt(
+          size,
+          2,
+          Offset(box.left + box.width * 0.25, box.center.dy),
+        ),
+        0,
+      );
+      expect(
+        PourPainter.barAt(
+          size,
+          2,
+          Offset(box.left + box.width * 0.75, box.center.dy),
+        ),
+        1,
+      );
     });
   });
 
@@ -866,15 +1026,20 @@ void main() {
       for (final r in weighRounds) {
         expect(r.options.toSet().length, 4, reason: r.subject);
         expect(r.options.contains(r.answer), isTrue, reason: r.subject);
-        expect(r.options.map((o) => o.tex).toSet().length, 4,
-            reason: r.subject);
+        expect(
+          r.options.map((o) => o.tex).toSet().length,
+          4,
+          reason: r.subject,
+        );
       }
     });
 
     test('all four are the answer somewhere, in changing places', () {
       expect(weighRounds.map((r) => r.answer).toSet(), Recipe.values.toSet());
-      expect(weighRounds.map((r) => r.options.indexOf(r.answer)).toSet().length,
-          greaterThan(2));
+      expect(
+        weighRounds.map((r) => r.options.indexOf(r.answer)).toSet().length,
+        greaterThan(2),
+      );
     });
 
     test('both problems are drawn on', () {
@@ -923,8 +1088,11 @@ void main() {
 
     test('a round with a winner is clear about it', () {
       for (final r in sieveRounds.where((r) => r.answer != Coarser.alike)) {
-        expect(r.spread, greaterThan(0.25),
-            reason: '${r.subject}: the two moduli are too close to see');
+        expect(
+          r.spread,
+          greaterThan(0.25),
+          reason: '${r.subject}: the two moduli are too close to see',
+        );
       }
     });
 
@@ -932,8 +1100,11 @@ void main() {
       for (final r in sieveRounds) {
         for (final g in [r.left, r.right]) {
           for (var i = 1; i < g.passing.length; i++) {
-            expect(g.passing[i], lessThanOrEqualTo(g.passing[i - 1]),
-                reason: '${g.name} lets more through a finer sieve');
+            expect(
+              g.passing[i],
+              lessThanOrEqualTo(g.passing[i - 1]),
+              reason: '${g.name} lets more through a finer sieve',
+            );
           }
         }
       }
@@ -941,10 +1112,16 @@ void main() {
 
     test('the gap graded round really does have a gap', () {
       final r = sieveRounds.firstWhere((x) => x.subject.contains('gap'));
-      expect(r.right.biggestJump, greaterThan(25),
-          reason: 'the gapped sand needs a visible jump');
-      expect(r.left.biggestJump, lessThan(25),
-          reason: 'and the smooth one must not have one');
+      expect(
+        r.right.biggestJump,
+        greaterThan(25),
+        reason: 'the gapped sand needs a visible jump',
+      );
+      expect(
+        r.left.biggestJump,
+        lessThan(25),
+        reason: 'and the smooth one must not have one',
+      );
       expect(r.answer, Coarser.alike);
     });
 
@@ -962,8 +1139,11 @@ void main() {
           final gap = (a[i] - b[i]).distance;
           if (gap > most) most = gap;
         }
-        expect(most, greaterThan(24),
-            reason: '${r.subject}: the curves never separate');
+        expect(
+          most,
+          greaterThan(24),
+          reason: '${r.subject}: the curves never separate',
+        );
       }
     });
   });
@@ -996,9 +1176,11 @@ void main() {
 
     test('every specimen in the item adds up to a hundred', () {
       for (final r in voidRounds) {
-        expect(r.puck.aggregate + r.puck.binder + r.puck.air,
-            closeTo(100, 1e-9),
-            reason: r.subject);
+        expect(
+          r.puck.aggregate + r.puck.binder + r.puck.air,
+          closeTo(100, 1e-9),
+          reason: r.subject,
+        );
         expect(r.puck.vma, greaterThan(r.puck.air), reason: r.subject);
       }
     });
@@ -1011,20 +1193,31 @@ void main() {
       const size = Size(340, 250);
       for (final r in voidRounds) {
         final rects = {
-          for (final p in Piece2.values) p: PuckPainter.rectOf(size, r.puck, p)
+          for (final p in Piece2.values) p: PuckPainter.rectOf(size, r.puck, p),
         };
         for (final p in Piece2.values) {
-          expect(rects[p]!.height, greaterThan(20),
-              reason: '${r.subject}: ${p.name} is ${rects[p]!.height.round()} '
-                  'tall, too thin for a thumb');
-          expect(PuckPainter.at(size, r.puck, rects[p]!.center), p,
-              reason: r.subject);
+          expect(
+            rects[p]!.height,
+            greaterThan(20),
+            reason:
+                '${r.subject}: ${p.name} is ${rects[p]!.height.round()} '
+                'tall, too thin for a thumb',
+          );
+          expect(
+            PuckPainter.at(size, r.puck, rects[p]!.center),
+            p,
+            reason: r.subject,
+          );
         }
         // The three bands stack without overlapping.
-        expect(rects[Piece2.air]!.bottom,
-            closeTo(rects[Piece2.binder]!.top, 0.01));
-        expect(rects[Piece2.binder]!.bottom,
-            closeTo(rects[Piece2.aggregate]!.top, 0.01));
+        expect(
+          rects[Piece2.air]!.bottom,
+          closeTo(rects[Piece2.binder]!.top, 0.01),
+        );
+        expect(
+          rects[Piece2.binder]!.bottom,
+          closeTo(rects[Piece2.aggregate]!.top, 0.01),
+        );
       }
     });
   });
@@ -1046,8 +1239,7 @@ void main() {
     });
 
     test('the bad line is not always in the same place', () {
-      expect(reportRounds.map((r) => r.answer).toSet().length,
-          greaterThan(1));
+      expect(reportRounds.map((r) => r.answer).toSet().length, greaterThan(1));
     });
 
     test('all three problems are drawn on', () {
@@ -1079,11 +1271,17 @@ void main() {
           case Wets.nothing:
             expect(r.move.touchesWood, isFalse, reason: r.subject);
           case Wets.shrinks:
-            expect(r.move.touchesWood && r.move.drying, isTrue,
-                reason: r.subject);
+            expect(
+              r.move.touchesWood && r.move.drying,
+              isTrue,
+              reason: r.subject,
+            );
           case Wets.swells:
-            expect(r.move.touchesWood && !r.move.drying, isTrue,
-                reason: r.subject);
+            expect(
+              r.move.touchesWood && !r.move.drying,
+              isTrue,
+              reason: r.subject,
+            );
         }
       }
     });
@@ -1103,11 +1301,12 @@ void main() {
         }
         // And the two ends are far enough apart to read as a move.
         expect(
-            (DryingPainter.xOf(size, r.move.from) -
-                    DryingPainter.xOf(size, r.move.to))
-                .abs(),
-            greaterThan(10),
-            reason: '${r.subject}: the arrow is too short to see');
+          (DryingPainter.xOf(size, r.move.from) -
+                  DryingPainter.xOf(size, r.move.to))
+              .abs(),
+          greaterThan(10),
+          reason: '${r.subject}: the arrow is too short to see',
+        );
       }
     });
   });
@@ -1136,7 +1335,9 @@ void main() {
     test('the duration ladder runs shorter is higher', () {
       final wind = ndsRounds.firstWhere((r) => r.subject.contains('gust'));
       final dead = ndsRounds.firstWhere((r) => r.subject.contains('weight of'));
-      final normal = ndsRounds.firstWhere((r) => r.subject.contains('ten year'));
+      final normal = ndsRounds.firstWhere(
+        (r) => r.subject.contains('ten year'),
+      );
       expect(wind.value, '1.6');
       expect(wind.answer, Moves2.up);
       expect(dead.value, '0.9');
@@ -1156,8 +1357,8 @@ void main() {
         final expected = quoted > 1
             ? Moves2.up
             : quoted < 1
-                ? Moves2.down
-                : Moves2.flat;
+            ? Moves2.down
+            : Moves2.flat;
         expect(r.answer, expected, reason: r.subject);
       }
     });
@@ -1229,8 +1430,10 @@ void main() {
         expect(r.options.toSet().length, 3, reason: r.subject);
         expect(r.options.contains(r.answer), isTrue, reason: r.subject);
       }
-      expect(layRounds.map((r) => r.options.indexOf(r.answer)).toSet().length,
-          greaterThan(1));
+      expect(
+        layRounds.map((r) => r.options.indexOf(r.answer)).toSet().length,
+        greaterThan(1),
+      );
     });
 
     test('both problems are drawn on', () {
@@ -1271,9 +1474,13 @@ void main() {
 
     test('every blend really does have a stiff phase and a soft one', () {
       for (final r in phaseRounds) {
-        expect(r.blend.fiberE / r.blend.matrixE, greaterThan(10),
-            reason: '${r.subject}: the two are too alike for the round to '
-                'mean anything');
+        expect(
+          r.blend.fiberE / r.blend.matrixE,
+          greaterThan(10),
+          reason:
+              '${r.subject}: the two are too alike for the round to '
+              'mean anything',
+        );
       }
     });
 
@@ -1311,26 +1518,32 @@ void main() {
       const wet = Couple(left: Metal.aluminum, right: Metal.copper);
       expect(wet.cell, isTrue);
       expect(
-          const Couple(left: Metal.aluminum, right: Metal.copper, wet: false)
-              .cell,
-          isFalse);
+        const Couple(
+          left: Metal.aluminum,
+          right: Metal.copper,
+          wet: false,
+        ).cell,
+        isFalse,
+      );
       expect(
-          const Couple(
-                  left: Metal.aluminum,
-                  right: Metal.copper,
-                  connected: false)
-              .cell,
-          isFalse);
+        const Couple(
+          left: Metal.aluminum,
+          right: Metal.copper,
+          connected: false,
+        ).cell,
+        isFalse,
+      );
       expect(const Couple(left: Metal.steel, right: Metal.steel).cell, isFalse);
     });
 
     test('steel is eaten in one round and protected in another', () {
-      final eaten = coupleRounds.where((r) =>
-          r.couple.anode == Metal.steel);
-      final saved = coupleRounds.where((r) =>
-          r.couple.cell &&
-          r.couple.anode != Metal.steel &&
-          (r.couple.left == Metal.steel || r.couple.right == Metal.steel));
+      final eaten = coupleRounds.where((r) => r.couple.anode == Metal.steel);
+      final saved = coupleRounds.where(
+        (r) =>
+            r.couple.cell &&
+            r.couple.anode != Metal.steel &&
+            (r.couple.left == Metal.steel || r.couple.right == Metal.steel),
+      );
       expect(eaten, isNotEmpty);
       expect(saved, isNotEmpty);
     });
@@ -1350,8 +1563,7 @@ void main() {
 
   group('the selection table has one survivor per round', () {
     test('the handbook numbers are the ones the lesson quotes', () {
-      double of(Metal m) =>
-          table.firstWhere((l) => l.metal == m).conducts;
+      double of(Metal m) => table.firstWhere((l) => l.metal == m).conducts;
       expect(of(Metal.copper), 403);
       expect(of(Metal.aluminum), 236);
       expect(of(Metal.steel), 83.5);
@@ -1366,8 +1578,11 @@ void main() {
         if (r.answer == null) {
           expect(pass, isEmpty, reason: '${r.subject}: something passes');
         } else {
-          expect(pass.length, 1,
-              reason: '${r.subject}: ${pass.length} metals pass');
+          expect(
+            pass.length,
+            1,
+            reason: '${r.subject}: ${pass.length} metals pass',
+          );
           expect(pass.single.metal, r.answer, reason: r.subject);
         }
       }
@@ -1375,8 +1590,11 @@ void main() {
 
     test('every round rules out at least two of the four', () {
       for (final r in boxRounds) {
-        expect(table.where(r.suits).length, lessThanOrEqualTo(2),
-            reason: '${r.subject}: the requirements barely separate anything');
+        expect(
+          table.where(r.suits).length,
+          lessThanOrEqualTo(2),
+          reason: '${r.subject}: the requirements barely separate anything',
+        );
       }
     });
 

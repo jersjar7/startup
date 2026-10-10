@@ -48,8 +48,11 @@ void main() {
     test('every move set uses each step exactly once', () {
       for (final m in moveSets) {
         expect(m.answer.length, m.shown.length);
-        expect(m.answer.toSet().length, m.answer.length,
-            reason: 'a step is used twice in "${m.problem}"');
+        expect(
+          m.answer.toSet().length,
+          m.answer.length,
+          reason: 'a step is used twice in "${m.problem}"',
+        );
         expect(m.answer.every((i) => i >= 0 && i < m.shown.length), isTrue);
       }
     });
@@ -57,8 +60,11 @@ void main() {
     test('no move set is already in order on screen', () {
       for (final m in moveSets) {
         final inOrder = List.generate(m.shown.length, (i) => i);
-        expect(m.answer, isNot(inOrder),
-            reason: 'tapping top to bottom should not win "${m.problem}"');
+        expect(
+          m.answer,
+          isNot(inOrder),
+          reason: 'tapping top to bottom should not win "${m.problem}"',
+        );
       }
     });
 
@@ -96,8 +102,9 @@ void main() {
   });
 
   group('Order the Moves', () {
-    testWidgets('clearing the coefficient comes before taking the log',
-        (tester) async {
+    testWidgets('clearing the coefficient comes before taking the log', (
+      tester,
+    ) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: OrderTheMovesGame()));
 

@@ -54,7 +54,8 @@ void main() {
         expect(
           texts.toSet().length,
           texts.length,
-          reason: 'a round with A=${r.a} and B=${r.b} shows the same product '
+          reason:
+              'a round with A=${r.a} and B=${r.b} shows the same product '
               'in two places',
         );
       }
@@ -67,7 +68,9 @@ void main() {
 
     test('negatives, a zero component, and a zero result all appear', () {
       expect(
-        diagonalRounds.any((r) => r.a.any((v) => v < 0) || r.b.any((v) => v < 0)),
+        diagonalRounds.any(
+          (r) => r.a.any((v) => v < 0) || r.b.any((v) => v < 0),
+        ),
         isTrue,
       );
       expect(
@@ -114,8 +117,7 @@ void main() {
       expect(
         signRounds.any(
           (r) =>
-              r.answer == DotSign.zero &&
-              (r.a.length - r.b.length).abs() > 1,
+              r.answer == DotSign.zero && (r.a.length - r.b.length).abs() > 1,
         ),
         isTrue,
         reason: 'otherwise a right angle looks like it needs equal arrows',

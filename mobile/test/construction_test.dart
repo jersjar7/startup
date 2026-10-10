@@ -15,13 +15,15 @@ import 'package:mobile/features/games/six_feet_up_game.dart';
 
 void main() {
   // The network the three scheduling lessons share.
-  const shared = Network(tasks: [
-    Task(name: 'A', days: 3),
-    Task(name: 'B', days: 4, after: ['A']),
-    Task(name: 'C', days: 2, after: ['A']),
-    Task(name: 'D', days: 6, after: ['B']),
-    Task(name: 'E', days: 3, after: ['B', 'C']),
-  ]);
+  const shared = Network(
+    tasks: [
+      Task(name: 'A', days: 3),
+      Task(name: 'B', days: 4, after: ['A']),
+      Task(name: 'C', days: 2, after: ['A']),
+      Task(name: 'D', days: 6, after: ['B']),
+      Task(name: 'E', days: 3, after: ['B', 'C']),
+    ],
+  );
 
   group('the forward pass', () {
     test('early starts and finishes match the lesson', () {
@@ -33,10 +35,8 @@ void main() {
 
     test('a merge waits for the latest predecessor', () {
       // E waits on B, which finishes at 7, and C, which finishes at 5.
-      expect(shared.earlyStart['E'],
-          shared.earlyFinish['B']);
-      expect(shared.earlyStart['E'],
-          greaterThan(shared.earlyFinish['C']!));
+      expect(shared.earlyStart['E'], shared.earlyFinish['B']);
+      expect(shared.earlyStart['E'], greaterThan(shared.earlyFinish['C']!));
     });
 
     test('two activities behind the same one start together', () {
@@ -44,21 +44,25 @@ void main() {
     });
 
     test('a simple chain adds its durations', () {
-      const chain = Network(tasks: [
-        Task(name: 'A', days: 4),
-        Task(name: 'B', days: 6, after: ['A']),
-        Task(name: 'D', days: 2, after: ['B']),
-      ]);
+      const chain = Network(
+        tasks: [
+          Task(name: 'A', days: 4),
+          Task(name: 'B', days: 6, after: ['A']),
+          Task(name: 'D', days: 2, after: ['B']),
+        ],
+      );
       expect(chain.duration, 12);
     });
 
     test('the four activity network runs twelve days, not fifteen', () {
-      const four = Network(tasks: [
-        Task(name: 'A', days: 4),
-        Task(name: 'B', days: 6, after: ['A']),
-        Task(name: 'C', days: 3, after: ['A']),
-        Task(name: 'D', days: 2, after: ['B', 'C']),
-      ]);
+      const four = Network(
+        tasks: [
+          Task(name: 'A', days: 4),
+          Task(name: 'B', days: 6, after: ['A']),
+          Task(name: 'C', days: 3, after: ['A']),
+          Task(name: 'D', days: 2, after: ['B', 'C']),
+        ],
+      );
       expect(four.duration, 12);
       // Adding every duration would give fifteen, which is the lesson's
       // own wrong answer.
@@ -68,12 +72,14 @@ void main() {
     });
 
     test('lengthening the slack branch moves the critical path', () {
-      const flipped = Network(tasks: [
-        Task(name: 'A', days: 4),
-        Task(name: 'B', days: 6, after: ['A']),
-        Task(name: 'C', days: 9, after: ['A']),
-        Task(name: 'D', days: 2, after: ['B', 'C']),
-      ]);
+      const flipped = Network(
+        tasks: [
+          Task(name: 'A', days: 4),
+          Task(name: 'B', days: 6, after: ['A']),
+          Task(name: 'C', days: 9, after: ['A']),
+          Task(name: 'D', days: 2, after: ['B', 'C']),
+        ],
+      );
       expect(flipped.duration, 15);
       expect(flipped.criticalPath, ['A', 'C', 'D']);
       expect(flipped.isCritical('B'), isFalse);
@@ -101,9 +107,11 @@ void main() {
 
     test('late start is the late finish less the duration', () {
       for (final t in shared.tasks) {
-        expect(shared.lateStart[t.name],
-            shared.lateFinish[t.name]! - t.days,
-            reason: t.name);
+        expect(
+          shared.lateStart[t.name],
+          shared.lateFinish[t.name]! - t.days,
+          reason: t.name,
+        );
       }
     });
   });
@@ -117,15 +125,19 @@ void main() {
 
     test('free float is the smaller of the two', () {
       expect(shared.freeFloatOf('C'), 2);
-      expect(shared.freeFloatOf('C'),
-          lessThanOrEqualTo(shared.totalFloatOf('C')));
+      expect(
+        shared.freeFloatOf('C'),
+        lessThanOrEqualTo(shared.totalFloatOf('C')),
+      );
     });
 
     test('every activity has free float no larger than its total', () {
       for (final t in shared.tasks) {
-        expect(shared.freeFloatOf(t.name),
-            lessThanOrEqualTo(shared.totalFloatOf(t.name) + 0.0001),
-            reason: t.name);
+        expect(
+          shared.freeFloatOf(t.name),
+          lessThanOrEqualTo(shared.totalFloatOf(t.name) + 0.0001),
+          reason: t.name,
+        );
       }
     });
 
@@ -134,18 +146,22 @@ void main() {
       for (final name in shared.criticalPath) {
         expect(shared.totalFloatOf(name), closeTo(0, 0.0001), reason: name);
       }
-      final length = shared.criticalPath
-          .fold<double>(0, (sum, n) => sum + shared.named(n).days);
+      final length = shared.criticalPath.fold<double>(
+        0,
+        (sum, n) => sum + shared.named(n).days,
+      );
       expect(length, shared.duration);
     });
 
     test('two equally long paths are both critical', () {
-      const tied = Network(tasks: [
-        Task(name: 'A', days: 2),
-        Task(name: 'B', days: 5, after: ['A']),
-        Task(name: 'C', days: 5, after: ['A']),
-        Task(name: 'D', days: 1, after: ['B', 'C']),
-      ]);
+      const tied = Network(
+        tasks: [
+          Task(name: 'A', days: 2),
+          Task(name: 'B', days: 5, after: ['A']),
+          Task(name: 'C', days: 5, after: ['A']),
+          Task(name: 'D', days: 1, after: ['B', 'C']),
+        ],
+      );
       expect(tied.isCritical('B'), isTrue);
       expect(tied.isCritical('C'), isTrue);
     });
@@ -155,20 +171,29 @@ void main() {
     test('every round that names an activity names one in its network', () {
       for (final r in startRounds) {
         if (r.highlight != null) {
-          expect(r.network.tasks.map((t) => t.name), contains(r.highlight),
-              reason: r.subject);
+          expect(
+            r.network.tasks.map((t) => t.name),
+            contains(r.highlight),
+            reason: r.subject,
+          );
         }
       }
       for (final r in lengthRounds) {
         if (r.highlight != null) {
-          expect(r.network.tasks.map((t) => t.name), contains(r.highlight),
-              reason: r.subject);
+          expect(
+            r.network.tasks.map((t) => t.name),
+            contains(r.highlight),
+            reason: r.subject,
+          );
         }
       }
       for (final r in passRounds) {
         if (r.highlight != null) {
-          expect(r.network.tasks.map((t) => t.name), contains(r.highlight),
-              reason: r.subject);
+          expect(
+            r.network.tasks.map((t) => t.name),
+            contains(r.highlight),
+            reason: r.subject,
+          );
         }
       }
     });
@@ -181,8 +206,11 @@ void main() {
         totalFloatRounds.map((r) => r.answer).toList(),
         criticalRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
   });
@@ -270,12 +298,14 @@ void main() {
         valueRounds.map((r) => r.answer).toList(),
         forecastRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
   });
-
 
   group('construction safety', () {
     test('the excavation thresholds sit where the rule puts them', () {
@@ -292,17 +322,18 @@ void main() {
       expect(const Trench(depth: 4).violation, isFalse);
     });
 
-    test('fall protection starts at six feet, and fifteen for connectors',
-        () {
+    test('fall protection starts at six feet, and fifteen for connectors', () {
       expect(const Working(height: 5).needsProtection, isFalse);
       expect(const Working(height: 6).needsProtection, isTrue);
       expect(const Working(height: 8).needsProtection, isTrue);
       expect(
-          const Working(height: 12, steelConnector: true).needsProtection,
-          isFalse);
+        const Working(height: 12, steelConnector: true).needsProtection,
+        isFalse,
+      );
       expect(
-          const Working(height: 16, steelConnector: true).needsProtection,
-          isTrue);
+        const Working(height: 16, steelConnector: true).needsProtection,
+        isTrue,
+      );
     });
 
     test('each round draws the case its words describe', () {
@@ -312,8 +343,11 @@ void main() {
           expect(r.trench.depth, 7, reason: r.subject);
         }
         if (r.subject.contains('second line')) {
-          expect(r.trench.required_, Protection.engineerDesigned,
-              reason: r.subject);
+          expect(
+            r.trench.required_,
+            Protection.engineerDesigned,
+            reason: r.subject,
+          );
         }
       }
       for (final r in heightRounds2) {
@@ -328,10 +362,12 @@ void main() {
         trenchRounds.map((r) => r.answer).toList(),
         heightRounds2.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(1),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(1),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
   });
-
 }

@@ -61,7 +61,8 @@ void main() {
         expect(
           total.length,
           lessThan(sumOfLengths - 1e-9),
-          reason: '${r.ask} would come out the same either way, so it does '
+          reason:
+              '${r.ask} would come out the same either way, so it does '
               'not teach the difference',
         );
       }
@@ -114,7 +115,8 @@ void main() {
       expect(
         loose.length,
         greaterThanOrEqualTo(2),
-        reason: 'without these the multiplier is always the magnitude, which '
+        reason:
+            'without these the multiplier is always the magnitude, which '
             'is the belief the item exists to break',
       );
       for (final r in loose) {

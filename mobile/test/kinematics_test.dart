@@ -48,16 +48,21 @@ void main() {
   group('what a flight does', () {
     const shot = Flight(speed: 20, degrees: 60);
 
-    test('the across speed never changes and the up speed runs through zero',
-        () {
-      for (final t in [0.0, 0.5, shot.apexTime, 2.0, shot.airborne]) {
-        expect(shot.velocityAt(t).dx, closeTo(shot.vx, 1e-9),
-            reason: 'the across speed moved at $t');
-      }
-      expect(shot.velocityAt(shot.apexTime).dy, closeTo(0, 1e-9));
-      expect(shot.velocityAt(0).dy, closeTo(shot.vy0, 1e-9));
-      expect(shot.velocityAt(shot.airborne).dy, closeTo(-shot.vy0, 1e-9));
-    });
+    test(
+      'the across speed never changes and the up speed runs through zero',
+      () {
+        for (final t in [0.0, 0.5, shot.apexTime, 2.0, shot.airborne]) {
+          expect(
+            shot.velocityAt(t).dx,
+            closeTo(shot.vx, 1e-9),
+            reason: 'the across speed moved at $t',
+          );
+        }
+        expect(shot.velocityAt(shot.apexTime).dy, closeTo(0, 1e-9));
+        expect(shot.velocityAt(0).dy, closeTo(shot.vy0, 1e-9));
+        expect(shot.velocityAt(shot.airborne).dy, closeTo(-shot.vy0, 1e-9));
+      },
+    );
 
     test('the slowest moment is the top, and it is not stopped', () {
       final atTop = shot.speedAt(shot.apexTime);
@@ -65,8 +70,11 @@ void main() {
       expect(atTop, greaterThan(0));
       for (final t in [0.0, 0.4, 1.2, shot.airborne]) {
         if ((t - shot.apexTime).abs() < 1e-9) continue;
-        expect(shot.speedAt(t), greaterThan(atTop),
-            reason: 'something is slower than the top at $t');
+        expect(
+          shot.speedAt(t),
+          greaterThan(atTop),
+          reason: 'something is slower than the top at $t',
+        );
       }
     });
 
@@ -112,10 +120,16 @@ void main() {
     test('every round has one quantity neither given nor wanted', () {
       for (final r in absentRounds) {
         final used = {...r.given, r.wanted};
-        expect(used.length, 4,
-            reason: '${r.subject}: the round uses ${used.length} of the five');
-        expect(r.given.contains(r.wanted), isFalse,
-            reason: '${r.subject}: it hands you what it is asking for');
+        expect(
+          used.length,
+          4,
+          reason: '${r.subject}: the round uses ${used.length} of the five',
+        );
+        expect(
+          r.given.contains(r.wanted),
+          isFalse,
+          reason: '${r.subject}: it hands you what it is asking for',
+        );
       }
     });
 
@@ -131,25 +145,35 @@ void main() {
         // The three that are NOT the missing one all have to appear.
         expect(r.equation, isNotEmpty);
         if (r.answer == Known.time) {
-          expect(r.equation.contains('t'), isFalse,
-              reason: 'the no-time equation still has a t in it');
+          expect(
+            r.equation.contains('t'),
+            isFalse,
+            reason: 'the no-time equation still has a t in it',
+          );
         }
         if (r.answer == Known.distance) {
-          expect(r.equation.startsWith('v ='), isTrue,
-              reason: 'the no-distance equation is not the speed one');
+          expect(
+            r.equation.startsWith('v ='),
+            isTrue,
+            reason: 'the no-distance equation is not the speed one',
+          );
         }
         expect(absent, isNotEmpty);
       }
     });
 
     test('the commonest case, no time at all, turns up more than once', () {
-      expect(absentRounds.where((r) => r.answer == Known.time).length,
-          greaterThanOrEqualTo(2));
+      expect(
+        absentRounds.where((r) => r.answer == Known.time).length,
+        greaterThanOrEqualTo(2),
+      );
     });
 
     test('more than one kind of absence is asked about', () {
-      expect(absentRounds.map((r) => r.answer).toSet().length,
-          greaterThanOrEqualTo(4));
+      expect(
+        absentRounds.map((r) => r.answer).toSet().length,
+        greaterThanOrEqualTo(4),
+      );
     });
   });
 
@@ -162,8 +186,11 @@ void main() {
           for (var j = i + 1; j < Moment.values.length; j++) {
             final a = FlightPainter.momentAt(r.flight, size, Moment.values[i]);
             final b = FlightPainter.momentAt(r.flight, size, Moment.values[j]);
-            expect((a - b).distance, greaterThan(30),
-                reason: '${r.subject}: two moments are on top of each other');
+            expect(
+              (a - b).distance,
+              greaterThan(30),
+              reason: '${r.subject}: two moments are on top of each other',
+            );
           }
         }
       }
@@ -174,15 +201,21 @@ void main() {
         final trace = [
           for (var k = 0; k <= 80; k++)
             FlightPainter.at(
-                r.flight, size, r.flight.at(r.flight.airborne * k / 80)),
+              r.flight,
+              size,
+              r.flight.at(r.flight.airborne * k / 80),
+            ),
         ];
         for (final m in Moment.values) {
           final at = FlightPainter.momentAt(r.flight, size, m);
           final nearest = trace
               .map((p) => (p - at).distance)
               .reduce((x, y) => x < y ? x : y);
-          expect(nearest, lessThan(2),
-              reason: '${r.subject}: ${m.name} is off the arc');
+          expect(
+            nearest,
+            lessThan(2),
+            reason: '${r.subject}: ${m.name} is off the arc',
+          );
         }
       }
     });
@@ -195,8 +228,11 @@ void main() {
           for (final m in Moment.values)
             (r.flight.velocityAt(r.flight.airborne * m.share).dx * 1e6).round(),
         };
-        expect(across.length, 1,
-            reason: '${r.subject}: the across speed is not constant');
+        expect(
+          across.length,
+          1,
+          reason: '${r.subject}: the across speed is not constant',
+        );
       }
     });
 
@@ -207,9 +243,8 @@ void main() {
           return switch (r.answer) {
             Moment.apex => -r.flight.speedAt(t),
             Moment.landing => -r.flight.velocityAt(t).dy,
-            Moment.rising => -(r.flight.velocityAt(t).dy -
-                    r.flight.vy0 / 2)
-                .abs(),
+            Moment.rising =>
+              -(r.flight.velocityAt(t).dy - r.flight.vy0 / 2).abs(),
             _ => 0,
           };
         }
@@ -217,8 +252,11 @@ void main() {
         final best = score(r.answer);
         for (final m in Moment.values) {
           if (m == r.answer) continue;
-          expect(score(m), lessThan(best - 1e-9),
-              reason: '${r.subject}: ${m.name} ties with the answer');
+          expect(
+            score(m),
+            lessThan(best - 1e-9),
+            reason: '${r.subject}: ${m.name} ties with the answer',
+          );
         }
       }
     });
@@ -233,13 +271,20 @@ void main() {
         final along = BendPainter.headOf(r.bend, size, Piece.along) - at;
         final toward = BendPainter.headOf(r.bend, size, Piece.toward) - at;
         final total = BendPainter.headOf(r.bend, size, Piece.total) - at;
-        expect((along + toward - total).distance, lessThan(0.01),
-            reason: '${r.subject}: the total arrow is not the two added');
+        expect(
+          (along + toward - total).distance,
+          lessThan(0.01),
+          reason: '${r.subject}: the total arrow is not the two added',
+        );
         // And they are drawn at right angles, which is the whole reason the
         // sizes combine the way they do.
-        expect(along.dx * toward.dx + along.dy * toward.dy, closeTo(0, 1e-9),
-            reason: '${r.subject}: the two pieces are not square to each '
-                'other');
+        expect(
+          along.dx * toward.dx + along.dy * toward.dy,
+          closeTo(0, 1e-9),
+          reason:
+              '${r.subject}: the two pieces are not square to each '
+              'other',
+        );
       }
     });
 
@@ -256,9 +301,13 @@ void main() {
           for (var j = i + 1; j < r.shown.length; j++) {
             final a = BendPainter.headOf(r.bend, size, r.shown[i]);
             final b = BendPainter.headOf(r.bend, size, r.shown[j]);
-            expect((a - b).distance, greaterThan(28),
-                reason: '${r.subject}: ${r.shown[i].name} and '
-                    '${r.shown[j].name} are on top of each other');
+            expect(
+              (a - b).distance,
+              greaterThan(28),
+              reason:
+                  '${r.subject}: ${r.shown[i].name} and '
+                  '${r.shown[j].name} are on top of each other',
+            );
           }
         }
       }
@@ -268,9 +317,13 @@ void main() {
       for (final r in cornerRounds) {
         final (at, _) = BendPainter.carAt(size);
         for (final piece in r.shown) {
-          final length = (BendPainter.headOf(r.bend, size, piece) - at).distance;
-          expect(length, greaterThan(12),
-              reason: '${r.subject}: the ${piece.name} arrow is a stub');
+          final length =
+              (BendPainter.headOf(r.bend, size, piece) - at).distance;
+          expect(
+            length,
+            greaterThan(12),
+            reason: '${r.subject}: the ${piece.name} arrow is a stub',
+          );
         }
       }
     });

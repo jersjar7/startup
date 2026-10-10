@@ -75,9 +75,13 @@ void main() {
         for (final r in vergeRounds) r.rig,
       ]) {
         if (rig.pushToSlide <= 0) continue;
-        expect(rig.pushToSlide, closeTo(byHunting(rig), 0.5),
-            reason: 'a rig at ${rig.rampDeg} degrees with a push at '
-                '${rig.pushDeg} disagrees with itself');
+        expect(
+          rig.pushToSlide,
+          closeTo(byHunting(rig), 0.5),
+          reason:
+              'a rig at ${rig.rampDeg} degrees with a push at '
+              '${rig.pushDeg} disagrees with itself',
+        );
       }
     });
 
@@ -86,8 +90,10 @@ void main() {
       const heavy = Rig(weight: 9000, mu: 0.60, rampDeg: 30.9638);
       expect(light.atRepose, isTrue);
       expect(heavy.atRepose, isTrue);
-      expect(light.slideDemand / light.ceiling,
-          closeTo(heavy.slideDemand / heavy.ceiling, 0.0001));
+      expect(
+        light.slideDemand / light.ceiling,
+        closeTo(heavy.slideDemand / heavy.ceiling, 0.0001),
+      );
     });
   });
 
@@ -112,11 +118,17 @@ void main() {
         final base = l.corners[1] - l.corners[0];
         final side = l.corners[3] - l.corners[0];
         final square = base.dx * side.dx + base.dy * side.dy;
-        expect(square.abs(), lessThan(0.5),
-            reason: 'a block on a ${rig.rampDeg} degree ramp is sheared');
+        expect(
+          square.abs(),
+          lessThan(0.5),
+          reason: 'a block on a ${rig.rampDeg} degree ramp is sheared',
+        );
         final far = l.corners[2] - l.corners[3];
-        expect((far - base).distance, lessThan(0.5),
-            reason: 'a block on a ${rig.rampDeg} degree ramp is not closed');
+        expect(
+          (far - base).distance,
+          lessThan(0.5),
+          reason: 'a block on a ${rig.rampDeg} degree ramp is not closed',
+        );
       }
     });
 
@@ -128,13 +140,21 @@ void main() {
         for (final corner in [l.corners[0], l.corners[1]]) {
           final off = corner - l.foot;
           final across = off.dx * -unit.dy + off.dy * unit.dx;
-          expect(across.abs(), lessThan(0.5),
-              reason: 'a block on a ${rig.rampDeg} degree ramp floats above '
-                  'its own ramp');
+          expect(
+            across.abs(),
+            lessThan(0.5),
+            reason:
+                'a block on a ${rig.rampDeg} degree ramp floats above '
+                'its own ramp',
+          );
           final down = off.dx * unit.dx + off.dy * unit.dy;
-          expect(down > 0 && down < run.distance, isTrue,
-              reason: 'a block on a ${rig.rampDeg} degree ramp hangs off the '
-                  'end of it');
+          expect(
+            down > 0 && down < run.distance,
+            isTrue,
+            reason:
+                'a block on a ${rig.rampDeg} degree ramp hangs off the '
+                'end of it',
+          );
         }
       }
     });
@@ -143,11 +163,18 @@ void main() {
       for (final rig in everyRig()) {
         final l = BlockPainter.layout(rig, size);
         for (final p in [...l.corners, l.foot, l.peak]) {
-          expect(p.dx > 0 && p.dx < size.width, isTrue,
-              reason: 'a ${rig.rampDeg} degree figure runs off the side');
-          expect(p.dy > 0 && p.dy < size.height, isTrue,
-              reason: 'a ${rig.rampDeg} degree figure runs off the top or '
-                  'bottom');
+          expect(
+            p.dx > 0 && p.dx < size.width,
+            isTrue,
+            reason: 'a ${rig.rampDeg} degree figure runs off the side',
+          );
+          expect(
+            p.dy > 0 && p.dy < size.height,
+            isTrue,
+            reason:
+                'a ${rig.rampDeg} degree figure runs off the top or '
+                'bottom',
+          );
         }
       }
     });
@@ -157,11 +184,18 @@ void main() {
         final r = changeRounds[i];
         final a = BlockPainter.layout(r.before, size, frameDeg: r.frameDeg);
         final b = BlockPainter.layout(r.after, size, frameDeg: r.frameDeg);
-        expect(a.foot.dy, closeTo(b.foot.dy, 0.5),
-            reason: 'round ${i + 1} draws its two halves on different '
-                'baselines');
-        expect((a.peak - a.foot).dx, closeTo((b.peak - b.foot).dx, 0.5),
-            reason: 'round ${i + 1} draws its two halves at different scales');
+        expect(
+          a.foot.dy,
+          closeTo(b.foot.dy, 0.5),
+          reason:
+              'round ${i + 1} draws its two halves on different '
+              'baselines',
+        );
+        expect(
+          (a.peak - a.foot).dx,
+          closeTo((b.peak - b.foot).dx, 0.5),
+          reason: 'round ${i + 1} draws its two halves at different scales',
+        );
       }
     });
 
@@ -169,9 +203,13 @@ void main() {
       final r = changeRounds[5];
       final a = BlockPainter.layout(r.before, size, frameDeg: r.frameDeg);
       final b = BlockPainter.layout(r.after, size, frameDeg: r.frameDeg);
-      expect(a.foot.dy - a.peak.dy, lessThan(b.foot.dy - b.peak.dy),
-          reason: 'the twenty five degree ramp is not drawn shallower than '
-              'the thirty five degree one');
+      expect(
+        a.foot.dy - a.peak.dy,
+        lessThan(b.foot.dy - b.peak.dy),
+        reason:
+            'the twenty five degree ramp is not drawn shallower than '
+            'the thirty five degree one',
+      );
     });
   });
 
@@ -189,8 +227,11 @@ void main() {
 
     test('the app and the hand-worked set agree', () {
       for (var i = 0; i < vergeRounds.length; i++) {
-        expect(vergeRounds[i].answer, expected[i],
-            reason: 'round ${i + 1} of is-it-about-to-move');
+        expect(
+          vergeRounds[i].answer,
+          expected[i],
+          reason: 'round ${i + 1} of is-it-about-to-move',
+        );
       }
     });
 
@@ -200,8 +241,11 @@ void main() {
       for (var i = 0; i < vergeRounds.length; i++) {
         final r = vergeRounds[i];
         if (r.answer != Grip.matching) continue;
-        expect(r.demand, lessThan(r.rig.ceiling * 0.9),
-            reason: 'round ${i + 1} sits too close to the ceiling to call');
+        expect(
+          r.demand,
+          lessThan(r.rig.ceiling * 0.9),
+          reason: 'round ${i + 1} sits too close to the ceiling to call',
+        );
       }
     });
 
@@ -210,9 +254,13 @@ void main() {
       for (var i = 0; i < vergeRounds.length; i++) {
         final r = vergeRounds[i];
         final said = verge.any((w) => r.setting.toLowerCase().contains(w));
-        expect(said, r.answer == Grip.atTheLimit,
-            reason: 'round ${i + 1} of is-it-about-to-move does not read the '
-                'way it grades');
+        expect(
+          said,
+          r.answer == Grip.atTheLimit,
+          reason:
+              'round ${i + 1} of is-it-about-to-move does not read the '
+              'way it grades',
+        );
       }
     });
 
@@ -222,8 +270,11 @@ void main() {
         if (r.answer != Grip.none) continue;
         expect(r.push, 0);
         expect(r.rig.rampDeg, 0);
-        expect(r.rig.ceiling, greaterThan(0),
-            reason: 'round ${i + 1} has no ceiling to be under');
+        expect(
+          r.rig.ceiling,
+          greaterThan(0),
+          reason: 'round ${i + 1} has no ceiling to be under',
+        );
       }
     });
 
@@ -261,8 +312,11 @@ void main() {
 
     test('the app and the hand-walked set agree', () {
       for (var i = 0; i < lapRounds.length; i++) {
-        expect(lapRounds[i].answer, expected[i],
-            reason: 'round ${i + 1} of which-side-is-tight');
+        expect(
+          lapRounds[i].answer,
+          expected[i],
+          reason: 'round ${i + 1} of which-side-is-tight',
+        );
       }
     });
 
@@ -282,8 +336,11 @@ void main() {
         final r = lapRounds[i];
         final won = r.answer ? r.lap.endLabel : r.lap.startLabel;
         final bare = won.replaceFirst('the ', '');
-        expect(r.why.toLowerCase(), contains(bare.toLowerCase()),
-            reason: 'round ${i + 1} never mentions $won');
+        expect(
+          r.why.toLowerCase(),
+          contains(bare.toLowerCase()),
+          reason: 'round ${i + 1} never mentions $won',
+        );
       }
     });
 
@@ -313,13 +370,22 @@ void main() {
         final w = lapRounds[i].lap;
         final a = DrumPainter.endPoint(w, size, false);
         final b = DrumPainter.endPoint(w, size, true);
-        expect((a - b).distance, greaterThan(52),
-            reason: 'round ${i + 1}: the two ends land on top of each other');
+        expect(
+          (a - b).distance,
+          greaterThan(52),
+          reason: 'round ${i + 1}: the two ends land on top of each other',
+        );
         for (final p in [a, b]) {
-          expect(p.dx > 4 && p.dx < size.width - 4, isTrue,
-              reason: 'round ${i + 1}: an end is drawn off the side');
-          expect(p.dy > 4 && p.dy < size.height - 4, isTrue,
-              reason: 'round ${i + 1}: an end is drawn off the top or bottom');
+          expect(
+            p.dx > 4 && p.dx < size.width - 4,
+            isTrue,
+            reason: 'round ${i + 1}: an end is drawn off the side',
+          );
+          expect(
+            p.dy > 4 && p.dy < size.height - 4,
+            isTrue,
+            reason: 'round ${i + 1}: an end is drawn off the top or bottom',
+          );
         }
       }
     });
@@ -337,8 +403,11 @@ void main() {
 
     test('the app and the hand-worked set agree', () {
       for (var i = 0; i < changeRounds.length; i++) {
-        expect(changeRounds[i].answer, expected[i],
-            reason: 'round ${i + 1} of harder-or-easier');
+        expect(
+          changeRounds[i].answer,
+          expected[i],
+          reason: 'round ${i + 1} of harder-or-easier',
+        );
       }
     });
 
@@ -350,29 +419,41 @@ void main() {
         expect(r.after.mu, r.before.mu);
         expect(r.after.rampDeg, r.before.rampDeg);
         expect(r.after.pushDeg, r.before.pushDeg);
-        expect(r.after.wide, isNot(r.before.wide),
-            reason: 'round ${i + 1} says nothing changed and nothing did');
+        expect(
+          r.after.wide,
+          isNot(r.before.wide),
+          reason: 'round ${i + 1} says nothing changed and nothing did',
+        );
       }
     });
 
     test('every round really is a change', () {
       for (var i = 0; i < changeRounds.length; i++) {
         final r = changeRounds[i];
-        expect(r.before == r.after, isFalse,
-            reason: 'round ${i + 1} draws the same thing twice');
+        expect(
+          r.before == r.after,
+          isFalse,
+          reason: 'round ${i + 1} draws the same thing twice',
+        );
       }
     });
 
-    test('a change that is not "same" moves the answer by a visible amount', () {
-      for (var i = 0; i < changeRounds.length; i++) {
-        final r = changeRounds[i];
-        if (r.answer == Shift.same) continue;
-        final was = r.before.pushToSlide;
-        final now = r.after.pushToSlide;
-        expect((now - was).abs() / was, greaterThan(0.05),
-            reason: 'round ${i + 1} moves too little to be worth asking');
-      }
-    });
+    test(
+      'a change that is not "same" moves the answer by a visible amount',
+      () {
+        for (var i = 0; i < changeRounds.length; i++) {
+          final r = changeRounds[i];
+          if (r.answer == Shift.same) continue;
+          final was = r.before.pushToSlide;
+          final now = r.after.pushToSlide;
+          expect(
+            (now - was).abs() / was,
+            greaterThan(0.05),
+            reason: 'round ${i + 1} moves too little to be worth asking',
+          );
+        }
+      },
+    );
 
     test('every answer appears and none of them dominates', () {
       final counts = {
@@ -409,8 +490,11 @@ void main() {
 
     test('the app and the hand-worked set agree', () {
       for (var i = 0; i < screwRounds.length; i++) {
-        expect(screwRounds[i].answer, expected[i],
-            reason: 'round ${i + 1} of will-it-hold-itself');
+        expect(
+          screwRounds[i].answer,
+          expected[i],
+          reason: 'round ${i + 1} of will-it-hold-itself',
+        );
       }
     });
 
@@ -419,22 +503,30 @@ void main() {
       // on a plain ramp is just on the point of sliding, which is the first
       // item in this lesson.
       for (final r in screwRounds) {
-        expect(math.tan(r.screw.frictionDeg * math.pi / 180),
-            closeTo(r.screw.mu, 1e-9),
-            reason: 'the two ways of saying the same angle disagree');
+        expect(
+          math.tan(r.screw.frictionDeg * math.pi / 180),
+          closeTo(r.screw.mu, 1e-9),
+          reason: 'the two ways of saying the same angle disagree',
+        );
       }
     });
 
     test('self-locking is the two angles compared and nothing else', () {
       for (var i = 0; i < screwRounds.length; i++) {
         final s = screwRounds[i].screw;
-        expect(s.selfLocking, s.frictionDeg > s.pitchDeg,
-            reason: 'round ${i + 1} decides self-locking some other way');
+        expect(
+          s.selfLocking,
+          s.frictionDeg > s.pitchDeg,
+          reason: 'round ${i + 1} decides self-locking some other way',
+        );
         if (!s.raising) {
-          expect(screwRounds[i].answer,
-              s.selfLocking ? Effort.driveItDown : Effort.holdItBack,
-              reason: 'round ${i + 1} lowers and answers wrongly for its '
-                  'angles');
+          expect(
+            screwRounds[i].answer,
+            s.selfLocking ? Effort.driveItDown : Effort.holdItBack,
+            reason:
+                'round ${i + 1} lowers and answers wrongly for its '
+                'angles',
+          );
         }
       }
     });
@@ -468,11 +560,16 @@ void main() {
       // compares is the RATIO of their tangents.
       for (var i = 0; i < screwRounds.length; i++) {
         final s = screwRounds[i].screw;
-        final ratio = math.tan(s.frictionDeg * math.pi / 180) /
+        final ratio =
+            math.tan(s.frictionDeg * math.pi / 180) /
             math.tan(s.pitchDeg * math.pi / 180);
-        expect(ratio > 1.25 || ratio < 0.8, isTrue,
-            reason: 'round ${i + 1} draws its two slopes too close together '
-                'to tell apart');
+        expect(
+          ratio > 1.25 || ratio < 0.8,
+          isTrue,
+          reason:
+              'round ${i + 1} draws its two slopes too close together '
+              'to tell apart',
+        );
       }
     });
 

@@ -99,8 +99,11 @@ void main() {
       for (final r in curveRounds) {
         final s = r.specimen;
         if (s.necksTo < 1) {
-          expect(s.fractureStress, lessThan(s.ultimate),
-              reason: '${s.label} should end lower than its peak');
+          expect(
+            s.fractureStress,
+            lessThan(s.ultimate),
+            reason: '${s.label} should end lower than its peak',
+          );
         }
       }
     });
@@ -112,12 +115,21 @@ void main() {
       // of the line it belonged to. Every specimen in the lesson is checked,
       // in both items.
       for (final s in everySpecimen) {
-        expect(s.yieldStrain, lessThan(s.fractureStrain),
-            reason: '${s.label} breaks before it yields');
-        expect(s.plateauEnd, lessThanOrEqualTo(s.fractureStrain),
-            reason: '${s.label} is still on its plateau when it breaks');
-        expect(s.trace.last.dx, closeTo(s.fractureStrain, 1e-9),
-            reason: '${s.label} stops drawing before it breaks');
+        expect(
+          s.yieldStrain,
+          lessThan(s.fractureStrain),
+          reason: '${s.label} breaks before it yields',
+        );
+        expect(
+          s.plateauEnd,
+          lessThanOrEqualTo(s.fractureStrain),
+          reason: '${s.label} is still on its plateau when it breaks',
+        );
+        expect(
+          s.trace.last.dx,
+          closeTo(s.fractureStrain, 1e-9),
+          reason: '${s.label} stops drawing before it breaks',
+        );
       }
     });
 
@@ -127,8 +139,11 @@ void main() {
       for (final s in everySpecimen) {
         final t = s.trace;
         for (var i = 1; i < t.length; i++) {
-          expect(t[i].dx, greaterThanOrEqualTo(t[i - 1].dx),
-              reason: '${s.label} runs backwards at point $i');
+          expect(
+            t[i].dx,
+            greaterThanOrEqualTo(t[i - 1].dx),
+            reason: '${s.label} runs backwards at point $i',
+          );
         }
       }
     });
@@ -148,11 +163,15 @@ void main() {
         for (final a in Mark.values) {
           for (final b in Mark.values) {
             if (a.index >= b.index) continue;
-            final gap = (TensilePainter.markAt(r.specimen, f, size, a) -
-                    TensilePainter.markAt(r.specimen, f, size, b))
-                .distance;
-            expect(gap, greaterThan(34),
-                reason: '${r.subject}: ${a.name} and ${b.name} are $gap apart');
+            final gap =
+                (TensilePainter.markAt(r.specimen, f, size, a) -
+                        TensilePainter.markAt(r.specimen, f, size, b))
+                    .distance;
+            expect(
+              gap,
+              greaterThan(34),
+              reason: '${r.subject}: ${a.name} and ${b.name} are $gap apart',
+            );
           }
         }
       }
@@ -164,8 +183,14 @@ void main() {
         for (final m in Mark.values) {
           final at = TensilePainter.markAt(r.specimen, f, size, m);
           expect(
-            TensilePainter.nearest(r.specimen, f, size, at, Mark.values,
-                within: 30),
+            TensilePainter.nearest(
+              r.specimen,
+              f,
+              size,
+              at,
+              Mark.values,
+              within: 30,
+            ),
             m,
           );
         }
@@ -177,8 +202,13 @@ void main() {
       final f = Frame.over([r.specimen]);
       expect(
         TensilePainter.nearest(
-            r.specimen, f, size, const Offset(300, 200), Mark.values,
-            within: 30),
+          r.specimen,
+          f,
+          size,
+          const Offset(300, 200),
+          Mark.values,
+          within: 30,
+        ),
         isNull,
       );
     });
@@ -188,15 +218,18 @@ void main() {
       for (final r in curveRounds) {
         final f = Frame.over([r.specimen]);
         final trace = [
-          for (final p in r.specimen.trace) TensilePainter.at(f, size, p)
+          for (final p in r.specimen.trace) TensilePainter.at(f, size, p),
         ];
         for (final m in Mark.values) {
           final at = TensilePainter.markAt(r.specimen, f, size, m);
           final nearest = trace
               .map((p) => (p - at).distance)
               .reduce((a, b) => a < b ? a : b);
-          expect(nearest, lessThan(6),
-              reason: '${r.subject}: ${m.name} is not on the curve');
+          expect(
+            nearest,
+            lessThan(6),
+            reason: '${r.subject}: ${m.name} is not on the curve',
+          );
         }
       }
     });
@@ -204,8 +237,10 @@ void main() {
 
   group('stiff-strong-or-stretchy reads its answers off the curves', () {
     test('all three questions are asked, and every answer is used', () {
-      expect(pairRounds.map((r) => r.ask).toSet().length,
-          greaterThanOrEqualTo(3));
+      expect(
+        pairRounds.map((r) => r.ask).toSet().length,
+        greaterThanOrEqualTo(3),
+      );
       expect(pairRounds.map((r) => r.answer).toSet(), Which.values.toSet());
     });
 
@@ -220,50 +255,70 @@ void main() {
         double drawnSlope(Specimen s) {
           final o = TensilePainter.at(f, size, Offset.zero);
           final p = TensilePainter.at(
-              f, size, Offset(s.proportionalStrain, s.proportionalStress));
+            f,
+            size,
+            Offset(s.proportionalStrain, s.proportionalStress),
+          );
           return (o.dy - p.dy) / (p.dx - o.dx);
         }
 
         final a = drawnSlope(r.first);
         final b = drawnSlope(r.second);
         if ((r.first.e - r.second.e).abs() > 1) {
-          expect(a > b, r.first.e > r.second.e,
-              reason: 'the steeper drawn line is not the stiffer material');
+          expect(
+            a > b,
+            r.first.e > r.second.e,
+            reason: 'the steeper drawn line is not the stiffer material',
+          );
         } else {
-          expect(a, closeTo(b, 0.01),
-              reason: 'equal moduli should draw as one line');
+          expect(
+            a,
+            closeTo(b, 0.01),
+            reason: 'equal moduli should draw as one line',
+          );
         }
       }
     });
 
-    test('higher on the drawing really is stronger, and longer is stretchier',
-        () {
-      const size = Size(312, 200);
-      for (final r in pairRounds) {
-        final f = Frame.comparing([r.first, r.second]);
-        double peak(Specimen s) =>
-            TensilePainter.markAt(s, f, size, Mark.ultimate).dy;
-        double end(Specimen s) =>
-            TensilePainter.markAt(s, f, size, Mark.fracture).dx;
-        // Smaller y is higher up the page.
-        expect(peak(r.first) < peak(r.second),
-            r.first.ultimate > r.second.ultimate);
-        expect(end(r.first) > end(r.second),
-            r.first.fractureStrain > r.second.fractureStrain);
-      }
-    });
+    test(
+      'higher on the drawing really is stronger, and longer is stretchier',
+      () {
+        const size = Size(312, 200);
+        for (final r in pairRounds) {
+          final f = Frame.comparing([r.first, r.second]);
+          double peak(Specimen s) =>
+              TensilePainter.markAt(s, f, size, Mark.ultimate).dy;
+          double end(Specimen s) =>
+              TensilePainter.markAt(s, f, size, Mark.fracture).dx;
+          // Smaller y is higher up the page.
+          expect(
+            peak(r.first) < peak(r.second),
+            r.first.ultimate > r.second.ultimate,
+          );
+          expect(
+            end(r.first) > end(r.second),
+            r.first.fractureStrain > r.second.fractureStrain,
+          );
+        }
+      },
+    );
   });
 
   group('can-you-get-there walks the relations rather than being told', () {
     test('the lesson\'s own three relations, and no others', () {
+      expect(routeTo({Quantity.e, Quantity.nu}, Quantity.g), Road.oneStep);
+      expect(routeTo({Quantity.g, Quantity.nu}, Quantity.e), Road.oneStep);
       expect(
-          routeTo({Quantity.e, Quantity.nu}, Quantity.g), Road.oneStep);
+        routeTo({Quantity.stress, Quantity.strain}, Quantity.e),
+        Road.oneStep,
+      );
       expect(
-          routeTo({Quantity.g, Quantity.nu}, Quantity.e), Road.oneStep);
-      expect(routeTo({Quantity.stress, Quantity.strain}, Quantity.e),
-          Road.oneStep);
-      expect(routeTo({Quantity.startLength, Quantity.endLength},
-          Quantity.elongation), Road.oneStep);
+        routeTo({
+          Quantity.startLength,
+          Quantity.endLength,
+        }, Quantity.elongation),
+        Road.oneStep,
+      );
     });
 
     test('two steps is two steps', () {

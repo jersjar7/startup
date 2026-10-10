@@ -51,9 +51,13 @@ void main() {
       for (final degrees in [15.0, 30.0, 45.0, 55.0]) {
         final slope = Slope2(degrees: degrees, weight: 400);
         final together = math.sqrt(
-            slope.along * slope.along + slope.square * slope.square);
-        expect(together, closeTo(400, 1e-6),
-            reason: 'at $degrees the pieces do not add back up');
+          slope.along * slope.along + slope.square * slope.square,
+        );
+        expect(
+          together,
+          closeTo(400, 1e-6),
+          reason: 'at $degrees the pieces do not add back up',
+        );
       }
     });
 
@@ -93,16 +97,22 @@ void main() {
       for (final r in unitRounds.where((r) => r.answer == Prep.useAsIs)) {
         final givenMass = r.setting.contains('kilogram');
         final wantsMass = r.wanted.contains('MASS');
-        expect(givenMass, wantsMass,
-            reason: '${r.subject}: it asks for the other one');
+        expect(
+          givenMass,
+          wantsMass,
+          reason: '${r.subject}: it asks for the other one',
+        );
       }
     });
 
     test('the US units round is still the same question', () {
       final us = unitRounds.firstWhere((r) => r.setting.contains('pound'));
       expect(us.answer, Prep.divideByG);
-      expect(us.why.contains('thirty two point two'), isTrue,
-          reason: 'the US round should say which g it uses');
+      expect(
+        us.why.contains('thirty two point two'),
+        isTrue,
+        reason: 'the US round should say which g it uses',
+      );
     });
   });
 
@@ -114,8 +124,11 @@ void main() {
         final (seat, _, _) = SlopePainter2.layout(r.slope, size);
         final along = SlopePainter2.headOf(r.slope, size, Arrow.along) - seat;
         final square = SlopePainter2.headOf(r.slope, size, Arrow.square) - seat;
-        expect(along.dx * square.dx + along.dy * square.dy, closeTo(0, 0.01),
-            reason: '${r.subject}: the two pieces are not at right angles');
+        expect(
+          along.dx * square.dx + along.dy * square.dy,
+          closeTo(0, 0.01),
+          reason: '${r.subject}: the two pieces are not at right angles',
+        );
       }
     });
 
@@ -124,8 +137,11 @@ void main() {
         final (seat, _, _) = SlopePainter2.layout(r.slope, size);
         final square = SlopePainter2.headOf(r.slope, size, Arrow.square) - seat;
         final normal = SlopePainter2.headOf(r.slope, size, Arrow.normal) - seat;
-        expect((square + normal).distance, lessThan(0.01),
-            reason: '${r.subject}: the surface is not answering the press');
+        expect(
+          (square + normal).distance,
+          lessThan(0.01),
+          reason: '${r.subject}: the surface is not answering the press',
+        );
       }
     });
 
@@ -135,9 +151,13 @@ void main() {
           for (var j = i + 1; j < r.arrows.length; j++) {
             final a = SlopePainter2.headOf(r.slope, size, r.arrows[i]);
             final b = SlopePainter2.headOf(r.slope, size, r.arrows[j]);
-            expect((a - b).distance, greaterThan(30),
-                reason: '${r.subject}: ${r.arrows[i].name} and '
-                    '${r.arrows[j].name} are on top of each other');
+            expect(
+              (a - b).distance,
+              greaterThan(30),
+              reason:
+                  '${r.subject}: ${r.arrows[i].name} and '
+                  '${r.arrows[j].name} are on top of each other',
+            );
           }
         }
       }
@@ -145,13 +165,18 @@ void main() {
 
     test('a round asking which piece is bigger really has a bigger one', () {
       for (final r in slopeRounds.where((r) => r.asked.contains('LARGER'))) {
-        final bigger = r.slope.along > r.slope.square ? Arrow.along : Arrow.square;
+        final bigger = r.slope.along > r.slope.square
+            ? Arrow.along
+            : Arrow.square;
         expect(r.answer, bigger, reason: '${r.subject}');
         final ratio = r.slope.along > r.slope.square
             ? r.slope.along / r.slope.square
             : r.slope.square / r.slope.along;
-        expect(ratio, greaterThan(1.3),
-            reason: '${r.subject}: the two are too close to call by eye');
+        expect(
+          ratio,
+          greaterThan(1.3),
+          reason: '${r.subject}: the two are too close to call by eye',
+        );
       }
     });
   });
@@ -164,15 +189,17 @@ void main() {
     });
 
     test('a force through the middle spins nothing', () {
-      for (final r
-          in shoveRounds.where((r) => r.pushed.lands == Lands.middle)) {
+      for (final r in shoveRounds.where(
+        (r) => r.pushed.lands == Lands.middle,
+      )) {
         expect(r.answer, isNot(Needs2.both), reason: '${r.subject}');
       }
     });
 
     test('free and off center needs both', () {
-      for (final r in shoveRounds.where((r) =>
-          r.pushed.held != Held2.axle && r.pushed.lands != Lands.middle)) {
+      for (final r in shoveRounds.where(
+        (r) => r.pushed.held != Held2.axle && r.pushed.lands != Lands.middle,
+      )) {
         expect(r.answer, Needs2.both, reason: '${r.subject}');
       }
     });

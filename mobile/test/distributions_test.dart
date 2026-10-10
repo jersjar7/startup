@@ -71,27 +71,38 @@ void main() {
       // the item would be teaching the wrong thing.
       for (final r in pickRounds) {
         expect(r.second.toSet(), r.first.toSet(), reason: r.scenario);
-        expect(r.second, isNot(r.first),
-            reason: '${r.scenario}: the two outcomes are identical');
-        expect(r.first.toSet().length, r.first.length,
-            reason: '${r.scenario}: a name is repeated');
+        expect(
+          r.second,
+          isNot(r.first),
+          reason: '${r.scenario}: the two outcomes are identical',
+        );
+        expect(
+          r.first.toSet().length,
+          r.first.length,
+          reason: '${r.scenario}: a name is repeated',
+        );
       }
     });
 
-    test('positions are named when they mean something, and never otherwise',
-        () {
-      // A row of labeled slots gives the answer away for free, so the labels
-      // are only there when the scenario has already given them meaning.
-      for (final r in pickRounds) {
-        if (r.ordered) {
-          expect(r.slots.length, r.first.length, reason: r.scenario);
-          expect(r.slots.toSet().length, r.slots.length,
-              reason: '${r.scenario}: two slots named the same thing');
-        } else {
-          expect(r.slots, isEmpty, reason: r.scenario);
+    test(
+      'positions are named when they mean something, and never otherwise',
+      () {
+        // A row of labeled slots gives the answer away for free, so the labels
+        // are only there when the scenario has already given them meaning.
+        for (final r in pickRounds) {
+          if (r.ordered) {
+            expect(r.slots.length, r.first.length, reason: r.scenario);
+            expect(
+              r.slots.toSet().length,
+              r.slots.length,
+              reason: '${r.scenario}: two slots named the same thing',
+            );
+          } else {
+            expect(r.slots, isEmpty, reason: r.scenario);
+          }
         }
-      }
-    });
+      },
+    );
 
     test('the count written on the reveal matches the decision', () {
       for (final r in pickRounds) {
@@ -121,13 +132,24 @@ void main() {
     });
 
     test('both answers happen, and the opening pair disagrees', () {
-      expect(pickRounds.where((r) => r.ordered).length, greaterThanOrEqualTo(2));
-      expect(pickRounds.where((r) => !r.ordered).length,
-          greaterThanOrEqualTo(2));
-      expect(pickRounds[0].first, pickRounds[1].first,
-          reason: 'the first two rounds must show the SAME outcomes');
-      expect(pickRounds[0].ordered, isNot(pickRounds[1].ordered),
-          reason: 'and must have different answers, which is the whole point');
+      expect(
+        pickRounds.where((r) => r.ordered).length,
+        greaterThanOrEqualTo(2),
+      );
+      expect(
+        pickRounds.where((r) => !r.ordered).length,
+        greaterThanOrEqualTo(2),
+      );
+      expect(
+        pickRounds[0].first,
+        pickRounds[1].first,
+        reason: 'the first two rounds must show the SAME outcomes',
+      );
+      expect(
+        pickRounds[0].ordered,
+        isNot(pickRounds[1].ordered),
+        reason: 'and must have different answers, which is the whole point',
+      );
     });
   });
 
@@ -148,9 +170,16 @@ void main() {
         final success = powers.firstWhere((f) => f.a == r.percent);
         final failure = powers.firstWhere((f) => f.a == 100 - r.percent);
         expect(success.b, r.x, reason: '${r.ask}: wrong success exponent');
-        expect(failure.b, r.n - r.x, reason: '${r.ask}: wrong failure exponent');
-        expect(success.b + failure.b, r.n,
-            reason: '${r.ask}: the exponents do not add up to n');
+        expect(
+          failure.b,
+          r.n - r.x,
+          reason: '${r.ask}: wrong failure exponent',
+        );
+        expect(
+          success.b + failure.b,
+          r.n,
+          reason: '${r.ask}: the exponents do not add up to n',
+        );
       }
     });
 
@@ -168,8 +197,11 @@ void main() {
       double value(Factor f) => switch (f.kind) {
         FactorKind.choose => _choose(f.a, f.b).toDouble(),
         FactorKind.arrange =>
-          _choose(f.a, f.b) * List.generate(f.b, (i) => i + 1)
-              .fold<int>(1, (a, b) => a * b).toDouble(),
+          _choose(f.a, f.b) *
+              List.generate(
+                f.b,
+                (i) => i + 1,
+              ).fold<int>(1, (a, b) => a * b).toDouble(),
         FactorKind.power => math.pow(f.a / 100, f.b).toDouble(),
       };
       for (final r in binomialRounds) {
@@ -182,8 +214,11 @@ void main() {
             if (r.factors[j].kind != f.kind &&
                 f.kind != FactorKind.power &&
                 r.factors[j].kind != FactorKind.power) {
-              expect((a - b).abs(), greaterThan(1e-9),
-                  reason: '${r.ask}: ${f.latex} equals ${r.factors[j].latex}');
+              expect(
+                (a - b).abs(),
+                greaterThan(1e-9),
+                reason: '${r.ask}: ${f.latex} equals ${r.factors[j].latex}',
+              );
             }
           }
         }
@@ -199,10 +234,12 @@ void main() {
             if (!r.answer.contains(i)) f,
         ];
         expect(wrong.length, 3, reason: r.ask);
-        final hasTrap = wrong.any((f) =>
-            f.kind == FactorKind.arrange ||
-            (f.kind == FactorKind.power &&
-                (f.a == r.percent || f.a == 100 - r.percent)));
+        final hasTrap = wrong.any(
+          (f) =>
+              f.kind == FactorKind.arrange ||
+              (f.kind == FactorKind.power &&
+                  (f.a == r.percent || f.a == 100 - r.percent)),
+        );
         expect(hasTrap, isTrue, reason: '${r.ask}: no named trap on the tray');
       }
     });
@@ -223,13 +260,19 @@ void main() {
     test('the regions of a round cover the whole curve exactly once', () {
       for (final r in tailRounds) {
         final total = r.regions.fold<double>(0, (a, x) => a + _areaOf(x));
-        expect(total, closeTo(1, 0.001),
-            reason: '${r.subject}: the regions add up to $total');
+        expect(
+          total,
+          closeTo(1, 0.001),
+          reason: '${r.subject}: the regions add up to $total',
+        );
         for (var i = 0; i < r.regions.length; i++) {
           for (var j = i + 1; j < r.regions.length; j++) {
             for (final span in r.regions[j].spans) {
-              expect(r.regions[i].holds((span.$1 + span.$2) / 2), isFalse,
-                  reason: '${r.subject}: two regions overlap');
+              expect(
+                r.regions[i].holds((span.$1 + span.$2) / 2),
+                isFalse,
+                reason: '${r.subject}: two regions overlap',
+              );
             }
           }
         }
@@ -240,33 +283,46 @@ void main() {
       for (final r in tailRounds) {
         for (final region in r.regions) {
           final stated = double.parse(region.column.split(' = ').last);
-          expect(_areaOf(region), closeTo(stated, 0.002),
-              reason: '${r.subject}: "${region.column}" shades '
-                  '${_areaOf(region).toStringAsFixed(4)}');
+          expect(
+            _areaOf(region),
+            closeTo(stated, 0.002),
+            reason:
+                '${r.subject}: "${region.column}" shades '
+                '${_areaOf(region).toStringAsFixed(4)}',
+          );
         }
       }
     });
 
-    test('every cut has a label, and sits where the curve is worth drawing',
-        () {
-      for (final r in tailRounds) {
-        expect(r.labels.length, r.cuts.length, reason: r.subject);
-        for (final cut in r.cuts) {
-          expect(cut, inExclusiveRange(zMin + 0.5, zMax - 0.5),
-              reason: '${r.subject}: a cut at $cut is off the drawing');
+    test(
+      'every cut has a label, and sits where the curve is worth drawing',
+      () {
+        for (final r in tailRounds) {
+          expect(r.labels.length, r.cuts.length, reason: r.subject);
+          for (final cut in r.cuts) {
+            expect(
+              cut,
+              inExclusiveRange(zMin + 0.5, zMax - 0.5),
+              reason: '${r.subject}: a cut at $cut is off the drawing',
+            );
+          }
+          expect(r.cuts.length, inInclusiveRange(1, 2), reason: r.subject);
         }
-        expect(r.cuts.length, inInclusiveRange(1, 2), reason: r.subject);
-      }
-    });
+      },
+    );
 
     test('a tap anywhere on the curve lands in exactly one region', () {
       for (final r in tailRounds) {
         for (var step = 1; step < 200; step++) {
           final z = zMin + (zMax - zMin) * step / 200;
           final hits = r.regions.where((region) => region.holds(z)).length;
-          expect(hits, 1,
-              reason: '${r.subject}: z = ${z.toStringAsFixed(2)} hits $hits '
-                  'regions');
+          expect(
+            hits,
+            1,
+            reason:
+                '${r.subject}: z = ${z.toStringAsFixed(2)} hits $hits '
+                'regions',
+          );
         }
       }
     });
@@ -276,15 +332,17 @@ void main() {
       final two = tailRounds[1];
       expect(one.cuts, two.cuts);
       expect(one.given, two.given);
-      expect(one.answer, isNot(two.answer),
-          reason: 'the fail rate and the pass rate come off one picture, and '
-              'showing that is what the pair is for');
+      expect(
+        one.answer,
+        isNot(two.answer),
+        reason:
+            'the fail rate and the pass rate come off one picture, and '
+            'showing that is what the pair is for',
+      );
     });
 
     test('all four readings of the table get used', () {
-      final columns = [
-        for (final r in tailRounds) r.regions[r.answer].column,
-      ];
+      final columns = [for (final r in tailRounds) r.regions[r.answer].column];
       expect(columns.any((c) => c.startsWith('F(')), isTrue);
       expect(columns.any((c) => c.startsWith('R(')), isTrue);
       expect(columns.any((c) => c.startsWith('W(')), isTrue);
@@ -292,10 +350,13 @@ void main() {
     });
 
     test('a cut below the mean is in the set', () {
-      expect(tailRounds.any((r) => r.cuts.length == 1 && r.cuts.single < 0),
-          isTrue,
-          reason: 'a negative z with a large answer is the trap this item '
-              'exists to break');
+      expect(
+        tailRounds.any((r) => r.cuts.length == 1 && r.cuts.single < 0),
+        isTrue,
+        reason:
+            'a negative z with a large answer is the trap this item '
+            'exists to break',
+      );
     });
   });
 
@@ -328,14 +389,20 @@ void main() {
       await tester.tap(find.text('Next'));
       await tester.pumpAndSettle();
 
-      expect(find.text('deck'), findsNothing,
-          reason: 'a labeled slot gives the answer away for free');
+      expect(
+        find.text('deck'),
+        findsNothing,
+        reason: 'a labeled slot gives the answer away for free',
+      );
       await tester.tap(find.byKey(const ValueKey('pick-different')));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Lock it in'));
       await tester.pumpAndSettle();
-      expect(find.text('deck'), findsWidgets,
-          reason: 'and the reveal is where they earn their keep');
+      expect(
+        find.text('deck'),
+        findsWidgets,
+        reason: 'and the reveal is where they earn their keep',
+      );
     });
 
     testWidgets('calling one inspection team two results is caught', (
@@ -437,8 +504,11 @@ void main() {
 
     test('the app and the hand-worked set agree', () {
       for (var i = 0; i < linkRounds.length; i++) {
-        expect(linkRounds[i].answer, expected[i],
-            reason: 'round ${i + 1} of how-do-they-sit');
+        expect(
+          linkRounds[i].answer,
+          expected[i],
+          reason: 'round ${i + 1} of how-do-they-sit',
+        );
       }
     });
 
@@ -459,10 +529,14 @@ void main() {
       // one event happening drops the other to zero.
       for (final r in linkRounds) {
         if (r.answer != Link.exclusive) continue;
-        expect(r.pairing.firstChangesSecond, isTrue,
-            reason: 'an exclusive round is set up as though the two events '
-                'did not affect each other, which is the mistake the game '
-                'exists to catch');
+        expect(
+          r.pairing.firstChangesSecond,
+          isTrue,
+          reason:
+              'an exclusive round is set up as though the two events '
+              'did not affect each other, which is the mistake the game '
+              'exists to catch',
+        );
         expect(r.pairing.canCoexist, isFalse);
       }
     });
@@ -490,9 +564,13 @@ void main() {
       for (var i = 0; i < linkRounds.length; i++) {
         final r = linkRounds[i];
         if (r.answer == Link.exclusive) continue;
-        expect(r.pairing.canCoexist, isTrue,
-            reason: 'round ${i + 1} says the two can happen together and is '
-                'set up as though they cannot');
+        expect(
+          r.pairing.canCoexist,
+          isTrue,
+          reason:
+              'round ${i + 1} says the two can happen together and is '
+              'set up as though they cannot',
+        );
       }
     });
 

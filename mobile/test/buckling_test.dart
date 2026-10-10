@@ -99,12 +99,18 @@ void main() {
 
     test('fixing the ends never makes a column weaker', () {
       final pinned = ends(End.pinned, End.pinned);
-      expect(ends(End.fixed, End.pinned).criticalLoad,
-          greaterThan(pinned.criticalLoad));
-      expect(ends(End.fixed, End.fixed).criticalLoad,
-          greaterThan(pinned.criticalLoad));
-      expect(ends(End.fixed, End.free).criticalLoad,
-          lessThan(pinned.criticalLoad));
+      expect(
+        ends(End.fixed, End.pinned).criticalLoad,
+        greaterThan(pinned.criticalLoad),
+      );
+      expect(
+        ends(End.fixed, End.fixed).criticalLoad,
+        greaterThan(pinned.criticalLoad),
+      );
+      expect(
+        ends(End.fixed, End.free).criticalLoad,
+        lessThan(pinned.criticalLoad),
+      );
     });
 
     test('the buckled shape says where the effective length comes from', () {
@@ -127,20 +133,29 @@ void main() {
           (post.top, shape.last),
         ]) {
           if (end == End.free) {
-            expect(point.dy.abs(), closeTo(1, 1e-9),
-                reason: 'a free end should swing furthest on a '
-                    '${post.k} column');
+            expect(
+              point.dy.abs(),
+              closeTo(1, 1e-9),
+              reason:
+                  'a free end should swing furthest on a '
+                  '${post.k} column',
+            );
           } else {
-            expect(point.dy.abs(), lessThan(1e-9),
-                reason: 'a held end of a ${post.k} column has moved sideways');
+            expect(
+              point.dy.abs(),
+              lessThan(1e-9),
+              reason: 'a held end of a ${post.k} column has moved sideways',
+            );
           }
         }
         // A fixed end leaves its support without turning, so the curve is
         // flat there: the first step is smaller than the next one.
         if (post.bottom == End.fixed) {
-          expect(shape[1].dy.abs(),
-              lessThan((shape[2].dy - shape[1].dy).abs() + 1e-12),
-              reason: 'a fixed base is not drawn leaving straight');
+          expect(
+            shape[1].dy.abs(),
+            lessThan((shape[2].dy - shape[1].dy).abs() + 1e-12),
+            reason: 'a fixed base is not drawn leaving straight',
+          );
         }
       }
     });
@@ -151,8 +166,7 @@ void main() {
       const post = Post(length: 4000, top: End.pinned, bottom: End.pinned);
       expect(post.transition, closeTo(88.86, 0.02));
       // At that slenderness the two stresses really are the same number.
-      final atCross =
-          math.pi * math.pi * post.e / math.pow(post.transition, 2);
+      final atCross = math.pi * math.pi * post.e / math.pow(post.transition, 2);
       expect(atCross, closeTo(post.yieldStress, 1e-6));
     });
 
@@ -245,15 +259,17 @@ void main() {
   group('what-are-the-ends-worth draws the column it scores', () {
     test('every round answers with one of the four table values', () {
       for (final r in endsRounds) {
-        expect(EndsRound.values.contains(r.post.k), isTrue,
-            reason: '${r.subject}: K is not one of the four');
+        expect(
+          EndsRound.values.contains(r.post.k),
+          isTrue,
+          reason: '${r.subject}: K is not one of the four',
+        );
         expect(r.answer, isNot(-1));
       }
     });
 
     test('all four cases are covered', () {
-      expect(endsRounds.map((r) => r.post.k).toSet(),
-          EndsRound.values.toSet());
+      expect(endsRounds.map((r) => r.post.k).toSet(), EndsRound.values.toSet());
     });
 
     test('the drawing and the factor cannot disagree', () {
@@ -275,9 +291,11 @@ void main() {
 
     test('the same two ends the other way up score the same', () {
       final upright = endsRounds.firstWhere(
-          (r) => r.post.bottom == End.fixed && r.post.top == End.pinned);
+        (r) => r.post.bottom == End.fixed && r.post.top == End.pinned,
+      );
       final inverted = endsRounds.firstWhere(
-          (r) => r.post.top == End.fixed && r.post.bottom == End.pinned);
+        (r) => r.post.top == End.fixed && r.post.bottom == End.pinned,
+      );
       expect(upright.post.k, inverted.post.k);
       expect(upright.answer, inverted.answer);
     });
@@ -307,8 +325,11 @@ void main() {
         if (r.answer == About.either) continue;
         final ratio = r.section.ownIx / r.section.ownIy;
         final apart = ratio > 1 ? ratio : 1 / ratio;
-        expect(apart, greaterThan(1.4),
-            reason: '${r.subject}: the two axes are too close to call by eye');
+        expect(
+          apart,
+          greaterThan(1.4),
+          reason: '${r.subject}: the two axes are too close to call by eye',
+        );
       }
     });
 
@@ -346,15 +367,16 @@ void main() {
           case Governs.yielding:
             expect(ratio, greaterThan(1.05), reason: '${r.subject}');
           case Governs.together:
-            expect(ratio, inInclusiveRange(0.95, 1.05),
-                reason: '${r.subject}');
+            expect(ratio, inInclusiveRange(0.95, 1.05), reason: '${r.subject}');
         }
       }
     });
 
     test('all three verdicts appear', () {
-      expect(slenderRounds.map((r) => r.answer).toSet(),
-          Governs.values.toSet());
+      expect(
+        slenderRounds.map((r) => r.answer).toSet(),
+        Governs.values.toSet(),
+      );
     });
 
     test('the stronger steel rounds differ only in the steel', () {
@@ -364,8 +386,10 @@ void main() {
       expect(strong.post.radius, mild.post.radius);
       expect(strong.post.yieldStress, greaterThan(mild.post.yieldStress));
       // Same column, same buckling stress: Euler cannot see the strength.
-      expect(strong.post.criticalStress,
-          closeTo(mild.post.criticalStress, 1e-9));
+      expect(
+        strong.post.criticalStress,
+        closeTo(mild.post.criticalStress, 1e-9),
+      );
       expect(strong.answer, mild.answer);
     });
 
@@ -375,8 +399,10 @@ void main() {
       expect(pole.post.k, 2.0);
       // Shorter column, same slenderness, because the effective length is
       // what counts.
-      expect(pole.post.slenderness,
-          closeTo(slenderRounds.first.post.slenderness, 1e-9));
+      expect(
+        pole.post.slenderness,
+        closeTo(slenderRounds.first.post.slenderness, 1e-9),
+      );
     });
   });
 }

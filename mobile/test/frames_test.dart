@@ -48,8 +48,11 @@ void main() {
     test('the app and a second count agree on every member drawn', () {
       for (final rig in everyRig()) {
         for (var i = 0; i < rig.limbs.length; i++) {
-          expect(rig.limbs[i].twoForce, touchesOn(rig, i) == 2,
-              reason: 'member ${rig.limbName(i)} is counted two ways');
+          expect(
+            rig.limbs[i].twoForce,
+            touchesOn(rig, i) == 2,
+            reason: 'member ${rig.limbName(i)} is counted two ways',
+          );
         }
       }
     });
@@ -65,15 +68,24 @@ void main() {
             final b = rig.pins[l.to].at;
             final p = rig.pins[v].at;
             final run = b - a;
-            final t = ((p - a).dx * run.dx + (p - a).dy * run.dy) /
+            final t =
+                ((p - a).dx * run.dx + (p - a).dy * run.dy) /
                 (run.dx * run.dx + run.dy * run.dy);
             final foot = a + run * t.clamp(0.0, 1.0);
-            expect((p - foot).distance, lessThan(0.03),
-                reason: 'pin ${rig.pins[v].name} is drawn off the member '
-                    '${rig.limbName(i)} it is fastened to');
-            expect(t > 0.05 && t < 0.95, isTrue,
-                reason: 'pin ${rig.pins[v].name} sits at the end of '
-                    '${rig.limbName(i)} rather than part way along it');
+            expect(
+              (p - foot).distance,
+              lessThan(0.03),
+              reason:
+                  'pin ${rig.pins[v].name} is drawn off the member '
+                  '${rig.limbName(i)} it is fastened to',
+            );
+            expect(
+              t > 0.05 && t < 0.95,
+              isTrue,
+              reason:
+                  'pin ${rig.pins[v].name} sits at the end of '
+                  '${rig.limbName(i)} rather than part way along it',
+            );
           }
         }
       }
@@ -87,9 +99,13 @@ void main() {
           for (var i = 0; i < rig.limbs.length; i++) {
             final l = rig.limbs[i];
             if (l.from != p && l.to != p) continue;
-            expect(l.twoForce, l.via.isEmpty && l.loads.isEmpty,
-                reason: 'a load at pin ${rig.pins[p].name} changed what '
-                    '${rig.limbName(i)} is');
+            expect(
+              l.twoForce,
+              l.via.isEmpty && l.loads.isEmpty,
+              reason:
+                  'a load at pin ${rig.pins[p].name} changed what '
+                  '${rig.limbName(i)} is',
+            );
           }
         }
       }
@@ -109,18 +125,23 @@ void main() {
 
     test('the app and the hand-worked set agree on which are settled', () {
       for (var i = 0; i < pinRounds.length; i++) {
-        expect(pinRounds[i].answer >= 0, expected[i],
-            reason: 'round ${i + 1} of along-it-or-not');
+        expect(
+          pinRounds[i].answer >= 0,
+          expected[i],
+          reason: 'round ${i + 1} of along-it-or-not',
+        );
       }
     });
 
     test('a settled round offers the right arrow exactly once', () {
       for (var i = 0; i < pinRounds.length; i++) {
         final r = pinRounds[i];
-        final along =
-            r.aims.where((a) => a == Aim.alongTheLine).length;
-        expect(along, 1,
-            reason: 'round ${i + 1} offers the line direction $along times');
+        final along = r.aims.where((a) => a == Aim.alongTheLine).length;
+        expect(
+          along,
+          1,
+          reason: 'round ${i + 1} offers the line direction $along times',
+        );
         if (r.answer >= 0) {
           expect(r.aims[r.answer], Aim.alongTheLine);
         }
@@ -133,12 +154,18 @@ void main() {
       for (var i = 0; i < pinRounds.length; i++) {
         final r = pinRounds[i];
         if (r.answer < 0) {
-          expect(r.why.toLowerCase(), startsWith('none of them'),
-              reason: 'round ${i + 1} grades nothing and does not say so');
+          expect(
+            r.why.toLowerCase(),
+            startsWith('none of them'),
+            reason: 'round ${i + 1} grades nothing and does not say so',
+          );
           continue;
         }
-        expect(r.why, startsWith('Arrow ${r.answer + 1},'),
-            reason: 'round ${i + 1} explains a different arrow than it marks');
+        expect(
+          r.why,
+          startsWith('Arrow ${r.answer + 1},'),
+          reason: 'round ${i + 1} explains a different arrow than it marks',
+        );
       }
     });
 
@@ -147,10 +174,13 @@ void main() {
         final r = pinRounds[i];
         expect(r.limb >= 0 && r.limb < r.rig.limbs.length, isTrue);
         final l = r.rig.limbs[r.limb];
-        expect(r.atPin == l.from || r.atPin == l.to || l.via.contains(r.atPin),
-            isTrue,
-            reason: 'round ${i + 1} asks about a pin that is not on the '
-                'member');
+        expect(
+          r.atPin == l.from || r.atPin == l.to || l.via.contains(r.atPin),
+          isTrue,
+          reason:
+              'round ${i + 1} asks about a pin that is not on the '
+              'member',
+        );
       }
     });
 
@@ -161,15 +191,34 @@ void main() {
       for (var i = 0; i < pinRounds.length; i++) {
         final r = pinRounds[i];
         if (!r.aims.contains(Aim.alongTheLimb)) continue;
-        final a = FramePainter.aimTip(r.rig, size, r.limb, r.atPin, r.aims,
-            r.aims.indexOf(Aim.alongTheLine));
-        final b = FramePainter.aimTip(r.rig, size, r.limb, r.atPin, r.aims,
-            r.aims.indexOf(Aim.alongTheLimb));
-        expect((a - b).distance, greaterThan(46),
-            reason: 'round ${i + 1} draws the two as the same arrow');
-        expect(r.rig.limbs[r.limb].bend, isNotNull,
-            reason: 'round ${i + 1} offers the member direction on a straight '
-                'member, where it means nothing');
+        final a = FramePainter.aimTip(
+          r.rig,
+          size,
+          r.limb,
+          r.atPin,
+          r.aims,
+          r.aims.indexOf(Aim.alongTheLine),
+        );
+        final b = FramePainter.aimTip(
+          r.rig,
+          size,
+          r.limb,
+          r.atPin,
+          r.aims,
+          r.aims.indexOf(Aim.alongTheLimb),
+        );
+        expect(
+          (a - b).distance,
+          greaterThan(46),
+          reason: 'round ${i + 1} draws the two as the same arrow',
+        );
+        expect(
+          r.rig.limbs[r.limb].bend,
+          isNotNull,
+          reason:
+              'round ${i + 1} offers the member direction on a straight '
+              'member, where it means nothing',
+        );
       }
     });
 
@@ -183,13 +232,22 @@ void main() {
         ];
         for (var a = 0; a < tips.length; a++) {
           for (var b = a + 1; b < tips.length; b++) {
-            expect((tips[a] - tips[b]).distance, greaterThan(48),
-                reason: 'round ${i + 1}: two arrows land on each other');
+            expect(
+              (tips[a] - tips[b]).distance,
+              greaterThan(48),
+              reason: 'round ${i + 1}: two arrows land on each other',
+            );
           }
-          expect(tips[a].dx > 2 && tips[a].dx < size.width - 2, isTrue,
-              reason: 'round ${i + 1}: an arrow runs off the side');
-          expect(tips[a].dy > 2 && tips[a].dy < size.height - 2, isTrue,
-              reason: 'round ${i + 1}: an arrow runs off the top or bottom');
+          expect(
+            tips[a].dx > 2 && tips[a].dx < size.width - 2,
+            isTrue,
+            reason: 'round ${i + 1}: an arrow runs off the side',
+          );
+          expect(
+            tips[a].dy > 2 && tips[a].dy < size.height - 2,
+            isTrue,
+            reason: 'round ${i + 1}: an arrow runs off the top or bottom',
+          );
         }
       }
     });
@@ -240,8 +298,11 @@ void main() {
 
     test('the app and the hand-worked set agree', () {
       for (var i = 0; i < leverRounds.length; i++) {
-        expect(leverRounds[i].answer, expected[i],
-            reason: 'round ${i + 1} of does-it-multiply');
+        expect(
+          leverRounds[i].answer,
+          expected[i],
+          reason: 'round ${i + 1} of does-it-multiply',
+        );
       }
     });
 
@@ -252,10 +313,13 @@ void main() {
         final said = out > 103
             ? Pull.multiplies
             : out < 97
-                ? Pull.divides
-                : Pull.neither;
-        expect(leverRounds[i].answer, said,
-            reason: 'round ${i + 1} disagrees with its own moments');
+            ? Pull.divides
+            : Pull.neither;
+        expect(
+          leverRounds[i].answer,
+          said,
+          reason: 'round ${i + 1} disagrees with its own moments',
+        );
       }
     });
 
@@ -264,9 +328,13 @@ void main() {
         final r = leverRounds[i];
         if (r.answer == Pull.neither) continue;
         final ratio = r.lever.advantage;
-        expect(ratio > 1.35 || ratio < 0.75, isTrue,
-            reason: 'round ${i + 1} has two arms too close in length to call '
-                'by eye');
+        expect(
+          ratio > 1.35 || ratio < 0.75,
+          isTrue,
+          reason:
+              'round ${i + 1} has two arms too close in length to call '
+              'by eye',
+        );
       }
     });
 
@@ -288,8 +356,10 @@ void main() {
       for (final r in leverRounds) {
         expect(r.lever.effortUp, r.lever.sameSide);
         if (r.lever.sameSide) {
-          expect((r.lever.effortAt - r.lever.pivotAt).sign,
-              (r.lever.loadAt - r.lever.pivotAt).sign);
+          expect(
+            (r.lever.effortAt - r.lever.pivotAt).sign,
+            (r.lever.loadAt - r.lever.pivotAt).sign,
+          );
         }
       }
     });
@@ -323,15 +393,21 @@ void main() {
 
     test('the app and the hand-worked set agree', () {
       for (var i = 0; i < kindRounds.length; i++) {
-        expect(kindRounds[i].answer, expected[i],
-            reason: 'round ${i + 1} of frame-truss-or-machine');
+        expect(
+          kindRounds[i].answer,
+          expected[i],
+          reason: 'round ${i + 1} of frame-truss-or-machine',
+        );
       }
     });
 
     test('a second reading of the rules agrees', () {
       for (var i = 0; i < kindRounds.length; i++) {
-        expect(kindRounds[i].answer, kindByHand(kindRounds[i].rig),
-            reason: 'round ${i + 1} disagrees with itself');
+        expect(
+          kindRounds[i].answer,
+          kindByHand(kindRounds[i].rig),
+          reason: 'round ${i + 1} disagrees with itself',
+        );
       }
     });
 
@@ -375,8 +451,7 @@ void main() {
       for (var i = 0; i < kindRounds.length; i++) {
         final rig = kindRounds[i].rig;
         final held = rig.supports.isNotEmpty || rig.moves;
-        expect(held, isTrue,
-            reason: 'round ${i + 1} floats in space');
+        expect(held, isTrue, reason: 'round ${i + 1} floats in space');
         for (var m = 0; m < rig.limbs.length; m++) {
           expect(rig.limbs[m].from, isNot(rig.limbs[m].to));
         }

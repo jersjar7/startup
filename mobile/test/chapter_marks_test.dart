@@ -43,8 +43,9 @@ Future<void> _loadFonts() async {
   }
 }
 
-List<ChapterMap> get _ordered =>
-    [for (final band in chapterBands) ...band.chapters];
+List<ChapterMap> get _ordered => [
+  for (final band in chapterBands) ...band.chapters,
+];
 
 void main() {
   setUpAll(() async {
@@ -106,11 +107,14 @@ void main() {
       ),
     );
     await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 60)));
+      () => Future<void>.delayed(const Duration(milliseconds: 60)),
+    );
     await tester.pumpAndSettle();
 
-    await expectLater(find.byType(MaterialApp),
-        matchesGoldenFile('goldens/marks/design-size.png'));
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/marks/design-size.png'),
+    );
   });
 
   testWidgets('the same fifteen, at the size a card uses them', (tester) async {
@@ -119,23 +123,24 @@ void main() {
     addTearDown(tester.view.reset);
 
     Widget row(Color color, String label) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: Row(
-            children: [
-              SizedBox(
-                width: 96,
-                child: Text(label,
-                    style: AppTheme.mono(size: 10, color: AppColors.ink3)),
-              ),
-              for (final chapter in _ordered)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: ChapterMark(
-                      chapterId: chapter.id, color: color, size: 44),
-                ),
-            ],
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 96,
+            child: Text(
+              label,
+              style: AppTheme.mono(size: 10, color: AppColors.ink3),
+            ),
           ),
-        );
+          for (final chapter in _ordered)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: ChapterMark(chapterId: chapter.id, color: color, size: 44),
+            ),
+        ],
+      ),
+    );
 
     await tester.pumpWidget(
       MaterialApp(
@@ -158,10 +163,13 @@ void main() {
       ),
     );
     await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 60)));
+      () => Future<void>.delayed(const Duration(milliseconds: 60)),
+    );
     await tester.pumpAndSettle();
 
-    await expectLater(find.byType(MaterialApp),
-        matchesGoldenFile('goldens/marks/card-size.png'));
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/marks/card-size.png'),
+    );
   });
 }

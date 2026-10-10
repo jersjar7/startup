@@ -71,8 +71,10 @@ void main() {
 
     test('the pull toward the middle goes with the square of the spin', () {
       const faster = Spinner(rpm: 1200, radius: 0.2, marks: [(0.2, 0)]);
-      expect(faster.towardCenterAt(0) / wheel.towardCenterAt(0),
-          closeTo(4, 1e-9));
+      expect(
+        faster.towardCenterAt(0) / wheel.towardCenterAt(0),
+        closeTo(4, 1e-9),
+      );
       // But the speed itself only doubles.
       expect(faster.speedAt(0) / wheel.speedAt(0), closeTo(2, 1e-9));
     });
@@ -123,8 +125,12 @@ void main() {
 
     test('a disc tipped on its side is half as hard to spin', () {
       const flat = Body(kind: Shape3.disc, mass: 5, radius: 0.2);
-      const tipped =
-          Body(kind: Shape3.disc, mass: 5, radius: 0.2, spin: Spin.diameter);
+      const tipped = Body(
+        kind: Shape3.disc,
+        mass: 5,
+        radius: 0.2,
+        spin: Spin.diameter,
+      );
       expect(flat.inertia / tipped.inertia, closeTo(2, 1e-9));
     });
   });
@@ -137,8 +143,11 @@ void main() {
           for (var j = i + 1; j < r.spinner.marks.length; j++) {
             final a = SpinnerPainter.markAt(r.spinner, size, i, arm: r.arm);
             final b = SpinnerPainter.markAt(r.spinner, size, j, arm: r.arm);
-            expect((a - b).distance, greaterThan(28),
-                reason: '${r.subject}: two marks are on top of each other');
+            expect(
+              (a - b).distance,
+              greaterThan(28),
+              reason: '${r.subject}: two marks are on top of each other',
+            );
           }
         }
       }
@@ -151,8 +160,11 @@ void main() {
           if (i == r.answer) continue;
           // Every question in this item is decided by the radius, one way or
           // the other, so no other mark may share the winning radius.
-          expect(r.spinner.marks[i].$1, isNot(closeTo(best, 1e-9)),
-              reason: '${r.subject}: mark $i ties with the answer');
+          expect(
+            r.spinner.marks[i].$1,
+            isNot(closeTo(best, 1e-9)),
+            reason: '${r.subject}: mark $i ties with the answer',
+          );
         }
       }
     });
@@ -165,7 +177,9 @@ void main() {
         expect(radii.length < r.spinner.marks.length || true, isTrue);
       }
       // And the one about two rim points really does have two at the rim.
-      final rim = spinRounds.firstWhere((r) => r.subject.contains('two points'));
+      final rim = spinRounds.firstWhere(
+        (r) => r.subject.contains('two points'),
+      );
       final atRim = rim.spinner.marks
           .where((m) => (m.$1 - rim.spinner.radius).abs() < 1e-9)
           .length;
@@ -175,24 +189,34 @@ void main() {
     test('half the radius really is half the speed', () {
       final half = spinRounds.firstWhere((r) => r.subject.contains('half'));
       final tip = half.spinner.speedAt(0);
-      expect(half.spinner.speedAt(half.answer), closeTo(tip / 2, 1e-9),
-          reason: 'the marked point is not at half the tip speed');
+      expect(
+        half.spinner.speedAt(half.answer),
+        closeTo(tip / 2, 1e-9),
+        reason: 'the marked point is not at half the tip speed',
+      );
     });
   });
 
   group('harder-to-spin is decided by the table', () {
     test('both sides always have the same mass', () {
       for (final r in pairRounds2) {
-        expect(r.left.mass, r.right.mass,
-            reason: '${r.subject}: the two bodies are not the same mass');
+        expect(
+          r.left.mass,
+          r.right.mass,
+          reason: '${r.subject}: the two bodies are not the same mass',
+        );
       }
     });
 
     test('the winner is clear enough to judge by looking', () {
       for (final r in pairRounds2) {
-        expect(r.ratio, greaterThan(1.2),
-            reason: '${r.subject}: the two are within twenty percent, which '
-                'cannot be read off a drawing');
+        expect(
+          r.ratio,
+          greaterThan(1.2),
+          reason:
+              '${r.subject}: the two are within twenty percent, which '
+              'cannot be read off a drawing',
+        );
       }
     });
 
@@ -200,8 +224,11 @@ void main() {
       for (final r in pairRounds2) {
         final chosen = r.answer == 0 ? r.left : r.right;
         final other = r.answer == 0 ? r.right : r.left;
-        expect(chosen.inertia, greaterThan(other.inertia),
-            reason: '${r.subject}');
+        expect(
+          chosen.inertia,
+          greaterThan(other.inertia),
+          reason: '${r.subject}',
+        );
       }
       // And the right answer is not always on the same side.
       expect(pairRounds2.map((r) => r.answer).toSet().length, 2);
@@ -217,14 +244,20 @@ void main() {
           final reach = body.spin == Spin.offset
               ? body.offset + body.radius
               : (body.kind == Shape3.rod ? body.length / 2 : body.radius);
-          expect(r.frame, greaterThan(reach),
-              reason: '${r.subject}: a body does not fit the shared frame');
+          expect(
+            r.frame,
+            greaterThan(reach),
+            reason: '${r.subject}: a body does not fit the shared frame',
+          );
           if (reach > biggest) biggest = reach;
         }
         // And the frame is not so much bigger than the bodies that they draw
         // as specks: it is the biggest reach plus a margin, nothing more.
-        expect(r.frame, lessThan(biggest * 1.5),
-            reason: '${r.subject}: the frame wastes the panel');
+        expect(
+          r.frame,
+          lessThan(biggest * 1.5),
+          reason: '${r.subject}: the frame wastes the panel',
+        );
       }
     });
   });

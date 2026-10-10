@@ -75,14 +75,15 @@ void main() {
       expect(soil.dryUnitWeight, lessThan(soil.totalUnitWeight));
       expect(soil.totalUnitWeight, lessThan(soil.saturatedUnitWeight));
       expect(soil.submergedUnitWeight, lessThan(soil.dryUnitWeight));
-      expect(soil.submergedUnitWeight,
-          closeTo(soil.saturatedUnitWeight - 62.4, 0.001));
+      expect(
+        soil.submergedUnitWeight,
+        closeTo(soil.saturatedUnitWeight - 62.4, 0.001),
+      );
     });
 
     test('a saturated sample weighs the same standing as saturated', () {
       const soil = Soil(gs: 2.72, water: 0.263, voidRatio: 0.714);
-      expect(soil.totalUnitWeight,
-          closeTo(soil.saturatedUnitWeight, 0.5));
+      expect(soil.totalUnitWeight, closeTo(soil.saturatedUnitWeight, 0.5));
     });
   });
 
@@ -116,55 +117,94 @@ void main() {
   group('the classification tree', () {
     test('the No. 200 decides coarse from fine, and half is fine', () {
       expect(
-          const Graded(
-                  passing200: 80, passing4: 98, d10: 0.001, d30: 0.004,
-                  d60: 0.02)
-              .coarse,
-          isFalse);
+        const Graded(
+          passing200: 80,
+          passing4: 98,
+          d10: 0.001,
+          d30: 0.004,
+          d60: 0.02,
+        ).coarse,
+        isFalse,
+      );
       expect(
-          const Graded(
-                  passing200: 50, passing4: 85, d10: 0.02, d30: 0.09, d60: 0.4)
-              .coarse,
-          isFalse,
-          reason: 'it takes MORE than half retained to be coarse');
+        const Graded(
+          passing200: 50,
+          passing4: 85,
+          d10: 0.02,
+          d30: 0.09,
+          d60: 0.4,
+        ).coarse,
+        isFalse,
+        reason: 'it takes MORE than half retained to be coarse',
+      );
       expect(
-          const Graded(
-                  passing200: 4, passing4: 92, d10: 0.15, d30: 0.50, d60: 2.0)
-              .coarse,
-          isTrue);
+        const Graded(
+          passing200: 4,
+          passing4: 92,
+          d10: 0.15,
+          d30: 0.50,
+          d60: 2.0,
+        ).coarse,
+        isTrue,
+      );
     });
 
     test('the No. 4 decides sand from gravel', () {
       expect(
-          const Graded(
-                  passing200: 4, passing4: 92, d10: 0.15, d30: 0.5, d60: 2.0)
-              .sand,
-          isTrue);
+        const Graded(
+          passing200: 4,
+          passing4: 92,
+          d10: 0.15,
+          d30: 0.5,
+          d60: 2.0,
+        ).sand,
+        isTrue,
+      );
       expect(
-          const Graded(
-                  passing200: 2, passing4: 20, d10: 2.0, d30: 8.0, d60: 25.0)
-              .sand,
-          isFalse);
+        const Graded(
+          passing200: 2,
+          passing4: 20,
+          d10: 2.0,
+          d30: 8.0,
+          d60: 25.0,
+        ).sand,
+        isFalse,
+      );
     });
 
     test('a gravel gets the easier uniformity', () {
-      const gravel =
-          Graded(passing200: 1, passing4: 15, d10: 2.0, d30: 6.3, d60: 10.0);
+      const gravel = Graded(
+        passing200: 1,
+        passing4: 15,
+        d10: 2.0,
+        d30: 6.3,
+        d60: 10.0,
+      );
       expect(gravel.uniformityNeeded, 4);
       expect(gravel.cu, closeTo(5, 0.01));
       expect(gravel.wellGraded, isTrue);
       expect(gravel.symbol, 'GW');
       // The same two coefficients on a sand would fail.
-      const sand =
-          Graded(passing200: 1, passing4: 85, d10: 2.0, d30: 6.3, d60: 10.0);
+      const sand = Graded(
+        passing200: 1,
+        passing4: 85,
+        d10: 2.0,
+        d30: 6.3,
+        d60: 10.0,
+      );
       expect(sand.uniformityNeeded, 6);
       expect(sand.wellGraded, isFalse);
       expect(sand.symbol, 'SP');
     });
 
     test('the lesson\'s own sand fails on concavity alone', () {
-      const soil =
-          Graded(passing200: 4, passing4: 92, d10: 0.15, d30: 0.50, d60: 2.0);
+      const soil = Graded(
+        passing200: 4,
+        passing4: 92,
+        d10: 0.15,
+        d30: 0.50,
+        d60: 2.0,
+      );
       expect(soil.cu, closeTo(13.3, 0.1));
       expect(soil.cc, closeTo(0.83, 0.01));
       expect(soil.uniformEnough, isTrue);
@@ -173,8 +213,13 @@ void main() {
     });
 
     test('a gap graded soil has a huge uniformity and fails anyway', () {
-      const soil =
-          Graded(passing200: 3, passing4: 80, d10: 0.2, d30: 0.25, d60: 8.0);
+      const soil = Graded(
+        passing200: 3,
+        passing4: 80,
+        d10: 0.2,
+        d30: 0.25,
+        d60: 8.0,
+      );
       expect(soil.cu, greaterThan(30));
       expect(soil.shapedRight, isFalse);
       expect(soil.wellGraded, isFalse);
@@ -185,10 +230,10 @@ void main() {
         final expected = r.soil.wellGraded
             ? Graded2.well
             : (!r.soil.uniformEnough && !r.soil.shapedRight
-                ? Graded2.poorBoth
-                : (r.soil.uniformEnough
-                    ? Graded2.poorShape
-                    : Graded2.poorUniformity));
+                  ? Graded2.poorBoth
+                  : (r.soil.uniformEnough
+                        ? Graded2.poorShape
+                        : Graded2.poorUniformity));
         expect(r.answer, expected, reason: r.subject);
       }
     });
@@ -202,10 +247,14 @@ void main() {
     });
 
     test('the A-line is where the lesson puts it', () {
-      expect(const Fines(liquidLimit: 45, plasticityIndex: 0).aLine,
-          closeTo(18.25, 0.01));
-      expect(const Fines(liquidLimit: 55, plasticityIndex: 0).aLine,
-          closeTo(25.55, 0.01));
+      expect(
+        const Fines(liquidLimit: 45, plasticityIndex: 0).aLine,
+        closeTo(18.25, 0.01),
+      );
+      expect(
+        const Fines(liquidLimit: 55, plasticityIndex: 0).aLine,
+        closeTo(25.55, 0.01),
+      );
     });
 
     test('a high liquid limit does not make a clay', () {
@@ -245,9 +294,13 @@ void main() {
       ]..sort((a, b) => b.$1.compareTo(a.$1));
       var last = 101.0;
       for (final p in points) {
-        expect(p.$2, lessThanOrEqualTo(last + 0.001),
-            reason: '$where: ${p.$1} mm passes ${p.$2} per cent, '
-                'more than the coarser sieve above it');
+        expect(
+          p.$2,
+          lessThanOrEqualTo(last + 0.001),
+          reason:
+              '$where: ${p.$1} mm passes ${p.$2} per cent, '
+              'more than the coarser sieve above it',
+        );
         last = p.$2;
       }
     }
@@ -269,10 +322,11 @@ void main() {
     const oneLayer = Deposit(
       layers: [
         Stratum(
-            name: 'saturated clay',
-            thickness: 10,
-            unitWeight: 115,
-            saturated: true),
+          name: 'saturated clay',
+          thickness: 10,
+          unitWeight: 115,
+          saturated: true,
+        ),
       ],
       waterDepth: 0,
     );
@@ -280,10 +334,11 @@ void main() {
       layers: [
         Stratum(name: 'dry sand', thickness: 5, unitWeight: 110),
         Stratum(
-            name: 'saturated clay',
-            thickness: 8,
-            unitWeight: 120,
-            saturated: true),
+          name: 'saturated clay',
+          thickness: 8,
+          unitWeight: 120,
+          saturated: true,
+        ),
       ],
       waterDepth: 5,
     );
@@ -291,10 +346,11 @@ void main() {
       layers: [
         Stratum(name: 'sand', thickness: 6, unitWeight: 105),
         Stratum(
-            name: 'saturated clay',
-            thickness: 10,
-            unitWeight: 118,
-            saturated: true),
+          name: 'saturated clay',
+          thickness: 10,
+          unitWeight: 118,
+          saturated: true,
+        ),
       ],
       waterDepth: 6,
       surcharge: 100,
@@ -329,33 +385,43 @@ void main() {
         layers: [
           Stratum(name: 'sand', thickness: 6, unitWeight: 105),
           Stratum(
-              name: 'saturated clay',
-              thickness: 10,
-              unitWeight: 118,
-              saturated: true),
+            name: 'saturated clay',
+            thickness: 10,
+            unitWeight: 118,
+            saturated: true,
+          ),
         ],
         waterDepth: 6,
       );
       expect(surcharged.poreAt(16), without.poreAt(16));
-      expect(surcharged.effectiveAt(16) - without.effectiveAt(16),
-          closeTo(100, 0.001));
+      expect(
+        surcharged.effectiveAt(16) - without.effectiveAt(16),
+        closeTo(100, 0.001),
+      );
     });
 
     test('pumping the table down raises the effective stress', () {
       const high = Deposit(
         layers: [
-          Stratum(name: 'sand', thickness: 6, unitWeight: 120,
-              saturated: true),
-          Stratum(name: 'clay', thickness: 10, unitWeight: 118,
-              saturated: true),
+          Stratum(name: 'sand', thickness: 6, unitWeight: 120, saturated: true),
+          Stratum(
+            name: 'clay',
+            thickness: 10,
+            unitWeight: 118,
+            saturated: true,
+          ),
         ],
         waterDepth: 0,
       );
       const pumped = Deposit(
         layers: [
           Stratum(name: 'sand, drained', thickness: 6, unitWeight: 105),
-          Stratum(name: 'clay', thickness: 10, unitWeight: 118,
-              saturated: true),
+          Stratum(
+            name: 'clay',
+            thickness: 10,
+            unitWeight: 118,
+            saturated: true,
+          ),
         ],
         waterDepth: 6,
       );
@@ -380,19 +446,25 @@ void main() {
     test('a lake over a saturated site changes no effective stress', () {
       const dry = Deposit(
         layers: [
+          Stratum(name: 'sand', thickness: 6, unitWeight: 120, saturated: true),
           Stratum(
-              name: 'sand', thickness: 6, unitWeight: 120, saturated: true),
-          Stratum(
-              name: 'clay', thickness: 10, unitWeight: 118, saturated: true),
+            name: 'clay',
+            thickness: 10,
+            unitWeight: 118,
+            saturated: true,
+          ),
         ],
         waterDepth: 0,
       );
       const flooded = Deposit(
         layers: [
+          Stratum(name: 'sand', thickness: 6, unitWeight: 120, saturated: true),
           Stratum(
-              name: 'sand', thickness: 6, unitWeight: 120, saturated: true),
-          Stratum(
-              name: 'clay', thickness: 10, unitWeight: 118, saturated: true),
+            name: 'clay',
+            thickness: 10,
+            unitWeight: 118,
+            saturated: true,
+          ),
         ],
         waterDepth: 0,
         standing: 6,
@@ -410,29 +482,45 @@ void main() {
       expect(nc.settlement * 12, closeTo(3.34, 0.05));
 
       const crossing = Squeeze(
-          now: 800,
-          remembered: 1200,
-          added: 600,
-          cc: 0.40,
-          cr: 0.06,
-          thickness: 12,
-          voidRatio: 1.10);
+        now: 800,
+        remembered: 1200,
+        added: 600,
+        cc: 0.40,
+        cr: 0.06,
+        thickness: 12,
+        voidRatio: 1.10,
+      );
       expect(crossing.which, Case.crossing);
       expect(crossing.settlement * 12, closeTo(2.56, 0.05));
     });
 
     test('landing exactly on the memory stays in recompression', () {
       const onIt = Squeeze(
-          now: 900, remembered: 1400, added: 500, cc: 0.35, cr: 0.05);
+        now: 900,
+        remembered: 1400,
+        added: 500,
+        cc: 0.35,
+        cr: 0.05,
+      );
       expect(onIt.after, closeTo(onIt.remembered, 0.001));
       expect(onIt.which, Case.recompression);
     });
 
     test('the same load settles far more on a virgin clay', () {
       const stiff = Squeeze(
-          now: 800, remembered: 3000, added: 400, cc: 0.40, cr: 0.065);
-      const soft =
-          Squeeze(now: 800, remembered: 800, added: 400, cc: 0.40, cr: 0.065);
+        now: 800,
+        remembered: 3000,
+        added: 400,
+        cc: 0.40,
+        cr: 0.065,
+      );
+      const soft = Squeeze(
+        now: 800,
+        remembered: 800,
+        added: 400,
+        cc: 0.40,
+        cr: 0.065,
+      );
       expect(stiff.which, Case.recompression);
       expect(soft.which, Case.normally);
       expect(soft.settlement, greaterThan(stiff.settlement * 5));
@@ -445,12 +533,13 @@ void main() {
       expect(caseRounds.map((r) => r.answer).toSet().length, 3);
     });
 
-    test('the drainage path is half the layer only when both faces drain',
-        () {
-      const both = Drainage(thickness: 10, topDrains: true,
-          bottomDrains: true);
-      const onRock = Drainage(thickness: 10, topDrains: true,
-          bottomDrains: false);
+    test('the drainage path is half the layer only when both faces drain', () {
+      const both = Drainage(thickness: 10, topDrains: true, bottomDrains: true);
+      const onRock = Drainage(
+        thickness: 10,
+        topDrains: true,
+        bottomDrains: false,
+      );
       expect(both.path, 5);
       expect(onRock.path, 10);
       expect(onRock.timesLonger, 4);
@@ -460,10 +549,12 @@ void main() {
     test('the lesson\'s own timing, both ways and one', () {
       const tv = 0.197;
       const cv = 0.50;
-      const both = Drainage(thickness: 10, topDrains: true,
-          bottomDrains: true);
-      const onRock = Drainage(thickness: 10, topDrains: true,
-          bottomDrains: false);
+      const both = Drainage(thickness: 10, topDrains: true, bottomDrains: true);
+      const onRock = Drainage(
+        thickness: 10,
+        topDrains: true,
+        bottomDrains: false,
+      );
       expect(tv * both.path * both.path / cv, closeTo(9.85, 0.05));
       expect(tv * onRock.path * onRock.path / cv, closeTo(39.4, 0.1));
     });
@@ -515,8 +606,10 @@ void main() {
     });
 
     test('every answer gets used in each item', () {
-      expect(twoTermRounds.map((r) => r.answer).toSet().length,
-          greaterThanOrEqualTo(3));
+      expect(
+        twoTermRounds.map((r) => r.answer).toSet().length,
+        greaterThanOrEqualTo(3),
+      );
       expect(drainRounds.map((r) => r.answer).toSet().length, 3);
     });
   });
@@ -608,10 +701,18 @@ void main() {
     });
 
     test('the lesson\'s own wedge, with and without its cohesion', () {
-      const full =
-          Wedge2(cohesionForce: 120, weight: 400, slipAngle: 25, friction: 20);
-      const without =
-          Wedge2(cohesionForce: 0, weight: 400, slipAngle: 25, friction: 20);
+      const full = Wedge2(
+        cohesionForce: 120,
+        weight: 400,
+        slipAngle: 25,
+        friction: 20,
+      );
+      const without = Wedge2(
+        cohesionForce: 0,
+        weight: 400,
+        slipAngle: 25,
+        friction: 20,
+      );
       expect(full.driving, closeTo(169, 1));
       expect(full.resisting, closeTo(252, 1));
       expect(full.factorOfSafety, closeTo(1.49, 0.02));
@@ -619,10 +720,18 @@ void main() {
     });
 
     test('a steeper slip plane drives more and holds less', () {
-      const shallow =
-          Wedge2(cohesionForce: 120, weight: 400, slipAngle: 15, friction: 20);
-      const steep =
-          Wedge2(cohesionForce: 120, weight: 400, slipAngle: 35, friction: 20);
+      const shallow = Wedge2(
+        cohesionForce: 120,
+        weight: 400,
+        slipAngle: 15,
+        friction: 20,
+      );
+      const steep = Wedge2(
+        cohesionForce: 120,
+        weight: 400,
+        slipAngle: 35,
+        friction: 20,
+      );
       expect(steep.driving, greaterThan(shallow.driving));
       expect(steep.normal, lessThan(shallow.normal));
       expect(steep.factorOfSafety, lessThan(shallow.factorOfSafety));
@@ -631,14 +740,32 @@ void main() {
 
   group('bearing capacity', () {
     const onClay = Footing(
-        width: 6, depth: 0, cohesion: 1500, unitWeight: 115,
-        nc: 5.14, nq: 1, nGamma: 0);
+      width: 6,
+      depth: 0,
+      cohesion: 1500,
+      unitWeight: 115,
+      nc: 5.14,
+      nq: 1,
+      nGamma: 0,
+    );
     const onSand = Footing(
-        width: 4, depth: 3, cohesion: 0, unitWeight: 120,
-        nc: 30.14, nq: 18.40, nGamma: 15.07);
+      width: 4,
+      depth: 3,
+      cohesion: 0,
+      unitWeight: 120,
+      nc: 30.14,
+      nq: 18.40,
+      nGamma: 15.07,
+    );
     const mixed = Footing(
-        width: 5, depth: 3, cohesion: 500, unitWeight: 115,
-        nc: 14.83, nq: 6.40, nGamma: 3.54);
+      width: 5,
+      depth: 3,
+      cohesion: 500,
+      unitWeight: 115,
+      nc: 14.83,
+      nq: 6.40,
+      nGamma: 3.54,
+    );
 
     test('the lesson\'s three problems', () {
       expect(onClay.ultimate, closeTo(7710, 1));
@@ -653,23 +780,49 @@ void main() {
 
     test('an undrained clay gets nothing from its width', () {
       const narrow = Footing(
-          width: 3, depth: 3, cohesion: 1500, unitWeight: 115,
-          nc: 5.14, nq: 1, nGamma: 0);
+        width: 3,
+        depth: 3,
+        cohesion: 1500,
+        unitWeight: 115,
+        nc: 5.14,
+        nq: 1,
+        nGamma: 0,
+      );
       const wide = Footing(
-          width: 12, depth: 3, cohesion: 1500, unitWeight: 115,
-          nc: 5.14, nq: 1, nGamma: 0);
+        width: 12,
+        depth: 3,
+        cohesion: 1500,
+        unitWeight: 115,
+        nc: 5.14,
+        nq: 1,
+        nGamma: 0,
+      );
       expect(wide.ultimate, closeTo(narrow.ultimate, 0.001));
     });
 
     test('on a sand, burying beats widening foot for foot', () {
       const deeper = Footing(
-          width: 4, depth: 4, cohesion: 0, unitWeight: 120,
-          nc: 30.14, nq: 18.40, nGamma: 15.07);
+        width: 4,
+        depth: 4,
+        cohesion: 0,
+        unitWeight: 120,
+        nc: 30.14,
+        nq: 18.40,
+        nGamma: 15.07,
+      );
       const wider = Footing(
-          width: 5, depth: 3, cohesion: 0, unitWeight: 120,
-          nc: 30.14, nq: 18.40, nGamma: 15.07);
-      expect(deeper.ultimate - onSand.ultimate,
-          greaterThan(wider.ultimate - onSand.ultimate));
+        width: 5,
+        depth: 3,
+        cohesion: 0,
+        unitWeight: 120,
+        nc: 30.14,
+        nq: 18.40,
+        nGamma: 15.07,
+      );
+      expect(
+        deeper.ultimate - onSand.ultimate,
+        greaterThan(wider.ultimate - onSand.ultimate),
+      );
     });
 
     test('the factor of safety divides the capacity', () {
@@ -683,13 +836,17 @@ void main() {
           case Piece4.cohesion:
             // Either the only one left, or the missing one.
             expect(
-                r.footing.cohesionTerm == 0 ||
-                    (r.footing.depthTerm == 0 && r.footing.widthTerm == 0),
-                isTrue,
-                reason: r.subject);
+              r.footing.cohesionTerm == 0 ||
+                  (r.footing.depthTerm == 0 && r.footing.widthTerm == 0),
+              isTrue,
+              reason: r.subject,
+            );
           case Piece4.depth:
-            expect(r.footing.depthTerm == 0 || r.footing.depth > 0, isTrue,
-                reason: r.subject);
+            expect(
+              r.footing.depthTerm == 0 || r.footing.depth > 0,
+              isTrue,
+              reason: r.subject,
+            );
           case Piece4.width:
             expect(r.footing.widthTerm, 0, reason: r.subject);
           case Piece4.none:
@@ -704,8 +861,12 @@ void main() {
   group('lateral earth pressure', () {
     // The lesson's own wall: fifteen feet, 120 pound fill, thirty degrees.
     const wall = Backfill(height: 15, unitWeight: 120, friction: 30);
-    const loaded =
-        Backfill(height: 12, unitWeight: 120, friction: 30, surcharge: 200);
+    const loaded = Backfill(
+      height: 12,
+      unitWeight: 120,
+      friction: 30,
+      surcharge: 200,
+    );
 
     test('the three coefficients match the lesson', () {
       expect(wall.ka, closeTo(0.333, 0.002));
@@ -716,8 +877,11 @@ void main() {
     test('active and passive are reciprocals, which is the lesson check', () {
       for (final phi in [20.0, 26.0, 30.0, 34.0, 40.0]) {
         final soil = Backfill(height: 10, unitWeight: 120, friction: phi);
-        expect(soil.ka * soil.kp, closeTo(1, 0.0001),
-            reason: '$phi degrees: the two should multiply to one');
+        expect(
+          soil.ka * soil.kp,
+          closeTo(1, 0.0001),
+          reason: '$phi degrees: the two should multiply to one',
+        );
       }
     });
 
@@ -750,8 +914,10 @@ void main() {
     test('twice the height is four times the force and eight the moment', () {
       const tall = Backfill(height: 30, unitWeight: 120, friction: 30);
       expect(tall.soilForce / wall.soilForce, closeTo(4, 0.0001));
-      expect((tall.soilForce * tall.soilArm) / (wall.soilForce * wall.soilArm),
-          closeTo(8, 0.0001));
+      expect(
+        (tall.soilForce * tall.soilArm) / (wall.soilForce * wall.soilArm),
+        closeTo(8, 0.0001),
+      );
     });
 
     test('unit weight scales the force straight, with no power on it', () {
@@ -761,18 +927,24 @@ void main() {
 
     test('the surcharge is worth more than its pressure suggests', () {
       // Round six of the shapes item rests on these two ratios.
-      final pressureRatio = (loaded.ka * loaded.surcharge) /
+      final pressureRatio =
+          (loaded.ka * loaded.surcharge) /
           (loaded.ka * loaded.unitWeight * loaded.height);
       expect(pressureRatio, closeTo(1 / 7.2, 0.01));
       expect(loaded.surchargeForce / loaded.soilForce, greaterThan(0.25));
     });
 
     test('the states item names each of the three at least once', () {
-      expect(wallMoveRounds.map((r) => r.answer).toSet(),
-          WallState.values.toSet());
+      expect(
+        wallMoveRounds.map((r) => r.answer).toSet(),
+        WallState.values.toSet(),
+      );
       for (var i = 1; i < wallMoveRounds.length; i++) {
-        expect(wallMoveRounds[i].answer, isNot(wallMoveRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the answer above it');
+        expect(
+          wallMoveRounds[i].answer,
+          isNot(wallMoveRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the answer above it',
+        );
       }
     });
 
@@ -781,31 +953,47 @@ void main() {
         shapeRounds2.map((r) => r.answer).toList(),
         wallHeightRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
 
     test('only the rounds with a surcharge use a surcharged wall', () {
       for (final r in shapeRounds2) {
         if (r.backfill.surcharge > 0) {
-          expect(r.subject + r.asked + r.why,
-              contains(RegExp('surcharge|rectangle')),
-              reason: r.subject);
+          expect(
+            r.subject + r.asked + r.why,
+            contains(RegExp('surcharge|rectangle')),
+            reason: r.subject,
+          );
         }
       }
     });
   });
 
-
   group('retaining wall stability', () {
     // The lesson's three walls, in its own numbers.
     const first = Gravity(
-        baseWidth: 6, vertical: 5000, resisting: 15000, overturning: 5000);
+      baseWidth: 6,
+      vertical: 5000,
+      resisting: 15000,
+      overturning: 5000,
+    );
     const second = Gravity(
-        baseWidth: 6, vertical: 5000, resisting: 18000, overturning: 6000);
+      baseWidth: 6,
+      vertical: 5000,
+      resisting: 18000,
+      overturning: 6000,
+    );
     const third = Gravity(
-        baseWidth: 8, vertical: 8000, resisting: 30000, overturning: 6000);
+      baseWidth: 8,
+      vertical: 8000,
+      resisting: 30000,
+      overturning: 6000,
+    );
 
     test('the overturning factor of safety is resisting over overturning', () {
       expect(first.fsOverturning, closeTo(3.0, 0.0001));
@@ -831,39 +1019,54 @@ void main() {
     test('a resultant near the toe leaves the middle third', () {
       // Same base, but nearly all the resisting moment taken away.
       const tipping = Gravity(
-          baseWidth: 6, vertical: 5000, resisting: 11000, overturning: 6000);
+        baseWidth: 6,
+        vertical: 5000,
+        resisting: 11000,
+        overturning: 6000,
+      );
       expect(tipping.fromToe, closeTo(1.0, 0.001));
       expect(tipping.eccentricity, closeTo(2.0, 0.001));
       expect(tipping.inMiddleThird, isFalse);
     });
 
-    test('the toe pressure matches the lesson, and the heel is its mirror',
-        () {
+    test('the toe pressure matches the lesson, and the heel is its mirror', () {
       expect(third.averagePressure, closeTo(1000, 0.1));
       expect(third.toePressure, closeTo(1750, 0.5));
       expect(third.heelPressure, closeTo(250, 0.5));
       // A trapezoid averages its two ends, which is the free check.
-      expect((third.toePressure + third.heelPressure) / 2,
-          closeTo(third.averagePressure, 0.5));
+      expect(
+        (third.toePressure + third.heelPressure) / 2,
+        closeTo(third.averagePressure, 0.5),
+      );
     });
 
     test('a centered load gives the same pressure everywhere', () {
       const centered = Gravity(
-          baseWidth: 8, vertical: 8000, resisting: 38000, overturning: 6000);
+        baseWidth: 8,
+        vertical: 8000,
+        resisting: 38000,
+        overturning: 6000,
+      );
       expect(centered.eccentricity, closeTo(0, 0.0001));
       expect(centered.toePressure, closeTo(centered.averagePressure, 0.001));
       expect(centered.heelPressure, closeTo(centered.averagePressure, 0.001));
     });
 
-    test('the toe always takes more than the heel when the load is off center',
-        () {
-      for (final v in [4000.0, 6000.0, 9000.0]) {
-        final w = Gravity(
-            baseWidth: 8, vertical: v, resisting: 30000, overturning: 6000);
-        if (w.eccentricity <= 0) continue;
-        expect(w.toePressure, greaterThan(w.heelPressure));
-      }
-    });
+    test(
+      'the toe always takes more than the heel when the load is off center',
+      () {
+        for (final v in [4000.0, 6000.0, 9000.0]) {
+          final w = Gravity(
+            baseWidth: 8,
+            vertical: v,
+            resisting: 30000,
+            overturning: 6000,
+          );
+          if (w.eccentricity <= 0) continue;
+          expect(w.toePressure, greaterThan(w.heelPressure));
+        }
+      },
+    );
 
     test('the three items keep the answer moving between the slots', () {
       for (final answers in [
@@ -871,8 +1074,11 @@ void main() {
         landingRounds.map((r) => r.answer).toList(),
         tipRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
 
@@ -890,7 +1096,6 @@ void main() {
     });
   });
 
-
   group('compaction and soil improvement', () {
     // The lesson's own fill: 118 pcf against a modified maximum of 124.
     const fill = Proctor(
@@ -905,13 +1110,14 @@ void main() {
       expect(fill.passes, isTrue);
     });
 
-    test('upside down is the lesson wrong answer, and it reads over a hundred',
-        () {
-      final inverted =
-          fill.maxDryUnitWeight / fill.fieldDryUnitWeight * 100;
-      expect(inverted, closeTo(105.1, 0.2));
-      expect(inverted, greaterThan(100));
-    });
+    test(
+      'upside down is the lesson wrong answer, and it reads over a hundred',
+      () {
+        final inverted = fill.maxDryUnitWeight / fill.fieldDryUnitWeight * 100;
+        expect(inverted, closeTo(105.1, 0.2));
+        expect(inverted, greaterThan(100));
+      },
+    );
 
     test('a fill just under the specification fails it', () {
       const short = Proctor(
@@ -925,19 +1131,27 @@ void main() {
     });
 
     test('the curve really is a hump with its top at the optimum', () {
-      expect(fill.dryUnitWeightAt(fill.optimum),
-          closeTo(fill.maxDryUnitWeight, 0.001));
+      expect(
+        fill.dryUnitWeightAt(fill.optimum),
+        closeTo(fill.maxDryUnitWeight, 0.001),
+      );
       for (final off in [1.0, 3.0, 6.0]) {
-        expect(fill.dryUnitWeightAt(fill.optimum - off),
-            lessThan(fill.maxDryUnitWeight),
-            reason: 'dry of the optimum');
-        expect(fill.dryUnitWeightAt(fill.optimum + off),
-            lessThan(fill.maxDryUnitWeight),
-            reason: 'wet of the optimum');
+        expect(
+          fill.dryUnitWeightAt(fill.optimum - off),
+          lessThan(fill.maxDryUnitWeight),
+          reason: 'dry of the optimum',
+        );
+        expect(
+          fill.dryUnitWeightAt(fill.optimum + off),
+          lessThan(fill.maxDryUnitWeight),
+          reason: 'wet of the optimum',
+        );
       }
       // Wet of the optimum falls away faster, which is what a real one does.
-      expect(fill.dryUnitWeightAt(fill.optimum + 4),
-          lessThan(fill.dryUnitWeightAt(fill.optimum - 4)));
+      expect(
+        fill.dryUnitWeightAt(fill.optimum + 4),
+        lessThan(fill.dryUnitWeightAt(fill.optimum - 4)),
+      );
     });
 
     test('each round sits on the side of the optimum its words claim', () {
@@ -971,7 +1185,8 @@ void main() {
 
     test('the loose sand round really is a loose sand', () {
       final r = packingRounds.firstWhere(
-          (r) => r.subject.contains('hardly been touched'));
+        (r) => r.subject.contains('hardly been touched'),
+      );
       expect(r.soil.state, 'loose');
     });
 
@@ -995,17 +1210,23 @@ void main() {
         packingRounds.map((r) => r.answer).toList(),
         soilFixRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
   });
 
-
   group('deep foundations', () {
     // The lesson's own pile: 400 kN under the tip, 600 down the shaft.
     const pile = Pile(
-        tipResistance: 2000, tipArea: 0.20, skinFriction: 50, shaftArea: 12);
+      tipResistance: 2000,
+      tipArea: 0.20,
+      skinFriction: 50,
+      shaftArea: 12,
+    );
 
     test('the capacity is the two parts added, as the lesson has it', () {
       expect(pile.endBearing, closeTo(400, 0.001));
@@ -1027,9 +1248,17 @@ void main() {
 
     test('a pile on rock is nearly all tip, one in clay nearly all shaft', () {
       const onRock = Pile(
-          tipResistance: 9000, tipArea: 0.20, skinFriction: 15, shaftArea: 6);
+        tipResistance: 9000,
+        tipArea: 0.20,
+        skinFriction: 15,
+        shaftArea: 6,
+      );
       const inClay = Pile(
-          tipResistance: 900, tipArea: 0.20, skinFriction: 45, shaftArea: 28);
+        tipResistance: 900,
+        tipArea: 0.20,
+        skinFriction: 45,
+        shaftArea: 28,
+      );
       expect(onRock.carries, Carry.tip);
       expect(onRock.shaftShare, lessThan(0.1));
       expect(inClay.carries, Carry.shaft);
@@ -1038,7 +1267,11 @@ void main() {
 
     test('doubling the tip area buys less than doubling the capacity', () {
       const wider = Pile(
-          tipResistance: 2000, tipArea: 0.40, skinFriction: 50, shaftArea: 12);
+        tipResistance: 2000,
+        tipArea: 0.40,
+        skinFriction: 50,
+        shaftArea: 12,
+      );
       expect(wider.ultimate, closeTo(1400, 0.001));
       expect(wider.ultimate / pile.ultimate, lessThan(1.5));
     });
@@ -1049,12 +1282,14 @@ void main() {
       }
     });
 
-    test('the round about a working pile is the one without settling ground',
-        () {
-      final steady = downdragRounds.where((r) => !r.dragging);
-      expect(steady.length, 1);
-      expect(steady.first.why, startsWith('Upward'));
-    });
+    test(
+      'the round about a working pile is the one without settling ground',
+      () {
+        final steady = downdragRounds.where((r) => !r.dragging);
+        expect(steady.length, 1);
+        expect(steady.first.why, startsWith('Upward'));
+      },
+    );
 
     test('the group rounds are the ones that draw more than one pile', () {
       final groups = deepRounds.where((r) => r.piles > 1);
@@ -1070,10 +1305,12 @@ void main() {
         deepRounds.map((r) => r.answer).toList(),
         downdragRounds.map((r) => r.answer).toList(),
       ]) {
-        expect(answers.toSet().length, greaterThan(2),
-            reason: 'the correct option sits in too few positions');
+        expect(
+          answers.toSet().length,
+          greaterThan(2),
+          reason: 'the correct option sits in too few positions',
+        );
       }
     });
   });
-
 }

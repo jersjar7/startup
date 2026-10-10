@@ -16,8 +16,9 @@ import 'package:mobile/features/games/which_rate_game.dart';
 /// available here, because the picture is the whole question.
 ///
 /// The shape of a set of flows, ignoring which way they point.
-({int knowns, int unknowns, bool knownIsSeries, bool unknownIsSeries})
-_shapeOf(List<CashFlow> flows) {
+({int knowns, int unknowns, bool knownIsSeries, bool unknownIsSeries}) _shapeOf(
+  List<CashFlow> flows,
+) {
   final known = flows.where((f) => !f.unknown).toList();
   final unknown = flows.where((f) => f.unknown).toList();
   return (
@@ -46,10 +47,16 @@ void main() {
   group('which factor', () {
     test('every factor is the answer exactly once', () {
       final answers = factorRounds.map((r) => r.answer).toList();
-      expect(answers.toSet().length, answers.length,
-          reason: 'a factor is the answer twice while another never is');
-      expect(answers.toSet().length, factors.length,
-          reason: 'the six factors are the content and all six should come up');
+      expect(
+        answers.toSet().length,
+        answers.length,
+        reason: 'a factor is the answer twice while another never is',
+      );
+      expect(
+        answers.toSet().length,
+        factors.length,
+        reason: 'the six factors are the content and all six should come up',
+      );
     });
 
     test('the diagram matches the factor the round names', () {
@@ -59,11 +66,15 @@ void main() {
       for (final r in factorRounds) {
         final shape = _shapeOf(r.flows);
         final wants = factors[r.answer].$1[1];
-        expect(shape.unknownIsSeries, wants == 'A',
-            reason: '${r.subject}: the factor asks for '
-                '${wants == 'A' ? 'a series' : 'a single amount'} and the '
-                'diagram draws ${shape.unknownIsSeries ? 'a series' : 'one '
-                    'arrow'} as unknown');
+        expect(
+          shape.unknownIsSeries,
+          wants == 'A',
+          reason:
+              '${r.subject}: the factor asks for '
+              '${wants == 'A' ? 'a series' : 'a single amount'} and the '
+              'diagram draws ${shape.unknownIsSeries ? 'a series' : 'one '
+                        'arrow'} as unknown',
+        );
       }
     });
 
@@ -73,11 +84,15 @@ void main() {
         // The name reads (want/have), so the character after the slash is
         // what the round is supposed to be handing over.
         final has = factors[r.answer].$1[3];
-        expect(shape.knownIsSeries, has == 'A',
-            reason: '${r.subject}: the factor is given '
-                '${has == 'A' ? 'a series' : 'a single amount'} and the '
-                'diagram draws ${shape.knownIsSeries ? 'a series' : 'one '
-                    'arrow'} as known');
+        expect(
+          shape.knownIsSeries,
+          has == 'A',
+          reason:
+              '${r.subject}: the factor is given '
+              '${has == 'A' ? 'a series' : 'a single amount'} and the '
+              'diagram draws ${shape.knownIsSeries ? 'a series' : 'one '
+                        'arrow'} as known',
+        );
       }
     });
 
@@ -100,8 +115,10 @@ void main() {
     });
 
     test('more than one problem is drawn on', () {
-      expect(factorRounds.map((r) => r.source).toSet().length,
-          greaterThanOrEqualTo(2));
+      expect(
+        factorRounds.map((r) => r.source).toSet().length,
+        greaterThanOrEqualTo(2),
+      );
     });
   });
 
@@ -112,17 +129,22 @@ void main() {
 
     test('the three numbers are distinct, except where they cannot be', () {
       for (final r in rateRounds) {
-        final values = [
-          for (final rate in Rate.values) r.valueOf(rate),
-        ];
+        final values = [for (final rate in Rate.values) r.valueOf(rate)];
         final annual = r.quoted.contains('compounded annually');
         if (annual) {
-          expect(values.toSet().length, 1,
-              reason: '${r.subject}: compounded annually, all three are the '
-                  'same number and the round exists to show that');
+          expect(
+            values.toSet().length,
+            1,
+            reason:
+                '${r.subject}: compounded annually, all three are the '
+                'same number and the round exists to show that',
+          );
         } else {
-          expect(values.toSet().length, 3,
-              reason: '${r.subject}: two of the three read the same');
+          expect(
+            values.toSet().length,
+            3,
+            reason: '${r.subject}: two of the three read the same',
+          );
         }
       }
     });
@@ -131,32 +153,49 @@ void main() {
       double pct(String s) =>
           double.parse(RegExp(r'[\d.]+').firstMatch(s)!.group(0)!);
       for (final r in rateRounds) {
-        expect(pct(r.effective), greaterThanOrEqualTo(pct(r.nominal)),
-            reason: '${r.subject}: compounding cannot earn less than the '
-                'quoted rate');
-        expect(pct(r.periodic), lessThanOrEqualTo(pct(r.nominal)),
-            reason: '${r.subject}: a single period cannot cost more than the '
-                'year it sits in');
+        expect(
+          pct(r.effective),
+          greaterThanOrEqualTo(pct(r.nominal)),
+          reason:
+              '${r.subject}: compounding cannot earn less than the '
+              'quoted rate',
+        );
+        expect(
+          pct(r.periodic),
+          lessThanOrEqualTo(pct(r.nominal)),
+          reason:
+              '${r.subject}: a single period cannot cost more than the '
+              'year it sits in',
+        );
       }
     });
 
     test('a question about n asks for the periodic rate', () {
       for (final r in rateRounds) {
         if (r.ask.contains('n =')) {
-          expect(r.answer, Rate.periodic,
-              reason: '${r.subject}: the rate has to match the n beside it');
+          expect(
+            r.answer,
+            Rate.periodic,
+            reason: '${r.subject}: the rate has to match the n beside it',
+          );
         }
       }
-      expect(rateRounds.where((r) => r.ask.contains('n =')).length,
-          greaterThanOrEqualTo(2),
-          reason: 'matching the rate to the period is the half of this that '
-              'costs marks, and it needs more than one round');
+      expect(
+        rateRounds.where((r) => r.ask.contains('n =')).length,
+        greaterThanOrEqualTo(2),
+        reason:
+            'matching the rate to the period is the half of this that '
+            'costs marks, and it needs more than one round',
+      );
     });
 
     test('the answer never repeats round to round', () {
       for (var i = 1; i < rateRounds.length; i++) {
-        expect(rateRounds[i].answer, isNot(rateRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous rate');
+        expect(
+          rateRounds[i].answer,
+          isNot(rateRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous rate',
+        );
       }
     });
   });
@@ -178,9 +217,13 @@ void main() {
         // gradient always needs its own factor.
         final grows = steps.length == 1 && steps.first.abs() > 0.01;
         if (grows) {
-          expect(r.answer, contains(2),
-              reason: '${r.subject}: the diagram grows by a constant step and '
-                  'the round does not call for the gradient');
+          expect(
+            r.answer,
+            contains(2),
+            reason:
+                '${r.subject}: the diagram grows by a constant step and '
+                'the round does not call for the gradient',
+          );
         }
       }
     });
@@ -191,17 +234,24 @@ void main() {
         if (costs.length < 2) continue;
         final sizes = costs.map((f) => f.size).toSet();
         if (sizes.length == 1) {
-          expect(r.answer, isNot(contains(2)),
-              reason: '${r.subject}: nothing in the picture grows');
+          expect(
+            r.answer,
+            isNot(contains(2)),
+            reason: '${r.subject}: nothing in the picture grows',
+          );
         }
       }
     });
 
     test('the answers are not all the same size', () {
       final sizes = takeRounds.map((r) => r.answer.length).toSet();
-      expect(sizes, containsAll([1, 2, 3]),
-          reason: 'one, two and three pieces all have to come up, or the count '
-              'can be guessed');
+      expect(
+        sizes,
+        containsAll([1, 2, 3]),
+        reason:
+            'one, two and three pieces all have to come up, or the count '
+            'can be guessed',
+      );
     });
 
     test('every piece is needed somewhere, and none is repeated', () {
@@ -226,9 +276,13 @@ void main() {
       final mixed = takeRounds.where(
         (r) => r.flows.any((f) => f.size > 0) && r.flows.any((f) => f.size < 0),
       );
-      expect(mixed, isNotEmpty,
-          reason: 'money coming back has to look different from money going '
-              'out, or the diagram is not doing its job');
+      expect(
+        mixed,
+        isNotEmpty,
+        reason:
+            'money coming back has to look different from money going '
+            'out, or the diagram is not doing its job',
+      );
     });
   });
 
@@ -302,8 +356,11 @@ void main() {
 
     test('the app and the hand-worked set agree', () {
       for (var i = 0; i < momentRounds.length; i++) {
-        expect(momentRounds[i].answer, expected[i],
-            reason: 'round ${i + 1} of when-does-it-land');
+        expect(
+          momentRounds[i].answer,
+          expected[i],
+          reason: 'round ${i + 1} of when-does-it-land',
+        );
       }
     });
 
@@ -313,8 +370,11 @@ void main() {
       // a number written beside it.
       for (var i = 0; i < momentRounds.length; i++) {
         final m = momentRounds[i].moment;
-        expect(m.period, m.atEnd ? m.year : m.year - 1,
-            reason: 'round ${i + 1} does not follow the convention');
+        expect(
+          m.period,
+          m.atEnd ? m.year : m.year - 1,
+          reason: 'round ${i + 1} does not follow the convention',
+        );
       }
     });
 
@@ -337,9 +397,11 @@ void main() {
     test('every mark offered is on the timeline that is drawn', () {
       const periods = 5;
       for (var i = 0; i < momentRounds.length; i++) {
-        expect(momentRounds[i].answer >= 0 &&
-            momentRounds[i].answer <= periods, isTrue,
-            reason: 'round ${i + 1} answers off the end of the timeline');
+        expect(
+          momentRounds[i].answer >= 0 && momentRounds[i].answer <= periods,
+          isTrue,
+          reason: 'round ${i + 1} answers off the end of the timeline',
+        );
       }
     });
 
@@ -349,17 +411,24 @@ void main() {
       for (var p = 0; p < periods; p++) {
         final a = TimelinePainter.xFor(size, periods, p);
         final b = TimelinePainter.xFor(size, periods, p + 1);
-        expect((b - a).abs(), greaterThan(44),
-            reason: 'periods $p and ${p + 1} are too close to tap apart');
+        expect(
+          (b - a).abs(),
+          greaterThan(44),
+          reason: 'periods $p and ${p + 1} are too close to tap apart',
+        );
       }
       expect(TimelinePainter.xFor(size, periods, 0), greaterThan(4));
-      expect(TimelinePainter.xFor(size, periods, periods),
-          lessThan(size.width - 4));
+      expect(
+        TimelinePainter.xFor(size, periods, periods),
+        lessThan(size.width - 4),
+      );
     });
 
     test('more than one period is used, and every round names a source', () {
-      expect(momentRounds.map((r) => r.answer).toSet().length,
-          greaterThanOrEqualTo(4));
+      expect(
+        momentRounds.map((r) => r.answer).toSet().length,
+        greaterThanOrEqualTo(4),
+      );
       for (final r in momentRounds) {
         expect(r.source, startsWith('econ-eif-'));
       }

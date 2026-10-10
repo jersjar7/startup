@@ -35,17 +35,27 @@ void main() {
   group('which bucket', () {
     test('every bucket is the answer, and sunk more than once', () {
       final answers = bucketRounds.map((r) => r.answer).toList();
-      expect(answers.toSet().length, buckets.length,
-          reason: 'a bucket nobody ever needs is a dead row');
-      expect(answers.where((a) => a == 2).length, 2,
-          reason: 'the sunk cost is the trap the lesson names and one round is '
-              'not enough of it');
+      expect(
+        answers.toSet().length,
+        buckets.length,
+        reason: 'a bucket nobody ever needs is a dead row',
+      );
+      expect(
+        answers.where((a) => a == 2).length,
+        2,
+        reason:
+            'the sunk cost is the trap the lesson names and one round is '
+            'not enough of it',
+      );
     });
 
     test('the answer never repeats round to round', () {
       for (var i = 1; i < bucketRounds.length; i++) {
-        expect(bucketRounds[i].answer, isNot(bucketRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous bucket');
+        expect(
+          bucketRounds[i].answer,
+          isNot(bucketRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous bucket',
+        );
       }
     });
 
@@ -71,15 +81,20 @@ void main() {
       for (final r in bucketRounds) {
         final text = r.cost.toLowerCase();
         for (final word in giveaways) {
-          expect(text.contains(word), isFalse,
-              reason: '${r.subject} says "$word"');
+          expect(
+            text.contains(word),
+            isFalse,
+            reason: '${r.subject} says "$word"',
+          );
         }
       }
     });
 
     test('all three problems in the lesson are drawn on', () {
-      expect(bucketRounds.map((r) => r.source).toSet().length,
-          greaterThanOrEqualTo(2));
+      expect(
+        bucketRounds.map((r) => r.source).toSet().length,
+        greaterThanOrEqualTo(2),
+      );
     });
   });
 
@@ -89,9 +104,13 @@ void main() {
         final a = r.lines[0].at(r.at);
         final b = r.lines[1].at(r.at);
         final expected = (a - b).abs() < 0.005 ? 2 : (a < b ? 0 : 1);
-        expect(r.answer, expected,
-            reason: '${r.subject}: at ${r.at} the two cost '
-                '${a.toStringAsFixed(0)} and ${b.toStringAsFixed(0)}');
+        expect(
+          r.answer,
+          expected,
+          reason:
+              '${r.subject}: at ${r.at} the two cost '
+              '${a.toStringAsFixed(0)} and ${b.toStringAsFixed(0)}',
+        );
       }
     });
 
@@ -108,38 +127,54 @@ void main() {
           BreakEvenPainter(lines: r.lines, qTo: r.qTo, at: r.at),
       ];
       final never = painters.where((p) => p.crossing == null).length;
-      expect(never, 1,
-          reason: 'exactly one round should have no break-even volume, so it '
-              'stays a surprise rather than a pattern');
+      expect(
+        never,
+        1,
+        reason:
+            'exactly one round should have no break-even volume, so it '
+            'stays a surprise rather than a pattern',
+      );
     });
 
     test('the dominated round really is worse on both counts', () {
       // The point of it: higher fixed AND higher variable means no crossing
       // and no volume at which it wins.
-      final dominated = winsRounds.firstWhere((r) =>
-          BreakEvenPainter(lines: r.lines, qTo: r.qTo, at: r.at).crossing ==
-          null);
+      final dominated = winsRounds.firstWhere(
+        (r) =>
+            BreakEvenPainter(lines: r.lines, qTo: r.qTo, at: r.at).crossing ==
+            null,
+      );
       final loser = dominated.answer == 0 ? 1 : 0;
       final winner = 1 - loser;
-      expect(dominated.lines[loser].fixed,
-          greaterThan(dominated.lines[winner].fixed),
-          reason: 'the losing option should start higher');
-      expect(dominated.lines[loser].variable,
-          greaterThan(dominated.lines[winner].variable),
-          reason: 'and rise faster');
+      expect(
+        dominated.lines[loser].fixed,
+        greaterThan(dominated.lines[winner].fixed),
+        reason: 'the losing option should start higher',
+      );
+      expect(
+        dominated.lines[loser].variable,
+        greaterThan(dominated.lines[winner].variable),
+        reason: 'and rise faster',
+      );
     });
 
     test('both sides of a crossing are asked about', () {
       // One round below the crossing and one above, on the same pair, is what
       // makes the idea land.
       final below = winsRounds.where((r) {
-        final c = BreakEvenPainter(lines: r.lines, qTo: r.qTo, at: r.at)
-            .crossing;
+        final c = BreakEvenPainter(
+          lines: r.lines,
+          qTo: r.qTo,
+          at: r.at,
+        ).crossing;
         return c != null && r.at < c;
       });
       final above = winsRounds.where((r) {
-        final c = BreakEvenPainter(lines: r.lines, qTo: r.qTo, at: r.at)
-            .crossing;
+        final c = BreakEvenPainter(
+          lines: r.lines,
+          qTo: r.qTo,
+          at: r.at,
+        ).crossing;
         return c != null && r.at > c;
       });
       expect(below.length, greaterThanOrEqualTo(2));
@@ -147,9 +182,13 @@ void main() {
     });
 
     test('one round sits exactly on the crossing', () {
-      expect(winsRounds.where((r) => r.answer == 2).length, 1,
-          reason: 'the break-even volume itself is a real answer and needs '
-              'exactly one round');
+      expect(
+        winsRounds.where((r) => r.answer == 2).length,
+        1,
+        reason:
+            'the break-even volume itself is a real answer and needs '
+            'exactly one round',
+      );
     });
   });
 
@@ -157,19 +196,30 @@ void main() {
     test('every round offers four numbers, each named once', () {
       for (final r in savingRounds) {
         expect(r.options.length, 4, reason: r.subject);
-        expect(r.options.map((o) => o.$1).toSet().length, 4,
-            reason: '${r.subject}: a number is offered twice');
-        expect(r.options.map((o) => o.$2).toSet().length, 4,
-            reason: '${r.subject}: two options are explained the same way');
+        expect(
+          r.options.map((o) => o.$1).toSet().length,
+          4,
+          reason: '${r.subject}: a number is offered twice',
+        );
+        expect(
+          r.options.map((o) => o.$2).toSet().length,
+          4,
+          reason: '${r.subject}: two options are explained the same way',
+        );
       }
     });
 
     test('the answer is not always in the same place', () {
-      expect(savingRounds.map((r) => r.answer).toSet().length,
-          greaterThanOrEqualTo(3));
+      expect(
+        savingRounds.map((r) => r.answer).toSet().length,
+        greaterThanOrEqualTo(3),
+      );
       for (var i = 1; i < savingRounds.length; i++) {
-        expect(savingRounds[i].answer, isNot(savingRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous position');
+        expect(
+          savingRounds[i].answer,
+          isNot(savingRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous position',
+        );
       }
     });
 
@@ -184,8 +234,11 @@ void main() {
         final hasGross = r.options.any(
           (o) => !o.$2.contains('less') && !o.$2.contains('plus'),
         );
-        expect(hasGross, isTrue,
-            reason: '${r.subject}: nobody is offered the gross figure');
+        expect(
+          hasGross,
+          isTrue,
+          reason: '${r.subject}: nobody is offered the gross figure',
+        );
       }
     });
 
@@ -193,9 +246,13 @@ void main() {
       final none = savingRounds.where(
         (r) => r.options[r.answer].$1 == 'Nothing does',
       );
-      expect(none.length, 1,
-          reason: 'a new cost larger than the saving means no payback period, '
-              'and a formula will hand back a number anyway');
+      expect(
+        none.length,
+        1,
+        reason:
+            'a new cost larger than the saving means no payback period, '
+            'and a formula will hand back a number anyway',
+      );
     });
 
     test('one round has nothing to subtract', () {

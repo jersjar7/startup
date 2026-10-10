@@ -107,7 +107,8 @@ void main() {
         expect(
           qualifying.length,
           lessThanOrEqualTo(1),
-          reason: '${r.shown} has ${qualifying.length} valid brackets, so the '
+          reason:
+              '${r.shown} has ${qualifying.length} valid brackets, so the '
               'round has more than one right answer',
         );
         if (r.answer != null) expect(qualifying.length, 1);
@@ -118,7 +119,8 @@ void main() {
       expect(
         bracketRounds.any((r) => r.answer == null),
         isTrue,
-        reason: 'otherwise one of the three is always right and the escape '
+        reason:
+            'otherwise one of the three is always right and the escape '
             'hatch is decoration',
       );
       expect(
@@ -196,7 +198,8 @@ void main() {
               r.situation.contains('above the axis') ||
               r.situation.contains('converge'),
           isTrue,
-          reason: 'a round that names neither what you have nor what you need '
+          reason:
+              'a round that names neither what you have nor what you need '
               'is a guess: ${r.situation}',
         );
       }

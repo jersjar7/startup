@@ -85,8 +85,10 @@ void main() {
       const beam = Loading(span: 6, points: [(3, 18)]);
       expect(beam.shearAt(0, after: false), closeTo(0, 1e-9));
       expect(beam.shearAt(0), closeTo(9, 1e-9));
-      expect(beam.shearAt(3) - beam.shearAt(3, after: false),
-          closeTo(-18, 1e-9));
+      expect(
+        beam.shearAt(3) - beam.shearAt(3, after: false),
+        closeTo(-18, 1e-9),
+      );
     });
 
     test('the slope of the moment is the shear', () {
@@ -94,8 +96,11 @@ void main() {
       for (final x in [1.0, 2.5, 5.0, 7.0]) {
         const h = 1e-4;
         final slope = (beam.momentAt(x + h) - beam.momentAt(x - h)) / (2 * h);
-        expect(slope, closeTo(beam.shearAt(x), 1e-3),
-            reason: 'at $x the moment does not climb at the rate of the shear');
+        expect(
+          slope,
+          closeTo(beam.shearAt(x), 1e-3),
+          reason: 'at $x the moment does not climb at the rate of the shear',
+        );
       }
     });
 
@@ -112,14 +117,18 @@ void main() {
       expect(beam.momentAt(4) - beam.momentAt(0), closeTo(18 * 4, 1e-6));
       // And from the load to the right support: minus twelve over six meters,
       // which takes it back to zero.
-      expect(beam.momentAt(10, after: false) - beam.momentAt(4),
-          closeTo(-12 * 6, 1e-6));
+      expect(
+        beam.momentAt(10, after: false) - beam.momentAt(4),
+        closeTo(-12 * 6, 1e-6),
+      );
     });
 
     test('a couple jumps the moment and leaves the shear alone', () {
       const beam = Loading(span: 8, couples: [(4, 24)]);
-      expect(beam.momentAt(4) - beam.momentAt(4, after: false),
-          closeTo(24, 1e-6));
+      expect(
+        beam.momentAt(4) - beam.momentAt(4, after: false),
+        closeTo(24, 1e-6),
+      );
       expect(beam.shearAt(4), closeTo(beam.shearAt(4, after: false), 1e-9));
       // And it still has to come back to zero at the far support.
       expect(beam.momentAt(8, after: false), closeTo(0, 1e-6));
@@ -135,8 +144,11 @@ void main() {
       // A uniform load on a cantilever is wL squared over two, which the
       // lesson names as the formula people reach for by mistake on a simply
       // supported beam.
-      const udl = Loading(span: 8, held: Held.cantilever,
-          spreads: [Spread(0, 8, 5, 5)]);
+      const udl = Loading(
+        span: 8,
+        held: Held.cantilever,
+        spreads: [Spread(0, 8, 5, 5)],
+      );
       expect(udl.momentAt(0).abs(), closeTo(5 * 64 / 2, 1e-6));
     });
 
@@ -186,14 +198,16 @@ void main() {
       // answers. Straightening a moment diagram that is already straight is
       // exactly how that happens.
       for (final r in shapeRounds) {
-        final drawn = [
-          for (final t in r.options) variant(r.beam, r.asked, t),
-        ];
+        final drawn = [for (final t in r.options) variant(r.beam, r.asked, t)];
         for (var i = 0; i < drawn.length; i++) {
           for (var j = i + 1; j < drawn.length; j++) {
-            expect(apart(drawn[i], drawn[j], r.beam.span), greaterThan(0.08),
-                reason: '${r.subject}: options ${i + 1} and ${j + 1} draw the '
-                    'same picture');
+            expect(
+              apart(drawn[i], drawn[j], r.beam.span),
+              greaterThan(0.08),
+              reason:
+                  '${r.subject}: options ${i + 1} and ${j + 1} draw the '
+                  'same picture',
+            );
           }
         }
       }
@@ -222,9 +236,11 @@ void main() {
         final answer = r.spots[r.answer];
         for (final x in r.spots) {
           if (x == answer) continue;
-          expect(r.beam.momentAt(x).abs(),
-              lessThan(r.beam.momentAt(answer).abs() - 1e-6),
-              reason: '${r.subject}: $x ties with the answer');
+          expect(
+            r.beam.momentAt(x).abs(),
+            lessThan(r.beam.momentAt(answer).abs() - 1e-6),
+            reason: '${r.subject}: $x ties with the answer',
+          );
         }
       }
     });
@@ -233,9 +249,13 @@ void main() {
       // A round that offered five places and missed the real peak would be
       // teaching the wrong thing while marking itself correct.
       for (final r in peakRounds) {
-        expect(r.spots[r.answer], closeTo(r.beam.peakMomentAt, 1e-6),
-            reason: '${r.subject}: the real peak is not among the places '
-                'offered');
+        expect(
+          r.spots[r.answer],
+          closeTo(r.beam.peakMomentAt, 1e-6),
+          reason:
+              '${r.subject}: the real peak is not among the places '
+              'offered',
+        );
       }
     });
 
@@ -246,14 +266,18 @@ void main() {
       // carry it, because there its midspan lands a meter from the answer and
       // two marks that close cannot both be tapped with a thumb. So it lives
       // on the two load round, where the spacing allows it.
-      final withMidspan = peakRounds.where((r) =>
-          r.spots.contains(r.beam.span / 2) &&
-          r.spots[r.answer] != r.beam.span / 2);
+      final withMidspan = peakRounds.where(
+        (r) =>
+            r.spots.contains(r.beam.span / 2) &&
+            r.spots[r.answer] != r.beam.span / 2,
+      );
       expect(withMidspan, isNotEmpty);
       final round = withMidspan.first;
-      expect(round.beam.momentAt(round.beam.span / 2).abs(),
-          greaterThan(0),
-          reason: 'a trap worth offering is a real number, not zero');
+      expect(
+        round.beam.momentAt(round.beam.span / 2).abs(),
+        greaterThan(0),
+        reason: 'a trap worth offering is a real number, not zero',
+      );
     });
 
     test('the marks are far enough apart to tap', () {
@@ -262,8 +286,11 @@ void main() {
         for (var i = 1; i < r.spots.length; i++) {
           final a = BeamPainter.stationAt(size, r.beam.span, r.spots[i - 1]);
           final b = BeamPainter.stationAt(size, r.beam.span, r.spots[i]);
-          expect((a - b).distance, greaterThan(34),
-              reason: '${r.subject}: two marks are on top of each other');
+          expect(
+            (a - b).distance,
+            greaterThan(34),
+            reason: '${r.subject}: two marks are on top of each other',
+          );
         }
       }
     });
@@ -277,12 +304,20 @@ void main() {
     test('a force steps the shear and only bends the moment', () {
       const beam = Loading(span: 6, points: [(3, 18)]);
       const atLoad = SpotRound(
-        subject: '', beam: beam, at: 3, asked: Diagram.shear,
-        why: '', source: 'mm-smd-q1',
+        subject: '',
+        beam: beam,
+        at: 3,
+        asked: Diagram.shear,
+        why: '',
+        source: 'mm-smd-q1',
       );
       const momentThere = SpotRound(
-        subject: '', beam: beam, at: 3, asked: Diagram.moment,
-        why: '', source: 'mm-smd-q1',
+        subject: '',
+        beam: beam,
+        at: 3,
+        asked: Diagram.moment,
+        why: '',
+        source: 'mm-smd-q1',
       );
       expect(atLoad.answer, Does.jumpsDown);
       expect(momentThere.answer, Does.bends);
@@ -291,12 +326,20 @@ void main() {
     test('a couple steps the moment and leaves the shear alone', () {
       const beam = Loading(span: 8, couples: [(4, 24)]);
       const onMoment = SpotRound(
-        subject: '', beam: beam, at: 4, asked: Diagram.moment,
-        why: '', source: 'mm-smd-q3',
+        subject: '',
+        beam: beam,
+        at: 4,
+        asked: Diagram.moment,
+        why: '',
+        source: 'mm-smd-q3',
       );
       const onShear = SpotRound(
-        subject: '', beam: beam, at: 4, asked: Diagram.shear,
-        why: '', source: 'mm-smd-q3',
+        subject: '',
+        beam: beam,
+        at: 4,
+        asked: Diagram.shear,
+        why: '',
+        source: 'mm-smd-q3',
       );
       expect(onMoment.answer, Does.jumpsUp);
       expect(onShear.answer, Does.carriesOn);

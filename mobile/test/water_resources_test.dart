@@ -50,8 +50,11 @@ import 'package:mobile/features/games/which_number_goes_in_front_game.dart';
 /// Manning's discharge, written out the long way so the model can be checked
 /// against the answers the lesson publishes.
 double _discharge(Channel c, double n, double slope) =>
-    c.constant / n * c.area * math.pow(c.hydraulicRadius, 2 / 3) *
-        math.sqrt(slope);
+    c.constant /
+    n *
+    c.area *
+    math.pow(c.hydraulicRadius, 2 / 3) *
+    math.sqrt(slope);
 
 void main() {
   group('the section itself', () {
@@ -89,21 +92,34 @@ void main() {
     });
 
     test('a full pipe has no free surface and an open channel does', () {
-      expect(const Channel(shape: Shaped.circle, width: 3, depth: 3).topWidth,
-          closeTo(0, 0.001));
-      expect(const Channel(shape: Shaped.circle, width: 3, depth: 1.5).topWidth,
-          closeTo(3, 0.001));
-      expect(const Channel(shape: Shaped.rectangle, width: 4, depth: 2).topWidth,
-          closeTo(4, 0.001));
+      expect(
+        const Channel(shape: Shaped.circle, width: 3, depth: 3).topWidth,
+        closeTo(0, 0.001),
+      );
+      expect(
+        const Channel(shape: Shaped.circle, width: 3, depth: 1.5).topWidth,
+        closeTo(3, 0.001),
+      );
+      expect(
+        const Channel(shape: Shaped.rectangle, width: 4, depth: 2).topWidth,
+        closeTo(4, 0.001),
+      );
     });
 
     test('a trapezoid measures its sides along the slope', () {
-      const c =
-          Channel(shape: Shaped.trapezoid, width: 4, depth: 2, sideRun: 1.5);
+      const c = Channel(
+        shape: Shaped.trapezoid,
+        width: 4,
+        depth: 2,
+        sideRun: 1.5,
+      );
       // Four across the bottom, and each side is 2 up by 3 across.
       expect(c.wetted, closeTo(4 + 2 * math.sqrt(4 + 9), 0.001));
-      expect(c.wetted, greaterThan(4 + 2 * 2),
-          reason: 'a sloped side is longer than the depth');
+      expect(
+        c.wetted,
+        greaterThan(4 + 2 * 2),
+        reason: 'a sloped side is longer than the depth',
+      );
       expect(c.area, closeTo(2 * (4 + 1.5 * 2), 0.001));
     });
 
@@ -114,8 +130,12 @@ void main() {
 
     test('the freeboard changes nothing about the flow', () {
       const bare = Channel(shape: Shaped.rectangle, width: 4, depth: 2);
-      const walled =
-          Channel(shape: Shaped.rectangle, width: 4, depth: 2, rim: 3);
+      const walled = Channel(
+        shape: Shaped.rectangle,
+        width: 4,
+        depth: 2,
+        rim: 3,
+      );
       expect(walled.wetted, closeTo(bare.wetted, 0.001));
       expect(walled.hydraulicRadius, closeTo(bare.hydraulicRadius, 0.001));
     });
@@ -140,12 +160,18 @@ void main() {
     });
 
     test('the rounds cover both kinds of mistake', () {
-      expect(touchRounds.where((r) => r.isExtra).length,
-          greaterThanOrEqualTo(2));
-      expect(touchRounds.where((r) => !r.isExtra).length,
-          greaterThanOrEqualTo(2));
-      expect(touchRounds.map((r) => r.fault).toSet().length,
-          greaterThanOrEqualTo(4));
+      expect(
+        touchRounds.where((r) => r.isExtra).length,
+        greaterThanOrEqualTo(2),
+      );
+      expect(
+        touchRounds.where((r) => !r.isExtra).length,
+        greaterThanOrEqualTo(2),
+      );
+      expect(
+        touchRounds.map((r) => r.fault).toSet().length,
+        greaterThanOrEqualTo(4),
+      );
     });
 
     test('a tap on a piece finds that piece and not its neighbor', () {
@@ -153,8 +179,11 @@ void main() {
       for (final r in touchRounds) {
         for (final (edge, a, b) in SectionPainter.segmentsOf(size, r.channel)) {
           final middle = Offset((a.dx + b.dx) / 2, (a.dy + b.dy) / 2);
-          expect(SectionPainter.at(size, r.channel, middle), edge,
-              reason: '${r.subject}: ${edge.name}');
+          expect(
+            SectionPainter.at(size, r.channel, middle),
+            edge,
+            reason: '${r.subject}: ${edge.name}',
+          );
         }
       }
     });
@@ -164,10 +193,16 @@ void main() {
       for (final r in touchRounds) {
         for (final (edge, a, b) in SectionPainter.segmentsOf(size, r.channel)) {
           for (final p in [a, b]) {
-            expect(p.dx, inInclusiveRange(0, size.width),
-                reason: '${r.subject}: ${edge.name}');
-            expect(p.dy, inInclusiveRange(0, size.height),
-                reason: '${r.subject}: ${edge.name}');
+            expect(
+              p.dx,
+              inInclusiveRange(0, size.width),
+              reason: '${r.subject}: ${edge.name}',
+            );
+            expect(
+              p.dy,
+              inInclusiveRange(0, size.height),
+              reason: '${r.subject}: ${edge.name}',
+            );
           }
         }
       }
@@ -178,14 +213,20 @@ void main() {
       for (final r in touchRounds) {
         final (sx, sy) = SectionPainter.scaleOf(size, r.channel);
         // Deep enough to point at.
-        expect(r.channel.depth * sy, greaterThanOrEqualTo(45),
-            reason: r.subject);
+        expect(
+          r.channel.depth * sy,
+          greaterThanOrEqualTo(45),
+          reason: r.subject,
+        );
         // Never stretched more than three times, and never stretched at all
         // unless drawing it honestly would have made the water too thin.
         expect(sy / sx, lessThanOrEqualTo(3.001), reason: r.subject);
         if (sy > sx * 1.001) {
-          expect(r.channel.depth * sx, lessThan(60),
-              reason: '${r.subject} was stretched without needing it');
+          expect(
+            r.channel.depth * sx,
+            lessThan(60),
+            reason: '${r.subject} was stretched without needing it',
+          );
         }
       }
     });
@@ -205,13 +246,17 @@ void main() {
 
     test('roughness acts in full and slope acts under a root', () {
       final byLining = swiftRounds[0];
-      expect(byLining.ratio,
-          closeTo(byLining.roughBottom / byLining.roughTop, 0.001));
+      expect(
+        byLining.ratio,
+        closeTo(byLining.roughBottom / byLining.roughTop, 0.001),
+      );
       expect(byLining.ratio, closeTo(1.92, 0.01));
 
       final byGrade = swiftRounds[1];
-      expect(byGrade.ratio,
-          closeTo(math.sqrt(byGrade.slopeBottom / byGrade.slopeTop), 0.001));
+      expect(
+        byGrade.ratio,
+        closeTo(math.sqrt(byGrade.slopeBottom / byGrade.slopeTop), 0.001),
+      );
       expect(byGrade.ratio, closeTo(2, 0.001));
     });
 
@@ -236,8 +281,11 @@ void main() {
           case Swifter.bottom:
             expect(r.speedBottom, greaterThan(r.speedTop), reason: r.subject);
           case Swifter.same:
-            expect(r.speedTop, closeTo(r.speedBottom, 0.001),
-                reason: r.subject);
+            expect(
+              r.speedTop,
+              closeTo(r.speedBottom, 0.001),
+              reason: r.subject,
+            );
         }
       }
       expect(swiftRounds.map((r) => r.answer).toSet().length, 3);
@@ -270,8 +318,9 @@ void main() {
     });
 
     test('both kinds of unfixed length turn up', () {
-      final unfixed =
-          kayRounds.where((r) => r.answer == Kay.notYet).map((r) => r.channel.unit);
+      final unfixed = kayRounds
+          .where((r) => r.answer == Kay.notYet)
+          .map((r) => r.channel.unit);
       expect(unfixed, containsAll(['in', 'mm']));
     });
 
@@ -280,8 +329,11 @@ void main() {
       final right = _discharge(c, 0.013, 0.001);
       final wrong = right / 1.486;
       expect(wrong / right, closeTo(0.673, 0.001));
-      expect(wrong, closeTo(19.5, 0.15),
-          reason: 'the lesson offers exactly this as a wrong answer');
+      expect(
+        wrong,
+        closeTo(19.5, 0.15),
+        reason: 'the lesson offers exactly this as a wrong answer',
+      );
     });
   });
 
@@ -319,14 +371,23 @@ void main() {
       for (final r in ringRounds) {
         switch (r.answer) {
           case Ring.upstream:
-            expect(r.flume.waveSpeed, greaterThan(r.flume.speed),
-                reason: r.subject);
+            expect(
+              r.flume.waveSpeed,
+              greaterThan(r.flume.speed),
+              reason: r.subject,
+            );
           case Ring.downstream:
-            expect(r.flume.speed, greaterThan(r.flume.waveSpeed),
-                reason: r.subject);
+            expect(
+              r.flume.speed,
+              greaterThan(r.flume.waveSpeed),
+              reason: r.subject,
+            );
           case Ring.standsStill:
-            expect(r.flume.speed, closeTo(r.flume.waveSpeed, 0.05),
-                reason: r.subject);
+            expect(
+              r.flume.speed,
+              closeTo(r.flume.waveSpeed, 0.05),
+              reason: r.subject,
+            );
         }
       }
       expect(ringRounds.map((r) => r.answer).toSet().length, 3);
@@ -334,8 +395,11 @@ void main() {
 
     test('one flow rate turns up in both regimes', () {
       final nine = ringRounds.where((r) => r.flume.unitFlow == 9);
-      expect(nine.map((r) => r.answer).toSet().length, greaterThanOrEqualTo(2),
-          reason: 'the depth, not the discharge, decides the regime');
+      expect(
+        nine.map((r) => r.answer).toSet().length,
+        greaterThanOrEqualTo(2),
+        reason: 'the depth, not the discharge, decides the regime',
+      );
     });
   });
 
@@ -385,8 +449,11 @@ void main() {
         const Surge(beforeDepth: 0.5, froudeBefore: 4),
         const Surge(beforeDepth: 0.3, froudeBefore: 2.5),
       ]) {
-        expect(Surge.momentumOf(s.after), closeTo(Surge.momentumOf(s.before), 1e-6),
-            reason: 'Fr ${s.froudeBefore}');
+        expect(
+          Surge.momentumOf(s.after),
+          closeTo(Surge.momentumOf(s.before), 1e-6),
+          reason: 'Fr ${s.froudeBefore}',
+        );
       }
     });
 
@@ -423,8 +490,11 @@ void main() {
           case Crossing.down:
             expect(after, lessThan(before), reason: r.subject);
           case Crossing.same:
-            expect(after, closeTo(before, before.abs() * 0.01 + 1e-9),
-                reason: r.subject);
+            expect(
+              after,
+              closeTo(before, before.abs() * 0.01 + 1e-9),
+              reason: r.subject,
+            );
         }
       }
       expect(wayRounds.map((r) => r.answer).toSet().length, 3);
@@ -458,8 +528,12 @@ void main() {
     test('a contracted weir loses a fifth of the head off its length', () {
       const w = Weir(notch: Notch.contracted, head: 1.4, crest: 3, channel: 9);
       expect(w.effectiveCrest, closeTo(3 - 0.28, 0.0001));
-      const same =
-          Weir(notch: Notch.fullWidth, head: 1.4, crest: 3, channel: 9);
+      const same = Weir(
+        notch: Notch.fullWidth,
+        head: 1.4,
+        crest: 3,
+        channel: 9,
+      );
       expect(w.flow, lessThan(same.flow));
     });
 
@@ -472,10 +546,16 @@ void main() {
 
     test('every round is answered by the shape of the opening', () {
       for (final r in weirRounds) {
-        expect(r.answer == Rule3.fiveHalves, r.weir.notch == Notch.vee,
-            reason: r.subject);
-        expect(r.answer == Rule3.trimmed, r.weir.notch == Notch.contracted,
-            reason: r.subject);
+        expect(
+          r.answer == Rule3.fiveHalves,
+          r.weir.notch == Notch.vee,
+          reason: r.subject,
+        );
+        expect(
+          r.answer == Rule3.trimmed,
+          r.weir.notch == Notch.contracted,
+          reason: r.subject,
+        );
       }
       expect(weirRounds.map((r) => r.answer).toSet().length, 3);
     });
@@ -492,32 +572,43 @@ void main() {
     test('only the ratio of the heads counts, not where it started', () {
       const low = Weir(notch: Notch.vee, head: 0.5);
       const high = Weir(notch: Notch.vee, head: 1.5);
-      expect(low.flowAt(1) / low.flow,
-          closeTo(high.flowAt(3) / high.flow, 0.0001));
+      expect(
+        low.flowAt(1) / low.flow,
+        closeTo(high.flowAt(3) / high.flow, 0.0001),
+      );
     });
 
     test('the crest length scales the flow but not the response', () {
       const short = Weir(notch: Notch.fullWidth, head: 0.8, crest: 2);
       const long = Weir(notch: Notch.fullWidth, head: 0.8, crest: 8);
       expect(long.flow / short.flow, closeTo(4, 0.0001));
-      expect(short.flowAt(1.6) / short.flow,
-          closeTo(long.flowAt(1.6) / long.flow, 0.0001));
+      expect(
+        short.flowAt(1.6) / short.flow,
+        closeTo(long.flowAt(1.6) / long.flow, 0.0001),
+      );
     });
 
     test('every round answers with the bigger factor', () {
       for (final r in noticeRounds) {
         switch (r.answer) {
           case Notices.top:
-            expect((r.factorTop - 1).abs(),
-                greaterThan((r.factorBottom - 1).abs()),
-                reason: r.subject);
+            expect(
+              (r.factorTop - 1).abs(),
+              greaterThan((r.factorBottom - 1).abs()),
+              reason: r.subject,
+            );
           case Notices.bottom:
-            expect((r.factorBottom - 1).abs(),
-                greaterThan((r.factorTop - 1).abs()),
-                reason: r.subject);
+            expect(
+              (r.factorBottom - 1).abs(),
+              greaterThan((r.factorTop - 1).abs()),
+              reason: r.subject,
+            );
           case Notices.same:
-            expect(r.factorTop, closeTo(r.factorBottom, 0.0001),
-                reason: r.subject);
+            expect(
+              r.factorTop,
+              closeTo(r.factorBottom, 0.0001),
+              reason: r.subject,
+            );
         }
       }
       expect(noticeRounds.map((r) => r.answer).toSet().length, 3);
@@ -548,14 +639,19 @@ void main() {
       for (final r in carryRounds) {
         switch (r.answer) {
           case Carries.top:
-            expect(r.top.coefficient, greaterThan(r.bottom.coefficient),
-                reason: r.subject);
+            expect(
+              r.top.coefficient,
+              greaterThan(r.bottom.coefficient),
+              reason: r.subject,
+            );
           case Carries.bottom:
-            expect(r.bottom.coefficient, greaterThan(r.top.coefficient),
-                reason: r.subject);
+            expect(
+              r.bottom.coefficient,
+              greaterThan(r.top.coefficient),
+              reason: r.subject,
+            );
           case Carries.same:
-            expect(r.top.coefficient, r.bottom.coefficient,
-                reason: r.subject);
+            expect(r.top.coefficient, r.bottom.coefficient, reason: r.subject);
         }
       }
       expect(carryRounds.map((r) => r.answer).toSet().length, 3);
@@ -563,16 +659,22 @@ void main() {
   });
 
   group('pump power', () {
-    test('the lesson\'s own duty is 14.7 kW in the water and 19.6 at the shaft',
-        () {
-      const d = Duty(flow: 0.05, head: 30, pumpEfficiency: 0.75);
-      expect(d.fluidPower / 1000, closeTo(14.7, 0.05));
-      expect(d.shaftPower / 1000, closeTo(19.6, 0.05));
-    });
+    test(
+      'the lesson\'s own duty is 14.7 kW in the water and 19.6 at the shaft',
+      () {
+        const d = Duty(flow: 0.05, head: 30, pumpEfficiency: 0.75);
+        expect(d.fluidPower / 1000, closeTo(14.7, 0.05));
+        expect(d.shaftPower / 1000, closeTo(19.6, 0.05));
+      },
+    );
 
     test('the three powers only ever get bigger', () {
       const d = Duty(
-          flow: 0.05, head: 30, pumpEfficiency: 0.75, motorEfficiency: 0.9);
+        flow: 0.05,
+        head: 30,
+        pumpEfficiency: 0.75,
+        motorEfficiency: 0.9,
+      );
       expect(d.shaftPower, greaterThan(d.fluidPower));
       expect(d.inputPower, greaterThan(d.shaftPower));
       // Multiplying by the efficiency instead of dividing lands below the
@@ -629,13 +731,16 @@ void main() {
           .map((r) => r.piece)
           .toSet();
       expect(helps, containsAll([Piece3.air, Piece3.flooded]));
-      expect(hurts,
-          containsAll([Piece3.lift, Piece3.suctionLine, Piece3.warmth]));
+      expect(
+        hurts,
+        containsAll([Piece3.lift, Piece3.suctionLine, Piece3.warmth]),
+      );
     });
 
     test('the discharge side does not come into it', () {
-      final far = marginRounds
-          .firstWhere((r) => r.piece == Piece3.dischargeLine);
+      final far = marginRounds.firstWhere(
+        (r) => r.piece == Piece3.dischargeLine,
+      );
       expect(far.answer, Helps.neither);
     });
 
@@ -654,8 +759,9 @@ void main() {
 
   group('the Rational Method', () {
     test('the lesson\'s own site comes to 170 cfs', () {
-      const site = Catchment(
-          [Patch(cover: 'commercial', acres: 50, coefficient: 0.85)]);
+      const site = Catchment([
+        Patch(cover: 'commercial', acres: 50, coefficient: 0.85),
+      ]);
       expect(site.peakAt(4), closeTo(170, 0.01));
     });
 
@@ -696,10 +802,13 @@ void main() {
       // And at least one is the same area under a patchwork against one
       // equivalent coefficient, which is what weighting means.
       expect(
-          tie.any((r) =>
+        tie.any(
+          (r) =>
               r.top.acres == r.bottom.acres &&
-              r.top.patches.length != r.bottom.patches.length),
-          isTrue);
+              r.top.patches.length != r.bottom.patches.length,
+        ),
+        isTrue,
+      );
     });
   });
 
@@ -709,14 +818,18 @@ void main() {
         final big = r.first.acres >= r.second.acres ? r.first : r.second;
         final small = r.first.acres >= r.second.acres ? r.second : r.first;
         if (r.answer == Leans.halfway) {
-          expect(r.first.acres, closeTo(r.second.acres, 0.001),
-              reason: r.subject);
+          expect(
+            r.first.acres,
+            closeTo(r.second.acres, 0.001),
+            reason: r.subject,
+          );
           expect(r.catchment.weighted, closeTo(r.catchment.unweighted, 1e-9));
         } else {
           expect(
-              (r.catchment.weighted - big.coefficient).abs(),
-              lessThan((r.catchment.weighted - small.coefficient).abs()),
-              reason: r.subject);
+            (r.catchment.weighted - big.coefficient).abs(),
+            lessThan((r.catchment.weighted - small.coefficient).abs()),
+            reason: r.subject,
+          );
         }
       }
       expect(blendRounds.map((r) => r.answer).toSet().length, 3);
@@ -763,8 +876,11 @@ void main() {
           case Runoff3.none:
             expect(r.soak.runoff, 0, reason: r.subject);
           case Runoff3.part:
-            expect(r.soak.fraction, inExclusiveRange(0, 0.5),
-                reason: r.subject);
+            expect(
+              r.soak.fraction,
+              inExclusiveRange(0, 0.5),
+              reason: r.subject,
+            );
           case Runoff3.nearlyAll:
             expect(r.soak.fraction, greaterThan(0.5), reason: r.subject);
         }
@@ -802,8 +918,11 @@ void main() {
         final matches = (r.stormHours - r.unitHours).abs() < 0.01;
         expect(r.answer == Scaling.flows, matches, reason: r.subject);
       }
-      expect(stormRounds.map((r) => r.answer).toSet().length, 2,
-          reason: 'stretching the times is never the answer');
+      expect(
+        stormRounds.map((r) => r.answer).toSet().length,
+        2,
+        reason: 'stretching the times is never the answer',
+      );
     });
   });
 
@@ -831,16 +950,21 @@ void main() {
       for (final r in basinRounds) {
         switch (r.answer) {
           case Falls.tooShort:
-            expect(r.basin.stormMinutes, lessThan(r.basin.travelTime),
-                reason: r.subject);
+            expect(
+              r.basin.stormMinutes,
+              lessThan(r.basin.travelTime),
+              reason: r.subject,
+            );
             expect(r.basin.contributing, lessThan(1), reason: r.subject);
           case Falls.tooLong:
-            expect(r.basin.stormMinutes, greaterThan(r.basin.travelTime),
-                reason: r.subject);
+            expect(
+              r.basin.stormMinutes,
+              greaterThan(r.basin.travelTime),
+              reason: r.subject,
+            );
             expect(r.basin.contributing, 1, reason: r.subject);
           case Falls.itIsTheDesign:
-            expect(r.basin.stormMinutes, r.basin.travelTime,
-                reason: r.subject);
+            expect(r.basin.stormMinutes, r.basin.travelTime, reason: r.subject);
         }
       }
       expect(basinRounds.map((r) => r.answer).toSet().length, 3);
@@ -878,7 +1002,11 @@ void main() {
   group('groundwater', () {
     test('the lesson\'s own seepage velocity is 3.33e-5', () {
       const s = Seep(
-          conductivity: 5e-4, gradient: 0.02, porosity: 0.30, area: 200);
+        conductivity: 5e-4,
+        gradient: 0.02,
+        porosity: 0.30,
+        area: 200,
+      );
       expect(s.darcy, closeTo(1.0e-5, 1e-9));
       expect(s.seepage, closeTo(3.33e-5, 1e-7));
       expect(s.flow, closeTo(2.0e-3, 1e-7));
@@ -887,7 +1015,11 @@ void main() {
     test('the seepage velocity is always the larger', () {
       for (final n in [0.2, 0.3, 0.45, 0.5]) {
         final s = Seep(
-            conductivity: 1e-4, gradient: 0.01, porosity: n, area: 10);
+          conductivity: 1e-4,
+          gradient: 0.01,
+          porosity: n,
+          area: 10,
+        );
         expect(s.seepage, greaterThan(s.darcy), reason: 'porosity $n');
         // Multiplying by the porosity is the named trap and goes the wrong
         // way.
@@ -904,61 +1036,75 @@ void main() {
 
     test('the lesson\'s own wells come out right', () {
       const dupuit = Aquifer(
-          kind: Ground.unconfined,
-          conductivity: 5e-4,
-          headAtWell: 40,
-          radiusAtWell: 0.5,
-          headOut: 60,
-          radiusOut: 200);
+        kind: Ground.unconfined,
+        conductivity: 5e-4,
+        headAtWell: 40,
+        radiusAtWell: 0.5,
+        headOut: 60,
+        radiusOut: 200,
+      );
       expect(dupuit.discharge, closeTo(0.52, 0.01));
       const thiem = Aquifer(
-          kind: Ground.confined,
-          conductivity: 3e-5,
-          headAtWell: 25,
-          radiusAtWell: 10,
-          headOut: 30,
-          radiusOut: 100,
-          thickness: 20);
+        kind: Ground.confined,
+        conductivity: 3e-5,
+        headAtWell: 25,
+        radiusAtWell: 10,
+        headOut: 30,
+        radiusOut: 100,
+        thickness: 20,
+      );
       expect(thiem.transmissivity, closeTo(6e-4, 1e-9));
       expect(thiem.discharge, closeTo(0.0082, 0.0002));
     });
 
     test('the formula follows the cap and nothing else', () {
       for (final r in wellRounds) {
-        expect(r.answer == Formula2.dupuit,
-            r.aquifer.kind == Ground.unconfined,
-            reason: r.subject);
+        expect(
+          r.answer == Formula2.dupuit,
+          r.aquifer.kind == Ground.unconfined,
+          reason: r.subject,
+        );
       }
       expect(wellRounds.map((r) => r.answer).toSet().length, 2);
     });
 
     test('a confined aquifer is a plain proportion', () {
       const before = Aquifer(
-          kind: Ground.confined,
-          conductivity: 3e-5,
-          headAtWell: 25,
-          radiusAtWell: 10,
-          headOut: 30,
-          radiusOut: 100);
-      expect(before.copyWith(headAtWell: 20).discharge / before.discharge,
-          closeTo(2, 0.001));
-      expect(before.copyWith(conductivity: 6e-5).discharge / before.discharge,
-          closeTo(2, 0.001));
-      expect(before.copyWith(thickness: 40).discharge / before.discharge,
-          closeTo(2, 0.001));
+        kind: Ground.confined,
+        conductivity: 3e-5,
+        headAtWell: 25,
+        radiusAtWell: 10,
+        headOut: 30,
+        radiusOut: 100,
+      );
+      expect(
+        before.copyWith(headAtWell: 20).discharge / before.discharge,
+        closeTo(2, 0.001),
+      );
+      expect(
+        before.copyWith(conductivity: 6e-5).discharge / before.discharge,
+        closeTo(2, 0.001),
+      );
+      expect(
+        before.copyWith(thickness: 40).discharge / before.discharge,
+        closeTo(2, 0.001),
+      );
     });
 
     test('an unconfined aquifer is not', () {
       const before = Aquifer(
-          kind: Ground.unconfined,
-          conductivity: 5e-4,
-          headAtWell: 40,
-          radiusAtWell: 0.5,
-          headOut: 60,
-          radiusOut: 200);
+        kind: Ground.unconfined,
+        conductivity: 5e-4,
+        headAtWell: 40,
+        radiusAtWell: 0.5,
+        headOut: 60,
+        radiusOut: 200,
+      );
       // Pulling the well down twice as far buys less than twice.
-      expect(before.copyWith(headAtWell: 20).discharge / before.discharge,
-          closeTo(1.6, 0.01));
+      expect(
+        before.copyWith(headAtWell: 20).discharge / before.discharge,
+        closeTo(1.6, 0.01),
+      );
     });
 
     test('every round is worked off the two wells', () {
@@ -993,10 +1139,14 @@ void main() {
     });
 
     test('the 68 percent is a rate, not a rule', () {
-      expect(const Demand(ultimate: 300, rate: 0.10).fractionAt(5),
-          closeTo(0.393, 0.002));
-      expect(const Demand(ultimate: 300, rate: 0.40).fractionAt(5),
-          closeTo(0.865, 0.002));
+      expect(
+        const Demand(ultimate: 300, rate: 0.10).fractionAt(5),
+        closeTo(0.393, 0.002),
+      );
+      expect(
+        const Demand(ultimate: 300, rate: 0.40).fractionAt(5),
+        closeTo(0.865, 0.002),
+      );
     });
 
     test('every round is read off the curve', () {
@@ -1019,8 +1169,11 @@ void main() {
         final fraction = r.demand.fractionAt(r.day);
         expect(fraction, lessThan(1), reason: r.subject);
         if (r.answer == Step3.divide) {
-          expect(r.demand.exertedAt(r.day) / fraction,
-              closeTo(r.demand.ultimate, 1), reason: r.subject);
+          expect(
+            r.demand.exertedAt(r.day) / fraction,
+            closeTo(r.demand.ultimate, 1),
+            reason: r.subject,
+          );
         }
       }
       expect(bodStepRounds.map((r) => r.answer).toSet().length, 3);
@@ -1047,18 +1200,22 @@ void main() {
       for (final r in warmRounds) {
         switch (r.answer) {
           case Rate3.faster:
-            expect(r.corrected.rate, greaterThan(r.base.rate),
-                reason: r.subject);
+            expect(
+              r.corrected.rate,
+              greaterThan(r.base.rate),
+              reason: r.subject,
+            );
           case Rate3.slower:
-            expect(r.corrected.rate, lessThan(r.base.rate),
-                reason: r.subject);
+            expect(r.corrected.rate, lessThan(r.base.rate), reason: r.subject);
           case Rate3.unchanged:
             if (r.asks) {
-              expect(r.corrected.rate, closeTo(r.base.rate, 1e-9),
-                  reason: r.subject);
+              expect(
+                r.corrected.rate,
+                closeTo(r.base.rate, 1e-9),
+                reason: r.subject,
+              );
             } else {
-              expect(r.corrected.ultimate, r.base.ultimate,
-                  reason: r.subject);
+              expect(r.corrected.ultimate, r.base.ultimate, reason: r.subject);
             }
         }
       }
@@ -1100,9 +1257,13 @@ void main() {
     test('one round keeps the flow and changes only the depth', () {
       final deeper = captureRounds.firstWhere((r) => r.clarifier.depth > 12);
       final same = captureRounds.firstWhere(
-          (r) => r.clarifier.depth == 10 && r.falling == deeper.falling);
-      expect(deeper.answer, same.answer,
-          reason: 'a deeper tank captures nothing extra');
+        (r) => r.clarifier.depth == 10 && r.falling == deeper.falling,
+      );
+      expect(
+        deeper.answer,
+        same.answer,
+        reason: 'a deeper tank captures nothing extra',
+      );
     });
   });
 
@@ -1131,8 +1292,10 @@ void main() {
 
     test('only the product of flow and strength matters', () {
       final storm = fmRounds.firstWhere((r) => r.answer == Ratio3.same);
-      expect(storm.flow.$1 * storm.strength.$1,
-          closeTo(storm.flow.$2 * storm.strength.$2, 0.001));
+      expect(
+        storm.flow.$1 * storm.strength.$1,
+        closeTo(storm.flow.$2 * storm.strength.$2, 0.001),
+      );
     });
 
     test('every round is worked off the four quantities', () {
@@ -1161,9 +1324,11 @@ void main() {
 
     test('every round names one of the three', () {
       for (final r in feedRounds) {
-        expect(r.chlorine.dose,
-            closeTo(r.chlorine.demand + r.chlorine.residual, 1e-9),
-            reason: r.subject);
+        expect(
+          r.chlorine.dose,
+          closeTo(r.chlorine.demand + r.chlorine.residual, 1e-9),
+          reason: r.subject,
+        );
       }
       expect(feedRounds.map((r) => r.answer).toSet().length, 3);
     });
@@ -1209,8 +1374,11 @@ void main() {
   group('standards and hardness', () {
     test('the lesson\'s own sample is 200 as calcium carbonate', () {
       const ca = Ion(name: 'Calcium', concentration: 40, equivalentWeight: 20);
-      const mg =
-          Ion(name: 'Magnesium', concentration: 24.3, equivalentWeight: 12.15);
+      const mg = Ion(
+        name: 'Magnesium',
+        concentration: 24.3,
+        equivalentWeight: 12.15,
+      );
       expect(ca.factor, closeTo(2.5, 0.001));
       expect(mg.factor, closeTo(4.115, 0.01));
       expect(ca.asCaCO3, closeTo(100, 0.5));
@@ -1221,8 +1389,11 @@ void main() {
 
     test('magnesium counts for more, milligram for milligram', () {
       const ca = Ion(name: 'Calcium', concentration: 30, equivalentWeight: 20);
-      const mg =
-          Ion(name: 'Magnesium', concentration: 30, equivalentWeight: 12.15);
+      const mg = Ion(
+        name: 'Magnesium',
+        concentration: 30,
+        equivalentWeight: 12.15,
+      );
       expect(mg.asCaCO3, greaterThan(ca.asCaCO3));
     });
 
@@ -1243,17 +1414,20 @@ void main() {
       // One round has to reverse when converted, or the item teaches
       // nothing about why the conversion matters.
       expect(
-          ionRounds.any((r) =>
+        ionRounds.any(
+          (r) =>
               (r.ions.first.concentration > r.ions.last.concentration) !=
-              (r.ions.first.asCaCO3 > r.ions.last.asCaCO3)),
-          isTrue);
+              (r.ions.first.asCaCO3 > r.ions.last.asCaCO3),
+        ),
+        isTrue,
+      );
     });
 
     test('both tiers turn up and the sizes do not sort them', () {
-      final primary =
-          tierRounds.where((r) => r.answer == Tier.primary).length;
-      final secondary =
-          tierRounds.where((r) => r.answer == Tier.secondary).length;
+      final primary = tierRounds.where((r) => r.answer == Tier.primary).length;
+      final secondary = tierRounds
+          .where((r) => r.answer == Tier.secondary)
+          .length;
       expect(primary, greaterThanOrEqualTo(2));
       expect(secondary, greaterThanOrEqualTo(2));
     });
@@ -1284,14 +1458,23 @@ void main() {
       for (final r in dutyRounds2) {
         switch (r.answer) {
           case Duty3.up:
-            expect(r.after.efficiency, greaterThan(r.before.efficiency),
-                reason: r.subject);
+            expect(
+              r.after.efficiency,
+              greaterThan(r.before.efficiency),
+              reason: r.subject,
+            );
           case Duty3.down:
-            expect(r.after.efficiency, lessThan(r.before.efficiency),
-                reason: r.subject);
+            expect(
+              r.after.efficiency,
+              lessThan(r.before.efficiency),
+              reason: r.subject,
+            );
           case Duty3.same:
-            expect(r.after.efficiency, closeTo(r.before.efficiency, 1e-9),
-                reason: r.subject);
+            expect(
+              r.after.efficiency,
+              closeTo(r.before.efficiency, 1e-9),
+              reason: r.subject,
+            );
         }
       }
       expect(dutyRounds2.map((r) => r.answer).toSet().length, 3);

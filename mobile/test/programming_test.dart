@@ -33,11 +33,9 @@ void main() {
         final m = RegExp(r'FOR i = (-?\d+) TO (-?\d+)').firstMatch(header)!;
         final from = int.parse(m.group(1)!);
         final to = int.parse(m.group(2)!);
-        expect(
-          r.counters,
-          [for (var i = from; i <= to; i++) i],
-          reason: '$header does not produce the passes it claims',
-        );
+        expect(r.counters, [
+          for (var i = from; i <= to; i++) i,
+        ], reason: '$header does not produce the passes it claims');
       }
     });
 
@@ -153,8 +151,9 @@ void main() {
     List<int> runWhile(WhileRound r) {
       final start = RegExp(r'^\w+ = (-?\d+)$').firstMatch(r.start)!;
       var x = int.parse(start.group(1)!);
-      final cond = RegExp(r'^\w+ (>=|<=|>|<) (-?\d+)$')
-          .firstMatch(r.condition)!;
+      final cond = RegExp(
+        r'^\w+ (>=|<=|>|<) (-?\d+)$',
+      ).firstMatch(r.condition)!;
       final limit = int.parse(cond.group(2)!);
       final body = RegExp(r'([*/+-]) (-?\d+)$').firstMatch(r.step)!;
       final amount = int.parse(body.group(2)!);
@@ -199,7 +198,8 @@ void main() {
       expect(
         whileRounds.any((r) => r.run.length == 1),
         isTrue,
-        reason: 'checking before acting is only visible when it stops you '
+        reason:
+            'checking before acting is only visible when it stops you '
             'getting in at all',
       );
     });

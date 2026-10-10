@@ -16,7 +16,11 @@ void main() {
   setUpAll(() => GoogleFonts.config.allowRuntimeFetching = false);
 
   setUp(() {
-    for (final id in ['what-it-triggers', 'in-what-order', 'enough-or-too-far']) {
+    for (final id in [
+      'what-it-triggers',
+      'in-what-order',
+      'enough-or-too-far',
+    ]) {
       GameProgress.instance.reset(id);
     }
   });
@@ -30,16 +34,22 @@ void main() {
   group('what does it trigger', () {
     test('every answer points at a duty that exists', () {
       for (final r in triggerRounds) {
-        expect(r.answer, inInclusiveRange(0, duties.length - 1),
-            reason: r.subject);
+        expect(
+          r.answer,
+          inInclusiveRange(0, duties.length - 1),
+          reason: r.subject,
+        );
         expect(r.rule.trim(), isNotEmpty, reason: r.subject);
       }
     });
 
     test('every duty on the list is the answer somewhere', () {
       final used = triggerRounds.map((r) => r.answer).toSet();
-      expect(used.length, duties.length,
-          reason: 'a duty nobody ever needs is a row of dead text on a phone');
+      expect(
+        used.length,
+        duties.length,
+        reason: 'a duty nobody ever needs is a row of dead text on a phone',
+      );
     });
 
     test('the scenario never hands over the answer', () {
@@ -49,37 +59,57 @@ void main() {
       const giveaways = ['refuse', 'recuse', 'disclose', 'whistle', 'board'];
       for (final r in triggerRounds) {
         final scenario = r.scenario.toLowerCase();
-        expect(scenario.contains(duties[r.answer].$1.toLowerCase()), isFalse,
-            reason: '${r.subject} states its own answer');
+        expect(
+          scenario.contains(duties[r.answer].$1.toLowerCase()),
+          isFalse,
+          reason: '${r.subject} states its own answer',
+        );
         for (final word in giveaways) {
-          expect(scenario.contains(word), isFalse,
-              reason: '${r.subject} says "$word" before anybody has judged '
-                  'anything');
+          expect(
+            scenario.contains(word),
+            isFalse,
+            reason:
+                '${r.subject} says "$word" before anybody has judged '
+                'anything',
+          );
         }
       }
     });
 
-    test('exactly one round sets nothing off, and nobody is in danger in it',
-        () {
-      final quiet =
-          triggerRounds.where((r) => r.answer == duties.length - 1).toList();
-      expect(quiet.length, 1,
-          reason: 'the trap works because it is rare, not because it is common');
-      final words = quiet.single.scenario.toLowerCase();
-      for (final loaded in ['unsafe', 'danger', 'endanger', 'code']) {
-        expect(words.contains(loaded), isFalse,
-            reason: 'the quiet round says "$loaded", so it is not quiet');
-      }
-    });
+    test(
+      'exactly one round sets nothing off, and nobody is in danger in it',
+      () {
+        final quiet = triggerRounds
+            .where((r) => r.answer == duties.length - 1)
+            .toList();
+        expect(
+          quiet.length,
+          1,
+          reason: 'the trap works because it is rare, not because it is common',
+        );
+        final words = quiet.single.scenario.toLowerCase();
+        for (final loaded in ['unsafe', 'danger', 'endanger', 'code']) {
+          expect(
+            words.contains(loaded),
+            isFalse,
+            reason: 'the quiet round says "$loaded", so it is not quiet',
+          );
+        }
+      },
+    );
 
     test('the same situation appears at two stages with two answers', () {
       // The escalation ladder is the lesson's real content, and the fastest
       // way to teach it is one story told twice.
-      final school =
-          triggerRounds.where((r) => r.scenario.contains('bearing capacity'));
+      final school = triggerRounds.where(
+        (r) => r.scenario.contains('bearing capacity'),
+      );
       expect(school.length, 2, reason: 'the paired rounds are gone');
-      expect(school.first.answer, isNot(school.last.answer),
-          reason: 'the pair only teaches anything if the answers differ');
+      expect(
+        school.first.answer,
+        isNot(school.last.answer),
+        reason: 'the pair only teaches anything if the answers differ',
+      );
     });
 
     test('all three problems in the lesson are drawn on', () {
@@ -96,8 +126,11 @@ void main() {
         for (final i in r.order) {
           expect(i, inInclusiveRange(0, 3), reason: r.subject);
         }
-        expect(r.actions.toSet().length, 4,
-            reason: '${r.subject}: an action is offered twice');
+        expect(
+          r.actions.toSet().length,
+          4,
+          reason: '${r.subject}: an action is offered twice',
+        );
       }
     });
 
@@ -114,20 +147,30 @@ void main() {
         for (final r in ladderRounds)
           [0, 1, 2, 3].firstWhere((i) => !r.order.contains(i)),
       ];
-      expect(nevers.toSet().length, greaterThanOrEqualTo(3),
-          reason: 'the one to leave alone sits at ${nevers.toSet()}, which is '
-              'few enough places to guess');
+      expect(
+        nevers.toSet().length,
+        greaterThanOrEqualTo(3),
+        reason:
+            'the one to leave alone sits at ${nevers.toSet()}, which is '
+            'few enough places to guess',
+      );
       for (final place in [0, 1, 2, 3]) {
-        expect(nevers.where((n) => n == place).length, lessThanOrEqualTo(2),
-            reason: 'position $place holds the never-action too often');
+        expect(
+          nevers.where((n) => n == place).length,
+          lessThanOrEqualTo(2),
+          reason: 'position $place holds the never-action too often',
+        );
       }
     });
 
     test('every round says why the fourth is never taken', () {
       for (final r in ladderRounds) {
         expect(r.never.trim(), isNotEmpty, reason: r.subject);
-        expect(r.never.length, greaterThan(40),
-            reason: '${r.subject}: the reason is too short to be a reason');
+        expect(
+          r.never.length,
+          greaterThan(40),
+          reason: '${r.subject}: the reason is too short to be a reason',
+        );
       }
     });
 
@@ -136,30 +179,39 @@ void main() {
         (r) => r.why.contains('Imminent danger'),
       );
       final first = urgent.actions[urgent.order.first].toLowerCase();
-      expect(first.contains('stop'), isTrue,
-          reason: 'the exception only lands if stopping the work comes first');
+      expect(
+        first.contains('stop'),
+        isTrue,
+        reason: 'the exception only lands if stopping the work comes first',
+      );
     });
 
     test('more than one problem is drawn on', () {
-      expect(ladderRounds.map((r) => r.source).toSet().length,
-          greaterThanOrEqualTo(3));
+      expect(
+        ladderRounds.map((r) => r.source).toSet().length,
+        greaterThanOrEqualTo(3),
+      );
     });
   });
 
   group('enough, or too far', () {
     test('all three verdicts happen, and none is rare', () {
       for (final size in Size3.values) {
-        expect(proportionRounds.where((r) => r.answer == size).length,
-            greaterThanOrEqualTo(2),
-            reason: '$size is barely used');
+        expect(
+          proportionRounds.where((r) => r.answer == size).length,
+          greaterThanOrEqualTo(2),
+          reason: '$size is barely used',
+        );
       }
     });
 
     test('the answer is never in the same place twice running', () {
       for (var i = 1; i < proportionRounds.length; i++) {
-        expect(proportionRounds[i].answer,
-            isNot(proportionRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous verdict');
+        expect(
+          proportionRounds[i].answer,
+          isNot(proportionRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous verdict',
+        );
       }
     });
 
@@ -169,11 +221,16 @@ void main() {
       for (final r in proportionRounds) {
         byScenario.putIfAbsent(r.scenario, () => []).add(r.answer);
       }
-      final triples =
-          byScenario.values.where((v) => v.toSet().length == 3 && v.length == 3);
-      expect(triples, isNotEmpty,
-          reason: 'no scenario is judged all three ways, so nothing shows that '
-              'the facts were never the difficulty');
+      final triples = byScenario.values.where(
+        (v) => v.toSet().length == 3 && v.length == 3,
+      );
+      expect(
+        triples,
+        isNotEmpty,
+        reason:
+            'no scenario is judged all three ways, so nothing shows that '
+            'the facts were never the difficulty',
+      );
     });
 
     test('no response is offered twice', () {

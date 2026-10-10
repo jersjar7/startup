@@ -56,12 +56,12 @@ void main() {
     /// What each support really hands you, written out here rather than taken
     /// from the item.
     Reaction truthFor(Prop kind, double slope) => switch (kind) {
-          Prop.roller => const Reaction(square: true),
-          Prop.cable => const Reaction(square: true),
-          Prop.slopedRoller => Reaction(square: true, slope: slope),
-          Prop.pin => const Reaction(square: true, along: true),
-          Prop.fixed => const Reaction(square: true, along: true, moment: true),
-        };
+      Prop.roller => const Reaction(square: true),
+      Prop.cable => const Reaction(square: true),
+      Prop.slopedRoller => Reaction(square: true, slope: slope),
+      Prop.pin => const Reaction(square: true, along: true),
+      Prop.fixed => const Reaction(square: true, along: true, moment: true),
+    };
 
     test('the marked answer is what that support actually gives', () {
       for (final r in propRounds) {
@@ -70,18 +70,26 @@ void main() {
         expect(got.square, want.square, reason: r.subject);
         expect(got.along, want.along, reason: r.subject);
         expect(got.moment, want.moment, reason: r.subject);
-        expect(got.slope, want.slope,
-            reason: '${r.subject}: the force has to be square to the surface, '
-                'which is at ${r.slope} degrees');
+        expect(
+          got.slope,
+          want.slope,
+          reason:
+              '${r.subject}: the force has to be square to the surface, '
+              'which is at ${r.slope} degrees',
+        );
       }
     });
 
     test('the count on the button matches the arrows on it', () {
       for (final r in propRounds) {
         for (final o in r.options) {
-          expect(o.count, unknownsIn(_kindOf(o)),
-              reason: '${r.subject}: a picture with ${o.count} things on it is '
-                  'labeled otherwise');
+          expect(
+            o.count,
+            unknownsIn(_kindOf(o)),
+            reason:
+                '${r.subject}: a picture with ${o.count} things on it is '
+                'labeled otherwise',
+          );
         }
       }
     });
@@ -90,36 +98,51 @@ void main() {
       for (final r in propRounds) {
         final seen = <String>{};
         for (final o in r.options) {
-          expect(seen.add('${o.square}${o.along}${o.moment}${o.slope}'), isTrue,
-              reason: '${r.subject} offers one set twice');
+          expect(
+            seen.add('${o.square}${o.along}${o.moment}${o.slope}'),
+            isTrue,
+            reason: '${r.subject} offers one set twice',
+          );
         }
       }
     });
 
     test('two rounds put the roller on something that is not flat', () {
       final sloped = propRounds.where((r) => r.kind == Prop.slopedRoller);
-      expect(sloped.length, 2,
-          reason: 'a roller giving a force that is not vertical is the trap '
-              'worth drilling and one round of it is not enough');
+      expect(
+        sloped.length,
+        2,
+        reason:
+            'a roller giving a force that is not vertical is the trap '
+            'worth drilling and one round of it is not enough',
+      );
       for (final r in sloped) {
         expect(r.slope, isNot(0), reason: r.subject);
         // The vertical answer has to be on the board, or nothing is caught.
-        expect(r.options.any((o) => o.square && o.slope == 0 && !o.along),
-            isTrue,
-            reason: '${r.subject}: the vertical arrow is not offered, so '
-                'reaching for it costs nothing');
+        expect(
+          r.options.any((o) => o.square && o.slope == 0 && !o.along),
+          isTrue,
+          reason:
+              '${r.subject}: the vertical arrow is not offered, so '
+              'reaching for it costs nothing',
+        );
       }
     });
 
     test('every support kind comes up', () {
-      expect(propRounds.map((r) => r.kind).toSet().length,
-          greaterThanOrEqualTo(4));
+      expect(
+        propRounds.map((r) => r.kind).toSet().length,
+        greaterThanOrEqualTo(4),
+      );
     });
 
     test('the answer never repeats round to round', () {
       for (var i = 1; i < propRounds.length; i++) {
-        expect(propRounds[i].answer, isNot(propRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous position');
+        expect(
+          propRounds[i].answer,
+          isNot(propRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous position',
+        );
       }
       expect(propRounds.map((r) => r.answer).toSet().length, 3);
     });
@@ -134,17 +157,24 @@ void main() {
   group('where it all acts', () {
     test('the load acts where the shape says it does', () {
       for (final r in actsRounds) {
-        expect(r.load.actsAt, closeTo(_centroid(r.load), 0.001),
-            reason: '${r.subject}: the figure puts it at ${r.load.actsAt}');
+        expect(
+          r.load.actsAt,
+          closeTo(_centroid(r.load), 0.001),
+          reason: '${r.subject}: the figure puts it at ${r.load.actsAt}',
+        );
       }
     });
 
     test('a station really sits on the answer', () {
       for (final r in actsRounds) {
-        expect(r.stations[r.answer].at, closeTo(r.load.actsAt, 0.001),
-            reason: '${r.subject}: the nearest station is '
-                '${r.stations[r.answer].at} and the load acts at '
-                '${r.load.actsAt}');
+        expect(
+          r.stations[r.answer].at,
+          closeTo(r.load.actsAt, 0.001),
+          reason:
+              '${r.subject}: the nearest station is '
+              '${r.stations[r.answer].at} and the load acts at '
+              '${r.load.actsAt}',
+        );
       }
     });
 
@@ -152,10 +182,13 @@ void main() {
       for (final r in actsRounds) {
         for (var i = 0; i < r.stations.length; i++) {
           if (i == r.answer) continue;
-          expect((r.stations[i].at - r.load.actsAt).abs(),
-              greaterThan(r.span * 0.06),
-              reason: '${r.subject}: station ${r.stations[i].label} is almost '
-                  'the answer too');
+          expect(
+            (r.stations[i].at - r.load.actsAt).abs(),
+            greaterThan(r.span * 0.06),
+            reason:
+                '${r.subject}: station ${r.stations[i].label} is almost '
+                'the answer too',
+          );
         }
       }
     });
@@ -163,11 +196,17 @@ void main() {
     test('every station is on the beam and in order', () {
       for (final r in actsRounds) {
         for (var i = 0; i < r.stations.length; i++) {
-          expect(r.stations[i].at, inInclusiveRange(0, r.span),
-              reason: '${r.subject}: station ${r.stations[i].label} is off it');
+          expect(
+            r.stations[i].at,
+            inInclusiveRange(0, r.span),
+            reason: '${r.subject}: station ${r.stations[i].label} is off it',
+          );
           if (i > 0) {
-            expect(r.stations[i].at, greaterThan(r.stations[i - 1].at),
-                reason: '${r.subject}: the stations are out of order');
+            expect(
+              r.stations[i].at,
+              greaterThan(r.stations[i - 1].at),
+              reason: '${r.subject}: the stations are out of order',
+            );
           }
         }
         expect(r.load.from, greaterThanOrEqualTo(0), reason: r.subject);
@@ -181,10 +220,13 @@ void main() {
       for (final r in actsRounds) {
         for (final station in r.stations) {
           for (final support in r.supports) {
-            expect((station.at - support.at.dx).abs(),
-                greaterThan(r.span * 0.08),
-                reason: '${r.subject}: station ${station.label} is on a '
-                    'support');
+            expect(
+              (station.at - support.at.dx).abs(),
+              greaterThan(r.span * 0.08),
+              reason:
+                  '${r.subject}: station ${station.label} is on a '
+                  'support',
+            );
           }
         }
       }
@@ -211,9 +253,13 @@ void main() {
       // Twice, not once. The lesson's own cantilever is uniform over its whole
       // length, so its resultant is the middle of the beam by construction,
       // and the part-span round is drawn so the two coincide on purpose.
-      expect(right, 2,
-          reason: 'the middle answers $right rounds; twice is deliberate and '
-              'more would teach that the lazy answer usually works');
+      expect(
+        right,
+        2,
+        reason:
+            'the middle answers $right rounds; twice is deliberate and '
+            'more would teach that the lazy answer usually works',
+      );
     });
 
     test('uniform, both triangles and two trapezoids all come up', () {
@@ -221,15 +267,20 @@ void main() {
       final triangles = actsRounds.where(
         (r) => r.load.atFrom == 0 || r.load.atTo == 0,
       );
-      final between = actsRounds.where((r) =>
-          r.load.atFrom != r.load.atTo &&
-          r.load.atFrom != 0 &&
-          r.load.atTo != 0);
+      final between = actsRounds.where(
+        (r) =>
+            r.load.atFrom != r.load.atTo &&
+            r.load.atFrom != 0 &&
+            r.load.atTo != 0,
+      );
       expect(uniform.length, 2);
       expect(triangles.length, 2);
       expect(between.length, 2);
       // And each pair leans both ways, so no fraction can be memorized.
-      expect(triangles.map((r) => r.load.atFrom > r.load.atTo).toSet().length, 2);
+      expect(
+        triangles.map((r) => r.load.atFrom > r.load.atTo).toSet().length,
+        2,
+      );
       expect(between.map((r) => r.load.atFrom > r.load.atTo).toSet().length, 2);
     });
 
@@ -258,18 +309,24 @@ void main() {
 
     test('the verdict follows the count and the directions', () {
       for (final r in solveRounds) {
-        final sideways = r.supports.any((s) =>
-            s.kind == Prop.pin ||
-            s.kind == Prop.fixed ||
-            (s.kind == Prop.slopedRoller && s.slope != 0));
+        final sideways = r.supports.any(
+          (s) =>
+              s.kind == Prop.pin ||
+              s.kind == Prop.fixed ||
+              (s.kind == Prop.slopedRoller && s.slope != 0),
+        );
         final want = (!sideways || r.unknowns < 3)
             ? Enough.tooFew
             : r.unknowns > 3
-                ? Enough.tooMany
-                : Enough.solvable;
-        expect(r.answer, want,
-            reason: '${r.subject}: ${r.unknowns} unknowns, held sideways: '
-                '$sideways');
+            ? Enough.tooMany
+            : Enough.solvable;
+        expect(
+          r.answer,
+          want,
+          reason:
+              '${r.subject}: ${r.unknowns} unknowns, held sideways: '
+              '$sideways',
+        );
       }
     });
 
@@ -280,27 +337,39 @@ void main() {
       final standing = solveRounds.where((r) => r.answer == Enough.tooFew);
       expect(standing.length, 1);
       final r = standing.first;
-      expect(r.supports.every((s) => s.kind == Prop.roller), isTrue,
-          reason: '${r.subject}: the round is meant to be all rollers');
+      expect(
+        r.supports.every((s) => s.kind == Prop.roller),
+        isTrue,
+        reason: '${r.subject}: the round is meant to be all rollers',
+      );
     });
 
     test('every verdict comes up, and the answer moves', () {
       for (final v in Enough.values) {
-        expect(solveRounds.where((r) => r.answer == v).length,
-            greaterThanOrEqualTo(1),
-            reason: '$v never comes up');
+        expect(
+          solveRounds.where((r) => r.answer == v).length,
+          greaterThanOrEqualTo(1),
+          reason: '$v never comes up',
+        );
       }
       for (var i = 1; i < solveRounds.length; i++) {
-        expect(solveRounds[i].answer, isNot(solveRounds[i - 1].answer),
-            reason: 'round ${i + 1} repeats the previous verdict');
+        expect(
+          solveRounds[i].answer,
+          isNot(solveRounds[i - 1].answer),
+          reason: 'round ${i + 1} repeats the previous verdict',
+        );
       }
     });
 
     test('a couple is on the board, and costs nothing', () {
       final withCouple = solveRounds.where((r) => r.couples.isNotEmpty);
-      expect(withCouple, isNotEmpty,
-          reason: 'a couple adding no unknown is the lesson\'s own hard '
-              'problem and it should be seen at least once');
+      expect(
+        withCouple,
+        isNotEmpty,
+        reason:
+            'a couple adding no unknown is the lesson\'s own hard '
+            'problem and it should be seen at least once',
+      );
       // Its unknowns are the supports' and nothing else.
       final r = withCouple.first;
       expect(r.unknowns, 3, reason: r.subject);
@@ -311,9 +380,13 @@ void main() {
       final alone = solveRounds.where(
         (r) => r.supports.length == 1 && r.answer == Enough.solvable,
       );
-      expect(alone, isNotEmpty,
-          reason: 'a fixed end spending the whole budget on its own is worth '
-              'a round');
+      expect(
+        alone,
+        isNotEmpty,
+        reason:
+            'a fixed end spending the whole budget on its own is worth '
+            'a round',
+      );
     });
 
     test('every load sits on its beam', () {
@@ -342,7 +415,9 @@ void main() {
       tester,
     ) async {
       size(tester);
-      await tester.pumpWidget(const MaterialApp(home: WhatTheSupportGivesGame()));
+      await tester.pumpWidget(
+        const MaterialApp(home: WhatTheSupportGivesGame()),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Lock it in'));
@@ -352,7 +427,9 @@ void main() {
 
     testWidgets('giving a roller two reactions is caught', (tester) async {
       size(tester);
-      await tester.pumpWidget(const MaterialApp(home: WhatTheSupportGivesGame()));
+      await tester.pumpWidget(
+        const MaterialApp(home: WhatTheSupportGivesGame()),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.byKey(const ValueKey('reaction-1')));
@@ -364,7 +441,9 @@ void main() {
 
     testWidgets('one force for a roller is accepted', (tester) async {
       size(tester);
-      await tester.pumpWidget(const MaterialApp(home: WhatTheSupportGivesGame()));
+      await tester.pumpWidget(
+        const MaterialApp(home: WhatTheSupportGivesGame()),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.byKey(const ValueKey('reaction-0')));
@@ -394,7 +473,9 @@ void main() {
       await tester.pumpWidget(const MaterialApp(home: WhereItAllActsGame()));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(ValueKey('station-${actsRounds.first.answer}')));
+      await tester.tap(
+        find.byKey(ValueKey('station-${actsRounds.first.answer}')),
+      );
       await tester.pumpAndSettle();
       await tester.tap(find.text('Lock it in'));
       await tester.pumpAndSettle();

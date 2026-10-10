@@ -30,7 +30,11 @@ void main() {
       for (final r in uSubRounds) {
         expect(r.uAnswer, inInclusiveRange(0, r.uOptions.length - 1));
         expect(r.duAnswer, inInclusiveRange(0, r.duOptions.length - 1));
-        expect(r.uOptions.toSet().length, r.uOptions.length, reason: r.integrand);
+        expect(
+          r.uOptions.toSet().length,
+          r.uOptions.length,
+          reason: r.integrand,
+        );
         expect(
           r.duOptions.toSet().length,
           r.duOptions.length,
@@ -111,7 +115,8 @@ void main() {
       expect(
         used.length,
         missingVerdicts.length,
-        reason: 'a verdict nobody ever needs is a distractor, not a checklist '
+        reason:
+            'a verdict nobody ever needs is a distractor, not a checklist '
             'item',
       );
     });

@@ -13,33 +13,48 @@ void main() {
     test('the four meter beam sags 2.67 millimeters', () {
       // Problem one: 4 m simply supported, 20 kN at midspan, E = 200 GPa,
       // I = 50 million.
-      final sag = Entry.ssPoint
-          .sag(load: 20000, span: 4000, e: 200000, i: 50e6);
+      final sag = Entry.ssPoint.sag(
+        load: 20000,
+        span: 4000,
+        e: 200000,
+        i: 50e6,
+      );
       expect(sag, closeTo(2.67, 0.01));
 
       // Its named wrong answers: the two wrong divisors, and the cantilever
       // entry used on a simply supported beam, which is sixteen times more.
-      expect(20000 * 4000 * 4000 * 4000 / (96 * 200000 * 50e6),
-          closeTo(1.33, 0.01));
-      expect(20000 * 4000 * 4000 * 4000 / (24 * 200000 * 50e6),
-          closeTo(5.33, 0.01));
-      final wrongTable = Entry.cantPoint
-          .sag(load: 20000, span: 4000, e: 200000, i: 50e6);
+      expect(
+        20000 * 4000 * 4000 * 4000 / (96 * 200000 * 50e6),
+        closeTo(1.33, 0.01),
+      );
+      expect(
+        20000 * 4000 * 4000 * 4000 / (24 * 200000 * 50e6),
+        closeTo(5.33, 0.01),
+      );
+      final wrongTable = Entry.cantPoint.sag(
+        load: 20000,
+        span: 4000,
+        e: 200000,
+        i: 50e6,
+      );
       expect(wrongTable, closeTo(42.7, 0.05));
       expect(wrongTable / sag, closeTo(16, 0.001));
     });
 
     test('the cantilever sags 13.5 millimeters', () {
       // Problem two: 3 m cantilever, 8 kN/m, E = 200 GPa, I = 30 million.
-      final sag =
-          Entry.cantUdl.sag(load: 8, span: 3000, e: 200000, i: 30e6);
+      final sag = Entry.cantUdl.sag(load: 8, span: 3000, e: 200000, i: 30e6);
       expect(sag, closeTo(13.5, 0.01));
 
       // And the simply supported entry, which the lesson names as the swap
       // to avoid: it comes to 1.41 mm, nearly ten times less, and it is the
       // fourth choice on the list.
-      final wrongTable =
-          Entry.ssUdl.sag(load: 8, span: 3000, e: 200000, i: 30e6);
+      final wrongTable = Entry.ssUdl.sag(
+        load: 8,
+        span: 3000,
+        e: 200000,
+        i: 30e6,
+      );
       expect(wrongTable, closeTo(1.41, 0.01));
       expect(sag / wrongTable, closeTo(9.6, 0.001));
     });
@@ -47,10 +62,18 @@ void main() {
     test('the two loads add up to eleven millimeters', () {
       // Problem three: 6 m simply supported, 24 kN at midspan AND 4 kN/m all
       // the way, E = 200 GPa, I = 80 million.
-      final fromPoint =
-          Entry.ssPoint.sag(load: 24000, span: 6000, e: 200000, i: 80e6);
-      final fromSpread =
-          Entry.ssUdl.sag(load: 4, span: 6000, e: 200000, i: 80e6);
+      final fromPoint = Entry.ssPoint.sag(
+        load: 24000,
+        span: 6000,
+        e: 200000,
+        i: 80e6,
+      );
+      final fromSpread = Entry.ssUdl.sag(
+        load: 4,
+        span: 6000,
+        e: 200000,
+        i: 80e6,
+      );
       expect(fromPoint, closeTo(6.75, 0.01));
       expect(fromSpread, closeTo(4.22, 0.01));
       expect(fromPoint + fromSpread, closeTo(11.0, 0.05));
@@ -59,28 +82,43 @@ void main() {
     test('the off centre entry agrees with the midspan one at midspan', () {
       // Two table lines that have to meet in the middle: putting the off
       // centre load at the middle must give the midspan answer.
-      final middle = Entry.ssOffset
-          .sag(load: 20000, span: 4000, e: 200000, i: 50e6, at: 2000);
-      final named =
-          Entry.ssPoint.sag(load: 20000, span: 4000, e: 200000, i: 50e6);
+      final middle = Entry.ssOffset.sag(
+        load: 20000,
+        span: 4000,
+        e: 200000,
+        i: 50e6,
+        at: 2000,
+      );
+      final named = Entry.ssPoint.sag(
+        load: 20000,
+        span: 4000,
+        e: 200000,
+        i: 50e6,
+      );
       expect(middle, closeTo(named, 1e-9));
     });
   });
 
   group('what the table says about changing a beam', () {
-    test('span is cubed under a point load and to the fourth under a spread',
-        () {
-      double point(double l) =>
-          Entry.ssPoint.sag(load: 10000, span: l, e: 200000, i: 40e6);
-      double spread(double l) =>
-          Entry.ssUdl.sag(load: 10, span: l, e: 200000, i: 40e6);
-      expect(point(8000) / point(4000), closeTo(8, 1e-9));
-      expect(spread(8000) / spread(4000), closeTo(16, 1e-9));
-    });
+    test(
+      'span is cubed under a point load and to the fourth under a spread',
+      () {
+        double point(double l) =>
+            Entry.ssPoint.sag(load: 10000, span: l, e: 200000, i: 40e6);
+        double spread(double l) =>
+            Entry.ssUdl.sag(load: 10, span: l, e: 200000, i: 40e6);
+        expect(point(8000) / point(4000), closeTo(8, 1e-9));
+        expect(spread(8000) / spread(4000), closeTo(16, 1e-9));
+      },
+    );
 
     test('stiffness is E times I, and both count once', () {
-      final base = Entry.ssPoint
-          .sag(load: 10000, span: 4000, e: 200000, i: 40e6);
+      final base = Entry.ssPoint.sag(
+        load: 10000,
+        span: 4000,
+        e: 200000,
+        i: 40e6,
+      );
       expect(
         Entry.ssPoint.sag(load: 10000, span: 4000, e: 400000, i: 40e6),
         closeTo(base / 2, 1e-9),
@@ -94,8 +132,12 @@ void main() {
     test('a cantilever is sixteen times a simply supported beam', () {
       // The lesson's own callout, both ways round.
       final ss = Entry.ssPoint.sag(load: 5000, span: 3000, e: 200000, i: 20e6);
-      final cant =
-          Entry.cantPoint.sag(load: 5000, span: 3000, e: 200000, i: 20e6);
+      final cant = Entry.cantPoint.sag(
+        load: 5000,
+        span: 3000,
+        e: 200000,
+        i: 20e6,
+      );
       expect(cant / ss, closeTo(16, 1e-9));
       final ssw = Entry.ssUdl.sag(load: 5, span: 3000, e: 200000, i: 20e6);
       final cantw = Entry.cantUdl.sag(load: 5, span: 3000, e: 200000, i: 20e6);
@@ -107,13 +149,22 @@ void main() {
     test('a simply supported beam is flat at the ends and worst inside', () {
       for (final entry in [Entry.ssPoint, Entry.ssUdl]) {
         final shape = entry.shape(span: 6000);
-        expect(shape.first.dy, closeTo(0, 1e-9),
-            reason: '${entry.name} does not start on its support');
-        expect(shape.last.dy, closeTo(0, 1e-9),
-            reason: '${entry.name} does not finish on its support');
+        expect(
+          shape.first.dy,
+          closeTo(0, 1e-9),
+          reason: '${entry.name} does not start on its support',
+        );
+        expect(
+          shape.last.dy,
+          closeTo(0, 1e-9),
+          reason: '${entry.name} does not finish on its support',
+        );
         final worst = shape.reduce((a, b) => a.dy > b.dy ? a : b);
-        expect(worst.dx, closeTo(3000, 100),
-            reason: '${entry.name} does not sag most at the middle');
+        expect(
+          worst.dx,
+          closeTo(3000, 100),
+          reason: '${entry.name} does not sag most at the middle',
+        );
       }
     });
 
@@ -121,13 +172,19 @@ void main() {
       for (final entry in [Entry.cantPoint, Entry.cantUdl]) {
         final shape = entry.shape(span: 4000);
         expect(shape.first.dy, closeTo(0, 1e-9));
-        expect(shape.last.dy, closeTo(1, 1e-9),
-            reason: '${entry.name} does not sag most at its tip');
+        expect(
+          shape.last.dy,
+          closeTo(1, 1e-9),
+          reason: '${entry.name} does not sag most at its tip',
+        );
         // And it leaves the wall horizontally, which is what built in means.
         final first = shape[1].dy - shape[0].dy;
         final second = shape[2].dy - shape[1].dy;
-        expect(first, lessThan(second),
-            reason: '${entry.name} does not leave the wall flat');
+        expect(
+          first,
+          lessThan(second),
+          reason: '${entry.name} does not leave the wall flat',
+        );
       }
     });
 
@@ -135,15 +192,21 @@ void main() {
       final shape = Entry.ssOffset.shape(span: 10000, at: 3000);
       final worst = shape.reduce((a, b) => a.dy > b.dy ? a : b);
       expect(worst.dx, lessThan(5000));
-      expect(worst.dx, greaterThan(3000),
-          reason: 'the worst sag sits between the load and the middle');
+      expect(
+        worst.dx,
+        greaterThan(3000),
+        reason: 'the worst sag sits between the load and the middle',
+      );
     });
 
     test('every shape sags downward the whole way and never lifts', () {
       for (final entry in Entry.values) {
         for (final p in entry.shape(span: 5000, at: 1500)) {
-          expect(p.dy, greaterThanOrEqualTo(-1e-9),
-              reason: '${entry.name} lifts off its supports at ${p.dx}');
+          expect(
+            p.dy,
+            greaterThanOrEqualTo(-1e-9),
+            reason: '${entry.name} lifts off its supports at ${p.dx}',
+          );
           expect(p.dy, lessThanOrEqualTo(1 + 1e-9));
         }
       }
@@ -155,12 +218,20 @@ void main() {
       for (final r in tableRounds) {
         if (r.answer == -1) continue;
         final entry = r.options[r.answer];
-        expect(r.beam.supportsAt.length, entry.cantilever ? 1 : 2,
-            reason: '${r.subject}: the drawing and the answer disagree about '
-                'the supports');
-        expect(r.beam.spreads.isNotEmpty, entry.spread,
-            reason: '${r.subject}: the drawing and the answer disagree about '
-                'the load');
+        expect(
+          r.beam.supportsAt.length,
+          entry.cantilever ? 1 : 2,
+          reason:
+              '${r.subject}: the drawing and the answer disagree about '
+              'the supports',
+        );
+        expect(
+          r.beam.spreads.isNotEmpty,
+          entry.spread,
+          reason:
+              '${r.subject}: the drawing and the answer disagree about '
+              'the load',
+        );
       }
     });
 
@@ -169,14 +240,20 @@ void main() {
       expect(combined.length, 1);
       final r = combined.first;
       expect(r.beam.points, isNotEmpty);
-      expect(r.beam.spreads, isNotEmpty,
-          reason: 'a beam needing two lines has to carry two kinds of load');
+      expect(
+        r.beam.spreads,
+        isNotEmpty,
+        reason: 'a beam needing two lines has to carry two kinds of load',
+      );
     });
 
     test('no round offers the same line twice', () {
       for (final r in tableRounds) {
-        expect(r.options.toSet().length, r.options.length,
-            reason: '${r.subject}: a line is offered twice');
+        expect(
+          r.options.toSet().length,
+          r.options.length,
+          reason: '${r.subject}: a line is offered twice',
+        );
       }
     });
 
@@ -197,9 +274,13 @@ void main() {
         final best = r.sagWith(r.cures[r.answer]);
         for (var i = 0; i < r.cures.length; i++) {
           if (i == r.answer) continue;
-          expect(r.sagWith(r.cures[i]), greaterThan(best * 1.02),
-              reason: '${r.subject}: option ${i + 1} is within two percent of '
-                  'the answer, which is too close to call by reading');
+          expect(
+            r.sagWith(r.cures[i]),
+            greaterThan(best * 1.02),
+            reason:
+                '${r.subject}: option ${i + 1} is within two percent of '
+                'the answer, which is too close to call by reading',
+          );
         }
       }
     });
@@ -209,10 +290,13 @@ void main() {
       // cannot tell the difference, and neither can the beam.
       final idle = bounceRounds
           .expand((r) => r.cures.map((c) => (r, c)))
-          .where((pair) => pair.$2.e == 1 &&
-              pair.$2.i == 1 &&
-              pair.$2.span == 1 &&
-              pair.$2.load == 1);
+          .where(
+            (pair) =>
+                pair.$2.e == 1 &&
+                pair.$2.i == 1 &&
+                pair.$2.span == 1 &&
+                pair.$2.load == 1,
+          );
       expect(idle, isNotEmpty);
       for (final (round, cure) in idle) {
         expect(round.sagWith(cure), closeTo(round.sagNow, 1e-9));
@@ -220,8 +304,10 @@ void main() {
     });
 
     test('the answer moves around between rounds', () {
-      expect(bounceRounds.map((r) => r.answer).toSet().length,
-          greaterThanOrEqualTo(3));
+      expect(
+        bounceRounds.map((r) => r.answer).toSet().length,
+        greaterThanOrEqualTo(3),
+      );
     });
   });
 
@@ -229,35 +315,45 @@ void main() {
     /// What a split really carries, so a pair can be checked against the beam
     /// it claims to add up to rather than trusted.
     (int, int, Set<int>) shapeOf(Loading beam) => (
-          beam.points.length,
-          beam.spreads.length,
-          {for (final p in beam.points) (p.$1 * 1000).round()},
-        );
+      beam.points.length,
+      beam.spreads.length,
+      {for (final p in beam.points) (p.$1 * 1000).round()},
+    );
 
     String describe(Loading beam) => [
-          beam.supportsAt.length,
-          beam.span,
-          for (final p in beam.points) 'P${(p.$1 * 1000).round()}',
-          for (final sp in beam.spreads) 'w${sp.from}-${sp.to}',
-        ].join('|');
+      beam.supportsAt.length,
+      beam.span,
+      for (final p in beam.points) 'P${(p.$1 * 1000).round()}',
+      for (final sp in beam.spreads) 'w${sp.from}-${sp.to}',
+    ].join('|');
 
     test('the right pair has the right supports and the right loads', () {
       for (final r in splitRounds) {
         if (r.answer == -1) continue;
         final (a, b) = r.pairs[r.answer];
         for (final piece in [a, b]) {
-          expect(piece.supportsAt.length, r.whole.supportsAt.length,
-              reason: '${r.subject}: a piece is held differently from the '
-                  'beam it came from');
+          expect(
+            piece.supportsAt.length,
+            r.whole.supportsAt.length,
+            reason:
+                '${r.subject}: a piece is held differently from the '
+                'beam it came from',
+          );
           expect(piece.span, r.whole.span);
         }
         // The two pieces between them carry everything the whole beam does,
         // and nothing it does not.
         final points = <int>{...shapeOf(a).$3, ...shapeOf(b).$3};
-        expect(points, shapeOf(r.whole).$3,
-            reason: '${r.subject}: the split loses or invents a point load');
-        expect(a.spreads.length + b.spreads.length, r.whole.spreads.length,
-            reason: '${r.subject}: the split loses or invents a spread load');
+        expect(
+          points,
+          shapeOf(r.whole).$3,
+          reason: '${r.subject}: the split loses or invents a point load',
+        );
+        expect(
+          a.spreads.length + b.spreads.length,
+          r.whole.spreads.length,
+          reason: '${r.subject}: the split loses or invents a spread load',
+        );
       }
     });
 
@@ -266,11 +362,12 @@ void main() {
         for (var i = 0; i < r.pairs.length; i++) {
           if (i == r.answer) continue;
           final (a, b) = r.pairs[i];
-          final wrongSupports = a.supportsAt.length !=
-                  r.whole.supportsAt.length ||
+          final wrongSupports =
+              a.supportsAt.length != r.whole.supportsAt.length ||
               b.supportsAt.length != r.whole.supportsAt.length;
           final points = <int>{...shapeOf(a).$3, ...shapeOf(b).$3};
-          final wrongLoads = points.length != shapeOf(r.whole).$3.length ||
+          final wrongLoads =
+              points.length != shapeOf(r.whole).$3.length ||
               !points.containsAll(shapeOf(r.whole).$3) ||
               a.spreads.length + b.spreads.length != r.whole.spreads.length;
           // The same beam offered twice is the other visible mistake: it is
@@ -278,9 +375,13 @@ void main() {
           // A record holding a Set compares by identity, so the two beams
           // are compared through a plain description of what they carry.
           final sameTwice = describe(a) == describe(b);
-          expect(wrongSupports || wrongLoads || sameTwice, isTrue,
-              reason: '${r.subject}: pair ${i + 1} adds up to the beam too, '
-                  'so the round has two right answers');
+          expect(
+            wrongSupports || wrongLoads || sameTwice,
+            isTrue,
+            reason:
+                '${r.subject}: pair ${i + 1} adds up to the beam too, '
+                'so the round has two right answers',
+          );
         }
       }
     });
@@ -289,8 +390,11 @@ void main() {
       final alone = splitRounds.where((r) => r.answer == -1);
       expect(alone.length, 1);
       final r = alone.first;
-      expect(r.whole.points.length + r.whole.spreads.length, 1,
-          reason: 'a beam that needs no split carries exactly one load');
+      expect(
+        r.whole.points.length + r.whole.spreads.length,
+        1,
+        reason: 'a beam that needs no split carries exactly one load',
+      );
     });
   });
 }

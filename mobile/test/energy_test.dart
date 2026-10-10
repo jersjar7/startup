@@ -54,14 +54,21 @@ void main() {
       // is a real thing to be able to spot. What must never happen is the
       // answer itself failing to add up.
       for (final r in ledgerRounds) {
-        expect(r.truth.balances, isTrue,
-            reason: '${r.subject}: the right account does not add up');
+        expect(
+          r.truth.balances,
+          isTrue,
+          reason: '${r.subject}: the right account does not add up',
+        );
         for (final o in r.options) {
           if (identical(o, r.truth)) continue;
           if (!o.balances) {
-            expect(o.end, greaterThan(o.start + o.added - o.gone),
-                reason: '${r.subject}: an unbalanced distractor should be one '
-                    'that invents energy, not one that quietly loses it');
+            expect(
+              o.end,
+              greaterThan(o.start + o.added - o.gone),
+              reason:
+                  '${r.subject}: an unbalanced distractor should be one '
+                  'that invents energy, not one that quietly loses it',
+            );
           }
         }
       }
@@ -72,7 +79,8 @@ void main() {
         final right = r.truth;
         for (final o in r.options) {
           if (identical(o, right)) continue;
-          final same = o.movingStart == right.movingStart &&
+          final same =
+              o.movingStart == right.movingStart &&
               o.heightStart == right.heightStart &&
               o.springStart == right.springStart &&
               o.movingEnd == right.movingEnd &&
@@ -80,8 +88,11 @@ void main() {
               o.springEnd == right.springEnd &&
               o.gone == right.gone &&
               o.added == right.added;
-          expect(same, isFalse,
-              reason: '${r.subject}: two accounts are the same');
+          expect(
+            same,
+            isFalse,
+            reason: '${r.subject}: two accounts are the same',
+          );
         }
       }
     });
@@ -93,10 +104,14 @@ void main() {
     });
 
     test('a spring round keeps its energy rather than losing it', () {
-      final spring = ledgerRounds
-          .firstWhere((r) => r.truth.springStart > 0 || r.truth.springEnd > 0);
-      expect(spring.truth.conserved, isTrue,
-          reason: 'a spring is a store, not a loss');
+      final spring = ledgerRounds.firstWhere(
+        (r) => r.truth.springStart > 0 || r.truth.springEnd > 0,
+      );
+      expect(
+        spring.truth.conserved,
+        isTrue,
+        reason: 'a spring is a store, not a loss',
+      );
     });
 
     test('the three panels of a round share one scale', () {
@@ -119,9 +134,13 @@ void main() {
       final massSymbol = RegExp(r'(?<!\\)m(?!u)');
       for (final r in massRounds) {
         final hasMass = massSymbol.hasMatch(r.formula);
-        expect(r.answer == Heavier.tie, !hasMass,
-            reason: '${r.subject}: the formula and the answer disagree about '
-                'whether mass matters');
+        expect(
+          r.answer == Heavier.tie,
+          !hasMass,
+          reason:
+              '${r.subject}: the formula and the answer disagree about '
+              'whether mass matters',
+        );
       }
     });
 
@@ -135,38 +154,54 @@ void main() {
   });
 
   group('more-in-than-out keeps the direction straight', () {
-    test('an output wanted from an input multiplies, and the reverse divides',
-        () {
-      for (final r in powerRounds) {
-        if (r.answer == Step.divideByEta) {
-          expect(r.asked.toLowerCase().contains('motor') ||
-              r.asked.toLowerCase().contains('input'), isTrue,
-              reason: '${r.subject}: dividing is for getting the input');
-        }
-        if (r.answer == Step.multiplyByEta) {
-          expect(
+    test(
+      'an output wanted from an input multiplies, and the reverse divides',
+      () {
+        for (final r in powerRounds) {
+          if (r.answer == Step.divideByEta) {
+            expect(
+              r.asked.toLowerCase().contains('motor') ||
+                  r.asked.toLowerCase().contains('input'),
+              isTrue,
+              reason: '${r.subject}: dividing is for getting the input',
+            );
+          }
+          if (r.answer == Step.multiplyByEta) {
+            expect(
               r.asked.toLowerCase().contains('water') ||
                   r.asked.toLowerCase().contains('deliver'),
               isTrue,
-              reason: '${r.subject}: multiplying is for getting the output');
+              reason: '${r.subject}: multiplying is for getting the output',
+            );
+          }
         }
-      }
-    });
+      },
+    );
 
     test('every round offers its own answer exactly once', () {
       for (final r in powerRounds) {
-        expect(r.options.where((s) => s == r.answer).length, 1,
-            reason: '${r.subject}');
-        expect(r.options.toSet().length, r.options.length,
-            reason: '${r.subject}: a step is offered twice');
+        expect(
+          r.options.where((s) => s == r.answer).length,
+          1,
+          reason: '${r.subject}',
+        );
+        expect(
+          r.options.toSet().length,
+          r.options.length,
+          reason: '${r.subject}: a step is offered twice',
+        );
       }
     });
 
     test('both of the two ways to write power get asked for', () {
-      expect(powerRounds.where((r) => r.answer == Step.forceTimesSpeed),
-          isNotEmpty);
-      expect(powerRounds.where((r) => r.answer == Step.workOverTime),
-          isNotEmpty);
+      expect(
+        powerRounds.where((r) => r.answer == Step.forceTimesSpeed),
+        isNotEmpty,
+      );
+      expect(
+        powerRounds.where((r) => r.answer == Step.workOverTime),
+        isNotEmpty,
+      );
     });
 
     test('the input is always the bigger number', () {

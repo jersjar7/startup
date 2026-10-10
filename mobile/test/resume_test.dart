@@ -13,7 +13,11 @@ void main() {
   setUpAll(() => GoogleFonts.config.allowRuntimeFetching = false);
 
   setUp(() {
-    for (final id in ['perpendicular-flip', 'discriminant-gate', 'grade-sense']) {
+    for (final id in [
+      'perpendicular-flip',
+      'discriminant-gate',
+      'grade-sense',
+    ]) {
       GameProgress.instance.reset(id);
     }
   });
@@ -30,8 +34,16 @@ void main() {
   });
 
   test('the same round cleared twice counts once', () {
-    GameProgress.instance.markRoundCleared('discriminant-gate', 0, firstTry: true);
-    GameProgress.instance.markRoundCleared('discriminant-gate', 0, firstTry: true);
+    GameProgress.instance.markRoundCleared(
+      'discriminant-gate',
+      0,
+      firstTry: true,
+    );
+    GameProgress.instance.markRoundCleared(
+      'discriminant-gate',
+      0,
+      firstTry: true,
+    );
     expect(GameProgress.instance.roundsCleared('discriminant-gate').length, 1);
     expect(GameProgress.instance.firstTryCount('discriminant-gate'), 1);
   });
@@ -40,20 +52,24 @@ void main() {
     final lesson = mathematicsMap.lessons.first;
     expect(GameProgress.instance.stateOf(lesson), LessonState.notStarted);
 
-    GameProgress.instance
-        .markRoundCleared('perpendicular-flip', 0, firstTry: true);
+    GameProgress.instance.markRoundCleared(
+      'perpendicular-flip',
+      0,
+      firstTry: true,
+    );
     expect(GameProgress.instance.stateOf(lesson), LessonState.inProgress);
   });
 
   testWidgets('reopening a half-finished board resumes it', (tester) async {
     for (var i = 0; i < 3; i++) {
-      GameProgress.instance
-          .markRoundCleared('perpendicular-flip', i, firstTry: true);
+      GameProgress.instance.markRoundCleared(
+        'perpendicular-flip',
+        i,
+        firstTry: true,
+      );
     }
 
-    await tester.pumpWidget(
-      const MaterialApp(home: PerpendicularFlipGame()),
-    );
+    await tester.pumpWidget(const MaterialApp(home: PerpendicularFlipGame()));
 
     // The counter picks up where it was left, not at zero.
     expect(find.text('3/8'), findsOneWidget);
@@ -63,13 +79,14 @@ void main() {
 
   testWidgets('a finished board opens on its done screen', (tester) async {
     for (var i = 0; i < 8; i++) {
-      GameProgress.instance
-          .markRoundCleared('perpendicular-flip', i, firstTry: false);
+      GameProgress.instance.markRoundCleared(
+        'perpendicular-flip',
+        i,
+        firstTry: false,
+      );
     }
 
-    await tester.pumpWidget(
-      const MaterialApp(home: PerpendicularFlipGame()),
-    );
+    await tester.pumpWidget(const MaterialApp(home: PerpendicularFlipGame()));
     expect(find.text('ALL DONE'), findsOneWidget);
   });
 }

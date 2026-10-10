@@ -152,10 +152,7 @@ void main() {
     });
 
     test('the lesson own warning formula is one of the rounds', () {
-      expect(
-        precedenceRounds.any((r) => r.formula.contains('A2/A3')),
-        isTrue,
-      );
+      expect(precedenceRounds.any((r) => r.formula.contains('A2/A3')), isTrue);
     });
   });
 
