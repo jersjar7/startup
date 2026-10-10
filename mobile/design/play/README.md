@@ -79,6 +79,13 @@ free" from the line.
 All four are now asserted by `mobile/test/android_release_test.dart`, which
 reads the real build files.
 
+- **The backup.** `scripts/` has nothing for this on purpose; it was made by
+  hand on 2026-10-09 as an AES-encrypted zip of both files together, because
+  the password alone and the keystore alone are each useless. The archive
+  password is in `secrets/android-key-backup-password.txt`, gitignored. Store
+  the archive and that password in **different** places or the encryption buys
+  nothing. Verified by restoring it and opening the keystore with its recorded
+  password.
 - **Keep the upload key.** `secrets/fe4raccoons-upload.jks` and its password in
   `secrets/android-upload-key.json` are not reproducible and are not in git.
   Losing them means a support round trip with Google before the app can be
