@@ -267,8 +267,11 @@ of the **app signing** certificate, which Google generates and which does not
 exist until the first bundle is uploaded. Until then the route returns 404 and
 the link opens the website, which is the correct fallback and not a bug.
 
-To close it: Play Console, Test and release, Setup, App integrity, copy the app
-signing key's SHA-256, set `ANDROID_CERT_SHA256` on the server with
-`./scripts/set-prod-secrets.sh`, deploy, then confirm
-`curl -s https://fe4raccoons.com/.well-known/assetlinks.json` returns the
-fingerprint. See `docs/mobile/universal-links.md`.
+The fingerprint now exists, read on 2026-10-09 after the first upload, and is
+recorded in `docs/mobile/universal-links.md`. It is the **app signing** key's,
+not the upload key's. It is public by definition, since the whole point is to
+publish it, so it does not belong in `secrets/`.
+
+Applying it needs a service restart, which the deploy preflight refused while a
+paid exam simulation was running. Once applied, confirm with
+`curl -s https://fe4raccoons.com/.well-known/assetlinks.json`.

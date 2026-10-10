@@ -16,9 +16,28 @@ does not change. What decides where it opens is the operating system:
   website. The app claims only `/verify-email/*`.
 - **Android (App Links).** The same idea with
   `/.well-known/assetlinks.json`, which must carry the SHA-256 fingerprint of
-  the certificate the APK is signed with. There is no Android release yet, so
+  the certificate the APK is signed with. The intent filter is in place and
   the route returns 404 until `ANDROID_CERT_SHA256` is set in the service's
-  environment. The intent filter in the manifest is in place.
+  environment.
+
+  **The fingerprint is Google's APP SIGNING key, not our upload key.** Play
+  re-signs every release, so the certificate a phone sees is Google's. Using
+  the upload key's fingerprint is the classic mistake here: the file serves
+  happily, the verification fails silently, and the link keeps opening the
+  website with nothing to say why.
+
+      ANDROID_CERT_SHA256=15:AA:AF:7E:E4:4F:E7:EA:54:24:59:21:35:39:0E:D7:3C:D9:B4:A2:48:98:67:48:63:E5:0B:87:B5:C5:7E:1C
+
+  Read on 2026-10-09 from Play Console → Protected with Play → App signing
+  (direct URL `/app/<appId>/keymanagement`; the menu entry has moved twice).
+  That page shows two SHA-256 values. The other one,
+  `68:B4:38:…:43:90:DF`, is **our upload key**, which is how this one was
+  identified: it matches `secrets/fe4raccoons-upload.jks` exactly, so the
+  remaining value is the app signing key by elimination.
+
+  **Not yet applied.** Setting it needs a service restart, and the deploy
+  preflight returned `PREFLIGHT_BLOCK` with a paid exam simulation in
+  progress. It waits for a clear window.
 - **Desktop, or no app.** The website's `/verify-email/:token` page handles
   it, as it always has.
 
