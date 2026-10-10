@@ -15,9 +15,11 @@ engineers preparing for licensure.
 
 SIGNING IN
 The app requires an account to show study content. Please use the demo
-account provided in the fields above. It is a normal account with some
-progress on it, so the home screen shows a real state rather than an
-empty one.
+account provided in the fields above. It is a normal production account
+with an exam date and a school set, so the home screen shows the exam
+countdown straight away. The progress figures read zero because the
+account has not worked through any lessons yet; that is the honest
+starting state for a new account, not an error.
 
 WHAT THE APP DOES
 Short practice rounds organised into the 15 chapters of the FE Civil

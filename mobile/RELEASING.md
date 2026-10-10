@@ -1,8 +1,52 @@
-# Cutting a TestFlight build
+# Releasing the app
+
+Both stores. iOS builds go to TestFlight and then the App Store; Android goes
+to Google Play. The four steps for an iOS build are near the bottom; the Play
+runbook is `design/play/README.md`.
 
 Ask first. The owner said so on 2026-09-08 after a build was spent on a
 one-line change that was also wrong. Lessons land on `development` and wait;
 they do not each get a build.
+
+## Submitted to Google Play: 2026-10-09
+
+**Version 1.0.0, version code 1086, in review.** Full rollout to 177 countries
+plus rest of world on approval. App, not Game. Education. 16.6 MB to download,
+about nine seconds.
+
+Eleven changes went in together: the production release, the country list, the
+en-US store listing, and six app-content declarations (content rating, target
+audience, privacy policy, ads, data safety, health). Four more were recorded as
+"what you've told us" rather than published: sign-in details, advertising ID,
+government apps, financial features.
+
+Every answer is in `design/play/declarations.md` with the evidence behind it.
+
+Four Flutter template defaults were found and fixed to get here, each invisible
+in a debug run:
+
+  - The release build signed with the DEBUG key. Play rejects such a bundle.
+  - INTERNET granted only in the debug and profile manifests. A release build
+    would have installed, opened, and failed every request, with every screen
+    empty.
+  - The launcher name was "mobile", the project folder.
+  - No adaptive icon, so Android 8 and up would have shrunk the square PNG
+    onto a plate.
+
+Two things were learned about the console itself and are written down in
+`design/play/README.md`: Play attaches a multi-file screenshot upload in
+completion order rather than filename order, which put the wrong poster in
+slot 1; and the "price or promotion" warning under the short description is
+standing guidance, not a check on the text, so it is not a reason to drop
+"completely free".
+
+Still open after submission:
+
+  - **App Links.** `ANDROID_CERT_SHA256` is known and recorded but not yet
+    applied, because the deploy preflight found a paid exam simulation in
+    progress. Until applied, the verification email opens the website, which is
+    the correct fallback.
+  - **Notification delivery on Android**, which no emulator can answer.
 
 ## Android: verified on the emulator, 2026-10-09
 

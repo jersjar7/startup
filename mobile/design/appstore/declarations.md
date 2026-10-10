@@ -126,6 +126,13 @@ code rather than an env var so a deploy cannot lose it.
 bearer token, and `/auth/me` comes back with the exam date and school present.
 A demo account that does not log in is the classic rejection.
 
+**Corrected 2026-10-09.** Signing in on an Android emulator showed what a
+reviewer actually sees: the exam countdown and the school, and zeroes for
+chapters, mastery and days studied. The account is not seeded with progress.
+The earlier note claiming the home screen "shows a real state rather than an
+empty one" was wrong and is fixed in `review-notes.md`. Either seed the account
+or keep saying zero; do not claim progress that is not there.
+
 ---
 
 ## Known unverified at submission
