@@ -42,10 +42,8 @@ standing guidance, not a check on the text, so it is not a reason to drop
 
 Still open after submission:
 
-  - **App Links.** `ANDROID_CERT_SHA256` is known and recorded but not yet
-    applied, because the deploy preflight found a paid exam simulation in
-    progress. Until applied, the verification email opens the website, which is
-    the correct fallback.
+  - ~~**App Links.**~~ **Done 2026-10-10.** `ANDROID_CERT_SHA256` is set on the
+    box and `assetlinks.json` serves it. Verified live.
   - **Notification delivery on Android**, which no emulator can answer.
 
 ## Android: verified on the emulator, 2026-10-09

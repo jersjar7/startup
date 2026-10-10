@@ -35,9 +35,18 @@ does not change. What decides where it opens is the operating system:
   identified: it matches `secrets/fe4raccoons-upload.jks` exactly, so the
   remaining value is the app signing key by elimination.
 
-  **Not yet applied.** Setting it needs a service restart, and the deploy
-  preflight returned `PREFLIGHT_BLOCK` with a paid exam simulation in
-  progress. It waits for a clear window.
+  **Applied 2026-10-10**, once the deploy preflight came back
+  `PREFLIGHT_OK`. `ANDROID_CERT_SHA256` is set in the service's `.env` (a
+  timestamped backup of the previous file sits beside it on the box) and pm2
+  was reloaded with `--update-env`. Verified straight after: the route serves
+  the fingerprint as `application/json`, the site and `/api` answer normally,
+  and the pm2 log still reads `[stripe] mode: LIVE`.
+
+      curl -s https://fe4raccoons.com/.well-known/assetlinks.json
+
+  Android verifies App Links at install time and caches the result, so this
+  only takes effect for installs made after this point. There is nothing on
+  Play yet, so every real install will be after it.
 - **Desktop, or no app.** The website's `/verify-email/:token` page handles
   it, as it always has.
 

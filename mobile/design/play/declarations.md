@@ -282,6 +282,6 @@ recorded in `docs/mobile/universal-links.md`. It is the **app signing** key's,
 not the upload key's. It is public by definition, since the whole point is to
 publish it, so it does not belong in `secrets/`.
 
-Applying it needs a service restart, which the deploy preflight refused while a
-paid exam simulation was running. Once applied, confirm with
-`curl -s https://fe4raccoons.com/.well-known/assetlinks.json`.
+**Applied 2026-10-10.** `assetlinks.json` now serves the fingerprint as
+`application/json`, so the verification link opens the app on installs made
+from here on. Nothing is on Play yet, so that covers every real install.
