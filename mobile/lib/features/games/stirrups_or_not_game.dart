@@ -43,11 +43,11 @@ class ShearRound {
   Stirrups get answer => check.verdict;
 
   static String label(Stirrups which) => switch (which) {
-        Stirrups.none => 'No stirrups at all',
-        Stirrups.minimum => 'Minimum stirrups only',
-        Stirrups.designed => 'Stirrups worked out for the difference',
-        Stirrups.tooSmall => 'None will do: the section has to grow',
-      };
+    Stirrups.none => 'No stirrups at all',
+    Stirrups.minimum => 'Minimum stirrups only',
+    Stirrups.designed => 'Stirrups worked out for the difference',
+    Stirrups.tooSmall => 'None will do: the section has to grow',
+  };
 }
 
 const shearRounds = <ShearRound>[

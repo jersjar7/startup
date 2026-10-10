@@ -47,8 +47,7 @@ class DiagonalRound {
   /// Cells are numbered across then down: row is A's axis, column is B's.
   Set<int> get answer => {for (var i = 0; i < n; i++) i * n + i};
 
-  String cell(int row, int col) =>
-      '(${a[row]})(${b[col]})';
+  String cell(int row, int col) => '(${a[row]})(${b[col]})';
 }
 
 const diagonalRounds = <DiagonalRound>[
@@ -165,7 +164,8 @@ class _TakeTheDiagonalGameState extends State<TakeTheDiagonalGame> {
           : (_picked.isEmpty
                 ? null
                 : () => _session.submit(
-                    ok: _picked.length == r.answer.length &&
+                    ok:
+                        _picked.length == r.answer.length &&
                         _picked.containsAll(r.answer),
                     context: context,
                   )),

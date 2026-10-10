@@ -57,11 +57,9 @@ const areaMethodRounds = <AreaMethodRound>[
     setting:
         'A triangular remnant with a monument found at each corner and '
         'coordinates on all three.',
-    parcel: Parcel(corners: [
-      Corner2('A', 0, 0),
-      Corner2('B', 6, 0),
-      Corner2('C', 3, 4),
-    ]),
+    parcel: Parcel(
+      corners: [Corner2('A', 0, 0), Corner2('B', 6, 0), Corner2('C', 3, 4)],
+    ),
     why:
         'By coordinates. Straight sides between known corners is exactly '
         'what the coordinate method is for, and it is EXACT: there is no '
@@ -75,12 +73,14 @@ const areaMethodRounds = <AreaMethodRound>[
     setting:
         'A lot with four corners, all four coordinated off the control on '
         'site.',
-    parcel: Parcel(corners: [
-      Corner2('A', 0, 0),
-      Corner2('B', 10, 0),
-      Corner2('C', 8, 6),
-      Corner2('D', 2, 5),
-    ]),
+    parcel: Parcel(
+      corners: [
+        Corner2('A', 0, 0),
+        Corner2('B', 10, 0),
+        Corner2('C', 8, 6),
+        Corner2('D', 2, 5),
+      ],
+    ),
     why:
         'By coordinates again, and the number of corners never changes that. '
         'Four corners means four cross products rather than three, and the '
@@ -134,13 +134,15 @@ const areaMethodRounds = <AreaMethodRound>[
     setting:
         'An awkward five sided parcel, every corner monumented and '
         'coordinated.',
-    parcel: Parcel(corners: [
-      Corner2('A', 0, 0),
-      Corner2('B', 9, 1),
-      Corner2('C', 11, 7),
-      Corner2('D', 4, 9),
-      Corner2('E', -1, 5),
-    ]),
+    parcel: Parcel(
+      corners: [
+        Corner2('A', 0, 0),
+        Corner2('B', 9, 1),
+        Corner2('C', 11, 7),
+        Corner2('D', 4, 9),
+        Corner2('E', -1, 5),
+      ],
+    ),
     why:
         'By coordinates. Irregular is not the same as curved: every side '
         'here is straight, so the coordinate method handles it exactly and '
@@ -245,7 +247,8 @@ class _WhichMethodFitsGameState extends State<WhichMethodFitsGame> {
                       ? ParcelPainter(
                           parcel: r.parcel!,
                           order: [
-                            for (var i = 0; i < r.parcel!.corners.length; i++) i
+                            for (var i = 0; i < r.parcel!.corners.length; i++)
+                              i,
                           ],
                         )
                       : OffsetsPainter(strip: r.strip!),

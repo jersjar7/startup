@@ -42,10 +42,7 @@ class Superelevation {
 /// curve asks for into the part the tires hold and the part the tilt holds.
 /// That split is the question, so the bar is empty until the answer is in.
 class SuperPainter extends CustomPainter {
-  const SuperPainter({
-    required this.curve,
-    this.answered = false,
-  });
+  const SuperPainter({required this.curve, this.answered = false});
 
   final Superelevation curve;
   final bool answered;
@@ -64,15 +61,28 @@ class SuperPainter extends CustomPainter {
     final outer = Offset(right, road - drop / 2);
     final inner = Offset(left, road + drop / 2);
     canvas.drawLine(
-        inner,
-        outer,
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 3);
-    writeOn(canvas, size, 'inside of the curve', Offset(left - 8, road + 22),
-        AppColors.ink3, fontSize: 9.5);
-    writeOn(canvas, size, 'outside', Offset(right - 42, road - 30),
-        AppColors.ink3, fontSize: 9.5);
+      inner,
+      outer,
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 3,
+    );
+    writeOn(
+      canvas,
+      size,
+      'inside of the curve',
+      Offset(left - 8, road + 22),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'outside',
+      Offset(right - 42, road - 30),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // The car, sitting on the tilt.
     final at = Offset((left + right) / 2, road);
@@ -80,25 +90,29 @@ class SuperPainter extends CustomPainter {
     canvas
       ..translate(at.dx, at.dy)
       ..rotate(math.atan2(outer.dy - inner.dy, outer.dx - inner.dx))
-      ..drawRect(const Rect.fromLTWH(-14, -11, 28, 10),
-          Paint()..color = AppColors.charcoal.withValues(alpha: 0.8))
+      ..drawRect(
+        const Rect.fromLTWH(-14, -11, 28, 10),
+        Paint()..color = AppColors.charcoal.withValues(alpha: 0.8),
+      )
       ..restore();
 
     writeOn(
-        canvas,
-        size,
-        '${curve.speed.toStringAsFixed(0)} mph round '
-            '${curve.radius.toStringAsFixed(0)} ft',
-        Offset(left - 8, 8),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${curve.speed.toStringAsFixed(0)} mph round '
+      '${curve.radius.toStringAsFixed(0)} ft',
+      Offset(left - 8, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'tires can hold ${curve.friction.toStringAsFixed(2)} of it',
-        Offset(left - 8, 22),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'tires can hold ${curve.friction.toStringAsFixed(2)} of it',
+      Offset(left - 8, 22),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // The bar: what the curve asks for, and who supplies it.
     final barTop = size.height - 58;
@@ -107,15 +121,28 @@ class SuperPainter extends CustomPainter {
     final bar = Rect.fromLTRB(barLeft, barTop, barRight, barTop + 16);
     if (!answered) {
       canvas.drawRect(
-          bar,
-          Paint()
-            ..color = AppColors.line
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.2);
-      writeOn(canvas, size, 'what the curve asks for, and who supplies it,',
-          Offset(barLeft, barTop + 22), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'comes out after the answer',
-          Offset(barLeft, barTop + 36), AppColors.ink3, fontSize: 9.5);
+        bar,
+        Paint()
+          ..color = AppColors.line
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.2,
+      );
+      writeOn(
+        canvas,
+        size,
+        'what the curve asks for, and who supplies it,',
+        Offset(barLeft, barTop + 22),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'comes out after the answer',
+        Offset(barLeft, barTop + 36),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       viewTag(canvas, size, Looking.section, note: 'the pavement');
       return;
     }
@@ -125,34 +152,47 @@ class SuperPainter extends CustomPainter {
         : (curve.friction / curve.demand).clamp(0.0, 1.0);
     final split = barLeft + (barRight - barLeft) * share;
     canvas
-      ..drawRect(Rect.fromLTRB(barLeft, barTop, split, barTop + 16),
-          Paint()..color = AppColors.info.withValues(alpha: 0.45))
-      ..drawRect(Rect.fromLTRB(split, barTop, barRight, barTop + 16),
-          Paint()..color = AppColors.ember.withValues(alpha: 0.5))
       ..drawRect(
-          bar,
-          Paint()
-            ..color = AppColors.ink3
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.2);
+        Rect.fromLTRB(barLeft, barTop, split, barTop + 16),
+        Paint()..color = AppColors.info.withValues(alpha: 0.45),
+      )
+      ..drawRect(
+        Rect.fromLTRB(split, barTop, barRight, barTop + 16),
+        Paint()..color = AppColors.ember.withValues(alpha: 0.5),
+      )
+      ..drawRect(
+        bar,
+        Paint()
+          ..color = AppColors.ink3
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.2,
+      );
     writeOn(
-        canvas,
-        size,
-        'the curve asks for ${curve.demand.toStringAsFixed(3)}',
-        Offset(barLeft, barTop - 14),
-        AppColors.charcoal,
-        fontSize: 9.5);
-    writeOn(canvas, size, 'tires ${curve.friction.toStringAsFixed(2)}',
-        Offset(barLeft + 4, barTop + 22), AppColors.info, fontSize: 9.5);
+      canvas,
+      size,
+      'the curve asks for ${curve.demand.toStringAsFixed(3)}',
+      Offset(barLeft, barTop - 14),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        curve.flatWouldDo
-            ? 'the tires alone could hold it'
-            : 'the tilt, ${curve.ratePerCent.toStringAsFixed(1)} per cent',
-        Offset(curve.flatWouldDo ? barLeft + 90 : split + 4, barTop + 22),
-        curve.flatWouldDo ? AppColors.info : AppColors.ember,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'tires ${curve.friction.toStringAsFixed(2)}',
+      Offset(barLeft + 4, barTop + 22),
+      AppColors.info,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      curve.flatWouldDo
+          ? 'the tires alone could hold it'
+          : 'the tilt, ${curve.ratePerCent.toStringAsFixed(1)} per cent',
+      Offset(curve.flatWouldDo ? barLeft + 90 : split + 4, barTop + 22),
+      curve.flatWouldDo ? AppColors.info : AppColors.ember,
+      fontSize: 9.5,
+    );
 
     viewTag(canvas, size, Looking.section, note: 'the pavement');
   }

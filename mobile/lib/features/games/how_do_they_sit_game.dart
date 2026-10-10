@@ -243,11 +243,7 @@ class _HowDoTheySitGameState extends State<HowDoTheySitGame> {
                   minor: 18,
                   major: 90,
                   child: CustomPaint(
-                    painter: VennPainter(
-                      link: r.answer,
-                      left: 'A',
-                      right: 'B',
-                    ),
+                    painter: VennPainter(link: r.answer, left: 'A', right: 'B'),
                     child: const SizedBox.expand(),
                   ),
                 ),

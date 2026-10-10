@@ -32,10 +32,10 @@ enum Prop {
 
 /// How many unknowns a support puts into the equations.
 int unknownsIn(Prop kind) => switch (kind) {
-      Prop.roller || Prop.slopedRoller || Prop.cable => 1,
-      Prop.pin => 2,
-      Prop.fixed => 3,
-    };
+  Prop.roller || Prop.slopedRoller || Prop.cable => 1,
+  Prop.pin => 2,
+  Prop.fixed => 3,
+};
 
 @immutable
 class Support {
@@ -142,9 +142,9 @@ class BeamPainter extends CustomPainter {
   /// Where a station sits on the canvas, so the tap targets can be put over
   /// the marks rather than beside them.
   static Offset stationAt(Size size, double span, double at) => Offset(
-        _padX + at / span * (size.width - _padX * 2),
-        size.height - _padBottom,
-      );
+    _padX + at / span * (size.width - _padX * 2),
+    size.height - _padBottom,
+  );
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -181,8 +181,13 @@ class BeamPainter extends CustomPainter {
     if (markResultant && spreads.isNotEmpty) {
       final s = spreads.first;
       final x = _x(size, s.actsAt);
-      _arrow(canvas, Offset(x, y - 74), Offset(x, y - 4), AppColors.forest,
-          heavy: true);
+      _arrow(
+        canvas,
+        Offset(x, y - 74),
+        Offset(x, y - 4),
+        AppColors.forest,
+        heavy: true,
+      );
       _write(canvas, 'acts here', Offset(x, y - 90), AppColors.forest, size);
     }
 
@@ -193,10 +198,10 @@ class BeamPainter extends CustomPainter {
       final colour = isTruth
           ? AppColors.forest
           : (locked && picked)
-              ? AppColors.error
-              : picked
-                  ? AppColors.ember
-                  : AppColors.ink3;
+          ? AppColors.error
+          : picked
+          ? AppColors.ember
+          : AppColors.ink3;
       final heavy = picked || isTruth;
       canvas.drawCircle(
         Offset(x, y),
@@ -213,10 +218,16 @@ class BeamPainter extends CustomPainter {
       );
       // A mark that sits on a support has the support's own drawing under it,
       // so its label goes below that rather than through the hatching.
-      final onSupport =
-          supports.any((s) => (s.at.dx - station.at).abs() < 1e-9);
-      _write(canvas, station.label, Offset(x, y + (onSupport ? 32 : 14)),
-          colour, size);
+      final onSupport = supports.any(
+        (s) => (s.at.dx - station.at).abs() < 1e-9,
+      );
+      _write(
+        canvas,
+        station.label,
+        Offset(x, y + (onSupport ? 32 : 14)),
+        colour,
+        size,
+      );
     }
   }
 
@@ -252,12 +263,22 @@ class BeamPainter extends CustomPainter {
       final x = _x(size, at);
       final from = top(at);
       if (y - 18 - from < 3) continue;
-      _arrow(canvas, Offset(x, from), Offset(x, y - 16), AppColors.ink2,
-          head: 6);
+      _arrow(
+        canvas,
+        Offset(x, from),
+        Offset(x, y - 16),
+        AppColors.ink2,
+        head: 6,
+      );
     }
     if (spread.label.isNotEmpty) {
-      _write(canvas, spread.label, Offset((a + b) / 2, top((spread.from + spread.to) / 2) - 16),
-          AppColors.ink2, size);
+      _write(
+        canvas,
+        spread.label,
+        Offset((a + b) / 2, top((spread.from + spread.to) / 2) - 16),
+        AppColors.ink2,
+        size,
+      );
     }
   }
 
@@ -325,13 +346,24 @@ class BeamPainter extends CustomPainter {
 
     if (s.label.isNotEmpty) {
       final below = s.kind != Prop.cable;
-      _write(canvas, s.label, Offset(x, below ? y + 28 : y - 62),
-          AppColors.ink2, size);
+      _write(
+        canvas,
+        s.label,
+        Offset(x, below ? y + 28 : y - 62),
+        AppColors.ink2,
+        size,
+      );
     }
   }
 
   void _drawCouple(
-      Canvas canvas, Size size, double x, double y, bool ccw, String label) {
+    Canvas canvas,
+    Size size,
+    double x,
+    double y,
+    bool ccw,
+    String label,
+  ) {
     const r = 15.0;
     final rect = Rect.fromCircle(center: Offset(x, y - r - 6), radius: r);
     final from = ccw ? 0.4 : math.pi - 0.4;
@@ -353,16 +385,28 @@ class BeamPainter extends CustomPainter {
     canvas.drawPath(
       Path()
         ..moveTo(tip.dx, tip.dy)
-        ..lineTo((tip - along * 8 + side * 4).dx, (tip - along * 8 + side * 4).dy)
-        ..lineTo((tip - along * 8 - side * 4).dx, (tip - along * 8 - side * 4).dy)
+        ..lineTo(
+          (tip - along * 8 + side * 4).dx,
+          (tip - along * 8 + side * 4).dy,
+        )
+        ..lineTo(
+          (tip - along * 8 - side * 4).dx,
+          (tip - along * 8 - side * 4).dy,
+        )
         ..close(),
       Paint()..color = AppColors.charcoal,
     );
     _write(canvas, label, Offset(x, y - r * 2 - 24), AppColors.charcoal, size);
   }
 
-  void _arrow(Canvas canvas, Offset from, Offset to, Color colour,
-      {double head = 8, bool heavy = false}) {
+  void _arrow(
+    Canvas canvas,
+    Offset from,
+    Offset to,
+    Color colour, {
+    double head = 8,
+    bool heavy = false,
+  }) {
     final paint = Paint()
       ..color = colour
       ..strokeWidth = heavy ? 3 : 1.8
@@ -372,10 +416,14 @@ class BeamPainter extends CustomPainter {
     canvas.drawPath(
       Path()
         ..moveTo(to.dx, to.dy)
-        ..lineTo(to.dx - head * math.cos(angle - 0.4),
-            to.dy - head * math.sin(angle - 0.4))
-        ..lineTo(to.dx - head * math.cos(angle + 0.4),
-            to.dy - head * math.sin(angle + 0.4))
+        ..lineTo(
+          to.dx - head * math.cos(angle - 0.4),
+          to.dy - head * math.sin(angle - 0.4),
+        )
+        ..lineTo(
+          to.dx - head * math.cos(angle + 0.4),
+          to.dy - head * math.sin(angle + 0.4),
+        )
         ..close(),
       Paint()..color = colour,
     );
@@ -384,7 +432,10 @@ class BeamPainter extends CustomPainter {
   void _write(Canvas canvas, String text, Offset at, Color colour, Size size) {
     if (text.isEmpty) return;
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10.5, color: colour)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10.5, color: colour),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = at.dx - tp.width / 2;
@@ -462,10 +513,14 @@ class ReactionGlyphPainter extends CustomPainter {
       canvas.drawPath(
         Path()
           ..moveTo(to.dx, to.dy)
-          ..lineTo(to.dx - 7 * math.cos(angle - 0.45),
-              to.dy - 7 * math.sin(angle - 0.45))
-          ..lineTo(to.dx - 7 * math.cos(angle + 0.45),
-              to.dy - 7 * math.sin(angle + 0.45))
+          ..lineTo(
+            to.dx - 7 * math.cos(angle - 0.45),
+            to.dy - 7 * math.sin(angle - 0.45),
+          )
+          ..lineTo(
+            to.dx - 7 * math.cos(angle + 0.45),
+            to.dy - 7 * math.sin(angle + 0.45),
+          )
           ..close(),
         Paint()..color = colour,
       );

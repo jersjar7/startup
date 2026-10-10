@@ -10,10 +10,10 @@ enum Law { froude, reynolds, either }
 
 extension LawWords on Law {
   String get plain => switch (this) {
-        Law.froude => 'Match the Froude number',
-        Law.reynolds => 'Match the Reynolds number',
-        Law.either => 'Either one: both ask the same here',
-      };
+    Law.froude => 'Match the Froude number',
+    Law.reynolds => 'Match the Reynolds number',
+    Law.either => 'Either one: both ask the same here',
+  };
 }
 
 /// What the test looks like, which is the evidence for which law governs it.
@@ -66,7 +66,9 @@ class BenchPainter extends CustomPainter {
         // The pool behind it, and the sheet of water over the crest.
         final poolTop = crestY - 12;
         canvas.drawRect(
-            Rect.fromLTRB(left, poolTop, size.width * 0.30, floor), waterFill);
+          Rect.fromLTRB(left, poolTop, size.width * 0.30, floor),
+          waterFill,
+        );
         final nappe = Path()
           ..moveTo(size.width * 0.30, poolTop)
           ..quadraticBezierTo(crestX - 12, crestY - 15, crestX, crestY - 9)
@@ -75,27 +77,48 @@ class BenchPainter extends CustomPainter {
           ..lineTo(right, apronY)
           ..lineTo(toeX, apronY)
           ..quadraticBezierTo(crestX + 16, crestY + 6, crestX, crestY)
-          ..quadraticBezierTo(crestX - 12, crestY - 4, size.width * 0.30,
-              crestY + 6)
+          ..quadraticBezierTo(
+            crestX - 12,
+            crestY - 4,
+            size.width * 0.30,
+            crestY + 6,
+          )
           ..close();
         canvas
           ..drawPath(nappe, waterFill)
           ..drawPath(dam, Paint()..color = AppColors.cream);
         hatchIn(canvas, dam);
         canvas.drawPath(dam, solid);
-        waterLevel(canvas, Offset(left, poolTop),
-            Offset(size.width * 0.30, poolTop),
-            markAt: size.width * 0.30 - 22);
-        waterLevel(canvas, Offset(toeX + 10, apronY - 9), Offset(right, apronY - 9),
-            markAt: right - 26);
+        waterLevel(
+          canvas,
+          Offset(left, poolTop),
+          Offset(size.width * 0.30, poolTop),
+          markAt: size.width * 0.30 - 22,
+        );
+        waterLevel(
+          canvas,
+          Offset(toeX + 10, apronY - 9),
+          Offset(right, apronY - 9),
+          markAt: right - 26,
+        );
         groundLine(canvas, Offset(left, floor), Offset(right, floor));
         // The air label goes over the empty sky above the crest, clear of
         // the water label on the pool side.
         writeOn(canvas, size, 'air', Offset(crestX + 30, 14), AppColors.ink3);
-        writeOn(canvas, size, 'water, open to the air',
-            Offset(left + 6, poolTop - 16), AppColors.info);
-        writeOn(canvas, size, 'concrete', Offset(size.width * 0.34, floor - 26),
-            AppColors.ink2);
+        writeOn(
+          canvas,
+          size,
+          'water, open to the air',
+          Offset(left + 6, poolTop - 16),
+          AppColors.info,
+        );
+        writeOn(
+          canvas,
+          size,
+          'concrete',
+          Offset(size.width * 0.34, floor - 26),
+          AppColors.ink2,
+        );
         viewTag(canvas, size, Looking.section);
       case Bench.closedPipe:
         // A length of pipe cut open with a valve in it. The wall is a
@@ -106,13 +129,16 @@ class BenchPainter extends CustomPainter {
         const wall = 7.0;
         final top = Path()
           ..addRect(
-              Rect.fromLTRB(left, middle - bore - wall, right, middle - bore));
+            Rect.fromLTRB(left, middle - bore - wall, right, middle - bore),
+          );
         final bottom = Path()
           ..addRect(
-              Rect.fromLTRB(left, middle + bore, right, middle + bore + wall));
+            Rect.fromLTRB(left, middle + bore, right, middle + bore + wall),
+          );
         canvas.drawRect(
-            Rect.fromLTRB(left, middle - bore, right, middle + bore),
-            waterFill);
+          Rect.fromLTRB(left, middle - bore, right, middle + bore),
+          waterFill,
+        );
         hatchIn(canvas, top, step: 6);
         hatchIn(canvas, bottom, step: 6);
         canvas
@@ -121,26 +147,56 @@ class BenchPainter extends CustomPainter {
         // The valve: a disc across the bore on a stem through the bonnet.
         final vx = size.width * 0.52;
         final disc = Path()
-          ..addRRect(RRect.fromRectAndRadius(
+          ..addRRect(
+            RRect.fromRectAndRadius(
               Rect.fromCenter(
-                  center: Offset(vx, middle), width: 9, height: bore * 1.7),
-              const Radius.circular(2)));
+                center: Offset(vx, middle),
+                width: 9,
+                height: bore * 1.7,
+              ),
+              const Radius.circular(2),
+            ),
+          );
         final stem = Path()
-          ..addRect(Rect.fromLTRB(vx - 3, middle - bore - wall - 16,
-              vx + 3, middle - bore - wall));
+          ..addRect(
+            Rect.fromLTRB(
+              vx - 3,
+              middle - bore - wall - 16,
+              vx + 3,
+              middle - bore - wall,
+            ),
+          );
         hatchIn(canvas, disc, step: 5);
         hatchIn(canvas, stem, step: 5);
         canvas
           ..drawPath(disc, solid)
           ..drawPath(stem, solid)
-          ..drawLine(Offset(vx - 11, middle - bore - wall - 16),
-              Offset(vx + 11, middle - bore - wall - 16), solid);
-        writeOn(canvas, size, 'valve', Offset(vx + 14, middle - bore - wall - 20),
-            AppColors.ink2);
-        writeOn(canvas, size, 'water, wall to wall',
-            Offset(left + 6, middle - 6), AppColors.info);
-        writeOn(canvas, size, 'steel', Offset(left + 6, middle - bore - wall - 14),
-            AppColors.ink2);
+          ..drawLine(
+            Offset(vx - 11, middle - bore - wall - 16),
+            Offset(vx + 11, middle - bore - wall - 16),
+            solid,
+          );
+        writeOn(
+          canvas,
+          size,
+          'valve',
+          Offset(vx + 14, middle - bore - wall - 20),
+          AppColors.ink2,
+        );
+        writeOn(
+          canvas,
+          size,
+          'water, wall to wall',
+          Offset(left + 6, middle - 6),
+          AppColors.info,
+        );
+        writeOn(
+          canvas,
+          size,
+          'steel',
+          Offset(left + 6, middle - bore - wall - 14),
+          AppColors.ink2,
+        );
         viewTag(canvas, size, Looking.section, note: 'no free surface');
       case Bench.submerged:
         // A pipeline on the sea bed. There IS a surface in this one, and it
@@ -149,10 +205,13 @@ class BenchPainter extends CustomPainter {
         // sits in it rather than on the caption underneath.
         final surface = 34.0;
         final bedTop = floor - 10;
-        canvas.drawRect(
-            Rect.fromLTRB(left, surface, right, bedTop), waterFill);
-        waterLevel(canvas, Offset(left, surface), Offset(right, surface),
-            markAt: left + 40);
+        canvas.drawRect(Rect.fromLTRB(left, surface, right, bedTop), waterFill);
+        waterLevel(
+          canvas,
+          Offset(left, surface),
+          Offset(right, surface),
+          markAt: left + 40,
+        );
         final bed = Path()
           ..moveTo(left, bedTop)
           ..lineTo(right, bedTop)
@@ -162,8 +221,12 @@ class BenchPainter extends CustomPainter {
         hatchIn(canvas, bed, step: 6);
         groundLine(canvas, Offset(left, bedTop), Offset(right, bedTop));
         final pipe = Path()
-          ..addOval(Rect.fromCircle(
-              center: Offset(size.width * 0.52, bedTop - 13), radius: 13));
+          ..addOval(
+            Rect.fromCircle(
+              center: Offset(size.width * 0.52, bedTop - 13),
+              radius: 13,
+            ),
+          );
         canvas
           ..drawPath(pipe, Paint()..color = AppColors.cream)
           ..drawPath(pipe, solid);
@@ -180,10 +243,20 @@ class BenchPainter extends CustomPainter {
             ..drawLine(tip, tip - const Offset(7, 4), ink)
             ..drawLine(tip, tip - const Offset(7, -4), ink);
         }
-        writeOn(canvas, size, 'current', Offset(left + 8, surface + 6),
-            AppColors.info);
-        writeOn(canvas, size, 'sea bed', Offset(right - 62, bedTop + 4),
-            AppColors.ink2);
+        writeOn(
+          canvas,
+          size,
+          'current',
+          Offset(left + 8, surface + 6),
+          AppColors.info,
+        );
+        writeOn(
+          canvas,
+          size,
+          'sea bed',
+          Offset(right - 62, bedTop + 4),
+          AppColors.ink2,
+        );
         viewTag(canvas, size, Looking.section, note: 'surface far off');
       case Bench.tunnel:
         // A wind tunnel working section, cut through. Air in it, no liquid
@@ -191,9 +264,13 @@ class BenchPainter extends CustomPainter {
         final middle = (floor + 20) / 2 + 4;
         const half = 34.0;
         final top = Path()
-          ..addRect(Rect.fromLTRB(left, middle - half - 8, right, middle - half));
+          ..addRect(
+            Rect.fromLTRB(left, middle - half - 8, right, middle - half),
+          );
         final bottom = Path()
-          ..addRect(Rect.fromLTRB(left, middle + half, right, middle + half + 8));
+          ..addRect(
+            Rect.fromLTRB(left, middle + half, right, middle + half + 8),
+          );
         hatchIn(canvas, top, step: 6);
         hatchIn(canvas, bottom, step: 6);
         canvas
@@ -214,10 +291,13 @@ class BenchPainter extends CustomPainter {
         hatchIn(canvas, deck, step: 5);
         canvas
           ..drawPath(deck, solid)
-          ..drawLine(Offset(cx, middle + 8), Offset(cx, middle + half),
-              Paint()
-                ..color = AppColors.ink3
-                ..strokeWidth = 1.2);
+          ..drawLine(
+            Offset(cx, middle + 8),
+            Offset(cx, middle + half),
+            Paint()
+              ..color = AppColors.ink3
+              ..strokeWidth = 1.2,
+          );
         // Moving air, shown as streamlines rather than as water.
         for (var i = 0; i < 3; i++) {
           final y = middle - 24 + i * 24;
@@ -230,15 +310,30 @@ class BenchPainter extends CustomPainter {
             ..drawLine(tip, tip - const Offset(6, 3.5), ink)
             ..drawLine(tip, tip - const Offset(6, -3.5), ink);
         }
-        writeOn(canvas, size, 'air', Offset(left + 8, middle - half + 4),
-            AppColors.ink3);
-        writeOn(canvas, size, 'deck section', Offset(cx + 4, middle + 16),
-            AppColors.ink2);
+        writeOn(
+          canvas,
+          size,
+          'air',
+          Offset(left + 8, middle - half + 4),
+          AppColors.ink3,
+        );
+        writeOn(
+          canvas,
+          size,
+          'deck section',
+          Offset(cx + 4, middle + 16),
+          AppColors.ink2,
+        );
         viewTag(canvas, size, Looking.section, note: 'no liquid at all');
     }
 
-    writeOn(canvas, size, caption, Offset(16, size.height - 13),
-        AppColors.ink3);
+    writeOn(
+      canvas,
+      size,
+      caption,
+      Offset(16, size.height - 13),
+      AppColors.ink3,
+    );
   }
 
   @override
@@ -263,9 +358,8 @@ class Twins {
   /// The model speed over the prototype speed, in the same fluid. Froude
   /// scales as the square root of the length ratio; Reynolds scales as its
   /// inverse, which is why a small Reynolds model has to run so fast.
-  double get ratio => law == Law.froude
-      ? math.sqrt(model / proto)
-      : proto / model;
+  double get ratio =>
+      law == Law.froude ? math.sqrt(model / proto) : proto / model;
 }
 
 /// The two of them side by side, drawn to the scale that is claimed.
@@ -286,31 +380,57 @@ class TwinsPainter extends CustomPainter {
 
     // Both stand on the same line, which is what makes the two sizes
     // comparable at a glance.
-    groundLine(canvas, Offset(16, middle + 2), Offset(size.width - 16, middle + 2),
-        color: AppColors.line.withValues(alpha: 0.9));
+    groundLine(
+      canvas,
+      Offset(16, middle + 2),
+      Offset(size.width - 16, middle + 2),
+      color: AppColors.line.withValues(alpha: 0.9),
+    );
 
     void block(double centerX, double share, String title, String below) {
       // Nothing is drawn smaller than a few pixels, or a hundred to one
       // would be a speck with a label under it.
       final wide = math.max(10.0, 118 * share);
       final tall = math.max(7.0, 42 * share);
-      final rect = Rect.fromLTWH(
-          centerX - wide / 2, middle - tall, wide, tall);
+      final rect = Rect.fromLTWH(centerX - wide / 2, middle - tall, wide, tall);
       canvas
         ..drawRect(rect, body)
         ..drawRect(rect, edge);
-      writeOn(canvas, size, title, Offset(centerX - 26, 10),
-          AppColors.charcoal);
-      writeOn(canvas, size, below, Offset(centerX - 30, middle + 12),
-          AppColors.ink3);
+      writeOn(
+        canvas,
+        size,
+        title,
+        Offset(centerX - 26, 10),
+        AppColors.charcoal,
+      );
+      writeOn(
+        canvas,
+        size,
+        below,
+        Offset(centerX - 30, middle + 12),
+        AppColors.ink3,
+      );
     }
 
-    block(size.width * 0.29, twins.proto / biggest, 'the real thing',
-        '${_num(twins.proto)} across');
-    block(size.width * 0.72, twins.model / biggest, 'the model',
-        '${_num(twins.model)} across');
-    writeOn(canvas, size, 'both drawn to one scale',
-        Offset(16, size.height - 14), AppColors.ink3);
+    block(
+      size.width * 0.29,
+      twins.proto / biggest,
+      'the real thing',
+      '${_num(twins.proto)} across',
+    );
+    block(
+      size.width * 0.72,
+      twins.model / biggest,
+      'the model',
+      '${_num(twins.model)} across',
+    );
+    writeOn(
+      canvas,
+      size,
+      'both drawn to one scale',
+      Offset(16, size.height - 14),
+      AppColors.ink3,
+    );
   }
 
   @override

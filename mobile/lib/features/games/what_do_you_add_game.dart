@@ -29,16 +29,16 @@ enum AddOn { asIs, plusHalf, plusWhole }
 
 extension AddOnWords on AddOn {
   String get plain => switch (this) {
-        AddOn.asIs => 'Nothing: that is the azimuth',
-        AddOn.plusHalf => 'Add 180 degrees',
-        AddOn.plusWhole => 'Add 360 degrees',
-      };
+    AddOn.asIs => 'Nothing: that is the azimuth',
+    AddOn.plusHalf => 'Add 180 degrees',
+    AddOn.plusWhole => 'Add 360 degrees',
+  };
 
   double get value => switch (this) {
-        AddOn.asIs => 0,
-        AddOn.plusHalf => 180,
-        AddOn.plusWhole => 360,
-      };
+    AddOn.asIs => 0,
+    AddOn.plusHalf => 180,
+    AddOn.plusWhole => 360,
+  };
 }
 
 @immutable
@@ -58,8 +58,7 @@ class AddOnRound {
   final String source;
 
   /// Worked out from the two signs, never declared beside them.
-  AddOn get answer =>
-      AddOn.values.firstWhere((f) => f.value == task.toAdd);
+  AddOn get answer => AddOn.values.firstWhere((f) => f.value == task.toAdd);
 }
 
 const addOnRounds = <AddOnRound>[

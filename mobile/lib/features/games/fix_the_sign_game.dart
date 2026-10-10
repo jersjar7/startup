@@ -57,7 +57,8 @@ class ExpansionRound {
 
 const expansions = <ExpansionRound>[
   ExpansionRound(
-    setup: r'\vec{r} \times \vec{F},\quad \vec{r} = (3, 4, 0),\ '
+    setup:
+        r'\vec{r} \times \vec{F},\quad \vec{r} = (3, 4, 0),\ '
         r'\vec{F} = (0, 0, -5)',
     terms: [
       SignTerm(working: r'+\big[(4)(-5) - (0)(0)\big]', value: '-20'),
@@ -72,7 +73,8 @@ const expansions = <ExpansionRound>[
     source: 'math-cpa-q2',
   ),
   ExpansionRound(
-    setup: r'\vec{r} \times \vec{F},\quad \vec{r} = (3, 4, 0),\ '
+    setup:
+        r'\vec{r} \times \vec{F},\quad \vec{r} = (3, 4, 0),\ '
         r'\vec{F} = (0, 0, -5)',
     terms: [
       SignTerm(working: r'+\big[(4)(-5) - (0)(0)\big]', value: '-20'),
@@ -87,7 +89,8 @@ const expansions = <ExpansionRound>[
     source: 'math-cpa-q2',
   ),
   ExpansionRound(
-    setup: r'\vec{A} \times \vec{B},\quad \vec{A} = (1, 0, 0),\ '
+    setup:
+        r'\vec{A} \times \vec{B},\quad \vec{A} = (1, 0, 0),\ '
         r'\vec{B} = (0, 1, 0)',
     terms: [
       SignTerm(working: r'+\big[(0)(0) - (0)(1)\big]', value: '0'),
@@ -102,7 +105,8 @@ const expansions = <ExpansionRound>[
     source: 'math-cpa-q1',
   ),
   ExpansionRound(
-    setup: r'\vec{u} \times \vec{v},\quad \vec{u} = (4, 0, 0),\ '
+    setup:
+        r'\vec{u} \times \vec{v},\quad \vec{u} = (4, 0, 0),\ '
         r'\vec{v} = (2, 3, 0)',
     terms: [
       SignTerm(working: r'+\big[(0)(0) - (0)(3)\big]', value: '12'),
@@ -117,7 +121,8 @@ const expansions = <ExpansionRound>[
     source: 'math-cpa-q3',
   ),
   ExpansionRound(
-    setup: r'\vec{A} \times \vec{B},\quad \vec{A} = (2, 1, 3),\ '
+    setup:
+        r'\vec{A} \times \vec{B},\quad \vec{A} = (2, 1, 3),\ '
         r'\vec{B} = (0, 4, 1)',
     terms: [
       SignTerm(working: r'+\big[(1)(1) - (3)(4)\big]', value: '-11'),
@@ -132,7 +137,8 @@ const expansions = <ExpansionRound>[
     source: 'math-cpa-q2',
   ),
   ExpansionRound(
-    setup: r'\vec{A} \times \vec{B},\quad \vec{A} = (1, 2, 0),\ '
+    setup:
+        r'\vec{A} \times \vec{B},\quad \vec{A} = (1, 2, 0),\ '
         r'\vec{B} = (3, 0, 4)',
     terms: [
       SignTerm(working: r'+\big[(2)(4) - (0)(0)\big]', value: '8'),

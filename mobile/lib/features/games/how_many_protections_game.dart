@@ -21,8 +21,7 @@ class HowManyProtectionsGame extends StatefulWidget {
   const HowManyProtectionsGame({super.key});
 
   @override
-  State<HowManyProtectionsGame> createState() =>
-      _HowManyProtectionsGameState();
+  State<HowManyProtectionsGame> createState() => _HowManyProtectionsGameState();
 }
 
 /// The four the exam works in, in the handbook's order.
@@ -181,7 +180,8 @@ class _HowManyProtectionsGameState extends State<HowManyProtectionsGame> {
           : (_picked.isEmpty
                 ? null
                 : () => _session.submit(
-                    ok: _picked.length == truth.length &&
+                    ok:
+                        _picked.length == truth.length &&
                         _picked.containsAll(truth),
                     context: context,
                   )),
@@ -313,10 +313,7 @@ class _KindRow extends StatelessWidget {
               const SizedBox(width: 10),
               Text(
                 name,
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: AppColors.charcoal,
-                ),
+                style: const TextStyle(fontSize: 15, color: AppColors.charcoal),
               ),
             ],
           ),

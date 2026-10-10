@@ -279,10 +279,7 @@ class _ThreeDivisionsGameState extends State<ThreeDivisionsGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: LosPainter(
-                    road: r.road,
-                    answered: answered,
-                  ),
+                  painter: LosPainter(road: r.road, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

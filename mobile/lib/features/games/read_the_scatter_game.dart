@@ -55,8 +55,14 @@ class ScatterRound {
 const scatterRounds = <ScatterRound>[
   ScatterRound(
     subject: 'rainfall depth against runoff volume',
-    points: [Pair(1, 2), Pair(2, 3), Pair(3, 5), Pair(4, 6), Pair(5, 8),
-        Pair(6, 9)],
+    points: [
+      Pair(1, 2),
+      Pair(2, 3),
+      Pair(3, 5),
+      Pair(4, 6),
+      Pair(5, 8),
+      Pair(6, 9),
+    ],
     xTo: 7,
     yTo: 10,
     answer: 4,
@@ -67,8 +73,14 @@ const scatterRounds = <ScatterRound>[
   ),
   ScatterRound(
     subject: 'bridge age against condition rating',
-    points: [Pair(1, 9), Pair(2, 8), Pair(3, 6), Pair(4, 5), Pair(5, 3),
-        Pair(6, 2)],
+    points: [
+      Pair(1, 9),
+      Pair(2, 8),
+      Pair(3, 6),
+      Pair(4, 5),
+      Pair(5, 3),
+      Pair(6, 2),
+    ],
     xTo: 7,
     yTo: 10,
     answer: 0,
@@ -80,8 +92,14 @@ const scatterRounds = <ScatterRound>[
   ),
   ScatterRound(
     subject: 'blow count against shear strength',
-    points: [Pair(1, 3), Pair(2, 7), Pair(3, 4), Pair(4, 8), Pair(5, 6),
-        Pair(6, 9)],
+    points: [
+      Pair(1, 3),
+      Pair(2, 7),
+      Pair(3, 4),
+      Pair(4, 8),
+      Pair(5, 6),
+      Pair(6, 9),
+    ],
     xTo: 7,
     yTo: 10,
     answer: 3,
@@ -93,8 +111,14 @@ const scatterRounds = <ScatterRound>[
   ),
   ScatterRound(
     subject: 'two site measurements with nothing between them',
-    points: [Pair(1, 5), Pair(2, 2), Pair(3, 7), Pair(4, 3), Pair(5, 6),
-        Pair(6, 4)],
+    points: [
+      Pair(1, 5),
+      Pair(2, 2),
+      Pair(3, 7),
+      Pair(4, 3),
+      Pair(5, 6),
+      Pair(6, 4),
+    ],
     xTo: 7,
     yTo: 10,
     answer: 2,
@@ -117,8 +141,14 @@ const scatterRounds = <ScatterRound>[
   ),
   ScatterRound(
     subject: 'compaction moisture against dry density',
-    points: [Pair(1, 2), Pair(2, 5), Pair(3, 7), Pair(4, 7), Pair(5, 5),
-        Pair(6, 2)],
+    points: [
+      Pair(1, 2),
+      Pair(2, 5),
+      Pair(3, 7),
+      Pair(4, 7),
+      Pair(5, 5),
+      Pair(6, 2),
+    ],
     xTo: 7,
     yTo: 10,
     answer: 2,
@@ -240,9 +270,7 @@ class _ReadTheScatterGameState extends State<ReadTheScatterGame> {
                     selected: _picked == i,
                     locked: answered,
                     isTruth: i == r.answer,
-                    onTap: answered
-                        ? null
-                        : () => setState(() => _picked = i),
+                    onTap: answered ? null : () => setState(() => _picked = i),
                   ),
                 ),
               ],

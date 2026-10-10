@@ -70,21 +70,22 @@ class CostRound {
   /// Where each stretch starts and ends, worked out from the life rather than
   /// typed in beside it.
   (int, int) rangeOf(Part part) => switch (part) {
-        Part.soFar => (1, through),
-        Part.thisYear => (through, through),
-        Part.left => (through + 1, factors.length),
-      };
+    Part.soFar => (1, through),
+    Part.thisYear => (through, through),
+    Part.left => (through + 1, factors.length),
+  };
 
   List<(int, int)> get spans => [for (final p in order) rangeOf(p)];
 
   int get answer => order.indexOf(ask);
 
   String get question => switch (ask) {
-        Part.soFar => 'How much of the cost has been written off by the end of '
-            'year $through?',
-        Part.thisYear => 'What is the deduction for year $through on its own?',
-        Part.left => 'What is the book value at the end of year $through?',
-      };
+    Part.soFar =>
+      'How much of the cost has been written off by the end of '
+          'year $through?',
+    Part.thisYear => 'What is the deduction for year $through on its own?',
+    Part.left => 'What is the book value at the end of year $through?',
+  };
 }
 
 const costRounds = <CostRound>[

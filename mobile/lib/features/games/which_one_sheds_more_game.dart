@@ -28,10 +28,10 @@ enum Sheds { top, bottom, same }
 
 extension ShedsWords on Sheds {
   String get plain => switch (this) {
-        Sheds.top => 'Catchment A, the top one',
-        Sheds.bottom => 'Catchment B, the bottom one',
-        Sheds.same => 'Neither: the same peak',
-      };
+    Sheds.top => 'Catchment A, the top one',
+    Sheds.bottom => 'Catchment B, the bottom one',
+    Sheds.same => 'Neither: the same peak',
+  };
 }
 
 @immutable
@@ -56,8 +56,7 @@ class ShedRound {
   final String source;
 
   /// The larger of the two acreages, so the pair is drawn to one scale.
-  double get biggest =>
-      top.acres > bottom.acres ? top.acres : bottom.acres;
+  double get biggest => top.acres > bottom.acres ? top.acres : bottom.acres;
 
   Sheds get answer {
     final a = top.peakAt(rain);
@@ -70,7 +69,9 @@ class ShedRound {
 const shedRounds = <ShedRound>[
   ShedRound(
     subject: 'paving against woodland',
-    top: Catchment([Patch(cover: 'commercial paving', acres: 50, coefficient: 0.85)]),
+    top: Catchment([
+      Patch(cover: 'commercial paving', acres: 50, coefficient: 0.85),
+    ]),
     bottom: Catchment([Patch(cover: 'woodland', acres: 50, coefficient: 0.20)]),
     rain: 4,
     why:
@@ -84,7 +85,9 @@ const shedRounds = <ShedRound>[
   ),
   ShedRound(
     subject: 'a small hard site against a big soft one',
-    top: Catchment([Patch(cover: 'rooftops and yard', acres: 30, coefficient: 0.90)]),
+    top: Catchment([
+      Patch(cover: 'rooftops and yard', acres: 30, coefficient: 0.90),
+    ]),
     bottom: Catchment([Patch(cover: 'parkland', acres: 60, coefficient: 0.45)]),
     rain: 3.5,
     why:
@@ -97,8 +100,12 @@ const shedRounds = <ShedRound>[
   ),
   ShedRound(
     subject: 'a large lawn against a small yard',
-    top: Catchment([Patch(cover: 'lawns on clay', acres: 50, coefficient: 0.30)]),
-    bottom: Catchment([Patch(cover: 'concrete yard', acres: 20, coefficient: 0.95)]),
+    top: Catchment([
+      Patch(cover: 'lawns on clay', acres: 50, coefficient: 0.30),
+    ]),
+    bottom: Catchment([
+      Patch(cover: 'concrete yard', acres: 20, coefficient: 0.95),
+    ]),
     rain: 2.5,
     why:
         'The yard, despite being two and a half times smaller. Nineteen '
@@ -113,7 +120,9 @@ const shedRounds = <ShedRound>[
       Patch(cover: 'paving', acres: 30, coefficient: 0.90),
       Patch(cover: 'grass', acres: 20, coefficient: 0.40),
     ]),
-    bottom: Catchment([Patch(cover: 'mixed suburban', acres: 50, coefficient: 0.70)]),
+    bottom: Catchment([
+      Patch(cover: 'mixed suburban', acres: 50, coefficient: 0.70),
+    ]),
     rain: 3.5,
     why:
         'Neither, and this is what an area weighted coefficient means. The '
@@ -139,7 +148,9 @@ const shedRounds = <ShedRound>[
   ShedRound(
     subject: 'a big field against a small lot',
     top: Catchment([Patch(cover: 'pasture', acres: 100, coefficient: 0.25)]),
-    bottom: Catchment([Patch(cover: 'paved lot', acres: 15, coefficient: 0.95)]),
+    bottom: Catchment([
+      Patch(cover: 'paved lot', acres: 15, coefficient: 0.95),
+    ]),
     rain: 2,
     why:
         'The pasture, 25 against 14. Enough acres of even a soft cover will '
@@ -231,17 +242,25 @@ class _WhichOneShedsMoreGameState extends State<WhichOneShedsMoreGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Plan(catchment: r.top, rain: r.rain, name: 'A',
-              biggest: r.biggest,
-              won: answered &&
-                  (r.answer == Sheds.top || r.answer == Sheds.same),
-              locked: answered),
+          _Plan(
+            catchment: r.top,
+            rain: r.rain,
+            name: 'A',
+            biggest: r.biggest,
+            won: answered && (r.answer == Sheds.top || r.answer == Sheds.same),
+            locked: answered,
+          ),
           const SizedBox(height: 8),
-          _Plan(catchment: r.bottom, rain: r.rain, name: 'B',
-              biggest: r.biggest,
-              won: answered &&
-                  (r.answer == Sheds.bottom || r.answer == Sheds.same),
-              locked: answered),
+          _Plan(
+            catchment: r.bottom,
+            rain: r.rain,
+            name: 'B',
+            biggest: r.biggest,
+            won:
+                answered &&
+                (r.answer == Sheds.bottom || r.answer == Sheds.same),
+            locked: answered,
+          ),
           const SizedBox(height: 10),
           Center(
             child: MathText(
@@ -264,7 +283,9 @@ class _WhichOneShedsMoreGameState extends State<WhichOneShedsMoreGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE BIGGER PEAK' : 'THE OTHER ONE',
+              title: _session.correct!
+                  ? 'THAT IS THE BIGGER PEAK'
+                  : 'THE OTHER ONE',
               body: r.why,
             ),
           ],

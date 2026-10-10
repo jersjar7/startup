@@ -27,10 +27,10 @@ enum Heavier { heavy, light, tie }
 
 extension HeavierWords on Heavier {
   String get plain => switch (this) {
-        Heavier.heavy => 'The heavy one',
-        Heavier.light => 'The light one',
-        Heavier.tie => 'Neither: they come out the same',
-      };
+    Heavier.heavy => 'The heavy one',
+    Heavier.light => 'The light one',
+    Heavier.tie => 'Neither: they come out the same',
+  };
 }
 
 @immutable
@@ -285,7 +285,9 @@ class _DoesTheMassMatterGameState extends State<DoesTheMassMatterGame> {
             const SizedBox(height: 12),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS RIGHT' : 'LOOK AT THE FORMULA',
+              title: _session.correct!
+                  ? 'THAT IS RIGHT'
+                  : 'LOOK AT THE FORMULA',
               body: r.why,
             ),
           ],

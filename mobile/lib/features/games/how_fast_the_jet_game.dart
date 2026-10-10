@@ -27,10 +27,10 @@ enum Quicker2 { left, right, tie }
 
 extension QuickerWords2 on Quicker2 {
   String get plain => switch (this) {
-        Quicker2.left => 'The left one',
-        Quicker2.right => 'The right one',
-        Quicker2.tie => 'Neither: the same speed',
-      };
+    Quicker2.left => 'The left one',
+    Quicker2.right => 'The right one',
+    Quicker2.tie => 'Neither: the same speed',
+  };
 }
 
 @immutable
@@ -53,7 +53,8 @@ class JetRound {
 
   /// Worked out from the two heads, never declared.
   Quicker2 get answer {
-    final gap = (left.speed - right.speed).abs() /
+    final gap =
+        (left.speed - right.speed).abs() /
         (left.speed > right.speed ? left.speed : right.speed);
     if (gap < 0.01) return Quicker2.tie;
     return left.speed > right.speed ? Quicker2.left : Quicker2.right;
@@ -109,8 +110,7 @@ const jetRounds = <JetRound>[
   ),
   JetRound(
     subject: 'four times the head',
-    setting:
-        'The left tank is filled to twelve meters and the right to three.',
+    setting: 'The left tank is filled to twelve meters and the right to three.',
     left: Squirt(head: 12),
     right: Squirt(head: 3),
     why:
@@ -243,8 +243,11 @@ class _HowFastTheJetGameState extends State<HowFastTheJetGame> {
                         r.answer == (i == 0 ? Quicker2.left : Quicker2.right),
                     onTap: answered
                         ? null
-                        : () => setState(() => _picked =
-                            i == 0 ? Quicker2.left : Quicker2.right),
+                        : () => setState(
+                            () => _picked = i == 0
+                                ? Quicker2.left
+                                : Quicker2.right,
+                          ),
                   ),
                 ),
               ],
@@ -263,8 +266,9 @@ class _HowFastTheJetGameState extends State<HowFastTheJetGame> {
             selected: _picked == Quicker2.tie,
             locked: answered,
             isTruth: r.answer == Quicker2.tie,
-            onTap:
-                answered ? null : () => setState(() => _picked = Quicker2.tie),
+            onTap: answered
+                ? null
+                : () => setState(() => _picked = Quicker2.tie),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

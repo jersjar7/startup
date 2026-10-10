@@ -99,8 +99,7 @@ const idleRounds = <IdleRound>[
   ),
   IdleRound(
     subject: 'a truss with nothing spare in it',
-    setting:
-        'A single triangle, held at both feet and loaded at the top.',
+    setting: 'A single triangle, held at both feet and loaded at the top.',
     truss: Truss(
       joints: [
         Joint('A', Offset(0, 0)),
@@ -261,7 +260,7 @@ class _WhichCarryNothingGameState extends State<WhichCarryNothingGame> {
                     ok: _none
                         ? truth.isEmpty
                         : _picked.length == truth.length &&
-                            _picked.containsAll(truth),
+                              _picked.containsAll(truth),
                     context: context,
                   )),
       child: Column(
@@ -294,9 +293,9 @@ class _WhichCarryNothingGameState extends State<WhichCarryNothingGame> {
             onTap: answered
                 ? null
                 : (m) => setState(() {
-                      _none = false;
-                      if (!_picked.add(m)) _picked.remove(m);
-                    }),
+                    _none = false;
+                    if (!_picked.add(m)) _picked.remove(m);
+                  }),
           ),
           const SizedBox(height: 8),
           _NoneRow(
@@ -306,9 +305,9 @@ class _WhichCarryNothingGameState extends State<WhichCarryNothingGame> {
             onTap: answered
                 ? null
                 : () => setState(() {
-                      _picked.clear();
-                      _none = !_none;
-                    }),
+                    _picked.clear();
+                    _none = !_none;
+                  }),
           ),
           if (answered) ...[
             const SizedBox(height: 16),

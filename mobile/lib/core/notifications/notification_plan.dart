@@ -55,10 +55,11 @@ DateTime _atHour(DateTime day, int hour) =>
 DateTime _plusDays(DateTime day, int n) =>
     DateTime(day.year, day.month, day.day + n);
 
-int _daysBetween(DateTime from, DateTime to) =>
-    DateTime(to.year, to.month, to.day)
-        .difference(DateTime(from.year, from.month, from.day))
-        .inDays;
+int _daysBetween(DateTime from, DateTime to) => DateTime(
+  to.year,
+  to.month,
+  to.day,
+).difference(DateTime(from.year, from.month, from.day)).inDays;
 
 /// iOS keeps at most 64 pending local notifications and silently drops the
 /// rest, so the plan is capped well under that and the window is extended
@@ -111,37 +112,44 @@ List<PlannedNotification> notificationPlan({
     for (final d in countdownDays) {
       final when = _atHour(_plusDays(exam, -d), countdownHour);
       if (when.isAfter(now)) {
-        out.add(PlannedNotification(
-          id: _id(NotifyKind.countdown, when),
-          when: when,
-          kind: NotifyKind.countdown,
-          title: _countdownTitle(d),
-          body: _countdownBody(d),
-        ));
+        out.add(
+          PlannedNotification(
+            id: _id(NotifyKind.countdown, when),
+            when: when,
+            kind: NotifyKind.countdown,
+            title: _countdownTitle(d),
+            body: _countdownBody(d),
+          ),
+        );
       }
     }
 
     final night = _atHour(_plusDays(exam, -1), nightBeforeHour);
     if (night.isAfter(now)) {
-      out.add(PlannedNotification(
-        id: _id(NotifyKind.nightBefore, night),
-        when: night,
-        kind: NotifyKind.nightBefore,
-        title: 'Tomorrow is the day',
-        body: 'You have put the work in. Get some sleep, eat breakfast, and '
-            'take it one question at a time.',
-      ));
+      out.add(
+        PlannedNotification(
+          id: _id(NotifyKind.nightBefore, night),
+          when: night,
+          kind: NotifyKind.nightBefore,
+          title: 'Tomorrow is the day',
+          body:
+              'You have put the work in. Get some sleep, eat breakfast, and '
+              'take it one question at a time.',
+        ),
+      );
     }
 
     final ask = _atHour(_plusDays(exam, outcomeAfterDays), outcomeHour);
     if (ask.isAfter(now)) {
-      out.add(PlannedNotification(
-        id: _id(NotifyKind.outcome, ask),
-        when: ask,
-        kind: NotifyKind.outcome,
-        title: 'How did the FE go?',
-        body: 'Two taps, and it helps every student after you.',
-      ));
+      out.add(
+        PlannedNotification(
+          id: _id(NotifyKind.outcome, ask),
+          when: ask,
+          kind: NotifyKind.outcome,
+          title: 'How did the FE go?',
+          body: 'Two taps, and it helps every student after you.',
+        ),
+      );
     }
   }
 
@@ -154,17 +162,21 @@ List<PlannedNotification> notificationPlan({
   for (var i = 0; i < horizonDays; i++) {
     if (out.length >= maxPending) break;
     final day = _plusDays(now, i);
-    if (stop != null && _daysBetween(day, stop) < 0) break; // past the quiet line
+    if (stop != null && _daysBetween(day, stop) < 0) {
+      break; // past the quiet line
+    }
     final when = _atHour(day, dailyHour);
     if (!when.isAfter(now)) continue; // today's hour has gone
     if (i == 0 && studiedToday) continue; // nothing to nudge about
-    out.add(PlannedNotification(
-      id: _id(NotifyKind.daily, when),
-      when: when,
-      kind: NotifyKind.daily,
-      title: _dailyTitle(i),
-      body: _dailyBody(i),
-    ));
+    out.add(
+      PlannedNotification(
+        id: _id(NotifyKind.daily, when),
+        when: when,
+        kind: NotifyKind.daily,
+        title: _dailyTitle(i),
+        body: _dailyBody(i),
+      ),
+    );
   }
 
   out.sort((a, b) => a.when.compareTo(b.when));
@@ -196,9 +208,11 @@ int _id(NotifyKind kind, DateTime when) {
   // midnights is 23 or 25 hours across a daylight saving boundary, and inDays
   // truncates, so two different days can produce the same count. UTC has no
   // such boundaries.
-  final days = DateTime.utc(when.year, when.month, when.day)
-      .difference(DateTime.utc(2020))
-      .inDays;
+  final days = DateTime.utc(
+    when.year,
+    when.month,
+    when.day,
+  ).difference(DateTime.utc(2020)).inDays;
   return days * 8 + kind.index;
 }
 

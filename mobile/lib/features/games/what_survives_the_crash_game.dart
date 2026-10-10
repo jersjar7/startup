@@ -26,10 +26,10 @@ enum Survives { momentumOnly, both, neither }
 
 extension SurvivesWords on Survives {
   String get plain => switch (this) {
-        Survives.momentumOnly => 'The momentum, but not the energy',
-        Survives.both => 'Both of them',
-        Survives.neither => 'Neither of them',
-      };
+    Survives.momentumOnly => 'The momentum, but not the energy',
+    Survives.both => 'Both of them',
+    Survives.neither => 'Neither of them',
+  };
 }
 
 @immutable
@@ -55,8 +55,7 @@ class SurviveRound {
   }
 
   /// How much of the energy is left, for the feedback to quote.
-  int get energyLeft =>
-      (crash.energyAfter / crash.energyBefore * 100).round();
+  int get energyLeft => (crash.energyAfter / crash.energyBefore * 100).round();
 }
 
 const surviveRounds = <SurviveRound>[

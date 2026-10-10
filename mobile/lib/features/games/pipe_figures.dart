@@ -126,7 +126,9 @@ class RunPainter extends CustomPainter {
     water.close();
 
     canvas.drawPath(
-        water, Paint()..color = AppColors.info.withValues(alpha: 0.22));
+      water,
+      Paint()..color = AppColors.info.withValues(alpha: 0.22),
+    );
     // The pipe wall, as a band rather than a line, so it reads as pipe.
     for (final (line, way) in [(top, -1.0), (bottom, 1.0)]) {
       final band = Path.from(line);
@@ -141,11 +143,12 @@ class RunPainter extends CustomPainter {
       canvas.drawPath(band, Paint()..color = AppColors.cream);
       hatchIn(canvas, band, step: 5);
       canvas.drawPath(
-          band,
-          Paint()
-            ..color = AppColors.charcoal
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.4);
+        band,
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.4,
+      );
     }
 
     // Which way it is going.
@@ -155,10 +158,16 @@ class RunPainter extends CustomPainter {
     final middle = size.height * 0.45;
     canvas
       ..drawLine(Offset(14, middle), Offset(size.width - 18, middle), flow)
-      ..drawLine(Offset(size.width - 18, middle),
-          Offset(size.width - 26, middle - 4), flow)
-      ..drawLine(Offset(size.width - 18, middle),
-          Offset(size.width - 26, middle + 4), flow);
+      ..drawLine(
+        Offset(size.width - 18, middle),
+        Offset(size.width - 26, middle - 4),
+        flow,
+      )
+      ..drawLine(
+        Offset(size.width - 18, middle),
+        Offset(size.width - 26, middle + 4),
+        flow,
+      );
 
     for (var i = 0; i < run.bores.length; i++) {
       final r = sectionOf(size, run, i);
@@ -180,12 +189,22 @@ class RunPainter extends CustomPainter {
       // All the bore labels on one line, below the widest section, so a
       // narrow throat's label does not land on the wall beside it.
       final belowAll = size.height * 0.45 + 46 + 12;
-      writeOn(canvas, size, '${_num(run.bores[i].millimeters)} mm',
-          Offset(r.center.dx - 24, belowAll), AppColors.ink3);
+      writeOn(
+        canvas,
+        size,
+        '${_num(run.bores[i].millimeters)} mm',
+        Offset(r.center.dx - 24, belowAll),
+        AppColors.ink3,
+      );
     }
 
-    writeOn(canvas, size, '${_num(run.litersASecond)} liters a second, all of it',
-        Offset(10, size.height - 16), AppColors.ink3);
+    writeOn(
+      canvas,
+      size,
+      '${_num(run.litersASecond)} liters a second, all of it',
+      Offset(10, size.height - 16),
+      AppColors.ink3,
+    );
     viewTag(canvas, size, Looking.section);
   }
 
@@ -246,16 +265,17 @@ class SquirtPainter extends CustomPainter {
     // A shallow pan beside a tall tube would be a few pixels high and its
     // two labels would land on each other, so every tank gets a floor. The
     // head is written on it in words either way.
-    final tall = math.max(
-        46.0, (size.height - 60) * squirt.head / tallest);
+    final tall = math.max(46.0, (size.height - 60) * squirt.head / tallest);
     final top = floor - tall;
     // Half the tank's width, capped so that the tank AND the ground it
     // stands on, which overhangs it by 26 either side, both fit. The widest
     // tank in a reference-card panel used to hang its ground line out past
     // the edge of the drawing.
     final room = math.max(26.0, (size.width - 64) / 2);
-    final half =
-        math.max(26.0, math.min(math.min(54.0, room), 16 * squirt.tankWide));
+    final half = math.max(
+      26.0,
+      math.min(math.min(54.0, room), 16 * squirt.tankWide),
+    );
     // Not centered. The jet leaves the RIGHT wall and its arrow is as long
     // as the speed is fast, with the speed written over it, so the tank is
     // pushed left to leave that room. Centered, the fastest jets ran off
@@ -269,7 +289,9 @@ class SquirtPainter extends CustomPainter {
     final leftMost = half + 32;
     final rightMost = math.max(leftMost, size.width - half - 32);
     final middle = math.min(
-        rightMost, math.max(leftMost, math.min(size.width / 2, ideal)));
+      rightMost,
+      math.max(leftMost, math.min(size.width / 2, ideal)),
+    );
     return Rect.fromLTRB(middle - half, top, middle + half, floor);
   }
 
@@ -281,24 +303,48 @@ class SquirtPainter extends CustomPainter {
     // reader guessing which line is the tank and which is the water.
     const wall = 5.0;
     final shell = Path()
-      ..addRect(Rect.fromLTRB(
-          tank.left - wall, tank.top, tank.left, tank.bottom + wall))
-      ..addRect(Rect.fromLTRB(
-          tank.right, tank.top, tank.right + wall, tank.bottom + wall))
-      ..addRect(Rect.fromLTRB(tank.left - wall, tank.bottom,
-          tank.right + wall, tank.bottom + wall));
+      ..addRect(
+        Rect.fromLTRB(
+          tank.left - wall,
+          tank.top,
+          tank.left,
+          tank.bottom + wall,
+        ),
+      )
+      ..addRect(
+        Rect.fromLTRB(
+          tank.right,
+          tank.top,
+          tank.right + wall,
+          tank.bottom + wall,
+        ),
+      )
+      ..addRect(
+        Rect.fromLTRB(
+          tank.left - wall,
+          tank.bottom,
+          tank.right + wall,
+          tank.bottom + wall,
+        ),
+      );
     canvas.drawRect(
-        tank, Paint()..color = AppColors.info.withValues(alpha: 0.25));
+      tank,
+      Paint()..color = AppColors.info.withValues(alpha: 0.25),
+    );
     hatchIn(canvas, shell, step: 5, color: tone);
     canvas.drawPath(
-        shell,
-        Paint()
-          ..color = tone
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.4);
+      shell,
+      Paint()
+        ..color = tone
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.4,
+    );
     waterLevel(canvas, tank.topLeft, tank.topRight, markAt: tank.left + 20);
-    groundLine(canvas, Offset(tank.left - 26, tank.bottom + wall),
-        Offset(tank.right + 26, tank.bottom + wall));
+    groundLine(
+      canvas,
+      Offset(tank.left - 26, tank.bottom + wall),
+      Offset(tank.right + 26, tank.bottom + wall),
+    );
 
     // The hole, drawn bigger than it is so it can be seen at all.
     final hole = math.max(6.0, math.min(20.0, squirt.holeMillimeters / 3));
@@ -323,14 +369,29 @@ class SquirtPainter extends CustomPainter {
         ..drawLine(at, tip, paint)
         ..drawLine(tip, tip + const Offset(-7, -2), paint)
         ..drawLine(tip, tip + const Offset(-4, -6), paint);
-      writeOn(canvas, size, '${squirt.speed.toStringAsFixed(1)} m/s',
-          at + const Offset(6, -16), AppColors.ember);
+      writeOn(
+        canvas,
+        size,
+        '${squirt.speed.toStringAsFixed(1)} m/s',
+        at + const Offset(6, -16),
+        AppColors.ember,
+      );
     }
 
-    writeOn(canvas, size, '${_num(squirt.head)} m head',
-        Offset(tank.left + 4, tank.top + 6), AppColors.ink3);
-    writeOn(canvas, size, '${_num(squirt.holeMillimeters)} mm hole',
-        Offset(tank.left - 4, tank.bottom + 14), AppColors.ink3);
+    writeOn(
+      canvas,
+      size,
+      '${_num(squirt.head)} m head',
+      Offset(tank.left + 4, tank.top + 6),
+      AppColors.ink3,
+    );
+    writeOn(
+      canvas,
+      size,
+      '${_num(squirt.holeMillimeters)} mm hole',
+      Offset(tank.left - 4, tank.bottom + 14),
+      AppColors.ink3,
+    );
     viewTag(canvas, size, Looking.section);
   }
 

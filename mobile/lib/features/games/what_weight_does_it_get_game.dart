@@ -31,18 +31,18 @@ enum Weight { half, once, twice, fourTimes }
 
 extension WeightWords on Weight {
   String get plain => switch (this) {
-        Weight.half => 'Half of it',
-        Weight.once => 'All of it, once',
-        Weight.twice => 'Twice',
-        Weight.fourTimes => 'Four times',
-      };
+    Weight.half => 'Half of it',
+    Weight.once => 'All of it, once',
+    Weight.twice => 'Twice',
+    Weight.fourTimes => 'Four times',
+  };
 
   double get value => switch (this) {
-        Weight.half => 0.5,
-        Weight.once => 1,
-        Weight.twice => 2,
-        Weight.fourTimes => 4,
-      };
+    Weight.half => 0.5,
+    Weight.once => 1,
+    Weight.twice => 2,
+    Weight.fourTimes => 4,
+  };
 }
 
 @immutable
@@ -269,7 +269,9 @@ class _WhatWeightDoesItGetGameState extends State<WhatWeightDoesItGetGame> {
             const SizedBox(height: 6),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE WEIGHT' : 'ANOTHER WEIGHT',
+              title: _session.correct!
+                  ? 'THAT IS THE WEIGHT'
+                  : 'ANOTHER WEIGHT',
               body: r.why,
             ),
           ],

@@ -108,8 +108,7 @@ const cornerRounds = <CornerRound>[
     setting:
         'A train goes round a six hundred meter curve at a constant twenty '
         'five meters a second. The driver touches nothing.',
-    asked:
-        'Tap the arrow showing its acceleration, if it has one.',
+    asked: 'Tap the arrow showing its acceleration, if it has one.',
     bend: Bend(speed: 25, radius: 600, alongRoad: 0),
     answer: Piece.toward,
     why:
@@ -287,7 +286,9 @@ class _SpeedingUpOrTurningGameState extends State<SpeedingUpOrTurningGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE ONE' : 'A DIFFERENT ARROW',
+              title: _session.correct!
+                  ? 'THAT IS THE ONE'
+                  : 'A DIFFERENT ARROW',
               body: r.why,
             ),
           ],

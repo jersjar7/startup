@@ -29,9 +29,9 @@ enum Settles { caught, carried }
 
 extension SettlesWords on Settles {
   String get plain => switch (this) {
-        Settles.caught => 'It reaches the floor and is removed',
-        Settles.carried => 'It is carried out over the weir',
-      };
+    Settles.caught => 'It reaches the floor and is removed',
+    Settles.carried => 'It is carried out over the weir',
+  };
 }
 
 @immutable
@@ -276,7 +276,9 @@ class _DoesItSettleOutGameState extends State<DoesItSettleOutGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHAT BECOMES OF IT' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS WHAT BECOMES OF IT'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

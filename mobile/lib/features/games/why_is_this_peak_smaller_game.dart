@@ -29,13 +29,10 @@ enum Falls { itIsTheDesign, tooShort, tooLong }
 
 extension FallsWords on Falls {
   String get plain => switch (this) {
-        Falls.itIsTheDesign =>
-          'It is not smaller: this is the design storm',
-        Falls.tooShort =>
-          'Too short: the far ground has not reported in yet',
-        Falls.tooLong =>
-          'Too long: the intensity for that duration is lower',
-      };
+    Falls.itIsTheDesign => 'It is not smaller: this is the design storm',
+    Falls.tooShort => 'Too short: the far ground has not reported in yet',
+    Falls.tooLong => 'Too long: the intensity for that duration is lower',
+  };
 }
 
 @immutable
@@ -94,8 +91,7 @@ const basinRounds = <BasinRound>[
   ),
   BasinRound(
     subject: 'an afternoon of rain',
-    setting:
-        'The same watershed. This storm lasts two hours.',
+    setting: 'The same watershed. This storm lasts two hours.',
     basin: Basin(travelTime: 30, stormMinutes: 120),
     why:
         'Too long. The whole watershed is contributing, which is the good '
@@ -121,8 +117,7 @@ const basinRounds = <BasinRound>[
   ),
   BasinRound(
     subject: 'a short burst on the slow catchment',
-    setting:
-        'The same 90 minute catchment, hit by a 20 minute storm.',
+    setting: 'The same 90 minute catchment, hit by a 20 minute storm.',
     basin: Basin(travelTime: 90, stormMinutes: 20),
     why:
         'Too short, and badly: barely a fifth of the catchment is in play. '
@@ -268,7 +263,9 @@ class _WhyIsThisPeakSmallerGameState extends State<WhyIsThisPeakSmallerGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE REASON' : 'THE OTHER REASON',
+              title: _session.correct!
+                  ? 'THAT IS THE REASON'
+                  : 'THE OTHER REASON',
               body: r.why,
             ),
           ],

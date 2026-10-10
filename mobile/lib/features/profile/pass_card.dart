@@ -96,8 +96,18 @@ class PassCardData {
 }
 
 const _months = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 class PassCardPainter extends CustomPainter {
@@ -143,12 +153,17 @@ class PassCardPainter extends CustomPainter {
       canvas,
       'FUNDAMENTALS OF ENGINEERING',
       Offset(_pad, _pad + 16),
-      AppTheme.mono(size: 15, weight: FontWeight.w700, color: AppColors.ember)
-          .copyWith(letterSpacing: 2.6),
+      AppTheme.mono(
+        size: 15,
+        weight: FontWeight.w700,
+        color: AppColors.ember,
+      ).copyWith(letterSpacing: 2.6),
     );
 
-    final headline = AppTheme.display(size: 84, weight: FontWeight.w800)
-        .copyWith(height: 1.0, letterSpacing: -3.4, color: AppColors.charcoal);
+    final headline = AppTheme.display(
+      size: 84,
+      weight: FontWeight.w800,
+    ).copyWith(height: 1.0, letterSpacing: -3.4, color: AppColors.charcoal);
     _text(canvas, 'FE Civil', Offset(_pad - 4, _pad + 108), headline);
     _text(canvas, 'passed.', Offset(_pad - 4, _pad + 188), headline);
 
@@ -160,8 +175,10 @@ class PassCardPainter extends CustomPainter {
         canvas,
         data.name!,
         Offset(_pad - 2, _pad + 252),
-        AppTheme.display(size: 37, weight: FontWeight.w700)
-            .copyWith(color: AppColors.charcoal, letterSpacing: -1.2),
+        AppTheme.display(
+          size: 37,
+          weight: FontWeight.w700,
+        ).copyWith(color: AppColors.charcoal, letterSpacing: -1.2),
       );
     }
 
@@ -185,8 +202,11 @@ class PassCardPainter extends CustomPainter {
       canvas,
       'ALL FIFTEEN CHAPTERS. $passCardTotalQuestions QUESTIONS.',
       const Offset(cx, _pad + 16),
-      AppTheme.mono(size: 13, weight: FontWeight.w600, color: AppColors.ink2)
-          .copyWith(letterSpacing: 2.2),
+      AppTheme.mono(
+        size: 13,
+        weight: FontWeight.w600,
+        color: AppColors.ink2,
+      ).copyWith(letterSpacing: 2.2),
     );
 
     final rule = Paint()
@@ -199,14 +219,20 @@ class PassCardPainter extends CustomPainter {
         canvas,
         '${i + 1}'.padLeft(2, '0'),
         Offset(cx, y),
-        AppTheme.mono(size: 13, weight: FontWeight.w600, color: AppColors.ember),
+        AppTheme.mono(
+          size: 13,
+          weight: FontWeight.w600,
+          color: AppColors.ember,
+        ),
       );
       _text(
         canvas,
         passCardChapters[i],
         Offset(cx + numberGap, y),
-        AppTheme.body(size: 17, color: AppColors.charcoal)
-            .copyWith(fontWeight: FontWeight.w500),
+        AppTheme.body(
+          size: 17,
+          color: AppColors.charcoal,
+        ).copyWith(fontWeight: FontWeight.w500),
       );
       canvas.drawLine(
         Offset(cx, y + 8.5),
@@ -236,15 +262,20 @@ class PassCardPainter extends CustomPainter {
         canvas,
         cell.$1,
         Offset(x, ty + 18),
-        AppTheme.mono(size: 11, weight: FontWeight.w500, color: _mute)
-            .copyWith(letterSpacing: 1.8),
+        AppTheme.mono(
+          size: 11,
+          weight: FontWeight.w500,
+          color: _mute,
+        ).copyWith(letterSpacing: 1.8),
       );
       _text(
         canvas,
         cell.$2,
         Offset(x, ty + 41),
-        AppTheme.display(size: 17, weight: FontWeight.w600)
-            .copyWith(color: AppColors.charcoal),
+        AppTheme.display(
+          size: 17,
+          weight: FontWeight.w600,
+        ).copyWith(color: AppColors.charcoal),
       );
       x += 232;
     }
@@ -253,8 +284,10 @@ class PassCardPainter extends CustomPainter {
       canvas,
       'FE4RACCOONS',
       const Offset(passCardWidth - _pad, ty + 41),
-      AppTheme.display(size: 23, weight: FontWeight.w700)
-          .copyWith(color: AppColors.charcoal),
+      AppTheme.display(
+        size: 23,
+        weight: FontWeight.w700,
+      ).copyWith(color: AppColors.charcoal),
       align: TextAlign.right,
     );
   }
@@ -324,10 +357,9 @@ Future<ui.Image> renderPassCard(PassCardData data) async {
   const scale = passCardExportScale;
   final recorder = ui.PictureRecorder();
   final canvas = Canvas(recorder);
-  PassCardPainter(data).paint(
-    canvas,
-    const Size(passCardWidth * scale, passCardHeight * scale),
-  );
+  PassCardPainter(
+    data,
+  ).paint(canvas, const Size(passCardWidth * scale, passCardHeight * scale));
   return recorder.endRecording().toImage(
     (passCardWidth * scale).round(),
     (passCardHeight * scale).round(),

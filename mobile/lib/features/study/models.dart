@@ -23,20 +23,25 @@ class Chapter {
   int get lessonCount => subtopics.fold(0, (n, s) => n + s.lessons.length);
 
   factory Chapter.fromJson(Map<String, dynamic> j) => Chapter(
-        id: j['id'] as String,
-        num: j['num'] as int,
-        name: j['name'] as String,
-        qs: (j['qs'] ?? '') as String,
-        accent: (j['accent'] ?? 'ember') as String,
-        context: (j['context'] ?? '') as String,
-        subtopics: (j['subtopics'] as List? ?? [])
-            .map((e) => Subtopic.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+    id: j['id'] as String,
+    num: j['num'] as int,
+    name: j['name'] as String,
+    qs: (j['qs'] ?? '') as String,
+    accent: (j['accent'] ?? 'ember') as String,
+    context: (j['context'] ?? '') as String,
+    subtopics: (j['subtopics'] as List? ?? [])
+        .map((e) => Subtopic.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 }
 
 class Subtopic {
-  Subtopic({required this.id, required this.name, required this.application, required this.lessons});
+  Subtopic({
+    required this.id,
+    required this.name,
+    required this.application,
+    required this.lessons,
+  });
 
   final String id;
   final String name;
@@ -44,13 +49,13 @@ class Subtopic {
   final List<LessonRef> lessons;
 
   factory Subtopic.fromJson(Map<String, dynamic> j) => Subtopic(
-        id: j['id'] as String,
-        name: j['name'] as String,
-        application: (j['application'] ?? '') as String,
-        lessons: (j['lessons'] as List? ?? [])
-            .map((e) => LessonRef.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+    id: j['id'] as String,
+    name: j['name'] as String,
+    application: (j['application'] ?? '') as String,
+    lessons: (j['lessons'] as List? ?? [])
+        .map((e) => LessonRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 }
 
 /// A lesson as it appears in the nav (name + one-liner). The full lesson
@@ -63,10 +68,10 @@ class LessonRef {
   final String application;
 
   factory LessonRef.fromJson(Map<String, dynamic> j) => LessonRef(
-        id: j['id'] as String,
-        name: j['name'] as String,
-        application: (j['application'] ?? '') as String,
-      );
+    id: j['id'] as String,
+    name: j['name'] as String,
+    application: (j['application'] ?? '') as String,
+  );
 }
 
 /// The full lesson: teaching blocks + practice problems.
@@ -91,21 +96,27 @@ class Lesson {
   // as a shape inviting the split back.
 
   factory Lesson.fromJson(Map<String, dynamic> j) => Lesson(
-        id: j['id'] as String,
-        name: j['name'] as String,
-        application: (j['application'] ?? '') as String,
-        content: (j['content'] as List? ?? [])
-            .map((e) => ContentBlock.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        problems: (j['problems'] as List? ?? [])
-            .map((e) => Problem.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+    id: j['id'] as String,
+    name: j['name'] as String,
+    application: (j['application'] ?? '') as String,
+    content: (j['content'] as List? ?? [])
+        .map((e) => ContentBlock.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    problems: (j['problems'] as List? ?? [])
+        .map((e) => Problem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 }
 
 /// One teaching block: text | heading | formula | callout | diagram.
 class ContentBlock {
-  ContentBlock({required this.type, this.body = '', this.latex, this.label, this.variant});
+  ContentBlock({
+    required this.type,
+    this.body = '',
+    this.latex,
+    this.label,
+    this.variant,
+  });
 
   final String type;
   final String body;
@@ -114,12 +125,12 @@ class ContentBlock {
   final String? variant; // callout: warning | tip | exam
 
   factory ContentBlock.fromJson(Map<String, dynamic> j) => ContentBlock(
-        type: j['type'] as String,
-        body: (j['body'] ?? '') as String,
-        latex: j['latex'] as String?,
-        label: j['label'] as String?,
-        variant: j['variant'] as String?,
-      );
+    type: j['type'] as String,
+    body: (j['body'] ?? '') as String,
+    latex: j['latex'] as String?,
+    label: j['label'] as String?,
+    variant: j['variant'] as String?,
+  );
 }
 
 class Choice {
@@ -144,7 +155,10 @@ class Figure {
   final String figureId;
   static Figure? fromJson(Map<String, dynamic>? j) {
     if (j == null || j['figureId'] == null) return null;
-    return Figure(component: (j['component'] ?? '') as String, figureId: j['figureId'] as String);
+    return Figure(
+      component: (j['component'] ?? '') as String,
+      figureId: j['figureId'] as String,
+    );
   }
 }
 
@@ -172,18 +186,18 @@ class Problem {
   final Figure? figure;
 
   factory Problem.fromJson(Map<String, dynamic> j) => Problem(
-        id: j['id'] as String,
-        statement: (j['statement'] ?? '') as String,
-        choices: (j['choices'] as List? ?? [])
-            .map((e) => Choice.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        correctAnswerId: (j['correctAnswerId'] ?? '') as String,
-        difficulty: (j['difficulty'] ?? 'medium') as String,
-        eli5: (j['eli5'] ?? '') as String,
-        steps: (j['steps'] as List? ?? [])
-            .map((e) => Step.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        handbookPage: j['handbookPage'] as String?,
-        figure: Figure.fromJson(j['diagram'] as Map<String, dynamic>?),
-      );
+    id: j['id'] as String,
+    statement: (j['statement'] ?? '') as String,
+    choices: (j['choices'] as List? ?? [])
+        .map((e) => Choice.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    correctAnswerId: (j['correctAnswerId'] ?? '') as String,
+    difficulty: (j['difficulty'] ?? 'medium') as String,
+    eli5: (j['eli5'] ?? '') as String,
+    steps: (j['steps'] as List? ?? [])
+        .map((e) => Step.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    handbookPage: j['handbookPage'] as String?,
+    figure: Figure.fromJson(j['diagram'] as Map<String, dynamic>?),
+  );
 }

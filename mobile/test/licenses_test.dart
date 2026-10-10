@@ -19,24 +19,41 @@ void main() {
     final packages = entries.expand((e) => e.packages).toSet();
 
     for (final font in const ['DM Sans', 'Inter', 'JetBrains Mono']) {
-      expect(packages, contains(font), reason: '$font ships without its licence');
+      expect(
+        packages,
+        contains(font),
+        reason: '$font ships without its licence',
+      );
     }
   });
 
   test('the licence text is the real OFL, not a placeholder', () async {
     final entries = await LicenseRegistry.licenses.toList();
-    final ours = entries.where((e) =>
-        e.packages.any((p) => ['DM Sans', 'Inter', 'JetBrains Mono'].contains(p)));
+    final ours = entries.where(
+      (e) => e.packages.any(
+        (p) => ['DM Sans', 'Inter', 'JetBrains Mono'].contains(p),
+      ),
+    );
 
     expect(ours.length, 3);
     for (final e in ours) {
       final text = e.paragraphs.map((p) => p.text).join(' ');
       // The two things the licence requires to be present.
-      expect(text, contains('Copyright'), reason: '${e.packages} has no copyright line');
-      expect(text, contains('SIL OPEN FONT LICENSE'),
-          reason: '${e.packages} is not the OFL');
-      expect(text.length, greaterThan(2000),
-          reason: '${e.packages} looks truncated');
+      expect(
+        text,
+        contains('Copyright'),
+        reason: '${e.packages} has no copyright line',
+      );
+      expect(
+        text,
+        contains('SIL OPEN FONT LICENSE'),
+        reason: '${e.packages} is not the OFL',
+      );
+      expect(
+        text.length,
+        greaterThan(2000),
+        reason: '${e.packages} looks truncated',
+      );
     }
   });
 }

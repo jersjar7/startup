@@ -139,8 +139,11 @@ const dealRounds = <DealRound>[
   DealRound(
     subject: 'a seal for hire',
     lines: [
-      Line('Builder', 'Seal these without reviewing them and I will pay two '
-          'thousand.'),
+      Line(
+        'Builder',
+        'Seal these without reviewing them and I will pay two '
+            'thousand.',
+      ),
       Line('Engineer', 'Send them over.'),
       Line('Builder', 'On the way, with the money.'),
       Line('Engineer', 'Received.'),

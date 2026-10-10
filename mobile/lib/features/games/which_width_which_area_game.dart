@@ -277,8 +277,7 @@ class _WhichWidthWhichAreaGameState extends State<WhichWidthWhichAreaGame> {
           Center(
             child: MathText(
               r'$\tau = \dfrac{VQ}{Ib}$',
-              style:
-                  const TextStyle(fontSize: 18, color: AppColors.charcoal),
+              style: const TextStyle(fontSize: 18, color: AppColors.charcoal),
             ),
           ),
           const SizedBox(height: 12),

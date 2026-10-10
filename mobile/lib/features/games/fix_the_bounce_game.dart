@@ -76,11 +76,11 @@ class BounceRound {
   static const _i = 60e6;
 
   double sagWith(Cure c) => entry.sag(
-        load: _load * c.load,
-        span: span * c.span,
-        e: _e * c.e,
-        i: _i * c.i,
-      );
+    load: _load * c.load,
+    span: span * c.span,
+    e: _e * c.e,
+    i: _i * c.i,
+  );
 
   double get sagNow => sagWith(const Cure(''));
 
@@ -322,9 +322,7 @@ class _FixTheBounceGameState extends State<FixTheBounceGame> {
           for (var i = 0; i < r.cures.length; i++) ...[
             _Choice(
               label: r.cures[i].label,
-              note: answered
-                  ? _share(r.sagWith(r.cures[i]) / r.sagNow)
-                  : null,
+              note: answered ? _share(r.sagWith(r.cures[i]) / r.sagNow) : null,
               selected: _picked == i,
               locked: answered,
               isTruth: i == r.answer,
@@ -336,7 +334,9 @@ class _FixTheBounceGameState extends State<FixTheBounceGame> {
             const SizedBox(height: 8),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT BUYS THE MOST' : 'ANOTHER BUYS MORE',
+              title: _session.correct!
+                  ? 'THAT BUYS THE MOST'
+                  : 'ANOTHER BUYS MORE',
               body: r.why,
             ),
           ],
@@ -405,8 +405,7 @@ class _Choice extends StatelessWidget {
             children: [
               Text(
                 label,
-                style:
-                    const TextStyle(fontSize: 15, color: AppColors.charcoal),
+                style: const TextStyle(fontSize: 15, color: AppColors.charcoal),
               ),
               if (note != null) ...[
                 const SizedBox(height: 3),

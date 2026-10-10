@@ -31,16 +31,16 @@ enum Ring { upstream, downstream, standsStill }
 
 extension RingWords on Ring {
   String get plain => switch (this) {
-        Ring.upstream => 'It works its way upstream',
-        Ring.downstream => 'It is swept downstream',
-        Ring.standsStill => 'Its upstream edge stands still',
-      };
+    Ring.upstream => 'It works its way upstream',
+    Ring.downstream => 'It is swept downstream',
+    Ring.standsStill => 'Its upstream edge stands still',
+  };
 
   String get regime => switch (this) {
-        Ring.upstream => 'subcritical',
-        Ring.downstream => 'supercritical',
-        Ring.standsStill => 'critical',
-      };
+    Ring.upstream => 'subcritical',
+    Ring.downstream => 'supercritical',
+    Ring.standsStill => 'critical',
+  };
 }
 
 @immutable
@@ -231,8 +231,7 @@ class _WhichWayDoesTheRippleGoGameState
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter:
-                      RipplePainter(flume: r.flume, answered: answered),
+                  painter: RipplePainter(flume: r.flume, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

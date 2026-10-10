@@ -49,8 +49,8 @@ class LandRound {
 
   /// Worked out by finding the plotted point that matches the pair, never
   /// declared beside it.
-  int get answer => task.known
-      .indexWhere((p) => p.east == east && p.north == north);
+  int get answer =>
+      task.known.indexWhere((p) => p.east == east && p.north == north);
 }
 
 const landRounds = <LandRound>[
@@ -58,12 +58,14 @@ const landRounds = <LandRound>[
     subject: 'the pair read straight',
     east: 1300,
     north: 1400,
-    task: Task(known: [
-      Peg2('P', 1300, 1400),
-      Peg2('Q', 1400, 1300),
-      Peg2('R', 1300, 1300),
-      Peg2('S', 1400, 1400),
-    ]),
+    task: Task(
+      known: [
+        Peg2('P', 1300, 1400),
+        Peg2('Q', 1400, 1300),
+        Peg2('R', 1300, 1300),
+        Peg2('S', 1400, 1400),
+      ],
+    ),
     why:
         'P. Easting first, so 1,300 is measured across and 1,400 up. Q is '
         'the same two numbers swapped, which is the mistake worth watching '
@@ -76,12 +78,14 @@ const landRounds = <LandRound>[
     subject: 'a wide gap between the two numbers',
     east: 2000,
     north: 5000,
-    task: Task(known: [
-      Peg2('P', 5000, 2000),
-      Peg2('Q', 2000, 5000),
-      Peg2('R', 2000, 2000),
-      Peg2('S', 5000, 5000),
-    ]),
+    task: Task(
+      known: [
+        Peg2('P', 5000, 2000),
+        Peg2('Q', 2000, 5000),
+        Peg2('R', 2000, 2000),
+        Peg2('S', 5000, 5000),
+      ],
+    ),
     why:
         'Q, well up the sheet and not far across it. When the two numbers '
         'are far apart, reading them backwards moves the point three '
@@ -93,12 +97,14 @@ const landRounds = <LandRound>[
     subject: 'the lesson\'s own start point',
     east: 5000,
     north: 5000,
-    task: Task(known: [
-      Peg2('P', 5000, 5000),
-      Peg2('Q', 5200, 5000),
-      Peg2('R', 5000, 5200),
-      Peg2('S', 5200, 5200),
-    ]),
+    task: Task(
+      known: [
+        Peg2('P', 5000, 5000),
+        Peg2('Q', 5200, 5000),
+        Peg2('R', 5000, 5200),
+        Peg2('S', 5200, 5200),
+      ],
+    ),
     why:
         'P. This is the point the lesson runs its course from, and it is the '
         'one pair that cannot be read backwards: the two numbers are the '
@@ -110,12 +116,14 @@ const landRounds = <LandRound>[
     subject: 'a hundred feet in it',
     east: 4100,
     north: 4000,
-    task: Task(known: [
-      Peg2('P', 4000, 4100),
-      Peg2('Q', 4100, 4000),
-      Peg2('R', 4000, 4000),
-      Peg2('S', 4100, 4100),
-    ]),
+    task: Task(
+      known: [
+        Peg2('P', 4000, 4100),
+        Peg2('Q', 4100, 4000),
+        Peg2('R', 4000, 4000),
+        Peg2('S', 4100, 4100),
+      ],
+    ),
     why:
         'Q, across to the right and level with the corner. P is the swap, '
         'and it sits a hundred feet away in a completely different '
@@ -127,12 +135,14 @@ const landRounds = <LandRound>[
     subject: 'the far corner of the lesson\'s line',
     east: 1000,
     north: 1300,
-    task: Task(known: [
-      Peg2('P', 1300, 1000),
-      Peg2('Q', 1000, 1000),
-      Peg2('R', 1000, 1300),
-      Peg2('S', 1300, 1300),
-    ]),
+    task: Task(
+      known: [
+        Peg2('P', 1300, 1000),
+        Peg2('Q', 1000, 1000),
+        Peg2('R', 1000, 1300),
+        Peg2('S', 1300, 1300),
+      ],
+    ),
     why:
         'R, straight up from the origin corner. Easting 1,000 means it has '
         'not moved east at all from that corner, and northing 1,300 puts it '
@@ -144,12 +154,14 @@ const landRounds = <LandRound>[
     subject: 'both numbers over three thousand',
     east: 3400,
     north: 3200,
-    task: Task(known: [
-      Peg2('P', 3200, 3400),
-      Peg2('Q', 3400, 3200),
-      Peg2('R', 3200, 3200),
-      Peg2('S', 3400, 3400),
-    ]),
+    task: Task(
+      known: [
+        Peg2('P', 3200, 3400),
+        Peg2('Q', 3400, 3200),
+        Peg2('R', 3200, 3200),
+        Peg2('S', 3400, 3400),
+      ],
+    ),
     why:
         'Q. Two hundred feet separates the pair from its swap here, and '
         'nothing about either number looks wrong. This is why coordinates '

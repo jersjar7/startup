@@ -290,8 +290,7 @@ class _DoubleTheWallGameState extends State<DoubleTheWallGame> {
             Center(
               child: MathText(
                 r'$P_a = \tfrac{1}{2} K_a \gamma H^2$',
-                style: const TextStyle(
-                    fontSize: 16, color: AppColors.charcoal),
+                style: const TextStyle(fontSize: 16, color: AppColors.charcoal),
               ),
             ),
           ],

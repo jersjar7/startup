@@ -58,9 +58,9 @@ class Truss {
 
   /// Which members meet at a joint.
   List<int> at(int joint) => [
-        for (var m = 0; m < members.length; m++)
-          if (members[m].$1 == joint || members[m].$2 == joint) m,
-      ];
+    for (var m = 0; m < members.length; m++)
+      if (members[m].$1 == joint || members[m].$2 == joint) m,
+  ];
 
   /// Whether anything is applied at a joint: a load, or a support reaction.
   bool loaded(int joint) =>
@@ -125,10 +125,13 @@ class Cut {
 
   /// Which members it passes through.
   List<int> through(Truss truss) => [
-        for (var m = 0; m < truss.members.length; m++)
-          if (_crosses(truss.joints[truss.members[m].$1].at,
-              truss.joints[truss.members[m].$2].at)) m,
-      ];
+    for (var m = 0; m < truss.members.length; m++)
+      if (_crosses(
+        truss.joints[truss.members[m].$1].at,
+        truss.joints[truss.members[m].$2].at,
+      ))
+        m,
+  ];
 
   bool _crosses(Offset a, Offset b) {
     double side(Offset p, Offset q, Offset r) =>
@@ -206,8 +209,7 @@ class TrussPainter extends CustomPainter {
 
   /// The same fit the painter uses, so tap targets can be put on the things
   /// they belong to instead of near them.
-  static double scaleFor(Truss truss, Size size,
-      {List<Cut> cuts = const []}) {
+  static double scaleFor(Truss truss, Size size, {List<Cut> cuts = const []}) {
     final b = _frame(truss, cuts);
     final room = roomFor(truss, hasCuts: cuts.isNotEmpty);
     return math.min(
@@ -228,15 +230,21 @@ class TrussPainter extends CustomPainter {
     return top + unit * 14 + const Offset(0, -11);
   }
 
-  static Offset toScreen(Truss truss, Offset world, Size size,
-      {List<Cut> cuts = const []}) {
+  static Offset toScreen(
+    Truss truss,
+    Offset world,
+    Size size, {
+    List<Cut> cuts = const [],
+  }) {
     final b = _frame(truss, cuts);
     final room = roomFor(truss, hasCuts: cuts.isNotEmpty);
     final s = scaleFor(truss, size, cuts: cuts);
     return Offset(
-      room.left + (size.width - room.horizontal - b.width * s) / 2 +
+      room.left +
+          (size.width - room.horizontal - b.width * s) / 2 +
           (world.dx - b.left) * s,
-      room.top + (size.height - room.vertical - b.height * s) / 2 +
+      room.top +
+          (size.height - room.vertical - b.height * s) / 2 +
           (b.bottom - world.dy) * s,
     );
   }
@@ -278,7 +286,13 @@ class TrussPainter extends CustomPainter {
       final (i, c) = cut;
       final picked = selected == i;
       final isTruth = locked && i == truth;
-      _dash(canvas, at(c.from), at(c.to), _cutColour(i), heavy: picked || isTruth);
+      _dash(
+        canvas,
+        at(c.from),
+        at(c.to),
+        _cutColour(i),
+        heavy: picked || isTruth,
+      );
     }
 
     for (var j = 0; j < truss.joints.length; j++) {
@@ -316,14 +330,16 @@ class TrussPainter extends CustomPainter {
       final load = truss.loads[j];
       if (load == null) continue;
       final p = at(truss.joints[j].at);
-      taken.add(_write(
-        canvas,
-        load,
-        p + Offset(0, _hangs(j) ? 45 : -62),
-        AppColors.charcoal,
-        size,
-        avoid: taken,
-      ));
+      taken.add(
+        _write(
+          canvas,
+          load,
+          p + Offset(0, _hangs(j) ? 45 : -62),
+          AppColors.charcoal,
+          size,
+          avoid: taken,
+        ),
+      );
     }
     for (var j = 0; j < truss.joints.length; j++) {
       final p = at(truss.joints[j].at);
@@ -338,24 +354,40 @@ class TrussPainter extends CustomPainter {
         final side = away.dx.abs() < 1 ? 1.0 : away.dx.sign;
         spot = p + Offset(side * 15, _hangs(j) ? 10 : -22);
       } else {
-        final unit =
-            away.distance < 1 ? const Offset(0, 1) : away / away.distance;
+        final unit = away.distance < 1
+            ? const Offset(0, 1)
+            : away / away.distance;
         spot = p + unit * 16 - const Offset(0, 6);
       }
-      taken.add(_write(canvas, truss.joints[j].name, spot, AppColors.ink3, size,
-          avoid: taken));
+      taken.add(
+        _write(
+          canvas,
+          truss.joints[j].name,
+          spot,
+          AppColors.ink3,
+          size,
+          avoid: taken,
+        ),
+      );
     }
     for (final cut in cuts.indexed) {
       final (i, c) = cut;
-      taken.add(_write(canvas, c.label, labelSpot(truss, c, size, cuts),
-          _cutColour(i), size, avoid: taken));
+      taken.add(
+        _write(
+          canvas,
+          c.label,
+          labelSpot(truss, c, size, cuts),
+          _cutColour(i),
+          size,
+          avoid: taken,
+        ),
+      );
     }
   }
 
   /// True when the load at a joint hangs below it rather than pressing on it
   /// from above, which is what a joint on the bottom chord wants.
-  bool _hangs(int joint) =>
-      truss.joints[joint].at.dy <= truss.bounds.center.dy;
+  bool _hangs(int joint) => truss.joints[joint].at.dy <= truss.bounds.center.dy;
 
   Color _cutColour(int i) {
     if (locked && i == truth) return AppColors.forest;
@@ -379,7 +411,11 @@ class TrussPainter extends CustomPainter {
       ..color = AppColors.charcoal
       ..strokeWidth = 1.4;
     for (var y = top.dy; y < foot.dy; y += 9) {
-      canvas.drawLine(Offset(top.dx, y), Offset(top.dx + out * 7, y + 6), hatch);
+      canvas.drawLine(
+        Offset(top.dx, y),
+        Offset(top.dx + out * 7, y + 6),
+        hatch,
+      );
     }
   }
 
@@ -429,8 +465,13 @@ class TrussPainter extends CustomPainter {
     );
   }
 
-  void _dash(Canvas canvas, Offset from, Offset to, Color colour,
-      {required bool heavy}) {
+  void _dash(
+    Canvas canvas,
+    Offset from,
+    Offset to,
+    Color colour, {
+    required bool heavy,
+  }) {
     final total = (to - from).distance;
     if (total < 1) return;
     final step = (to - from) / total;
@@ -439,17 +480,29 @@ class TrussPainter extends CustomPainter {
       ..strokeWidth = heavy ? 2.6 : 1.6;
     for (var d = 0.0; d < total; d += 10) {
       canvas.drawLine(
-          from + step * d, from + step * math.min(d + 5, total), paint);
+        from + step * d,
+        from + step * math.min(d + 5, total),
+        paint,
+      );
     }
   }
 
   /// Puts a label down and says where it landed, so the next one can be told
   /// to keep out of the way.
-  Rect _write(Canvas canvas, String text, Offset at, Color colour, Size size,
-      {List<Rect> avoid = const []}) {
+  Rect _write(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Color colour,
+    Size size, {
+    List<Rect> avoid = const [],
+  }) {
     if (text.isEmpty) return Rect.zero;
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10.5, color: colour)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10.5, color: colour),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = at.dx - tp.width / 2;
@@ -465,7 +518,10 @@ class TrussPainter extends CustomPainter {
 
     if (y < 1) y = 1;
     if (y + tp.height > size.height - 1) y = size.height - 1 - tp.height;
-    canvas.drawRect(box(), Paint()..color = AppColors.cream.withValues(alpha: 0.92));
+    canvas.drawRect(
+      box(),
+      Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+    );
     tp.paint(canvas, Offset(x, y));
     return box();
   }

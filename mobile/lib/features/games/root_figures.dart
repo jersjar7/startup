@@ -222,7 +222,10 @@ class RootPainter extends CustomPainter {
     bool patch = false,
   }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     if (patch) {

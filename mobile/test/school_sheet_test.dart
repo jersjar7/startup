@@ -40,7 +40,9 @@ class _Api extends ApiClient {
 
   @override
   Future<dynamic> get(String p) async {
-    if (p.startsWith('/auth/schools')) return <String, dynamic>{'schools': suggest};
+    if (p.startsWith('/auth/schools')) {
+      return <String, dynamic>{'schools': suggest};
+    }
     return <String, dynamic>{'email': 'a@b.com'};
   }
 }
@@ -71,7 +73,9 @@ void main() {
     ),
   );
 
-  testWidgets('the school form replaces the account content in place', (t) async {
+  testWidgets('the school form replaces the account content in place', (
+    t,
+  ) async {
     t.view.physicalSize = const Size(1170, 1400);
     t.view.devicePixelRatio = 3.0;
     addTearDown(t.view.reset);
@@ -107,7 +111,11 @@ void main() {
     await t.pumpAndSettle();
 
     final back = find.text('Account');
-    expect(back, findsOneWidget, reason: 'a gesture nobody can see is not a way out');
+    expect(
+      back,
+      findsOneWidget,
+      reason: 'a gesture nobody can see is not a way out',
+    );
 
     await t.tap(back);
     await t.pumpAndSettle();
@@ -253,7 +261,12 @@ void fittingNameTests() {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           backgroundColor: AppColors.cream,
-          body: Center(child: SizedBox(width: width, child: SchoolRow(auth: auth))),
+          body: Center(
+            child: SizedBox(
+              width: width,
+              child: SchoolRow(auth: auth),
+            ),
+          ),
         ),
       ),
     );
@@ -279,14 +292,19 @@ void fittingNameTests() {
     expect(find.text('Brigham Young University, 2027'), findsNothing);
   });
 
-  testWidgets('keeps the full name when there is no abbreviation to fall back to', (t) async {
-    // A school the directory has never heard of. It must not be mangled into
-    // something else just because the row is narrow.
-    await t.pumpWidget(rowAt(250, {
-      'name': 'Universidad Nacional de Ingenieria',
-      'graduationYear': 2027,
-    }));
-    await t.pumpAndSettle();
-    expect(find.textContaining('Universidad Nacional'), findsOneWidget);
-  });
+  testWidgets(
+    'keeps the full name when there is no abbreviation to fall back to',
+    (t) async {
+      // A school the directory has never heard of. It must not be mangled into
+      // something else just because the row is narrow.
+      await t.pumpWidget(
+        rowAt(250, {
+          'name': 'Universidad Nacional de Ingenieria',
+          'graduationYear': 2027,
+        }),
+      );
+      await t.pumpAndSettle();
+      expect(find.textContaining('Universidad Nacional'), findsOneWidget);
+    },
+  );
 }

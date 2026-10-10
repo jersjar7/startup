@@ -120,7 +120,9 @@ String? _flutterRootFromPath() {
     final bin = File('$dir/flutter');
     if (!bin.existsSync()) continue;
     final resolved = File(bin.resolveSymbolicLinksSync()).parent.parent.path;
-    if (Directory('$resolved/bin/cache/artifacts/material_fonts').existsSync()) {
+    if (Directory(
+      '$resolved/bin/cache/artifacts/material_fonts',
+    ).existsSync()) {
       return resolved;
     }
   }

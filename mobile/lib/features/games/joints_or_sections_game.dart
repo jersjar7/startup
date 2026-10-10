@@ -28,11 +28,10 @@ enum Route3 { joints, sections, reactions }
 
 extension Route3Words on Route3 {
   String get plain => switch (this) {
-        Route3.joints => 'The method of joints',
-        Route3.sections => 'The method of sections: one cut',
-        Route3.reactions =>
-          'Neither yet: the support reactions have to come first',
-      };
+    Route3.joints => 'The method of joints',
+    Route3.sections => 'The method of sections: one cut',
+    Route3.reactions => 'Neither yet: the support reactions have to come first',
+  };
 }
 
 @immutable
@@ -284,7 +283,9 @@ class _JointsOrSectionsGameState extends State<JointsOrSectionsGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE SHORT WAY' : 'THE LONGER WAY',
+              title: _session.correct!
+                  ? 'THAT IS THE SHORT WAY'
+                  : 'THE LONGER WAY',
               body: r.why,
             ),
           ],

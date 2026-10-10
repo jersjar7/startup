@@ -29,10 +29,10 @@ enum Phase2 { fiber, matrix, equal }
 
 extension PhaseWords on Phase2 {
   String get plain => switch (this) {
-        Phase2.fiber => 'The fibers',
-        Phase2.matrix => 'The matrix',
-        Phase2.equal => 'Neither: the two are equal',
-      };
+    Phase2.fiber => 'The fibers',
+    Phase2.matrix => 'The matrix',
+    Phase2.equal => 'Neither: the two are equal',
+  };
 }
 
 @immutable
@@ -185,10 +185,10 @@ class _SameStretchGameState extends State<SameStretchGame> {
   ShareRound get _round => phaseRounds[_session.round];
 
   int? _index(Phase2? which) => switch (which) {
-        Phase2.fiber => 0,
-        Phase2.matrix => 1,
-        _ => null,
-      };
+    Phase2.fiber => 0,
+    Phase2.matrix => 1,
+    _ => null,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -226,10 +226,7 @@ class _SameStretchGameState extends State<SameStretchGame> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'WHICH PHASE',
-            style: AppTheme.overline(color: AppColors.ember),
-          ),
+          Text('WHICH PHASE', style: AppTheme.overline(color: AppColors.ember)),
           const SizedBox(height: 6),
           Text(
             r.subject,

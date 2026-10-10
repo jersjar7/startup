@@ -20,8 +20,7 @@ class FillingOrEmptyingGame extends StatefulWidget {
   const FillingOrEmptyingGame({super.key});
 
   @override
-  State<FillingOrEmptyingGame> createState() =>
-      _FillingOrEmptyingGameState();
+  State<FillingOrEmptyingGame> createState() => _FillingOrEmptyingGameState();
 }
 
 /// What the storage is doing.
@@ -29,10 +28,10 @@ enum Store { filling, emptying, holding }
 
 extension StoreWords on Store {
   String get plain => switch (this) {
-        Store.filling => 'Filling: the storage is going up',
-        Store.emptying => 'Emptying: the storage is coming down',
-        Store.holding => 'Neither: the storage is steady',
-      };
+    Store.filling => 'Filling: the storage is going up',
+    Store.emptying => 'Emptying: the storage is coming down',
+    Store.holding => 'Neither: the storage is steady',
+  };
 }
 
 @immutable
@@ -113,7 +112,8 @@ const pondRounds = <PondRound>[
   ),
   PondRound(
     subject: 'a long dry spell',
-    setting: 'Nothing arriving, and 40 cubic feet a second still trickling '
+    setting:
+        'Nothing arriving, and 40 cubic feet a second still trickling '
         'out of the low level outlet.',
     pond: Pond(inflow: 0, outflow: 40),
     why:
@@ -126,7 +126,8 @@ const pondRounds = <PondRound>[
   ),
   PondRound(
     subject: 'a steady state',
-    setting: '350 cubic feet a second arriving and 350 leaving, hour after '
+    setting:
+        '350 cubic feet a second arriving and 350 leaving, hour after '
         'hour.',
     pond: Pond(inflow: 350, outflow: 350),
     why:
@@ -257,7 +258,9 @@ class _FillingOrEmptyingGameState extends State<FillingOrEmptyingGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHAT IT IS DOING' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS WHAT IT IS DOING'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

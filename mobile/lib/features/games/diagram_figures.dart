@@ -67,8 +67,7 @@ class Loading {
       couples.fold(0.0, (t, c) => t + c.$2);
 
   /// The right reaction, upward positive. Zero on a cantilever.
-  double get rightReaction =>
-      held == Held.cantilever ? 0 : _aboutA / (b - a);
+  double get rightReaction => held == Held.cantilever ? 0 : _aboutA / (b - a);
 
   /// The left reaction, upward positive. On a cantilever this is the whole
   /// load, taken at the built-in end.
@@ -79,15 +78,15 @@ class Loading {
   /// comes out negative for a downward load, which is what hogging means.
   double get wallMoment {
     if (held != Held.cantilever) return 0;
-    final about = points.fold(0.0, (t, p) => t + p.$2 * p.$1) +
+    final about =
+        points.fold(0.0, (t, p) => t + p.$2 * p.$1) +
         spreads.fold(0.0, (t, s) => t + s.total * s.actsAt) +
         couples.fold(0.0, (t, c) => t + c.$2);
     return -about;
   }
 
   /// Where the supports actually are.
-  List<double> get supportsAt =>
-      held == Held.cantilever ? const [0.0] : [a, b];
+  List<double> get supportsAt => held == Held.cantilever ? const [0.0] : [a, b];
 
   /// Which side of a section a force sits on is decided by stepping a hair
   /// past it. The hair is small enough that the load it sweeps up on the way
@@ -209,8 +208,8 @@ class Loading {
 
   double valueOf(Diagram what, double x, {bool after = true}) =>
       what == Diagram.shear
-          ? shearAt(x, after: after)
-          : momentAt(x, after: after);
+      ? shearAt(x, after: after)
+      : momentAt(x, after: after);
 
   /// The diagram as a line to draw, with both sides of every jump in it.
   List<Offset> curve(Diagram what) {
@@ -319,12 +318,12 @@ class DiagramPainter extends CustomPainter {
 
     if (label.isNotEmpty) {
       TextPainter(
-        text: TextSpan(
-          text: label,
-          style: AppTheme.mono(size: 10, color: AppColors.ink3),
-        ),
-        textDirection: TextDirection.ltr,
-      )
+          text: TextSpan(
+            text: label,
+            style: AppTheme.mono(size: 10, color: AppColors.ink3),
+          ),
+          textDirection: TextDirection.ltr,
+        )
         ..layout()
         ..paint(canvas, const Offset(3, 2));
     }

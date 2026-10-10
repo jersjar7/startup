@@ -17,37 +17,37 @@ enum Face { through, vane, plate, scoop, cup }
 extension FaceWords on Face {
   /// Degrees the stream is turned through.
   double get turn => switch (this) {
-        Face.through => 0,
-        Face.vane => 45,
-        Face.plate => 90,
-        Face.scoop => 135,
-        Face.cup => 180,
-      };
+    Face.through => 0,
+    Face.vane => 45,
+    Face.plate => 90,
+    Face.scoop => 135,
+    Face.cup => 180,
+  };
 
   String get plain => switch (this) {
-        Face.through => 'a sleeve, straight through',
-        Face.vane => 'a vane, turned 45 degrees',
-        Face.plate => 'a flat plate',
-        Face.scoop => 'a scoop, turned 135 degrees',
-        Face.cup => 'a cup, turned right back',
-      };
+    Face.through => 'a sleeve, straight through',
+    Face.vane => 'a vane, turned 45 degrees',
+    Face.plate => 'a flat plate',
+    Face.scoop => 'a scoop, turned 135 degrees',
+    Face.cup => 'a cup, turned right back',
+  };
 
   String get short => switch (this) {
-        Face.through => 'sleeve',
-        Face.vane => 'vane',
-        Face.plate => 'plate',
-        Face.scoop => 'scoop',
-        Face.cup => 'cup',
-      };
+    Face.through => 'sleeve',
+    Face.vane => 'vane',
+    Face.plate => 'plate',
+    Face.scoop => 'scoop',
+    Face.cup => 'cup',
+  };
 
   /// What the panel calls it, short enough to sit inside one.
   String get label => switch (this) {
-        Face.through => 'sleeve',
-        Face.vane => 'vane, 45',
-        Face.plate => 'flat plate',
-        Face.scoop => 'scoop, 135',
-        Face.cup => 'cup, 180',
-      };
+    Face.through => 'sleeve',
+    Face.vane => 'vane, 45',
+    Face.plate => 'flat plate',
+    Face.scoop => 'scoop, 135',
+    Face.cup => 'cup, 180',
+  };
 }
 
 /// One jet meeting one face.
@@ -127,10 +127,16 @@ class HitPainter extends CustomPainter {
       );
     final head = hit.speed > 1 ? 13.0 : 9.0;
     canvas
-      ..drawLine(Offset(faceX - 4, cy), Offset(faceX - 4 - head, cy - 6),
-          water..strokeWidth = 1.8)
       ..drawLine(
-          Offset(faceX - 4, cy), Offset(faceX - 4 - head, cy + 6), water);
+        Offset(faceX - 4, cy),
+        Offset(faceX - 4 - head, cy - 6),
+        water..strokeWidth = 1.8,
+      )
+      ..drawLine(
+        Offset(faceX - 4, cy),
+        Offset(faceX - 4 - head, cy + 6),
+        water,
+      );
 
     // The face itself, and where the water goes after it.
     final face = Paint()
@@ -155,46 +161,82 @@ class HitPainter extends CustomPainter {
     switch (hit.face) {
       case Face.through:
         final sleeve = Path()
-          ..addRect(Rect.fromLTRB(faceX, cy - thick - 9, size.width - 10,
-              cy - thick - 4))
-          ..addRect(Rect.fromLTRB(faceX, cy + thick + 4, size.width - 10,
-              cy + thick + 9));
+          ..addRect(
+            Rect.fromLTRB(
+              faceX,
+              cy - thick - 9,
+              size.width - 10,
+              cy - thick - 4,
+            ),
+          )
+          ..addRect(
+            Rect.fromLTRB(
+              faceX,
+              cy + thick + 4,
+              size.width - 10,
+              cy + thick + 9,
+            ),
+          );
         solid(sleeve);
         canvas.drawLine(here, Offset(size.width - 12, cy), leaving);
       case Face.vane:
-        solid(Path()
-          ..moveTo(faceX - 12, cy + 16)
-          ..lineTo(faceX + 16, cy - 20)
-          ..lineTo(faceX + 21, cy - 16)
-          ..lineTo(faceX - 7, cy + 20)
-          ..close());
+        solid(
+          Path()
+            ..moveTo(faceX - 12, cy + 16)
+            ..lineTo(faceX + 16, cy - 20)
+            ..lineTo(faceX + 21, cy - 16)
+            ..lineTo(faceX - 7, cy + 20)
+            ..close(),
+        );
         canvas.drawLine(here, here + const Offset(26, -26), leaving);
       case Face.plate:
-        solid(Path()
-          ..addRect(Rect.fromLTRB(faceX, cy - 26, faceX + 6, cy + 26)));
+        solid(
+          Path()..addRect(Rect.fromLTRB(faceX, cy - 26, faceX + 6, cy + 26)),
+        );
         canvas
           ..drawLine(here, here + const Offset(-7, -30), leaving)
           ..drawLine(here, here + const Offset(-7, 30), leaving);
       case Face.scoop:
-        solid(Path()
-          ..addArc(Rect.fromCircle(center: here, radius: 24), -1.15, 2.3)
-          ..arcTo(Rect.fromCircle(center: here, radius: 30), 1.15, -2.3, false)
-          ..close());
+        solid(
+          Path()
+            ..addArc(Rect.fromCircle(center: here, radius: 24), -1.15, 2.3)
+            ..arcTo(
+              Rect.fromCircle(center: here, radius: 30),
+              1.15,
+              -2.3,
+              false,
+            )
+            ..close(),
+        );
         canvas
-          ..drawLine(here + const Offset(-4, -14),
-              here + const Offset(-26, -30), leaving)
           ..drawLine(
-              here + const Offset(-4, 14), here + const Offset(-26, 30), leaving);
+            here + const Offset(-4, -14),
+            here + const Offset(-26, -30),
+            leaving,
+          )
+          ..drawLine(
+            here + const Offset(-4, 14),
+            here + const Offset(-26, 30),
+            leaving,
+          );
       case Face.cup:
-        solid(Path()
-          ..addArc(Rect.fromCircle(center: here, radius: 26), -1.6, 3.2)
-          ..arcTo(Rect.fromCircle(center: here, radius: 32), 1.6, -3.2, false)
-          ..close());
+        solid(
+          Path()
+            ..addArc(Rect.fromCircle(center: here, radius: 26), -1.6, 3.2)
+            ..arcTo(Rect.fromCircle(center: here, radius: 32), 1.6, -3.2, false)
+            ..close(),
+        );
         canvas
-          ..drawLine(Offset(faceX - 6, cy - 22), Offset(faceX - 30, cy - 22),
-              leaving)
-          ..drawLine(Offset(faceX - 6, cy + 22), Offset(faceX - 30, cy + 22),
-              leaving);
+          ..drawLine(
+            Offset(faceX - 6, cy - 22),
+            Offset(faceX - 30, cy - 22),
+            leaving,
+          )
+          ..drawLine(
+            Offset(faceX - 6, cy + 22),
+            Offset(faceX - 30, cy + 22),
+            leaving,
+          );
     }
 
     // The push, never before it is answered.
@@ -224,11 +266,21 @@ class HitPainter extends CustomPainter {
       if (hit.bore != 1) 'bore x${_num(hit.bore)}',
     ];
     if (notes.isNotEmpty) {
-      writeOn(canvas, size, notes.join(', '), Offset(6, size.height - 27),
-          AppColors.ember);
+      writeOn(
+        canvas,
+        size,
+        notes.join(', '),
+        Offset(6, size.height - 27),
+        AppColors.ember,
+      );
     }
-    writeOn(canvas, size, hit.face.label, Offset(6, size.height - 15),
-        AppColors.ink2);
+    writeOn(
+      canvas,
+      size,
+      hit.face.label,
+      Offset(6, size.height - 15),
+      AppColors.ink2,
+    );
     viewTag(canvas, size, Looking.elevation);
   }
 
@@ -257,11 +309,11 @@ enum Fitting { coupling, bend, reducer, cap }
 
 extension FittingWords on Fitting {
   String get plain => switch (this) {
-        Fitting.coupling => 'a plain joint in a straight length',
-        Fitting.bend => 'a bend',
-        Fitting.reducer => 'a change of bore',
-        Fitting.cap => 'a capped end',
-      };
+    Fitting.coupling => 'a plain joint in a straight length',
+    Fitting.bend => 'a bend',
+    Fitting.reducer => 'a change of bore',
+    Fitting.cap => 'a capped end',
+  };
 }
 
 /// A run of main seen in plan, with a marked spot everywhere two lengths
@@ -295,8 +347,10 @@ class Trunk {
 
   /// The one spot that has to be held, which is an error if a round ever
   /// draws two of them.
-  int get culprit =>
-      [for (var i = 0; i < spots; i++) if (thrustsAt(i)) i].single;
+  int get culprit => [
+    for (var i = 0; i < spots; i++)
+      if (thrustsAt(i)) i,
+  ].single;
 
   /// Where the corners of the run fall, in plan units with y running up.
   List<Offset> get vertices {
@@ -317,11 +371,7 @@ class Trunk {
 
 /// The run drawn in plan with every spot marked and numbered.
 class TrunkPainter extends CustomPainter {
-  const TrunkPainter({
-    required this.trunk,
-    this.picked,
-    this.locked = false,
-  });
+  const TrunkPainter({required this.trunk, this.picked, this.locked = false});
 
   final Trunk trunk;
   final int? picked;
@@ -381,30 +431,40 @@ class TrunkPainter extends CustomPainter {
       // notched.
       if (i > 0) {
         canvas.drawCircle(
-            a, (thick + 3) / 2, Paint()..color = AppColors.charcoal);
+          a,
+          (thick + 3) / 2,
+          Paint()..color = AppColors.charcoal,
+        );
       }
       canvas
         ..drawLine(
-            a,
-            b,
-            Paint()
-              ..color = AppColors.charcoal
-              ..strokeWidth = thick + 3
-              ..strokeCap = StrokeCap.butt)
+          a,
+          b,
+          Paint()
+            ..color = AppColors.charcoal
+            ..strokeWidth = thick + 3
+            ..strokeCap = StrokeCap.butt,
+        )
         ..drawLine(
-            a,
-            b,
-            Paint()
-              ..color = AppColors.info.withValues(alpha: 0.45)
-              ..strokeWidth = thick
-              ..strokeCap = StrokeCap.butt);
+          a,
+          b,
+          Paint()
+            ..color = AppColors.info.withValues(alpha: 0.45)
+            ..strokeWidth = thick
+            ..strokeCap = StrokeCap.butt,
+        );
       // The bore is worth saying once where it starts and once where it
       // changes, not on every length of the same pipe.
       if (trunk.mixedBores &&
           (i == 0 || trunk.legs[i].bore != trunk.legs[i - 1].bore)) {
         final mid = Offset((a.dx + b.dx) / 2, (a.dy + b.dy) / 2);
-        writeOn(canvas, size, '${_num(trunk.legs[i].bore)} mm',
-            mid + const Offset(-16, 14), AppColors.ink3);
+        writeOn(
+          canvas,
+          size,
+          '${_num(trunk.legs[i].bore)} mm',
+          mid + const Offset(-16, 14),
+          AppColors.ink3,
+        );
       }
     }
 
@@ -427,11 +487,12 @@ class TrunkPainter extends CustomPainter {
       final dir = (end - last) / (end - last).distance;
       final across = Offset(-dir.dy, dir.dx) * 19;
       canvas.drawLine(
-          end + across,
-          end - across,
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 4);
+        end + across,
+        end - across,
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 4,
+      );
     }
 
     for (var i = 0; i < trunk.spots; i++) {
@@ -449,12 +510,13 @@ class TrunkPainter extends CustomPainter {
       canvas
         ..drawCircle(spot, 11, Paint()..color = AppColors.cream)
         ..drawCircle(
-            spot,
-            10,
-            Paint()
-              ..color = tone
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2.2);
+          spot,
+          10,
+          Paint()
+            ..color = tone
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2.2,
+        );
       writeOn(canvas, size, '${i + 1}', spot + const Offset(-3, -6), tone);
     }
     viewTag(canvas, size, Looking.plan, note: 'seen from above');
@@ -520,11 +582,7 @@ class Elbow {
 /// The bend drawn in plan with four candidate blocks around it. The thrust
 /// arrow appears only once the round is over.
 class ElbowPainter extends CustomPainter {
-  const ElbowPainter({
-    required this.elbow,
-    this.picked,
-    this.locked = false,
-  });
+  const ElbowPainter({required this.elbow, this.picked, this.locked = false});
 
   final Elbow elbow;
   final int? picked;
@@ -533,8 +591,7 @@ class ElbowPainter extends CustomPainter {
   static Offset _corner(Size size) =>
       Offset(size.width / 2, size.height / 2 - 4);
 
-  static double _radius(Size size) =>
-      math.min(size.width, size.height) * 0.30;
+  static double _radius(Size size) => math.min(size.width, size.height) * 0.30;
 
   /// Where candidate block `i` is drawn.
   static Offset spotOf(Size size, Elbow elbow, int i) =>
@@ -562,19 +619,21 @@ class ElbowPainter extends CustomPainter {
       ..lineTo(end.dx, end.dy);
     canvas
       ..drawPath(
-          bent,
-          Paint()
-            ..color = AppColors.charcoal
-            ..style = PaintingStyle.stroke
-            ..strokeJoin = StrokeJoin.miter
-            ..strokeWidth = 17)
+        bent,
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeJoin = StrokeJoin.miter
+          ..strokeWidth = 17,
+      )
       ..drawPath(
-          bent,
-          Paint()
-            ..color = AppColors.info.withValues(alpha: 0.45)
-            ..style = PaintingStyle.stroke
-            ..strokeJoin = StrokeJoin.miter
-            ..strokeWidth = 13);
+        bent,
+        Paint()
+          ..color = AppColors.info.withValues(alpha: 0.45)
+          ..style = PaintingStyle.stroke
+          ..strokeJoin = StrokeJoin.miter
+          ..strokeWidth = 13,
+      );
 
     // Which way the water runs, marked at both ends.
     final flow = Paint()
@@ -619,14 +678,16 @@ class ElbowPainter extends CustomPainter {
       final box = Rect.fromCenter(center: spot, width: 26, height: 20);
       canvas
         ..drawRRect(
-            RRect.fromRectAndRadius(box, const Radius.circular(3)),
-            Paint()..color = AppColors.cream)
+          RRect.fromRectAndRadius(box, const Radius.circular(3)),
+          Paint()..color = AppColors.cream,
+        )
         ..drawRRect(
-            RRect.fromRectAndRadius(box, const Radius.circular(3)),
-            Paint()
-              ..color = tone
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2);
+          RRect.fromRectAndRadius(box, const Radius.circular(3)),
+          Paint()
+            ..color = tone
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2,
+        );
       writeOn(canvas, size, letters[i], spot + const Offset(-4, -6), tone);
     }
     viewTag(canvas, size, Looking.plan, note: 'seen from above');
@@ -639,4 +700,3 @@ class ElbowPainter extends CustomPainter {
 
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
-

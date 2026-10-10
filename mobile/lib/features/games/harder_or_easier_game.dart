@@ -273,7 +273,9 @@ class _HarderOrEasierGameState extends State<HarderOrEasierGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE WAY IT MOVES' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS THE WAY IT MOVES'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],
@@ -424,10 +426,16 @@ class _ShiftGlyph extends CustomPainter {
     final x = size.width / 2;
 
     if (option == Shift.same) {
-      canvas.drawLine(Offset(x - 9, size.height / 2 - 4),
-          Offset(x + 9, size.height / 2 - 4), paint);
-      canvas.drawLine(Offset(x - 9, size.height / 2 + 4),
-          Offset(x + 9, size.height / 2 + 4), paint);
+      canvas.drawLine(
+        Offset(x - 9, size.height / 2 - 4),
+        Offset(x + 9, size.height / 2 - 4),
+        paint,
+      );
+      canvas.drawLine(
+        Offset(x - 9, size.height / 2 + 4),
+        Offset(x + 9, size.height / 2 + 4),
+        paint,
+      );
       return;
     }
 

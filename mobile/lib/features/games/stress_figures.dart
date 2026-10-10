@@ -22,8 +22,11 @@ Profile iSection({
   return Profile([
     Piece(Slab.box, Offset.zero, Size(flangeWidth, flangeThickness)),
     Piece(Slab.box, Offset(mid, flangeThickness), Size(webThickness, web)),
-    Piece(Slab.box, Offset(0, depth - flangeThickness),
-        Size(flangeWidth, flangeThickness)),
+    Piece(
+      Slab.box,
+      Offset(0, depth - flangeThickness),
+      Size(flangeWidth, flangeThickness),
+    ),
   ]);
 }
 
@@ -172,7 +175,11 @@ class LayerPainter extends CustomPainter {
   /// rather than near them.
   static Offset layerAt(Profile profile, Size size, double y) {
     final box = sectionBox(size);
-    return ProfilePainter.toScreen(profile, Offset(profile.bounds.left, y), box);
+    return ProfilePainter.toScreen(
+      profile,
+      Offset(profile.bounds.left, y),
+      box,
+    );
   }
 
   /// The layer nearest a tap, if the tap is near one at all.
@@ -201,9 +208,15 @@ class LayerPainter extends CustomPainter {
     ProfilePainter(profile: profile).paint(canvas, box);
 
     final left = ProfilePainter.toScreen(
-        profile, Offset(profile.bounds.left, profile.baseline), box);
+      profile,
+      Offset(profile.bounds.left, profile.baseline),
+      box,
+    );
     final right = ProfilePainter.toScreen(
-        profile, Offset(profile.bounds.right, profile.baseline), box);
+      profile,
+      Offset(profile.bounds.right, profile.baseline),
+      box,
+    );
 
     if (show != null) _strip(canvas, size, box);
 
@@ -214,10 +227,10 @@ class LayerPainter extends CustomPainter {
       final tone = isTruth
           ? AppColors.forest
           : (locked && chosen)
-              ? AppColors.error
-              : chosen
-                  ? AppColors.ember
-                  : AppColors.ink3;
+          ? AppColors.error
+          : chosen
+          ? AppColors.ember
+          : AppColors.ink3;
       final heavy = chosen || isTruth;
       canvas.drawLine(
         Offset(left.dx - 10, y),
@@ -243,8 +256,8 @@ class LayerPainter extends CustomPainter {
     var peak = 0.0;
     final values = <double, double>{};
     for (var i = 0; i <= steps; i++) {
-      final y = profile.baseline +
-          (profile.crown - profile.baseline) * i / steps;
+      final y =
+          profile.baseline + (profile.crown - profile.baseline) * i / steps;
       final v = show == Runs.bending
           ? profile.bendingStressAt(y, moment)
           : profile.shearStressAt(y, shear);
@@ -257,8 +270,10 @@ class LayerPainter extends CustomPainter {
     var started = false;
     values.forEach((y, v) {
       final at = ProfilePainter.toScreen(profile, Offset(0, y), box);
-      final p = Offset(x0 + v / peak * room / (show == Runs.bending ? 2 : 1),
-          at.dy);
+      final p = Offset(
+        x0 + v / peak * room / (show == Runs.bending ? 2 : 1),
+        at.dy,
+      );
       started ? path.lineTo(p.dx, p.dy) : path.moveTo(p.dx, p.dy);
       started = true;
     });
@@ -270,8 +285,11 @@ class LayerPainter extends CustomPainter {
         ..strokeWidth = 2,
     );
     final top = ProfilePainter.toScreen(profile, Offset(0, profile.crown), box);
-    final bottom =
-        ProfilePainter.toScreen(profile, Offset(0, profile.baseline), box);
+    final bottom = ProfilePainter.toScreen(
+      profile,
+      Offset(0, profile.baseline),
+      box,
+    );
     canvas.drawLine(
       Offset(x0, top.dy),
       Offset(x0, bottom.dy),
@@ -280,12 +298,12 @@ class LayerPainter extends CustomPainter {
         ..strokeWidth = 1,
     );
     TextPainter(
-      text: TextSpan(
-        text: show == Runs.bending ? 'bending' : 'shear',
-        style: AppTheme.mono(size: 10, color: AppColors.ink3),
-      ),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: show == Runs.bending ? 'bending' : 'shear',
+          style: AppTheme.mono(size: 10, color: AppColors.ink3),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, Offset(x0 - 10, bottom.dy + 6));
   }
@@ -302,15 +320,9 @@ class LayerPainter extends CustomPainter {
 /// at some height, or a band of material between two heights.
 @immutable
 class Ingredient {
-  const Ingredient.width(double at)
-      : y = at,
-        from = 0,
-        to = 0,
-        isWidth = true;
+  const Ingredient.width(double at) : y = at, from = 0, to = 0, isWidth = true;
 
-  const Ingredient.band(this.from, this.to)
-      : y = 0,
-        isWidth = false;
+  const Ingredient.band(this.from, this.to) : y = 0, isWidth = false;
 
   final bool isWidth;
 
@@ -403,8 +415,13 @@ class MarkPainter extends CustomPainter {
       }
       // Ticks, so a width measured across a gap still reads as a measurement.
       for (final x in [a.dx, b.dx]) {
-        canvas.drawLine(Offset(x, y - 9), Offset(x, y + 9),
-            Paint()..color = tone..strokeWidth = 1.2);
+        canvas.drawLine(
+          Offset(x, y - 9),
+          Offset(x, y + 9),
+          Paint()
+            ..color = tone
+            ..strokeWidth = 1.2,
+        );
       }
     }
   }

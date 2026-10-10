@@ -63,9 +63,16 @@ const takeRounds = <TakeRound>[
         'every year after, for ten years. What is the present worth of the '
         'whole program?',
     flows: [
-      CashFlow(1, -1), CashFlow(2, -1.22), CashFlow(3, -1.44), CashFlow(4, -1.67),
-      CashFlow(5, -1.89), CashFlow(6, -2.11), CashFlow(7, -2.33), CashFlow(8, -2.56),
-      CashFlow(9, -2.78), CashFlow(10, -3),
+      CashFlow(1, -1),
+      CashFlow(2, -1.22),
+      CashFlow(3, -1.44),
+      CashFlow(4, -1.67),
+      CashFlow(5, -1.89),
+      CashFlow(6, -2.11),
+      CashFlow(7, -2.33),
+      CashFlow(8, -2.56),
+      CashFlow(9, -2.78),
+      CashFlow(10, -3),
     ],
     periods: 10,
     answer: [1, 2],
@@ -81,9 +88,18 @@ const takeRounds = <TakeRound>[
         'A pump station costs the same amount to run at the end of each of the '
         'next twelve years. What is that worth today?',
     flows: [
-      CashFlow(1, -2), CashFlow(2, -2), CashFlow(3, -2), CashFlow(4, -2), CashFlow(5, -2),
-      CashFlow(6, -2), CashFlow(7, -2), CashFlow(8, -2), CashFlow(9, -2), CashFlow(10, -2),
-      CashFlow(11, -2), CashFlow(12, -2),
+      CashFlow(1, -2),
+      CashFlow(2, -2),
+      CashFlow(3, -2),
+      CashFlow(4, -2),
+      CashFlow(5, -2),
+      CashFlow(6, -2),
+      CashFlow(7, -2),
+      CashFlow(8, -2),
+      CashFlow(9, -2),
+      CashFlow(10, -2),
+      CashFlow(11, -2),
+      CashFlow(12, -2),
     ],
     periods: 12,
     answer: [1],
@@ -112,8 +128,14 @@ const takeRounds = <TakeRound>[
         'A plant costs the same to operate every year for eight years, and in '
         'year five there is an overhaul on top of that year\'s operating cost.',
     flows: [
-      CashFlow(1, -1.4), CashFlow(2, -1.4), CashFlow(3, -1.4), CashFlow(4, -1.4),
-      CashFlow(5, -3), CashFlow(6, -1.4), CashFlow(7, -1.4), CashFlow(8, -1.4),
+      CashFlow(1, -1.4),
+      CashFlow(2, -1.4),
+      CashFlow(3, -1.4),
+      CashFlow(4, -1.4),
+      CashFlow(5, -3),
+      CashFlow(6, -1.4),
+      CashFlow(7, -1.4),
+      CashFlow(8, -1.4),
     ],
     periods: 8,
     answer: [0, 1],
@@ -130,8 +152,14 @@ const takeRounds = <TakeRound>[
         'costs 3,000 dollars, and it rises by another 3,000 every year after '
         'that, for nine years.',
     flows: [
-      CashFlow(2, -0.6), CashFlow(3, -1.2), CashFlow(4, -1.8), CashFlow(5, -2.4),
-      CashFlow(6, -3), CashFlow(7, -3.6), CashFlow(8, -4.2), CashFlow(9, -4.8),
+      CashFlow(2, -0.6),
+      CashFlow(3, -1.2),
+      CashFlow(4, -1.8),
+      CashFlow(5, -2.4),
+      CashFlow(6, -3),
+      CashFlow(7, -3.6),
+      CashFlow(8, -4.2),
+      CashFlow(9, -4.8),
     ],
     periods: 9,
     answer: [2],
@@ -148,10 +176,21 @@ const takeRounds = <TakeRound>[
         'Operating costs start at 20,000 dollars and grow by 1,500 dollars a '
         'year for fifteen years. At the end the asset is sold for salvage.',
     flows: [
-      CashFlow(1, -1), CashFlow(2, -1.14), CashFlow(3, -1.29), CashFlow(4, -1.43),
-      CashFlow(5, -1.57), CashFlow(6, -1.71), CashFlow(7, -1.86), CashFlow(8, -2),
-      CashFlow(9, -2.14), CashFlow(10, -2.29), CashFlow(11, -2.43), CashFlow(12, -2.57),
-      CashFlow(13, -2.71), CashFlow(14, -2.86), CashFlow(15, -3),
+      CashFlow(1, -1),
+      CashFlow(2, -1.14),
+      CashFlow(3, -1.29),
+      CashFlow(4, -1.43),
+      CashFlow(5, -1.57),
+      CashFlow(6, -1.71),
+      CashFlow(7, -1.86),
+      CashFlow(8, -2),
+      CashFlow(9, -2.14),
+      CashFlow(10, -2.29),
+      CashFlow(11, -2.43),
+      CashFlow(12, -2.57),
+      CashFlow(13, -2.71),
+      CashFlow(14, -2.86),
+      CashFlow(15, -3),
       CashFlow(15, 2.4),
     ],
     periods: 15,
@@ -216,7 +255,8 @@ class _WhatDoesItTakeGameState extends State<WhatDoesItTakeGame> {
           : (_picked.isEmpty
                 ? null
                 : () => _session.submit(
-                    ok: _picked.length == truth.length &&
+                    ok:
+                        _picked.length == truth.length &&
                         _picked.containsAll(truth),
                     context: context,
                   )),
@@ -361,8 +401,11 @@ class _PieceRow extends StatelessWidget {
                   ),
                 ),
                 child: selected || (locked && isTruth)
-                    ? const Icon(Icons.check_rounded,
-                        size: 15, color: AppColors.white)
+                    ? const Icon(
+                        Icons.check_rounded,
+                        size: 15,
+                        color: AppColors.white,
+                      )
                     : null,
               ),
               const SizedBox(width: 10),

@@ -65,10 +65,7 @@ const winsRounds = <WinsRound>[
         'Owned trucks cost 4,200 dollars a day plus 3 dollars a cubic yard. A '
         'rented fleet costs 1,200 a day plus 7.30 a yard. Today the job is a '
         'light one.',
-    lines: [
-      CostLine('Owned', 4200, 3),
-      CostLine('Rented', 1200, 7.30),
-    ],
+    lines: [CostLine('Owned', 4200, 3), CostLine('Rented', 1200, 7.30)],
     qTo: 1400,
     at: 300,
     why:
@@ -79,12 +76,8 @@ const winsRounds = <WinsRound>[
   ),
   WinsRound(
     subject: 'the same two methods, a heavy day',
-    setting:
-        'The same two methods, and today there is a great deal to move.',
-    lines: [
-      CostLine('Owned', 4200, 3),
-      CostLine('Rented', 1200, 7.30),
-    ],
+    setting: 'The same two methods, and today there is a great deal to move.',
+    lines: [CostLine('Owned', 4200, 3), CostLine('Rented', 1200, 7.30)],
     qTo: 1400,
     at: 1200,
     why:
@@ -98,10 +91,7 @@ const winsRounds = <WinsRound>[
     setting:
         'The same two methods again, at the volume where the two daily totals '
         'come out identical.',
-    lines: [
-      CostLine('Owned', 4200, 3),
-      CostLine('Rented', 1200, 7.30),
-    ],
+    lines: [CostLine('Owned', 4200, 3), CostLine('Rented', 1200, 7.30)],
     qTo: 1400,
     at: 697.674,
     why:
@@ -115,10 +105,7 @@ const winsRounds = <WinsRound>[
     setting:
         'One batching option costs more to set up AND more per cubic meter '
         'than the other. The plant is running at a middling volume.',
-    lines: [
-      CostLine('Option A', 900, 4),
-      CostLine('Option B', 1800, 6),
-    ],
+    lines: [CostLine('Option A', 900, 4), CostLine('Option B', 1800, 6)],
     qTo: 600,
     at: 300,
     why:
@@ -134,10 +121,7 @@ const winsRounds = <WinsRound>[
         'An on-site batch plant costs 6,000 dollars a week to run plus 40 '
         'dollars a cubic meter. Buying it in costs nothing weekly and 95 a '
         'meter. This week is quiet.',
-    lines: [
-      CostLine('On site', 6000, 40),
-      CostLine('Bought in', 0, 95),
-    ],
+    lines: [CostLine('On site', 6000, 40), CostLine('Bought in', 0, 95)],
     qTo: 300,
     at: 60,
     why:
@@ -149,10 +133,7 @@ const winsRounds = <WinsRound>[
   WinsRound(
     subject: 'the same plant, a busy week',
     setting: 'The same two options, and this week the pours are back to back.',
-    lines: [
-      CostLine('On site', 6000, 40),
-      CostLine('Bought in', 0, 95),
-    ],
+    lines: [CostLine('On site', 6000, 40), CostLine('Bought in', 0, 95)],
     qTo: 300,
     at: 250,
     why:
@@ -283,7 +264,9 @@ class _WhichSideWinsGameState extends State<WhichSideWinsGame> {
               // Described from BOTH numbers. Comparing only the fixed cost
               // told the student a steeper line was the flatter one on the
               // round where one option is worse on every count.
-              note: i < 2 ? _describe(r, i) : 'the marked volume is the crossing',
+              note: i < 2
+                  ? _describe(r, i)
+                  : 'the marked volume is the crossing',
               selected: _picked == i,
               locked: answered,
               isTruth: i == r.answer,

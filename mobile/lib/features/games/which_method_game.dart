@@ -72,8 +72,7 @@ const methodRounds = <MethodRound>[
     source: 'math-num-q3',
   ),
   MethodRound(
-    situation:
-        'The function is a straight line and you know its slope.',
+    situation: 'The function is a straight line and you know its slope.',
     answer: MethodPick.newton,
     why:
         'The tangent to a line is the line, so one iteration lands exactly on '
@@ -226,14 +225,8 @@ class _MethodRow extends StatelessWidget {
   final VoidCallback? onTap;
 
   static const _labels = {
-    MethodPick.newton: (
-      "Newton's method",
-      'fast, wants the derivative',
-    ),
-    MethodPick.bisection: (
-      'Bisection',
-      'slow, wants a sign change',
-    ),
+    MethodPick.newton: ("Newton's method", 'fast, wants the derivative'),
+    MethodPick.bisection: ('Bisection', 'slow, wants a sign change'),
     MethodPick.newtonStruggles: (
       "Newton, but it may not converge",
       'the tangent will not help here',

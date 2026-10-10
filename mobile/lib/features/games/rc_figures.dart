@@ -71,29 +71,35 @@ class SectionMarkPainter extends CustomPainter {
 
     // The concrete.
     canvas.drawRect(
-        rect,
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2);
+      rect,
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
     hatchIn(canvas, Path()..addRect(rect), step: 9, color: AppColors.ink2);
 
     // The stirrup, just inside the cover.
     final inset = section.cover * scale;
     canvas.drawRRect(
-        RRect.fromRectAndRadius(rect.deflate(inset), const Radius.circular(3)),
-        Paint()
-          ..color = AppColors.ink3
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.4);
+      RRect.fromRectAndRadius(rect.deflate(inset), const Radius.circular(3)),
+      Paint()
+        ..color = AppColors.ink3
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.4,
+    );
 
     // The tension bars, sitting on top of the bottom stirrup leg.
     final barR = section.barDiameter * scale / 2;
-    final barY = rect.bottom -
+    final barY =
+        rect.bottom -
         (section.cover + section.stirrup + section.barDiameter / 2) * scale;
     for (final f in [0.3, 0.7]) {
-      canvas.drawCircle(Offset(rect.left + w * f, barY), math.max(barR, 3),
-          Paint()..color = AppColors.charcoal);
+      canvas.drawCircle(
+        Offset(rect.left + w * f, barY),
+        math.max(barR, 3),
+        Paint()..color = AppColors.charcoal,
+      );
     }
 
     // The called-out dimension, always to the right of the section.
@@ -104,40 +110,76 @@ class SectionMarkPainter extends CustomPainter {
       case Depth.effective:
         _vertical(canvas, size, x, rect.top, barY, rect.right);
       case Depth.cover:
-        _vertical(canvas, size, x, rect.bottom - inset, rect.bottom,
-            rect.right);
+        _vertical(
+          canvas,
+          size,
+          x,
+          rect.bottom - inset,
+          rect.bottom,
+          rect.right,
+        );
       case Depth.leverArm:
-        _vertical(canvas, size, x, rect.top + section.blockDepth * scale / 2,
-            barY, rect.right);
+        _vertical(
+          canvas,
+          size,
+          x,
+          rect.top + section.blockDepth * scale / 2,
+          barY,
+          rect.right,
+        );
       case Depth.blockDepth:
-        _vertical(canvas, size, x, rect.top,
-            rect.top + section.blockDepth * scale, rect.right);
+        _vertical(
+          canvas,
+          size,
+          x,
+          rect.top,
+          rect.top + section.blockDepth * scale,
+          rect.right,
+        );
     }
 
     if (answered) {
-      writeOn(canvas, size, _named, Offset(x + 6, rect.top - 16),
-          AppColors.forest, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        _named,
+        Offset(x + 6, rect.top - 16),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
 
-    writeOn(canvas, size, 'the tension steel',
-        Offset(rect.left - 4, rect.bottom + 8), AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'the tension steel',
+      Offset(rect.left - 4, rect.bottom + 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     viewTag(canvas, size, Looking.section, note: 'the beam');
   }
 
   String get _named => switch (marked) {
-        Depth.height => 'h, the overall height',
-        Depth.effective => 'd, the effective depth',
-        Depth.cover => 'the clear cover',
-        Depth.leverArm => 'd minus a over 2, the lever arm',
-        Depth.blockDepth => 'a, the depth of the block',
-      };
+    Depth.height => 'h, the overall height',
+    Depth.effective => 'd, the effective depth',
+    Depth.cover => 'the clear cover',
+    Depth.leverArm => 'd minus a over 2, the lever arm',
+    Depth.blockDepth => 'a, the depth of the block',
+  };
 
   /// A dimension outside the section, with a thin leader back to each end
   /// of it. Without the leaders the overall height and the effective depth
   /// are two orange bars of nearly the same length, which is exactly the
   /// confusion the item exists to clear up.
-  void _vertical(Canvas canvas, Size size, double x, double from, double to,
-      double face) {
+  void _vertical(
+    Canvas canvas,
+    Size size,
+    double x,
+    double from,
+    double to,
+    double face,
+  ) {
     final ink = Paint()
       ..color = AppColors.ember
       ..strokeWidth = 2;
@@ -146,16 +188,25 @@ class SectionMarkPainter extends CustomPainter {
       ..strokeWidth = 1;
     for (final y in [from, to]) {
       for (var lx = face + 2; lx < x - 2; lx += 6) {
-        canvas.drawLine(Offset(lx, y), Offset(math.min(lx + 3, x - 2), y),
-            thin);
+        canvas.drawLine(
+          Offset(lx, y),
+          Offset(math.min(lx + 3, x - 2), y),
+          thin,
+        );
       }
     }
     canvas
       ..drawLine(Offset(x, from), Offset(x, to), ink)
       ..drawLine(Offset(x - 5, from), Offset(x + 5, from), ink)
       ..drawLine(Offset(x - 5, to), Offset(x + 5, to), ink);
-    writeOn(canvas, size, 'this one', Offset(x + 7, (from + to) / 2 - 5),
-        AppColors.ember, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'this one',
+      Offset(x + 7, (from + to) / 2 - 5),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
   }
 
   @override
@@ -221,11 +272,12 @@ class ShearLadderPainter extends CustomPainter {
     double xOf(double v) => left + v / top * (right - left);
 
     canvas.drawLine(
-        Offset(left, y),
-        Offset(right, y),
-        Paint()
-          ..color = AppColors.ink3
-          ..strokeWidth = 1.4);
+      Offset(left, y),
+      Offset(right, y),
+      Paint()
+        ..color = AppColors.ink3
+        ..strokeWidth = 1.4,
+    );
 
     // The two thresholds the decision turns on. Their labels sit at
     // different heights because the two marks crowd together whenever the
@@ -236,36 +288,57 @@ class ShearLadderPainter extends CustomPainter {
     ]) {
       final x = xOf(v);
       canvas.drawLine(
-          Offset(x, y - 16),
-          Offset(x, y + drop - 4),
-          Paint()
-            ..color = AppColors.info
-            ..strokeWidth = 1.6);
-      writeOn(canvas, size, name, Offset(x - 16, y + drop), AppColors.info,
-          fontSize: 9.5);
+        Offset(x, y - 16),
+        Offset(x, y + drop - 4),
+        Paint()
+          ..color = AppColors.info
+          ..strokeWidth = 1.6,
+      );
+      writeOn(
+        canvas,
+        size,
+        name,
+        Offset(x - 16, y + drop),
+        AppColors.info,
+        fontSize: 9.5,
+      );
     }
 
     // What is being asked of the section.
     final dx = xOf(check.demand);
     canvas
       ..drawLine(
-          Offset(dx, y - 44),
-          Offset(dx, y - 8),
-          Paint()
-            ..color = AppColors.ember
-            ..strokeWidth = 2.6)
+        Offset(dx, y - 44),
+        Offset(dx, y - 8),
+        Paint()
+          ..color = AppColors.ember
+          ..strokeWidth = 2.6,
+      )
       ..drawPath(
-          Path()
-            ..moveTo(dx, y - 2)
-            ..lineTo(dx - 5, y - 12)
-            ..lineTo(dx + 5, y - 12)
-            ..close(),
-          Paint()..color = AppColors.ember);
-    writeOn(canvas, size, 'the factored shear', Offset(dx - 30, y - 58),
-        AppColors.ember, fontSize: 9.5);
+        Path()
+          ..moveTo(dx, y - 2)
+          ..lineTo(dx - 5, y - 12)
+          ..lineTo(dx + 5, y - 12)
+          ..close(),
+        Paint()..color = AppColors.ember,
+      );
+    writeOn(
+      canvas,
+      size,
+      'the factored shear',
+      Offset(dx - 30, y - 58),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
 
-    writeOn(canvas, size, 'along here: how much shear, in kips',
-        Offset(left - 4, size.height - 14), AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'along here: how much shear, in kips',
+      Offset(left - 4, size.height - 14),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
   }
 
   @override
@@ -327,16 +400,19 @@ class CagePainter extends CustomPainter {
     );
     final w = cage.width * scale;
     final h = cage.depth * scale;
-    final rect =
-        Rect.fromCenter(center: Offset(size.width / 2, size.height * 0.48),
-            width: w, height: h);
+    final rect = Rect.fromCenter(
+      center: Offset(size.width / 2, size.height * 0.48),
+      width: w,
+      height: h,
+    );
 
     canvas.drawRect(
-        rect,
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2);
+      rect,
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
     hatchIn(canvas, Path()..addRect(rect), step: 10, color: AppColors.ink2);
 
     // What holds the bars: separate ties follow the outline of the section,
@@ -350,13 +426,18 @@ class CagePainter extends CustomPainter {
       final r = math.min(rect.width, rect.height) / 2 - inset;
       canvas.drawCircle(rect.center, r, hoop);
       // A second turn just inside, so it reads as a spiral and not a hoop.
-      canvas.drawArc(Rect.fromCircle(center: rect.center, radius: r - 3.5),
-          -math.pi / 2, math.pi * 1.7, false, hoop);
+      canvas.drawArc(
+        Rect.fromCircle(center: rect.center, radius: r - 3.5),
+        -math.pi / 2,
+        math.pi * 1.7,
+        false,
+        hoop,
+      );
     } else {
       canvas.drawRRect(
-          RRect.fromRectAndRadius(
-              rect.deflate(inset), const Radius.circular(4)),
-          hoop);
+        RRect.fromRectAndRadius(rect.deflate(inset), const Radius.circular(4)),
+        hoop,
+      );
     }
 
     // The bars, at their own size, spread evenly around the tie.
@@ -367,9 +448,10 @@ class CagePainter extends CustomPainter {
       for (var i = 0; i < cage.bars; i++) {
         final a = -math.pi / 2 + i * 2 * math.pi / cage.bars;
         canvas.drawCircle(
-            rect.center + Offset(math.cos(a) * r, math.sin(a) * r),
-            radius,
-            Paint()..color = AppColors.ember);
+          rect.center + Offset(math.cos(a) * r, math.sin(a) * r),
+          radius,
+          Paint()..color = AppColors.ember,
+        );
       }
     } else {
       final inner = rect.deflate(inset + radius + 1);
@@ -379,19 +461,23 @@ class CagePainter extends CustomPainter {
     }
 
     writeOn(
-        canvas,
-        size,
-        cage.spiral ? '${cage.bars} bars in a spiral' : '${cage.bars} bars in ties',
-        Offset(rect.left, rect.top - 14),
-        AppColors.ember,
-        fontSize: 9.5);
+      canvas,
+      size,
+      cage.spiral
+          ? '${cage.bars} bars in a spiral'
+          : '${cage.bars} bars in ties',
+      Offset(rect.left, rect.top - 14),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        '${_num(cage.width)} by ${_num(cage.depth)} inches',
-        Offset(rect.left, rect.bottom + 8),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      '${_num(cage.width)} by ${_num(cage.depth)} inches',
+      Offset(rect.left, rect.bottom + 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     viewTag(canvas, size, Looking.section, note: 'the column');
   }
 
@@ -399,12 +485,7 @@ class CagePainter extends CustomPainter {
   /// a real cage is built up.
   static List<Offset> _around(Rect r, int n) {
     if (n <= 0) return const [];
-    final out = <Offset>[
-      r.topLeft,
-      r.topRight,
-      r.bottomRight,
-      r.bottomLeft,
-    ];
+    final out = <Offset>[r.topLeft, r.topRight, r.bottomRight, r.bottomLeft];
     if (n <= 4) return out.take(n).toList();
     final left = n - 4;
     // Spread the rest along the four sides, starting with the long ones.

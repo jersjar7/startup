@@ -29,9 +29,9 @@ enum Formula2 { dupuit, thiem }
 
 extension Formula2Words on Formula2 {
   String get latex => switch (this) {
-        Formula2.dupuit => r'$Q = \dfrac{\pi K (h_2^2 - h_1^2)}{\ln(r_2/r_1)}$',
-        Formula2.thiem => r'$Q = \dfrac{2\pi T (h_2 - h_1)}{\ln(r_2/r_1)}$',
-      };
+    Formula2.dupuit => r'$Q = \dfrac{\pi K (h_2^2 - h_1^2)}{\ln(r_2/r_1)}$',
+    Formula2.thiem => r'$Q = \dfrac{2\pi T (h_2 - h_1)}{\ln(r_2/r_1)}$',
+  };
 }
 
 @immutable
@@ -51,9 +51,8 @@ class WellRound {
   final String source;
 
   /// Read off the drawing: clay over the top means confined.
-  Formula2 get answer => aquifer.kind == Ground.unconfined
-      ? Formula2.dupuit
-      : Formula2.thiem;
+  Formula2 get answer =>
+      aquifer.kind == Ground.unconfined ? Formula2.dupuit : Formula2.thiem;
 }
 
 const wellRounds = <WellRound>[
@@ -63,12 +62,13 @@ const wellRounds = <WellRound>[
         'The water table is free to the air and dips toward the well. K is '
         '5 times ten to the minus four feet a second.',
     aquifer: Aquifer(
-        kind: Ground.unconfined,
-        conductivity: 5e-4,
-        headAtWell: 40,
-        radiusAtWell: 0.5,
-        headOut: 60,
-        radiusOut: 200),
+      kind: Ground.unconfined,
+      conductivity: 5e-4,
+      headAtWell: 40,
+      radiusAtWell: 0.5,
+      headOut: 60,
+      radiusOut: 200,
+    ),
     why:
         'Dupuit, with the heads SQUARED. The water table is the top of the '
         'saturated ground, so as it drops toward the well the aquifer gets '
@@ -84,13 +84,14 @@ const wellRounds = <WellRound>[
         'A layer of clay caps the aquifer, which is 20 meters thick. The '
         'levels shown are pressure levels in standpipes, not a water table.',
     aquifer: Aquifer(
-        kind: Ground.confined,
-        conductivity: 3e-5,
-        headAtWell: 25,
-        radiusAtWell: 10,
-        headOut: 30,
-        radiusOut: 100,
-        thickness: 20),
+      kind: Ground.confined,
+      conductivity: 3e-5,
+      headAtWell: 25,
+      radiusAtWell: 10,
+      headOut: 30,
+      radiusOut: 100,
+      thickness: 20,
+    ),
     why:
         'Thiem, with the heads as they are. The clay holds the water down, so '
         'the aquifer is 20 meters thick whatever the pumping does and the '
@@ -106,12 +107,13 @@ const wellRounds = <WellRound>[
         'No cap over the aquifer: the top of the saturated ground is the '
         'water table itself.',
     aquifer: Aquifer(
-        kind: Ground.unconfined,
-        conductivity: 2e-4,
-        headAtWell: 18,
-        radiusAtWell: 1,
-        headOut: 25,
-        radiusOut: 150),
+      kind: Ground.unconfined,
+      conductivity: 2e-4,
+      headAtWell: 18,
+      radiusAtWell: 1,
+      headOut: 25,
+      radiusOut: 150,
+    ),
     why:
         'Dupuit again. The test is never the depth or the conductivity, it '
         'is whether there is something impermeable over the top. Nothing over '
@@ -125,13 +127,14 @@ const wellRounds = <WellRound>[
         'A sand 12 meters thick, capped with clay, with water standing well '
         'above the top of the sand in every standpipe.',
     aquifer: Aquifer(
-        kind: Ground.confined,
-        conductivity: 8e-5,
-        headAtWell: 34,
-        radiusAtWell: 5,
-        headOut: 40,
-        radiusOut: 250,
-        thickness: 12),
+      kind: Ground.confined,
+      conductivity: 8e-5,
+      headAtWell: 34,
+      radiusAtWell: 5,
+      headOut: 40,
+      radiusOut: 250,
+      thickness: 12,
+    ),
     why:
         'Thiem. The water standing above the top of the sand is what makes '
         'this artesian, and it is the clearest sign of confinement there is: '
@@ -146,12 +149,13 @@ const wellRounds = <WellRound>[
         'Open gravel down to bedrock with no cap at all, drawn down hard by '
         'a dewatering well.',
     aquifer: Aquifer(
-        kind: Ground.unconfined,
-        conductivity: 1e-3,
-        headAtWell: 6,
-        radiusAtWell: 0.5,
-        headOut: 20,
-        radiusOut: 120),
+      kind: Ground.unconfined,
+      conductivity: 1e-3,
+      headAtWell: 6,
+      radiusAtWell: 0.5,
+      headOut: 20,
+      radiusOut: 120,
+    ),
     why:
         'Dupuit, and here the difference between the two formulas is at its '
         'largest. The head at the well is down to 6 of the 20 meters, so the '
@@ -166,13 +170,14 @@ const wellRounds = <WellRound>[
         'A limestone 30 meters thick, sealed above by shale. The heads are '
         'measured in sealed piezometers.',
     aquifer: Aquifer(
-        kind: Ground.confined,
-        conductivity: 4e-5,
-        headAtWell: 48,
-        radiusAtWell: 8,
-        headOut: 52,
-        radiusOut: 300,
-        thickness: 30),
+      kind: Ground.confined,
+      conductivity: 4e-5,
+      headAtWell: 48,
+      radiusAtWell: 8,
+      headOut: 52,
+      radiusOut: 300,
+      thickness: 30,
+    ),
     why:
         'Thiem. Sealed piezometers measure pressure, and a sealed cap above '
         'means the aquifer keeps its 30 meters. Note how small the drawdown '

@@ -54,7 +54,8 @@ class ReadoutRound {
 
 const readoutRounds = <ReadoutRound>[
   ReadoutRound(
-    ask: 'Five moisture readings are in. The report wants the average '
+    ask:
+        'Five moisture readings are in. The report wants the average '
         'moisture content.',
     values: ['5', '12.9', '0.89', '0.79', '64.5', '839.03'],
     answer: 1,
@@ -65,7 +66,8 @@ const readoutRounds = <ReadoutRound>[
     source: 'stat-ctd-q1',
   ),
   ReadoutRound(
-    ask: 'Six cylinders from one pour. The spec asks for the SAMPLE standard '
+    ask:
+        'Six cylinders from one pour. The spec asks for the SAMPLE standard '
         'deviation.',
     values: ['6', '4183.3', '85.2', '77.8', '25100', '105000000'],
     answer: 2,
@@ -76,7 +78,8 @@ const readoutRounds = <ReadoutRound>[
     source: 'stat-ctd-q2',
   ),
   ReadoutRound(
-    ask: 'Every cylinder ever cast from this batch is on the screen. The '
+    ask:
+        'Every cylinder ever cast from this batch is on the screen. The '
         'question asks for the standard deviation of the batch.',
     values: ['6', '4183.3', '85.2', '77.8', '25100', '105000000'],
     answer: 3,
@@ -107,7 +110,8 @@ const readoutRounds = <ReadoutRound>[
     source: 'stat-ctd-q1',
   ),
   ReadoutRound(
-    ask: 'The coefficient of variation, so two sites with different units can '
+    ask:
+        'The coefficient of variation, so two sites with different units can '
         'be compared.',
     values: ['8', '203.4', '19.6', '18.3', '1627', '333000'],
     answer: -1,
@@ -219,9 +223,7 @@ class _WhichReadoutGameState extends State<WhichReadoutGame> {
                     selected: _picked == i,
                     locked: answered,
                     isTruth: i == r.answer,
-                    onTap: answered
-                        ? null
-                        : () => setState(() => _picked = i),
+                    onTap: answered ? null : () => setState(() => _picked = i),
                   ),
               ],
             ),
@@ -295,10 +297,7 @@ class _Line extends StatelessWidget {
           ),
           child: Row(
             children: [
-              SizedBox(
-                width: 42,
-                child: _Symbol(name),
-              ),
+              SizedBox(width: 42, child: _Symbol(name)),
               Expanded(
                 child: Text(
                   meaning,

@@ -51,18 +51,17 @@ class RatioRound2 {
   final String source;
 
   static String label(Under which) => switch (which) {
-        Under.solids => 'Over the solids',
-        Under.voids => 'Over the voids',
-        Under.whole => 'Over the whole sample',
-        Under.water => 'Over the water',
-      };
+    Under.solids => 'Over the solids',
+    Under.voids => 'Over the voids',
+    Under.whole => 'Over the whole sample',
+    Under.water => 'Over the water',
+  };
 }
 
 const overRounds = <RatioRound2>[
   RatioRound2(
     subject: 'the void ratio',
-    asked:
-        'The void ratio is the volume of the voids divided by what?',
+    asked: 'The void ratio is the volume of the voids divided by what?',
     soil: Soil(gs: 2.70, water: 0.20, voidRatio: 0.54),
     over: Phase.voids,
     under: Phase.solids,
@@ -77,8 +76,7 @@ const overRounds = <RatioRound2>[
   ),
   RatioRound2(
     subject: 'the porosity',
-    asked:
-        'Porosity is the same volume of voids divided by what?',
+    asked: 'Porosity is the same volume of voids divided by what?',
     soil: Soil(gs: 2.70, water: 0.20, voidRatio: 0.54),
     over: Phase.voids,
     under: Phase.whole,
@@ -93,8 +91,7 @@ const overRounds = <RatioRound2>[
   ),
   RatioRound2(
     subject: 'the water content',
-    asked:
-        'Water content is the weight of the water divided by what?',
+    asked: 'Water content is the weight of the water divided by what?',
     soil: Soil(gs: 2.70, water: 0.20, voidRatio: 0.54),
     over: Phase.water,
     under: Phase.solids,
@@ -109,8 +106,7 @@ const overRounds = <RatioRound2>[
   ),
   RatioRound2(
     subject: 'the degree of saturation',
-    asked:
-        'Saturation is the volume of the water divided by what?',
+    asked: 'Saturation is the volume of the water divided by what?',
     soil: Soil(gs: 2.70, water: 0.15, voidRatio: 0.586),
     over: Phase.water,
     under: Phase.voids,
@@ -141,8 +137,7 @@ const overRounds = <RatioRound2>[
   ),
   RatioRound2(
     subject: 'the dry unit weight',
-    asked:
-        'Dry unit weight is the weight of the SOLIDS divided by what?',
+    asked: 'Dry unit weight is the weight of the SOLIDS divided by what?',
     soil: Soil(gs: 2.72, water: 0.263, voidRatio: 0.714),
     over: Phase.solids,
     under: Phase.whole,

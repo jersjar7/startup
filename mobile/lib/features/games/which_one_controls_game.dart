@@ -46,10 +46,10 @@ class ControlRound {
   Combo get answer => bundle.controls;
 
   static String label(Combo which) => switch (which) {
-        Combo.one => 'Combination 1: 1.4D',
-        Combo.two => 'Combination 2: 1.2D + 1.6L + 0.5S',
-        Combo.three => 'Combination 3: 1.2D + 1.6S + L',
-      };
+    Combo.one => 'Combination 1: 1.4D',
+    Combo.two => 'Combination 2: 1.2D + 1.6L + 0.5S',
+    Combo.three => 'Combination 3: 1.2D + 1.6S + L',
+  };
 }
 
 const controlRounds = <ControlRound>[

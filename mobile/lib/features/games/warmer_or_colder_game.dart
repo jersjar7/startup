@@ -27,10 +27,10 @@ enum Rate3 { faster, slower, unchanged }
 
 extension Rate3Words on Rate3 {
   String get plain => switch (this) {
-        Rate3.faster => 'A bigger k: the decay runs faster',
-        Rate3.slower => 'A smaller k: the decay runs slower',
-        Rate3.unchanged => 'No change at all',
-      };
+    Rate3.faster => 'A bigger k: the decay runs faster',
+    Rate3.slower => 'A smaller k: the decay runs slower',
+    Rate3.unchanged => 'No change at all',
+  };
 }
 
 @immutable

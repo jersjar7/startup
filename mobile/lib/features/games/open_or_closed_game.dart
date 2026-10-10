@@ -223,9 +223,7 @@ class _OpenOrClosedGameState extends State<OpenOrClosedGame> {
             BoardFeedback(
               correct: _session.correct!,
               title: _session.correct!
-                  ? (r.answer == DotSign.zero
-                        ? 'PERPENDICULAR'
-                        : 'RIGHT SIGN')
+                  ? (r.answer == DotSign.zero ? 'PERPENDICULAR' : 'RIGHT SIGN')
                   : 'NOT THAT SIGN',
               body: r.why,
             ),

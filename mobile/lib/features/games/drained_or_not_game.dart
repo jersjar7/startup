@@ -45,12 +45,11 @@ class DrainRound {
   final String source;
 
   static String label(Set2 which) => switch (which) {
-        Set2.drained =>
-          'The effective set, with effective stresses',
-        Set2.undrained =>
-          'The undrained set, with total stresses and no friction angle',
-        Set2.either => 'Either: they give the same answer here',
-      };
+    Set2.drained => 'The effective set, with effective stresses',
+    Set2.undrained =>
+      'The undrained set, with total stresses and no friction angle',
+    Set2.either => 'Either: they give the same answer here',
+  };
 }
 
 const _effective = Failure(cohesion: 100, friction: 28);

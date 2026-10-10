@@ -228,9 +228,12 @@ class _InWhatOrderGameState extends State<InWhatOrderGame> {
 
     final answered = _session.answered;
     final r = _round;
-    final ok = _taken.length == r.order.length &&
-        List.generate(r.order.length, (i) => _taken[i] == r.order[i])
-            .every((x) => x);
+    final ok =
+        _taken.length == r.order.length &&
+        List.generate(
+          r.order.length,
+          (i) => _taken[i] == r.order[i],
+        ).every((x) => x);
 
     return BoardShell(
       session: _session,

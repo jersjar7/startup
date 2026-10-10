@@ -20,8 +20,7 @@ class IsAllOfItConnectedGame extends StatefulWidget {
   const IsAllOfItConnectedGame({super.key});
 
   @override
-  State<IsAllOfItConnectedGame> createState() =>
-      _IsAllOfItConnectedGameState();
+  State<IsAllOfItConnectedGame> createState() => _IsAllOfItConnectedGameState();
 }
 
 @immutable
@@ -151,8 +150,7 @@ const lagRounds = <LagRound>[
   ),
   LagRound(
     subject: 'where the factor belongs',
-    asked:
-        'Does the shear lag factor come into the yielding check as well?',
+    asked: 'Does the shear lag factor come into the yielding check as well?',
     grip: Grip.allOfIt,
     options: [
       'No: it belongs to the rupture check and its effective net area',

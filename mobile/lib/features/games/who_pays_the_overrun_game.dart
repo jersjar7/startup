@@ -215,10 +215,7 @@ class _WhoPaysTheOverrunGameState extends State<WhoPaysTheOverrunGame> {
               color: AppColors.creamDark,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text(
-              r.contract,
-              style: AppTheme.code(size: 14),
-            ),
+            child: Text(r.contract, style: AppTheme.code(size: 14)),
           ),
           const SizedBox(height: 10),
           Text(
@@ -258,7 +255,9 @@ class _WhoPaysTheOverrunGameState extends State<WhoPaysTheOverrunGame> {
                 Expanded(
                   child: _PayerButton(
                     key: ValueKey('payer-${payer.name}'),
-                    label: payer == Payer.owner ? 'The owner' : 'The contractor',
+                    label: payer == Payer.owner
+                        ? 'The owner'
+                        : 'The contractor',
                     selected: _picked == payer,
                     locked: answered,
                     isTruth: payer == r.answer,

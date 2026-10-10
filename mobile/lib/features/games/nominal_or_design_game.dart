@@ -268,13 +268,17 @@ class _NominalOrDesignGameState extends State<NominalOrDesignGame> {
                   MathText(
                     r'$\phi M_n \ge M_u, \quad \phi = 0.90$',
                     style: const TextStyle(
-                        fontSize: 15, color: AppColors.charcoal),
+                      fontSize: 15,
+                      color: AppColors.charcoal,
+                    ),
                   ),
                   const SizedBox(height: 6),
                   MathText(
                     r'$\phi V_n \ge V_u, \quad \phi = 0.75$',
                     style: const TextStyle(
-                        fontSize: 15, color: AppColors.charcoal),
+                      fontSize: 15,
+                      color: AppColors.charcoal,
+                    ),
                   ),
                 ],
               ),

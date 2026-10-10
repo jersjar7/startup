@@ -262,10 +262,7 @@ class _HowManyCarsIsATruckGameState extends State<HowManyCarsIsATruckGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: TruckPainter(
-                    mix: r.mix,
-                    answered: answered,
-                  ),
+                  painter: TruckPainter(mix: r.mix, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

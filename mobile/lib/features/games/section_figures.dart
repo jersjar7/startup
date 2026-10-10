@@ -43,13 +43,10 @@ class Piece {
 
   /// How much area the shape covers, before any question of holes.
   double get span => switch (kind) {
-        Slab.box => _w * _h,
-        Slab.rightTri || Slab.isoTri => _w * _h / 2,
-        Slab.disc ||
-        Slab.halfDisc ||
-        Slab.quarterDisc =>
-          math.pi * _w * _h / 4,
-      };
+    Slab.box => _w * _h,
+    Slab.rightTri || Slab.isoTri => _w * _h / 2,
+    Slab.disc || Slab.halfDisc || Slab.quarterDisc => math.pi * _w * _h / 4,
+  };
 
   /// What it contributes to the sum. A hole subtracts from the top and the
   /// bottom of the weighted average both, which is the whole trick.
@@ -63,8 +60,10 @@ class Piece {
       Slab.isoTri => Offset(_w / 2, _h / 3),
       Slab.disc => Offset(_w / 2, _h / 2),
       Slab.halfDisc => Offset(_w / 2, 4 * _h / (3 * math.pi)),
-      Slab.quarterDisc =>
-        Offset(4 * _w / (3 * math.pi), 4 * _h / (3 * math.pi)),
+      Slab.quarterDisc => Offset(
+        4 * _w / (3 * math.pi),
+        4 * _h / (3 * math.pi),
+      ),
     };
     return at + local;
   }
@@ -75,27 +74,27 @@ class Piece {
   /// axis, straight from the handbook table. Never integrated: the exam does
   /// not ask you to and neither does this.
   double get ownIx => switch (kind) {
-        Slab.box => _w * _h * _h * _h / 12,
-        Slab.rightTri || Slab.isoTri => _w * _h * _h * _h / 36,
-        // An ellipse of semi-axes w/2 and h/2.
-        Slab.disc => math.pi * _w * _h * _h * _h / 64,
-        // Half of that ellipse, moved onto its own centroid.
-        Slab.halfDisc => (math.pi / 16 - 4 / (9 * math.pi)) * _w * _h * _h * _h / 4,
-        Slab.quarterDisc =>
-          (math.pi / 16 - 4 / (9 * math.pi)) * _w * _h * _h * _h / 4,
-      };
+    Slab.box => _w * _h * _h * _h / 12,
+    Slab.rightTri || Slab.isoTri => _w * _h * _h * _h / 36,
+    // An ellipse of semi-axes w/2 and h/2.
+    Slab.disc => math.pi * _w * _h * _h * _h / 64,
+    // Half of that ellipse, moved onto its own centroid.
+    Slab.halfDisc => (math.pi / 16 - 4 / (9 * math.pi)) * _w * _h * _h * _h / 4,
+    Slab.quarterDisc =>
+      (math.pi / 16 - 4 / (9 * math.pi)) * _w * _h * _h * _h / 4,
+  };
 
   /// The same about the vertical centroidal axis, which is the other half of
   /// the trap: the dimension that gets cubed is the one square to the axis.
   double get ownIy => switch (kind) {
-        Slab.box => _h * _w * _w * _w / 12,
-        Slab.rightTri => _h * _w * _w * _w / 36,
-        Slab.isoTri => _h * _w * _w * _w / 48,
-        Slab.disc => math.pi * _h * _w * _w * _w / 64,
-        Slab.halfDisc => math.pi * _h * _w * _w * _w / 64,
-        Slab.quarterDisc =>
-          (math.pi / 16 - 4 / (9 * math.pi)) * _h * _w * _w * _w / 4,
-      };
+    Slab.box => _h * _w * _w * _w / 12,
+    Slab.rightTri => _h * _w * _w * _w / 36,
+    Slab.isoTri => _h * _w * _w * _w / 48,
+    Slab.disc => math.pi * _h * _w * _w * _w / 64,
+    Slab.halfDisc => math.pi * _h * _w * _w * _w / 64,
+    Slab.quarterDisc =>
+      (math.pi / 16 - 4 / (9 * math.pi)) * _h * _w * _w * _w / 4,
+  };
 
   /// The outline, in world units with y upward.
   Path outline() {
@@ -124,8 +123,11 @@ class Piece {
           ..close();
       case Slab.quarterDisc:
         return Path()
-          ..addArc(Rect.fromLTWH(l - _w, b - _h, _w * 2, _h * 2), 0,
-              math.pi / 2)
+          ..addArc(
+            Rect.fromLTWH(l - _w, b - _h, _w * 2, _h * 2),
+            0,
+            math.pi / 2,
+          )
           ..lineTo(l, b)
           ..close();
     }
@@ -305,12 +307,7 @@ class ProfilePainter extends CustomPainter {
   /// Room round the drawing. The right hand margin exists only to hold the
   /// halfway line's label, so a figure without one gets the width back.
   static EdgeInsets _roomFor({bool hasDrops = false, bool hasLabel = false}) =>
-      EdgeInsets.fromLTRB(
-        hasDrops ? 26 : 22,
-        22,
-        hasLabel ? 68 : 22,
-        22,
-      );
+      EdgeInsets.fromLTRB(hasDrops ? 26 : 22, 22, hasLabel ? 68 : 22, 22);
 
   /// What the figure has to hold: the section, and any axis drawn across it.
   /// An axis can sit well outside the metal, and framing to the metal alone
@@ -318,14 +315,18 @@ class ProfilePainter extends CustomPainter {
   static Rect _frame(Profile profile, List<Datum> axes) {
     var box = profile.bounds;
     for (final a in axes) {
-      box = box.expandToInclude(
-          Rect.fromLTWH(box.left, a.y, box.width, 0));
+      box = box.expandToInclude(Rect.fromLTWH(box.left, a.y, box.width, 0));
     }
     return box;
   }
 
-  static double _scale(Profile profile, Size size, List<Drop> drops,
-      bool hasLabel, List<Datum> axes) {
+  static double _scale(
+    Profile profile,
+    Size size,
+    List<Drop> drops,
+    bool hasLabel,
+    List<Datum> axes,
+  ) {
     final b = _frame(profile, axes);
     final room = _roomFor(hasDrops: drops.isNotEmpty, hasLabel: hasLabel);
     // Every dimension takes a lane down the left, and the lanes are measured
@@ -337,10 +338,14 @@ class ProfilePainter extends CustomPainter {
     );
   }
 
-  static Offset toScreen(Profile profile, Offset world, Size size,
-      {List<Drop> drops = const [],
-      bool hasLabel = false,
-      List<Datum> axes = const []}) {
+  static Offset toScreen(
+    Profile profile,
+    Offset world,
+    Size size, {
+    List<Drop> drops = const [],
+    bool hasLabel = false,
+    List<Datum> axes = const [],
+  }) {
     final b = _frame(profile, axes);
     final room = _roomFor(hasDrops: drops.isNotEmpty, hasLabel: hasLabel);
     final lanes = drops.length * _dim;
@@ -357,26 +362,50 @@ class ProfilePainter extends CustomPainter {
   }
 
   /// The box one piece is drawn in, so it can be tapped on rather than near.
-  static Rect pieceRect(Profile profile, Size size, int piece,
-      {bool hasLabel = false, List<Datum> axes = const []}) {
+  static Rect pieceRect(
+    Profile profile,
+    Size size,
+    int piece, {
+    bool hasLabel = false,
+    List<Datum> axes = const [],
+  }) {
     final b = profile.pieces[piece].box;
-    final a = toScreen(profile, Offset(b.left, b.bottom), size,
-        hasLabel: hasLabel, axes: axes);
-    final c = toScreen(profile, Offset(b.right, b.top), size,
-        hasLabel: hasLabel, axes: axes);
+    final a = toScreen(
+      profile,
+      Offset(b.left, b.bottom),
+      size,
+      hasLabel: hasLabel,
+      axes: axes,
+    );
+    final c = toScreen(
+      profile,
+      Offset(b.right, b.top),
+      size,
+      hasLabel: hasLabel,
+      axes: axes,
+    );
     return Rect.fromPoints(a, c);
   }
 
   /// Where a dimension's line runs down the figure, so the tap target can sit
   /// on it rather than near it.
   static double laneFor(
-          Profile profile, Size size, List<Drop> drops, int index) =>
-      _roomFor(hasDrops: true).left + _dim * (drops.length - index) - 13;
+    Profile profile,
+    Size size,
+    List<Drop> drops,
+    int index,
+  ) => _roomFor(hasDrops: true).left + _dim * (drops.length - index) - 13;
 
   @override
   void paint(Canvas canvas, Size size) {
-    Offset at(Offset w) => toScreen(profile, w, size,
-        drops: drops, hasLabel: showMiddle, axes: axes);
+    Offset at(Offset w) => toScreen(
+      profile,
+      w,
+      size,
+      drops: drops,
+      hasLabel: showMiddle,
+      axes: axes,
+    );
 
     for (var i = 0; i < profile.pieces.length; i++) {
       final piece = profile.pieces[i];
@@ -388,8 +417,8 @@ class ProfilePainter extends CustomPainter {
           ..color = piece.hole
               ? AppColors.cream
               : lit
-                  ? AppColors.emberBg
-                  : AppColors.sunbeamBg,
+              ? AppColors.emberBg
+              : AppColors.sunbeamBg,
       );
       canvas.drawPath(
         path,
@@ -405,17 +434,23 @@ class ProfilePainter extends CustomPainter {
 
     if (showMiddle) {
       final y = at(Offset(box.left, profile.midHeight)).dy;
-      _dash(canvas, Offset(at(Offset(box.left, 0)).dx - 12, y),
-          Offset(at(Offset(box.right, 0)).dx + 12, y), AppColors.ink3);
-      taken.add(_write(
+      _dash(
         canvas,
-        'halfway up',
-        Offset(at(Offset(box.right, 0)).dx + 16, y - 6),
+        Offset(at(Offset(box.left, 0)).dx - 12, y),
+        Offset(at(Offset(box.right, 0)).dx + 12, y),
         AppColors.ink3,
-        size,
-        taken,
-        fromLeft: true,
-      ));
+      );
+      taken.add(
+        _write(
+          canvas,
+          'halfway up',
+          Offset(at(Offset(box.right, 0)).dx + 16, y - 6),
+          AppColors.ink3,
+          size,
+          taken,
+          fromLeft: true,
+        ),
+      );
     }
 
     for (var i = 0; i < drops.length; i++) {
@@ -446,8 +481,16 @@ class ProfilePainter extends CustomPainter {
           ..strokeWidth = 2.6,
       );
       canvas.drawCircle(here, 3, Paint()..color = colour);
-      taken.add(_write(canvas, '${i + 1}', here + const Offset(0, 11), colour,
-          size, taken));
+      taken.add(
+        _write(
+          canvas,
+          '${i + 1}',
+          here + const Offset(0, 11),
+          colour,
+          size,
+          taken,
+        ),
+      );
     }
 
     for (var i = 0; i < axes.length; i++) {
@@ -463,8 +506,16 @@ class ProfilePainter extends CustomPainter {
       } else {
         _dash(canvas, Offset(left, y), Offset(right, y), colour);
       }
-      taken.add(_write(canvas, axes[i].label, Offset(left - 4, y - 7), colour,
-          size, taken));
+      taken.add(
+        _write(
+          canvas,
+          axes[i].label,
+          Offset(left - 4, y - 7),
+          colour,
+          size,
+          taken,
+        ),
+      );
     }
 
     if (markCentroid) {
@@ -473,10 +524,16 @@ class ProfilePainter extends CustomPainter {
         ..color = AppColors.forest
         ..strokeWidth = 2.4
         ..strokeCap = StrokeCap.round;
-      canvas.drawLine(here - const Offset(11, 0), here + const Offset(11, 0),
-          ink);
-      canvas.drawLine(here - const Offset(0, 11), here + const Offset(0, 11),
-          ink);
+      canvas.drawLine(
+        here - const Offset(11, 0),
+        here + const Offset(11, 0),
+        ink,
+      );
+      canvas.drawLine(
+        here - const Offset(0, 11),
+        here + const Offset(0, 11),
+        ink,
+      );
       canvas.drawCircle(
         here,
         6.5,
@@ -499,22 +556,51 @@ class ProfilePainter extends CustomPainter {
   Path _onScreen(Piece piece, Size size) {
     final b = _frame(profile, axes);
     final s = _scale(profile, size, drops, showMiddle, axes);
-    final origin = toScreen(profile, Offset(b.left, b.bottom), size,
-        drops: drops, hasLabel: showMiddle, axes: axes);
-    return piece.outline().transform(Matrix4(
-          s, 0, 0, 0, //
-          0, -s, 0, 0, //
-          0, 0, 1, 0, //
-          origin.dx - b.left * s, origin.dy + b.bottom * s, 0, 1, //
-        ).storage);
+    final origin = toScreen(
+      profile,
+      Offset(b.left, b.bottom),
+      size,
+      drops: drops,
+      hasLabel: showMiddle,
+      axes: axes,
+    );
+    return piece.outline().transform(
+      Matrix4(
+        s,
+        0,
+        0,
+        0, //
+        0,
+        -s,
+        0,
+        0, //
+        0,
+        0,
+        1,
+        0, //
+        origin.dx - b.left * s,
+        origin.dy + b.bottom * s,
+        0,
+        1, //
+      ).storage,
+    );
   }
 
   /// One dimension, drawn the way a drafter draws one: extension lines that
   /// run from the feature being measured out to the dimension line, so it is
   /// obvious what is being measured. Without them it is three floating
   /// arrows beside a picture.
-  void _dimension(Canvas canvas, Size size, double x, double from, double to,
-      double edge, String label, Color colour, List<Rect> taken) {
+  void _dimension(
+    Canvas canvas,
+    Size size,
+    double x,
+    double from,
+    double to,
+    double edge,
+    String label,
+    Color colour,
+    List<Rect> taken,
+  ) {
     final thin = Paint()
       ..color = colour.withValues(alpha: 0.55)
       ..strokeWidth = 1.0;
@@ -536,7 +622,10 @@ class ProfilePainter extends CustomPainter {
     }
 
     final down = to > from;
-    for (final (tip, into) in [(from, down ? 1.0 : -1.0), (to, down ? -1.0 : 1.0)]) {
+    for (final (tip, into) in [
+      (from, down ? 1.0 : -1.0),
+      (to, down ? -1.0 : 1.0),
+    ]) {
       final way = short ? -into : into;
       canvas.drawPath(
         Path()
@@ -548,14 +637,16 @@ class ProfilePainter extends CustomPainter {
       );
     }
 
-    taken.add(_write(
-      canvas,
-      label,
-      Offset(x, short ? math.min(from, to) - 28 : (from + to) / 2 - 6),
-      colour,
-      size,
-      taken,
-    ));
+    taken.add(
+      _write(
+        canvas,
+        label,
+        Offset(x, short ? math.min(from, to) - 28 : (from + to) / 2 - 6),
+        colour,
+        size,
+        taken,
+      ),
+    );
   }
 
   /// Long dash, short dash: the drawing office mark for a centre line.
@@ -571,7 +662,10 @@ class ProfilePainter extends CustomPainter {
     while (d < total) {
       final run = long ? 12.0 : 3.0;
       canvas.drawLine(
-          from + step * d, from + step * math.min(d + run, total), paint);
+        from + step * d,
+        from + step * math.min(d + run, total),
+        paint,
+      );
       d += run + 4;
       long = !long;
     }
@@ -586,15 +680,27 @@ class ProfilePainter extends CustomPainter {
       ..strokeWidth = 1.6;
     for (var d = 0.0; d < total; d += 9) {
       canvas.drawLine(
-          from + step * d, from + step * math.min(d + 5, total), paint);
+        from + step * d,
+        from + step * math.min(d + 5, total),
+        paint,
+      );
     }
   }
 
-  Rect _write(Canvas canvas, String text, Offset at, Color colour, Size size,
-      List<Rect> avoid, {bool fromLeft = false}) {
+  Rect _write(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Color colour,
+    Size size,
+    List<Rect> avoid, {
+    bool fromLeft = false,
+  }) {
     final tp = TextPainter(
       text: TextSpan(
-          text: text, style: AppTheme.mono(size: 11, color: colour)),
+        text: text,
+        style: AppTheme.mono(size: 11, color: colour),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = fromLeft ? at.dx : at.dx - tp.width / 2;
@@ -609,7 +715,9 @@ class ProfilePainter extends CustomPainter {
     if (y < 1) y = 1;
     if (y + tp.height > size.height - 1) y = size.height - 1 - tp.height;
     canvas.drawRect(
-        box(), Paint()..color = AppColors.cream.withValues(alpha: 0.94));
+      box(),
+      Paint()..color = AppColors.cream.withValues(alpha: 0.94),
+    );
     tp.paint(canvas, Offset(x, y));
     return box();
   }
@@ -676,7 +784,11 @@ class LineUpPainter extends CustomPainter {
   }
 
   static Offset _toScreen(
-      List<Profile> shapes, Size size, int i, Offset world) {
+    List<Profile> shapes,
+    Size size,
+    int i,
+    Offset world,
+  ) {
     final cell = cellFor(shapes, size, i);
     final s = scaleFor(shapes, size);
     final b = shapes[i].bounds;
@@ -706,18 +818,29 @@ class LineUpPainter extends CustomPainter {
       final b = profile.bounds;
       final origin = _toScreen(shapes, size, i, Offset(b.left, b.bottom));
       final matrix = Matrix4(
-        s, 0, 0, 0, //
-        0, -s, 0, 0, //
-        0, 0, 1, 0, //
-        origin.dx - b.left * s, origin.dy + b.bottom * s, 0, 1, //
+        s,
+        0,
+        0,
+        0, //
+        0,
+        -s,
+        0,
+        0, //
+        0,
+        0,
+        1,
+        0, //
+        origin.dx - b.left * s,
+        origin.dy + b.bottom * s,
+        0,
+        1, //
       ).storage;
 
       for (final piece in profile.pieces) {
         final path = piece.outline().transform(matrix);
         canvas.drawPath(
           path,
-          Paint()
-            ..color = piece.hole ? AppColors.cream : AppColors.sunbeamBg,
+          Paint()..color = piece.hole ? AppColors.cream : AppColors.sunbeamBg,
         );
         canvas.drawPath(
           path,
@@ -736,17 +859,26 @@ class LineUpPainter extends CustomPainter {
         ..color = AppColors.ink3
         ..strokeWidth = 1.4;
       for (var x = cell.left + 2; x < cell.right - 2; x += 8) {
-        canvas.drawLine(
-            Offset(x, axis), Offset(x + 4.5, axis), dash);
+        canvas.drawLine(Offset(x, axis), Offset(x + 4.5, axis), dash);
       }
 
       if (rank >= 0) {
-        _badge(canvas, Offset(cell.center.dx, cell.top - 15), '${rank + 1}',
-            locked ? (right ? AppColors.forest : AppColors.error) : AppColors.ember);
+        _badge(
+          canvas,
+          Offset(cell.center.dx, cell.top - 15),
+          '${rank + 1}',
+          locked
+              ? (right ? AppColors.forest : AppColors.error)
+              : AppColors.ember,
+        );
       }
       if (locked && truth.indexOf(i) != rank) {
-        _badge(canvas, Offset(cell.center.dx, cell.bottom + 17),
-            '${truth.indexOf(i) + 1}', AppColors.forest);
+        _badge(
+          canvas,
+          Offset(cell.center.dx, cell.bottom + 17),
+          '${truth.indexOf(i) + 1}',
+          AppColors.forest,
+        );
       }
     }
   }
@@ -832,7 +964,9 @@ class JobPainter extends CustomPainter {
         ..color = AppColors.forest
         ..strokeWidth = 1.8;
       final long = math.max(
-          (at(Offset(b.right, 0)).dx - at(Offset(b.left, 0)).dx).abs(), 60.0);
+        (at(Offset(b.right, 0)).dx - at(Offset(b.left, 0)).dx).abs(),
+        60.0,
+      );
       if (job.needs == Needs.polarJ) {
         canvas.drawCircle(
           middle,
@@ -844,13 +978,21 @@ class JobPainter extends CustomPainter {
         );
         canvas.drawCircle(middle, 3, Paint()..color = AppColors.forest);
       } else if (job.needs == Needs.iAboutX) {
-        _chain(canvas, middle - Offset(long / 2 + 14, 0),
-            middle + Offset(long / 2 + 14, 0), ink);
+        _chain(
+          canvas,
+          middle - Offset(long / 2 + 14, 0),
+          middle + Offset(long / 2 + 14, 0),
+          ink,
+        );
       } else {
         final tall = (at(Offset(0, b.top)).dy - at(Offset(0, b.bottom)).dy)
             .abs();
-        _chain(canvas, middle - Offset(0, tall / 2 + 14),
-            middle + Offset(0, tall / 2 + 14), ink);
+        _chain(
+          canvas,
+          middle - Offset(0, tall / 2 + 14),
+          middle + Offset(0, tall / 2 + 14),
+          ink,
+        );
       }
     }
 
@@ -874,10 +1016,14 @@ class JobPainter extends CustomPainter {
     canvas.drawPath(
       Path()
         ..moveTo(tip.dx, tip.dy)
-        ..lineTo(tip.dx - unit.dx * 13 + side.dx * 6.5,
-            tip.dy - unit.dy * 13 + side.dy * 6.5)
-        ..lineTo(tip.dx - unit.dx * 13 - side.dx * 6.5,
-            tip.dy - unit.dy * 13 - side.dy * 6.5)
+        ..lineTo(
+          tip.dx - unit.dx * 13 + side.dx * 6.5,
+          tip.dy - unit.dy * 13 + side.dy * 6.5,
+        )
+        ..lineTo(
+          tip.dx - unit.dx * 13 - side.dx * 6.5,
+          tip.dy - unit.dy * 13 - side.dy * 6.5,
+        )
         ..close(),
       Paint()..color = AppColors.ember,
     );
@@ -893,7 +1039,12 @@ class JobPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
     canvas.drawArc(
-        Rect.fromCircle(center: middle, radius: r), -2.6, 4.4, false, ink);
+      Rect.fromCircle(center: middle, radius: r),
+      -2.6,
+      4.4,
+      false,
+      ink,
+    );
     const head = 1.8;
     final tip = middle + Offset(math.cos(head), math.sin(head)) * r;
     final along = Offset(-math.sin(head), math.cos(head));
@@ -901,10 +1052,14 @@ class JobPainter extends CustomPainter {
     canvas.drawPath(
       Path()
         ..moveTo(tip.dx, tip.dy)
-        ..lineTo(tip.dx - along.dx * 13 + side.dx * 6.5,
-            tip.dy - along.dy * 13 + side.dy * 6.5)
-        ..lineTo(tip.dx - along.dx * 13 - side.dx * 6.5,
-            tip.dy - along.dy * 13 - side.dy * 6.5)
+        ..lineTo(
+          tip.dx - along.dx * 13 + side.dx * 6.5,
+          tip.dy - along.dy * 13 + side.dy * 6.5,
+        )
+        ..lineTo(
+          tip.dx - along.dx * 13 - side.dx * 6.5,
+          tip.dy - along.dy * 13 - side.dy * 6.5,
+        )
         ..close(),
       Paint()..color = AppColors.ember,
     );
@@ -918,7 +1073,10 @@ class JobPainter extends CustomPainter {
     while (d < total) {
       final run = long ? 12.0 : 3.0;
       canvas.drawLine(
-          from + step * d, from + step * math.min(d + run, total), paint);
+        from + step * d,
+        from + step * math.min(d + run, total),
+        paint,
+      );
       d += run + 4;
       long = !long;
     }
@@ -926,7 +1084,5 @@ class JobPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(JobPainter old) =>
-      old.profile != profile ||
-      old.job != job ||
-      old.showAxis != showAxis;
+      old.profile != profile || old.job != job || old.showAxis != showAxis;
 }

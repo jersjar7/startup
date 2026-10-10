@@ -79,7 +79,11 @@ const _totals = <String, int>{
   'structural': 16,
   'transportation': 6,
 };
-const _gamesDone = <String, int>{'mathematics': 30, 'ethics': 50, 'statics': 20};
+const _gamesDone = <String, int>{
+  'mathematics': 30,
+  'ethics': 50,
+  'statics': 20,
+};
 
 /// Answers the two reads the home screen makes, so the website's half of the
 /// card shows a real student's figures instead of the zeros you get with no
@@ -109,9 +113,7 @@ class _SeededApi extends ApiClient {
 Widget _app(Widget home, {bool signedIn = true}) {
   final auth = AuthController(api: _SeededApi(), storage: AppStorage())
     ..user = signedIn ? _student : null
-    ..status = signedIn
-        ? AuthStatus.authenticated
-        : AuthStatus.unauthenticated
+    ..status = signedIn ? AuthStatus.authenticated : AuthStatus.unauthenticated
     ..onboardingSeen = true;
   return ChangeNotifierProvider<AuthController>.value(
     value: auth,
@@ -269,7 +271,11 @@ void main() {
   testWidgets('sheet: the concept, picture first', (tester) async {
     _appStore(tester);
     await tester.pumpWidget(
-      _app(const Scaffold(body: SafeArea(child: ConceptView(section: goingDeepBrief)))),
+      _app(
+        const Scaffold(
+          body: SafeArea(child: ConceptView(section: goingDeepBrief)),
+        ),
+      ),
     );
     await _settle(tester);
     await _shoot(tester, 'sheet-piles');

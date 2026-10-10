@@ -368,7 +368,9 @@ class _FrameTrussOrMachineGameState extends State<FrameTrussOrMachineGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHAT IT IS' : 'SOMETHING ELSE',
+              title: _session.correct!
+                  ? 'THAT IS WHAT IT IS'
+                  : 'SOMETHING ELSE',
               body: r.why,
             ),
           ],
@@ -527,7 +529,10 @@ class _KindGlyph extends CustomPainter {
           ink,
         );
         canvas.drawCircle(
-            Offset(w / 2, (h - 1) / 2), 3.4, Paint()..color = colour);
+          Offset(w / 2, (h - 1) / 2),
+          3.4,
+          Paint()..color = colour,
+        );
     }
   }
 

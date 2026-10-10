@@ -63,8 +63,7 @@ const _twelveHundred = Bend2(radius: 1200, turn: 30);
 const curveQuoteRounds = <CurveQuoteRound>[
   CurveQuoteRound(
     subject: 'from the degree to the radius',
-    asked:
-        'The plans give a degree of curve of six. What radius is that?',
+    asked: 'The plans give a degree of curve of six. What radius is that?',
     bend: _sixDegrees,
     piece: Bit.radius,
     note: 'D = 6',
@@ -178,8 +177,7 @@ const curveQuoteRounds = <CurveQuoteRound>[
   ),
   CurveQuoteRound(
     subject: 'the piece the road actually follows',
-    asked:
-        'On the same curve, what is the 628 ft on the list of choices?',
+    asked: 'On the same curve, what is the 628 ft on the list of choices?',
     bend: _twelveHundred,
     piece: Bit.arc,
     note: 'R = 1,200, I = 30',

@@ -51,8 +51,7 @@ class JobRound {
   final String source;
 
   /// A mix suits the job when it makes the strength and matches the exposure.
-  bool suits(Mix mix) =>
-      mix.strength >= needs && mix.entrained == freezes;
+  bool suits(Mix mix) => mix.strength >= needs && mix.entrained == freezes;
 }
 
 const siteRounds = <JobRound>[
@@ -63,11 +62,7 @@ const siteRounds = <JobRound>[
         'at twenty eight days, and it will be wet and freezing all winter.',
     needs: 4000,
     freezes: true,
-    mixes: [
-      Mix(wc: 0.45),
-      Mix(wc: 0.70, air: 5),
-      Mix(wc: 0.45, air: 5),
-    ],
+    mixes: [Mix(wc: 0.45), Mix(wc: 0.70, air: 5), Mix(wc: 0.45, air: 5)],
     answer: 2,
     why:
         'The low ratio WITH air. Both questions have to be answered: 0.45 is '
@@ -84,11 +79,7 @@ const siteRounds = <JobRound>[
         'a freezing cycle in its life.',
     needs: 4000,
     freezes: false,
-    mixes: [
-      Mix(wc: 0.45, air: 5),
-      Mix(wc: 0.45),
-      Mix(wc: 0.70),
-    ],
+    mixes: [Mix(wc: 0.45, air: 5), Mix(wc: 0.45), Mix(wc: 0.70)],
     answer: 1,
     why:
         'The low ratio with NO air. Entrained air is not a free upgrade: it '
@@ -104,11 +95,7 @@ const siteRounds = <JobRound>[
         'and it will be under snow, salt and freezing water every winter.',
     needs: 3000,
     freezes: true,
-    mixes: [
-      Mix(wc: 0.55, air: 5),
-      Mix(wc: 0.75, air: 6),
-      Mix(wc: 0.55),
-    ],
+    mixes: [Mix(wc: 0.55, air: 5), Mix(wc: 0.75, air: 6), Mix(wc: 0.55)],
     answer: 0,
     why:
         'The middle ratio with air. A lower strength requirement lets the '
@@ -147,11 +134,7 @@ const siteRounds = <JobRound>[
         'exposed to freezing and de-icing salts.',
     needs: 5000,
     freezes: true,
-    mixes: [
-      Mix(wc: 0.55, air: 5),
-      Mix(wc: 0.40, air: 5),
-      Mix(wc: 0.40),
-    ],
+    mixes: [Mix(wc: 0.55, air: 5), Mix(wc: 0.40, air: 5), Mix(wc: 0.40)],
     answer: 1,
     why:
         'The lowest ratio, with air. When both demands are severe they push '
@@ -168,11 +151,7 @@ const siteRounds = <JobRound>[
         'needs 5,000 psi and it will never freeze down there.',
     needs: 5000,
     freezes: false,
-    mixes: [
-      Mix(wc: 0.60),
-      Mix(wc: 0.40),
-      Mix(wc: 0.40, air: 6),
-    ],
+    mixes: [Mix(wc: 0.60), Mix(wc: 0.40), Mix(wc: 0.40, air: 6)],
     answer: 1,
     why:
         'The low ratio, no air. Buried concrete below the frost line does not '
@@ -300,8 +279,9 @@ class _WhatThisJobNeedsGameState extends State<WhatThisJobNeedsGame> {
             const SizedBox(height: 6),
             BoardFeedback(
               correct: _session.correct!,
-              title:
-                  _session.correct! ? 'THAT IS THE MIX' : 'THAT ONE FAILS A TEST',
+              title: _session.correct!
+                  ? 'THAT IS THE MIX'
+                  : 'THAT ONE FAILS A TEST',
               body: r.why,
             ),
           ],

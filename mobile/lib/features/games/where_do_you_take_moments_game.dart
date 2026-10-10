@@ -57,11 +57,11 @@ class PivotRound {
   final String source;
 
   String label(Pivot which) => switch (which) {
-        Pivot.first => 'Point ${anchors.first.name}',
-        Pivot.second => 'Point ${anchors.last.name}',
-        Pivot.neither =>
-          'Neither: the other two are parallel, so sum vertical forces',
-      };
+    Pivot.first => 'Point ${anchors.first.name}',
+    Pivot.second => 'Point ${anchors.last.name}',
+    Pivot.neither =>
+      'Neither: the other two are parallel, so sum vertical forces',
+  };
 }
 
 /// The lesson's own truss: parallel chords, four meter panels, three meters
@@ -208,8 +208,7 @@ const pivotRounds = <PivotRound>[
   ),
 ];
 
-class _WhereDoYouTakeMomentsGameState
-    extends State<WhereDoYouTakeMomentsGame> {
+class _WhereDoYouTakeMomentsGameState extends State<WhereDoYouTakeMomentsGame> {
   late final BoardSession _session = BoardSession(
     gameId: 'where-do-you-take-moments',
     chapterId: 'structural',
@@ -312,8 +311,8 @@ class _WhereDoYouTakeMomentsGameState
                     answer: !answered
                         ? null
                         : (r.answer == Pivot.first
-                            ? 0
-                            : (r.answer == Pivot.second ? 1 : null)),
+                              ? 0
+                              : (r.answer == Pivot.second ? 1 : null)),
                     locked: answered,
                   ),
                   child: const SizedBox.expand(),

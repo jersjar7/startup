@@ -29,10 +29,10 @@ enum Drags { left, right, same }
 
 extension DragsWords on Drags {
   String get plain => switch (this) {
-        Drags.left => 'The left one',
-        Drags.right => 'The right one',
-        Drags.same => 'Neither: the same shear stress',
-      };
+    Drags.left => 'The left one',
+    Drags.right => 'The right one',
+    Drags.same => 'Neither: the same shear stress',
+  };
 }
 
 @immutable
@@ -55,7 +55,8 @@ class DragRound {
 
   /// Worked out from the two films, never declared.
   Drags get answer {
-    final gap = (left.shear - right.shear).abs() /
+    final gap =
+        (left.shear - right.shear).abs() /
         (left.shear > right.shear ? left.shear : right.shear);
     if (gap < 0.01) return Drags.same;
     return left.shear > right.shear ? Drags.left : Drags.right;
@@ -65,8 +66,9 @@ class DragRound {
       ? left.shear / right.shear
       : right.shear / left.shear;
 
-  double get thickest =>
-      left.millimeters > right.millimeters ? left.millimeters : right.millimeters;
+  double get thickest => left.millimeters > right.millimeters
+      ? left.millimeters
+      : right.millimeters;
 }
 
 const dragRounds = <DragRound>[
@@ -251,7 +253,8 @@ class _WhichDragsMoreGameState extends State<WhichDragsMoreGame> {
                     onTap: answered
                         ? null
                         : () => setState(
-                            () => _picked = i == 0 ? Drags.left : Drags.right),
+                            () => _picked = i == 0 ? Drags.left : Drags.right,
+                          ),
                   ),
                 ),
               ],

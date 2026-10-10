@@ -24,8 +24,7 @@ class DoesItBuildStressGame extends StatefulWidget {
   const DoesItBuildStressGame({super.key});
 
   @override
-  State<DoesItBuildStressGame> createState() =>
-      _DoesItBuildStressGameState();
+  State<DoesItBuildStressGame> createState() => _DoesItBuildStressGameState();
 }
 
 @immutable
@@ -55,12 +54,7 @@ const heatRounds = <HeatRound>[
     setting:
         'A steel bar built into a wall at one end with nothing at the other. '
         'It is warmed by fifty degrees.',
-    rod: Rod(
-      length: 1000,
-      stuff: Stuff.steel,
-      held: Held.oneEnd,
-      warmBy: 50,
-    ),
+    rod: Rod(length: 1000, stuff: Stuff.steel, held: Held.oneEnd, warmBy: 50),
     why:
         'Nothing at all. It gets about half a millimeter longer and carries no '
         'stress whatsoever, because nothing stopped it. Heat on its own never '
@@ -73,12 +67,7 @@ const heatRounds = <HeatRound>[
     setting:
         'The identical steel bar, but now built into a wall at each end with '
         'no room to move. Warmed by the same fifty degrees.',
-    rod: Rod(
-      length: 1000,
-      stuff: Stuff.steel,
-      held: Held.bothEnds,
-      warmBy: 50,
-    ),
+    rod: Rod(length: 1000, stuff: Stuff.steel, held: Held.bothEnds, warmBy: 50),
     why:
         'Squeezed. It wanted to grow half a millimeter and the walls would not '
         'let it, so the growth it was prevented from making turns into '
@@ -272,7 +261,9 @@ class _DoesItBuildStressGameState extends State<DoesItBuildStressGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHAT IT CARRIES' : 'SOMETHING ELSE',
+              title: _session.correct!
+                  ? 'THAT IS WHAT IT CARRIES'
+                  : 'SOMETHING ELSE',
               body: r.why,
             ),
           ],

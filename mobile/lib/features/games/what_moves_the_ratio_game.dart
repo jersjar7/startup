@@ -20,8 +20,7 @@ class WhatMovesTheRatioGame extends StatefulWidget {
   const WhatMovesTheRatioGame({super.key});
 
   @override
-  State<WhatMovesTheRatioGame> createState() =>
-      _WhatMovesTheRatioGameState();
+  State<WhatMovesTheRatioGame> createState() => _WhatMovesTheRatioGameState();
 }
 
 /// Where the ratio goes.
@@ -29,10 +28,10 @@ enum Ratio3 { up, down, same }
 
 extension Ratio3Words on Ratio3 {
   String get plain => switch (this) {
-        Ratio3.up => 'The ratio goes up: more food per bug',
-        Ratio3.down => 'The ratio comes down: more bugs per unit of food',
-        Ratio3.same => 'No change at all',
-      };
+    Ratio3.up => 'The ratio goes up: more food per bug',
+    Ratio3.down => 'The ratio comes down: more bugs per unit of food',
+    Ratio3.same => 'No change at all',
+  };
 }
 
 @immutable
@@ -59,8 +58,7 @@ class RatioRound {
   final String why;
   final String source;
 
-  double get before =>
-      flow.$1 * strength.$1 / (volume.$1 * solids.$1);
+  double get before => flow.$1 * strength.$1 / (volume.$1 * solids.$1);
 
   double get after => flow.$2 * strength.$2 / (volume.$2 * solids.$2);
 
@@ -270,9 +268,9 @@ class _WhatMovesTheRatioGameState extends State<WhatMovesTheRatioGame> {
                   painter: PlantPainter(
                     note: answered
                         ? 'F:M was ${r.before.toStringAsFixed(3)}, now '
-                            '${r.after.toStringAsFixed(3)} per day'
+                              '${r.after.toStringAsFixed(3)} per day'
                         : 'F:M ${r.before.toStringAsFixed(3)} per day before '
-                            'the change',
+                              'the change',
                   ),
                   child: const SizedBox.expand(),
                 ),
@@ -301,7 +299,9 @@ class _WhatMovesTheRatioGameState extends State<WhatMovesTheRatioGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHERE IT GOES' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS WHERE IT GOES'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

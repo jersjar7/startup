@@ -316,9 +316,7 @@ class _WhatTheSupportGivesGameState extends State<WhatTheSupportGivesGame> {
                     selected: _picked == i,
                     locked: answered,
                     isTruth: i == r.answer,
-                    onTap: answered
-                        ? null
-                        : () => setState(() => _picked = i),
+                    onTap: answered ? null : () => setState(() => _picked = i),
                   ),
                 ),
               ],
@@ -409,7 +407,9 @@ class _ReactionButton extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 7),
                 child: Text(
-                  reaction.count == 1 ? 'one unknown' : '${reaction.count} unknowns',
+                  reaction.count == 1
+                      ? 'one unknown'
+                      : '${reaction.count} unknowns',
                   style: AppTheme.mono(size: 10, color: AppColors.ink3),
                 ),
               ),

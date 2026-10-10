@@ -96,8 +96,7 @@ const parkRounds = <ParkRound>[
   ),
   ParkRound(
     subject: 'one load, the reaction',
-    asked:
-        'And for the largest reaction at the left support?',
+    asked: 'And for the largest reaction at the left support?',
     line: Influence(span: 24, response: Response.leftReaction),
     parked: [(0, 'P')],
     options: [

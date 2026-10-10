@@ -54,8 +54,14 @@ class MeansRound {
 const meansRounds = <MeansRound>[
   MeansRound(
     subject: 'rainfall against runoff',
-    points: [Pair(1, 4), Pair(2, 5), Pair(3, 6), Pair(4, 8), Pair(5, 9),
-        Pair(6, 10)],
+    points: [
+      Pair(1, 4),
+      Pair(2, 5),
+      Pair(3, 6),
+      Pair(4, 8),
+      Pair(5, 9),
+      Pair(6, 10),
+    ],
     xTo: 7,
     yTo: 12,
     lines: [
@@ -73,8 +79,14 @@ const meansRounds = <MeansRound>[
   ),
   MeansRound(
     subject: 'blow count against shear strength',
-    points: [Pair(1, 3), Pair(2, 4), Pair(3, 6), Pair(4, 7), Pair(5, 9),
-        Pair(6, 10)],
+    points: [
+      Pair(1, 3),
+      Pair(2, 4),
+      Pair(3, 6),
+      Pair(4, 7),
+      Pair(5, 9),
+      Pair(6, 10),
+    ],
     xTo: 7,
     yTo: 12,
     lines: [
@@ -92,8 +104,14 @@ const meansRounds = <MeansRound>[
   ),
   MeansRound(
     subject: 'age against condition rating',
-    points: [Pair(1, 9), Pair(2, 8), Pair(3, 6), Pair(4, 5), Pair(5, 3),
-        Pair(6, 2)],
+    points: [
+      Pair(1, 9),
+      Pair(2, 8),
+      Pair(3, 6),
+      Pair(4, 5),
+      Pair(5, 3),
+      Pair(6, 2),
+    ],
     xTo: 7,
     yTo: 11,
     lines: [
@@ -145,8 +163,14 @@ const meansRounds = <MeansRound>[
   ),
   MeansRound(
     subject: 'a loose cloud that still leans',
-    points: [Pair(1, 3), Pair(2, 7), Pair(3, 4), Pair(4, 8), Pair(5, 6),
-        Pair(6, 9)],
+    points: [
+      Pair(1, 3),
+      Pair(2, 7),
+      Pair(3, 4),
+      Pair(4, 8),
+      Pair(5, 6),
+      Pair(6, 9),
+    ],
     xTo: 7,
     yTo: 11,
     lines: [
@@ -274,9 +298,7 @@ class _ThroughTheMeansGameState extends State<ThroughTheMeansGame> {
                     selected: _picked == i,
                     locked: answered,
                     isTruth: i == r.answer,
-                    onTap: answered
-                        ? null
-                        : () => setState(() => _picked = i),
+                    onTap: answered ? null : () => setState(() => _picked = i),
                   ),
                 ),
               ],

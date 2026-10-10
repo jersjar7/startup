@@ -86,9 +86,12 @@ class SpentBarPainter extends CustomPainter {
   }
 
   static TextPainter _measure(String text, Color color) => TextPainter(
-        text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-        textDirection: TextDirection.ltr,
-      )..layout();
+    text: TextSpan(
+      text: text,
+      style: AppTheme.mono(size: 10, color: color),
+    ),
+    textDirection: TextDirection.ltr,
+  )..layout();
 
   static String _money(double v) {
     final s = v.round().toString();
@@ -136,8 +139,10 @@ class SpentBarPainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.3,
     );
-    _measure('cost', AppColors.ink2)
-        .paint(canvas, Offset(padL - 8 - _measure('cost', AppColors.ink2).width, 9));
+    _measure('cost', AppColors.ink2).paint(
+      canvas,
+      Offset(padL - 8 - _measure('cost', AppColors.ink2).width, 9),
+    );
 
     // One bracket per stretch, drawn where it actually falls on the bar.
     for (final (i, (from, to)) in spans.indexed) {
@@ -181,8 +186,10 @@ class SpentBarPainter extends CustomPainter {
       } else {
         tp.paint(canvas, Offset(left - 8 - tp.width, mid - 6));
       }
-      _measure(_money(_amountOf(from, to)), color)
-          .paint(canvas, Offset(4, mid - 6));
+      _measure(
+        _money(_amountOf(from, to)),
+        color,
+      ).paint(canvas, Offset(4, mid - 6));
     }
   }
 

@@ -49,16 +49,24 @@ class RouteRound {
 const _sandOverClay = Deposit(
   layers: [
     Stratum(name: 'dry sand', thickness: 5, unitWeight: 110),
-    Stratum(name: 'saturated clay', thickness: 8, unitWeight: 120,
-        saturated: true),
+    Stratum(
+      name: 'saturated clay',
+      thickness: 8,
+      unitWeight: 120,
+      saturated: true,
+    ),
   ],
   waterDepth: 5,
 );
 
 const _allSaturated = Deposit(
   layers: [
-    Stratum(name: 'saturated clay', thickness: 10, unitWeight: 115,
-        saturated: true),
+    Stratum(
+      name: 'saturated clay',
+      thickness: 10,
+      unitWeight: 115,
+      saturated: true,
+    ),
   ],
   waterDepth: 0,
 );
@@ -66,8 +74,12 @@ const _allSaturated = Deposit(
 const _surcharged = Deposit(
   layers: [
     Stratum(name: 'sand', thickness: 6, unitWeight: 105),
-    Stratum(name: 'saturated clay', thickness: 10, unitWeight: 118,
-        saturated: true),
+    Stratum(
+      name: 'saturated clay',
+      thickness: 10,
+      unitWeight: 118,
+      saturated: true,
+    ),
   ],
   waterDepth: 6,
   surcharge: 100,

@@ -9,18 +9,18 @@ enum Piece2 { aggregate, binder, air, vma }
 
 extension PieceWords on Piece2 {
   String get plain => switch (this) {
-        Piece2.aggregate => 'the aggregate itself',
-        Piece2.binder => 'the asphalt binder',
-        Piece2.air => 'the air voids',
-        Piece2.vma => 'the voids in the mineral aggregate',
-      };
+    Piece2.aggregate => 'the aggregate itself',
+    Piece2.binder => 'the asphalt binder',
+    Piece2.air => 'the air voids',
+    Piece2.vma => 'the voids in the mineral aggregate',
+  };
 
   String get tag => switch (this) {
-        Piece2.aggregate => 'aggregate',
-        Piece2.binder => 'binder',
-        Piece2.air => 'air',
-        Piece2.vma => 'VMA',
-      };
+    Piece2.aggregate => 'aggregate',
+    Piece2.binder => 'binder',
+    Piece2.air => 'air',
+    Piece2.vma => 'VMA',
+  };
 }
 
 /// A compacted specimen, by volume: what is stone, what is binder, what is
@@ -85,14 +85,20 @@ class PuckPainter extends CustomPainter {
     final binderTop = airTop + voids * puck.air / puck.vma;
     final stoneTop = box.top + voids;
     return switch (piece) {
-      Piece2.air =>
-        Rect.fromLTRB(box.left, airTop, box.right, binderTop),
-      Piece2.binder =>
-        Rect.fromLTRB(box.left, binderTop, box.right, stoneTop),
-      Piece2.aggregate =>
-        Rect.fromLTRB(box.left, stoneTop, box.right, box.bottom),
-      Piece2.vma =>
-        Rect.fromLTRB(box.right + 6, airTop, box.right + 42, stoneTop),
+      Piece2.air => Rect.fromLTRB(box.left, airTop, box.right, binderTop),
+      Piece2.binder => Rect.fromLTRB(box.left, binderTop, box.right, stoneTop),
+      Piece2.aggregate => Rect.fromLTRB(
+        box.left,
+        stoneTop,
+        box.right,
+        box.bottom,
+      ),
+      Piece2.vma => Rect.fromLTRB(
+        box.right + 6,
+        airTop,
+        box.right + 42,
+        stoneTop,
+      ),
     };
   }
 
@@ -119,23 +125,34 @@ class PuckPainter extends CustomPainter {
       final truth = locked && answer == piece;
       canvas
         ..drawRect(
-            rect, Paint()..color = tone.withValues(alpha: piece == Piece2.binder ? 0.55 : 0.35))
+          rect,
+          Paint()
+            ..color = tone.withValues(
+              alpha: piece == Piece2.binder ? 0.55 : 0.35,
+            ),
+        )
         ..drawRect(
           rect,
           Paint()
             ..color = truth
                 ? AppColors.forest
                 : (locked && chosen)
-                    ? AppColors.error
-                    : chosen
-                        ? AppColors.ember
-                        : AppColors.charcoal
+                ? AppColors.error
+                : chosen
+                ? AppColors.ember
+                : AppColors.charcoal
             ..style = PaintingStyle.stroke
             ..strokeWidth = truth || chosen ? 2.6 : 1.2,
         );
       final label = '${piece.tag} ${_num(_shareOf(piece))}%';
-      _write(canvas, size, label, Offset(4, rect.center.dy - 6), AppColors.ink3,
-          room: box.left - 8);
+      _write(
+        canvas,
+        size,
+        label,
+        Offset(4, rect.center.dy - 6),
+        AppColors.ink3,
+        room: box.left - 8,
+      );
     }
 
     // The VMA bracket, which is the air and the binder together.
@@ -145,41 +162,76 @@ class PuckPainter extends CustomPainter {
     final tone = truth
         ? AppColors.forest
         : (locked && chosen)
-            ? AppColors.error
-            : chosen
-                ? AppColors.ember
-                : AppColors.ink3;
+        ? AppColors.error
+        : chosen
+        ? AppColors.ember
+        : AppColors.ink3;
     final paint = Paint()
       ..color = tone
       ..strokeWidth = truth || chosen ? 2.6 : 1.4;
     canvas
-      ..drawLine(Offset(span.left + 6, span.top), Offset(span.left + 6, span.bottom), paint)
-      ..drawLine(Offset(span.left, span.top), Offset(span.left + 12, span.top), paint)
       ..drawLine(
-          Offset(span.left, span.bottom), Offset(span.left + 12, span.bottom), paint);
-    _write(canvas, size, 'VMA ${_num(puck.vma)}%',
-        Offset(span.left + 16, span.center.dy - 6), tone);
+        Offset(span.left + 6, span.top),
+        Offset(span.left + 6, span.bottom),
+        paint,
+      )
+      ..drawLine(
+        Offset(span.left, span.top),
+        Offset(span.left + 12, span.top),
+        paint,
+      )
+      ..drawLine(
+        Offset(span.left, span.bottom),
+        Offset(span.left + 12, span.bottom),
+        paint,
+      );
+    _write(
+      canvas,
+      size,
+      'VMA ${_num(puck.vma)}%',
+      Offset(span.left + 16, span.center.dy - 6),
+      tone,
+    );
 
-    _write(canvas, size, 'by volume', Offset(4, size.height - 18),
-        AppColors.ink3);
-    _write(canvas, size, 'voids drawn big', Offset(box.right + 6, size.height - 18),
-        AppColors.ink3);
+    _write(
+      canvas,
+      size,
+      'by volume',
+      Offset(4, size.height - 18),
+      AppColors.ink3,
+    );
+    _write(
+      canvas,
+      size,
+      'voids drawn big',
+      Offset(box.right + 6, size.height - 18),
+      AppColors.ink3,
+    );
   }
 
   double _shareOf(Piece2 piece) => switch (piece) {
-        Piece2.air => puck.air,
-        Piece2.binder => puck.binder,
-        Piece2.aggregate => puck.aggregate,
-        Piece2.vma => puck.vma,
-      };
+    Piece2.air => puck.air,
+    Piece2.binder => puck.binder,
+    Piece2.aggregate => puck.aggregate,
+    Piece2.vma => puck.vma,
+  };
 
   static String _num(double v) =>
       v == v.roundToDouble() ? v.round().toString() : v.toStringAsFixed(1);
 
-  void _write(Canvas canvas, Size size, String text, Offset at, Color color,
-      {double? room}) {
+  void _write(
+    Canvas canvas,
+    Size size,
+    String text,
+    Offset at,
+    Color color, {
+    double? room,
+  }) {
     final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout(maxWidth: room ?? size.width);
     var x = at.dx;

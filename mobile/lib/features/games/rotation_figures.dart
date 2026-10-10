@@ -12,11 +12,7 @@ import 'figure_ink.dart';
 /// speed, which is the whole of the first item.
 @immutable
 class Spinner {
-  const Spinner({
-    required this.rpm,
-    required this.radius,
-    required this.marks,
-  });
+  const Spinner({required this.rpm, required this.radius, required this.marks});
 
   /// Turns a minute, which is how a machine is labelled and not what any
   /// formula wants.
@@ -75,18 +71,20 @@ class SpinnerPainter extends CustomPainter {
     final (r, degrees) = s.marks[i];
     if (arm) {
       // An arm is drawn lying to the right of its pivot.
-      return Offset(
-        size.width * 0.16 + r * scale,
-        size.height / 2,
-      );
+      return Offset(size.width * 0.16 + r * scale, size.height / 2);
     }
     final a = degrees * math.pi / 180;
     return middleOf(size) +
         Offset(math.cos(a) * r * scale, -math.sin(a) * r * scale);
   }
 
-  static int? nearest(Spinner s, Size size, Offset tap,
-      {bool arm = false, double within = 30}) {
+  static int? nearest(
+    Spinner s,
+    Size size,
+    Offset tap, {
+    bool arm = false,
+    double within = 30,
+  }) {
     int? best;
     var gap = within;
     for (var i = 0; i < s.marks.length; i++) {
@@ -131,8 +129,7 @@ class SpinnerPainter extends CustomPainter {
         final a = spoke * math.pi / 180;
         canvas.drawLine(
           middle,
-          middle +
-              Offset(math.cos(a), -math.sin(a)) * (spinner.radius * scale),
+          middle + Offset(math.cos(a), -math.sin(a)) * (spinner.radius * scale),
           Paint()
             ..color = AppColors.line
             ..strokeWidth = 1,
@@ -148,21 +145,16 @@ class SpinnerPainter extends CustomPainter {
       final color = isTruth
           ? AppColors.forest
           : (locked && chosen)
-              ? AppColors.error
-              : chosen
-                  ? AppColors.ember
-                  : AppColors.ink2;
+          ? AppColors.error
+          : chosen
+          ? AppColors.ember
+          : AppColors.ink2;
       canvas
         ..drawCircle(p, 8, Paint()..color = AppColors.cream)
         ..drawCircle(p, chosen || isTruth ? 6.5 : 5, Paint()..color = color);
     }
 
-    _write(
-      canvas,
-      '${spinner.rpm.round()} rpm',
-      Offset(6, 4),
-      AppColors.ink3,
-    );
+    _write(canvas, '${spinner.rpm.round()} rpm', Offset(6, 4), AppColors.ink3);
     viewTag(canvas, size, Looking.plan, note: 'axis toward you');
   }
 
@@ -179,16 +171,19 @@ class SpinnerPainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2,
     );
-    final tip = middle +
-        Offset(math.cos(-math.pi * 0.4), math.sin(-math.pi * 0.4)) * r;
+    final tip =
+        middle + Offset(math.cos(-math.pi * 0.4), math.sin(-math.pi * 0.4)) * r;
     canvas.drawCircle(tip, 3.4, Paint()..color = AppColors.info);
   }
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 10, color: color),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }
@@ -247,36 +242,37 @@ class Body {
 
   /// Straight from the handbook's table, never derived here.
   double get centroidal => switch ((kind, spin)) {
-        (Shape3.hoop, Spin.diameter) => mass * radius * radius / 2,
-        (Shape3.hoop, _) => mass * radius * radius,
-        (Shape3.disc, Spin.diameter) => mass * radius * radius / 4,
-        (Shape3.disc, _) => mass * radius * radius / 2,
-        (Shape3.cylinder, Spin.diameter) =>
-          mass * (3 * radius * radius + length * length) / 12,
-        (Shape3.cylinder, _) => mass * radius * radius / 2,
-        (Shape3.sphere, _) => 2 * mass * radius * radius / 5,
-        (Shape3.rod, _) => mass * length * length / 12,
-      };
+    (Shape3.hoop, Spin.diameter) => mass * radius * radius / 2,
+    (Shape3.hoop, _) => mass * radius * radius,
+    (Shape3.disc, Spin.diameter) => mass * radius * radius / 4,
+    (Shape3.disc, _) => mass * radius * radius / 2,
+    (Shape3.cylinder, Spin.diameter) =>
+      mass * (3 * radius * radius + length * length) / 12,
+    (Shape3.cylinder, _) => mass * radius * radius / 2,
+    (Shape3.sphere, _) => 2 * mass * radius * radius / 5,
+    (Shape3.rod, _) => mass * length * length / 12,
+  };
 
   /// What it takes to spin it about the axis actually drawn.
   double get inertia => switch (spin) {
-        Spin.end => kind == Shape3.rod
-            ? mass * length * length / 3
-            : centroidal + mass * (length / 2) * (length / 2),
-        Spin.offset => centroidal + mass * offset * offset,
-        _ => centroidal,
-      };
+    Spin.end =>
+      kind == Shape3.rod
+          ? mass * length * length / 3
+          : centroidal + mass * (length / 2) * (length / 2),
+    Spin.offset => centroidal + mass * offset * offset,
+    _ => centroidal,
+  };
 
   /// The transfer term on its own, which is the piece people drop.
   double get transfer => spin == Spin.offset ? mass * offset * offset : 0;
 
   String get plain => switch (kind) {
-        Shape3.hoop => 'a hoop',
-        Shape3.disc => 'a solid disc',
-        Shape3.sphere => 'a solid sphere',
-        Shape3.rod => 'a slender rod',
-        Shape3.cylinder => 'a solid cylinder',
-      };
+    Shape3.hoop => 'a hoop',
+    Shape3.disc => 'a solid disc',
+    Shape3.sphere => 'a solid sphere',
+    Shape3.rod => 'a slender rod',
+    Shape3.cylinder => 'a solid cylinder',
+  };
 }
 
 /// A body drawn face on with the axis it spins about marked.
@@ -321,7 +317,10 @@ class BodyPainter extends CustomPainter {
       case Shape3.hoop:
         canvas.drawCircle(middle, body.radius * scale, ink);
         canvas.drawCircle(
-            middle, body.radius * scale - 4, ink..strokeWidth = 1.2);
+          middle,
+          body.radius * scale - 4,
+          ink..strokeWidth = 1.2,
+        );
       case Shape3.disc:
       case Shape3.cylinder:
       case Shape3.sphere:
@@ -366,9 +365,10 @@ class BodyPainter extends CustomPainter {
     // The axis itself. Out of the page for the natural spin, across the page
     // for a diameter, and at the end or off to one side where it belongs.
     final place = switch (body.spin) {
-      Spin.end => body.kind == Shape3.rod
-          ? middle - Offset(body.length * scale / 2, 0)
-          : middle,
+      Spin.end =>
+        body.kind == Shape3.rod
+            ? middle - Offset(body.length * scale / 2, 0)
+            : middle,
       _ => axisAt,
     };
     switch (body.spin) {
@@ -413,8 +413,12 @@ class BodyPainter extends CustomPainter {
             ..strokeWidth = 1.4,
         );
       }
-      _write(canvas, 'd', Offset((axisAt.dx + middle.dx) / 2 - 3, y + 4),
-          AppColors.ink2);
+      _write(
+        canvas,
+        'd',
+        Offset((axisAt.dx + middle.dx) / 2 - 3, y + 4),
+        AppColors.ink2,
+      );
     }
 
     if (label.isNotEmpty) {
@@ -425,9 +429,12 @@ class BodyPainter extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 10, color: color),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }

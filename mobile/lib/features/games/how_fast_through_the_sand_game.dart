@@ -18,7 +18,8 @@ class HowFastThroughTheSandGame extends StatefulWidget {
   const HowFastThroughTheSandGame({super.key});
 
   @override
-  State<HowFastThroughTheSandGame> createState() => _HowFastThroughTheSandGameState();
+  State<HowFastThroughTheSandGame> createState() =>
+      _HowFastThroughTheSandGameState();
 }
 
 @immutable
@@ -50,8 +51,7 @@ const _theBed = FilterBed(length: 20, width: 15, flowGpm: 1350);
 const _biggerBed = FilterBed(length: 40, width: 15, flowGpm: 1350);
 
 /// A slow sand bed, which runs at a fraction of the rate.
-const _slowBed =
-    FilterBed(length: 100, width: 60, flowGpm: 450, rapid: false);
+const _slowBed = FilterBed(length: 100, width: 60, flowGpm: 450, rapid: false);
 
 const filterRounds = <FilterRound>[
   FilterRound(
@@ -135,8 +135,7 @@ const filterRounds = <FilterRound>[
   ),
   FilterRound(
     subject: 'the other kind of filter',
-    asked:
-        'A slow sand filter is enormous by comparison. Why?',
+    asked: 'A slow sand filter is enormous by comparison. Why?',
     bed: _slowBed,
     options: [
       'Because the sand is coarser',
@@ -263,10 +262,7 @@ class _HowFastThroughTheSandGameState extends State<HowFastThroughTheSandGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: FilterPainter(
-                    bed: r.bed,
-                    answered: answered,
-                  ),
+                  painter: FilterPainter(bed: r.bed, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

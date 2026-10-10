@@ -32,22 +32,21 @@ class FitRound {
 
   final String subject;
   final String asked;
+
   /// The method this round is about, which is also its answer.
   final Deliver answer;
   final String why;
   final String source;
 
   static String label(Deliver d) => switch (d) {
-        Deliver.designBidBuild =>
-          'Design, bid, build: finish the drawings, then price them',
-        Deliver.designBuild =>
-          'Design-build: one firm for both, and they can overlap',
-        Deliver.managerAtRisk =>
-          'Manager at risk: your designer, their ceiling price',
-      };
+    Deliver.designBidBuild =>
+      'Design, bid, build: finish the drawings, then price them',
+    Deliver.designBuild =>
+      'Design-build: one firm for both, and they can overlap',
+    Deliver.managerAtRisk =>
+      'Manager at risk: your designer, their ceiling price',
+  };
 }
-
-
 
 const fitRounds = <FitRound>[
   FitRound(

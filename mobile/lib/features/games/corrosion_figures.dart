@@ -5,26 +5,18 @@ import 'figure_ink.dart';
 
 /// The metals this lesson names, in the order the galvanic series puts them:
 /// most active first, so the one nearer the top of this list corrodes.
-enum Metal {
-  magnesium,
-  zinc,
-  aluminum,
-  steel,
-  copper,
-  stainless,
-  titanium,
-}
+enum Metal { magnesium, zinc, aluminum, steel, copper, stainless, titanium }
 
 extension MetalFacts on Metal {
   String get plain => switch (this) {
-        Metal.magnesium => 'magnesium',
-        Metal.zinc => 'zinc',
-        Metal.aluminum => 'aluminum',
-        Metal.steel => 'steel',
-        Metal.copper => 'copper',
-        Metal.stainless => 'stainless steel',
-        Metal.titanium => 'titanium',
-      };
+    Metal.magnesium => 'magnesium',
+    Metal.zinc => 'zinc',
+    Metal.aluminum => 'aluminum',
+    Metal.steel => 'steel',
+    Metal.copper => 'copper',
+    Metal.stainless => 'stainless steel',
+    Metal.titanium => 'titanium',
+  };
 
   /// Where it sits in the series: smaller is more active, and the more active
   /// of a pair is the one that corrodes.
@@ -51,8 +43,7 @@ class Couple {
   final bool wet;
   final bool connected;
 
-  bool get cell =>
-      wet && connected && left != right;
+  bool get cell => wet && connected && left != right;
 
   /// Which one corrodes, or nothing if no cell forms.
   Metal? get anode {
@@ -99,15 +90,31 @@ class CouplePainter extends CustomPainter {
     // The water they stand in, when there is any.
     if (couple.wet) {
       final pool = Rect.fromLTRB(
-          10, size.height * 0.46, size.width - 10, size.height * 0.70);
+        10,
+        size.height * 0.46,
+        size.width - 10,
+        size.height * 0.70,
+      );
       canvas.drawRect(
-          pool, Paint()..color = AppColors.info.withValues(alpha: 0.16));
-      writeOn(canvas, size, 'rainwater', Offset(14, pool.bottom - 14),
-          AppColors.info);
+        pool,
+        Paint()..color = AppColors.info.withValues(alpha: 0.16),
+      );
+      writeOn(
+        canvas,
+        size,
+        'rainwater',
+        Offset(14, pool.bottom - 14),
+        AppColors.info,
+      );
     } else {
       // At the top, clear of the bolt label underneath the plates.
-      writeOn(canvas, size, 'dry: no water anywhere near it',
-          const Offset(14, 6), AppColors.ink3);
+      writeOn(
+        canvas,
+        size,
+        'dry: no water anywhere near it',
+        const Offset(14, 6),
+        AppColors.ink3,
+      );
     }
 
     for (final i in [0, 1]) {
@@ -125,19 +132,28 @@ class CouplePainter extends CustomPainter {
       }
       canvas
         ..drawRect(
-            rect,
-            Paint()
-              ..color = (i == 0 ? AppColors.sunbeam : AppColors.info)
-                  .withValues(alpha: 0.26))
+          rect,
+          Paint()
+            ..color = (i == 0 ? AppColors.sunbeam : AppColors.info).withValues(
+              alpha: 0.26,
+            ),
+        )
         ..drawRect(
           rect,
           Paint()
             ..color = tone
             ..style = PaintingStyle.stroke
-            ..strokeWidth = (picked == i || (locked && answer == i)) ? 2.6 : 1.6,
+            ..strokeWidth = (picked == i || (locked && answer == i))
+                ? 2.6
+                : 1.6,
         );
-      writeOn(canvas, size, metal.plain, Offset(rect.left + 4, rect.top - 16),
-          tone);
+      writeOn(
+        canvas,
+        size,
+        metal.plain,
+        Offset(rect.left + 4, rect.top - 16),
+        tone,
+      );
     }
 
     // The join in the middle: a bolt, or a gasket with a gap in the path.
@@ -146,18 +162,33 @@ class CouplePainter extends CustomPainter {
     final high = size.height * 0.30;
     if (couple.connected) {
       canvas.drawRect(
-        Rect.fromLTRB(middle - 9, top + high * 0.3, middle + 9, top + high * 0.7),
+        Rect.fromLTRB(
+          middle - 9,
+          top + high * 0.3,
+          middle + 9,
+          top + high * 0.7,
+        ),
         Paint()..color = AppColors.charcoal,
       );
-      writeOn(canvas, size, 'bolted', Offset(middle - 18, top + high + 6),
-          AppColors.ink3);
+      writeOn(
+        canvas,
+        size,
+        'bolted',
+        Offset(middle - 18, top + high + 6),
+        AppColors.ink3,
+      );
     } else {
       canvas.drawRect(
         Rect.fromLTRB(middle - 6, top, middle + 6, top + high),
         Paint()..color = AppColors.error.withValues(alpha: 0.35),
       );
-      writeOn(canvas, size, 'insulating gasket between them',
-          Offset(middle - 80, top + high + 6), AppColors.error);
+      writeOn(
+        canvas,
+        size,
+        'insulating gasket between them',
+        Offset(middle - 80, top + high + 6),
+        AppColors.error,
+      );
     }
   }
 

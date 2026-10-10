@@ -200,11 +200,7 @@ class _WhatShowsGameState extends State<WhatShowsGame> {
           const SizedBox(height: 12),
           FormulaBar(cell: r.cell, formula: r.formula),
           const SizedBox(height: 12),
-          SheetGrid(
-            columns: const ['A', 'B'],
-            rows: 4,
-            values: r.values,
-          ),
+          SheetGrid(columns: const ['A', 'B'], rows: 4, values: r.values),
           const SizedBox(height: 14),
           Row(
             children: [
@@ -217,9 +213,7 @@ class _WhatShowsGameState extends State<WhatShowsGame> {
                     selected: _picked == i,
                     locked: answered,
                     isTruth: i == r.answer,
-                    onTap: answered
-                        ? null
-                        : () => setState(() => _picked = i),
+                    onTap: answered ? null : () => setState(() => _picked = i),
                   ),
                 ),
               ],

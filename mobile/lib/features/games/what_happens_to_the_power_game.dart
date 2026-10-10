@@ -30,10 +30,10 @@ enum Draws { more, less, same }
 
 extension DrawsWords on Draws {
   String get plain => switch (this) {
-        Draws.more => 'A bigger number',
-        Draws.less => 'A smaller number',
-        Draws.same => 'Exactly the same number',
-      };
+    Draws.more => 'A bigger number',
+    Draws.less => 'A smaller number',
+    Draws.same => 'Exactly the same number',
+  };
 }
 
 @immutable
@@ -64,10 +64,10 @@ class DutyRound {
   final String source;
 
   double _read(Duty d, String which) => switch (which) {
-        'fluid' => d.fluidPower,
-        'input' => d.inputPower,
-        _ => d.shaftPower,
-      };
+    'fluid' => d.fluidPower,
+    'input' => d.inputPower,
+    _ => d.shaftPower,
+  };
 
   /// Worked out of the two readings, never declared.
   Draws get answer {
@@ -152,8 +152,7 @@ const dutyRounds = <DutyRound>[
         'meter rather than 9,810, at the same flow and head. What happens to '
         'the power at the shaft?',
     before: Duty(flow: 0.05, head: 30, pumpEfficiency: 0.75),
-    after: Duty(
-        flow: 0.05, head: 30, weight: 10050, pumpEfficiency: 0.75),
+    after: Duty(flow: 0.05, head: 30, weight: 10050, pumpEfficiency: 0.75),
     compare: 'shaft',
     why:
         'Bigger, by about two and a half percent. The unit weight is in the '
@@ -171,9 +170,17 @@ const dutyRounds = <DutyRound>[
         'the head and both efficiencies are unchanged. What happens to the '
         'power actually drawn?',
     before: Duty(
-        flow: 0.05, head: 30, pumpEfficiency: 0.75, motorEfficiency: 0.9),
+      flow: 0.05,
+      head: 30,
+      pumpEfficiency: 0.75,
+      motorEfficiency: 0.9,
+    ),
     after: Duty(
-        flow: 0.05, head: 30, pumpEfficiency: 0.75, motorEfficiency: 0.9),
+      flow: 0.05,
+      head: 30,
+      pumpEfficiency: 0.75,
+      motorEfficiency: 0.9,
+    ),
     compare: 'input',
     why:
         'Exactly the same. A motor rating is a ceiling, not a consumption: '
@@ -186,8 +193,7 @@ const dutyRounds = <DutyRound>[
   ),
 ];
 
-class _WhatHappensToThePowerGameState
-    extends State<WhatHappensToThePowerGame> {
+class _WhatHappensToThePowerGameState extends State<WhatHappensToThePowerGame> {
   late final BoardSession _session = BoardSession(
     gameId: 'what-happens-to-the-power',
     chapterId: 'water-resources',
@@ -299,9 +305,7 @@ class _WhatHappensToThePowerGameState
               child: CustomPaint(
                 painter: PowerBarPainter(
                   duty: answered ? r.after : r.before,
-                  caption: answered
-                      ? 'AFTER THE CHANGE'
-                      : 'AS IT STANDS NOW',
+                  caption: answered ? 'AFTER THE CHANGE' : 'AS IT STANDS NOW',
                 ),
                 child: const SizedBox.expand(),
               ),
@@ -329,7 +333,9 @@ class _WhatHappensToThePowerGameState
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE WAY IT MOVES' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS THE WAY IT MOVES'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

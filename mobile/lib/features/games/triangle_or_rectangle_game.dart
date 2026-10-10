@@ -46,8 +46,12 @@ class ShapeRound2 {
 }
 
 const _plainWall = Backfill(height: 15, unitWeight: 120, friction: 30);
-const _loadedWall =
-    Backfill(height: 12, unitWeight: 120, friction: 30, surcharge: 200);
+const _loadedWall = Backfill(
+  height: 12,
+  unitWeight: 120,
+  friction: 30,
+  surcharge: 200,
+);
 
 const shapeRounds2 = <ShapeRound2>[
   ShapeRound2(
@@ -72,8 +76,7 @@ const shapeRounds2 = <ShapeRound2>[
   ),
   ShapeRound2(
     subject: 'where the soil pushes',
-    asked:
-        'Whereabouts on the wall does the resultant of that triangle act?',
+    asked: 'Whereabouts on the wall does the resultant of that triangle act?',
     backfill: _plainWall,
     options: [
       'Half way up',
@@ -279,8 +282,7 @@ class _TriangleOrRectangleGameState extends State<TriangleOrRectangleGame> {
             Center(
               child: MathText(
                 r'$P_a = \tfrac{1}{2}K_a \gamma H^2 + K_a q H$',
-                style: const TextStyle(
-                    fontSize: 15, color: AppColors.charcoal),
+                style: const TextStyle(fontSize: 15, color: AppColors.charcoal),
               ),
             ),
           ],

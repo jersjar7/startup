@@ -16,7 +16,8 @@ class TheChainWithNoSlackGame extends StatefulWidget {
   const TheChainWithNoSlackGame({super.key});
 
   @override
-  State<TheChainWithNoSlackGame> createState() => _TheChainWithNoSlackGameState();
+  State<TheChainWithNoSlackGame> createState() =>
+      _TheChainWithNoSlackGameState();
 }
 
 @immutable
@@ -46,23 +47,27 @@ class CriticalRound {
 
 /// The scheduling network these lessons share. C carries five days of
 /// total float and two of free float; A, B and D carry none.
-const _theNetwork = Network(tasks: [
-  Task(name: 'A', days: 3),
-  Task(name: 'B', days: 4, after: ['A']),
-  Task(name: 'C', days: 2, after: ['A']),
-  Task(name: 'D', days: 6, after: ['B']),
-  Task(name: 'E', days: 3, after: ['B', 'C']),
-]);
+const _theNetwork = Network(
+  tasks: [
+    Task(name: 'A', days: 3),
+    Task(name: 'B', days: 4, after: ['A']),
+    Task(name: 'C', days: 2, after: ['A']),
+    Task(name: 'D', days: 6, after: ['B']),
+    Task(name: 'E', days: 3, after: ['B', 'C']),
+  ],
+);
 
 /// The lesson's own three path network: fifteen days through B and D,
 /// twelve through C and D, ten through C and E.
-const _threePaths = Network(tasks: [
-  Task(name: 'A', days: 4),
-  Task(name: 'B', days: 6, after: ['A']),
-  Task(name: 'C', days: 3, after: ['A']),
-  Task(name: 'D', days: 5, after: ['B', 'C']),
-  Task(name: 'E', days: 3, after: ['C']),
-]);
+const _threePaths = Network(
+  tasks: [
+    Task(name: 'A', days: 4),
+    Task(name: 'B', days: 6, after: ['A']),
+    Task(name: 'C', days: 3, after: ['A']),
+    Task(name: 'D', days: 5, after: ['B', 'C']),
+    Task(name: 'E', days: 3, after: ['C']),
+  ],
+);
 
 const criticalRounds = <CriticalRound>[
   CriticalRound(
@@ -109,8 +114,7 @@ const criticalRounds = <CriticalRound>[
   ),
   CriticalRound(
     subject: 'a day lost on the path',
-    asked:
-        'A critical activity runs a day late. What happens to the project?',
+    asked: 'A critical activity runs a day late. What happens to the project?',
     network: _theNetwork,
     highlight: 'B',
     options: [

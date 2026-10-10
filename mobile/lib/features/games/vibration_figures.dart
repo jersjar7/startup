@@ -31,19 +31,19 @@ enum Damped { none, under, critical, over }
 
 extension DampedWords on Damped {
   String get plain => switch (this) {
-        Damped.none => 'Undamped: it swings and never shrinks',
-        Damped.under => 'Underdamped: it swings and dies away',
-        Damped.critical => 'Critically damped: back fastest, no swing',
-        Damped.over => 'Overdamped: no swing, and slow about it',
-      };
+    Damped.none => 'Undamped: it swings and never shrinks',
+    Damped.under => 'Underdamped: it swings and dies away',
+    Damped.critical => 'Critically damped: back fastest, no swing',
+    Damped.over => 'Overdamped: no swing, and slow about it',
+  };
 
   /// A damping ratio that shows this behavior clearly.
   double get zeta => switch (this) {
-        Damped.none => 0,
-        Damped.under => 0.12,
-        Damped.critical => 1,
-        Damped.over => 3,
-      };
+    Damped.none => 0,
+    Damped.under => 0.12,
+    Damped.critical => 1,
+    Damped.over => 3,
+  };
 }
 
 /// What a system pulled aside and let go does next.
@@ -61,8 +61,7 @@ List<Offset> settleCurve(Damped damped, {int steps = 120, double span = 12}) {
       x = math.cos(t);
     } else if (z < 1) {
       final wd = math.sqrt(1 - z * z);
-      x = math.exp(-z * t) *
-          (math.cos(wd * t) + z / wd * math.sin(wd * t));
+      x = math.exp(-z * t) * (math.cos(wd * t) + z / wd * math.sin(wd * t));
     } else if (z == 1) {
       x = (1 + t) * math.exp(-t);
     } else {
@@ -98,10 +97,20 @@ class SettlePainter extends CustomPainter {
     final wide = size.width - _padL - 10;
 
     canvas
-      ..drawLine(Offset(_padL, middle), Offset(size.width - 8, middle),
-          Paint()..color = AppColors.ink3..strokeWidth = 1)
-      ..drawLine(Offset(_padL, 8), Offset(_padL, size.height - _padB),
-          Paint()..color = AppColors.ink3..strokeWidth = 1);
+      ..drawLine(
+        Offset(_padL, middle),
+        Offset(size.width - 8, middle),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1,
+      )
+      ..drawLine(
+        Offset(_padL, 8),
+        Offset(_padL, size.height - _padB),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1,
+      );
 
     final path = Path();
     final points = settleCurve(damped, span: span);
@@ -121,15 +130,17 @@ class SettlePainter extends CustomPainter {
     );
 
     _write(canvas, 'pulled aside', const Offset(2, 2), AppColors.ink3);
-    _write(canvas, 'time', Offset(size.width - 30, middle + 4),
-        AppColors.ink3);
+    _write(canvas, 'time', Offset(size.width - 30, middle + 4), AppColors.ink3);
   }
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 9.5, color: color),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }
@@ -212,10 +223,12 @@ class SpringPainter extends CustomPainter {
     // The block, sized by its mass against the heaviest in the row.
     final wide = 34 + 28 * math.sqrt(bouncer.mass / heaviest);
     final high = 22 + 14 * math.sqrt(bouncer.mass / heaviest);
-    final rect = Rect.fromLTWH(
-        x - wide / 2, springBottom, wide, high);
+    final rect = Rect.fromLTWH(x - wide / 2, springBottom, wide, high);
     canvas
-      ..drawRect(rect, Paint()..color = AppColors.sunbeam.withValues(alpha: 0.35))
+      ..drawRect(
+        rect,
+        Paint()..color = AppColors.sunbeam.withValues(alpha: 0.35),
+      )
       ..drawRect(
         rect,
         Paint()
@@ -241,24 +254,30 @@ class SpringPainter extends CustomPainter {
           ..color = AppColors.ember
           ..strokeWidth = 2,
       );
-      canvas.drawLine(Offset(arrowX, springBottom),
-          Offset(arrowX - 4, springBottom - 6), Paint()
-            ..color = AppColors.ember
-            ..strokeWidth = 2);
-      canvas.drawLine(Offset(arrowX, springBottom),
-          Offset(arrowX + 4, springBottom - 6), Paint()
-            ..color = AppColors.ember
-            ..strokeWidth = 2);
+      canvas.drawLine(
+        Offset(arrowX, springBottom),
+        Offset(arrowX - 4, springBottom - 6),
+        Paint()
+          ..color = AppColors.ember
+          ..strokeWidth = 2,
+      );
+      canvas.drawLine(
+        Offset(arrowX, springBottom),
+        Offset(arrowX + 4, springBottom - 6),
+        Paint()
+          ..color = AppColors.ember
+          ..strokeWidth = 2,
+      );
     }
 
     if (label.isNotEmpty) {
       TextPainter(
-        text: TextSpan(
-          text: label,
-          style: AppTheme.mono(size: 10, color: AppColors.ink3),
-        ),
-        textDirection: TextDirection.ltr,
-      )
+          text: TextSpan(
+            text: label,
+            style: AppTheme.mono(size: 10, color: AppColors.ink3),
+          ),
+          textDirection: TextDirection.ltr,
+        )
         ..layout(maxWidth: size.width - 8)
         ..paint(canvas, Offset(4, size.height - 26));
     }

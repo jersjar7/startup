@@ -79,11 +79,9 @@ void main() {
     for (var turn = 1; turn <= 4; turn++) {
       await tester.pump(const Duration(milliseconds: 900)); // lands on the tick
       await tester.pump(const Duration(milliseconds: 600)); // the roll finishes
-      expect(
-        _showing(tester),
-        {emailHintDomains[turn % emailHintDomains.length]},
-        reason: 'turn $turn',
-      );
+      expect(_showing(tester), {
+        emailHintDomains[turn % emailHintDomains.length],
+      }, reason: 'turn $turn');
       expect(tester.getTopLeft(find.text(emailHintPrefix)), headAt);
     }
   });

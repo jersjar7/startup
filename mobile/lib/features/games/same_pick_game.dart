@@ -93,8 +93,7 @@ const pickRounds = <PickRound>[
     source: 'stat-dist-q1',
   ),
   PickRound(
-    scenario:
-        'Four of twelve boreholes are selected for laboratory testing.',
+    scenario: 'Four of twelve boreholes are selected for laboratory testing.',
     first: ['B-02', 'B-05', 'B-09', 'B-11'],
     second: ['B-11', 'B-02', 'B-09', 'B-05'],
     slots: [],

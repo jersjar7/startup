@@ -24,9 +24,8 @@ class CurveRegion {
   /// the arithmetic that gets you there from one that does.
   final String column;
 
-  bool holds(double z) => spans.any(
-    (s) => z >= s.$1 && (s.$2 >= zMax ? z <= s.$2 : z < s.$2),
-  );
+  bool holds(double z) =>
+      spans.any((s) => z >= s.$1 && (s.$2 >= zMax ? z <= s.$2 : z < s.$2));
 }
 
 /// The curve is drawn over four standard deviations either side, which is as
@@ -185,7 +184,10 @@ class NormalPainter extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, {required Color color}) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     tp.paint(canvas, at - Offset(tp.width / 2, 0));
@@ -193,8 +195,7 @@ class NormalPainter extends CustomPainter {
 
   /// Which region a tap at [dx] landed in, or null for none.
   static int? regionAt(double dx, double width, List<CurveRegion> regions) {
-    final z = zMin +
-        (dx - _padL) / (width - _padL - _padR) * (zMax - zMin);
+    final z = zMin + (dx - _padL) / (width - _padL - _padR) * (zMax - zMin);
     for (final (i, region) in regions.indexed) {
       if (region.holds(z)) return i;
     }

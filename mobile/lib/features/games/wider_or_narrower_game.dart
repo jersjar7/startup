@@ -104,7 +104,8 @@ const moveRounds = <MoveRound>[
   ),
   MoveRound(
     before: '25 samples, sigma assumed to be 5, reported at 95%',
-    change: 'The material turns out to be more consistent: sigma is really 2.5.',
+    change:
+        'The material turns out to be more consistent: sigma is really 2.5.',
     answer: Move.narrower,
     after: 0.5,
     why:

@@ -20,8 +20,7 @@ class BiggerThanTheLoadGame extends StatefulWidget {
   const BiggerThanTheLoadGame({super.key});
 
   @override
-  State<BiggerThanTheLoadGame> createState() =>
-      _BiggerThanTheLoadGameState();
+  State<BiggerThanTheLoadGame> createState() => _BiggerThanTheLoadGameState();
 }
 
 /// How the diagonal's force compares with the load it is carrying.
@@ -29,10 +28,10 @@ enum HowBig { less, about, more }
 
 extension Size3Words on HowBig {
   String get plain => switch (this) {
-        HowBig.less => 'Smaller than the load',
-        HowBig.about => 'About the same as the load',
-        HowBig.more => 'Larger than the load, and by a good margin',
-      };
+    HowBig.less => 'Smaller than the load',
+    HowBig.about => 'About the same as the load',
+    HowBig.more => 'Larger than the load, and by a good margin',
+  };
 }
 
 @immutable
@@ -91,8 +90,7 @@ const webRounds = <CornerRound>[
   ),
   CornerRound(
     subject: 'a steep diagonal',
-    setting:
-        'The same load with the diagonal at 75 degrees, nearly upright.',
+    setting: 'The same load with the diagonal at 75 degrees, nearly upright.',
     corner: Corner(load: 500, degrees: 75),
     why:
         'About the same: the factor is 1.04, so the member carries about 518 '
@@ -118,7 +116,8 @@ const webRounds = <CornerRound>[
   ),
   CornerRound(
     subject: 'a nearly flat tie',
-    setting: 'A 12 kN load hung off a joint whose only diagonal rises at 10 '
+    setting:
+        'A 12 kN load hung off a joint whose only diagonal rises at 10 '
         'degrees.',
     corner: Corner(load: 12, degrees: 10),
     why:
@@ -234,8 +233,7 @@ class _BiggerThanTheLoadGameState extends State<BiggerThanTheLoadGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter:
-                      CornerPainter(corner: r.corner, answered: answered),
+                  painter: CornerPainter(corner: r.corner, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

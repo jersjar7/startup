@@ -290,10 +290,7 @@ class _RejectOrNotGameState extends State<RejectOrNotGame> {
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            r.setup,
-            style: AppTheme.mono(size: 11, color: AppColors.ink3),
-          ),
+          Text(r.setup, style: AppTheme.mono(size: 11, color: AppColors.ink3)),
           const SizedBox(height: 12),
           for (var i = 0; i < r.options.length; i++) ...[
             if (i > 0) const SizedBox(height: 8),

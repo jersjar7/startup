@@ -46,27 +46,33 @@ class LengthRound {
 
 /// The lesson's four activity network: A, then B and C side by side, then
 /// D waiting on both. Fourteen days through B, eleven through C.
-const _fourTask = Network(tasks: [
-  Task(name: 'A', days: 4),
-  Task(name: 'B', days: 6, after: ['A']),
-  Task(name: 'C', days: 3, after: ['A']),
-  Task(name: 'D', days: 2, after: ['B', 'C']),
-]);
+const _fourTask = Network(
+  tasks: [
+    Task(name: 'A', days: 4),
+    Task(name: 'B', days: 6, after: ['A']),
+    Task(name: 'C', days: 3, after: ['A']),
+    Task(name: 'D', days: 2, after: ['B', 'C']),
+  ],
+);
 
 /// The same network with the short branch lengthened until it governs.
-const _flipped = Network(tasks: [
-  Task(name: 'A', days: 4),
-  Task(name: 'B', days: 6, after: ['A']),
-  Task(name: 'C', days: 9, after: ['A']),
-  Task(name: 'D', days: 2, after: ['B', 'C']),
-]);
+const _flipped = Network(
+  tasks: [
+    Task(name: 'A', days: 4),
+    Task(name: 'B', days: 6, after: ['A']),
+    Task(name: 'C', days: 9, after: ['A']),
+    Task(name: 'D', days: 2, after: ['B', 'C']),
+  ],
+);
 
 /// A chain with nothing in parallel at all.
-const _chain = Network(tasks: [
-  Task(name: 'A', days: 4),
-  Task(name: 'B', days: 6, after: ['A']),
-  Task(name: 'D', days: 2, after: ['B']),
-]);
+const _chain = Network(
+  tasks: [
+    Task(name: 'A', days: 4),
+    Task(name: 'B', days: 6, after: ['A']),
+    Task(name: 'D', days: 2, after: ['B']),
+  ],
+);
 
 const lengthRounds = <LengthRound>[
   LengthRound(
@@ -174,8 +180,7 @@ const lengthRounds = <LengthRound>[
   ),
   LengthRound(
     subject: 'what the duration really is',
-    asked:
-        'In one sentence, the project duration is:',
+    asked: 'In one sentence, the project duration is:',
     network: _fourTask,
     highlight: null,
     options: [

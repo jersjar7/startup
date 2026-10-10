@@ -28,10 +28,10 @@ enum Tally { short, exact, over }
 
 extension TallyWords on Tally {
   String get plain => switch (this) {
-        Tally.short => 'Short of it: a mechanism, and it moves',
-        Tally.exact => 'Exactly it: stable and determinate',
-        Tally.over => 'More than it: stable and indeterminate',
-      };
+    Tally.short => 'Short of it: a mechanism, and it moves',
+    Tally.exact => 'Exactly it: stable and determinate',
+    Tally.over => 'More than it: stable and indeterminate',
+  };
 }
 
 @immutable
@@ -97,7 +97,8 @@ const tallyRounds2 = <TallyRound2>[
   ),
   TallyRound2(
     subject: 'the lesson\'s own portal frame',
-    setting: 'Three members, four joints, a pin at one base and a fixed '
+    setting:
+        'Three members, four joints, a pin at one base and a fixed '
         'support at the other.',
     skeleton: Skeleton(
       joints: [Offset(0, 0), Offset(0, 2), Offset(3, 2), Offset(3, 0)],
@@ -355,7 +356,9 @@ class _EnoughOrTooManyGameState extends State<EnoughOrTooManyGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS HOW IT COMES OUT' : 'NOT QUITE',
+              title: _session.correct!
+                  ? 'THAT IS HOW IT COMES OUT'
+                  : 'NOT QUITE',
               body: r.why,
             ),
           ],

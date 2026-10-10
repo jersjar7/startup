@@ -16,7 +16,8 @@ class WhichVarianceIsWhichGame extends StatefulWidget {
   const WhichVarianceIsWhichGame({super.key});
 
   @override
-  State<WhichVarianceIsWhichGame> createState() => _WhichVarianceIsWhichGameState();
+  State<WhichVarianceIsWhichGame> createState() =>
+      _WhichVarianceIsWhichGameState();
 }
 
 @immutable
@@ -47,8 +48,11 @@ const _monthSix = Progress(planned: 420000, earned: 400000, actual: 450000);
 const _weekTen = Progress(planned: 500000, earned: 420000, actual: 480000);
 
 /// And the case that comes out behind but cheap.
-const _slowButThrifty =
-    Progress(planned: 300000, earned: 270000, actual: 250000);
+const _slowButThrifty = Progress(
+  planned: 300000,
+  earned: 270000,
+  actual: 250000,
+);
 
 const valueRounds = <ValueRound>[
   ValueRound(
@@ -112,7 +116,8 @@ const valueRounds = <ValueRound>[
   ),
   ValueRound(
     subject: 'the number both start from',
-    asked: 'What do the cost variance and the schedule variance have in '
+    asked:
+        'What do the cost variance and the schedule variance have in '
         'common?',
     progress: _weekTen,
     options: [

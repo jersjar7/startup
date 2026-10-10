@@ -28,8 +28,7 @@ class EdgeOrInsideGame extends StatefulWidget {
 enum Pick { sharpWhole, sharpHalf, flatWhole, flatHalf }
 
 extension PickParts on Pick {
-  double get y =>
-      this == Pick.sharpWhole || this == Pick.sharpHalf ? 1.1 : 1.0;
+  double get y => this == Pick.sharpWhole || this == Pick.sharpHalf ? 1.1 : 1.0;
 
   bool get half => this == Pick.sharpHalf || this == Pick.flatHalf;
 }
@@ -57,8 +56,9 @@ class CrackRound {
   /// What each choice puts into the formula, with this round's own numbers.
   String labelFor(Pick pick) {
     final mm = pick.half ? plate.crackMm / 2 : plate.crackMm;
-    final shown =
-        mm == mm.roundToDouble() ? mm.round().toString() : mm.toStringAsFixed(1);
+    final shown = mm == mm.roundToDouble()
+        ? mm.round().toString()
+        : mm.toStringAsFixed(1);
     return 'Y = ${pick.y}   a = $shown mm';
   }
 }

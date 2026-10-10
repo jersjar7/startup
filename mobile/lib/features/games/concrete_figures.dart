@@ -8,11 +8,7 @@ import '../../core/theme/app_theme.dart';
 /// One concrete mix, described the way a mix sheet describes it.
 @immutable
 class Mix {
-  const Mix({
-    required this.wc,
-    this.air = 0,
-    this.plasticized = false,
-  });
+  const Mix({required this.wc, this.air = 0, this.plasticized = false});
 
   /// Water over cement, by weight.
   final double wc;
@@ -87,16 +83,21 @@ class MixPainter extends CustomPainter {
 
   static Offset at(Size size, Mix mix) {
     final box = plot(size);
-    final x = box.left +
+    final x =
+        box.left +
         box.width * ((mix.wc - _lowWc) / (_highWc - _lowWc)).clamp(0.0, 1.0);
-    final y = box.bottom -
-        box.height * (mix.strength / _ceiling).clamp(0.0, 1.0);
+    final y =
+        box.bottom - box.height * (mix.strength / _ceiling).clamp(0.0, 1.0);
     return Offset(x, y);
   }
 
   /// Which marked mix a tap is nearest, or nothing if it was near none.
-  static int? nearest(Size size, List<Mix> marks, Offset tap,
-      {double within = 40}) {
+  static int? nearest(
+    Size size,
+    List<Mix> marks,
+    Offset tap, {
+    double within = 40,
+  }) {
     int? best;
     var bestGap = within;
     for (var i = 0; i < marks.length; i++) {
@@ -124,30 +125,48 @@ class MixPainter extends CustomPainter {
       canvas.drawLine(
         Offset(box.left, y),
         Offset(box.right, y),
-        Paint()..color = AppColors.line.withValues(alpha: 0.6)..strokeWidth = 0.8,
+        Paint()
+          ..color = AppColors.line.withValues(alpha: 0.6)
+          ..strokeWidth = 0.8,
       );
-      _write(canvas, '${(psi / 1000).round()}k', Offset(4, y - 6),
-          AppColors.ink3);
+      _write(
+        canvas,
+        '${(psi / 1000).round()}k',
+        Offset(4, y - 6),
+        AppColors.ink3,
+      );
     }
     _write(canvas, 'psi', const Offset(4, 14), AppColors.ink3);
     for (final wc in [0.4, 0.5, 0.6, 0.7, 0.8]) {
       final x = at(size, Mix(wc: wc)).dx;
-      _write(canvas, wc.toStringAsFixed(1), Offset(x - 8, box.bottom + 4),
-          AppColors.ink3);
+      _write(
+        canvas,
+        wc.toStringAsFixed(1),
+        Offset(x - 8, box.bottom + 4),
+        AppColors.ink3,
+      );
     }
-    _write(canvas, 'W/C', Offset(box.right - 26, box.bottom + 14),
-        AppColors.ink3);
+    _write(
+      canvas,
+      'W/C',
+      Offset(box.right - 26, box.bottom + 14),
+      AppColors.ink3,
+    );
 
     _curve(canvas, size, false, AppColors.info);
     _curve(canvas, size, true, AppColors.ember);
-    _write(canvas, 'no air', Offset(box.left + 6, at(size, const Mix(wc: 0.38)).dy - 14),
-        AppColors.info);
     _write(
-        canvas,
-        'with air',
-        Offset(box.left + 6,
-            at(size, const Mix(wc: 0.38, air: 5)).dy + 4),
-        AppColors.ember);
+      canvas,
+      'no air',
+      Offset(box.left + 6, at(size, const Mix(wc: 0.38)).dy - 14),
+      AppColors.info,
+    );
+    _write(
+      canvas,
+      'with air',
+      Offset(box.left + 6, at(size, const Mix(wc: 0.38, air: 5)).dy + 4),
+      AppColors.ember,
+    );
 
     if (target != null) {
       final y = box.bottom - box.height * target! / _ceiling;
@@ -157,8 +176,12 @@ class MixPainter extends CustomPainter {
       for (var x = box.left; x < box.right; x += 10) {
         canvas.drawLine(Offset(x, y), Offset(x + 5, y), paint);
       }
-      _write(canvas, 'needs ${(target! / 1000).toStringAsFixed(1)}k',
-          Offset(box.right - 62, y - 13), AppColors.forest);
+      _write(
+        canvas,
+        'needs ${(target! / 1000).toStringAsFixed(1)}k',
+        Offset(box.right - 62, y - 13),
+        AppColors.forest,
+      );
     }
 
     if (!showMarks) return;
@@ -202,13 +225,22 @@ class MixPainter extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 9.5, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     final patch = Rect.fromLTWH(
-        at.dx - 2, at.dy - 1, painter.width + 4, painter.height + 2);
+      at.dx - 2,
+      at.dy - 1,
+      painter.width + 4,
+      painter.height + 2,
+    );
     canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.85));
+      patch,
+      Paint()..color = AppColors.cream.withValues(alpha: 0.85),
+    );
     painter.paint(canvas, at);
   }
 
@@ -299,10 +331,20 @@ class PourPainter extends CustomPainter {
     double y(double psi) => box.bottom - box.height * psi / ceiling;
 
     canvas
-      ..drawLine(box.bottomLeft, box.bottomRight,
-          Paint()..color = AppColors.charcoal..strokeWidth = 1.4)
-      ..drawLine(box.bottomLeft, box.topLeft,
-          Paint()..color = AppColors.charcoal..strokeWidth = 1.4);
+      ..drawLine(
+        box.bottomLeft,
+        box.bottomRight,
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 1.4,
+      )
+      ..drawLine(
+        box.bottomLeft,
+        box.topLeft,
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 1.4,
+      );
 
     final slot = box.width / pours.length;
     for (var i = 0; i < pours.length; i++) {
@@ -322,7 +364,11 @@ class PourPainter extends CustomPainter {
 
       // What the curing takes off, drawn hollow above what is left.
       final gone = Rect.fromLTRB(
-          middle - wide / 2, y(p.lab), middle + wide / 2, y(p.inPlace));
+        middle - wide / 2,
+        y(p.lab),
+        middle + wide / 2,
+        y(p.inPlace),
+      );
       canvas.drawRect(
         gone,
         Paint()..color = AppColors.error.withValues(alpha: 0.12),
@@ -345,7 +391,11 @@ class PourPainter extends CustomPainter {
       );
 
       final left = Rect.fromLTRB(
-          middle - wide / 2, y(p.inPlace), middle + wide / 2, box.bottom);
+        middle - wide / 2,
+        y(p.inPlace),
+        middle + wide / 2,
+        box.bottom,
+      );
       canvas
         ..drawRect(left, Paint()..color = tone.withValues(alpha: 0.32))
         ..drawRect(
@@ -353,14 +403,20 @@ class PourPainter extends CustomPainter {
           Paint()
             ..color = tone
             ..style = PaintingStyle.stroke
-            ..strokeWidth = (picked?[i] ?? false) || (locked && (answer?[i] ?? false))
+            ..strokeWidth =
+                (picked?[i] ?? false) || (locked && (answer?[i] ?? false))
                 ? 2.4
                 : 1.4,
         );
 
       _write(canvas, size, p.name, Offset(middle - 24, box.bottom + 4), tone);
-      _write(canvas, size, p.curing, Offset(middle - 46, box.bottom + 18),
-          AppColors.ink3);
+      _write(
+        canvas,
+        size,
+        p.curing,
+        Offset(middle - 46, box.bottom + 18),
+        AppColors.ink3,
+      );
     }
 
     // What the job needs, across both bars.
@@ -371,27 +427,46 @@ class PourPainter extends CustomPainter {
     for (var x = box.left; x < box.right; x += 10) {
       canvas.drawLine(Offset(x, line), Offset(x + 5, line), paint);
     }
-    _write(canvas, size, 'needs ${(needs / 1000).toStringAsFixed(1)}k',
-        Offset(box.left + 2, line - 13), AppColors.forest);
+    _write(
+      canvas,
+      size,
+      'needs ${(needs / 1000).toStringAsFixed(1)}k',
+      Offset(box.left + 2, line - 13),
+      AppColors.forest,
+    );
     _write(canvas, size, 'psi', const Offset(2, 16), AppColors.ink3);
-    _write(canvas, size, 'lab', Offset(box.right - 30, y(_labTop()) - 13),
-        AppColors.ink3);
+    _write(
+      canvas,
+      size,
+      'lab',
+      Offset(box.right - 30, y(_labTop()) - 13),
+      AppColors.ink3,
+    );
   }
 
   double _labTop() => pours.map((p) => p.lab).reduce(math.max);
 
   void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
     final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 9.5, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = at.dx;
     if (x + painter.width > size.width - 3) x = size.width - 3 - painter.width;
     if (x < 2) x = 2;
     final patch = Rect.fromLTWH(
-        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
+      x - 2,
+      at.dy - 1,
+      painter.width + 4,
+      painter.height + 2,
+    );
     canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.88));
+      patch,
+      Paint()..color = AppColors.cream.withValues(alpha: 0.88),
+    );
     painter.paint(canvas, Offset(x, at.dy));
   }
 

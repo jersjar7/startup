@@ -31,8 +31,8 @@ class Chance {
 @immutable
 class TreeBranch {
   const TreeBranch.certain(this.name, double cost)
-      : ends = const [],
-        certain = cost;
+    : ends = const [],
+      certain = cost;
 
   const TreeBranch.uncertain(this.name, this.ends) : certain = null;
 
@@ -141,11 +141,16 @@ class TreePainter extends CustomPainter {
   static String _money(double v) =>
       v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(1);
 
-  static TextPainter _measure(String text, {Color color = AppColors.charcoal}) =>
-      TextPainter(
-        text: TextSpan(text: text, style: AppTheme.mono(size: 10.5, color: color)),
-        textDirection: TextDirection.ltr,
-      )..layout();
+  static TextPainter _measure(
+    String text, {
+    Color color = AppColors.charcoal,
+  }) => TextPainter(
+    text: TextSpan(
+      text: text,
+      style: AppTheme.mono(size: 10.5, color: color),
+    ),
+    textDirection: TextDirection.ltr,
+  )..layout();
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -209,14 +214,23 @@ class TreePainter extends CustomPainter {
       if (!b.isChance) {
         canvas.drawLine(Offset(_nodeX + 14, mid), Offset(endX, mid), stroke);
         _triangle(canvas, Offset(endX, mid), color);
-        _write(canvas, _money(b.certain!), Offset(endX + 8, mid - 6), color,
-            align: 1);
+        _write(
+          canvas,
+          _money(b.certain!),
+          Offset(endX + 8, mid - 6),
+          color,
+          align: 1,
+        );
         continue;
       }
 
       canvas.drawLine(Offset(_nodeX + 14, mid), Offset(forkX, mid), stroke);
       // The circle: nobody chooses here, the weather does.
-      canvas.drawCircle(Offset(forkX, mid), 7, Paint()..color = AppColors.white);
+      canvas.drawCircle(
+        Offset(forkX, mid),
+        7,
+        Paint()..color = AppColors.white,
+      );
       canvas.drawCircle(Offset(forkX, mid), 7, stroke);
 
       final n = b.ends.length;
@@ -226,10 +240,20 @@ class TreePainter extends CustomPainter {
         canvas.drawLine(Offset(forkX + 7, mid), Offset(forkX + 26, ey), stroke);
         canvas.drawLine(Offset(forkX + 26, ey), Offset(endX, ey), stroke);
         _triangle(canvas, Offset(endX, ey), color);
-        _write(canvas, _money(e.cost), Offset(endX + 8, ey - 6), color,
-            align: 1);
-        _write(canvas, e.label, Offset(forkX + 30, ey - 15), AppColors.ink3,
-            align: 1);
+        _write(
+          canvas,
+          _money(e.cost),
+          Offset(endX + 8, ey - 6),
+          color,
+          align: 1,
+        );
+        _write(
+          canvas,
+          e.label,
+          Offset(forkX + 30, ey - 15),
+          AppColors.ink3,
+          align: 1,
+        );
       }
     }
 
@@ -258,8 +282,13 @@ class TreePainter extends CustomPainter {
     canvas.drawPath(path, Paint()..color = color);
   }
 
-  void _write(Canvas canvas, String text, Offset at, Color color,
-      {int align = 0}) {
+  void _write(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Color color, {
+    int align = 0,
+  }) {
     final tp = _measure(text, color: color);
     final dx = switch (align) {
       1 => 0.0,

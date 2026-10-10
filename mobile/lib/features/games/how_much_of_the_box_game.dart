@@ -30,16 +30,16 @@ enum Share { all, half, third }
 
 extension ShareWords on Share {
   String get plain => switch (this) {
-        Share.all => 'All of it',
-        Share.half => 'Half of it',
-        Share.third => 'A third of it',
-      };
+    Share.all => 'All of it',
+    Share.half => 'Half of it',
+    Share.third => 'A third of it',
+  };
 
   double get part => switch (this) {
-        Share.all => 1,
-        Share.half => 0.5,
-        Share.third => 1 / 3,
-      };
+    Share.all => 1,
+    Share.half => 0.5,
+    Share.third => 1 / 3,
+  };
 }
 
 @immutable

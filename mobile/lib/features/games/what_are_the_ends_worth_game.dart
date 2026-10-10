@@ -269,7 +269,9 @@ class _WhatAreTheEndsWorthGameState extends State<WhatAreTheEndsWorthGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE FACTOR' : 'A DIFFERENT CASE',
+              title: _session.correct!
+                  ? 'THAT IS THE FACTOR'
+                  : 'A DIFFERENT CASE',
               body: r.why,
             ),
           ],

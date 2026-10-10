@@ -21,8 +21,7 @@ class WhichOneDoYouBuildGame extends StatefulWidget {
   const WhichOneDoYouBuildGame({super.key});
 
   @override
-  State<WhichOneDoYouBuildGame> createState() =>
-      _WhichOneDoYouBuildGameState();
+  State<WhichOneDoYouBuildGame> createState() => _WhichOneDoYouBuildGameState();
 }
 
 /// One alternative, priced in whatever units the round is working in.
@@ -126,10 +125,7 @@ const buildRounds = <BuildRound>[
   BuildRound(
     subject: 'two levee heights',
     units: 'present worth, millions of dollars',
-    options: [
-      Alternative('Low', 6, 9),
-      Alternative('High', 12, 13),
-    ],
+    options: [Alternative('Low', 6, 9), Alternative('High', 12, 13)],
     why:
         'Both clear one on their own, and the step up does not. Six million '
         'more buys four million more of protection, which is a ratio of two '
@@ -170,10 +166,7 @@ const buildRounds = <BuildRound>[
   BuildRound(
     subject: 'two culvert sizes',
     units: 'present worth, thousands of dollars',
-    options: [
-      Alternative('600 mm', 240, 360),
-      Alternative('900 mm', 300, 430),
-    ],
+    options: [Alternative('600 mm', 240, 360), Alternative('900 mm', 300, 430)],
     why:
         'The small pipe has the better ratio of the two and still loses. Sixty '
         'thousand more buys seventy thousand more, so the step pays for itself '
@@ -284,9 +277,7 @@ class _WhichOneDoYouBuildGameState extends State<WhichOneDoYouBuildGame> {
                     selected: _picked == i,
                     locked: answered,
                     isTruth: i == r.answer,
-                    onTap: answered
-                        ? null
-                        : () => setState(() => _picked = i),
+                    onTap: answered ? null : () => setState(() => _picked = i),
                   ),
                 ),
               ],

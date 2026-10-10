@@ -30,10 +30,10 @@ enum Rule3 { plain, trimmed, fiveHalves }
 
 extension Rule3Words on Rule3 {
   String get latex => switch (this) {
-        Rule3.plain => r'$Q = C\,L\,H^{3/2}$',
-        Rule3.trimmed => r'$Q = C\,(L - 0.2H)\,H^{3/2}$',
-        Rule3.fiveHalves => r'$Q = C\,H^{5/2}$',
-      };
+    Rule3.plain => r'$Q = C\,L\,H^{3/2}$',
+    Rule3.trimmed => r'$Q = C\,(L - 0.2H)\,H^{3/2}$',
+    Rule3.fiveHalves => r'$Q = C\,H^{5/2}$',
+  };
 }
 
 @immutable
@@ -53,10 +53,10 @@ class WeirRound {
   /// Read off the shape of the opening, which is the only thing that
   /// decides it.
   Rule3 get answer => switch (weir.notch) {
-        Notch.fullWidth => Rule3.plain,
-        Notch.contracted => Rule3.trimmed,
-        Notch.vee => Rule3.fiveHalves,
-      };
+    Notch.fullWidth => Rule3.plain,
+    Notch.contracted => Rule3.trimmed,
+    Notch.vee => Rule3.fiveHalves,
+  };
 }
 
 const weirRounds = <WeirRound>[
@@ -242,7 +242,9 @@ class _WhichFormulaFitsThisWeirGameState
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE ONE' : 'A DIFFERENT SHAPE',
+              title: _session.correct!
+                  ? 'THAT IS THE ONE'
+                  : 'A DIFFERENT SHAPE',
               body: r.why,
             ),
           ],

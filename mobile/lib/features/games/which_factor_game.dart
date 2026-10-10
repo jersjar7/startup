@@ -145,10 +145,7 @@ const factorRounds = <FactorRound>[
     scenario:
         'A machine will be sold for 80,000 dollars at the end of year twelve. '
         'What is that worth in today\'s money?',
-    flows: [
-      CashFlow(12, 3),
-      CashFlow(0, 2.2, unknown: true),
-    ],
+    flows: [CashFlow(12, 3), CashFlow(0, 2.2, unknown: true)],
     periods: 12,
     unit: 'years',
     answer: 1,
@@ -190,10 +187,7 @@ const factorRounds = <FactorRound>[
     scenario:
         'A trust holds 200,000 dollars today and nothing is added or taken '
         'out. What will it hold in fifteen years?',
-    flows: [
-      CashFlow(0, 2.2),
-      CashFlow(15, 3, unknown: true),
-    ],
+    flows: [CashFlow(0, 2.2), CashFlow(15, 3, unknown: true)],
     periods: 15,
     unit: 'years',
     answer: 0,

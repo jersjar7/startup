@@ -254,7 +254,9 @@ class _WhatComesOutGameState extends State<WhatComesOutGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHAT COMES OUT' : 'SOMETHING ELSE',
+              title: _session.correct!
+                  ? 'THAT IS WHAT COMES OUT'
+                  : 'SOMETHING ELSE',
               body: r.why,
             ),
           ],

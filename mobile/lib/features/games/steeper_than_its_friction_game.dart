@@ -51,10 +51,10 @@ class BankRound {
   }
 
   static String label(Stands which) => switch (which) {
-        Stands.holds => 'It holds, with something in hand',
-        Stands.slides => 'It slides',
-        Stands.onTheEdge => 'It is exactly on the edge',
-      };
+    Stands.holds => 'It holds, with something in hand',
+    Stands.slides => 'It slides',
+    Stands.onTheEdge => 'It is exactly on the edge',
+  };
 }
 
 const bankRounds = <BankRound>[
@@ -74,8 +74,7 @@ const bankRounds = <BankRound>[
   ),
   BankRound(
     subject: 'steeper than the soil allows',
-    asked:
-        'The same sand, but tipped up to 38 degrees. Now what?',
+    asked: 'The same sand, but tipped up to 38 degrees. Now what?',
     bank: Bank(slopeAngle: 38, friction: 34),
     why:
         'It slides. Past the friction angle there is nothing left to hold the '
@@ -86,8 +85,7 @@ const bankRounds = <BankRound>[
   ),
   BankRound(
     subject: 'exactly at the angle',
-    asked:
-        'And at 34 degrees, exactly the friction angle of the soil?',
+    asked: 'And at 34 degrees, exactly the friction angle of the soil?',
     bank: Bank(slopeAngle: 34, friction: 34),
     why:
         'Exactly on the edge, a factor of safety of one. This is the angle of '

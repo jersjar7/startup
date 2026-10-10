@@ -148,8 +148,7 @@ const loadPathRounds = <LoadPathRound>[
   ),
   LoadPathRound(
     subject: 'the two pictures',
-    asked:
-        'Which pair of words best separates the two kinds of pavement?',
+    asked: 'Which pair of words best separates the two kinds of pavement?',
     load: _flexible,
     options: [
       'Thick and thin',
@@ -254,10 +253,7 @@ class _BeamOrBlanketGameState extends State<BeamOrBlanketGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: SlabPainter(
-                    load: r.load,
-                    answered: answered,
-                  ),
+                  painter: SlabPainter(load: r.load, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

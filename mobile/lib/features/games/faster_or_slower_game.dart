@@ -30,10 +30,10 @@ enum Quicker { left, right, same }
 
 extension QuickerWords on Quicker {
   String get plain => switch (this) {
-        Quicker.left => 'The left one',
-        Quicker.right => 'The right one',
-        Quicker.same => 'Neither: the same frequency',
-      };
+    Quicker.left => 'The left one',
+    Quicker.right => 'The right one',
+    Quicker.same => 'Neither: the same frequency',
+  };
 }
 
 @immutable
@@ -61,8 +61,8 @@ class PairRound3 {
 
   /// Worked out from the two systems, never declared.
   Quicker get answer {
-    final gap = (left.omega - right.omega).abs() /
-        math.max(left.omega, right.omega);
+    final gap =
+        (left.omega - right.omega).abs() / math.max(left.omega, right.omega);
     if (gap < 0.01) return Quicker.same;
     return left.omega > right.omega ? Quicker.left : Quicker.right;
   }
@@ -72,9 +72,9 @@ class PairRound3 {
       : right.omega / left.omega;
 
   (double, double) get frame => (
-        math.max(left.mass, right.mass),
-        math.max(left.stiffness, right.stiffness),
-      );
+    math.max(left.mass, right.mass),
+    math.max(left.stiffness, right.stiffness),
+  );
 }
 
 const pairRounds3 = <PairRound3>[
@@ -253,15 +253,17 @@ class _FasterOrSlowerGameState extends State<FasterOrSlowerGame> {
                     bouncer: i == 0 ? r.left : r.right,
                     frame: r.frame,
                     pull: i == 0 ? r.pulls?.$1 : r.pulls?.$2,
-                    selected: _picked ==
-                        (i == 0 ? Quicker.left : Quicker.right),
+                    selected:
+                        _picked == (i == 0 ? Quicker.left : Quicker.right),
                     locked: answered,
-                    isTruth: r.answer ==
-                        (i == 0 ? Quicker.left : Quicker.right),
+                    isTruth:
+                        r.answer == (i == 0 ? Quicker.left : Quicker.right),
                     onTap: answered
                         ? null
-                        : () => setState(() =>
-                            _picked = i == 0 ? Quicker.left : Quicker.right),
+                        : () => setState(
+                            () =>
+                                _picked = i == 0 ? Quicker.left : Quicker.right,
+                          ),
                   ),
                 ),
               ],
@@ -280,13 +282,17 @@ class _FasterOrSlowerGameState extends State<FasterOrSlowerGame> {
             selected: _picked == Quicker.same,
             locked: answered,
             isTruth: r.answer == Quicker.same,
-            onTap: answered ? null : () => setState(() => _picked = Quicker.same),
+            onTap: answered
+                ? null
+                : () => setState(() => _picked = Quicker.same),
           ),
           if (answered) ...[
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE QUICKER ONE' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS THE QUICKER ONE'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],
@@ -354,7 +360,8 @@ class _Panel extends StatelessWidget {
                   bouncer: bouncer,
                   frame: frame,
                   pull: pull,
-                  label: '${bouncer.mass.round()} kg on '
+                  label:
+                      '${bouncer.mass.round()} kg on '
                       '${bouncer.stiffness.round()} N/m',
                 ),
                 child: const SizedBox.expand(),

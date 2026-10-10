@@ -21,8 +21,7 @@ class WhatDoesTheStormDoGame extends StatefulWidget {
   const WhatDoesTheStormDoGame({super.key});
 
   @override
-  State<WhatDoesTheStormDoGame> createState() =>
-      _WhatDoesTheStormDoGameState();
+  State<WhatDoesTheStormDoGame> createState() => _WhatDoesTheStormDoGameState();
 }
 
 /// What the storm does to the unit hydrograph.
@@ -30,12 +29,10 @@ enum Scaling { flows, times, another }
 
 extension ScalingWords on Scaling {
   String get plain => switch (this) {
-        Scaling.flows =>
-          'Multiply every flow, leave the times exactly as they are',
-        Scaling.times =>
-          'Leave the flows, stretch the times by the same factor',
-        Scaling.another => 'Neither: this needs a different unit hydrograph',
-      };
+    Scaling.flows => 'Multiply every flow, leave the times exactly as they are',
+    Scaling.times => 'Leave the flows, stretch the times by the same factor',
+    Scaling.another => 'Neither: this needs a different unit hydrograph',
+  };
 }
 
 @immutable
@@ -285,7 +282,8 @@ class _WhatDoesTheStormDoGameState extends State<WhatDoesTheStormDoGame> {
                     topFlow: answered && r.answer == Scaling.flows
                         ? null
                         : r.unit.peak * 1.18,
-                    note: '${_num(r.unitHours)} hour unit hydrograph, '
+                    note:
+                        '${_num(r.unitHours)} hour unit hydrograph, '
                         'peak ${_num(r.unit.peak)} cfs',
                   ),
                   child: const SizedBox.expand(),
@@ -308,7 +306,9 @@ class _WhatDoesTheStormDoGameState extends State<WhatDoesTheStormDoGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE WAY ACROSS' : 'NOT THAT WAY',
+              title: _session.correct!
+                  ? 'THAT IS THE WAY ACROSS'
+                  : 'NOT THAT WAY',
               body: r.why,
             ),
           ],

@@ -338,9 +338,7 @@ class _WhatGoesUnderGameState extends State<WhatGoesUnderGame> {
                     selected: _picked == i,
                     locked: answered,
                     isTruth: i == r.answer,
-                    onTap: answered
-                        ? null
-                        : () => setState(() => _picked = i),
+                    onTap: answered ? null : () => setState(() => _picked = i),
                   ),
                 ),
               ],
@@ -350,7 +348,9 @@ class _WhatGoesUnderGameState extends State<WhatGoesUnderGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE PIECE' : 'LOOK AT THE WIDTH',
+              title: _session.correct!
+                  ? 'THAT IS THE PIECE'
+                  : 'LOOK AT THE WIDTH',
               body: r.why,
             ),
           ],

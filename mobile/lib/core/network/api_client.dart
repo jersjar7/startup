@@ -13,14 +13,16 @@ import 'api_exception.dart';
 ///   route back to sign in ("Your session expired").
 class ApiClient {
   ApiClient() {
-    _dio = Dio(BaseOptions(
-      baseUrl: apiBaseUrl,
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 20),
-      headers: {'x-client': 'mobile'},
-      // We handle non-2xx ourselves so we can read the server's message.
-      validateStatus: (s) => s != null && s < 500,
-    ));
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: apiBaseUrl,
+        connectTimeout: const Duration(seconds: 15),
+        receiveTimeout: const Duration(seconds: 20),
+        headers: {'x-client': 'mobile'},
+        // We handle non-2xx ourselves so we can read the server's message.
+        validateStatus: (s) => s != null && s < 500,
+      ),
+    );
   }
 
   late final Dio _dio;
@@ -33,10 +35,11 @@ class ApiClient {
   void setToken(String? token) => _token = token;
 
   Options get _opts => Options(
-        headers: _token != null ? {'Authorization': 'Bearer $_token'} : null,
-      );
+    headers: _token != null ? {'Authorization': 'Bearer $_token'} : null,
+  );
 
-  Future<dynamic> get(String path) => _send(() => _dio.get(path, options: _opts));
+  Future<dynamic> get(String path) =>
+      _send(() => _dio.get(path, options: _opts));
 
   Future<dynamic> post(String path, [Map<String, dynamic>? body]) =>
       _send(() => _dio.post(path, data: body, options: _opts));

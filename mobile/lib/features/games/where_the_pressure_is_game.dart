@@ -21,8 +21,7 @@ class WhereThePressureIsGame extends StatefulWidget {
   const WhereThePressureIsGame({super.key});
 
   @override
-  State<WhereThePressureIsGame> createState() =>
-      _WhereThePressureIsGameState();
+  State<WhereThePressureIsGame> createState() => _WhereThePressureIsGameState();
 }
 
 @immutable
@@ -54,22 +53,25 @@ class RunRound {
 
 const _reducer = Run(bores: [Bore(millimeters: 200), Bore(millimeters: 100)]);
 
-const _venturi = Run(bores: [
-  Bore(millimeters: 200, share: 0.9),
-  Bore(millimeters: 90, share: 0.6),
-  Bore(millimeters: 200, share: 0.9),
-]);
+const _venturi = Run(
+  bores: [
+    Bore(millimeters: 200, share: 0.9),
+    Bore(millimeters: 90, share: 0.6),
+    Bore(millimeters: 200, share: 0.9),
+  ],
+);
 
-const _opening = Run(bores: [
-  Bore(millimeters: 120, share: 1),
-  Bore(millimeters: 250, share: 1),
-]);
+const _opening = Run(
+  bores: [Bore(millimeters: 120, share: 1), Bore(millimeters: 250, share: 1)],
+);
 
-const _threeStep = Run(bores: [
-  Bore(millimeters: 250, share: 0.8),
-  Bore(millimeters: 160, share: 0.8),
-  Bore(millimeters: 110, share: 0.8),
-]);
+const _threeStep = Run(
+  bores: [
+    Bore(millimeters: 250, share: 0.8),
+    Bore(millimeters: 160, share: 0.8),
+    Bore(millimeters: 110, share: 0.8),
+  ],
+);
 
 const pressureRounds = <RunRound>[
   RunRound(
@@ -234,8 +236,11 @@ class _WhereThePressureIsGameState extends State<WhereThePressureIsGame> {
                 onTapDown: answered
                     ? null
                     : (details) {
-                        final hit =
-                            RunPainter.at(size, r.run, details.localPosition);
+                        final hit = RunPainter.at(
+                          size,
+                          r.run,
+                          details.localPosition,
+                        );
                         if (hit != null) setState(() => _picked = hit);
                       },
                 child: EngineeringGrid(
@@ -261,10 +266,7 @@ class _WhereThePressureIsGameState extends State<WhereThePressureIsGame> {
           const SizedBox(height: 8),
           Text(
             answered
-                ? 'speeds: ${[
-                    for (var i = 0; i < r.run.bores.length; i++)
-                      '${i + 1} at ${r.run.speedAt(i).toStringAsFixed(1)}'
-                  ].join(', ')} m/s'
+                ? 'speeds: ${[for (var i = 0; i < r.run.bores.length; i++) '${i + 1} at ${r.run.speedAt(i).toStringAsFixed(1)}'].join(', ')} m/s'
                 : 'one flow, drawn to scale across every section',
             style: AppTheme.mono(size: 11, color: AppColors.ink3),
           ),

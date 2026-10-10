@@ -290,10 +290,7 @@ class _SectionRow extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: AppColors.charcoal,
-                ),
+                style: const TextStyle(fontSize: 15, color: AppColors.charcoal),
               ),
               const SizedBox(height: 2),
               Text(

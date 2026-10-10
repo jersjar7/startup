@@ -130,9 +130,12 @@ class BalancePainter extends CustomPainter {
   static const _padR = 16.0;
 
   static TextPainter _measure(String text, Color color) => TextPainter(
-        text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-        textDirection: TextDirection.ltr,
-      )..layout();
+    text: TextSpan(
+      text: text,
+      style: AppTheme.mono(size: 10, color: color),
+    ),
+    textDirection: TextDirection.ltr,
+  )..layout();
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -161,8 +164,10 @@ class BalancePainter extends CustomPainter {
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.3,
       );
-      _measure(label, AppColors.ink2)
-          .paint(canvas, Offset(padL - 8 - _measure(label, AppColors.ink2).width, y + 7));
+      _measure(label, AppColors.ink2).paint(
+        canvas,
+        Offset(padL - 8 - _measure(label, AppColors.ink2).width, y + 7),
+      );
     }
 
     // The line at the end of what goes out. Whether the top bar reaches it is
@@ -248,8 +253,14 @@ class DealPainter extends CustomPainter {
           ..strokeWidth = 1,
       );
     }
-    _write(canvas, 'year $periods', Offset(size.width - 4, axis + 5),
-        AppColors.ink3, align: -1, limit: size.width);
+    _write(
+      canvas,
+      'year $periods',
+      Offset(size.width - 4, axis + 5),
+      AppColors.ink3,
+      align: -1,
+      limit: size.width,
+    );
 
     for (final (n, a) in project.flows) {
       final x = _x(size, n);
@@ -285,10 +296,19 @@ class DealPainter extends CustomPainter {
     return '${s.substring(0, s.length - 3)},${s.substring(s.length - 3)}';
   }
 
-  void _write(Canvas canvas, String text, Offset at, Color color,
-      {int align = 0, double limit = 0}) {
+  void _write(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Color color, {
+    int align = 0,
+    double limit = 0,
+  }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     final dx = switch (align) {

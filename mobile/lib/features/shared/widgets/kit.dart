@@ -448,25 +448,25 @@ class XLField extends StatelessWidget {
                     ),
                   ),
                 TextField(
-              controller: controller,
-              keyboardType: keyboardType,
-              textCapitalization: textCapitalization,
-              obscureText: obscure,
-              autofocus: autofocus,
-              autocorrect: false,
-              enableSuggestions: !obscure,
-              autofillHints: autofillHints,
-              textInputAction: TextInputAction.done,
-              onSubmitted: onSubmitted,
-              cursorColor: accent,
-              style: style,
-              decoration: InputDecoration(
-                isDense: true,
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.fromLTRB(0, 8, 0, 10),
-                hintText: hintTail == null ? hint : null,
-                hintStyle: style.copyWith(color: AppColors.placeholder),
-              ),
+                  controller: controller,
+                  keyboardType: keyboardType,
+                  textCapitalization: textCapitalization,
+                  obscureText: obscure,
+                  autofocus: autofocus,
+                  autocorrect: false,
+                  enableSuggestions: !obscure,
+                  autofillHints: autofillHints,
+                  textInputAction: TextInputAction.done,
+                  onSubmitted: onSubmitted,
+                  cursorColor: accent,
+                  style: style,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.fromLTRB(0, 8, 0, 10),
+                    hintText: hintTail == null ? hint : null,
+                    hintStyle: style.copyWith(color: AppColors.placeholder),
+                  ),
                 ),
               ],
             ),
@@ -845,8 +845,7 @@ class _RollingHintState extends State<_RollingHint>
 
   @override
   Widget build(BuildContext context) {
-    final line =
-        (widget.style.fontSize ?? 30) * (widget.style.height ?? 1.2);
+    final line = (widget.style.fontSize ?? 30) * (widget.style.height ?? 1.2);
 
     return LayoutBuilder(
       builder: (context, box) {

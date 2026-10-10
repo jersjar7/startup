@@ -28,10 +28,10 @@ enum Credit { up, down, same }
 
 extension CreditWords on Credit {
   String get plain => switch (this) {
-        Credit.up => 'More credit: the CT goes up',
-        Credit.down => 'Less credit: the CT comes down',
-        Credit.same => 'No change to the credit',
-      };
+    Credit.up => 'More credit: the CT goes up',
+    Credit.down => 'Less credit: the CT comes down',
+    Credit.same => 'No change to the credit',
+  };
 }
 
 @immutable
@@ -277,7 +277,9 @@ class _WhatBuysTheCtGameState extends State<WhatBuysTheCtGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHAT IT DOES' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS WHAT IT DOES'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

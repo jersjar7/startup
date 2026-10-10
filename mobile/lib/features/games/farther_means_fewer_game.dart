@@ -16,8 +16,7 @@ class FartherMeansFewerGame extends StatefulWidget {
   const FartherMeansFewerGame({super.key});
 
   @override
-  State<FartherMeansFewerGame> createState() =>
-      _FartherMeansFewerGameState();
+  State<FartherMeansFewerGame> createState() => _FartherMeansFewerGameState();
 }
 
 @immutable
@@ -173,8 +172,7 @@ const frictionRounds = <FrictionRound>[
   ),
   FrictionRound(
     subject: 'the socioeconomic term',
-    asked:
-        'The formula also carries a K factor. What is it for?',
+    asked: 'The formula also carries a K factor. What is it for?',
     spread: _nearAndFar,
     options: [
       'It converts the units',
@@ -279,10 +277,7 @@ class _FartherMeansFewerGameState extends State<FartherMeansFewerGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: GravityPainter(
-                    spread: r.spread,
-                    answered: answered,
-                  ),
+                  painter: GravityPainter(spread: r.spread, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

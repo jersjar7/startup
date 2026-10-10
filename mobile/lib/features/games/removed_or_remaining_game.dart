@@ -20,8 +20,7 @@ class RemovedOrRemainingGame extends StatefulWidget {
   const RemovedOrRemainingGame({super.key});
 
   @override
-  State<RemovedOrRemainingGame> createState() =>
-      _RemovedOrRemainingGameState();
+  State<RemovedOrRemainingGame> createState() => _RemovedOrRemainingGameState();
 }
 
 /// What the required removal does when something changes.
@@ -29,10 +28,10 @@ enum Duty3 { up, down, same }
 
 extension Duty3Words on Duty3 {
   String get plain => switch (this) {
-        Duty3.up => 'The plant has to remove a larger share',
-        Duty3.down => 'The plant can get away with removing less',
-        Duty3.same => 'The required share does not change',
-      };
+    Duty3.up => 'The plant has to remove a larger share',
+    Duty3.down => 'The plant can get away with removing less',
+    Duty3.same => 'The required share does not change',
+  };
 }
 
 @immutable
@@ -278,7 +277,9 @@ class _RemovedOrRemainingGameState extends State<RemovedOrRemainingGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHAT IT DOES' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS WHAT IT DOES'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

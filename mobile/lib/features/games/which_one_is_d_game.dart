@@ -47,12 +47,12 @@ class DepthRound {
   Depth get answer => marked;
 
   static String label(Depth which) => switch (which) {
-        Depth.height => 'h, the overall height of the beam',
-        Depth.effective => 'd, the effective depth',
-        Depth.cover => 'the clear cover',
-        Depth.leverArm => 'd minus a over 2, the lever arm',
-        Depth.blockDepth => 'a, the depth of the compression block',
-      };
+    Depth.height => 'h, the overall height of the beam',
+    Depth.effective => 'd, the effective depth',
+    Depth.cover => 'the clear cover',
+    Depth.leverArm => 'd minus a over 2, the lever arm',
+    Depth.blockDepth => 'a, the depth of the compression block',
+  };
 }
 
 const rcDepthRounds = <DepthRound>[

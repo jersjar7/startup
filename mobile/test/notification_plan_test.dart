@@ -58,17 +58,20 @@ void main() {
       expect(dayOf(ofKind(plan, NotifyKind.daily).first.when), '2026-10-07');
     });
 
-    test('stops two days before the exam, because the last two are not for cramming', () {
-      final plan = notificationPlan(
-        now: at('2026-10-06T08:00:00'),
-        examDay: '2026-10-16',
-        lastStudyDay: null,
-      );
-      final daily = ofKind(plan, NotifyKind.daily);
-      expect(dayOf(daily.last.when), '2026-10-14'); // exam minus two
-      expect(daily.any((n) => dayOf(n.when) == '2026-10-15'), isFalse);
-      expect(daily.any((n) => dayOf(n.when) == '2026-10-16'), isFalse);
-    });
+    test(
+      'stops two days before the exam, because the last two are not for cramming',
+      () {
+        final plan = notificationPlan(
+          now: at('2026-10-06T08:00:00'),
+          examDay: '2026-10-16',
+          lastStudyDay: null,
+        );
+        final daily = ofKind(plan, NotifyKind.daily);
+        expect(dayOf(daily.last.when), '2026-10-14'); // exam minus two
+        expect(daily.any((n) => dayOf(n.when) == '2026-10-15'), isFalse);
+        expect(daily.any((n) => dayOf(n.when) == '2026-10-16'), isFalse);
+      },
+    );
 
     test('runs with no exam date at all, which is half the accounts', () {
       final plan = notificationPlan(
@@ -91,7 +94,10 @@ void main() {
         examDay: '2026-11-20',
         lastStudyDay: null,
       );
-      final days = ofKind(plan, NotifyKind.countdown).map((n) => dayOf(n.when)).toList();
+      final days = ofKind(
+        plan,
+        NotifyKind.countdown,
+      ).map((n) => dayOf(n.when)).toList();
       expect(days, ['2026-10-30', '2026-11-06', '2026-11-13', '2026-11-17']);
     });
 
@@ -113,7 +119,10 @@ void main() {
         examDay: '2026-11-20',
         lastStudyDay: null,
       );
-      final days = ofKind(plan, NotifyKind.countdown).map((n) => dayOf(n.when)).toList();
+      final days = ofKind(
+        plan,
+        NotifyKind.countdown,
+      ).map((n) => dayOf(n.when)).toList();
       expect(days, ['2026-11-17']); // only the three-day one is still ahead
     });
   });
@@ -149,7 +158,9 @@ void main() {
         examDay: '2026-11-20',
         lastStudyDay: null,
       );
-      final onThatDay = plan.where((n) => dayOf(n.when) == '2026-11-19').toList();
+      final onThatDay = plan
+          .where((n) => dayOf(n.when) == '2026-11-19')
+          .toList();
       expect(onThatDay.length, 1);
       expect(onThatDay.single.kind, NotifyKind.nightBefore);
     });
@@ -208,23 +219,38 @@ void main() {
   });
 
   group('identity', () {
-    test('re-arming the same plan reuses the same ids, so nothing doubles up', () {
-      final a = notificationPlan(
-        now: at('2026-10-06T08:00:00'), examDay: '2026-11-20', lastStudyDay: null);
-      final b = notificationPlan(
-        now: at('2026-10-06T09:30:00'), examDay: '2026-11-20', lastStudyDay: null);
-      expect(a.map((n) => n.id).toList(), b.map((n) => n.id).toList());
-    });
+    test(
+      're-arming the same plan reuses the same ids, so nothing doubles up',
+      () {
+        final a = notificationPlan(
+          now: at('2026-10-06T08:00:00'),
+          examDay: '2026-11-20',
+          lastStudyDay: null,
+        );
+        final b = notificationPlan(
+          now: at('2026-10-06T09:30:00'),
+          examDay: '2026-11-20',
+          lastStudyDay: null,
+        );
+        expect(a.map((n) => n.id).toList(), b.map((n) => n.id).toList());
+      },
+    );
 
     test('every id in a plan is unique', () {
       final plan = notificationPlan(
-        now: at('2026-10-06T08:00:00'), examDay: '2026-12-20', lastStudyDay: null);
+        now: at('2026-10-06T08:00:00'),
+        examDay: '2026-12-20',
+        lastStudyDay: null,
+      );
       expect(plan.map((n) => n.id).toSet().length, plan.length);
     });
 
     test('two kinds on the same day do not collide', () {
       final plan = notificationPlan(
-        now: at('2026-10-06T08:00:00'), examDay: '2026-10-27', lastStudyDay: null);
+        now: at('2026-10-06T08:00:00'),
+        examDay: '2026-10-27',
+        lastStudyDay: null,
+      );
       final ids = plan.map((n) => n.id).toSet();
       expect(ids.length, plan.length);
     });
@@ -235,14 +261,21 @@ void main() {
   group('robustness', () {
     test('a rubbish exam date is treated as no exam date', () {
       final plan = notificationPlan(
-        now: at('2026-10-06T08:00:00'), examDay: 'tomorrow', lastStudyDay: null, horizonDays: 3);
+        now: at('2026-10-06T08:00:00'),
+        examDay: 'tomorrow',
+        lastStudyDay: null,
+        horizonDays: 3,
+      );
       expect(ofKind(plan, NotifyKind.daily).length, 3);
       expect(ofKind(plan, NotifyKind.countdown), isEmpty);
     });
 
     test('an exam already in the past leaves only the outcome ask', () {
       final plan = notificationPlan(
-        now: at('2026-10-06T08:00:00'), examDay: '2026-10-02', lastStudyDay: null);
+        now: at('2026-10-06T08:00:00'),
+        examDay: '2026-10-02',
+        lastStudyDay: null,
+      );
       expect(ofKind(plan, NotifyKind.daily), isEmpty);
       expect(ofKind(plan, NotifyKind.countdown), isEmpty);
       expect(ofKind(plan, NotifyKind.nightBefore), isEmpty);
@@ -251,22 +284,34 @@ void main() {
 
     test('an exam long past leaves nothing', () {
       final plan = notificationPlan(
-        now: at('2026-10-06T08:00:00'), examDay: '2025-10-02', lastStudyDay: null);
+        now: at('2026-10-06T08:00:00'),
+        examDay: '2025-10-02',
+        lastStudyDay: null,
+      );
       expect(plan, isEmpty);
     });
 
     test('the plan comes back in time order', () {
       final plan = notificationPlan(
-        now: at('2026-10-06T08:00:00'), examDay: '2026-11-20', lastStudyDay: null);
+        now: at('2026-10-06T08:00:00'),
+        examDay: '2026-11-20',
+        lastStudyDay: null,
+      );
       for (var i = 1; i < plan.length; i++) {
-        expect(plan[i].when.isAfter(plan[i - 1].when) ||
-            plan[i].when.isAtSameMomentAs(plan[i - 1].when), isTrue);
+        expect(
+          plan[i].when.isAfter(plan[i - 1].when) ||
+              plan[i].when.isAtSameMomentAs(plan[i - 1].when),
+          isTrue,
+        );
       }
     });
 
     test('every notification carries words, not a placeholder', () {
       final plan = notificationPlan(
-        now: at('2026-10-06T08:00:00'), examDay: '2026-11-20', lastStudyDay: null);
+        now: at('2026-10-06T08:00:00'),
+        examDay: '2026-11-20',
+        lastStudyDay: null,
+      );
       for (final n in plan) {
         expect(n.title.trim(), isNotEmpty);
         expect(n.body.trim().length, greaterThan(20));
@@ -296,15 +341,25 @@ void _dstSweep() {
             examDay: dayOf(DateTime(now.year, now.month, now.day + span)),
             lastStudyDay: null,
           );
-          expect(plan.map((n) => n.id).toSet().length, plan.length,
-              reason: '$start +$span: duplicate id');
-          expect(respectsDailyCap(plan), isTrue, reason: '$start +$span: over cap');
+          expect(
+            plan.map((n) => n.id).toSet().length,
+            plan.length,
+            reason: '$start +$span: duplicate id',
+          );
+          expect(
+            respectsDailyCap(plan),
+            isTrue,
+            reason: '$start +$span: over cap',
+          );
           final dailyDays = plan
               .where((n) => n.kind == NotifyKind.daily)
               .map((n) => dayOf(n.when))
               .toList();
-          expect(dailyDays.toSet().length, dailyDays.length,
-              reason: '$start +$span: a day got two nudges');
+          expect(
+            dailyDays.toSet().length,
+            dailyDays.length,
+            reason: '$start +$span: a day got two nudges',
+          );
         }
       });
     }

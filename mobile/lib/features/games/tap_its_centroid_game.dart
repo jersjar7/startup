@@ -293,8 +293,7 @@ class _Shape extends StatelessWidget {
                       child: const SizedBox.expand(),
                     ),
                   ),
-                  for (var i = 0; i < round.spots.length; i++)
-                    _target(i, size),
+                  for (var i = 0; i < round.spots.length; i++) _target(i, size),
                 ],
               );
             },
@@ -305,8 +304,7 @@ class _Shape extends StatelessWidget {
   }
 
   Widget _target(int i, Size size) {
-    final at =
-        ProfilePainter.toScreen(round.profile, round.spots[i], size);
+    final at = ProfilePainter.toScreen(round.profile, round.spots[i], size);
     const box = 46.0;
     return Positioned(
       key: ValueKey('spot-$i'),

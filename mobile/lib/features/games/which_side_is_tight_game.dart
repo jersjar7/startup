@@ -255,7 +255,9 @@ class _WhichSideIsTightGameState extends State<WhichSideIsTightGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE TIGHT SIDE' : 'THE OTHER END',
+              title: _session.correct!
+                  ? 'THAT IS THE TIGHT SIDE'
+                  : 'THE OTHER END',
               body: r.why,
             ),
           ],

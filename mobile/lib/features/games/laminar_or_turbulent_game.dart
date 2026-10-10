@@ -18,8 +18,7 @@ class LaminarOrTurbulentGame extends StatefulWidget {
   const LaminarOrTurbulentGame({super.key});
 
   @override
-  State<LaminarOrTurbulentGame> createState() =>
-      _LaminarOrTurbulentGameState();
+  State<LaminarOrTurbulentGame> createState() => _LaminarOrTurbulentGameState();
 }
 
 /// What a Reynolds number means for the flow.
@@ -27,10 +26,10 @@ enum Regime { laminar, between, turbulent }
 
 extension RegimeWords on Regime {
   String get plain => switch (this) {
-        Regime.laminar => 'Laminar: under 2,100',
-        Regime.between => 'In between: 2,100 to 10,000',
-        Regime.turbulent => 'Fully turbulent: over 10,000',
-      };
+    Regime.laminar => 'Laminar: under 2,100',
+    Regime.between => 'In between: 2,100 to 10,000',
+    Regime.turbulent => 'Fully turbulent: over 10,000',
+  };
 
   /// The regime a Reynolds number falls in, from the lesson's own
   /// thresholds.

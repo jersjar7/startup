@@ -33,8 +33,10 @@ class _Api extends ApiClient {
   }
 
   @override
-  Future<dynamic> get(String path) async =>
-      <String, dynamic>{'email': 'fixed@school.edu', 'emailVerified': false};
+  Future<dynamic> get(String path) async => <String, dynamic>{
+    'email': 'fixed@school.edu',
+    'emailVerified': false,
+  };
 }
 
 AuthController _auth(_Api api, {bool verified = false}) =>
@@ -127,7 +129,9 @@ void main() {
       expect(find.text('Password is incorrect.'), findsOneWidget);
     });
 
-    testWidgets('stays put and keeps what was typed when it refuses', (t) async {
+    testWidgets('stays put and keeps what was typed when it refuses', (
+      t,
+    ) async {
       // A wrong password must not cost them the address they just typed.
       var done = false;
       final auth = _auth(_Api(failWith: 'Password is incorrect.'));
@@ -148,7 +152,9 @@ void main() {
       expect(find.textContaining('send a link to the new'), findsOneWidget);
     });
 
-    testWidgets('offers a way back when it is a page inside the sheet', (t) async {
+    testWidgets('offers a way back when it is a page inside the sheet', (
+      t,
+    ) async {
       final auth = _auth(_Api());
       await t.pumpWidget(_host(auth, EmailEditor(auth: auth, onDone: () {})));
       await t.pumpAndSettle();

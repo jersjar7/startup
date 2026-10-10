@@ -186,8 +186,9 @@ class _ProfileTabState extends State<ProfileTab> {
                     mastery: snap.data == null ? null : totalsOf(snap.data!),
                     onSetExamDate: () => Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) =>
-                            ExamDateScreen(initial: user['examDate'] as String?),
+                        builder: (_) => ExamDateScreen(
+                          initial: user['examDate'] as String?,
+                        ),
                       ),
                     ),
                     onDone: () => setState(() => _outcomeDone = true),

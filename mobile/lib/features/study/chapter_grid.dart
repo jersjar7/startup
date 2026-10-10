@@ -70,12 +70,14 @@ class _Tile extends StatelessWidget {
         .length;
     final started = done > 0 || progress.hasTouched(chapter);
 
-    final markColor = isCurrent || started ? AppColors.charcoal : AppColors.ink2;
+    final markColor = isCurrent || started
+        ? AppColors.charcoal
+        : AppColors.ink2;
     final countColor = isCurrent
         ? AppColors.charcoal
         : done > 0
-            ? AppColors.forest
-            : AppColors.ink2;
+        ? AppColors.forest
+        : AppColors.ink2;
 
     return Material(
       color: isCurrent ? AppColors.spring : AppColors.cream,
@@ -106,7 +108,11 @@ class _Tile extends StatelessWidget {
               const SizedBox(height: 3),
               Text(
                 '$done/$total',
-                style: AppTheme.mono(size: 10, weight: FontWeight.w600, color: countColor),
+                style: AppTheme.mono(
+                  size: 10,
+                  weight: FontWeight.w600,
+                  color: countColor,
+                ),
               ),
             ],
           ),

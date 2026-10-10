@@ -51,12 +51,13 @@ const limitRounds = <LimitRound>[
         'This bar is bolted at one end through two holes. Which area does the '
         'YIELDING check use?',
     tie: Tie(
-        width: 8,
-        thickness: 0.5,
-        holes: 2,
-        boltDiameter: 0.75,
-        fy: 50,
-        fu: 65),
+      width: 8,
+      thickness: 0.5,
+      holes: 2,
+      boltDiameter: 0.75,
+      fy: 50,
+      fu: 65,
+    ),
     options: [
       'The gross area, with nothing taken off for the holes',
       'The area left after the holes are taken off',
@@ -77,12 +78,13 @@ const limitRounds = <LimitRound>[
     subject: 'the rupture check',
     asked: 'And which area does the RUPTURE check use?',
     tie: Tie(
-        width: 8,
-        thickness: 0.5,
-        holes: 2,
-        boltDiameter: 0.75,
-        fy: 50,
-        fu: 65),
+      width: 8,
+      thickness: 0.5,
+      holes: 2,
+      boltDiameter: 0.75,
+      fy: 50,
+      fu: 65,
+    ),
     options: [
       'The effective net area, through the line of holes',
       'The gross area, since the bolts fill the holes',
@@ -100,15 +102,15 @@ const limitRounds = <LimitRound>[
   ),
   LimitRound(
     subject: 'the two factors',
-    asked:
-        'Which reduction factor goes with each check?',
+    asked: 'Which reduction factor goes with each check?',
     tie: Tie(
-        width: 8,
-        thickness: 0.5,
-        holes: 2,
-        boltDiameter: 0.75,
-        fy: 50,
-        fu: 65),
+      width: 8,
+      thickness: 0.5,
+      holes: 2,
+      boltDiameter: 0.75,
+      fy: 50,
+      fu: 65,
+    ),
     options: [
       'Yielding 0.90 and rupture 0.75',
       'Yielding 0.75 and rupture 0.90',
@@ -130,12 +132,13 @@ const limitRounds = <LimitRound>[
         'This bar works out at 180 kips for yielding and 152 for rupture. '
         'What is the member worth?',
     tie: Tie(
-        width: 8,
-        thickness: 0.5,
-        holes: 2,
-        boltDiameter: 0.75,
-        fy: 50,
-        fu: 65),
+      width: 8,
+      thickness: 0.5,
+      holes: 2,
+      boltDiameter: 0.75,
+      fy: 50,
+      fu: 65,
+    ),
     options: [
       '152 kips: the smaller of the two, and rupture controls',
       '180 kips: yielding is the proper limit state for a tension member',
@@ -156,12 +159,13 @@ const limitRounds = <LimitRound>[
         'A welded bar with no holes anywhere. Is there still a rupture check '
         'to do?',
     tie: Tie(
-        width: 6,
-        thickness: 0.5,
-        holes: 0,
-        boltDiameter: 0.75,
-        fy: 36,
-        fu: 58),
+      width: 6,
+      thickness: 0.5,
+      holes: 0,
+      boltDiameter: 0.75,
+      fy: 36,
+      fu: 58,
+    ),
     options: [
       'Yes, with the net area equal to the gross, and yielding will control',
       'No: with no holes there is nothing to rupture',
@@ -183,12 +187,13 @@ const limitRounds = <LimitRound>[
         'The ultimate stress is well above the yield stress. So how does '
         'rupture ever control?',
     tie: Tie(
-        width: 8,
-        thickness: 0.5,
-        holes: 2,
-        boltDiameter: 0.75,
-        fy: 50,
-        fu: 65),
+      width: 8,
+      thickness: 0.5,
+      holes: 2,
+      boltDiameter: 0.75,
+      fy: 50,
+      fu: 65,
+    ),
     options: [
       'Two things work against it: the holes take area away, and its factor '
           'is the smaller one',

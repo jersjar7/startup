@@ -189,9 +189,10 @@ class BeamPainter extends CustomPainter {
         ..close();
       canvas.drawPath(
         wedge,
-        Paint()..color = picked == i || isTruth
-            ? color
-            : color.withValues(alpha: 0.22),
+        Paint()
+          ..color = picked == i || isTruth
+              ? color
+              : color.withValues(alpha: 0.22),
       );
       canvas.drawPath(
         wedge,
@@ -218,7 +219,10 @@ class BeamPainter extends CustomPainter {
     int align = 0,
   }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     final dx = switch (align) {
@@ -280,17 +284,11 @@ class SigmaTrianglePainter extends CustomPainter {
       (size.height - _padT - _padB) / up,
     );
 
-    final left = math.max(
-      _padL,
-      (size.width - flat * scale) / 2,
-    );
+    final left = math.max(_padL, (size.width - flat * scale) / 2);
     // Centerd in both directions. Anchored to the bottom, a wide flat pair of
     // spreads sat in the lower third with the top of the box empty.
     final room = size.height - _padT - _padB;
-    final corner = Offset(
-      left,
-      _padT + (room + up * scale) / 2,
-    );
+    final corner = Offset(left, _padT + (room + up * scale) / 2);
     final along = corner + Offset(flat * scale, 0);
     final rise = corner + Offset(0, -up * scale);
 
@@ -344,7 +342,10 @@ class SigmaTrianglePainter extends CustomPainter {
     Color color = AppColors.ink3,
   }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 11, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 11, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     tp.paint(canvas, at - Offset(tp.width / 2, 0));

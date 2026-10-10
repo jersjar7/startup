@@ -370,10 +370,7 @@ class _Body extends StatelessWidget {
       decoration: const BoxDecoration(
         border: Border(top: BorderSide(color: AppColors.line)),
       ),
-      child: Text(
-        text,
-        style: AppTheme.mono(size: 14, color: AppColors.ink2),
-      ),
+      child: Text(text, style: AppTheme.mono(size: 14, color: AppColors.ink2)),
     );
   }
 }

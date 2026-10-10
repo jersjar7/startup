@@ -18,9 +18,9 @@ class ChapterBand {
   final List<String> chapterIds;
 
   List<ChapterMap> get chapters => [
-        for (final id in chapterIds)
-          if (chapterMaps[id] != null) chapterMaps[id]!,
-      ];
+    for (final id in chapterIds)
+      if (chapterMaps[id] != null) chapterMaps[id]!,
+  ];
 
   /// "23-35 q", summed from the chapters in the band.
   String get examRange {
@@ -78,9 +78,7 @@ const chapterBands = <ChapterBand>[
 /// a card to three lines and make its whole row taller: "Mathematics &
 /// Computational Tools". On a card, where the number and the drawing already
 /// say which chapter this is, the first word is enough.
-const chapterCardNames = <String, String>{
-  'mathematics': 'Mathematics',
-};
+const chapterCardNames = <String, String>{'mathematics': 'Mathematics'};
 
 String cardNameFor(ChapterMap chapter) =>
     chapterCardNames[chapter.id] ?? chapter.name;

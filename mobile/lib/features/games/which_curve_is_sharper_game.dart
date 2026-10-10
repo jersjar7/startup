@@ -30,10 +30,10 @@ enum Sharper { left, right, same }
 
 extension SharperWords on Sharper {
   String get plain => switch (this) {
-        Sharper.left => 'Curve A',
-        Sharper.right => 'Curve B',
-        Sharper.same => 'Neither: the same curve',
-      };
+    Sharper.left => 'Curve A',
+    Sharper.right => 'Curve B',
+    Sharper.same => 'Neither: the same curve',
+  };
 }
 
 @immutable
@@ -70,8 +70,7 @@ class SharpRound {
   Bend2 get tighter => leftIsWider ? right : left;
 
   /// The names in the order the drawing puts them: wider first.
-  (String, String) get namesInOrder =>
-      leftIsWider ? ('A', 'B') : ('B', 'A');
+  (String, String) get namesInOrder => leftIsWider ? ('A', 'B') : ('B', 'A');
 
   /// Worked out from the two radii, never declared. Sharper is smaller.
   Sharper get answer {
@@ -114,8 +113,7 @@ const sharpRounds = <SharpRound>[
   ),
   SharpRound(
     subject: 'one of each, and they match',
-    setting:
-        'The left is quoted by degree of curve and the right by radius.',
+    setting: 'The left is quoted by degree of curve and the right by radius.',
     left: Bend2(radius: 5729.58, turn: 30),
     right: Bend2(radius: 5730, turn: 30),
     leftLabel: 'D 1 degree',
@@ -130,8 +128,7 @@ const sharpRounds = <SharpRound>[
   ),
   SharpRound(
     subject: 'the lesson\'s own curve, twice',
-    setting:
-        'The left is quoted by degree of curve, the right by radius.',
+    setting: 'The left is quoted by degree of curve, the right by radius.',
     left: Bend2(radius: 954.93, turn: 40),
     right: Bend2(radius: 955, turn: 40),
     leftLabel: 'D 6 degrees',
@@ -275,10 +272,14 @@ class _WhichCurveIsSharperGameState extends State<WhichCurveIsSharperGame> {
                     names: r.namesInOrder,
                     pickedCurve: _picked == null || _picked == Sharper.same
                         ? null
-                        : (_picked == Sharper.left) == r.leftIsWider ? 0 : 1,
+                        : (_picked == Sharper.left) == r.leftIsWider
+                        ? 0
+                        : 1,
                     answerCurve: !answered || r.answer == Sharper.same
                         ? null
-                        : (r.answer == Sharper.left) == r.leftIsWider ? 0 : 1,
+                        : (r.answer == Sharper.left) == r.leftIsWider
+                        ? 0
+                        : 1,
                     locked: answered,
                     label: '${r.leftLabel} and ${r.rightLabel}',
                   ),
@@ -300,14 +301,17 @@ class _WhichCurveIsSharperGameState extends State<WhichCurveIsSharperGame> {
             selected: _picked == Sharper.same,
             locked: answered,
             isTruth: r.answer == Sharper.same,
-            onTap:
-                answered ? null : () => setState(() => _picked = Sharper.same),
+            onTap: answered
+                ? null
+                : () => setState(() => _picked = Sharper.same),
           ),
           if (answered) ...[
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE TIGHTER ONE' : 'THE OTHER ONE',
+              title: _session.correct!
+                  ? 'THAT IS THE TIGHTER ONE'
+                  : 'THE OTHER ONE',
               body: r.why,
             ),
           ],

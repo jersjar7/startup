@@ -13,16 +13,16 @@ enum Stuff { steel, concrete, aluminum }
 extension StuffFacts on Stuff {
   /// Per degree Celsius, from the lesson's own list.
   double get alpha => switch (this) {
-        Stuff.steel => 11.7e-6,
-        Stuff.concrete => 10e-6,
-        Stuff.aluminum => 23e-6,
-      };
+    Stuff.steel => 11.7e-6,
+    Stuff.concrete => 10e-6,
+    Stuff.aluminum => 23e-6,
+  };
 
   String get plain => switch (this) {
-        Stuff.steel => 'steel',
-        Stuff.concrete => 'concrete',
-        Stuff.aluminum => 'aluminum',
-      };
+    Stuff.steel => 'steel',
+    Stuff.concrete => 'concrete',
+    Stuff.aluminum => 'aluminum',
+  };
 }
 
 /// One member warming or cooling.
@@ -88,8 +88,7 @@ class MemberPainter extends CustomPainter {
   static const _right = 84.0;
 
   /// The middle of each row.
-  static double rowY(Size size, int i) =>
-      size.height * (i + 0.5) / 3;
+  static double rowY(Size size, int i) => size.height * (i + 0.5) / 3;
 
   /// Which row a tap landed in.
   static int? rowAt(Size size, Offset tap) {
@@ -138,7 +137,9 @@ class MemberPainter extends CustomPainter {
       final bar = Rect.fromLTWH(_left, y - 9, long, 18);
       canvas
         ..drawRect(
-            bar, Paint()..color = AppColors.sunbeam.withValues(alpha: 0.3))
+          bar,
+          Paint()..color = AppColors.sunbeam.withValues(alpha: 0.3),
+        )
         ..drawRect(
           bar,
           Paint()
@@ -151,8 +152,7 @@ class MemberPainter extends CustomPainter {
       // question is still open it IS the answer, and the item would be a
       // matter of spotting the longest arrow rather than of knowing what
       // decides it.
-      final grew =
-          (!locked || biggest <= 0) ? 0.0 : 34 * m.travel / biggest;
+      final grew = (!locked || biggest <= 0) ? 0.0 : 34 * m.travel / biggest;
       final way = m.movement < 0 ? -1.0 : 1.0;
       final tip = bar.right + grew * way;
       canvas.drawLine(
@@ -187,15 +187,24 @@ class MemberPainter extends CustomPainter {
 
   void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
     final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = at.dx;
     if (x + painter.width > size.width - 3) x = size.width - 3 - painter.width;
     final patch = Rect.fromLTWH(
-        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
+      x - 2,
+      at.dy - 1,
+      painter.width + 4,
+      painter.height + 2,
+    );
     canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.88));
+      patch,
+      Paint()..color = AppColors.cream.withValues(alpha: 0.88),
+    );
     painter.paint(canvas, Offset(x, at.dy));
   }
 
@@ -212,11 +221,11 @@ enum Comes { hardBrittle, softDuctile, hardTough, unchanged }
 
 extension ComesWords on Comes {
   String get plain => switch (this) {
-        Comes.hardBrittle => 'Hard and brittle: martensite',
-        Comes.softDuctile => 'Soft and ductile: ferrite and cementite',
-        Comes.hardTough => 'Still hard, no longer brittle: tempered martensite',
-        Comes.unchanged => 'No change: it was never hot enough',
-      };
+    Comes.hardBrittle => 'Hard and brittle: martensite',
+    Comes.softDuctile => 'Soft and ductile: ferrite and cementite',
+    Comes.hardTough => 'Still hard, no longer brittle: tempered martensite',
+    Comes.unchanged => 'No change: it was never hot enough',
+  };
 }
 
 /// A heat treatment, as the temperature the steel is at over time.
@@ -266,8 +275,12 @@ class CoolPainter extends CustomPainter {
       Rect.fromLTRB(box.left, y(ceiling), box.right, y(Cool.austenite)),
       Paint()..color = AppColors.ember.withValues(alpha: 0.1),
     );
-    _write(canvas, 'austenite', Offset(box.left + 4, y(ceiling) + 2),
-        AppColors.ember);
+    _write(
+      canvas,
+      'austenite',
+      Offset(box.left + 4, y(ceiling) + 2),
+      AppColors.ember,
+    );
     canvas.drawLine(
       Offset(box.left, y(Cool.austenite)),
       Offset(box.right, y(Cool.austenite)),
@@ -285,8 +298,12 @@ class CoolPainter extends CustomPainter {
     _write(canvas, '900', Offset(2, y(900) - 6), AppColors.ink3);
     _write(canvas, '727', Offset(2, y(Cool.austenite) - 6), AppColors.ink3);
     _write(canvas, 'room', Offset(2, y(20) - 6), AppColors.ink3);
-    _write(canvas, 'time', Offset(box.right - 28, box.bottom + 4),
-        AppColors.ink3);
+    _write(
+      canvas,
+      'time',
+      Offset(box.right - 28, box.bottom + 4),
+      AppColors.ink3,
+    );
 
     final path = Path();
     for (var i = 0; i < cool.legs.length; i++) {
@@ -305,9 +322,12 @@ class CoolPainter extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 9.5, color: color),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }
@@ -321,20 +341,16 @@ enum Arm { toSolid, toLiquid, whole }
 
 extension ArmWords on Arm {
   String get plain => switch (this) {
-        Arm.toSolid => 'the arm back to the solid boundary',
-        Arm.toLiquid => 'the arm out to the liquid boundary',
-        Arm.whole => 'the whole tie line',
-      };
+    Arm.toSolid => 'the arm back to the solid boundary',
+    Arm.toLiquid => 'the arm out to the liquid boundary',
+    Arm.whole => 'the whole tie line',
+  };
 }
 
 /// A tie line across a two phase region.
 @immutable
 class Tie {
-  const Tie({
-    required this.solid,
-    required this.overall,
-    required this.liquid,
-  });
+  const Tie({required this.solid, required this.overall, required this.liquid});
 
   /// Weight percent of B: the solid boundary, where the alloy actually sits,
   /// and the liquid boundary.
@@ -385,13 +401,25 @@ class TiePainter extends CustomPainter {
       // The two arms meet at the alloy, so each gives up three pixels there:
       // one long bar with a hairline in it does not read as two choices.
       Arm.toSolid => Rect.fromLTRB(
-          xOf(size, tie.solid), y - 30, xOf(size, tie.overall) - 3, y - 14),
+        xOf(size, tie.solid),
+        y - 30,
+        xOf(size, tie.overall) - 3,
+        y - 14,
+      ),
       Arm.toLiquid => Rect.fromLTRB(
-          xOf(size, tie.overall) + 3, y - 30, xOf(size, tie.liquid), y - 14),
+        xOf(size, tie.overall) + 3,
+        y - 30,
+        xOf(size, tie.liquid),
+        y - 14,
+      ),
       // The whole of it sits well below the line, so three bars in a stack
       // cannot be mistaken for three arms.
       Arm.whole => Rect.fromLTRB(
-          xOf(size, tie.solid), y + 24, xOf(size, tie.liquid), y + 40),
+        xOf(size, tie.solid),
+        y + 24,
+        xOf(size, tie.liquid),
+        y + 40,
+      ),
     };
   }
 
@@ -415,17 +443,29 @@ class TiePainter extends CustomPainter {
       ..drawLine(box.bottomLeft, box.bottomRight, axis)
       ..drawLine(box.bottomLeft, box.topLeft, axis);
     _write(canvas, 'T', const Offset(2, 14), AppColors.ink3);
-    _write(canvas, 'percent B', Offset(box.right - 52, box.bottom + 26),
-        AppColors.ink3);
+    _write(
+      canvas,
+      'percent B',
+      Offset(box.right - 52, box.bottom + 26),
+      AppColors.ink3,
+    );
 
     // The two boundaries this tie line runs between, drawn as the curves they
     // are so the picture is a phase diagram and not just a number line.
     _boundary(canvas, size, box, tie.solid, true);
     _boundary(canvas, size, box, tie.liquid, false);
-    _write(canvas, 'solid', Offset(xOf(size, tie.solid) - 34, y - 44),
-        AppColors.ink3);
-    _write(canvas, 'liquid', Offset(xOf(size, tie.liquid) + 6, y - 44),
-        AppColors.ink3);
+    _write(
+      canvas,
+      'solid',
+      Offset(xOf(size, tie.solid) - 34, y - 44),
+      AppColors.ink3,
+    );
+    _write(
+      canvas,
+      'liquid',
+      Offset(xOf(size, tie.liquid) + 6, y - 44),
+      AppColors.ink3,
+    );
 
     canvas.drawLine(
       Offset(xOf(size, tie.solid), y),
@@ -436,7 +476,10 @@ class TiePainter extends CustomPainter {
     );
     for (final at in [tie.solid, tie.overall, tie.liquid]) {
       canvas.drawCircle(
-          Offset(xOf(size, at), y), 4, Paint()..color = AppColors.charcoal);
+        Offset(xOf(size, at), y),
+        4,
+        Paint()..color = AppColors.charcoal,
+      );
     }
     // The middle tick drops a row, because three labels on one line run into
     // each other as soon as two compositions are close.
@@ -466,19 +509,30 @@ class TiePainter extends CustomPainter {
           Paint()
             ..color = tone
             ..style = PaintingStyle.stroke
-            ..strokeWidth = picked == arm || (locked && answer == arm) ? 2.2 : 1.2,
+            ..strokeWidth = picked == arm || (locked && answer == arm)
+                ? 2.2
+                : 1.2,
         );
     }
   }
 
   /// A boundary curve through the composition it has at this temperature.
   void _boundary(
-      Canvas canvas, Size size, Rect box, double at, bool leaningLeft) {
+    Canvas canvas,
+    Size size,
+    Rect box,
+    double at,
+    bool leaningLeft,
+  ) {
     final x = xOf(size, at);
     final path = Path()
       ..moveTo(x - (leaningLeft ? 16 : -16), box.top)
-      ..quadraticBezierTo(x, box.center.dy, x + (leaningLeft ? 22 : -22),
-          box.bottom);
+      ..quadraticBezierTo(
+        x,
+        box.center.dy,
+        x + (leaningLeft ? 22 : -22),
+        box.bottom,
+      );
     canvas.drawPath(
       path,
       Paint()
@@ -499,8 +553,9 @@ class TiePainter extends CustomPainter {
     );
     final painter = TextPainter(
       text: TextSpan(
-          text: '$name\n${at.round()}',
-          style: AppTheme.mono(size: 9, color: AppColors.ink3)),
+        text: '$name\n${at.round()}',
+        style: AppTheme.mono(size: 9, color: AppColors.ink3),
+      ),
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
     )..layout();
@@ -514,9 +569,12 @@ class TiePainter extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 9.5, color: color),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }

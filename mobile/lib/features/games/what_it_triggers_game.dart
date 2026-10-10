@@ -236,10 +236,7 @@ class _WhatItTriggersGameState extends State<WhatItTriggersGame> {
           ],
           if (answered) ...[
             const SizedBox(height: 16),
-            Text(
-              'THE RULE',
-              style: AppTheme.overline(color: AppColors.ink3),
-            ),
+            Text('THE RULE', style: AppTheme.overline(color: AppColors.ink3)),
             const SizedBox(height: 4),
             Text(r.rule, style: AppTheme.code(size: 13)),
             const SizedBox(height: 14),

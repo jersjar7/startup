@@ -30,10 +30,10 @@ enum Better { left, right, same }
 
 extension BetterWords on Better {
   String get plain => switch (this) {
-        Better.left => 'The left one',
-        Better.right => 'The right one',
-        Better.same => 'Neither: the same precision',
-      };
+    Better.left => 'The left one',
+    Better.right => 'The right one',
+    Better.same => 'Neither: the same precision',
+  };
 }
 
 @immutable
@@ -69,8 +69,16 @@ const closedRounds = <ClosedRound>[
     setting:
         'Both finished 0.10 meters out. The left runs 1,000 meters round and '
         'the right 400.',
-    left: Trip(lengths: [250, 250, 250, 250], driftNorth: 0.08, driftEast: -0.06),
-    right: Trip(lengths: [100, 100, 100, 100], driftNorth: 0.08, driftEast: -0.06),
+    left: Trip(
+      lengths: [250, 250, 250, 250],
+      driftNorth: 0.08,
+      driftEast: -0.06,
+    ),
+    right: Trip(
+      lengths: [100, 100, 100, 100],
+      driftNorth: 0.08,
+      driftEast: -0.06,
+    ),
     why:
         'The left one, at 1 in 10,000 against 1 in 4,000. The same gap is '
         'worse work on the smaller job, because there was less traverse to '
@@ -83,8 +91,16 @@ const closedRounds = <ClosedRound>[
     setting:
         'Both run 800 meters round. The left finished 0.05 out, the right '
         '0.20.',
-    left: Trip(lengths: [200, 200, 200, 200], driftNorth: 0.03, driftEast: 0.04),
-    right: Trip(lengths: [200, 200, 200, 200], driftNorth: 0.12, driftEast: 0.16),
+    left: Trip(
+      lengths: [200, 200, 200, 200],
+      driftNorth: 0.03,
+      driftEast: 0.04,
+    ),
+    right: Trip(
+      lengths: [200, 200, 200, 200],
+      driftNorth: 0.12,
+      driftEast: 0.16,
+    ),
     why:
         'The left one, four times the precision for a quarter of the gap. '
         'Hold the perimeter still and the comparison is just the closures, '
@@ -97,8 +113,16 @@ const closedRounds = <ClosedRound>[
     setting:
         'The right is the left at twice the size: twice round and twice the '
         'gap.',
-    left: Trip(lengths: [150, 150, 150, 150], driftNorth: 0.048, driftEast: 0.064),
-    right: Trip(lengths: [300, 300, 300, 300], driftNorth: 0.096, driftEast: 0.128),
+    left: Trip(
+      lengths: [150, 150, 150, 150],
+      driftNorth: 0.048,
+      driftEast: 0.064,
+    ),
+    right: Trip(
+      lengths: [300, 300, 300, 300],
+      driftNorth: 0.096,
+      driftEast: 0.128,
+    ),
     why:
         'Neither: the same precision, 1 in 7,500 each. Double the gap over '
         'double the distance is the same ratio, and that is exactly why the '
@@ -112,7 +136,11 @@ const closedRounds = <ClosedRound>[
         'The left is a 60 meter lot that closed 0.01 out. The right is 3,000 '
         'meters of control that closed 0.30 out.',
     left: Trip(lengths: [15, 15, 15, 15], driftNorth: 0.006, driftEast: 0.008),
-    right: Trip(lengths: [750, 750, 750, 750], driftNorth: 0.18, driftEast: 0.24),
+    right: Trip(
+      lengths: [750, 750, 750, 750],
+      driftNorth: 0.18,
+      driftEast: 0.24,
+    ),
     why:
         'The right one, 1 in 10,000 against 1 in 6,000, even though its gap '
         'is thirty times bigger. This is the whole reason precision is '
@@ -126,8 +154,16 @@ const closedRounds = <ClosedRound>[
     setting:
         'The left runs 500 meters and closed 0.05. The right runs 2,000 and '
         'closed 0.10.',
-    left: Trip(lengths: [125, 125, 125, 125], driftNorth: 0.03, driftEast: 0.04),
-    right: Trip(lengths: [500, 500, 500, 500], driftNorth: 0.06, driftEast: 0.08),
+    left: Trip(
+      lengths: [125, 125, 125, 125],
+      driftNorth: 0.03,
+      driftEast: 0.04,
+    ),
+    right: Trip(
+      lengths: [500, 500, 500, 500],
+      driftNorth: 0.06,
+      driftEast: 0.08,
+    ),
     why:
         'The right one, 1 in 20,000 against 1 in 10,000. Four times the '
         'distance for only twice the gap is twice the precision. Work the '
@@ -140,8 +176,16 @@ const closedRounds = <ClosedRound>[
     setting:
         'One is two long courses and two short ones, the other is four '
         'equal. Same perimeter of 1,200 meters, and both finished 0.12 out.',
-    left: Trip(lengths: [500, 100, 500, 100], driftNorth: 0.072, driftEast: 0.096),
-    right: Trip(lengths: [300, 300, 300, 300], driftNorth: 0.072, driftEast: 0.096),
+    left: Trip(
+      lengths: [500, 100, 500, 100],
+      driftNorth: 0.072,
+      driftEast: 0.096,
+    ),
+    right: Trip(
+      lengths: [300, 300, 300, 300],
+      driftNorth: 0.072,
+      driftEast: 0.096,
+    ),
     why:
         'Neither: 1 in 10,000 each. How a traverse is cut into courses has '
         'nothing to do with its precision. Only the total length it ran and '
@@ -243,8 +287,9 @@ class _WhichTraverseClosedBetterGameState
                     isTruth: r.answer == (i == 0 ? Better.left : Better.right),
                     onTap: answered
                         ? null
-                        : () => setState(() =>
-                            _picked = i == 0 ? Better.left : Better.right),
+                        : () => setState(
+                            () => _picked = i == 0 ? Better.left : Better.right,
+                          ),
                   ),
                 ),
               ],
@@ -263,8 +308,9 @@ class _WhichTraverseClosedBetterGameState
             selected: _picked == Better.same,
             locked: answered,
             isTruth: r.answer == Better.same,
-            onTap:
-                answered ? null : () => setState(() => _picked = Better.same),
+            onTap: answered
+                ? null
+                : () => setState(() => _picked = Better.same),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

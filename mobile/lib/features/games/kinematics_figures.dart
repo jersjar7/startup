@@ -12,11 +12,7 @@ import 'figure_ink.dart';
 /// a round declares the speed and the angle and the answers follow.
 @immutable
 class Flight {
-  const Flight({
-    required this.speed,
-    required this.degrees,
-    this.g = 9.81,
-  });
+  const Flight({required this.speed, required this.degrees, this.g = 9.81});
 
   /// Metres per second, and degrees above the horizontal.
   final double speed;
@@ -50,21 +46,21 @@ enum Moment { launch, rising, apex, falling, landing }
 
 extension MomentWords on Moment {
   String get plain => switch (this) {
-        Moment.launch => 'the instant it leaves the ground',
-        Moment.rising => 'on the way up',
-        Moment.apex => 'the top of the arc',
-        Moment.falling => 'on the way down',
-        Moment.landing => 'the instant it lands',
-      };
+    Moment.launch => 'the instant it leaves the ground',
+    Moment.rising => 'on the way up',
+    Moment.apex => 'the top of the arc',
+    Moment.falling => 'on the way down',
+    Moment.landing => 'the instant it lands',
+  };
 
   /// When it happens, as a share of the whole flight.
   double get share => switch (this) {
-        Moment.launch => 0,
-        Moment.rising => 0.25,
-        Moment.apex => 0.5,
-        Moment.falling => 0.75,
-        Moment.landing => 1,
-      };
+    Moment.launch => 0,
+    Moment.rising => 0.25,
+    Moment.apex => 0.5,
+    Moment.falling => 0.75,
+    Moment.landing => 1,
+  };
 }
 
 /// The arc, with the moments marked on it.
@@ -92,9 +88,9 @@ class FlightPainter extends CustomPainter {
   static const _padBottom = 22.0;
 
   static double _scale(Flight flight, Size size) => math.min(
-        (size.width - _padX * 2) / flight.range,
-        (size.height - _padTop - _padBottom) / flight.apexHeight,
-      );
+    (size.width - _padX * 2) / flight.range,
+    (size.height - _padTop - _padBottom) / flight.apexHeight,
+  );
 
   static Offset at(Flight flight, Size size, Offset world) {
     final scale = _scale(flight, size);
@@ -133,8 +129,12 @@ class FlightPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // The ground, with its ticks: a plain line could be anything.
     final ground = at(flight, size, Offset.zero).dy;
-    groundLine(canvas, Offset(4, ground), Offset(size.width - 4, ground),
-        color: AppColors.ink3);
+    groundLine(
+      canvas,
+      Offset(4, ground),
+      Offset(size.width - 4, ground),
+      color: AppColors.ink3,
+    );
 
     final path = Path();
     for (var k = 0; k <= 80; k++) {
@@ -156,15 +156,14 @@ class FlightPainter extends CustomPainter {
       final color = isTruth
           ? AppColors.forest
           : (locked && chosen)
-              ? AppColors.error
-              : chosen
-                  ? AppColors.ember
-                  : AppColors.ink2;
+          ? AppColors.error
+          : chosen
+          ? AppColors.ember
+          : AppColors.ink2;
       if (showVelocities) {
         final v = flight.velocityAt(flight.airborne * m.share);
         final scale = 2.2;
-        _arrow(canvas, size, p, p + Offset(v.dx * scale, -v.dy * scale),
-            color);
+        _arrow(canvas, size, p, p + Offset(v.dx * scale, -v.dy * scale), color);
       }
       canvas
         ..drawCircle(p, 7, Paint()..color = AppColors.cream)
@@ -198,10 +197,14 @@ class FlightPainter extends CustomPainter {
     canvas.drawPath(
       Path()
         ..moveTo(to.dx, to.dy)
-        ..lineTo(to.dx - along.dx * 8 + side.dx * 4,
-            to.dy - along.dy * 8 + side.dy * 4)
-        ..lineTo(to.dx - along.dx * 8 - side.dx * 4,
-            to.dy - along.dy * 8 - side.dy * 4)
+        ..lineTo(
+          to.dx - along.dx * 8 + side.dx * 4,
+          to.dy - along.dy * 8 + side.dy * 4,
+        )
+        ..lineTo(
+          to.dx - along.dx * 8 - side.dx * 4,
+          to.dy - along.dy * 8 - side.dy * 4,
+        )
         ..close(),
       Paint()..color = color,
     );
@@ -294,14 +297,20 @@ class BendPainter extends CustomPainter {
     return switch (piece) {
       Piece.along => at + along * (bend.alongRoad * scale),
       Piece.toward => at + toward * (bend.towardCenter * scale),
-      Piece.total => at +
-          along * (bend.alongRoad * scale) +
-          toward * (bend.towardCenter * scale),
+      Piece.total =>
+        at +
+            along * (bend.alongRoad * scale) +
+            toward * (bend.towardCenter * scale),
     };
   }
 
-  static Piece? nearest(Bend bend, Size size, List<Piece> pieces, Offset tap,
-      {double within = 34}) {
+  static Piece? nearest(
+    Bend bend,
+    Size size,
+    List<Piece> pieces,
+    Offset tap, {
+    double within = 34,
+  }) {
     Piece? best;
     var gap = within;
     for (final p in pieces) {
@@ -334,9 +343,12 @@ class BendPainter extends CustomPainter {
       // to be pointing.
       ..drawCircle(middle, 3, Paint()..color = AppColors.ink2);
     for (final spoke in [-0.7, 0.0, 0.7]) {
-      final on = middle +
-          Offset(math.cos(-math.pi / 2 + spoke) * r,
-              math.sin(-math.pi / 2 + spoke) * r);
+      final on =
+          middle +
+          Offset(
+            math.cos(-math.pi / 2 + spoke) * r,
+            math.sin(-math.pi / 2 + spoke) * r,
+          );
       canvas.drawLine(
         middle,
         on,
@@ -358,24 +370,42 @@ class BendPainter extends CustomPainter {
       final color = isTruth
           ? AppColors.forest
           : (locked && chosen)
-              ? AppColors.error
-              : chosen
-                  ? AppColors.ember
-                  : AppColors.info;
-      _arrow(canvas, at, headOf(bend, size, piece), color,
-          heavy: chosen || isTruth);
+          ? AppColors.error
+          : chosen
+          ? AppColors.ember
+          : AppColors.info;
+      _arrow(
+        canvas,
+        at,
+        headOf(bend, size, piece),
+        color,
+        heavy: chosen || isTruth,
+      );
     }
 
     // Which way the middle of the bend is, since that is what normal means.
-    _write(canvas, 'center of the bend',
-        Offset(middle.dx + 8, middle.dy - 4), AppColors.ink3);
-    _write(canvas, 'along the road', Offset(size.width - 92, 4),
-        AppColors.ink3);
+    _write(
+      canvas,
+      'center of the bend',
+      Offset(middle.dx + 8, middle.dy - 4),
+      AppColors.ink3,
+    );
+    _write(
+      canvas,
+      'along the road',
+      Offset(size.width - 92, 4),
+      AppColors.ink3,
+    );
     viewTag(canvas, size, Looking.plan);
   }
 
-  void _arrow(Canvas canvas, Offset from, Offset to, Color color,
-      {bool heavy = false}) {
+  void _arrow(
+    Canvas canvas,
+    Offset from,
+    Offset to,
+    Color color, {
+    bool heavy = false,
+  }) {
     if ((to - from).distance < 3) return;
     final paint = Paint()
       ..color = color
@@ -386,10 +416,14 @@ class BendPainter extends CustomPainter {
     canvas.drawPath(
       Path()
         ..moveTo(to.dx, to.dy)
-        ..lineTo(to.dx - unit.dx * 9 + side.dx * 4.5,
-            to.dy - unit.dy * 9 + side.dy * 4.5)
-        ..lineTo(to.dx - unit.dx * 9 - side.dx * 4.5,
-            to.dy - unit.dy * 9 - side.dy * 4.5)
+        ..lineTo(
+          to.dx - unit.dx * 9 + side.dx * 4.5,
+          to.dy - unit.dy * 9 + side.dy * 4.5,
+        )
+        ..lineTo(
+          to.dx - unit.dx * 9 - side.dx * 4.5,
+          to.dy - unit.dy * 9 - side.dy * 4.5,
+        )
         ..close(),
       Paint()..color = color,
     );
@@ -397,9 +431,12 @@ class BendPainter extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 9.5, color: color),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }

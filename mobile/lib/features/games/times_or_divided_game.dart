@@ -278,7 +278,9 @@ class _TimesOrDividedGameState extends State<TimesOrDividedGame> {
                 Text(
                   r.known,
                   style: const TextStyle(
-                      fontSize: 14.5, color: AppColors.charcoal),
+                    fontSize: 14.5,
+                    color: AppColors.charcoal,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -289,7 +291,9 @@ class _TimesOrDividedGameState extends State<TimesOrDividedGame> {
                 Text(
                   r.wanted,
                   style: const TextStyle(
-                      fontSize: 14.5, color: AppColors.charcoal),
+                    fontSize: 14.5,
+                    color: AppColors.charcoal,
+                  ),
                 ),
               ],
             ),

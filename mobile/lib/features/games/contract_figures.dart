@@ -55,8 +55,10 @@ class CostBarPainter extends CustomPainter {
       );
       canvas.drawRRect(
         RRect.fromRectAndRadius(overrun, const Radius.circular(6)),
-        Paint()..color = (revealed ? AppColors.error : AppColors.ember)
-            .withValues(alpha: 0.35),
+        Paint()
+          ..color = (revealed ? AppColors.error : AppColors.ember).withValues(
+            alpha: 0.35,
+          ),
       );
       canvas.drawRRect(
         RRect.fromRectAndRadius(overrun, const Radius.circular(6)),
@@ -118,7 +120,10 @@ class CostBarPainter extends CustomPainter {
     int align = 0,
   }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     final dx = switch (align) {
@@ -209,9 +214,10 @@ class DeliveryPainter extends CustomPainter {
   void _box(Canvas canvas, Rect rect, String label, {required bool strong}) {
     canvas.drawRRect(
       RRect.fromRectAndRadius(rect, const Radius.circular(6)),
-      Paint()..color = strong
-          ? AppColors.charcoal.withValues(alpha: 0.08)
-          : AppColors.white,
+      Paint()
+        ..color = strong
+            ? AppColors.charcoal.withValues(alpha: 0.08)
+            : AppColors.white,
     );
     canvas.drawRRect(
       RRect.fromRectAndRadius(rect, const Radius.circular(6)),
@@ -332,8 +338,13 @@ class TwoClocksPainter extends CustomPainter {
           Paint()..color = AppColors.charcoal,
         );
       }
-      _write(canvas, name, Offset(x, labelY),
-          color: AppColors.ink3, size: size);
+      _write(
+        canvas,
+        name,
+        Offset(x, labelY),
+        color: AppColors.ink3,
+        size: size,
+      );
       _write(
         canvas,
         '$year',
@@ -371,8 +382,14 @@ class TwoClocksPainter extends CustomPainter {
           ..strokeWidth = 2,
       );
     }
-    _write(canvas, label, Offset(a + 4, y - 20),
-        color: color, align: 1, size: size);
+    _write(
+      canvas,
+      label,
+      Offset(a + 4, y - 20),
+      color: color,
+      align: 1,
+      size: size,
+    );
   }
 
   void _write(
@@ -384,7 +401,10 @@ class TwoClocksPainter extends CustomPainter {
     Size? size,
   }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 9.5, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     final dx = switch (align) {

@@ -45,18 +45,18 @@ class ChartRound {
   /// The chart decides, so a round cannot claim a symbol its own point does
   /// not land on.
   Quarter get answer => switch (fines.symbol) {
-        'CL' => Quarter.cl,
-        'CH' => Quarter.ch,
-        'ML' => Quarter.ml,
-        _ => Quarter.mh,
-      };
+    'CL' => Quarter.cl,
+    'CH' => Quarter.ch,
+    'ML' => Quarter.ml,
+    _ => Quarter.mh,
+  };
 
   static String label(Quarter which) => switch (which) {
-        Quarter.cl => 'CL, a lean clay',
-        Quarter.ch => 'CH, a fat clay',
-        Quarter.ml => 'ML, a low plasticity silt',
-        Quarter.mh => 'MH, a high plasticity silt',
-      };
+    Quarter.cl => 'CL, a lean clay',
+    Quarter.ch => 'CH, a fat clay',
+    Quarter.ml => 'ML, a low plasticity silt',
+    Quarter.mh => 'MH, a high plasticity silt',
+  };
 }
 
 const chartRounds = <ChartRound>[
@@ -131,8 +131,7 @@ const chartRounds = <ChartRound>[
   ),
   ChartRound(
     subject: 'a long way up',
-    asked:
-        'A liquid limit of 70 and a plasticity index of 45. What is it?',
+    asked: 'A liquid limit of 70 and a plasticity index of 45. What is it?',
     fines: Fines(liquidLimit: 70, plasticityIndex: 45),
     why:
         'CH, and emphatically: high on the chart and well right of the LL 50 '
@@ -234,8 +233,10 @@ class _AboveOrBelowTheLineGameState extends State<AboveOrBelowTheLineGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter:
-                      PlasticityPainter(fines: r.fines, answered: answered),
+                  painter: PlasticityPainter(
+                    fines: r.fines,
+                    answered: answered,
+                  ),
                   child: const SizedBox.expand(),
                 ),
               ),

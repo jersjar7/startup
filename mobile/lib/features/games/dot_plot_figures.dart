@@ -126,7 +126,10 @@ class DotPlotPainter extends CustomPainter {
 
   void _tick(Canvas canvas, String text, Offset at, Color color) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     tp.paint(canvas, at - Offset(tp.width / 2, tp.height / 2));

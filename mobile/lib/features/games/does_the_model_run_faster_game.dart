@@ -31,10 +31,10 @@ enum Runs2 { faster, slower, same }
 
 extension Runs2Words on Runs2 {
   String get plain => switch (this) {
-        Runs2.faster => 'Faster than the real thing',
-        Runs2.slower => 'Slower than the real thing',
-        Runs2.same => 'The same speed',
-      };
+    Runs2.faster => 'Faster than the real thing',
+    Runs2.slower => 'Slower than the real thing',
+    Runs2.same => 'The same speed',
+  };
 }
 
 @immutable
@@ -269,7 +269,9 @@ class _DoesTheModelRunFasterGameState extends State<DoesTheModelRunFasterGame> {
             const SizedBox(height: 6),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHERE IT SITS' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS WHERE IT SITS'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

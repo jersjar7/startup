@@ -11,16 +11,16 @@ enum Stuff { steel, aluminum, timber }
 extension StuffFacts on Stuff {
   /// Young's modulus in megapascals, which is newtons per square millimeter.
   double get e => switch (this) {
-        Stuff.steel => 200000,
-        Stuff.aluminum => 70000,
-        Stuff.timber => 11000,
-      };
+    Stuff.steel => 200000,
+    Stuff.aluminum => 70000,
+    Stuff.timber => 11000,
+  };
 
   String get name_ => switch (this) {
-        Stuff.steel => 'steel',
-        Stuff.aluminum => 'aluminum',
-        Stuff.timber => 'timber',
-      };
+    Stuff.steel => 'steel',
+    Stuff.aluminum => 'aluminum',
+    Stuff.timber => 'timber',
+  };
 }
 
 /// One bar under an axial pull.
@@ -100,10 +100,10 @@ class Rod {
 
   /// Coefficient of thermal expansion, per degree celsius.
   double get alpha => switch (stuff) {
-        Stuff.steel => 11.7e-6,
-        Stuff.aluminum => 23.0e-6,
-        Stuff.timber => 5.0e-6,
-      };
+    Stuff.steel => 11.7e-6,
+    Stuff.aluminum => 23.0e-6,
+    Stuff.timber => 5.0e-6,
+  };
 
   /// How much it WOULD move if nothing were in its way.
   double get freeMove => alpha * length * warmBy;
@@ -121,9 +121,7 @@ class Rod {
   /// into uses up the gap first and only fights for what is left.
   double get stress {
     if (outcome == Outcome.nothing) return 0;
-    final fought = held == Held.withGap
-        ? freeMove.abs() - gap
-        : freeMove.abs();
+    final fought = held == Held.withGap ? freeMove.abs() - gap : freeMove.abs();
     return stuff.e * fought / length;
   }
 }
@@ -181,7 +179,11 @@ class BarPairPainter extends CustomPainter {
   static Rect rowFor(List<Bar> bars, Size size, int i) {
     final row = (size.height - _room.vertical) / bars.length;
     return Rect.fromLTWH(
-        _room.left, _room.top + i * row, size.width - _room.horizontal, row);
+      _room.left,
+      _room.top + i * row,
+      size.width - _room.horizontal,
+      row,
+    );
   }
 
   @override
@@ -218,8 +220,13 @@ class BarPairPainter extends CustomPainter {
       _wall(canvas, Offset(body.left, mid), thick);
       _pull(canvas, Offset(body.right, mid), edge);
 
-      _write(canvas, labels[i], Offset(body.left, mid + thick / 2 + 14),
-          AppColors.ink3, size);
+      _write(
+        canvas,
+        labels[i],
+        Offset(body.left, mid + thick / 2 + 14),
+        AppColors.ink3,
+        size,
+      );
     }
   }
 
@@ -259,7 +266,10 @@ class BarPairPainter extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, Color colour, Size size) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 11, color: colour)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 11, color: colour),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = at.dx;
@@ -292,8 +302,7 @@ class RodPainter extends CustomPainter {
     final gapPx = rod.held == Held.withGap
         ? (rod.gap / rod.length * long * 260).clamp(6.0, 34.0)
         : 0.0;
-    final body =
-        Rect.fromLTWH(left, mid - thick / 2, long - gapPx, thick);
+    final body = Rect.fromLTWH(left, mid - thick / 2, long - gapPx, thick);
 
     final Color edge = showOutcome
         ? switch (rod.outcome) {
@@ -328,11 +337,18 @@ class RodPainter extends CustomPainter {
         ..strokeWidth = 1.6;
       canvas.drawLine(from, to, ink);
       for (final at in [from, to]) {
-        canvas.drawLine(
-            at - const Offset(0, 6), at + const Offset(0, 6), ink);
+        canvas.drawLine(at - const Offset(0, 6), at + const Offset(0, 6), ink);
       }
-      taken.add(_write(canvas, 'gap', Offset((from.dx + to.dx) / 2, to.dy + 5),
-          AppColors.ember, size, taken));
+      taken.add(
+        _write(
+          canvas,
+          'gap',
+          Offset((from.dx + to.dx) / 2, to.dy + 5),
+          AppColors.ember,
+          size,
+          taken,
+        ),
+      );
     }
 
     // What is being done to it, said on the drawing and not only in the words.
@@ -357,14 +373,16 @@ class RodPainter extends CustomPainter {
         Paint()..color = heat,
       );
     }
-    taken.add(_write(
-      canvas,
-      warmer ? 'warmed' : 'cooled',
-      arrows - const Offset(0, 20),
-      heat,
-      size,
-      taken,
-    ));
+    taken.add(
+      _write(
+        canvas,
+        warmer ? 'warmed' : 'cooled',
+        arrows - const Offset(0, 20),
+        heat,
+        size,
+        taken,
+      ),
+    );
   }
 
   void _wall(Canvas canvas, Offset at, {required double out}) {
@@ -384,10 +402,19 @@ class RodPainter extends CustomPainter {
     }
   }
 
-  Rect _write(Canvas canvas, String text, Offset at, Color colour, Size size,
-      List<Rect> avoid) {
+  Rect _write(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Color colour,
+    Size size,
+    List<Rect> avoid,
+  ) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 11, color: colour)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 11, color: colour),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = at.dx - tp.width / 2;
@@ -400,7 +427,9 @@ class RodPainter extends CustomPainter {
       y -= tp.height + 3;
     }
     canvas.drawRect(
-        box(), Paint()..color = AppColors.cream.withValues(alpha: 0.92));
+      box(),
+      Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+    );
     tp.paint(canvas, Offset(x, y));
     return box();
   }
@@ -422,32 +451,32 @@ enum Written { newton, mm, mmSq, mpa, meter, mSq, celsius, perCelsius }
 extension WrittenFacts on Written {
   /// Powers of force, length and temperature.
   (int, int, int) get dims => switch (this) {
-        Written.newton => (1, 0, 0),
-        Written.mm || Written.meter => (0, 1, 0),
-        Written.mmSq || Written.mSq => (0, 2, 0),
-        Written.mpa => (1, -2, 0),
-        Written.celsius => (0, 0, 1),
-        Written.perCelsius => (0, 0, -1),
-      };
+    Written.newton => (1, 0, 0),
+    Written.mm || Written.meter => (0, 1, 0),
+    Written.mmSq || Written.mSq => (0, 2, 0),
+    Written.mpa => (1, -2, 0),
+    Written.celsius => (0, 0, 1),
+    Written.perCelsius => (0, 0, -1),
+  };
 
   /// Which length this unit is written in: one for millimeters, two for
   /// meters, zero for units that carry no length at all.
   int get base => switch (this) {
-        Written.mm || Written.mmSq || Written.mpa => 1,
-        Written.meter || Written.mSq => 2,
-        Written.newton || Written.celsius || Written.perCelsius => 0,
-      };
+    Written.mm || Written.mmSq || Written.mpa => 1,
+    Written.meter || Written.mSq => 2,
+    Written.newton || Written.celsius || Written.perCelsius => 0,
+  };
 
   String get shown => switch (this) {
-        Written.newton => 'N',
-        Written.mm => 'mm',
-        Written.mmSq => r'mm^2',
-        Written.mpa => r'N/mm^2',
-        Written.meter => 'm',
-        Written.mSq => r'm^2',
-        Written.celsius => r'^\circ C',
-        Written.perCelsius => r'1/^\circ C',
-      };
+    Written.newton => 'N',
+    Written.mm => 'mm',
+    Written.mmSq => r'mm^2',
+    Written.mpa => r'N/mm^2',
+    Written.meter => 'm',
+    Written.mSq => r'm^2',
+    Written.celsius => r'^\circ C',
+    Written.perCelsius => r'1/^\circ C',
+  };
 }
 
 /// What an expression hands back.

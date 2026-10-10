@@ -21,8 +21,7 @@ class Failure {
   double get radians => friction * math.pi / 180;
 
   /// What the soil can carry on a plane pressed by this much normal stress.
-  double strengthAt(double normal) =>
-      cohesion + normal * math.tan(radians);
+  double strengthAt(double normal) => cohesion + normal * math.tan(radians);
 
   bool get sand => cohesion < 0.001;
   bool get undrained => friction < 0.001;
@@ -90,62 +89,89 @@ class EnvelopePainter extends CustomPainter {
     final bottom = size.height - 38;
     final top = 22.0;
 
-    final widest = math.max(
-      test?.major ?? 0,
-      math.max(markAt ?? 0, 2000),
-    ) * 1.25;
-    final tallest = math.max(
-      failure.strengthAt(widest),
-      math.max(test?.radius ?? 0, 1200),
-    ) * 1.15;
+    final widest =
+        math.max(test?.major ?? 0, math.max(markAt ?? 0, 2000)) * 1.25;
+    final tallest =
+        math.max(
+          failure.strengthAt(widest),
+          math.max(test?.radius ?? 0, 1200),
+        ) *
+        1.15;
 
     double xOf(double s) => left + s / widest * (right - left);
     double yOf(double t) => bottom - t / tallest * (bottom - top);
 
     canvas
       ..drawLine(
-          Offset(left, top),
-          Offset(left, bottom),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1.2)
+        Offset(left, top),
+        Offset(left, bottom),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1.2,
+      )
       ..drawLine(
-          Offset(left, bottom),
-          Offset(right, bottom),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1.2);
-    writeOn(canvas, size, 'shear', Offset(4, top - 14), AppColors.ink3,
-        fontSize: 9.5);
-    writeOn(canvas, size, 'normal stress on the plane',
-        Offset(left + 6, bottom + 22), AppColors.ink3, fontSize: 9.5);
+        Offset(left, bottom),
+        Offset(right, bottom),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1.2,
+      );
+    writeOn(
+      canvas,
+      size,
+      'shear',
+      Offset(4, top - 14),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'normal stress on the plane',
+      Offset(left + 6, bottom + 22),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!reveal) {
-      writeOn(canvas, size, 'which envelope applies is the question',
-          Offset(left + 8, (top + bottom) / 2), AppColors.ink3,
-          fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'which envelope applies is the question',
+        Offset(left + 8, (top + bottom) / 2),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
     // The envelope.
     canvas.drawLine(
-        Offset(xOf(0), yOf(failure.cohesion)),
-        Offset(xOf(widest), yOf(failure.strengthAt(widest))),
-        Paint()
-          ..color = AppColors.ember
-          ..strokeWidth = 2.4);
+      Offset(xOf(0), yOf(failure.cohesion)),
+      Offset(xOf(widest), yOf(failure.strengthAt(widest))),
+      Paint()
+        ..color = AppColors.ember
+        ..strokeWidth = 2.4,
+    );
 
     // The cohesion intercept, which is what the line is worth before
     // anything presses on it at all.
     if (!failure.sand) {
       canvas.drawLine(
-          Offset(xOf(0), yOf(0)),
-          Offset(xOf(0), yOf(failure.cohesion)),
-          Paint()
-            ..color = AppColors.ember
-            ..strokeWidth = 3);
-      writeOn(canvas, size, 'cohesion', Offset(left + 4, yOf(failure.cohesion) - 14),
-          AppColors.ember, fontSize: 9.5);
+        Offset(xOf(0), yOf(0)),
+        Offset(xOf(0), yOf(failure.cohesion)),
+        Paint()
+          ..color = AppColors.ember
+          ..strokeWidth = 3,
+      );
+      writeOn(
+        canvas,
+        size,
+        'cohesion',
+        Offset(left + 4, yOf(failure.cohesion) - 14),
+        AppColors.ember,
+        fontSize: 9.5,
+      );
     }
 
     // A test circle, touching the envelope where the soil gave way.
@@ -157,26 +183,31 @@ class EnvelopePainter extends CustomPainter {
       // off by the edge of the figure anyway.
       final radius = (xOf(t.radius) - xOf(0)).abs();
       canvas.drawArc(
-          Rect.fromCircle(center: Offset(xOf(t.center), yOf(0)), radius: radius),
-          math.pi,
-          math.pi,
-          false,
+        Rect.fromCircle(center: Offset(xOf(t.center), yOf(0)), radius: radius),
+        math.pi,
+        math.pi,
+        false,
+        Paint()
+          ..color = AppColors.info
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.8,
+      );
+      for (final (v, name) in [(t.minor, 'cell'), (t.major, 'at failure')]) {
+        canvas.drawLine(
+          Offset(xOf(v), yOf(0) - 4),
+          Offset(xOf(v), yOf(0) + 4),
           Paint()
             ..color = AppColors.info
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.8);
-      for (final (v, name) in [
-        (t.minor, 'cell'),
-        (t.major, 'at failure'),
-      ]) {
-        canvas.drawLine(
-            Offset(xOf(v), yOf(0) - 4),
-            Offset(xOf(v), yOf(0) + 4),
-            Paint()
-              ..color = AppColors.info
-              ..strokeWidth = 2);
-        writeOn(canvas, size, '$name ${v.toStringAsFixed(0)}',
-            Offset(xOf(v) - 20, bottom + 6), AppColors.info, fontSize: 9.5);
+            ..strokeWidth = 2,
+        );
+        writeOn(
+          canvas,
+          size,
+          '$name ${v.toStringAsFixed(0)}',
+          Offset(xOf(v) - 20, bottom + 6),
+          AppColors.info,
+          fontSize: 9.5,
+        );
       }
     }
 
@@ -186,26 +217,34 @@ class EnvelopePainter extends CustomPainter {
       final y = yOf(failure.strengthAt(at));
       canvas
         ..drawLine(
-            Offset(xOf(at), yOf(0)),
-            Offset(xOf(at), y),
-            Paint()
-              ..color = AppColors.info
-              ..strokeWidth = 1.4)
+          Offset(xOf(at), yOf(0)),
+          Offset(xOf(at), y),
+          Paint()
+            ..color = AppColors.info
+            ..strokeWidth = 1.4,
+        )
         ..drawCircle(Offset(xOf(at), y), 3.6, Paint()..color = AppColors.info);
-      writeOn(canvas, size, 'pressed by ${at.toStringAsFixed(0)}',
-          Offset(xOf(at) - 30, bottom + 8), AppColors.info, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'pressed by ${at.toStringAsFixed(0)}',
+        Offset(xOf(at) - 30, bottom + 8),
+        AppColors.info,
+        fontSize: 9.5,
+      );
     }
 
     if (answered) {
       writeOn(
-          canvas,
-          size,
-          failure.undrained
-              ? 'flat: no friction to call on'
-              : 'slope: ${failure.friction.toStringAsFixed(0)} degrees',
-          Offset(right - 120, top),
-          AppColors.forest,
-          fontSize: 9.5);
+        canvas,
+        size,
+        failure.undrained
+            ? 'flat: no friction to call on'
+            : 'slope: ${failure.friction.toStringAsFixed(0)} degrees',
+        Offset(right - 120, top),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
   }
 

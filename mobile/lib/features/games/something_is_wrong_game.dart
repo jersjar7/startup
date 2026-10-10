@@ -309,8 +309,10 @@ class _Line extends StatelessWidget {
               const SizedBox(width: 10),
               Text(
                 value,
-                style: AppTheme.mono(size: 13.5, color: AppColors.charcoal)
-                    .copyWith(fontWeight: FontWeight.w700),
+                style: AppTheme.mono(
+                  size: 13.5,
+                  color: AppColors.charcoal,
+                ).copyWith(fontWeight: FontWeight.w700),
               ),
             ],
           ),

@@ -20,7 +20,9 @@ import 'support/fonts.dart';
 
 class _Api extends ApiClient {
   @override
-  Future<dynamic> post(String p, [Map<String, dynamic>? b]) async => {'ok': true};
+  Future<dynamic> post(String p, [Map<String, dynamic>? b]) async => {
+    'ok': true,
+  };
   @override
   Future<dynamic> get(String p) async => <String, dynamic>{'email': 'a@b.com'};
 }
@@ -32,32 +34,49 @@ AuthController _auth() => AuthController(api: _Api(), storage: AppStorage())
 /// Their weakest chapter against its exam share, which is what the fail
 /// ending names. Water Resources deliberately lowest.
 const _mastery = {
-  'mathematics': 62, 'statics': 71, 'dynamics': 58, 'mechanics': 64,
-  'materials': 55, 'fluids': 49, 'hydraulics': 31, 'geotechnical': 52,
-  'structural': 60, 'transportation': 44, 'construction': 57,
-  'surveying': 66, 'economics': 73, 'ethics': 80, 'statistics': 68,
+  'mathematics': 62,
+  'statics': 71,
+  'dynamics': 58,
+  'mechanics': 64,
+  'materials': 55,
+  'fluids': 49,
+  'hydraulics': 31,
+  'geotechnical': 52,
+  'structural': 60,
+  'transportation': 44,
+  'construction': 57,
+  'surveying': 66,
+  'economics': 73,
+  'ethics': 80,
+  'statistics': 68,
 };
 
-Widget _host(AuthController auth, Widget child, {Color ground = AppColors.fog}) =>
-    ChangeNotifierProvider.value(
-      value: auth,
-      child: MaterialApp(
-        theme: AppTheme.light,
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          backgroundColor: ground,
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: SingleChildScrollView(child: child),
-            ),
-          ),
+Widget _host(
+  AuthController auth,
+  Widget child, {
+  Color ground = AppColors.fog,
+}) => ChangeNotifierProvider.value(
+  value: auth,
+  child: MaterialApp(
+    theme: AppTheme.light,
+    debugShowCheckedModeBanner: false,
+    home: Scaffold(
+      backgroundColor: ground,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: SingleChildScrollView(child: child),
         ),
       ),
-    );
+    ),
+  ),
+);
 
 Future<void> _shot(WidgetTester t, String name) async {
-  await expectLater(find.byType(MaterialApp), matchesGoldenFile('shots/$name.png'));
+  await expectLater(
+    find.byType(MaterialApp),
+    matchesGoldenFile('shots/$name.png'),
+  );
 }
 
 void main() {
@@ -70,17 +89,30 @@ void main() {
 
     // A1 — the card as it sits on the home screen, with its X.
     var auth = _auth();
-    await t.pumpWidget(_host(auth, ExamOutcomeCard(key: UniqueKey(), auth: auth, mastery: _mastery)));
+    await t.pumpWidget(
+      _host(
+        auth,
+        ExamOutcomeCard(key: UniqueKey(), auth: auth, mastery: _mastery),
+      ),
+    );
     await t.pumpAndSettle();
     await _shot(t, 'a1-home-card');
 
     // N2 — the same question with no way out, where the notification lands.
     auth = _auth();
-    await t.pumpWidget(_host(
-      auth,
-      ExamOutcomeCard(key: UniqueKey(), auth: auth, dismissible: false, via: 'notification', mastery: _mastery),
-      ground: AppColors.butter,
-    ));
+    await t.pumpWidget(
+      _host(
+        auth,
+        ExamOutcomeCard(
+          key: UniqueKey(),
+          auth: auth,
+          dismissible: false,
+          via: 'notification',
+          mastery: _mastery,
+        ),
+        ground: AppColors.butter,
+      ),
+    );
     await t.pumpAndSettle();
     await _shot(t, 'n2-no-way-out');
 
@@ -91,10 +123,17 @@ void main() {
 
     // A2 — the fail ending, which names their weakest chapter.
     auth = _auth();
-    await t.pumpWidget(_host(
-      auth,
-      ExamOutcomeCard(key: UniqueKey(), auth: auth, mastery: _mastery, onSetExamDate: () {}),
-    ));
+    await t.pumpWidget(
+      _host(
+        auth,
+        ExamOutcomeCard(
+          key: UniqueKey(),
+          auth: auth,
+          mastery: _mastery,
+          onSetExamDate: () {},
+        ),
+      ),
+    );
     await t.pumpAndSettle();
     await t.tap(find.text('Not this time'));
     await t.pumpAndSettle();
@@ -104,10 +143,17 @@ void main() {
 
     // A3 — the no-show ending, which diagnoses nothing.
     auth = _auth();
-    await t.pumpWidget(_host(
-      auth,
-      ExamOutcomeCard(key: UniqueKey(), auth: auth, mastery: _mastery, onSetExamDate: () {}),
-    ));
+    await t.pumpWidget(
+      _host(
+        auth,
+        ExamOutcomeCard(
+          key: UniqueKey(),
+          auth: auth,
+          mastery: _mastery,
+          onSetExamDate: () {},
+        ),
+      ),
+    );
     await t.pumpAndSettle();
     await t.tap(find.text('I did not sit it'));
     await t.pumpAndSettle();

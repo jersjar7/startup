@@ -54,10 +54,10 @@ class CompareRound {
   final String source;
 
   static String label(Change which) => switch (which) {
-        Change.more => 'More than the simple span has',
-        Change.less => 'Less than the simple span has',
-        Change.same => 'Exactly what the simple span has',
-      };
+    Change.more => 'More than the simple span has',
+    Change.less => 'Less than the simple span has',
+    Change.same => 'Exactly what the simple span has',
+  };
 }
 
 const compareRounds = <CompareRound>[

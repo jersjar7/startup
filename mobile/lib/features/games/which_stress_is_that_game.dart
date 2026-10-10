@@ -19,8 +19,7 @@ class WhichStressIsThatGame extends StatefulWidget {
   const WhichStressIsThatGame({super.key});
 
   @override
-  State<WhichStressIsThatGame> createState() =>
-      _WhichStressIsThatGameState();
+  State<WhichStressIsThatGame> createState() => _WhichStressIsThatGameState();
 }
 
 /// Which of the three a round is describing.
@@ -47,16 +46,20 @@ class StressRound {
   final String source;
 
   static String label(Stress which) => switch (which) {
-        Stress.total => 'The total stress',
-        Stress.pore => 'The water pressure in the pores',
-        Stress.effective => 'The effective stress',
-      };
+    Stress.total => 'The total stress',
+    Stress.pore => 'The water pressure in the pores',
+    Stress.effective => 'The effective stress',
+  };
 }
 
 const _oneLayer = Deposit(
   layers: [
-    Stratum(name: 'saturated clay', thickness: 10, unitWeight: 115,
-        saturated: true),
+    Stratum(
+      name: 'saturated clay',
+      thickness: 10,
+      unitWeight: 115,
+      saturated: true,
+    ),
   ],
   waterDepth: 0,
 );
@@ -64,8 +67,12 @@ const _oneLayer = Deposit(
 const _twoLayers = Deposit(
   layers: [
     Stratum(name: 'dry sand', thickness: 5, unitWeight: 110),
-    Stratum(name: 'saturated clay', thickness: 8, unitWeight: 120,
-        saturated: true),
+    Stratum(
+      name: 'saturated clay',
+      thickness: 8,
+      unitWeight: 120,
+      saturated: true,
+    ),
   ],
   waterDepth: 5,
 );
@@ -73,8 +80,12 @@ const _twoLayers = Deposit(
 const _withSurcharge = Deposit(
   layers: [
     Stratum(name: 'sand', thickness: 6, unitWeight: 105),
-    Stratum(name: 'saturated clay', thickness: 10, unitWeight: 118,
-        saturated: true),
+    Stratum(
+      name: 'saturated clay',
+      thickness: 10,
+      unitWeight: 118,
+      saturated: true,
+    ),
   ],
   waterDepth: 6,
   surcharge: 100,

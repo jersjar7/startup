@@ -24,8 +24,14 @@ class Wordmark extends StatelessWidget {
               height: 1,
             ),
             children: const [
-              TextSpan(text: 'FE', style: TextStyle(color: AppColors.charcoal)),
-              TextSpan(text: '4', style: TextStyle(color: AppColors.ember)),
+              TextSpan(
+                text: 'FE',
+                style: TextStyle(color: AppColors.charcoal),
+              ),
+              TextSpan(
+                text: '4',
+                style: TextStyle(color: AppColors.ember),
+              ),
             ],
           ),
         ),

@@ -23,8 +23,7 @@ class HowFarHasItYieldedGame extends StatefulWidget {
   const HowFarHasItYieldedGame({super.key});
 
   @override
-  State<HowFarHasItYieldedGame> createState() =>
-      _HowFarHasItYieldedGameState();
+  State<HowFarHasItYieldedGame> createState() => _HowFarHasItYieldedGameState();
 }
 
 @immutable
@@ -261,7 +260,9 @@ class _HowFarHasItYieldedGameState extends State<HowFarHasItYieldedGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE ONE' : 'A DIFFERENT STAGE',
+              title: _session.correct!
+                  ? 'THAT IS THE ONE'
+                  : 'A DIFFERENT STAGE',
               body: r.why,
             ),
           ],

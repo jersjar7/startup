@@ -21,8 +21,7 @@ class WhereItFlattensOutGame extends StatefulWidget {
   const WhereItFlattensOutGame({super.key});
 
   @override
-  State<WhereItFlattensOutGame> createState() =>
-      _WhereItFlattensOutGameState();
+  State<WhereItFlattensOutGame> createState() => _WhereItFlattensOutGameState();
 }
 
 @immutable
@@ -219,7 +218,9 @@ class _WhereItFlattensOutGameState extends State<WhereItFlattensOutGame> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            r.wantsHigh ? 'TAP THE TOP OF THE ROAD' : 'TAP THE BOTTOM OF THE ROAD',
+            r.wantsHigh
+                ? 'TAP THE TOP OF THE ROAD'
+                : 'TAP THE BOTTOM OF THE ROAD',
             style: AppTheme.overline(color: AppColors.ember),
           ),
           const SizedBox(height: 6),
@@ -298,7 +299,11 @@ class _Profile extends StatelessWidget {
               ? null
               : (details) {
                   final hit = RoadProfilePainter.at(
-                      size, vert, spots, details.localPosition);
+                    size,
+                    vert,
+                    spots,
+                    details.localPosition,
+                  );
                   if (hit != null) onPick!(hit);
                 },
           child: Container(

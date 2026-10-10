@@ -50,12 +50,10 @@ class Pavement {
       courses.fold(0, (sum, c) => sum + c.contribution);
 
   /// What is still missing, if a target was given.
-  double get shortfall =>
-      required_ == null ? 0 : required_! - structuralNumber;
+  double get shortfall => required_ == null ? 0 : required_! - structuralNumber;
 
   /// How many inches of a given course would close that gap.
-  double inchesNeededOf(Course c) =>
-      c.perInch <= 0 ? 0 : shortfall / c.perInch;
+  double inchesNeededOf(Course c) => c.perInch <= 0 ? 0 : shortfall / c.perInch;
 }
 
 /// The pavement in section, its courses drawn to thickness. What each
@@ -71,8 +69,10 @@ class PavementPainter extends CustomPainter {
     final left = 26.0;
     final right = size.width * 0.62;
     var y = 42.0;
-    final total = pavement.courses
-        .fold<double>(0, (sum, c) => sum + c.thickness);
+    final total = pavement.courses.fold<double>(
+      0,
+      (sum, c) => sum + c.thickness,
+    );
     final perInch = math.min((size.height - 92) / math.max(total, 1), 7.0);
 
     groundLine(canvas, Offset(left, y), Offset(right, y));
@@ -82,15 +82,17 @@ class PavementPainter extends CustomPainter {
       final rect = Rect.fromLTWH(left, y, right - left, deep);
       canvas
         ..drawRect(
-            rect,
-            Paint()
-              ..color = AppColors.charcoal.withValues(alpha: 0.55 - i * 0.15))
+          rect,
+          Paint()
+            ..color = AppColors.charcoal.withValues(alpha: 0.55 - i * 0.15),
+        )
         ..drawRect(
-            rect,
-            Paint()
-              ..color = AppColors.charcoal
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1);
+          rect,
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1,
+        );
       // Straight onto the course: writeOn would lay a pale patch behind
       // the lettering, which on a dark band looks like a hole.
       final label = TextPainter(
@@ -102,49 +104,69 @@ class PavementPainter extends CustomPainter {
       )..layout();
       label.paint(canvas, Offset(left + 5, y + deep / 2 - label.height / 2));
       writeOn(
-          canvas,
-          size,
-          'a ${c.coefficient.toStringAsFixed(2)}'
-              '${c.drainage != 1.0 ? ', drainage '
+        canvas,
+        size,
+        'a ${c.coefficient.toStringAsFixed(2)}'
+        '${c.drainage != 1.0 ? ', drainage '
                   '${c.drainage.toStringAsFixed(2)}' : ''}',
-          Offset(right + 6, y + deep / 2 - 6),
-          AppColors.ink3,
-          fontSize: 9.5);
+        Offset(right + 6, y + deep / 2 - 6),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       if (answered) {
         writeOn(
-            canvas,
-            size,
-            'gives ${c.contribution.toStringAsFixed(2)}',
-            Offset(right + 6, y + deep / 2 + 6),
-            AppColors.ember,
-            fontSize: 9.5);
+          canvas,
+          size,
+          'gives ${c.contribution.toStringAsFixed(2)}',
+          Offset(right + 6, y + deep / 2 + 6),
+          AppColors.ember,
+          fontSize: 9.5,
+        );
       }
       y += deep;
     }
 
-    writeOn(canvas, size, 'the subgrade, which carries what is left',
-        Offset(left, y + 6), AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'the subgrade, which carries what is left',
+      Offset(left, y + 6),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'what each course is worth comes out',
-          Offset(left - 16, size.height - 30), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'after the answer',
-          Offset(left - 16, size.height - 16), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'what each course is worth comes out',
+        Offset(left - 16, size.height - 30),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'after the answer',
+        Offset(left - 16, size.height - 16),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       viewTag(canvas, size, Looking.section, note: 'the pavement');
       return;
     }
 
     final target = pavement.required_;
     writeOn(
-        canvas,
-        size,
-        'structural number '
-            '${pavement.structuralNumber.toStringAsFixed(2)}'
-            '${target != null ? ' of ${target.toStringAsFixed(1)} needed'
-                : ''}',
-        Offset(left - 16, size.height - 16),
-        AppColors.charcoal,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'structural number '
+      '${pavement.structuralNumber.toStringAsFixed(2)}'
+      '${target != null ? ' of ${target.toStringAsFixed(1)} needed' : ''}',
+      Offset(left - 16, size.height - 16),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
     viewTag(canvas, size, Looking.section, note: 'the pavement');
   }
 
@@ -190,52 +212,80 @@ class EsalPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final left = 116.0;
     final right = size.width - 40;
-    final biggest = axles.fold<double>(
-        0.0001, (m, a) => math.max(m, a.factor));
+    final biggest = axles.fold<double>(0.0001, (m, a) => math.max(m, a.factor));
 
-    writeOn(canvas, size, 'damage done by one pass, against the standard',
-        Offset(8, 8), AppColors.ink3, fontSize: 9.5);
-    writeOn(canvas, size, 'eighteen kip axle', Offset(8, 22), AppColors.ink3,
-        fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'damage done by one pass, against the standard',
+      Offset(8, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'eighteen kip axle',
+      Offset(8, 22),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     var y = 46.0;
     for (final a in axles) {
       writeOn(
-          canvas,
-          size,
-          '${a.name}, ${a.kips.toStringAsFixed(0)} kip',
-          Offset(8, y),
-          AppColors.ink3,
-          fontSize: 9.5);
+        canvas,
+        size,
+        '${a.name}, ${a.kips.toStringAsFixed(0)} kip',
+        Offset(8, y),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       if (answered) {
         final w = math.max(a.factor / biggest * (right - left), 1.5);
-        canvas.drawRect(Rect.fromLTWH(left, y - 1, w, 12),
-            Paint()..color = AppColors.ember.withValues(alpha: 0.55));
+        canvas.drawRect(
+          Rect.fromLTWH(left, y - 1, w, 12),
+          Paint()..color = AppColors.ember.withValues(alpha: 0.55),
+        );
         writeOn(
-            canvas,
-            size,
-            a.factor < 0.01
-                ? a.factor.toStringAsFixed(4)
-                : a.factor.toStringAsFixed(2),
-            Offset(left + w + 6, y - 2),
-            AppColors.ember,
-            fontSize: 9.5);
+          canvas,
+          size,
+          a.factor < 0.01
+              ? a.factor.toStringAsFixed(4)
+              : a.factor.toStringAsFixed(2),
+          Offset(left + w + 6, y - 2),
+          AppColors.ember,
+          fontSize: 9.5,
+        );
       } else {
         canvas.drawRect(
-            Rect.fromLTWH(left, y - 1, right - left, 12),
-            Paint()
-              ..color = AppColors.line
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1);
+          Rect.fromLTWH(left, y - 1, right - left, 12),
+          Paint()
+            ..color = AppColors.line
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1,
+        );
       }
       y += 26;
     }
 
     if (!answered) {
-      writeOn(canvas, size, 'how much damage each one does comes out',
-          Offset(8, y + 4), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'after the answer', Offset(8, y + 18),
-          AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'how much damage each one does comes out',
+        Offset(8, y + 4),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'after the answer',
+        Offset(8, y + 18),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
@@ -243,14 +293,15 @@ class EsalPainter extends CustomPainter {
     if (counted.isNotEmpty) {
       final a = counted.first;
       writeOn(
-          canvas,
-          size,
-          '${a.passes.toStringAsFixed(0)} passes of the '
-              '${a.kips.toStringAsFixed(0)} kip axle is '
-              '${a.esals.toStringAsFixed(0)} standard loads',
-          Offset(8, y + 4),
-          AppColors.charcoal,
-          fontSize: 9.5);
+        canvas,
+        size,
+        '${a.passes.toStringAsFixed(0)} passes of the '
+        '${a.kips.toStringAsFixed(0)} kip axle is '
+        '${a.esals.toStringAsFixed(0)} standard loads',
+        Offset(8, y + 4),
+        AppColors.charcoal,
+        fontSize: 9.5,
+      );
     }
   }
 

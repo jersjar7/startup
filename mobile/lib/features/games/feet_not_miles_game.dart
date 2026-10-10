@@ -265,10 +265,7 @@ class _FeetNotMilesGameState extends State<FeetNotMilesGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: YellowPainter(
-                    yellow: r.yellow,
-                    answered: answered,
-                  ),
+                  painter: YellowPainter(yellow: r.yellow, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

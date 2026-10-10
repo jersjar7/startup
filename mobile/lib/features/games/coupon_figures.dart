@@ -14,18 +14,18 @@ enum Dim { areaBefore, lengthBefore, areaNow, lengthNow }
 extension DimWords on Dim {
   /// What the drawing writes beside the arrow.
   String get tag => switch (this) {
-        Dim.areaBefore => 'A0',
-        Dim.lengthBefore => 'L0',
-        Dim.areaNow => 'A now',
-        Dim.lengthNow => 'L now',
-      };
+    Dim.areaBefore => 'A0',
+    Dim.lengthBefore => 'L0',
+    Dim.areaNow => 'A now',
+    Dim.lengthNow => 'L now',
+  };
 
   String get plain => switch (this) {
-        Dim.areaBefore => 'the area it started with',
-        Dim.lengthBefore => 'the gauge length it started with',
-        Dim.areaNow => 'the area it has right now',
-        Dim.lengthNow => 'the length it has right now',
-      };
+    Dim.areaBefore => 'the area it started with',
+    Dim.lengthBefore => 'the gauge length it started with',
+    Dim.areaNow => 'the area it has right now',
+    Dim.lengthNow => 'the length it has right now',
+  };
 
   bool get isArea => this == Dim.areaBefore || this == Dim.areaNow;
 }
@@ -62,11 +62,11 @@ class Coupon {
   bool get necked => thinnedTo < 0.92;
 
   double valueOf(Dim dim) => switch (dim) {
-        Dim.areaBefore => areaBefore,
-        Dim.lengthBefore => lengthBefore,
-        Dim.areaNow => areaNow,
-        Dim.lengthNow => lengthNow,
-      };
+    Dim.areaBefore => areaBefore,
+    Dim.lengthBefore => lengthBefore,
+    Dim.areaNow => areaNow,
+    Dim.lengthNow => lengthNow,
+  };
 
   /// What the drawing writes under the tag.
   String readingOf(Dim dim) {
@@ -159,10 +159,18 @@ class CouponPainter extends CustomPainter {
     _bar(canvas, size, _beforeBar(size), necked: false);
     _bar(canvas, size, _nowBar(size), necked: coupon.necked);
 
-    _write(canvas, 'before the test', Offset(_padL, _beforeY(size) - 52),
-        AppColors.ink3);
-    _write(canvas, 'while it is being pulled', Offset(_padL, _nowY(size) - 52),
-        AppColors.ink3);
+    _write(
+      canvas,
+      'before the test',
+      Offset(_padL, _beforeY(size) - 52),
+      AppColors.ink3,
+    );
+    _write(
+      canvas,
+      'while it is being pulled',
+      Offset(_padL, _nowY(size) - 52),
+      AppColors.ink3,
+    );
 
     for (final dim in Dim.values) {
       _callout(canvas, size, dim);
@@ -179,12 +187,20 @@ class CouponPainter extends CustomPainter {
       path
         ..lineTo(box.center.dx - 26, box.top)
         ..quadraticBezierTo(
-            box.center.dx, box.top + pinch, box.center.dx + 26, box.top)
+          box.center.dx,
+          box.top + pinch,
+          box.center.dx + 26,
+          box.top,
+        )
         ..lineTo(box.right, box.top)
         ..lineTo(box.right, box.bottom)
         ..lineTo(box.center.dx + 26, box.bottom)
         ..quadraticBezierTo(
-            box.center.dx, box.bottom - pinch, box.center.dx - 26, box.bottom)
+          box.center.dx,
+          box.bottom - pinch,
+          box.center.dx - 26,
+          box.bottom,
+        )
         ..lineTo(box.left, box.bottom);
     } else {
       path
@@ -194,7 +210,10 @@ class CouponPainter extends CustomPainter {
     }
     path.close();
     canvas
-      ..drawPath(path, Paint()..color = AppColors.sunbeam.withValues(alpha: 0.3))
+      ..drawPath(
+        path,
+        Paint()..color = AppColors.sunbeam.withValues(alpha: 0.3),
+      )
       ..drawPath(
         path,
         Paint()
@@ -242,20 +261,39 @@ class CouponPainter extends CustomPainter {
     switch (dim) {
       // An area is the end face, so its arrow goes across the thickness.
       case Dim.areaBefore:
-        _span(canvas, Offset(before.left + 26, before.top),
-            Offset(before.left + 26, before.bottom), paint, upright: true);
+        _span(
+          canvas,
+          Offset(before.left + 26, before.top),
+          Offset(before.left + 26, before.bottom),
+          paint,
+          upright: true,
+        );
       case Dim.areaNow:
         final waist = now.height * coupon.thinnedTo;
-        _span(canvas, Offset(now.center.dx, now.center.dy - waist / 2),
-            Offset(now.center.dx, now.center.dy + waist / 2), paint,
-            upright: true);
+        _span(
+          canvas,
+          Offset(now.center.dx, now.center.dy - waist / 2),
+          Offset(now.center.dx, now.center.dy + waist / 2),
+          paint,
+          upright: true,
+        );
       // A length runs the whole gauge, so its arrow goes under the bar.
       case Dim.lengthBefore:
-        _span(canvas, Offset(before.left, before.bottom + 8),
-            Offset(before.right, before.bottom + 8), paint, upright: false);
+        _span(
+          canvas,
+          Offset(before.left, before.bottom + 8),
+          Offset(before.right, before.bottom + 8),
+          paint,
+          upright: false,
+        );
       case Dim.lengthNow:
-        _span(canvas, Offset(now.left, now.bottom + 8),
-            Offset(now.right, now.bottom + 8), paint, upright: false);
+        _span(
+          canvas,
+          Offset(now.left, now.bottom + 8),
+          Offset(now.right, now.bottom + 8),
+          paint,
+          upright: false,
+        );
     }
 
     final at = tagAt(size, dim);
@@ -264,8 +302,13 @@ class CouponPainter extends CustomPainter {
   }
 
   /// A dimension arrow between two points, with ticks at the ends.
-  void _span(Canvas canvas, Offset a, Offset b, Paint paint,
-      {required bool upright}) {
+  void _span(
+    Canvas canvas,
+    Offset a,
+    Offset b,
+    Paint paint, {
+    required bool upright,
+  }) {
     canvas.drawLine(a, b, paint);
     final across = upright ? const Offset(5, 0) : const Offset(0, 5);
     canvas
@@ -274,14 +317,21 @@ class CouponPainter extends CustomPainter {
   }
 
   /// A name on a cream patch, kept inside the panel.
-  void _label(Canvas canvas, Size size, String text, Offset at, Color tone,
-      {required bool bold}) {
+  void _label(
+    Canvas canvas,
+    Size size,
+    String text,
+    Offset at,
+    Color tone, {
+    required bool bold,
+  }) {
     final painter = TextPainter(
       text: TextSpan(
         text: text,
-        style: AppTheme.mono(size: 10.5, color: tone).copyWith(
-          fontWeight: bold ? FontWeight.w700 : FontWeight.w500,
-        ),
+        style: AppTheme.mono(
+          size: 10.5,
+          color: tone,
+        ).copyWith(fontWeight: bold ? FontWeight.w700 : FontWeight.w500),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
@@ -290,8 +340,12 @@ class CouponPainter extends CustomPainter {
     if (x < 2) x = 2;
     if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
     if (y < 1) y = 1;
-    final patch =
-        Rect.fromLTWH(x - 3, y - 2, painter.width + 6, painter.height + 4);
+    final patch = Rect.fromLTWH(
+      x - 3,
+      y - 2,
+      painter.width + 6,
+      painter.height + 4,
+    );
     canvas
       ..drawRRect(
         RRect.fromRectAndRadius(patch, const Radius.circular(4)),
@@ -309,9 +363,12 @@ class CouponPainter extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 10, color: color),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }

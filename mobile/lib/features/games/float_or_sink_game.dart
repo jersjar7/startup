@@ -28,10 +28,10 @@ enum Goes2 { up, down, still }
 
 extension GoesWords2 on Goes2 {
   String get plain => switch (this) {
-        Goes2.up => 'Up: it rises and floats',
-        Goes2.down => 'Down: it sinks',
-        Goes2.still => 'Neither: it hangs where it is',
-      };
+    Goes2.up => 'Up: it rises and floats',
+    Goes2.down => 'Down: it sinks',
+    Goes2.still => 'Neither: it hangs where it is',
+  };
 }
 
 @immutable
@@ -90,8 +90,7 @@ const floatRounds = <FloatRound>[
     setting:
         'A buried tank of four cubic meters weighing 22 kilonewtons, with the '
         'water table risen above it.',
-    lump: Lump(
-        volume: 4, weight: 22, name: 'the buried tank', inGround: true),
+    lump: Lump(volume: 4, weight: 22, name: 'the buried tank', inGround: true),
     why:
         'Up, by about 17 kilonewtons, and this is a real failure that happens '
         'on real sites: an empty tank floats out of wet ground and lifts the '
@@ -240,7 +239,7 @@ class _FloatOrSinkGameState extends State<FloatOrSinkGame> {
             answered
                 ? 'the two arrows are drawn to one scale'
                 : 'the arrows go on once you answer: their lengths are the '
-                    'answer',
+                      'answer',
             style: AppTheme.mono(size: 11, color: AppColors.ink3),
           ),
           const SizedBox(height: 10),

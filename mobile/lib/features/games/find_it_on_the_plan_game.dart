@@ -42,8 +42,9 @@ class PlanRound {
   final String source;
 
   /// Worked out by matching the drawing to the bearing, never declared.
-  int get answer => shots.indexWhere((s) =>
-      s.bearing.quad == wanted.quad && s.bearing.degrees == wanted.degrees);
+  int get answer => shots.indexWhere(
+    (s) => s.bearing.quad == wanted.quad && s.bearing.degrees == wanted.degrees,
+  );
 }
 
 const planRounds = <PlanRound>[
@@ -269,7 +270,11 @@ class _Plan extends StatelessWidget {
           onTapUp: onPick == null
               ? null
               : (details) {
-                  final hit = RosePainter.at(size, shots, details.localPosition);
+                  final hit = RosePainter.at(
+                    size,
+                    shots,
+                    details.localPosition,
+                  );
                   if (hit != null) onPick!(hit);
                 },
           child: Container(

@@ -46,11 +46,11 @@ class TermRound2 {
   final String source;
 
   static String label(Term2 which) => switch (which) {
-        Term2.cohesion => 'The cohesion, the part that is there anyway',
-        Term2.friction => 'The friction, the part that grows with pressing',
-        Term2.both => 'Both of them together',
-        Term2.neither => 'Neither: it has no strength at all',
-      };
+    Term2.cohesion => 'The cohesion, the part that is there anyway',
+    Term2.friction => 'The friction, the part that grows with pressing',
+    Term2.both => 'Both of them together',
+    Term2.neither => 'Neither: it has no strength at all',
+  };
 }
 
 const _cPhiSoil = Failure(cohesion: 200, friction: 30);

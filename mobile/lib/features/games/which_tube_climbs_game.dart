@@ -28,10 +28,10 @@ enum Climbs { left, right, level }
 
 extension ClimbsWords on Climbs {
   String get plain => switch (this) {
-        Climbs.left => 'The left tube',
-        Climbs.right => 'The right tube',
-        Climbs.level => 'Neither: they stand at the same height',
-      };
+    Climbs.left => 'The left tube',
+    Climbs.right => 'The right tube',
+    Climbs.level => 'Neither: they stand at the same height',
+  };
 }
 
 @immutable
@@ -54,7 +54,8 @@ class TubeRound {
 
   /// Worked out from the two tubes, never declared.
   Climbs get answer {
-    final gap = (left.rise - right.rise).abs() /
+    final gap =
+        (left.rise - right.rise).abs() /
         (left.rise.abs() > right.rise.abs()
             ? left.rise.abs()
             : right.rise.abs());
@@ -102,12 +103,7 @@ const tubeRounds = <TubeRound>[
         'Two tubes of the same bore, one in water and one in an oil with '
         'about half the surface tension and a slightly lighter body.',
     left: Straw(millimeters: 2),
-    right: Straw(
-      millimeters: 2,
-      sigma: 0.03,
-      gamma: 8500,
-      liquid: 'oil',
-    ),
+    right: Straw(millimeters: 2, sigma: 0.03, gamma: 8500, liquid: 'oil'),
     why:
         'The water. Surface tension is on top of the formula, so halving it '
         'roughly halves the climb, and the oil being a little lighter only '
@@ -117,8 +113,7 @@ const tubeRounds = <TubeRound>[
   ),
   TubeRound(
     subject: 'two tubes the same',
-    setting:
-        'Two tubes of the same bore, standing in the same dish of water.',
+    setting: 'Two tubes of the same bore, standing in the same dish of water.',
     left: Straw(millimeters: 2),
     right: Straw(millimeters: 2),
     why:
@@ -155,12 +150,7 @@ const tubeRounds = <TubeRound>[
     setting:
         'A one millimeter tube in the oil, against a three millimeter tube in '
         'water.',
-    left: Straw(
-      millimeters: 1,
-      sigma: 0.03,
-      gamma: 8500,
-      liquid: 'oil',
-    ),
+    left: Straw(millimeters: 1, sigma: 0.03, gamma: 8500, liquid: 'oil'),
     right: Straw(millimeters: 3),
     why:
         'The narrow oil tube, even though oil climbs less readily than water. '
@@ -195,10 +185,10 @@ class _WhichTubeClimbsGameState extends State<WhichTubeClimbsGame> {
   TubeRound get _round => tubeRounds[_session.round];
 
   int? _index(Climbs? which) => switch (which) {
-        Climbs.left => 0,
-        Climbs.right => 1,
-        _ => null,
-      };
+    Climbs.left => 0,
+    Climbs.right => 1,
+    _ => null,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -265,10 +255,14 @@ class _WhichTubeClimbsGameState extends State<WhichTubeClimbsGame> {
                     ? null
                     : (details) {
                         final hit = CapillaryPainter.at(
-                            size, r.both, details.localPosition);
+                          size,
+                          r.both,
+                          details.localPosition,
+                        );
                         if (hit == null) return;
-                        setState(() =>
-                            _picked = hit == 0 ? Climbs.left : Climbs.right);
+                        setState(
+                          () => _picked = hit == 0 ? Climbs.left : Climbs.right,
+                        );
                       },
                 child: EngineeringGrid(
                   minor: 18,
@@ -296,7 +290,7 @@ class _WhichTubeClimbsGameState extends State<WhichTubeClimbsGame> {
             answered
                 ? 'the columns are drawn to one scale'
                 : 'bores drawn far wider than they are. the liquid is drawn '
-                    'once you answer',
+                      'once you answer',
             style: AppTheme.mono(size: 11, color: AppColors.ink3),
           ),
           const SizedBox(height: 10),
@@ -312,14 +306,17 @@ class _WhichTubeClimbsGameState extends State<WhichTubeClimbsGame> {
             selected: _picked == Climbs.level,
             locked: answered,
             isTruth: r.answer == Climbs.level,
-            onTap:
-                answered ? null : () => setState(() => _picked = Climbs.level),
+            onTap: answered
+                ? null
+                : () => setState(() => _picked = Climbs.level),
           ),
           if (answered) ...[
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE HIGHER ONE' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS THE HIGHER ONE'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

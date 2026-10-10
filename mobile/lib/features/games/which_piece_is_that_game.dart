@@ -237,8 +237,11 @@ class _Curve extends StatelessWidget {
           onTapUp: onPick == null
               ? null
               : (details) {
-                  final hit =
-                      AlignPainter.at(size, bend, details.localPosition);
+                  final hit = AlignPainter.at(
+                    size,
+                    bend,
+                    details.localPosition,
+                  );
                   if (hit != null) onPick!(hit);
                 },
           child: Container(

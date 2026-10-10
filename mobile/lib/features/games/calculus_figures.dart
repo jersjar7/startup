@@ -203,11 +203,7 @@ class CurvePainter extends CustomPainter {
     final total = (b - a).distance;
     final unit = (b - a) / total;
     for (var t = 0.0; t < total; t += 10) {
-      canvas.drawLine(
-        a + unit * t,
-        a + unit * math.min(t + 5, total),
-        paint,
-      );
+      canvas.drawLine(a + unit * t, a + unit * math.min(t + 5, total), paint);
     }
   }
 

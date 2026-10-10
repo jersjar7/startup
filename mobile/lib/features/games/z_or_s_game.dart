@@ -262,13 +262,17 @@ class _ZOrSGameState extends State<ZOrSGame> {
                   MathText(
                     r'$M_p = F_y Z_x \quad \text{(yielded right through)}$',
                     style: const TextStyle(
-                        fontSize: 14, color: AppColors.charcoal),
+                      fontSize: 14,
+                      color: AppColors.charcoal,
+                    ),
                   ),
                   const SizedBox(height: 6),
                   MathText(
                     r'$M_y = F_y S_x \quad \text{(the outer fiber only)}$',
                     style: const TextStyle(
-                        fontSize: 14, color: AppColors.charcoal),
+                      fontSize: 14,
+                      color: AppColors.charcoal,
+                    ),
                   ),
                 ],
               ),

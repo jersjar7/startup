@@ -292,8 +292,11 @@ class _Plan extends StatelessWidget {
           onTapUp: onPick == null
               ? null
               : (details) {
-                  final hit =
-                      TrunkPainter.at(size, trunk, details.localPosition);
+                  final hit = TrunkPainter.at(
+                    size,
+                    trunk,
+                    details.localPosition,
+                  );
                   if (hit != null) onPick!(hit);
                 },
           child: Container(

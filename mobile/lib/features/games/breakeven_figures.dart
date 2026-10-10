@@ -188,7 +188,10 @@ class BreakEvenPainter extends CustomPainter {
     int align = 0,
   }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     final dx = switch (align) {

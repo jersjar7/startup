@@ -30,10 +30,10 @@ enum Kay { usCustomary, si, notYet }
 
 extension KayWords on Kay {
   String get plain => switch (this) {
-        Kay.usCustomary => 'K = 1.486',
-        Kay.si => 'K = 1.0',
-        Kay.notYet => 'Neither yet: fix the lengths first',
-      };
+    Kay.usCustomary => 'K = 1.486',
+    Kay.si => 'K = 1.0',
+    Kay.notYet => 'Neither yet: fix the lengths first',
+  };
 }
 
 @immutable
@@ -104,12 +104,13 @@ const kayRounds = <KayRound>[
     subject: 'a drainage channel dimensioned in millimeters',
     setting: 'An earth channel with sloped sides, n 0.022.',
     channel: Channel(
-        shape: Shaped.trapezoid,
-        width: 2500,
-        depth: 900,
-        sideRun: 1.5,
-        rim: 400,
-        unit: 'mm'),
+      shape: Shaped.trapezoid,
+      width: 2500,
+      depth: 900,
+      sideRun: 1.5,
+      rim: 400,
+      unit: 'mm',
+    ),
     why:
         'Neither yet. Millimeters are metric, so this one lands on 1.0, but '
         'only after 2,500 millimeters becomes 2.5 meters. The mistake to '
@@ -136,12 +137,13 @@ const kayRounds = <KayRound>[
     subject: 'a metric channel, slope given as a percentage',
     setting: 'An earth channel, n 0.025, on a grade of 0.2 percent.',
     channel: Channel(
-        shape: Shaped.trapezoid,
-        width: 3,
-        depth: 1.2,
-        sideRun: 2,
-        rim: 0.5,
-        unit: 'm'),
+      shape: Shaped.trapezoid,
+      width: 3,
+      depth: 1.2,
+      sideRun: 2,
+      rim: 0.5,
+      unit: 'm',
+    ),
     why:
         'K = 1.0, from the meters on the drawing. The 0.2 percent does need '
         'writing as 0.002 before it goes in, but that is true in both systems: '

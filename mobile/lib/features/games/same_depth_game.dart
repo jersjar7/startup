@@ -27,10 +27,10 @@ enum Harder { left, right, alike }
 
 extension HarderWords on Harder {
   String get plain => switch (this) {
-        Harder.left => 'The left one',
-        Harder.right => 'The right one',
-        Harder.alike => 'Neither: the same pressure',
-      };
+    Harder.left => 'The left one',
+    Harder.right => 'The right one',
+    Harder.alike => 'Neither: the same pressure',
+  };
 }
 
 @immutable
@@ -53,7 +53,8 @@ class DepthRound {
 
   /// Worked out from the two vessels, never declared.
   Harder get answer {
-    final gap = (left.pressure - right.pressure).abs() /
+    final gap =
+        (left.pressure - right.pressure).abs() /
         (left.pressure > right.pressure ? left.pressure : right.pressure);
     if (gap < 0.01) return Harder.alike;
     return left.pressure > right.pressure ? Harder.left : Harder.right;
@@ -63,8 +64,7 @@ class DepthRound {
       ? left.pressure / right.pressure
       : right.pressure / left.pressure;
 
-  double get deepest =>
-      left.depth > right.depth ? left.depth : right.depth;
+  double get deepest => left.depth > right.depth ? left.depth : right.depth;
 
   List<Pot> get both => [left, right];
 }
@@ -105,12 +105,7 @@ const depthRounds = <DepthRound>[
         'Both vessels are filled to four meters. The right hand one holds an '
         'oil that is lighter than water.',
     left: Pot(shape: Shape4.straight, depth: 4),
-    right: Pot(
-      shape: Shape4.straight,
-      depth: 4,
-      gamma: 8338,
-      liquid: 'oil',
-    ),
+    right: Pot(shape: Shape4.straight, depth: 4, gamma: 8338, liquid: 'oil'),
     why:
         'The water, by about a fifth. The other thing in the formula is the '
         'liquid\'s specific weight, and oil at a specific gravity of 0.85 '
@@ -153,12 +148,7 @@ const depthRounds = <DepthRound>[
         'Three meters of water on the left, against four meters of the same '
         'lighter oil on the right.',
     left: Pot(shape: Shape4.straight, depth: 3),
-    right: Pot(
-      shape: Shape4.flared,
-      depth: 4,
-      gamma: 8338,
-      liquid: 'oil',
-    ),
+    right: Pot(shape: Shape4.flared, depth: 4, gamma: 8338, liquid: 'oil'),
     why:
         'The oil, just: four meters of it comes to about 33 kilopascals '
         'against the water\'s 29. Being lighter per meter is not enough when '
@@ -191,10 +181,10 @@ class _SameDepthGameState extends State<SameDepthGame> {
   DepthRound get _round => depthRounds[_session.round];
 
   int? _index(Harder? which) => switch (which) {
-        Harder.left => 0,
-        Harder.right => 1,
-        _ => null,
-      };
+    Harder.left => 0,
+    Harder.right => 1,
+    _ => null,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -259,11 +249,15 @@ class _SameDepthGameState extends State<SameDepthGame> {
                 onTapDown: answered
                     ? null
                     : (details) {
-                        final hit =
-                            PotPainter.at(size, r.both, details.localPosition);
+                        final hit = PotPainter.at(
+                          size,
+                          r.both,
+                          details.localPosition,
+                        );
                         if (hit == null) return;
-                        setState(() =>
-                            _picked = hit == 0 ? Harder.left : Harder.right);
+                        setState(
+                          () => _picked = hit == 0 ? Harder.left : Harder.right,
+                        );
                       },
                 child: EngineeringGrid(
                   minor: 18,
@@ -299,8 +293,9 @@ class _SameDepthGameState extends State<SameDepthGame> {
             selected: _picked == Harder.alike,
             locked: answered,
             isTruth: r.answer == Harder.alike,
-            onTap:
-                answered ? null : () => setState(() => _picked = Harder.alike),
+            onTap: answered
+                ? null
+                : () => setState(() => _picked = Harder.alike),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

@@ -9,9 +9,9 @@ enum Lay { along, across }
 
 extension LayWords on Lay {
   String get plain => switch (this) {
-        Lay.along => 'the load runs along the fibers',
-        Lay.across => 'the load runs across the fibers',
-      };
+    Lay.along => 'the load runs along the fibers',
+    Lay.across => 'the load runs across the fibers',
+  };
 }
 
 /// Two materials in known proportions, and what they do together.
@@ -41,8 +41,7 @@ class Blend {
 
   /// Loaded across them: both carry the same stress and the softer one gives
   /// way, so the reciprocals add and the answer is always the smaller.
-  double get across =>
-      1 / (fiberShare / fiberE + matrixShare / matrixE);
+  double get across => 1 / (fiberShare / fiberE + matrixShare / matrixE);
 
   double modulusFor(Lay lay) => lay == Lay.along ? along : across;
 
@@ -79,11 +78,11 @@ class BlendPainter extends CustomPainter {
   final bool stretched;
 
   static Rect block(Size size) => Rect.fromLTRB(
-        46,
-        size.height * 0.20,
-        size.width - 46,
-        size.height * 0.72,
-      );
+    46,
+    size.height * 0.20,
+    size.width - 46,
+    size.height * 0.72,
+  );
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -91,8 +90,7 @@ class BlendPainter extends CustomPainter {
     final fiberTone = _toneOf(0, AppColors.charcoal);
     final matrixTone = _toneOf(1, AppColors.sunbeam);
 
-    canvas.drawRect(
-        box, Paint()..color = matrixTone.withValues(alpha: 0.28));
+    canvas.drawRect(box, Paint()..color = matrixTone.withValues(alpha: 0.28));
 
     // The fibers: lines running left to right, always. It is the LOAD that
     // changes direction between rounds, never the fibers, because that is
@@ -103,7 +101,11 @@ class BlendPainter extends CustomPainter {
       ..strokeWidth = 3.4;
     for (var i = 1; i <= count; i++) {
       final y = box.top + box.height * i / (count + 1);
-      canvas.drawLine(Offset(box.left + 4, y), Offset(box.right - 4, y), fibers);
+      canvas.drawLine(
+        Offset(box.left + 4, y),
+        Offset(box.right - 4, y),
+        fibers,
+      );
     }
     canvas.drawRect(
       box,
@@ -115,10 +117,16 @@ class BlendPainter extends CustomPainter {
 
     // The pull.
     if (lay == Lay.along) {
-      _arrow(canvas, Offset(box.left - 10, box.center.dy),
-          Offset(box.left - 34, box.center.dy));
-      _arrow(canvas, Offset(box.right + 10, box.center.dy),
-          Offset(box.right + 34, box.center.dy));
+      _arrow(
+        canvas,
+        Offset(box.left - 10, box.center.dy),
+        Offset(box.left - 34, box.center.dy),
+      );
+      _arrow(
+        canvas,
+        Offset(box.right + 10, box.center.dy),
+        Offset(box.right + 34, box.center.dy),
+      );
     } else {
       for (final x in [box.center.dx - 40, box.center.dx + 40]) {
         _arrow(canvas, Offset(x, box.top - 8), Offset(x, box.top - 30));
@@ -127,20 +135,34 @@ class BlendPainter extends CustomPainter {
     }
 
     writeOn(canvas, size, blend.fiberName, Offset(2, box.top - 4), fiberTone);
-    writeOn(        canvas,
-        size,
-        '${_num(blend.fiberE)} GPa, ${(blend.fiberShare * 100).round()}%',
-        Offset(2, box.top + 10),
-        AppColors.ink3);
-    writeOn(canvas, size, blend.matrixName, Offset(2, box.bottom - 16),
-        AppColors.charcoal);
-    writeOn(        canvas,
-        size,
-        '${_num(blend.matrixE)} GPa, ${(blend.matrixShare * 100).round()}%',
-        Offset(2, box.bottom - 2),
-        AppColors.ink3);
-    writeOn(canvas, size, lay.plain, Offset(box.left, size.height - 16),
-        AppColors.ink3);
+    writeOn(
+      canvas,
+      size,
+      '${_num(blend.fiberE)} GPa, ${(blend.fiberShare * 100).round()}%',
+      Offset(2, box.top + 10),
+      AppColors.ink3,
+    );
+    writeOn(
+      canvas,
+      size,
+      blend.matrixName,
+      Offset(2, box.bottom - 16),
+      AppColors.charcoal,
+    );
+    writeOn(
+      canvas,
+      size,
+      '${_num(blend.matrixE)} GPa, ${(blend.matrixShare * 100).round()}%',
+      Offset(2, box.bottom - 2),
+      AppColors.ink3,
+    );
+    writeOn(
+      canvas,
+      size,
+      lay.plain,
+      Offset(box.left, size.height - 16),
+      AppColors.ink3,
+    );
 
     if (!stretched) return;
     // What it does: along the fibers everything moves together, across them
@@ -149,13 +171,26 @@ class BlendPainter extends CustomPainter {
       ..color = AppColors.forest
       ..strokeWidth = 2;
     if (lay == Lay.along) {
-      canvas.drawLine(Offset(box.right + 2, box.top - 6),
-          Offset(box.right + 16, box.top - 6), grew);
-      writeOn(canvas, size, 'both stretch the same',
-          Offset(box.left, box.bottom + 12), AppColors.forest);
+      canvas.drawLine(
+        Offset(box.right + 2, box.top - 6),
+        Offset(box.right + 16, box.top - 6),
+        grew,
+      );
+      writeOn(
+        canvas,
+        size,
+        'both stretch the same',
+        Offset(box.left, box.bottom + 12),
+        AppColors.forest,
+      );
     } else {
-      writeOn(canvas, size, 'the matrix gives way first',
-          Offset(box.left, box.bottom + 12), AppColors.forest);
+      writeOn(
+        canvas,
+        size,
+        'the matrix gives way first',
+        Offset(box.left, box.bottom + 12),
+        AppColors.forest,
+      );
     }
   }
 

@@ -30,10 +30,10 @@ enum Longer { arc, tangent, same }
 
 extension LongerWords on Longer {
   String get plain => switch (this) {
-        Longer.arc => 'The curve length L, round the arc',
-        Longer.tangent => 'The tangent distance T, out to the PI',
-        Longer.same => 'Neither: they are the same here',
-      };
+    Longer.arc => 'The curve length L, round the arc',
+    Longer.tangent => 'The tangent distance T, out to the PI',
+    Longer.same => 'Neither: they are the same here',
+  };
 }
 
 @immutable
@@ -231,10 +231,10 @@ class _WhichIsLongerGameState extends State<WhichIsLongerGame> {
                     // candidates have to look alike while it is a question.
                     answer: answered
                         ? (r.answer == Longer.tangent
-                            ? Bit.tangent
-                            : r.answer == Longer.arc
-                                ? Bit.arc
-                                : null)
+                              ? Bit.tangent
+                              : r.answer == Longer.arc
+                              ? Bit.arc
+                              : null)
                         : null,
                     locked: answered,
                     label: 'R ${r.bend.radius.round()} ft, I ${r.bend.turn}°',
@@ -266,7 +266,9 @@ class _WhichIsLongerGameState extends State<WhichIsLongerGame> {
             const SizedBox(height: 6),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE LONGER ONE' : 'THE OTHER ONE',
+              title: _session.correct!
+                  ? 'THAT IS THE LONGER ONE'
+                  : 'THE OTHER ONE',
               body: r.why,
             ),
           ],

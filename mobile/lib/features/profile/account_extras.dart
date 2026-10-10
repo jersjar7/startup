@@ -248,7 +248,10 @@ class SheetRow extends StatelessWidget {
                         child: Text(
                           note!,
                           textAlign: TextAlign.right,
-                          style: AppTheme.body(size: 13, color: AppColors.ember),
+                          style: AppTheme.body(
+                            size: 13,
+                            color: AppColors.ember,
+                          ),
                         ),
                       ),
                   ],
@@ -366,8 +369,9 @@ class SchoolRow extends StatelessWidget {
     // should be able to see it from the row (owner, 2026-10-07).
     String withYear(String n) => year == null ? n : '$n, $year';
     final shown = name.isEmpty ? 'Not set' : withYear(name);
-    final shownCompact =
-        name.isEmpty || short == null || short == name ? null : withYear(short);
+    final shownCompact = name.isEmpty || short == null || short == name
+        ? null
+        : withYear(short);
     return SheetRow(
       label: 'School',
       value: shown,
@@ -810,7 +814,11 @@ class AccountSheetHostState extends State<AccountSheetHost> {
 /// Falls back to [full] when there is no compact form, which is the case for
 /// any school the directory has never heard of.
 class _FittingText extends StatelessWidget {
-  const _FittingText({required this.full, required this.compact, required this.style});
+  const _FittingText({
+    required this.full,
+    required this.compact,
+    required this.style,
+  });
 
   final String full;
   final String? compact;
@@ -903,7 +911,9 @@ class _EmailEditorState extends State<EmailEditor> {
       if (mounted) setState(() => _error = e.message);
     } catch (_) {
       if (mounted) {
-        setState(() => _error = 'That could not be saved. Check your connection.');
+        setState(
+          () => _error = 'That could not be saved. Check your connection.',
+        );
       }
     } finally {
       if (mounted) setState(() => _busy = false);

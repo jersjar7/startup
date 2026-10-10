@@ -26,13 +26,13 @@ enum Loss { quarter, half, same, twice, four, thirtyTwo }
 
 extension LossWords on Loss {
   String get plain => switch (this) {
-        Loss.quarter => 'a quarter of the loss',
-        Loss.half => 'half the loss',
-        Loss.same => 'the same loss',
-        Loss.twice => 'twice the loss',
-        Loss.four => 'four times the loss',
-        Loss.thirtyTwo => 'about thirty times the loss',
-      };
+    Loss.quarter => 'a quarter of the loss',
+    Loss.half => 'half the loss',
+    Loss.same => 'the same loss',
+    Loss.twice => 'twice the loss',
+    Loss.four => 'four times the loss',
+    Loss.thirtyTwo => 'about thirty times the loss',
+  };
 }
 
 @immutable
@@ -71,8 +71,7 @@ const lossRounds = <LossRound>[
   ),
   LossRound(
     subject: 'twice the length',
-    change:
-        'The same pipe and the same flow, run out to twice the distance.',
+    change: 'The same pipe and the same flow, run out to twice the distance.',
     options: [Loss.four, Loss.twice, Loss.same, Loss.half],
     answer: Loss.twice,
     why:

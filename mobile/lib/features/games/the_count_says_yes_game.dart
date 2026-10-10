@@ -29,10 +29,10 @@ enum WillItStand { determinate, indeterminate, unstable }
 
 extension VerdictWords on WillItStand {
   String get plain => switch (this) {
-        WillItStand.determinate => 'Stable and determinate',
-        WillItStand.indeterminate => 'Stable and indeterminate',
-        WillItStand.unstable => 'Unstable, whatever the count says',
-      };
+    WillItStand.determinate => 'Stable and determinate',
+    WillItStand.indeterminate => 'Stable and indeterminate',
+    WillItStand.unstable => 'Unstable, whatever the count says',
+  };
 }
 
 @immutable
@@ -138,7 +138,8 @@ const standRounds = <VerdictRound>[
   ),
   VerdictRound(
     subject: 'an ordinary simply supported truss',
-    setting: 'Eleven members, seven joints, a pin at one end and a roller at '
+    setting:
+        'Eleven members, seven joints, a pin at one end and a roller at '
         'the other.',
     skeleton: Skeleton(
       joints: [
@@ -239,12 +240,7 @@ const standRounds = <VerdictRound>[
         (4, 5),
         (5, 6),
       ],
-      holds: {
-        0: Hold.roller,
-        2: Hold.roller,
-        4: Hold.roller,
-        6: Hold.roller,
-      },
+      holds: {0: Hold.roller, 2: Hold.roller, 4: Hold.roller, 6: Hold.roller},
       parallelReactions: true,
     ),
     why:

@@ -50,7 +50,9 @@ class BendRound {
 
   List<(double, double)> get regions {
     final edges = [x0, ...cuts, x1];
-    return [for (var i = 0; i < edges.length - 1; i++) (edges[i], edges[i + 1])];
+    return [
+      for (var i = 0; i < edges.length - 1; i++) (edges[i], edges[i + 1]),
+    ];
   }
 
   /// True where the curve smiles. Read off the second derivative rather than
@@ -205,7 +207,8 @@ class _SignTheBendGameState extends State<SignTheBendGame> {
                 ? null
                 : () => _session.submit(
                     ok: [
-                      for (var i = 0; i < truth.length; i++) _marked[i] == truth[i],
+                      for (var i = 0; i < truth.length; i++)
+                        _marked[i] == truth[i],
                     ].every((ok) => ok),
                     context: context,
                   )),
@@ -263,9 +266,7 @@ class _SignTheBendGameState extends State<SignTheBendGame> {
           ),
           const SizedBox(height: 8),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: CurveGeometry.padX,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: CurveGeometry.padX),
             child: Row(
               children: [
                 for (var i = 0; i < r.regions.length; i++) ...[
@@ -287,10 +288,7 @@ class _SignTheBendGameState extends State<SignTheBendGame> {
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            r.unit,
-            style: AppTheme.mono(size: 11, color: AppColors.ink3),
-          ),
+          Text(r.unit, style: AppTheme.mono(size: 11, color: AppColors.ink3)),
           if (answered) ...[
             const SizedBox(height: 16),
             BoardFeedback(

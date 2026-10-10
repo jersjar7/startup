@@ -286,7 +286,9 @@ class _RankByStiffnessGameState extends State<RankByStiffnessGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE ORDER' : 'A DIFFERENT ORDER',
+              title: _session.correct!
+                  ? 'THAT IS THE ORDER'
+                  : 'A DIFFERENT ORDER',
               body: r.why,
             ),
           ],

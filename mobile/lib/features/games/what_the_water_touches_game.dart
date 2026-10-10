@@ -109,8 +109,7 @@ const touchRounds = <TouchRound>[
   ),
   TouchRound(
     subject: 'an earth channel with sloped sides',
-    channel:
-        Channel(shape: Shaped.trapezoid, width: 4, depth: 2, sideRun: 1.5),
+    channel: Channel(shape: Shaped.trapezoid, width: 4, depth: 2, sideRun: 1.5),
     traced: [Edge.leftWet, Edge.rightWet],
     fault: Edge.bed,
     why:
@@ -124,13 +123,13 @@ const touchRounds = <TouchRound>[
   TouchRound(
     subject: 'a ditch cut deeper than it runs',
     channel: Channel(
-        shape: Shaped.trapezoid, width: 3, depth: 2, sideRun: 2, rim: 1),
-    traced: [
-      Edge.bed,
-      Edge.leftWet,
-      Edge.rightWet,
-      Edge.leftDry,
-    ],
+      shape: Shaped.trapezoid,
+      width: 3,
+      depth: 2,
+      sideRun: 2,
+      rim: 1,
+    ),
+    traced: [Edge.bed, Edge.leftWet, Edge.rightWet, Edge.leftDry],
     fault: Edge.leftDry,
     why:
         'The dry part of the left side. The same rule as the concrete '
@@ -294,8 +293,11 @@ class _Section extends StatelessWidget {
           onTapUp: onPick == null
               ? null
               : (details) {
-                  final hit =
-                      SectionPainter.at(size, channel, details.localPosition);
+                  final hit = SectionPainter.at(
+                    size,
+                    channel,
+                    details.localPosition,
+                  );
                   if (hit != null) onPick!(hit);
                 },
           child: Container(

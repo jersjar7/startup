@@ -72,8 +72,7 @@ const netRounds = <NetRound>[
   ),
   NetRound(
     subject: 'what a channel is',
-    asked:
-        'What does one flow channel mean on this drawing?',
+    asked: 'What does one flow channel mean on this drawing?',
     net: _lessonNet,
     options: [
       'A lane between two flow lines that carries its own share of the water',
@@ -91,8 +90,7 @@ const netRounds = <NetRound>[
   ),
   NetRound(
     subject: 'what a drop is',
-    asked:
-        'And what is one equipotential drop?',
+    asked: 'And what is one equipotential drop?',
     net: _lessonNet,
     options: [
       'One equal step of head, the total head divided by the number of '

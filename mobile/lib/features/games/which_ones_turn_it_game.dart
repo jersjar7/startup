@@ -54,9 +54,9 @@ class SenseRound {
 
   /// Worked out from the geometry rather than declared beside it.
   Set<int> get answer => {
-        for (var i = 0; i < scene.forces.length; i++)
-          if (momentOf(i) < -0.0001) i,
-      };
+    for (var i = 0; i < scene.forces.length; i++)
+      if (momentOf(i) < -0.0001) i,
+  };
 
   String senseOf(int i) {
     final m = momentOf(i);
@@ -265,7 +265,7 @@ class _WhichOnesTurnItGameState extends State<WhichOnesTurnItGame> {
                     ok: _none
                         ? truth.isEmpty
                         : _picked.length == truth.length &&
-                            _picked.containsAll(truth),
+                              _picked.containsAll(truth),
                     context: context,
                   )),
       child: Column(
@@ -303,9 +303,9 @@ class _WhichOnesTurnItGameState extends State<WhichOnesTurnItGame> {
             onTap: answered
                 ? null
                 : (i) => setState(() {
-                      _none = false;
-                      if (!_picked.add(i)) _picked.remove(i);
-                    }),
+                    _none = false;
+                    if (!_picked.add(i)) _picked.remove(i);
+                  }),
           ),
           const SizedBox(height: 8),
           _NoneRow(
@@ -315,16 +315,13 @@ class _WhichOnesTurnItGameState extends State<WhichOnesTurnItGame> {
             onTap: answered
                 ? null
                 : () => setState(() {
-                      _picked.clear();
-                      _none = !_none;
-                    }),
+                    _picked.clear();
+                    _none = !_none;
+                  }),
           ),
           if (answered) ...[
             const SizedBox(height: 16),
-            Text(
-              'EACH ONE',
-              style: AppTheme.overline(color: AppColors.ink3),
-            ),
+            Text('EACH ONE', style: AppTheme.overline(color: AppColors.ink3)),
             const SizedBox(height: 4),
             for (var i = 0; i < r.scene.forces.length; i++)
               Padding(
@@ -393,8 +390,7 @@ class _Figure extends StatelessWidget {
                       child: const SizedBox.expand(),
                     ),
                   ),
-                  for (var i = 0; i < scene.forces.length; i++)
-                    _zone(i, size),
+                  for (var i = 0; i < scene.forces.length; i++) _zone(i, size),
                 ],
               );
             },

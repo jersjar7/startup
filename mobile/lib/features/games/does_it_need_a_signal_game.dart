@@ -17,8 +17,7 @@ class DoesItNeedASignalGame extends StatefulWidget {
   const DoesItNeedASignalGame({super.key});
 
   @override
-  State<DoesItNeedASignalGame> createState() =>
-      _DoesItNeedASignalGameState();
+  State<DoesItNeedASignalGame> createState() => _DoesItNeedASignalGameState();
 }
 
 @immutable

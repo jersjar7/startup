@@ -29,13 +29,16 @@ void main() {
   });
 
   group('the inputs survive between call sites', () {
-    test('a date given once is still used when only study is reported', () async {
-      final n = Notifications();
-      await n.rearm(examDay: '2026-04-10', lastStudyDay: '2026-03-01');
-      await n.studiedOn(DateTime(2026, 3, 2));
-      expect(Notifications.debugExamDay, '2026-04-10');
-      expect(Notifications.debugStudyDay, '2026-03-02');
-    });
+    test(
+      'a date given once is still used when only study is reported',
+      () async {
+        final n = Notifications();
+        await n.rearm(examDay: '2026-04-10', lastStudyDay: '2026-03-01');
+        await n.studiedOn(DateTime(2026, 3, 2));
+        expect(Notifications.debugExamDay, '2026-04-10');
+        expect(Notifications.debugStudyDay, '2026-03-02');
+      },
+    );
 
     test('study reported first is not wiped by a later date change', () async {
       final n = Notifications();

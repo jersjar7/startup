@@ -29,10 +29,10 @@ enum Way { up, down, level }
 
 extension WayWords on Way {
   String get plain => switch (this) {
-        Way.up => 'Stronger',
-        Way.down => 'Weaker',
-        Way.level => 'No real change either way',
-      };
+    Way.up => 'Stronger',
+    Way.down => 'Weaker',
+    Way.level => 'No real change either way',
+  };
 }
 
 @immutable

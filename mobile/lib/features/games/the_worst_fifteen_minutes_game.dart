@@ -97,8 +97,7 @@ const surgeRounds = <SurgeRound>[
   ),
   SurgeRound(
     subject: 'an hour that arrives evenly',
-    asked:
-        'Here the four quarters are equal. What is the peak hour factor?',
+    asked: 'Here the four quarters are equal. What is the peak hour factor?',
     hour: _evenHour,
     options: [
       'Zero',
@@ -262,10 +261,7 @@ class _TheWorstFifteenMinutesGameState
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: PeakPainter(
-                    hour: r.hour,
-                    answered: answered,
-                  ),
+                  painter: PeakPainter(hour: r.hour, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

@@ -31,18 +31,9 @@ enum Delivery { designBidBuild, designBuild, cmAtRisk }
 List<(String, bool)> boxesFor(Delivery d) => switch (d) {
   // Short enough to fit the box. A truncated label reads as an abbreviation
   // nobody chose, which is worse than a shorter word.
-  Delivery.designBidBuild => [
-    ('Designer', true),
-    ('Builder', true),
-  ],
-  Delivery.designBuild => [
-    ('DB firm', true),
-    ('Subs', false),
-  ],
-  Delivery.cmAtRisk => [
-    ('Designer', true),
-    ('CM', true),
-  ],
+  Delivery.designBidBuild => [('Designer', true), ('Builder', true)],
+  Delivery.designBuild => [('DB firm', true), ('Subs', false)],
+  Delivery.cmAtRisk => [('Designer', true), ('CM', true)],
 };
 
 @immutable

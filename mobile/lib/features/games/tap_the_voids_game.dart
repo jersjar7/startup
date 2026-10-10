@@ -54,8 +54,7 @@ const _open = Puck(air: 7, binder: 10);
 const voidRounds = <VoidRound>[
   VoidRound(
     subject: 'a mix at the design point',
-    asked:
-        'Tap the part that the air void percentage measures.',
+    asked: 'Tap the part that the air void percentage measures.',
     puck: _design,
     answer: Piece2.air,
     why:
@@ -67,8 +66,7 @@ const voidRounds = <VoidRound>[
   ),
   VoidRound(
     subject: 'the space between the stones',
-    asked:
-        'Tap what the voids in the mineral aggregate measure.',
+    asked: 'Tap what the voids in the mineral aggregate measure.',
     puck: _design,
     answer: Piece2.vma,
     why:
@@ -228,7 +226,10 @@ class _TapTheVoidsGameState extends State<TapTheVoidsGame> {
                     ? null
                     : (details) {
                         final hit = PuckPainter.at(
-                            size, r.puck, details.localPosition);
+                          size,
+                          r.puck,
+                          details.localPosition,
+                        );
                         if (hit != null) setState(() => _picked = hit);
                       },
                 child: EngineeringGrid(

@@ -179,7 +179,8 @@ const madeRounds = <MadeRound>[
   ),
   MadeRound(
     subject: 'tension one way, compression the other',
-    setting: 'Eighty of tension one way, twenty of compression the other, no '
+    setting:
+        'Eighty of tension one way, twenty of compression the other, no '
         'shear.',
     stress: Stress(x: 80, y: -20, xy: 0),
     options: [Built.centerOnX, Built.right, Built.shearOnly],
@@ -321,7 +322,9 @@ class _WhichCircleIsItGameState extends State<WhichCircleIsItGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE CIRCLE' : 'A DIFFERENT POINT',
+              title: _session.correct!
+                  ? 'THAT IS THE CIRCLE'
+                  : 'A DIFFERENT POINT',
               body: r.why,
             ),
           ],
@@ -382,11 +385,7 @@ class _Panel extends StatelessWidget {
             ),
           ),
           child: CustomPaint(
-            painter: MohrPainter(
-              stress: stress,
-              span: window,
-              tone: tone,
-            ),
+            painter: MohrPainter(stress: stress, span: window, tone: tone),
             child: const SizedBox.expand(),
           ),
         ),

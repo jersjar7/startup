@@ -42,11 +42,10 @@ class CaseRound {
   Case get answer => squeeze.which;
 
   static String label(Case which) => switch (which) {
-        Case.recompression =>
-          'All of it in recompression: the stiff index alone',
-        Case.normally => 'Normally consolidated: the soft index alone',
-        Case.crossing => 'It crosses: both indexes, in two pieces',
-      };
+    Case.recompression => 'All of it in recompression: the stiff index alone',
+    Case.normally => 'Normally consolidated: the soft index alone',
+    Case.crossing => 'It crosses: both indexes, in two pieces',
+  };
 }
 
 const caseRounds = <CaseRound>[
@@ -70,7 +69,12 @@ const caseRounds = <CaseRound>[
         'This clay carries 800 and remembers 1,500. Four hundred are added. '
         'Which case?',
     squeeze: Squeeze(
-        now: 800, remembered: 1500, added: 400, cc: 0.40, cr: 0.06),
+      now: 800,
+      remembered: 1500,
+      added: 400,
+      cc: 0.40,
+      cr: 0.06,
+    ),
     why:
         'All of it in recompression. The load lands at 1,200, still under the '
         '1,500 the clay has carried before, so the whole move is over ground '
@@ -80,11 +84,16 @@ const caseRounds = <CaseRound>[
   ),
   CaseRound(
     subject: 'the lesson\'s hard one',
-    asked:
-        'Carries 800, remembers 1,200, and 600 are added. Which case?',
+    asked: 'Carries 800, remembers 1,200, and 600 are added. Which case?',
     squeeze: Squeeze(
-        now: 800, remembered: 1200, added: 600, cc: 0.40, cr: 0.06,
-        thickness: 12, voidRatio: 1.10),
+      now: 800,
+      remembered: 1200,
+      added: 600,
+      cc: 0.40,
+      cr: 0.06,
+      thickness: 12,
+      voidRatio: 1.10,
+    ),
     why:
         'It crosses. The load ends at 1,400, past the 1,200 the clay '
         'remembers, so the move has to be split: the stiff index from 800 up '
@@ -99,7 +108,12 @@ const caseRounds = <CaseRound>[
         'Carries 900, remembers 1,400, and exactly 500 are added, taking it '
         'to 1,400. Which case?',
     squeeze: Squeeze(
-        now: 900, remembered: 1400, added: 500, cc: 0.35, cr: 0.05),
+      now: 900,
+      remembered: 1400,
+      added: 500,
+      cc: 0.35,
+      cr: 0.05,
+    ),
     why:
         'Still all recompression. The load stops exactly on the memory '
         'without passing it, so the virgin line is never reached and the '
@@ -128,7 +142,12 @@ const caseRounds = <CaseRound>[
         'A crust that carries 600 but remembers 4,000, with 500 added. Which '
         'case?',
     squeeze: Squeeze(
-        now: 600, remembered: 4000, added: 500, cc: 0.35, cr: 0.05),
+      now: 600,
+      remembered: 4000,
+      added: 500,
+      cc: 0.35,
+      cr: 0.05,
+    ),
     why:
         'Recompression, and with plenty of room left: the load barely dents '
         'the memory. A clay like this has been dried out or had ground '

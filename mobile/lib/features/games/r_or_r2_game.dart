@@ -58,7 +58,8 @@ class RRound {
 const rRounds = <RRound>[
   RRound(
     given: r'r = -0.92',
-    ask: 'What percentage of the variation in condition rating is explained '
+    ask:
+        'What percentage of the variation in condition rating is explained '
         'by the age of the bridge?',
     options: [
       ROption('84.6%', 'r squared'),
@@ -312,10 +313,7 @@ class _OptionRow extends StatelessWidget {
             children: [
               SizedBox(
                 width: 76,
-                child: Text(
-                  option.value,
-                  style: AppTheme.code(size: 16),
-                ),
+                child: Text(option.value, style: AppTheme.code(size: 16)),
               ),
               Expanded(
                 child: Text(

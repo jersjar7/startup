@@ -71,8 +71,7 @@ const areaRounds = <AreaRound>[
   ),
   AreaRound(
     subject: 'a square hollow section',
-    setting:
-        'A square tube, the sort a handrail is made from. Same question.',
+    setting: 'A square tube, the sort a handrail is made from. Same question.',
     tube: Tube(shape: TubeShape.square, width: 80, height: 80, wall: 4),
     panels: [Region.outer, Region.material, Region.median],
     why:
@@ -217,8 +216,7 @@ class _WhichAreaTwistsItGameState extends State<WhichAreaTwistsItGame> {
           Center(
             child: MathText(
               r'$\tau = \dfrac{T}{2\,t\,A_m}$',
-              style:
-                  const TextStyle(fontSize: 18, color: AppColors.charcoal),
+              style: const TextStyle(fontSize: 18, color: AppColors.charcoal),
             ),
           ),
           const SizedBox(height: 12),
@@ -249,7 +247,9 @@ class _WhichAreaTwistsItGameState extends State<WhichAreaTwistsItGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE AREA' : 'A DIFFERENT AREA',
+              title: _session.correct!
+                  ? 'THAT IS THE AREA'
+                  : 'A DIFFERENT AREA',
               body: r.why,
             ),
           ],

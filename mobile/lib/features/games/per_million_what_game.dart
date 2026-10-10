@@ -97,8 +97,7 @@ const exposureRounds = <ExposureRound>[
   ),
   ExposureRound(
     subject: 'why a million',
-    asked:
-        'The formula multiplies by a million. What would happen without it?',
+    asked: 'The formula multiplies by a million. What would happen without it?',
     rate: _theIntersection,
     options: [
       'The answer would be four millionths of a crash per vehicle, a number '
@@ -265,10 +264,7 @@ class _PerMillionWhatGameState extends State<PerMillionWhatGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: ExposurePainter(
-                    rate: r.rate,
-                    answered: answered,
-                  ),
+                  painter: ExposurePainter(rate: r.rate, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

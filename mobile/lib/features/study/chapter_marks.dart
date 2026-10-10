@@ -135,10 +135,11 @@ class ChapterMarkPainter extends CustomPainter {
       ..drawLine(const Offset(128, 64), const Offset(128, 424), thin)
       ..drawLine(const Offset(80, 400), const Offset(456, 400), thin)
       ..drawPath(
-          Path()
-            ..moveTo(176, 120)
-            ..quadraticBezierTo(288, 464, 424, 120),
-          ink);
+        Path()
+          ..moveTo(176, 120)
+          ..quadraticBezierTo(288, 464, 424, 120),
+        ink,
+      );
   }
 
   // ── 02 Probability & Statistics ───────────────────────────────────
@@ -147,11 +148,12 @@ class ChapterMarkPainter extends CustomPainter {
     canvas
       ..drawLine(const Offset(72, 400), const Offset(456, 400), thin)
       ..drawPath(
-          Path()
-            ..moveTo(88, 400)
-            ..cubicTo(200, 400, 186, 136, 264, 136)
-            ..cubicTo(342, 136, 328, 400, 440, 400),
-          ink);
+        Path()
+          ..moveTo(88, 400)
+          ..cubicTo(200, 400, 186, 136, 264, 136)
+          ..cubicTo(342, 136, 328, 400, 440, 400),
+        ink,
+      );
     _dashed(canvas, const Offset(264, 152), const Offset(264, 400), thin);
   }
 
@@ -168,10 +170,11 @@ class ChapterMarkPainter extends CustomPainter {
       canvas
         ..drawLine(Offset(x, 156), Offset(x, 224), thin)
         ..drawPath(
-            Path()
-              ..moveTo(x - 68, 224)
-              ..quadraticBezierTo(x, 316, x + 68, 224),
-            ink);
+          Path()
+            ..moveTo(x - 68, 224)
+            ..quadraticBezierTo(x, 316, x + 68, 224),
+          ink,
+        );
     }
   }
 
@@ -197,13 +200,14 @@ class ChapterMarkPainter extends CustomPainter {
       ..drawLine(const Offset(72, bottom), const Offset(440, bottom), ink)
       ..drawLine(const Offset(164, top), const Offset(348, top), ink)
       ..drawPath(
-          Path()
-            ..moveTo(72, bottom)
-            ..lineTo(164, top)
-            ..lineTo(256, bottom)
-            ..lineTo(348, top)
-            ..lineTo(440, bottom),
-          ink);
+        Path()
+          ..moveTo(72, bottom)
+          ..lineTo(164, top)
+          ..lineTo(256, bottom)
+          ..lineTo(348, top)
+          ..lineTo(440, bottom),
+        ink,
+      );
     for (final p in const [
       Offset(72, bottom),
       Offset(164, top),
@@ -219,12 +223,13 @@ class ChapterMarkPainter extends CustomPainter {
     // statics problem rather than a shape.
     canvas
       ..drawPath(
-          Path()
-            ..moveTo(72, bottom + 14)
-            ..lineTo(36, bottom + 76)
-            ..lineTo(108, bottom + 76)
-            ..close(),
-          thin)
+        Path()
+          ..moveTo(72, bottom + 14)
+          ..lineTo(36, bottom + 76)
+          ..lineTo(108, bottom + 76)
+          ..close(),
+        thin,
+      )
       ..drawCircle(const Offset(440, bottom + 42), 28, thin);
     _ground(canvas, 20, 124, bottom + 80, thin);
     _ground(canvas, 388, 492, bottom + 74, thin);
@@ -241,10 +246,11 @@ class ChapterMarkPainter extends CustomPainter {
     canvas
       ..drawLine(const Offset(56, 424), const Offset(456, 424), thin)
       ..drawPath(
-          Path()
-            ..moveTo(104, 424)
-            ..quadraticBezierTo(256, 32, 408, 424),
-          ink)
+        Path()
+          ..moveTo(104, 424)
+          ..quadraticBezierTo(256, 32, 408, 424),
+        ink,
+      )
       ..drawCircle(const Offset(256, 228), 28, solid);
     _dashed(canvas, const Offset(256, 264), const Offset(256, 424), thin);
   }
@@ -256,19 +262,21 @@ class ChapterMarkPainter extends CustomPainter {
     const seat = 236.0;
     const base = 320.0;
     canvas.drawPath(
-        Path()
-          ..moveTo(88, seat)
-          ..quadraticBezierTo(256, 372, 424, seat),
-        ink);
+      Path()
+        ..moveTo(88, seat)
+        ..quadraticBezierTo(256, 372, 424, seat),
+      ink,
+    );
     _arrow(canvas, const Offset(256, 76), const Offset(256, 268), ink);
     canvas
       ..drawPath(
-          Path()
-            ..moveTo(88, seat + 10)
-            ..lineTo(44, base)
-            ..lineTo(132, base)
-            ..close(),
-          thin)
+        Path()
+          ..moveTo(88, seat + 10)
+          ..lineTo(44, base)
+          ..lineTo(132, base)
+          ..close(),
+        thin,
+      )
       ..drawCircle(const Offset(424, base - 30), 30, thin);
     _ground(canvas, 26, 150, base + 4, thin);
     _ground(canvas, 362, 486, base + 4, thin);
@@ -282,13 +290,14 @@ class ChapterMarkPainter extends CustomPainter {
       ..drawLine(const Offset(112, 72), const Offset(112, 424), thin)
       ..drawLine(const Offset(112, 424), const Offset(456, 424), thin)
       ..drawPath(
-          Path()
-            ..moveTo(112, 424)
-            ..lineTo(208, 216)
-            ..quadraticBezierTo(248, 138, 320, 152)
-            ..quadraticBezierTo(378, 164, 400, 116)
-            ..lineTo(440, 200),
-          ink)
+        Path()
+          ..moveTo(112, 424)
+          ..lineTo(208, 216)
+          ..quadraticBezierTo(248, 138, 320, 152)
+          ..quadraticBezierTo(378, 164, 400, 116)
+          ..lineTo(440, 200),
+        ink,
+      )
       ..drawCircle(const Offset(208, 216), 17, solid);
   }
 
@@ -322,30 +331,42 @@ class ChapterMarkPainter extends CustomPainter {
       ..lineTo(innerL, leftLevel)
       ..close();
     canvas.drawPath(
-        liquid, Paint()..color = color.withValues(alpha: color.a * 0.3));
+      liquid,
+      Paint()..color = color.withValues(alpha: color.a * 0.3),
+    );
 
     canvas
       ..drawPath(
-          Path()
-            ..moveTo(outerL, 88)
-            ..lineTo(outerL, 336)
-            ..quadraticBezierTo(outerL, 420, 218, 420)
-            ..lineTo(294, 420)
-            ..quadraticBezierTo(outerR, 420, outerR, 336)
-            ..lineTo(outerR, 140),
-          ink)
+        Path()
+          ..moveTo(outerL, 88)
+          ..lineTo(outerL, 336)
+          ..quadraticBezierTo(outerL, 420, 218, 420)
+          ..lineTo(294, 420)
+          ..quadraticBezierTo(outerR, 420, outerR, 336)
+          ..lineTo(outerR, 140),
+        ink,
+      )
       ..drawPath(
-          Path()
-            ..moveTo(innerL, 88)
-            ..lineTo(innerL, 330)
-            ..quadraticBezierTo(innerL, 356, 240, 356)
-            ..lineTo(272, 356)
-            ..quadraticBezierTo(innerR, 356, innerR, 330)
-            ..lineTo(innerR, 140),
-          ink)
+        Path()
+          ..moveTo(innerL, 88)
+          ..lineTo(innerL, 330)
+          ..quadraticBezierTo(innerL, 356, 240, 356)
+          ..lineTo(272, 356)
+          ..quadraticBezierTo(innerR, 356, innerR, 330)
+          ..lineTo(innerR, 140),
+        ink,
+      )
       // The two readings, at full weight so they survive the shrink.
-      ..drawLine(const Offset(outerL, leftLevel), const Offset(innerL, leftLevel), ink)
-      ..drawLine(const Offset(innerR, rightLevel), const Offset(outerR, rightLevel), ink);
+      ..drawLine(
+        const Offset(outerL, leftLevel),
+        const Offset(innerL, leftLevel),
+        ink,
+      )
+      ..drawLine(
+        const Offset(innerR, rightLevel),
+        const Offset(outerR, rightLevel),
+        ink,
+      );
   }
 
   // ── 10 Surveying ──────────────────────────────────────────────────
@@ -358,31 +379,32 @@ class ChapterMarkPainter extends CustomPainter {
   /// inside a space the size of a fingernail. A traverse is the other half
   /// of the chapter and it is four lines and four dots.
   void _surveying(Canvas canvas, Paint ink) {
-
     const a = Offset(104, 344);
     const b = Offset(216, 152);
     const c = Offset(400, 232);
     const d = Offset(344, 424);
     canvas.drawPath(
-        Path()
-          ..moveTo(a.dx, a.dy)
-          ..lineTo(b.dx, b.dy)
-          ..lineTo(c.dx, c.dy)
-          ..lineTo(d.dx, d.dy)
-          ..close(),
-        ink);
+      Path()
+        ..moveTo(a.dx, a.dy)
+        ..lineTo(b.dx, b.dy)
+        ..lineTo(c.dx, c.dy)
+        ..lineTo(d.dx, d.dy)
+        ..close(),
+      ink,
+    );
     // North, because a closed figure with dots on it is a shape and a
     // closed figure with north on it is a plan. The angle arc that was here
     // instead came out at 44 points as a hook nobody could place.
     canvas
       ..drawLine(const Offset(96, 176), const Offset(96, 104), ink)
       ..drawPath(
-          Path()
-            ..moveTo(96, 72)
-            ..lineTo(75, 118)
-            ..lineTo(117, 118)
-            ..close(),
-          Paint()..color = color);
+        Path()
+          ..moveTo(96, 72)
+          ..lineTo(75, 118)
+          ..lineTo(117, 118)
+          ..close(),
+        Paint()..color = color,
+      );
     for (final p in const [a, b, c, d]) {
       canvas
         ..drawCircle(p, 17, Paint()..color = const Color(0x00000000))
@@ -395,21 +417,23 @@ class ChapterMarkPainter extends CustomPainter {
   void _water(Canvas canvas, Paint ink, Paint thin, Paint solid) {
     canvas
       ..drawPath(
-          Path()
-            ..moveTo(72, 128)
-            ..lineTo(168, 384)
-            ..lineTo(344, 384)
-            ..lineTo(440, 128),
-          ink)
+        Path()
+          ..moveTo(72, 128)
+          ..lineTo(168, 384)
+          ..lineTo(344, 384)
+          ..lineTo(440, 128),
+        ink,
+      )
       ..drawLine(const Offset(116, 246), const Offset(396, 246), ink)
       // The mark that says this line is a water surface and not a ledge.
       ..drawPath(
-          Path()
-            ..moveTo(226, 200)
-            ..lineTo(286, 200)
-            ..lineTo(256, 246)
-            ..close(),
-          solid);
+        Path()
+          ..moveTo(226, 200)
+          ..lineTo(286, 200)
+          ..lineTo(256, 246)
+          ..close(),
+        solid,
+      );
     _ground(canvas, 24, 96, 128, thin);
     _ground(canvas, 416, 488, 128, thin);
   }
@@ -441,16 +465,17 @@ class ChapterMarkPainter extends CustomPainter {
     const surface = 236.0;
     canvas
       ..drawPath(
-          Path()
-            ..moveTo(228, 72)
-            ..lineTo(228, 168)
-            ..lineTo(160, 168)
-            ..lineTo(160, surface)
-            ..lineTo(352, surface)
-            ..lineTo(352, 168)
-            ..lineTo(284, 168)
-            ..lineTo(284, 72),
-          ink)
+        Path()
+          ..moveTo(228, 72)
+          ..lineTo(228, 168)
+          ..lineTo(160, 168)
+          ..lineTo(160, surface)
+          ..lineTo(352, surface)
+          ..lineTo(352, 168)
+          ..lineTo(284, 168)
+          ..lineTo(284, 72),
+        ink,
+      )
       ..drawLine(const Offset(40, surface), const Offset(160, surface), ink)
       ..drawLine(const Offset(352, surface), const Offset(472, surface), ink)
       ..drawLine(const Offset(40, 336), const Offset(472, 336), ink)
@@ -459,7 +484,11 @@ class ChapterMarkPainter extends CustomPainter {
     // Upper stratum: back-slanted hatching, well spaced so it reads as
     // hatching and not as texture.
     for (final x in [96.0, 424.0]) {
-      canvas.drawLine(Offset(x, surface + 20), Offset(x - 48, surface + 76), thin);
+      canvas.drawLine(
+        Offset(x, surface + 20),
+        Offset(x - 48, surface + 76),
+        thin,
+      );
     }
     // Lower stratum: the horizontal dashes a clay is drawn with.
     for (final (x, y) in [(88.0, 376.0), (216.0, 404.0), (344.0, 376.0)]) {

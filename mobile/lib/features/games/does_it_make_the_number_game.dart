@@ -28,11 +28,11 @@ enum Passes { left, right, both, neither }
 
 extension PassesWords on Passes {
   String get plain => switch (this) {
-        Passes.left => 'Only the left one',
-        Passes.right => 'Only the right one',
-        Passes.both => 'Both of them',
-        Passes.neither => 'Neither of them',
-      };
+    Passes.left => 'Only the left one',
+    Passes.right => 'Only the right one',
+    Passes.both => 'Both of them',
+    Passes.neither => 'Neither of them',
+  };
 }
 
 @immutable
@@ -82,18 +82,8 @@ const slabRounds = <SlabRound>[
     setting:
         'A structural slab specified at 4,500 psi. Both mixes broke well '
         'above that in the lab.',
-    left: Pour(
-      name: 'Mix A',
-      lab: 5400,
-      factor: 0.92,
-      curing: '14 days moist',
-    ),
-    right: Pour(
-      name: 'Mix B',
-      lab: 4600,
-      factor: 0.85,
-      curing: '7 days moist',
-    ),
+    left: Pour(name: 'Mix A', lab: 5400, factor: 0.92, curing: '14 days moist'),
+    right: Pour(name: 'Mix B', lab: 4600, factor: 0.85, curing: '7 days moist'),
     needs: 4500,
     why:
         'Only Mix A. Both lab figures clear 4,500, which is exactly the trap: '
@@ -107,12 +97,7 @@ const slabRounds = <SlabRound>[
     setting:
         'A 3,000 psi footing. Both pours are kept wet under plastic for a '
         'fortnight.',
-    left: Pour(
-      name: 'north',
-      lab: 4200,
-      factor: 0.95,
-      curing: '14 days moist',
-    ),
+    left: Pour(name: 'north', lab: 4200, factor: 0.95, curing: '14 days moist'),
     right: Pour(
       name: 'south',
       lab: 3800,
@@ -210,12 +195,7 @@ const slabRounds = <SlabRound>[
     setting:
         'A 4,500 psi slab again. Both mixes are cured to the same standard '
         'this time, and only the mix is different.',
-    left: Pour(
-      name: 'Mix C',
-      lab: 5600,
-      factor: 0.90,
-      curing: '10 days moist',
-    ),
+    left: Pour(name: 'Mix C', lab: 5600, factor: 0.90, curing: '10 days moist'),
     right: Pour(
       name: 'Mix D',
       lab: 4500,
@@ -256,12 +236,12 @@ class _DoesItMakeTheNumberGameState extends State<DoesItMakeTheNumberGame> {
   SlabRound get _round => slabRounds[_session.round];
 
   List<bool>? _flags(Passes? which) => switch (which) {
-        null => null,
-        Passes.left => [true, false],
-        Passes.right => [false, true],
-        Passes.both => [true, true],
-        Passes.neither => [false, false],
-      };
+    null => null,
+    Passes.left => [true, false],
+    Passes.right => [false, true],
+    Passes.both => [true, true],
+    Passes.neither => [false, false],
+  };
 
   @override
   Widget build(BuildContext context) {

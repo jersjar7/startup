@@ -28,10 +28,10 @@ enum Sits { tooBig, tooSmall, same }
 
 extension SitsWords on Sits {
   String get plain => switch (this) {
-        Sits.tooBig => 'Too big',
-        Sits.tooSmall => 'Too small',
-        Sits.same => 'No difference at all',
-      };
+    Sits.tooBig => 'Too big',
+    Sits.tooSmall => 'Too small',
+    Sits.same => 'No difference at all',
+  };
 }
 
 @immutable
@@ -283,7 +283,9 @@ class _TooBigOrTooSmallGameState extends State<TooBigOrTooSmallGame> {
             const SizedBox(height: 6),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHERE IT LANDS' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS WHERE IT LANDS'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],
@@ -314,13 +316,17 @@ class _Swap extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                Text('what belongs',
-                    style: AppTheme.mono(size: 10.5, color: AppColors.ink3)),
+                Text(
+                  'what belongs',
+                  style: AppTheme.mono(size: 10.5, color: AppColors.ink3),
+                ),
                 const SizedBox(height: 6),
                 MathText(
                   belongs,
-                  style:
-                      const TextStyle(fontSize: 15, color: AppColors.charcoal),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: AppColors.charcoal,
+                  ),
                 ),
               ],
             ),
@@ -329,13 +335,17 @@ class _Swap extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                Text('what went in',
-                    style: AppTheme.mono(size: 10.5, color: AppColors.error)),
+                Text(
+                  'what went in',
+                  style: AppTheme.mono(size: 10.5, color: AppColors.error),
+                ),
                 const SizedBox(height: 6),
                 MathText(
                   wrote,
-                  style:
-                      const TextStyle(fontSize: 15, color: AppColors.charcoal),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: AppColors.charcoal,
+                  ),
                 ),
               ],
             ),

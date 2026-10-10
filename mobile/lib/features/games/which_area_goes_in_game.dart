@@ -50,8 +50,14 @@ const meterRounds = <MeterRound>[
         'The meter narrows to a throat and opens out again. Which of the four '
         'openings does the flow rate go on?',
     gauge: Gauge(
-      wall: [(0, 200), (0.3, 200), (0.42, 100), (0.55, 100), (0.72, 200),
-        (1, 200)],
+      wall: [
+        (0, 200),
+        (0.3, 200),
+        (0.42, 100),
+        (0.55, 100),
+        (0.72, 200),
+        (1, 200),
+      ],
       taps: (0.18, 0.48),
       stations: [
         Sta(at: 0.15),
@@ -75,8 +81,14 @@ const meterRounds = <MeterRound>[
         'A sharp-edged plate with a hole in it, set in a 150 millimeter pipe. '
         'The tappings are either side of it.',
     gauge: Gauge(
-      wall: [(0, 150), (0.43, 150), (0.44, 75), (0.46, 75), (0.47, 150),
-        (1, 150)],
+      wall: [
+        (0, 150),
+        (0.43, 150),
+        (0.44, 75),
+        (0.46, 75),
+        (0.47, 150),
+        (1, 150),
+      ],
       plateAt: 0.45,
       taps: (0.3, 0.62),
       stations: [
@@ -99,8 +111,16 @@ const meterRounds = <MeterRound>[
         'The 300 millimeter main carries a venturi, and further down it steps '
         'to 120 millimeter, narrower than anything in the meter.',
     gauge: Gauge(
-      wall: [(0, 300), (0.28, 300), (0.38, 150), (0.46, 150), (0.6, 300),
-        (0.8, 300), (0.86, 120), (1, 120)],
+      wall: [
+        (0, 300),
+        (0.28, 300),
+        (0.38, 150),
+        (0.46, 150),
+        (0.6, 300),
+        (0.8, 300),
+        (0.86, 120),
+        (1, 120),
+      ],
       taps: (0.16, 0.42),
       stations: [
         Sta(at: 0.15),
@@ -123,8 +143,14 @@ const meterRounds = <MeterRound>[
         'The same plate again, with the jet drawn. It keeps shrinking after '
         'it leaves the hole before it spreads out to fill the pipe.',
     gauge: Gauge(
-      wall: [(0, 150), (0.43, 150), (0.44, 75), (0.46, 75), (0.47, 150),
-        (1, 150)],
+      wall: [
+        (0, 150),
+        (0.43, 150),
+        (0.44, 75),
+        (0.46, 75),
+        (0.47, 150),
+        (1, 150),
+      ],
       plateAt: 0.45,
       jet: [(0.46, 75), (0.57, 59), (0.78, 150)],
       taps: (0.3, 0.62),
@@ -150,8 +176,16 @@ const meterRounds = <MeterRound>[
         'The main steps from 250 to 200 millimeter early on, and the venturi '
         'is further along.',
     gauge: Gauge(
-      wall: [(0, 250), (0.16, 250), (0.22, 200), (0.45, 200), (0.52, 120),
-        (0.6, 120), (0.7, 200), (1, 200)],
+      wall: [
+        (0, 250),
+        (0.16, 250),
+        (0.22, 200),
+        (0.45, 200),
+        (0.52, 120),
+        (0.6, 120),
+        (0.7, 200),
+        (1, 200),
+      ],
       taps: (0.38, 0.56),
       stations: [
         Sta(at: 0.15),
@@ -173,8 +207,18 @@ const meterRounds = <MeterRound>[
         'The plate is close to the start of the run, and the pipe necks down '
         'to 80 millimeter well past it before opening out again.',
     gauge: Gauge(
-      wall: [(0, 200), (0.26, 200), (0.27, 100), (0.29, 100), (0.3, 200),
-        (0.62, 200), (0.7, 80), (0.76, 80), (0.84, 200), (1, 200)],
+      wall: [
+        (0, 200),
+        (0.26, 200),
+        (0.27, 100),
+        (0.29, 100),
+        (0.3, 200),
+        (0.62, 200),
+        (0.7, 80),
+        (0.76, 80),
+        (0.84, 200),
+        (1, 200),
+      ],
       plateAt: 0.28,
       taps: (0.17, 0.4),
       stations: [
@@ -313,8 +357,11 @@ class _Section extends StatelessWidget {
           onTapUp: onPick == null
               ? null
               : (details) {
-                  final hit =
-                      GaugePainter.at(size, gauge, details.localPosition);
+                  final hit = GaugePainter.at(
+                    size,
+                    gauge,
+                    details.localPosition,
+                  );
                   if (hit != null) onPick!(hit);
                 },
           child: Container(

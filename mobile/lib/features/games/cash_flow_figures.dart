@@ -56,8 +56,8 @@ class CashFlowPainter extends CustomPainter {
     // arrows too short to compare.
     final anyUp = flows.any((f) => f.size > 0);
     final anyDown = flows.any((f) => f.size < 0);
-    final axis = size.height *
-        (anyUp && anyDown ? 0.55 : (anyUp ? 0.78 : 0.30));
+    final axis =
+        size.height * (anyUp && anyDown ? 0.55 : (anyUp ? 0.78 : 0.30));
     final tallest = flows
         .map((f) => f.size.abs())
         .fold<double>(1, (a, b) => a > b ? a : b);
@@ -131,12 +131,7 @@ class CashFlowPainter extends CustomPainter {
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1.6,
         );
-        _write(
-          canvas,
-          '?',
-          Offset(x, up ? tip - 14 : tip + 3),
-          color: color,
-        );
+        _write(canvas, '?', Offset(x, up ? tip - 14 : tip + 3), color: color);
       }
     }
 
@@ -166,7 +161,10 @@ class CashFlowPainter extends CustomPainter {
     bool patch = false,
   }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     final dx = switch (align) {
@@ -243,7 +241,10 @@ class LivesPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final rows = [(lifeA, nameA, AppColors.sunbeam), (lifeB, nameB, AppColors.forest)];
+    final rows = [
+      (lifeA, nameA, AppColors.sunbeam),
+      (lifeB, nameB, AppColors.forest),
+    ];
     for (final (i, (life, name, color)) in rows.indexed) {
       final y = 22 + i * 34.0;
       // One block per replacement, laid end to end until the timeline runs
@@ -271,8 +272,13 @@ class LivesPainter extends CustomPainter {
         );
         start += life;
       }
-      _write(canvas, name, Offset(_padL - 8, y - 6),
-          color: AppColors.charcoal, align: -1);
+      _write(
+        canvas,
+        name,
+        Offset(_padL - 8, y - 6),
+        color: AppColors.charcoal,
+        align: -1,
+      );
     }
 
     final axisY = 22 + rows.length * 34.0 - 4;
@@ -305,8 +311,13 @@ class LivesPainter extends CustomPainter {
           ..color = AppColors.ember
           ..strokeWidth = 2,
       );
-      _write(canvas, 'compare to here', Offset(x - 4, 4),
-          color: AppColors.ember, align: -1);
+      _write(
+        canvas,
+        'compare to here',
+        Offset(x - 4, 4),
+        color: AppColors.ember,
+        align: -1,
+      );
     }
   }
 
@@ -318,7 +329,10 @@ class LivesPainter extends CustomPainter {
     int align = 0,
   }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     final dx = switch (align) {
@@ -403,20 +417,26 @@ class TimelinePainter extends CustomPainter {
         colour = AppColors.ink3;
       }
 
-      canvas.drawLine(Offset(x, axis - 7), Offset(x, axis + 7),
-          Paint()
-            ..color = colour
-            ..strokeWidth = chosen || right ? 3 : 1.8);
+      canvas.drawLine(
+        Offset(x, axis - 7),
+        Offset(x, axis + 7),
+        Paint()
+          ..color = colour
+          ..strokeWidth = chosen || right ? 3 : 1.8,
+      );
 
       // The arrow only appears once the round is answered, on the period the
       // payment really belongs to.
       if (right || chosen) {
         final tip = Offset(x, axis - 54);
-        canvas.drawLine(Offset(x, axis - 8), tip,
-            Paint()
-              ..color = colour
-              ..strokeWidth = 3
-              ..strokeCap = StrokeCap.round);
+        canvas.drawLine(
+          Offset(x, axis - 8),
+          tip,
+          Paint()
+            ..color = colour
+            ..strokeWidth = 3
+            ..strokeCap = StrokeCap.round,
+        );
         canvas.drawPath(
           Path()
             ..moveTo(tip.dx, tip.dy)
@@ -432,15 +452,23 @@ class TimelinePainter extends CustomPainter {
         // The year each interval covers, so "year 3" and "period 3" can be
         // seen to be different things.
         final from = xFor(size, periods, p - 1);
-        _write(canvas, 'yr $p', Offset((from + x) / 2, axis + 30),
-            AppColors.ink2, size);
+        _write(
+          canvas,
+          'yr $p',
+          Offset((from + x) / 2, axis + 30),
+          AppColors.ink2,
+          size,
+        );
       }
     }
   }
 
   void _write(Canvas canvas, String text, Offset at, Color colour, Size size) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 11, color: colour)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 11, color: colour),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = at.dx - tp.width / 2;

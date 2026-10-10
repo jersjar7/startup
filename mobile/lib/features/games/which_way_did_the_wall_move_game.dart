@@ -42,10 +42,10 @@ class WallMoveRound {
   final String source;
 
   static String label(WallState which) => switch (which) {
-        WallState.active => 'Active, the wall leaned away from the soil',
-        WallState.atRest => 'At rest, the wall did not move at all',
-        WallState.passive => 'Passive, the wall was pushed into the soil',
-      };
+    WallState.active => 'Active, the wall leaned away from the soil',
+    WallState.atRest => 'At rest, the wall did not move at all',
+    WallState.passive => 'Passive, the wall was pushed into the soil',
+  };
 }
 
 const _thirtyDegrees = Backfill(height: 15, unitWeight: 120, friction: 30);

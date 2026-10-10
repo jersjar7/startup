@@ -105,8 +105,7 @@ final joinRounds = <JoinRound>[
   ),
   JoinRound(
     subject: 'the same join, the other quantity',
-    asked:
-        'At that same line, which material is under more STRAIN?',
+    asked: 'At that same line, which material is under more STRAIN?',
     beam: _plated,
     join: 12,
     about: Feels.strain,
@@ -120,8 +119,7 @@ final joinRounds = <JoinRound>[
   ),
   JoinRound(
     subject: 'a steel plate on top of a concrete beam',
-    asked:
-        'At the line where they meet, which carries more STRESS?',
+    asked: 'At the line where they meet, which carries more STRESS?',
     beam: _capped,
     join: 160,
     about: Feels.stress,
@@ -197,10 +195,10 @@ class _SameStrainGameState extends State<SameStrainGame> {
   JoinRound get _round => joinRounds[_session.round];
 
   String _label(Across a) => switch (a) {
-        Across.stiffer => 'The ${_round.beam.stiffer.plain}',
-        Across.softer => 'The ${_round.beam.softer.plain}',
-        Across.same => 'Neither: they are equal',
-      };
+    Across.stiffer => 'The ${_round.beam.stiffer.plain}',
+    Across.softer => 'The ${_round.beam.softer.plain}',
+    Across.same => 'Neither: they are equal',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -318,22 +316,21 @@ class _Key extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 12,
-            height: 12,
-            decoration: BoxDecoration(
-              color: made.tone.withValues(alpha: 0.35),
-              border: Border.all(color: AppColors.charcoal, width: 1.2),
-              borderRadius: BorderRadius.circular(3),
-            ),
-          ),
-          const SizedBox(width: 6),
-          Text(made.plain,
-              style: AppTheme.mono(size: 11, color: AppColors.ink3)),
-        ],
-      );
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Container(
+        width: 12,
+        height: 12,
+        decoration: BoxDecoration(
+          color: made.tone.withValues(alpha: 0.35),
+          border: Border.all(color: AppColors.charcoal, width: 1.2),
+          borderRadius: BorderRadius.circular(3),
+        ),
+      ),
+      const SizedBox(width: 6),
+      Text(made.plain, style: AppTheme.mono(size: 11, color: AppColors.ink3)),
+    ],
+  );
 }
 
 class _Choice extends StatelessWidget {

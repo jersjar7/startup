@@ -27,16 +27,16 @@ enum Portion { demand, residual, dose }
 
 extension PortionWords on Portion {
   String get plain => switch (this) {
-        Portion.demand => 'The demand: what the water consumes',
-        Portion.residual => 'The residual: what is left afterward',
-        Portion.dose => 'The dose: what goes into the pipe',
-      };
+    Portion.demand => 'The demand: what the water consumes',
+    Portion.residual => 'The residual: what is left afterward',
+    Portion.dose => 'The dose: what goes into the pipe',
+  };
 
   String get key => switch (this) {
-        Portion.demand => 'demand',
-        Portion.residual => 'residual',
-        Portion.dose => 'dose',
-      };
+    Portion.demand => 'demand',
+    Portion.residual => 'residual',
+    Portion.dose => 'dose',
+  };
 }
 
 @immutable

@@ -33,18 +33,18 @@ enum Ask { stiffer, stronger, stretchier, warns }
 
 extension AskWords on Ask {
   String get question => switch (this) {
-        Ask.stiffer => 'Which one is stiffer?',
-        Ask.stronger => 'Which one is stronger?',
-        Ask.stretchier => 'Which one stretches further before it breaks?',
-        Ask.warns => 'Which one gives you warning before it fails?',
-      };
+    Ask.stiffer => 'Which one is stiffer?',
+    Ask.stronger => 'Which one is stronger?',
+    Ask.stretchier => 'Which one stretches further before it breaks?',
+    Ask.warns => 'Which one gives you warning before it fails?',
+  };
 
   String get reads => switch (this) {
-        Ask.stiffer => 'stiffness is the SLOPE of the straight run',
-        Ask.stronger => 'strength is the HEIGHT of the curve',
-        Ask.stretchier => 'ductility is the LENGTH of the curve',
-        Ask.warns => 'warning is ductility: does it stretch first, or just go',
-      };
+    Ask.stiffer => 'stiffness is the SLOPE of the straight run',
+    Ask.stronger => 'strength is the HEIGHT of the curve',
+    Ask.stretchier => 'ductility is the LENGTH of the curve',
+    Ask.warns => 'warning is ductility: does it stretch first, or just go',
+  };
 }
 
 @immutable
@@ -285,10 +285,10 @@ class _StiffStrongOrStretchyGameState extends State<StiffStrongOrStretchyGame> {
   PairRound get _round => pairRounds[_session.round];
 
   String _label(Which v) => switch (v) {
-        Which.first => _round.first.label,
-        Which.second => _round.second.label,
-        Which.alike => 'no real difference',
-      };
+    Which.first => _round.first.label,
+    Which.second => _round.second.label,
+    Which.alike => 'no real difference',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -416,20 +416,20 @@ class _Key extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 16,
-            height: 3,
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(width: 6),
-          Text(label, style: AppTheme.mono(size: 11, color: AppColors.ink3)),
-        ],
-      );
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Container(
+        width: 16,
+        height: 3,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(2),
+        ),
+      ),
+      const SizedBox(width: 6),
+      Text(label, style: AppTheme.mono(size: 11, color: AppColors.ink3)),
+    ],
+  );
 }
 
 class _Choice extends StatelessWidget {

@@ -229,9 +229,7 @@ class _WhoMayDoThatGameState extends State<WhoMayDoThatGame> {
               selected: _picked == standing,
               locked: answered,
               isTruth: standing == r.answer,
-              onTap: answered
-                  ? null
-                  : () => setState(() => _picked = standing),
+              onTap: answered ? null : () => setState(() => _picked = standing),
             ),
           ],
           if (answered) ...[
@@ -242,7 +240,9 @@ class _WhoMayDoThatGameState extends State<WhoMayDoThatGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE TIER' : 'A DIFFERENT TIER',
+              title: _session.correct!
+                  ? 'THAT IS THE TIER'
+                  : 'A DIFFERENT TIER',
               body: r.why,
             ),
           ],

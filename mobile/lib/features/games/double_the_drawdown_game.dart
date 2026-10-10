@@ -22,8 +22,7 @@ class DoubleTheDrawdownGame extends StatefulWidget {
   const DoubleTheDrawdownGame({super.key});
 
   @override
-  State<DoubleTheDrawdownGame> createState() =>
-      _DoubleTheDrawdownGameState();
+  State<DoubleTheDrawdownGame> createState() => _DoubleTheDrawdownGameState();
 }
 
 /// What the change buys, against a plain doubling.
@@ -31,10 +30,10 @@ enum Buys { exactly, more, less }
 
 extension BuysWords on Buys {
   String get plain => switch (this) {
-        Buys.exactly => 'Exactly twice the water',
-        Buys.more => 'More than twice',
-        Buys.less => 'Less than twice',
-      };
+    Buys.exactly => 'Exactly twice the water',
+    Buys.more => 'More than twice',
+    Buys.less => 'Less than twice',
+  };
 }
 
 @immutable
@@ -71,19 +70,21 @@ const drawRounds = <DrawRound>[
         'The pump works harder and the drawdown at the well goes from 5 '
         'meters to 10. The aquifer is under clay.',
     before: Aquifer(
-        kind: Ground.confined,
-        conductivity: 3e-5,
-        headAtWell: 25,
-        radiusAtWell: 10,
-        headOut: 30,
-        radiusOut: 100),
+      kind: Ground.confined,
+      conductivity: 3e-5,
+      headAtWell: 25,
+      radiusAtWell: 10,
+      headOut: 30,
+      radiusOut: 100,
+    ),
     after: Aquifer(
-        kind: Ground.confined,
-        conductivity: 3e-5,
-        headAtWell: 20,
-        radiusAtWell: 10,
-        headOut: 30,
-        radiusOut: 100),
+      kind: Ground.confined,
+      conductivity: 3e-5,
+      headAtWell: 20,
+      radiusAtWell: 10,
+      headOut: 30,
+      radiusOut: 100,
+    ),
     why:
         'Exactly twice. The Thiem equation has the head difference in it '
         'once, on the top, and nothing else in the equation changed, so the '
@@ -98,19 +99,21 @@ const drawRounds = <DrawRound>[
         'A free water table. The head at the well goes from 40 feet down to '
         '20, so the drawdown doubles from 20 feet to 40.',
     before: Aquifer(
-        kind: Ground.unconfined,
-        conductivity: 5e-4,
-        headAtWell: 40,
-        radiusAtWell: 0.5,
-        headOut: 60,
-        radiusOut: 200),
+      kind: Ground.unconfined,
+      conductivity: 5e-4,
+      headAtWell: 40,
+      radiusAtWell: 0.5,
+      headOut: 60,
+      radiusOut: 200,
+    ),
     after: Aquifer(
-        kind: Ground.unconfined,
-        conductivity: 5e-4,
-        headAtWell: 20,
-        radiusAtWell: 0.5,
-        headOut: 60,
-        radiusOut: 200),
+      kind: Ground.unconfined,
+      conductivity: 5e-4,
+      headAtWell: 20,
+      radiusAtWell: 0.5,
+      headOut: 60,
+      radiusOut: 200,
+    ),
     why:
         'Less than twice: about 1.6 times. The difference of two squares is '
         'the difference times the SUM, and pulling the well down lowers the '
@@ -126,19 +129,21 @@ const drawRounds = <DrawRound>[
         'The regional water table rises, taking the far head from 50 feet to '
         '60 while the well is held at 40. The drawdown doubles from 10 to 20.',
     before: Aquifer(
-        kind: Ground.unconfined,
-        conductivity: 5e-4,
-        headAtWell: 40,
-        radiusAtWell: 0.5,
-        headOut: 50,
-        radiusOut: 200),
+      kind: Ground.unconfined,
+      conductivity: 5e-4,
+      headAtWell: 40,
+      radiusAtWell: 0.5,
+      headOut: 50,
+      radiusOut: 200,
+    ),
     after: Aquifer(
-        kind: Ground.unconfined,
-        conductivity: 5e-4,
-        headAtWell: 40,
-        radiusAtWell: 0.5,
-        headOut: 60,
-        radiusOut: 200),
+      kind: Ground.unconfined,
+      conductivity: 5e-4,
+      headAtWell: 40,
+      radiusAtWell: 0.5,
+      headOut: 60,
+      radiusOut: 200,
+    ),
     why:
         'More than twice: about 2.2. The same doubling of the drawdown, '
         'arrived at the other way round, and now the sum of the heads goes UP '
@@ -154,19 +159,21 @@ const drawRounds = <DrawRound>[
         'The same confined well, but the aquifer turns out to be twice as '
         'conductive as it was thought to be.',
     before: Aquifer(
-        kind: Ground.confined,
-        conductivity: 3e-5,
-        headAtWell: 25,
-        radiusAtWell: 10,
-        headOut: 30,
-        radiusOut: 100),
+      kind: Ground.confined,
+      conductivity: 3e-5,
+      headAtWell: 25,
+      radiusAtWell: 10,
+      headOut: 30,
+      radiusOut: 100,
+    ),
     after: Aquifer(
-        kind: Ground.confined,
-        conductivity: 6e-5,
-        headAtWell: 25,
-        radiusAtWell: 10,
-        headOut: 30,
-        radiusOut: 100),
+      kind: Ground.confined,
+      conductivity: 6e-5,
+      headAtWell: 25,
+      radiusAtWell: 10,
+      headOut: 30,
+      radiusOut: 100,
+    ),
     why:
         'Exactly twice. K is a plain multiplier in both formulas, so this one '
         'is the same answer whichever aquifer you are in. It is also the '
@@ -181,21 +188,23 @@ const drawRounds = <DrawRound>[
         'The confined sand is found to be 40 meters thick rather than 20. '
         'Everything else is unchanged.',
     before: Aquifer(
-        kind: Ground.confined,
-        conductivity: 3e-5,
-        headAtWell: 25,
-        radiusAtWell: 10,
-        headOut: 30,
-        radiusOut: 100,
-        thickness: 20),
+      kind: Ground.confined,
+      conductivity: 3e-5,
+      headAtWell: 25,
+      radiusAtWell: 10,
+      headOut: 30,
+      radiusOut: 100,
+      thickness: 20,
+    ),
     after: Aquifer(
-        kind: Ground.confined,
-        conductivity: 3e-5,
-        headAtWell: 25,
-        radiusAtWell: 10,
-        headOut: 30,
-        radiusOut: 100,
-        thickness: 40),
+      kind: Ground.confined,
+      conductivity: 3e-5,
+      headAtWell: 25,
+      radiusAtWell: 10,
+      headOut: 30,
+      radiusOut: 100,
+      thickness: 40,
+    ),
     why:
         'Exactly twice, through the transmissivity. T is K times b and it '
         'enters Thiem once, so doubling the thickness doubles the yield. Note '
@@ -210,19 +219,21 @@ const drawRounds = <DrawRound>[
         'A deep water table at 25 meters, and the drawdown at the well goes '
         'from 1 meter to 2.',
     before: Aquifer(
-        kind: Ground.unconfined,
-        conductivity: 4e-4,
-        headAtWell: 24,
-        radiusAtWell: 0.5,
-        headOut: 25,
-        radiusOut: 150),
+      kind: Ground.unconfined,
+      conductivity: 4e-4,
+      headAtWell: 24,
+      radiusAtWell: 0.5,
+      headOut: 25,
+      radiusOut: 150,
+    ),
     after: Aquifer(
-        kind: Ground.unconfined,
-        conductivity: 4e-4,
-        headAtWell: 23,
-        radiusAtWell: 0.5,
-        headOut: 25,
-        radiusOut: 150),
+      kind: Ground.unconfined,
+      conductivity: 4e-4,
+      headAtWell: 23,
+      radiusAtWell: 0.5,
+      headOut: 25,
+      radiusOut: 150,
+    ),
     why:
         'Less than twice, but only just: 1.96 rather than 2. When the '
         'drawdown is small against the saturated thickness, the sum of the '

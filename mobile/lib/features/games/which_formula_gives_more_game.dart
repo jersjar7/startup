@@ -32,10 +32,10 @@ enum Fatter { endAreas, prismoid, same }
 
 extension FatterWords on Fatter {
   String get plain => switch (this) {
-        Fatter.endAreas => 'The average end area method',
-        Fatter.prismoid => 'The prismoidal formula',
-        Fatter.same => 'Neither: they agree here',
-      };
+    Fatter.endAreas => 'The average end area method',
+    Fatter.prismoid => 'The prismoidal formula',
+    Fatter.same => 'Neither: they agree here',
+  };
 }
 
 @immutable
@@ -65,13 +65,14 @@ class FatterRound {
 const fatterRounds = <FatterRound>[
   FatterRound(
     subject: 'the lesson\'s own three sections',
-    setting:
-        'Sections of 200, 350 and 400 square feet at 0, 50 and 100 feet.',
-    haul: Haul(slabs: [
-      Slab(station: 0, area: 200),
-      Slab(station: 50, area: 350),
-      Slab(station: 100, area: 400),
-    ]),
+    setting: 'Sections of 200, 350 and 400 square feet at 0, 50 and 100 feet.',
+    haul: Haul(
+      slabs: [
+        Slab(station: 0, area: 200),
+        Slab(station: 50, area: 350),
+        Slab(station: 100, area: 400),
+      ],
+    ),
     why:
         'The prismoidal formula, 33,333 against 30,000. The two ends average '
         '300 and the middle section is 350, so there is more dirt in the '
@@ -82,13 +83,14 @@ const fatterRounds = <FatterRound>[
   ),
   FatterRound(
     subject: 'a fill running out to nothing',
-    setting:
-        'The fill tapers away: 400 square feet, then 100, then nothing.',
-    haul: Haul(slabs: [
-      Slab(station: 0, area: 400),
-      Slab(station: 50, area: 100),
-      Slab(station: 100, area: 0),
-    ]),
+    setting: 'The fill tapers away: 400 square feet, then 100, then nothing.',
+    haul: Haul(
+      slabs: [
+        Slab(station: 0, area: 400),
+        Slab(station: 50, area: 100),
+        Slab(station: 100, area: 0),
+      ],
+    ),
     why:
         'The average end area method, and this is the overestimate the '
         'lesson warns about. A fill that closes down to a point loses width '
@@ -101,11 +103,13 @@ const fatterRounds = <FatterRound>[
   FatterRound(
     subject: 'a section opening out evenly',
     setting: 'Sections of 100, 200 and 300 square feet.',
-    haul: Haul(slabs: [
-      Slab(station: 0, area: 100),
-      Slab(station: 50, area: 200),
-      Slab(station: 100, area: 300),
-    ]),
+    haul: Haul(
+      slabs: [
+        Slab(station: 0, area: 100),
+        Slab(station: 50, area: 200),
+        Slab(station: 100, area: 300),
+      ],
+    ),
     why:
         'Neither: they agree, at 20,000 each. The middle section is exactly '
         'the average of the two ends, which is precisely what the end area '
@@ -116,11 +120,13 @@ const fatterRounds = <FatterRound>[
   FatterRound(
     subject: 'a cutting of constant section',
     setting: 'The same 250 square feet at all three stations.',
-    haul: Haul(slabs: [
-      Slab(station: 0, area: 250),
-      Slab(station: 50, area: 250),
-      Slab(station: 100, area: 250),
-    ]),
+    haul: Haul(
+      slabs: [
+        Slab(station: 0, area: 250),
+        Slab(station: 50, area: 250),
+        Slab(station: 100, area: 250),
+      ],
+    ),
     why:
         'Neither. A constant section is the easy case of the same rule: the '
         'middle equals the average of the ends, so both formulas give the '
@@ -132,11 +138,13 @@ const fatterRounds = <FatterRound>[
     subject: 'a saddle in the middle',
     setting:
         'The cut is deep at both ends and shallow between: 300, 150 and 300.',
-    haul: Haul(slabs: [
-      Slab(station: 0, area: 300),
-      Slab(station: 50, area: 150),
-      Slab(station: 100, area: 300),
-    ]),
+    haul: Haul(
+      slabs: [
+        Slab(station: 0, area: 300),
+        Slab(station: 50, area: 150),
+        Slab(station: 100, area: 300),
+      ],
+    ),
     why:
         'The average end area method, by a long way: 30,000 against 20,000. '
         'Both ends are deep, so their average is 300, and the middle is half '
@@ -148,11 +156,13 @@ const fatterRounds = <FatterRound>[
   FatterRound(
     subject: 'a hump between two shallow ends',
     setting: 'Sections of 100, 300 and 100 square feet.',
-    haul: Haul(slabs: [
-      Slab(station: 0, area: 100),
-      Slab(station: 50, area: 300),
-      Slab(station: 100, area: 100),
-    ]),
+    haul: Haul(
+      slabs: [
+        Slab(station: 0, area: 100),
+        Slab(station: 50, area: 300),
+        Slab(station: 100, area: 100),
+      ],
+    ),
     why:
         'The prismoidal formula, 30,000 against 10,000, and the ratio is '
         'worth noticing. Working end to end here misses the hump entirely, '
@@ -282,7 +292,9 @@ class _WhichFormulaGivesMoreGameState extends State<WhichFormulaGivesMoreGame> {
             const SizedBox(height: 6),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE BIGGER ONE' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS THE BIGGER ONE'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

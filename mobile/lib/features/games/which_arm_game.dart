@@ -212,7 +212,10 @@ class _WhichArmGameState extends State<WhichArmGame> {
                     ? null
                     : (details) {
                         final hit = TiePainter.nearest(
-                            size, r.tie, details.localPosition);
+                          size,
+                          r.tie,
+                          details.localPosition,
+                        );
                         if (hit != null) setState(() => _picked = hit);
                       },
                 child: EngineeringGrid(

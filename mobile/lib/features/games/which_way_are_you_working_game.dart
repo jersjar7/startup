@@ -29,10 +29,10 @@ enum Which2 { forward, inverse, both }
 
 extension Which2Words on Which2 {
   String get plain => switch (this) {
-        Which2.forward => 'Forward: a course out into new coordinates',
-        Which2.inverse => 'Inverse: two coordinates back into a course',
-        Which2.both => 'Inverse first, then forward',
-      };
+    Which2.forward => 'Forward: a course out into new coordinates',
+    Which2.inverse => 'Inverse: two coordinates back into a course',
+    Which2.both => 'Inverse first, then forward',
+  };
 }
 
 @immutable
@@ -80,9 +80,7 @@ const cogoRounds = <CogoRound>[
     setting:
         'Both A and B are held from an earlier survey, and the crew needs to '
         'know how far apart they are before going out.',
-    task: Task(
-      known: [Peg2('A', 1000, 1000), Peg2('B', 1300, 1400)],
-    ),
+    task: Task(known: [Peg2('A', 1000, 1000), Peg2('B', 1300, 1400)]),
     answer: Which2.inverse,
     why:
         'Inverse. Two points held and nothing measured in the field at all: '
@@ -134,9 +132,7 @@ const cogoRounds = <CogoRound>[
     setting:
         'Both corners are coordinated. The plat has to show the bearing and '
         'the distance of the line between them.',
-    task: Task(
-      known: [Peg2('A', 4000, 4000), Peg2('B', 3700, 4300)],
-    ),
+    task: Task(known: [Peg2('A', 4000, 4000), Peg2('B', 3700, 4300)]),
     answer: Which2.inverse,
     why:
         'Inverse, and this one runs north and west, so the arctangent alone '

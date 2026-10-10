@@ -185,12 +185,7 @@ class FormulaBar extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              formula,
-              style: AppTheme.code(size: 14),
-            ),
-          ),
+          Expanded(child: Text(formula, style: AppTheme.code(size: 14))),
         ],
       ),
     );

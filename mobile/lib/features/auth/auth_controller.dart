@@ -77,7 +77,9 @@ class AuthController extends ChangeNotifier {
     if (school != null && school.trim().isNotEmpty) {
       body['school'] = school.trim();
       if (graduationYear != null) body['graduationYear'] = '$graduationYear';
-      if (graduationTerm != null) body['graduationTerm'] = graduationTerm.toLowerCase();
+      if (graduationTerm != null) {
+        body['graduationTerm'] = graduationTerm.toLowerCase();
+      }
     }
     final data = await api.post('/auth/create', body) as Map<String, dynamic>;
     await _accept(data);
@@ -87,7 +89,11 @@ class AuthController extends ChangeNotifier {
   /// report about a cohort, and a cohort cannot be computed without this.
   /// Re-postable: students transfer, and a stale school quietly corrupts a
   /// report they are counted in.
-  Future<void> setSchool(String name, int? graduationYear, [String? graduationTerm]) async {
+  Future<void> setSchool(
+    String name,
+    int? graduationYear, [
+    String? graduationTerm,
+  ]) async {
     await api.post('/user/school', {
       'name': name,
       'graduationYear': ?graduationYear,

@@ -28,10 +28,10 @@ enum Coarser { first, second, alike }
 
 extension CoarserWords on Coarser {
   String get plain => switch (this) {
-        Coarser.first => 'The blue one',
-        Coarser.second => 'The orange one',
-        Coarser.alike => 'Neither: the same modulus',
-      };
+    Coarser.first => 'The blue one',
+    Coarser.second => 'The orange one',
+    Coarser.alike => 'Neither: the same modulus',
+  };
 }
 
 @immutable
@@ -62,46 +62,25 @@ class SieveRound {
   double get spread => (left.fm - right.fm).abs();
 }
 
-const _medium = Grading(
-  name: 'A',
-  passing: [100, 97, 85, 65, 40, 15, 4],
-);
+const _medium = Grading(name: 'A', passing: [100, 97, 85, 65, 40, 15, 4]);
 
-const _fine = Grading(
-  name: 'B',
-  passing: [100, 100, 95, 82, 58, 25, 8],
-);
+const _fine = Grading(name: 'B', passing: [100, 100, 95, 82, 58, 25, 8]);
 
-const _coarse = Grading(
-  name: 'A',
-  passing: [96, 78, 58, 38, 20, 8, 2],
-);
+const _coarse = Grading(name: 'A', passing: [96, 78, 58, 38, 20, 8, 2]);
 
 /// A sand with a real coarse fraction in it: a fifth of it sits above the
 /// No 4 sieve.
-const _beforeScreen = Grading(
-  name: 'A',
-  passing: [95, 80, 62, 45, 28, 12, 3],
-);
+const _beforeScreen = Grading(name: 'A', passing: [95, 80, 62, 45, 28, 12, 3]);
 
 /// The same sand with that coarse fraction screened off, which leaves the
 /// rest of it to make up the whole hundred percent.
-const _screened = Grading(
-  name: 'B',
-  passing: [100, 100, 78, 56, 35, 15, 4],
-);
+const _screened = Grading(name: 'B', passing: [100, 100, 78, 56, 35, 15, 4]);
 
 /// A gap graded sand: almost nothing between the No 8 and the No 30.
-const _gapped = Grading(
-  name: 'B',
-  passing: [100, 92, 62, 60, 58, 12, 1],
-);
+const _gapped = Grading(name: 'B', passing: [100, 92, 62, 60, 58, 12, 1]);
 
 /// Smooth, and with the same modulus as the gapped one.
-const _smooth = Grading(
-  name: 'A',
-  passing: [100, 90, 74, 56, 38, 20, 7],
-);
+const _smooth = Grading(name: 'A', passing: [100, 90, 74, 56, 38, 20, 7]);
 
 const sieveRounds = <SieveRound>[
   SieveRound(
@@ -212,10 +191,10 @@ class _CoarseOrFineGameState extends State<CoarseOrFineGame> {
   SieveRound get _round => sieveRounds[_session.round];
 
   int? _index(Coarser? which) => switch (which) {
-        Coarser.first => 0,
-        Coarser.second => 1,
-        _ => null,
-      };
+    Coarser.first => 0,
+    Coarser.second => 1,
+    _ => null,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -283,10 +262,16 @@ class _CoarseOrFineGameState extends State<CoarseOrFineGame> {
                     ? null
                     : (details) {
                         final hit = GradingPainter.nearest(
-                            size, gradings, details.localPosition);
+                          size,
+                          gradings,
+                          details.localPosition,
+                        );
                         if (hit == null) return;
-                        setState(() => _picked =
-                            hit == 0 ? Coarser.first : Coarser.second);
+                        setState(
+                          () => _picked = hit == 0
+                              ? Coarser.first
+                              : Coarser.second,
+                        );
                       },
                 child: EngineeringGrid(
                   minor: 18,
@@ -312,7 +297,7 @@ class _CoarseOrFineGameState extends State<CoarseOrFineGame> {
           Text(
             answered
                 ? 'modulus: blue ${r.left.fm.toStringAsFixed(2)}, '
-                    'orange ${r.right.fm.toStringAsFixed(2)}'
+                      'orange ${r.right.fm.toStringAsFixed(2)}'
                 : 'percent passing each sieve, coarse sieves on the left',
             style: AppTheme.mono(size: 11, color: AppColors.ink3),
           ),
@@ -322,14 +307,17 @@ class _CoarseOrFineGameState extends State<CoarseOrFineGame> {
             selected: _picked == Coarser.alike,
             locked: answered,
             isTruth: r.answer == Coarser.alike,
-            onTap:
-                answered ? null : () => setState(() => _picked = Coarser.alike),
+            onTap: answered
+                ? null
+                : () => setState(() => _picked = Coarser.alike),
           ),
           if (answered) ...[
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE COARSER ONE' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS THE COARSER ONE'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

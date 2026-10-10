@@ -31,8 +31,7 @@ class TailPainter extends CustomPainter {
   double _x(Size size, double z) =>
       6 + (z - _from) / (_to - _from) * (size.width - 12);
 
-  double _y(Size size, double d) =>
-      size.height - 14 - d * (size.height - 24);
+  double _y(Size size, double d) => size.height - 14 - d * (size.height - 24);
 
   Path _span(Size size, double from, double to) {
     final path = Path()..moveTo(_x(size, from), _y(size, 0));
@@ -91,8 +90,7 @@ class TailPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(TailPainter old) =>
-      old.tail != tail || old.color != color;
+  bool shouldRepaint(TailPainter old) => old.tail != tail || old.color != color;
 }
 
 /// The test statistic and the critical value on one scale, with everything
@@ -209,7 +207,10 @@ class ScalePainter extends CustomPainter {
     int align = 0,
   }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     final dx = switch (align) {
@@ -340,7 +341,10 @@ class CellsPainter extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, {required Color color}) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     tp.paint(canvas, at - Offset(tp.width / 2, 0));

@@ -72,8 +72,7 @@ const peakFlowRounds = <PeakFlowRound>[
   ),
   PeakFlowRound(
     subject: 'where the peak sits',
-    asked:
-        'At the peak of the flow curve, what are the speed and the density?',
+    asked: 'At the peak of the flow curve, what are the speed and the density?',
     stream: _freeway,
     options: [
       'The free flow speed and the jam density',

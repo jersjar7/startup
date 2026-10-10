@@ -147,8 +147,11 @@ class RegionPainter extends CustomPainter {
       Region.rectangle => _boxCorners(),
     };
 
-    final path = Path()..moveTo(at(corners.first.x, corners.first.y).dx,
-        at(corners.first.x, corners.first.y).dy);
+    final path = Path()
+      ..moveTo(
+        at(corners.first.x, corners.first.y).dx,
+        at(corners.first.x, corners.first.y).dy,
+      );
     for (final c in corners.skip(1)) {
       path.lineTo(at(c.x, c.y).dx, at(c.x, c.y).dy);
     }

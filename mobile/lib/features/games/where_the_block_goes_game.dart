@@ -256,8 +256,11 @@ class _Corner extends StatelessWidget {
           onTapUp: onPick == null
               ? null
               : (details) {
-                  final hit =
-                      ElbowPainter.at(size, elbow, details.localPosition);
+                  final hit = ElbowPainter.at(
+                    size,
+                    elbow,
+                    details.localPosition,
+                  );
                   if (hit != null) onPick!(hit);
                 },
           child: Container(

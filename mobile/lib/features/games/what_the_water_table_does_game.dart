@@ -53,10 +53,10 @@ class ChangeRound {
   final String source;
 
   static String label(Moves3 which) => switch (which) {
-        Moves3.up => 'It goes up',
-        Moves3.down => 'It goes down',
-        Moves3.same => 'It does not change',
-      };
+    Moves3.up => 'It goes up',
+    Moves3.down => 'It goes down',
+    Moves3.same => 'It does not change',
+  };
 }
 
 const _high = Deposit(
@@ -207,8 +207,7 @@ const tableMoveRounds = <ChangeRound>[
   ),
 ];
 
-class _WhatTheWaterTableDoesGameState
-    extends State<WhatTheWaterTableDoesGame> {
+class _WhatTheWaterTableDoesGameState extends State<WhatTheWaterTableDoesGame> {
   late final BoardSession _session = BoardSession(
     gameId: 'what-the-water-table-does',
     chapterId: 'geotechnical',

@@ -45,10 +45,10 @@ class BraceRound {
   Gets get answer => beam.reach;
 
   static String label(Gets which) => switch (which) {
-        Gets.fullPlastic => 'The full plastic moment, with no reduction',
-        Gets.inelastic => 'Less than that, part way down the sloping band',
-        Gets.elastic => 'Much less: the flange buckles while still elastic',
-      };
+    Gets.fullPlastic => 'The full plastic moment, with no reduction',
+    Gets.inelastic => 'Less than that, part way down the sloping band',
+    Gets.elastic => 'Much less: the flange buckles while still elastic',
+  };
 }
 
 const braceRounds = <BraceRound>[

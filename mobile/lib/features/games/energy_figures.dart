@@ -10,20 +10,20 @@ enum Bucket { moving, height, spring, gone, added }
 
 extension BucketWords on Bucket {
   String get plain => switch (this) {
-        Bucket.moving => 'moving',
-        Bucket.height => 'height',
-        Bucket.spring => 'spring',
-        Bucket.gone => 'lost',
-        Bucket.added => 'put in',
-      };
+    Bucket.moving => 'moving',
+    Bucket.height => 'height',
+    Bucket.spring => 'spring',
+    Bucket.gone => 'lost',
+    Bucket.added => 'put in',
+  };
 
   Color get tone => switch (this) {
-        Bucket.moving => AppColors.info,
-        Bucket.height => AppColors.forest,
-        Bucket.spring => AppColors.sunbeam,
-        Bucket.gone => AppColors.error,
-        Bucket.added => AppColors.ember,
-      };
+    Bucket.moving => AppColors.info,
+    Bucket.height => AppColors.forest,
+    Bucket.spring => AppColors.sunbeam,
+    Bucket.gone => AppColors.error,
+    Bucket.added => AppColors.ember,
+  };
 }
 
 /// An energy account for one situation: what it started with, what it ended
@@ -68,18 +68,18 @@ class Ledger {
   double get tallest => math.max(start + added, end + gone);
 
   List<(Bucket, double)> get before => [
-        if (movingStart > 0) (Bucket.moving, movingStart),
-        if (heightStart > 0) (Bucket.height, heightStart),
-        if (springStart > 0) (Bucket.spring, springStart),
-        if (added > 0) (Bucket.added, added),
-      ];
+    if (movingStart > 0) (Bucket.moving, movingStart),
+    if (heightStart > 0) (Bucket.height, heightStart),
+    if (springStart > 0) (Bucket.spring, springStart),
+    if (added > 0) (Bucket.added, added),
+  ];
 
   List<(Bucket, double)> get after => [
-        if (movingEnd > 0) (Bucket.moving, movingEnd),
-        if (heightEnd > 0) (Bucket.height, heightEnd),
-        if (springEnd > 0) (Bucket.spring, springEnd),
-        if (gone > 0) (Bucket.gone, gone),
-      ];
+    if (movingEnd > 0) (Bucket.moving, movingEnd),
+    if (heightEnd > 0) (Bucket.height, heightEnd),
+    if (springEnd > 0) (Bucket.spring, springEnd),
+    if (gone > 0) (Bucket.gone, gone),
+  ];
 }
 
 /// Two stacked bars, before and after, with the energy in each bucket.
@@ -117,13 +117,23 @@ class LedgerPainter extends CustomPainter {
               ..strokeWidth = 1.4,
           );
         if (high > 13) {
-          _write(canvas, bucket.plain, Offset(x + 4, y - high / 2 - 6),
-              AppColors.charcoal, 9);
+          _write(
+            canvas,
+            bucket.plain,
+            Offset(x + 4, y - high / 2 - 6),
+            AppColors.charcoal,
+            9,
+          );
         }
         y -= high;
       }
-      _write(canvas, i == 0 ? 'before' : 'after',
-          Offset(x + 2, floor + 4), AppColors.ink3, 10);
+      _write(
+        canvas,
+        i == 0 ? 'before' : 'after',
+        Offset(x + 2, floor + 4),
+        AppColors.ink3,
+        10,
+      );
     }
 
     canvas.drawLine(
@@ -137,9 +147,12 @@ class LedgerPainter extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, Color color, double size) {
     TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: size, color: color)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: size, color: color),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }

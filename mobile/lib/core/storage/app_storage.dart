@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// plain preferences, which die with the app.
 class AppStorage {
   AppStorage([FlutterSecureStorage? storage])
-      : _storage = storage ?? const FlutterSecureStorage();
+    : _storage = storage ?? const FlutterSecureStorage();
 
   final FlutterSecureStorage _storage;
 
@@ -22,7 +22,8 @@ class AppStorage {
   static const _kMissedOnce = 'missed_once';
 
   Future<String?> readToken() => _storage.read(key: _kToken);
-  Future<void> writeToken(String token) => _storage.write(key: _kToken, value: token);
+  Future<void> writeToken(String token) =>
+      _storage.write(key: _kToken, value: token);
   Future<void> clearToken() => _storage.delete(key: _kToken);
 
   /// Local mirror of finished rounds, so a half-finished sitting survives the

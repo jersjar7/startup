@@ -20,8 +20,7 @@ class TooLittleOrTooMuchGame extends StatefulWidget {
   const TooLittleOrTooMuchGame({super.key});
 
   @override
-  State<TooLittleOrTooMuchGame> createState() =>
-      _TooLittleOrTooMuchGameState();
+  State<TooLittleOrTooMuchGame> createState() => _TooLittleOrTooMuchGameState();
 }
 
 /// Where a column sits against the window the code puts round its steel.
@@ -46,10 +45,10 @@ class RatioRound {
   final String source;
 
   static String label(Window which) => switch (which) {
-        Window.under => 'Under the one per cent minimum',
-        Window.inside => 'Inside the window, which is what is wanted',
-        Window.over => 'Over the eight per cent maximum',
-      };
+    Window.under => 'Under the one per cent minimum',
+    Window.inside => 'Inside the window, which is what is wanted',
+    Window.over => 'Over the eight per cent maximum',
+  };
 }
 
 const windowRounds = <RatioRound>[
@@ -100,8 +99,7 @@ const windowRounds = <RatioRound>[
   ),
   RatioRound(
     subject: 'exactly on the line',
-    asked:
-        'A column works out at exactly one per cent. Is that allowed?',
+    asked: 'A column works out at exactly one per cent. Is that allowed?',
     cage: Cage(width: 20, depth: 20, bars: 4, barArea: 1.0),
     answer: Window.inside,
     why:

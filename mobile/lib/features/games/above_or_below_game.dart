@@ -285,7 +285,9 @@ class _AboveOrBelowGameState extends State<AboveOrBelowGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHERE IT SITS' : 'THE OTHER SIDE',
+              title: _session.correct!
+                  ? 'THAT IS WHERE IT SITS'
+                  : 'THE OTHER SIDE',
               body: r.why,
             ),
           ],

@@ -11,16 +11,16 @@ enum SignKind { regulatory, warning, guide }
 
 extension SignKindWords on SignKind {
   String get title => switch (this) {
-        SignKind.regulatory => 'regulatory',
-        SignKind.warning => 'warning',
-        SignKind.guide => 'guide',
-      };
+    SignKind.regulatory => 'regulatory',
+    SignKind.warning => 'warning',
+    SignKind.guide => 'guide',
+  };
 
   String get does => switch (this) {
-        SignKind.regulatory => 'tells you what you must or must not do',
-        SignKind.warning => 'tells you what is coming',
-        SignKind.guide => 'tells you where things are',
-      };
+    SignKind.regulatory => 'tells you what you must or must not do',
+    SignKind.warning => 'tells you what is coming',
+    SignKind.guide => 'tells you where things are',
+  };
 }
 
 /// The shapes a sign can be cut to.
@@ -47,12 +47,12 @@ class RoadSign {
   final SignKind kind;
 
   Color get paint => switch (color) {
-        'red' => AppColors.error,
-        'yellow' => AppColors.sunbeam,
-        'green' => AppColors.forest,
-        'orange' => AppColors.ember,
-        _ => AppColors.white,
-      };
+    'red' => AppColors.error,
+    'yellow' => AppColors.sunbeam,
+    'green' => AppColors.forest,
+    'orange' => AppColors.ember,
+    _ => AppColors.white,
+  };
 
   bool get darkFace => color == 'red' || color == 'green';
 }
@@ -96,8 +96,9 @@ class SignPainter extends CustomPainter {
           ..close();
       case SignShape.rectangle:
         path = Path()
-          ..addRect(Rect.fromCenter(
-              center: center, width: r * 1.7, height: r * 2.1));
+          ..addRect(
+            Rect.fromCenter(center: center, width: r * 1.7, height: r * 2.1),
+          );
       case SignShape.triangle:
         path = Path()
           ..moveTo(center.dx, center.dy + r)
@@ -115,37 +116,59 @@ class SignPainter extends CustomPainter {
       text: TextSpan(
         text: sign.legend,
         style: AppTheme.mono(
-            size: 11,
-            color: sign.darkFace ? AppColors.white : AppColors.charcoal),
+          size: 11,
+          color: sign.darkFace ? AppColors.white : AppColors.charcoal,
+        ),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    legend.paint(canvas,
-        Offset(center.dx - legend.width / 2, center.dy - legend.height / 2));
+    legend.paint(
+      canvas,
+      Offset(center.dx - legend.width / 2, center.dy - legend.height / 2),
+    );
 
     writeOn(
-        canvas,
-        size,
-        'a ${sign.color} ${switch (sign.shape) {
-          SignShape.octagon => 'octagon',
-          SignShape.diamond => 'diamond',
-          SignShape.rectangle => 'rectangle',
-          SignShape.triangle => 'triangle',
-        }}',
-        Offset(10, 8),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'a ${sign.color} ${switch (sign.shape) {
+        SignShape.octagon => 'octagon',
+        SignShape.diamond => 'diamond',
+        SignShape.rectangle => 'rectangle',
+        SignShape.triangle => 'triangle',
+      }}',
+      Offset(10, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
-      writeOn(canvas, size, 'which category it belongs to comes out',
-          Offset(10, size.height - 30), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'after the answer', Offset(10, size.height - 16),
-          AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'which category it belongs to comes out',
+        Offset(10, size.height - 30),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'after the answer',
+        Offset(10, size.height - 16),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
-    writeOn(canvas, size, '${sign.kind.title}: ${sign.kind.does}',
-        Offset(10, size.height - 16), AppColors.charcoal, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      '${sign.kind.title}: ${sign.kind.does}',
+      Offset(10, size.height - 16),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
   }
 
   @override
@@ -192,44 +215,76 @@ class WarrantPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final left = 20.0;
-    writeOn(canvas, size, crossing.description, Offset(left, 8),
-        AppColors.charcoal, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      crossing.description,
+      Offset(left, 8),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
 
     var y = 32.0;
     for (final w in warrants) {
       final met = answered && crossing.warrantMet == w;
       canvas.drawRect(
-          Rect.fromLTWH(left, y, 9, 9),
-          Paint()
-            ..color = met ? AppColors.forest : AppColors.line
-            ..style = met ? PaintingStyle.fill : PaintingStyle.stroke
-            ..strokeWidth = 1.2);
-      writeOn(canvas, size, w, Offset(left + 16, y - 2),
-          met ? AppColors.forest : AppColors.ink3, fontSize: 9.5);
+        Rect.fromLTWH(left, y, 9, 9),
+        Paint()
+          ..color = met ? AppColors.forest : AppColors.line
+          ..style = met ? PaintingStyle.fill : PaintingStyle.stroke
+          ..strokeWidth = 1.2,
+      );
+      writeOn(
+        canvas,
+        size,
+        w,
+        Offset(left + 16, y - 2),
+        met ? AppColors.forest : AppColors.ink3,
+        fontSize: 9.5,
+      );
       y += 17;
     }
 
     y += 6;
     if (!answered) {
-      writeOn(canvas, size, 'whether any of them is met comes out',
-          Offset(left, y), AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, 'after the answer', Offset(left, y + 14),
-          AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'whether any of them is met comes out',
+        Offset(left, y),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'after the answer',
+        Offset(left, y + 14),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
 
     writeOn(
+      canvas,
+      size,
+      crossing.warrantMet == null
+          ? 'no warrant met here'
+          : 'one warrant met, which makes a signal justified',
+      Offset(left, y),
+      crossing.warrantMet == null ? AppColors.error : AppColors.forest,
+      fontSize: 9.5,
+    );
+    if (crossing.note != null) {
+      writeOn(
         canvas,
         size,
-        crossing.warrantMet == null
-            ? 'no warrant met here'
-            : 'one warrant met, which makes a signal justified',
-        Offset(left, y),
-        crossing.warrantMet == null ? AppColors.error : AppColors.forest,
-        fontSize: 9.5);
-    if (crossing.note != null) {
-      writeOn(canvas, size, crossing.note!, Offset(left, y + 14),
-          AppColors.ink3, fontSize: 9.5);
+        crossing.note!,
+        Offset(left, y + 14),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
   }
 

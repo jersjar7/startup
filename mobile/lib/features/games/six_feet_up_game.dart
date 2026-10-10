@@ -148,8 +148,7 @@ const heightRounds2 = <HeightRound2>[
   ),
   HeightRound2(
     subject: 'what the engineer has to do with it',
-    asked:
-        'Where does the engineer of record come into site safety?',
+    asked: 'Where does the engineer of record come into site safety?',
     work: _eightFoot,
     options: [
       'Nowhere: safety belongs to the contractor alone',
@@ -256,10 +255,7 @@ class _SixFeetUpGameState extends State<SixFeetUpGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: HeightPainter(
-                    work: r.work,
-                    answered: answered,
-                  ),
+                  painter: HeightPainter(work: r.work, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

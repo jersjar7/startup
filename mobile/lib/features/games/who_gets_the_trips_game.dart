@@ -119,12 +119,7 @@ const tripShareRounds = <TripShareRound>[
         'by attractions alone, 200 against 300. What do they report for zone '
         '1?',
     spread: _lessonPair,
-    options: [
-      '625 trips',
-      '400 trips',
-      '500 trips',
-      '375 trips',
-    ],
+    options: ['625 trips', '400 trips', '500 trips', '375 trips'],
     answer: 1,
     why:
         'Four hundred, and it is wrong in an interesting direction: zone 2 '
@@ -281,10 +276,7 @@ class _WhoGetsTheTripsGameState extends State<WhoGetsTheTripsGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: GravityPainter(
-                    spread: r.spread,
-                    answered: answered,
-                  ),
+                  painter: GravityPainter(spread: r.spread, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

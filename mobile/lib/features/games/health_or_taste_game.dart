@@ -58,8 +58,7 @@ const tierRounds = <TierRound>[
   ),
   TierRound(
     label: 'Iron  0.3 mg/L',
-    asked:
-        'Iron is listed at 0.3 mg/L. Which kind of standard is that?',
+    asked: 'Iron is listed at 0.3 mg/L. Which kind of standard is that?',
     answer: Tier.secondary,
     why:
         'Secondary. Iron at that level stains laundry and fixtures a rusty '
@@ -243,7 +242,9 @@ class _HealthOrTasteGameState extends State<HealthOrTasteGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE SHELF' : 'THE OTHER SHELF',
+              title: _session.correct!
+                  ? 'THAT IS THE SHELF'
+                  : 'THE OTHER SHELF',
               body: r.why,
             ),
           ],

@@ -166,8 +166,7 @@ const forecastRounds = <ForecastRound>[
   ),
   ForecastRound(
     subject: 'a job doing better',
-    asked:
-        'Here the index is above one. What happens to the forecast?',
+    asked: 'Here the index is above one. What happens to the forecast?',
     progress: _underspending,
     options: [
       'It stays at the budget: you cannot forecast a saving',

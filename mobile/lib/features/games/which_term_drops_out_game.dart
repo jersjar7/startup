@@ -20,8 +20,7 @@ class WhichTermDropsOutGame extends StatefulWidget {
   const WhichTermDropsOutGame({super.key});
 
   @override
-  State<WhichTermDropsOutGame> createState() =>
-      _WhichTermDropsOutGameState();
+  State<WhichTermDropsOutGame> createState() => _WhichTermDropsOutGameState();
 }
 
 /// Which of the three terms a round is about.
@@ -46,28 +45,58 @@ class TermRound3 {
   final String source;
 
   static String label(Piece4 which) => switch (which) {
-        Piece4.cohesion => 'The cohesion term',
-        Piece4.depth => 'The depth term, from the soil beside the footing',
-        Piece4.width => 'The width term, from the soil under it',
-        Piece4.none => 'None of them: all three are there',
-      };
+    Piece4.cohesion => 'The cohesion term',
+    Piece4.depth => 'The depth term, from the soil beside the footing',
+    Piece4.width => 'The width term, from the soil under it',
+    Piece4.none => 'None of them: all three are there',
+  };
 }
 
 const _onClay = Footing(
-    width: 6, depth: 0, cohesion: 1500, unitWeight: 115,
-    nc: 5.14, nq: 1, nGamma: 0);
+  width: 6,
+  depth: 0,
+  cohesion: 1500,
+  unitWeight: 115,
+  nc: 5.14,
+  nq: 1,
+  nGamma: 0,
+);
 const _onSand = Footing(
-    width: 4, depth: 3, cohesion: 0, unitWeight: 120,
-    nc: 30.14, nq: 18.40, nGamma: 15.07);
+  width: 4,
+  depth: 3,
+  cohesion: 0,
+  unitWeight: 120,
+  nc: 30.14,
+  nq: 18.40,
+  nGamma: 15.07,
+);
 const _mixed = Footing(
-    width: 5, depth: 3, cohesion: 500, unitWeight: 115,
-    nc: 14.83, nq: 6.40, nGamma: 3.54);
+  width: 5,
+  depth: 3,
+  cohesion: 500,
+  unitWeight: 115,
+  nc: 14.83,
+  nq: 6.40,
+  nGamma: 3.54,
+);
 const _sandOnSurface = Footing(
-    width: 4, depth: 0, cohesion: 0, unitWeight: 120,
-    nc: 30.14, nq: 18.40, nGamma: 15.07);
+  width: 4,
+  depth: 0,
+  cohesion: 0,
+  unitWeight: 120,
+  nc: 30.14,
+  nq: 18.40,
+  nGamma: 15.07,
+);
 const _buriedClay = Footing(
-    width: 6, depth: 4, cohesion: 1500, unitWeight: 115,
-    nc: 5.14, nq: 1, nGamma: 0);
+  width: 6,
+  depth: 4,
+  cohesion: 1500,
+  unitWeight: 115,
+  nc: 5.14,
+  nq: 1,
+  nGamma: 0,
+);
 
 const termGoneRounds = <TermRound3>[
   TermRound3(
@@ -252,8 +281,10 @@ class _WhichTermDropsOutGameState extends State<WhichTermDropsOutGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter:
-                      FootingPainter(footing: r.footing, answered: answered),
+                  painter: FootingPainter(
+                    footing: r.footing,
+                    answered: answered,
+                  ),
                   child: const SizedBox.expand(),
                 ),
               ),

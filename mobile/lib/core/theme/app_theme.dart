@@ -26,10 +26,9 @@ abstract final class AppTheme {
     );
 
     // Body text is Inter; headings get overridden to DM Sans where used.
-    final textTheme = GoogleFonts.interTextTheme(base.textTheme).apply(
-      bodyColor: AppColors.charcoal,
-      displayColor: AppColors.charcoal,
-    );
+    final textTheme = GoogleFonts.interTextTheme(
+      base.textTheme,
+    ).apply(bodyColor: AppColors.charcoal, displayColor: AppColors.charcoal);
 
     return base.copyWith(
       textTheme: textTheme,
@@ -87,9 +86,11 @@ abstract final class AppTheme {
     FontWeight weight = FontWeight.w500,
     Color color = AppColors.charcoal,
   }) {
-    return mono(size: size, weight: weight, color: color).copyWith(
-      fontFeatures: const [FontFeature.disable('calt')],
-    );
+    return mono(
+      size: size,
+      weight: weight,
+      color: color,
+    ).copyWith(fontFeatures: const [FontFeature.disable('calt')]);
   }
 
   /// Display (DM Sans 800, tight): headlines, hero numbers, tile numbers.
@@ -112,7 +113,10 @@ abstract final class AppTheme {
 
   /// Eyebrow (JetBrains Mono 600, uppercase, +0.06em): the only uppercase
   /// text in the app language. Pass the text already uppercased.
-  static TextStyle eyebrow({double size = 12, Color color = AppColors.charcoal}) {
+  static TextStyle eyebrow({
+    double size = 12,
+    Color color = AppColors.charcoal,
+  }) {
     return GoogleFonts.jetBrainsMono(
       fontSize: size,
       fontWeight: FontWeight.w600,
@@ -128,7 +132,12 @@ abstract final class AppTheme {
     Color color = AppColors.charcoal,
     double height = 1.4,
   }) {
-    return GoogleFonts.inter(fontSize: size, fontWeight: weight, color: color, height: height);
+    return GoogleFonts.inter(
+      fontSize: size,
+      fontWeight: weight,
+      color: color,
+      height: height,
+    );
   }
 
   /// Overline / kicker (DM Sans 600, uppercase, tracked).

@@ -53,7 +53,10 @@ const runRounds = <RunRound>[
     subject: 'the point the run starts from',
     asking: 0,
     level: Level(
-      marks: [Stake(name: 'BM', elevation: 100), Stake(name: 'A', elevation: 99.17)],
+      marks: [
+        Stake(name: 'BM', elevation: 100),
+        Stake(name: 'A', elevation: 99.17),
+      ],
       clearances: [1.52],
     ),
     why:
@@ -68,7 +71,10 @@ const runRounds = <RunRound>[
     subject: 'the point the run finishes on',
     asking: 1,
     level: Level(
-      marks: [Stake(name: 'BM', elevation: 100), Stake(name: 'A', elevation: 99.17)],
+      marks: [
+        Stake(name: 'BM', elevation: 100),
+        Stake(name: 'A', elevation: 99.17),
+      ],
       clearances: [1.52],
     ),
     why:

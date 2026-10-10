@@ -41,13 +41,17 @@ class SoilFixRound {
   final String source;
 }
 
-const _fatClay =
-    Ground(name: 'a swelling clay subgrade', plasticityIndex: 34);
+const _fatClay = Ground(name: 'a swelling clay subgrade', plasticityIndex: 34);
 const _siltySand = Ground(name: 'a silty sand subbase', plasticityIndex: 4);
-const _wetClay =
-    Ground(name: 'a soft clay haul road', plasticityIndex: 26, wet: true);
-const _softSubgrade =
-    Ground(name: 'soft ground under stone', plasticityIndex: 18);
+const _wetClay = Ground(
+  name: 'a soft clay haul road',
+  plasticityIndex: 26,
+  wet: true,
+);
+const _softSubgrade = Ground(
+  name: 'soft ground under stone',
+  plasticityIndex: 18,
+);
 
 const soilFixRounds = <SoilFixRound>[
   SoilFixRound(

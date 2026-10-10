@@ -286,7 +286,8 @@ class _BuildTheBinomialGameState extends State<BuildTheBinomialGame> {
           : (_picked.length != 3
                 ? null
                 : () => _session.submit(
-                    ok: _picked.length == truth.length &&
+                    ok:
+                        _picked.length == truth.length &&
                         _picked.containsAll(truth),
                     context: context,
                   )),
@@ -323,9 +324,7 @@ class _BuildTheBinomialGameState extends State<BuildTheBinomialGame> {
                 ),
                 const SizedBox(height: 8),
                 _Skeleton(
-                  picked: [
-                    for (final i in _picked) r.factors[i].latex,
-                  ],
+                  picked: [for (final i in _picked) r.factors[i].latex],
                 ),
               ],
             ),

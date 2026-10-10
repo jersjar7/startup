@@ -92,7 +92,11 @@ const partsRounds = <PartsRound>[
   PartsRound(
     integral: r'\int x\,\ln x\,dx',
     branches: [
-      PartsBranch(u: 'x', dv: r'\ln x\,dx', left: r'\text{needs } \int \ln x\,dx \text{ first}'),
+      PartsBranch(
+        u: 'x',
+        dv: r'\ln x\,dx',
+        left: r'\text{needs } \int \ln x\,dx \text{ first}',
+      ),
       PartsBranch(u: r'\ln x', dv: r'x\,dx', left: r'\int \frac{x}{2}\,dx'),
     ],
     answer: 1,

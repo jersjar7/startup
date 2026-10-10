@@ -29,10 +29,10 @@ enum Goes { left, right, together }
 
 extension GoesWords on Goes {
   String get plain => switch (this) {
-        Goes.left => 'The left one',
-        Goes.right => 'The right one',
-        Goes.together => 'Neither: they are in the same trouble',
-      };
+    Goes.left => 'The left one',
+    Goes.right => 'The right one',
+    Goes.together => 'Neither: they are in the same trouble',
+  };
 }
 
 @immutable
@@ -56,7 +56,8 @@ class FirstRound {
   /// Worked out from the two plates, never declared. Whichever is using more
   /// of its own toughness is the one that goes first.
   Goes get answer {
-    final gap = (left.usedUp - right.usedUp).abs() /
+    final gap =
+        (left.usedUp - right.usedUp).abs() /
         (left.usedUp > right.usedUp ? left.usedUp : right.usedUp);
     if (gap < 0.02) return Goes.together;
     return left.usedUp > right.usedUp ? Goes.left : Goes.right;
@@ -324,7 +325,8 @@ class _WhichCracksFirstGameState extends State<WhichCracksFirstGame> {
                     onTap: answered
                         ? null
                         : () => setState(
-                            () => _picked = i == 0 ? Goes.left : Goes.right),
+                            () => _picked = i == 0 ? Goes.left : Goes.right,
+                          ),
                   ),
                 ),
               ],

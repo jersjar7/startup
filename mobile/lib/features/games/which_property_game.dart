@@ -26,16 +26,16 @@ enum Property { density, weight, gravity }
 
 extension PropertyWords on Property {
   String get plain => switch (this) {
-        Property.density => 'Density, in kilograms per cubic meter',
-        Property.weight => 'Specific weight, in newtons per cubic meter',
-        Property.gravity => 'Specific gravity, a bare number',
-      };
+    Property.density => 'Density, in kilograms per cubic meter',
+    Property.weight => 'Specific weight, in newtons per cubic meter',
+    Property.gravity => 'Specific gravity, a bare number',
+  };
 
   String get tex => switch (this) {
-        Property.density => r'$\rho$',
-        Property.weight => r'$\gamma$',
-        Property.gravity => r'$SG$',
-      };
+    Property.density => r'$\rho$',
+    Property.weight => r'$\gamma$',
+    Property.gravity => r'$SG$',
+  };
 }
 
 @immutable
@@ -60,7 +60,8 @@ class PropertyRound {
 const propertyRounds = <PropertyRound>[
   PropertyRound(
     subject: 'a number off a data sheet',
-    asked: 'A fluid is listed at 8,338 newtons per cubic meter. Which '
+    asked:
+        'A fluid is listed at 8,338 newtons per cubic meter. Which '
         'property is that?',
     answer: Property.weight,
     why:
@@ -73,7 +74,8 @@ const propertyRounds = <PropertyRound>[
   ),
   PropertyRound(
     subject: 'a number with nothing after it',
-    asked: 'An oil is described as 0.85, with no units of any kind. Which '
+    asked:
+        'An oil is described as 0.85, with no units of any kind. Which '
         'property is that?',
     answer: Property.gravity,
     why:
@@ -86,7 +88,8 @@ const propertyRounds = <PropertyRound>[
   ),
   PropertyRound(
     subject: 'what a cubic meter holds',
-    asked: 'The MASS packed into one cubic meter of the fluid. Which property '
+    asked:
+        'The MASS packed into one cubic meter of the fluid. Which property '
         'is that?',
     answer: Property.density,
     why:
@@ -98,7 +101,8 @@ const propertyRounds = <PropertyRound>[
   ),
   PropertyRound(
     subject: 'multiplying by 9,810',
-    asked: 'You multiply it by 9,810 newtons per cubic meter to get the '
+    asked:
+        'You multiply it by 9,810 newtons per cubic meter to get the '
         'fluid\'s specific weight. Which property is it?',
     answer: Property.gravity,
     why:
@@ -110,7 +114,8 @@ const propertyRounds = <PropertyRound>[
   ),
   PropertyRound(
     subject: 'multiplying by g',
-    asked: 'You multiply it by 9.81 meters per second squared to get the '
+    asked:
+        'You multiply it by 9.81 meters per second squared to get the '
         'specific weight. Which property is it?',
     answer: Property.density,
     why:
@@ -122,7 +127,8 @@ const propertyRounds = <PropertyRound>[
   ),
   PropertyRound(
     subject: 'what the pressure formula wants',
-    asked: 'Pressure under a depth of liquid is that depth times which '
+    asked:
+        'Pressure under a depth of liquid is that depth times which '
         'property?',
     answer: Property.weight,
     why:
@@ -293,15 +299,19 @@ class _Choice extends StatelessWidget {
                 width: 34,
                 child: MathText(
                   tex,
-                  style:
-                      const TextStyle(fontSize: 17, color: AppColors.charcoal),
+                  style: const TextStyle(
+                    fontSize: 17,
+                    color: AppColors.charcoal,
+                  ),
                 ),
               ),
               Expanded(
                 child: Text(
                   label,
-                  style:
-                      const TextStyle(fontSize: 14.5, color: AppColors.charcoal),
+                  style: const TextStyle(
+                    fontSize: 14.5,
+                    color: AppColors.charcoal,
+                  ),
                 ),
               ),
             ],

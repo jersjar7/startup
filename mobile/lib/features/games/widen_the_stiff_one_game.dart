@@ -95,11 +95,13 @@ class TransformRound {
         for (final s in beam.slices) {
           final deeper = s.made == beam.stiffer;
           final h = deeper ? s.size.height * _deepenBy : s.size.height;
-          grown.add(Slice(
-            Offset(s.at.dx, s.at.dy + lift),
-            Size(s.size.width, h),
-            s.made,
-          ));
+          grown.add(
+            Slice(
+              Offset(s.at.dx, s.at.dy + lift),
+              Size(s.size.width, h),
+              s.made,
+            ),
+          );
           if (deeper) lift += h - s.size.height;
         }
         return grown;
@@ -107,14 +109,14 @@ class TransformRound {
   }
 
   double _widthOf(Slice s, Done done) => switch (done) {
-        Done.widenStiff =>
-          s.made == beam.stiffer ? s.size.width * beam.n : s.size.width,
-        Done.widenSoft =>
-          s.made == beam.softer ? s.size.width * beam.n : s.size.width,
-        Done.narrowStiff =>
-          s.made == beam.stiffer ? s.size.width / beam.n : s.size.width,
-        Done.deepenStiff => s.size.width,
-      };
+    Done.widenStiff =>
+      s.made == beam.stiffer ? s.size.width * beam.n : s.size.width,
+    Done.widenSoft =>
+      s.made == beam.softer ? s.size.width * beam.n : s.size.width,
+    Done.narrowStiff =>
+      s.made == beam.stiffer ? s.size.width / beam.n : s.size.width,
+    Done.deepenStiff => s.size.width,
+  };
 }
 
 /// A concrete beam with a steel plate bolted underneath, the classic
@@ -152,7 +154,7 @@ final transformRounds = <TransformRound>[
         'much concrete it is replaced by. The second widens the concrete, '
         'which is the ratio upside down, and the third makes the steel '
         'narrower, which is dividing where the method multiplies. Both leave '
-'you with a beam that is nothing like the real one.',
+        'you with a beam that is nothing like the real one.',
     source: 'mom-tsp-q1',
   ),
   TransformRound(
@@ -362,22 +364,21 @@ class _Key extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 12,
-            height: 12,
-            decoration: BoxDecoration(
-              color: made.tone.withValues(alpha: 0.35),
-              border: Border.all(color: AppColors.charcoal, width: 1.2),
-              borderRadius: BorderRadius.circular(3),
-            ),
-          ),
-          const SizedBox(width: 6),
-          Text(made.plain,
-              style: AppTheme.mono(size: 11, color: AppColors.ink3)),
-        ],
-      );
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Container(
+        width: 12,
+        height: 12,
+        decoration: BoxDecoration(
+          color: made.tone.withValues(alpha: 0.35),
+          border: Border.all(color: AppColors.charcoal, width: 1.2),
+          borderRadius: BorderRadius.circular(3),
+        ),
+      ),
+      const SizedBox(width: 6),
+      Text(made.plain, style: AppTheme.mono(size: 11, color: AppColors.ink3)),
+    ],
+  );
 }
 
 class _Panel extends StatelessWidget {

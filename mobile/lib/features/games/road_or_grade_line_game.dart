@@ -29,10 +29,10 @@ enum Sits3 { above, below, onIt }
 
 extension Sits3Words on Sits3 {
   String get plain => switch (this) {
-        Sits3.above => 'Above the grade line',
-        Sits3.below => 'Below the grade line',
-        Sits3.onIt => 'Right on it',
-      };
+    Sits3.above => 'Above the grade line',
+    Sits3.below => 'Below the grade line',
+    Sits3.onIt => 'Right on it',
+  };
 }
 
 @immutable
@@ -251,10 +251,7 @@ class _RoadOrGradeLineGameState extends State<RoadOrGradeLineGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: RoadProfilePainter(
-                    vert: r.vert,
-                    markAt: r.station,
-                  ),
+                  painter: RoadProfilePainter(vert: r.vert, markAt: r.station),
                   child: const SizedBox.expand(),
                 ),
               ),
@@ -282,7 +279,9 @@ class _RoadOrGradeLineGameState extends State<RoadOrGradeLineGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHERE IT SITS' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS WHERE IT SITS'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

@@ -1186,7 +1186,8 @@ const economicsMap = ChapterMap(
           id: 'roll-it-back',
           rounds: 6,
           name: 'Roll It Back',
-          blurb: 'A tree with a square, some circles, and a price on every end.',
+          blurb:
+              'A tree with a square, some circles, and a price on every end.',
           built: true,
           brief: rollbackBrief,
         ),
@@ -1543,7 +1544,8 @@ const dynamicsMap = ChapterMap(
           id: 'speeding-up-or-turning',
           rounds: 6,
           name: 'Speeding Up or Turning',
-          blurb: 'On a bend, two accelerations at right angles. Which is which?',
+          blurb:
+              'On a bend, two accelerations at right angles. Which is which?',
           built: true,
           brief: bendBrief,
         ),
@@ -1707,7 +1709,10 @@ const mechanicsMaterialsMap = ChapterMap(
   name: 'Mechanics of Materials',
   examLine: '7 to 11 questions on the real exam',
   subtopics: [
-    Subtopic('stress-strain-fundamentals', 'Stress, Strain & Material Behavior'),
+    Subtopic(
+      'stress-strain-fundamentals',
+      'Stress, Strain & Material Behavior',
+    ),
     Subtopic('beams', 'Beams'),
     Subtopic('combined-loading-stability', 'Combined Loading & Stability'),
   ],
@@ -1768,7 +1773,8 @@ const mechanicsMaterialsMap = ChapterMap(
           id: 'which-area-twists-it',
           rounds: 6,
           name: 'Which Area Twists It',
-          blurb: 'Three shaded areas on a tube. Only one belongs in the formula.',
+          blurb:
+              'Three shaded areas on a tube. Only one belongs in the formula.',
           built: true,
           brief: thinWallBrief,
         ),

@@ -243,11 +243,7 @@ class _ShadowFallsGameState extends State<ShadowFallsGame> {
                       child: CustomPaint(
                         painter: VectorPainter(
                           span: _span,
-                          ruler: RulerLine(
-                            unit: r.unit,
-                            from: _from,
-                            to: _to,
-                          ),
+                          ruler: RulerLine(unit: r.unit, from: _from, to: _to),
                           rulerPick: _picked,
                           rulerTruth: answered ? r.answer : null,
                           revealed: answered,

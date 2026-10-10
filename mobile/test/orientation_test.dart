@@ -23,24 +23,38 @@ void main() {
       r'<key>UISupportedInterfaceOrientations</key>\s*<array>(.*?)</array>',
       dotAll: true,
     ).firstMatch(plist);
-    expect(block, isNotNull, reason: 'the orientation list is missing entirely');
+    expect(
+      block,
+      isNotNull,
+      reason: 'the orientation list is missing entirely',
+    );
     final body = block!.group(1)!;
     expect(body, contains('UIInterfaceOrientationPortrait'));
-    expect(body, isNot(contains('Landscape')),
-        reason: 'landscape is back, and three screens overflow in it');
+    expect(
+      body,
+      isNot(contains('Landscape')),
+      reason: 'landscape is back, and three screens overflow in it',
+    );
     expect(body, isNot(contains('PortraitUpsideDown')));
   });
 
   test('iPad is not a target', () {
-    expect(pbx, isNot(contains('TARGETED_DEVICE_FAMILY = "1,2"')),
-        reason: 'universal again: Apple will then require iPad screenshots '
-            'and review the app on a device it was never designed for');
+    expect(
+      pbx,
+      isNot(contains('TARGETED_DEVICE_FAMILY = "1,2"')),
+      reason:
+          'universal again: Apple will then require iPad screenshots '
+          'and review the app on a device it was never designed for',
+    );
     expect(pbx, contains('TARGETED_DEVICE_FAMILY = "1"'));
   });
 
   test('no iPad-only configuration is left behind', () {
-    expect(plist, isNot(contains('~ipad')),
-        reason: 'dead config that outlived the iPad target');
+    expect(
+      plist,
+      isNot(contains('~ipad')),
+      reason: 'dead config that outlived the iPad target',
+    );
   });
 
   test('the app also refuses landscape itself, not only via the plist', () {

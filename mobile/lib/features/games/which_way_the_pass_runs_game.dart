@@ -16,7 +16,8 @@ class WhichWayThePassRunsGame extends StatefulWidget {
   const WhichWayThePassRunsGame({super.key});
 
   @override
-  State<WhichWayThePassRunsGame> createState() => _WhichWayThePassRunsGameState();
+  State<WhichWayThePassRunsGame> createState() =>
+      _WhichWayThePassRunsGameState();
 }
 
 @immutable
@@ -47,13 +48,15 @@ class PassRound {
 /// The network all three scheduling lessons share: A, then B and C, then D
 /// behind B and E behind both B and C. Thirteen days, critical through
 /// A, B and D.
-const _theNetwork = Network(tasks: [
-  Task(name: 'A', days: 3),
-  Task(name: 'B', days: 4, after: ['A']),
-  Task(name: 'C', days: 2, after: ['A']),
-  Task(name: 'D', days: 6, after: ['B']),
-  Task(name: 'E', days: 3, after: ['B', 'C']),
-]);
+const _theNetwork = Network(
+  tasks: [
+    Task(name: 'A', days: 3),
+    Task(name: 'B', days: 4, after: ['A']),
+    Task(name: 'C', days: 2, after: ['A']),
+    Task(name: 'D', days: 6, after: ['B']),
+    Task(name: 'E', days: 3, after: ['B', 'C']),
+  ],
+);
 
 const passRounds = <PassRound>[
   PassRound(

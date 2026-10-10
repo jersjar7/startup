@@ -11,11 +11,7 @@ import '../../core/theme/app_theme.dart';
 /// arithmetic cannot disagree about which component does what.
 @immutable
 class Slope2 {
-  const Slope2({
-    required this.degrees,
-    required this.weight,
-    this.g = 9.81,
-  });
+  const Slope2({required this.degrees, required this.weight, this.g = 9.81});
 
   /// The slope, and the block's WEIGHT in newtons, which is what a problem
   /// usually gives and is not its mass.
@@ -46,11 +42,11 @@ enum Arrow { weight, along, square, normal }
 
 extension ArrowWords on Arrow {
   String get plain => switch (this) {
-        Arrow.weight => 'the whole weight, straight down',
-        Arrow.along => 'the piece running down the slope',
-        Arrow.square => 'the piece pressing into the slope',
-        Arrow.normal => 'the push back from the surface',
-      };
+    Arrow.weight => 'the whole weight, straight down',
+    Arrow.along => 'the piece running down the slope',
+    Arrow.square => 'the piece pressing into the slope',
+    Arrow.normal => 'the push back from the surface',
+  };
 }
 
 /// A block on a slope with its weight taken apart.
@@ -103,8 +99,12 @@ class SlopePainter2 extends CustomPainter {
   }
 
   static Arrow? nearest(
-      Slope2 slope, Size size, List<Arrow> arrows, Offset tap,
-      {double within = 32}) {
+    Slope2 slope,
+    Size size,
+    List<Arrow> arrows,
+    Offset tap, {
+    double within = 32,
+  }) {
     Arrow? best;
     var gap = within;
     for (final a in arrows) {
@@ -123,8 +123,9 @@ class SlopePainter2 extends CustomPainter {
     final tilt = slope.degrees * math.pi / 180;
     final run = size.width - _pad * 2;
     final rise = run * math.tan(tilt);
-    final scale =
-        rise > size.height - _pad * 2 ? (size.height - _pad * 2) / rise : 1.0;
+    final scale = rise > size.height - _pad * 2
+        ? (size.height - _pad * 2) / rise
+        : 1.0;
     final peak = foot + Offset(run * scale, -rise * scale);
 
     final ink = Paint()
@@ -170,8 +171,12 @@ class SlopePainter2 extends CustomPainter {
 
     // Top left, clear of the wedge: down by the foot the slope line runs
     // straight through the text on a gentle ramp.
-    _write(canvas, '${slope.degrees.round()} degrees', const Offset(5, 3),
-        AppColors.ink3);
+    _write(
+      canvas,
+      '${slope.degrees.round()} degrees',
+      const Offset(5, 3),
+      AppColors.ink3,
+    );
 
     for (final arrow in arrows) {
       final isTruth = locked && arrow == truth;
@@ -179,17 +184,27 @@ class SlopePainter2 extends CustomPainter {
       final color = isTruth
           ? AppColors.forest
           : (locked && chosen)
-              ? AppColors.error
-              : chosen
-                  ? AppColors.ember
-                  : (arrow == Arrow.weight ? AppColors.charcoal : AppColors.info);
-      _arrow(canvas, seat, headOf(slope, size, arrow), color,
-          heavy: chosen || isTruth);
+          ? AppColors.error
+          : chosen
+          ? AppColors.ember
+          : (arrow == Arrow.weight ? AppColors.charcoal : AppColors.info);
+      _arrow(
+        canvas,
+        seat,
+        headOf(slope, size, arrow),
+        color,
+        heavy: chosen || isTruth,
+      );
     }
   }
 
-  void _arrow(Canvas canvas, Offset from, Offset to, Color color,
-      {bool heavy = false}) {
+  void _arrow(
+    Canvas canvas,
+    Offset from,
+    Offset to,
+    Color color, {
+    bool heavy = false,
+  }) {
     if ((to - from).distance < 3) return;
     final paint = Paint()
       ..color = color
@@ -200,10 +215,14 @@ class SlopePainter2 extends CustomPainter {
     canvas.drawPath(
       Path()
         ..moveTo(to.dx, to.dy)
-        ..lineTo(to.dx - unit.dx * 9 + side.dx * 4.5,
-            to.dy - unit.dy * 9 + side.dy * 4.5)
-        ..lineTo(to.dx - unit.dx * 9 - side.dx * 4.5,
-            to.dy - unit.dy * 9 - side.dy * 4.5)
+        ..lineTo(
+          to.dx - unit.dx * 9 + side.dx * 4.5,
+          to.dy - unit.dy * 9 + side.dy * 4.5,
+        )
+        ..lineTo(
+          to.dx - unit.dx * 9 - side.dx * 4.5,
+          to.dy - unit.dy * 9 - side.dy * 4.5,
+        )
         ..close(),
       Paint()..color = color,
     );
@@ -211,9 +230,12 @@ class SlopePainter2 extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 10, color: color),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }
@@ -232,11 +254,7 @@ enum Lands { middle, rim, corner }
 /// A body, what holds it, and where it is pushed.
 @immutable
 class Pushed {
-  const Pushed({
-    required this.round,
-    required this.held,
-    required this.lands,
-  });
+  const Pushed({required this.round, required this.held, required this.lands});
 
   /// Drawn as a disc rather than a box.
   final bool round;
@@ -249,9 +267,9 @@ class Pushed {
 
   /// Whether it makes it spin.
   bool get rotates => switch (held) {
-        Held2.axle => lands != Lands.middle,
-        _ => lands != Lands.middle,
-      };
+    Held2.axle => lands != Lands.middle,
+    _ => lands != Lands.middle,
+  };
 }
 
 /// A body with a force on it and whatever is holding it.
@@ -296,7 +314,11 @@ class PushPainter extends CustomPainter {
         ..drawCircle(middle, r, fill)
         ..drawCircle(middle, r, ink);
     } else {
-      final box = Rect.fromCenter(center: middle, width: r * 2, height: r * 1.5);
+      final box = Rect.fromCenter(
+        center: middle,
+        width: r * 2,
+        height: r * 1.5,
+      );
       canvas
         ..drawRect(box, fill)
         ..drawRect(box, ink);
@@ -322,7 +344,13 @@ class PushPainter extends CustomPainter {
       Lands.corner => middle + Offset(r, -r * 0.75),
     };
     final to = at + const Offset(52, 0);
-    canvas.drawLine(at, to, Paint()..color = tone..strokeWidth = 2.6);
+    canvas.drawLine(
+      at,
+      to,
+      Paint()
+        ..color = tone
+        ..strokeWidth = 2.6,
+    );
     canvas.drawPath(
       Path()
         ..moveTo(to.dx, to.dy)
@@ -332,9 +360,12 @@ class PushPainter extends CustomPainter {
       Paint()..color = tone,
     );
     TextPainter(
-      text: TextSpan(text: 'F', style: AppTheme.mono(size: 11, color: tone)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: 'F',
+          style: AppTheme.mono(size: 11, color: tone),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, to + const Offset(3, -6));
   }

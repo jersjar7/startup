@@ -49,10 +49,10 @@ class CoupleRound {
   }
 
   String labelFor(Eaten which) => switch (which) {
-        Eaten.left => 'The ${couple.left.plain}',
-        Eaten.right => 'The ${couple.right.plain}',
-        Eaten.neither => 'Neither: no cell forms here',
-      };
+    Eaten.left => 'The ${couple.left.plain}',
+    Eaten.right => 'The ${couple.right.plain}',
+    Eaten.neither => 'Neither: no cell forms here',
+  };
 }
 
 const coupleRounds = <CoupleRound>[
@@ -100,8 +100,7 @@ const coupleRounds = <CoupleRound>[
     setting:
         'An aluminum bracket bolted to a copper plate inside a heated, dry '
         'building. No condensation, ever.',
-    couple: Couple(
-        left: Metal.aluminum, right: Metal.copper, wet: false),
+    couple: Couple(left: Metal.aluminum, right: Metal.copper, wet: false),
     why:
         'Neither. A corrosion cell needs four things, and the electrolyte is '
         'one of them: no water, no cell. This is why the same detail can be '
@@ -114,8 +113,7 @@ const coupleRounds = <CoupleRound>[
     setting:
         'Aluminum flashing over a steel beam on a wet roof, with an '
         'insulating gasket between them.',
-    couple: Couple(
-        left: Metal.aluminum, right: Metal.steel, connected: false),
+    couple: Couple(left: Metal.aluminum, right: Metal.steel, connected: false),
     why:
         'Neither, as long as the gasket holds. The fourth thing a cell needs '
         'is an electrical path between the two metals, and that is the one '
@@ -162,10 +160,10 @@ class _WhichOneGoesGameState extends State<WhichOneGoesGame> {
   CoupleRound get _round => coupleRounds[_session.round];
 
   int? _index(Eaten? which) => switch (which) {
-        Eaten.left => 0,
-        Eaten.right => 1,
-        _ => null,
-      };
+    Eaten.left => 0,
+    Eaten.right => 1,
+    _ => null,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -231,11 +229,14 @@ class _WhichOneGoesGameState extends State<WhichOneGoesGame> {
                 onTapDown: answered
                     ? null
                     : (details) {
-                        final hit =
-                            CouplePainter.at(size, details.localPosition);
+                        final hit = CouplePainter.at(
+                          size,
+                          details.localPosition,
+                        );
                         if (hit == null) return;
-                        setState(() =>
-                            _picked = hit == 0 ? Eaten.left : Eaten.right);
+                        setState(
+                          () => _picked = hit == 0 ? Eaten.left : Eaten.right,
+                        );
                       },
                 child: EngineeringGrid(
                   minor: 18,

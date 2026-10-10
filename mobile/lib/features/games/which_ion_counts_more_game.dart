@@ -20,8 +20,7 @@ class WhichIonCountsMoreGame extends StatefulWidget {
   const WhichIonCountsMoreGame({super.key});
 
   @override
-  State<WhichIonCountsMoreGame> createState() =>
-      _WhichIonCountsMoreGameState();
+  State<WhichIonCountsMoreGame> createState() => _WhichIonCountsMoreGameState();
 }
 
 /// Which ion contributes more hardness once both are converted.
@@ -29,10 +28,10 @@ enum Counts { first, second, level }
 
 extension CountsWords on Counts {
   String plainFor(List<Ion> ions) => switch (this) {
-        Counts.first => 'The ${ions.first.name.toLowerCase()}',
-        Counts.second => 'The ${ions.last.name.toLowerCase()}',
-        Counts.level => 'Neither: they contribute the same',
-      };
+    Counts.first => 'The ${ions.first.name.toLowerCase()}',
+    Counts.second => 'The ${ions.last.name.toLowerCase()}',
+    Counts.level => 'Neither: they contribute the same',
+  };
 }
 
 @immutable
@@ -241,8 +240,7 @@ class _WhichIonCountsMoreGameState extends State<WhichIonCountsMoreGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter:
-                      HardnessPainter(ions: r.ions, converted: answered),
+                  painter: HardnessPainter(ions: r.ions, converted: answered),
                   child: const SizedBox.expand(),
                 ),
               ),
@@ -270,7 +268,9 @@ class _WhichIonCountsMoreGameState extends State<WhichIonCountsMoreGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE BIGGER SHARE' : 'THE OTHER ONE',
+              title: _session.correct!
+                  ? 'THAT IS THE BIGGER SHARE'
+                  : 'THE OTHER ONE',
               body: r.why,
             ),
           ],

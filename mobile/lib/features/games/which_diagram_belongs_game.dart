@@ -52,7 +52,8 @@ List<Offset> variant(Loading beam, Diagram asked, Twist twist) {
       return beam.curve(asked);
     case Twist.other:
       return beam.curve(
-          asked == Diagram.shear ? Diagram.moment : Diagram.shear);
+        asked == Diagram.shear ? Diagram.moment : Diagram.shear,
+      );
     case Twist.flipped:
       return [for (final p in beam.curve(asked)) Offset(p.dx, -p.dy)];
     case Twist.blunt:
@@ -60,9 +61,7 @@ List<Offset> variant(Loading beam, Diagram asked, Twist twist) {
         ..sort();
       if (asked == Diagram.moment) {
         // Straight lines from knot to knot: no curvature anywhere.
-        return [
-          for (final x in knots) Offset(x, beam.momentAt(x)),
-        ];
+        return [for (final x in knots) Offset(x, beam.momentAt(x))];
       }
       // Shear held at whatever it was at the start of each stretch.
       final out = <Offset>[];
@@ -287,7 +286,7 @@ class _WhichDiagramBelongsGameState extends State<WhichDiagramBelongsGame> {
                     for (final (i, p) in r.beam.points.indexed)
                       (
                         p.$1,
-                        i < r.loadLabels.length ? r.loadLabels[i] : kn(p.$2)
+                        i < r.loadLabels.length ? r.loadLabels[i] : kn(p.$2),
                       ),
                   ],
                 ),

@@ -25,22 +25,22 @@ enum Factor { quarter, half, same, twice, four, nine }
 
 extension FactorWords on Factor {
   String get plain => switch (this) {
-        Factor.quarter => 'a quarter of the speed',
-        Factor.half => 'half the speed',
-        Factor.same => 'the same speed',
-        Factor.twice => 'twice the speed',
-        Factor.four => 'four times the speed',
-        Factor.nine => 'nine times the speed',
-      };
+    Factor.quarter => 'a quarter of the speed',
+    Factor.half => 'half the speed',
+    Factor.same => 'the same speed',
+    Factor.twice => 'twice the speed',
+    Factor.four => 'four times the speed',
+    Factor.nine => 'nine times the speed',
+  };
 
   double get times => switch (this) {
-        Factor.quarter => 0.25,
-        Factor.half => 0.5,
-        Factor.same => 1,
-        Factor.twice => 2,
-        Factor.four => 4,
-        Factor.nine => 9,
-      };
+    Factor.quarter => 0.25,
+    Factor.half => 0.5,
+    Factor.same => 1,
+    Factor.twice => 2,
+    Factor.four => 4,
+    Factor.nine => 9,
+  };
 }
 
 @immutable
@@ -81,8 +81,7 @@ const fasterRounds = <FasterRound>[
   ),
   FasterRound(
     subject: 'the other way round',
-    change:
-        'The same pipe, but now the water runs from the 150 into the 300.',
+    change: 'The same pipe, but now the water runs from the 150 into the 300.',
     options: [Factor.four, Factor.half, Factor.quarter, Factor.twice],
     answer: Factor.quarter,
     why:
@@ -94,7 +93,8 @@ const fasterRounds = <FasterRound>[
   ),
   FasterRound(
     subject: 'a third of the bore',
-    change: 'A 300 millimeter main necks down to a 100 millimeter branch '
+    change:
+        'A 300 millimeter main necks down to a 100 millimeter branch '
         'carrying all of it.',
     options: [Factor.nine, Factor.four, Factor.twice, Factor.same],
     answer: Factor.nine,

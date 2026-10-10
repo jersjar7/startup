@@ -27,10 +27,10 @@ enum Impact { plastic, elastic, between }
 
 extension ImpactWords on Impact {
   String get plain => switch (this) {
-        Impact.plastic => 'They stick: e is nothing',
-        Impact.elastic => 'A perfect bounce: e is one',
-        Impact.between => 'Somewhere between: e is given',
-      };
+    Impact.plastic => 'They stick: e is nothing',
+    Impact.elastic => 'A perfect bounce: e is one',
+    Impact.between => 'Somewhere between: e is given',
+  };
 }
 
 @immutable
@@ -262,7 +262,9 @@ class _StickOrBounceGameState extends State<StickOrBounceGame> {
             const SizedBox(height: 10),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE KIND' : 'A DIFFERENT KIND',
+              title: _session.correct!
+                  ? 'THAT IS THE KIND'
+                  : 'A DIFFERENT KIND',
               body: r.why,
             ),
           ],

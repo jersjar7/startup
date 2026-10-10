@@ -66,8 +66,10 @@ class LegPainter extends CustomPainter {
     final r = course.azimuth * math.pi / 180;
     final dir = Offset(math.sin(r), -math.cos(r));
     final room = math.min(size.width * 0.33, size.height * 0.34);
-    final a = Offset(size.width * 0.5 - dir.dx * room * 0.5,
-        size.height * 0.52 - dir.dy * room * 0.5);
+    final a = Offset(
+      size.width * 0.5 - dir.dx * room * 0.5,
+      size.height * 0.52 - dir.dy * room * 0.5,
+    );
     final b = a + dir * room;
     final corner = Offset(b.dx, a.dy);
 
@@ -79,10 +81,13 @@ class LegPainter extends CustomPainter {
       if (run.distance < 1) return;
       final unit = run / run.distance;
       for (var k = 0.0; k < run.distance; k += 8) {
-        canvas.drawLine(from + unit * k, from + unit * math.min(k + 4, run.distance),
-            Paint()
-              ..color = color
-              ..strokeWidth = 1.6);
+        canvas.drawLine(
+          from + unit * k,
+          from + unit * math.min(k + 4, run.distance),
+          Paint()
+            ..color = color
+            ..strokeWidth = 1.6,
+        );
       }
     }
 
@@ -98,22 +103,29 @@ class LegPainter extends CustomPainter {
 
     // The course itself.
     canvas.drawLine(
-        a,
-        b,
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 2.4);
+      a,
+      b,
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 2.4,
+    );
     final head = (b - a) / (b - a).distance;
     final side = Offset(-head.dy, head.dx) * 4.5;
     canvas
-      ..drawLine(b, b - head * 10 + side,
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 2)
-      ..drawLine(b, b - head * 10 - side,
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 2);
+      ..drawLine(
+        b,
+        b - head * 10 + side,
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 2,
+      )
+      ..drawLine(
+        b,
+        b - head * 10 - side,
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 2,
+      );
 
     // The angle off north, which is the azimuth.
     canvas.drawArc(
@@ -127,11 +139,13 @@ class LegPainter extends CustomPainter {
         ..strokeWidth = 1.5,
     );
     final mid = -math.pi / 2 + r / 2;
-    writeOn(        canvas,
-        size,
-        '${_num(course.azimuth)}°',
-        a + Offset(math.cos(mid), math.sin(mid)) * 40 + const Offset(-10, -6),
-        AppColors.ember);
+    writeOn(
+      canvas,
+      size,
+      '${_num(course.azimuth)}°',
+      a + Offset(math.cos(mid), math.sin(mid)) * 40 + const Offset(-10, -6),
+      AppColors.ember,
+    );
 
     // The two stations.
     for (final (p, name) in [(a, course.from), (b, course.to)]) {
@@ -143,16 +157,34 @@ class LegPainter extends CustomPainter {
 
     final latMid = Offset(a.dx, (a.dy + corner.dy) / 2);
     final depMid = Offset((corner.dx + b.dx) / 2, b.dy);
-    writeOn(canvas, size, showSigns
-        ? 'lat ${course.latitude >= 0 ? '+' : '-'}'
-        : 'lat', latMid + const Offset(-30, -6), AppColors.info);
-    writeOn(canvas, size, showSigns
-        ? 'dep ${course.departure >= 0 ? '+' : '-'}'
-        : 'dep', depMid + const Offset(-12, 8), AppColors.forest);
-    writeOn(canvas, size, 'N', Offset(a.dx - 3, a.dy - room - 30),
-        AppColors.ink2);
-    writeOn(canvas, size, '${_num(course.length)} m long',
-        const Offset(8, 8), AppColors.ink3);
+    writeOn(
+      canvas,
+      size,
+      showSigns ? 'lat ${course.latitude >= 0 ? '+' : '-'}' : 'lat',
+      latMid + const Offset(-30, -6),
+      AppColors.info,
+    );
+    writeOn(
+      canvas,
+      size,
+      showSigns ? 'dep ${course.departure >= 0 ? '+' : '-'}' : 'dep',
+      depMid + const Offset(-12, 8),
+      AppColors.forest,
+    );
+    writeOn(
+      canvas,
+      size,
+      'N',
+      Offset(a.dx - 3, a.dy - room - 30),
+      AppColors.ink2,
+    );
+    writeOn(
+      canvas,
+      size,
+      '${_num(course.length)} m long',
+      const Offset(8, 8),
+      AppColors.ink3,
+    );
 
     viewTag(canvas, size, Looking.plan, note: 'north up the sheet');
   }
@@ -230,8 +262,10 @@ class TripPainter extends CustomPainter {
     return [
       for (var i = 0; i < n; i++)
         c +
-            Offset(math.cos(-math.pi / 2 + i * 2 * math.pi / n) * rx,
-                math.sin(-math.pi / 2 + i * 2 * math.pi / n) * ry),
+            Offset(
+              math.cos(-math.pi / 2 + i * 2 * math.pi / n) * rx,
+              math.sin(-math.pi / 2 + i * 2 * math.pi / n) * ry,
+            ),
     ];
   }
 
@@ -272,29 +306,43 @@ class TripPainter extends CustomPainter {
       final short = i == n - 1 && showGap && trip.closure > 0;
       final end = short ? a + (b - a) * 0.86 : b;
       canvas.drawLine(
-          a,
-          end,
-          Paint()
-            ..color = tone
-            ..strokeWidth = (picked == i || (locked && answer == i)) ? 3 : 1.8);
+        a,
+        end,
+        Paint()
+          ..color = tone
+          ..strokeWidth = (picked == i || (locked && answer == i)) ? 3 : 1.8,
+      );
       final mid = spotOf(size, trip, i);
-      writeOn(canvas, size, '${_num(trip.lengths[i])} m',
-          mid + const Offset(-16, -6), tone);
+      writeOn(
+        canvas,
+        size,
+        '${_num(trip.lengths[i])} m',
+        mid + const Offset(-16, -6),
+        tone,
+      );
       if (short) {
         canvas.drawLine(
-            end,
-            b,
-            Paint()
-              ..color = AppColors.error
-              ..strokeWidth = 2.4);
+          end,
+          b,
+          Paint()
+            ..color = AppColors.error
+            ..strokeWidth = 2.4,
+        );
         // The gap is labeled outward, away from the middle of the figure,
         // so the word never lands on a course.
         final middle = Offset(size.width / 2, size.height / 2);
         final gapAt = Offset((end.dx + b.dx) / 2, (end.dy + b.dy) / 2);
         final out = gapAt - middle;
-        final away = out.distance < 1 ? const Offset(0, -1) : out / out.distance;
-        writeOn(canvas, size, 'gap', gapAt + away * 18 + const Offset(-8, -6),
-            AppColors.error);
+        final away = out.distance < 1
+            ? const Offset(0, -1)
+            : out / out.distance;
+        writeOn(
+          canvas,
+          size,
+          'gap',
+          gapAt + away * 18 + const Offset(-8, -6),
+          AppColors.error,
+        );
       }
     }
 
@@ -306,21 +354,35 @@ class TripPainter extends CustomPainter {
         ..drawCircle(pts[i], 5, Paint()..color = AppColors.cream)
         ..drawCircle(pts[i], 3.4, Paint()..color = AppColors.charcoal);
       if (roomy) {
-        writeOn(canvas, size, trip.names[i % trip.names.length],
-            pts[i] + const Offset(7, -16), AppColors.ink2);
+        writeOn(
+          canvas,
+          size,
+          trip.names[i % trip.names.length],
+          pts[i] + const Offset(7, -16),
+          AppColors.ink2,
+        );
       }
     }
 
     // The two numbers the whole check runs on, each on its own row and both
     // clear of the view tag along the bottom.
-    writeOn(canvas, size, '${_num(trip.perimeter)} m round',
-        Offset(8, size.height - 40), AppColors.ink3);
+    writeOn(
+      canvas,
+      size,
+      '${_num(trip.perimeter)} m round',
+      Offset(8, size.height - 40),
+      AppColors.ink3,
+    );
     if (showGap && trip.closure > 0) {
-      writeOn(canvas, size, 'out by ${trip.closure.toStringAsFixed(2)} m',
-          Offset(8, size.height - 28), AppColors.error);
+      writeOn(
+        canvas,
+        size,
+        'out by ${trip.closure.toStringAsFixed(2)} m',
+        Offset(8, size.height - 28),
+        AppColors.error,
+      );
     }
-    viewTag(canvas, size, Looking.plan,
-        note: roomy ? 'gap exaggerated' : null);
+    viewTag(canvas, size, Looking.plan, note: roomy ? 'gap exaggerated' : null);
   }
 
   @override
@@ -334,4 +396,3 @@ class TripPainter extends CustomPainter {
 
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
-

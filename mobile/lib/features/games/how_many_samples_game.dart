@@ -263,9 +263,7 @@ class _HowManySamplesGameState extends State<HowManySamplesGame> {
                     selected: _picked == i,
                     locked: answered,
                     isTruth: i == r.answer,
-                    onTap: answered
-                        ? null
-                        : () => setState(() => _picked = i),
+                    onTap: answered ? null : () => setState(() => _picked = i),
                   ),
                 ),
               ],
@@ -283,7 +281,6 @@ class _HowManySamplesGameState extends State<HowManySamplesGame> {
       ),
     );
   }
-
 }
 
 /// The margin a given sample size actually delivers, which is what the picture

@@ -33,11 +33,11 @@ enum Worse { bending, shear, both, neither }
 
 extension WorseWords on Worse {
   String get plain => switch (this) {
-        Worse.bending => 'The bending stress',
-        Worse.shear => 'The shear stress',
-        Worse.both => 'Both of them',
-        Worse.neither => 'Neither of them',
-      };
+    Worse.bending => 'The bending stress',
+    Worse.shear => 'The shear stress',
+    Worse.both => 'Both of them',
+    Worse.neither => 'Neither of them',
+  };
 }
 
 @immutable
@@ -82,7 +82,8 @@ class SwapRound {
   Worse get answer {
     final bendingUp =
         _bending(after, sectionAfter) > _bending(before, section) * 1.01;
-    final shearUp = _shear(after, sectionAfter) > _shear(before, section) * 1.01;
+    final shearUp =
+        _shear(after, sectionAfter) > _shear(before, section) * 1.01;
     if (bendingUp && shearUp) return Worse.both;
     if (bendingUp) return Worse.bending;
     if (shearUp) return Worse.shear;
@@ -287,9 +288,7 @@ class _WhichOneGetsWorseGameState extends State<WhichOneGetsWorseGame> {
                   span: r.before.span,
                   supports: supportsOf(r.before),
                   spreads: r.before.spreads,
-                  loads: [
-                    for (final p in r.before.points) (p.$1, r.loadLabel),
-                  ],
+                  loads: [for (final p in r.before.points) (p.$1, r.loadLabel)],
                 ),
                 child: const SizedBox.expand(),
               ),
@@ -304,17 +303,11 @@ class _WhichOneGetsWorseGameState extends State<WhichOneGetsWorseGame> {
           Row(
             children: [
               Expanded(
-                child: _One(
-                  title: 'bending',
-                  tex: r'$\sigma = \dfrac{Mc}{I}$',
-                ),
+                child: _One(title: 'bending', tex: r'$\sigma = \dfrac{Mc}{I}$'),
               ),
               Container(width: 1, height: 54, color: AppColors.line),
               Expanded(
-                child: _One(
-                  title: 'shear',
-                  tex: r'$\tau = \dfrac{3V}{2A}$',
-                ),
+                child: _One(title: 'shear', tex: r'$\tau = \dfrac{3V}{2A}$'),
               ),
             ],
           ),
@@ -351,15 +344,15 @@ class _One extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          Text(title, style: AppTheme.mono(size: 11, color: AppColors.ink3)),
-          const SizedBox(height: 6),
-          MathText(
-            tex,
-            style: const TextStyle(fontSize: 17, color: AppColors.charcoal),
-          ),
-        ],
-      );
+    children: [
+      Text(title, style: AppTheme.mono(size: 11, color: AppColors.ink3)),
+      const SizedBox(height: 6),
+      MathText(
+        tex,
+        style: const TextStyle(fontSize: 17, color: AppColors.charcoal),
+      ),
+    ],
+  );
 }
 
 class _Choice extends StatelessWidget {

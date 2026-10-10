@@ -246,9 +246,7 @@ class _CanItStartGameState extends State<CanItStartGame> {
                     selected: _picked == i,
                     locked: answered,
                     isTruth: truth == i,
-                    onTap: answered
-                        ? null
-                        : () => setState(() => _picked = i),
+                    onTap: answered ? null : () => setState(() => _picked = i),
                   ),
                 ),
               ],

@@ -81,25 +81,43 @@ class PilePainter extends CustomPainter {
 
     // The ground, and rock under the tip if the round has any.
     canvas.drawRect(
-        Rect.fromLTRB(10, ground, size.width - 10, tip + 14),
-        Paint()..color = AppColors.ink2.withValues(alpha: 0.18));
+      Rect.fromLTRB(10, ground, size.width - 10, tip + 14),
+      Paint()..color = AppColors.ink2.withValues(alpha: 0.18),
+    );
     groundLine(canvas, Offset(10, ground), Offset(size.width - 10, ground));
     if (bearsOnRock) {
       final rock = Rect.fromLTRB(10, tip, size.width - 10, tip + 24);
       canvas.drawRect(
-          rock, Paint()..color = AppColors.charcoal.withValues(alpha: 0.30));
+        rock,
+        Paint()..color = AppColors.charcoal.withValues(alpha: 0.30),
+      );
       hatchIn(canvas, Path()..addRect(rock), color: AppColors.charcoal);
-      writeOn(canvas, size, 'rock', Offset(14, tip + 10), AppColors.ink3,
-          fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'rock',
+        Offset(14, tip + 10),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
 
     // The pile.
-    canvas.drawRect(Rect.fromLTRB(x - 7, top, x + 7, tip),
-        Paint()..color = AppColors.charcoal.withValues(alpha: 0.8));
+    canvas.drawRect(
+      Rect.fromLTRB(x - 7, top, x + 7, tip),
+      Paint()..color = AppColors.charcoal.withValues(alpha: 0.8),
+    );
 
     if (!showResistances) {
-      writeOn(canvas, size, 'where it gets its hold comes out\nafter the '
-          'answer', Offset(10, ground + 30), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'where it gets its hold comes out\nafter the '
+        'answer',
+        Offset(10, ground + 30),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       viewTag(canvas, size, Looking.section, note: 'the pile');
       return;
     }
@@ -117,68 +135,80 @@ class PilePainter extends CustomPainter {
           // A plain rub mark: the surface is gripping, and which way it
           // pushes is what the round is asking.
           canvas.drawLine(
-              Offset(side, y - 7),
-              Offset(side, y + 7),
-              Paint()
-                ..color = AppColors.ink3
-                ..strokeWidth = 1.8);
+            Offset(side, y - 7),
+            Offset(side, y + 7),
+            Paint()
+              ..color = AppColors.ink3
+              ..strokeWidth = 1.8,
+          );
         }
       }
     }
     writeOn(
-        canvas,
-        size,
-        showDirection
-            ? (downdrag
+      canvas,
+      size,
+      showDirection
+          ? (downdrag
                 ? 'the ground settles past it'
                 : 'friction along the shaft')
-            : 'the shaft grips the soil',
-        Offset(x + 22, ground + 14),
-        showDirection ? rub : AppColors.ink3,
-        fontSize: 9.5);
+          : 'the shaft grips the soil',
+      Offset(x + 22, ground + 14),
+      showDirection ? rub : AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // Bearing under the tip, which always pushes up.
     _arrow(canvas, Offset(x, tip + 16), Offset(x, tip + 2), AppColors.forest);
-    writeOn(canvas, size, 'bearing under the tip', Offset(x + 22, tip - 6),
-        AppColors.forest, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'bearing under the tip',
+      Offset(x + 22, tip - 6),
+      AppColors.forest,
+      fontSize: 9.5,
+    );
 
     if (!answered) {
       writeOn(
-          canvas,
-          size,
-          showDirection
-              ? 'the two numbers come out\nafter the answer'
-              : 'which way it rubs comes out\nafter the answer',
-          Offset(10, ground + 30),
-          AppColors.ink3,
-          fontSize: 9.5);
+        canvas,
+        size,
+        showDirection
+            ? 'the two numbers come out\nafter the answer'
+            : 'which way it rubs comes out\nafter the answer',
+        Offset(10, ground + 30),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       viewTag(canvas, size, Looking.section, note: 'the pile');
       return;
     }
 
     writeOn(
-        canvas,
-        size,
-        'shaft ${pile.shaftResistance.toStringAsFixed(0)} kN',
-        Offset(10, ground + 30),
-        AppColors.info,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'shaft ${pile.shaftResistance.toStringAsFixed(0)} kN',
+      Offset(10, ground + 30),
+      AppColors.info,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'tip ${pile.endBearing.toStringAsFixed(0)} kN',
-        Offset(10, tip - 22),
-        AppColors.forest,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'tip ${pile.endBearing.toStringAsFixed(0)} kN',
+      Offset(10, tip - 22),
+      AppColors.forest,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        downdrag
-            ? 'the drag is a LOAD, not a resistance'
-            : 'together ${pile.ultimate.toStringAsFixed(0)} kN',
-        Offset(10, size.height - 16),
-        downdrag ? AppColors.error : AppColors.charcoal,
-        fontSize: 9.5);
+      canvas,
+      size,
+      downdrag
+          ? 'the drag is a LOAD, not a resistance'
+          : 'together ${pile.ultimate.toStringAsFixed(0)} kN',
+      Offset(10, size.height - 16),
+      downdrag ? AppColors.error : AppColors.charcoal,
+      fontSize: 9.5,
+    );
 
     viewTag(canvas, size, Looking.section, note: 'the pile');
   }
@@ -190,12 +220,13 @@ class PilePainter extends CustomPainter {
     canvas.drawLine(from, to, paint);
     final dir = to.dy > from.dy ? 1.0 : -1.0;
     canvas.drawPath(
-        Path()
-          ..moveTo(to.dx, to.dy)
-          ..lineTo(to.dx - 3.5, to.dy - 5 * dir)
-          ..lineTo(to.dx + 3.5, to.dy - 5 * dir)
-          ..close(),
-        Paint()..color = color);
+      Path()
+        ..moveTo(to.dx, to.dy)
+        ..lineTo(to.dx - 3.5, to.dy - 5 * dir)
+        ..lineTo(to.dx + 3.5, to.dy - 5 * dir)
+        ..close(),
+      Paint()..color = color,
+    );
   }
 
   @override
@@ -231,45 +262,95 @@ class DepthPainter extends CustomPainter {
     final bottom = size.height - 26;
 
     canvas
-      ..drawRect(Rect.fromLTRB(10, top, size.width - 10, firm),
-          Paint()..color = AppColors.ink2.withValues(alpha: 0.16))
-      ..drawRect(Rect.fromLTRB(10, firm, size.width - 10, bottom),
-          Paint()..color = AppColors.ink2.withValues(alpha: 0.40));
+      ..drawRect(
+        Rect.fromLTRB(10, top, size.width - 10, firm),
+        Paint()..color = AppColors.ink2.withValues(alpha: 0.16),
+      )
+      ..drawRect(
+        Rect.fromLTRB(10, firm, size.width - 10, bottom),
+        Paint()..color = AppColors.ink2.withValues(alpha: 0.40),
+      );
     groundLine(canvas, Offset(10, top), Offset(size.width - 10, top));
-    writeOn(canvas, size, 'soft clay', Offset(14, top + 6), AppColors.ink3,
-        fontSize: 9.5);
-    writeOn(canvas, size, 'dense gravel', Offset(14, firm + 6), AppColors.ink3,
-        fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'soft clay',
+      Offset(14, top + 6),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'dense gravel',
+      Offset(14, firm + 6),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     final middle = size.width * 0.52;
     if (onFooting) {
-      canvas.drawRect(Rect.fromLTRB(middle - 34, top - 12, middle + 34, top),
-          Paint()..color = AppColors.charcoal.withValues(alpha: 0.8));
-      writeOn(canvas, size, 'a footing', Offset(middle - 30, top - 26),
-          AppColors.charcoal, fontSize: 9.5);
+      canvas.drawRect(
+        Rect.fromLTRB(middle - 34, top - 12, middle + 34, top),
+        Paint()..color = AppColors.charcoal.withValues(alpha: 0.8),
+      );
+      writeOn(
+        canvas,
+        size,
+        'a footing',
+        Offset(middle - 30, top - 26),
+        AppColors.charcoal,
+        fontSize: 9.5,
+      );
     } else {
       final spread = piles == 1 ? 0.0 : 26.0;
       for (var i = 0; i < piles; i++) {
         final x = middle + (i - (piles - 1) / 2) * spread;
-        canvas.drawRect(Rect.fromLTRB(x - 5, top - 10, x + 5, firm + 22),
-            Paint()..color = AppColors.charcoal.withValues(alpha: 0.8));
+        canvas.drawRect(
+          Rect.fromLTRB(x - 5, top - 10, x + 5, firm + 22),
+          Paint()..color = AppColors.charcoal.withValues(alpha: 0.8),
+        );
       }
       if (piles > 1) {
         canvas.drawRect(
-            Rect.fromLTRB(middle - spread * piles / 2 - 8, top - 18,
-                middle + spread * piles / 2 + 8, top - 8),
-            Paint()..color = AppColors.charcoal.withValues(alpha: 0.8));
-        writeOn(canvas, size, 'one cap, several piles',
-            Offset(middle - 50, top - 32), AppColors.charcoal, fontSize: 9.5);
+          Rect.fromLTRB(
+            middle - spread * piles / 2 - 8,
+            top - 18,
+            middle + spread * piles / 2 + 8,
+            top - 8,
+          ),
+          Paint()..color = AppColors.charcoal.withValues(alpha: 0.8),
+        );
+        writeOn(
+          canvas,
+          size,
+          'one cap, several piles',
+          Offset(middle - 50, top - 32),
+          AppColors.charcoal,
+          fontSize: 9.5,
+        );
       } else {
-        writeOn(canvas, size, 'one pile', Offset(middle - 20, top - 24),
-            AppColors.charcoal, fontSize: 9.5);
+        writeOn(
+          canvas,
+          size,
+          'one pile',
+          Offset(middle - 20, top - 24),
+          AppColors.charcoal,
+          fontSize: 9.5,
+        );
       }
     }
 
     if (!answered) {
-      writeOn(canvas, size, 'what the load reaches comes out\nafter the '
-          'answer', Offset(14, top + 22), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'what the load reaches comes out\nafter the '
+        'answer',
+        Offset(14, top + 22),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       viewTag(canvas, size, Looking.section, note: 'the ground');
       return;
     }
@@ -283,9 +364,17 @@ class DepthPainter extends CustomPainter {
         ..lineTo(middle - 58, firm - 6)
         ..close();
       canvas.drawPath(
-          zone, Paint()..color = AppColors.error.withValues(alpha: 0.18));
-      writeOn(canvas, size, 'all of it into the soft layer',
-          Offset(10, size.height - 14), AppColors.error, fontSize: 9.5);
+        zone,
+        Paint()..color = AppColors.error.withValues(alpha: 0.18),
+      );
+      writeOn(
+        canvas,
+        size,
+        'all of it into the soft layer',
+        Offset(10, size.height - 14),
+        AppColors.error,
+        fontSize: 9.5,
+      );
     } else {
       final half = piles == 1 ? 26.0 : 26.0 * piles;
       final zone = Path()
@@ -295,16 +384,19 @@ class DepthPainter extends CustomPainter {
         ..lineTo(middle - half, math.min(bottom, firm + 10 + half))
         ..close();
       canvas.drawPath(
-          zone, Paint()..color = AppColors.forest.withValues(alpha: 0.20));
+        zone,
+        Paint()..color = AppColors.forest.withValues(alpha: 0.20),
+      );
       writeOn(
-          canvas,
-          size,
-          piles == 1
-              ? 'down to the gravel, past the soft layer'
-              : 'one wide zone, and it reaches deeper',
-          Offset(10, size.height - 14),
-          AppColors.forest,
-          fontSize: 9.5);
+        canvas,
+        size,
+        piles == 1
+            ? 'down to the gravel, past the soft layer'
+            : 'one wide zone, and it reaches deeper',
+        Offset(10, size.height - 14),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
 
     viewTag(canvas, size, Looking.section, note: 'the ground');

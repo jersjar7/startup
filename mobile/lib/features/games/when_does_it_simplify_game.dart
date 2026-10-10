@@ -20,8 +20,7 @@ class WhenDoesItSimplifyGame extends StatefulWidget {
   const WhenDoesItSimplifyGame({super.key});
 
   @override
-  State<WhenDoesItSimplifyGame> createState() =>
-      _WhenDoesItSimplifyGameState();
+  State<WhenDoesItSimplifyGame> createState() => _WhenDoesItSimplifyGameState();
 }
 
 @immutable

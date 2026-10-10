@@ -225,7 +225,8 @@ class _WhoHasToAgreeGameState extends State<WhoHasToAgreeGame> {
           : (_picked.isEmpty
                 ? null
                 : () => _session.submit(
-                    ok: _picked.length == truth.length &&
+                    ok:
+                        _picked.length == truth.length &&
                         _picked.containsAll(truth),
                     context: context,
                   )),

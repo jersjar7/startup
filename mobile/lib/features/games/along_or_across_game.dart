@@ -28,16 +28,17 @@ enum Mixes { additive, reciprocal, plainAverage }
 
 extension MixesParts on Mixes {
   String get tex => switch (this) {
-        Mixes.additive => r'$f_1 E_1 + f_2 E_2$',
-        Mixes.reciprocal => r'$\left(\dfrac{f_1}{E_1} + \dfrac{f_2}{E_2}\right)^{-1}$',
-        Mixes.plainAverage => r'$\dfrac{E_1 + E_2}{2}$',
-      };
+    Mixes.additive => r'$f_1 E_1 + f_2 E_2$',
+    Mixes.reciprocal =>
+      r'$\left(\dfrac{f_1}{E_1} + \dfrac{f_2}{E_2}\right)^{-1}$',
+    Mixes.plainAverage => r'$\dfrac{E_1 + E_2}{2}$',
+  };
 
   String get plain => switch (this) {
-        Mixes.additive => 'the additive rule',
-        Mixes.reciprocal => 'the reciprocal rule',
-        Mixes.plainAverage => 'a plain average',
-      };
+    Mixes.additive => 'the additive rule',
+    Mixes.reciprocal => 'the reciprocal rule',
+    Mixes.plainAverage => 'a plain average',
+  };
 }
 
 @immutable

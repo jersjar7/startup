@@ -25,10 +25,10 @@ enum Prep { useAsIs, divideByG, multiplyByG }
 
 extension PrepWords on Prep {
   String get plain => switch (this) {
-        Prep.useAsIs => 'Nothing: it is already what I need',
-        Prep.divideByG => 'Divide it by g first',
-        Prep.multiplyByG => 'Multiply it by g first',
-      };
+    Prep.useAsIs => 'Nothing: it is already what I need',
+    Prep.divideByG => 'Divide it by g first',
+    Prep.multiplyByG => 'Multiply it by g first',
+  };
 }
 
 @immutable
@@ -123,8 +123,7 @@ const unitRounds = <UnitRound>[
   ),
   UnitRound(
     subject: 'a force given in newtons',
-    setting:
-        'A horizontal push of 240 newtons acts on that crate.',
+    setting: 'A horizontal push of 240 newtons acts on that crate.',
     wanted: 'the FORCE, to put into F equals m a',
     answer: Prep.useAsIs,
     why:

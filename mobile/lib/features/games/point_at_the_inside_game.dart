@@ -48,8 +48,7 @@ class InsideRound {
       if (!inert.contains(i)) tokens[i],
   ];
 
-  int get choiceAnswer =>
-      answer - inert.where((i) => i < answer).length;
+  int get choiceAnswer => answer - inert.where((i) => i < answer).length;
 }
 
 const insideRounds = <InsideRound>[

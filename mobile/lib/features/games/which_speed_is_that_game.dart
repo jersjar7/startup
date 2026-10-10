@@ -29,10 +29,10 @@ enum Quantity3 { darcy, seepage, volume }
 
 extension Quantity3Words on Quantity3 {
   String get plain => switch (this) {
-        Quantity3.darcy => 'The Darcy velocity, K times the gradient',
-        Quantity3.seepage => 'The seepage velocity, faster, through the pores',
-        Quantity3.volume => 'A volume a second, not a speed at all',
-      };
+    Quantity3.darcy => 'The Darcy velocity, K times the gradient',
+    Quantity3.seepage => 'The seepage velocity, faster, through the pores',
+    Quantity3.volume => 'A volume a second, not a speed at all',
+  };
 }
 
 @immutable
@@ -56,10 +56,10 @@ class SeepRound {
   final String source;
 
   double get value => switch (answer) {
-        Quantity3.darcy => seep.darcy,
-        Quantity3.seepage => seep.seepage,
-        Quantity3.volume => seep.flow,
-      };
+    Quantity3.darcy => seep.darcy,
+    Quantity3.seepage => seep.seepage,
+    Quantity3.volume => seep.flow,
+  };
 }
 
 const seepRounds = <SeepRound>[
@@ -69,8 +69,7 @@ const seepRounds = <SeepRound>[
         'How fast would a dye tracer released upstream actually travel '
         'through this sand?',
     answer: Quantity3.seepage,
-    seep: Seep(
-        conductivity: 5e-4, gradient: 0.02, porosity: 0.30, area: 200),
+    seep: Seep(conductivity: 5e-4, gradient: 0.02, porosity: 0.30, area: 200),
     why:
         'The seepage velocity, 3.33 times ten to the minus five meters a '
         'second. Darcy gives one times ten to the minus five, but that number '
@@ -84,8 +83,7 @@ const seepRounds = <SeepRound>[
     subject: 'the number Darcy\'s law gives',
     asked: 'What is K times the hydraulic gradient, on its own?',
     answer: Quantity3.darcy,
-    seep: Seep(
-        conductivity: 5e-4, gradient: 0.02, porosity: 0.30, area: 200),
+    seep: Seep(conductivity: 5e-4, gradient: 0.02, porosity: 0.30, area: 200),
     why:
         'The Darcy velocity, also called the specific discharge. It has the '
         'units of a speed and it is not the speed of anything: it is the '
@@ -100,8 +98,7 @@ const seepRounds = <SeepRound>[
         'The aquifer is 200 square meters in section. What is K times the '
         'gradient times that area?',
     answer: Quantity3.volume,
-    seep: Seep(
-        conductivity: 5e-4, gradient: 0.02, porosity: 0.30, area: 200),
+    seep: Seep(conductivity: 5e-4, gradient: 0.02, porosity: 0.30, area: 200),
     why:
         'A volume a second: two times ten to the minus three CUBIC meters a '
         'second. Multiplying a velocity by an area gives a discharge, and the '
@@ -116,8 +113,7 @@ const seepRounds = <SeepRound>[
         'Porosity 0.45 and the gradient is steep. How fast does the water '
         'move between the grains?',
     answer: Quantity3.seepage,
-    seep: Seep(
-        conductivity: 1e-6, gradient: 0.05, porosity: 0.45, area: 50),
+    seep: Seep(conductivity: 1e-6, gradient: 0.05, porosity: 0.45, area: 50),
     why:
         'The seepage velocity again, and the ratio is smaller here: a '
         'porosity of 0.45 means nearly half the face is open, so the water '
@@ -132,8 +128,7 @@ const seepRounds = <SeepRound>[
         'How much water gets past the wall each second, through 80 square '
         'meters of gravel?',
     answer: Quantity3.volume,
-    seep: Seep(
-        conductivity: 2e-3, gradient: 0.01, porosity: 0.35, area: 80),
+    seep: Seep(conductivity: 2e-3, gradient: 0.01, porosity: 0.35, area: 80),
     why:
         'A volume, because the question asks how MUCH and not how fast. '
         'Darcy times the area, and the porosity does not enter it at all: '
@@ -148,8 +143,7 @@ const seepRounds = <SeepRound>[
         'A question asks for the specific discharge through a clay liner. '
         'Which number does it want?',
     answer: Quantity3.darcy,
-    seep: Seep(
-        conductivity: 1e-9, gradient: 0.5, porosity: 0.50, area: 1000),
+    seep: Seep(conductivity: 1e-9, gradient: 0.5, porosity: 0.50, area: 1000),
     why:
         'The Darcy velocity: specific discharge is another name for it, and '
         'the exam uses both. Three names are in play and two of them mean the '

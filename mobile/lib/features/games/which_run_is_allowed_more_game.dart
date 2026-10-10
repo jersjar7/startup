@@ -31,10 +31,10 @@ enum Roomier { left, right, same }
 
 extension RoomierWords on Roomier {
   String get plain => switch (this) {
-        Roomier.left => 'The left one',
-        Roomier.right => 'The right one',
-        Roomier.same => 'Neither: the same allowance',
-      };
+    Roomier.left => 'The left one',
+    Roomier.right => 'The right one',
+    Roomier.same => 'Neither: the same allowance',
+  };
 }
 
 @immutable
@@ -62,8 +62,7 @@ class LoopRound {
     return gap > 0 ? Roomier.left : Roomier.right;
   }
 
-  double get biggest =>
-      left.miles > right.miles ? left.miles : right.miles;
+  double get biggest => left.miles > right.miles ? left.miles : right.miles;
 }
 
 const slackRounds = <LoopRound>[
@@ -250,8 +249,10 @@ class _WhichRunIsAllowedMoreGameState extends State<WhichRunIsAllowedMoreGame> {
                         r.answer == (i == 0 ? Roomier.left : Roomier.right),
                     onTap: answered
                         ? null
-                        : () => setState(() =>
-                            _picked = i == 0 ? Roomier.left : Roomier.right),
+                        : () => setState(
+                            () =>
+                                _picked = i == 0 ? Roomier.left : Roomier.right,
+                          ),
                   ),
                 ),
               ],
@@ -270,8 +271,9 @@ class _WhichRunIsAllowedMoreGameState extends State<WhichRunIsAllowedMoreGame> {
             selected: _picked == Roomier.same,
             locked: answered,
             isTruth: r.answer == Roomier.same,
-            onTap:
-                answered ? null : () => setState(() => _picked = Roomier.same),
+            onTap: answered
+                ? null
+                : () => setState(() => _picked = Roomier.same),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

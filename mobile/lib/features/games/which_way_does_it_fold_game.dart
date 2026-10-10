@@ -23,8 +23,7 @@ class WhichWayDoesItFoldGame extends StatefulWidget {
   const WhichWayDoesItFoldGame({super.key});
 
   @override
-  State<WhichWayDoesItFoldGame> createState() =>
-      _WhichWayDoesItFoldGameState();
+  State<WhichWayDoesItFoldGame> createState() => _WhichWayDoesItFoldGameState();
 }
 
 /// Which axis the column bends about.
@@ -32,10 +31,10 @@ enum About { horizontal, vertical, either }
 
 extension AboutWords on About {
   String get plain => switch (this) {
-        About.horizontal => 'About the x axis, the horizontal one',
-        About.vertical => 'About the y axis, the upright one',
-        About.either => 'Neither: it is the same both ways',
-      };
+    About.horizontal => 'About the x axis, the horizontal one',
+    About.vertical => 'About the y axis, the upright one',
+    About.either => 'Neither: it is the same both ways',
+  };
 }
 
 @immutable
@@ -67,8 +66,7 @@ class FoldRound {
 final foldRounds = <FoldRound>[
   FoldRound(
     subject: 'a steel I-beam used as a column',
-    setting:
-        'A wide flange section, deep one way and much narrower the other.',
+    setting: 'A wide flange section, deep one way and much narrower the other.',
     section: iSection(
       depth: 300,
       flangeWidth: 150,
@@ -248,15 +246,15 @@ class _WhichWayDoesItFoldGameState extends State<WhichWayDoesItFoldGame> {
                   highlight: _picked == About.horizontal
                       ? true
                       : _picked == About.vertical
-                          ? false
-                          : null,
+                      ? false
+                      : null,
                   locked: answered,
                   truth: answered
                       ? (r.answer == About.horizontal
-                          ? true
-                          : r.answer == About.vertical
-                              ? false
-                              : null)
+                            ? true
+                            : r.answer == About.vertical
+                            ? false
+                            : null)
                       : null,
                 ),
                 child: const SizedBox.expand(),
@@ -278,7 +276,9 @@ class _WhichWayDoesItFoldGameState extends State<WhichWayDoesItFoldGame> {
             const SizedBox(height: 8),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE WEAK ONE' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS THE WEAK ONE'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

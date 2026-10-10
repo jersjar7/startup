@@ -45,11 +45,11 @@ class ForkRound {
   final String source;
 
   static String label(Fork which) => switch (which) {
-        Fork.gravel => 'Coarse, and a gravel: check the gradation',
-        Fork.sand => 'Coarse, and a sand: check the gradation',
-        Fork.plasticity => 'Fine: take it to the plasticity chart',
-        Fork.retest => 'Not enough to say yet',
-      };
+    Fork.gravel => 'Coarse, and a gravel: check the gradation',
+    Fork.sand => 'Coarse, and a sand: check the gradation',
+    Fork.plasticity => 'Fine: take it to the plasticity chart',
+    Fork.retest => 'Not enough to say yet',
+  };
 }
 
 const forkRounds = <ForkRound>[
@@ -59,7 +59,12 @@ const forkRounds = <ForkRound>[
         'Eighty per cent of this sample passes the No. 200 sieve. Where does '
         'it go?',
     soil: Graded(
-        passing200: 80, passing4: 98, d10: 0.001, d30: 0.004, d60: 0.02),
+      passing200: 80,
+      passing4: 98,
+      d10: 0.001,
+      d30: 0.004,
+      d60: 0.02,
+    ),
     answer: Fork.plasticity,
     why:
         'To the plasticity chart. More than half the sample passes the No. '
@@ -104,7 +109,12 @@ const forkRounds = <ForkRound>[
         'Exactly half of a sample passes the No. 200 and half is retained. '
         'Which way does it go?',
     soil: Graded(
-        passing200: 50, passing4: 85, d10: 0.002, d30: 0.02, d60: 0.35),
+      passing200: 50,
+      passing4: 85,
+      d10: 0.002,
+      d30: 0.02,
+      d60: 0.35,
+    ),
     answer: Fork.plasticity,
     why:
         'Fine. The rule is that MORE than half retained makes it coarse, so a '
@@ -120,7 +130,12 @@ const forkRounds = <ForkRound>[
         'Sixty per cent of this sample passes the No. 200 and it has a liquid '
         'limit of 55. Where does it go?',
     soil: Graded(
-        passing200: 60, passing4: 95, d10: 0.002, d30: 0.01, d60: 0.075),
+      passing200: 60,
+      passing4: 95,
+      d10: 0.002,
+      d30: 0.01,
+      d60: 0.075,
+    ),
     answer: Fork.plasticity,
     why:
         'Fine again, which is the lesson\'s hard problem. Sixty per cent '

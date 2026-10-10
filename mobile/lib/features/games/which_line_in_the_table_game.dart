@@ -305,7 +305,9 @@ class _WhichLineInTheTableGameState extends State<WhichLineInTheTableGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE LINE' : 'A DIFFERENT LINE',
+              title: _session.correct!
+                  ? 'THAT IS THE LINE'
+                  : 'A DIFFERENT LINE',
               body: r.why,
             ),
           ],
@@ -367,8 +369,10 @@ class _Line extends StatelessWidget {
               if (tex.isNotEmpty)
                 MathText(
                   '\$$tex\$',
-                  style:
-                      const TextStyle(fontSize: 17, color: AppColors.charcoal),
+                  style: const TextStyle(
+                    fontSize: 17,
+                    color: AppColors.charcoal,
+                  ),
                 ),
               if (tex.isNotEmpty) const SizedBox(height: 4),
               Text(

@@ -81,12 +81,7 @@ const askedRounds = <AskedRound>[
   AskedRound(
     question: 'At what value of x does f reach its maximum?',
     working: r"f(x) = -2x^2 + 16x - 5,\quad f'(x) = -4x + 16 = 0",
-    quantities: [
-      r"f'(x) = -4x + 16",
-      r'x = 4',
-      r'f(4) = 27',
-      r"f''(x) = -4",
-    ],
+    quantities: [r"f'(x) = -4x + 16", r'x = 4', r'f(4) = 27', r"f''(x) = -4"],
     answer: 1,
     why:
         'The location, not the height. The 27 is how high the hilltop is; the '
@@ -96,12 +91,7 @@ const askedRounds = <AskedRound>[
   AskedRound(
     question: 'What is the maximum value of f?',
     working: r"f(x) = -2x^2 + 16x - 5,\quad f'(x) = -4x + 16 = 0",
-    quantities: [
-      r"f'(x) = -4x + 16",
-      r'x = 4',
-      r'f(4) = 27',
-      r"f''(x) = -4",
-    ],
+    quantities: [r"f'(x) = -4x + 16", r'x = 4', r'f(4) = 27', r"f''(x) = -4"],
     answer: 2,
     why:
         'Now it is the height. Read the sentence twice: "at what x" and "what '
@@ -242,7 +232,9 @@ class _WhatWasAskedGameState extends State<WhatWasAskedGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE ONE' : 'TRUE, BUT NOT ASKED',
+              title: _session.correct!
+                  ? 'THAT IS THE ONE'
+                  : 'TRUE, BUT NOT ASKED',
               body: r.why,
             ),
           ],

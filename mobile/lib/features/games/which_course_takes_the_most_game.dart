@@ -253,8 +253,7 @@ class _WhichCourseTakesTheMostGameState
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title:
-                  _session.correct! ? 'THAT IS THE ONE' : 'ANOTHER COURSE',
+              title: _session.correct! ? 'THAT IS THE ONE' : 'ANOTHER COURSE',
               body: r.why,
             ),
           ],

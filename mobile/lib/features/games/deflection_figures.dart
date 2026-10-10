@@ -31,20 +31,20 @@ enum Entry {
 extension EntryFacts on Entry {
   /// The formula as the handbook writes it.
   String get tex => switch (this) {
-        Entry.ssPoint => r'\dfrac{PL^3}{48EI}',
-        Entry.ssUdl => r'\dfrac{5wL^4}{384EI}',
-        Entry.ssOffset => r'\dfrac{Pa^2b^2}{3EIL}',
-        Entry.cantPoint => r'\dfrac{PL^3}{3EI}',
-        Entry.cantUdl => r'\dfrac{wL^4}{8EI}',
-      };
+    Entry.ssPoint => r'\dfrac{PL^3}{48EI}',
+    Entry.ssUdl => r'\dfrac{5wL^4}{384EI}',
+    Entry.ssOffset => r'\dfrac{Pa^2b^2}{3EIL}',
+    Entry.cantPoint => r'\dfrac{PL^3}{3EI}',
+    Entry.cantUdl => r'\dfrac{wL^4}{8EI}',
+  };
 
   String get plain => switch (this) {
-        Entry.ssPoint => 'simply supported, load at midspan',
-        Entry.ssUdl => 'simply supported, load spread evenly',
-        Entry.ssOffset => 'simply supported, load off center',
-        Entry.cantPoint => 'cantilever, load at the free end',
-        Entry.cantUdl => 'cantilever, load spread evenly',
-      };
+    Entry.ssPoint => 'simply supported, load at midspan',
+    Entry.ssUdl => 'simply supported, load spread evenly',
+    Entry.ssOffset => 'simply supported, load off center',
+    Entry.cantPoint => 'cantilever, load at the free end',
+    Entry.cantUdl => 'cantilever, load spread evenly',
+  };
 
   bool get cantilever => this == Entry.cantPoint || this == Entry.cantUdl;
   bool get spread => this == Entry.ssUdl || this == Entry.cantUdl;
@@ -65,12 +65,7 @@ extension EntryFacts on Entry {
     return switch (this) {
       Entry.ssPoint => load * l * l * l / (48 * e * i),
       Entry.ssUdl => 5 * load * math.pow(l, 4) / (384 * e * i),
-      Entry.ssOffset => load *
-          at *
-          at *
-          (l - at) *
-          (l - at) /
-          (3 * e * i * l),
+      Entry.ssOffset => load * at * at * (l - at) * (l - at) / (3 * e * i * l),
       Entry.cantPoint => load * l * l * l / (3 * e * i),
       Entry.cantUdl => load * math.pow(l, 4) / (8 * e * i),
     };
@@ -82,18 +77,20 @@ extension EntryFacts on Entry {
       switch (this) {
         Entry.ssPoint => Loading(span: span, points: [(span / 2, load)]),
         Entry.ssOffset => Loading(span: span, points: [(at, load)]),
-        Entry.ssUdl =>
-          Loading(span: span, spreads: [Spread(0, span, load, load)]),
+        Entry.ssUdl => Loading(
+          span: span,
+          spreads: [Spread(0, span, load, load)],
+        ),
         Entry.cantPoint => Loading(
-            span: span,
-            held: Held.cantilever,
-            points: [(span, load)],
-          ),
+          span: span,
+          held: Held.cantilever,
+          points: [(span, load)],
+        ),
         Entry.cantUdl => Loading(
-            span: span,
-            held: Held.cantilever,
-            spreads: [Spread(0, span, load, load)],
-          ),
+          span: span,
+          held: Held.cantilever,
+          spreads: [Spread(0, span, load, load)],
+        ),
       };
 
   /// The shape the beam takes, as a list of (position, sag) with sag positive
@@ -221,12 +218,12 @@ class SagPainter extends CustomPainter {
     }
 
     TextPainter(
-      text: TextSpan(
-        text: 'sag drawn far larger than life',
-        style: AppTheme.mono(size: 10, color: AppColors.ink3),
-      ),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: 'sag drawn far larger than life',
+          style: AppTheme.mono(size: 10, color: AppColors.ink3),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, Offset(_padX, size.height - 14));
   }

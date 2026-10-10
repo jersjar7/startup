@@ -52,12 +52,7 @@ const slenderRounds = <SlenderRound>[
         'Six meters between pinned ends, a minimum radius of gyration of '
         'forty millimeters, ordinary steel that yields at two hundred and '
         'fifty.',
-    post: Post(
-      length: 6000,
-      top: End.pinned,
-      bottom: End.pinned,
-      radius: 40,
-    ),
+    post: Post(length: 6000, top: End.pinned, bottom: End.pinned, radius: 40),
     why:
         'It buckles, and Euler is allowed. The slenderness is a hundred and '
         'fifty, well to the right of the crossing, and the stress it goes at '
@@ -71,12 +66,7 @@ const slenderRounds = <SlenderRound>[
     setting:
         'The same section and the same steel, but only one and a half meters '
         'long.',
-    post: Post(
-      length: 1500,
-      top: End.pinned,
-      bottom: End.pinned,
-      radius: 40,
-    ),
+    post: Post(length: 1500, top: End.pinned, bottom: End.pinned, radius: 40),
     why:
         'It squashes. A slenderness of thirty seven puts it well to the left '
         'of the crossing, where Euler\'s hyperbola is up in the clouds: the '
@@ -90,12 +80,7 @@ const slenderRounds = <SlenderRound>[
     setting:
         'The same section again, three and a half meters long. Look at where '
         'the mark lands.',
-    post: Post(
-      length: 3556,
-      top: End.pinned,
-      bottom: End.pinned,
-      radius: 40,
-    ),
+    post: Post(length: 3556, top: End.pinned, bottom: End.pinned, radius: 40),
     why:
         'Neither, cleanly: this column is sitting on the crossing, where the '
         'buckling stress and the yield stress are the same number. Around '
@@ -151,12 +136,7 @@ const slenderRounds = <SlenderRound>[
     setting:
         'Three meters of the same section, fixed at the base with nothing at '
         'the top. Remember what that does to the effective length.',
-    post: Post(
-      length: 3000,
-      top: End.free,
-      bottom: End.fixed,
-      radius: 40,
-    ),
+    post: Post(length: 3000, top: End.free, bottom: End.fixed, radius: 40),
     why:
         'It buckles. Three meters looks stocky until the ends are read: with '
         'nothing holding the top the effective length is six meters, the '
@@ -191,10 +171,10 @@ class _BuckleOrSquashGameState extends State<BuckleOrSquashGame> {
   SlenderRound get _round => slenderRounds[_session.round];
 
   String _label(Governs g) => switch (g) {
-        Governs.buckling => 'It buckles: Euler gives the load',
-        Governs.yielding => 'It squashes: Euler does not apply',
-        Governs.together => 'Neither: it is sitting on the crossing',
-      };
+    Governs.buckling => 'It buckles: Euler gives the load',
+    Governs.yielding => 'It squashes: Euler does not apply',
+    Governs.together => 'Neither: it is sitting on the crossing',
+  };
 
   @override
   Widget build(BuildContext context) {

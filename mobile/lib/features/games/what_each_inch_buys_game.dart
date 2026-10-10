@@ -43,31 +43,36 @@ class PavementSectionRound {
 
 /// The lesson's own section: three inches of asphalt, eight of base, ten of
 /// subbase, which comes to 3.54.
-const _lessonSection = Pavement(courses: [
-  Course(name: 'asphalt', coefficient: 0.44, thickness: 3),
-  Course(name: 'base', coefficient: 0.14, thickness: 8),
-  Course(name: 'subbase', coefficient: 0.11, thickness: 10),
-]);
+const _lessonSection = Pavement(
+  courses: [
+    Course(name: 'asphalt', coefficient: 0.44, thickness: 3),
+    Course(name: 'base', coefficient: 0.14, thickness: 8),
+    Course(name: 'subbase', coefficient: 0.11, thickness: 10),
+  ],
+);
 
 /// The same section with a subbase that drains badly.
-const _wetSubbase = Pavement(courses: [
-  Course(name: 'asphalt', coefficient: 0.44, thickness: 3),
-  Course(name: 'base', coefficient: 0.14, thickness: 8),
-  Course(name: 'subbase', coefficient: 0.11, thickness: 10, drainage: 0.80),
-]);
+const _wetSubbase = Pavement(
+  courses: [
+    Course(name: 'asphalt', coefficient: 0.44, thickness: 3),
+    Course(name: 'base', coefficient: 0.14, thickness: 8),
+    Course(name: 'subbase', coefficient: 0.11, thickness: 10, drainage: 0.80),
+  ],
+);
 
 /// A thicker asphalt course on a thinner base.
-const _thickSurface = Pavement(courses: [
-  Course(name: 'asphalt', coefficient: 0.44, thickness: 6),
-  Course(name: 'base', coefficient: 0.14, thickness: 8),
-  Course(name: 'subbase', coefficient: 0.11, thickness: 10),
-]);
+const _thickSurface = Pavement(
+  courses: [
+    Course(name: 'asphalt', coefficient: 0.44, thickness: 6),
+    Course(name: 'base', coefficient: 0.14, thickness: 8),
+    Course(name: 'subbase', coefficient: 0.11, thickness: 10),
+  ],
+);
 
 const pavementSectionRounds = <PavementSectionRound>[
   PavementSectionRound(
     subject: 'what the number is',
-    asked:
-        'The structural number of a flexible pavement is what, exactly?',
+    asked: 'The structural number of a flexible pavement is what, exactly?',
     pavement: _lessonSection,
     options: [
       'The thickness of the asphalt',
@@ -148,8 +153,7 @@ const pavementSectionRounds = <PavementSectionRound>[
   ),
   PavementSectionRound(
     subject: 'where drainage does not apply',
-    asked:
-        'Which course does NOT get a drainage coefficient?',
+    asked: 'Which course does NOT get a drainage coefficient?',
     pavement: _wetSubbase,
     options: [
       'The surface course, which is taken as one by convention',

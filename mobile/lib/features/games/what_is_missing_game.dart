@@ -25,20 +25,20 @@ enum Known { startSpeed, endSpeed, distance, time, acceleration }
 
 extension KnownWords on Known {
   String get plain => switch (this) {
-        Known.startSpeed => 'the speed it started at',
-        Known.endSpeed => 'the speed it ended at',
-        Known.distance => 'how far it went',
-        Known.time => 'how long it took',
-        Known.acceleration => 'the acceleration',
-      };
+    Known.startSpeed => 'the speed it started at',
+    Known.endSpeed => 'the speed it ended at',
+    Known.distance => 'how far it went',
+    Known.time => 'how long it took',
+    Known.acceleration => 'the acceleration',
+  };
 
   String get tex => switch (this) {
-        Known.startSpeed => 'v_0',
-        Known.endSpeed => 'v',
-        Known.distance => 's',
-        Known.time => 't',
-        Known.acceleration => 'a',
-      };
+    Known.startSpeed => 'v_0',
+    Known.endSpeed => 'v',
+    Known.distance => 's',
+    Known.time => 't',
+    Known.acceleration => 'a',
+  };
 }
 
 @immutable
@@ -74,12 +74,12 @@ class AbsentRound {
 
   /// The equation that leaves that quantity out.
   String get equation => switch (answer) {
-        Known.distance => 'v = v_0 + at',
-        Known.time => 'v^2 = v_0^2 + 2a(s - s_0)',
-        Known.endSpeed => 's = s_0 + v_0 t + \\tfrac{1}{2}at^2',
-        Known.startSpeed => 's = s_0 + vt - \\tfrac{1}{2}at^2',
-        Known.acceleration => 's = s_0 + \\tfrac{1}{2}(v_0 + v)t',
-      };
+    Known.distance => 'v = v_0 + at',
+    Known.time => 'v^2 = v_0^2 + 2a(s - s_0)',
+    Known.endSpeed => 's = s_0 + v_0 t + \\tfrac{1}{2}at^2',
+    Known.startSpeed => 's = s_0 + vt - \\tfrac{1}{2}at^2',
+    Known.acceleration => 's = s_0 + \\tfrac{1}{2}(v_0 + v)t',
+  };
 }
 
 const absentRounds = <AbsentRound>[
@@ -293,7 +293,9 @@ class _WhatIsMissingGameState extends State<WhatIsMissingGame> {
             const SizedBox(height: 12),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE ABSENT ONE' : 'LOOK AGAIN',
+              title: _session.correct!
+                  ? 'THAT IS THE ABSENT ONE'
+                  : 'LOOK AGAIN',
               body: r.why,
             ),
           ],

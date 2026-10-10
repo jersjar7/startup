@@ -29,11 +29,11 @@ enum Step { divideByEta, multiplyByEta, forceTimesSpeed, workOverTime }
 
 extension StepWords on Step {
   String get plain => switch (this) {
-        Step.divideByEta => 'Divide it by the efficiency',
-        Step.multiplyByEta => 'Multiply it by the efficiency',
-        Step.forceTimesSpeed => 'Multiply the force by the speed',
-        Step.workOverTime => 'Divide the energy by the time',
-      };
+    Step.divideByEta => 'Divide it by the efficiency',
+    Step.multiplyByEta => 'Multiply it by the efficiency',
+    Step.forceTimesSpeed => 'Multiply the force by the speed',
+    Step.workOverTime => 'Divide the energy by the time',
+  };
 }
 
 @immutable

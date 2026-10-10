@@ -29,18 +29,18 @@ enum Recipe { bulkDry, bulkSsd, apparent, absorption }
 
 extension RecipeParts on Recipe {
   String get tex => switch (this) {
-        Recipe.bulkDry => r'$\dfrac{A}{B - C}$',
-        Recipe.bulkSsd => r'$\dfrac{B}{B - C}$',
-        Recipe.apparent => r'$\dfrac{A}{A - C}$',
-        Recipe.absorption => r'$\dfrac{B - A}{A} \times 100$',
-      };
+    Recipe.bulkDry => r'$\dfrac{A}{B - C}$',
+    Recipe.bulkSsd => r'$\dfrac{B}{B - C}$',
+    Recipe.apparent => r'$\dfrac{A}{A - C}$',
+    Recipe.absorption => r'$\dfrac{B - A}{A} \times 100$',
+  };
 
   String get plain => switch (this) {
-        Recipe.bulkDry => 'bulk oven dry specific gravity',
-        Recipe.bulkSsd => 'bulk SSD specific gravity',
-        Recipe.apparent => 'apparent specific gravity',
-        Recipe.absorption => 'absorption',
-      };
+    Recipe.bulkDry => 'bulk oven dry specific gravity',
+    Recipe.bulkSsd => 'bulk SSD specific gravity',
+    Recipe.apparent => 'apparent specific gravity',
+    Recipe.absorption => 'absorption',
+  };
 }
 
 @immutable
@@ -83,7 +83,7 @@ const weighRounds = <WeighRound>[
       Recipe.bulkDry,
       Recipe.bulkSsd,
       Recipe.apparent,
-      Recipe.absorption
+      Recipe.absorption,
     ],
     answer: Recipe.bulkDry,
     why:
@@ -103,7 +103,7 @@ const weighRounds = <WeighRound>[
       Recipe.apparent,
       Recipe.absorption,
       Recipe.bulkDry,
-      Recipe.bulkSsd
+      Recipe.bulkSsd,
     ],
     answer: Recipe.absorption,
     why:
@@ -124,7 +124,7 @@ const weighRounds = <WeighRound>[
       Recipe.absorption,
       Recipe.apparent,
       Recipe.bulkSsd,
-      Recipe.bulkDry
+      Recipe.bulkDry,
     ],
     answer: Recipe.bulkSsd,
     why:
@@ -144,7 +144,7 @@ const weighRounds = <WeighRound>[
       Recipe.bulkSsd,
       Recipe.bulkDry,
       Recipe.absorption,
-      Recipe.apparent
+      Recipe.apparent,
     ],
     answer: Recipe.apparent,
     why:
@@ -165,7 +165,7 @@ const weighRounds = <WeighRound>[
       Recipe.bulkDry,
       Recipe.absorption,
       Recipe.bulkSsd,
-      Recipe.apparent
+      Recipe.apparent,
     ],
     answer: Recipe.absorption,
     why:
@@ -185,7 +185,7 @@ const weighRounds = <WeighRound>[
       Recipe.absorption,
       Recipe.bulkDry,
       Recipe.apparent,
-      Recipe.bulkSsd
+      Recipe.bulkSsd,
     ],
     answer: Recipe.apparent,
     why:

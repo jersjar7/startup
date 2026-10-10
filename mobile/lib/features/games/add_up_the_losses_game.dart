@@ -25,13 +25,14 @@ enum Wrote { right, missingFriction, missingFittings, doubled, wrongCount }
 
 extension WroteWords on Wrote {
   String get plain => switch (this) {
-        Wrote.right => 'Nothing wrong: that is the total',
-        Wrote.missingFriction => 'The pipe friction has been left out',
-        Wrote.missingFittings => 'The fittings have been left out',
-        Wrote.doubled => 'A number that was already a total is added again',
-        Wrote.wrongCount => 'A fitting has been counted the wrong number of '
-            'times',
-      };
+    Wrote.right => 'Nothing wrong: that is the total',
+    Wrote.missingFriction => 'The pipe friction has been left out',
+    Wrote.missingFittings => 'The fittings have been left out',
+    Wrote.doubled => 'A number that was already a total is added again',
+    Wrote.wrongCount =>
+      'A fitting has been counted the wrong number of '
+          'times',
+  };
 }
 
 @immutable
@@ -72,7 +73,7 @@ const tallyRounds = <TallyRound>[
       Wrote.missingFriction,
       Wrote.right,
       Wrote.doubled,
-      Wrote.missingFittings
+      Wrote.missingFittings,
     ],
     answer: Wrote.missingFriction,
     why:
@@ -91,7 +92,7 @@ const tallyRounds = <TallyRound>[
       Wrote.right,
       Wrote.missingFittings,
       Wrote.wrongCount,
-      Wrote.doubled
+      Wrote.doubled,
     ],
     answer: Wrote.missingFittings,
     why:
@@ -110,7 +111,7 @@ const tallyRounds = <TallyRound>[
       Wrote.doubled,
       Wrote.right,
       Wrote.missingFriction,
-      Wrote.wrongCount
+      Wrote.wrongCount,
     ],
     answer: Wrote.right,
     why:
@@ -128,7 +129,7 @@ const tallyRounds = <TallyRound>[
       Wrote.right,
       Wrote.wrongCount,
       Wrote.doubled,
-      Wrote.missingFriction
+      Wrote.missingFriction,
     ],
     answer: Wrote.wrongCount,
     why:
@@ -146,7 +147,7 @@ const tallyRounds = <TallyRound>[
       Wrote.doubled,
       Wrote.right,
       Wrote.missingFittings,
-      Wrote.wrongCount
+      Wrote.wrongCount,
     ],
     answer: Wrote.doubled,
     why:
@@ -165,7 +166,7 @@ const tallyRounds = <TallyRound>[
       Wrote.wrongCount,
       Wrote.missingFriction,
       Wrote.right,
-      Wrote.doubled
+      Wrote.doubled,
     ],
     answer: Wrote.wrongCount,
     why:

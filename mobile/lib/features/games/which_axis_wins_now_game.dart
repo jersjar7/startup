@@ -43,10 +43,10 @@ class AxisRound {
   Axis2 get answer => post.decides;
 
   static String label(Axis2 which) => switch (which) {
-        Axis2.strong => 'The deep way, about the strong axis',
-        Axis2.weak => 'The shallow way, about the weak axis',
-        Axis2.either => 'Neither: the two come out the same',
-      };
+    Axis2.strong => 'The deep way, about the strong axis',
+    Axis2.weak => 'The shallow way, about the weak axis',
+    Axis2.either => 'Neither: the two come out the same',
+  };
 }
 
 const bothAxisRounds = <AxisRound>[

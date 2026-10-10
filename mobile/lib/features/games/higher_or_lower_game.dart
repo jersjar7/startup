@@ -29,10 +29,10 @@ enum Perch { higher, lower, same }
 
 extension PerchWords on Perch {
   String get plain => switch (this) {
-        Perch.higher => 'The far point is higher',
-        Perch.lower => 'The far point is lower',
-        Perch.same => 'They are at the same elevation',
-      };
+    Perch.higher => 'The far point is higher',
+    Perch.lower => 'The far point is lower',
+    Perch.same => 'They are at the same elevation',
+  };
 }
 
 @immutable
@@ -67,7 +67,10 @@ const sightRounds = <SightRound>[
         'One setup. The rod on the benchmark reads 1.52 and the rod on A '
         'reads 2.35.',
     level: Level(
-      marks: [Stake(name: 'BM', elevation: 100), Stake(name: 'A', elevation: 99.17)],
+      marks: [
+        Stake(name: 'BM', elevation: 100),
+        Stake(name: 'A', elevation: 99.17),
+      ],
       clearances: [1.52],
     ),
     why:
@@ -80,10 +83,12 @@ const sightRounds = <SightRound>[
   ),
   SightRound(
     subject: 'the smaller reading',
-    setting:
-        'The rod on the benchmark reads 2.10 and the rod on B reads 0.90.',
+    setting: 'The rod on the benchmark reads 2.10 and the rod on B reads 0.90.',
     level: Level(
-      marks: [Stake(name: 'BM', elevation: 100), Stake(name: 'B', elevation: 101.2)],
+      marks: [
+        Stake(name: 'BM', elevation: 100),
+        Stake(name: 'B', elevation: 101.2),
+      ],
       clearances: [0.9],
     ),
     why:
@@ -97,7 +102,10 @@ const sightRounds = <SightRound>[
     subject: 'two readings that match',
     setting: 'Both rods read 1.40.',
     level: Level(
-      marks: [Stake(name: 'BM', elevation: 100), Stake(name: 'C', elevation: 100)],
+      marks: [
+        Stake(name: 'BM', elevation: 100),
+        Stake(name: 'C', elevation: 100),
+      ],
       clearances: [1.4],
     ),
     why:
@@ -109,10 +117,12 @@ const sightRounds = <SightRound>[
   ),
   SightRound(
     subject: 'a long way down',
-    setting:
-        'The rod on the benchmark reads 0.65 and the rod on D reads 3.80.',
+    setting: 'The rod on the benchmark reads 0.65 and the rod on D reads 3.80.',
     level: Level(
-      marks: [Stake(name: 'BM', elevation: 100), Stake(name: 'D', elevation: 96.85)],
+      marks: [
+        Stake(name: 'BM', elevation: 100),
+        Stake(name: 'D', elevation: 96.85),
+      ],
       clearances: [0.65],
     ),
     why:
@@ -125,10 +135,12 @@ const sightRounds = <SightRound>[
   ),
   SightRound(
     subject: 'three centimeters in it',
-    setting:
-        'The rod on the benchmark reads 1.48 and the rod on E reads 1.51.',
+    setting: 'The rod on the benchmark reads 1.48 and the rod on E reads 1.51.',
     level: Level(
-      marks: [Stake(name: 'BM', elevation: 100), Stake(name: 'E', elevation: 99.97)],
+      marks: [
+        Stake(name: 'BM', elevation: 100),
+        Stake(name: 'E', elevation: 99.97),
+      ],
       clearances: [1.48],
     ),
     why:
@@ -141,10 +153,12 @@ const sightRounds = <SightRound>[
   ),
   SightRound(
     subject: 'both rods barely showing',
-    setting:
-        'The rod on the benchmark reads 0.42 and the rod on F reads 0.18.',
+    setting: 'The rod on the benchmark reads 0.42 and the rod on F reads 0.18.',
     level: Level(
-      marks: [Stake(name: 'BM', elevation: 100), Stake(name: 'F', elevation: 100.24)],
+      marks: [
+        Stake(name: 'BM', elevation: 100),
+        Stake(name: 'F', elevation: 100.24),
+      ],
       clearances: [0.18],
     ),
     why:
@@ -247,10 +261,7 @@ class _HigherOrLowerGameState extends State<HigherOrLowerGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: LevelPainter(
-                    level: r.level,
-                    showGround: answered,
-                  ),
+                  painter: LevelPainter(level: r.level, showGround: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

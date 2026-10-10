@@ -21,23 +21,16 @@ enum Work { forward, inverse }
 
 extension WorkWords on Work {
   String get plain => switch (this) {
-        Work.forward =>
-          'Forward: work the course out into coordinates',
-        Work.inverse =>
-          'Inverse: work the two coordinates back into a course',
-      };
+    Work.forward => 'Forward: work the course out into coordinates',
+    Work.inverse => 'Inverse: work the two coordinates back into a course',
+  };
 }
 
 /// A piece of coordinate work: what is known on the ground, and what is
 /// wanted from it.
 @immutable
 class Task {
-  const Task({
-    required this.known,
-    this.wanted,
-    this.length,
-    this.azimuth,
-  });
+  const Task({required this.known, this.wanted, this.length, this.azimuth});
 
   /// Points whose coordinates are already held.
   final List<Peg2> known;
@@ -55,8 +48,7 @@ class Task {
   /// course and the far point is wanted.
   Work get work => wanted == null ? Work.inverse : Work.forward;
 
-  double get deltaEast =>
-      known.length >= 2 ? known[1].east - known[0].east : 0;
+  double get deltaEast => known.length >= 2 ? known[1].east - known[0].east : 0;
 
   double get deltaNorth =>
       known.length >= 2 ? known[1].north - known[0].north : 0;
@@ -112,9 +104,11 @@ class CogoPainter extends CustomPainter {
 
   static double stepFor(Task task) {
     final pts = _all(task);
-    final spanE = pts.map((p) => p.east).reduce(math.max) -
+    final spanE =
+        pts.map((p) => p.east).reduce(math.max) -
         pts.map((p) => p.east).reduce(math.min);
-    final spanN = pts.map((p) => p.north).reduce(math.max) -
+    final spanN =
+        pts.map((p) => p.north).reduce(math.max) -
         pts.map((p) => p.north).reduce(math.min);
     final span = math.max(math.max(spanE, spanN), 1.0);
     final raw = span / 3;
@@ -136,8 +130,10 @@ class CogoPainter extends CustomPainter {
   final int? answer;
   final bool locked;
 
-  static List<Peg2> _all(Task task) =>
-      [...task.known, if (task.wanted != null) task.wanted!];
+  static List<Peg2> _all(Task task) => [
+    ...task.known,
+    if (task.wanted != null) task.wanted!,
+  ];
 
   static (double, double, double) _fit(Size size, Task task) {
     final pts = _all(task);
@@ -153,8 +149,10 @@ class CogoPainter extends CustomPainter {
     const pad = 0.6;
     final spanE = math.max(maxE - minE, 1) * (1 + 2 * pad);
     final spanN = math.max(maxN - minN, 1) * (1 + 2 * pad);
-    final scale = math.min((size.width - 74) / spanE,
-        (size.height - 62) / spanN);
+    final scale = math.min(
+      (size.width - 74) / spanE,
+      (size.height - 62) / spanN,
+    );
     final left = 52 - (minE - math.max(maxE - minE, 1) * pad) * scale;
     final bottom =
         size.height - 34 + (minN - math.max(maxN - minN, 1) * pad) * scale;
@@ -198,22 +196,31 @@ class CogoPainter extends CustomPainter {
     // Every line gets drawn; only a line far enough from the last labeled
     // one gets a number, so the axis never turns into a smear.
     var lastX = -999.0;
-    for (var e = (minE / step).floor() * step - step;
-        e <= maxE + step;
-        e += step) {
+    for (
+      var e = (minE / step).floor() * step - step;
+      e <= maxE + step;
+      e += step
+    ) {
       final x = _at(size, task, e, 0).dx;
       if (x < 30 || x > size.width - 8) continue;
       canvas.drawLine(Offset(x, 12), Offset(x, size.height - 30), thin);
       if (x - lastX > 46) {
-        _write(canvas, size, _num(e), Offset(x - 16, size.height - 26),
-            AppColors.ink3);
+        _write(
+          canvas,
+          size,
+          _num(e),
+          Offset(x - 16, size.height - 26),
+          AppColors.ink3,
+        );
         lastX = x;
       }
     }
     var lastY = 999.0;
-    for (var n = (minN / step).floor() * step - step;
-        n <= maxN + step;
-        n += step) {
+    for (
+      var n = (minN / step).floor() * step - step;
+      n <= maxN + step;
+      n += step
+    ) {
       final y = _at(size, task, 0, n).dy;
       if (y < 12 || y > size.height - 30) continue;
       canvas.drawLine(Offset(30, y), Offset(size.width - 8, y), thin);
@@ -222,16 +229,21 @@ class CogoPainter extends CustomPainter {
         lastY = y;
       }
     }
-    _write(canvas, size, 'easting', Offset(size.width - 62, size.height - 14),
-        AppColors.ink2);
+    _write(
+      canvas,
+      size,
+      'easting',
+      Offset(size.width - 62, size.height - 14),
+      AppColors.ink2,
+    );
     _write(canvas, size, 'northing', const Offset(2, 2), AppColors.ink2);
 
     final from = _at(size, task, task.known.first.east, task.known.first.north);
     final to = task.wanted != null
         ? _at(size, task, task.wanted!.east, task.wanted!.north)
         : (task.known.length > 1
-            ? _at(size, task, task.known[1].east, task.known[1].north)
-            : from);
+              ? _at(size, task, task.known[1].east, task.known[1].north)
+              : from);
 
     // The two coordinate differences, as the legs of the triangle the
     // inverse computation solves.
@@ -242,11 +254,13 @@ class CogoPainter extends CustomPainter {
         if (run.distance < 1) return;
         final unit = run / run.distance;
         for (var k = 0.0; k < run.distance; k += 8) {
-          canvas.drawLine(a + unit * k,
-              a + unit * math.min(k + 4, run.distance),
-              Paint()
-                ..color = color
-                ..strokeWidth = 1.6);
+          canvas.drawLine(
+            a + unit * k,
+            a + unit * math.min(k + 4, run.distance),
+            Paint()
+              ..color = color
+              ..strokeWidth = 1.6,
+          );
         }
       }
 
@@ -255,7 +269,8 @@ class CogoPainter extends CustomPainter {
       // A line straight along one axis has no triangle to hang labels off,
       // so the two signs go in the corner of the panel instead.
       if (task.deltaEast == 0 || task.deltaNorth == 0) {
-        final signs = 'dE ${_sign(task.deltaEast)}   '
+        final signs =
+            'dE ${_sign(task.deltaEast)}   '
             'dN ${_sign(task.deltaNorth)}';
         _write(canvas, size, signs, Offset(size.width - 92, 4), AppColors.ink2);
       }
@@ -263,31 +278,38 @@ class CogoPainter extends CustomPainter {
       // triangle.
       if (task.deltaEast != 0) {
         _write(
-            canvas,
-            size,
-            'dE ${task.deltaEast > 0 ? '+' : '-'}',
-            Offset((from.dx + corner.dx) / 2 - 12,
-                from.dy + (to.dy >= from.dy ? -15 : 6)),
-            AppColors.forest);
+          canvas,
+          size,
+          'dE ${task.deltaEast > 0 ? '+' : '-'}',
+          Offset(
+            (from.dx + corner.dx) / 2 - 12,
+            from.dy + (to.dy >= from.dy ? -15 : 6),
+          ),
+          AppColors.forest,
+        );
       }
       if (task.deltaNorth != 0) {
         _write(
-            canvas,
-            size,
-            'dN ${task.deltaNorth > 0 ? '+' : '-'}',
-            Offset(corner.dx + (task.deltaEast > 0 ? 7 : -34),
-                (corner.dy + to.dy) / 2 - 6),
-            AppColors.info);
+          canvas,
+          size,
+          'dN ${task.deltaNorth > 0 ? '+' : '-'}',
+          Offset(
+            corner.dx + (task.deltaEast > 0 ? 7 : -34),
+            (corner.dy + to.dy) / 2 - 6,
+          ),
+          AppColors.info,
+        );
       }
     }
 
     if (showLine && (task.wanted != null || task.known.length > 1)) {
       canvas.drawLine(
-          from,
-          to,
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 2.2);
+        from,
+        to,
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 2.2,
+      );
       final head = (to - from).distance < 1
           ? Offset.zero
           : (to - from) / (to - from).distance;
@@ -307,8 +329,8 @@ class CogoPainter extends CustomPainter {
       final square = Offset(-along.dy, along.dx);
       // To the left of the way the course runs, which is the side of the
       // line the point labels are not on.
-      final at = Offset((from.dx + to.dx) / 2, (from.dy + to.dy) / 2) -
-          square * 14;
+      final at =
+          Offset((from.dx + to.dx) / 2, (from.dy + to.dy) / 2) - square * 14;
       _write(
         canvas,
         size,
@@ -335,27 +357,26 @@ class CogoPainter extends CustomPainter {
       canvas
         ..drawCircle(at, chosen ? 8 : 5.5, Paint()..color = AppColors.cream)
         ..drawCircle(
-            at,
-            chosen ? 8 : 5.5,
-            Paint()
-              ..color = tone
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = chosen ? 2.4 : 1.8);
+          at,
+          chosen ? 8 : 5.5,
+          Paint()
+            ..color = tone
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = chosen ? 2.4 : 1.8,
+        );
       if (held) {
         canvas.drawCircle(at, 2, Paint()..color = tone);
       }
       final label = !showCoordinates
           ? p.name
           : held
-              ? '${p.name} (${_num(p.east)}, ${_num(p.north)})'
-              : '${p.name} (?, ?)';
+          ? '${p.name} (${_num(p.east)}, ${_num(p.north)})'
+          : '${p.name} (?, ?)';
       // Hung off the side of the point that faces away from the line, so
       // the label never lies across the very thing it names.
       final mid = Offset((from.dx + to.dx) / 2, (from.dy + to.dy) / 2);
       final off = at - mid;
-      final away = off.distance < 1
-          ? const Offset(1, -1)
-          : off / off.distance;
+      final away = off.distance < 1 ? const Offset(1, -1) : off / off.distance;
       _write(
         canvas,
         size,
@@ -386,18 +407,33 @@ String _sign(double v) => v == 0 ? '0' : (v > 0 ? '+' : '-');
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
 
-void _write(Canvas canvas, Size size, String text, Offset at, Color color,
-    {bool fromRight = false}) {
+void _write(
+  Canvas canvas,
+  Size size,
+  String text,
+  Offset at,
+  Color color, {
+  bool fromRight = false,
+}) {
   final painter = TextPainter(
-    text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+    text: TextSpan(
+      text: text,
+      style: AppTheme.mono(size: 10, color: color),
+    ),
     textDirection: TextDirection.ltr,
   )..layout();
   var x = fromRight ? at.dx - painter.width : at.dx;
   if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
   if (x < 2) x = 2;
-  final patch =
-      Rect.fromLTWH(x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
+  final patch = Rect.fromLTWH(
+    x - 2,
+    at.dy - 1,
+    painter.width + 4,
+    painter.height + 2,
+  );
   canvas.drawRect(
-      patch, Paint()..color = AppColors.cream.withValues(alpha: 0.92));
+    patch,
+    Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+  );
   painter.paint(canvas, Offset(x, at.dy));
 }

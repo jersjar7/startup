@@ -51,65 +51,81 @@ class DosePainter extends CustomPainter {
 
     // What the water consumes.
     canvas
-      ..drawRect(Rect.fromLTRB(left, eatenTop, left + width, baseY),
-          Paint()
-            ..color = (highlight == 'demand'
-                    ? AppColors.ember
-                    : AppColors.ink3)
-                .withValues(alpha: 0.45))
-      ..drawRect(Rect.fromLTRB(left, doseTop, left + width, eatenTop),
-          Paint()
-            ..color = (highlight == 'residual'
-                    ? AppColors.ember
-                    : AppColors.info)
-                .withValues(alpha: 0.55))
       ..drawRect(
-          Rect.fromLTRB(left, doseTop, left + width, baseY),
-          Paint()
-            ..color =
-                highlight == 'dose' ? AppColors.ember : AppColors.charcoal
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = highlight == 'dose' ? 2.6 : 1.6);
+        Rect.fromLTRB(left, eatenTop, left + width, baseY),
+        Paint()
+          ..color = (highlight == 'demand' ? AppColors.ember : AppColors.ink3)
+              .withValues(alpha: 0.45),
+      )
+      ..drawRect(
+        Rect.fromLTRB(left, doseTop, left + width, eatenTop),
+        Paint()
+          ..color = (highlight == 'residual' ? AppColors.ember : AppColors.info)
+              .withValues(alpha: 0.55),
+      )
+      ..drawRect(
+        Rect.fromLTRB(left, doseTop, left + width, baseY),
+        Paint()
+          ..color = highlight == 'dose' ? AppColors.ember : AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = highlight == 'dose' ? 2.6 : 1.6,
+      );
 
     writeOn(
-        canvas,
-        size,
-        'the water eats ${chlorine.demand} mg/L',
-        Offset(left + width + 10, (eatenTop + baseY) / 2 - 6),
-        highlight == 'demand' ? AppColors.ember : AppColors.ink2,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'the water eats ${chlorine.demand} mg/L',
+      Offset(left + width + 10, (eatenTop + baseY) / 2 - 6),
+      highlight == 'demand' ? AppColors.ember : AppColors.ink2,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'left over ${chlorine.residual} mg/L',
-        Offset(left + width + 10, (doseTop + eatenTop) / 2 - 6),
-        highlight == 'residual' ? AppColors.ember : AppColors.info,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'left over ${chlorine.residual} mg/L',
+      Offset(left + width + 10, (doseTop + eatenTop) / 2 - 6),
+      highlight == 'residual' ? AppColors.ember : AppColors.info,
+      fontSize: 9.5,
+    );
     writeOn(
-        canvas,
-        size,
-        'fed ${chlorine.dose} mg/L',
-        Offset(left - 92, doseTop - 4),
-        highlight == 'dose' ? AppColors.ember : AppColors.charcoal,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'fed ${chlorine.dose} mg/L',
+      Offset(left - 92, doseTop - 4),
+      highlight == 'dose' ? AppColors.ember : AppColors.charcoal,
+      fontSize: 9.5,
+    );
 
     // The line the residual has to clear.
     for (var x = left - 96.0; x < size.width - 8; x += 9) {
       canvas.drawLine(
-          Offset(x, eatenTop),
-          Offset(x + 5, eatenTop),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1);
+        Offset(x, eatenTop),
+        Offset(x + 5, eatenTop),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1,
+      );
     }
     groundLine(canvas, Offset(left - 40, baseY), Offset(size.width - 8, baseY));
 
     if (note != null) {
-      writeOn(canvas, size, note!, const Offset(8, 8), AppColors.ink3,
-          fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        note!,
+        const Offset(8, 8),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
-    writeOn(canvas, size, 'CHLORINE BALANCE',
-        Offset(size.width, size.height - 14), AppColors.ink3, fontSize: 8.5);
+    writeOn(
+      canvas,
+      size,
+      'CHLORINE BALANCE',
+      Offset(size.width, size.height - 14),
+      AppColors.ink3,
+      fontSize: 8.5,
+    );
   }
 
   @override
@@ -165,11 +181,12 @@ class ContactPainter extends CustomPainter {
     canvas
       ..drawRect(box, waterFill)
       ..drawRect(
-          box,
-          Paint()
-            ..color = AppColors.charcoal
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.8);
+        box,
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.8,
+      );
 
     // Baffles, as many as the basin has been given.
     final walls = (contact.baffled * 8).round().clamp(0, 5);
@@ -177,11 +194,12 @@ class ContactPainter extends CustomPainter {
       final x = box.left + box.width * i / (walls + 1);
       final fromTop = i.isOdd;
       canvas.drawLine(
-          Offset(x, fromTop ? box.top : box.bottom),
-          Offset(x, fromTop ? box.bottom - 26 : box.top + 26),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 3);
+        Offset(x, fromTop ? box.top : box.bottom),
+        Offset(x, fromTop ? box.bottom - 26 : box.top + 26),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 3,
+      );
     }
 
     // The quick way through, which is what t10 measures.
@@ -197,32 +215,47 @@ class ContactPainter extends CustomPainter {
       quick.lineTo(size.width - 8, box.center.dy);
     }
     canvas.drawPath(
-        quick,
-        Paint()
-          ..color = AppColors.ember
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2);
-    writeOn(canvas, size, 'the quickest tenth of the water',
-        Offset(box.left + 6, box.top - 16), AppColors.ember, fontSize: 9);
-
-    writeOn(canvas, size, 'residual ${contact.residual} mg/L',
-        const Offset(8, 8), AppColors.info, fontSize: 9.5);
+      quick,
+      Paint()
+        ..color = AppColors.ember
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
     writeOn(
-        canvas,
-        size,
-        'volume over flow ${_num(contact.theoretical)} min',
-        const Offset(8, 22),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'the quickest tenth of the water',
+      Offset(box.left + 6, box.top - 16),
+      AppColors.ember,
+      fontSize: 9,
+    );
+
+    writeOn(
+      canvas,
+      size,
+      'residual ${contact.residual} mg/L',
+      const Offset(8, 8),
+      AppColors.info,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'volume over flow ${_num(contact.theoretical)} min',
+      const Offset(8, 22),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     if (answered) {
       writeOn(
-          canvas,
-          size,
-          't10 ${contact.t10.toStringAsFixed(0)} min, '
-              'CT ${contact.ct.toStringAsFixed(0)}',
-          Offset(8, size.height - 18),
-          AppColors.forest,
-          fontSize: 9.5);
+        canvas,
+        size,
+        't10 ${contact.t10.toStringAsFixed(0)} min, '
+        'CT ${contact.ct.toStringAsFixed(0)}',
+        Offset(8, size.height - 18),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
     viewTag(canvas, size, Looking.plan, note: 'the contact basin');
   }

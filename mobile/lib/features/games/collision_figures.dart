@@ -35,15 +35,11 @@ class Crash {
   /// Standard result of the two equations: momentum across the pair, and the
   /// restitution relation between the two speeds.
   double get afterA =>
-      (massA * speedA +
-          massB * speedB +
-          massB * e * (speedB - speedA)) /
+      (massA * speedA + massB * speedB + massB * e * (speedB - speedA)) /
       (massA + massB);
 
   double get afterB =>
-      (massA * speedA +
-          massB * speedB +
-          massA * e * (speedA - speedB)) /
+      (massA * speedA + massB * speedB + massA * e * (speedA - speedB)) /
       (massA + massB);
 
   double get energyBefore =>
@@ -92,12 +88,20 @@ class CrashPainter extends CustomPainter {
 
       // The road they run along, so the two are travelling on something
       // rather than floating in the panel.
-      groundLine(canvas, Offset(6, y + 11), Offset(size.width - 6, y + 11),
-          color: AppColors.ink3);
+      groundLine(
+        canvas,
+        Offset(6, y + 11),
+        Offset(size.width - 6, y + 11),
+        color: AppColors.ink3,
+      );
       _block(canvas, Offset(aX, y), crash.massA, 'A', speedA);
       _block(canvas, Offset(bX, y), crash.massB, 'B', speedB);
-      _write(canvas, after ? 'after' : 'before', Offset(6, y - 8),
-          AppColors.ink3);
+      _write(
+        canvas,
+        after ? 'after' : 'before',
+        Offset(6, y - 8),
+        AppColors.ink3,
+      );
     }
     viewTag(canvas, size, Looking.elevation);
   }
@@ -105,8 +109,13 @@ class CrashPainter extends CustomPainter {
   double _widthOf(double mass) =>
       (18 + math.sqrt(mass) * 2.2).clamp(22.0, 46.0);
 
-  void _block(Canvas canvas, Offset at, double mass, String name,
-      double speed) {
+  void _block(
+    Canvas canvas,
+    Offset at,
+    double mass,
+    String name,
+    double speed,
+  ) {
     final w = _widthOf(mass);
     const h = 22.0;
     final rect = Rect.fromCenter(center: at, width: w, height: h);
@@ -123,7 +132,8 @@ class CrashPainter extends CustomPainter {
 
     if (speed.abs() > 0.01) {
       final from = Offset(at.dx + (speed > 0 ? w / 2 + 3 : -w / 2 - 3), at.dy);
-      final to = from + Offset(speed.sign * math.min(speed.abs() * 3 + 8, 34), 0);
+      final to =
+          from + Offset(speed.sign * math.min(speed.abs() * 3 + 8, 34), 0);
       final paint = Paint()
         ..color = AppColors.ember
         ..strokeWidth = 2;
@@ -152,9 +162,12 @@ class CrashPainter extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 10, color: color),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }
@@ -170,7 +183,11 @@ class CrashPainter extends CustomPainter {
 /// same thing to a body's momentum however different they look.
 @immutable
 class Pulse {
-  const Pulse({required this.force, required this.seconds, required this.label});
+  const Pulse({
+    required this.force,
+    required this.seconds,
+    required this.label,
+  });
 
   final double force;
   final double seconds;
@@ -207,10 +224,20 @@ class PulsePainter extends CustomPainter {
     final wide = size.width - _padL - 12;
 
     canvas
-      ..drawLine(Offset(_padL, floor), Offset(size.width - 8, floor),
-          Paint()..color = AppColors.ink3..strokeWidth = 1)
-      ..drawLine(Offset(_padL, floor), Offset(_padL, 10),
-          Paint()..color = AppColors.ink3..strokeWidth = 1);
+      ..drawLine(
+        Offset(_padL, floor),
+        Offset(size.width - 8, floor),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1,
+      )
+      ..drawLine(
+        Offset(_padL, floor),
+        Offset(_padL, 10),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1,
+      );
 
     final w = pulse.seconds / longest * wide;
     final h = pulse.force / tallest * room;
@@ -232,9 +259,12 @@ class PulsePainter extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 9.5, color: color),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }

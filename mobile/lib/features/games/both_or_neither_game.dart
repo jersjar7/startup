@@ -49,13 +49,11 @@ class GradeRound {
   }
 
   static String label(Graded2 which) => switch (which) {
-        Graded2.well => 'Well graded: both coefficients pass',
-        Graded2.poorUniformity =>
-          'Poorly graded: the range of sizes is too narrow',
-        Graded2.poorShape =>
-          'Poorly graded: the middle sizes are missing',
-        Graded2.poorBoth => 'Poorly graded: neither coefficient passes',
-      };
+    Graded2.well => 'Well graded: both coefficients pass',
+    Graded2.poorUniformity => 'Poorly graded: the range of sizes is too narrow',
+    Graded2.poorShape => 'Poorly graded: the middle sizes are missing',
+    Graded2.poorBoth => 'Poorly graded: neither coefficient passes',
+  };
 }
 
 const wellGradedRounds = <GradeRound>[

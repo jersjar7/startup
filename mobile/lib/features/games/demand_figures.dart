@@ -10,18 +10,18 @@ enum Forecast { generation, distribution, mode, assignment }
 
 extension ForecastNames on Forecast {
   String get title => switch (this) {
-        Forecast.generation => 'generation',
-        Forecast.distribution => 'distribution',
-        Forecast.mode => 'mode choice',
-        Forecast.assignment => 'assignment',
-      };
+    Forecast.generation => 'generation',
+    Forecast.distribution => 'distribution',
+    Forecast.mode => 'mode choice',
+    Forecast.assignment => 'assignment',
+  };
 
   String get does => switch (this) {
-        Forecast.generation => 'how many trips each zone makes',
-        Forecast.distribution => 'where those trips go',
-        Forecast.mode => 'how they travel',
-        Forecast.assignment => 'which route they take',
-      };
+    Forecast.generation => 'how many trips each zone makes',
+    Forecast.distribution => 'where those trips go',
+    Forecast.mode => 'how they travel',
+    Forecast.assignment => 'which route they take',
+  };
 }
 
 /// The four steps as boxes in order, with one of them picked out. Which
@@ -45,30 +45,45 @@ class StepsPainter extends CustomPainter {
       final picked = highlight == step;
       canvas
         ..drawRect(
-            box,
-            Paint()
-              ..color = (picked ? AppColors.ember : AppColors.ink2)
-                  .withValues(alpha: picked ? 0.30 : 0.14))
+          box,
+          Paint()
+            ..color = (picked ? AppColors.ember : AppColors.ink2).withValues(
+              alpha: picked ? 0.30 : 0.14,
+            ),
+        )
         ..drawRect(
-            box,
-            Paint()
-              ..color = picked ? AppColors.ember : AppColors.line
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = picked ? 1.6 : 1);
-      writeOn(canvas, size, '${i + 1}', Offset(box.left + 4, box.top + 3),
-          AppColors.ink3, fontSize: 9.5);
-      writeOn(canvas, size, step.title, Offset(box.left + 4, box.top + 17),
-          picked ? AppColors.ember : AppColors.ink3, fontSize: 9.5);
+          box,
+          Paint()
+            ..color = picked ? AppColors.ember : AppColors.line
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = picked ? 1.6 : 1,
+        );
+      writeOn(
+        canvas,
+        size,
+        '${i + 1}',
+        Offset(box.left + 4, box.top + 3),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        step.title,
+        Offset(box.left + 4, box.top + 17),
+        picked ? AppColors.ember : AppColors.ink3,
+        fontSize: 9.5,
+      );
 
       if (i < 3) {
         canvas.drawLine(
-            Offset(box.right + 1, box.center.dy),
-            Offset(box.right + 5, box.center.dy),
-            Paint()
-              ..color = AppColors.ink3
-              ..strokeWidth = 1.2);
+          Offset(box.right + 1, box.center.dy),
+          Offset(box.right + 5, box.center.dy),
+          Paint()
+            ..color = AppColors.ink3
+            ..strokeWidth = 1.2,
+        );
       }
-
     }
 
     // What each step does, once the round is answered. These lines are far
@@ -79,18 +94,34 @@ class StepsPainter extends CustomPainter {
       for (var i = 0; i < Forecast.values.length; i++) {
         final step = Forecast.values[i];
         final picked = highlight == step;
-        writeOn(canvas, size, '${i + 1}  ${step.does}',
-            Offset(left, top + 44 + i * 14),
-            picked ? AppColors.ember : AppColors.ink3,
-            fontSize: 9.5);
+        writeOn(
+          canvas,
+          size,
+          '${i + 1}  ${step.does}',
+          Offset(left, top + 44 + i * 14),
+          picked ? AppColors.ember : AppColors.ink3,
+          fontSize: 9.5,
+        );
       }
     }
 
-    writeOn(canvas, size, 'run in order, each one feeding the next',
-        Offset(left, top - 18), AppColors.ink3, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'run in order, each one feeding the next',
+      Offset(left, top - 18),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     if (!answered) {
-      writeOn(canvas, size, 'what each step does comes out after the answer',
-          Offset(left, top + 46), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'what each step does comes out after the answer',
+        Offset(left, top + 46),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
   }
 
@@ -125,8 +156,7 @@ class Spread {
   final double produced;
   final List<Destination> destinations;
 
-  double get total =>
-      destinations.fold(0, (sum, d) => sum + d.weight);
+  double get total => destinations.fold(0, (sum, d) => sum + d.weight);
 
   double shareOf(Destination d) => total <= 0 ? 0 : d.weight / total;
   double tripsTo(Destination d) => produced * shareOf(d);
@@ -155,16 +185,26 @@ class GravityPainter extends CustomPainter {
     final middle = size.height * 0.52;
 
     canvas.drawCircle(
-        Offset(originX, middle), 18, Paint()..color = AppColors.ink2);
-    writeOn(canvas, size, 'zone i', Offset(originX - 18, middle - 6),
-        AppColors.charcoal, fontSize: 9.5);
+      Offset(originX, middle),
+      18,
+      Paint()..color = AppColors.ink2,
+    );
     writeOn(
-        canvas,
-        size,
-        '${spread.produced.toStringAsFixed(0)} trips made here',
-        Offset(4, middle + 24),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'zone i',
+      Offset(originX - 18, middle - 6),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      '${spread.produced.toStringAsFixed(0)} trips made here',
+      Offset(4, middle + 24),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     final count = spread.destinations.length;
     for (var i = 0; i < count; i++) {
@@ -173,49 +213,64 @@ class GravityPainter extends CustomPainter {
       final share = spread.shareOf(d);
       canvas
         ..drawLine(
-            Offset(originX + 20, middle),
-            Offset(destX - 16, y),
-            Paint()
-              ..color = AppColors.ember.withValues(alpha: answered ? 0.7 : 0.35)
-              ..strokeWidth = answered ? math.max(share * 14, 1.2) : 1.6)
-        ..drawCircle(
-            Offset(destX, y), 15, Paint()..color = AppColors.ink2);
-      writeOn(canvas, size, d.name, Offset(destX - 14, y - 6),
-          AppColors.charcoal, fontSize: 9.5);
+          Offset(originX + 20, middle),
+          Offset(destX - 16, y),
+          Paint()
+            ..color = AppColors.ember.withValues(alpha: answered ? 0.7 : 0.35)
+            ..strokeWidth = answered ? math.max(share * 14, 1.2) : 1.6,
+        )
+        ..drawCircle(Offset(destX, y), 15, Paint()..color = AppColors.ink2);
       writeOn(
-          canvas,
-          size,
-          '${d.attractions.toStringAsFixed(0)} attractions, friction '
-              '${d.friction.toStringAsFixed(1)}',
-          Offset(destX - 100, y + 20),
-          AppColors.ink3,
-          fontSize: 9.5);
+        canvas,
+        size,
+        d.name,
+        Offset(destX - 14, y - 6),
+        AppColors.charcoal,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        '${d.attractions.toStringAsFixed(0)} attractions, friction '
+        '${d.friction.toStringAsFixed(1)}',
+        Offset(destX - 100, y + 20),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       if (answered) {
         writeOn(
-            canvas,
-            size,
-            'weight ${d.weight.toStringAsFixed(0)}, '
-                '${(share * 100).toStringAsFixed(1)} per cent, '
-                '${spread.tripsTo(d).toStringAsFixed(0)} trips',
-            Offset(destX - 100, y + 34),
-            AppColors.ember,
-            fontSize: 9.5);
+          canvas,
+          size,
+          'weight ${d.weight.toStringAsFixed(0)}, '
+          '${(share * 100).toStringAsFixed(1)} per cent, '
+          '${spread.tripsTo(d).toStringAsFixed(0)} trips',
+          Offset(destX - 100, y + 34),
+          AppColors.ember,
+          fontSize: 9.5,
+        );
       }
     }
 
     if (!answered) {
-      writeOn(canvas, size, 'how the trips split comes out after the answer',
-          Offset(4, size.height - 16), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        'how the trips split comes out after the answer',
+        Offset(4, size.height - 16),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       return;
     }
     writeOn(
-        canvas,
-        size,
-        'the weights add to ${spread.total.toStringAsFixed(0)}, and the '
-            'shares to one',
-        Offset(4, size.height - 16),
-        AppColors.charcoal,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'the weights add to ${spread.total.toStringAsFixed(0)}, and the '
+      'shares to one',
+      Offset(4, size.height - 16),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
   }
 
   @override

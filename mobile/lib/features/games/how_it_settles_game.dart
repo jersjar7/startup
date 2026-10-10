@@ -242,7 +242,9 @@ class _HowItSettlesGameState extends State<HowItSettlesGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE ONE' : 'A DIFFERENT CURVE',
+              title: _session.correct!
+                  ? 'THAT IS THE ONE'
+                  : 'A DIFFERENT CURVE',
               body: r.why,
             ),
           ],

@@ -44,15 +44,13 @@ class TiltRound {
 
 /// The lesson's own curve: 45 mph round 600 ft with a side friction factor
 /// of 0.15. The curve asks for 0.225 and the tilt supplies 7.5 per cent.
-const _theCurve =
-    Superelevation(speed: 45, radius: 600, friction: 0.15);
+const _theCurve = Superelevation(speed: 45, radius: 600, friction: 0.15);
 
 /// The same curve at twice the speed: four times the demand.
 const _fast = Superelevation(speed: 90, radius: 600, friction: 0.15);
 
 /// And a curve twice as flat at the original speed.
-const _flatter =
-    Superelevation(speed: 45, radius: 1200, friction: 0.15);
+const _flatter = Superelevation(speed: 45, radius: 1200, friction: 0.15);
 
 const tiltRounds = <TiltRound>[
   TiltRound(
@@ -264,10 +262,7 @@ class _HowMuchBankGameState extends State<HowMuchBankGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: SuperPainter(
-                    curve: r.curve,
-                    answered: answered,
-                  ),
+                  painter: SuperPainter(curve: r.curve, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

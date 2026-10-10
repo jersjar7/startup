@@ -135,8 +135,7 @@ const trenchRounds = <TrenchRound>[
   ),
   TrenchRound(
     subject: 'the soil types',
-    asked:
-        'The flattest slope is required in which soil?',
+    asked: 'The flattest slope is required in which soil?',
     trench: _sevenFoot,
     options: [
       'The strongest',
@@ -262,10 +261,7 @@ class _FiveFeetAndTwentyGameState extends State<FiveFeetAndTwentyGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: TrenchPainter(
-                    trench: r.trench,
-                    answered: answered,
-                  ),
+                  painter: TrenchPainter(trench: r.trench, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

@@ -43,11 +43,11 @@ class LineShapeRound {
   Response get answer => line.response;
 
   static String label(Response which) => switch (which) {
-        Response.leftReaction => 'The reaction at the left support',
-        Response.rightReaction => 'The reaction at the right support',
-        Response.shearAt => 'The shear at the marked section',
-        Response.momentAt => 'The moment at the marked section',
-      };
+    Response.leftReaction => 'The reaction at the left support',
+    Response.rightReaction => 'The reaction at the right support',
+    Response.shearAt => 'The shear at the marked section',
+    Response.momentAt => 'The moment at the marked section',
+  };
 }
 
 const ilShapeRounds = <LineShapeRound>[

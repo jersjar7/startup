@@ -360,8 +360,7 @@ class _Split extends StatelessWidget {
                       child: const SizedBox.expand(),
                     ),
                   ),
-                  for (var i = 0; i < round.drops.length; i++)
-                    _target(i, size),
+                  for (var i = 0; i < round.drops.length; i++) _target(i, size),
                 ],
               );
             },
@@ -375,12 +374,18 @@ class _Split extends StatelessWidget {
   /// height of the lane it lives in, and wide enough for a thumb.
   Widget _target(int i, Size size) {
     final lane = ProfilePainter.laneFor(round.profile, size, round.drops, i);
-    final a = ProfilePainter.toScreen(round.profile,
-        Offset(round.profile.bounds.left, round.drops[i].from), size,
-        drops: round.drops);
-    final b = ProfilePainter.toScreen(round.profile,
-        Offset(round.profile.bounds.left, round.drops[i].to), size,
-        drops: round.drops);
+    final a = ProfilePainter.toScreen(
+      round.profile,
+      Offset(round.profile.bounds.left, round.drops[i].from),
+      size,
+      drops: round.drops,
+    );
+    final b = ProfilePainter.toScreen(
+      round.profile,
+      Offset(round.profile.bounds.left, round.drops[i].to),
+      size,
+      drops: round.drops,
+    );
     final top = a.dy < b.dy ? a.dy : b.dy;
     final tall = (a.dy - b.dy).abs();
     const wide = 44.0;

@@ -248,8 +248,14 @@ class FramePainter extends CustomPainter {
     return box;
   }
 
-  static Offset toScreen(Assembly rig, Offset world, Size size,
-      {int limb = -1, int pin = -1, List<Aim> aims = const []}) {
+  static Offset toScreen(
+    Assembly rig,
+    Offset world,
+    Size size, {
+    int limb = -1,
+    int pin = -1,
+    List<Aim> aims = const [],
+  }) {
     final b = _frame(rig, limb, pin, aims);
     final room = _roomFor(rig);
     final s = math.min(
@@ -257,17 +263,26 @@ class FramePainter extends CustomPainter {
       (size.height - room.vertical) / math.max(b.height, 0.001),
     );
     return Offset(
-      room.left + (size.width - room.horizontal - b.width * s) / 2 +
+      room.left +
+          (size.width - room.horizontal - b.width * s) / 2 +
           (world.dx - b.left) * s,
-      room.top + (size.height - room.vertical - b.height * s) / 2 +
+      room.top +
+          (size.height - room.vertical - b.height * s) / 2 +
           (b.bottom - world.dy) * s,
     );
   }
 
   /// Where a candidate arrow finishes, which is where it is tapped.
-  static Offset aimTip(Assembly rig, Size size, int limb, int pin,
-      List<Aim> aims, int index) {
-    final tip = rig.pins[pin].at + heading(rig, limb, pin, aims[index]) * _reach(rig);
+  static Offset aimTip(
+    Assembly rig,
+    Size size,
+    int limb,
+    int pin,
+    List<Aim> aims,
+    int index,
+  ) {
+    final tip =
+        rig.pins[pin].at + heading(rig, limb, pin, aims[index]) * _reach(rig);
     return toScreen(rig, tip, size, limb: limb, pin: pin, aims: aims);
   }
 
@@ -330,8 +345,16 @@ class FramePainter extends CustomPainter {
       if (load != null) {
         final under = _low(p, p);
         _hang(canvas, spot, under);
-        taken.add(_write(canvas, load, spot + Offset(0, under ? 50 : -60),
-            AppColors.charcoal, size, taken));
+        taken.add(
+          _write(
+            canvas,
+            load,
+            spot + Offset(0, under ? 50 : -60),
+            AppColors.charcoal,
+            size,
+            taken,
+          ),
+        );
       }
     }
 
@@ -339,8 +362,10 @@ class FramePainter extends CustomPainter {
 
     for (var i = 0; i < aims.length; i++) {
       final root = at(rig.pins[atPin].at);
-      final tip = at(rig.pins[atPin].at +
-          heading(rig, spotlight, atPin, aims[i]) * _reach(rig));
+      final tip = at(
+        rig.pins[atPin].at +
+            heading(rig, spotlight, atPin, aims[i]) * _reach(rig),
+      );
       final run = tip - root;
       final head = run / run.distance;
       final chosen = picked == i;
@@ -356,8 +381,16 @@ class FramePainter extends CustomPainter {
         colour = AppColors.info;
       }
       _arrow(canvas, root + head * 11, tip, colour, heavy: chosen || isTruth);
-      taken.add(_write(canvas, '${i + 1}',
-          tip + head * 13 - const Offset(0, 6), colour, size, taken));
+      taken.add(
+        _write(
+          canvas,
+          '${i + 1}',
+          tip + head * 13 - const Offset(0, 6),
+          colour,
+          size,
+          taken,
+        ),
+      );
     }
   }
 
@@ -371,39 +404,61 @@ class FramePainter extends CustomPainter {
 
   void _hang(Canvas canvas, Offset spot, bool under) {
     if (under) {
-      _arrow(canvas, spot + const Offset(0, 8), spot + const Offset(0, 44),
-          AppColors.charcoal);
+      _arrow(
+        canvas,
+        spot + const Offset(0, 8),
+        spot + const Offset(0, 44),
+        AppColors.charcoal,
+      );
     } else {
-      _arrow(canvas, spot - const Offset(0, 44), spot - const Offset(0, 8),
-          AppColors.charcoal);
+      _arrow(
+        canvas,
+        spot - const Offset(0, 44),
+        spot - const Offset(0, 8),
+        AppColors.charcoal,
+      );
     }
   }
 
   /// A machine is a machine because parts of it move, and that is the whole
   /// of what the third item asks. Said in the drawing as well as in the words.
   void _movingMark(Canvas canvas, Size size) {
-    final middle = toScreen(rig, rig.bounds.center, size,
-        limb: spotlight, pin: atPin, aims: aims);
+    final middle = toScreen(
+      rig,
+      rig.bounds.center,
+      size,
+      limb: spotlight,
+      pin: atPin,
+      aims: aims,
+    );
     final r = math.min(size.width, size.height) * 0.075;
     final ink = Paint()
       ..color = AppColors.ember
       ..strokeWidth = 2.6
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
-    canvas.drawArc(Rect.fromCircle(center: middle, radius: r), -2.5, 2.1,
-        false, ink);
+    canvas.drawArc(
+      Rect.fromCircle(center: middle, radius: r),
+      -2.5,
+      2.1,
+      false,
+      ink,
+    );
     for (final (angle, way) in [(-2.5, -1.0), (-0.4, 1.0)]) {
       final tip = middle + Offset(math.cos(angle), math.sin(angle)) * r;
-      final along =
-          Offset(-math.sin(angle), math.cos(angle)) * way;
+      final along = Offset(-math.sin(angle), math.cos(angle)) * way;
       final side = Offset(-along.dy, along.dx);
       canvas.drawPath(
         Path()
           ..moveTo(tip.dx, tip.dy)
-          ..lineTo(tip.dx - along.dx * 9 + side.dx * 4.5,
-              tip.dy - along.dy * 9 + side.dy * 4.5)
-          ..lineTo(tip.dx - along.dx * 9 - side.dx * 4.5,
-              tip.dy - along.dy * 9 - side.dy * 4.5)
+          ..lineTo(
+            tip.dx - along.dx * 9 + side.dx * 4.5,
+            tip.dy - along.dy * 9 + side.dy * 4.5,
+          )
+          ..lineTo(
+            tip.dx - along.dx * 9 - side.dx * 4.5,
+            tip.dy - along.dy * 9 - side.dy * 4.5,
+          )
           ..close(),
         Paint()..color = AppColors.ember,
       );
@@ -459,8 +514,13 @@ class FramePainter extends CustomPainter {
     }
   }
 
-  void _arrow(Canvas canvas, Offset from, Offset to, Color colour,
-      {bool heavy = false}) {
+  void _arrow(
+    Canvas canvas,
+    Offset from,
+    Offset to,
+    Color colour, {
+    bool heavy = false,
+  }) {
     final paint = Paint()
       ..color = colour
       ..strokeWidth = heavy ? 3.6 : 2.4
@@ -475,20 +535,32 @@ class FramePainter extends CustomPainter {
     canvas.drawPath(
       Path()
         ..moveTo(to.dx, to.dy)
-        ..lineTo(to.dx - unit.dx * back + side.dx * wide,
-            to.dy - unit.dy * back + side.dy * wide)
-        ..lineTo(to.dx - unit.dx * back - side.dx * wide,
-            to.dy - unit.dy * back - side.dy * wide)
+        ..lineTo(
+          to.dx - unit.dx * back + side.dx * wide,
+          to.dy - unit.dy * back + side.dy * wide,
+        )
+        ..lineTo(
+          to.dx - unit.dx * back - side.dx * wide,
+          to.dy - unit.dy * back - side.dy * wide,
+        )
         ..close(),
       Paint()..color = colour,
     );
   }
 
-  Rect _write(Canvas canvas, String text, Offset at, Color colour, Size size,
-      List<Rect> avoid) {
+  Rect _write(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Color colour,
+    Size size,
+    List<Rect> avoid,
+  ) {
     final tp = TextPainter(
       text: TextSpan(
-          text: text, style: AppTheme.mono(size: 11.5, color: colour)),
+        text: text,
+        style: AppTheme.mono(size: 11.5, color: colour),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = at.dx - tp.width / 2;
@@ -503,7 +575,9 @@ class FramePainter extends CustomPainter {
     if (y < 1) y = 1;
     if (y + tp.height > size.height - 1) y = size.height - 1 - tp.height;
     canvas.drawRect(
-        box(), Paint()..color = AppColors.cream.withValues(alpha: 0.92));
+      box(),
+      Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+    );
     tp.paint(canvas, Offset(x, y));
     return box();
   }
@@ -604,33 +678,93 @@ class LeverPainter extends CustomPainter {
     final taken = <Rect>[];
 
     if (lever.effortUp) {
-      _arrow(canvas, effort + const Offset(0, 46), effort + const Offset(0, 7),
-          AppColors.ember);
-      taken.add(_write(canvas, 'your pull', effort + const Offset(0, 50),
-          AppColors.ember, size, taken));
+      _arrow(
+        canvas,
+        effort + const Offset(0, 46),
+        effort + const Offset(0, 7),
+        AppColors.ember,
+      );
+      taken.add(
+        _write(
+          canvas,
+          'your pull',
+          effort + const Offset(0, 50),
+          AppColors.ember,
+          size,
+          taken,
+        ),
+      );
     } else {
-      _arrow(canvas, effort - const Offset(0, 46), effort - const Offset(0, 7),
-          AppColors.ember);
-      taken.add(_write(canvas, 'your push', effort - const Offset(0, 62),
-          AppColors.ember, size, taken));
+      _arrow(
+        canvas,
+        effort - const Offset(0, 46),
+        effort - const Offset(0, 7),
+        AppColors.ember,
+      );
+      taken.add(
+        _write(
+          canvas,
+          'your push',
+          effort - const Offset(0, 62),
+          AppColors.ember,
+          size,
+          taken,
+        ),
+      );
     }
 
-    _arrow(canvas, load - const Offset(0, 46), load - const Offset(0, 7),
-        AppColors.charcoal);
-    taken.add(_write(canvas, 'the load', load - const Offset(0, 62),
-        AppColors.charcoal, size, taken));
+    _arrow(
+      canvas,
+      load - const Offset(0, 46),
+      load - const Offset(0, 7),
+      AppColors.charcoal,
+    );
+    taken.add(
+      _write(
+        canvas,
+        'the load',
+        load - const Offset(0, 62),
+        AppColors.charcoal,
+        size,
+        taken,
+      ),
+    );
 
     // The two arms, measured under the bar on their own lines. They are what
     // the question is about, so they are drawn rather than described, and they
     // never run through the bar.
-    _dimension(canvas, size, pivot.dx, effort.dx, beam + 40, 'your arm',
-        AppColors.ember, taken);
-    _dimension(canvas, size, pivot.dx, load.dx, beam + 74, 'its arm',
-        AppColors.ink3, taken);
+    _dimension(
+      canvas,
+      size,
+      pivot.dx,
+      effort.dx,
+      beam + 40,
+      'your arm',
+      AppColors.ember,
+      taken,
+    );
+    _dimension(
+      canvas,
+      size,
+      pivot.dx,
+      load.dx,
+      beam + 74,
+      'its arm',
+      AppColors.ink3,
+      taken,
+    );
   }
 
-  void _dimension(Canvas canvas, Size size, double from, double to, double y,
-      String label, Color colour, List<Rect> taken) {
+  void _dimension(
+    Canvas canvas,
+    Size size,
+    double from,
+    double to,
+    double y,
+    String label,
+    Color colour,
+    List<Rect> taken,
+  ) {
     final ink = Paint()
       ..color = colour
       ..strokeWidth = 1.4
@@ -673,10 +807,14 @@ class LeverPainter extends CustomPainter {
     canvas.drawPath(
       Path()
         ..moveTo(to.dx, to.dy)
-        ..lineTo(to.dx - unit.dx * 10 + side.dx * 5,
-            to.dy - unit.dy * 10 + side.dy * 5)
-        ..lineTo(to.dx - unit.dx * 10 - side.dx * 5,
-            to.dy - unit.dy * 10 - side.dy * 5)
+        ..lineTo(
+          to.dx - unit.dx * 10 + side.dx * 5,
+          to.dy - unit.dy * 10 + side.dy * 5,
+        )
+        ..lineTo(
+          to.dx - unit.dx * 10 - side.dx * 5,
+          to.dy - unit.dy * 10 - side.dy * 5,
+        )
         ..close(),
       Paint()..color = colour,
     );
@@ -690,10 +828,19 @@ class LeverPainter extends CustomPainter {
     return tp.width;
   }
 
-  Rect _write(Canvas canvas, String text, Offset at, Color colour, Size size,
-      List<Rect> avoid) {
+  Rect _write(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Color colour,
+    Size size,
+    List<Rect> avoid,
+  ) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10.5, color: colour)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10.5, color: colour),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = at.dx - tp.width / 2;
@@ -708,7 +855,9 @@ class LeverPainter extends CustomPainter {
     if (y < 1) y = 1;
     if (y + tp.height > size.height - 1) y = size.height - 1 - tp.height;
     canvas.drawRect(
-        box(), Paint()..color = AppColors.cream.withValues(alpha: 0.92));
+      box(),
+      Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+    );
     tp.paint(canvas, Offset(x, y));
     return box();
   }

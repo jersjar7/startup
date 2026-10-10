@@ -30,10 +30,10 @@ enum Listed { boundary, crosses, missing }
 
 extension ListedWords on Listed {
   String get plain => switch (this) {
-        Listed.boundary => 'Yes: it walks the boundary',
-        Listed.crosses => 'No: the listing crosses itself',
-        Listed.missing => 'No: it leaves a corner out',
-      };
+    Listed.boundary => 'Yes: it walks the boundary',
+    Listed.crosses => 'No: the listing crosses itself',
+    Listed.missing => 'No: it leaves a corner out',
+  };
 }
 
 @immutable
@@ -68,12 +68,14 @@ class ListingRound {
 const listingRounds = <ListingRound>[
   ListingRound(
     subject: 'the lesson\'s own quadrilateral',
-    parcel: Parcel(corners: [
-      Corner2('A', 0, 0),
-      Corner2('B', 10, 0),
-      Corner2('C', 8, 6),
-      Corner2('D', 2, 5),
-    ]),
+    parcel: Parcel(
+      corners: [
+        Corner2('A', 0, 0),
+        Corner2('B', 10, 0),
+        Corner2('C', 8, 6),
+        Corner2('D', 2, 5),
+      ],
+    ),
     order: [0, 1, 2, 3],
     why:
         'Yes. A to B to C to D walks right round the outside and comes home, '
@@ -84,12 +86,14 @@ const listingRounds = <ListingRound>[
   ),
   ListingRound(
     subject: 'two corners swapped in the field book',
-    parcel: Parcel(corners: [
-      Corner2('A', 0, 0),
-      Corner2('B', 10, 0),
-      Corner2('C', 8, 6),
-      Corner2('D', 2, 5),
-    ]),
+    parcel: Parcel(
+      corners: [
+        Corner2('A', 0, 0),
+        Corner2('B', 10, 0),
+        Corner2('C', 8, 6),
+        Corner2('D', 2, 5),
+      ],
+    ),
     order: [0, 1, 3, 2],
     why:
         'No: it crosses itself. The same four corners in the wrong order '
@@ -102,12 +106,14 @@ const listingRounds = <ListingRound>[
   ),
   ListingRound(
     subject: 'a corner that never got written down',
-    parcel: Parcel(corners: [
-      Corner2('A', 0, 0),
-      Corner2('B', 10, 0),
-      Corner2('C', 8, 6),
-      Corner2('D', 2, 5),
-    ]),
+    parcel: Parcel(
+      corners: [
+        Corner2('A', 0, 0),
+        Corner2('B', 10, 0),
+        Corner2('C', 8, 6),
+        Corner2('D', 2, 5),
+      ],
+    ),
     order: [0, 1, 2],
     why:
         'No: D is missing. Three corners of a four sided lot still make a '
@@ -119,12 +125,14 @@ const listingRounds = <ListingRound>[
   ),
   ListingRound(
     subject: 'the same lot, walked the other way',
-    parcel: Parcel(corners: [
-      Corner2('A', 0, 0),
-      Corner2('B', 10, 0),
-      Corner2('C', 8, 6),
-      Corner2('D', 2, 5),
-    ]),
+    parcel: Parcel(
+      corners: [
+        Corner2('A', 0, 0),
+        Corner2('B', 10, 0),
+        Corner2('C', 8, 6),
+        Corner2('D', 2, 5),
+      ],
+    ),
     order: [0, 3, 2, 1],
     why:
         'Yes. Walking the boundary backwards is still walking the boundary. '
@@ -135,13 +143,15 @@ const listingRounds = <ListingRound>[
   ),
   ListingRound(
     subject: 'five corners, one pair out of order',
-    parcel: Parcel(corners: [
-      Corner2('A', 0, 0),
-      Corner2('B', 9, 1),
-      Corner2('C', 11, 7),
-      Corner2('D', 4, 9),
-      Corner2('E', -1, 5),
-    ]),
+    parcel: Parcel(
+      corners: [
+        Corner2('A', 0, 0),
+        Corner2('B', 9, 1),
+        Corner2('C', 11, 7),
+        Corner2('D', 4, 9),
+        Corner2('E', -1, 5),
+      ],
+    ),
     order: [0, 1, 3, 2, 4],
     why:
         'No: it crosses itself. With five corners there are a great many '
@@ -153,13 +163,15 @@ const listingRounds = <ListingRound>[
   ),
   ListingRound(
     subject: 'the five sided parcel, listed properly',
-    parcel: Parcel(corners: [
-      Corner2('A', 0, 0),
-      Corner2('B', 9, 1),
-      Corner2('C', 11, 7),
-      Corner2('D', 4, 9),
-      Corner2('E', -1, 5),
-    ]),
+    parcel: Parcel(
+      corners: [
+        Corner2('A', 0, 0),
+        Corner2('B', 9, 1),
+        Corner2('C', 11, 7),
+        Corner2('D', 4, 9),
+        Corner2('E', -1, 5),
+      ],
+    ),
     order: [0, 1, 2, 3, 4],
     why:
         'Yes. Five corners, five cross products, E paired back to A at the '

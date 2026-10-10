@@ -24,8 +24,7 @@ class WhichBarelyMattersGame extends StatefulWidget {
   const WhichBarelyMattersGame({super.key});
 
   @override
-  State<WhichBarelyMattersGame> createState() =>
-      _WhichBarelyMattersGameState();
+  State<WhichBarelyMattersGame> createState() => _WhichBarelyMattersGameState();
 }
 
 @immutable
@@ -274,7 +273,9 @@ class _WhichBarelyMattersGameState extends State<WhichBarelyMattersGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'BARELY WORTH ADDING' : 'THAT ONE EARNS ITS PLACE',
+              title: _session.correct!
+                  ? 'BARELY WORTH ADDING'
+                  : 'THAT ONE EARNS ITS PLACE',
               body: r.why,
             ),
           ],
@@ -338,8 +339,12 @@ class _Pieces extends StatelessWidget {
   }
 
   Widget _target(int i, Size size) {
-    final box = ProfilePainter.pieceRect(round.profile, size, i,
-        axes: [Datum(round.profile.centroid.dy, 'axis')]);
+    final box = ProfilePainter.pieceRect(
+      round.profile,
+      size,
+      i,
+      axes: [Datum(round.profile.centroid.dy, 'axis')],
+    );
     // A thin flange is only a few pixels deep, so its target is grown to
     // something a thumb can find without swallowing its neighbours.
     final grown = Rect.fromCenter(

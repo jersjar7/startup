@@ -21,8 +21,7 @@ class WhichLengthIsWhichGame extends StatefulWidget {
   const WhichLengthIsWhichGame({super.key});
 
   @override
-  State<WhichLengthIsWhichGame> createState() =>
-      _WhichLengthIsWhichGameState();
+  State<WhichLengthIsWhichGame> createState() => _WhichLengthIsWhichGameState();
 }
 
 @immutable
@@ -265,8 +264,11 @@ class _Hill extends StatelessWidget {
           onTapUp: onPick == null
               ? null
               : (details) {
-                  final hit =
-                      SlopePainter.at(size, sight, details.localPosition);
+                  final hit = SlopePainter.at(
+                    size,
+                    sight,
+                    details.localPosition,
+                  );
                   if (hit != null) onPick!(hit);
                 },
           child: Container(

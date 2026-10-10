@@ -48,19 +48,23 @@ class YardRound {
 /// The lesson's own pair of sections: two hundred and three hundred square
 /// feet, a hundred feet apart, with a middle section of two hundred and
 /// forty.
-const _theRun = Haul(slabs: [
-  Slab(station: 1000, area: 200),
-  Slab(station: 1050, area: 240),
-  Slab(station: 1100, area: 300),
-]);
+const _theRun = Haul(
+  slabs: [
+    Slab(station: 1000, area: 200),
+    Slab(station: 1050, area: 240),
+    Slab(station: 1100, area: 300),
+  ],
+);
 
 /// Its deeper cut: a hundred and fifty to three hundred and fifty over two
 /// hundred feet, with two hundred and thirty in the middle.
-const _theCut = Haul(slabs: [
-  Slab(station: 1200, area: 150),
-  Slab(station: 1300, area: 230),
-  Slab(station: 1400, area: 350),
-]);
+const _theCut = Haul(
+  slabs: [
+    Slab(station: 1200, area: 150),
+    Slab(station: 1300, area: 230),
+    Slab(station: 1400, area: 350),
+  ],
+);
 
 const yardRounds = <YardRound>[
   YardRound(
@@ -170,8 +174,7 @@ const yardRounds = <YardRound>[
   ),
   YardRound(
     subject: 'why a highway needs the numbers at all',
-    asked:
-        'What are these volumes actually for, on a highway job?',
+    asked: 'What are these volumes actually for, on a highway job?',
     haul: _theCut,
     options: [
       'Setting the speed limit',

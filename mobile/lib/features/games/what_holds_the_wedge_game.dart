@@ -19,8 +19,7 @@ class WhatHoldsTheWedgeGame extends StatefulWidget {
   const WhatHoldsTheWedgeGame({super.key});
 
   @override
-  State<WhatHoldsTheWedgeGame> createState() =>
-      _WhatHoldsTheWedgeGameState();
+  State<WhatHoldsTheWedgeGame> createState() => _WhatHoldsTheWedgeGameState();
 }
 
 @immutable
@@ -44,10 +43,18 @@ class WedgeRound {
   final String source;
 }
 
-const _lessonWedge =
-    Wedge2(cohesionForce: 120, weight: 400, slipAngle: 25, friction: 20);
-const _noCohesion =
-    Wedge2(cohesionForce: 0, weight: 400, slipAngle: 25, friction: 20);
+const _lessonWedge = Wedge2(
+  cohesionForce: 120,
+  weight: 400,
+  slipAngle: 25,
+  friction: 20,
+);
+const _noCohesion = Wedge2(
+  cohesionForce: 0,
+  weight: 400,
+  slipAngle: 25,
+  friction: 20,
+);
 
 const wedgeRounds = <WedgeRound>[
   WedgeRound(
@@ -72,8 +79,7 @@ const wedgeRounds = <WedgeRound>[
   ),
   WedgeRound(
     subject: 'what holds it on',
-    asked:
-        'And which part of the same weight is helping to hold it?',
+    asked: 'And which part of the same weight is helping to hold it?',
     wedge: _lessonWedge,
     options: [
       'The part across the surface, since friction is proportional to it',

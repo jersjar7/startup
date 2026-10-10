@@ -21,8 +21,7 @@ class JumpBendOrNeitherGame extends StatefulWidget {
   const JumpBendOrNeitherGame({super.key});
 
   @override
-  State<JumpBendOrNeitherGame> createState() =>
-      _JumpBendOrNeitherGameState();
+  State<JumpBendOrNeitherGame> createState() => _JumpBendOrNeitherGameState();
 }
 
 /// What a diagram does at one point.
@@ -30,11 +29,11 @@ enum Does { jumpsUp, jumpsDown, bends, carriesOn }
 
 extension DoesWords on Does {
   String get plain => switch (this) {
-        Does.jumpsUp => 'It jumps UP',
-        Does.jumpsDown => 'It jumps DOWN',
-        Does.bends => 'It bends, without jumping',
-        Does.carriesOn => 'It carries straight on',
-      };
+    Does.jumpsUp => 'It jumps UP',
+    Does.jumpsDown => 'It jumps DOWN',
+    Does.bends => 'It bends, without jumping',
+    Does.carriesOn => 'It carries straight on',
+  };
 }
 
 @immutable
@@ -80,10 +79,7 @@ class SpotRound {
 }
 
 const _six = Loading(span: 6, points: [(3, 18)]);
-const _part = Loading(
-  span: 8,
-  spreads: [Spread(4, 8, 6, 6, label: '6 kN/m')],
-);
+const _part = Loading(span: 8, spreads: [Spread(4, 8, 6, 6, label: '6 kN/m')]);
 
 const markRounds = <SpotRound>[
   SpotRound(
@@ -260,7 +256,7 @@ class _JumpBendOrNeitherGameState extends State<JumpBendOrNeitherGame> {
                     for (final (i, p) in r.beam.points.indexed)
                       (
                         p.$1,
-                        i < r.loadLabels.length ? r.loadLabels[i] : kn(p.$2)
+                        i < r.loadLabels.length ? r.loadLabels[i] : kn(p.$2),
                       ),
                   ],
                   couples: [

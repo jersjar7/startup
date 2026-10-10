@@ -26,11 +26,11 @@ class PlusOrMinusGame extends StatefulWidget {
 
 extension QuadSigns on Quad {
   String get signs => switch (this) {
-        Quad.ne => 'Latitude plus, departure plus',
-        Quad.se => 'Latitude minus, departure plus',
-        Quad.sw => 'Latitude minus, departure minus',
-        Quad.nw => 'Latitude plus, departure minus',
-      };
+    Quad.ne => 'Latitude plus, departure plus',
+    Quad.se => 'Latitude minus, departure plus',
+    Quad.sw => 'Latitude minus, departure minus',
+    Quad.nw => 'Latitude plus, departure minus',
+  };
 }
 
 @immutable

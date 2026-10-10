@@ -51,8 +51,7 @@ class Vert {
   /// is off the curve altogether when they have the same sign.
   double get turningPoint => -_g1 * length / (_g2 - _g1);
 
-  bool get turnsOnTheCurve =>
-      turningPoint > 0 && turningPoint < length;
+  bool get turnsOnTheCurve => turningPoint > 0 && turningPoint < length;
 
   /// A crest tops out, a sag bottoms out.
   bool get isCrest => gradeIn > gradeOut;
@@ -93,13 +92,13 @@ class RoadProfilePainter extends CustomPainter {
   /// marked station is part of it: on a sag it dives well below the road,
   /// and leaving it out once ran the mark off the bottom of the panel.
   static List<double> _heights(Vert vert, double? mark) => [
-        vert.startElevation,
-        vert.pviElevation,
-        vert.endElevation,
-        if (vert.turnsOnTheCurve) vert.roadAt(vert.turningPoint),
-        if (mark != null) vert.roadAt(mark),
-        if (mark != null) vert.tangentAt(mark),
-      ];
+    vert.startElevation,
+    vert.pviElevation,
+    vert.endElevation,
+    if (vert.turnsOnTheCurve) vert.roadAt(vert.turningPoint),
+    if (mark != null) vert.roadAt(mark),
+    if (mark != null) vert.tangentAt(mark),
+  ];
 
   static double xOf(Size size, Vert vert, double station) =>
       34 + (size.width - 58) * station / vert.length;
@@ -136,10 +135,13 @@ class RoadProfilePainter extends CustomPainter {
       if (run.distance < 1) return;
       final unit = run / run.distance;
       for (var k = 0.0; k < run.distance; k += 8) {
-        canvas.drawLine(a + unit * k, a + unit * math.min(k + 4, run.distance),
-            Paint()
-              ..color = color
-              ..strokeWidth = w);
+        canvas.drawLine(
+          a + unit * k,
+          a + unit * math.min(k + 4, run.distance),
+          Paint()
+            ..color = color
+            ..strokeWidth = w,
+        );
       }
     }
 
@@ -158,18 +160,18 @@ class RoadProfilePainter extends CustomPainter {
       }
     }
     canvas.drawPath(
-        road,
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2.6);
+      road,
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.6,
+    );
 
     // The station the round is asking about: the gap between the tangent
     // and the road, which is the whole of what a vertical curve is.
     // A mark at the middle of the curve lands on the PVI itself, and the
     // two labels were stacking on one dot.
-    final markIsPvi =
-        markAt != null && (markAt! - vert.length / 2).abs() < 1;
+    final markIsPvi = markAt != null && (markAt! - vert.length / 2).abs() < 1;
 
     if (markAt != null) {
       final x = xOf(size, vert, markAt!);
@@ -182,30 +184,49 @@ class RoadProfilePainter extends CustomPainter {
         dashed(pvi, Offset(x, onTangent), AppColors.ink3, 1.4);
       }
       canvas.drawLine(
-          Offset(x, math.min(onRoad, onTangent) - 6),
-          Offset(x, math.max(onRoad, onTangent) + 6),
-          Paint()
-            ..color = AppColors.ember
-            ..strokeWidth = 1.4);
+        Offset(x, math.min(onRoad, onTangent) - 6),
+        Offset(x, math.max(onRoad, onTangent) + 6),
+        Paint()
+          ..color = AppColors.ember
+          ..strokeWidth = 1.4,
+      );
       if ((onRoad - onTangent).abs() < 10) {
         // At the PVC the two are the same point, and two labels on one dot
         // would read as a collision rather than as the answer.
         canvas.drawCircle(
-            Offset(x, onRoad), 4.5, Paint()..color = AppColors.charcoal);
-        writeOn(canvas, size, 'road on the grade line',
-            Offset(x + 8, onRoad - 6), AppColors.charcoal);
+          Offset(x, onRoad),
+          4.5,
+          Paint()..color = AppColors.charcoal,
+        );
+        writeOn(
+          canvas,
+          size,
+          'road on the grade line',
+          Offset(x + 8, onRoad - 6),
+          AppColors.charcoal,
+        );
       } else {
         canvas
           ..drawCircle(Offset(x, onTangent), 4, Paint()..color = AppColors.ink3)
           ..drawCircle(
-              Offset(x, onRoad), 4.5, Paint()..color = AppColors.charcoal);
-        writeOn(            canvas,
-            size,
-            markIsPvi ? 'grade line, at the PVI' : 'grade line',
-            Offset(x + 8, onTangent - 6),
-            AppColors.ink3);
-        writeOn(canvas, size, 'road', Offset(x + 8, onRoad - 6),
-            AppColors.charcoal);
+            Offset(x, onRoad),
+            4.5,
+            Paint()..color = AppColors.charcoal,
+          );
+        writeOn(
+          canvas,
+          size,
+          markIsPvi ? 'grade line, at the PVI' : 'grade line',
+          Offset(x + 8, onTangent - 6),
+          AppColors.ink3,
+        );
+        writeOn(
+          canvas,
+          size,
+          'road',
+          Offset(x + 8, onRoad - 6),
+          AppColors.charcoal,
+        );
       }
     }
 
@@ -216,8 +237,13 @@ class RoadProfilePainter extends CustomPainter {
       dashed(Offset(x, y), Offset(x, size.height - 34), AppColors.forest, 1.2);
       // Clear of the marked point that sits on it, which is green too once
       // the round is over.
-      writeOn(canvas, size, vert.isCrest ? 'high point' : 'low point',
-          Offset(x - 26, math.max(y - 32, 22)), AppColors.forest);
+      writeOn(
+        canvas,
+        size,
+        vert.isCrest ? 'high point' : 'low point',
+        Offset(x - 26, math.max(y - 32, 22)),
+        AppColors.forest,
+      );
     }
 
     // The three stations every vertical curve is held by. A station that
@@ -234,13 +260,16 @@ class RoadProfilePainter extends CustomPainter {
       canvas
         ..drawCircle(at, 4, Paint()..color = AppColors.cream)
         ..drawCircle(
-            at,
-            4,
-            Paint()
-              ..color = AppColors.ink2
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.6);
-      if (name.isNotEmpty) writeOn(canvas, size, name, at + off, AppColors.ink2);
+          at,
+          4,
+          Paint()
+            ..color = AppColors.ink2
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.6,
+        );
+      if (name.isNotEmpty) {
+        writeOn(canvas, size, name, at + off, AppColors.ink2);
+      }
     }
 
     // The candidates a round offers, drawn on the road.
@@ -259,22 +288,25 @@ class RoadProfilePainter extends CustomPainter {
       canvas
         ..drawCircle(at, 11, Paint()..color = AppColors.cream)
         ..drawCircle(
-            at,
-            10,
-            Paint()
-              ..color = tone
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2.2);
+          at,
+          10,
+          Paint()
+            ..color = tone
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2.2,
+        );
       writeOn(canvas, size, '${i + 1}', at + const Offset(-3, -6), tone);
     }
 
-    writeOn(        canvas,
-        size,
-        'g1 ${vert.gradeIn > 0 ? '+' : ''}${_num(vert.gradeIn)}%   '
-            'g2 ${vert.gradeOut > 0 ? '+' : ''}${_num(vert.gradeOut)}%   '
-            'L ${_num(vert.length)} ft',
-        const Offset(8, 8),
-        AppColors.ink3);
+    writeOn(
+      canvas,
+      size,
+      'g1 ${vert.gradeIn > 0 ? '+' : ''}${_num(vert.gradeIn)}%   '
+      'g2 ${vert.gradeOut > 0 ? '+' : ''}${_num(vert.gradeOut)}%   '
+      'L ${_num(vert.length)} ft',
+      const Offset(8, 8),
+      AppColors.ink3,
+    );
     viewTag(canvas, size, Looking.elevation, note: 'profile along the road');
   }
 
@@ -291,4 +323,3 @@ class RoadProfilePainter extends CustomPainter {
 
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
-

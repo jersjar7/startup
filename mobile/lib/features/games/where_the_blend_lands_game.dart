@@ -20,8 +20,7 @@ class WhereTheBlendLandsGame extends StatefulWidget {
   const WhereTheBlendLandsGame({super.key});
 
   @override
-  State<WhereTheBlendLandsGame> createState() =>
-      _WhereTheBlendLandsGameState();
+  State<WhereTheBlendLandsGame> createState() => _WhereTheBlendLandsGameState();
 }
 
 /// Which end of the range the combined coefficient sits nearer.
@@ -53,12 +52,12 @@ class BlendRound {
   }
 
   String label(Leans which) => switch (which) {
-        Leans.firstPatch =>
-          'Nearer ${first.cover}, C ${first.coefficient.toStringAsFixed(2)}',
-        Leans.secondPatch =>
-          'Nearer ${second.cover}, C ${second.coefficient.toStringAsFixed(2)}',
-        Leans.halfway => 'Halfway between the two',
-      };
+    Leans.firstPatch =>
+      'Nearer ${first.cover}, C ${first.coefficient.toStringAsFixed(2)}',
+    Leans.secondPatch =>
+      'Nearer ${second.cover}, C ${second.coefficient.toStringAsFixed(2)}',
+    Leans.halfway => 'Halfway between the two',
+  };
 }
 
 const blendRounds = <BlendRound>[
@@ -272,7 +271,9 @@ class _WhereTheBlendLandsGameState extends State<WhereTheBlendLandsGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHERE IT LANDS' : 'IT LEANS THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS WHERE IT LANDS'
+                  : 'IT LEANS THE OTHER WAY',
               body: r.why,
             ),
           ],

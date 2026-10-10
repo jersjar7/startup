@@ -30,10 +30,10 @@ enum Shifted { up, down, nowhere }
 
 extension ShiftedWords on Shifted {
   String get plain => switch (this) {
-        Shifted.up => 'The critical depth goes up',
-        Shifted.down => 'The critical depth comes down',
-        Shifted.nowhere => 'It does not move at all',
-      };
+    Shifted.up => 'The critical depth goes up',
+    Shifted.down => 'The critical depth comes down',
+    Shifted.nowhere => 'It does not move at all',
+  };
 }
 
 @immutable
@@ -59,8 +59,7 @@ class ShiftRound {
   final String why;
   final String source;
 
-  bool get moved =>
-      (after.criticalDepth - before.criticalDepth).abs() > 0.005;
+  bool get moved => (after.criticalDepth - before.criticalDepth).abs() > 0.005;
 
   /// Worked out of the two curves rather than declared.
   Shifted get answer {
@@ -118,8 +117,7 @@ const shiftRounds = <ShiftRound>[
   ),
   ShiftRound(
     subject: 'a wider channel',
-    change:
-        'The same total discharge is carried in a channel twice as wide.',
+    change: 'The same total discharge is carried in a channel twice as wide.',
     before: Flume(unitFlow: 9, depth: 3),
     after: Flume(unitFlow: 4.5, depth: 3),
     why:
@@ -258,8 +256,8 @@ class _WhatMovesTheCriticalDepthGameState
                     label: !answered
                         ? 'q ${r.before.unitFlow.toStringAsFixed(1)} m2/s'
                         : (r.moved
-                            ? 'green: after the change'
-                            : 'the curve did not move'),
+                              ? 'green: after the change'
+                              : 'the curve did not move'),
                   ),
                   child: const SizedBox.expand(),
                 ),
@@ -288,7 +286,9 @@ class _WhatMovesTheCriticalDepthGameState
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHERE IT GOES' : 'NOT THAT WAY',
+              title: _session.correct!
+                  ? 'THAT IS WHERE IT GOES'
+                  : 'NOT THAT WAY',
               body: r.why,
             ),
           ],

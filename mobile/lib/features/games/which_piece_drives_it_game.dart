@@ -21,8 +21,7 @@ class WhichPieceDrivesItGame extends StatefulWidget {
   const WhichPieceDrivesItGame({super.key});
 
   @override
-  State<WhichPieceDrivesItGame> createState() =>
-      _WhichPieceDrivesItGameState();
+  State<WhichPieceDrivesItGame> createState() => _WhichPieceDrivesItGameState();
 }
 
 @immutable
@@ -59,8 +58,7 @@ const _middling = Slope2(degrees: 40, weight: 450);
 const slopeRounds = <SlopeRound>[
   SlopeRound(
     subject: 'the lesson\'s own block',
-    asked:
-        'Tap the arrow that accelerates this block down the slope.',
+    asked: 'Tap the arrow that accelerates this block down the slope.',
     slope: _thirty,
     answer: Arrow.along,
     why:
@@ -115,8 +113,7 @@ const slopeRounds = <SlopeRound>[
   ),
   SlopeRound(
     subject: 'what the surface does',
-    asked:
-        'Tap the force that is NOT part of the weight at all.',
+    asked: 'Tap the force that is NOT part of the weight at all.',
     slope: _thirty,
     answer: Arrow.normal,
     why:
@@ -267,7 +264,9 @@ class _WhichPieceDrivesItGameState extends State<WhichPieceDrivesItGame> {
             const SizedBox(height: 12),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE ONE' : 'A DIFFERENT ARROW',
+              title: _session.correct!
+                  ? 'THAT IS THE ONE'
+                  : 'A DIFFERENT ARROW',
               body: r.why,
             ),
           ],

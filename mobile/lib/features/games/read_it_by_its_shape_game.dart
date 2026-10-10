@@ -39,11 +39,11 @@ class SignKindRound {
   final String source;
 
   static String label(SignKind kind) => switch (kind) {
-        SignKind.regulatory =>
-          'Regulatory: it tells you what you must or must not do',
-        SignKind.warning => 'Warning: it tells you what is coming',
-        SignKind.guide => 'Guide: it tells you where things are',
-      };
+    SignKind.regulatory =>
+      'Regulatory: it tells you what you must or must not do',
+    SignKind.warning => 'Warning: it tells you what is coming',
+    SignKind.guide => 'Guide: it tells you where things are',
+  };
 }
 
 const signKindRounds = <SignKindRound>[
@@ -244,10 +244,7 @@ class _ReadItByItsShapeGameState extends State<ReadItByItsShapeGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: SignPainter(
-                    sign: r.sign,
-                    answered: answered,
-                  ),
+                  painter: SignPainter(sign: r.sign, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

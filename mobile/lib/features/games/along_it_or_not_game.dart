@@ -337,7 +337,9 @@ class _AlongItOrNotGameState extends State<AlongItOrNotGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE DIRECTION' : 'NOT THAT ONE',
+              title: _session.correct!
+                  ? 'THAT IS THE DIRECTION'
+                  : 'NOT THAT ONE',
               body: r.why,
             ),
           ],
@@ -391,8 +393,7 @@ class _Frame extends StatelessWidget {
                       child: const SizedBox.expand(),
                     ),
                   ),
-                  for (var i = 0; i < round.aims.length; i++)
-                    _target(i, size),
+                  for (var i = 0; i < round.aims.length; i++) _target(i, size),
                 ],
               );
             },
@@ -404,7 +405,13 @@ class _Frame extends StatelessWidget {
 
   Widget _target(int i, Size size) {
     final at = FramePainter.aimTip(
-        round.rig, size, round.limb, round.atPin, round.aims, i);
+      round.rig,
+      size,
+      round.limb,
+      round.atPin,
+      round.aims,
+      i,
+    );
     const box = 48.0;
     return Positioned(
       key: ValueKey('aim-$i'),

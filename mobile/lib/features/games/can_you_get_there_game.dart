@@ -40,30 +40,30 @@ enum Quantity {
 
 extension QuantityWords on Quantity {
   String get plain => switch (this) {
-        Quantity.stress => 'a stress in the elastic range',
-        Quantity.strain => 'the strain at that stress',
-        Quantity.e => 'the modulus of elasticity',
-        Quantity.nu => "Poisson's ratio",
-        Quantity.g => 'the shear modulus',
-        Quantity.startLength => 'the gauge length before the test',
-        Quantity.endLength => 'the length after it broke',
-        Quantity.elongation => 'the percent elongation',
-        Quantity.yieldStress => 'the yield strength',
-        Quantity.ultimate => 'the ultimate strength',
-      };
+    Quantity.stress => 'a stress in the elastic range',
+    Quantity.strain => 'the strain at that stress',
+    Quantity.e => 'the modulus of elasticity',
+    Quantity.nu => "Poisson's ratio",
+    Quantity.g => 'the shear modulus',
+    Quantity.startLength => 'the gauge length before the test',
+    Quantity.endLength => 'the length after it broke',
+    Quantity.elongation => 'the percent elongation',
+    Quantity.yieldStress => 'the yield strength',
+    Quantity.ultimate => 'the ultimate strength',
+  };
 
   String get tex => switch (this) {
-        Quantity.stress => r'\sigma',
-        Quantity.strain => r'\varepsilon',
-        Quantity.e => 'E',
-        Quantity.nu => r'\nu',
-        Quantity.g => 'G',
-        Quantity.startLength => 'L_0',
-        Quantity.endLength => 'L_f',
-        Quantity.elongation => r'\%\,El',
-        Quantity.yieldStress => r'\sigma_y',
-        Quantity.ultimate => r'\sigma_u',
-      };
+    Quantity.stress => r'\sigma',
+    Quantity.strain => r'\varepsilon',
+    Quantity.e => 'E',
+    Quantity.nu => r'\nu',
+    Quantity.g => 'G',
+    Quantity.startLength => 'L_0',
+    Quantity.endLength => 'L_f',
+    Quantity.elongation => r'\%\,El',
+    Quantity.yieldStress => r'\sigma_y',
+    Quantity.ultimate => r'\sigma_u',
+  };
 }
 
 /// Every road this lesson gives you, and there are only these.
@@ -130,10 +130,7 @@ const roadRounds = <ReachRound>[
         'diameter before the test and again after it broke. You are asked for '
         'the shear modulus.',
     have: [Quantity.e, Quantity.nu],
-    spare: [
-      'length before and after',
-      'diameter before and after',
-    ],
+    spare: ['length before and after', 'diameter before and after'],
     want: Quantity.g,
     why:
         'One formula, G equals E over two times one plus nu, and four of the '
@@ -237,10 +234,10 @@ class _CanYouGetThereGameState extends State<CanYouGetThereGame> {
   ReachRound get _round => roadRounds[_session.round];
 
   String _label(Road r) => switch (r) {
-        Road.oneStep => 'Yes, one formula does it',
-        Road.further => 'Yes, but it takes more than one',
-        Road.cannot => 'No, something is missing',
-      };
+    Road.oneStep => 'Yes, one formula does it',
+    Road.further => 'Yes, but it takes more than one',
+    Road.cannot => 'No, something is missing',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -350,22 +347,22 @@ class _Panel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: double.infinity,
-        padding: const EdgeInsets.fromLTRB(14, 11, 14, 13),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.line),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: AppTheme.overline(color: tone)),
-            const SizedBox(height: 8),
-            ...children,
-          ],
-        ),
-      );
+    width: double.infinity,
+    padding: const EdgeInsets.fromLTRB(14, 11, 14, 13),
+    decoration: BoxDecoration(
+      color: AppColors.white,
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: AppColors.line),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: AppTheme.overline(color: tone)),
+        const SizedBox(height: 8),
+        ...children,
+      ],
+    ),
+  );
 }
 
 class _Line extends StatelessWidget {
@@ -375,33 +372,30 @@ class _Line extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: 2),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 34,
-              child: MathText(
-                '\$${quantity.tex}\$',
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: AppColors.charcoal,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Text(
-                quantity.plain,
-                style: const TextStyle(
-                  fontSize: 14,
-                  height: 1.4,
-                  color: AppColors.charcoal,
-                ),
-              ),
-            ),
-          ],
+    padding: const EdgeInsets.only(bottom: 2),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 34,
+          child: MathText(
+            '\$${quantity.tex}\$',
+            style: const TextStyle(fontSize: 15, color: AppColors.charcoal),
+          ),
         ),
-      );
+        Expanded(
+          child: Text(
+            quantity.plain,
+            style: const TextStyle(
+              fontSize: 14,
+              height: 1.4,
+              color: AppColors.charcoal,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 class _Choice extends StatelessWidget {

@@ -221,8 +221,8 @@ class _FindTheFactorGameState extends State<FindTheFactorGame> {
                     ok: r.exhausted
                         ? _none
                         : (!_none &&
-                            _picked!.$1 == r.recovery &&
-                            _picked!.$2 == r.year),
+                              _picked!.$1 == r.recovery &&
+                              _picked!.$2 == r.year),
                     context: context,
                   )),
       child: Column(
@@ -271,9 +271,9 @@ class _FindTheFactorGameState extends State<FindTheFactorGame> {
             onTap: answered
                 ? null
                 : (cell) => setState(() {
-                      _none = false;
-                      _picked = cell;
-                    }),
+                    _none = false;
+                    _picked = cell;
+                  }),
           ),
           const SizedBox(height: 8),
           _NoneRow(
@@ -283,9 +283,9 @@ class _FindTheFactorGameState extends State<FindTheFactorGame> {
             onTap: answered
                 ? null
                 : () => setState(() {
-                      _picked = null;
-                      _none = !_none;
-                    }),
+                    _picked = null;
+                    _none = !_none;
+                  }),
           ),
           if (answered) ...[
             const SizedBox(height: 16),
@@ -375,7 +375,8 @@ class _Table extends StatelessWidget {
                           : null,
                       selected: picked == (c, year),
                       locked: locked,
-                      isTruth: !round.exhausted &&
+                      isTruth:
+                          !round.exhausted &&
                           c == round.recovery &&
                           year == round.year,
                       onTap: onTap == null || year > macrsFactors[c]!.length

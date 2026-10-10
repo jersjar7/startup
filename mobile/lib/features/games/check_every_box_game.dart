@@ -70,13 +70,10 @@ class PickRound {
 /// The four metals the lesson's own problem puts in front of you, with the
 /// numbers it quotes from the handbook table.
 const table = <Listing>[
-  Listing(
-      metal: Metal.copper, conducts: 403, density: 8933, resists: true),
-  Listing(
-      metal: Metal.aluminum, conducts: 236, density: 2698, resists: true),
+  Listing(metal: Metal.copper, conducts: 403, density: 8933, resists: true),
+  Listing(metal: Metal.aluminum, conducts: 236, density: 2698, resists: true),
   Listing(metal: Metal.steel, conducts: 83.5, density: 7873, resists: false),
-  Listing(
-      metal: Metal.titanium, conducts: 22, density: 4508, resists: true),
+  Listing(metal: Metal.titanium, conducts: 22, density: 4508, resists: true),
 ];
 
 const boxRounds = <PickRound>[
@@ -102,7 +99,8 @@ const boxRounds = <PickRound>[
   ),
   PickRound(
     subject: 'a bus bar in a dry switch room',
-    job: 'A bar to carry heat and current away inside dry switchgear, where '
+    job:
+        'A bar to carry heat and current away inside dry switchgear, where '
         'weight and corrosion are nobody\'s problem.',
     needs: ['conducts heat above 300 W/mK'],
     minConducts: 300,
@@ -116,12 +114,10 @@ const boxRounds = <PickRound>[
   ),
   PickRound(
     subject: 'a thermal break that lives in the sea',
-    job: 'A fitting permanently immersed in seawater whose job is to carry '
+    job:
+        'A fitting permanently immersed in seawater whose job is to carry '
         'load without carrying heat across the joint.',
-    needs: [
-      'conducts heat below 50 W/mK',
-      'stands up to seawater',
-    ],
+    needs: ['conducts heat below 50 W/mK', 'stands up to seawater'],
     maxConducts: 50,
     needsResistance: true,
     answer: Metal.titanium,
@@ -135,7 +131,8 @@ const boxRounds = <PickRound>[
   ),
   PickRound(
     subject: 'something light that conducts',
-    job: 'A part for an aircraft ground unit: it has to be light and conduct '
+    job:
+        'A part for an aircraft ground unit: it has to be light and conduct '
         'heat reasonably well.',
     needs: ['lighter than 5,000 kg/m3', 'conducts heat above 100 W/mK'],
     minConducts: 100,
@@ -150,7 +147,8 @@ const boxRounds = <PickRound>[
   ),
   PickRound(
     subject: 'an impossible specification',
-    job: 'A part that must conduct better than any of these except copper, '
+    job:
+        'A part that must conduct better than any of these except copper, '
         'and still come in under five thousand.',
     needs: ['conducts heat above 300 W/mK', 'lighter than 5,000 kg/m3'],
     minConducts: 300,
@@ -166,7 +164,8 @@ const boxRounds = <PickRound>[
   ),
   PickRound(
     subject: 'a condenser tube in a power station',
-    job: 'A tube carrying heat into seawater, bolted down where weight is '
+    job:
+        'A tube carrying heat into seawater, bolted down where weight is '
         'welcome rather than a problem.',
     needs: [
       'conducts heat above 50 W/mK',
@@ -285,15 +284,20 @@ class _CheckEveryBoxGameState extends State<CheckEveryBoxGame> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('IT MUST', style: AppTheme.overline(color: AppColors.ink3)),
+                Text(
+                  'IT MUST',
+                  style: AppTheme.overline(color: AppColors.ink3),
+                ),
                 const SizedBox(height: 6),
                 for (final need in r.needs)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 3),
                     child: Text(
                       '- $need',
-                      style:
-                          AppTheme.mono(size: 12.5, color: AppColors.charcoal),
+                      style: AppTheme.mono(
+                        size: 12.5,
+                        color: AppColors.charcoal,
+                      ),
                     ),
                   ),
               ],
@@ -309,9 +313,9 @@ class _CheckEveryBoxGameState extends State<CheckEveryBoxGame> {
               onTap: answered
                   ? null
                   : () => setState(() {
-                        _picked = listing.metal;
-                        _pickedNone = false;
-                      }),
+                      _picked = listing.metal;
+                      _pickedNone = false;
+                    }),
             ),
             const SizedBox(height: 8),
           ],
@@ -323,9 +327,9 @@ class _CheckEveryBoxGameState extends State<CheckEveryBoxGame> {
             onTap: answered
                 ? null
                 : () => setState(() {
-                      _pickedNone = true;
-                      _picked = null;
-                    }),
+                    _pickedNone = true;
+                    _picked = null;
+                  }),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

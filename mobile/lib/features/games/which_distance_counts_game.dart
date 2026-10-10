@@ -149,8 +149,12 @@ const armRounds = <ArmRound>[
       marks: [
         Mark(Offset(0, 0), Offset(4, 0), '4 m'),
         Mark(Offset(0, 0), Offset(0, 5), '5 m'),
-        Mark(Offset(0, 0), Offset(4.5, 4.5), '6.36 m',
-            place: MarkPlace.inPlace),
+        Mark(
+          Offset(0, 0),
+          Offset(4.5, 4.5),
+          '6.36 m',
+          place: MarkPlace.inPlace,
+        ),
       ],
     ),
     answer: 2,
@@ -305,9 +309,9 @@ class _WhichDistanceCountsGameState extends State<WhichDistanceCountsGame> {
             onTap: answered
                 ? null
                 : (i) => setState(() {
-                      _none = false;
-                      _picked = i;
-                    }),
+                    _none = false;
+                    _picked = i;
+                  }),
           ),
           const SizedBox(height: 8),
           _NoArmRow(
@@ -317,9 +321,9 @@ class _WhichDistanceCountsGameState extends State<WhichDistanceCountsGame> {
             onTap: answered
                 ? null
                 : () => setState(() {
-                      _picked = null;
-                      _none = !_none;
-                    }),
+                    _picked = null;
+                    _none = !_none;
+                  }),
           ),
           if (answered) ...[
             const SizedBox(height: 16),
@@ -385,8 +389,7 @@ class _Figure extends StatelessWidget {
                       child: const SizedBox.expand(),
                     ),
                   ),
-                  for (var i = 0; i < scene.marks.length; i++)
-                    _zone(i, size),
+                  for (var i = 0; i < scene.marks.length; i++) _zone(i, size),
                 ],
               );
             },

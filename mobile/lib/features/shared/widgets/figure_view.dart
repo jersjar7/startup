@@ -25,7 +25,10 @@ class FigureView extends StatelessWidget {
             child: SizedBox(
               width: 22,
               height: 22,
-              child: CircularProgressIndicator(color: AppColors.ink3, strokeWidth: 2),
+              child: CircularProgressIndicator(
+                color: AppColors.ink3,
+                strokeWidth: 2,
+              ),
             ),
           );
         },

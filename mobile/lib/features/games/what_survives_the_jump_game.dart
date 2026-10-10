@@ -29,10 +29,10 @@ enum Crossing { up, down, same }
 
 extension CrossingWords on Crossing {
   String get plain => switch (this) {
-        Crossing.up => 'It is larger downstream',
-        Crossing.down => 'It is smaller downstream',
-        Crossing.same => 'It comes through unchanged',
-      };
+    Crossing.up => 'It is larger downstream',
+    Crossing.down => 'It is smaller downstream',
+    Crossing.same => 'It comes through unchanged',
+  };
 }
 
 @immutable

@@ -188,7 +188,8 @@ class _CopyItDownGameState extends State<CopyItDownGame> {
           : (_picked.isEmpty
                 ? null
                 : () => _session.submit(
-                    ok: _picked.length == r.answer.length &&
+                    ok:
+                        _picked.length == r.answer.length &&
                         _picked.containsAll(r.answer),
                     context: context,
                   )),

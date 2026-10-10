@@ -29,11 +29,11 @@ enum Biggest { top, middle, bottom, same }
 
 extension BiggestWords on Biggest {
   String get plain => switch (this) {
-        Biggest.top => 'The top one',
-        Biggest.middle => 'The middle one',
-        Biggest.bottom => 'The bottom one',
-        Biggest.same => 'They all move the same',
-      };
+    Biggest.top => 'The top one',
+    Biggest.middle => 'The middle one',
+    Biggest.bottom => 'The bottom one',
+    Biggest.same => 'They all move the same',
+  };
 }
 
 @immutable
@@ -103,8 +103,7 @@ const growRounds = <GrowRound>[
   ),
   GrowRound(
     subject: 'three materials, same length, same day',
-    asked:
-        'Twelve meters of each, all warming by the same thirty degrees.',
+    asked: 'Twelve meters of each, all warming by the same thirty degrees.',
     members: [
       Member(stuff: Stuff.steel, meters: 12, from: 0, to: 30),
       Member(stuff: Stuff.aluminum, meters: 12, from: 0, to: 30),
@@ -179,19 +178,26 @@ const growRounds = <GrowRound>[
         'different sections.',
     members: [
       Member(
-          stuff: Stuff.steel,
-          meters: 15,
-          from: 0,
-          to: 30,
-          note: 'a light angle'),
+        stuff: Stuff.steel,
+        meters: 15,
+        from: 0,
+        to: 30,
+        note: 'a light angle',
+      ),
       Member(
-          stuff: Stuff.steel,
-          meters: 15,
-          from: 0,
-          to: 30,
-          note: 'a heavy column'),
+        stuff: Stuff.steel,
+        meters: 15,
+        from: 0,
+        to: 30,
+        note: 'a heavy column',
+      ),
       Member(
-          stuff: Stuff.steel, meters: 15, from: 0, to: 30, note: 'a thin rod'),
+        stuff: Stuff.steel,
+        meters: 15,
+        from: 0,
+        to: 30,
+        note: 'a thin rod',
+      ),
     ],
     why:
         'All the same. How thick a member is appears nowhere in the formula: '
@@ -227,18 +233,18 @@ class _WhichOneMovesMostGameState extends State<WhichOneMovesMostGame> {
   GrowRound get _round => growRounds[_session.round];
 
   int? get _pickedRow => switch (_picked) {
-        Biggest.top => 0,
-        Biggest.middle => 1,
-        Biggest.bottom => 2,
-        _ => null,
-      };
+    Biggest.top => 0,
+    Biggest.middle => 1,
+    Biggest.bottom => 2,
+    _ => null,
+  };
 
   int? _answerRow(GrowRound r) => switch (r.answer) {
-        Biggest.top => 0,
-        Biggest.middle => 1,
-        Biggest.bottom => 2,
-        Biggest.same => null,
-      };
+    Biggest.top => 0,
+    Biggest.middle => 1,
+    Biggest.bottom => 2,
+    Biggest.same => null,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -303,11 +309,18 @@ class _WhichOneMovesMostGameState extends State<WhichOneMovesMostGame> {
                 onTapDown: answered
                     ? null
                     : (details) {
-                        final row =
-                            MemberPainter.rowAt(size, details.localPosition);
+                        final row = MemberPainter.rowAt(
+                          size,
+                          details.localPosition,
+                        );
                         if (row == null) return;
-                        setState(() => _picked =
-                            [Biggest.top, Biggest.middle, Biggest.bottom][row]);
+                        setState(
+                          () => _picked = [
+                            Biggest.top,
+                            Biggest.middle,
+                            Biggest.bottom,
+                          ][row],
+                        );
                       },
                 child: EngineeringGrid(
                   minor: 18,
@@ -349,7 +362,9 @@ class _WhichOneMovesMostGameState extends State<WhichOneMovesMostGame> {
             selected: _picked == Biggest.same,
             locked: answered,
             isTruth: r.answer == Biggest.same,
-            onTap: answered ? null : () => setState(() => _picked = Biggest.same),
+            onTap: answered
+                ? null
+                : () => setState(() => _picked = Biggest.same),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

@@ -21,8 +21,7 @@ class WhereTheEnergyGoesGame extends StatefulWidget {
   const WhereTheEnergyGoesGame({super.key});
 
   @override
-  State<WhereTheEnergyGoesGame> createState() =>
-      _WhereTheEnergyGoesGameState();
+  State<WhereTheEnergyGoesGame> createState() => _WhereTheEnergyGoesGameState();
 }
 
 @immutable
@@ -271,7 +270,9 @@ class _WhereTheEnergyGoesGameState extends State<WhereTheEnergyGoesGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE ACCOUNT' : 'A DIFFERENT STORY',
+              title: _session.correct!
+                  ? 'THAT IS THE ACCOUNT'
+                  : 'A DIFFERENT STORY',
               body: r.why,
             ),
           ],

@@ -21,8 +21,10 @@ import 'notification_plan.dart';
 /// to schedule, rather than on first launch. Somebody who has just opened the
 /// app has not yet been given a reason to say yes.
 class Notifications {
-  Notifications({FlutterLocalNotificationsPlugin? plugin, this.now = DateTime.now})
-    : _plugin = plugin ?? FlutterLocalNotificationsPlugin();
+  Notifications({
+    FlutterLocalNotificationsPlugin? plugin,
+    this.now = DateTime.now,
+  }) : _plugin = plugin ?? FlutterLocalNotificationsPlugin();
 
   final FlutterLocalNotificationsPlugin _plugin;
   final DateTime Function() now;
@@ -109,7 +111,9 @@ class Notifications {
       ),
     );
     await _plugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(_channel);
 
     // A notification that launched the app from cold is not delivered through
@@ -126,15 +130,20 @@ class Notifications {
   /// Whether this phone has ever been asked. Used to decide whether to show
   /// the explanation first.
   Future<bool> hasBeenAsked() async =>
-      await _guard(() async =>
-          (await SharedPreferences.getInstance()).getBool(_askedKey) ?? false) ??
+      await _guard(
+        () async =>
+            (await SharedPreferences.getInstance()).getBool(_askedKey) ?? false,
+      ) ??
       false;
 
   /// Whether reminders are on, as far as the app is concerned. The operating
   /// system has the final say and can revoke it from Settings at any time.
   Future<bool> isEnabled() async =>
-      await _guard(() async =>
-          (await SharedPreferences.getInstance()).getBool(_enabledKey) ?? false) ??
+      await _guard(
+        () async =>
+            (await SharedPreferences.getInstance()).getBool(_enabledKey) ??
+            false,
+      ) ??
       false;
 
   Future<void> setEnabled(bool on) async {
@@ -155,12 +164,18 @@ class Notifications {
 
     bool granted = false;
     final ios = _plugin
-        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+        .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin
+        >();
     if (ios != null) {
-      granted = await ios.requestPermissions(alert: true, badge: true, sound: true) ?? false;
+      granted =
+          await ios.requestPermissions(alert: true, badge: true, sound: true) ??
+          false;
     }
     final android = _plugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
     if (android != null) {
       // Android 13 and up needs a runtime permission; below that it is implicit.
       granted = await android.requestNotificationsPermission() ?? true;
@@ -189,7 +204,9 @@ class Notifications {
     _lastExamDay = examDay ?? _lastExamDay;
     _lastStudyDay = lastStudyDay ?? _lastStudyDay;
     if (!await isEnabled()) return;
-    await _guard(() => _rearm(examDay: _lastExamDay, lastStudyDay: _lastStudyDay));
+    await _guard(
+      () => _rearm(examDay: _lastExamDay, lastStudyDay: _lastStudyDay),
+    );
   }
 
   /// The exam date moved, or was cleared. Rebuild against whatever it is now.
@@ -204,7 +221,9 @@ class Notifications {
   Future<void> examDayChanged(String? examDay) async {
     _lastExamDay = examDay;
     if (!await isEnabled()) return;
-    await _guard(() => _rearm(examDay: _lastExamDay, lastStudyDay: _lastStudyDay));
+    await _guard(
+      () => _rearm(examDay: _lastExamDay, lastStudyDay: _lastStudyDay),
+    );
   }
 
   /// Something was studied today, so today's evening reminder is now wrong.
@@ -212,7 +231,8 @@ class Notifications {
   /// Cheap to call on every successful sync: [rearm] rebuilds a fixed plan from
   /// fixed inputs, so calling it twice in a day changes nothing the second time.
   Future<void> studiedOn(DateTime day) => rearm(
-    lastStudyDay: '${day.year.toString().padLeft(4, '0')}-'
+    lastStudyDay:
+        '${day.year.toString().padLeft(4, '0')}-'
         '${day.month.toString().padLeft(2, '0')}-'
         '${day.day.toString().padLeft(2, '0')}',
   );

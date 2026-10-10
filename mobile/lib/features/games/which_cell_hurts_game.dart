@@ -116,11 +116,7 @@ const hurtRounds = <HurtRound>[
   HurtRound(
     subject: 'soil samples by classification',
     model: 'a site model predicting 120, 40 and 40',
-    cells: [
-      Cell('Clay', 138, 120),
-      Cell('Silt', 34, 40),
-      Cell('Sand', 28, 40),
-    ],
+    cells: [Cell('Clay', 138, 120), Cell('Silt', 34, 40), Cell('Sand', 28, 40)],
     answer: 2,
     why:
         'Clay is eighteen out and Sand only twelve, and Sand is the bigger '
@@ -259,9 +255,7 @@ class _WhichCellHurtsGameState extends State<WhichCellHurtsGame> {
                     selected: _picked == i,
                     locked: answered,
                     isTruth: i == r.answer,
-                    onTap: answered
-                        ? null
-                        : () => setState(() => _picked = i),
+                    onTap: answered ? null : () => setState(() => _picked = i),
                   ),
                 ),
               ],

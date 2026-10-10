@@ -114,12 +114,7 @@ const letterRounds = <LetterRound>[
         'A density of about 37 to the mile. Which letter is that, on a table '
         'running A up to 11, B to 18, C to 26, D to 35, E to 45?',
     road: _theCase,
-    options: [
-      'C',
-      'D',
-      'E',
-      'F',
-    ],
+    options: ['C', 'D', 'E', 'F'],
     answer: 2,
     why:
         'E, which is the band above 35 and up to 45. It is the last band '
@@ -190,8 +185,7 @@ const letterRounds = <LetterRound>[
   ),
 ];
 
-class _WhatTheLetterMeasuresGameState
-    extends State<WhatTheLetterMeasuresGame> {
+class _WhatTheLetterMeasuresGameState extends State<WhatTheLetterMeasuresGame> {
   late final BoardSession _session = BoardSession(
     gameId: 'what-the-letter-measures',
     chapterId: 'transportation',
@@ -277,10 +271,7 @@ class _WhatTheLetterMeasuresGameState
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: LosPainter(
-                    road: r.road,
-                    answered: answered,
-                  ),
+                  painter: LosPainter(road: r.road, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

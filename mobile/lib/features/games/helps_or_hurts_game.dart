@@ -28,10 +28,10 @@ enum Helps { helps, hurts, neither }
 
 extension HelpsWords on Helps {
   String get plain => switch (this) {
-        Helps.helps => 'It adds to the margin',
-        Helps.hurts => 'It eats into the margin',
-        Helps.neither => 'It does not come into it at all',
-      };
+    Helps.helps => 'It adds to the margin',
+    Helps.hurts => 'It eats into the margin',
+    Helps.neither => 'It does not come into it at all',
+  };
 }
 
 @immutable
@@ -265,7 +265,9 @@ class _HelpsOrHurtsGameState extends State<HelpsOrHurtsGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHAT IT DOES' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS WHAT IT DOES'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

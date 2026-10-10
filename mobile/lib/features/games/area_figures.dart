@@ -37,7 +37,8 @@ class Parcel {
     return total;
   }
 
-  double get area => sumFor([for (var i = 0; i < corners.length; i++) i]).abs() / 2;
+  double get area =>
+      sumFor([for (var i = 0; i < corners.length; i++) i]).abs() / 2;
 
   /// Whether a listing of the corners walks the boundary without crossing
   /// itself. A bowtie has the same corners and is not the same parcel.
@@ -47,7 +48,8 @@ class Parcel {
       final a2 = corners[order[(i + 1) % order.length]];
       for (var j = i + 1; j < order.length; j++) {
         if (j == i) continue;
-        final shareEnd = (j + 1) % order.length == i || j == (i + 1) % order.length;
+        final shareEnd =
+            (j + 1) % order.length == i || j == (i + 1) % order.length;
         if (shareEnd) continue;
         final b1 = corners[order[j]];
         final b2 = corners[order[(j + 1) % order.length]];
@@ -97,8 +99,10 @@ class ParcelPainter extends CustomPainter {
       maxY = math.max(maxY, c.y);
     }
     const pad = 30.0;
-    final scale = math.min((size.width - 2 * pad) / math.max(maxX - minX, 0.01),
-        (size.height - 2 * pad - 10) / math.max(maxY - minY, 0.01));
+    final scale = math.min(
+      (size.width - 2 * pad) / math.max(maxX - minX, 0.01),
+      (size.height - 2 * pad - 10) / math.max(maxY - minY, 0.01),
+    );
     final left = (size.width - (maxX - minX) * scale) / 2 - minX * scale;
     final bottom =
         (size.height - 10 + (maxY - minY) * scale) / 2 + minY * scale;
@@ -125,14 +129,17 @@ class ParcelPainter extends CustomPainter {
 
     if (fill) {
       canvas.drawPath(
-          path, Paint()..color = AppColors.sunbeam.withValues(alpha: 0.22));
+        path,
+        Paint()..color = AppColors.sunbeam.withValues(alpha: 0.22),
+      );
     }
     canvas.drawPath(
-        path,
-        Paint()
-          ..color = tone
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2);
+      path,
+      Paint()
+        ..color = tone
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
 
     for (final c in parcel.corners) {
       final p = _at(size, parcel, c);
@@ -140,21 +147,21 @@ class ParcelPainter extends CustomPainter {
       canvas
         ..drawCircle(p, 4.5, Paint()..color = AppColors.cream)
         ..drawCircle(
-            p,
-            4.5,
-            Paint()
-              ..color = AppColors.charcoal
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.6)
+          p,
+          4.5,
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.6,
+        )
         ..drawCircle(p, 1.6, Paint()..color = AppColors.charcoal);
       writeOn(
-          canvas,
-          size,
-          showCoordinates
-              ? '${c.name} (${_num(c.x)}, ${_num(c.y)})'
-              : c.name,
-          p + const Offset(7, -16),
-          AppColors.ink2);
+        canvas,
+        size,
+        showCoordinates ? '${c.name} (${_num(c.x)}, ${_num(c.y)})' : c.name,
+        p + const Offset(7, -16),
+        AppColors.ink2,
+      );
     }
     viewTag(canvas, size, Looking.plan);
   }
@@ -173,10 +180,10 @@ enum Way3 { coordinates, trapezoid, simpson }
 
 extension Way3Words on Way3 {
   String get plain => switch (this) {
-        Way3.coordinates => 'By coordinates, off the corners',
-        Way3.trapezoid => 'The trapezoidal rule',
-        Way3.simpson => 'Simpson\'s one third rule',
-      };
+    Way3.coordinates => 'By coordinates, off the corners',
+    Way3.trapezoid => 'The trapezoidal rule',
+    Way3.simpson => 'Simpson\'s one third rule',
+  };
 }
 
 /// A strip of ground measured as offsets from a baseline: the picture the
@@ -279,21 +286,26 @@ class OffsetsPainter extends CustomPainter {
       ..lineTo(_x(size, strip, 0), base)
       ..close();
     canvas
-      ..drawPath(ground, Paint()..color = AppColors.sunbeam.withValues(alpha: 0.2))
       ..drawPath(
-          edge,
-          Paint()
-            ..color = AppColors.ink2
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.8);
+        ground,
+        Paint()..color = AppColors.sunbeam.withValues(alpha: 0.2),
+      )
+      ..drawPath(
+        edge,
+        Paint()
+          ..color = AppColors.ink2
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.8,
+      );
 
     // The baseline, chained along the bottom.
     canvas.drawLine(
-        Offset(_x(size, strip, 0) - 10, base),
-        Offset(_x(size, strip, strip.offsets.length - 1) + 10, base),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 2);
+      Offset(_x(size, strip, 0) - 10, base),
+      Offset(_x(size, strip, strip.offsets.length - 1) + 10, base),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 2,
+    );
 
     for (var i = 0; i < strip.offsets.length; i++) {
       final x = _x(size, strip, i);
@@ -307,24 +319,40 @@ class OffsetsPainter extends CustomPainter {
         tone = AppColors.ink3;
       }
       canvas.drawLine(
-          Offset(x, base),
-          Offset(x, top),
-          Paint()
-            ..color = tone
-            ..strokeWidth = marked == i ? 3 : 1.4);
+        Offset(x, base),
+        Offset(x, top),
+        Paint()
+          ..color = tone
+          ..strokeWidth = marked == i ? 3 : 1.4,
+      );
       canvas
         ..drawCircle(Offset(x, base), 3, Paint()..color = AppColors.charcoal)
         ..drawCircle(Offset(x, top), 2.6, Paint()..color = tone);
-      writeOn(canvas, size, _num(strip.offsets[i]), Offset(x - 6, top - 15),
-          tone);
+      writeOn(
+        canvas,
+        size,
+        _num(strip.offsets[i]),
+        Offset(x - 6, top - 15),
+        tone,
+      );
     }
 
     // How many offsets there are, which is what decides whether Simpson can
     // be used at all, and how far apart they were chained.
-    writeOn(canvas, size, '${strip.offsets.length} offsets at ${_num(strip.step)} m',
-        Offset(10, size.height - 28), AppColors.ink3);
-    writeOn(canvas, size, 'baseline', Offset(size.width - 74, base + 6),
-        AppColors.charcoal);
+    writeOn(
+      canvas,
+      size,
+      '${strip.offsets.length} offsets at ${_num(strip.step)} m',
+      Offset(10, size.height - 28),
+      AppColors.ink3,
+    );
+    writeOn(
+      canvas,
+      size,
+      'baseline',
+      Offset(size.width - 74, base + 6),
+      AppColors.charcoal,
+    );
     viewTag(canvas, size, Looking.plan);
   }
 
@@ -338,4 +366,3 @@ class OffsetsPainter extends CustomPainter {
 
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
-

@@ -31,10 +31,10 @@ enum Worst { radius, halfTop, halfBottom }
 
 extension WorstWords on Worst {
   String get plain => switch (this) {
-        Worst.radius => 'The radius of the circle',
-        Worst.halfTop => 'Half the way from zero up to the right hand end',
-        Worst.halfBottom => 'Half the way from the left hand end up to zero',
-      };
+    Worst.radius => 'The radius of the circle',
+    Worst.halfTop => 'Half the way from zero up to the right hand end',
+    Worst.halfBottom => 'Half the way from the left hand end up to zero',
+  };
 }
 
 @immutable
@@ -55,10 +55,10 @@ class WorstRound {
 
   /// What each candidate comes to.
   double sizeOf(Worst worst) => switch (worst) {
-        Worst.radius => stress.radius,
-        Worst.halfTop => (stress.s1 - Stress.s3).abs() / 2,
-        Worst.halfBottom => (Stress.s3 - stress.s2).abs() / 2,
-      };
+    Worst.radius => stress.radius,
+    Worst.halfTop => (stress.s1 - Stress.s3).abs() / 2,
+    Worst.halfBottom => (Stress.s3 - stress.s2).abs() / 2,
+  };
 
   /// The biggest of the three, which is the worst shear at the point. Worked
   /// out rather than declared, and the tests insist the winner is clear of
@@ -277,7 +277,9 @@ class _IsRTheWorstGameState extends State<IsRTheWorstGame> {
             const SizedBox(height: 8),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE WORST' : 'SOMETHING IS WORSE',
+              title: _session.correct!
+                  ? 'THAT IS THE WORST'
+                  : 'SOMETHING IS WORSE',
               body: r.why,
             ),
           ],

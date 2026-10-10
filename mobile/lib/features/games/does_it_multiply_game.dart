@@ -236,7 +236,9 @@ class _DoesItMultiplyGameState extends State<DoesItMultiplyGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHAT IT DOES' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS WHAT IT DOES'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

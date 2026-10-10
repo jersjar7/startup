@@ -50,7 +50,7 @@ class ChangeShaftRound {
 
   bool get _stressMoved =>
       (after.shearStress - before.shearStress).abs() >
-          before.shearStress * 0.01;
+      before.shearStress * 0.01;
   bool get _twistMoved =>
       (after.twist - before.twist).abs() > before.twist * 0.01;
 
@@ -242,7 +242,9 @@ class _StressOrTwistGameState extends State<StressOrTwistGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHAT MOVES' : 'SOMETHING ELSE',
+              title: _session.correct!
+                  ? 'THAT IS WHAT MOVES'
+                  : 'SOMETHING ELSE',
               body: r.why,
             ),
           ],
@@ -269,10 +271,13 @@ class _Formulas extends StatelessWidget {
           major: 90,
           child: Row(
             children: [
-              Expanded(child: _One(top: 'stress', tex: r'\tau = \dfrac{Tc}{J}')),
+              Expanded(
+                child: _One(top: 'stress', tex: r'\tau = \dfrac{Tc}{J}'),
+              ),
               Container(width: 1, color: AppColors.line),
               Expanded(
-                  child: _One(top: 'twist', tex: r'\phi = \dfrac{TL}{GJ}')),
+                child: _One(top: 'twist', tex: r'\phi = \dfrac{TL}{GJ}'),
+              ),
             ],
           ),
         ),

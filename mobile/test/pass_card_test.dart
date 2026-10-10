@@ -60,8 +60,11 @@ void main() {
     test('the fifteen chapters, with no number against any of them', () {
       expect(passCardChapters, hasLength(15));
       for (final name in passCardChapters) {
-        expect(RegExp(r'\d').hasMatch(name), isFalse,
-            reason: '$name carries a figure the card cannot stand behind');
+        expect(
+          RegExp(r'\d').hasMatch(name),
+          isFalse,
+          reason: '$name carries a figure the card cannot stand behind',
+        );
       }
     });
 
@@ -101,11 +104,15 @@ void main() {
       t.view.physicalSize = const Size(passCardWidth, passCardHeight);
       t.view.devicePixelRatio = 1.0;
       addTearDown(t.view.reset);
-      await t.pumpWidget(host(PassCardData.from(
-        firstName: 'Jerson',
-        lastName: 'Garcia',
-        answeredAt: DateTime(2026, 10, 20),
-      )));
+      await t.pumpWidget(
+        host(
+          PassCardData.from(
+            firstName: 'Jerson',
+            lastName: 'Garcia',
+            answeredAt: DateTime(2026, 10, 20),
+          ),
+        ),
+      );
       await t.pumpAndSettle();
       await expectLater(
         find.byType(CustomPaint).last,
@@ -113,11 +120,15 @@ void main() {
       );
     });
 
-    testWidgets('the card with no name draws no name, not a placeholder', (t) async {
+    testWidgets('the card with no name draws no name, not a placeholder', (
+      t,
+    ) async {
       t.view.physicalSize = const Size(passCardWidth, passCardHeight);
       t.view.devicePixelRatio = 1.0;
       addTearDown(t.view.reset);
-      await t.pumpWidget(host(PassCardData.from(answeredAt: DateTime(2026, 10, 20))));
+      await t.pumpWidget(
+        host(PassCardData.from(answeredAt: DateTime(2026, 10, 20))),
+      );
       await t.pumpAndSettle();
       await expectLater(
         find.byType(CustomPaint).last,
@@ -126,7 +137,9 @@ void main() {
     });
 
     testWidgets('renders at export size without throwing', (t) async {
-      final image = await renderPassCard(PassCardData.from(firstName: 'Jerson'));
+      final image = await renderPassCard(
+        PassCardData.from(firstName: 'Jerson'),
+      );
       expect(image.width, 2400);
       expect(image.height, 1254);
       image.dispose();

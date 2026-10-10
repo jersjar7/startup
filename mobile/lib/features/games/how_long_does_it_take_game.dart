@@ -20,8 +20,7 @@ class HowLongDoesItTakeGame extends StatefulWidget {
   const HowLongDoesItTakeGame({super.key});
 
   @override
-  State<HowLongDoesItTakeGame> createState() =>
-      _HowLongDoesItTakeGameState();
+  State<HowLongDoesItTakeGame> createState() => _HowLongDoesItTakeGameState();
 }
 
 @immutable
@@ -45,10 +44,8 @@ class TimeRound {
   final String source;
 }
 
-const _bothWays =
-    Drainage(thickness: 10, topDrains: true, bottomDrains: true);
-const _onRock =
-    Drainage(thickness: 10, topDrains: true, bottomDrains: false);
+const _bothWays = Drainage(thickness: 10, topDrains: true, bottomDrains: true);
+const _onRock = Drainage(thickness: 10, topDrains: true, bottomDrains: false);
 
 const timeRounds = <TimeRound>[
   TimeRound(
@@ -271,8 +268,7 @@ class _HowLongDoesItTakeGameState extends State<HowLongDoesItTakeGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter:
-                      DrainagePainter(drain: r.drain, answered: answered),
+                  painter: DrainagePainter(drain: r.drain, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

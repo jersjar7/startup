@@ -28,10 +28,10 @@ enum Wets { shrinks, swells, nothing }
 
 extension DoesWords on Wets {
   String get plain => switch (this) {
-        Wets.shrinks => 'It shrinks, and gets stronger and stiffer',
-        Wets.swells => 'It swells, and gets weaker and softer',
-        Wets.nothing => 'Neither: no shrinking and no change in strength',
-      };
+    Wets.shrinks => 'It shrinks, and gets stronger and stiffer',
+    Wets.swells => 'It swells, and gets weaker and softer',
+    Wets.nothing => 'Neither: no shrinking and no change in strength',
+  };
 }
 
 @immutable
@@ -132,8 +132,7 @@ const moistureRounds = <MoveRound2>[
   ),
   MoveRound2(
     subject: 'all the way from green to dry',
-    setting:
-        'A green post at 70 percent is kiln dried down to 12 percent.',
+    setting: 'A green post at 70 percent is kiln dried down to 12 percent.',
     move: Drying(from: 70, to: 12),
     why:
         'It shrinks and stiffens, but only for the last eighteen points of '

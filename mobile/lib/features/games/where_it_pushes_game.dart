@@ -235,7 +235,11 @@ class _WhereItPushesGameState extends State<WhereItPushesGame> {
                     ? null
                     : (details) {
                         final hit = GatePainter.nearest(
-                            size, r.gate, r.among, details.localPosition);
+                          size,
+                          r.gate,
+                          r.among,
+                          details.localPosition,
+                        );
                         if (hit != null) setState(() => _picked = hit);
                       },
                 child: EngineeringGrid(

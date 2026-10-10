@@ -268,10 +268,7 @@ class _DamageNotWeightGameState extends State<DamageNotWeightGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: EsalPainter(
-                    axles: r.axles,
-                    answered: answered,
-                  ),
+                  painter: EsalPainter(axles: r.axles, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

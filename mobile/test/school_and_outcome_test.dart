@@ -32,7 +32,9 @@ class _RecordingApi extends ApiClient {
   }
 
   @override
-  Future<dynamic> get(String path) async => <String, dynamic>{'email': 'a@b.com'};
+  Future<dynamic> get(String path) async => <String, dynamic>{
+    'email': 'a@b.com',
+  };
 }
 
 AuthController _auth(_RecordingApi api, [Map<String, dynamic>? user]) =>
@@ -92,21 +94,33 @@ void main() {
         final x = DateTime.utc(2026, 4, 10 + d);
         return x.toIso8601String().substring(0, 10);
       }
+
       for (var put = 0; put < outcomeAskDays.length; put++) {
         final user = {'examDate': '2026-04-10', 'examOutcomeSnoozes': put};
         final due = outcomeAskDays[put];
-        expect(shouldAskOutcome(user, on(after(due - 1))), isFalse,
-            reason: 'ask ${put + 1} showed a day early');
-        expect(shouldAskOutcome(user, on(after(due))), isTrue,
-            reason: 'ask ${put + 1} did not show');
+        expect(
+          shouldAskOutcome(user, on(after(due - 1))),
+          isFalse,
+          reason: 'ask ${put + 1} showed a day early',
+        );
+        expect(
+          shouldAskOutcome(user, on(after(due))),
+          isTrue,
+          reason: 'ask ${put + 1} did not show',
+        );
       }
     });
 
     test('goes quiet for good after the fourth', () {
       final user = {'examDate': '2026-04-10', 'examOutcomeSnoozes': 4};
       expect(shouldAskOutcome(user, on('2027-06-01')), isFalse);
-      expect(shouldAskOutcome({'examDate': '2026-04-10', 'examOutcomeSnoozes': 9},
-          on('2027-06-01')), isFalse);
+      expect(
+        shouldAskOutcome({
+          'examDate': '2026-04-10',
+          'examOutcomeSnoozes': 9,
+        }, on('2027-06-01')),
+        isFalse,
+      );
     });
 
     test('a rubbish exam date is not an exam date', () {
@@ -133,7 +147,9 @@ void main() {
       expect(body['attemptNumber'], 1);
     });
 
-    testWidgets('a fail is recorded too, and is the more valuable record', (tester) async {
+    testWidgets('a fail is recorded too, and is the more valuable record', (
+      tester,
+    ) async {
       final api = _RecordingApi();
       final auth = _auth(api);
       await tester.pumpWidget(_host(auth, ExamOutcomeCard(auth: auth)));
@@ -197,37 +213,47 @@ void main() {
       expect(find.byIcon(Icons.close), findsOneWidget);
     });
 
-    testWidgets('a failed request still moves on, and the way out is still there', (tester) async {
-      // Never trap anyone behind a research question. The answer not saving
-      // must not strand them on the question.
-      var done = false;
-      final auth = _auth(_RecordingApi(fail: true));
-      await tester.pumpWidget(
-        _host(auth, ExamOutcomeCard(auth: auth, onDone: () => done = true)),
-      );
-      await tester.pumpAndSettle();
+    testWidgets(
+      'a failed request still moves on, and the way out is still there',
+      (tester) async {
+        // Never trap anyone behind a research question. The answer not saving
+        // must not strand them on the question.
+        var done = false;
+        final auth = _auth(_RecordingApi(fail: true));
+        await tester.pumpWidget(
+          _host(auth, ExamOutcomeCard(auth: auth, onDone: () => done = true)),
+        );
+        await tester.pumpAndSettle();
 
-      await tester.tap(find.text('I did not sit it'));
-      await tester.pumpAndSettle();
-      expect(find.text('That happens.'), findsOneWidget);
+        await tester.tap(find.text('I did not sit it'));
+        await tester.pumpAndSettle();
+        expect(find.text('That happens.'), findsOneWidget);
 
-      await tester.tap(find.text('Not now'));
-      await tester.pumpAndSettle();
-      expect(done, isTrue);
-    });
+        await tester.tap(find.text('Not now'));
+        await tester.pumpAndSettle();
+        expect(done, isTrue);
+      },
+    );
 
-    testWidgets('a fail ends on what to do next, not on thanks', (tester) async {
+    testWidgets('a fail ends on what to do next, not on thanks', (
+      tester,
+    ) async {
       // Somebody who failed is the most motivated user on the platform and is
       // about to sit again. Thanking them and vanishing is the wrong ending.
-      final auth = _auth(_RecordingApi(), {'email': 'a@b.com', 'examDate': '2026-04-10'});
-      await tester.pumpWidget(_host(
-        auth,
-        ExamOutcomeCard(
-          auth: auth,
-          mastery: const {'mathematics': 70, 'water-resources': 12},
-          onSetExamDate: () {},
+      final auth = _auth(_RecordingApi(), {
+        'email': 'a@b.com',
+        'examDate': '2026-04-10',
+      });
+      await tester.pumpWidget(
+        _host(
+          auth,
+          ExamOutcomeCard(
+            auth: auth,
+            mastery: const {'mathematics': 70, 'water-resources': 12},
+            onSetExamDate: () {},
+          ),
         ),
-      ));
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Not this time'));
@@ -239,16 +265,20 @@ void main() {
       expect(find.text('Set a new exam date'), findsOneWidget);
     });
 
-    testWidgets('a no-show is not given a diagnosis it cannot have', (tester) async {
+    testWidgets('a no-show is not given a diagnosis it cannot have', (
+      tester,
+    ) async {
       final auth = _auth(_RecordingApi());
-      await tester.pumpWidget(_host(
-        auth,
-        ExamOutcomeCard(
-          auth: auth,
-          mastery: const {'mathematics': 70, 'water-resources': 12},
-          onSetExamDate: () {},
+      await tester.pumpWidget(
+        _host(
+          auth,
+          ExamOutcomeCard(
+            auth: auth,
+            mastery: const {'mathematics': 70, 'water-resources': 12},
+            onSetExamDate: () {},
+          ),
         ),
-      ));
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('I did not sit it'));
@@ -276,7 +306,9 @@ void main() {
       expect(find.text('WHAT NOW'), findsNothing);
     });
 
-    testWidgets('the notification path offers no way out but answering', (tester) async {
+    testWidgets('the notification path offers no way out but answering', (
+      tester,
+    ) async {
       final auth = _auth(_RecordingApi());
       await tester.pumpWidget(
         _host(auth, ExamOutcomeCard(auth: auth, dismissible: false)),
@@ -297,7 +329,10 @@ void main() {
       final api = _RecordingApi();
       final auth = _auth(api);
       await tester.pumpWidget(
-        _host(auth, ExamOutcomeCard(auth: auth, dismissible: false, via: 'notification')),
+        _host(
+          auth,
+          ExamOutcomeCard(auth: auth, dismissible: false, via: 'notification'),
+        ),
       );
       await tester.pumpAndSettle();
 
@@ -326,7 +361,10 @@ void main() {
       await tester.pumpWidget(_host(auth, SchoolEditor(auth: auth)));
       await tester.pumpAndSettle();
 
-      await tester.enterText(find.byType(TextField), 'Brigham Young University');
+      await tester.enterText(
+        find.byType(TextField),
+        'Brigham Young University',
+      );
       await tester.tap(find.text('${graduationYears().first}'));
       await tester.tap(find.text('SPRING'));
       await tester.pumpAndSettle();
@@ -352,7 +390,9 @@ void main() {
       expect(graduationTerms, ['Winter', 'Spring', 'Summer', 'Fall']);
     });
 
-    testWidgets('a term without a year still saves, and the reverse too', (tester) async {
+    testWidgets('a term without a year still saves, and the reverse too', (
+      tester,
+    ) async {
       // A May and a December graduate are a full exam cycle apart, so the term
       // is worth having even when somebody skips the year.
       final api = _RecordingApi();
@@ -371,7 +411,9 @@ void main() {
       expect(body.containsKey('graduationYear'), isFalse);
     });
 
-    testWidgets('the already-graduated action clears both halves', (tester) async {
+    testWidgets('the already-graduated action clears both halves', (
+      tester,
+    ) async {
       final api = _RecordingApi();
       final auth = _auth(api);
       await tester.pumpWidget(_host(auth, SchoolEditor(auth: auth)));
@@ -390,22 +432,27 @@ void main() {
       expect(body.containsKey('graduationYear'), isFalse);
     });
 
-    testWidgets('allows no year, because repeat takers have already graduated', (tester) async {
-      final api = _RecordingApi();
-      final auth = _auth(api);
-      await tester.pumpWidget(_host(auth, SchoolEditor(auth: auth)));
-      await tester.pumpAndSettle();
+    testWidgets(
+      'allows no year, because repeat takers have already graduated',
+      (tester) async {
+        final api = _RecordingApi();
+        final auth = _auth(api);
+        await tester.pumpWidget(_host(auth, SchoolEditor(auth: auth)));
+        await tester.pumpAndSettle();
 
-      await tester.enterText(find.byType(TextField), 'Purdue');
-      await tester.tap(find.text('Save'));
-      await tester.pumpAndSettle();
+        await tester.enterText(find.byType(TextField), 'Purdue');
+        await tester.tap(find.text('Save'));
+        await tester.pumpAndSettle();
 
-      final (_, body) = api.posts.first;
-      expect(body!['name'], 'Purdue');
-      expect(body.containsKey('graduationYear'), isFalse);
-    });
+        final (_, body) = api.posts.first;
+        expect(body!['name'], 'Purdue');
+        expect(body.containsKey('graduationYear'), isFalse);
+      },
+    );
 
-    testWidgets('refuses an empty name rather than storing nothing', (tester) async {
+    testWidgets('refuses an empty name rather than storing nothing', (
+      tester,
+    ) async {
       final api = _RecordingApi();
       final auth = _auth(api);
       await tester.pumpWidget(_host(auth, SchoolEditor(auth: auth)));
@@ -427,7 +474,9 @@ void main() {
       expect(find.text('Texas A&M'), findsOneWidget);
     });
 
-    testWidgets('says so when it could not save, and keeps what was typed', (tester) async {
+    testWidgets('says so when it could not save, and keeps what was typed', (
+      tester,
+    ) async {
       final auth = _auth(_RecordingApi(fail: true));
       await tester.pumpWidget(_host(auth, SchoolEditor(auth: auth)));
       await tester.pumpAndSettle();
@@ -448,7 +497,9 @@ void main() {
       expect(find.text('Not set'), findsOneWidget);
     });
 
-    testWidgets('shows the school and the year once both are known', (tester) async {
+    testWidgets('shows the school and the year once both are known', (
+      tester,
+    ) async {
       final auth = _auth(_RecordingApi(), {
         'email': 'a@b.com',
         'school': {'name': 'Purdue', 'graduationYear': 2027},
@@ -458,7 +509,9 @@ void main() {
       expect(find.text('Purdue, 2027'), findsOneWidget);
     });
 
-    testWidgets('asks for the graduation when only the school is known', (tester) async {
+    testWidgets('asks for the graduation when only the school is known', (
+      tester,
+    ) async {
       // It used to show the name alone, which was fine when a name could only
       // get there by somebody typing it. Since 2026-10-07 a school can be
       // inferred from a .edu address without anybody being asked, and a bare

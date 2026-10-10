@@ -64,14 +64,14 @@ class TreeRound {
   /// The rollback itself, for the reveal. Each branch, and where its number
   /// came from.
   List<String> get rollback => [
-        for (final b in branches)
-          if (b.isChance)
-            '${b.name}   '
-                '${[for (final e in b.ends) '${e.label} of ${_n(e.cost)}'].join(' + ')}'
-                '   =   ${_n(b.expected)}'
-          else
-            '${b.name}   ${_n(b.certain!)}, certain',
-      ];
+    for (final b in branches)
+      if (b.isChance)
+        '${b.name}   '
+            '${[for (final e in b.ends) '${e.label} of ${_n(e.cost)}'].join(' + ')}'
+            '   =   ${_n(b.expected)}'
+      else
+        '${b.name}   ${_n(b.certain!)}, certain',
+  ];
 
   static String _n(double v) =>
       v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(1);
@@ -179,7 +179,10 @@ const treeRounds = <TreeRound>[
         'are three chances in four that it forces a signal and geometry '
         'rebuild within two years.',
     branches: [
-      TreeBranch.uncertain('Reversible lane', [Chance(0.75, 10), Chance(0.25, 2)]),
+      TreeBranch.uncertain('Reversible lane', [
+        Chance(0.75, 10),
+        Chance(0.25, 2),
+      ]),
       TreeBranch.certain('Wider shoulders', 4),
       TreeBranch.certain('New signals', 9),
     ],

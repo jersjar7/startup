@@ -31,10 +31,10 @@ enum Notices { top, bottom, same }
 
 extension NoticesWords on Notices {
   String get plain => switch (this) {
-        Notices.top => 'Weir A, the top one',
-        Notices.bottom => 'Weir B, the bottom one',
-        Notices.same => 'Neither: the same factor',
-      };
+    Notices.top => 'Weir A, the top one',
+    Notices.bottom => 'Weir B, the bottom one',
+    Notices.same => 'Neither: the same factor',
+  };
 }
 
 @immutable
@@ -249,14 +249,25 @@ class _WhichWeirNoticesMoreGameState extends State<WhichWeirNoticesMoreGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Plate(weir: r.top, then: r.thenTop, name: 'A', locked: answered,
-              won: answered && r.answer == Notices.top ||
-                  answered && r.answer == Notices.same),
+          _Plate(
+            weir: r.top,
+            then: r.thenTop,
+            name: 'A',
+            locked: answered,
+            won:
+                answered && r.answer == Notices.top ||
+                answered && r.answer == Notices.same,
+          ),
           const SizedBox(height: 8),
-          _Plate(weir: r.bottom, then: r.thenBottom, name: 'B',
-              locked: answered,
-              won: answered && r.answer == Notices.bottom ||
-                  answered && r.answer == Notices.same),
+          _Plate(
+            weir: r.bottom,
+            then: r.thenBottom,
+            name: 'B',
+            locked: answered,
+            won:
+                answered && r.answer == Notices.bottom ||
+                answered && r.answer == Notices.same,
+          ),
           const SizedBox(height: 10),
           Center(
             child: MathText(
@@ -279,7 +290,9 @@ class _WhichWeirNoticesMoreGameState extends State<WhichWeirNoticesMoreGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE STEEPER ONE' : 'THE OTHER ONE',
+              title: _session.correct!
+                  ? 'THAT IS THE STEEPER ONE'
+                  : 'THE OTHER ONE',
               body: r.why,
             ),
           ],

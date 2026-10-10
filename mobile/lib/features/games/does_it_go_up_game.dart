@@ -26,10 +26,10 @@ enum Moves2 { up, down, flat }
 
 extension PushWords on Moves2 {
   String get plain => switch (this) {
-        Moves2.up => 'Up: the factor is bigger than one',
-        Moves2.down => 'Down: the factor is smaller than one',
-        Moves2.flat => 'Neither: the factor is one',
-      };
+    Moves2.up => 'Up: the factor is bigger than one',
+    Moves2.down => 'Down: the factor is smaller than one',
+    Moves2.flat => 'Neither: the factor is one',
+  };
 }
 
 @immutable
@@ -123,8 +123,7 @@ const ndsRounds = <FactorRound>[
   ),
   FactorRound(
     subject: 'a member in a hot roof space',
-    setting:
-        'The timber runs at sustained high temperature under a dark roof.',
+    setting: 'The timber runs at sustained high temperature under a dark roof.',
     factor: r'$C_t$',
     value: 'less than 1.0',
     answer: Moves2.down,
@@ -247,8 +246,10 @@ class _DoesItGoUpGameState extends State<DoesItGoUpGame> {
                 ),
                 MathText(
                   r.factor,
-                  style:
-                      const TextStyle(fontSize: 16, color: AppColors.charcoal),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: AppColors.charcoal,
+                  ),
                 ),
               ],
             ),

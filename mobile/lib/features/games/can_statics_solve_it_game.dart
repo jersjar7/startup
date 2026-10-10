@@ -53,8 +53,7 @@ class SolveRound {
   final String source;
 
   /// Every unknown the supports put into the equations.
-  int get unknowns =>
-      supports.fold(0, (sum, s) => sum + unknownsIn(s.kind));
+  int get unknowns => supports.fold(0, (sum, s) => sum + unknownsIn(s.kind));
 
   /// Whether anything is holding the beam along its own length.
   ///
@@ -62,12 +61,12 @@ class SolveRound {
   /// two rollers give two unknowns and nothing at all to satisfy the
   /// horizontal equation with.
   bool get heldSideways => supports.any(
-        (s) => switch (s.kind) {
-          Prop.pin || Prop.fixed => true,
-          Prop.slopedRoller => s.slope != 0,
-          Prop.roller || Prop.cable => false,
-        },
-      );
+    (s) => switch (s.kind) {
+      Prop.pin || Prop.fixed => true,
+      Prop.slopedRoller => s.slope != 0,
+      Prop.roller || Prop.cable => false,
+    },
+  );
 
   /// Worked out from the supports rather than declared beside them.
   Enough get answer {
@@ -210,16 +209,16 @@ class _CanStaticsSolveItGameState extends State<CanStaticsSolveItGame> {
   SolveRound get _round => solveRounds[_session.round];
 
   static String _label(Enough v) => switch (v) {
-        Enough.solvable => 'Yes, three will do it',
-        Enough.tooMany => 'No, too many unknowns',
-        Enough.tooFew => 'No, it will not stand up',
-      };
+    Enough.solvable => 'Yes, three will do it',
+    Enough.tooMany => 'No, too many unknowns',
+    Enough.tooFew => 'No, it will not stand up',
+  };
 
   static String _note(Enough v) => switch (v) {
-        Enough.solvable => 'determinate',
-        Enough.tooMany => 'statically indeterminate',
-        Enough.tooFew => 'a mechanism, not a structure',
-      };
+    Enough.solvable => 'determinate',
+    Enough.tooMany => 'statically indeterminate',
+    Enough.tooFew => 'a mechanism, not a structure',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -311,10 +310,7 @@ class _CanStaticsSolveItGameState extends State<CanStaticsSolveItGame> {
           ],
           if (answered) ...[
             const SizedBox(height: 16),
-            Text(
-              'THE COUNT',
-              style: AppTheme.overline(color: AppColors.ink3),
-            ),
+            Text('THE COUNT', style: AppTheme.overline(color: AppColors.ink3)),
             const SizedBox(height: 4),
             Text(
               [
@@ -338,12 +334,12 @@ class _CanStaticsSolveItGameState extends State<CanStaticsSolveItGame> {
   }
 
   static String _propName(Prop kind) => switch (kind) {
-        Prop.roller => 'roller',
-        Prop.slopedRoller => 'roller on a slope',
-        Prop.pin => 'pin',
-        Prop.fixed => 'fixed',
-        Prop.cable => 'cable',
-      };
+    Prop.roller => 'roller',
+    Prop.slopedRoller => 'roller on a slope',
+    Prop.pin => 'pin',
+    Prop.fixed => 'fixed',
+    Prop.cable => 'cable',
+  };
 }
 
 class _EnoughRow extends StatelessWidget {
@@ -403,10 +399,7 @@ class _EnoughRow extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: AppColors.charcoal,
-                ),
+                style: const TextStyle(fontSize: 15, color: AppColors.charcoal),
               ),
               const SizedBox(height: 2),
               Text(note, style: AppTheme.mono(size: 11, color: AppColors.ink3)),

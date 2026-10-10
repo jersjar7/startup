@@ -30,7 +30,10 @@ class AppBanner extends StatelessWidget {
 
     final content = Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -47,8 +50,9 @@ class AppBanner extends StatelessWidget {
                     TextSpan(
                       text: actionLabel,
                       style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          decoration: TextDecoration.underline),
+                        fontWeight: FontWeight.w700,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ],
                 ],

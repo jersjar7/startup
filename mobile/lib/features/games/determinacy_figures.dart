@@ -12,18 +12,18 @@ enum Hold { roller, pin, fixed, wallRoller }
 extension HoldWords on Hold {
   /// The number the count actually uses.
   int get components => switch (this) {
-        Hold.roller => 1,
-        Hold.wallRoller => 1,
-        Hold.pin => 2,
-        Hold.fixed => 3,
-      };
+    Hold.roller => 1,
+    Hold.wallRoller => 1,
+    Hold.pin => 2,
+    Hold.fixed => 3,
+  };
 
   String get plain => switch (this) {
-        Hold.roller => 'roller',
-        Hold.wallRoller => 'roller on a wall',
-        Hold.pin => 'pin',
-        Hold.fixed => 'fixed',
-      };
+    Hold.roller => 'roller',
+    Hold.wallRoller => 'roller on a wall',
+    Hold.pin => 'pin',
+    Hold.fixed => 'fixed',
+  };
 }
 
 /// A structure reduced to what the determinacy count cares about: where the
@@ -88,8 +88,7 @@ class Skeleton {
   /// Whether it will actually stand up. The count is necessary and not
   /// sufficient: reactions all parallel cannot resist a load across them,
   /// and reactions all through one point cannot resist a moment about it.
-  bool get geometricallyUnstable =>
-      parallelReactions || concurrentReactions;
+  bool get geometricallyUnstable => parallelReactions || concurrentReactions;
 }
 
 /// The structure drawn plainly: members as lines, pinned joints as open
@@ -148,11 +147,12 @@ class SkeletonPainter extends CustomPainter {
     // The members.
     for (final (a, b) in s.members) {
       canvas.drawLine(
-          at(size, s, s.joints[a]),
-          at(size, s, s.joints[b]),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = s.rigid ? 4 : 2.4);
+        at(size, s, s.joints[a]),
+        at(size, s, s.joints[b]),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = s.rigid ? 4 : 2.4,
+      );
     }
 
     // The joints: open circles are pins, solid squares are rigid corners.
@@ -162,26 +162,29 @@ class SkeletonPainter extends CustomPainter {
         canvas
           ..drawCircle(p, 5, Paint()..color = AppColors.cream)
           ..drawCircle(
-              p,
-              5,
-              Paint()
-                ..color = AppColors.ember
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 2);
+            p,
+            5,
+            Paint()
+              ..color = AppColors.ember
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 2,
+          );
       } else if (s.rigid) {
         canvas.drawRect(
-            Rect.fromCenter(center: p, width: 8, height: 8),
-            Paint()..color = AppColors.charcoal);
+          Rect.fromCenter(center: p, width: 8, height: 8),
+          Paint()..color = AppColors.charcoal,
+        );
       } else {
         canvas
           ..drawCircle(p, 4, Paint()..color = AppColors.cream)
           ..drawCircle(
-              p,
-              4,
-              Paint()
-                ..color = AppColors.charcoal
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 1.6);
+            p,
+            4,
+            Paint()
+              ..color = AppColors.charcoal
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1.6,
+          );
       }
     }
 
@@ -194,61 +197,85 @@ class SkeletonPainter extends CustomPainter {
       for (final joint in s.holds.keys) {
         final p = at(size, s, s.joints[joint]);
         canvas.drawLine(
-            Offset(p.dx, p.dy + 4),
-            Offset(p.dx, p.dy - 34),
-            Paint()
-              ..color = AppColors.error
-              ..strokeWidth = 2);
+          Offset(p.dx, p.dy + 4),
+          Offset(p.dx, p.dy - 34),
+          Paint()
+            ..color = AppColors.error
+            ..strokeWidth = 2,
+        );
       }
-      writeOn(canvas, size, 'every reaction points the same way: nothing '
-          'resists a push sideways', Offset(8, size.height - 34),
-          AppColors.error, fontSize: 9);
+      writeOn(
+        canvas,
+        size,
+        'every reaction points the same way: nothing '
+        'resists a push sideways',
+        Offset(8, size.height - 34),
+        AppColors.error,
+        fontSize: 9,
+      );
     }
 
     if (showWhy && s.concurrentReactions) {
       // They meet at the pin, which is what the structure turns about.
       final pinJoint = s.holds.entries
-          .firstWhere((e) => e.value == Hold.pin,
-              orElse: () => s.holds.entries.first)
+          .firstWhere(
+            (e) => e.value == Hold.pin,
+            orElse: () => s.holds.entries.first,
+          )
           .key;
       final meet = at(size, s, s.joints[pinJoint]);
       for (final joint in s.holds.keys) {
         canvas.drawLine(
-            at(size, s, s.joints[joint]),
-            meet,
-            Paint()
-              ..color = AppColors.error
-              ..strokeWidth = 1.6);
+          at(size, s, s.joints[joint]),
+          meet,
+          Paint()
+            ..color = AppColors.error
+            ..strokeWidth = 1.6,
+        );
       }
       canvas.drawCircle(meet, 4, Paint()..color = AppColors.error);
-      writeOn(canvas, size, 'every reaction passes through one point: nothing '
-          'resists a turn about it', Offset(8, size.height - 34),
-          AppColors.error, fontSize: 9);
+      writeOn(
+        canvas,
+        size,
+        'every reaction passes through one point: nothing '
+        'resists a turn about it',
+        Offset(8, size.height - 34),
+        AppColors.error,
+        fontSize: 9,
+      );
     }
 
     writeOn(
-        canvas,
-        size,
-        note ?? (s.rigid ? 'rigid joints: a frame' : 'pinned joints: a truss'),
-        const Offset(8, 8),
-        AppColors.ink3,
-        fontSize: 9.5);
+      canvas,
+      size,
+      note ?? (s.rigid ? 'rigid joints: a frame' : 'pinned joints: a truss'),
+      const Offset(8, 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (showCount) {
       writeOn(
-          canvas,
-          size,
-          s.rigid
-              ? '3m + r = ${3 * s.m} + ${s.r} = ${s.supply}   against   '
+        canvas,
+        size,
+        s.rigid
+            ? '3m + r = ${3 * s.m} + ${s.r} = ${s.supply}   against   '
                   '3j + c = ${3 * s.j} + ${s.c} = ${s.need}'
-              : 'm + r = ${s.m} + ${s.r} = ${s.supply}   against   '
+            : 'm + r = ${s.m} + ${s.r} = ${s.supply}   against   '
                   '2j = ${s.need}',
-          const Offset(8, 22),
-          AppColors.forest,
-          fontSize: 9.5);
+        const Offset(8, 22),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
-    writeOn(canvas, size, 'ELEVATION', Offset(size.width, 8), AppColors.ink3,
-        fontSize: 8.5);
+    writeOn(
+      canvas,
+      size,
+      'ELEVATION',
+      Offset(size.width, 8),
+      AppColors.ink3,
+      fontSize: 8.5,
+    );
   }
 
   void _support(Canvas canvas, Size size, Offset at, Hold hold) {
@@ -259,76 +286,95 @@ class SkeletonPainter extends CustomPainter {
       case Hold.roller:
         canvas
           ..drawPath(
-              Path()
-                ..moveTo(at.dx, at.dy)
-                ..lineTo(at.dx - 9, at.dy + 12)
-                ..lineTo(at.dx + 9, at.dy + 12)
-                ..close(),
-              Paint()
-                ..color = AppColors.ink2
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 1.6)
-          ..drawCircle(Offset(at.dx - 5, at.dy + 16), 3.4, ink..style = PaintingStyle.stroke)
-          ..drawCircle(Offset(at.dx + 5, at.dy + 16), 3.4, ink);
-        groundLine(canvas, Offset(at.dx - 16, at.dy + 20),
-            Offset(at.dx + 16, at.dy + 20));
-      case Hold.pin:
-        canvas.drawPath(
             Path()
               ..moveTo(at.dx, at.dy)
-              ..lineTo(at.dx - 10, at.dy + 14)
-              ..lineTo(at.dx + 10, at.dy + 14)
+              ..lineTo(at.dx - 9, at.dy + 12)
+              ..lineTo(at.dx + 9, at.dy + 12)
               ..close(),
             Paint()
               ..color = AppColors.ink2
               ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.6);
-        groundLine(canvas, Offset(at.dx - 16, at.dy + 14),
-            Offset(at.dx + 16, at.dy + 14));
+              ..strokeWidth = 1.6,
+          )
+          ..drawCircle(
+            Offset(at.dx - 5, at.dy + 16),
+            3.4,
+            ink..style = PaintingStyle.stroke,
+          )
+          ..drawCircle(Offset(at.dx + 5, at.dy + 16), 3.4, ink);
+        groundLine(
+          canvas,
+          Offset(at.dx - 16, at.dy + 20),
+          Offset(at.dx + 16, at.dy + 20),
+        );
+      case Hold.pin:
+        canvas.drawPath(
+          Path()
+            ..moveTo(at.dx, at.dy)
+            ..lineTo(at.dx - 10, at.dy + 14)
+            ..lineTo(at.dx + 10, at.dy + 14)
+            ..close(),
+          Paint()
+            ..color = AppColors.ink2
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.6,
+        );
+        groundLine(
+          canvas,
+          Offset(at.dx - 16, at.dy + 14),
+          Offset(at.dx + 16, at.dy + 14),
+        );
       case Hold.wallRoller:
         // A roller bearing on a vertical face: its one reaction is
         // HORIZONTAL, which is the whole reason this support is in the item.
         canvas
           ..drawPath(
-              Path()
-                ..moveTo(at.dx, at.dy)
-                ..lineTo(at.dx + 12, at.dy - 9)
-                ..lineTo(at.dx + 12, at.dy + 9)
-                ..close(),
-              Paint()
-                ..color = AppColors.ink2
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 1.6)
+            Path()
+              ..moveTo(at.dx, at.dy)
+              ..lineTo(at.dx + 12, at.dy - 9)
+              ..lineTo(at.dx + 12, at.dy + 9)
+              ..close(),
+            Paint()
+              ..color = AppColors.ink2
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1.6,
+          )
           ..drawCircle(
-              Offset(at.dx + 16, at.dy - 5),
-              3.4,
-              Paint()
-                ..color = AppColors.ink2
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 1.4)
+            Offset(at.dx + 16, at.dy - 5),
+            3.4,
+            Paint()
+              ..color = AppColors.ink2
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1.4,
+          )
           ..drawCircle(
-              Offset(at.dx + 16, at.dy + 5),
-              3.4,
-              Paint()
-                ..color = AppColors.ink2
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 1.4);
+            Offset(at.dx + 16, at.dy + 5),
+            3.4,
+            Paint()
+              ..color = AppColors.ink2
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1.4,
+          );
         final face = Path()
           ..addRect(Rect.fromLTWH(at.dx + 20, at.dy - 22, 11, 44));
         hatchIn(canvas, face, step: 5);
-        canvas.drawLine(Offset(at.dx + 20, at.dy - 22),
-            Offset(at.dx + 20, at.dy + 22),
-            Paint()
-              ..color = AppColors.ink2
-              ..strokeWidth = 2);
+        canvas.drawLine(
+          Offset(at.dx + 20, at.dy - 22),
+          Offset(at.dx + 20, at.dy + 22),
+          Paint()
+            ..color = AppColors.ink2
+            ..strokeWidth = 2,
+        );
       case Hold.fixed:
-        final wall = Path()
-          ..addRect(Rect.fromLTWH(at.dx - 16, at.dy, 32, 11));
+        final wall = Path()..addRect(Rect.fromLTWH(at.dx - 16, at.dy, 32, 11));
         hatchIn(canvas, wall, step: 5);
-        canvas.drawLine(Offset(at.dx - 16, at.dy), Offset(at.dx + 16, at.dy),
-            Paint()
-              ..color = AppColors.ink2
-              ..strokeWidth = 2);
+        canvas.drawLine(
+          Offset(at.dx - 16, at.dy),
+          Offset(at.dx + 16, at.dy),
+          Paint()
+            ..color = AppColors.ink2
+            ..strokeWidth = 2,
+        );
     }
   }
 

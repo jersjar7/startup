@@ -34,7 +34,10 @@ class _GridPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawRect(Offset.zero & size, Paint()..color = const Color(0xFFFDFCF8));
+    canvas.drawRect(
+      Offset.zero & size,
+      Paint()..color = const Color(0xFFFDFCF8),
+    );
 
     void grid(double step, double opacity) {
       final p = Paint()
@@ -53,5 +56,6 @@ class _GridPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_GridPainter old) => old.minor != minor || old.major != major;
+  bool shouldRepaint(_GridPainter old) =>
+      old.minor != minor || old.major != major;
 }

@@ -42,8 +42,12 @@ class DryingPainter extends CustomPainter {
 
   static const _most = 130.0;
 
-  static Rect plot(Size size) =>
-      Rect.fromLTRB(16, size.height * 0.34, size.width - 16, size.height * 0.58);
+  static Rect plot(Size size) => Rect.fromLTRB(
+    16,
+    size.height * 0.34,
+    size.width - 16,
+    size.height * 0.58,
+  );
 
   static double xOf(Size size, double mc) {
     final box = plot(size);
@@ -59,10 +63,14 @@ class DryingPainter extends CustomPainter {
     // walls are already full. The two stretches are drawn as two grounds
     // because everything in this lesson turns on which one you are in.
     canvas
-      ..drawRect(Rect.fromLTRB(box.left, box.top, fsp, box.bottom),
-          Paint()..color = AppColors.sunbeam.withValues(alpha: 0.3))
-      ..drawRect(Rect.fromLTRB(fsp, box.top, box.right, box.bottom),
-          Paint()..color = AppColors.info.withValues(alpha: 0.18))
+      ..drawRect(
+        Rect.fromLTRB(box.left, box.top, fsp, box.bottom),
+        Paint()..color = AppColors.sunbeam.withValues(alpha: 0.3),
+      )
+      ..drawRect(
+        Rect.fromLTRB(fsp, box.top, box.right, box.bottom),
+        Paint()..color = AppColors.info.withValues(alpha: 0.18),
+      )
       ..drawRect(
         box,
         Paint()
@@ -81,26 +89,56 @@ class DryingPainter extends CustomPainter {
     // The three rows of writing are kept on their own lines: the saturation
     // point at the very top, the move's two ends against the bar, and the
     // two grounds named underneath.
-    writeOn(canvas, size, 'saturation point, 30%', Offset(fsp - 58, 4),
-        AppColors.ember);
+    writeOn(
+      canvas,
+      size,
+      'saturation point, 30%',
+      Offset(fsp - 58, 4),
+      AppColors.ember,
+    );
     // Kept short: the left ground is only a quarter of the scale wide, and a
     // longer caption runs straight into the one beside it.
-    writeOn(canvas, size, 'in the walls',
-        Offset(box.left + 2, box.bottom + 22), AppColors.ink3);
-    writeOn(canvas, size, 'free in the cavities',
-        Offset(fsp + 6, box.bottom + 22), AppColors.ink3);
+    writeOn(
+      canvas,
+      size,
+      'in the walls',
+      Offset(box.left + 2, box.bottom + 22),
+      AppColors.ink3,
+    );
+    writeOn(
+      canvas,
+      size,
+      'free in the cavities',
+      Offset(fsp + 6, box.bottom + 22),
+      AppColors.ink3,
+    );
 
     for (final mc in [0.0, 30.0, 60.0, 90.0, 120.0]) {
       final x = xOf(size, mc);
-      canvas.drawLine(Offset(x, box.bottom), Offset(x, box.bottom + 4),
-          Paint()..color = AppColors.ink3..strokeWidth = 1);
+      canvas.drawLine(
+        Offset(x, box.bottom),
+        Offset(x, box.bottom + 4),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1,
+      );
       if (mc != 30) {
-        writeOn(canvas, size, '${mc.round()}', Offset(x - 7, box.bottom + 38),
-            AppColors.ink3);
+        writeOn(
+          canvas,
+          size,
+          '${mc.round()}',
+          Offset(x - 7, box.bottom + 38),
+          AppColors.ink3,
+        );
       }
     }
-    writeOn(canvas, size, 'moisture content, percent of the dry wood',
-        Offset(box.left, box.bottom + 54), AppColors.ink3);
+    writeOn(
+      canvas,
+      size,
+      'moisture content, percent of the dry wood',
+      Offset(box.left, box.bottom + 54),
+      AppColors.ink3,
+    );
 
     if (!showMove) return;
 
@@ -116,10 +154,20 @@ class DryingPainter extends CustomPainter {
       ..drawLine(Offset(to, y), Offset(to - 6 * way, y - 5), paint)
       ..drawLine(Offset(to, y), Offset(to - 6 * way, y + 5), paint)
       ..drawCircle(Offset(from, y), 4, Paint()..color = AppColors.charcoal);
-    writeOn(canvas, size, '${_num(move.from)}%', Offset(from - 14, box.top - 16),
-        AppColors.charcoal);
-    writeOn(canvas, size, '${_num(move.to)}%', Offset(to - 14, box.bottom + 6),
-        AppColors.charcoal);
+    writeOn(
+      canvas,
+      size,
+      '${_num(move.from)}%',
+      Offset(from - 14, box.top - 16),
+      AppColors.charcoal,
+    );
+    writeOn(
+      canvas,
+      size,
+      '${_num(move.to)}%',
+      Offset(to - 14, box.bottom + 6),
+      AppColors.charcoal,
+    );
   }
 
   static String _num(double v) =>
@@ -135,11 +183,11 @@ enum Mortar { m, s, n, o }
 
 extension MortarWords on Mortar {
   String get plain => switch (this) {
-        Mortar.m => 'Type M',
-        Mortar.s => 'Type S',
-        Mortar.n => 'Type N',
-        Mortar.o => 'Type O',
-      };
+    Mortar.m => 'Type M',
+    Mortar.s => 'Type S',
+    Mortar.n => 'Type N',
+    Mortar.o => 'Type O',
+  };
 
   /// Where it sits in strength order: zero is the strongest.
   int get rank => Mortar.values.indexOf(this);

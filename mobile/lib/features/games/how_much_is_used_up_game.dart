@@ -29,10 +29,10 @@ enum Used { most, half, little }
 
 extension UsedWords on Used {
   String get plain => switch (this) {
-        Used.most => 'Most of it: well over half has been used',
-        Used.half => 'About half used and half still to come',
-        Used.little => 'Only a part: most of it is still to come',
-      };
+    Used.most => 'Most of it: well over half has been used',
+    Used.half => 'About half used and half still to come',
+    Used.little => 'Only a part: most of it is still to come',
+  };
 }
 
 @immutable

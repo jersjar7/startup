@@ -110,8 +110,7 @@ const spinRounds = <SpinRound>[
   ),
   SpinRound(
     subject: 'the same wheel again',
-    asked:
-        'Tap the point being pulled hardest toward the middle.',
+    asked: 'Tap the point being pulled hardest toward the middle.',
     spinner: _wheel,
     answer: 0,
     why:
@@ -151,8 +150,7 @@ const spinRounds = <SpinRound>[
   ),
   SpinRound(
     subject: 'half the speed',
-    asked:
-        'Tap the place on the boom moving at HALF the speed of the tip.',
+    asked: 'Tap the place on the boom moving at HALF the speed of the tip.',
     spinner: _boom,
     arm: true,
     answer: 2,
@@ -304,9 +302,9 @@ class _SameSpinDifferentSpeedGameState
             onTap: answered
                 ? null
                 : () => setState(() {
-                      _pickedNone = true;
-                      _picked = null;
-                    }),
+                    _pickedNone = true;
+                    _picked = null;
+                  }),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

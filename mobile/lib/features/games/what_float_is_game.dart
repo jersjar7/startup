@@ -46,13 +46,15 @@ class TotalFloatRound {
 
 /// The scheduling network these lessons share. C carries five days of
 /// total float and two of free float; A, B and D carry none.
-const _theNetwork = Network(tasks: [
-  Task(name: 'A', days: 3),
-  Task(name: 'B', days: 4, after: ['A']),
-  Task(name: 'C', days: 2, after: ['A']),
-  Task(name: 'D', days: 6, after: ['B']),
-  Task(name: 'E', days: 3, after: ['B', 'C']),
-]);
+const _theNetwork = Network(
+  tasks: [
+    Task(name: 'A', days: 3),
+    Task(name: 'B', days: 4, after: ['A']),
+    Task(name: 'C', days: 2, after: ['A']),
+    Task(name: 'D', days: 6, after: ['B']),
+    Task(name: 'E', days: 3, after: ['B', 'C']),
+  ],
+);
 
 const totalFloatRounds = <TotalFloatRound>[
   TotalFloatRound(

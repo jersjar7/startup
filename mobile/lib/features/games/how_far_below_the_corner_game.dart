@@ -17,7 +17,8 @@ class HowFarBelowTheCornerGame extends StatefulWidget {
   const HowFarBelowTheCornerGame({super.key});
 
   @override
-  State<HowFarBelowTheCornerGame> createState() => _HowFarBelowTheCornerGameState();
+  State<HowFarBelowTheCornerGame> createState() =>
+      _HowFarBelowTheCornerGameState();
 }
 
 @immutable

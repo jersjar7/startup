@@ -222,10 +222,8 @@ class _PracticeOrTitleGameState extends State<PracticeOrTitleGame> {
                 Verdict.neither => 'Neither',
               },
               note: switch (v) {
-                Verdict.practice =>
-                  'engineering judgment reaching the public',
-                Verdict.title =>
-                  'held out as a PE, whatever the work was',
+                Verdict.practice => 'engineering judgment reaching the public',
+                Verdict.title => 'held out as a PE, whatever the work was',
                 Verdict.neither => 'no engineering, and no claim to be one',
               },
               selected: _picked == v,
@@ -309,10 +307,7 @@ class _VerdictRow extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: AppColors.charcoal,
-                ),
+                style: const TextStyle(fontSize: 15, color: AppColors.charcoal),
               ),
               const SizedBox(height: 2),
               Text(

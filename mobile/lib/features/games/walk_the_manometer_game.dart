@@ -27,10 +27,10 @@ enum Step2 { rises, falls, holds }
 
 extension StepWords on Step2 {
   String get plain => switch (this) {
-        Step2.rises => 'It goes UP',
-        Step2.falls => 'It goes DOWN',
-        Step2.holds => 'It does not change',
-      };
+    Step2.rises => 'It goes UP',
+    Step2.falls => 'It goes DOWN',
+    Step2.holds => 'It does not change',
+  };
 }
 
 @immutable

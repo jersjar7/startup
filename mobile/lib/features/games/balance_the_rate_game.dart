@@ -55,7 +55,8 @@ class MeetRound {
     final target = project.irr;
     var best = 0;
     for (var i = 1; i < stops.length; i++) {
-      if ((stops[i] / 100 - target).abs() < (stops[best] / 100 - target).abs()) {
+      if ((stops[i] / 100 - target).abs() <
+          (stops[best] / 100 - target).abs()) {
         best = i;
       }
     }
@@ -371,10 +372,7 @@ class _RateChip extends StatelessWidget {
               width: border == AppColors.line ? 1 : 2,
             ),
           ),
-          child: Text(
-            label,
-            style: AppTheme.code(size: 13),
-          ),
+          child: Text(label, style: AppTheme.code(size: 13)),
         ),
       ),
     );

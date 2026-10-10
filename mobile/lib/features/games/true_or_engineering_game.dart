@@ -28,10 +28,10 @@ enum Reading { machine, real, same }
 
 extension ReadingWords on Reading {
   String get plain => switch (this) {
-        Reading.machine => 'The engineering curve',
-        Reading.real => 'The true curve',
-        Reading.same => 'Neither: they are the same line here',
-      };
+    Reading.machine => 'The engineering curve',
+    Reading.real => 'The true curve',
+    Reading.same => 'Neither: they are the same line here',
+  };
 }
 
 @immutable
@@ -295,9 +295,11 @@ class _TrueOrEngineeringGameState extends State<TrueOrEngineeringGame> {
                           details.localPosition,
                         );
                         if (hit == null) return;
-                        setState(() => _picked = hit == BothPainter.truth
-                            ? Reading.real
-                            : Reading.machine);
+                        setState(
+                          () => _picked = hit == BothPainter.truth
+                              ? Reading.real
+                              : Reading.machine,
+                        );
                       },
                 child: EngineeringGrid(
                   minor: 18,
@@ -340,8 +342,9 @@ class _TrueOrEngineeringGameState extends State<TrueOrEngineeringGame> {
             selected: _picked == Reading.same,
             locked: answered,
             isTruth: r.answer == Reading.same,
-            onTap:
-                answered ? null : () => setState(() => _picked = Reading.same),
+            onTap: answered
+                ? null
+                : () => setState(() => _picked = Reading.same),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

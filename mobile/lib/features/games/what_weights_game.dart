@@ -116,7 +116,8 @@ const weightRounds = <WeightRound>[
     source: 'stat-ctd-q3',
   ),
   WeightRound(
-    ask: 'Every borehole was sampled the same number of times. What is the '
+    ask:
+        'Every borehole was sampled the same number of times. What is the '
         'average blow count?',
     columns: ['Hole', 'Samples', 'Blows'],
     rows: [
@@ -385,11 +386,7 @@ class _Table extends StatelessWidget {
 }
 
 class _Role extends StatelessWidget {
-  const _Role({
-    required this.label,
-    required this.column,
-    required this.color,
-  });
+  const _Role({required this.label, required this.column, required this.color});
 
   final String label;
   final String? column;

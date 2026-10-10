@@ -45,11 +45,23 @@ class SafetyRound {
 }
 
 const _mixed = Footing(
-    width: 5, depth: 3, cohesion: 500, unitWeight: 115,
-    nc: 14.83, nq: 6.40, nGamma: 3.54);
+  width: 5,
+  depth: 3,
+  cohesion: 500,
+  unitWeight: 115,
+  nc: 14.83,
+  nq: 6.40,
+  nGamma: 3.54,
+);
 const _sand = Footing(
-    width: 4, depth: 3, cohesion: 0, unitWeight: 120,
-    nc: 30.14, nq: 18.40, nGamma: 15.07);
+  width: 4,
+  depth: 3,
+  cohesion: 0,
+  unitWeight: 120,
+  nc: 30.14,
+  nq: 18.40,
+  nGamma: 15.07,
+);
 
 const safetyRounds = <SafetyRound>[
   SafetyRound(
@@ -274,8 +286,10 @@ class _WhatGetsDividedGameState extends State<WhatGetsDividedGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter:
-                      FootingPainter(footing: r.footing, answered: answered),
+                  painter: FootingPainter(
+                    footing: r.footing,
+                    answered: answered,
+                  ),
                   child: const SizedBox.expand(),
                 ),
               ),

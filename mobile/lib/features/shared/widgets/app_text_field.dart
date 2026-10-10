@@ -54,17 +54,20 @@ class _AppTextFieldState extends State<AppTextField> {
     final borderColor = widget.hasError
         ? AppColors.error
         : focused
-            ? AppColors.ember
-            : AppColors.line;
+        ? AppColors.ember
+        : AppColors.line;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.label,
-            style: GoogleFonts.dmSans(
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-                color: AppColors.ink2)),
+        Text(
+          widget.label,
+          style: GoogleFonts.dmSans(
+            fontWeight: FontWeight.w600,
+            fontSize: 12,
+            color: AppColors.ink2,
+          ),
+        ),
         const SizedBox(height: 7),
         TextField(
           controller: widget.controller,
@@ -83,12 +86,17 @@ class _AppTextFieldState extends State<AppTextField> {
             hintStyle: const TextStyle(color: AppColors.ink3, fontSize: 15),
             filled: true,
             fillColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 16,
+            ),
             suffixIcon: widget.password
                 ? IconButton(
                     splashRadius: 20,
                     icon: Icon(
-                      _obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                      _obscure
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
                       color: AppColors.ink3,
                       size: 20,
                     ),
@@ -105,7 +113,8 @@ class _AppTextFieldState extends State<AppTextField> {
     );
   }
 
-  OutlineInputBorder _border(Color color, {double width = 1.5}) => OutlineInputBorder(
+  OutlineInputBorder _border(Color color, {double width = 1.5}) =>
+      OutlineInputBorder(
         borderRadius: BorderRadius.circular(13),
         borderSide: BorderSide(color: color, width: width),
       );

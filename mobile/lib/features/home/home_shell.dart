@@ -25,8 +25,16 @@ class _HomeShellState extends State<HomeShell> {
   int _index = 0;
 
   static const _items = [
-    DockItem(icon: Icons.person_outline_rounded, activeIcon: Icons.person_rounded, label: 'Profile'),
-    DockItem(icon: Icons.menu_book_outlined, activeIcon: Icons.menu_book_rounded, label: 'Study'),
+    DockItem(
+      icon: Icons.person_outline_rounded,
+      activeIcon: Icons.person_rounded,
+      label: 'Profile',
+    ),
+    DockItem(
+      icon: Icons.menu_book_outlined,
+      activeIcon: Icons.menu_book_rounded,
+      label: 'Study',
+    ),
   ];
 
   @override
@@ -35,10 +43,7 @@ class _HomeShellState extends State<HomeShell> {
       backgroundColor: AppColors.fog,
       body: IndexedStack(
         index: _index,
-        children: const [
-          ProfileTab(),
-          StudyTab(),
-        ],
+        children: const [ProfileTab(), StudyTab()],
       ),
       bottomNavigationBar: BottomDock(
         items: _items,

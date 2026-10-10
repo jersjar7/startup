@@ -46,8 +46,7 @@ class LifeRound {
 
   /// Worked out from the bars rather than declared, so the picture and the
   /// answer cannot come apart.
-  int get answer =>
-      options[0].total <= options[1].total ? 0 : 1;
+  int get answer => options[0].total <= options[1].total ? 0 : 1;
 
   /// Which one is cheapest to build, which is what a first glance sees.
   int get cheapestToBuild =>
@@ -257,9 +256,7 @@ class _OverTheWholeLifeGameState extends State<OverTheWholeLifeGame> {
                     selected: _picked == i,
                     locked: answered,
                     isTruth: i == r.answer,
-                    onTap: answered
-                        ? null
-                        : () => setState(() => _picked = i),
+                    onTap: answered ? null : () => setState(() => _picked = i),
                   ),
                 ),
               ],

@@ -28,10 +28,10 @@ enum Needs2 { force, moment, both }
 
 extension Needs2Words on Needs2 {
   String get plain => switch (this) {
-        Needs2.force => 'Only the force equation',
-        Needs2.moment => 'Only the moment equation',
-        Needs2.both => 'Both of them together',
-      };
+    Needs2.force => 'Only the force equation',
+    Needs2.moment => 'Only the moment equation',
+    Needs2.both => 'Both of them together',
+  };
 }
 
 @immutable
@@ -232,8 +232,8 @@ class _PushItOrSpinItGameState extends State<PushItOrSpinItGame> {
             r.pushed.held == Held2.axle
                 ? 'the ring at the middle is a fixed axle'
                 : r.pushed.held == Held2.floor
-                    ? 'resting on a frictionless floor'
-                    : 'nothing is holding it',
+                ? 'resting on a frictionless floor'
+                : 'nothing is holding it',
             style: AppTheme.mono(size: 11, color: AppColors.ink3),
           ),
           const SizedBox(height: 10),

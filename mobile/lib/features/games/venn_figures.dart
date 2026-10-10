@@ -82,8 +82,13 @@ class VennPainter extends CustomPainter {
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.8,
       );
-      _write(canvas, label, Offset(at.dx, mid.dy + r + 8), AppColors.ink3,
-          size);
+      _write(
+        canvas,
+        label,
+        Offset(at.dx, mid.dy + r + 8),
+        AppColors.ink3,
+        size,
+      );
     }
 
     if (link != Link.exclusive) {
@@ -101,26 +106,44 @@ class VennPainter extends CustomPainter {
           ..strokeWidth = 1.8,
       );
       canvas.restore();
-      _write(canvas, 'both', Offset(mid.dx, mid.dy - 7), AppColors.forest,
-          size);
+      _write(
+        canvas,
+        'both',
+        Offset(mid.dx, mid.dy - 7),
+        AppColors.forest,
+        size,
+      );
     } else {
-      _write(canvas, 'no overlap', Offset(mid.dx, mid.dy - 7), AppColors.ink3,
-          size);
+      _write(
+        canvas,
+        'no overlap',
+        Offset(mid.dx, mid.dy - 7),
+        AppColors.ink3,
+        size,
+      );
     }
 
-    _write(canvas, _rule, Offset(size.width / 2, size.height - 20),
-        AppColors.charcoal, size);
+    _write(
+      canvas,
+      _rule,
+      Offset(size.width / 2, size.height - 20),
+      AppColors.charcoal,
+      size,
+    );
   }
 
   String get _rule => switch (link) {
-        Link.exclusive => 'P(A or B) = P(A) + P(B)',
-        Link.independent => 'P(A and B) = P(A) x P(B)',
-        Link.dependent => 'P(A and B) = P(A) x P(B given A)',
-      };
+    Link.exclusive => 'P(A or B) = P(A) + P(B)',
+    Link.independent => 'P(A and B) = P(A) x P(B)',
+    Link.dependent => 'P(A and B) = P(A) x P(B given A)',
+  };
 
   void _write(Canvas canvas, String text, Offset at, Color colour, Size size) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 11, color: colour)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 11, color: colour),
+      ),
       textDirection: TextDirection.ltr,
     )..layout(maxWidth: size.width - 8);
     var x = at.dx - tp.width / 2;

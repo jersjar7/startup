@@ -61,7 +61,8 @@ const regionRounds = <RegionRound>[
     source: 'math-cpa-q3',
   ),
   RegionRound(
-    ask: 'A plot is bounded by these two edges and the line joining them. '
+    ask:
+        'A plot is bounded by these two edges and the line joining them. '
         'Which region do you hand in?',
     formula: r'\tfrac{1}{2}|\vec{u} \times \vec{v}|',
     u: Vec(4, 0),
@@ -74,7 +75,8 @@ const regionRounds = <RegionRound>[
     source: 'math-cpa-q3',
   ),
   RegionRound(
-    ask: 'Which region has area equal to the two lengths times the sine of '
+    ask:
+        'Which region has area equal to the two lengths times the sine of '
         'the angle between them?',
     formula: r'|\vec{u}||\vec{v}|\sin\theta',
     u: Vec(5, 1),
@@ -87,7 +89,8 @@ const regionRounds = <RegionRound>[
     source: 'math-cpa-q3',
   ),
   RegionRound(
-    ask: 'Which region would the two lengths multiplied together give, with '
+    ask:
+        'Which region would the two lengths multiplied together give, with '
         'no sine anywhere?',
     formula: r'|\vec{u}||\vec{v}|',
     u: Vec(5, 1),
@@ -100,7 +103,8 @@ const regionRounds = <RegionRound>[
     source: 'math-cpa-q3',
   ),
   RegionRound(
-    ask: 'These edges span 12 square meters between them. Which region is '
+    ask:
+        'These edges span 12 square meters between them. Which region is '
         'that?',
     formula: r'|\vec{u} \times \vec{v}| = 12',
     u: Vec(4, 0),

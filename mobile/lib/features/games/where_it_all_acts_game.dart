@@ -71,7 +71,12 @@ const actsRounds = <ActsRound>[
         'meter along every bit of it.',
     span: 4,
     load: Spread(0, 4, 3, 3, label: '3 kN/m'),
-    stations: [Station(1, '1'), Station(2, '2'), Station(3, '3'), Station(4, '4')],
+    stations: [
+      Station(1, '1'),
+      Station(2, '2'),
+      Station(3, '3'),
+      Station(4, '4'),
+    ],
     supports: [Support(Offset(0, 0), Prop.fixed)],
     why:
         'Two meters, the middle of the load. Twelve kilonewtons act there, so '
@@ -88,8 +93,16 @@ const actsRounds = <ActsRound>[
         'heaviest at the right.',
     span: 6,
     load: Spread(0, 6, 0, 4, label: 'up to 4 kN/m'),
-    stations: [Station(2, '2'), Station(3, '3'), Station(4, '4'), Station(5, '5')],
-    supports: [Support(Offset(0, 0), Prop.pin), Support(Offset(6, 0), Prop.roller)],
+    stations: [
+      Station(2, '2'),
+      Station(3, '3'),
+      Station(4, '4'),
+      Station(5, '5'),
+    ],
+    supports: [
+      Support(Offset(0, 0), Prop.pin),
+      Support(Offset(6, 0), Prop.roller),
+    ],
     why:
         'Four meters, a third of the way in from the heavy end. Most of a '
         'triangle is at its thick end, so its resultant sits there too. Three '
@@ -104,7 +117,12 @@ const actsRounds = <ActsRound>[
         'nothing at the tip.',
     span: 6,
     load: Spread(0, 6, 4, 0, label: 'from 4 kN/m'),
-    stations: [Station(2, '2'), Station(3, '3'), Station(4, '4'), Station(5, '5')],
+    stations: [
+      Station(2, '2'),
+      Station(3, '3'),
+      Station(4, '4'),
+      Station(5, '5'),
+    ],
     supports: [Support(Offset(0, 0), Prop.fixed)],
     why:
         'Two meters. Same triangle, turned around, and the answer moves with '
@@ -120,8 +138,16 @@ const actsRounds = <ActsRound>[
         'only, from two to six.',
     span: 8,
     load: Spread(2, 6, 2.5, 2.5, label: '2.5 kN/m'),
-    stations: [Station(2, '2'), Station(3, '3'), Station(4, '4'), Station(6, '6')],
-    supports: [Support(Offset(0, 0), Prop.pin), Support(Offset(8, 0), Prop.roller)],
+    stations: [
+      Station(2, '2'),
+      Station(3, '3'),
+      Station(4, '4'),
+      Station(6, '6'),
+    ],
+    supports: [
+      Support(Offset(0, 0), Prop.pin),
+      Support(Offset(8, 0), Prop.roller),
+    ],
     why:
         'Four meters, the middle of the LOAD. The middle of the beam is at four '
         'as well here, which makes this the one round where the lazy answer is '
@@ -142,7 +168,10 @@ const actsRounds = <ActsRound>[
       Station(7, '7'),
       Station(8, '8'),
     ],
-    supports: [Support(Offset(0, 0), Prop.pin), Support(Offset(9, 0), Prop.roller)],
+    supports: [
+      Support(Offset(0, 0), Prop.pin),
+      Support(Offset(9, 0), Prop.roller),
+    ],
     why:
         'Five and a half meters. Neither a rectangle nor a triangle, so neither '
         'the middle nor a third: the resultant sits between the two, pulled '
@@ -163,7 +192,10 @@ const actsRounds = <ActsRound>[
       Station(6, '6'),
       Station(8, '8'),
     ],
-    supports: [Support(Offset(0, 0), Prop.pin), Support(Offset(9, 0), Prop.roller)],
+    supports: [
+      Support(Offset(0, 0), Prop.pin),
+      Support(Offset(9, 0), Prop.roller),
+    ],
     why:
         'Three and a half meters, the mirror of the round before: the same '
         'distance in from the heavy end, which has swapped sides. Every one of '

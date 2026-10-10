@@ -27,7 +27,8 @@ Widget _app() {
       GoRoute(path: '/titles', builder: (_, _) => const TitlesScreen()),
       GoRoute(
         path: '/onboarding',
-        builder: (_, _) => const Scaffold(body: Center(child: Text('the tour'))),
+        builder: (_, _) =>
+            const Scaffold(body: Center(child: Text('the tour'))),
       ),
     ],
   );
@@ -124,7 +125,11 @@ void main() {
       final radius = tester.getSize(disc).width / 2;
       final covered = corners.every((c) => (c - centre).distance <= radius);
       if (find.text('the tour').evaluate().isNotEmpty) {
-        expect(covered, isTrue, reason: 'handed off at ${t}ms, disc still short');
+        expect(
+          covered,
+          isTrue,
+          reason: 'handed off at ${t}ms, disc still short',
+        );
       }
     }
     expect(sawDisc, isTrue);

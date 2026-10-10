@@ -22,8 +22,7 @@ class WhichStretchesMoreGame extends StatefulWidget {
   const WhichStretchesMoreGame({super.key});
 
   @override
-  State<WhichStretchesMoreGame> createState() =>
-      _WhichStretchesMoreGameState();
+  State<WhichStretchesMoreGame> createState() => _WhichStretchesMoreGameState();
 }
 
 @immutable
@@ -99,7 +98,10 @@ const moveMoreRounds = <StretchRound>[
       Bar(length: 2500, area: 300, load: 30000, stuff: Stuff.steel),
       Bar(length: 2500, area: 1200, load: 30000, stuff: Stuff.steel),
     ],
-    labels: ['2.5 m, 300 sq mm, steel, 30 kN', '2.5 m, 1200 sq mm, steel, 30 kN'],
+    labels: [
+      '2.5 m, 300 sq mm, steel, 30 kN',
+      '2.5 m, 1200 sq mm, steel, 30 kN',
+    ],
     why:
         'The thin one, four times as much. Area is underneath, so making a bar '
         'fatter makes it stretch less in proportion. Note how it is drawn: '
@@ -133,7 +135,10 @@ const moveMoreRounds = <StretchRound>[
       Bar(length: 1200, area: 400, load: 15000, stuff: Stuff.steel),
       Bar(length: 2400, area: 400, load: 30000, stuff: Stuff.steel),
     ],
-    labels: ['1.2 m, 400 sq mm, steel, 15 kN', '2.4 m, 400 sq mm, steel, 30 kN'],
+    labels: [
+      '1.2 m, 400 sq mm, steel, 15 kN',
+      '2.4 m, 400 sq mm, steel, 30 kN',
+    ],
     why:
         'The lower one, four times over. Both changes are on the top of the '
         'fraction, so they multiply rather than cancel. Two things moving at '
@@ -305,8 +310,7 @@ class _Pair extends StatelessWidget {
                       child: const SizedBox.expand(),
                     ),
                   ),
-                  for (var i = 0; i < round.bars.length; i++)
-                    _target(i, size),
+                  for (var i = 0; i < round.bars.length; i++) _target(i, size),
                 ],
               );
             },

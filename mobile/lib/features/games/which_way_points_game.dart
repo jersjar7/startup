@@ -232,7 +232,9 @@ class _WhichWayPointsGameState extends State<WhichWayPointsGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE SHAPE' : 'THE OTHER SHAPE',
+              title: _session.correct!
+                  ? 'THAT IS THE SHAPE'
+                  : 'THE OTHER SHAPE',
               body: r.why,
             ),
           ],

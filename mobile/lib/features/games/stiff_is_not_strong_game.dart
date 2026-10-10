@@ -34,6 +34,7 @@ class StiffRound {
 
   final String subject;
   final String asked;
+
   /// The two specimens on the axes: the stiffer one and the stronger one.
   final Specimen stiffer;
   final Specimen stronger;
@@ -69,8 +70,7 @@ const _aluminumAlloy = Specimen(
 const stiffRounds = <StiffRound>[
   StiffRound(
     subject: 'the strain from the numbers',
-    asked:
-        'A 50 mm gauge length stretches 0.125 mm. What is the strain?',
+    asked: 'A 50 mm gauge length stretches 0.125 mm. What is the strain?',
     stiffer: _castIron,
     stronger: _aluminumAlloy,
     options: [
@@ -282,10 +282,7 @@ class _StiffIsNotStrongGameState extends State<StiffIsNotStrongGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: PairPainter(
-                    left: r.stiffer,
-                    right: r.stronger,
-                  ),
+                  painter: PairPainter(left: r.stiffer, right: r.stronger),
                   child: const SizedBox.expand(),
                 ),
               ),

@@ -29,10 +29,10 @@ enum Carries { top, bottom, same }
 
 extension CarriesWords on Carries {
   String get plain => switch (this) {
-        Carries.top => 'Main A, the top one',
-        Carries.bottom => 'Main B, the bottom one',
-        Carries.same => 'Neither: the same flow',
-      };
+    Carries.top => 'Main A, the top one',
+    Carries.bottom => 'Main B, the bottom one',
+    Carries.same => 'Neither: the same flow',
+  };
 }
 
 @immutable
@@ -265,7 +265,9 @@ class _SmootherOrRougherGameState extends State<SmootherOrRougherGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE SMOOTHER ONE' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS THE SMOOTHER ONE'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

@@ -26,10 +26,10 @@ enum Fix { add, subtract, nothing }
 
 extension FixWords on Fix {
   String get plain => switch (this) {
-        Fix.add => 'Add 101.3 kPa',
-        Fix.subtract => 'Subtract 101.3 kPa',
-        Fix.nothing => 'Nothing: it is already what was asked for',
-      };
+    Fix.add => 'Add 101.3 kPa',
+    Fix.subtract => 'Subtract 101.3 kPa',
+    Fix.nothing => 'Nothing: it is already what was asked for',
+  };
 }
 
 @immutable
@@ -99,9 +99,11 @@ const gaugeRounds = <GaugeRound>[
   ),
   GaugeRound(
     subject: 'a number quoted the other way',
-    have: 'A specification gives the pressure at a valve as 146.3 kPa '
+    have:
+        'A specification gives the pressure at a valve as 146.3 kPa '
         'absolute.',
-    wanted: 'You need the gauge pressure, which is what the valve is rated '
+    wanted:
+        'You need the gauge pressure, which is what the valve is rated '
         'in.',
     answer: Fix.subtract,
     why:
@@ -222,21 +224,32 @@ class _GaugeOrAbsoluteGameState extends State<GaugeOrAbsoluteGame> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('YOU HAVE', style: AppTheme.overline(color: AppColors.ink3)),
+                Text(
+                  'YOU HAVE',
+                  style: AppTheme.overline(color: AppColors.ink3),
+                ),
                 const SizedBox(height: 4),
                 Text(
                   r.have,
                   style: const TextStyle(
-                      fontSize: 14.5, height: 1.45, color: AppColors.charcoal),
+                    fontSize: 14.5,
+                    height: 1.45,
+                    color: AppColors.charcoal,
+                  ),
                 ),
                 const SizedBox(height: 10),
-                Text('THE QUESTION WANTS',
-                    style: AppTheme.overline(color: AppColors.ember)),
+                Text(
+                  'THE QUESTION WANTS',
+                  style: AppTheme.overline(color: AppColors.ember),
+                ),
                 const SizedBox(height: 4),
                 Text(
                   r.wanted,
                   style: const TextStyle(
-                      fontSize: 14.5, height: 1.45, color: AppColors.charcoal),
+                    fontSize: 14.5,
+                    height: 1.45,
+                    color: AppColors.charcoal,
+                  ),
                 ),
               ],
             ),

@@ -102,8 +102,7 @@ const tipRounds = <TipRound>[
   ),
   TipRound(
     subject: 'the term that does the tilting',
-    asked:
-        'In the toe pressure formula, what is the 6e/B part doing?',
+    asked: 'In the toe pressure formula, what is the 6e/B part doing?',
     wall: _offCenter,
     options: [
       'Converting the force into a pressure',
@@ -266,10 +265,7 @@ class _WhatTipsThePressureGameState extends State<WhatTipsThePressureGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: BasePainter(
-                    wall: r.wall,
-                    answered: answered,
-                  ),
+                  painter: BasePainter(wall: r.wall, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

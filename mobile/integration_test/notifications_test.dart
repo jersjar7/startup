@@ -31,7 +31,9 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  testWidgets('the operating system accepts the whole schedule', (tester) async {
+  testWidgets('the operating system accepts the whole schedule', (
+    tester,
+  ) async {
     final n = Notifications();
     await n.init();
     await n.setEnabled(true); // the dialog cannot be answered here, see above
@@ -47,8 +49,12 @@ void main() {
       now: DateTime.now(),
       examDay: exam.toIso8601String().substring(0, 10),
     );
-    expect(pending.length, planned.length,
-        reason: 'the operating system kept ${pending.length} of ${planned.length}');
+    expect(
+      pending.length,
+      planned.length,
+      reason:
+          'the operating system kept ${pending.length} of ${planned.length}',
+    );
     expect(pending.length, lessThanOrEqualTo(64));
 
     final ids = pending.map((p) => p.id).toSet();
@@ -76,9 +82,12 @@ void main() {
     final n = Notifications();
     await n.init();
     await n.setEnabled(true);
-    await n.rearm(examDay: DateTime.now().add(const Duration(days: 30))
-        .toIso8601String()
-        .substring(0, 10));
+    await n.rearm(
+      examDay: DateTime.now()
+          .add(const Duration(days: 30))
+          .toIso8601String()
+          .substring(0, 10),
+    );
     expect(await n.pending(), isNotEmpty);
 
     await n.setEnabled(false);
@@ -89,7 +98,8 @@ void main() {
     final n = Notifications();
     await n.init();
     await n.setEnabled(true);
-    final day = DateTime.now().add(const Duration(days: 30))
+    final day = DateTime.now()
+        .add(const Duration(days: 30))
         .toIso8601String()
         .substring(0, 10);
 
@@ -97,7 +107,10 @@ void main() {
     final first = (await n.pending()).length;
     await n.rearm(examDay: day);
     await n.rearm(examDay: day);
-    expect((await n.pending()).length, first,
-        reason: 'arming three times left more than one copy');
+    expect(
+      (await n.pending()).length,
+      first,
+      reason: 'arming three times left more than one copy',
+    );
   });
 }

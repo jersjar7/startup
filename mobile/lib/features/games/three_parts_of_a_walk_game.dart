@@ -17,8 +17,7 @@ class ThreePartsOfAWalkGame extends StatefulWidget {
   const ThreePartsOfAWalkGame({super.key});
 
   @override
-  State<ThreePartsOfAWalkGame> createState() =>
-      _ThreePartsOfAWalkGameState();
+  State<ThreePartsOfAWalkGame> createState() => _ThreePartsOfAWalkGameState();
 }
 
 @immutable
@@ -133,8 +132,7 @@ const greenRounds = <GreenRound>[
   ),
   GreenRound(
     subject: 'a wider road',
-    asked:
-        'This crossing is 90 ft rather than 56. Which piece grows?',
+    asked: 'This crossing is 90 ft rather than 56. Which piece grows?',
     walk: _wide,
     options: [
       'The start-up',
@@ -258,10 +256,7 @@ class _ThreePartsOfAWalkGameState extends State<ThreePartsOfAWalkGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: WalkPainter(
-                    walk: r.walk,
-                    answered: answered,
-                  ),
+                  painter: WalkPainter(walk: r.walk, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

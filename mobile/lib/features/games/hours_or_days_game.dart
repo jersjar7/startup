@@ -28,10 +28,10 @@ enum Stay { water, solids, neither }
 
 extension StayWords on Stay {
   String get plain => switch (this) {
-        Stay.water => 'The hydraulic time: the water, in hours',
-        Stay.solids => 'The solids time: the sludge, in days',
-        Stay.neither => 'Neither of those',
-      };
+    Stay.water => 'The hydraulic time: the water, in hours',
+    Stay.solids => 'The solids time: the sludge, in days',
+    Stay.neither => 'Neither of those',
+  };
 }
 
 @immutable
@@ -51,10 +51,10 @@ class ClockRound {
   final String source;
 
   Loop2? get highlight => switch (answer) {
-        Stay.water => Loop2.water,
-        Stay.solids => Loop2.solids,
-        Stay.neither => null,
-      };
+    Stay.water => Loop2.water,
+    Stay.solids => Loop2.solids,
+    Stay.neither => null,
+  };
 }
 
 const twoClockRounds = <ClockRound>[

@@ -45,11 +45,11 @@ class GammaRound {
   final String source;
 
   static String label(Gamma which) => switch (which) {
-        Gamma.dry => 'The dry unit weight',
-        Gamma.total => 'The unit weight as the sample stands',
-        Gamma.saturated => 'The saturated unit weight',
-        Gamma.submerged => 'The submerged unit weight',
-      };
+    Gamma.dry => 'The dry unit weight',
+    Gamma.total => 'The unit weight as the sample stands',
+    Gamma.saturated => 'The saturated unit weight',
+    Gamma.submerged => 'The submerged unit weight',
+  };
 }
 
 const gammaRounds = <GammaRound>[

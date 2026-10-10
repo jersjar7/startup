@@ -237,7 +237,10 @@ class _WhereItPeaksGameState extends State<WhereItPeaksGame> {
                         int? hit;
                         for (var i = 0; i < r.spots.length; i++) {
                           final at = BeamPainter.stationAt(
-                              size, r.beam.span, r.spots[i]);
+                            size,
+                            r.beam.span,
+                            r.spots[i],
+                          );
                           final gap = (at - details.localPosition).distance;
                           if (gap < best) {
                             best = gap;
@@ -263,7 +266,7 @@ class _WhereItPeaksGameState extends State<WhereItPeaksGame> {
                               p.$1,
                               i < r.loadLabels.length
                                   ? r.loadLabels[i]
-                                  : kn(p.$2)
+                                  : kn(p.$2),
                             ),
                         ],
                         stations: [

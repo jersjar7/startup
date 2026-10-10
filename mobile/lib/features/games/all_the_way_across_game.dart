@@ -43,16 +43,13 @@ class ClearanceRound {
 
 /// The lesson's own crossing: 60 ft wide, a 20 ft vehicle at 50 mph, which
 /// comes to 1.1 seconds.
-const _theCrossing =
-    Clearance(width: 60, vehicleLength: 20, speedMph: 50);
+const _theCrossing = Clearance(width: 60, vehicleLength: 20, speedMph: 50);
 
 /// A wide crossing at a slower speed, where the all-red is much longer.
-const _wideAndSlow =
-    Clearance(width: 120, vehicleLength: 20, speedMph: 25);
+const _wideAndSlow = Clearance(width: 120, vehicleLength: 20, speedMph: 25);
 
 /// A long truck on the lesson's crossing.
-const _withATruck =
-    Clearance(width: 60, vehicleLength: 65, speedMph: 50);
+const _withATruck = Clearance(width: 60, vehicleLength: 65, speedMph: 50);
 
 const clearanceRounds = <ClearanceRound>[
   ClearanceRound(
@@ -233,10 +230,7 @@ class _AllTheWayAcrossGameState extends State<AllTheWayAcrossGame> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'THE ALL-RED',
-            style: AppTheme.overline(color: AppColors.ember),
-          ),
+          Text('THE ALL-RED', style: AppTheme.overline(color: AppColors.ember)),
           const SizedBox(height: 6),
           Text(
             r.subject,

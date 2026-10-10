@@ -57,7 +57,11 @@ bool shouldAskOutcome(Map<String, dynamic>? user, DateTime now) {
   final put = (user['examOutcomeSnoozes'] as int?) ?? 0;
   if (put >= outcomeAskDays.length) return false;
 
-  final due = DateTime.utc(exam.year, exam.month, exam.day + outcomeAskDays[put]);
+  final due = DateTime.utc(
+    exam.year,
+    exam.month,
+    exam.day + outcomeAskDays[put],
+  );
   return _today(now).compareTo(_today(due)) >= 0;
 }
 
@@ -148,13 +152,15 @@ class _ExamOutcomeCardState extends State<ExamOutcomeCard> {
       // diagnose and naming one would be a panel the copy never refers to.
       return const _Ending(
         heading: 'That happens.',
-        body: 'Plenty of people move their date. Set a new one and the app '
+        body:
+            'Plenty of people move their date. Set a new one and the app '
             'will pick the work back up around it.',
       );
     }
     return _Ending(
       heading: 'Then the next one is the one that counts.',
-      body: 'Only about a third of repeat takers pass, and the usual reason is '
+      body:
+          'Only about a third of repeat takers pass, and the usual reason is '
           'that nothing changed about how they studied. Here is the part that '
           'was costing you the most.',
       weakest: weakest,
@@ -189,7 +195,10 @@ class _ExamOutcomeCardState extends State<ExamOutcomeCard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('WHAT NOW', style: AppTheme.eyebrow(size: 11, color: AppColors.ink2)),
+        Text(
+          'WHAT NOW',
+          style: AppTheme.eyebrow(size: 11, color: AppColors.ink2),
+        ),
         const SizedBox(height: 12),
         Text(e.heading, style: AppTheme.display(size: 26, height: 1.08)),
         const SizedBox(height: 8),
@@ -238,8 +247,11 @@ class _ExamOutcomeCardState extends State<ExamOutcomeCard> {
             onTap: widget.onDone,
             child: Text(
               'Not now',
-              style: AppTheme.body(size: 14, color: AppColors.ink2, weight: FontWeight.w600)
-                  .copyWith(decoration: TextDecoration.underline),
+              style: AppTheme.body(
+                size: 14,
+                color: AppColors.ink2,
+                weight: FontWeight.w600,
+              ).copyWith(decoration: TextDecoration.underline),
             ),
           ),
         ),
@@ -255,115 +267,140 @@ class _ExamOutcomeCardState extends State<ExamOutcomeCard> {
         color: AppColors.butter,
         borderRadius: BorderRadius.circular(32),
       ),
-      child: _ending != null ? _buildEnding(_ending!) : Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'HOW DID IT GO?',
-                  style: AppTheme.eyebrow(size: 11, color: AppColors.ink2),
-                ),
-              ),
-              if (widget.dismissible)
-                GestureDetector(
-                  onTap: _busy ? null : _snooze,
-                  child: Icon(Icons.close, size: 20, color: AppColors.ink2),
-                ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          if (!_askingAttempt) ...[
-            Text(
-              'Your exam has been and gone.',
-              style: AppTheme.display(size: 26, height: 1.08),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Telling us is how we learn which study patterns actually lead to '
-              'a pass, which makes this better for everyone sitting it after you.',
-              style: AppTheme.body(size: 14, color: AppColors.ink2, height: 1.5),
-            ),
-            const SizedBox(height: 18),
-            Row(
+      child: _ending != null
+          ? _buildEnding(_ending!)
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: _Choice(
-                    label: 'I passed',
-                    onTap: _busy
-                        ? null
-                        : () => setState(() {
-                            _passed = true;
-                            _askingAttempt = true;
-                          }),
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'HOW DID IT GO?',
+                        style: AppTheme.eyebrow(
+                          size: 11,
+                          color: AppColors.ink2,
+                        ),
+                      ),
+                    ),
+                    if (widget.dismissible)
+                      GestureDetector(
+                        onTap: _busy ? null : _snooze,
+                        child: Icon(
+                          Icons.close,
+                          size: 20,
+                          color: AppColors.ink2,
+                        ),
+                      ),
+                  ],
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _Choice(
-                    label: 'Not this time',
-                    onTap: _busy
-                        ? null
-                        : () => setState(() {
-                            _passed = false;
-                            _askingAttempt = true;
-                          }),
+                const SizedBox(height: 12),
+                if (!_askingAttempt) ...[
+                  Text(
+                    'Your exam has been and gone.',
+                    style: AppTheme.display(size: 26, height: 1.08),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: _busy ? null : () => _answer(sat: false),
-                  child: Text(
-                    'I did not sit it',
+                  const SizedBox(height: 8),
+                  Text(
+                    'Telling us is how we learn which study patterns actually lead to '
+                    'a pass, which makes this better for everyone sitting it after you.',
                     style: AppTheme.body(
                       size: 14,
                       color: AppColors.ink2,
-                      weight: FontWeight.w600,
-                    ).copyWith(decoration: TextDecoration.underline),
+                      height: 1.5,
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 18),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _Choice(
+                          label: 'I passed',
+                          onTap: _busy
+                              ? null
+                              : () => setState(() {
+                                  _passed = true;
+                                  _askingAttempt = true;
+                                }),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: _Choice(
+                          label: 'Not this time',
+                          onTap: _busy
+                              ? null
+                              : () => setState(() {
+                                  _passed = false;
+                                  _askingAttempt = true;
+                                }),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: _busy ? null : () => _answer(sat: false),
+                        child: Text(
+                          'I did not sit it',
+                          style: AppTheme.body(
+                            size: 14,
+                            color: AppColors.ink2,
+                            weight: FontWeight.w600,
+                          ).copyWith(decoration: TextDecoration.underline),
+                        ),
+                      ),
+                    ],
+                  ),
+                ] else ...[
+                  Text(
+                    _passed ? 'Congratulations.' : 'Thank you for saying.',
+                    style: AppTheme.display(size: 26, height: 1.08),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    _passed
+                        ? 'One last thing: which attempt was it?'
+                        : 'The repeat population is studied far less than the first-time '
+                              'one. Which attempt was this?',
+                    style: AppTheme.body(
+                      size: 14,
+                      color: AppColors.ink2,
+                      height: 1.5,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      for (final n in [1, 2, 3])
+                        _Choice(
+                          label: n == 1
+                              ? 'First'
+                              : (n == 2 ? 'Second' : 'Third or more'),
+                          onTap: _busy
+                              ? null
+                              : () => _answer(
+                                  sat: true,
+                                  passed: _passed,
+                                  attempt: n,
+                                ),
+                        ),
+                      _Choice(
+                        label: 'Rather not say',
+                        onTap: _busy
+                            ? null
+                            : () => _answer(sat: true, passed: _passed),
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
-          ] else ...[
-            Text(
-              _passed ? 'Congratulations.' : 'Thank you for saying.',
-              style: AppTheme.display(size: 26, height: 1.08),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              _passed
-                  ? 'One last thing: which attempt was it?'
-                  : 'The repeat population is studied far less than the first-time '
-                        'one. Which attempt was this?',
-              style: AppTheme.body(size: 14, color: AppColors.ink2, height: 1.5),
-            ),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                for (final n in [1, 2, 3])
-                  _Choice(
-                    label: n == 1 ? 'First' : (n == 2 ? 'Second' : 'Third or more'),
-                    onTap: _busy
-                        ? null
-                        : () => _answer(sat: true, passed: _passed, attempt: n),
-                  ),
-                _Choice(
-                  label: 'Rather not say',
-                  onTap: _busy ? null : () => _answer(sat: true, passed: _passed),
-                ),
-              ],
-            ),
-          ],
-        ],
-      ),
     );
   }
 }

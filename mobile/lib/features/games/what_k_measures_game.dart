@@ -45,8 +45,7 @@ class SupportRound {
 const supportRounds = <SupportRound>[
   SupportRound(
     subject: 'what the number describes',
-    asked:
-        'The modulus of subgrade reaction, k, describes the subgrade how?',
+    asked: 'The modulus of subgrade reaction, k, describes the subgrade how?',
     stiffness: 200,
     options: [
       'How strong it is before it fails',
@@ -82,8 +81,7 @@ const supportRounds = <SupportRound>[
   ),
   SupportRound(
     subject: 'a soft one',
-    asked:
-        'This subgrade has a low k. What does the slab do over it?',
+    asked: 'This subgrade has a low k. What does the slab do over it?',
     stiffness: 90,
     options: [
       'It settles evenly and nothing else happens',

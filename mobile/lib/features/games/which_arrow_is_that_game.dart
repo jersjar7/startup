@@ -348,13 +348,13 @@ class _Figure extends StatelessWidget {
                       onTapUp: onTap == null
                           ? null
                           : (details) => onTap!(
-                                ForceTrianglePainter.nearestArrow(
-                                  round.dx,
-                                  round.dy,
-                                  size,
-                                  details.localPosition,
-                                ),
+                              ForceTrianglePainter.nearestArrow(
+                                round.dx,
+                                round.dy,
+                                size,
+                                details.localPosition,
                               ),
+                            ),
                       child: const SizedBox.expand(),
                     );
                   },

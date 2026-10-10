@@ -66,30 +66,46 @@ class SoilPainter extends CustomPainter {
     var guard = 0;
     while (covered < want && guard++ < 600) {
       final r = 4.0 + seed.nextDouble() * 7;
-      final c = Offset(left + r + seed.nextDouble() * (right - left - 2 * r),
-          top + r + seed.nextDouble() * (bottom - top - 2 * r));
+      final c = Offset(
+        left + r + seed.nextDouble() * (right - left - 2 * r),
+        top + r + seed.nextDouble() * (bottom - top - 2 * r),
+      );
       canvas
         ..drawCircle(c, r, Paint()..color = AppColors.cream)
         ..drawCircle(
-            c,
-            r,
-            Paint()
-              ..color = AppColors.ink3
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1);
+          c,
+          r,
+          Paint()
+            ..color = AppColors.ink3
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1,
+        );
       covered += math.pi * r * r * 0.72;
     }
     canvas.drawRect(
-        block,
-        Paint()
-          ..color = AppColors.charcoal
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.6);
+      block,
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.6,
+    );
 
-    writeOn(canvas, size, 'porosity ${seep.porosity}', Offset(left, top - 16),
-        AppColors.ink2, fontSize: 9.5);
-    writeOn(canvas, size, 'face ${_num(seep.area)} m2',
-        Offset(right - 74, top - 16), AppColors.ink2, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'porosity ${seep.porosity}',
+      Offset(left, top - 16),
+      AppColors.ink2,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'face ${_num(seep.area)} m2',
+      Offset(right - 74, top - 16),
+      AppColors.ink2,
+      fontSize: 9.5,
+    );
 
     // The two speeds, to one scale, in the clear strip under the block.
     final room = (right - left) * 0.42;
@@ -98,18 +114,20 @@ class SoilPainter extends CustomPainter {
       final to = left + 78 + room * speed / most;
       canvas
         ..drawLine(
-            Offset(left + 78, y),
-            Offset(to, y),
-            Paint()
-              ..color = tone
-              ..strokeWidth = 2.6)
+          Offset(left + 78, y),
+          Offset(to, y),
+          Paint()
+            ..color = tone
+            ..strokeWidth = 2.6,
+        )
         ..drawPath(
-            Path()
-              ..moveTo(to + 6, y)
-              ..lineTo(to - 2, y - 4.5)
-              ..lineTo(to - 2, y + 4.5)
-              ..close(),
-            Paint()..color = tone);
+          Path()
+            ..moveTo(to + 6, y)
+            ..lineTo(to - 2, y - 4.5)
+            ..lineTo(to - 2, y + 4.5)
+            ..close(),
+          Paint()..color = tone,
+        );
       writeOn(canvas, size, text, Offset(left, y - 5), tone, fontSize: 9.5);
     }
 
@@ -117,15 +135,22 @@ class SoilPainter extends CustomPainter {
       arrow(bottom + 16, seep.darcy, AppColors.ink3, 'Darcy q');
       arrow(bottom + 34, seep.seepage, AppColors.forest, 'seepage v');
     } else {
-      writeOn(canvas, size, 'gradient ${seep.gradient}',
-          Offset(left, bottom + 12), AppColors.ink2, fontSize: 9.5);
       writeOn(
-          canvas,
-          size,
-          'K ${seep.conductivity.toStringAsExponential(0)} m/s',
-          Offset(left + 110, bottom + 12),
-          AppColors.ink2,
-          fontSize: 9.5);
+        canvas,
+        size,
+        'gradient ${seep.gradient}',
+        Offset(left, bottom + 12),
+        AppColors.ink2,
+        fontSize: 9.5,
+      );
+      writeOn(
+        canvas,
+        size,
+        'K ${seep.conductivity.toStringAsExponential(0)} m/s',
+        Offset(left + 110, bottom + 12),
+        AppColors.ink2,
+        fontSize: 9.5,
+      );
     }
 
     viewTag(canvas, size, Looking.section, note: 'through the aquifer');
@@ -189,16 +214,15 @@ class Aquifer {
     double? headAtWell,
     double? radiusOut,
     double? thickness,
-  }) =>
-      Aquifer(
-        kind: kind,
-        conductivity: conductivity ?? this.conductivity,
-        headAtWell: headAtWell ?? this.headAtWell,
-        radiusAtWell: radiusAtWell,
-        headOut: headOut,
-        radiusOut: radiusOut ?? this.radiusOut,
-        thickness: thickness ?? this.thickness,
-      );
+  }) => Aquifer(
+    kind: kind,
+    conductivity: conductivity ?? this.conductivity,
+    headAtWell: headAtWell ?? this.headAtWell,
+    radiusAtWell: radiusAtWell,
+    headOut: headOut,
+    radiusOut: radiusOut ?? this.radiusOut,
+    thickness: thickness ?? this.thickness,
+  );
 }
 
 /// The well and its cone of depression, cut through. A confined aquifer
@@ -220,13 +244,20 @@ class AquiferPainter extends CustomPainter {
 
     // The aquifer bottom, which every head is measured from.
     canvas.drawLine(
-        Offset(8, bedY),
-        Offset(right, bedY),
-        Paint()
-          ..color = AppColors.ink2
-          ..strokeWidth = 2);
-    writeOn(canvas, size, 'aquifer bottom', Offset(10, bedY + 3),
-        AppColors.ink3, fontSize: 9);
+      Offset(8, bedY),
+      Offset(right, bedY),
+      Paint()
+        ..color = AppColors.ink2
+        ..strokeWidth = 2,
+    );
+    writeOn(
+      canvas,
+      size,
+      'aquifer bottom',
+      Offset(10, bedY + 3),
+      AppColors.ink3,
+      fontSize: 9,
+    );
 
     double yFor(double head) =>
         bedY - depth * 0.80 * head / math.max(aquifer.headOut * 1.12, 1);
@@ -236,9 +267,11 @@ class AquiferPainter extends CustomPainter {
     final path = Path();
     for (var i = 0; i <= 60; i++) {
       final t = i / 60;
-      final r = aquifer.radiusAtWell *
+      final r =
+          aquifer.radiusAtWell *
           math.pow(aquifer.radiusOut / aquifer.radiusAtWell, t);
-      final head = aquifer.headAtWell +
+      final head =
+          aquifer.headAtWell +
           (aquifer.headOut - aquifer.headAtWell) *
               math.log(r / aquifer.radiusAtWell) /
               math.log(aquifer.radiusOut / aquifer.radiusAtWell);
@@ -260,14 +293,20 @@ class AquiferPainter extends CustomPainter {
       canvas
         ..drawPath(wet, waterFill)
         ..drawPath(
-            path,
-            Paint()
-              ..color = AppColors.info
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2);
-      writeOn(canvas, size, 'water table',
-          Offset(right - 84, yFor(aquifer.headOut) - 15), AppColors.info,
-          fontSize: 9);
+          path,
+          Paint()
+            ..color = AppColors.info
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2,
+        );
+      writeOn(
+        canvas,
+        size,
+        'water table',
+        Offset(right - 84, yFor(aquifer.headOut) - 15),
+        AppColors.info,
+        fontSize: 9,
+      );
       groundLine(canvas, const Offset(8, 30), Offset(right, 30));
     } else {
       // Confined: the aquifer is saturated to the underside of the clay and
@@ -280,63 +319,99 @@ class AquiferPainter extends CustomPainter {
       final capBottom = yFor(aquifer.thickness);
       final capTop = capBottom - 15;
       canvas.drawRect(Rect.fromLTRB(8, capBottom, right, bedY), waterFill);
-      final cap = Path()
-        ..addRect(Rect.fromLTRB(8, capTop, right, capBottom));
+      final cap = Path()..addRect(Rect.fromLTRB(8, capTop, right, capBottom));
       hatchIn(canvas, cap, step: 5, color: AppColors.charcoal);
       canvas
         ..drawPath(
-            cap,
-            Paint()
-              ..color = AppColors.charcoal
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.4)
+          cap,
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.4,
+        )
         ..drawPath(
-            path,
-            Paint()
-              ..color = AppColors.info
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2);
-      writeOn(canvas, size, 'clay: the aquifer is confined',
-          Offset(72, capTop + 1), AppColors.charcoal, fontSize: 9);
-      writeOn(canvas, size, 'where water would STAND',
-          Offset(right - 190, yFor(aquifer.headOut) - 15), AppColors.info,
-          fontSize: 9);
+          path,
+          Paint()
+            ..color = AppColors.info
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2,
+        );
+      writeOn(
+        canvas,
+        size,
+        'clay: the aquifer is confined',
+        Offset(72, capTop + 1),
+        AppColors.charcoal,
+        fontSize: 9,
+      );
+      writeOn(
+        canvas,
+        size,
+        'where water would STAND',
+        Offset(right - 190, yFor(aquifer.headOut) - 15),
+        AppColors.info,
+        fontSize: 9,
+      );
       // A standpipe at the far reading, showing what that line means.
       final pipeX = right - 34;
       final standAt = yFor(aquifer.headOut);
       canvas
-        ..drawRect(Rect.fromLTRB(pipeX - 5, standAt - 6, pipeX + 5, capBottom),
-            Paint()..color = AppColors.cream)
         ..drawRect(
-            Rect.fromLTRB(pipeX - 5, standAt, pipeX + 5, bedY), waterFill)
-        ..drawLine(Offset(pipeX - 5, standAt - 6), Offset(pipeX - 5, bedY),
-            Paint()
-              ..color = AppColors.ink2
-              ..strokeWidth = 1.4)
-        ..drawLine(Offset(pipeX + 5, standAt - 6), Offset(pipeX + 5, bedY),
-            Paint()
-              ..color = AppColors.ink2
-              ..strokeWidth = 1.4);
+          Rect.fromLTRB(pipeX - 5, standAt - 6, pipeX + 5, capBottom),
+          Paint()..color = AppColors.cream,
+        )
+        ..drawRect(
+          Rect.fromLTRB(pipeX - 5, standAt, pipeX + 5, bedY),
+          waterFill,
+        )
+        ..drawLine(
+          Offset(pipeX - 5, standAt - 6),
+          Offset(pipeX - 5, bedY),
+          Paint()
+            ..color = AppColors.ink2
+            ..strokeWidth = 1.4,
+        )
+        ..drawLine(
+          Offset(pipeX + 5, standAt - 6),
+          Offset(pipeX + 5, bedY),
+          Paint()
+            ..color = AppColors.ink2
+            ..strokeWidth = 1.4,
+        );
     }
 
     // The well itself.
     canvas
-      ..drawRect(Rect.fromLTRB(wellX - 7, 22, wellX + 7, bedY),
-          Paint()..color = AppColors.cream)
-      ..drawLine(Offset(wellX - 7, 22), Offset(wellX - 7, bedY),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 1.8)
-      ..drawLine(Offset(wellX + 7, 22), Offset(wellX + 7, bedY),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 1.8)
       ..drawRect(
-          Rect.fromLTRB(
-              wellX - 7, yFor(aquifer.headAtWell), wellX + 7, bedY),
-          waterFill);
-    writeOn(canvas, size, 'pumped', Offset(wellX - 20, 8), AppColors.charcoal,
-        fontSize: 9);
+        Rect.fromLTRB(wellX - 7, 22, wellX + 7, bedY),
+        Paint()..color = AppColors.cream,
+      )
+      ..drawLine(
+        Offset(wellX - 7, 22),
+        Offset(wellX - 7, bedY),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 1.8,
+      )
+      ..drawLine(
+        Offset(wellX + 7, 22),
+        Offset(wellX + 7, bedY),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 1.8,
+      )
+      ..drawRect(
+        Rect.fromLTRB(wellX - 7, yFor(aquifer.headAtWell), wellX + 7, bedY),
+        waterFill,
+      );
+    writeOn(
+      canvas,
+      size,
+      'pumped',
+      Offset(wellX - 20, 8),
+      AppColors.charcoal,
+      fontSize: 9,
+    );
 
     // The two readings.
     for (final (x, head, label) in [
@@ -344,32 +419,52 @@ class AquiferPainter extends CustomPainter {
       (right - 4, aquifer.headOut, 'h2 ${_num(aquifer.headOut)}'),
     ]) {
       canvas.drawLine(
-          Offset(x, yFor(head)),
-          Offset(x, bedY),
-          Paint()
-            ..color = AppColors.ember
-            ..strokeWidth = 1.2);
-      writeOn(canvas, size, label, Offset(x - 26, (yFor(head) + bedY) / 2 - 6),
-          AppColors.ember, fontSize: 9.5);
+        Offset(x, yFor(head)),
+        Offset(x, bedY),
+        Paint()
+          ..color = AppColors.ember
+          ..strokeWidth = 1.2,
+      );
+      writeOn(
+        canvas,
+        size,
+        label,
+        Offset(x - 26, (yFor(head) + bedY) / 2 - 6),
+        AppColors.ember,
+        fontSize: 9.5,
+      );
     }
-    writeOn(canvas, size, 'r2 ${_num(aquifer.radiusOut)}',
-        Offset(right - 60, bedY - 14), AppColors.ink3, fontSize: 9);
+    writeOn(
+      canvas,
+      size,
+      'r2 ${_num(aquifer.radiusOut)}',
+      Offset(right - 60, bedY - 14),
+      AppColors.ink3,
+      fontSize: 9,
+    );
     // The head follows the LOG of the distance, so the sheet is spaced that
     // way and says so: on a linear axis this curve would be a hook, with
     // nearly all of the drawdown crammed against the well.
-    writeOn(canvas, size, 'distance from the well, log spaced',
-        Offset(size.width - 176, bedY + 3), AppColors.ink3, fontSize: 8.5);
+    writeOn(
+      canvas,
+      size,
+      'distance from the well, log spaced',
+      Offset(size.width - 176, bedY + 3),
+      AppColors.ink3,
+      fontSize: 8.5,
+    );
 
     if (showFormula) {
       writeOn(
-          canvas,
-          size,
-          aquifer.kind == Ground.unconfined
-              ? 'Dupuit: heads squared'
-              : 'Thiem: heads as they are',
-          Offset(8, size.height - 16),
-          AppColors.forest,
-          fontSize: 9.5);
+        canvas,
+        size,
+        aquifer.kind == Ground.unconfined
+            ? 'Dupuit: heads squared'
+            : 'Thiem: heads as they are',
+        Offset(8, size.height - 16),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
     }
     viewTag(canvas, size, Looking.section, note: 'through the well');
   }

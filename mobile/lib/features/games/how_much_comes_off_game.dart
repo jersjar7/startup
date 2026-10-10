@@ -137,8 +137,7 @@ const reduceRounds = <ReduceRound>[
   ),
   ReduceRound(
     subject: 'the other loads',
-    asked:
-        'May the dead load on the same column be reduced the same way?',
+    asked: 'May the dead load on the same column be reduced the same way?',
     left: Tributary(area: 800, column: true),
     options: [
       'No: the reduction is for live load only',
@@ -157,8 +156,7 @@ const reduceRounds = <ReduceRound>[
   ),
   ReduceRound(
     subject: 'why a column gets more',
-    asked:
-        'Why does the rule hand a column a K of 4 where a beam gets 2?',
+    asked: 'Why does the rule hand a column a K of 4 where a beam gets 2?',
     left: Tributary(area: 600, column: true),
     right: Tributary(area: 600, column: false),
     options: [

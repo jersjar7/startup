@@ -58,8 +58,9 @@ class EarnsRound {
       first.biggest > second.biggest ? first.biggest : second.biggest;
 
   /// And one time span, or they lie about waiting.
-  int get periods =>
-      first.lastPeriod > second.lastPeriod ? first.lastPeriod : second.lastPeriod;
+  int get periods => first.lastPeriod > second.lastPeriod
+      ? first.lastPeriod
+      : second.lastPeriod;
 }
 
 const earnsRounds = <EarnsRound>[

@@ -264,13 +264,17 @@ class _WhatTheTableGivesYouGameState extends State<WhatTheTableGivesYouGame> {
                   MathText(
                     r'$\phi_c P_n = (\phi_c F_{cr}) \times A_g$',
                     style: const TextStyle(
-                        fontSize: 15, color: AppColors.charcoal),
+                      fontSize: 15,
+                      color: AppColors.charcoal,
+                    ),
                   ),
                   const SizedBox(height: 6),
                   MathText(
                     r'$\text{slenderness} = KL/r, \; \text{both in inches}$',
                     style: const TextStyle(
-                        fontSize: 15, color: AppColors.charcoal),
+                      fontSize: 15,
+                      color: AppColors.charcoal,
+                    ),
                   ),
                 ],
               ),

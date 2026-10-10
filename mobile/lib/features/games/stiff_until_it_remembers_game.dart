@@ -45,11 +45,22 @@ class IndexRound {
 }
 
 const _overconsolidated = Squeeze(
-    now: 800, remembered: 1800, added: 400, cc: 0.40, cr: 0.065,
-    thickness: 12, voidRatio: 1.10);
+  now: 800,
+  remembered: 1800,
+  added: 400,
+  cc: 0.40,
+  cr: 0.065,
+  thickness: 12,
+  voidRatio: 1.10,
+);
 
-const _normally =
-    Squeeze(now: 1000, remembered: 1000, added: 500, cc: 0.30, cr: 0.05);
+const _normally = Squeeze(
+  now: 1000,
+  remembered: 1000,
+  added: 500,
+  cc: 0.30,
+  cr: 0.05,
+);
 
 const indexRounds = <IndexRound>[
   IndexRound(
@@ -179,8 +190,7 @@ const indexRounds = <IndexRound>[
   ),
 ];
 
-class _StiffUntilItRemembersGameState
-    extends State<StiffUntilItRemembersGame> {
+class _StiffUntilItRemembersGameState extends State<StiffUntilItRemembersGame> {
   late final BoardSession _session = BoardSession(
     gameId: 'stiff-until-it-remembers',
     chapterId: 'geotechnical',
@@ -272,8 +282,7 @@ class _StiffUntilItRemembersGameState
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter:
-                      ElogPPainter(squeeze: r.squeeze, answered: answered),
+                  painter: ElogPPainter(squeeze: r.squeeze, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

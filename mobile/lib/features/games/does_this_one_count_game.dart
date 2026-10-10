@@ -46,10 +46,10 @@ class TermRound {
   final String source;
 
   static String label(Adds which) => switch (which) {
-        Adds.along => 'The way the unit load points',
-        Adds.opposite => 'The other way',
-        Adds.nothing => 'Nothing at all',
-      };
+    Adds.along => 'The way the unit load points',
+    Adds.opposite => 'The other way',
+    Adds.nothing => 'Nothing at all',
+  };
 }
 
 const termRounds = <TermRound>[
@@ -138,7 +138,12 @@ const termRounds = <TermRound>[
         'Every member has been worked out and added up, and the total for the '
         'joint has come out negative.',
     term: Contribution(
-        member: 0, real: 0, virt: 0, wholeSum: true, sumNegative: true),
+      member: 0,
+      real: 0,
+      virt: 0,
+      wholeSum: true,
+      sumNegative: true,
+    ),
     answer: Adds.opposite,
     why:
         'The other way. A negative total is not an error: it means the joint '
@@ -243,8 +248,10 @@ class _DoesThisOneCountGameState extends State<DoesThisOneCountGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter:
-                      ContributionPainter(term: r.term, answered: answered),
+                  painter: ContributionPainter(
+                    term: r.term,
+                    answered: answered,
+                  ),
                   child: const SizedBox.expand(),
                 ),
               ),

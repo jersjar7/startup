@@ -90,11 +90,21 @@ class StagesPainter extends CustomPainter {
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.4,
       );
-      _write(canvas, option.name, Offset(padL - 8, y - 6),
-          color: AppColors.charcoal, align: -1);
+      _write(
+        canvas,
+        option.name,
+        Offset(padL - 8, y - 6),
+        color: AppColors.charcoal,
+        align: -1,
+      );
       if (revealed) {
-        _write(canvas, '${option.total}', Offset(x + 5, y - 6),
-            color: AppColors.ink3, align: 1);
+        _write(
+          canvas,
+          '${option.total}',
+          Offset(x + 5, y - 6),
+          color: AppColors.ink3,
+          align: 1,
+        );
       }
     }
 
@@ -125,7 +135,10 @@ class StagesPainter extends CustomPainter {
     int align = 0,
   }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 11, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 11, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     final dx = switch (align) {

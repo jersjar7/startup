@@ -146,11 +146,11 @@ class BlockPainter extends CustomPainter {
   /// Room round the drawing for the arrows and labels hung off it, scaled to
   /// the box. A fixed inset is most of a small panel and none of a big one.
   static EdgeInsets _roomFor(Size size) => EdgeInsets.fromLTRB(
-        math.min(30, size.width * 0.11),
-        math.min(40, size.height * 0.16),
-        math.min(30, size.width * 0.11),
-        math.min(38, size.height * 0.15),
-      );
+    math.min(30, size.width * 0.11),
+    math.min(40, size.height * 0.16),
+    math.min(30, size.width * 0.11),
+    math.min(38, size.height * 0.15),
+  );
 
   static BlockLayout layout(Rig rig, Size size, {double? frameDeg}) {
     final tilt = rig.rampDeg * math.pi / 180;
@@ -179,10 +179,8 @@ class BlockPainter extends CustomPainter {
     // comparison share a baseline. Sized for the tallest the block can be, so
     // laying it on its side lowers the block and not the floor under it.
     const hatchDeep = 8.0;
-    final topExtent =
-        math.max(framedRise, framedRise * perch + base * 0.92);
-    final ground =
-        room.top + topExtent + (tall - topExtent - hatchDeep) / 2;
+    final topExtent = math.max(framedRise, framedRise * perch + base * 0.92);
+    final ground = room.top + topExtent + (tall - topExtent - hatchDeep) / 2;
 
     final left = room.left + (wide - run) / 2;
     final foot = Offset(left, ground);
@@ -260,15 +258,17 @@ class BlockPainter extends CustomPainter {
       final right = l.corners.map((c) => c.dx).reduce(math.max);
       final leftSide = l.corners.map((c) => c.dx).reduce(math.min);
       final fits = right + 8 + wide < size.width - 4;
-      taken.add(_write(
-        canvas,
-        text,
-        Offset(fits ? right + 8 : leftSide - 8 - wide, l.middle.dy - 6),
-        AppColors.ink3,
-        size,
-        taken,
-        fromLeft: true,
-      ));
+      taken.add(
+        _write(
+          canvas,
+          text,
+          Offset(fits ? right + 8 : leftSide - 8 - wide, l.middle.dy - 6),
+          AppColors.ink3,
+          size,
+          taken,
+          fromLeft: true,
+        ),
+      );
     }
 
     if (showPush) {
@@ -285,8 +285,16 @@ class BlockPainter extends CustomPainter {
         // Above the middle of the shaft, so a long one does not get shoved
         // against the side of the figure and clipped there.
         final mid = (tail + tip) / 2;
-        taken.add(_write(canvas, pushLabel!, mid - const Offset(0, 20),
-            AppColors.ember, size, taken));
+        taken.add(
+          _write(
+            canvas,
+            pushLabel!,
+            mid - const Offset(0, 20),
+            AppColors.ember,
+            size,
+            taken,
+          ),
+        );
       }
     }
 
@@ -337,10 +345,14 @@ class BlockPainter extends CustomPainter {
     canvas.drawPath(
       Path()
         ..moveTo(to.dx, to.dy)
-        ..lineTo(to.dx - unit.dx * 9 + side.dx * 4.5,
-            to.dy - unit.dy * 9 + side.dy * 4.5)
-        ..lineTo(to.dx - unit.dx * 9 - side.dx * 4.5,
-            to.dy - unit.dy * 9 - side.dy * 4.5)
+        ..lineTo(
+          to.dx - unit.dx * 9 + side.dx * 4.5,
+          to.dy - unit.dy * 9 + side.dy * 4.5,
+        )
+        ..lineTo(
+          to.dx - unit.dx * 9 - side.dx * 4.5,
+          to.dy - unit.dy * 9 - side.dy * 4.5,
+        )
         ..close(),
       Paint()..color = colour,
     );
@@ -354,10 +366,20 @@ class BlockPainter extends CustomPainter {
     return tp.width;
   }
 
-  Rect _write(Canvas canvas, String text, Offset at, Color colour, Size size,
-      List<Rect> avoid, {bool fromLeft = false}) {
+  Rect _write(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Color colour,
+    Size size,
+    List<Rect> avoid, {
+    bool fromLeft = false,
+  }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10.5, color: colour)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10.5, color: colour),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = fromLeft ? at.dx : at.dx - tp.width / 2;
@@ -372,7 +394,9 @@ class BlockPainter extends CustomPainter {
     if (y < 1) y = 1;
     if (y + tp.height > size.height - 1) y = size.height - 1 - tp.height;
     canvas.drawRect(
-        box(), Paint()..color = AppColors.cream.withValues(alpha: 0.92));
+      box(),
+      Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+    );
     tp.paint(canvas, Offset(x, y));
     return box();
   }
@@ -425,11 +449,7 @@ class Lap {
 
 /// The drum, the belt on it, and a free end hanging off each side.
 class DrumPainter extends CustomPainter {
-  const DrumPainter({
-    required this.lap,
-    this.picked,
-    this.locked = false,
-  });
+  const DrumPainter({required this.lap, this.picked, this.locked = false});
 
   final Lap lap;
 
@@ -562,14 +582,16 @@ class DrumPainter extends CustomPainter {
       // lands back on the drum or on top of the other end.
       final run = tip - root;
       final unit = run / run.distance;
-      taken.add(_write(
-        canvas,
-        isEnd ? lap.endLabel : lap.startLabel,
-        tip + unit * 17 - const Offset(0, 6),
-        colour,
-        size,
-        taken,
-      ));
+      taken.add(
+        _write(
+          canvas,
+          isEnd ? lap.endLabel : lap.startLabel,
+          tip + unit * 17 - const Offset(0, 6),
+          colour,
+          size,
+          taken,
+        ),
+      );
     }
 
     _creepMark(canvas, size, r, taken);
@@ -594,8 +616,10 @@ class DrumPainter extends CustomPainter {
       for (var tries = 0; tries < 10; tries++) {
         final box = Rect.fromCircle(center: _on(lap, at, size), radius: arm);
         if (!labels.any((l) => l.overlaps(box))) break;
-        at = (want + (tries.isEven ? 1 : -1) * 0.035 * (tries ~/ 2 + 1))
-            .clamp(0.06, 0.94);
+        at = (want + (tries.isEven ? 1 : -1) * 0.035 * (tries ~/ 2 + 1)).clamp(
+          0.06,
+          0.94,
+        );
       }
       final here = _on(lap, at, size);
       final ahead = _on(lap, at + (forward ? step : -step), size);
@@ -614,10 +638,19 @@ class DrumPainter extends CustomPainter {
     }
   }
 
-  Rect _write(Canvas canvas, String text, Offset at, Color colour, Size size,
-      List<Rect> avoid) {
+  Rect _write(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Color colour,
+    Size size,
+    List<Rect> avoid,
+  ) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10.5, color: colour)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10.5, color: colour),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = at.dx - tp.width / 2;
@@ -632,7 +665,9 @@ class DrumPainter extends CustomPainter {
     if (y < 1) y = 1;
     if (y + tp.height > size.height - 1) y = size.height - 1 - tp.height;
     canvas.drawRect(
-        box(), Paint()..color = AppColors.cream.withValues(alpha: 0.92));
+      box(),
+      Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+    );
     tp.paint(canvas, Offset(x, y));
     return box();
   }
@@ -720,25 +755,36 @@ class ScrewPainter extends CustomPainter {
     final top = 58.0;
 
     // The screw itself, drawn as a thread rather than a plain bar.
-    canvas.drawLine(Offset(midX, base), Offset(midX, top),
-        Paint()
-          ..color = AppColors.ink2
-          ..strokeWidth = 9);
+    canvas.drawLine(
+      Offset(midX, base),
+      Offset(midX, top),
+      Paint()
+        ..color = AppColors.ink2
+        ..strokeWidth = 9,
+    );
     for (var y = top + 6; y < base - 2; y += 11) {
-      canvas.drawLine(Offset(midX - 9, y + 4), Offset(midX + 9, y - 4),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 1.6);
+      canvas.drawLine(
+        Offset(midX - 9, y + 4),
+        Offset(midX + 9, y - 4),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 1.6,
+      );
     }
 
     // The foot it stands on.
     canvas.drawRect(
-        Rect.fromLTWH(midX - 26, base, 52, 10), Paint()..color = AppColors.ink2);
+      Rect.fromLTWH(midX - 26, base, 52, 10),
+      Paint()..color = AppColors.ink2,
+    );
     for (var x = midX - 26.0; x < midX + 26; x += 8) {
-      canvas.drawLine(Offset(x, base + 10), Offset(x - 6, base + 17),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1.3);
+      canvas.drawLine(
+        Offset(x, base + 10),
+        Offset(x - 6, base + 17),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1.3,
+      );
     }
 
     // The load it is holding up.
@@ -753,8 +799,13 @@ class ScrewPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
     final hub = Offset(midX, base - 26);
-    canvas.drawArc(Rect.fromCircle(center: hub, radius: 22),
-        screw.raising ? -0.5 : 2.6, screw.raising ? 2.6 : -2.6, false, turn);
+    canvas.drawArc(
+      Rect.fromCircle(center: hub, radius: 22),
+      screw.raising ? -0.5 : 2.6,
+      screw.raising ? 2.6 : -2.6,
+      false,
+      turn,
+    );
     final headAt = screw.raising ? 2.1 : 0.0;
     final tip = hub + Offset(math.cos(headAt), math.sin(headAt)) * 22;
     final along =
@@ -763,16 +814,25 @@ class ScrewPainter extends CustomPainter {
     canvas.drawPath(
       Path()
         ..moveTo(tip.dx, tip.dy)
-        ..lineTo(tip.dx - along.dx * 9 + side.dx * 4.5,
-            tip.dy - along.dy * 9 + side.dy * 4.5)
-        ..lineTo(tip.dx - along.dx * 9 - side.dx * 4.5,
-            tip.dy - along.dy * 9 - side.dy * 4.5)
+        ..lineTo(
+          tip.dx - along.dx * 9 + side.dx * 4.5,
+          tip.dy - along.dy * 9 + side.dy * 4.5,
+        )
+        ..lineTo(
+          tip.dx - along.dx * 9 - side.dx * 4.5,
+          tip.dy - along.dy * 9 - side.dy * 4.5,
+        )
         ..close(),
       Paint()..color = AppColors.ember,
     );
 
-    _write(canvas, screw.raising ? 'raising' : 'lowering',
-        Offset(midX, 8), AppColors.ember, box);
+    _write(
+      canvas,
+      screw.raising ? 'raising' : 'lowering',
+      Offset(midX, 8),
+      AppColors.ember,
+      box,
+    );
   }
 
   /// The two angles side by side on one baseline, which is the comparison the
@@ -790,10 +850,13 @@ class ScrewPainter extends CustomPainter {
     final run = box.width - 44;
     final origin = Offset(left, base);
 
-    canvas.drawLine(origin, Offset(left + run, base),
-        Paint()
-          ..color = AppColors.ink3
-          ..strokeWidth = 1.6);
+    canvas.drawLine(
+      origin,
+      Offset(left + run, base),
+      Paint()
+        ..color = AppColors.ink3
+        ..strokeWidth = 1.6,
+    );
 
     final steep = math.max(
       math.tan(screw.pitchDeg * math.pi / 180),
@@ -815,12 +878,22 @@ class ScrewPainter extends CustomPainter {
           ..strokeWidth = heavy ? 3.6 : 2.2
           ..strokeCap = StrokeCap.round,
       );
-      taken.add(_write(canvas, label, Offset(left + run + 3, tip.dy - 7),
-          colour, box, fromLeft: true, avoid: taken));
+      taken.add(
+        _write(
+          canvas,
+          label,
+          Offset(left + run + 3, tip.dy - 7),
+          colour,
+          box,
+          fromLeft: true,
+          avoid: taken,
+        ),
+      );
     }
 
-    final winner =
-        showWinner ? (screw.selfLocking ? 'friction' : 'thread') : '';
+    final winner = showWinner
+        ? (screw.selfLocking ? 'friction' : 'thread')
+        : '';
     // Whichever is shallower is drawn first, so its label is the one that
     // moves if the two crowd each other.
     final threadFirst = screw.pitchDeg <= screw.frictionDeg;
@@ -831,14 +904,30 @@ class ScrewPainter extends CustomPainter {
       ramp(screw.frictionDeg, AppColors.info, 'friction', winner == 'friction');
       ramp(screw.pitchDeg, AppColors.charcoal, 'thread', winner == 'thread');
     }
-    _write(canvas, 'steeper wins, rise exaggerated',
-        Offset(box.width / 2, base + 16), AppColors.ink3, box, avoid: taken);
+    _write(
+      canvas,
+      'steeper wins, rise exaggerated',
+      Offset(box.width / 2, base + 16),
+      AppColors.ink3,
+      box,
+      avoid: taken,
+    );
   }
 
-  Rect _write(Canvas canvas, String text, Offset at, Color colour, Size box,
-      {bool fromLeft = false, List<Rect> avoid = const []}) {
+  Rect _write(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Color colour,
+    Size box, {
+    bool fromLeft = false,
+    List<Rect> avoid = const [],
+  }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10.5, color: colour)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10.5, color: colour),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = fromLeft ? at.dx : at.dx - tp.width / 2;
@@ -851,7 +940,9 @@ class ScrewPainter extends CustomPainter {
       y -= tp.height + 3;
     }
     canvas.drawRect(
-        at_(), Paint()..color = AppColors.cream.withValues(alpha: 0.92));
+      at_(),
+      Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+    );
     tp.paint(canvas, Offset(x, y));
     return at_();
   }

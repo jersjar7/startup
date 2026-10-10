@@ -693,11 +693,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'math-ad-',
     rounds: [
       for (final r in askedRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.quantities,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.quantities, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -1959,11 +1955,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'stat-ami-',
     rounds: [
       for (final r in shareRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.names,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.names, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -2236,10 +2228,7 @@ List<GameAudit> auditAllGames() => [
       for (final r in tableRounds)
         RoundAudit(
           source: r.source,
-          options: [
-            for (final e in r.options) e.name,
-            'needs two lines',
-          ],
+          options: [for (final e in r.options) e.name, 'needs two lines'],
           answer: r.answer == -1 ? r.options.length : r.answer,
         ),
     ],
@@ -2522,9 +2511,7 @@ List<GameAudit> auditAllGames() => [
       for (final r in ledgerRounds)
         RoundAudit(
           source: r.source,
-          options: [
-            for (final o in r.options) _account(o),
-          ],
+          options: [for (final o in r.options) _account(o)],
           answer: r.answer,
         ),
     ],
@@ -2591,9 +2578,7 @@ List<GameAudit> auditAllGames() => [
       for (final r in pulseRounds)
         RoundAudit(
           source: r.source,
-          options: [
-            for (final p in r.options) '${p.force} for ${p.seconds}',
-          ],
+          options: [for (final p in r.options) '${p.force} for ${p.seconds}'],
           answer: r.answer,
         ),
     ],
@@ -2927,10 +2912,7 @@ List<GameAudit> auditAllGames() => [
       for (final r in boxRounds)
         RoundAudit(
           source: r.source,
-          options: [
-            for (final m in table) m.metal.name,
-            'none',
-          ],
+          options: [for (final m in table) m.metal.name, 'none'],
           answer: r.answer == null
               ? table.length
               : table.indexWhere((m) => m.metal == r.answer),
@@ -3886,7 +3868,9 @@ List<GameAudit> auditAllGames() => [
       for (final r in tierRounds)
         RoundAudit(
           source: r.source,
-          options: [for (final o in [Tier.primary, Tier.secondary]) o.name],
+          options: [
+            for (final o in [Tier.primary, Tier.secondary]) o.name,
+          ],
           answer: r.answer == Tier.primary ? 0 : 1,
         ),
     ],
@@ -3988,11 +3972,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-dvw-',
     rounds: [
       for (final r in hangRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4014,11 +3994,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-ind-',
     rounds: [
       for (final r in letGoRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4040,11 +4016,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-lc-',
     rounds: [
       for (final r in designRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4066,11 +4038,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-lc-',
     rounds: [
       for (final r in reduceRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4079,11 +4047,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-il-',
     rounds: [
       for (final r in heightRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4105,11 +4069,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-il-',
     rounds: [
       for (final r in parkRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4144,11 +4104,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-rfs-',
     rounds: [
       for (final r in phiRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4157,11 +4113,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-rcc-',
     rounds: [
       for (final r in columnFactorRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4196,11 +4148,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-sb-',
     rounds: [
       for (final r in modulusRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4209,11 +4157,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-sb-',
     rounds: [
       for (final r in flangeRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4235,11 +4179,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-sc-',
     rounds: [
       for (final r in columnTableRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4248,11 +4188,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-st-',
     rounds: [
       for (final r in limitRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4261,11 +4197,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-st-',
     rounds: [
       for (final r in holeRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4274,11 +4206,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-st-',
     rounds: [
       for (final r in lagRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4300,11 +4228,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-pr-',
     rounds: [
       for (final r in masterRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4391,11 +4315,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-es-',
     rounds: [
       for (final r in profileWalkRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4417,11 +4337,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-co-',
     rounds: [
       for (final r in indexRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4430,11 +4346,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-co-',
     rounds: [
       for (final r in timeRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4469,11 +4381,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-ss-',
     rounds: [
       for (final r in triaxialRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4482,11 +4390,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-seep-',
     rounds: [
       for (final r in netRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4495,11 +4399,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-seep-',
     rounds: [
       for (final r in boilRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4534,11 +4434,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-slp-',
     rounds: [
       for (final r in wedgeRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4573,11 +4469,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-bc-',
     rounds: [
       for (final r in safetyRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4599,11 +4491,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-le-',
     rounds: [
       for (final r in shapeRounds2)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(
@@ -4612,11 +4500,7 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-le-',
     rounds: [
       for (final r in wallHeightRounds)
-        RoundAudit(
-          source: r.source,
-          options: r.options,
-          answer: r.answer,
-        ),
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(

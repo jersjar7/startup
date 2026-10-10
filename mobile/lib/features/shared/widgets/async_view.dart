@@ -6,7 +6,12 @@ import '../../../core/theme/app_colors.dart';
 /// FutureBuilder with the app's loading + error treatment: an ember spinner
 /// while loading, and a friendly message + Retry on failure.
 class AsyncView<T> extends StatelessWidget {
-  const AsyncView({super.key, required this.future, required this.builder, this.onRetry});
+  const AsyncView({
+    super.key,
+    required this.future,
+    required this.builder,
+    this.onRetry,
+  });
 
   final Future<T> future;
   final Widget Function(T data) builder;
@@ -19,7 +24,10 @@ class AsyncView<T> extends StatelessWidget {
       builder: (context, snap) {
         if (snap.connectionState == ConnectionState.waiting) {
           return const Center(
-            child: CircularProgressIndicator(color: AppColors.ember, strokeWidth: 3),
+            child: CircularProgressIndicator(
+              color: AppColors.ember,
+              strokeWidth: 3,
+            ),
           );
         }
         if (snap.hasError || !snap.hasData) {
@@ -32,12 +40,17 @@ class AsyncView<T> extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(msg,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: AppColors.ink2, height: 1.5)),
+                  Text(
+                    msg,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: AppColors.ink2, height: 1.5),
+                  ),
                   if (onRetry != null) ...[
                     const SizedBox(height: 16),
-                    TextButton(onPressed: onRetry, child: const Text('Try again')),
+                    TextButton(
+                      onPressed: onRetry,
+                      child: const Text('Try again'),
+                    ),
                   ],
                 ],
               ),

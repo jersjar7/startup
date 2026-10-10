@@ -214,14 +214,17 @@ class _MindTheOrderGameState extends State<MindTheOrderGame> {
     TotalRole.mean => r.mean,
     TotalRole.eSquared => r.meanOfSquares,
     TotalRole.meanSquared => r.mean * r.mean,
-    TotalRole.rawSquares => r.outcomes
-        .fold<double>(0, (a, o) => a + (o.value * o.value).toDouble()),
-    TotalRole.other =>
-      r.outcomes.fold<double>(0, (a, o) => a + o.value.toDouble()),
+    TotalRole.rawSquares => r.outcomes.fold<double>(
+      0,
+      (a, o) => a + (o.value * o.value).toDouble(),
+    ),
+    TotalRole.other => r.outcomes.fold<double>(
+      0,
+      (a, o) => a + o.value.toDouble(),
+    ),
   };
 
-  static String _write(double v) =>
-      v == v.roundToDouble() && v.abs() < 10000
+  static String _write(double v) => v == v.roundToDouble() && v.abs() < 10000
       ? v.toStringAsFixed(v.abs() < 100 ? 2 : 0)
       : v.toStringAsFixed(2);
 
@@ -364,7 +367,10 @@ class _Table extends StatelessWidget {
             children: [
               SizedBox(
                 width: 44,
-                child: Text('x', style: AppTheme.overline(color: AppColors.ink3)),
+                child: Text(
+                  'x',
+                  style: AppTheme.overline(color: AppColors.ink3),
+                ),
               ),
               for (final o in outcomes)
                 Expanded(

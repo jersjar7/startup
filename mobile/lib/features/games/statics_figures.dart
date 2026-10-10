@@ -62,11 +62,11 @@ class ForceTrianglePainter extends CustomPainter {
   /// pinned to the edges of the box used to drift right off the arrows they
   /// belonged to, which is how the vertical one became untappable.
   static ({Offset origin, Offset alongX, Offset alongY, Offset tip}) layout(
-      double dx, double dy, Size size) {
-    final room = Size(
-      size.width - _padL - _padR,
-      size.height - _padT - _padB,
-    );
+    double dx,
+    double dy,
+    Size size,
+  ) {
+    final room = Size(size.width - _padL - _padR, size.height - _padT - _padB);
     final scale = math.min(room.width / dx, room.height / dy);
     final sx = dx * scale;
     final sy = dy * scale;
@@ -112,8 +112,10 @@ class ForceTrianglePainter extends CustomPainter {
     final run = b - a;
     final len2 = run.dx * run.dx + run.dy * run.dy;
     if (len2 < 0.001) return (p - a).distance;
-    final t = (((p - a).dx * run.dx + (p - a).dy * run.dy) / len2)
-        .clamp(0.0, 1.0);
+    final t = (((p - a).dx * run.dx + (p - a).dy * run.dy) / len2).clamp(
+      0.0,
+      1.0,
+    );
     return (p - (a + run * t)).distance;
   }
 
@@ -176,8 +178,10 @@ class ForceTrianglePainter extends CustomPainter {
         canvas,
         angleLabel,
         o +
-            Offset(math.cos(mid) * (radius + 20) + nudge,
-                math.sin(mid) * (radius + 20) - 7),
+            Offset(
+              math.cos(mid) * (radius + 20) + nudge,
+              math.sin(mid) * (radius + 20) - 7,
+            ),
         AppColors.ink2,
         size,
         patch: true,
@@ -185,12 +189,24 @@ class ForceTrianglePainter extends CustomPainter {
     }
 
     if (xLabel.isNotEmpty) {
-      _write(canvas, xLabel, Offset(o.dx + sx / 2, o.dy + 8),
-          _colorOf(0), size, align: 1);
+      _write(
+        canvas,
+        xLabel,
+        Offset(o.dx + sx / 2, o.dy + 8),
+        _colorOf(0),
+        size,
+        align: 1,
+      );
     }
     if (yLabel.isNotEmpty) {
-      _write(canvas, yLabel, Offset(o.dx - 8, o.dy - sy / 2 - 6),
-          _colorOf(1), size, align: -1);
+      _write(
+        canvas,
+        yLabel,
+        Offset(o.dx - 8, o.dy - sy / 2 - 6),
+        _colorOf(1),
+        size,
+        align: -1,
+      );
     }
   }
 
@@ -205,10 +221,14 @@ class ForceTrianglePainter extends CustomPainter {
     const head = 9.0;
     final path = Path()
       ..moveTo(to.dx, to.dy)
-      ..lineTo(to.dx - head * math.cos(angle - 0.4),
-          to.dy - head * math.sin(angle - 0.4))
-      ..lineTo(to.dx - head * math.cos(angle + 0.4),
-          to.dy - head * math.sin(angle + 0.4))
+      ..lineTo(
+        to.dx - head * math.cos(angle - 0.4),
+        to.dy - head * math.sin(angle - 0.4),
+      )
+      ..lineTo(
+        to.dx - head * math.cos(angle + 0.4),
+        to.dy - head * math.sin(angle + 0.4),
+      )
       ..close();
     canvas.drawPath(path, Paint()..color = color);
   }
@@ -228,13 +248,22 @@ class ForceTrianglePainter extends CustomPainter {
 
   TextPainter _measure(String text, {Color color = AppColors.ink2}) =>
       TextPainter(
-        text:
-            TextSpan(text: text, style: AppTheme.mono(size: 11, color: color)),
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 11, color: color),
+        ),
         textDirection: TextDirection.ltr,
       )..layout();
 
-  void _write(Canvas canvas, String text, Offset at, Color color, Size size,
-      {int align = 0, bool patch = false}) {
+  void _write(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Color color,
+    Size size, {
+    int align = 0,
+    bool patch = false,
+  }) {
     final tp = _measure(text, color: color);
     final dxOff = switch (align) {
       1 => tp.width / 2,
@@ -589,11 +618,20 @@ class MomentPainter extends CustomPainter {
       final unit = Offset(f.dir.dx / len, -f.dir.dy / len);
 
       if (f.lineOfAction) {
-        _dash(canvas, origin - unit * 400, origin + unit * 400,
-            AppColors.ink3.withValues(alpha: 0.7));
+        _dash(
+          canvas,
+          origin - unit * 400,
+          origin + unit * 400,
+          AppColors.ink3.withValues(alpha: 0.7),
+        );
       }
-      _arrow(canvas, origin, origin + unit * 52, color,
-          heavy: picked || (locked && isTruth));
+      _arrow(
+        canvas,
+        origin,
+        origin + unit * 52,
+        color,
+        heavy: picked || (locked && isTruth),
+      );
       // Beside the head rather than past it. A force pointing straight down
       // its own member used to write its label on the member. Cleared by half
       // its own width so it never sits on the arrow or its line of action.
@@ -601,8 +639,12 @@ class MomentPainter extends CustomPainter {
       final away = origin - bodyCenter;
       final sign = side.dx * away.dx + side.dy * away.dy >= 0 ? 1.0 : -1.0;
       final tag = _label(f.label, color);
-      _put(canvas, tag,
-          origin + unit * 48 + side * (tag.width / 2 + 10) * sign, size);
+      _put(
+        canvas,
+        tag,
+        origin + unit * 48 + side * (tag.width / 2 + 10) * sign,
+        size,
+      );
     }
 
     final placed = scene.placedMarks(size);
@@ -675,8 +717,13 @@ class MomentPainter extends CustomPainter {
     }
   }
 
-  void _arrow(Canvas canvas, Offset from, Offset to, Color color,
-      {required bool heavy}) {
+  void _arrow(
+    Canvas canvas,
+    Offset from,
+    Offset to,
+    Color color, {
+    required bool heavy,
+  }) {
     final paint = Paint()
       ..color = color
       ..strokeWidth = heavy ? 3.4 : 2.2
@@ -686,10 +733,14 @@ class MomentPainter extends CustomPainter {
     const head = 10.0;
     final path = Path()
       ..moveTo(to.dx, to.dy)
-      ..lineTo(to.dx - head * math.cos(angle - 0.4),
-          to.dy - head * math.sin(angle - 0.4))
-      ..lineTo(to.dx - head * math.cos(angle + 0.4),
-          to.dy - head * math.sin(angle + 0.4))
+      ..lineTo(
+        to.dx - head * math.cos(angle - 0.4),
+        to.dy - head * math.sin(angle - 0.4),
+      )
+      ..lineTo(
+        to.dx - head * math.cos(angle + 0.4),
+        to.dy - head * math.sin(angle + 0.4),
+      )
       ..close();
     canvas.drawPath(path, Paint()..color = color);
   }
@@ -703,15 +754,20 @@ class MomentPainter extends CustomPainter {
       ..strokeWidth = 1;
     for (var d = 0.0; d < total; d += 8) {
       canvas.drawLine(
-          from + step * d, from + step * math.min(d + 4, total), paint);
+        from + step * d,
+        from + step * math.min(d + 4, total),
+        paint,
+      );
     }
   }
 
   TextPainter _label(String text, Color color) => TextPainter(
-        text:
-            TextSpan(text: text, style: AppTheme.mono(size: 11, color: color)),
-        textDirection: TextDirection.ltr,
-      )..layout();
+    text: TextSpan(
+      text: text,
+      style: AppTheme.mono(size: 11, color: color),
+    ),
+    textDirection: TextDirection.ltr,
+  )..layout();
 
   void _put(Canvas canvas, TextPainter tp, Offset center, Size size) {
     var x = center.dx - tp.width / 2;

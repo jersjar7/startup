@@ -134,7 +134,7 @@ const furnaceRounds = <FurnaceRound>[
       Comes.softDuctile,
       Comes.hardBrittle,
       Comes.hardTough,
-      Comes.unchanged
+      Comes.unchanged,
     ],
     why:
         'Martensite: hard and brittle. The carbon has nowhere to go. Forming '
@@ -154,7 +154,7 @@ const furnaceRounds = <FurnaceRound>[
       Comes.hardBrittle,
       Comes.unchanged,
       Comes.softDuctile,
-      Comes.hardTough
+      Comes.hardTough,
     ],
     why:
         'Ferrite and cementite, the soft and ductile pair, which together are '
@@ -174,7 +174,7 @@ const furnaceRounds = <FurnaceRound>[
       Comes.hardTough,
       Comes.hardBrittle,
       Comes.softDuctile,
-      Comes.unchanged
+      Comes.unchanged,
     ],
     why:
         'Tempered martensite: it keeps most of the hardness and loses most of '
@@ -194,7 +194,7 @@ const furnaceRounds = <FurnaceRound>[
       Comes.hardBrittle,
       Comes.softDuctile,
       Comes.unchanged,
-      Comes.hardTough
+      Comes.hardTough,
     ],
     why:
         'Nothing to speak of. Quenching only makes martensite if there is '
@@ -214,7 +214,7 @@ const furnaceRounds = <FurnaceRound>[
       Comes.unchanged,
       Comes.hardTough,
       Comes.hardBrittle,
-      Comes.softDuctile
+      Comes.softDuctile,
     ],
     why:
         'Martensite again. What matters is the RATE, not what the tank is '
@@ -233,7 +233,7 @@ const furnaceRounds = <FurnaceRound>[
       Comes.hardBrittle,
       Comes.hardTough,
       Comes.unchanged,
-      Comes.softDuctile
+      Comes.softDuctile,
     ],
     why:
         'Soft and ductile, and this is the round worth remembering. By six '

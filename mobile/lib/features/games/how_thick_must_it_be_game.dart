@@ -175,8 +175,7 @@ const thicknessRounds = <ThicknessRound>[
   ),
   ThicknessRound(
     subject: 'what the target came from',
-    asked:
-        'Where does the required structural number itself come from?',
+    asked: 'Where does the required structural number itself come from?',
     pavement: _needsABase,
     options: [
       'The thickness of the asphalt',

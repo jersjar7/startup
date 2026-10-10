@@ -63,12 +63,11 @@ class DollarsRound {
   final String source;
 
   double valueOf(Adjust a) => switch (a) {
-        Adjust.inflationOnly => inflation,
-        Adjust.real => real,
-        Adjust.sum => real + inflation,
-        Adjust.combined =>
-          real + inflation + real * inflation / 100,
-      };
+    Adjust.inflationOnly => inflation,
+    Adjust.real => real,
+    Adjust.sum => real + inflation,
+    Adjust.combined => real + inflation + real * inflation / 100,
+  };
 
   /// Worked out rather than declared: actual dollars carry inflation in them
   /// already, so they meet the compounded rate. Constant dollars have had it
@@ -203,11 +202,11 @@ class _MatchTheDollarsGameState extends State<MatchTheDollarsGame> {
   DollarsRound get _round => dollarsRounds[_session.round];
 
   static String _label(Adjust a) => switch (a) {
-        Adjust.inflationOnly => 'the inflation rate',
-        Adjust.real => 'the real rate',
-        Adjust.sum => 'the two rates added',
-        Adjust.combined => 'the two rates compounded',
-      };
+    Adjust.inflationOnly => 'the inflation rate',
+    Adjust.real => 'the real rate',
+    Adjust.sum => 'the two rates added',
+    Adjust.combined => 'the two rates compounded',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -285,10 +284,10 @@ class _MatchTheDollarsGameState extends State<MatchTheDollarsGame> {
             Text(
               r.actual
                   ? 'd = ${_n(r.real)} + ${_n(r.inflation)} + '
-                      '${_n(r.real)}(${_n(r.inflation)})/100 = '
-                      '${r.valueOf(Adjust.combined).toStringAsFixed(2)}%'
+                        '${_n(r.real)}(${_n(r.inflation)})/100 = '
+                        '${r.valueOf(Adjust.combined).toStringAsFixed(2)}%'
                   : 'i = ${r.real.toStringAsFixed(2)}%, and inflation stays '
-                      'out of it',
+                        'out of it',
               style: AppTheme.code(size: 12),
             ),
             const SizedBox(height: 14),

@@ -45,8 +45,7 @@ class AxisRound {
   final String why;
   final String source;
 
-  bool _isCentroidal(Datum d) =>
-      (d.y - profile.centroid.dy).abs() < 0.01;
+  bool _isCentroidal(Datum d) => (d.y - profile.centroid.dy).abs() < 0.01;
 
   /// Worked out from where the two axes sit against the centroid, never
   /// declared beside the round.
@@ -436,8 +435,11 @@ class _MoveGlyph extends CustomPainter {
     );
 
     if (option == Transfer.cannot) {
-      canvas.drawLine(Offset(x - 9, size.height / 2 + 7),
-          Offset(x + 9, size.height / 2 - 7), ink);
+      canvas.drawLine(
+        Offset(x - 9, size.height / 2 + 7),
+        Offset(x + 9, size.height / 2 - 7),
+        ink,
+      );
     }
   }
 

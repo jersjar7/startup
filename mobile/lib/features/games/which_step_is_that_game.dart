@@ -40,11 +40,11 @@ class ForecastStepRound {
   final String source;
 
   static String label(Forecast step) => switch (step) {
-        Forecast.generation => 'Trip generation, the first step',
-        Forecast.distribution => 'Trip distribution, the second',
-        Forecast.mode => 'Mode choice, the third',
-        Forecast.assignment => 'Traffic assignment, the fourth',
-      };
+    Forecast.generation => 'Trip generation, the first step',
+    Forecast.distribution => 'Trip distribution, the second',
+    Forecast.mode => 'Mode choice, the third',
+    Forecast.assignment => 'Traffic assignment, the fourth',
+  };
 }
 
 const forecastStepRounds = <ForecastStepRound>[

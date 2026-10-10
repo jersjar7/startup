@@ -29,10 +29,10 @@ enum Step3 { multiply, divide, subtract }
 
 extension Step3Words on Step3 {
   String get plain => switch (this) {
-        Step3.multiply => 'Multiply by the fraction: the answer comes out smaller',
-        Step3.divide => 'Divide by the fraction: the answer comes out larger',
-        Step3.subtract => 'Neither: take it off the ultimate',
-      };
+    Step3.multiply => 'Multiply by the fraction: the answer comes out smaller',
+    Step3.divide => 'Divide by the fraction: the answer comes out larger',
+    Step3.subtract => 'Neither: take it off the ultimate',
+  };
 }
 
 @immutable
@@ -251,7 +251,7 @@ class _MultiplyOrDivideGameState extends State<MultiplyOrDivideGame> {
                     showSplit: answered,
                     note: answered
                         ? 'the fraction at day ${_num(r.day)} is '
-                            '${r.demand.fractionAt(r.day).toStringAsFixed(3)}'
+                              '${r.demand.fractionAt(r.day).toStringAsFixed(3)}'
                         : 'k ${r.demand.rate} per day',
                   ),
                   child: const SizedBox.expand(),

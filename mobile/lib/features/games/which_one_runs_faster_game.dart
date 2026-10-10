@@ -22,8 +22,7 @@ class WhichOneRunsFasterGame extends StatefulWidget {
   const WhichOneRunsFasterGame({super.key});
 
   @override
-  State<WhichOneRunsFasterGame> createState() =>
-      _WhichOneRunsFasterGameState();
+  State<WhichOneRunsFasterGame> createState() => _WhichOneRunsFasterGameState();
 }
 
 /// Which of the two drawings carries the quicker water.
@@ -31,10 +30,10 @@ enum Swifter { top, bottom, same }
 
 extension SwifterWords on Swifter {
   String get plain => switch (this) {
-        Swifter.top => 'Channel A, the top one',
-        Swifter.bottom => 'Channel B, the bottom one',
-        Swifter.same => 'Neither: the same velocity',
-      };
+    Swifter.top => 'Channel A, the top one',
+    Swifter.bottom => 'Channel B, the bottom one',
+    Swifter.same => 'Neither: the same velocity',
+  };
 }
 
 @immutable
@@ -75,9 +74,8 @@ class SwiftRound {
   double get speedBottom => _speed(bottom, roughBottom, slopeBottom);
 
   /// How many times quicker the winner is, for the feedback to quote.
-  double get ratio => speedTop > speedBottom
-      ? speedTop / speedBottom
-      : speedBottom / speedTop;
+  double get ratio =>
+      speedTop > speedBottom ? speedTop / speedBottom : speedBottom / speedTop;
 
   /// Worked out of Manning's equation on the two drawings, never declared.
   Swifter get answer {
@@ -189,9 +187,19 @@ const swiftRounds = <SwiftRound>[
     subject: 'two natural streams',
     changed: 'the lining again, but by much less',
     top: Channel(
-        shape: Shaped.trapezoid, width: 6, depth: 2, sideRun: 1.5, rim: 0.8),
+      shape: Shaped.trapezoid,
+      width: 6,
+      depth: 2,
+      sideRun: 1.5,
+      rim: 0.8,
+    ),
     bottom: Channel(
-        shape: Shaped.trapezoid, width: 6, depth: 2, sideRun: 1.5, rim: 0.8),
+      shape: Shaped.trapezoid,
+      width: 6,
+      depth: 2,
+      sideRun: 1.5,
+      rim: 0.8,
+    ),
     roughTop: 0.030,
     roughBottom: 0.035,
     slopeTop: 0.0015,
@@ -279,8 +287,8 @@ class _WhichOneRunsFasterGameState extends State<WhichOneRunsFasterGame> {
           Text(
             'One thing differs between these two: ${r.changed}. '
             '${r.sameSection ? 'The cut is identical, so the difference is '
-                'in the numbers written on each one.' : 'Both are drawn to '
-                'the same scale.'}',
+                      'in the numbers written on each one.' : 'Both are drawn to '
+                      'the same scale.'}',
             style: const TextStyle(
               fontSize: 15,
               height: 1.5,
@@ -296,10 +304,10 @@ class _WhichOneRunsFasterGameState extends State<WhichOneRunsFasterGame> {
             outcome: !answered
                 ? null
                 : (r.answer == Swifter.same
-                    ? AppColors.forest
-                    : (r.answer == Swifter.top
-                        ? AppColors.forest
-                        : AppColors.line)),
+                      ? AppColors.forest
+                      : (r.answer == Swifter.top
+                            ? AppColors.forest
+                            : AppColors.line)),
           ),
           const SizedBox(height: 8),
           _Pair(
@@ -311,10 +319,10 @@ class _WhichOneRunsFasterGameState extends State<WhichOneRunsFasterGame> {
             outcome: !answered
                 ? null
                 : (r.answer == Swifter.same
-                    ? AppColors.forest
-                    : (r.answer == Swifter.bottom
-                        ? AppColors.forest
-                        : AppColors.line)),
+                      ? AppColors.forest
+                      : (r.answer == Swifter.bottom
+                            ? AppColors.forest
+                            : AppColors.line)),
           ),
           const SizedBox(height: 10),
           Center(
@@ -338,7 +346,9 @@ class _WhichOneRunsFasterGameState extends State<WhichOneRunsFasterGame> {
             const SizedBox(height: 14),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE QUICKER ONE' : 'THE OTHER ONE',
+              title: _session.correct!
+                  ? 'THAT IS THE QUICKER ONE'
+                  : 'THE OTHER ONE',
               body: r.why,
             ),
           ],

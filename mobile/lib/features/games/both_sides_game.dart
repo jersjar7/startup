@@ -186,8 +186,7 @@ class _BothSidesGameState extends State<BothSidesGame> {
           : (!ready
                 ? null
                 : () => _session.submit(
-                    ok:
-                        _left == r.leftPositive && _right == r.rightPositive,
+                    ok: _left == r.leftPositive && _right == r.rightPositive,
                     context: context,
                   )),
       child: Column(
@@ -238,9 +237,7 @@ class _BothSidesGameState extends State<BothSidesGame> {
                   arrow: '→',
                   picked: _left,
                   truth: answered ? r.leftPositive : null,
-                  onPick: answered
-                      ? null
-                      : (up) => setState(() => _left = up),
+                  onPick: answered ? null : (up) => setState(() => _left = up),
                 ),
               ),
               const SizedBox(width: 10),
@@ -251,9 +248,7 @@ class _BothSidesGameState extends State<BothSidesGame> {
                   arrow: '←',
                   picked: _right,
                   truth: answered ? r.rightPositive : null,
-                  onPick: answered
-                      ? null
-                      : (up) => setState(() => _right = up),
+                  onPick: answered ? null : (up) => setState(() => _right = up),
                 ),
               ),
             ],
@@ -315,10 +310,7 @@ class _SidePanel extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          '$arrow  $title',
-          style: AppTheme.overline(color: AppColors.ink2),
-        ),
+        Text('$arrow  $title', style: AppTheme.overline(color: AppColors.ink2)),
         const SizedBox(height: 8),
         _RunButton(
           key: ValueKey('$keyPrefix-up'),

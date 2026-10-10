@@ -26,14 +26,15 @@ class LessonProgress {
   final int correct;
   final int answered;
   final int total;
-  final String state; // untouched | attempted | one-correct | two-correct | complete
+  final String
+  state; // untouched | attempted | one-correct | two-correct | complete
 
   factory LessonProgress.fromJson(Map<String, dynamic> j) => LessonProgress(
-        correct: (j['correct'] ?? 0) as int,
-        answered: (j['answered'] ?? 0) as int,
-        total: (j['total'] ?? 3) as int,
-        state: (j['state'] ?? 'untouched') as String,
-      );
+    correct: (j['correct'] ?? 0) as int,
+    answered: (j['answered'] ?? 0) as int,
+    total: (j['total'] ?? 3) as int,
+    state: (j['state'] ?? 'untouched') as String,
+  );
 
   /// The capsule's outline color, and the fill color for however many segments
   /// are filled. null means "draw nothing" — untouched reserves its space but
@@ -57,18 +58,21 @@ class LessonProgress {
   /// Also brings the screen back inside the brand rule of at most two accents per
   /// section: the ladder could put ember, sunbeam and forest in one open subtopic.
   Color? get color => switch (state) {
-        'attempted' || 'one-correct' || 'two-correct' || 'complete' => AppColors.forest,
-        _ => null,
-      };
+    'attempted' ||
+    'one-correct' ||
+    'two-correct' ||
+    'complete' => AppColors.forest,
+    _ => null,
+  };
 
   /// The same sentence the website shows, and the marker's accessible label.
   String? get explanation => switch (state) {
-        'attempted' => 'Started, no exercises correct yet',
-        'one-correct' => '1 of $total exercises correct',
-        'two-correct' => '2 of $total exercises correct',
-        'complete' => 'All $total exercises correct',
-        _ => null,
-      };
+    'attempted' => 'Started, no exercises correct yet',
+    'one-correct' => '1 of $total exercises correct',
+    'two-correct' => '2 of $total exercises correct',
+    'complete' => 'All $total exercises correct',
+    _ => null,
+  };
 }
 
 class SubtopicProgress {
@@ -85,11 +89,11 @@ class SubtopicProgress {
   final int exercisesTotal;
 
   factory SubtopicProgress.fromJson(Map<String, dynamic> j) => SubtopicProgress(
-        complete: (j['complete'] ?? 0) as int,
-        total: (j['total'] ?? 0) as int,
-        exercisesCorrect: (j['exercisesCorrect'] ?? 0) as int,
-        exercisesTotal: (j['exercisesTotal'] ?? 0) as int,
-      );
+    complete: (j['complete'] ?? 0) as int,
+    total: (j['total'] ?? 0) as int,
+    exercisesCorrect: (j['exercisesCorrect'] ?? 0) as int,
+    exercisesTotal: (j['exercisesTotal'] ?? 0) as int,
+  );
 
   /// Counts EXERCISES, not finished lessons. Counting lessons made a subtopic
   /// holding real partial work report "0 of 3" while the markers inside it
@@ -107,9 +111,12 @@ class ChapterProgress {
   final Map<String, SubtopicProgress> subtopics;
 
   factory ChapterProgress.fromJson(Map<String, dynamic> j) => ChapterProgress(
-        lessons: ((j['lessons'] ?? {}) as Map<String, dynamic>).map(
-            (k, v) => MapEntry(k, LessonProgress.fromJson(v as Map<String, dynamic>))),
-        subtopics: ((j['subtopics'] ?? {}) as Map<String, dynamic>).map(
-            (k, v) => MapEntry(k, SubtopicProgress.fromJson(v as Map<String, dynamic>))),
-      );
+    lessons: ((j['lessons'] ?? {}) as Map<String, dynamic>).map(
+      (k, v) => MapEntry(k, LessonProgress.fromJson(v as Map<String, dynamic>)),
+    ),
+    subtopics: ((j['subtopics'] ?? {}) as Map<String, dynamic>).map(
+      (k, v) =>
+          MapEntry(k, SubtopicProgress.fromJson(v as Map<String, dynamic>)),
+    ),
+  );
 }

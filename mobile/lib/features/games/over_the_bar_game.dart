@@ -48,9 +48,9 @@ class HurdleRound {
 
   /// Worked out rather than declared: accept at or above the hurdle.
   List<int> get answer => [
-        for (var i = 0; i < projects.length; i++)
-          if (projects[i].$2 >= marr) i,
-      ];
+    for (var i = 0; i < projects.length; i++)
+      if (projects[i].$2 >= marr) i,
+  ];
 
   /// Where the axis ends, with room past whichever is furthest right.
   double get span {
@@ -73,11 +73,7 @@ const hurdleRounds = <HurdleRound>[
         'The county sets its minimum at fifteen percent this year. Three '
         'proposals come back from the consultants.',
     marr: 15,
-    projects: [
-      ('Interchange', 18),
-      ('Bridge', 12),
-      ('Pumps', 15),
-    ],
+    projects: [('Interchange', 18), ('Bridge', 12), ('Pumps', 15)],
     why:
         'The interchange clears and so does the pump station, which lands '
         'exactly on fifteen. At the hurdle a project earns precisely what the '
@@ -91,11 +87,7 @@ const hurdleRounds = <HurdleRound>[
         'The authority will not put money into anything earning less than ten '
         'percent.',
     marr: 10,
-    projects: [
-      ('Solar', 3),
-      ('Roof', 14),
-      ('Meters', 9),
-    ],
+    projects: [('Solar', 3), ('Roof', 14), ('Meters', 9)],
     why:
         'Only the roof. The array earns three percent, which is a positive '
         'return and still a rejection: the money is required to earn ten, and '
@@ -109,11 +101,7 @@ const hurdleRounds = <HurdleRound>[
         'Twelve percent is the hurdle. The levee comes back at eleven and the '
         'engineer wants to know whether that is close enough.',
     marr: 12,
-    projects: [
-      ('Levee', 11),
-      ('Culvert', 12),
-      ('Trail', 8),
-    ],
+    projects: [('Levee', 11), ('Culvert', 12), ('Trail', 8)],
     why:
         'The culvert lining, and nothing else. Eleven against a twelve percent '
         'hurdle is a rejection, not a rounding error: it says the money earns '
@@ -127,11 +115,7 @@ const hurdleRounds = <HurdleRound>[
         'Borrowing costs have risen and the board has moved its minimum to '
         'twenty percent. The same three proposals are back.',
     marr: 20,
-    projects: [
-      ('Transit', 18),
-      ('Garage', 12),
-      ('Plaza', 6),
-    ],
+    projects: [('Transit', 18), ('Garage', 12), ('Plaza', 6)],
     why:
         'None of them. The transit center at eighteen was accepted at last '
         'year\'s hurdle and is rejected at this one, which is the point of '
@@ -145,12 +129,7 @@ const hurdleRounds = <HurdleRound>[
         'Eight percent is the minimum. Four items were evaluated separately, '
         'and any of them can be done on its own.',
     marr: 8,
-    projects: [
-      ('Main', 8),
-      ('Valves', 19),
-      ('Hydrants', 7),
-      ('Billing', 11),
-    ],
+    projects: [('Main', 8), ('Valves', 19), ('Hydrants', 7), ('Billing', 11)],
     why:
         'Three of the four. The main sits on the hurdle and clears, the '
         'hydrant program at seven misses by a point and does not. These are '
@@ -164,11 +143,7 @@ const hurdleRounds = <HurdleRound>[
         'Twelve percent again. The fountain returns exactly what it cost, with '
         'nothing over.',
     marr: 12,
-    projects: [
-      ('Fountain', 0),
-      ('Repaving', 16),
-      ('Drainage', 12),
-    ],
+    projects: [('Fountain', 0), ('Repaving', 16), ('Drainage', 12)],
     why:
         'Repaving and drainage. A project that hands back exactly what went in '
         'has a return of zero, not of nothing: it earned no interest at all, '
@@ -236,7 +211,7 @@ class _OverTheBarGameState extends State<OverTheBarGame> {
                     ok: _nobody
                         ? truth.isEmpty
                         : _picked.length == truth.length &&
-                            _picked.containsAll(truth),
+                              _picked.containsAll(truth),
                     context: context,
                   )),
       child: Column(
@@ -274,9 +249,9 @@ class _OverTheBarGameState extends State<OverTheBarGame> {
             onTap: answered
                 ? null
                 : (i) => setState(() {
-                      _nobody = false;
-                      if (!_picked.add(i)) _picked.remove(i);
-                    }),
+                    _nobody = false;
+                    if (!_picked.add(i)) _picked.remove(i);
+                  }),
           ),
           const SizedBox(height: 8),
           _NobodyRow(
@@ -286,9 +261,9 @@ class _OverTheBarGameState extends State<OverTheBarGame> {
             onTap: answered
                 ? null
                 : () => setState(() {
-                      _picked.clear();
-                      _nobody = !_nobody;
-                    }),
+                    _picked.clear();
+                    _nobody = !_nobody;
+                  }),
           ),
           if (answered) ...[
             const SizedBox(height: 16),
@@ -451,9 +426,7 @@ class _BarRow extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: marked ? color : null,
-                  border: Border.all(
-                    color: marked ? color : AppColors.line,
-                  ),
+                  border: Border.all(color: marked ? color : AppColors.line),
                 ),
                 child: marked
                     ? const Icon(

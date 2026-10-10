@@ -85,8 +85,7 @@ const mohrRounds = <MohrRound>[
   ),
   MohrRound(
     subject: 'a point in a beam web',
-    asked:
-        'Tap the average of the two normal stresses you were given.',
+    asked: 'Tap the average of the two normal stresses you were given.',
     stress: Stress(x: 40, y: -10, xy: 25),
     answer: Spot.center,
     why:
@@ -112,8 +111,7 @@ const mohrRounds = <MohrRound>[
   ),
   MohrRound(
     subject: 'a point that is compressed both ways',
-    asked:
-        'Tap the largest principal stress here, the algebraically largest.',
+    asked: 'Tap the largest principal stress here, the algebraically largest.',
     stress: Stress(x: -30, y: -110, xy: 20),
     answer: Spot.s1,
     why:
@@ -283,7 +281,9 @@ class _ReadTheCircleGameState extends State<ReadTheCircleGame> {
             const SizedBox(height: 12),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE PLACE' : 'A DIFFERENT PLACE',
+              title: _session.correct!
+                  ? 'THAT IS THE PLACE'
+                  : 'A DIFFERENT PLACE',
               body: r.why,
             ),
           ],

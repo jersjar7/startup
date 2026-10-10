@@ -333,8 +333,9 @@ class _SquareBarPainter extends CustomPainter {
     );
     final tp = TextPainter(
       text: TextSpan(
-          text: 'square section',
-          style: AppTheme.mono(size: 11, color: AppColors.ink3)),
+        text: 'square section',
+        style: AppTheme.mono(size: 11, color: AppColors.ink3),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     tp.paint(canvas, Offset(size.width / 2 - tp.width / 2, box.bottom + 10));

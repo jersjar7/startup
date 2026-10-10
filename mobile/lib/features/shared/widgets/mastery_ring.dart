@@ -9,7 +9,12 @@ import '../../../core/theme/app_theme.dart';
 /// with the percent in JetBrains Mono in the center. Used on the chapter list,
 /// chapter header, and onboarding preview.
 class MasteryRing extends StatelessWidget {
-  const MasteryRing({super.key, required this.pct, this.size = 42, this.stroke = 4.5});
+  const MasteryRing({
+    super.key,
+    required this.pct,
+    this.size = 42,
+    this.stroke = 4.5,
+  });
 
   final int pct;
   final double size;
@@ -72,5 +77,6 @@ class _RingPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_RingPainter old) => old.pct != pct || old.stroke != stroke;
+  bool shouldRepaint(_RingPainter old) =>
+      old.pct != pct || old.stroke != stroke;
 }

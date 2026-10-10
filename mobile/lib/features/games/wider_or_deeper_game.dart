@@ -45,22 +45,40 @@ class FixRound {
   final String source;
 
   static String label(Remedy which) => switch (which) {
-        Remedy.wider => 'Widening it raises the pressure it can take',
-        Remedy.deeper => 'Burying it deeper does, and widening does not',
-        Remedy.both => 'Both help, and burying helps more',
-        Remedy.neither => 'Neither changes the pressure it can take',
-      };
+    Remedy.wider => 'Widening it raises the pressure it can take',
+    Remedy.deeper => 'Burying it deeper does, and widening does not',
+    Remedy.both => 'Both help, and burying helps more',
+    Remedy.neither => 'Neither changes the pressure it can take',
+  };
 }
 
 const _clay = Footing(
-    width: 6, depth: 3, cohesion: 1500, unitWeight: 115,
-    nc: 5.14, nq: 1, nGamma: 0);
+  width: 6,
+  depth: 3,
+  cohesion: 1500,
+  unitWeight: 115,
+  nc: 5.14,
+  nq: 1,
+  nGamma: 0,
+);
 const _sand = Footing(
-    width: 4, depth: 3, cohesion: 0, unitWeight: 120,
-    nc: 30.14, nq: 18.40, nGamma: 15.07);
+  width: 4,
+  depth: 3,
+  cohesion: 0,
+  unitWeight: 120,
+  nc: 30.14,
+  nq: 18.40,
+  nGamma: 15.07,
+);
 const _sandSurface = Footing(
-    width: 4, depth: 0, cohesion: 0, unitWeight: 120,
-    nc: 30.14, nq: 18.40, nGamma: 15.07);
+  width: 4,
+  depth: 0,
+  cohesion: 0,
+  unitWeight: 120,
+  nc: 30.14,
+  nq: 18.40,
+  nGamma: 15.07,
+);
 
 const fixRounds = <FixRound>[
   FixRound(
@@ -139,8 +157,7 @@ const fixRounds = <FixRound>[
   ),
   FixRound(
     subject: 'the flooded clay',
-    asked:
-        'The clay site floods too. Does widening the footing help NOW?',
+    asked: 'The clay site floods too. Does widening the footing help NOW?',
     footing: _clay,
     answer: Remedy.deeper,
     why:
@@ -245,8 +262,10 @@ class _WiderOrDeeperGameState extends State<WiderOrDeeperGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter:
-                      FootingPainter(footing: r.footing, answered: answered),
+                  painter: FootingPainter(
+                    footing: r.footing,
+                    answered: answered,
+                  ),
                   child: const SizedBox.expand(),
                 ),
               ),

@@ -27,15 +27,13 @@ enum Wanted { mostTension, mostCompression, noBending, mostShear }
 
 extension WantedWords on Wanted {
   String get asked => switch (this) {
-        Wanted.mostTension => 'Tap the layer being pulled hardest.',
-        Wanted.mostCompression => 'Tap the layer being squashed hardest.',
-        Wanted.noBending =>
-          'Tap the layer that feels no bending stress at all.',
-        Wanted.mostShear => 'Tap the layer carrying the most shear stress.',
-      };
+    Wanted.mostTension => 'Tap the layer being pulled hardest.',
+    Wanted.mostCompression => 'Tap the layer being squashed hardest.',
+    Wanted.noBending => 'Tap the layer that feels no bending stress at all.',
+    Wanted.mostShear => 'Tap the layer carrying the most shear stress.',
+  };
 
-  Runs get shows =>
-      this == Wanted.mostShear ? Runs.shear : Runs.bending;
+  Runs get shows => this == Wanted.mostShear ? Runs.shear : Runs.bending;
 }
 
 @immutable
@@ -71,9 +69,7 @@ class FiberRound {
     final top = section.crown;
     final axis = section.centroid.dy;
     final ys = [base, (base + axis) / 2, axis, (axis + top) / 2, top];
-    return [
-      for (var i = 0; i < ys.length; i++) Layer(ys[i], labels[i]),
-    ];
+    return [for (var i = 0; i < ys.length; i++) Layer(ys[i], labels[i])];
   }
 
   double get moment => sagging ? 20e6 : -20e6;
@@ -102,8 +98,13 @@ class FiberRound {
   }
 }
 
-const _labels = ['bottom face', 'lower quarter', 'neutral axis',
-    'upper quarter', 'top face'];
+const _labels = [
+  'bottom face',
+  'lower quarter',
+  'neutral axis',
+  'upper quarter',
+  'top face',
+];
 
 final fiberRounds = <FiberRound>[
   FiberRound(
@@ -334,8 +335,9 @@ class _WhichFiberIsWorstGameState extends State<WhichFiberIsWorstGame> {
             const SizedBox(height: 12),
             BoardFeedback(
               correct: _session.correct!,
-              title:
-                  _session.correct! ? 'THAT IS THE LAYER' : 'A DIFFERENT LAYER',
+              title: _session.correct!
+                  ? 'THAT IS THE LAYER'
+                  : 'A DIFFERENT LAYER',
               body: r.why,
             ),
           ],

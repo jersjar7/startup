@@ -22,8 +22,7 @@ class CanYouSkipASectionGame extends StatefulWidget {
   const CanYouSkipASectionGame({super.key});
 
   @override
-  State<CanYouSkipASectionGame> createState() =>
-      _CanYouSkipASectionGameState();
+  State<CanYouSkipASectionGame> createState() => _CanYouSkipASectionGameState();
 }
 
 /// What working end to end does to the answer.
@@ -31,10 +30,10 @@ enum Skipped { same, tooSmall, tooBig }
 
 extension SkippedWords on Skipped {
   String get plain => switch (this) {
-        Skipped.same => 'Nothing: the same answer',
-        Skipped.tooSmall => 'It comes out too small',
-        Skipped.tooBig => 'It comes out too big',
-      };
+    Skipped.same => 'Nothing: the same answer',
+    Skipped.tooSmall => 'It comes out too small',
+    Skipped.tooBig => 'It comes out too big',
+  };
 }
 
 @immutable
@@ -68,11 +67,13 @@ const skipRounds = <SkipRound>[
         'Nothing at 0+00, 400 square feet at 1+00, nothing again at 2+00. '
         'What happens if the end area formula is used once across the whole '
         'run instead of station by station?',
-    haul: Haul(slabs: [
-      Slab(station: 0, area: 0),
-      Slab(station: 100, area: 400),
-      Slab(station: 200, area: 0),
-    ]),
+    haul: Haul(
+      slabs: [
+        Slab(station: 0, area: 0),
+        Slab(station: 100, area: 400),
+        Slab(station: 200, area: 0),
+      ],
+    ),
     why:
         'Far too small: it gives exactly nothing. Both end sections are '
         'zero, so their average is zero, and the formula reports no dirt at '
@@ -86,11 +87,13 @@ const skipRounds = <SkipRound>[
     setting:
         'Nothing at 0+00, 200 at 1+00, 400 at 2+00. Worked end to end '
         'instead of station by station.',
-    haul: Haul(slabs: [
-      Slab(station: 0, area: 0),
-      Slab(station: 100, area: 200),
-      Slab(station: 200, area: 400),
-    ]),
+    haul: Haul(
+      slabs: [
+        Slab(station: 0, area: 0),
+        Slab(station: 100, area: 200),
+        Slab(station: 200, area: 400),
+      ],
+    ),
     why:
         'Nothing: 40,000 either way. Where the section grows evenly from one '
         'end to the other, the middle measurement adds no information the '
@@ -102,11 +105,13 @@ const skipRounds = <SkipRound>[
   SkipRound(
     subject: 'a saddle between two cuts',
     setting: '400 at 0+00, 100 at 1+00, 400 at 2+00, worked end to end.',
-    haul: Haul(slabs: [
-      Slab(station: 0, area: 400),
-      Slab(station: 100, area: 100),
-      Slab(station: 200, area: 400),
-    ]),
+    haul: Haul(
+      slabs: [
+        Slab(station: 0, area: 400),
+        Slab(station: 100, area: 100),
+        Slab(station: 200, area: 400),
+      ],
+    ),
     why:
         'Too big: 80,000 against 50,000. The ends are the deepest part of '
         'this run and working from them alone assumes the cut stays deep all '
@@ -118,11 +123,13 @@ const skipRounds = <SkipRound>[
   SkipRound(
     subject: 'a hump between two shallow ends',
     setting: '100 at 0+00, 500 at 1+00, 100 at 2+00, worked end to end.',
-    haul: Haul(slabs: [
-      Slab(station: 0, area: 100),
-      Slab(station: 100, area: 500),
-      Slab(station: 200, area: 100),
-    ]),
+    haul: Haul(
+      slabs: [
+        Slab(station: 0, area: 100),
+        Slab(station: 100, area: 500),
+        Slab(station: 200, area: 100),
+      ],
+    ),
     why:
         'Too small: 20,000 against 60,000, so two thirds of the dirt goes '
         'unbooked. On a pay quantity that is the contractor moving material '
@@ -135,12 +142,14 @@ const skipRounds = <SkipRound>[
     setting:
         'Nothing, 100, 200 and 300 square feet at hundred foot stations, '
         'worked end to end.',
-    haul: Haul(slabs: [
-      Slab(station: 0, area: 0),
-      Slab(station: 100, area: 100),
-      Slab(station: 200, area: 200),
-      Slab(station: 300, area: 300),
-    ]),
+    haul: Haul(
+      slabs: [
+        Slab(station: 0, area: 0),
+        Slab(station: 100, area: 100),
+        Slab(station: 200, area: 200),
+        Slab(station: 300, area: 300),
+      ],
+    ),
     why:
         'Nothing: 45,000 either way. However many stations a run has, if the '
         'section climbs evenly through all of them the ends carry the whole '
@@ -153,12 +162,14 @@ const skipRounds = <SkipRound>[
     setting:
         'Nothing at 0+00, 300 at 1+00, 300 at 2+00, nothing at 3+00, worked '
         'end to end.',
-    haul: Haul(slabs: [
-      Slab(station: 0, area: 0),
-      Slab(station: 100, area: 300),
-      Slab(station: 200, area: 300),
-      Slab(station: 300, area: 0),
-    ]),
+    haul: Haul(
+      slabs: [
+        Slab(station: 0, area: 0),
+        Slab(station: 100, area: 300),
+        Slab(station: 200, area: 300),
+        Slab(station: 300, area: 0),
+      ],
+    ),
     why:
         'Too small, and again the answer is nothing at all. Both ends run '
         'out to zero, so the end to end sum reports an empty job while the '
@@ -288,7 +299,9 @@ class _CanYouSkipASectionGameState extends State<CanYouSkipASectionGame> {
             const SizedBox(height: 6),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS WHAT IT DOES' : 'THE OTHER WAY',
+              title: _session.correct!
+                  ? 'THAT IS WHAT IT DOES'
+                  : 'THE OTHER WAY',
               body: r.why,
             ),
           ],

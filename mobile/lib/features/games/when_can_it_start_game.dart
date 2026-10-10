@@ -47,25 +47,31 @@ class StartRound {
 
 /// The four activity network the lesson builds: A first, then B and C in
 /// parallel, then D waiting on both.
-const _fourTask = Network(tasks: [
-  Task(name: 'A', days: 4),
-  Task(name: 'B', days: 6, after: ['A']),
-  Task(name: 'C', days: 3, after: ['A']),
-  Task(name: 'D', days: 2, after: ['B', 'C']),
-]);
+const _fourTask = Network(
+  tasks: [
+    Task(name: 'A', days: 4),
+    Task(name: 'B', days: 6, after: ['A']),
+    Task(name: 'C', days: 3, after: ['A']),
+    Task(name: 'D', days: 2, after: ['B', 'C']),
+  ],
+);
 
 /// Two activities end to end, which is where the lesson starts.
-const _twoTask = Network(tasks: [
-  Task(name: 'A', days: 5),
-  Task(name: 'B', days: 3, after: ['A']),
-]);
+const _twoTask = Network(
+  tasks: [
+    Task(name: 'A', days: 5),
+    Task(name: 'B', days: 3, after: ['A']),
+  ],
+);
 
 /// A merge with two predecessors finishing at different times.
-const _merge = Network(tasks: [
-  Task(name: 'A', days: 6),
-  Task(name: 'B', days: 9),
-  Task(name: 'C', days: 4, after: ['A', 'B']),
-]);
+const _merge = Network(
+  tasks: [
+    Task(name: 'A', days: 6),
+    Task(name: 'B', days: 9),
+    Task(name: 'C', days: 4, after: ['A', 'B']),
+  ],
+);
 
 const startRounds = <StartRound>[
   StartRound(

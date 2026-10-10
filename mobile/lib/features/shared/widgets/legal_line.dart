@@ -23,10 +23,16 @@ class LegalLine extends StatelessWidget {
       padding: const EdgeInsets.only(top: 12),
       child: Text.rich(
         TextSpan(
-          style: const TextStyle(fontSize: 10.5, color: AppColors.ink3, height: 1.55),
+          style: const TextStyle(
+            fontSize: 10.5,
+            color: AppColors.ink3,
+            height: 1.55,
+          ),
           children: [
             const TextSpan(
-                text: 'By creating an account or using the app, you agree to our '),
+              text:
+                  'By creating an account or using the app, you agree to our ',
+            ),
             WidgetSpan(
               alignment: PlaceholderAlignment.baseline,
               baseline: TextBaseline.alphabetic,

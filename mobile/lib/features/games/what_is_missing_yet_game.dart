@@ -241,8 +241,7 @@ class _WhatIsMissingYetGameState extends State<WhatIsMissingYetGame> {
             child: Column(
               children: [
                 for (final (i, line) in lines.indexed) ...[
-                  if (i > 0)
-                    const Divider(height: 1, color: AppColors.line),
+                  if (i > 0) const Divider(height: 1, color: AppColors.line),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 9),
                     child: Row(
@@ -291,9 +290,7 @@ class _WhatIsMissingYetGameState extends State<WhatIsMissingYetGame> {
             selected: _picked == readyIndex,
             locked: answered,
             isTruth: r.answer == readyIndex,
-            onTap: answered
-                ? null
-                : () => setState(() => _picked = readyIndex),
+            onTap: answered ? null : () => setState(() => _picked = readyIndex),
           ),
           if (answered) ...[
             const SizedBox(height: 16),

@@ -83,8 +83,7 @@ const arcRounds = <ArcRound>[
   ),
   ArcRound(
     subject: 'the same throw again',
-    asked:
-        'Tap the moment when the ball has the greatest acceleration.',
+    asked: 'Tap the moment when the ball has the greatest acceleration.',
     flight: _lob,
     answer: Moment.launch,
     everywhere: true,
@@ -113,8 +112,7 @@ const arcRounds = <ArcRound>[
   ),
   ArcRound(
     subject: 'the same flatter throw',
-    asked:
-        'Tap the moment when the ball is falling fastest.',
+    asked: 'Tap the moment when the ball is falling fastest.',
     flight: _flat,
     answer: Moment.landing,
     why:
@@ -165,8 +163,7 @@ class _TapTheTrajectoryGameState extends State<TapTheTrajectoryGame> {
 
   ArcRound get _round => arcRounds[_session.round];
 
-  bool get _right =>
-      _round.everywhere ? _pickedNone : _picked == _round.answer;
+  bool get _right => _round.everywhere ? _pickedNone : _picked == _round.answer;
 
   @override
   Widget build(BuildContext context) {
@@ -288,9 +285,9 @@ class _TapTheTrajectoryGameState extends State<TapTheTrajectoryGame> {
             onTap: answered
                 ? null
                 : () => setState(() {
-                      _pickedNone = true;
-                      _picked = null;
-                    }),
+                    _pickedNone = true;
+                    _picked = null;
+                  }),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

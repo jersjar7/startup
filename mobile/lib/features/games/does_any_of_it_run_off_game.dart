@@ -20,8 +20,7 @@ class DoesAnyOfItRunOffGame extends StatefulWidget {
   const DoesAnyOfItRunOffGame({super.key});
 
   @override
-  State<DoesAnyOfItRunOffGame> createState() =>
-      _DoesAnyOfItRunOffGameState();
+  State<DoesAnyOfItRunOffGame> createState() => _DoesAnyOfItRunOffGameState();
 }
 
 /// How much of the storm reaches the drain.
@@ -29,10 +28,10 @@ enum Runoff3 { none, part, nearlyAll }
 
 extension Runoff3Words on Runoff3 {
   String get plain => switch (this) {
-        Runoff3.none => 'None of it: no runoff at all',
-        Runoff3.part => 'Part of it, but well under half',
-        Runoff3.nearlyAll => 'Most of it, more than half',
-      };
+    Runoff3.none => 'None of it: no runoff at all',
+    Runoff3.part => 'Part of it, but well under half',
+    Runoff3.nearlyAll => 'Most of it, more than half',
+  };
 }
 
 @immutable

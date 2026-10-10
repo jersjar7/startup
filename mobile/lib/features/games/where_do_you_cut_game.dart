@@ -394,8 +394,12 @@ class _CutBoard extends StatelessWidget {
   /// The tap target sits on the label at the top of the cut, which is the one
   /// part of a cut line guaranteed to be clear of the truss.
   Widget _target(int i, Size size) {
-    final at = TrussPainter.labelSpot(round.truss, round.cuts[i], size,
-        round.cuts);
+    final at = TrussPainter.labelSpot(
+      round.truss,
+      round.cuts[i],
+      size,
+      round.cuts,
+    );
     const box = 46.0;
     return Positioned(
       key: ValueKey('cut-$i'),

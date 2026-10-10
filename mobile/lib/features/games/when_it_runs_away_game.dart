@@ -31,10 +31,10 @@ enum Danger { resonant, wellClear, tooLow }
 
 extension DangerWords on Danger {
   String get plain => switch (this) {
-        Danger.resonant => 'Trouble: they are on top of each other',
-        Danger.wellClear => 'Safe: the forcing is well ABOVE it',
-        Danger.tooLow => 'Safe: the forcing is well BELOW it',
-      };
+    Danger.resonant => 'Trouble: they are on top of each other',
+    Danger.wellClear => 'Safe: the forcing is well ABOVE it',
+    Danger.tooLow => 'Safe: the forcing is well BELOW it',
+  };
 }
 
 @immutable
@@ -310,10 +310,20 @@ class _TunePainter extends CustomPainter {
     double x(double hz) => padL + math.min(hz, span) / span * wide;
 
     canvas
-      ..drawLine(Offset(padL, floor), Offset(size.width - 8, floor),
-          Paint()..color = AppColors.ink3..strokeWidth = 1)
-      ..drawLine(Offset(padL, 8), Offset(padL, floor),
-          Paint()..color = AppColors.ink3..strokeWidth = 1);
+      ..drawLine(
+        Offset(padL, floor),
+        Offset(size.width - 8, floor),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1,
+      )
+      ..drawLine(
+        Offset(padL, 8),
+        Offset(padL, floor),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1,
+      );
 
     // A lightly damped response: big near the natural frequency, small away.
     final path = Path();
@@ -341,9 +351,20 @@ class _TunePainter extends CustomPainter {
         ..color = AppColors.ink3
         ..strokeWidth = 0.8,
     );
-    _write(canvas, size, 'natural', Offset(x(naturalHz) - 18, floor + 4),
-        AppColors.ink3);
-    _write(canvas, size, 'how far it swings', const Offset(2, 2), AppColors.ink3);
+    _write(
+      canvas,
+      size,
+      'natural',
+      Offset(x(naturalHz) - 18, floor + 4),
+      AppColors.ink3,
+    );
+    _write(
+      canvas,
+      size,
+      'how far it swings',
+      const Offset(2, 2),
+      AppColors.ink3,
+    );
 
     if (forcingHz != null) {
       final at = x(forcingHz!);
@@ -356,7 +377,13 @@ class _TunePainter extends CustomPainter {
             ..strokeWidth = 2,
         )
         ..drawCircle(Offset(at, 14), 4, Paint()..color = AppColors.ember);
-      _write(canvas, size, 'forcing', Offset(at - 14, floor + 4), AppColors.ember);
+      _write(
+        canvas,
+        size,
+        'forcing',
+        Offset(at - 14, floor + 4),
+        AppColors.ember,
+      );
     }
   }
 
@@ -364,7 +391,10 @@ class _TunePainter extends CustomPainter {
   /// the right edge, so every label here is kept inside the panel.
   void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 9.5, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     paintInside(canvas, size, tp, at);

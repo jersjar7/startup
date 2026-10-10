@@ -61,8 +61,7 @@ const _plain = Joint(
 const jointRounds = <JointRound>[
   JointRound(
     subject: 'what a dowel does',
-    asked:
-        'Dowel bars run across a transverse joint. What are they there for?',
+    asked: 'Dowel bars run across a transverse joint. What are they there for?',
     joint: _doweled,
     options: [
       'To hold the two slabs tightly together',
@@ -266,10 +265,7 @@ class _WhatTheBarIsForGameState extends State<WhatTheBarIsForGame> {
                 minor: 18,
                 major: 90,
                 child: CustomPaint(
-                  painter: JointPainter(
-                    joint: r.joint,
-                    answered: answered,
-                  ),
+                  painter: JointPainter(joint: r.joint, answered: answered),
                   child: const SizedBox.expand(),
                 ),
               ),

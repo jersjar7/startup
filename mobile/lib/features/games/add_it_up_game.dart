@@ -66,8 +66,7 @@ final splitRounds = <SplitRound>[
     pairs: [
       (Entry.ssPoint.beamOf(span: _l), Entry.cantUdl.beamOf(span: _l)),
       (Entry.ssPoint.beamOf(span: _l), Entry.ssUdl.beamOf(span: _l)),
-      (Entry.ssOffset.beamOf(span: _l, at: 1500),
-          Entry.ssUdl.beamOf(span: _l)),
+      (Entry.ssOffset.beamOf(span: _l, at: 1500), Entry.ssUdl.beamOf(span: _l)),
     ],
     answer: 1,
     why:
@@ -101,16 +100,14 @@ final splitRounds = <SplitRound>[
   ),
   SplitRound(
     subject: 'two loads, neither in the middle',
-    whole: Loading(
-      span: _l,
-      points: [(2000, 15000), (4000, 15000)],
-    ),
+    whole: Loading(span: _l, points: [(2000, 15000), (4000, 15000)]),
     pairs: [
       (Entry.ssPoint.beamOf(span: _l), Entry.ssPoint.beamOf(span: _l)),
-      (Entry.ssOffset.beamOf(span: _l, at: 2000),
-          Entry.ssOffset.beamOf(span: _l, at: 4000)),
-      (Entry.ssOffset.beamOf(span: _l, at: 2000),
-          Entry.ssUdl.beamOf(span: _l)),
+      (
+        Entry.ssOffset.beamOf(span: _l, at: 2000),
+        Entry.ssOffset.beamOf(span: _l, at: 4000),
+      ),
+      (Entry.ssOffset.beamOf(span: _l, at: 2000), Entry.ssUdl.beamOf(span: _l)),
     ],
     answer: 1,
     why:
@@ -129,11 +126,12 @@ final splitRounds = <SplitRound>[
       spreads: [Spread(0, _l, 5, 5)],
     ),
     pairs: [
-      (Entry.ssUdl.beamOf(span: _l),
-          Entry.ssOffset.beamOf(span: _l, at: 1500)),
+      (Entry.ssUdl.beamOf(span: _l), Entry.ssOffset.beamOf(span: _l, at: 1500)),
       (Entry.ssUdl.beamOf(span: _l), Entry.ssPoint.beamOf(span: _l)),
-      (Entry.cantUdl.beamOf(span: _l),
-          Entry.ssOffset.beamOf(span: _l, at: 1500)),
+      (
+        Entry.cantUdl.beamOf(span: _l),
+        Entry.ssOffset.beamOf(span: _l, at: 1500),
+      ),
     ],
     answer: 0,
     why:
@@ -146,16 +144,17 @@ final splitRounds = <SplitRound>[
   ),
   SplitRound(
     subject: 'two loads, one of them central',
-    whole: Loading(
-      span: _l,
-      points: [(_l / 2, 18000), (4500, 9000)],
-    ),
+    whole: Loading(span: _l, points: [(_l / 2, 18000), (4500, 9000)]),
     pairs: [
-      (Entry.ssOffset.beamOf(span: _l, at: 4500),
-          Entry.ssOffset.beamOf(span: _l, at: 4500)),
+      (
+        Entry.ssOffset.beamOf(span: _l, at: 4500),
+        Entry.ssOffset.beamOf(span: _l, at: 4500),
+      ),
       (Entry.ssPoint.beamOf(span: _l), Entry.ssUdl.beamOf(span: _l)),
-      (Entry.ssPoint.beamOf(span: _l),
-          Entry.ssOffset.beamOf(span: _l, at: 4500)),
+      (
+        Entry.ssPoint.beamOf(span: _l),
+        Entry.ssOffset.beamOf(span: _l, at: 4500),
+      ),
     ],
     answer: 2,
     why:
@@ -172,8 +171,10 @@ final splitRounds = <SplitRound>[
     pairs: [
       (Entry.ssPoint.beamOf(span: _l), Entry.ssUdl.beamOf(span: _l)),
       (Entry.ssPoint.beamOf(span: _l), Entry.ssPoint.beamOf(span: _l)),
-      (Entry.ssOffset.beamOf(span: _l, at: 2000),
-          Entry.ssOffset.beamOf(span: _l, at: 4000)),
+      (
+        Entry.ssOffset.beamOf(span: _l, at: 2000),
+        Entry.ssOffset.beamOf(span: _l, at: 4000),
+      ),
     ],
     answer: -1,
     why:
@@ -299,7 +300,9 @@ class _AddItUpGameState extends State<AddItUpGame> {
             const SizedBox(height: 16),
             BoardFeedback(
               correct: _session.correct!,
-              title: _session.correct! ? 'THAT IS THE SPLIT' : 'THAT IS A DIFFERENT BEAM',
+              title: _session.correct!
+                  ? 'THAT IS THE SPLIT'
+                  : 'THAT IS A DIFFERENT BEAM',
               body: r.why,
             ),
           ],

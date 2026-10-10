@@ -43,8 +43,7 @@ class BreakRound {
 
 /// The lesson's own curve: plus three into minus five over 800 ft, a crest
 /// with a break of eight.
-const _plusThreeToMinusFive =
-    Vertical(gradeIn: 3, gradeOut: -5, length: 800);
+const _plusThreeToMinusFive = Vertical(gradeIn: 3, gradeOut: -5, length: 800);
 
 /// A sag: minus four into plus four, the same break of eight.
 const _sag = Vertical(gradeIn: -4, gradeOut: 4, length: 800);
