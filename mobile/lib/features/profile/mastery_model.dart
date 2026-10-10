@@ -11,21 +11,21 @@ Map<String, int> totalsOf(Map<String, ChapterMastery> m) => {
 /// EXAM_DISTRIBUTION). One source for one number: the phone's mastery row and
 /// the website's dashboard must agree.
 const examWeights = <String, int>{
-  'mathematics': 13,
-  'statistics': 4,
+  'mathematics': 7,
+  'statistics': 2,
   'ethics': 4,
-  'economics': 4,
-  'statics': 8,
+  'economics': 6,
+  'statics': 9,
   'dynamics': 4,
   'mechanics-materials': 8,
-  'materials': 4,
-  'fluid-mechanics': 4,
-  'surveying': 4,
-  'water-resources': 14,
-  'structural': 13,
+  'materials': 6,
+  'fluid-mechanics': 6,
+  'surveying': 6,
+  'water-resources': 11,
+  'structural': 11,
   'geotechnical': 11,
   'transportation': 10,
-  'construction': 5,
+  'construction': 9,
 };
 
 /// Chapter mastery weighted by exam questions, rounded. Chapters missing from

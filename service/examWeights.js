@@ -2,23 +2,34 @@
 // much each chapter counts toward the 110-question exam. Mirrors the frontend
 // copy in src/data/exam-bank/index.js (kept in sync by hand; identical values).
 // Used to weight chapter mastery into one honest, coverage-anchored number.
+//
+// Set from the CURRENT spec: NCEES FE CIVIL CBT Exam Specifications, effective
+// with the July 2020 examinations (research/civil/fe-civil-cbt-spec.pdf). The
+// earlier numbers came from the RETIRED 2014 spec and were badly wrong in two
+// places: maths was worth 17 of 110 here against about 9 on the real exam, and
+// construction 5 against about 9. See research/civil/SPEC-RECONCILIATION.md.
+//
+// The current spec has 14 areas, not 15: it merges Mathematics and Statistics
+// into one area worth 8-12. We keep them as two chapters for studying (owner,
+// 2026-10-09) and split that allowance 7/2, in proportion to the four
+// subtopics the spec lists under it, three of which are maths.
 
 const EXAM_DISTRIBUTION = {
-  mathematics: 13, // incl. Computational Tools
-  statistics: 4,
+  mathematics: 7,
+  statistics: 2,
   ethics: 4,
-  economics: 4,
-  statics: 8,
+  economics: 6,
+  statics: 9,
   dynamics: 4,
   'mechanics-materials': 8,
-  materials: 4,
-  'fluid-mechanics': 4,
-  surveying: 4,
-  'water-resources': 14, // Hydraulics & Hydrologic + Environmental
-  structural: 13, // Structural Analysis + Structural Design
+  materials: 6,
+  'fluid-mechanics': 6,
+  surveying: 6,
+  'water-resources': 11,
+  structural: 11,
   geotechnical: 11,
   transportation: 10,
-  construction: 5,
+  construction: 9,
 };
 // Sum = 110 — matches the NCEES FE Civil total.
 

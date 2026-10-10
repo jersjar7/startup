@@ -15,8 +15,8 @@ describe('computeReadiness', () => {
     expect(computeReadiness(all)).toBe(100);
   });
 
-  it('weights by exam question count (statics weight 8 of 110)', () => {
-    expect(computeReadiness({ statics: 100 })).toBe(Math.round((100 * 8) / 110)); // 7
+  it('weights by exam question count (statics weight 9 of 110)', () => {
+    expect(computeReadiness({ statics: 100 })).toBe(Math.round((100 * 9) / 110)); // 8
   });
 
   it('ignores unknown chapter ids', () => {
@@ -28,10 +28,11 @@ describe('computeFocusAreas', () => {
   it('returns the 3 highest-leverage chapters, weakest-first by score', () => {
     const focus = computeFocusAreas({});
     expect(focus).toHaveLength(3);
-    // all at 0% mastery -> ranked purely by exam weight; water-resources (14)
-    // is highest under the NCEES-rebalanced distribution
-    expect(focus[0].ch.id).toBe('water-resources');
-    expect(focus[0].focusScore).toBe(100 * 14);
+    // All at 0% mastery, so this ranks purely by exam weight. Under the
+    // July 2020 spec three chapters tie at 11, the top weight; the sort is
+    // stable, so the earliest of them in CHAPTERS order comes first.
+    expect(['water-resources', 'structural', 'geotechnical']).toContain(focus[0].ch.id);
+    expect(focus[0].focusScore).toBe(100 * 11);
   });
 
   it('excludes chapters at or above the mastered threshold', () => {

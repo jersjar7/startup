@@ -77,9 +77,9 @@ void main() {
   tearDown(() => appClock = DateTime.now);
 
   test('the weighted figure is the website\'s, not a plain average', () {
-    // 62*13 + 35*4 + 84*4 + 51*4 + 48*8 + 12*4 + 27*8 + 9*4 + 21*14 + 16*13 + 6*10
-    // = 806+140+336+204+384+48+216+36+294+208+60 = 2732, over 110 questions.
-    expect(weightedMastery(totalsOf(_sample)), 25);
+    // 62*7 + 35*2 + 84*4 + 51*6 + 48*9 + 12*4 + 27*8 + 9*6 + 21*11 + 16*11 + 6*10
+    // = 434+70+336+306+432+48+216+54+231+176+60 = 2363, over 110 questions.
+    expect(weightedMastery(totalsOf(_sample)), 21);
     expect(weightedMastery({}), 0);
     expect(stageName(84), 'Mastered');
     expect(stageName(51), 'Familiar');
@@ -90,10 +90,12 @@ void main() {
   test('focus is low mastery times high weight, mastered chapters out', () {
     expect(
       focusChapters(totalsOf(_sample)),
-      // (100-21)*14 = 1106, (100-0)*11 = 1100, (100-16)*13 = 1092.
-      ['water-resources', 'geotechnical', 'structural'],
+      // (100-0)*11 = 1100, (100-6)*10 = 940, (100-16)*11 = 924. Under the
+      // July 2020 weighting the untouched chapters that carry real weight
+      // rise to the top, which is the whole point of the model.
+      ['geotechnical', 'transportation', 'structural'],
     );
-    expect(focusChapters(totalsOf(_sample)).first, 'water-resources');
+    expect(focusChapters(totalsOf(_sample)).first, 'geotechnical');
     expect(focusChapters({'ethics': 95}), isNot(contains('ethics')));
   });
 
@@ -101,7 +103,15 @@ void main() {
     _phone(tester, 1700);
     await tester.pumpWidget(_app(MasteryScreen(mastery: _sample)));
     await _settle(tester);
-    expect(find.text('25%', findRichText: true), findsOneWidget);
+    // The headline, found by its 124pt display size rather than by text: a
+    // chapter row happens to read 21% too, so a plain text finder matches two.
+    final headline = find.byWidgetPredicate(
+      (w) =>
+          w is Text &&
+          w.textSpan?.toPlainText() == '21%' &&
+          (w.textSpan as TextSpan?)?.style?.fontSize == 124,
+    );
+    expect(headline, findsOneWidget);
     expect(find.text('MASTERED'), findsOneWidget); // ethics
     // The app never says "games" to a student (owner directive, 2026-09-07).
     expect(find.text('in this app: 5 of 10 done'), findsNWidgets(3));

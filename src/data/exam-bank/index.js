@@ -41,22 +41,29 @@ const CHAPTER_IDS = [
 ];
 
 // NCEES FE Civil exam weighted distribution (110 questions total)
+// Current spec: NCEES FE CIVIL CBT, effective July 2020
+// (research/civil/fe-civil-cbt-spec.pdf). Replaces the retired 2014 numbers,
+// which gave maths 17 of 110 against about 9 on the real exam and construction
+// 5 against about 9. Mathematics and Statistics are one 8-12 area in the spec;
+// we keep two chapters for studying and split it 7/2.
+// Must stay identical to service/examWeights.js and
+// mobile/lib/features/profile/mastery_model.dart.
 const EXAM_DISTRIBUTION = {
-  'mathematics':         13,  // incl. Computational Tools (~8 math + ~5 comp-tools)
-  'statistics':          4,
-  'ethics':              4,
-  'economics':           4,
-  'statics':             8,
-  'dynamics':            4,
-  'mechanics-materials': 8,
-  'materials':           4,
-  'fluid-mechanics':     4,
-  'surveying':           4,
-  'water-resources':     14,  // Hydraulics & Hydrologic (8–12) + Environmental (6–9)
-  'structural':          13,  // Structural Analysis (6–9) + Structural Design (6–9)
-  'geotechnical':        11,
-  'transportation':      10,
-  'construction':        5,
+  'mathematics':          7,
+  'statistics':           2,
+  'ethics':               4,
+  'economics':            6,
+  'statics':              9,
+  'dynamics':             4,
+  'mechanics-materials':  8,
+  'materials':            6,
+  'fluid-mechanics':      6,
+  'surveying':            6,
+  'water-resources':      11,
+  'structural':           11,
+  'geotechnical':         11,
+  'transportation':       10,
+  'construction':         9,
 };
 
 // Build a lookup map of diagnostic IDs for fast exclusion
