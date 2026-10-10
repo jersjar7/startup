@@ -245,6 +245,16 @@ children's section states the platform is designed for adults.
 
 ---
 
+## Follow-ups, deliberately not done mid-review
+
+**The sign-in instructions in the console carry the same wrong claim** that
+`review-notes.md` had: that the home screen "shows a real state rather than an
+empty one". It does show the exam countdown, but chapters, mastery and days
+studied all read zero. Correcting it means editing App content while the app is
+in review, which queues a fresh change against a live submission for a cosmetic
+gain. **Fix it after the review resolves**, or seed the review account so the
+sentence becomes true.
+
 ## Before the next release
 
 1. Re-read every answer above. Features change what is true.
