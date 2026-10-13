@@ -10,18 +10,25 @@ import '../games/truss_figures.dart';
 import '../shared/widgets/engineering_grid.dart';
 import '../shared/widgets/kit.dart';
 import '../shared/widgets/legal_line.dart';
+import '../shared/widgets/raccoon_peek.dart';
 
-/// The first-run tour: what the phone is, how it works with the website,
-/// and what it honestly is not. Then sign up. Three pages, each on its own
-/// ground so moving forward is felt (ADR 0016). Its root is
-/// [WelcomeScreen]: back from the first page and Skip both leave the tour,
-/// and both mark it seen.
+/// The first-run tour: how the app and the website split the work, what a
+/// lesson in the app is, and what the app honestly is not. Then sign up.
+/// Three pages, each on its own ground so moving forward is felt (ADR
+/// 0016). Its root is [WelcomeScreen]: back from the first page and Skip
+/// both leave the tour, and both mark it seen.
 ///
-/// Every claim here is checked against the code: games are boards of
+/// The split comes first. A tester's notes on build 1075 (2026-10-09) read
+/// the old opening, a game round, as how FE for Raccoons works as a whole,
+/// and only understood the app and the website do different jobs by the
+/// last page. The copy says "the app", never "this phone": a student may
+/// have been using the website on their phone before they found it.
+///
+/// Every claim here is checked against the code: lessons are boards of
 /// rounds (board.dart), every round is sent to the account
-/// (game_sync.dart), and the website caps phone-earned mastery at 60
-/// percent (service/mastery.js, ADR 0012). The pages that were here before
-/// showed a paper hand-off the app does not have.
+/// (game_sync.dart), and nothing played here moves mastery (games never
+/// count toward it). The pages that were here before showed a paper
+/// hand-off the app does not have.
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key, this.replay = false});
 
@@ -85,12 +92,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           controller: _pc,
           onPageChanged: (i) => setState(() => _page = i),
           children: [
-            _Games(
+            _Together(
               onBack: _leave,
               onSkip: () => _go('/welcome'),
               onNext: () => _to(1),
             ),
-            _Together(
+            _Games(
               onBack: () => _to(0),
               onSkip: () => _go('/welcome'),
               onNext: () => _to(2),
@@ -136,7 +143,30 @@ class _StepRow extends StatelessWidget {
 
 const _pad = EdgeInsets.fromLTRB(24, 4, 24, 34);
 
-// ── 1. what the phone is: short games, one concept each ──────────────
+/// A page that fills the screen when it fits, so its Spacer still pushes
+/// the blocks to the thumb zone, and scrolls when it does not. The full
+/// sentences these pages carry since build 1075 are taller than a small
+/// phone.
+class _FitOrScroll extends StatelessWidget {
+  const _FitOrScroll({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, box) => SingleChildScrollView(
+        padding: _pad,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: box.maxHeight - _pad.vertical),
+          child: IntrinsicHeight(child: child),
+        ),
+      ),
+    );
+  }
+}
+
+// ── 2. what a lesson in the app is: a few rounds, one concept each ────
 
 class _Games extends StatelessWidget {
   const _Games({
@@ -152,17 +182,16 @@ class _Games extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: _pad,
+      child: _FitOrScroll(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _StepRow(at: 1, onBack: onBack, onSkip: onSkip),
+            _StepRow(at: 2, onBack: onBack, onSkip: onSkip),
             const SizedBox(height: 30),
             Text('One concept.\nA minute each.', style: AppTheme.display()),
             const SizedBox(height: 12),
             Text(
-              'Every lesson here is a few quick rounds: read the figure, make the call. Fifteen chapters, and nothing locks.',
+              'Each lesson in the app is a few rounds. For each round, you read a figure, make a call, and see right away whether you were right and why. All fifteen chapters are open from the start, so you can go straight to the one you need.',
               style: AppTheme.body(
                 size: 16,
                 height: 1.45,
@@ -227,18 +256,23 @@ class _BoardPreview extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: TrussPainter(
-                    truss: round.truss,
-                    mode: TrussMode.oneMember,
-                    spotlight: round.member,
+            // Room for the truss when the page has to scroll on a small
+            // phone; otherwise the figure takes whatever the board leaves.
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 150),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: TrussPainter(
+                      truss: round.truss,
+                      mode: TrussMode.oneMember,
+                      spotlight: round.member,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),
@@ -290,7 +324,7 @@ class _Choice extends StatelessWidget {
   }
 }
 
-// ── 2. one account, two places ─────────────────────────────────────────
+// ── 1. the website teaches, the app keeps it ───────────────────────────
 
 class _Together extends StatelessWidget {
   const _Together({
@@ -306,17 +340,21 @@ class _Together extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: _pad,
+      child: _FitOrScroll(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _StepRow(at: 2, onBack: onBack, onSkip: onSkip),
+            _StepRow(at: 1, onBack: onBack, onSkip: onSkip),
             const SizedBox(height: 30),
-            Text('One account.\nTwo places.', style: AppTheme.display()),
+            // 40, the bottom of the headline range: at 48 each line wraps
+            // in two.
+            Text(
+              'Learn at the desk.\nPractice anywhere.',
+              style: AppTheme.display(size: 40),
+            ),
             const SizedBox(height: 12),
             Text(
-              'The website teaches. The phone keeps it sharp. Every round you play here is saved to your account and shows up there.',
+              'FE for Raccoons comes in two parts. The website is where you learn the material and earn your mastery. The app is for the time in between, when you are away from your desk and have a few minutes to keep concepts fresh.',
               style: AppTheme.body(
                 size: 16,
                 height: 1.45,
@@ -344,14 +382,28 @@ class _Together extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            const _PlaceTile(
-              color: AppColors.spring,
-              eyebrow: 'This phone',
-              title: 'Keep it',
-              lines: [
-                '375 concepts, a minute each',
-                'Any chapter, any time',
-                'Warms up the work you do there',
+            // The raccoon from the app icon peeks over the app's half, the
+            // way he peeks over the 4 there, so the first place he appears
+            // is the app's own (tester's notes on build 1075: "where's our
+            // mascot?").
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const Positioned(
+                  top: -RaccoonPeek.height,
+                  right: 30,
+                  child: RaccoonPeek(),
+                ),
+                const _PlaceTile(
+                  color: AppColors.spring,
+                  eyebrow: 'The app',
+                  title: 'Keep it',
+                  lines: [
+                    '375 concepts, about a minute each',
+                    'Any chapter, in any order',
+                    'Keeps you sharp between desk sessions',
+                  ],
+                ),
               ],
             ),
             const SizedBox(height: 22),
@@ -450,8 +502,7 @@ class _Honest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: _pad,
+      child: _FitOrScroll(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -460,7 +511,7 @@ class _Honest extends StatelessWidget {
             Text('Honest by\ndesign.', style: AppTheme.display()),
             const SizedBox(height: 12),
             Text(
-              'Knowing a concept is not the same as solving with it. So what you do here does not count toward your mastery. It is the warm-up; the mastery is earned at a desk.',
+              'Everything you play in the app is saved to your account, and you can see it on the website too. It does not raise your mastery score, though. Recognizing a concept is not the same as solving a problem with it, so mastery only comes from problems you work at a desk.',
               style: AppTheme.body(size: 16, height: 1.45),
             ),
             const Spacer(),
@@ -515,7 +566,7 @@ class _Honest extends StatelessWidget {
                   const Pips(count: 10, filled: 10),
                   const SizedBox(height: 10),
                   Text(
-                    'This phone moves none of it, and says so everywhere it shows the number.',
+                    'Practice in the app does not change this number, but it helps you have the concepts fresh for more effective study sessions.',
                     style: AppTheme.body(
                       size: 13,
                       color: AppColors.ink2,

@@ -14,6 +14,7 @@ import 'package:mobile/features/auth/signin_screen.dart';
 import 'package:mobile/features/auth/verify_screen.dart';
 import 'package:mobile/features/onboarding/onboarding_screen.dart';
 import 'package:mobile/features/onboarding/welcome_screen.dart';
+import 'package:mobile/features/shared/widgets/raccoon_peek.dart';
 import 'package:mobile/features/shared/widgets/kit.dart' show Watermark;
 import 'package:mobile/features/splash/splash_screen.dart';
 
@@ -152,14 +153,18 @@ void main() {
     _phone(tester);
     await tester.pumpWidget(_app(const OnboardingScreen()));
     await _settle(tester);
-    expect(find.text('One concept.\nA minute each.'), findsOneWidget);
-    expect(find.text('WHICH WAY IS IT BEING WORKED'), findsOneWidget);
-    await _golden(tester, 'onboarding-1-games');
+    // The split between the website and the app comes first (tester's
+    // notes on build 1075), with the raccoon peeking over the app's half.
+    expect(find.text('Learn at the desk.\nPractice anywhere.'), findsOneWidget);
+    expect(find.text('THE APP'), findsOneWidget);
+    expect(find.byType(RaccoonPeek), findsOneWidget);
+    await _golden(tester, 'onboarding-1-together');
 
     await tester.tap(find.byTooltip('Next'));
     await _settle(tester);
-    expect(find.text('One account.\nTwo places.'), findsOneWidget);
-    await _golden(tester, 'onboarding-2-together');
+    expect(find.text('One concept.\nA minute each.'), findsOneWidget);
+    expect(find.text('WHICH WAY IS IT BEING WORKED'), findsOneWidget);
+    await _golden(tester, 'onboarding-2-games');
 
     await tester.tap(find.byTooltip('Next'));
     await _settle(tester);
@@ -172,7 +177,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Back'));
     await tester.pumpAndSettle();
-    expect(find.text('One concept.\nA minute each.'), findsOneWidget);
+    expect(find.text('Learn at the desk.\nPractice anywhere.'), findsOneWidget);
 
     // The tour is the root on a first run now, so Skip hands off to the
     // welcome screen rather than jumping a student into sign-up.
@@ -181,6 +186,38 @@ void main() {
     await tester.tap(find.text('Skip'));
     await _settle(tester);
     expect(find.text('at /welcome'), findsOneWidget);
+  });
+
+  testWidgets('the tour fits a small phone by scrolling, not clipping', (
+    tester,
+  ) async {
+    // An iPhone SE. The full sentences from build 1075's review are taller
+    // than this screen; an overflow here fails the test.
+    tester.view.physicalSize = const Size(375, 667);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(_app(const OnboardingScreen()));
+    await _settle(tester);
+    expect(find.text('Learn at the desk.\nPractice anywhere.'), findsOneWidget);
+    await tester.drag(
+      find.text('Learn at the desk.\nPractice anywhere.'),
+      const Offset(0, -400),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Next'));
+    await _settle(tester);
+    expect(find.text('One concept.\nA minute each.'), findsOneWidget);
+    await tester.drag(
+      find.text('One concept.\nA minute each.'),
+      const Offset(0, -400),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Next'));
+    await _settle(tester);
+    expect(find.text('Honest by\ndesign.'), findsOneWidget);
+    await tester.drag(find.text('Honest by\ndesign.'), const Offset(0, -400));
+    await tester.pumpAndSettle();
+    expect(find.text('Create my account'), findsOneWidget);
   });
 
   testWidgets('create account: email, then password on spring', (tester) async {
