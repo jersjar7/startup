@@ -389,11 +389,6 @@ class _Together extends StatelessWidget {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                const Positioned(
-                  top: -RaccoonPeek.height,
-                  right: 30,
-                  child: RaccoonPeek(),
-                ),
                 const _PlaceTile(
                   color: AppColors.spring,
                   eyebrow: 'The app',
@@ -403,6 +398,11 @@ class _Together extends StatelessWidget {
                     'Any chapter, in any order',
                     'Keeps you sharp between desk sessions',
                   ],
+                ),
+                const Positioned(
+                  top: -RaccoonPeek.baseline,
+                  right: 26,
+                  child: RaccoonPeek(),
                 ),
               ],
             ),
