@@ -855,6 +855,13 @@ class AccountSheet extends StatelessWidget {
                     ],
                   ),
                 ),
+                const SizedBox(width: 10),
+                _MoreButton(
+                  onDelete: () {
+                    Navigator.of(context).pop();
+                    onDelete();
+                  },
+                ),
               ],
             ),
             const SizedBox(height: 22),
@@ -906,7 +913,14 @@ class AccountSheet extends StatelessWidget {
                   child: SheetButton(
                     label: 'Sign out',
                     filled: false,
+                    // Asks first. Without a host (a bare sheet in a test)
+                    // there is nowhere to ask, so it signs out as before.
                     onTap: () {
+                      final host = AccountSheetHost.of(context);
+                      if (host != null) {
+                        host.showSignOut();
+                        return;
+                      }
                       Navigator.of(context).pop();
                       auth.signOut();
                     },
@@ -914,34 +928,8 @@ class AccountSheet extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 18),
-            // The bundled fonts carry an Open Font License that requires its
-            // notice to be shown wherever they are distributed. Bundling the
-            // text and never surfacing it would satisfy nothing, so it is
-            // reachable here. Flutter's own page, so the packages' licences
-            // are listed too rather than only ours.
-            Center(
-              child: TextAction(
-                label: 'Licences',
-                color: AppColors.ink3,
-                onTap: () => showLicensePage(
-                  context: context,
-                  applicationName: 'FE for Raccoons',
-                  applicationLegalese: '\u00a9 2026 Oqupa LLC',
-                ),
-              ),
-            ),
-            const SizedBox(height: 14),
-            Center(
-              child: TextAction(
-                label: 'Delete account',
-                color: AppColors.error,
-                onTap: () {
-                  Navigator.of(context).pop();
-                  onDelete();
-                },
-              ),
-            ),
+            const SizedBox(height: 22),
+            const Center(child: _VersionLine()),
           ],
         ),
       ),
@@ -990,6 +978,107 @@ class _Figure extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// The rarely needed account actions, kept off the sheet's face so the one
+/// that cannot be undone is never a stray tap away (owner's call,
+/// 2026-10-13). About holds the open source licenses, one level in, as other
+/// apps keep them.
+class _MoreButton extends StatelessWidget {
+  const _MoreButton({required this.onDelete});
+
+  final VoidCallback onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    TextStyle label() => AppTheme.body(
+      size: 15,
+      weight: FontWeight.w600,
+      color: AppColors.cream,
+    );
+    return PopupMenuButton<String>(
+      tooltip: 'More',
+      position: PopupMenuPosition.under,
+      offset: const Offset(0, 8),
+      color: AppColors.tile,
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      onSelected: (choice) {
+        if (choice == 'delete') {
+          onDelete();
+        } else {
+          AccountSheetHost.of(context)?.showAbout();
+        }
+      },
+      itemBuilder: (_) => [
+        PopupMenuItem(
+          value: 'about',
+          height: 52,
+          child: Row(
+            children: [
+              const Icon(
+                Icons.info_outline_rounded,
+                size: 20,
+                color: AppColors.mutedOnDark,
+              ),
+              const SizedBox(width: 12),
+              Text('About', style: label()),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'delete',
+          height: 52,
+          child: Row(
+            children: [
+              const Icon(
+                Icons.delete_outline_rounded,
+                size: 20,
+                color: AppColors.ember,
+              ),
+              const SizedBox(width: 12),
+              Text('Delete account', style: label()),
+            ],
+          ),
+        ),
+      ],
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: const BoxDecoration(
+          color: AppColors.creamDark,
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(
+          Icons.more_horiz_rounded,
+          size: 24,
+          color: AppColors.charcoal,
+        ),
+      ),
+    );
+  }
+}
+
+/// The version the student is running, the marketing number only (1.0.0,
+/// not the build), as plain text. Where it cannot be read it shows nothing.
+class _VersionLine extends StatelessWidget {
+  const _VersionLine();
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<String?>(
+      future: appVersion,
+      builder: (context, snap) => SizedBox(
+        height: 18,
+        child: snap.data == null || snap.data!.isEmpty
+            ? null
+            : Text(
+                'Version ${snap.data}',
+                style: AppTheme.mono(size: 12, color: AppColors.ink3),
+              ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 import 'package:mobile/core/network/api_client.dart';
@@ -79,6 +80,13 @@ Future<void> _drain(WidgetTester tester) =>
 void main() {
   setUpAll(() async {
     await loadBrandFonts();
+    PackageInfo.setMockInitialValues(
+      appName: 'FE for Raccoons',
+      packageName: 'com.fe4raccoons.mobile',
+      version: '1.0.0',
+      buildNumber: '1100',
+      buildSignature: '',
+    );
     // A Friday morning, so the greeting and the exam date never drift.
     appClock = () => DateTime(2026, 9, 18, 10);
   });
@@ -146,12 +154,53 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(AccountSheet), findsOneWidget);
     expect(find.text('Sign out'), findsOneWidget);
-    expect(find.text('Delete account'), findsOneWidget);
     expect(find.text('1,240'), findsOneWidget);
+    // The version as plain text where Licences used to be; Delete account
+    // is off the sheet's face (owner's call, 2026-10-13).
+    expect(find.text('Version 1.0.0'), findsOneWidget);
+    expect(find.text('Open source licenses'), findsNothing);
+    expect(find.text('Delete account'), findsNothing);
     await expectLater(
       find.byType(MaterialApp),
       matchesGoldenFile('goldens/home/account-sheet.png'),
     );
+
+    // Delete account and About live behind the three dots.
+    await tester.tap(find.byTooltip('More'));
+    await tester.pumpAndSettle();
+    expect(find.text('About'), findsOneWidget);
+    expect(find.text('Delete account'), findsOneWidget);
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/home/account-sheet-more.png'),
+    );
+
+    // The open source licenses are one level in, under About, as other
+    // apps keep them.
+    await tester.tap(find.text('About'));
+    await tester.pumpAndSettle();
+    expect(find.text('Open source licenses'), findsOneWidget);
+    expect(find.text('1.0.0'), findsOneWidget);
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/home/account-sheet-about.png'),
+    );
+    await tester.tap(find.text('Account'));
+    await tester.pumpAndSettle();
+
+    // Sign out asks first, and staying puts the account back.
+    await tester.tap(find.text('Sign out'));
+    await tester.pumpAndSettle();
+    expect(find.text('Sign out?'), findsOneWidget);
+    expect(find.text('Stay signed in'), findsOneWidget);
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/home/account-sheet-sign-out.png'),
+    );
+    await tester.tap(find.text('Stay signed in'));
+    await tester.pumpAndSettle();
+    expect(find.text('Sign out?'), findsNothing);
+    expect(find.text('Version 1.0.0'), findsOneWidget);
     await _drain(tester);
   });
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../core/notifications/notifications.dart';
 import '../../core/network/api_exception.dart';
@@ -257,8 +258,11 @@ class SheetRow extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 6),
-              Icon(Icons.chevron_right, size: 20, color: AppColors.ink3),
+              // Only a row that goes somewhere says so.
+              if (onTap != null) ...[
+                const SizedBox(width: 6),
+                Icon(Icons.chevron_right, size: 20, color: AppColors.ink3),
+              ],
             ],
           ],
         ),
@@ -752,6 +756,8 @@ class AccountSheetHostState extends State<AccountSheetHost> {
   void showSchool() => setState(() => _page = 'school');
   void showEmail() => setState(() => _page = 'email');
   void showAccount() => setState(() => _page = 'account');
+  void showSignOut() => setState(() => _page = 'signout');
+  void showAbout() => setState(() => _page = 'about');
 
   @override
   Widget build(BuildContext context) {
@@ -774,7 +780,11 @@ class AccountSheetHostState extends State<AccountSheetHost> {
           transitionBuilder: (child, animation) => SlideTransition(
             position: Tween(
               begin: Offset(
-                child.key == const ValueKey('school') ? 0.06 : -0.06,
+                child.key == const ValueKey('school') ||
+                        child.key == const ValueKey('signout') ||
+                        child.key == const ValueKey('about')
+                    ? 0.06
+                    : -0.06,
                 0,
               ),
               end: Offset.zero,
@@ -792,11 +802,177 @@ class AccountSheetHostState extends State<AccountSheetHost> {
               auth: widget.auth,
               onDone: showAccount,
             ),
+            'about' => AboutPage(
+              key: const ValueKey('about'),
+              onBack: showAccount,
+            ),
+            'signout' => SignOutConfirm(
+              key: const ValueKey('signout'),
+              auth: widget.auth,
+              onCancel: showAccount,
+            ),
             _ => KeyedSubtree(
               key: const ValueKey('account'),
               child: widget.account,
             ),
           },
+        ),
+      ),
+    );
+  }
+}
+
+/// The version the student is running: the marketing number only (1.0.0,
+/// not the build). Null where it cannot be read.
+final Future<String?> appVersion = PackageInfo.fromPlatform()
+    .then<String?>((i) => i.version.isEmpty ? null : i.version)
+    .catchError((Object _) => null);
+
+/// About the app, one level in from the account sheet's three dots, the way
+/// other apps keep their open source licenses under Settings, About (owner's
+/// call, 2026-10-13). Feedback point 12 asks for a real About page, who made
+/// this and why it is called FE for Raccoons; that content belongs here.
+///
+/// The licenses have to stay reachable: the bundled fonts carry an Open Font
+/// License that requires its notice to travel with them, and Flutter's own
+/// page lists the packages' licenses as well as ours.
+class AboutPage extends StatelessWidget {
+  const AboutPage({super.key, required this.onBack});
+
+  final VoidCallback onBack;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(
+              child: Container(
+                width: 44,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: AppColors.charcoal.withValues(alpha: 0.25),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+            ),
+            const SizedBox(height: 14),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                onTap: onBack,
+                behavior: HitTestBehavior.opaque,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 4,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.arrow_back_rounded,
+                        size: 18,
+                        color: AppColors.ink2,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        'Account',
+                        style: AppTheme.body(
+                          size: 14.5,
+                          color: AppColors.ink2,
+                          weight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text('About', style: AppTheme.display(size: 30, height: 1.05)),
+            const SizedBox(height: 18),
+            FutureBuilder<String?>(
+              future: appVersion,
+              builder: (context, snap) =>
+                  SheetRow(label: 'Version', value: snap.data ?? ''),
+            ),
+            SheetRow(
+              label: 'Open source licenses',
+              value: '',
+              onTap: () => showLicensePage(
+                context: context,
+                applicationName: 'FE for Raccoons',
+                applicationLegalese: '\u00a9 2026 Oqupa LLC',
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Asked before signing out, in the same sheet rather than a dialog over
+/// it (owner's call, 2026-10-13: one tap used to sign a student out with no
+/// way back but typing the password again).
+class SignOutConfirm extends StatelessWidget {
+  const SignOutConfirm({super.key, required this.auth, required this.onCancel});
+
+  final AuthController auth;
+  final VoidCallback onCancel;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(
+              child: Container(
+                width: 44,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: AppColors.charcoal.withValues(alpha: 0.25),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+            ),
+            const SizedBox(height: 26),
+            Text('Sign out?', style: AppTheme.display(size: 38, height: 1.0)),
+            const SizedBox(height: 10),
+            Text(
+              'Your progress is saved to your account. You will need your email and password to sign back in.',
+              style: AppTheme.body(
+                size: 15,
+                color: AppColors.ink2,
+                height: 1.45,
+              ),
+            ),
+            const SizedBox(height: 26),
+            SheetButton(
+              label: 'Sign out',
+              onTap: () {
+                Navigator.of(context).pop();
+                auth.signOut();
+              },
+            ),
+            const SizedBox(height: 10),
+            SheetButton(
+              label: 'Stay signed in',
+              filled: false,
+              onTap: onCancel,
+            ),
+          ],
         ),
       ),
     );
