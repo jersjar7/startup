@@ -183,6 +183,14 @@ Still unverified: that the OUTCOME notification lands on the question rather
 than the home screen. It fires nine days after an exam date, so the cheapest
 test is setting an exam date nine days in the past on a throwaway account.
 
+## Before the four steps
+
+Run `flutter test` (it includes the every-game sweep and the Daily
+walk-throughs), then the simulator checks in
+`integration_test/daily_device_test.dart`. See
+[docs/mobile/TEST-JOURNEYS.md](../docs/mobile/TEST-JOURNEYS.md) for what each
+layer covers and the one-time notification permission a simulator needs.
+
 ## The four steps
 
 ```sh

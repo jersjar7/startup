@@ -230,6 +230,44 @@ void main() {
     expect(find.textContaining('Update the app'), findsOneWidget);
   });
 
+  testWidgets('the clock stops while the app is away and on the step screen', (
+    tester,
+  ) async {
+    await open(tester);
+    await tester.tap(find.text('Play today\'s'));
+    await _settle(tester);
+    final run = DailyRun.instance;
+
+    // Reading the step screen, or the concept, costs nothing.
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 300)),
+    );
+    expect(run.elapsedMs, lessThan(100));
+
+    await tester.tap(find.byType(PillButton));
+    await _settle(tester);
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 300)),
+    );
+    final playing = run.elapsedMs;
+    expect(playing, greaterThanOrEqualTo(250));
+
+    // A call comes in: the app goes to the background.
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 400)),
+    );
+    expect(run.elapsedMs - playing, lessThan(100));
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 200)),
+    );
+    expect(run.elapsedMs - playing, greaterThanOrEqualTo(150));
+  });
+
   testWidgets('a tapped reminder opens the Daily tab', (tester) async {
     await open(tester);
     HomeShell.select(HomeTab.profile);
