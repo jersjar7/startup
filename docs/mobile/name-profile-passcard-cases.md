@@ -12,6 +12,14 @@ email. Three changes that depend on each other:
 3. The pass card always asks for the name it prints, and opens in the app
    when the email is read on a phone that has it.
 
+**Built 2026-10-16** (commits 0ac93336, 379de096, 2d1825bb, 6ba346ba). Two
+things found while building, both fixed: the bottom dock overflowed by 16
+points on a 320-point phone (the first iPhone SE, which iOS 15 still runs),
+and the website's delete-account page had not named the Daily's results
+since the Daily shipped. Still to check by hand on a TestFlight phone: that
+the results email's link opens the app (C1), which depends on Apple
+re-reading the association file after the server deploy.
+
 Each case below says what happens and where. A case marked **new work** is
 missing today.
 

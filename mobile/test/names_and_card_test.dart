@@ -8,6 +8,7 @@ import 'package:mobile/core/network/api_client.dart';
 import 'package:mobile/core/network/api_exception.dart';
 import 'package:mobile/core/notifications/notification_plan.dart';
 import 'package:mobile/core/notifications/notifications.dart';
+import 'package:mobile/core/router.dart';
 import 'package:mobile/core/storage/app_storage.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/features/auth/auth_controller.dart';
@@ -363,6 +364,34 @@ void main() {
       expect(find.text('Set my next exam date'), findsOneWidget);
       expect(find.text('Get my card'), findsNothing);
     });
+  });
+
+  testWidgets('the email\'s links open their screens through the real '
+      'router, signed out (C1, C13)', (tester) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    server.link = _card;
+    final auth = AuthController(api: server, storage: AppStorage())
+      ..status = AuthStatus.unauthenticated
+      ..onboardingSeen = true;
+    final router = buildRouter(auth);
+    await tester.pumpWidget(
+      ChangeNotifierProvider<AuthController>.value(
+        value: auth,
+        child: MaterialApp.router(theme: AppTheme.light, routerConfig: router),
+      ),
+    );
+    router.go('/api/email/exam-result/tok?a=passed');
+    await _settle(tester);
+    expect(find.byType(OutcomeLinkScreen), findsOneWidget);
+    router.go('/pass-card/tok');
+    await _settle(tester);
+    expect(find.byType(PassCardScreen), findsOneWidget);
+    router.go('/api/email/exam-attempt/tok?n=2');
+    await _settle(tester);
+    expect(find.byType(OutcomeLinkScreen), findsOneWidget);
+    expect(server.gets, contains('/email/exam-attempt/tok?n=2&format=json'));
   });
 
   group('what we call a student', () {
