@@ -173,3 +173,35 @@ describe('the results links, opened by the app', () => {
     expect(users['named@x.com'].examOutcome.attemptNumber).toBe(1);
   });
 });
+
+// The school step comes before the account exists, on both sign-ups, so the
+// directory's suggestions must answer without a sign-in (owner, 2026-10-16:
+// the app's sign-up had none for nine days because this was signed-in only).
+describe('school suggestions', () => {
+  it('answer before there is an account', async () => {
+    const r = await request(app()).get('/api/auth/schools?q=brigham');
+    expect(r.status).toBe(200);
+    expect(r.body.schools).toContain('Brigham Young University');
+  });
+
+  it('say nothing for one letter, rather than half the directory', async () => {
+    const r = await request(app()).get('/api/auth/schools?q=b');
+    expect(r.body.schools).toEqual([]);
+  });
+
+  it('carry nothing but institution names', async () => {
+    const r = await request(app()).get('/api/auth/schools?q=university');
+    expect(JSON.stringify(r.body)).not.toContain('@');
+    expect(r.body.schools.every((s) => typeof s === 'string')).toBe(true);
+  });
+
+  it('are limited, so the open endpoint cannot be hammered', async () => {
+    const a = app();
+    let limited = false;
+    for (let i = 0; i < 130 && !limited; i++) {
+      const r = await request(a).get('/api/auth/schools?q=state');
+      limited = r.status === 429;
+    }
+    expect(limited).toBe(true);
+  });
+});

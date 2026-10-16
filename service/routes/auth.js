@@ -314,9 +314,19 @@ router.post('/acquisition', verifyAuth, async (req, res) => {
 // the directory is a seed and an incomplete list cannot be allowed to block
 // anybody from answering. See service/schoolDirectory.js.
 //
-// Behind verifyAuth because only a signed-in person is ever asked for a school,
-// and there is no reason to serve this to anyone else.
-router.get('/schools', verifyAuth, (req, res) => {
+// No sign-in: both sign-ups ask for the school before the account exists,
+// and the app's sign-up went nine days with no suggestions because this was
+// signed-in only (owner, 2026-10-16). It only ever searches a public list of
+// institutions, so there is nothing to protect but the server's time, which
+// the limit below covers: typing a name is a few requests, not hundreds.
+const schoolSearchLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000,
+  max: 120,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { msg: 'Too many searches, try again in a moment' },
+});
+router.get('/schools', schoolSearchLimiter, (req, res) => {
   res.send({ schools: searchSchools(req.query.q) });
 });
 

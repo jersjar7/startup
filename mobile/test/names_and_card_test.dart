@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -12,6 +14,7 @@ import 'package:mobile/core/router.dart';
 import 'package:mobile/core/storage/app_storage.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/features/auth/auth_controller.dart';
+import 'package:mobile/features/auth/create_screen.dart';
 import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/home/home_shell.dart';
@@ -60,6 +63,15 @@ class FakeServer extends ApiClient {
       };
     }
     if (path.startsWith('/email/exam-attempt/')) return {'ok': true};
+    if (path.startsWith('/auth/schools?q=')) {
+      final q = Uri.decodeQueryComponent(path.split('q=').last).toLowerCase();
+      return {
+        'schools': [
+          'Brigham Young University',
+          'Brigham Young University-Idaho',
+        ].where((n) => n.toLowerCase().contains(q)).toList(),
+      };
+    }
     throw ApiException('Not here', statusCode: 404);
   }
 
@@ -392,6 +404,90 @@ void main() {
     await _settle(tester);
     expect(find.byType(OutcomeLinkScreen), findsOneWidget);
     expect(server.gets, contains('/email/exam-attempt/tok?n=2&format=json'));
+  });
+
+  group('school suggestions, the same list in both places', () {
+    Future<void> typeSchool(WidgetTester tester, String text) async {
+      await tester.enterText(find.byType(EditableText).last, text);
+      await tester.pump(const Duration(milliseconds: 300)); // the debounce
+      await _settle(tester);
+    }
+
+    testWidgets('the sign-up step suggests as it is typed, signed out', (
+      tester,
+    ) async {
+      await _pump(tester, const CreateScreen(), signedIn: false);
+      await tester.enterText(find.byType(EditableText), 's@x.edu');
+      await tester.tap(find.byTooltip('Next'));
+      await _settle(tester);
+      await tester.tap(find.text('Skip')); // the name
+      await _settle(tester);
+      await tester.enterText(find.byType(EditableText), 'longenough1');
+      await tester.tap(find.byTooltip('Next'));
+      await _settle(tester);
+      expect(find.text('Where do\nyou study?'), findsOneWidget);
+
+      await typeSchool(tester, 'Brigham');
+      expect(server.gets, contains('/auth/schools?q=Brigham'));
+      expect(find.text('Brigham Young University'), findsOneWidget);
+      expect(
+        find.text('Not listed? Type it and we will take it.'),
+        findsOneWidget,
+      );
+
+      await tester.tap(find.text('Brigham Young University'));
+      await _settle(tester);
+      final field = tester.widget<EditableText>(find.byType(EditableText).last);
+      expect(field.controller.text, 'Brigham Young University');
+      // Picked: the list closes rather than reopening under the choice.
+      expect(find.text('Brigham Young University-Idaho'), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('one letter asks nothing', (tester) async {
+      await _pump(tester, const CreateScreen(), signedIn: false);
+      await tester.enterText(find.byType(EditableText), 's@x.edu');
+      await tester.tap(find.byTooltip('Next'));
+      await _settle(tester);
+      await tester.tap(find.text('Skip'));
+      await _settle(tester);
+      await tester.enterText(find.byType(EditableText), 'longenough1');
+      await tester.tap(find.byTooltip('Next'));
+      await _settle(tester);
+      await typeSchool(tester, 'B');
+      expect(server.gets.where((p) => p.startsWith('/auth/schools')), isEmpty);
+    });
+
+    testWidgets('the account sheet\'s school editor still suggests', (
+      tester,
+    ) async {
+      await _pump(tester, const HomeShell());
+      await tester.tap(find.byTooltip('Account'));
+      await _settle(tester);
+      await tester.tap(find.byType(SchoolRow));
+      await _settle(tester);
+      await typeSchool(tester, 'Brigham');
+      expect(find.text('Brigham Young University'), findsOneWidget);
+    });
+
+    test('both places use the one shared list', () {
+      // So the sign-up can never again be missing what the sheet has.
+      for (final f in [
+        'lib/features/auth/create_screen.dart',
+        'lib/features/profile/account_extras.dart',
+      ]) {
+        final src = File(f).readAsStringSync();
+        expect(src, contains('SchoolSuggestions('), reason: f);
+      }
+      final sheet = File(
+        'lib/features/profile/account_extras.dart',
+      ).readAsStringSync();
+      expect(
+        RegExp(r'/auth/schools').allMatches(sheet).length,
+        1,
+        reason: 'one search, in SchoolSuggestions, not a second copy',
+      );
+    });
   });
 
   group('what we call a student', () {
