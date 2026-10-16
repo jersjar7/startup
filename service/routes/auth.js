@@ -22,6 +22,7 @@ const { getBadgeDetails, getAllBadges } = require('../badges.js');
 const { generateToken, hashToken } = require('../crypto.js');
 const { sendPasswordResetEmail, sendVerificationEmail } = require('../email.js');
 const { sanitizeName, displayName, normalizeExamDate } = require('../profile.js');
+const { canSeeCard, cardPayload, cardNameUpdate } = require('../passCardAccess.js');
 
 const router = express.Router();
 
@@ -107,6 +108,10 @@ router.post('/create', async (req, res) => {
     };
     const acq = sanitizeAcq(req.body.acq);
     if (acq) user.acquisition = acq;
+    // What to call them, asked once on both sign-ups (ADR 0023). Optional:
+    // greetings, emails and the boards all manage without it.
+    const firstName = sanitizeName(req.body.firstName || '');
+    if (firstName) user.firstName = firstName;
     // Both clients ask for the school on the sign-up screen, so accept it here
     // rather than making every new account do a second round trip.
     const school = normalizeSchoolName(req.body.school);
@@ -254,6 +259,9 @@ router.get('/me', verifyAuth, async (req, res) => {
         }
       : null,
     examOutcomeResolved: outcomeAnswered(user),
+    // The pass card, once a pass is recorded: its names and month, so both
+    // clients can offer it for good without finding the email (ADR 0023).
+    passCard: cardPayload(user),
     // How many times the card has been put away, so the phone can work out
     // which ask in the sequence it is on without a second request.
     examOutcomeSnoozes: Array.isArray(user.examOutcome?.snoozes)
@@ -369,6 +377,17 @@ router.post('/exam-outcome', verifyAuth, async (req, res) => {
     'examOutcome.answeredAt': new Date(),
   });
   res.send({ ok: true });
+});
+
+// The name printed on the pass card, from a signed-in student (the app after
+// "I passed", or the website's dashboard). The same rule as the email link:
+// it is the card's own name, and the account's name is filled only if blank.
+router.post('/card-name', verifyAuth, async (req, res) => {
+  const set = cardNameUpdate(req.user, req.body?.name);
+  if (!canSeeCard(req.user)) return res.status(404).send({ msg: 'No card here.' });
+  if (!set) return res.status(400).send({ msg: 'That does not look like a name.' });
+  await DB.setUserFields(req.user.email, set);
+  res.send(cardPayload({ ...req.user, ...set }));
 });
 
 // Forgot password — always returns 200 to prevent email enumeration

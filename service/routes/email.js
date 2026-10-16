@@ -8,7 +8,14 @@ const {
   validAttempt,
   resultCopy,
 } = require('../examResultLink.js');
-const { canSeeCard, cardPayload, mayNameAccount, splitName } = require('../passCardAccess.js');
+const { canSeeCard, cardPayload, cardNameUpdate } = require('../passCardAccess.js');
+
+// The app opens these same links when the email is read on a phone that has
+// it (ADR 0023), and asks for JSON instead of the page. Everything else about
+// the request, the recording above all, is identical.
+function wantsJson(req) {
+  return req.query.format === 'json' || /application\/json/.test(req.get('accept') || '');
+}
 
 const router = express.Router();
 
@@ -84,6 +91,7 @@ router.post('/unsubscribe/:token', async (req, res) => {
 router.get('/exam-result/:token', async (req, res) => {
   const copyFor = (already) => resultCopy(req.query.a, { already });
   if (!parseAnswer(req.query.a)) {
+    if (wantsJson(req)) return res.status(400).send({ ok: false, msg: 'That link is not one of ours.' });
     return res.status(400).type('html').send(page({ ok: false }));
   }
 
@@ -104,6 +112,7 @@ router.get('/exam-result/:token', async (req, res) => {
   }
 
   if (!user) {
+    if (wantsJson(req)) return res.status(404).send({ ok: false, msg: 'That link has expired.' });
     return res.status(404).type('html').send(page({
       ok: false,
       heading: 'Link not found',
@@ -112,6 +121,22 @@ router.get('/exam-result/:token', async (req, res) => {
   }
 
   const copy = copyFor(isAnswered(user));
+  if (wantsJson(req)) {
+    // Re-read so the app sees what was just recorded, not the state before it.
+    const now = await userCollection.findOne(
+      { outcomeToken: req.params.token },
+      { projection: { examOutcome: 1 } },
+    ).catch(() => null);
+    return res.status(200).send({
+      ok: true,
+      answer: req.query.a,
+      already: isAnswered(user),
+      heading: copy.heading,
+      msg: copy.msg,
+      card: canSeeCard(now || user),
+      offerAttempt: Boolean(copy.offerAttempt),
+    });
+  }
   // A pass earns the card, and it is offered above the attempt question: the
   // reward comes before the second piece of research, not after it.
   const card = canSeeCard(user) ? cardButton(req.params.token) : '';
@@ -149,7 +174,7 @@ router.get('/pass-card/:token', async (req, res) => {
   try {
     user = await userCollection.findOne(
       { outcomeToken: req.params.token },
-      { projection: { firstName: 1, lastName: 1, examOutcome: 1 } },
+      { projection: { firstName: 1, lastName: 1, cardName: 1, examOutcome: 1 } },
     );
   } catch (e) {
     console.error('[email/pass-card] lookup failed:', e.message);
@@ -162,42 +187,32 @@ router.get('/pass-card/:token', async (req, res) => {
   res.status(200).send(payload);
 });
 
-// POST /api/email/pass-card/:token/name — the name to print, for the many
-// accounts that have none.
+// POST /api/email/pass-card/:token/name — the name the card prints.
 //
-// Account creation has never collected a name, so this is the ordinary path
-// rather than a fallback. It can only ever fill a blank: a forwarded email must
-// not let somebody else rename the account, and changing a name that exists
-// stays behind a sign in where it always was.
+// Always saved as the card's own name (ADR 0023). The account's name is filled
+// only when it is blank: a forwarded email must not let somebody else rename
+// the account, and changing a name that exists stays behind a sign in.
 router.post('/pass-card/:token/name', async (req, res) => {
   let user = null;
   try {
     user = await userCollection.findOne(
       { outcomeToken: req.params.token },
-      { projection: { firstName: 1, lastName: 1, examOutcome: 1 } },
+      { projection: { firstName: 1, lastName: 1, cardName: 1, examOutcome: 1 } },
     );
   } catch (e) {
     console.error('[email/pass-card/name] lookup failed:', e.message);
     return res.status(503).send({ msg: 'Could not save that. Try again in a moment.' });
   }
-
-  if (!mayNameAccount(user, req.body?.name)) {
-    // Already named is not an error worth explaining: the card draws fine.
-    if (cardPayload(user)?.hasName) return res.status(200).send(cardPayload(user));
-    return res.status(400).send({ msg: 'That does not look like a name.' });
-  }
-
-  const parts = splitName(req.body.name);
+  if (!canSeeCard(user)) return res.status(404).send({ msg: 'No card here.' });
+  const set = cardNameUpdate(user, req.body?.name);
+  if (!set) return res.status(400).send({ msg: 'That does not look like a name.' });
   try {
-    await userCollection.updateOne(
-      { outcomeToken: req.params.token },
-      { $set: { firstName: parts.firstName, lastName: parts.lastName } },
-    );
+    await userCollection.updateOne({ outcomeToken: req.params.token }, { $set: set });
   } catch (e) {
     console.error('[email/pass-card/name] save failed:', e.message);
     return res.status(503).send({ msg: 'Could not save that. Try again in a moment.' });
   }
-  res.status(200).send({ ...parts, hasName: true, answeredAt: user.examOutcome.answeredAt });
+  res.status(200).send(cardPayload({ ...user, ...set }));
 });
 
 // POST /api/email/pass-card/:token/pe — would they want PE prep.
@@ -235,6 +250,7 @@ router.get('/exam-attempt/:token', async (req, res) => {
   } catch (e) {
     console.error('[email/exam-attempt] failed:', e.message);
   }
+  if (wantsJson(req)) return res.status(ok ? 200 : 404).send({ ok });
   res.status(ok ? 200 : 404).type('html').send(
     page({ ok, heading: ok ? 'Noted' : 'Link not found', msg: ok ? 'That is everything. Thank you.' : undefined }),
   );

@@ -29,12 +29,38 @@ function cardPayload(user) {
   if (!canSeeCard(user)) return null;
   const firstName = sanitizeName(user.firstName || '');
   const lastName = sanitizeName(user.lastName || '');
+  const cardName = sanitizeName(user.cardName || '');
   return {
     firstName: firstName || null,
     lastName: lastName || null,
     hasName: Boolean(firstName || lastName),
+    // The name printed on the card, kept apart from what we call them
+    // (ADR 0023). The card's question is always shown, filled in with this
+    // when a card was made before, else with the account's name.
+    cardName: cardName || null,
+    suggestedName: cardName || [firstName, lastName].filter(Boolean).join(' ') || null,
     answeredAt: user.examOutcome.answeredAt,
   };
+}
+
+/// What confirming a name on the card writes, or null when nothing may be.
+///
+/// Always `cardName`, the card's own field: what someone is called and what
+/// they publish under are not always the same (ADR 0023). The account's own
+/// name is written only when it is blank, as before: the token travels in an
+/// email, a forwarded one must not rename an account, and a formal name must
+/// not land on the public boards unless the student chose it.
+function cardNameUpdate(user, raw) {
+  if (!canSeeCard(user)) return null;
+  const clean = sanitizeName(raw || '');
+  if (!clean) return null;
+  const set = { cardName: clean };
+  if (!user.firstName && !user.lastName) {
+    const parts = splitName(clean);
+    set.firstName = parts.firstName;
+    set.lastName = parts.lastName;
+  }
+  return set;
 }
 
 /// Whether a name typed on the card page may be written to the account.
@@ -66,4 +92,4 @@ function splitName(raw) {
   };
 }
 
-module.exports = { canSeeCard, cardPayload, mayNameAccount, splitName };
+module.exports = { canSeeCard, cardPayload, cardNameUpdate, mayNameAccount, splitName };

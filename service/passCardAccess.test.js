@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   canSeeCard,
   cardPayload,
+  cardNameUpdate,
   mayNameAccount,
   splitName,
 } from './passCardAccess.js';
@@ -44,7 +45,16 @@ describe('who has a card', () => {
 describe('what the page is given', () => {
   it('the name and the month, and nothing else', () => {
     const p = cardPayload(passed({ firstName: 'Jerson', lastName: 'Garcia' }));
-    expect(Object.keys(p).sort()).toEqual(['answeredAt', 'firstName', 'hasName', 'lastName']);
+    expect(Object.keys(p).sort()).toEqual([
+      'answeredAt', 'cardName', 'firstName', 'hasName', 'lastName', 'suggestedName',
+    ]);
+  });
+
+  it('suggests the card\'s own name first, then the account\'s', () => {
+    expect(cardPayload(passed({ firstName: 'Sammy' })).suggestedName).toBe('Sammy');
+    expect(cardPayload(passed({ firstName: 'Sammy', cardName: 'Samantha Reyes' })).suggestedName)
+      .toBe('Samantha Reyes');
+    expect(cardPayload(passed({})).suggestedName).toBeNull();
   });
 
   it('never the email address', () => {
@@ -127,5 +137,32 @@ describe('one field on screen, two on the account', () => {
   it('is nothing when there is nothing', () => {
     expect(splitName('   ')).toBeNull();
     expect(splitName(null)).toBeNull();
+  });
+});
+
+describe('confirming the name on the card (ADR 0023)', () => {
+  it('always writes the card\'s own name', () => {
+    expect(cardNameUpdate(passed({ firstName: 'Sammy' }), 'Samantha Reyes'))
+      .toEqual({ cardName: 'Samantha Reyes' });
+  });
+
+  it('never renames an account that has a name', () => {
+    const set = cardNameUpdate(passed({ firstName: 'Sammy', lastName: 'R' }), 'Somebody Else');
+    expect(set).not.toHaveProperty('firstName');
+    expect(set).not.toHaveProperty('lastName');
+  });
+
+  it('fills a blank account name', () => {
+    expect(cardNameUpdate(passed({}), 'Samantha Reyes')).toEqual({
+      cardName: 'Samantha Reyes',
+      firstName: 'Samantha',
+      lastName: 'Reyes',
+    });
+  });
+
+  it('writes nothing for somebody without a card, or for junk', () => {
+    expect(cardNameUpdate({ firstName: 'A' }, 'Samantha')).toBeNull();
+    expect(cardNameUpdate(passed({}), '!!!')).toBeNull();
+    expect(cardNameUpdate(passed({}), '')).toBeNull();
   });
 });

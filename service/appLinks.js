@@ -13,7 +13,15 @@ const IOS_APP_ID = '79KW5HMNLY.com.fe4raccoons.mobile';
 const ANDROID_PACKAGE = 'com.fe4raccoons.mobile';
 
 /** Paths the app claims. Everything else on the domain stays a web page. */
-const APP_PATHS = ['/verify-email/*'];
+const APP_PATHS = [
+  '/verify-email/*',
+  // The results email's buttons and the pass card (ADR 0023). The answer
+  // links themselves, because a phone opens an app only for a link tapped
+  // outside the browser, and the card link is tapped on the result page.
+  '/api/email/exam-result/*',
+  '/api/email/exam-attempt/*',
+  '/pass-card/*',
+];
 
 function appleAppSiteAssociation() {
   return {
