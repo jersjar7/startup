@@ -124,20 +124,31 @@ class DailyStepScreen extends StatelessWidget {
                           ),
                         ),
                       ],
+                      // A link in the card, not a second button: the concept
+                      // belongs to the game, and Play stays the one action
+                      // (owner, 2026-10-16).
+                      if (brief != null) ...[
+                        const SizedBox(height: 6),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Transform.translate(
+                            offset: const Offset(6, 0),
+                            child: TextAction(
+                              label: 'Read the concept first',
+                              onTap: () => showConcept(
+                                context,
+                                brief,
+                                back: 'Back to the Daily',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),
               ),
               const SizedBox(height: 16),
-              if (brief != null) ...[
-                SheetButton(
-                  label: 'Read the concept first',
-                  filled: false,
-                  onTap: () =>
-                      showConcept(context, brief, back: 'Back to the Daily'),
-                ),
-                const SizedBox(height: 10),
-              ],
               PillButton(
                 label: at == 0 && done == null ? 'Play' : 'Play game ${at + 1}',
                 onTap: () {
