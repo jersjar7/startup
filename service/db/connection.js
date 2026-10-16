@@ -19,6 +19,10 @@ const reviewEventsCollection = db.collection('reviewEvents');
 const paperFlagsCollection = db.collection('paperFlags');
 const gameFeedbackCollection = db.collection('gameFeedback');
 const sessionsCollection = db.collection('sessions');
+// The Daily (see ../daily.js): one stored pick per day, one result per
+// account per day.
+const dailyPuzzlesCollection = db.collection('dailyPuzzles');
+const dailyResultsCollection = db.collection('dailyResults');
 // Daily/monthly email send counters (keyed 'day:YYYY-MM-DD' / 'month:YYYY-MM'),
 // so the mailer can stay under Resend's free 100/day + 3000/month caps.
 const mailMetaCollection = db.collection('mailMeta');
@@ -64,6 +68,9 @@ if (!process.env.VITEST) (async function testConnection() {
     await sessionsCollection.createIndex({ token: 1 }, { unique: true });
     await sessionsCollection.createIndex({ email: 1 });
     await sessionsCollection.createIndex({ lastSeen: 1 }, { expireAfterSeconds: 60 * 60 * 24 * 30 });
+    await dailyPuzzlesCollection.createIndex({ number: 1 }, { unique: true });
+    await dailyResultsCollection.createIndex({ number: 1, email: 1 }, { unique: true });
+    await dailyResultsCollection.createIndex({ email: 1, number: -1 });
   } catch (ex) {
     console.log(`Unable to connect to database because ${ex.message}`);
     process.exit(1);
@@ -96,4 +103,6 @@ module.exports = {
   gameFeedbackCollection,
   sessionsCollection,
   mailMetaCollection,
+  dailyPuzzlesCollection,
+  dailyResultsCollection,
 };

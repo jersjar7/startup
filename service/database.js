@@ -14,12 +14,14 @@ const syncEvents = require('./db/syncEvents');
 const paperFlags = require('./db/paperFlags');
 const feedback = require('./db/feedback');
 const sessions = require('./db/sessions');
+const daily = require('./db/daily');
 
 module.exports = {
   ...syncEvents,
   ...paperFlags,
   ...feedback,
   ...sessions,
+  ...daily,
   ping,
   ...users,
   ...topics,

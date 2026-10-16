@@ -9,11 +9,12 @@ const {
   reviewEventsCollection,
   paperFlagsCollection,
   gameFeedbackCollection,
+  dailyResultsCollection,
 } = require('./connection');
 
 // Moving an account to a new email address.
 //
-// The address is the KEY in nine collections, not just a field on the user, so
+// The address is the KEY in ten collections, not just a field on the user, so
 // a rename that misses one orphans that part of somebody's history: their
 // stats, their problem log, their sessions, their diagnostic, their flags.
 // This list is the same one deleteAllUserData walks, for the same reason, and
@@ -30,6 +31,7 @@ const EMAIL_KEYED = [
   ['reviewEvents', reviewEventsCollection],
   ['paperFlags', paperFlagsCollection],
   ['gameFeedback', gameFeedbackCollection],
+  ['dailyResults', dailyResultsCollection],
 ];
 
 /// Move every row keyed by [from] onto [to], then the user document itself.

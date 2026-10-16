@@ -51,3 +51,4 @@ router.get('/alltime', verifyAuth, async (req, res) => {
 
 module.exports = router;
 module.exports.getWeekId = getWeekId;
+module.exports.leaderName = leaderName;
