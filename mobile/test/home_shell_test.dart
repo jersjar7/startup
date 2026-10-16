@@ -11,12 +11,12 @@ import 'package:mobile/features/home/home_shell.dart';
 import 'package:mobile/features/profile/profile_tab.dart';
 import 'package:mobile/features/study/study_tab.dart';
 
-/// The shell opens on Profile, with Profile on the left and Study on the
-/// right (owner's call, 2026-09-13).
+/// The shell opens on Profile, with Profile on the left, Study next and the
+/// Daily on the right (owner's calls, 2026-09-13 and 2026-10-15).
 void main() {
   setUpAll(() => GoogleFonts.config.allowRuntimeFetching = false);
 
-  testWidgets('opens on Profile; Study is the right-hand tab', (tester) async {
+  testWidgets('opens on Profile; then Study, then the Daily', (tester) async {
     tester.view.physicalSize = const Size(390, 844);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
@@ -45,11 +45,18 @@ void main() {
     // The dock is icon-only; the items carry their names as semantics.
     final profileTab = tester.getCenter(find.bySemanticsLabel('Profile'));
     final studyTab = tester.getCenter(find.bySemanticsLabel('Study'));
+    final dailyTab = tester.getCenter(find.bySemanticsLabel('Daily'));
     expect(profileTab.dx, lessThan(studyTab.dx));
+    expect(studyTab.dx, lessThan(dailyTab.dx));
 
     await tester.tap(find.bySemanticsLabel('Study'));
     await tester.pump();
     expect(tester.widget<IndexedStack>(find.byType(IndexedStack)).index, 1);
+
+    // Finishing the Daily, or tapping one of its notifications, lands here.
+    HomeShell.select(HomeTab.daily);
+    await tester.pump();
+    expect(tester.widget<IndexedStack>(find.byType(IndexedStack)).index, 2);
 
     // Profile fires two requests at a server that is not there; let their
     // timeouts run out before the tree is torn down.

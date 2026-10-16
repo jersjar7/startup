@@ -106,9 +106,9 @@ class _ProfileTabState extends State<ProfileTab> {
   /// clears the flag so it only happens once per tap.
   void _onNotificationTap() {
     final kind = Notifications.tapped.value;
-    if (kind == null || !mounted) return;
+    // The Daily's own notifications are the shell's to handle.
+    if (kind != NotifyKind.outcome || !mounted) return;
     Notifications.tapped.value = null;
-    if (kind != NotifyKind.outcome) return;
     setState(() => _outcomeDone = false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scroll.hasClients) {

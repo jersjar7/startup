@@ -11,9 +11,10 @@ import 'notification_plan.dart';
 
 /// Hands the plan to the operating system, and nothing else.
 ///
-/// All of it is LOCAL. Every alert the app sends is decided by two facts the
-/// phone already holds, the exam date and whether anything was studied today,
-/// so none of it needs a server, a push certificate or a network connection.
+/// All of it is LOCAL. Every alert the app sends is decided by facts the phone
+/// already holds: the exam date, whether anything was studied today, and
+/// whether today's Daily is done. None of it needs a push server, a push
+/// certificate or a network connection at the moment it fires.
 /// That also means the schedule can be tested properly, which a remote push
 /// cannot be. See [notificationPlan] for every decision about what and when.
 ///
@@ -63,7 +64,7 @@ class Notifications {
   static const _channel = AndroidNotificationChannel(
     'study_reminders',
     'Study reminders',
-    description: 'The evening nudge, exam countdowns and the morning after.',
+    description: 'The Daily, exam countdowns and the morning after.',
     importance: Importance.defaultImportance,
   );
 
@@ -195,6 +196,11 @@ class Notifications {
   static String? _lastExamDay;
   static String? _lastStudyDay;
 
+  /// The last day today's Daily was played, and the streak as of then. Both
+  /// come from the Daily tab, which hears them from the server.
+  static String? _lastDailyDay;
+  static int _streak = 0;
+
   /// Replaces the whole schedule with the current plan.
   ///
   /// Cancel-then-schedule rather than reconcile: the plan is at most sixty
@@ -204,9 +210,7 @@ class Notifications {
     _lastExamDay = examDay ?? _lastExamDay;
     _lastStudyDay = lastStudyDay ?? _lastStudyDay;
     if (!await isEnabled()) return;
-    await _guard(
-      () => _rearm(examDay: _lastExamDay, lastStudyDay: _lastStudyDay),
-    );
+    await _guard(_rearmCached);
   }
 
   /// The exam date moved, or was cleared. Rebuild against whatever it is now.
@@ -221,9 +225,17 @@ class Notifications {
   Future<void> examDayChanged(String? examDay) async {
     _lastExamDay = examDay;
     if (!await isEnabled()) return;
-    await _guard(
-      () => _rearm(examDay: _lastExamDay, lastStudyDay: _lastStudyDay),
-    );
+    await _guard(_rearmCached);
+  }
+
+  /// What the server says about the Daily: the last day it was played and
+  /// the streak. Playing today's quiets today's morning and evening ones;
+  /// the streak is what the evening one warns about.
+  Future<void> dailyState({String? lastPlayedDay, required int streak}) async {
+    _lastDailyDay = lastPlayedDay ?? _lastDailyDay;
+    _streak = streak;
+    if (!await isEnabled()) return;
+    await _guard(_rearmCached);
   }
 
   /// Something was studied today, so today's evening reminder is now wrong.
@@ -242,6 +254,8 @@ class Notifications {
   static void resetCachedInputs() {
     _lastExamDay = null;
     _lastStudyDay = null;
+    _lastDailyDay = null;
+    _streak = 0;
   }
 
   @visibleForTesting
@@ -250,12 +264,17 @@ class Notifications {
   @visibleForTesting
   static String? get debugStudyDay => _lastStudyDay;
 
-  Future<void> _rearm({String? examDay, String? lastStudyDay}) async {
+  @visibleForTesting
+  static String? get debugDailyDay => _lastDailyDay;
+
+  Future<void> _rearmCached() async {
     await init();
     final plan = notificationPlan(
       now: now(),
-      examDay: examDay,
-      lastStudyDay: lastStudyDay,
+      examDay: _lastExamDay,
+      lastStudyDay: _lastStudyDay,
+      lastDailyDay: _lastDailyDay,
+      streak: _streak,
     );
     await cancelAll();
     for (final n in plan) {

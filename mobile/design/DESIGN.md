@@ -188,10 +188,10 @@ Under about 20 items prefer pips to a bar.
 
 **Dock.** A full-bleed cream bar with its top corners at 40, under the
 content (the scaffold's bottom bar, never an overlay), with a soft upward
-shadow. Two labeled destinations, Profile then Study, each a 54 circle over a
-12 DM Sans label; the active one a spring circle with a filled charcoal icon.
-Light, wide and labeled so it can never be mistaken for the charcoal pill
-above it. (08 to 10)
+shadow. Three labeled destinations, Profile, Study and Daily, each a 54
+circle over a 12 DM Sans label; the active one a spring circle with a filled
+charcoal icon. Light, wide and labeled so it can never be mistaken for the
+charcoal pill above it. (08 to 10; the Daily tab added 2026-10-15, ADR 0021)
 
 **Chapter marks.** Drawn by the app (`chapter_marks.dart`, designed at 512).
 The SVG stand-ins in the references only show placement and size.
@@ -241,6 +241,7 @@ Short, direct, a little playful. A study partner, not a registration system.
 | Lesson sheet | Hairline game rows | Cream sheet; each game a creamDark row tile, the next one spring, with a 44 round play or check | 12 |
 | Lesson brief | Web article card | Headline, one cream card with the copy and creamDark formula tiles, the paper line, pill back | 14 |
 | Account | Hairline rows on the Profile tab | Cream sheet from the avatar: name, three creamDark numbers, 64 round buttons, delete as red text | 15 |
+| The Daily | A leaderboard table, or a quiz screen of its own | On a butter ground: the day's three games as creamDark rows in one cream hero with the pill, the streak as a dark row tile; after playing, the score spread as cream bars with yours charcoal, the top two and you as row tiles. Before each game, the next game's tile and Play; the end is the games' own done screen (13c) with the rounds as bars | 08, 13c |
 
 ## Banned
 

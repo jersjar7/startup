@@ -384,6 +384,8 @@ import '../features/games/who_pays_the_overrun_game.dart';
 import '../features/games/widen_the_stiff_one_game.dart';
 import '../features/games/wider_or_narrower_game.dart';
 import '../features/games/will_it_hold_itself_game.dart';
+import '../features/daily/daily_done_screen.dart';
+import '../features/daily/daily_step_screen.dart';
 import '../features/home/home_shell.dart';
 import '../features/onboarding/onboarding_screen.dart';
 import '../features/onboarding/titles_screen.dart';
@@ -482,6 +484,8 @@ GoRouter buildRouter(AuthController auth) {
         path: '/home',
         pageBuilder: (_, s) => _fade(s, const HomeShell()),
       ),
+      GoRoute(path: '/daily/step', builder: (_, _) => const DailyStepScreen()),
+      GoRoute(path: '/daily/done', builder: (_, _) => const DailyDoneScreen()),
       GoRoute(
         path: '/games/chapter/mathematics',
         builder: (_, _) => const ChapterMapScreen(chapter: mathematicsMap),

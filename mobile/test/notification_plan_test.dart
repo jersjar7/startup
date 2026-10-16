@@ -3,9 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/core/notifications/notification_plan.dart';
 
 /// The notification schedule. Everything here is pure, so these are the tests
-/// that actually guard the owner's rules: one a day in the normal case, never
-/// more than two, nothing in the last two days before the exam, and nothing at
-/// all for somebody who has already studied today.
+/// that actually guard the owner's rules: the Daily in the morning and again
+/// in the evening while it is still open, a midday reminder every day of the
+/// last three weeks, nothing in the last two days before the exam, and no
+/// Daily reminder once today's is played.
 
 DateTime at(String iso) => DateTime.parse(iso);
 String dayOf(DateTime d) => d.toIso8601String().substring(0, 10);
@@ -14,11 +15,10 @@ List<PlannedNotification> ofKind(List<PlannedNotification> p, NotifyKind k) =>
     p.where((n) => n.kind == k).toList();
 
 void main() {
-  group('the daily nudge', () {
-    test('fires at 7pm, every day, when nothing has been studied', () {
+  group('the evening one', () {
+    test('fires at 8pm, every day, while the Daily is still open', () {
       final plan = notificationPlan(
         now: at('2026-10-06T08:00:00'),
-        lastStudyDay: null,
         horizonDays: 5,
       );
       final daily = ofKind(plan, NotifyKind.daily);
@@ -29,10 +29,10 @@ void main() {
       expect(dayOf(daily.first.when), '2026-10-06');
     });
 
-    test('skips today once they have studied today', () {
+    test('skips today once today\'s Daily is played', () {
       final plan = notificationPlan(
         now: at('2026-10-06T08:00:00'),
-        lastStudyDay: '2026-10-06',
+        lastDailyDay: '2026-10-06',
         horizonDays: 5,
       );
       final daily = ofKind(plan, NotifyKind.daily);
@@ -40,19 +40,38 @@ void main() {
       expect(dayOf(daily.first.when), '2026-10-07');
     });
 
-    test('still nudges today if they last studied yesterday', () {
+    test('still comes today if the Daily was last played yesterday', () {
       final plan = notificationPlan(
         now: at('2026-10-06T08:00:00'),
-        lastStudyDay: '2026-10-05',
+        lastDailyDay: '2026-10-05',
         horizonDays: 3,
       );
       expect(dayOf(ofKind(plan, NotifyKind.daily).first.when), '2026-10-06');
     });
 
+    test('studying something else does not quiet it: the Daily is its own', () {
+      final plan = notificationPlan(
+        now: at('2026-10-06T08:00:00'),
+        lastStudyDay: '2026-10-06',
+        horizonDays: 3,
+      );
+      expect(dayOf(ofKind(plan, NotifyKind.daily).first.when), '2026-10-06');
+    });
+
+    test('warns about the streak tonight, and only tonight', () {
+      final plan = notificationPlan(
+        now: at('2026-10-06T08:00:00'),
+        streak: 5,
+        horizonDays: 3,
+      );
+      final daily = ofKind(plan, NotifyKind.daily);
+      expect(daily.first.title, 'Your 5 day streak ends tonight');
+      expect(daily[1].title, isNot(contains('streak')));
+    });
+
     test('does not schedule an hour that has already gone', () {
       final plan = notificationPlan(
-        now: at('2026-10-06T21:30:00'), // past 7pm
-        lastStudyDay: null,
+        now: at('2026-10-06T21:30:00'), // past 8pm
         horizonDays: 3,
       );
       expect(dayOf(ofKind(plan, NotifyKind.daily).first.when), '2026-10-07');
@@ -64,12 +83,24 @@ void main() {
         final plan = notificationPlan(
           now: at('2026-10-06T08:00:00'),
           examDay: '2026-10-16',
-          lastStudyDay: null,
         );
-        final daily = ofKind(plan, NotifyKind.daily);
-        expect(dayOf(daily.last.when), '2026-10-14'); // exam minus two
-        expect(daily.any((n) => dayOf(n.when) == '2026-10-15'), isFalse);
-        expect(daily.any((n) => dayOf(n.when) == '2026-10-16'), isFalse);
+        for (final kind in [
+          NotifyKind.daily,
+          NotifyKind.dailyReady,
+          NotifyKind.examClose,
+        ]) {
+          final some = ofKind(plan, kind);
+          expect(dayOf(some.last.when), '2026-10-14', reason: '$kind');
+        }
+        expect(
+          plan.any(
+            (n) =>
+                dayOf(n.when) == '2026-10-15' &&
+                n.kind != NotifyKind.nightBefore,
+          ),
+          isFalse,
+        );
+        expect(plan.any((n) => dayOf(n.when) == '2026-10-16'), isFalse);
       },
     );
 
@@ -77,13 +108,112 @@ void main() {
       final plan = notificationPlan(
         now: at('2026-10-06T08:00:00'),
         examDay: null,
-        lastStudyDay: null,
         horizonDays: 10,
       );
       expect(ofKind(plan, NotifyKind.daily).length, 10);
+      expect(ofKind(plan, NotifyKind.dailyReady).length, 9); // 8am has gone
       expect(ofKind(plan, NotifyKind.countdown), isEmpty);
+      expect(ofKind(plan, NotifyKind.examClose), isEmpty);
       expect(ofKind(plan, NotifyKind.nightBefore), isEmpty);
       expect(ofKind(plan, NotifyKind.outcome), isEmpty);
+    });
+  });
+
+  group('the morning one', () {
+    test('says the Daily is ready at 8am, by its number', () {
+      final plan = notificationPlan(
+        now: at('2026-10-20T07:00:00'),
+        horizonDays: 2,
+      );
+      final ready = ofKind(plan, NotifyKind.dailyReady);
+      expect(ready.length, 2);
+      expect(ready.first.when.hour, dailyReadyHour);
+      expect(ready.first.title, 'Daily No. 5 is ready'); // No. 1 is Oct 16
+      expect(ready[1].title, 'Daily No. 6 is ready');
+    });
+
+    test('is not sent once today\'s is played', () {
+      final plan = notificationPlan(
+        now: at('2026-10-20T07:00:00'),
+        lastDailyDay: '2026-10-20',
+        horizonDays: 2,
+      );
+      expect(
+        dayOf(ofKind(plan, NotifyKind.dailyReady).single.when),
+        '2026-10-21',
+      );
+    });
+  });
+
+  group('close to the exam', () {
+    test('adds a midday one on every day of the last three weeks', () {
+      // Three a day fill the queue in about three weeks, so this starts
+      // where the queue reaches the quiet line. It is re-armed on every open.
+      final plan = notificationPlan(
+        now: at('2026-10-14T07:00:00'),
+        examDay: '2026-11-01',
+      );
+      final close = ofKind(plan, NotifyKind.examClose);
+      final countdowns = ofKind(plan, NotifyKind.countdown);
+      final middays = {
+        ...close,
+        ...countdowns,
+      }.map((n) => dayOf(n.when)).toSet();
+      for (var d = 18; d > quietDaysBeforeExam; d--) {
+        final day = dayOf(DateTime(2026, 11, 1 - d));
+        expect(middays.contains(day), isTrue, reason: '$d days out');
+      }
+      expect(close.first.title, '18 days to the exam');
+    });
+
+    test('starts three weeks out, not before', () {
+      final plan = notificationPlan(
+        now: at('2026-10-01T07:00:00'),
+        examDay: '2026-11-01',
+      );
+      final close = ofKind(plan, NotifyKind.examClose);
+      expect(
+        close.any((n) => dayOf(n.when) == '2026-10-10'),
+        isFalse,
+      ); // 22 out
+      // 21 out is the three-week countdown; the dailies start the day after.
+      expect(dayOf(close.first.when), '2026-10-12');
+    });
+
+    test('never doubles up with a countdown on the same day', () {
+      final plan = notificationPlan(
+        now: at('2026-10-01T07:00:00'),
+        examDay: '2026-11-01',
+      );
+      final countdownDays = ofKind(
+        plan,
+        NotifyKind.countdown,
+      ).map((n) => dayOf(n.when)).toSet();
+      for (final n in ofKind(plan, NotifyKind.examClose)) {
+        expect(countdownDays.contains(dayOf(n.when)), isFalse);
+      }
+    });
+
+    test('is quiet today once something was studied today', () {
+      final plan = notificationPlan(
+        now: at('2026-10-20T07:00:00'),
+        examDay: '2026-11-01',
+        lastStudyDay: '2026-10-20',
+      );
+      expect(
+        ofKind(
+          plan,
+          NotifyKind.examClose,
+        ).any((n) => dayOf(n.when) == '2026-10-20'),
+        isFalse,
+      );
+      expect(
+        ofKind(
+          plan,
+          NotifyKind.examClose,
+        ).any((n) => dayOf(n.when) == '2026-10-21'),
+        isTrue,
+      );
     });
   });
 
@@ -101,7 +231,7 @@ void main() {
       expect(days, ['2026-10-30', '2026-11-06', '2026-11-13', '2026-11-17']);
     });
 
-    test('sit in the morning so they never share an hour with the nudge', () {
+    test('sit at midday so they never share an hour with the Daily', () {
       final plan = notificationPlan(
         now: at('2026-10-06T08:00:00'),
         examDay: '2026-11-20',
@@ -110,6 +240,7 @@ void main() {
       for (final n in ofKind(plan, NotifyKind.countdown)) {
         expect(n.when.hour, countdownHour);
         expect(n.when.hour, isNot(dailyHour));
+        expect(n.when.hour, isNot(dailyReadyHour));
       }
     });
 
@@ -167,7 +298,7 @@ void main() {
   });
 
   group("the owner's limits", () {
-    test('never more than two in one day, across every arrangement', () {
+    test('never more than three in one day, across every arrangement', () {
       for (final offset in [1, 3, 7, 14, 21, 22, 30, 60, 120]) {
         final now = at('2026-10-06T08:00:00');
         final exam = now.add(Duration(days: offset));
@@ -180,19 +311,28 @@ void main() {
       }
     });
 
-    test('most days carry exactly one', () {
-      final plan = notificationPlan(
-        now: at('2026-10-06T08:00:00'),
-        examDay: '2026-12-20',
-        lastStudyDay: null,
-      );
-      final byDay = <String, int>{};
-      for (final n in plan) {
-        byDay[dayOf(n.when)] = (byDay[dayOf(n.when)] ?? 0) + 1;
-      }
-      final single = byDay.values.where((v) => v == 1).length;
-      expect(single / byDay.length, greaterThan(0.9));
-    });
+    test(
+      'a day far from the exam carries the Daily twice and nothing else',
+      () {
+        final plan = notificationPlan(
+          now: at('2026-10-06T07:00:00'),
+          examDay: '2026-12-20',
+          horizonDays: 10,
+        );
+        final byDay = <String, Set<NotifyKind>>{};
+        for (final n in plan) {
+          if (n.kind == NotifyKind.outcome ||
+              n.kind == NotifyKind.nightBefore ||
+              n.kind == NotifyKind.countdown) {
+            continue;
+          }
+          byDay.putIfAbsent(dayOf(n.when), () => {}).add(n.kind);
+        }
+        for (final kinds in byDay.values) {
+          expect(kinds, {NotifyKind.dailyReady, NotifyKind.daily});
+        }
+      },
+    );
 
     test('stays under the limit iOS silently enforces', () {
       // iOS keeps 64 pending notifications and drops the rest without a word,

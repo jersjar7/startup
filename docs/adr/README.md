@@ -52,6 +52,7 @@ that supersedes it, so the history of thinking stays readable.
 | [0018](0018-one-record-per-account.md) | One record per account: the server holds the truth, both surfaces are views | 2026-09-20 | Accepted |
 | [0019](0019-desk-half-is-coverage.md) | The desk half is coverage, not a repetition curve | 2026-09-25 | Accepted |
 | [0020](0020-mastery-is-desk-earned.md) | Mastery is desk-earned: games are a warm-up, the readiness read a floor of 25 | 2026-09-25 | Accepted |
+| [0021](0021-the-daily.md) | The Daily: one shared puzzle a day, picked by the server, built from the games we have | 2026-10-15 | Accepted |
 
 Records 0002–0005 were written on 2026-08-04, backfilled from commit messages.
 The **Date** column is when the decision was made, not when it was written up.

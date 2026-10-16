@@ -10,10 +10,27 @@
 /// close the exam is.
 library;
 
-/// Why a notification exists. Also its identity: the daily reminder for a
+import '../../features/daily/daily_calendar.dart';
+
+/// Why a notification exists. Also its identity: the evening reminder for a
 /// given day is always the same notification, so re-arming replaces rather
-/// than duplicates.
-enum NotifyKind { daily, countdown, nightBefore, outcome }
+/// than duplicates. Add new kinds at the end: the index is part of the id.
+enum NotifyKind {
+  /// The evening one: today's Daily is still open.
+  daily,
+  countdown,
+  nightBefore,
+  outcome,
+
+  /// The morning one: today's Daily is ready.
+  dailyReady,
+
+  /// Midday, on every day of the last three weeks: the exam is close.
+  examClose,
+}
+
+/// The kinds that should open the Daily when tapped.
+const dailyKinds = {NotifyKind.daily, NotifyKind.dailyReady};
 
 class PlannedNotification {
   const PlannedNotification({
@@ -43,8 +60,8 @@ String _dayKey(DateTime d) =>
     '${d.month.toString().padLeft(2, '0')}-'
     '${d.day.toString().padLeft(2, '0')}';
 
-DateTime _atHour(DateTime day, int hour) =>
-    DateTime(day.year, day.month, day.day, hour);
+DateTime _atHour(DateTime day, int hour, [int minute = 0]) =>
+    DateTime(day.year, day.month, day.day, hour, minute);
 
 /// Calendar arithmetic, never Duration.
 ///
@@ -66,41 +83,59 @@ int _daysBetween(DateTime from, DateTime to) => DateTime(
 /// every time the app is opened.
 const maxPending = 60;
 
-/// The evening nudge. Late enough to be a real "you still have time tonight",
-/// early enough not to be the last thing before bed.
-const dailyHour = 19;
+/// The Daily opens at midnight, and the morning one says so once people are
+/// up (owner's call, 2026-10-15).
+const dailyReadyHour = 8;
 
-/// Countdowns sit in the morning so they never land in the same hour as the
-/// evening reminder, even on a day that carries both.
-const countdownHour = 9;
+/// The evening one, sent only while today's Daily is still open. Late enough
+/// to be a real "you still have time tonight", early enough not to be the
+/// last thing before bed.
+const dailyHour = 20;
 
-/// The night before. Later than the daily, because its job is to settle
-/// somebody rather than send them back to their desk.
+/// Midday, between the morning and the evening ones, so a day that carries
+/// all three never has two in the same hour.
+const countdownHour = 12;
+const countdownMinute = 30;
+
+/// The night before. Its job is to settle somebody rather than send them back
+/// to their desk.
 const nightBeforeHour = 20;
 
 /// Nine days after, matching the email. Mid-morning, when results have landed.
 const outcomeHour = 10;
 
-/// How many days before the exam the daily reminder stops. The owner's call:
-/// the last two days are not for cramming.
+/// How many days before the exam every reminder stops. The owner's call: the
+/// last two days are not for cramming.
 const quietDaysBeforeExam = 2;
 
 /// The countdown days, chosen to be far enough apart that none of them ever
 /// lands beside another, and to match how people actually think about an exam.
 const countdownDays = [21, 14, 7, 3];
 
+/// From this many days out, every day gets a midday reminder too. Students
+/// with the app are mostly close to their exam, and that is when keeping the
+/// concepts familiar pays (owner, 2026-10-15).
+const examCloseDays = 21;
+
 /// Nine days after the exam, the same day the email goes out.
 const outcomeAfterDays = 9;
 
 /// Builds the whole plan.
 ///
-/// [lastStudyDay] is a date-only string, the same shape the account stores, or
-/// null if they have never studied. [examDay] is null for the roughly half of
-/// accounts that have never set a date, and those get the daily nudge only.
+/// [lastStudyDay] and [lastDailyDay] are date-only strings, or null if never.
+/// Studying today quiets today's midday reminder; playing today's Daily
+/// quiets today's morning and evening ones. [streak] is the Daily streak as
+/// of today, which only today's evening reminder mentions: nobody knows yet
+/// whether tomorrow's will still be alive.
+///
+/// [examDay] is null for the roughly half of accounts that have never set a
+/// date, and those get the Daily reminders only.
 List<PlannedNotification> notificationPlan({
   required DateTime now,
   String? examDay,
   String? lastStudyDay,
+  String? lastDailyDay,
+  int streak = 0,
   int horizonDays = maxPending,
 }) {
   final exam = _parseDay(examDay);
@@ -108,10 +143,12 @@ List<PlannedNotification> notificationPlan({
 
   // The dated ones first. They are few, they matter most, and taking their
   // slots before the dailies means a distant exam cannot crowd them out.
+  final countdownOn = <String>{};
   if (exam != null) {
     for (final d in countdownDays) {
-      final when = _atHour(_plusDays(exam, -d), countdownHour);
+      final when = _atHour(_plusDays(exam, -d), countdownHour, countdownMinute);
       if (when.isAfter(now)) {
+        countdownOn.add(_dayKey(when));
         out.add(
           PlannedNotification(
             id: _id(NotifyKind.countdown, when),
@@ -153,11 +190,20 @@ List<PlannedNotification> notificationPlan({
     }
   }
 
-  // The daily nudge, for every day left in the window. Today is included only
-  // if they have not studied yet and 7pm has not already passed.
-  final lastDay = _parseDay(lastStudyDay);
-  final studiedToday = lastDay != null && _daysBetween(lastDay, now) == 0;
+  // Then every day in the window, in order, until the queue is full: the
+  // Daily in the morning, the exam at midday when it is close, and the Daily
+  // again in the evening if it is still open.
+  final studiedToday =
+      _parseDay(lastStudyDay) != null &&
+      _daysBetween(_parseDay(lastStudyDay)!, now) == 0;
+  final playedToday =
+      _parseDay(lastDailyDay) != null &&
+      _daysBetween(_parseDay(lastDailyDay)!, now) == 0;
   final stop = exam == null ? null : _plusDays(exam, -quietDaysBeforeExam);
+
+  void add(PlannedNotification n) {
+    if (out.length < maxPending && n.when.isAfter(now)) out.add(n);
+  }
 
   for (var i = 0; i < horizonDays; i++) {
     if (out.length >= maxPending) break;
@@ -165,27 +211,65 @@ List<PlannedNotification> notificationPlan({
     if (stop != null && _daysBetween(day, stop) < 0) {
       break; // past the quiet line
     }
-    final when = _atHour(day, dailyHour);
-    if (!when.isAfter(now)) continue; // today's hour has gone
-    if (i == 0 && studiedToday) continue; // nothing to nudge about
-    out.add(
-      PlannedNotification(
-        id: _id(NotifyKind.daily, when),
-        when: when,
-        kind: NotifyKind.daily,
-        title: _dailyTitle(i),
-        body: _dailyBody(i),
-      ),
-    );
+    final number = dailyNumberOn(day);
+
+    if (!(i == 0 && playedToday)) {
+      final when = _atHour(day, dailyReadyHour);
+      add(
+        PlannedNotification(
+          id: _id(NotifyKind.dailyReady, when),
+          when: when,
+          kind: NotifyKind.dailyReady,
+          title: number == null
+              ? 'Today\'s Daily is ready'
+              : 'Daily No. $number is ready',
+          body: _readyBody(i),
+        ),
+      );
+    }
+
+    final away = exam == null ? null : _daysBetween(day, exam);
+    if (away != null &&
+        away <= examCloseDays &&
+        !countdownOn.contains(_dayKey(day)) &&
+        !(i == 0 && studiedToday)) {
+      final when = _atHour(day, countdownHour, countdownMinute);
+      add(
+        PlannedNotification(
+          id: _id(NotifyKind.examClose, when),
+          when: when,
+          kind: NotifyKind.examClose,
+          title: '$away days to the exam',
+          body: _closeBody(i),
+        ),
+      );
+    }
+
+    if (!(i == 0 && playedToday)) {
+      final when = _atHour(day, dailyHour);
+      final alive = i == 0 && streak > 0;
+      add(
+        PlannedNotification(
+          id: _id(NotifyKind.daily, when),
+          when: when,
+          kind: NotifyKind.daily,
+          title: alive
+              ? 'Your $streak day streak ends tonight'
+              : 'Today\'s Daily is still open',
+          body: _eveningBody(i),
+        ),
+      );
+    }
   }
 
   out.sort((a, b) => a.when.compareTo(b.when));
   return out;
 }
 
-/// The owner's cap: never more than two in a day, and one on most days. The
-/// plan is built so this holds, and this is the guard that proves it.
-bool respectsDailyCap(List<PlannedNotification> plan, {int cap = 2}) {
+/// The ceiling: three in a day at most, morning, midday and evening, and the
+/// midday one only in the last three weeks. The owner lifted the old limit of
+/// two on 2026-10-15; this is the guard that the plan still has a shape.
+bool respectsDailyCap(List<PlannedNotification> plan, {int cap = 3}) {
   final byDay = <String, int>{};
   for (final n in plan) {
     byDay[n.day] = (byDay[n.day] ?? 0) + 1;
@@ -216,22 +300,30 @@ int _id(NotifyKind kind, DateTime when) {
   return days * 8 + kind.index;
 }
 
-String _dailyTitle(int dayOffset) {
-  const titles = [
-    'A few minutes counts',
-    'Nothing today yet',
-    'One round before bed',
-    'Still here',
+String _readyBody(int dayOffset) {
+  const bodies = [
+    'Three games from three chapters, the same for everyone today. About '
+        'three minutes.',
+    'Three chapters, three games, about three minutes. See how you stack up.',
+    'Today\'s three games are up. Play them before your coffee gets cold.',
   ];
-  return titles[dayOffset % titles.length];
+  return bodies[dayOffset % bodies.length];
 }
 
-String _dailyBody(int dayOffset) {
+String _eveningBody(int dayOffset) {
   const bodies = [
-    'One round is enough to put today on your calendar.',
-    'Open one concept and today counts. That is the whole bar.',
-    'Two minutes now beats an hour you never get round to.',
-    'Pick up where you left off. One round, then stop if you want.',
+    'Three minutes before bed keeps the concepts fresh.',
+    'There is still time tonight. Three games, then you are done.',
+    'Today\'s three games are waiting. A few minutes is all it takes.',
+  ];
+  return bodies[dayOffset % bodies.length];
+}
+
+String _closeBody(int dayOffset) {
+  const bodies = [
+    'One lesson takes about a minute. Keep the concepts familiar.',
+    'A minute now keeps a chapter fresh for exam day.',
+    'Open the chapter you trust least and play one lesson.',
   ];
   return bodies[dayOffset % bodies.length];
 }

@@ -7,6 +7,8 @@ import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
 import '../../core/storage/app_storage.dart';
 import '../shared/widgets/kit.dart';
+import '../daily/daily_run.dart';
+import '../daily/daily_step_screen.dart';
 import 'feedback_sheet.dart';
 import 'game_catalog.dart';
 import 'game_progress.dart';
@@ -27,13 +29,21 @@ class BoardSession extends ChangeNotifier {
     required this.chapterId,
     required this.total,
     required this.sourceProblemIdOf,
-  }) {
+  }) : dailyGame = DailyRun.instance.claim(gameId) {
     _restore();
   }
 
   final String gameId;
   final String chapterId;
   final int total;
+
+  /// This sitting's place in today's Daily, or null for an ordinary sitting.
+  ///
+  /// A Daily sitting plays every round fresh, even in a game cleared long
+  /// ago, keeps its own first tries, and ends on the Daily's screens. Its
+  /// rounds still count as practice like any other.
+  final int? dailyGame;
+  bool get isDaily => dailyGame != null;
 
   /// Which web problem a given round was authored from.
   final String Function(int round) sourceProblemIdOf;
@@ -51,8 +61,12 @@ class BoardSession extends ChangeNotifier {
   bool get answered => _correct != null;
   bool? get correct => _correct;
   bool get syncFailed => _syncFailed;
-  int get clearedCount => GameProgress.instance.roundsCleared(gameId).length;
-  int get firstTryCount => GameProgress.instance.firstTryCount(gameId);
+  int get clearedCount => isDaily
+      ? DailyRun.instance.clearedIn(dailyGame!).length
+      : GameProgress.instance.roundsCleared(gameId).length;
+  int get firstTryCount => isDaily
+      ? DailyRun.instance.firstTryIn(dailyGame!)
+      : GameProgress.instance.firstTryCount(gameId);
   bool get done => clearedCount >= total;
 
   /// The board is over AND the student has read the last answer. Showing the
@@ -68,7 +82,12 @@ class BoardSession extends ChangeNotifier {
   int _resumedWith = 0;
 
   void _restore() {
-    final cleared = GameProgress.instance.roundsCleared(gameId);
+    final cleared = isDaily
+        ? DailyRun.instance.clearedIn(dailyGame!)
+        : GameProgress.instance.roundsCleared(gameId);
+    // A Daily round missed before the app was closed is no first try when
+    // it comes back.
+    if (isDaily) _seen.addAll(DailyRun.instance.missedIn(dailyGame!));
     _resumedWith = cleared.length;
     _queue
       ..clear()
@@ -89,6 +108,9 @@ class BoardSession extends ChangeNotifier {
       );
     } else {
       _queue.add(r); // comes back later in the same sitting
+    }
+    if (isDaily) {
+      DailyRun.instance.markRound(dailyGame!, r, ok: ok);
     }
     _seen.add(r);
     _pending.add(
@@ -130,6 +152,7 @@ class BoardSession extends ChangeNotifier {
   }
 
   void restart() {
+    if (isDaily) return; // one try a day
     GameProgress.instance.reset(gameId);
     _seen.clear();
     _pending.clear();
@@ -175,11 +198,22 @@ class _BoardShellState extends State<BoardShell> {
   bool _flagDot = false;
   bool _flagSeen = true;
 
+  /// The Daily's clock runs only while one of its games is on screen and the
+  /// app is in front.
+  AppLifecycleListener? _life;
+
   @override
   void initState() {
     super.initState();
     widget.session.addListener(_onSession);
     _load();
+    if (widget.session.isDaily) {
+      DailyRun.instance.startClock();
+      _life = AppLifecycleListener(
+        onHide: DailyRun.instance.stopClock,
+        onShow: DailyRun.instance.startClock,
+      );
+    }
   }
 
   @override
@@ -194,6 +228,10 @@ class _BoardShellState extends State<BoardShell> {
   @override
   void dispose() {
     widget.session.removeListener(_onSession);
+    if (_life != null) {
+      _life!.dispose();
+      DailyRun.instance.stopClock();
+    }
     super.dispose();
   }
 
@@ -286,6 +324,7 @@ class _BoardShellState extends State<BoardShell> {
                 ],
               ),
             ),
+            if (session.isDaily) _DailyLine(game: session.dailyGame!),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(24, 6, 24, 34),
@@ -316,6 +355,29 @@ class _BoardShellState extends State<BoardShell> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Which Daily this is and how far through it, over a Daily game's rounds.
+class _DailyLine extends StatelessWidget {
+  const _DailyLine({required this.game});
+
+  final int game;
+
+  @override
+  Widget build(BuildContext context) {
+    final run = DailyRun.instance;
+    final count = run.puzzle?.games.length ?? 3;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 2, 24, 6),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          'DAILY NO. ${run.puzzle?.number ?? ''} · GAME ${game + 1} OF $count',
+          style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
         ),
       ),
     );
@@ -448,6 +510,9 @@ class BoardDone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // A Daily game ends on the Daily's next step, not on its own summary.
+    if (session.isDaily) return DailyAfterGame(game: session.dailyGame!);
+
     final total = session.total;
     final first = session.firstTryCount;
     final missed = total - first;
