@@ -72,8 +72,12 @@ class AuthController extends ChangeNotifier {
     String? school,
     int? graduationYear,
     String? graduationTerm,
+    String? firstName,
   }) async {
     final body = {'email': email, 'password': password};
+    if (firstName != null && firstName.trim().isNotEmpty) {
+      body['firstName'] = firstName.trim();
+    }
     if (school != null && school.trim().isNotEmpty) {
       body['school'] = school.trim();
       if (graduationYear != null) body['graduationYear'] = '$graduationYear';
@@ -99,6 +103,13 @@ class AuthController extends ChangeNotifier {
       'graduationYear': ?graduationYear,
       'graduationTerm': ?graduationTerm?.toLowerCase(),
     });
+    await refreshMe();
+  }
+
+  /// What to call them: hello, emails and the boards (ADR 0023). An empty
+  /// name clears it.
+  Future<void> setFirstName(String name) async {
+    await api.put('/user/profile', {'firstName': name.trim()});
     await refreshMe();
   }
 

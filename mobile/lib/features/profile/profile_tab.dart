@@ -11,7 +11,6 @@ import '../onboarding/onboarding_screen.dart';
 import '../games/game_catalog.dart';
 import '../games/game_progress.dart';
 import '../shared/widgets/kit.dart';
-import '../study/chapter_bands.dart' show cardNameFor;
 import '../study/content_repository.dart';
 import '../study/study_tab.dart';
 import 'exam_date_screen.dart';
@@ -22,6 +21,9 @@ import '../../core/notifications/notification_plan.dart';
 import '../../core/notifications/notifications.dart';
 import 'account_extras.dart';
 import 'exam_outcome_card.dart';
+import 'pass_card_screen.dart';
+import 'profile_views.dart';
+import '../home/home_shell.dart';
 
 /// Tab 1 — Profile, the tab the app opens on: a greeting, the next-concept
 /// hero tile, exam day and days studied, the mastery row. Account actions
@@ -110,6 +112,23 @@ class _ProfileTabState extends State<ProfileTab> {
     // The Daily's own notifications are the shell's to handle.
     if (kind != NotifyKind.outcome || !mounted) return;
     Notifications.tapped.value = null;
+    // Answered by email after this one was armed: only the app can take a
+    // local notification back, so a stale one can still arrive (ADR 0023,
+    // section 6). It opens a thank-you, and the card after a pass, never
+    // the question again.
+    final user = context.read<AuthController>().user;
+    if (user?['examOutcomeResolved'] == true) {
+      if (user?['passCard'] is Map) {
+        _openPassCard();
+      } else {
+        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+          const SnackBar(
+            content: Text('Thank you. We already have your answer.'),
+          ),
+        );
+      }
+      return;
+    }
     setState(() => _outcomeDone = false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scroll.hasClients) {
@@ -133,125 +152,232 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthController>();
     final user = auth.user ?? const {};
-    final first = (user['firstName'] ?? '') as String;
-    final streak = (user['currentStreak'] ?? 0) as int;
-    final days = daysUntil(user['examDate'] as String?);
+    final first = ((user['firstName'] ?? '') as String).trim();
+    final examIso = user['examDate'] as String?;
+    final days = daysUntil(examIso);
+    final exam = ExamFacts(days: days, label: _examLabel(examIso, days));
+    final passCard = user['passCard'] is Map;
+    final askOutcome = !_outcomeDone && shouldAskOutcome(user, appClock());
 
     return ListenableBuilder(
       listenable: GameProgress.instance,
       builder: (context, _) {
         final progress = GameProgress.instance;
-        final resume = resumeTarget(progress);
-        // Nothing in flight on day one: the hero offers Mathematics.
-        final chapter = resume?.$1 ?? chapterMaps['mathematics']!;
-        final facts = ChapterFacts.of(chapter, progress);
-        // How far through the app: chapters, not the 135 lessons underneath.
-        // Fifteen is a number a student can picture finishing (owner's call,
-        // 2026-10-01); every lesson is built, so every chapter is reachable.
-        final chaptersDone = chapterMaps.values
-            .where((c) => ChapterFacts.of(c, progress).cleared)
-            .length;
-
-        return SafeArea(
-          bottom: false,
-          child: ListView(
-            controller: _scroll,
-            padding: EdgeInsets.fromLTRB(
-              16,
-              6,
-              16,
-              24 + MediaQuery.paddingOf(context).bottom,
+        final top = Row(
+          children: [
+            Expanded(
+              child: Text(
+                _dateLine(appClock()),
+                style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+              ),
             ),
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        first.isNotEmpty
-                            ? '${_greeting()}, $first'
-                            : _greeting(),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.display(
-                          size: 30,
-                          height: 1.1,
-                          tracking: -0.04,
+            _Avatar(user: user, onTap: () => _openAccount(auth)),
+          ],
+        );
+
+        return FutureBuilder<Map<String, ChapterMastery>>(
+          future: _mastery,
+          builder: (context, snap) {
+            final totals = totalsOf(snap.data ?? const {});
+            final mastery = weightedMastery(totals);
+            final streak = (user['currentStreak'] ?? 0) as int;
+            final focus = focusChapters(totals);
+
+            // Profile has two faces (owner, 2026-10-16). Everyone opens the
+            // app with nothing done in it, so the first is what every student
+            // meets; the first cleared round, in Study or the Daily, turns it
+            // for good.
+            final Widget page;
+            if (!_anyCleared(progress)) {
+              page = ProfileFirst(
+                top: top,
+                name: first,
+                exam: exam,
+                website: WebsiteFacts(
+                  mastery: mastery,
+                  daysStudied: streak,
+                  focus: totals.values.any((v) => v > 0) && focus.isNotEmpty
+                      ? chapterMaps[focus.first]
+                      : null,
+                ),
+                onStart: _openChapter,
+                onExam: () => _openExam(examIso),
+                onMastery: () => _openMastery(snap.data ?? const {}),
+                onDays: () => _openDays(streak),
+                passCard: passCard,
+                onPassCard: _openPassCard,
+              );
+            } else {
+              final resume = resumeTarget(progress);
+              final chapter = resume?.$1;
+              final lesson = resume?.$2;
+              final inLesson = lesson == null
+                  ? 0
+                  : lesson.builtGames.fold<int>(0, (s, g) => s + g.rounds);
+              final clearedInLesson = lesson == null
+                  ? 0
+                  : lesson.builtGames.fold<int>(
+                      0,
+                      (s, g) => s + progress.roundsCleared(g.id).length,
+                    );
+              page = ProfileUnderway(
+                top: top,
+                name: first,
+                lessonName: lesson?.name ?? '',
+                roundsInLesson: inLesson,
+                roundsCleared: clearedInLesson,
+                daysStudied: streak < 1 ? 1 : streak,
+                exam: exam,
+                mastery: mastery > 0 ? mastery : null,
+                passCard: passCard,
+                allDone: resume == null,
+                onCarryOn: chapter == null
+                    ? () => HomeShell.select(HomeTab.study)
+                    : () => _openChapter(chapter),
+                onDays: () => _openDays(streak),
+                onExam: () => _openExam(examIso),
+                onMastery: () => _openMastery(snap.data ?? const {}),
+                onPassCard: _openPassCard,
+              );
+            }
+
+            return LayoutBuilder(
+              builder: (context, box) => SingleChildScrollView(
+                controller: _scroll,
+                // Fits one phone screen; scrolls only when it cannot, on a
+                // small phone or with large text (owner, 2026-10-16).
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: box.maxHeight),
+                  child: IntrinsicHeight(
+                    child: SafeArea(
+                      bottom: false,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: 8,
+                          bottom: MediaQuery.paddingOf(context).bottom,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            if (askOutcome)
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                  16,
+                                  0,
+                                  16,
+                                  14,
+                                ),
+                                child: ExamOutcomeCard(
+                                  auth: auth,
+                                  mastery: snap.data == null ? null : totals,
+                                  onSetExamDate: () => _openExam(examIso),
+                                  onDone: () =>
+                                      setState(() => _outcomeDone = true),
+                                ),
+                              ),
+                            Expanded(child: page),
+                          ],
                         ),
                       ),
                     ),
-                    _Avatar(user: user, onTap: () => _openAccount(auth)),
-                  ],
-                ),
-              ),
-              if (!_outcomeDone && shouldAskOutcome(user, appClock())) ...[
-                FutureBuilder<Map<String, ChapterMastery>>(
-                  future: _mastery,
-                  builder: (context, snap) => ExamOutcomeCard(
-                    auth: auth,
-                    mastery: snap.data == null ? null : totalsOf(snap.data!),
-                    onSetExamDate: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => ExamDateScreen(
-                          initial: user['examDate'] as String?,
-                        ),
-                      ),
-                    ),
-                    onDone: () => setState(() => _outcomeDone = true),
-                  ),
-                ),
-                const SizedBox(height: 14),
-              ],
-              // Two containers, in this order (owner's call, 2026-10-01):
-              // where you stand, then the thing to do about it. The app's own
-              // progress leads the first and the website's figures sit under
-              // it at half the size, so the phone never claims a number it
-              // did not earn.
-              _StandingCard(
-                chaptersDone: chaptersDone,
-                chaptersTotal: chapterMaps.length,
-                streak: streak,
-                examDays: days,
-                examIso: user['examDate'] as String?,
-                mastery: _mastery,
-                onExam: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        ExamDateScreen(initial: user['examDate'] as String?),
-                  ),
-                ),
-                onDays: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => StudyDaysScreen(count: streak),
-                  ),
-                ),
-                onMastery: (m) => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => MasteryScreen(mastery: m)),
-                ),
-              ),
-              const SizedBox(height: 12),
-              _ContinueCard(
-                chapter: chapter,
-                facts: facts,
-                onPlay: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => ChapterMapScreen(chapter: chapter),
                   ),
                 ),
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );
   }
 
-  static String _greeting() {
-    final h = appClock().hour;
-    if (h < 12) return 'Morning';
-    if (h < 18) return 'Afternoon';
-    return 'Evening';
+  /// Anything cleared in the app, anywhere: the moment Profile turns.
+  static bool _anyCleared(GameProgress progress) {
+    for (final chapter in chapterMaps.values) {
+      for (final lesson in chapter.lessons) {
+        for (final game in lesson.games) {
+          if (progress.roundsCleared(game.id).isNotEmpty) return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  void _openChapter(ChapterMap chapter) => Navigator.of(
+    context,
+  ).push(MaterialPageRoute(builder: (_) => ChapterMapScreen(chapter: chapter)));
+
+  void _openExam(String? iso) => Navigator.of(
+    context,
+  ).push(MaterialPageRoute(builder: (_) => ExamDateScreen(initial: iso)));
+
+  void _openDays(int count) => Navigator.of(
+    context,
+  ).push(MaterialPageRoute(builder: (_) => StudyDaysScreen(count: count)));
+
+  void _openMastery(Map<String, ChapterMastery> m) => Navigator.of(
+    context,
+  ).push(MaterialPageRoute(builder: (_) => MasteryScreen(mastery: m)));
+
+  void _openPassCard() => Navigator.of(
+    context,
+  ).push(MaterialPageRoute<void>(builder: (_) => const PassCardScreen()));
+
+  static const _weekdays = [
+    'MONDAY',
+    'TUESDAY',
+    'WEDNESDAY',
+    'THURSDAY',
+    'FRIDAY',
+    'SATURDAY',
+    'SUNDAY',
+  ];
+  static const _months = [
+    'JAN',
+    'FEB',
+    'MAR',
+    'APR',
+    'MAY',
+    'JUN',
+    'JUL',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC',
+  ];
+
+  static String _dateLine(DateTime d) =>
+      '${_weekdays[d.weekday - 1]}, ${_months[d.month - 1]} ${d.day}';
+
+  /// "Wednesday, November 18", or "Today" when it is.
+  static String? _examLabel(String? iso, int? days) {
+    final d = DateTime.tryParse(iso ?? '');
+    if (d == null || days == null) return null;
+    if (days == 0) return 'Today';
+    const weekdays = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ];
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    return '${weekdays[d.weekday - 1]}, ${months[d.month - 1]} ${d.day}';
   }
 
   Future<void> _openAccount(AuthController auth) {
@@ -413,354 +539,6 @@ class _Avatar extends StatelessWidget {
 
 // ───────────────────────────── the tiles ───────────────────────────
 
-/// Where you stand: the app's own progress first, the website's figures
-/// under it at half the size.
-///
-/// One container, not three, so the screen stays at two blocks (owner's
-/// call, 2026-10-01). The app's number is the big one and the website's are
-/// rows, because the phone reflects those rather than earning them.
-class _StandingCard extends StatelessWidget {
-  const _StandingCard({
-    required this.chaptersDone,
-    required this.chaptersTotal,
-    required this.streak,
-    required this.examDays,
-    required this.examIso,
-    required this.mastery,
-    required this.onExam,
-    required this.onDays,
-    required this.onMastery,
-  });
-
-  final int chaptersDone;
-  final int chaptersTotal;
-  final int streak;
-  final int? examDays;
-  final String? examIso;
-  final Future<Map<String, ChapterMastery>> mastery;
-  final VoidCallback onExam;
-  final VoidCallback onDays;
-  final void Function(Map<String, ChapterMastery>) onMastery;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.cream,
-        borderRadius: BorderRadius.circular(32),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(22, 22, 22, 18),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'IN THIS APP',
-                  style: AppTheme.eyebrow(color: AppColors.ink2),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  children: [
-                    Text(
-                      '$chaptersDone',
-                      style: AppTheme.display(
-                        size: 68,
-                        height: 0.82,
-                        tracking: -0.06,
-                      ),
-                    ),
-                    const SizedBox(width: 9),
-                    Flexible(
-                      child: Text(
-                        'of $chaptersTotal chapters',
-                        style: AppTheme.display(
-                          size: 18,
-                          weight: FontWeight.w700,
-                          height: 1,
-                          tracking: -0.02,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Pips(count: chaptersTotal, filled: chaptersDone),
-              ],
-            ),
-          ),
-          const _Hairline(),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(22, 16, 22, 4),
-            child: Text(
-              'FROM THE WEBSITE',
-              style: AppTheme.eyebrow(color: AppColors.ink2),
-            ),
-          ),
-          FutureBuilder<Map<String, ChapterMastery>>(
-            future: mastery,
-            builder: (context, snap) {
-              final m = snap.data;
-              return _StatRow(
-                label: 'Total concept mastery',
-                value: m == null ? null : '${weightedMastery(totalsOf(m))}',
-                unit: '%',
-                onTap: m == null ? null : () => onMastery(m),
-              );
-            },
-          ),
-          _StatRow(
-            label: 'Days studied',
-            value: '$streak',
-            unit: streak == 1 ? 'day' : 'days',
-            onTap: onDays,
-          ),
-          _StatRow(
-            label: 'Exam day',
-            note: examIso == null ? null : _shortDate(examIso!),
-            value: examDays == null ? null : '$examDays',
-            unit: examDays == 1 ? 'day' : 'days',
-            placeholder: 'Not set',
-            onTap: onExam,
-            last: true,
-          ),
-        ],
-      ),
-    );
-  }
-
-  static const _mo = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-
-  static String _shortDate(String iso) {
-    final d = DateTime.tryParse(iso);
-    return d == null ? '' : '${_mo[d.month - 1]} ${d.day}';
-  }
-}
-
-class _Hairline extends StatelessWidget {
-  const _Hairline();
-
-  @override
-  Widget build(BuildContext context) => Container(
-    height: 1,
-    margin: const EdgeInsets.symmetric(horizontal: 22),
-    color: AppColors.charcoal.withValues(alpha: 0.08),
-  );
-}
-
-/// One of the website's figures: a name, the number, and a chevron, because
-/// as a row in a card it has to look as tappable as the tile it replaced.
-class _StatRow extends StatelessWidget {
-  const _StatRow({
-    required this.label,
-    required this.value,
-    required this.unit,
-    required this.onTap,
-    this.note,
-    this.placeholder,
-    this.last = false,
-  });
-
-  final String label;
-  final String? value;
-  final String unit;
-  final String? note;
-  final String? placeholder;
-  final VoidCallback? onTap;
-  final bool last;
-
-  @override
-  Widget build(BuildContext context) {
-    final shown = value;
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(22, 11, 14, last ? 16 : 11),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          label,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTheme.body(
-                            size: 15,
-                            weight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      if (note != null) ...[
-                        const SizedBox(width: 6),
-                        Text(
-                          '· $note',
-                          style: AppTheme.body(size: 14, color: AppColors.ink2),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 10),
-                if (shown == null)
-                  Text(
-                    placeholder ?? '',
-                    style: AppTheme.display(size: 20, height: 1),
-                  )
-                else ...[
-                  Text(
-                    shown,
-                    style: AppTheme.display(
-                      size: 24,
-                      height: 0.9,
-                      tracking: -0.04,
-                    ),
-                  ),
-                  const SizedBox(width: 3),
-                  Text(
-                    unit,
-                    style: AppTheme.display(
-                      size: 12,
-                      weight: FontWeight.w700,
-                      height: 1,
-                    ),
-                  ),
-                ],
-                Icon(
-                  Icons.chevron_right_rounded,
-                  size: 20,
-                  color: AppColors.charcoal.withValues(alpha: 0.35),
-                ),
-              ],
-            ),
-            if (!last) ...[
-              const SizedBox(height: 11),
-              Container(
-                height: 1,
-                color: AppColors.charcoal.withValues(alpha: 0.07),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// The thing to do about it: the chapter in flight, how far through it you
-/// are, and the one button on the screen.
-class _ContinueCard extends StatelessWidget {
-  const _ContinueCard({
-    required this.chapter,
-    required this.facts,
-    required this.onPlay,
-  });
-
-  final ChapterMap chapter;
-  final ChapterFacts facts;
-  final VoidCallback onPlay;
-
-  @override
-  Widget build(BuildContext context) {
-    final next = facts.next;
-    final line = facts.cleared
-        ? 'Every lesson cleared. Pick another chapter.'
-        : next == null
-        ? 'Nothing left to play here yet'
-        : '${facts.started ? 'Up next' : 'Starts with'}: ${next.name}';
-
-    return GestureDetector(
-      onTap: onPlay,
-      child: Container(
-        padding: const EdgeInsets.all(22),
-        decoration: BoxDecoration(
-          color: AppColors.cream,
-          borderRadius: BorderRadius.circular(32),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              cardNameFor(chapter).toUpperCase(),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTheme.eyebrow(color: AppColors.ink2),
-            ),
-            const SizedBox(height: 13),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: [
-                      Text(
-                        '${facts.done}',
-                        style: AppTheme.display(
-                          size: 64,
-                          height: 0.82,
-                          tracking: -0.06,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Flexible(
-                        child: Text(
-                          'of ${facts.total} lessons',
-                          style: AppTheme.display(
-                            size: 16,
-                            weight: FontWeight.w700,
-                            height: 1,
-                            tracking: -0.02,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                RoundIconButton(
-                  icon: Icons.play_arrow_rounded,
-                  onTap: onPlay,
-                  label: facts.started ? 'Continue' : 'Start',
-                  size: 68,
-                  iconColor: AppColors.spring,
-                ),
-              ],
-            ),
-            const SizedBox(height: 15),
-            Pips(count: facts.total, filled: facts.done),
-            const SizedBox(height: 12),
-            Text(line, style: AppTheme.body(size: 15)),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 // ───────────────────────────── the account sheet ───────────────────
 
 /// Name, email, three numbers, and the account actions that used to be
@@ -884,6 +662,7 @@ class AccountSheet extends StatelessWidget {
             const SizedBox(height: 18),
             // Where they study, and whether they want reminding. Both are
             // settings rather than actions, so they sit above the buttons.
+            NameRow(auth: auth),
             EmailRow(auth: auth),
             SchoolRow(auth: auth),
             if (notifications != null)

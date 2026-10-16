@@ -662,51 +662,58 @@ class BottomDock extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               for (var i = 0; i < items.length; i++)
-                Semantics(
-                  button: true,
-                  selected: i == index,
-                  label: items[i].label,
-                  child: _Pressable(
-                    onTap: () => onSelect(i),
-                    child: SizedBox(
-                      width: 96,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          AnimatedContainer(
-                            duration: const Duration(milliseconds: 180),
-                            curve: Curves.easeOut,
-                            width: 54,
-                            height: 54,
-                            decoration: BoxDecoration(
-                              color: i == index
-                                  ? AppColors.spring
-                                  : Colors.transparent,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              i == index ? items[i].activeIcon : items[i].icon,
-                              size: 24,
-                              color: i == index
-                                  ? AppColors.charcoal
-                                  : AppColors.ink2,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          ExcludeSemantics(
-                            child: Text(
-                              items[i].label,
-                              style: GoogleFonts.dmSans(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: -0.1,
+                // Flexible so three 96-wide items still fit a 320-point
+                // phone (the first iPhone SE runs iOS 15), where they
+                // overflowed by 16 points.
+                Flexible(
+                  child: Semantics(
+                    button: true,
+                    selected: i == index,
+                    label: items[i].label,
+                    child: _Pressable(
+                      onTap: () => onSelect(i),
+                      child: SizedBox(
+                        width: 96,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 180),
+                              curve: Curves.easeOut,
+                              width: 54,
+                              height: 54,
+                              decoration: BoxDecoration(
+                                color: i == index
+                                    ? AppColors.spring
+                                    : Colors.transparent,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                i == index
+                                    ? items[i].activeIcon
+                                    : items[i].icon,
+                                size: 24,
                                 color: i == index
                                     ? AppColors.charcoal
                                     : AppColors.ink2,
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 4),
+                            ExcludeSemantics(
+                              child: Text(
+                                items[i].label,
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: -0.1,
+                                  color: i == index
+                                      ? AppColors.charcoal
+                                      : AppColors.ink2,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

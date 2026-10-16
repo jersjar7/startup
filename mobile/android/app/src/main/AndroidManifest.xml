@@ -57,6 +57,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="fe4raccoons.com" android:pathPrefix="/verify-email/" />
+                <!-- The results email's buttons and the pass card (ADR 0023). -->
+                <data android:scheme="https" android:host="fe4raccoons.com" android:pathPrefix="/api/email/exam-result/" />
+                <data android:scheme="https" android:host="fe4raccoons.com" android:pathPrefix="/api/email/exam-attempt/" />
+                <data android:scheme="https" android:host="fe4raccoons.com" android:pathPrefix="/pass-card/" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

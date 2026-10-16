@@ -754,6 +754,7 @@ class AccountSheetHostState extends State<AccountSheetHost> {
   String _page = 'account';
 
   void showSchool() => setState(() => _page = 'school');
+  void showName() => setState(() => _page = 'name');
   void showEmail() => setState(() => _page = 'email');
   void showAccount() => setState(() => _page = 'account');
   void showSignOut() => setState(() => _page = 'signout');
@@ -781,6 +782,7 @@ class AccountSheetHostState extends State<AccountSheetHost> {
             position: Tween(
               begin: Offset(
                 child.key == const ValueKey('school') ||
+                        child.key == const ValueKey('name') ||
                         child.key == const ValueKey('signout') ||
                         child.key == const ValueKey('about')
                     ? 0.06
@@ -794,6 +796,11 @@ class AccountSheetHostState extends State<AccountSheetHost> {
           child: switch (_page) {
             'school' => SchoolEditor(
               key: const ValueKey('school'),
+              auth: widget.auth,
+              onDone: showAccount,
+            ),
+            'name' => NameEditor(
+              key: const ValueKey('name'),
               auth: widget.auth,
               onDone: showAccount,
             ),
@@ -1232,6 +1239,133 @@ class EmailRow extends StatelessWidget {
         final host = AccountSheetHost.of(context);
         if (host != null) host.showEmail();
       },
+    );
+  }
+}
+
+/// What we call them, from the account sheet. The sign-up step promises it
+/// can be changed any time (ADR 0023); this is where.
+class NameRow extends StatelessWidget {
+  const NameRow({super.key, required this.auth});
+
+  final AuthController auth;
+
+  @override
+  Widget build(BuildContext context) {
+    final name = ((auth.user?['firstName'] ?? '') as String).trim();
+    return SheetRow(
+      label: 'Name',
+      value: name.isEmpty ? 'Not set' : name,
+      onTap: () => AccountSheetHost.of(context)?.showName(),
+    );
+  }
+}
+
+class NameEditor extends StatefulWidget {
+  const NameEditor({super.key, required this.auth, required this.onDone});
+
+  final AuthController auth;
+  final VoidCallback onDone;
+
+  @override
+  State<NameEditor> createState() => _NameEditorState();
+}
+
+class _NameEditorState extends State<NameEditor> {
+  late final TextEditingController _name = TextEditingController(
+    text: (widget.auth.user?['firstName'] ?? '') as String,
+  );
+  bool _busy = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _name.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    if (_busy) return;
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      await widget.auth.setFirstName(_name.text);
+      if (mounted) widget.onDone();
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _busy = false;
+          _error = 'That did not save. Try again in a moment.';
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      top: false,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            24,
+            16,
+            24,
+            24 + MediaQuery.viewInsetsOf(context).bottom,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Center(child: Grabber()),
+              const SizedBox(height: 14),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextAction(
+                  label: 'Account',
+                  onTap: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    widget.onDone();
+                  },
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'What should we call you?',
+                style: AppTheme.display(size: 30, height: 1.05),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Shown on the Daily\'s board and in hello. Your pass card asks '
+                'for its own name when you get one.',
+                style: AppTheme.body(
+                  size: 14.5,
+                  color: AppColors.ink2,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: 24),
+              XLField(
+                controller: _name,
+                label: 'First name',
+                hint: 'Your first name',
+                textCapitalization: TextCapitalization.words,
+                autofillHints: const [AutofillHints.givenName],
+                error: _error,
+                onSubmitted: (_) => _save(),
+              ),
+              const SizedBox(height: 26),
+              PillButton(
+                label: _busy ? 'Saving' : 'Save',
+                onTap: _busy ? null : _save,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

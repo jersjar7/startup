@@ -7,6 +7,8 @@ import '../features/auth/forgot_screen.dart';
 import '../features/auth/signin_screen.dart';
 import '../features/auth/verify_link_screen.dart';
 import '../features/auth/verify_screen.dart';
+import '../features/profile/outcome_link_screen.dart';
+import '../features/profile/pass_card_screen.dart';
 import '../features/games/above_or_below_game.dart';
 import '../features/games/above_the_point_game.dart';
 import '../features/games/acute_or_obtuse_game.dart';
@@ -816,6 +818,13 @@ GoRouter buildRouter(AuthController auth) {
       // works signed in or out (docs/mobile/universal-links.md).
       if (loc.startsWith('/verify-email/')) return null;
 
+      // The results email's buttons and the pass card, arriving the same way
+      // (ADR 0023). The email's token is the account, so they work signed in
+      // or out, exactly as the website's pages do.
+      if (loc.startsWith('/api/email/') || loc.startsWith('/pass-card/')) {
+        return null;
+      }
+
       // Still deciding (token check in flight) — stay on splash.
       if (auth.status == AuthStatus.unknown) {
         return loc == '/splash' ? null : '/splash';
@@ -861,6 +870,24 @@ GoRouter buildRouter(AuthController auth) {
       GoRoute(
         path: '/verify-email/:token',
         builder: (_, s) => VerifyLinkScreen(token: s.pathParameters['token']!),
+      ),
+      GoRoute(
+        path: '/api/email/exam-result/:token',
+        builder: (_, s) => OutcomeLinkScreen(
+          token: s.pathParameters['token']!,
+          answer: s.uri.queryParameters['a'],
+        ),
+      ),
+      GoRoute(
+        path: '/api/email/exam-attempt/:token',
+        builder: (_, s) => OutcomeLinkScreen(
+          token: s.pathParameters['token']!,
+          attempt: int.tryParse(s.uri.queryParameters['n'] ?? ''),
+        ),
+      ),
+      GoRoute(
+        path: '/pass-card/:token',
+        builder: (_, s) => PassCardScreen(token: s.pathParameters['token']!),
       ),
       GoRoute(
         path: '/home',

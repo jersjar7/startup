@@ -94,7 +94,7 @@ void main() {
   setUp(_wipe);
   tearDown(_wipe);
 
-  testWidgets('day one: the hero offers Mathematics, nothing is set', (
+  testWidgets('day one: an invitation, no numbers of the student\'s own', (
     tester,
   ) async {
     _phone(tester);
@@ -102,19 +102,17 @@ void main() {
     await _settle(tester);
 
     expect(find.byType(ProfileTab), findsOneWidget);
-    expect(find.textContaining('Jerson'), findsOneWidget);
-    // The card counts what is DONE, not what is left: 0 of 16 lessons here,
-    // 0 of 15 chapters above it (owner's call, 2026-10-01).
-    expect(find.text('of 16 lessons'), findsOneWidget);
-    expect(find.text('of 15 chapters'), findsOneWidget);
-    expect(
-      find.text('0'),
-      findsNWidgets(4),
-    ); // chapters, mastery, days studied, lessons
-    expect(find.textContaining('Starts with:'), findsOneWidget);
-    expect(find.text('Not set'), findsOneWidget);
-    expect(find.text('IN THIS APP'), findsOneWidget);
-    expect(find.text('FROM THE WEBSITE'), findsOneWidget);
+    // Everybody opens the app with nothing done in it (owner, 2026-10-16).
+    expect(find.text('Jerson, your FE prep starts here.'), findsOneWidget);
+    // The facts describe the app, not a student with nothing done yet.
+    expect(find.text('15'), findsOneWidget);
+    expect(find.text('chapters'), findsOneWidget);
+    expect(find.text('When is your exam?'), findsOneWidget);
+    expect(find.text('Start here'), findsOneWidget);
+    expect(find.textContaining('Mathematics'), findsOneWidget);
+    // No zero anywhere, and the Daily is its own tab, never repeated here.
+    expect(find.text('0'), findsNothing);
+    expect(find.textContaining('Daily'), findsOneWidget); // the dock's label
 
     await expectLater(
       find.byType(MaterialApp),
@@ -123,7 +121,17 @@ void main() {
     await _drain(tester);
   });
 
-  testWidgets('week five: the hero is the chapter in flight', (tester) async {
+  testWidgets('no name: the sentence stands without one', (tester) async {
+    _phone(tester);
+    await tester.pumpWidget(_app({'email': 'j@x.edu'}));
+    await _settle(tester);
+    expect(find.text('Your FE prep starts here.'), findsOneWidget);
+    await _drain(tester);
+  });
+
+  testWidgets('week five: the lesson in flight, counted in rounds', (
+    tester,
+  ) async {
     _phone(tester);
     _clear('mathematics', 3);
     final exam = appClock().add(const Duration(days: 73));
@@ -138,11 +146,11 @@ void main() {
     );
     await _settle(tester);
 
-    expect(find.text('3'), findsOneWidget); // 3 of 16 lessons done
-    expect(find.text('of 16 lessons'), findsOneWidget);
-    expect(find.textContaining('Up next:'), findsOneWidget);
-    expect(find.text('73'), findsOneWidget); // days to the exam
+    expect(find.text('Welcome back, Jerson.'), findsOneWidget);
+    expect(find.textContaining('rounds left'), findsOneWidget);
+    expect(find.text('Carry on'), findsOneWidget);
     expect(find.text('6'), findsOneWidget); // days studied
+    expect(find.text('73'), findsOneWidget); // days to the exam
 
     await expectLater(
       find.byType(MaterialApp),
@@ -155,6 +163,8 @@ void main() {
     expect(find.byType(AccountSheet), findsOneWidget);
     expect(find.text('Sign out'), findsOneWidget);
     expect(find.text('1,240'), findsOneWidget);
+    // Where the sign-up step's "change it any time" is true (ADR 0023).
+    expect(find.text('Name'), findsOneWidget);
     // The version as plain text where Licences used to be; Delete account
     // is off the sheet's face (owner's call, 2026-10-13).
     expect(find.text('Version 1.0.0'), findsOneWidget);

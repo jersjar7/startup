@@ -8,6 +8,7 @@ import '../../core/theme/app_theme.dart';
 import '../games/game_catalog.dart';
 import '../auth/auth_controller.dart';
 import 'mastery_model.dart';
+import 'pass_card_screen.dart';
 
 /// Nine days after the exam, the one question worth interrupting for.
 ///
@@ -138,6 +139,13 @@ class _ExamOutcomeCardState extends State<ExamOutcomeCard> {
     if (ending == null) {
       widget.onDone?.call();
       setState(() => _busy = false);
+      // A pass goes straight on to the card, the reward, rather than ending
+      // on a thank-you (ADR 0023). The card reads it from the account.
+      if (sat && passed == true) {
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute<void>(builder: (_) => const PassCardScreen()));
+      }
       return;
     }
     setState(() {

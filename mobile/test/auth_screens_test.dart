@@ -220,7 +220,9 @@ void main() {
     expect(find.text('Create my account'), findsOneWidget);
   });
 
-  testWidgets('create account: email, then password on spring', (tester) async {
+  testWidgets('create account: email, name on butter, then password on spring', (
+    tester,
+  ) async {
     _phone(tester);
     await tester.pumpWidget(_app(const CreateScreen()));
     await _settle(tester);
@@ -235,7 +237,22 @@ void main() {
     await tester.enterText(find.byType(TextField), 'you@school.edu');
     await tester.tap(find.byTooltip('Next'));
     await tester.pumpAndSettle();
+    // What to call them: optional, and honest about where it shows
+    // (ADR 0023).
+    expect(find.text('What should\nwe call you?'), findsOneWidget);
+    expect(find.text('Skip'), findsOneWidget);
+    await _golden(tester, 'create-2-name');
+    await tester.enterText(find.byType(TextField), 'Sam');
+    await tester.tap(find.byTooltip('Next'));
+    await tester.pumpAndSettle();
     expect(find.text('Pick a\npassword.'), findsOneWidget);
+
+    // Back keeps the name typed.
+    await tester.tap(find.byTooltip('Back'));
+    await tester.pumpAndSettle();
+    expect(find.text('Sam'), findsOneWidget);
+    await tester.tap(find.byTooltip('Next'));
+    await tester.pumpAndSettle();
     await _golden(tester, 'create-2-password');
 
     // A short password is refused before anyone fills in a third screen.
