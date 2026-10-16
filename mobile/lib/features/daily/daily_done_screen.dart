@@ -58,6 +58,7 @@ class _DailyDoneScreenState extends State<DailyDoneScreen> {
     );
     // Played either way: the result is safe, on the server or on the phone.
     await DailyRun.instance.clear();
+    DailyRepository.played.value++;
     final streak =
         sent?.streak ??
         DailyStreak(

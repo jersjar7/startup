@@ -50,6 +50,7 @@ class _DailyTabState extends State<DailyTab> {
   void initState() {
     super.initState();
     DailyRun.instance.addListener(_onRun);
+    DailyRepository.played.addListener(_load);
     _load();
   }
 
@@ -62,6 +63,7 @@ class _DailyTabState extends State<DailyTab> {
   @override
   void dispose() {
     DailyRun.instance.removeListener(_onRun);
+    DailyRepository.played.removeListener(_load);
     super.dispose();
   }
 

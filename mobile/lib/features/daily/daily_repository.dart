@@ -17,6 +17,15 @@ class DailyRepository {
 
   final ApiClient api;
 
+  /// Ticks when a finished Daily has been sent, or kept to send later.
+  ///
+  /// The Daily tab listens to it. Its games open on top of the tab, so the
+  /// tab never stops being the visible one and has no other way to know the
+  /// Daily it is showing has just been played. Without this it went on
+  /// offering "Play today's" and never asked for the results (tester, build
+  /// 1107).
+  static final played = ValueNotifier<int>(0);
+
   static const _kPuzzle = 'daily_puzzle';
   static const _kPending = 'daily_pending';
 

@@ -326,6 +326,37 @@ void main() {
       );
     });
 
+    testWidgets('the tab shows the results once a Daily played on top of it '
+        'is sent', (tester) async {
+      // The games open over the tab, so the tab is visible the whole time
+      // and only the sent result can tell it to look again (build 1107).
+      _phone(tester);
+      final repo = _FakeRepo(_puzzle());
+      await tester.pumpWidget(_app(const DailyTab(visible: true), repo));
+      await _settle(tester);
+      expect(find.text('Play today\'s'), findsOneWidget);
+
+      final run = DailyRun.instance..begin(_puzzle());
+      for (var g = 0; g < 3; g++) {
+        for (var r = 0; r < 6; r++) {
+          run.markRound(g, r, ok: true);
+        }
+        run.finishGame(g);
+      }
+      repo
+        ..puzzle = _puzzle(mine: _mine, streak: 6)
+        ..board = _results();
+      final nav = tester.state<NavigatorState>(find.byType(Navigator));
+      nav.push(
+        MaterialPageRoute<void>(builder: (_) => const DailyDoneScreen()),
+      );
+      await _settle(tester);
+      nav.pop();
+      await _settle(tester);
+      expect(find.text('Play today\'s'), findsNothing);
+      expect(find.text('You beat 70% today'), findsOneWidget);
+    });
+
     testWidgets('the tab after you play: how everyone did', (tester) async {
       _phone(tester);
       await tester.pumpWidget(
