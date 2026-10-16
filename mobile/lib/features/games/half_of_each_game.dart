@@ -179,13 +179,17 @@ class _HalfOfEachGameState extends State<HalfOfEachGame> {
     chapterId: 'transportation',
     total: peakFlowRounds.length,
     sourceProblemIdOf: (round) => peakFlowRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

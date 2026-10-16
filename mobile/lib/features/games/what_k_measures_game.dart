@@ -164,13 +164,17 @@ class _WhatKMeasuresGameState extends State<WhatKMeasuresGame> {
     chapterId: 'transportation',
     total: supportRounds.length,
     sourceProblemIdOf: (round) => supportRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

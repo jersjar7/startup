@@ -182,13 +182,17 @@ class _WhatIsLeftOfTheSpeedGameState extends State<WhatIsLeftOfTheSpeedGame> {
     chapterId: 'transportation',
     total: speedRounds.length,
     sourceProblemIdOf: (round) => speedRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

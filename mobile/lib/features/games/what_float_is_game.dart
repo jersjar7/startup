@@ -190,13 +190,17 @@ class _WhatFloatIsGameState extends State<WhatFloatIsGame> {
     chapterId: 'construction',
     total: totalFloatRounds.length,
     sourceProblemIdOf: (round) => totalFloatRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

@@ -203,13 +203,17 @@ class _SharperOrFlatterGameState extends State<SharperOrFlatterGame> {
     chapterId: 'transportation',
     total: curveQuoteRounds.length,
     sourceProblemIdOf: (round) => curveQuoteRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

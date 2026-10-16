@@ -181,13 +181,17 @@ class _TheWorstFifteenMinutesGameState
     chapterId: 'transportation',
     total: surgeRounds.length,
     sourceProblemIdOf: (round) => surgeRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

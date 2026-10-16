@@ -199,13 +199,17 @@ class _WetterIsNotDenserGameState extends State<WetterIsNotDenserGame> {
     chapterId: 'geotechnical',
     total: proctorRounds.length,
     sourceProblemIdOf: (round) => proctorRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

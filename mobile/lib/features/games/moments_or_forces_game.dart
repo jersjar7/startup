@@ -186,13 +186,17 @@ class _MomentsOrForcesGameState extends State<MomentsOrForcesGame> {
     chapterId: 'geotechnical',
     total: checkRounds.length,
     sourceProblemIdOf: (round) => checkRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

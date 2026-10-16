@@ -172,13 +172,17 @@ class _BeamOrBlanketGameState extends State<BeamOrBlanketGame> {
     chapterId: 'transportation',
     total: loadPathRounds.length,
     sourceProblemIdOf: (round) => loadPathRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

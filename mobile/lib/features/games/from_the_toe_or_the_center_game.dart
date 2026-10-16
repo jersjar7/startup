@@ -205,13 +205,17 @@ class _FromTheToeOrTheCenterGameState extends State<FromTheToeOrTheCenterGame> {
     chapterId: 'geotechnical',
     total: landingRounds.length,
     sourceProblemIdOf: (round) => landingRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

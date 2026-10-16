@@ -206,13 +206,17 @@ class _WhenCanItStartGameState extends State<WhenCanItStartGame> {
     chapterId: 'construction',
     total: startRounds.length,
     sourceProblemIdOf: (round) => startRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

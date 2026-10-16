@@ -182,13 +182,17 @@ class _WhichMeasureIsItGameState extends State<WhichMeasureIsItGame> {
     chapterId: 'geotechnical',
     total: packingRounds.length,
     sourceProblemIdOf: (round) => packingRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

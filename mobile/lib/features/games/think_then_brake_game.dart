@@ -188,13 +188,17 @@ class _ThinkThenBrakeGameState extends State<ThinkThenBrakeGame> {
     chapterId: 'transportation',
     total: stoppingRounds.length,
     sourceProblemIdOf: (round) => stoppingRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

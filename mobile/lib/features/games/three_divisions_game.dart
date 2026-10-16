@@ -199,13 +199,17 @@ class _ThreeDivisionsGameState extends State<ThreeDivisionsGame> {
     chapterId: 'transportation',
     total: divideRounds.length,
     sourceProblemIdOf: (round) => divideRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

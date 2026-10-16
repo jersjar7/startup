@@ -139,13 +139,17 @@ class _WhichOneFitsTheJobGameState extends State<WhichOneFitsTheJobGame> {
     chapterId: 'construction',
     total: fitRounds.length,
     sourceProblemIdOf: (round) => fitRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   Deliver? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

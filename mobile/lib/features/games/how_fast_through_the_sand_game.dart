@@ -182,13 +182,17 @@ class _HowFastThroughTheSandGameState extends State<HowFastThroughTheSandGame> {
     chapterId: 'water-resources',
     total: filterRounds.length,
     sourceProblemIdOf: (round) => filterRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

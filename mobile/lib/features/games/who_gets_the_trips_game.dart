@@ -195,13 +195,17 @@ class _WhoGetsTheTripsGameState extends State<WhoGetsTheTripsGame> {
     chapterId: 'transportation',
     total: tripShareRounds.length,
     sourceProblemIdOf: (round) => tripShareRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

@@ -176,13 +176,17 @@ class _ThreePartsOfAWalkGameState extends State<ThreePartsOfAWalkGame> {
     chapterId: 'transportation',
     total: greenRounds.length,
     sourceProblemIdOf: (round) => greenRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

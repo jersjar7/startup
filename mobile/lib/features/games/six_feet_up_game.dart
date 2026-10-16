@@ -174,13 +174,17 @@ class _SixFeetUpGameState extends State<SixFeetUpGame> {
     chapterId: 'construction',
     total: heightRounds2.length,
     sourceProblemIdOf: (round) => heightRounds2[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

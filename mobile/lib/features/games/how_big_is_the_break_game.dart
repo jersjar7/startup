@@ -182,13 +182,17 @@ class _HowBigIsTheBreakGameState extends State<HowBigIsTheBreakGame> {
     chapterId: 'transportation',
     total: breakRounds.length,
     sourceProblemIdOf: (round) => breakRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

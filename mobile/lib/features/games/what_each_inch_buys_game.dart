@@ -198,13 +198,17 @@ class _WhatEachInchBuysGameState extends State<WhatEachInchBuysGame> {
     chapterId: 'transportation',
     total: pavementSectionRounds.length,
     sourceProblemIdOf: (round) => pavementSectionRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

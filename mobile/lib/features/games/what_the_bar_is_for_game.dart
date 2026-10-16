@@ -185,13 +185,17 @@ class _WhatTheBarIsForGameState extends State<WhatTheBarIsForGame> {
     chapterId: 'transportation',
     total: jointRounds.length,
     sourceProblemIdOf: (round) => jointRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

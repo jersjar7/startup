@@ -191,13 +191,17 @@ class _WhatTheLetterMeasuresGameState extends State<WhatTheLetterMeasuresGame> {
     chapterId: 'transportation',
     total: letterRounds.length,
     sourceProblemIdOf: (round) => letterRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

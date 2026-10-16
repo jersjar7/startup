@@ -185,13 +185,17 @@ class _FeetNotMilesGameState extends State<FeetNotMilesGame> {
     chapterId: 'transportation',
     total: yellowRounds.length,
     sourceProblemIdOf: (round) => yellowRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

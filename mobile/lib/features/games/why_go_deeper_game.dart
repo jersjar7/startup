@@ -188,13 +188,17 @@ class _WhyGoDeeperGameState extends State<WhyGoDeeperGame> {
     chapterId: 'geotechnical',
     total: deepRounds.length,
     sourceProblemIdOf: (round) => deepRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

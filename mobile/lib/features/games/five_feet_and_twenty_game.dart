@@ -181,13 +181,17 @@ class _FiveFeetAndTwentyGameState extends State<FiveFeetAndTwentyGame> {
     chapterId: 'construction',
     total: trenchRounds.length,
     sourceProblemIdOf: (round) => trenchRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

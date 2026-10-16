@@ -197,13 +197,17 @@ class _DoesItNeedASignalGameState extends State<DoesItNeedASignalGame> {
     chapterId: 'transportation',
     total: warrantRounds.length,
     sourceProblemIdOf: (round) => warrantRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

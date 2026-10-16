@@ -138,13 +138,17 @@ class _WhichStepIsThatGameState extends State<WhichStepIsThatGame> {
     chapterId: 'transportation',
     total: forecastStepRounds.length,
     sourceProblemIdOf: (round) => forecastStepRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   Forecast? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

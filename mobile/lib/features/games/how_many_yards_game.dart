@@ -200,13 +200,17 @@ class _HowManyYardsGameState extends State<HowManyYardsGame> {
     chapterId: 'transportation',
     total: yardRounds.length,
     sourceProblemIdOf: (round) => yardRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

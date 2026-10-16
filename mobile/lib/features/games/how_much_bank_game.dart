@@ -182,13 +182,17 @@ class _HowMuchBankGameState extends State<HowMuchBankGame> {
     chapterId: 'transportation',
     total: tiltRounds.length,
     sourceProblemIdOf: (round) => tiltRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

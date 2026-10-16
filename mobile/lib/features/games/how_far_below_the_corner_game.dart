@@ -180,13 +180,17 @@ class _HowFarBelowTheCornerGameState extends State<HowFarBelowTheCornerGame> {
     chapterId: 'transportation',
     total: pviOffsetRounds.length,
     sourceProblemIdOf: (round) => pviOffsetRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

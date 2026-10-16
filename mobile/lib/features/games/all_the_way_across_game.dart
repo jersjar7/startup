@@ -182,13 +182,17 @@ class _AllTheWayAcrossGameState extends State<AllTheWayAcrossGame> {
     chapterId: 'transportation',
     total: clearanceRounds.length,
     sourceProblemIdOf: (round) => clearanceRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   int? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 

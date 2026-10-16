@@ -164,13 +164,17 @@ class _ReadItByItsShapeGameState extends State<ReadItByItsShapeGame> {
     chapterId: 'transportation',
     total: signKindRounds.length,
     sourceProblemIdOf: (round) => signKindRounds[round].source,
-  );
+  )..addListener(_onSession);
+
+  void _onSession() => setState(() {});
 
   SignKind? _picked;
 
   @override
   void dispose() {
-    _session.dispose();
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
     super.dispose();
   }
 
