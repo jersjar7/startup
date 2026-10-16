@@ -109,6 +109,13 @@ class _HomeShellState extends State<HomeShell> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.fog,
+      // Each tab's ground runs on under the dock, so its rounded corners sit
+      // on the tab's own color. Without this the body stopped at the dock's
+      // top edge and the shell's fog showed in the corners, grey under the
+      // Daily's butter (owner, 2026-10-16). A tab pads its scrolling by
+      // MediaQuery.paddingOf(context).bottom, which Scaffold sets to the
+      // dock's height, so nothing ends up hidden under it.
+      extendBody: true,
       body: IndexedStack(
         index: _index,
         children: [

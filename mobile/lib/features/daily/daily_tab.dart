@@ -178,7 +178,12 @@ class _DailyTabState extends State<DailyTab> {
             onRefresh: _load,
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(16, 22, 16, 30),
+              padding: EdgeInsets.fromLTRB(
+                16,
+                22,
+                16,
+                30 + MediaQuery.paddingOf(context).bottom,
+              ),
               child: puzzle == null
                   ? _Waiting(
                       failed: _failed,

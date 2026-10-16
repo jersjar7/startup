@@ -152,9 +152,15 @@ class _ProfileTabState extends State<ProfileTab> {
             .length;
 
         return SafeArea(
+          bottom: false,
           child: ListView(
             controller: _scroll,
-            padding: const EdgeInsets.fromLTRB(16, 6, 16, 24),
+            padding: EdgeInsets.fromLTRB(
+              16,
+              6,
+              16,
+              24 + MediaQuery.paddingOf(context).bottom,
+            ),
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),

@@ -108,6 +108,27 @@ void main() {
     await open(tester);
   }
 
+  testWidgets('the tab\'s ground runs under the dock, and nothing hides '
+      'behind it', (tester) async {
+    server.keep(server.puzzleOn(dayKey(now)), score: 15);
+    await open(tester);
+    tester.view.physicalSize = const Size(390, 844);
+    await _settle(tester);
+    // The dock's corners sit on the tab's own color (owner, 2026-10-16).
+    expect(
+      tester.widget<Scaffold>(find.byType(Scaffold).first).extendBody,
+      isTrue,
+    );
+    final scroll = tester.state<ScrollableState>(
+      find.byType(Scrollable).hitTestable().first,
+    );
+    scroll.position.jumpTo(scroll.position.maxScrollExtent);
+    await _settle(tester);
+    final last = tester.getRect(find.text('NEXT ONE AT MIDNIGHT'));
+    final dock = tester.getRect(find.byType(BottomDock));
+    expect(last.bottom, lessThanOrEqualTo(dock.top));
+  });
+
   testWidgets('a whole Daily, from the tab to the results and back', (
     tester,
   ) async {
