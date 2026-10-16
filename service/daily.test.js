@@ -20,8 +20,8 @@ function simulate(days) {
 describe('the Daily calendar', () => {
   it('numbers days from the first Daily', () => {
     expect(dayNumber(DAILY_EPOCH)).toBe(1);
-    expect(dayNumber('2026-10-17')).toBe(2);
-    expect(dayNumber('2026-10-15')).toBeNull();
+    expect(dayNumber('2026-10-16')).toBe(2);
+    expect(dayNumber('2026-10-14')).toBeNull();
     expect(dateOfNumber(1)).toBe(DAILY_EPOCH);
     expect(dateOfNumber(dayNumber('2027-03-14'))).toBe('2027-03-14');
   });

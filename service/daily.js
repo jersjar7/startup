@@ -21,7 +21,7 @@ const catalog = require('./gameCatalog.json'); // {chapterId: {gameId: rounds}}
 const { EXAM_DISTRIBUTION } = require('./examWeights.js');
 
 /** Daily No. 1. Every later day is one more. */
-const DAILY_EPOCH = '2026-10-16';
+const DAILY_EPOCH = '2026-10-15';
 
 /** Three chapters a day. */
 const GAMES_PER_DAY = 3;

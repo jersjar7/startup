@@ -35,7 +35,7 @@ const _games = [
 
 DailyPuzzle _puzzle({DailyMine? mine, int streak = 5}) => DailyPuzzle(
   number: 14,
-  date: '2026-10-29',
+  date: '2026-10-28',
   games: _games,
   total: 18,
   mine: mine,
@@ -179,10 +179,10 @@ void main() {
   });
 
   group('the calendar', () {
-    test('agrees with the server: No. 1 is October 16, 2026', () {
-      expect(dailyNumberOn(DateTime(2026, 10, 16)), 1);
-      expect(dailyNumberOn(DateTime(2026, 10, 29, 23, 59)), 14);
-      expect(dailyNumberOn(DateTime(2026, 10, 15)), isNull);
+    test('agrees with the server: No. 1 is October 15, 2026', () {
+      expect(dailyNumberOn(DateTime(2026, 10, 15)), 1);
+      expect(dailyNumberOn(DateTime(2026, 10, 28, 23, 59)), 14);
+      expect(dailyNumberOn(DateTime(2026, 10, 14)), isNull);
       // A daylight saving change does not make two days share a number.
       expect(
         dailyNumberOn(DateTime(2026, 11, 2)),
@@ -455,7 +455,7 @@ void main() {
                   onPressed: () => showDailyShare(
                     context,
                     number: 14,
-                    date: '2026-10-29',
+                    date: '2026-10-28',
                     mine: _mine,
                   ),
                   child: const Text('open'),

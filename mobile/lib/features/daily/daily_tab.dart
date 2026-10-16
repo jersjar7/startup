@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/network/api_exception.dart';
 import '../../core/notifications/notifications.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -38,6 +39,9 @@ class _DailyTabState extends State<DailyTab> {
   DailyResults? _results;
   bool _loading = true;
   bool _failed = false;
+
+  /// The failure was the server saying no, not the phone having no signal.
+  bool _refused = false;
   bool _resultsFailed = false;
   bool _runLoaded = false;
   int _board = 0; // 0 everyone, 1 school
@@ -114,10 +118,11 @@ class _DailyTabState extends State<DailyTab> {
         _failed = false;
         _loading = false;
       });
-    } catch (_) {
+    } catch (e) {
       if (!mounted) return;
       setState(() {
         _failed = _puzzle == null;
+        _refused = e is ApiException && !e.isNetwork;
         _loading = false;
       });
     }
@@ -159,7 +164,12 @@ class _DailyTabState extends State<DailyTab> {
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(16, 22, 16, 30),
               child: puzzle == null
-                  ? _Waiting(failed: _failed, loading: _loading, onRetry: _load)
+                  ? _Waiting(
+                      failed: _failed,
+                      refused: _refused,
+                      loading: _loading,
+                      onRetry: _load,
+                    )
                   : puzzle.mine == null
                   ? _Today(
                       puzzle: puzzle,
@@ -218,11 +228,13 @@ String _dayLine(String iso) {
 class _Waiting extends StatelessWidget {
   const _Waiting({
     required this.failed,
+    required this.refused,
     required this.loading,
     required this.onRetry,
   });
 
   final bool failed;
+  final bool refused;
   final bool loading;
   final Future<void> Function() onRetry;
 
@@ -249,16 +261,24 @@ class _Waiting extends StatelessWidget {
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('NO SIGNAL', style: AppTheme.eyebrow()),
+                    Text(
+                      refused ? 'NOT OPEN YET' : 'NO SIGNAL',
+                      style: AppTheme.eyebrow(),
+                    ),
                     const Spacer(),
                     Text(
-                      'Today\'s games come from the server, once a day.',
+                      refused
+                          ? 'Today\'s Daily is not open yet.'
+                          : 'Today\'s games come from the server, once a day.',
                       style: AppTheme.display(size: 26, height: 1.1),
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Once they are on the phone they play without a '
-                      'signal. Try again when you have one.',
+                      refused
+                          ? 'Check the date on your phone, then try again in '
+                                'a minute.'
+                          : 'Once they are on the phone they play without a '
+                                'signal. Try again when you have one.',
                       style: AppTheme.body(
                         size: 15,
                         color: AppColors.mutedOnLight,

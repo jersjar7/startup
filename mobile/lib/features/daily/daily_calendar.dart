@@ -5,7 +5,7 @@
 library;
 
 /// Daily No. 1. Must match DAILY_EPOCH in service/daily.js.
-final dailyEpoch = DateTime.utc(2026, 10, 16);
+final dailyEpoch = DateTime.utc(2026, 10, 15);
 
 /// The Daily number for a local calendar day, or null before the first one.
 ///

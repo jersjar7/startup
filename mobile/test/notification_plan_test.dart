@@ -128,8 +128,8 @@ void main() {
       final ready = ofKind(plan, NotifyKind.dailyReady);
       expect(ready.length, 2);
       expect(ready.first.when.hour, dailyReadyHour);
-      expect(ready.first.title, 'Daily No. 5 is ready'); // No. 1 is Oct 16
-      expect(ready[1].title, 'Daily No. 6 is ready');
+      expect(ready.first.title, 'Daily No. 6 is ready'); // No. 1 is Oct 15
+      expect(ready[1].title, 'Daily No. 7 is ready');
     });
 
     test('is not sent once today\'s is played', () {
