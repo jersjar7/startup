@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../core/notifications/notification_plan.dart'
+    show outcomeAskDays, outcomeAfterDays;
+export '../../core/notifications/notification_plan.dart' show outcomeAskDays;
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../games/game_catalog.dart';
@@ -31,7 +34,8 @@ String _today(DateTime now) => now.toIso8601String().substring(0, 10);
 /// Nine days, the same as the email. Results for the computer-based FE arrive
 /// within about seven to ten days, so the answer is known but the day is still
 /// recent enough to be remembered precisely.
-const outcomeAskAfterDays = 9;
+/// Nine days after, the same day the email and the notification go out.
+const outcomeAskAfterDays = outcomeAfterDays;
 
 /// When each ask is due, in days after the exam. Mirrors ASK_DAYS in
 /// service/examOutcome.js, so the phone and the email are equally persistent
@@ -40,7 +44,6 @@ const outcomeAskAfterDays = 9;
 /// Four touches and then silence. The sequence exists because non-response is
 /// biased: somebody who failed is less likely to say so, and a pass rate built
 /// from mostly passers is inflated and worse than no data at all.
-const outcomeAskDays = [outcomeAskAfterDays, 16, 30, 60];
 
 /// Whether the card belongs on screen. Pure, so it is the thing under test.
 bool shouldAskOutcome(Map<String, dynamic>? user, DateTime now) {

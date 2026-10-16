@@ -99,7 +99,7 @@ const countdownMinute = 30;
 /// to their desk.
 const nightBeforeHour = 20;
 
-/// Nine days after, matching the email. Mid-morning, when results have landed.
+/// Mid-morning, when results have landed.
 const outcomeHour = 10;
 
 /// How many days before the exam every reminder stops. The owner's call: the
@@ -118,6 +118,11 @@ const examCloseDays = 21;
 /// Nine days after the exam, the same day the email goes out.
 const outcomeAfterDays = 9;
 
+/// The days after the exam the outcome is asked on, the same four as the
+/// email (service/examOutcome.js, ASK_DAYS) and the Profile card. After the
+/// last one it is never asked again (ADR 0023, section 6).
+const outcomeAskDays = [outcomeAfterDays, 16, 30, 60];
+
 /// Builds the whole plan.
 ///
 /// [lastStudyDay] and [lastDailyDay] are date-only strings, or null if never.
@@ -134,6 +139,7 @@ List<PlannedNotification> notificationPlan({
   String? lastStudyDay,
   String? lastDailyDay,
   int streak = 0,
+  bool outcomeResolved = false,
   int horizonDays = maxPending,
 }) {
   final exam = _parseDay(examDay);
@@ -174,14 +180,18 @@ List<PlannedNotification> notificationPlan({
       );
     }
 
-    final ask = _atHour(_plusDays(exam, outcomeAfterDays), outcomeHour);
-    if (ask.isAfter(now)) {
+    // Answered or declined anywhere, by email or in the app, ends it.
+    for (final d in outcomeResolved ? const <int>[] : outcomeAskDays) {
+      final ask = _atHour(_plusDays(exam, d), outcomeHour);
+      if (!ask.isAfter(now)) continue;
       out.add(
         PlannedNotification(
           id: _id(NotifyKind.outcome, ask),
           when: ask,
           kind: NotifyKind.outcome,
-          title: 'How did the FE go?',
+          title: d == outcomeAfterDays
+              ? 'How did the FE go?'
+              : 'Still wondering how the FE went',
           body: 'Two taps, and it helps every student after you.',
         ),
       );

@@ -274,15 +274,44 @@ void main() {
       expect(night.body.toLowerCase(), contains('sleep'));
     });
 
-    test('the outcome ask lands nine days after, matching the email', () {
+    test('the outcome is asked on the email\'s four days, then never', () {
       final plan = notificationPlan(
         now: at('2026-10-06T08:00:00'),
         examDay: '2026-11-20',
         lastStudyDay: null,
       );
-      final ask = ofKind(plan, NotifyKind.outcome).single;
-      expect(dayOf(ask.when), '2026-11-29');
-      expect(outcomeAfterDays, 9);
+      final asks = ofKind(plan, NotifyKind.outcome);
+      // service/examOutcome.js ASK_DAYS, so the phone and the email agree.
+      expect(outcomeAskDays, [9, 16, 30, 60]);
+      expect(asks.map((n) => dayOf(n.when)), [
+        '2026-11-29',
+        '2026-12-06',
+        '2026-12-20',
+        '2027-01-19',
+      ]);
+      expect(asks.first.title, 'How did the FE go?');
+      expect(asks.every((n) => n.when.hour == outcomeHour), isTrue);
+    });
+
+    test('an answer anywhere drops every outcome ask', () {
+      // Answered by email: the account says so on the next launch.
+      final plan = notificationPlan(
+        now: at('2026-12-01T08:00:00'),
+        examDay: '2026-11-20',
+        outcomeResolved: true,
+      );
+      expect(ofKind(plan, NotifyKind.outcome), isEmpty);
+    });
+
+    test('asks already past are not re-armed', () {
+      final plan = notificationPlan(
+        now: at('2026-12-10T08:00:00'),
+        examDay: '2026-11-20',
+      );
+      expect(ofKind(plan, NotifyKind.outcome).map((n) => dayOf(n.when)), [
+        '2026-12-20',
+        '2027-01-19',
+      ]);
     });
 
     test('the night before is the only thing on its day', () {
@@ -356,7 +385,7 @@ void main() {
       );
       expect(ofKind(plan, NotifyKind.countdown).length, countdownDays.length);
       expect(ofKind(plan, NotifyKind.nightBefore).length, 1);
-      expect(ofKind(plan, NotifyKind.outcome).length, 1);
+      expect(ofKind(plan, NotifyKind.outcome).length, outcomeAskDays.length);
     });
   });
 
@@ -412,7 +441,7 @@ void main() {
       expect(ofKind(plan, NotifyKind.countdown), isEmpty);
     });
 
-    test('an exam already in the past leaves only the outcome ask', () {
+    test('an exam already in the past leaves only the outcome asks', () {
       final plan = notificationPlan(
         now: at('2026-10-06T08:00:00'),
         examDay: '2026-10-02',
@@ -421,7 +450,7 @@ void main() {
       expect(ofKind(plan, NotifyKind.daily), isEmpty);
       expect(ofKind(plan, NotifyKind.countdown), isEmpty);
       expect(ofKind(plan, NotifyKind.nightBefore), isEmpty);
-      expect(ofKind(plan, NotifyKind.outcome).length, 1);
+      expect(ofKind(plan, NotifyKind.outcome).length, outcomeAskDays.length);
     });
 
     test('an exam long past leaves nothing', () {

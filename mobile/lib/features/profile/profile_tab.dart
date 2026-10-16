@@ -99,6 +99,7 @@ class _ProfileTabState extends State<ProfileTab> {
     await _notifications.rearm(
       examDay: user['examDate'] as String?,
       lastStudyDay: user['lastSessionDate'] as String?,
+      outcomeResolved: user['examOutcomeResolved'] == true,
     );
   }
 

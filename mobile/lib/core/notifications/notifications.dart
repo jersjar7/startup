@@ -201,14 +201,24 @@ class Notifications {
   static String? _lastDailyDay;
   static int _streak = 0;
 
+  /// The exam outcome was answered or declined, in the app or by email. The
+  /// account says so on every launch, so an email answer quiets the phone the
+  /// next time the app opens.
+  static bool _outcomeResolved = false;
+
   /// Replaces the whole schedule with the current plan.
   ///
   /// Cancel-then-schedule rather than reconcile: the plan is at most sixty
   /// items, the ids are deterministic, and a reconcile that drifts would leave
   /// a student being nudged about an exam they have already sat.
-  Future<void> rearm({String? examDay, String? lastStudyDay}) async {
+  Future<void> rearm({
+    String? examDay,
+    String? lastStudyDay,
+    bool? outcomeResolved,
+  }) async {
     _lastExamDay = examDay ?? _lastExamDay;
     _lastStudyDay = lastStudyDay ?? _lastStudyDay;
+    _outcomeResolved = outcomeResolved ?? _outcomeResolved;
     if (!await isEnabled()) return;
     await _guard(_rearmCached);
   }
@@ -275,6 +285,7 @@ class Notifications {
       lastStudyDay: _lastStudyDay,
       lastDailyDay: _lastDailyDay,
       streak: _streak,
+      outcomeResolved: _outcomeResolved,
     );
     await cancelAll();
     for (final n in plan) {
