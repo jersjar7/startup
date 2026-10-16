@@ -8,6 +8,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/kit.dart';
+import 'daily_calendar.dart';
 import 'daily_models.dart';
 import 'daily_widgets.dart';
 
@@ -17,45 +18,20 @@ import 'daily_widgets.dart';
 /// Shared as a picture, because the text version Wordle made famous is built
 /// from emoji squares and this brand uses none. The text copy is plain words
 /// and the link.
-String dailyShareText(int number, DailyMine mine) =>
-    'FE for Raccoons Daily No. $number\n'
+String dailyShareText(String date, DailyMine mine) =>
+    'FE for Raccoons Daily, ${dailyDayLabel(date)}\n'
     '${mine.score} of ${mine.total} on the first try, ${clockOf(mine.ms)}\n'
     'fe4raccoons.com';
 
 /// The card that is shared.
 class DailyShareCard extends StatelessWidget {
-  const DailyShareCard({
-    super.key,
-    required this.number,
-    required this.date,
-    required this.mine,
-  });
-
-  final int number;
+  const DailyShareCard({super.key, required this.date, required this.mine});
 
   /// 'YYYY-MM-DD'.
   final String date;
   final DailyMine mine;
 
-  static const _months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-
-  String get _day {
-    final d = DateTime.tryParse(date);
-    return d == null ? '' : '${_months[d.month - 1]} ${d.day}';
-  }
+  String get _day => dailyDayLabel(date);
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +58,7 @@ class DailyShareCard extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           Text(
-            'Daily No. $number',
+            'The Daily',
             style: AppTheme.display(size: 30, height: 1.1, tracking: -0.04),
           ),
           const SizedBox(height: 16),
@@ -132,7 +108,6 @@ class DailyShareCard extends StatelessWidget {
 /// The share sheet: the card as it will be sent, then the two ways to send it.
 Future<void> showDailyShare(
   BuildContext context, {
-  required int number,
   required String date,
   required DailyMine mine,
 }) {
@@ -143,18 +118,13 @@ Future<void> showDailyShare(
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
     ),
-    builder: (_) => _ShareSheet(number: number, date: date, mine: mine),
+    builder: (_) => _ShareSheet(date: date, mine: mine),
   );
 }
 
 class _ShareSheet extends StatefulWidget {
-  const _ShareSheet({
-    required this.number,
-    required this.date,
-    required this.mine,
-  });
+  const _ShareSheet({required this.date, required this.mine});
 
-  final int number;
   final String date;
   final DailyMine mine;
 
@@ -183,8 +153,8 @@ class _ShareSheetState extends State<_ShareSheet> {
           files: [
             XFile.fromData(bytes!.buffer.asUint8List(), mimeType: 'image/png'),
           ],
-          fileNameOverrides: ['fe4raccoons-daily-${widget.number}.png'],
-          text: dailyShareText(widget.number, widget.mine),
+          fileNameOverrides: ['fe4raccoons-daily-${widget.date}.png'],
+          text: dailyShareText(widget.date, widget.mine),
           sharePositionOrigin: origin,
         ),
       );
@@ -197,7 +167,7 @@ class _ShareSheetState extends State<_ShareSheet> {
 
   Future<void> _copy() async {
     await Clipboard.setData(
-      ClipboardData(text: dailyShareText(widget.number, widget.mine)),
+      ClipboardData(text: dailyShareText(widget.date, widget.mine)),
     );
     if (mounted) setState(() => _copied = true);
   }
@@ -217,11 +187,7 @@ class _ShareSheetState extends State<_ShareSheet> {
               angle: -0.035,
               child: RepaintBoundary(
                 key: _card,
-                child: DailyShareCard(
-                  number: widget.number,
-                  date: widget.date,
-                  mine: widget.mine,
-                ),
+                child: DailyShareCard(date: widget.date, mine: widget.mine),
               ),
             ),
             const SizedBox(height: 30),

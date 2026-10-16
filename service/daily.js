@@ -20,7 +20,11 @@
 const catalog = require('./gameCatalog.json'); // {chapterId: {gameId: rounds}}
 const { EXAM_DISTRIBUTION } = require('./examWeights.js');
 
-/** Daily No. 1. Every later day is one more. */
+/**
+ * Daily No. 1. Every later day is one more. The number is an internal key for
+ * matching results and tracking the cycle; students only ever see the date
+ * (ADR 0022).
+ */
 const DAILY_EPOCH = '2026-10-15';
 
 /** Three chapters a day. */

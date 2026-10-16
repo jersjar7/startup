@@ -2,7 +2,9 @@
 
 Date: 2026-10-15
 Status: Accepted. Keeps [0020](0020-mastery-is-desk-earned.md): nothing
-here touches mastery.
+here touches mastery. Superseded in part by
+[0022](0022-the-daily-has-a-date-not-a-number.md) on 2026-10-16: students see
+the date, never the Daily's number. The text below is left as written.
 
 ## Context
 

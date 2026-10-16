@@ -120,7 +120,7 @@ void main() {
   });
 
   group('the morning one', () {
-    test('says the Daily is ready at 8am, by its number', () {
+    test('says the Daily is ready at 8am, never by a number', () {
       final plan = notificationPlan(
         now: at('2026-10-20T07:00:00'),
         horizonDays: 2,
@@ -128,8 +128,10 @@ void main() {
       final ready = ofKind(plan, NotifyKind.dailyReady);
       expect(ready.length, 2);
       expect(ready.first.when.hour, dailyReadyHour);
-      expect(ready.first.title, 'Daily No. 6 is ready'); // No. 1 is Oct 15
-      expect(ready[1].title, 'Daily No. 7 is ready');
+      // A number would tell a late joiner how many they missed (ADR 0022).
+      expect(ready.first.title, 'Today\'s Daily is ready');
+      expect(ready[1].title, 'Today\'s Daily is ready');
+      expect(plan.where((n) => n.title.contains('No.')), isEmpty);
     });
 
     test('is not sent once today\'s is played', () {

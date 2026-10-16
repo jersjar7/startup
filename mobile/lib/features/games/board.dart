@@ -376,7 +376,7 @@ class _DailyLine extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          'DAILY NO. ${run.puzzle?.number ?? ''} · GAME ${game + 1} OF $count',
+          'TODAY\'S DAILY · GAME ${game + 1} OF $count',
           style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
         ),
       ),

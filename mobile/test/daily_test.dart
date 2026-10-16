@@ -168,6 +168,9 @@ void _phone(WidgetTester tester) {
   addTearDown(tester.view.reset);
 }
 
+/// A student never sees a Daily's number, only its date (ADR 0022).
+final _dailyNumber = RegExp(r'Daily No|DAILY NO|NO\. \d');
+
 void main() {
   setUpAll(loadBrandFonts);
   setUp(() {
@@ -316,6 +319,7 @@ void main() {
       expect(find.text('Which Distance Counts'), findsOneWidget);
       expect(find.text('Play today\'s'), findsOneWidget);
       expect(find.text('5'), findsOneWidget); // the streak
+      expect(find.textContaining(_dailyNumber), findsNothing);
       await expectLater(
         find.byType(MaterialApp),
         matchesGoldenFile('goldens/daily/today.png'),
@@ -334,6 +338,7 @@ void main() {
       expect(find.text('You beat 70% today'), findsOneWidget);
       expect(find.text('BYU, at 5 players'), findsOneWidget);
       expect(find.text('You'), findsOneWidget);
+      expect(find.textContaining(_dailyNumber), findsNothing);
       await expectLater(
         find.byType(MaterialApp),
         matchesGoldenFile('goldens/daily/results.png'),
@@ -403,6 +408,7 @@ void main() {
         find.text('Which Distance Counts: 5 of 6 on the first try.'),
         findsOneWidget,
       );
+      expect(find.textContaining(_dailyNumber), findsNothing);
       await expectLater(
         find.byType(MaterialApp),
         matchesGoldenFile('goldens/daily/step.png'),
@@ -438,6 +444,7 @@ void main() {
       expect(DailyRun.instance.started, isFalse); // nothing left to resume
       // The clock in a test is zero; the screen shows it the same way.
       expect(find.text('0:00', findRichText: true), findsOneWidget);
+      expect(find.textContaining(_dailyNumber), findsNothing);
       await expectLater(
         find.byType(MaterialApp),
         matchesGoldenFile('goldens/daily/done.png'),
@@ -452,12 +459,8 @@ void main() {
             builder: (context) => Scaffold(
               body: Center(
                 child: TextButton(
-                  onPressed: () => showDailyShare(
-                    context,
-                    number: 14,
-                    date: '2026-10-28',
-                    mine: _mine,
-                  ),
+                  onPressed: () =>
+                      showDailyShare(context, date: '2026-10-28', mine: _mine),
                   child: const Text('open'),
                 ),
               ),
@@ -468,11 +471,13 @@ void main() {
       );
       await tester.tap(find.text('open'));
       await _settle(tester);
-      expect(find.text('Daily No. 14'), findsOneWidget);
+      expect(find.text('The Daily'), findsOneWidget);
+      // Dates, never a running number (ADR 0022).
+      expect(find.textContaining('No.'), findsNothing);
       expect(find.text('Share the picture'), findsOneWidget);
       expect(
-        dailyShareText(14, _mine),
-        'FE for Raccoons Daily No. 14\n16 of 18 on the first try, 2:41\n'
+        dailyShareText('2026-10-28', _mine),
+        'FE for Raccoons Daily, Oct 28\n16 of 18 on the first try, 2:41\n'
         'fe4raccoons.com',
       );
       await expectLater(

@@ -10,8 +10,6 @@
 /// close the exam is.
 library;
 
-import '../../features/daily/daily_calendar.dart';
-
 /// Why a notification exists. Also its identity: the evening reminder for a
 /// given day is always the same notification, so re-arming replaces rather
 /// than duplicates. Add new kinds at the end: the index is part of the id.
@@ -211,8 +209,6 @@ List<PlannedNotification> notificationPlan({
     if (stop != null && _daysBetween(day, stop) < 0) {
       break; // past the quiet line
     }
-    final number = dailyNumberOn(day);
-
     if (!(i == 0 && playedToday)) {
       final when = _atHour(day, dailyReadyHour);
       add(
@@ -220,9 +216,9 @@ List<PlannedNotification> notificationPlan({
           id: _id(NotifyKind.dailyReady, when),
           when: when,
           kind: NotifyKind.dailyReady,
-          title: number == null
-              ? 'Today\'s Daily is ready'
-              : 'Daily No. $number is ready',
+          // Never "Daily No. N": students see dates, not a count of the
+          // ones they missed (ADR 0022).
+          title: 'Today\'s Daily is ready',
           body: _readyBody(i),
         ),
       );

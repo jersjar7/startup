@@ -143,10 +143,7 @@ class _DailyDoneScreenState extends State<DailyDoneScreen> {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          'DAILY NO. ${puzzle.number}',
-                          style: AppTheme.eyebrow(),
-                        ),
+                        Text('TODAY\'S DAILY', style: AppTheme.eyebrow()),
                         const Spacer(),
                         Text('DONE', style: AppTheme.eyebrow()),
                       ],
@@ -229,12 +226,8 @@ class _DailyDoneScreenState extends State<DailyDoneScreen> {
                 children: [
                   TextAction(
                     label: 'Share',
-                    onTap: () => showDailyShare(
-                      context,
-                      number: puzzle.number,
-                      date: puzzle.date,
-                      mine: _mine,
-                    ),
+                    onTap: () =>
+                        showDailyShare(context, date: puzzle.date, mine: _mine),
                   ),
                   const SizedBox(width: 18),
                   Expanded(

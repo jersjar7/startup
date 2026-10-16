@@ -58,7 +58,7 @@ class DailyStepScreen extends StatelessWidget {
               const SizedBox(height: 26),
               Row(
                 children: [
-                  Text('DAILY NO. ${puzzle.number}', style: AppTheme.eyebrow()),
+                  Text('TODAY\'S DAILY', style: AppTheme.eyebrow()),
                   const Spacer(),
                   Text(
                     'GAME ${at + 1} OF $count',

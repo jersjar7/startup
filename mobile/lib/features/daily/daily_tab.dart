@@ -344,16 +344,7 @@ class _Today extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  Text('NO. ${puzzle.number}', style: AppTheme.eyebrow()),
-                  const Spacer(),
-                  Text(
-                    'SAME FOR EVERYONE',
-                    style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
-                  ),
-                ],
-              ),
+              Text('SAME FOR EVERYONE', style: AppTheme.eyebrow()),
               const SizedBox(height: 16),
               Text.rich(
                 TextSpan(
@@ -535,8 +526,8 @@ class _Results extends StatelessWidget {
       children: [
         Text(
           showing == null
-              ? 'DAILY NO. ${puzzle.number}'
-              : 'DAILY NO. ${puzzle.number} · ${showing.players} PLAYED',
+              ? 'TODAY\'S DAILY'
+              : 'TODAY\'S DAILY · ${showing.players} PLAYED',
           style: AppTheme.eyebrow(),
         ),
         const SizedBox(height: 10),
@@ -617,12 +608,8 @@ class _Results extends StatelessWidget {
           children: [
             TextAction(
               label: 'Share your result',
-              onTap: () => showDailyShare(
-                context,
-                number: puzzle.number,
-                date: puzzle.date,
-                mine: mine,
-              ),
+              onTap: () =>
+                  showDailyShare(context, date: puzzle.date, mine: mine),
             ),
             const Spacer(),
             Text(
