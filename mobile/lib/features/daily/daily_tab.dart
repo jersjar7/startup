@@ -407,10 +407,13 @@ class _Today extends StatelessWidget {
 }
 
 class _GameRow extends StatelessWidget {
-  const _GameRow({required this.game, required this.done});
+  const _GameRow({required this.game, required this.done, this.onAgain});
 
   final DailyGame game;
   final bool done;
+
+  /// After the Daily: plays the game again as ordinary practice.
+  final VoidCallback? onAgain;
 
   @override
   Widget build(BuildContext context) {
@@ -477,10 +480,13 @@ class _GameRow extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Text(
-            '${game.rounds}',
-            style: AppTheme.mono(size: 12, color: AppColors.mutedOnLight),
-          ),
+          if (onAgain != null)
+            TextAction(label: 'Play again', onTap: onAgain!)
+          else
+            Text(
+              '${game.rounds}',
+              style: AppTheme.mono(size: 12, color: AppColors.mutedOnLight),
+            ),
         ],
       ),
     );
@@ -605,6 +611,26 @@ class _Results extends StatelessWidget {
         ],
         const SizedBox(height: 18),
         StreakTile(current: puzzle.streak.current, playedToday: true),
+        const SizedBox(height: 22),
+        // Replays are plain practice: opened like any game from Study, never
+        // armed for the Daily, so the first try stays the one on the board
+        // (owner, 2026-10-16).
+        Text('TODAY\'S GAMES', style: AppTheme.eyebrow()),
+        const SizedBox(height: 6),
+        Text(
+          'Play them again as practice. Your first try is the one that counts.',
+          style: AppTheme.body(size: 14, color: AppColors.mutedOnLight),
+        ),
+        const SizedBox(height: 12),
+        for (var i = 0; i < puzzle.games.length; i++) ...[
+          if (i > 0) const SizedBox(height: 8),
+          _GameRow(
+            game: puzzle.games[i],
+            done: false,
+            onAgain: () =>
+                context.push('/games/play/${puzzle.games[i].gameId}'),
+          ),
+        ],
         const SizedBox(height: 14),
         Row(
           children: [

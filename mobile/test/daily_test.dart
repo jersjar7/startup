@@ -368,6 +368,8 @@ void main() {
       await _settle(tester);
       expect(find.text('You beat 70% today'), findsOneWidget);
       expect(find.text('BYU, at 5 players'), findsOneWidget);
+      // Replays are offered, as practice (owner, 2026-10-16).
+      expect(find.text('Play again'), findsNWidgets(3));
       expect(find.text('You'), findsOneWidget);
       expect(find.textContaining(_dailyNumber), findsNothing);
       await expectLater(
