@@ -281,6 +281,62 @@ void main() {
     );
   });
 
+  group('a tapped reminder lands on the right screen', () {
+    int tab(WidgetTester tester) =>
+        tester.widget<IndexedStack>(find.byType(IndexedStack)).index!;
+
+    testWidgets('the evening Daily one opens the Daily', (tester) async {
+      await open(tester);
+      HomeShell.select(HomeTab.study);
+      await _settle(tester);
+      Notifications.tapped.value = NotifyKind.daily;
+      await _settle(tester);
+      expect(tab(tester), HomeTab.daily.index);
+    });
+
+    testWidgets('a Daily one tapped in the middle of a game shows the Daily, '
+        'not the game', (tester) async {
+      await open(tester);
+      HomeShell.select(HomeTab.study);
+      await _settle(tester);
+      GoRouter.of(
+        tester.element(find.byType(HomeShell)),
+      ).push('/games/play/which-rate');
+      await _settle(tester);
+      expect(find.byType(BoardShell), findsOneWidget);
+      Notifications.tapped.value = NotifyKind.dailyReady;
+      await _settle(tester);
+      expect(find.byType(BoardShell), findsNothing);
+      expect(tab(tester), HomeTab.daily.index);
+    });
+
+    testWidgets('one that launched the app from cold opens the Daily', (
+      tester,
+    ) async {
+      Notifications.tapped.value = NotifyKind.dailyReady; // before any screen
+      await open(tester);
+      expect(tab(tester), HomeTab.daily.index);
+    });
+
+    testWidgets('the exam ones open Study, where the chapters are', (
+      tester,
+    ) async {
+      for (final kind in [NotifyKind.examClose, NotifyKind.countdown]) {
+        await open(tester);
+        Notifications.tapped.value = kind;
+        await _settle(tester);
+        expect(tab(tester), HomeTab.study.index, reason: '$kind');
+      }
+    });
+
+    testWidgets('the outcome one opens Profile', (tester) async {
+      await open(tester);
+      Notifications.tapped.value = NotifyKind.outcome;
+      await _settle(tester);
+      expect(tab(tester), HomeTab.profile.index);
+    });
+  });
+
   testWidgets('midnight passing mid-Daily: the result still counts, and the '
       'new day opens fresh', (tester) async {
     now = DateTime(2026, 10, 16, 23, 50);

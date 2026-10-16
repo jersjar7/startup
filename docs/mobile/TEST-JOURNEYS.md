@@ -62,8 +62,14 @@ cache and its kept-to-send-later result are also under test.
 | Play again | It opens the game with every round from the top, even though the Daily just cleared them; no Daily line; nothing sent; the first try's score unchanged; Study progress untouched |
 | A game this version doesn't have | "Update the app" instead of Play |
 | The clock | Stopped on the step screen and while the app is in the background; running only while a game is on screen |
-| A tapped reminder | Opens the Daily tab from any tab |
+| A tapped reminder | Lands on its tab from any tab, from inside a game, and from a cold launch: the Daily's two on the Daily, the exam countdowns on Study, the outcome ask and the night before on Profile |
 | Midnight passes during the Daily | The result counts for the day it was started; the new day opens fresh, with the streak alive |
+
+A later run, written when the owner asked whether reminders went to the
+right place, found that only the Daily's reminders were routed at all, and
+only by switching the tab: tapped while a game was open, the game stayed on
+screen. Every kind now has its tab, and screens opened over the tabs are
+closed first (`HomeShell._onTap`).
 
 The first run of these found two more bugs, both fixed in the same commit:
 

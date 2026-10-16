@@ -64,12 +64,27 @@ class _HomeShellState extends State<HomeShell> {
     if (mounted) setState(() => _index = tab.index);
   }
 
-  /// The Daily's notifications open the Daily. The others are Profile's.
+  /// Where a tapped reminder lands. The Daily's open the Daily; the exam
+  /// ones open Study, where the chapters they point at are; the outcome ask
+  /// and the night before open Profile, which shows the outcome sheet.
+  static HomeTab _tabFor(NotifyKind kind) => switch (kind) {
+    NotifyKind.daily || NotifyKind.dailyReady => HomeTab.daily,
+    NotifyKind.countdown || NotifyKind.examClose => HomeTab.study,
+    NotifyKind.nightBefore || NotifyKind.outcome => HomeTab.profile,
+  };
+
+  /// A tapped reminder lands on its tab, with anything opened over the tabs
+  /// (a game, a chapter map) closed first. Switching the tab alone left a
+  /// game on screen with the right tab hidden under it (found by the Daily
+  /// walk-throughs, docs/mobile/TEST-JOURNEYS.md).
   void _onTap() {
     final kind = Notifications.tapped.value;
-    if (kind == null || !dailyKinds.contains(kind)) return;
-    Notifications.tapped.value = null;
-    if (mounted) setState(() => _index = HomeTab.daily.index);
+    if (kind == null || !mounted) return;
+    // Profile answers the outcome ask itself, and clears it when it has.
+    if (kind != NotifyKind.outcome) Notifications.tapped.value = null;
+    final nav = Navigator.maybeOf(context);
+    if (nav != null && nav.canPop()) nav.popUntil((r) => r.isFirst);
+    setState(() => _index = _tabFor(kind).index);
   }
 
   static const _items = [
