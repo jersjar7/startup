@@ -95,25 +95,27 @@ These cover what only a real iOS engine can answer:
 
 ```sh
 cd mobile
-flutter test integration_test/daily_device_test.dart -d <simulator id>
-flutter test integration_test/notifications_test.dart -d <simulator id>
+scripts/device-tests.sh            # the first booted iPhone simulator
+scripts/device-tests.sh <sim id>   # or a given one
 ```
 
 **Since iOS 26, the simulator holds no scheduled notification for an app
-that isn't allowed to show them.** The permission dialog can't be answered
-by a test, and `xcrun simctl privacy` has no notifications switch. So both
-reminder tests fail until the permission is granted once per simulator:
+that isn't allowed to show them.** No test can answer the permission dialog,
+and `xcrun simctl privacy` has no notifications switch. `applesimutils`, a
+small tool Wix publishes as part of its Detox testing framework, can set it.
+The owner approved trusting that one formula on 2026-10-16. Nothing else
+from Wix's tap is trusted.
 
 ```sh
-brew trust wix/brew && brew install applesimutils
-applesimutils --byId <simulator id> --bundle com.fe4raccoons.mobile \
-  --setPermissions notifications=YES
+brew trust --formula wix/brew/applesimutils
+brew install wix/brew/applesimutils
 ```
 
-The reminder test checks the permission first and says this, instead of
-failing on an empty queue. (`notifications_test.dart` was written before iOS
-26 and assumes the queue is reported without permission. It fails the same
-way on a fresh simulator.)
+Every `flutter test` run reinstalls the app, and reinstalling drops the
+permission. The script grants it again right before each file, which is why
+the files run through the script and not by hand. Run without the
+permission, the Daily reminder test stops with that explanation instead of
+failing on an empty queue.
 
 ## Still checked by hand
 
