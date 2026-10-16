@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/network/api_exception.dart';
 import '../../core/notifications/notifications.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../games/board.dart';
 import '../games/game_catalog.dart';
 import '../games/game_progress.dart';
 import '../shared/widgets/kit.dart';
@@ -67,8 +69,20 @@ class _DailyTabState extends State<DailyTab> {
     super.dispose();
   }
 
+  /// The run changes from inside other screens' builds (a game claiming its
+  /// Daily slot, a finished game handing back), so a change that lands
+  /// mid-build waits for the frame to finish instead of asking to rebuild
+  /// during it. Found by the Daily walk-throughs (TEST-JOURNEYS.md).
   void _onRun() {
-    if (mounted) setState(() {});
+    if (!mounted) return;
+    if (SchedulerBinding.instance.schedulerPhase ==
+        SchedulerPhase.persistentCallbacks) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) setState(() {});
+      });
+    } else {
+      setState(() {});
+    }
   }
 
   Future<void> _load() async {
@@ -627,8 +641,11 @@ class _Results extends StatelessWidget {
           _GameRow(
             game: puzzle.games[i],
             done: false,
-            onAgain: () =>
-                context.push('/games/play/${puzzle.games[i].gameId}'),
+            onAgain: () {
+              final id = puzzle.games[i].gameId;
+              BoardSession.playFresh(id);
+              context.push('/games/play/$id');
+            },
           ),
         ],
         const SizedBox(height: 14),

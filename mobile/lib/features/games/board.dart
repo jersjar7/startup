@@ -29,9 +29,31 @@ class BoardSession extends ChangeNotifier {
     required this.chapterId,
     required this.total,
     required this.sourceProblemIdOf,
-  }) : dailyGame = DailyRun.instance.claim(gameId) {
+  }) : dailyGame = DailyRun.instance.claim(gameId),
+       fresh = _takeFresh(gameId) {
     _restore();
   }
+
+  static String? _freshNext;
+
+  /// Asks the next sitting of [gameId] to start every round over, as
+  /// practice, without touching what the student has already cleared. Used
+  /// by the Daily's Play again: those games were just cleared, so an
+  /// ordinary sitting would open straight onto their summary (found by the
+  /// Daily walk-throughs, TEST-JOURNEYS.md).
+  static void playFresh(String gameId) => _freshNext = gameId;
+
+  static bool _takeFresh(String gameId) {
+    final take = _freshNext == gameId;
+    _freshNext = null;
+    return take;
+  }
+
+  /// Every round from the start, counted on its own. Its rounds still count
+  /// as practice like any other.
+  final bool fresh;
+  final Set<int> _freshCleared = {};
+  int _freshFirst = 0;
 
   final String gameId;
   final String chapterId;
@@ -63,9 +85,13 @@ class BoardSession extends ChangeNotifier {
   bool get syncFailed => _syncFailed;
   int get clearedCount => isDaily
       ? DailyRun.instance.clearedIn(dailyGame!).length
+      : fresh
+      ? _freshCleared.length
       : GameProgress.instance.roundsCleared(gameId).length;
   int get firstTryCount => isDaily
       ? DailyRun.instance.firstTryIn(dailyGame!)
+      : fresh
+      ? _freshFirst
       : GameProgress.instance.firstTryCount(gameId);
   bool get done => clearedCount >= total;
 
@@ -84,6 +110,8 @@ class BoardSession extends ChangeNotifier {
   void _restore() {
     final cleared = isDaily
         ? DailyRun.instance.clearedIn(dailyGame!)
+        : fresh
+        ? _freshCleared
         : GameProgress.instance.roundsCleared(gameId);
     // A Daily round missed before the app was closed is no first try when
     // it comes back.
@@ -100,6 +128,10 @@ class BoardSession extends ChangeNotifier {
   void submit({required bool ok, required BuildContext context}) {
     final r = round;
     _correct = ok;
+    if (ok && fresh) {
+      if (!_seen.contains(r)) _freshFirst++;
+      _freshCleared.add(r);
+    }
     if (ok) {
       GameProgress.instance.markRoundCleared(
         gameId,
@@ -153,6 +185,16 @@ class BoardSession extends ChangeNotifier {
 
   void restart() {
     if (isDaily) return; // one try a day
+    if (fresh) {
+      // Over again, as practice: what was cleared before stays cleared.
+      _freshCleared.clear();
+      _freshFirst = 0;
+      _seen.clear();
+      _correct = null;
+      _restore();
+      notifyListeners();
+      return;
+    }
     GameProgress.instance.reset(gameId);
     _seen.clear();
     _pending.clear();
