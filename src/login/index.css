@@ -229,3 +229,9 @@
     flex-direction: column;
   }
 }
+
+/* "(optional)" beside a sign-up label: quieter than the question itself. */
+.login-optional {
+  font-weight: 400;
+  color: var(--gray-500);
+}

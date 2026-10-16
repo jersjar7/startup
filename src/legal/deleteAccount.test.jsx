@@ -93,6 +93,8 @@ describe('what the page promises matches what the code erases', () => {
       'userStats', 'problemHistory', 'sessionLog', 'sessions',
       'diagnosticResults', 'funnelEvents', 'reviewEvents', 'paperFlags',
       'gameFeedback', 'purchases', 'examAttempts', 'user',
+      // The Daily's results (ADR 0021); the page's app line covers them.
+      'dailyResults',
     ]));
   });
 

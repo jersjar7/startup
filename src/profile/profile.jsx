@@ -310,6 +310,16 @@ export function Profile({ userName, onLogout }) {
         </button>
       </div>
 
+      {/* The pass card, for good once a pass is recorded, so nobody has to
+          find the email again (ADR 0023). */}
+      {userData?.passCard && (
+        <section className="profile-card">
+          <h2 className="profile-section-title">Your pass card</h2>
+          <p className="profile-hint">You passed the FE. Your card is here whenever you want it.</p>
+          <Link to="/pass-card/me" className="btn-primary">Get my card</Link>
+        </section>
+      )}
+
       {/* Account info */}
       <section className="profile-card">
         <h2 className="profile-section-title">Account</h2>

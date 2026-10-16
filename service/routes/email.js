@@ -10,6 +10,10 @@ const {
 } = require('../examResultLink.js');
 const { canSeeCard, cardPayload, cardNameUpdate } = require('../passCardAccess.js');
 
+// Apple's Smart App Banner: on an iPhone that has the app but opened this
+// page in Safari anyway, one tap across (ADR 0023). Ignored everywhere else.
+const APP_STORE_ID = '6800350588';
+
 // The app opens these same links when the email is read on a phone that has
 // it (ADR 0023), and asks for JSON instead of the page. Everything else about
 // the request, the recording above all, is identical.
@@ -33,7 +37,9 @@ function page({ ok, heading, msg, extra = '' }) {
     ? "You won't get welcome, weekly, or re-engagement emails anymore. You'll still get important account emails (verification, password reset). Changed your mind? Email support and we'll turn them back on."
     : "That unsubscribe link wasn't recognized — it may already have been used. If you keep getting emails you don't want, contact support.");
   return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>${heading} — FE for Raccoons</title></head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="apple-itunes-app" content="app-id=${APP_STORE_ID}">
+<title>${heading} — FE for Raccoons</title></head>
 <body style="margin:0;background:${C.cream};font-family:'Inter','Helvetica Neue',Arial,sans-serif;">
 <div style="max-width:480px;margin:64px auto;padding:0 20px;text-align:center;">
   <div style="font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:26px;letter-spacing:-1px;color:${C.charcoal};margin-bottom:28px;">FE<span style="color:${C.ember};">4</span> <span style="font-size:12px;letter-spacing:4px;">RACCOONS</span></div>

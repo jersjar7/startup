@@ -109,3 +109,53 @@ describe('registration onboarding', () => {
     await waitFor(() => expect(screen.queryByLabelText('Dismiss')).toBeNull());
   });
 });
+
+// What to call them, asked once and optional (ADR 0023).
+describe('the name at sign-up', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  function openCreate() {
+    const fetchFn = routeFetch();
+    vi.stubGlobal('fetch', fetchFn);
+    render(
+      <MemoryRouter>
+        <Login userName={null} onLogin={vi.fn()} />
+      </MemoryRouter>,
+    );
+    fireEvent.click(screen.getByRole('button', { name: /create a free account/i }));
+    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'raccoon@uwf.edu' } });
+    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'Password1' } });
+    fireEvent.click(screen.getByRole('checkbox'));
+    return fetchFn;
+  }
+  const sent = (fetchFn) =>
+    JSON.parse(fetchFn.mock.calls.find(([url]) => url === '/api/auth/create')[1].body);
+
+  it('sends the first name with the new account', async () => {
+    const fetchFn = openCreate();
+    fireEvent.change(screen.getByLabelText(/what should we call you/i), { target: { value: ' Maria ' } });
+    fireEvent.click(screen.getByRole('button', { name: /create account/i }));
+    await screen.findByText(SOURCE_Q);
+    expect(sent(fetchFn).firstName).toBe('Maria');
+  });
+
+  it('is optional', async () => {
+    const fetchFn = openCreate();
+    fireEvent.click(screen.getByRole('button', { name: /create account/i }));
+    await screen.findByText(SOURCE_Q);
+    expect(sent(fetchFn)).not.toHaveProperty('firstName');
+  });
+
+  it('is not asked when logging in', () => {
+    vi.stubGlobal('fetch', routeFetch());
+    render(
+      <MemoryRouter>
+        <Login userName={null} onLogin={vi.fn()} />
+      </MemoryRouter>,
+    );
+    expect(screen.queryByLabelText(/what should we call you/i)).toBeNull();
+  });
+});

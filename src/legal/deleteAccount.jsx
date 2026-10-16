@@ -77,7 +77,7 @@ export function DeleteAccount() {
             <li>Session history, XP, badges and days studied</li>
             <li>Diagnostic and quick-start results</li>
             <li>Exam Simulation attempts and your purchase records</li>
-            <li>Everything the mobile app recorded: rounds, hand-offs to paper, and feedback</li>
+            <li>Everything the mobile app recorded: rounds, Daily results, hand-offs to paper, and feedback</li>
             <li>Your answer to how you found us</li>
           </ul>
         </section>

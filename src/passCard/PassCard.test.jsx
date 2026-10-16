@@ -12,13 +12,16 @@ import PassCard from './PassCard.jsx';
 // a link that has no card behind it says so instead of implying one exists.
 
 const PASSED_NAMED = {
-  firstName: 'Jerson', lastName: 'Garcia', hasName: true,
+  firstName: 'Sammy', lastName: null, hasName: true, cardName: null,
+  suggestedName: 'Sammy',
   answeredAt: '2026-10-20T10:00:00Z',
 };
 const PASSED_NAMELESS = {
-  firstName: null, lastName: null, hasName: false,
+  firstName: null, lastName: null, hasName: false, cardName: null,
+  suggestedName: null,
   answeredAt: '2026-10-20T10:00:00Z',
 };
+const SAVED = (name) => ({ ...PASSED_NAMED, cardName: name, suggestedName: name });
 
 function mountAt(token = 'abc123') {
   return render(
@@ -48,25 +51,49 @@ afterEach(() => vi.restoreAllMocks());
 const respond = (body, status = 200) =>
   Promise.resolve({ ok: status < 400, status, json: () => Promise.resolve(body) });
 
-describe('somebody whose account already has a name', () => {
+describe('somebody whose account already has a name (ADR 0023)', () => {
   beforeEach(() => {
-    global.fetch = vi.fn(() => respond(PASSED_NAMED));
+    global.fetch = vi.fn((url, opts) =>
+      opts?.method === 'POST'
+        ? respond(SAVED(JSON.parse(opts.body).name))
+        : respond(PASSED_NAMED));
   });
 
-  it('goes straight to the card, asking nothing', async () => {
+  it('still asks, filled in with that name', async () => {
     mountAt();
+    const field = await screen.findByLabelText(/your full name/i);
+    expect(field.value).toBe('Sammy');
+    // Nothing they could keep until the name is confirmed.
+    expect(screen.queryByRole('button', { name: /download the image/i })).toBeNull();
+  });
+
+  it('lets them print a different name, and saves it as the card\'s own', async () => {
+    mountAt();
+    const field = await screen.findByLabelText(/your full name/i);
+    await userEvent.clear(field);
+    await userEvent.type(field, 'Samantha Reyes');
+    await userEvent.click(screen.getByRole('button', { name: /draw my card/i }));
     expect(await screen.findByRole('button', { name: /download the image/i })).toBeTruthy();
-    expect(screen.queryByLabelText(/your name/i)).toBeNull();
+    const [url, opts] = global.fetch.mock.calls.find(([, o]) => o?.method === 'POST');
+    expect(url).toBe('/api/email/pass-card/abc123/name');
+    expect(JSON.parse(opts.body)).toEqual({ name: 'Samantha Reyes' });
+    const img = screen.getByRole('img');
+    expect(img.getAttribute('aria-label')).toMatch(/Samantha Reyes, EIT passed/);
   });
 
-  it('describes the card for a screen reader rather than leaving it unlabelled', async () => {
+  it('shows the name in the preview as it is typed', async () => {
     mountAt();
-    const img = await screen.findByRole('img');
-    expect(img.getAttribute('aria-label')).toMatch(/Jerson Garcia, EIT passed/);
+    const field = await screen.findByLabelText(/your full name/i);
+    await userEvent.clear(field);
+    await userEvent.type(field, 'Sam Reyes');
+    await waitFor(() =>
+      expect(screen.getByRole('img', { hidden: true }).getAttribute('aria-label'))
+        .toMatch(/Sam Reyes, EIT/));
   });
 
   it('asks about the PE only after the card is theirs', async () => {
     mountAt();
+    await userEvent.click(await screen.findByRole('button', { name: /draw my card/i }));
     await screen.findByRole('button', { name: /download the image/i });
     const pe = screen.getByText(/the exam after this one/i);
     const download = screen.getByRole('button', { name: /download the image/i });
@@ -76,6 +103,7 @@ describe('somebody whose account already has a name', () => {
 
   it('takes a PE answer and does not ask twice', async () => {
     mountAt();
+    await userEvent.click(await screen.findByRole('button', { name: /draw my card/i }));
     await screen.findByRole('button', { name: /download the image/i });
     await userEvent.click(screen.getByRole('button', { name: /yes, tell me/i }));
     await waitFor(() => expect(screen.getByText(/we will let you know/i)).toBeTruthy());
@@ -83,27 +111,37 @@ describe('somebody whose account already has a name', () => {
   });
 });
 
+describe('somebody who made a card before', () => {
+  it('is asked again, filled in with the name the card printed', async () => {
+    global.fetch = vi.fn(() => respond(SAVED('Samantha Reyes')));
+    mountAt();
+    expect((await screen.findByLabelText(/your full name/i)).value).toBe('Samantha Reyes');
+  });
+});
+
 describe('somebody with no name on the account, which is most people', () => {
   beforeEach(() => {
     global.fetch = vi.fn((url, opts) =>
-      opts?.method === 'POST' ? respond(PASSED_NAMED) : respond(PASSED_NAMELESS));
+      opts?.method === 'POST'
+        ? respond(SAVED(JSON.parse(opts.body).name))
+        : respond(PASSED_NAMELESS));
   });
 
   it('asks for a name before drawing anything they could keep', async () => {
     mountAt();
-    expect(await screen.findByLabelText(/your name/i)).toBeTruthy();
+    expect((await screen.findByLabelText(/your full name/i)).value).toBe('');
     expect(screen.queryByRole('button', { name: /download the image/i })).toBeNull();
   });
 
   it('will not submit an empty name', async () => {
     mountAt();
-    await screen.findByLabelText(/your name/i);
+    await screen.findByLabelText(/your full name/i);
     expect(screen.getByRole('button', { name: /draw my card/i }).disabled).toBe(true);
   });
 
   it('draws the card once a name is given', async () => {
     mountAt();
-    const field = await screen.findByLabelText(/your name/i);
+    const field = await screen.findByLabelText(/your full name/i);
     await userEvent.type(field, 'Jerson Garcia');
     await userEvent.click(screen.getByRole('button', { name: /draw my card/i }));
     expect(await screen.findByRole('button', { name: /download the image/i })).toBeTruthy();
@@ -111,8 +149,36 @@ describe('somebody with no name on the account, which is most people', () => {
 
   it('says we add the EIT, so nobody types it themselves', async () => {
     mountAt();
-    await screen.findByLabelText(/your name/i);
+    await screen.findByLabelText(/your full name/i);
     expect(screen.getByText(/we add the eit/i)).toBeTruthy();
+  });
+});
+
+describe('signed in, from the profile', () => {
+  it('reads the card from the account and saves through it', async () => {
+    global.fetch = vi.fn((url, opts) => {
+      if (url === '/api/auth/me') return respond({ email: 'a@b.com', passCard: PASSED_NAMED });
+      if (url === '/api/auth/card-name') return respond(SAVED(JSON.parse(opts.body).name));
+      return respond({}, 404);
+    });
+    mountAt('me');
+    expect((await screen.findByLabelText(/your full name/i)).value).toBe('Sammy');
+    await userEvent.click(screen.getByRole('button', { name: /draw my card/i }));
+    expect(await screen.findByRole('button', { name: /download the image/i })).toBeTruthy();
+    // The PE question belongs to the email's moment, not a return visit.
+    expect(screen.queryByText(/the exam after this one/i)).toBeNull();
+  });
+
+  it('asks them to log in when they are not', async () => {
+    global.fetch = vi.fn(() => respond({}, 401));
+    mountAt('me');
+    expect(await screen.findByRole('link', { name: /log in/i })).toBeTruthy();
+  });
+
+  it('has nothing for an account without a pass', async () => {
+    global.fetch = vi.fn(() => respond({ email: 'a@b.com', passCard: null }));
+    mountAt('me');
+    expect(await screen.findByText(/nothing here/i)).toBeTruthy();
   });
 });
 

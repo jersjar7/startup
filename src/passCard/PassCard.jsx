@@ -6,12 +6,17 @@ import { passCardData, passCardFilename, CARD } from '../data/passCard.js';
 import { drawPassCard, renderPassCard, passCardBlob } from '../components/passCard/drawPassCard.js';
 import './passCard.css';
 
-// The reward for passing, reached from the email in one tap with no sign in.
+// The reward for passing, reached from the email in one tap with no sign in,
+// or from the website's profile at /pass-card/me once signed in.
 //
-// Three states, in the order somebody meets them: the card, the name question
-// when the account has none, and the PE question once the card is theirs. The
-// PE question comes last on purpose. It is research, and a celebration is not a
-// toll gate for research.
+// Three states, in the order somebody meets them: the name question, the card,
+// and the PE question once the card is theirs. The PE question comes last on
+// purpose. It is research, and a celebration is not a toll gate for research.
+//
+// The name question is always asked, filled in with the card's own name when
+// a card was made before, else with what we call them (ADR 0023): a casual
+// "Sammy" from sign-up is not what anyone wants printed with EIT after it.
+// What they confirm is saved as the card's name and never renames the account.
 
 /// The preview. Redrawn whenever the data changes, and once more when the brand
 /// faces land: canvas takes whatever font is loaded the moment it draws, with no
@@ -48,6 +53,8 @@ function CardPreview({ data }) {
 
 export default function PassCard() {
   const { token } = useParams();
+  // Signed in, from the profile, rather than from an email's link.
+  const mine = token === 'me';
   const [state, setState] = useState('loading'); // loading | naming | ready | gone | error
   const [account, setAccount] = useState(null);
   const [name, setName] = useState('');
@@ -55,33 +62,48 @@ export default function PassCard() {
   const [problem, setProblem] = useState(null);
   const [pe, setPe] = useState(null);
 
+  // Apple's Smart App Banner, so an iPhone with the app is one tap from
+  // making the card there (ADR 0023). Safari ignores it without the app's
+  // store listing; every other browser ignores it entirely.
+  useEffect(() => {
+    const meta = document.createElement('meta');
+    meta.name = 'apple-itunes-app';
+    meta.content = `app-id=6800350588, app-argument=${window.location.href}`;
+    document.head.appendChild(meta);
+    return () => meta.remove();
+  }, []);
+
   useEffect(() => {
     let live = true;
     (async () => {
       try {
-        const r = await fetch(`/api/email/pass-card/${encodeURIComponent(token)}`);
+        const r = await fetch(
+          mine ? '/api/auth/me' : `/api/email/pass-card/${encodeURIComponent(token)}`,
+          { credentials: 'include' },
+        );
         if (!live) return;
+        if (mine && r.status === 401) return setState('signin');
         if (r.status === 404) return setState('gone');
         if (!r.ok) return setState('error');
-        const data = await r.json();
+        const body = await r.json();
+        const card = mine ? body.passCard : body;
         if (!live) return;
-        setAccount(data);
-        // Account creation has never collected a name, so this is the ordinary
-        // path rather than a fallback.
-        setState(data.hasName ? 'ready' : 'naming');
+        if (!card) return setState('gone');
+        setAccount(card);
+        setName(card.suggestedName || '');
+        setState('naming');
       } catch {
         if (live) setState('error');
       }
     })();
     return () => { live = false; };
-  }, [token]);
+  }, [token, mine]);
 
+  // While asking, the preview follows what is typed; once confirmed, the card
+  // prints the name that was saved.
+  const printed = state === 'naming' ? name.trim() : (account?.cardName || name.trim());
   const data = account
-    ? passCardData({
-        firstName: account.firstName,
-        lastName: account.lastName,
-        answeredAt: account.answeredAt,
-      })
+    ? passCardData({ firstName: printed || null, answeredAt: account.answeredAt })
     : null;
 
   const saveName = useCallback(async (e) => {
@@ -90,11 +112,15 @@ export default function PassCard() {
     setSaving(true);
     setProblem(null);
     try {
-      const r = await fetch(`/api/email/pass-card/${encodeURIComponent(token)}/name`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name }),
-      });
+      const r = await fetch(
+        mine ? '/api/auth/card-name' : `/api/email/pass-card/${encodeURIComponent(token)}/name`,
+        {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name }),
+        },
+      );
       const body = await r.json().catch(() => ({}));
       if (!r.ok) {
         setProblem(body.msg || 'That could not be saved. Try again.');
@@ -107,7 +133,7 @@ export default function PassCard() {
     } finally {
       setSaving(false);
     }
-  }, [name, saving, token]);
+  }, [mine, name, saving, token]);
 
   const download = useCallback(async () => {
     if (!data) return;
@@ -147,6 +173,16 @@ export default function PassCard() {
     return <Shell><p className="pc-quiet">Getting your card.</p></Shell>;
   }
 
+  if (state === 'signin') {
+    return (
+      <Shell>
+        <h1 className="pc-h1">Log in for your card</h1>
+        <p className="pc-body">Your card is in your account. Log in and it is one tap away.</p>
+        <a className="pc-btn" href="/login">Log in</a>
+      </Shell>
+    );
+  }
+
   if (state === 'gone') {
     return (
       <Shell>
@@ -175,11 +211,11 @@ export default function PassCard() {
         <>
           <h1 className="pc-h1">Congratulations</h1>
           <p className="pc-body">
-            One thing before we draw it: what name should it carry? This is what people will read
-            when you post it.
+            One thing before we draw it: what name should it carry? Write it the way you would want
+            it on a certificate. This is what people will read when you post it.
           </p>
           <form className="pc-form" onSubmit={saveName}>
-            <label className="pc-label" htmlFor="pc-name">Your name</label>
+            <label className="pc-label" htmlFor="pc-name">Your full name</label>
             <input
               id="pc-name"
               className="pc-input"
@@ -218,7 +254,7 @@ export default function PassCard() {
             can come back for it whenever you want.
           </p>
 
-          {pe === null ? (
+          {mine ? null : pe === null ? (
             <div className="pc-ask">
               <p className="pc-ask-q">
                 The PE is the exam after this one. Want us to tell you when we build prep for it?

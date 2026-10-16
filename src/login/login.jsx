@@ -21,6 +21,9 @@ export function Login({ userName, onLogin }) {
   const [submitting, setSubmitting] = React.useState(false);
   const [showForgot, setShowForgot] = React.useState(false);
   const [acceptedTerms, setAcceptedTerms] = React.useState(false);
+  // What to call them, optional, the same question the app asks (ADR 0023).
+  // Without it the boards show the first letters of their email.
+  const [firstName, setFirstName] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
   // One form, one mode at a time — returning users never parse signup chrome.
   const [mode, setMode] = React.useState('login'); // 'login' | 'create'
@@ -111,7 +114,7 @@ export function Login({ userName, onLogin }) {
       const res = await fetch('/api/auth/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, acq }),
+        body: JSON.stringify({ email, password, acq, firstName: firstName.trim() || undefined }),
       });
       if (res.ok) {
         const data = await res.json();
@@ -283,6 +286,23 @@ export function Login({ userName, onLogin }) {
         )}
         {error && <p className="error-banner" role="alert">{error}</p>}
         <form onSubmit={handleLogin}>
+          {mode === 'create' && (
+            <>
+              <label className="login-label" htmlFor="login-first-name">
+                What should we call you? <span className="login-optional">(optional)</span>
+              </label>
+              <input
+                id="login-first-name"
+                type="text"
+                placeholder="Your first name"
+                autoComplete="given-name"
+                maxLength={40}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+              <p className="login-pw-hint">Shown on the leaderboards and in hello. You can change it any time.</p>
+            </>
+          )}
           <label className="login-label" htmlFor="login-email">Email</label>
           <input
             id="login-email"

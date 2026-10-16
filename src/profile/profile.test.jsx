@@ -184,3 +184,24 @@ describe('changing the email address', () => {
     expect(screen.getByLabelText(/new email/i).value).toBe('fixed@school.edu');
   });
 });
+
+// The card is the reward for passing, and the card page and its email both
+// say it stays on the profile. ADR 0023.
+describe('Profile pass card', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  it('offers the card once a pass is recorded', async () => {
+    mountProfile({ me: { ...ME, passCard: { suggestedName: 'Maria Gomez', answeredAt: '2026-11-29' } } });
+    const link = await screen.findByRole('link', { name: /get my card/i });
+    expect(link.getAttribute('href')).toBe('/pass-card/me');
+  });
+
+  it('has nothing to offer otherwise', async () => {
+    mountProfile({ me: { ...ME, passCard: null } });
+    await screen.findByRole('heading', { name: 'Account' });
+    expect(screen.queryByRole('link', { name: /get my card/i })).toBeNull();
+  });
+});
