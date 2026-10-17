@@ -1015,7 +1015,7 @@ const ethicsMap = ChapterMap(
     ),
     LessonNode(
       id: 'intellectual-property-sustainability',
-      name: 'Intellectual Property & Sustainability',
+      name: 'Intellectual Property, Sustainability & Societal Considerations',
       subtopicId: 'broader-responsibilities',
       games: [
         GameDef(
@@ -1101,7 +1101,7 @@ const economicsMap = ChapterMap(
     ),
     LessonNode(
       id: 'pw-fw-aw-analysis',
-      name: 'Present Worth, Future Worth & Annual Worth',
+      name: 'Present Worth, Future Worth & Annual Worth Analysis',
       subtopicId: 'time-value-of-money',
       games: [
         GameDef(
@@ -1195,7 +1195,7 @@ const economicsMap = ChapterMap(
     ),
     LessonNode(
       id: 'rate-of-return',
-      name: 'Rate of Return',
+      name: 'Rate of Return (IRR)',
       subtopicId: 'cost-and-economic-analysis',
       games: [
         GameDef(
@@ -1304,7 +1304,7 @@ const staticsMap = ChapterMap(
     ),
     LessonNode(
       id: 'equilibrium-free-body-diagrams',
-      name: 'Equilibrium & Free-Body Diagrams',
+      name: 'Equilibrium & Free Body Diagrams',
       subtopicId: 'forces-and-equilibrium',
       games: [
         GameDef(
@@ -1335,7 +1335,7 @@ const staticsMap = ChapterMap(
     ),
     LessonNode(
       id: 'trusses-joints-sections',
-      name: 'Trusses: Joints & Sections',
+      name: 'Trusses: Method of Joints & Sections',
       subtopicId: 'trusses-and-friction',
       games: [
         GameDef(
@@ -1436,7 +1436,7 @@ const staticsMap = ChapterMap(
     ),
     LessonNode(
       id: 'centroids-composite-shapes',
-      name: 'Centroids & Composite Shapes',
+      name: 'Centroids of Composite Shapes',
       subtopicId: 'section-properties',
       games: [
         GameDef(
@@ -2381,7 +2381,7 @@ const fluidMechanicsMap = ChapterMap(
     ),
     LessonNode(
       id: 'continuity-bernoulli',
-      name: 'Continuity & Bernoulli\'s Equation',
+      name: 'Continuity & Bernoulli’s Equation',
       subtopicId: 'fluid-dynamics',
       games: [
         GameDef(
@@ -4275,7 +4275,7 @@ const constructionMap = ChapterMap(
   lessons: [
     LessonNode(
       id: 'cpm-fundamentals',
-      name: 'CPM Fundamentals',
+      name: 'CPM Scheduling Basics',
       subtopicId: 'scheduling-cpm',
       games: [
         GameDef(
@@ -4316,7 +4316,7 @@ const constructionMap = ChapterMap(
     ),
     LessonNode(
       id: 'float-critical-path',
-      name: 'Float & the Critical Path',
+      name: 'Float & Critical Path',
       subtopicId: 'scheduling-cpm',
       games: [
         GameDef(
@@ -4357,7 +4357,7 @@ const constructionMap = ChapterMap(
     ),
     LessonNode(
       id: 'project-forecasting',
-      name: 'Project Forecasting',
+      name: 'Performance Indices & Forecasting',
       subtopicId: 'earned-value',
       games: [
         GameDef(
@@ -4392,7 +4392,7 @@ const constructionMap = ChapterMap(
     ),
     LessonNode(
       id: 'construction-safety',
-      name: 'Construction Safety',
+      name: 'Construction Safety (OSHA)',
       subtopicId: 'project-delivery',
       games: [
         GameDef(
@@ -4444,3 +4444,26 @@ final Map<String, GameDef> _gameById = {
 };
 
 GameDef? gameDefFor(String gameId) => _gameById[gameId];
+
+/// The lesson each game belongs to, named as the website names it, so a
+/// round can say which concept it is about before the student reads a word
+/// of it (owner, 2026-10-17).
+final Map<String, LessonNode> _lessonByGame = {
+  for (final chapter in chapterMaps.values)
+    for (final lesson in chapter.lessons)
+      for (final game in lesson.games) game.id: lesson,
+};
+
+LessonNode? lessonForGame(String gameId) => _lessonByGame[gameId];
+
+/// The lesson a concept sheet belongs to: the first lesson whose games lean
+/// on it. Briefs are const, so identity is the match.
+final Map<BriefSection, LessonNode> _lessonByBrief = Map.identity()
+  ..addAll({
+    for (final chapter in chapterMaps.values.toList().reversed)
+      for (final lesson in chapter.lessons.reversed)
+        for (final game in lesson.games.reversed)
+          if (game.brief != null) game.brief!: lesson,
+  });
+
+LessonNode? lessonForBrief(BriefSection brief) => _lessonByBrief[brief];

@@ -493,7 +493,9 @@ class _GameRow extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  chapter?.name ?? '',
+                  // The concept as the website names it; the mark beside it
+                  // already says the chapter (owner, 2026-10-17).
+                  lessonForGame(game.gameId)?.name ?? chapter?.name ?? '',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: AppTheme.body(

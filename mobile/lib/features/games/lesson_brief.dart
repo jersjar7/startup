@@ -4,6 +4,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/kit.dart';
 import '../shared/widgets/math_text.dart';
+import 'game_catalog.dart';
 import 'mechanics_pictures.dart';
 import 'mathematics_pictures.dart';
 import 'statistics_pictures.dart';
@@ -17272,6 +17273,21 @@ class ConceptView extends StatelessWidget {
                 : 'THE CONCEPT · ${handbook.toUpperCase()}',
             style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
           ),
+          // The lesson as the website names it, so the sheet says which
+          // concept this is before its own headline does (owner, 2026-10-17).
+          if (lessonForBrief(section) case final lesson?) ...[
+            const SizedBox(height: 10),
+            Text(
+              lesson.name,
+              style: AppTheme.display(
+                size: 17,
+                weight: FontWeight.w700,
+                height: 1.2,
+                tracking: -0.02,
+                color: AppColors.mutedOnLight,
+              ),
+            ),
+          ],
           const SizedBox(height: 14),
           Text(section.title, style: AppTheme.display(size: 38, height: 1.0)),
           const SizedBox(height: 22),

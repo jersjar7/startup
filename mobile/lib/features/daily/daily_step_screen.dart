@@ -110,6 +110,21 @@ class DailyStepScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                      // The concept as the website names it, over the
+                      // round's own name (owner, 2026-10-17).
+                      if (lessonForGame(game.gameId) case final lesson?) ...[
+                        Text(
+                          lesson.name,
+                          style: AppTheme.display(
+                            size: 17,
+                            weight: FontWeight.w700,
+                            height: 1.2,
+                            tracking: -0.02,
+                            color: AppColors.mutedOnLight,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                      ],
                       Text(
                         def?.name ?? game.gameId,
                         style: AppTheme.display(size: 36),
