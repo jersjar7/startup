@@ -209,6 +209,24 @@ void main() {
       );
     });
 
+    test('the raccoon is in front of the card, its nose over the edge', () {
+      // The tester's report, 2026-10-17: the nose went behind the card. In
+      // this file the earlier element draws in front, and the head's origin
+      // is the bottom of its face, so the nose hangs over the card.
+      final earned = rml.substring(
+        rml.indexOf('name="BadgeEarned"'),
+        rml.indexOf('name="BadgeCoin"'),
+      );
+      expect(
+        earned.indexOf('name="Raccoon"'),
+        lessThan(earned.indexOf('name="Card"')),
+      );
+      final originY = RegExp(
+        r'<Image [^>]*originY="([0-9.]+)"[^>]*name="Head"',
+      ).firstMatch(earned)!.group(1)!;
+      expect(double.parse(originY), closeTo(110 / 133, 0.001));
+    });
+
     test('the built file is bundled', () {
       expect(
         File(BadgeArt.asset).existsSync(),
@@ -298,6 +316,41 @@ void main() {
       await tester.pumpWidget(app(const BadgeMomentHost(child: Text('score'))));
       await tester.pumpAndSettle();
       expect(find.text('First Daily'), findsOneWidget);
+    });
+
+    testWidgets('the still card rests the raccoon on the edge, nose over it', (
+      tester,
+    ) async {
+      // Widget tests have no Rive, so this is the still card a phone shows
+      // with reduce motion on or before the artwork loads.
+      await tester.pumpWidget(
+        app(BadgeMomentScreen(badges: [badgeById('mathematics')!])),
+      );
+      await tester.pumpAndSettle();
+      final card = tester.getRect(find.byType(BadgeEarnedCard));
+      final k = card.width / BadgeArt.earnedWidth;
+      final edge = card.top + BadgeArt.cardTop * k;
+      final head = find.byWidgetPredicate(
+        (w) =>
+            w is Image &&
+            w.image is AssetImage &&
+            (w.image as AssetImage).assetName.endsWith('raccoon_peek.png'),
+      );
+      final r = tester.getRect(head);
+      // The face ends 110 of the picture's 133 rows down; the nose is below.
+      expect(r.top + 110 * 0.84 * k, moreOrLessEquals(edge, epsilon: 0.5));
+      expect(r.bottom, greaterThan(edge + 10 * k));
+      // Nothing inside the card cuts the picture off.
+      expect(
+        find.ancestor(
+          of: head,
+          matching: find.descendant(
+            of: find.byType(BadgeEarnedCard),
+            matching: find.byType(ClipRect),
+          ),
+        ),
+        findsNothing,
+      );
     });
 
     testWidgets('the moment fits the smallest phone', (tester) async {

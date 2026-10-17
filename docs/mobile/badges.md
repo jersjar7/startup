@@ -15,6 +15,8 @@ The why is in ADR 0024. This is how it works and how to change it.
 | The artwork generator | `mobile/rive/badge/gen.py` -> `mobile/rive/badge/scene.rml` |
 | The built file the app bundles | `mobile/assets/rive/badge.riv` |
 | Tests (rules, ledger, Rive contract, screens) | `mobile/test/badges_test.dart` |
+| The release setting Rive needs, and its test | `mobile/ios/Flutter/Release.xcconfig`, `mobile/test/ios_release_build_test.dart` |
+| Checking an archive before upload | `mobile/tool/check_release_rive.sh` |
 | Looking at it on a real renderer | `flutter run -t lib/dev/badge_gallery.dart` (add `--dart-define=SCREEN=page` for the page) |
 
 ## The rules
@@ -100,3 +102,22 @@ rule in `earnedBadgeIds`. Then run the four commands.
 To look at frames without a phone, `rive rive/badge --screenshot=f.png
 --data=mark=4 --advance=100` renders the earned artboard at frame 100 for
 Statics.
+
+## Release builds: check before every TestFlight upload
+
+Dart reaches the Rive engine by looking its functions up by name. Until
+build 1136 the App Store archive stripped those names, so on every real
+phone the badges (and the lesson nodes) were their still drawings. The
+simulator does not strip, so it never showed. `STRIP_STYLE = non-global` in
+`ios/Flutter/Release.xcconfig` fixes it, and a test fails if it goes.
+
+The test guards the setting, not the build. After `flutter build ipa` and
+before uploading, run from `mobile/`:
+
+```
+./tool/check_release_rive.sh    # prints RIVE_RELEASE_OK, or fails
+```
+
+It compares every name `rive_native` looks up with what the archived app
+exports. Run it again after upgrading `rive` or `rive_native`, or after
+changing any iOS build setting.
