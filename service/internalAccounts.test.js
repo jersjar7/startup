@@ -53,3 +53,31 @@ describe('internal account exclusion', () => {
     expect(EXCLUDED_PATTERN.test('real.person@gmail.com')).toBe(false);
   });
 });
+
+describe('the team, added 2026-10-16', () => {
+  const { isExcluded } = require('./internalAccounts.js');
+  it('counts the founder\'s addresses and the marketing team as ours', () => {
+    for (const e of ['admin@oqupa.com', 'Jersondevs@gmail.com', 'jerson.7@icloud.com', 'kuoppala.ellie@gmail.com']) {
+      expect(isExcluded(e)).toBe(true);
+    }
+    expect(isExcluded('jersondevs+test2@gmail.com')).toBe(true); // an alias is the same inbox
+  });
+  it('and nobody else', () => {
+    expect(isExcluded('ellie@byu.edu')).toBe(false);
+    expect(isExcluded('jerson@byu.edu')).toBe(false);
+  });
+});
+
+describe('who sees whom on the Daily', () => {
+  const { dailyResultsQuery } = require('./db/daily.js');
+  const { NOT_EXCLUDED } = require('./internalAccounts.js');
+  it('a student sees students and themselves, never the team', () => {
+    expect(dailyResultsQuery(2, 'sam@byu.edu')).toEqual({
+      number: 2, $or: [{ email: NOT_EXCLUDED }, { email: 'sam@byu.edu' }],
+    });
+  });
+  it('the team sees everyone, the team included', () => {
+    expect(dailyResultsQuery(2, 'jersondevs@gmail.com')).toEqual({ number: 2 });
+    expect(dailyResultsQuery(2, 'admin@oqupa.com')).toEqual({ number: 2 });
+  });
+});

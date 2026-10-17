@@ -31,10 +31,9 @@ if (!HOST || !USER || !PASS) {
   process.exit(1);
 }
 
-const EXCLUDED = (process.env.EXCLUDED_ACCOUNTS || 'admin@oqupa.com,qa-bot@fe4raccoons.com')
-  .split(',')
-  .map((s) => s.trim().toLowerCase())
-  .filter(Boolean);
+// The one list the server uses, so the report and the product can never
+// disagree about which accounts are ours.
+const { EXCLUDED_EMAILS: EXCLUDED } = require('../service/internalAccounts.js');
 
 // Plus-addressed aliases of an excluded account are excluded too, so
 // admin+test1@oqupa.com and every future admin+whatever@ test signup is kept

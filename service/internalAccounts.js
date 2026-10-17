@@ -14,8 +14,18 @@
 // is a REAL account, because review tests what real users get, but a reviewer
 // poking around must not move the numbers we judge the product by
 // (added 2026-10-08 for the App Store submission).
+// The founder's own addresses and the marketing team's were added on
+// 2026-10-16 (owner): they play the app to test it, and their rounds and
+// Daily scores are not students'.
 const EXCLUDED_EMAILS = (process.env.EXCLUDED_ACCOUNTS
-  || 'admin@oqupa.com,qa-bot@fe4raccoons.com,appreview@fe4raccoons.com')
+  || [
+    'admin@oqupa.com',
+    'qa-bot@fe4raccoons.com',
+    'appreview@fe4raccoons.com',
+    'jersondevs@gmail.com',
+    'jerson.7@icloud.com',
+    'kuoppala.ellie@gmail.com',
+  ].join(','))
   .split(',')
   .map((s) => s.trim().toLowerCase())
   .filter(Boolean);
