@@ -542,13 +542,53 @@ void main() {
       );
     });
 
-    testWidgets('picking a year takes it back', (tester) async {
+    testWidgets('then asks when, as a past year, and sends it', (tester) async {
       await toSchoolStep(tester);
       await tester.tap(find.text('I have already graduated'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('${DateTime.now().year + 1}'));
+      final now = DateTime.now().year;
+      // The past, year only: no terms, no years still to come.
+      expect(find.text('Where did\nyou study?'), findsOneWidget);
+      expect(find.text('SPRING'), findsNothing);
+      expect(find.text('${now + 1}'), findsNothing);
+      // The strip builds only the years on screen; scroll it along.
+      await tester.scrollUntilVisible(
+        find.text('${now - 7}'),
+        80,
+        scrollable: find
+            .descendant(
+              of: find.byType(ListView).last,
+              matching: find.byType(Scrollable),
+            )
+            .first,
+      );
       await tester.pumpAndSettle();
-      expect(find.text('Already graduated'), findsNothing);
+      await tester.tap(find.text('${now - 7}'));
+      await tester.pumpAndSettle();
+      expect(find.text('Graduated ${now - 7}'), findsOneWidget);
+
+      await tester.enterText(
+        find.byType(EditableText),
+        'Brigham Young University',
+      );
+      await tester.tap(find.byTooltip('Create account'));
+      await _settle(tester);
+      expect(server.posts['/auth/create'], containsPair('graduated', true));
+      expect(
+        server.posts['/auth/create'],
+        containsPair('graduationYear', '${now - 7}'),
+      );
+    });
+
+    testWidgets('"I am still in school" takes it back', (tester) async {
+      await toSchoolStep(tester);
+      await tester.tap(find.text('I have already graduated'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('I am still in school'));
+      await tester.pumpAndSettle();
+      expect(find.text('Not set'), findsOneWidget);
+      expect(find.text('SPRING'), findsOneWidget);
+      expect(find.text('${DateTime.now().year + 1}'), findsOneWidget);
     });
 
     testWidgets('the account sheet shows it, keeps it and saves it', (

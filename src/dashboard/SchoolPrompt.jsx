@@ -46,6 +46,14 @@ export function gradYearOptions(now = new Date()) {
   return Array.from({ length: GRAD_YEAR_SPAN }, (_, i) => first + i);
 }
 
+/// For somebody who has already graduated: this year back fifteen, the same
+/// as the app. With the exam date it says how long after college people sit
+/// the FE (owner, 2026-10-16). Optional, and a year only.
+export function graduatedYearOptions(now = new Date()) {
+  const first = now.getFullYear();
+  return Array.from({ length: 16 }, (_, i) => first - i);
+}
+
 async function postSchool(body) {
   const res = await fetch('/api/user/school', {
     method: 'POST',
@@ -112,10 +120,14 @@ export function SchoolPrompt({
     setName(school);
     setSuggestions([]);
   };
-  const [year, setYear] = React.useState(null); // a year, or 'graduated'
+  const [year, setYear] = React.useState(null);
+  const [graduated, setGraduated] = React.useState(false);
   const [term, setTerm] = React.useState(null);
   const [busy, setBusy] = React.useState(false);
-  const years = React.useMemo(() => gradYearOptions(), []);
+  const years = React.useMemo(
+    () => (graduated ? graduatedYearOptions() : gradYearOptions()),
+    [graduated],
+  );
 
   const trimmed = name.trim();
 
@@ -129,8 +141,8 @@ export function SchoolPrompt({
       await postSchool({
         name: trimmed,
         graduationYear: typeof year === 'number' ? year : null,
-        graduationTerm: term && year !== 'graduated' ? term.toLowerCase() : null,
-        ...(year === 'graduated' ? { graduated: true } : {}),
+        graduationTerm: term && !graduated ? term.toLowerCase() : null,
+        ...(graduated ? { graduated: true } : {}),
       });
     } catch { /* non-blocking: never trap a user behind a profile question */ }
     onClose(true);
@@ -186,8 +198,11 @@ export function SchoolPrompt({
           </span>
         </div>
       )}
-      <span className="school-prompt-sub">When do you graduate?</span>
-      <div className="school-prompt-chips">
+      <span className="school-prompt-sub">
+        {graduated ? 'When did you graduate? (optional)' : 'When do you graduate?'}
+      </span>
+      {/* No term once graduated: years later it only costs a tap. */}
+      {!graduated && <div className="school-prompt-chips">
         {GRAD_TERMS.map((t) => (
           <button
             key={t}
@@ -200,7 +215,7 @@ export function SchoolPrompt({
             {t}
           </button>
         ))}
-      </div>
+      </div>}
       <div className="school-prompt-chips">
         {years.map((y) => (
           <button
@@ -216,11 +231,14 @@ export function SchoolPrompt({
         ))}
         <button
           type="button"
-          className={`school-chip ${year === 'graduated' ? 'is-picked' : ''}`.trim()}
-          aria-pressed={year === 'graduated'}
+          className={`school-chip ${graduated ? 'is-picked' : ''}`.trim()}
+          aria-pressed={graduated}
           disabled={busy}
           onClick={() => {
-            setYear(year === 'graduated' ? null : 'graduated');
+            // Switching between the two kinds of answer starts the year over:
+            // a future year is not a graduation, a past one is not a finish.
+            setGraduated(!graduated);
+            setYear(null);
             setTerm(null);
           }}
         >

@@ -61,7 +61,7 @@ describe('Profile school fields', () => {
 
     await screen.findByText('Saved');
     const [, opts] = schoolCalls(fetchFn).at(-1);
-    expect(JSON.parse(opts.body)).toEqual({ name: 'Brigham Young University', graduationYear: 2028 });
+    expect(JSON.parse(opts.body)).toEqual({ name: 'Brigham Young University', graduationYear: 2028, graduated: false });
   });
 
   it('clears the year to null when the field is emptied', async () => {
@@ -73,7 +73,7 @@ describe('Profile school fields', () => {
 
     await screen.findByText('Saved');
     const [, opts] = schoolCalls(fetchFn).at(-1);
-    expect(JSON.parse(opts.body)).toEqual({ name: 'University of West Florida', graduationYear: null });
+    expect(JSON.parse(opts.body)).toEqual({ name: 'University of West Florida', graduationYear: null, graduated: false });
   });
 
   it('does not touch the school when only the name was edited', async () => {
@@ -203,5 +203,36 @@ describe('Profile pass card', () => {
     mountProfile({ me: { ...ME, passCard: null } });
     await screen.findByRole('heading', { name: 'Account' });
     expect(screen.queryByRole('link', { name: /get my card/i })).toBeNull();
+  });
+});
+
+// Saving the details form must never turn a graduate back into a student
+// (owner, 2026-10-16).
+describe('Profile, already graduated', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  it('keeps it when only the school name is edited', async () => {
+    const fetchFn = mountProfile({
+      me: { ...ME, school: { name: 'University of West Florida', graduationYear: 2019, graduated: true } },
+    });
+    const box = await screen.findByLabelText(/i have already graduated/i);
+    expect(box.checked).toBe(true);
+    fireEvent.change(screen.getByLabelText('School'), { target: { value: 'UWF' } });
+    fireEvent.click(screen.getByRole('button', { name: /save/i }));
+    await waitFor(() => expect(schoolCalls(fetchFn).length).toBe(1));
+    expect(JSON.parse(schoolCalls(fetchFn)[0][1].body)).toMatchObject({
+      name: 'UWF', graduationYear: 2019, graduated: true,
+    });
+  });
+
+  it('saves the change when it is ticked', async () => {
+    const fetchFn = mountProfile();
+    fireEvent.click(await screen.findByLabelText(/i have already graduated/i));
+    fireEvent.click(screen.getByRole('button', { name: /save/i }));
+    await waitFor(() => expect(schoolCalls(fetchFn).length).toBe(1));
+    expect(JSON.parse(schoolCalls(fetchFn)[0][1].body)).toMatchObject({ graduated: true, graduationYear: null });
   });
 });

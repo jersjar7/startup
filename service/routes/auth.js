@@ -123,12 +123,18 @@ router.post('/create', async (req, res) => {
       // year: repeat takers are a third of the FE Civil population, and
       // without this they were stored exactly like somebody who skipped the
       // question (owner, 2026-10-16).
+      //
+      // A graduate may say WHEN, as a year (no term: years later it only
+      // costs a tap). With the exam date it says how long after college
+      // people sit the FE. A year still to come cannot be a graduation that
+      // happened, so it is dropped rather than stored.
       const graduated = req.body.graduated === true;
+      const pastYear = (y) => (y && y <= new Date().getUTCFullYear() ? y : null);
       user.school = {
         name: school.name,
         key: school.key,
         domain,
-        graduationYear: graduated || gradYear === undefined ? null : gradYear,
+        graduationYear: gradYear === undefined ? null : graduated ? pastYear(gradYear) : gradYear,
         graduationTerm: graduated || gradTerm === undefined ? null : gradTerm,
         graduated,
         answeredAt: new Date(),
@@ -366,8 +372,12 @@ router.post('/school', verifyAuth, async (req, res) => {
   // client says so or gives a year, so a client that only edits the name
   // never quietly forgets it.
   if ('graduated' in req.body) {
-    update['school.graduated'] = req.body.graduated === true && year === null;
-    if (update['school.graduated']) update['school.graduationTerm'] = null;
+    update['school.graduated'] = req.body.graduated === true;
+    if (update['school.graduated']) {
+      // When they graduated, as a year only; a year still to come is not one.
+      update['school.graduationTerm'] = null;
+      if (year !== null && year > new Date().getUTCFullYear()) update['school.graduationYear'] = null;
+    }
   } else if (year !== null) {
     update['school.graduated'] = false;
   }

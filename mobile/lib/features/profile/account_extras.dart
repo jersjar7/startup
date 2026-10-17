@@ -24,6 +24,15 @@ List<int> graduationYears([DateTime? now]) {
   return [for (var i = 0; i <= 4; i++) y + i];
 }
 
+/// The years an "already graduated" student can pick from, this year back
+/// fifteen. With the exam date it says how long after college people sit the
+/// FE (owner, 2026-10-16). Optional: older than this, or rather not say,
+/// leaves it blank and the answer still counts.
+List<int> graduatedYears([DateTime? now]) {
+  final y = (now ?? DateTime.now()).year;
+  return [for (var i = 0; i <= 15; i++) y - i];
+}
+
 /// Which term they finish in. A May and a December graduate are a full exam
 /// cycle apart, so the year alone blurs two different cohorts, but twelve
 /// months is too much friction on a field people already skip. Four terms is
@@ -68,32 +77,35 @@ class GraduationPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final years = graduationYears();
+    // Graduated: the past, year only. The term separates two cohorts of
+    // students still in school; years later it adds a tap and nothing else.
+    final years = graduated ? graduatedYears() : graduationYears();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'GRADUATING',
+          graduated ? 'GRADUATED' : 'GRADUATING',
           style: AppTheme.eyebrow(size: 11, color: AppColors.ink2),
         ),
         const SizedBox(height: 12),
         // Four terms fit one row exactly, so nothing can ever wrap.
-        Row(
-          children: [
-            for (final t in graduationTerms)
-              Expanded(
-                child: StripChip(
-                  label: t,
-                  on: term == t,
-                  onTap: () => onTerm(term == t ? null : t),
+        if (!graduated)
+          Row(
+            children: [
+              for (final t in graduationTerms)
+                Expanded(
+                  child: StripChip(
+                    label: t,
+                    on: term == t,
+                    onTap: () => onTerm(term == t ? null : t),
+                  ),
                 ),
-              ),
-          ],
-        ),
+            ],
+          ),
         const SizedBox(height: 16),
         Text(
           graduated
-              ? 'Already graduated'
+              ? (year == null ? 'Already graduated' : 'Graduated $year')
               : term == null && year == null
               ? 'Not set'
               : '${term ?? 'Term'} ${year?.toString() ?? ''}'.trim(),
@@ -101,23 +113,7 @@ class GraduationPicker extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         // Years scroll rather than spill onto a second line.
-        SizedBox(
-          height: 40,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            children: [
-              for (final y in years) ...[
-                StripChip(
-                  label: '$y',
-                  on: year == y,
-                  onTap: () => onYear(year == y ? null : y),
-                ),
-                const SizedBox(width: 4),
-              ],
-            ],
-          ),
-        ),
+        _YearStrip(years: years, year: year, onYear: onYear),
         if (onClear != null) ...[
           const SizedBox(height: 16),
           // A real button with a real hit area: the bare text it replaced
@@ -131,7 +127,9 @@ class GraduationPicker extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(
-                  'I have already graduated',
+                  graduated
+                      ? 'I am still in school'
+                      : 'I have already graduated',
                   style: AppTheme.body(
                     size: 14,
                     weight: FontWeight.w600,
@@ -391,7 +389,7 @@ class SchoolRow extends StatelessWidget {
     // should be able to see it from the row (owner, 2026-10-07).
     final graduated = school?['graduated'] == true;
     String withYear(String n) => graduated
-        ? '$n, graduated'
+        ? (year == null ? '$n, graduated' : '$n, graduated $year')
         : year == null
         ? n
         : '$n, $year';
@@ -590,7 +588,7 @@ class _SchoolEditorState extends State<SchoolEditor> {
                 ),
               SizedBox(height: widget.onDone != null ? 12 : 22),
               Text(
-                'Where do you study?',
+                _graduated ? 'Where did you study?' : 'Where do you study?',
                 style: AppTheme.display(size: 30, height: 1.05),
               ),
               const SizedBox(height: 8),
@@ -622,10 +620,7 @@ class _SchoolEditorState extends State<SchoolEditor> {
                 year: _year,
                 term: _term,
                 graduated: _graduated,
-                onYear: (y) => setState(() {
-                  _year = y;
-                  if (y != null) _graduated = false;
-                }),
+                onYear: (y) => setState(() => _year = y),
                 onTerm: (t) => setState(() {
                   _term = t;
                   if (t != null) _graduated = false;
@@ -633,7 +628,7 @@ class _SchoolEditorState extends State<SchoolEditor> {
                 onClear: () => setState(() {
                   _year = null;
                   _term = null;
-                  _graduated = true;
+                  _graduated = !_graduated;
                 }),
               ),
               const SizedBox(height: 26),
@@ -1437,6 +1432,74 @@ class _SchoolSuggestionsState extends State<SchoolSuggestions> {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// The years as one scrolling strip, brought round to the picked year: 2019
+/// sits off the edge of a strip that starts at this year.
+class _YearStrip extends StatefulWidget {
+  const _YearStrip({
+    required this.years,
+    required this.year,
+    required this.onYear,
+  });
+
+  final List<int> years;
+  final int? year;
+  final ValueChanged<int?> onYear;
+
+  @override
+  State<_YearStrip> createState() => _YearStripState();
+}
+
+class _YearStripState extends State<_YearStrip> {
+  final _picked = GlobalKey();
+
+  void _reveal() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final c = _picked.currentContext;
+      if (c != null && c.mounted) {
+        Scrollable.ensureVisible(
+          c,
+          alignment: 0.5,
+          duration: const Duration(milliseconds: 200),
+        );
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _reveal();
+  }
+
+  @override
+  void didUpdateWidget(_YearStrip old) {
+    super.didUpdateWidget(old);
+    if (old.year != widget.year || old.years != widget.years) _reveal();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        children: [
+          for (final y in widget.years) ...[
+            StripChip(
+              key: widget.year == y ? _picked : null,
+              label: '$y',
+              on: widget.year == y,
+              onTap: () => widget.onYear(widget.year == y ? null : y),
+            ),
+            const SizedBox(width: 4),
+          ],
+        ],
+      ),
     );
   }
 }

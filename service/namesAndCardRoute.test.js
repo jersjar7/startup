@@ -221,11 +221,27 @@ describe('already graduated', () => {
     expect(users['skip@x.com'].school).toMatchObject({ graduated: false, graduationYear: null });
   });
 
-  it('wins over a year sent with it at sign-up', async () => {
+  it('keeps the year they graduated, and never a year still to come', async () => {
+    const now = new Date().getUTCFullYear();
     await request(app()).post('/api/auth/create').send({
-      email: 'both@x.com', password: 'Abcdefg1', school: 'BYU', graduated: true, graduationYear: 2027,
+      email: 'past@x.com', password: 'Abcdefg1', school: 'BYU', graduated: true,
+      graduationYear: 2019, graduationTerm: 'spring',
     });
-    expect(users['both@x.com'].school).toMatchObject({ graduated: true, graduationYear: null });
+    await request(app()).post('/api/auth/create').send({
+      email: 'future@x.com', password: 'Abcdefg1', school: 'BYU', graduated: true, graduationYear: now + 1,
+    });
+    // The year, with no term: years later the term only costs a tap.
+    expect(users['past@x.com'].school).toMatchObject({ graduated: true, graduationYear: 2019, graduationTerm: null });
+    expect(users['future@x.com'].school).toMatchObject({ graduated: true, graduationYear: null });
+  });
+
+  it('saves the year they graduated from the account, too', async () => {
+    users['named@x.com'].school = { name: 'BYU' };
+    await request(app()).post('/api/auth/school').set(as('named@x.com'))
+      .send({ name: 'BYU', graduated: true, graduationYear: 2019 });
+    expect(users['named@x.com'].school).toMatchObject({ graduated: true, graduationYear: 2019 });
+    const me = await request(app()).get('/api/auth/me').set(as('named@x.com'));
+    expect(me.body.school).toMatchObject({ graduated: true, graduationYear: 2019 });
   });
 
   it('is saved from the account and shown back', async () => {

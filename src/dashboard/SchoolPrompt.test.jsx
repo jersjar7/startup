@@ -1,7 +1,7 @@
 import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { SchoolPrompt, gradYearOptions, GRAD_TERMS } from './SchoolPrompt';
+import { SchoolPrompt, gradYearOptions, graduatedYearOptions, GRAD_TERMS } from './SchoolPrompt';
 
 // What matters about this prompt is not how it looks, it is that it cannot trap
 // anybody and cannot lose what they typed. Both of those are behaviour, so they
@@ -320,5 +320,45 @@ describe('a school we already worked out', () => {
   it('is empty when we know nothing', () => {
     render(<SchoolPrompt onClose={() => {}} />);
     expect(screen.getByLabelText(/school name/i).value).toBe('');
+  });
+});
+
+// A graduate may say when, as a year (owner, 2026-10-16): with the exam date
+// it says how long after college people sit the FE.
+describe('SchoolPrompt, already graduated', () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('offers past years and no term once chosen', () => {
+    mockFetch();
+    render(<SchoolPrompt onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Already graduated'));
+    expect(screen.getByText(/when did you graduate/i)).toBeInTheDocument();
+    expect(screen.queryByText('Summer')).toBeNull();
+    const now = new Date().getFullYear();
+    expect(screen.getByRole('button', { name: String(now - 7) })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: String(now + 1) })).toBeNull();
+    expect(graduatedYearOptions()).toHaveLength(16);
+  });
+
+  it('sends the year they graduated with the answer', async () => {
+    const fetchFn = mockFetch();
+    const y = new Date().getFullYear() - 7;
+    render(<SchoolPrompt onClose={() => {}} />);
+    fireEvent.change(screen.getByLabelText('School name'), { target: { value: 'Purdue' } });
+    fireEvent.click(screen.getByText('Already graduated'));
+    fireEvent.click(screen.getByRole('button', { name: String(y) }));
+    fireEvent.click(screen.getByRole('button', { name: /save/i }));
+    await waitFor(() => expect(lastBody(fetchFn)).toMatchObject({
+      name: 'Purdue', graduated: true, graduationYear: y, graduationTerm: null,
+    }));
+  });
+
+  it('can be taken back, and the future years return', () => {
+    mockFetch();
+    render(<SchoolPrompt onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Already graduated'));
+    fireEvent.click(screen.getByText('Already graduated'));
+    expect(screen.getByText('Summer')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: String(new Date().getFullYear() + 1) })).toBeInTheDocument();
   });
 });

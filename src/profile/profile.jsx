@@ -22,12 +22,13 @@ import {
 } from '@phosphor-icons/react';
 import './profile.css';
 import { examDateBounds } from '../data/examDateBounds';
-import { gradYearOptions } from '../dashboard/SchoolPrompt';
+import { gradYearOptions, graduatedYearOptions } from '../dashboard/SchoolPrompt';
 
 const EXAM_DATE_BOUNDS = examDateBounds();
 // Borrowed from the prompt rather than re-declared, so the window the sign-up
 // question offers and the window this page accepts can never drift apart.
 const GRAD_YEARS = gradYearOptions();
+const GRADUATED_YEARS = graduatedYearOptions();
 
 export function Profile({ userName, onLogout }) {
   useDocumentTitle('Profile');
@@ -93,6 +94,10 @@ export function Profile({ userName, onLogout }) {
   const [detLast, setDetLast] = React.useState('');
   const [detSchool, setDetSchool] = React.useState('');
   const [detGradYear, setDetGradYear] = React.useState('');
+  // "Already graduated" is an answer of its own (owner, 2026-10-16). Kept
+  // here so saving this form never quietly turns a graduate back into a
+  // student, which a past year without it used to.
+  const [detGraduated, setDetGraduated] = React.useState(false);
   const [detExam, setDetExam] = React.useState('');
   const [detError, setDetError] = React.useState('');
   const [detSuccess, setDetSuccess] = React.useState('');
@@ -122,6 +127,7 @@ export function Profile({ userName, onLogout }) {
         setDetLast(userResult.value.lastName || '');
         setDetSchool(userResult.value.school?.name || '');
         setDetGradYear(userResult.value.school?.graduationYear ? String(userResult.value.school.graduationYear) : '');
+        setDetGraduated(userResult.value.school?.graduated === true);
         setDetExam(userResult.value.examDate || '');
       } else {
         navigate('/login');
@@ -182,7 +188,9 @@ export function Profile({ userName, onLogout }) {
   function schoolEdited(existing) {
     const name = detSchool.trim();
     const year = detGradYear ? Number(detGradYear) : null;
-    return name !== (existing?.name || '') || year !== (existing?.graduationYear ?? null);
+    return name !== (existing?.name || '')
+      || year !== (existing?.graduationYear ?? null)
+      || detGraduated !== (existing?.graduated === true);
   }
 
   async function handleSaveDetails(e) {
@@ -212,6 +220,7 @@ export function Profile({ userName, onLogout }) {
             body: JSON.stringify({
               name: detSchool.trim(),
               graduationYear: detGradYear ? Number(detGradYear) : null,
+              graduated: detGraduated,
             }),
           })
           : Promise.resolve(null),
@@ -424,19 +433,27 @@ export function Profile({ userName, onLogout }) {
                 onChange={(e) => setDetSchool(e.target.value)} />
             </div>
             <div className="details-field">
-              <label className="profile-input-label" htmlFor="grad-year">Graduation year</label>
+              <label className="profile-input-label" htmlFor="grad-year">
+                {detGraduated ? 'Year you graduated (optional)' : 'Graduation year'}
+              </label>
               {/* Bounded to the same five-year window the sign-up prompt offers,
                   for the same reason the exam date is bounded: the two surfaces
                   must not be able to store values the other cannot show. */}
               <input id="grad-year" type="number" inputMode="numeric" step={1}
-                min={GRAD_YEARS[0]} max={GRAD_YEARS[GRAD_YEARS.length - 1]}
-                placeholder={String(GRAD_YEARS[0])} value={detGradYear}
+                min={detGraduated ? GRADUATED_YEARS[GRADUATED_YEARS.length - 1] : GRAD_YEARS[0]}
+                max={detGraduated ? GRADUATED_YEARS[0] : GRAD_YEARS[GRAD_YEARS.length - 1]}
+                placeholder={String(detGraduated ? GRADUATED_YEARS[3] : GRAD_YEARS[0])} value={detGradYear}
                 onChange={(e) => setDetGradYear(e.target.value)} />
             </div>
           </div>
+          <label className="terms-checkbox">
+            <input type="checkbox" checked={detGraduated}
+              onChange={(e) => { setDetGraduated(e.target.checked); setDetGradYear(''); }} />
+            I have already graduated
+          </label>
           <p className="details-hint">
             Tells us which programmes our students come from, so we know whose
-            syllabus to follow. Leave the year blank if you have already graduated.
+            syllabus to follow.
           </p>
 
           <label className="profile-input-label" htmlFor="exam-date">

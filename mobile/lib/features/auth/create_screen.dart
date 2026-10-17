@@ -205,8 +205,10 @@ class _CreateScreenState extends State<CreateScreen> {
                                       )
                                     : onPassword
                                     ? const TextSpan(text: 'Pick a\npassword.')
-                                    : const TextSpan(
-                                        text: 'Where do\nyou study?',
+                                    : TextSpan(
+                                        text: _graduated
+                                            ? 'Where did\nyou study?'
+                                            : 'Where do\nyou study?',
                                       ),
                                 style: AppTheme.display(),
                               ),
@@ -288,10 +290,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                   year: _gradYear,
                                   term: _gradTerm,
                                   graduated: _graduated,
-                                  onYear: (y) => setState(() {
-                                    _gradYear = y;
-                                    if (y != null) _graduated = false;
-                                  }),
+                                  onYear: (y) => setState(() => _gradYear = y),
                                   onTerm: (t) => setState(() {
                                     _gradTerm = t;
                                     if (t != null) _graduated = false;
@@ -299,7 +298,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                   onClear: () => setState(() {
                                     _gradYear = null;
                                     _gradTerm = null;
-                                    _graduated = true;
+                                    _graduated = !_graduated;
                                   }),
                                 ),
                               ],
