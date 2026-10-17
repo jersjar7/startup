@@ -24,6 +24,7 @@ import 'package:mobile/features/profile/exam_outcome_card.dart';
 import 'package:mobile/features/profile/outcome_link_screen.dart';
 import 'package:mobile/features/profile/pass_card_screen.dart';
 import 'package:mobile/features/profile/profile_tab.dart';
+import 'package:mobile/features/profile/profile_views.dart';
 import 'package:mobile/features/study/chapter_bands.dart' show cardNameFor;
 import 'package:mobile/features/study/study_tab.dart' show appClock;
 
@@ -172,6 +173,7 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     Notifications.tapped.value = null;
     server = FakeServer();
+    debugResetProfileOpen();
     _wipe();
   });
   tearDown(_wipe);
@@ -228,6 +230,85 @@ void main() {
         expect(find.text('Start here'), findsOneWidget);
       },
     );
+  });
+
+  group('the headline says what is true today (owner, 2026-10-16)', () {
+    final today = DateTime(2026, 12, 1, 10);
+    String h({
+      String name = 'Sam',
+      String? last,
+      int streak = 0,
+      int? exam,
+      String? chapter,
+      bool done = false,
+    }) => underwayHeadline(
+      name: name,
+      today: today,
+      lastStudyAtOpen: last,
+      streak: streak,
+      examDays: exam,
+      chapterJustDone: chapter,
+      allDone: done,
+    );
+
+    test('back the same day', () {
+      expect(h(last: '2026-12-01', streak: 9, exam: 2), 'Back for more, Sam.');
+    });
+    test('a run of three days or more', () {
+      expect(h(last: '2026-11-30', streak: 5), '5 days running, Sam.');
+      expect(h(last: '2026-11-30', streak: 2), 'Welcome back, Sam.');
+    });
+    test('back after three days or more away', () {
+      expect(h(last: '2026-11-27'), 'Good to see you again, Sam.');
+      expect(h(last: '2026-11-29'), 'Welcome back, Sam.');
+    });
+    test('the exam close', () {
+      expect(h(last: '2026-11-30', exam: 12), '12 days to go, Sam.');
+      expect(h(last: '2026-11-30', exam: 3), 'Almost there, Sam.');
+      expect(h(last: '2026-11-30', exam: 15), 'Welcome back, Sam.');
+      // Past: not a countdown.
+      expect(h(last: '2026-11-30', exam: -2), 'Welcome back, Sam.');
+    });
+    test('a chapter just finished', () {
+      expect(h(last: '2026-11-30', chapter: 'Statics'), 'Statics, done.');
+    });
+    test('the first day ever', () {
+      expect(h(), 'Good start, Sam.');
+    });
+    test('everything done outranks all of it', () {
+      expect(h(last: '2026-12-01', done: true), 'Every lesson done, Sam.');
+    });
+    test('no name: the sentence stands alone', () {
+      expect(h(name: '', last: '2026-12-01'), 'Back for more.');
+      expect(h(name: '', streak: 4, last: '2026-11-30'), '4 days running.');
+    });
+    test('first match wins, in the agreed order', () {
+      // Same day beats a streak; a streak beats the exam; away beats the exam.
+      expect(h(last: '2026-12-01', streak: 4), 'Back for more, Sam.');
+      expect(h(last: '2026-11-30', streak: 4, exam: 5), '4 days running, Sam.');
+      expect(h(last: '2026-11-20', exam: 5), 'Good to see you again, Sam.');
+      expect(
+        h(last: '2026-11-30', exam: 5, chapter: 'Statics'),
+        '5 days to go, Sam.',
+      );
+    });
+
+    testWidgets('a round played today does not read as an earlier visit', (
+      tester,
+    ) async {
+      server.me = {
+        'email': 's@x.com',
+        'firstName': 'Sam',
+        'lastSessionDate': '2026-11-30',
+      };
+      await _pump(tester, const HomeShell());
+      final game = chapterMaps['mathematics']!.lessons.first.builtGames.first;
+      GameProgress.instance.markRoundCleared(game.id, 0, firstTry: true);
+      // The server now says today, but the app opened before that round.
+      server.me = {...server.me, 'lastSessionDate': '2026-12-01'};
+      await _settle(tester);
+      expect(find.text('Welcome back, Sam.'), findsOneWidget);
+    });
   });
 
   group('Profile, once a pass is recorded', () {

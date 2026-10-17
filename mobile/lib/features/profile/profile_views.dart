@@ -146,6 +146,7 @@ class ProfileUnderway extends StatelessWidget {
     required this.roundsCleared,
     required this.daysStudied,
     required this.exam,
+    required this.headline,
     required this.onCarryOn,
     required this.onDays,
     required this.onExam,
@@ -173,6 +174,9 @@ class ProfileUnderway extends StatelessWidget {
   final int daysStudied;
   final ExamFacts exam;
 
+  /// Worked out by [underwayHeadline], from what is true today.
+  final String headline;
+
   /// Website mastery, shown once there is any.
   final int? mastery;
   final VoidCallback onCarryOn;
@@ -183,14 +187,9 @@ class ProfileUnderway extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final left = roundsInLesson - roundsCleared;
-    final greeting = allDone
-        ? 'Every lesson done'
-        : daysStudied <= 1
-        ? 'Good start'
-        : 'Welcome back';
     return _Page(
       top: top,
-      headline: name.isEmpty ? '$greeting.' : '$greeting, $name.',
+      headline: headline,
       facts: [
         if (allDone)
           _Fact(
@@ -235,6 +234,39 @@ class ProfileUnderway extends StatelessWidget {
       onAction: onCarryOn,
     );
   }
+}
+
+/// What Profile's headline says once work is under way (owner, 2026-10-16):
+/// what is true about the student today, never a phrase picked at random.
+/// Checked in order, first match wins. Pure, so every case is tested.
+///
+/// [lastStudyAtOpen] is the last day studied as it stood when the app
+/// opened, so a round played a minute ago does not count as an earlier visit.
+String underwayHeadline({
+  required String name,
+  required DateTime today,
+  String? lastStudyAtOpen,
+  int streak = 0,
+  int? examDays,
+  String? chapterJustDone,
+  bool allDone = false,
+}) {
+  String said(String s) => name.isEmpty ? '$s.' : '$s, $name.';
+  if (allDone) return said('Every lesson done');
+  final last = DateTime.tryParse(lastStudyAtOpen ?? '');
+  final day = DateTime(today.year, today.month, today.day);
+  final away = last == null
+      ? null
+      : day.difference(DateTime(last.year, last.month, last.day)).inDays;
+  if (away == 0) return said('Back for more');
+  if (streak >= 3) return said('$streak days running');
+  if (away != null && away >= 3) return said('Good to see you again');
+  if (examDays != null && examDays >= 0 && examDays <= 14) {
+    return examDays <= 3 ? said('Almost there') : said('$examDays days to go');
+  }
+  if (chapterJustDone != null) return '$chapterJustDone, done.';
+  if (last == null) return said('Good start');
+  return said('Welcome back');
 }
 
 /// "Sam, your FE prep starts here." or, with no name, "Your FE prep starts

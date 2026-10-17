@@ -246,6 +246,10 @@ router.get('/me', verifyAuth, async (req, res) => {
     totalXp: stats?.totalXp || 0,
     currentStreak: stats?.currentStreak || 0,
     longestStreak: stats?.longestStreak || 0,
+    // The last day studied, app or website. The phone's reminders use it to
+    // stay quiet on a day already studied, and Profile to say "back for
+    // more"; it was read on the phone but never sent (found 2026-10-16).
+    lastSessionDate: stats?.lastSessionDate || null,
     badges: getBadgeDetails(earnedBadgeIds),
     allBadges: getAllBadges(),
     acquisitionSource: user.acquisition?.source || null,

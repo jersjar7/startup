@@ -266,3 +266,16 @@ describe('already graduated', () => {
     expect(users['named@x.com'].school.graduated).toBe(false);
   });
 });
+
+describe('the last day studied', () => {
+  it('reaches the phone, for its reminders and its greeting', async () => {
+    DB.getUserStats = async () => ({ lastSessionDate: '2026-10-15', currentStreak: 4 });
+    const r = await request(app()).get('/api/auth/me').set(as('named@x.com'));
+    expect(r.body.lastSessionDate).toBe('2026-10-15');
+  });
+
+  it('is null for somebody who has not studied', async () => {
+    const r = await request(app()).get('/api/auth/me').set(as('named@x.com'));
+    expect(r.body.lastSessionDate).toBeNull();
+  });
+});

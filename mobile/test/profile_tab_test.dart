@@ -91,7 +91,10 @@ void main() {
     appClock = () => DateTime(2026, 9, 18, 10);
   });
 
-  setUp(_wipe);
+  setUp(() {
+    _wipe();
+    debugResetProfileOpen();
+  });
   tearDown(_wipe);
 
   testWidgets('day one: an invitation, no numbers of the student\'s own', (
@@ -146,7 +149,8 @@ void main() {
     );
     await _settle(tester);
 
-    expect(find.text('Welcome back, Jerson.'), findsOneWidget);
+    // Six days running outranks a plain welcome (owner, 2026-10-16).
+    expect(find.text('6 days running, Jerson.'), findsOneWidget);
     expect(find.textContaining('rounds left'), findsOneWidget);
     expect(find.text('Carry on'), findsOneWidget);
     expect(find.text('6'), findsOneWidget); // days studied

@@ -42,6 +42,10 @@ class ProfileTab extends StatefulWidget {
   State<ProfileTab> createState() => _ProfileTabState();
 }
 
+/// Forgets the "as the app opened" study day between tests.
+@visibleForTesting
+void debugResetProfileOpen() => _ProfileTabState._openCaptured = false;
+
 class _ProfileTabState extends State<ProfileTab> {
   late Future<Map<String, ChapterMastery>> _mastery; // chapterId -> both halves
 
@@ -60,10 +64,20 @@ class _ProfileTabState extends State<ProfileTab> {
   /// notification was meant to remove.
   final _scroll = ScrollController();
 
+  /// The last day studied as it stood when the app opened, kept for the
+  /// whole run: a round played a minute ago must not read as an earlier
+  /// visit ("Back for more" means they came back).
+  static String? _lastStudyAtOpen;
+  static bool _openCaptured = false;
+
   @override
   void initState() {
     super.initState();
     final auth = context.read<AuthController>();
+    if (!_openCaptured && auth.user != null) {
+      _openCaptured = true;
+      _lastStudyAtOpen = auth.user!['lastSessionDate'] as String?;
+    }
     auth.refreshMe().then((_) => _armReminders());
     _armReminders();
     Notifications.tapped.addListener(_onNotificationTap);
@@ -221,9 +235,22 @@ class _ProfileTabState extends State<ProfileTab> {
                       0,
                       (s, g) => s + progress.roundsCleared(g.id).length,
                     );
+              final last = progress.lastChapter;
               page = ProfileUnderway(
                 top: top,
                 name: first,
+                headline: underwayHeadline(
+                  name: first,
+                  today: appClock(),
+                  lastStudyAtOpen: _lastStudyAtOpen,
+                  streak: streak,
+                  examDays: days,
+                  chapterJustDone:
+                      last != null && ChapterFacts.of(last, progress).cleared
+                      ? cardNameFor(last)
+                      : null,
+                  allDone: resume == null,
+                ),
                 lessonName: lesson?.name ?? '',
                 chapterName: chapter == null ? '' : cardNameFor(chapter),
                 roundsInLesson: inLesson,
