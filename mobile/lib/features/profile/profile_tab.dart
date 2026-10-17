@@ -23,6 +23,7 @@ import 'account_extras.dart';
 import 'exam_outcome_card.dart';
 import 'pass_card_screen.dart';
 import 'profile_views.dart';
+import '../study/chapter_bands.dart' show cardNameFor;
 import '../home/home_shell.dart';
 
 /// Tab 1 — Profile, the tab the app opens on: a greeting, the next-concept
@@ -224,6 +225,7 @@ class _ProfileTabState extends State<ProfileTab> {
                 top: top,
                 name: first,
                 lessonName: lesson?.name ?? '',
+                chapterName: chapter == null ? '' : cardNameFor(chapter),
                 roundsInLesson: inLesson,
                 roundsCleared: clearedInLesson,
                 daysStudied: streak < 1 ? 1 : streak,

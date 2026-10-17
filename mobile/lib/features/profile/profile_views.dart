@@ -126,9 +126,9 @@ class ProfileFirst extends StatelessWidget {
       // The chapter goes under the pill: "Start with Structural
       // Engineering" does not fit one.
       action: 'Start here',
-      under: web == null
-          ? '${cardNameFor(start)}, where most students begin'
-          : '${cardNameFor(start)}, the most points left',
+      // One line, the chapter trimmed first, as on the underway face.
+      underLead: cardNameFor(start),
+      under: web == null ? 'where most begin' : 'most points left',
       onAction: () => onStart(start),
     );
   }
@@ -141,6 +141,7 @@ class ProfileUnderway extends StatelessWidget {
     required this.top,
     required this.name,
     required this.lessonName,
+    this.chapterName = '',
     required this.roundsInLesson,
     required this.roundsCleared,
     required this.daysStudied,
@@ -158,6 +159,9 @@ class ProfileUnderway extends StatelessWidget {
   final Widget top;
   final String name;
   final String lessonName;
+
+  /// The chapter's short name ("Statics", "Mechanics of Materials").
+  final String chapterName;
 
   final bool passCard;
   final VoidCallback? onPassCard;
@@ -222,6 +226,9 @@ class ProfileUnderway extends StatelessWidget {
           _ExamFact(exam: exam, onTap: onExam),
       ],
       action: allDone ? 'Review in Study' : 'Carry on',
+      // "Statics · Round 7 of 18" on one line (owner, 2026-10-16): the
+      // chapter gives way when space runs out, the round count never does.
+      underLead: allDone || chapterName.isEmpty ? null : chapterName,
       under: allDone
           ? 'Any chapter, any time'
           : 'Round ${roundsCleared + 1} of $roundsInLesson',
@@ -295,6 +302,7 @@ class _Page extends StatelessWidget {
     required this.action,
     required this.under,
     required this.onAction,
+    this.underLead,
   });
 
   final Widget top;
@@ -302,6 +310,10 @@ class _Page extends StatelessWidget {
   final List<Widget> facts;
   final String action;
   final String under;
+
+  /// Said before [under] on the same line, and the part that is trimmed
+  /// when the line is too long for the phone.
+  final String? underLead;
   final VoidCallback onAction;
 
   @override
@@ -329,7 +341,13 @@ class _Page extends StatelessWidget {
           Stack(
             clipBehavior: Clip.none,
             children: [
-              PillButton(label: action, onTap: onAction),
+              // Brand green, not charcoal: the raccoon's nose is charcoal and
+              // vanished into a charcoal pill (owner, 2026-10-16).
+              PillButton(
+                label: action,
+                onTap: onAction,
+                fill: AppColors.forest,
+              ),
               const Positioned(
                 left: 26,
                 top: -RaccoonPeek.baseline,
@@ -338,11 +356,47 @@ class _Page extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          Center(
-            child: Text(
-              under,
-              style: AppTheme.mono(size: 12, color: AppColors.mutedOnLight),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (underLead != null) ...[
+                Flexible(
+                  child: Text(
+                    underLead!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.mono(
+                      size: 12,
+                      color: AppColors.mutedOnLight,
+                    ),
+                  ),
+                ),
+                Text(
+                  ' · ',
+                  style: AppTheme.mono(size: 12, color: AppColors.mutedOnLight),
+                ),
+              ],
+              // Never trimmed while there is a lead to give way; trimmed
+              // itself only when it is the whole line.
+              if (underLead != null)
+                Text(
+                  under,
+                  maxLines: 1,
+                  style: AppTheme.mono(size: 12, color: AppColors.mutedOnLight),
+                )
+              else
+                Flexible(
+                  child: Text(
+                    under,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTheme.mono(
+                      size: 12,
+                      color: AppColors.mutedOnLight,
+                    ),
+                  ),
+                ),
+            ],
           ),
           const SizedBox(height: 18),
         ],

@@ -24,6 +24,7 @@ import 'package:mobile/features/profile/exam_outcome_card.dart';
 import 'package:mobile/features/profile/outcome_link_screen.dart';
 import 'package:mobile/features/profile/pass_card_screen.dart';
 import 'package:mobile/features/profile/profile_tab.dart';
+import 'package:mobile/features/study/chapter_bands.dart' show cardNameFor;
 import 'package:mobile/features/study/study_tab.dart' show appClock;
 
 import 'support/fonts.dart';
@@ -192,7 +193,7 @@ void main() {
       expect(find.text('Studied on the website'), findsOneWidget);
       // Ranked by points left: an untouched heavy chapter outranks a
       // started one (focusChapters, the same as the mastery screen).
-      expect(find.textContaining('the most points left'), findsOneWidget);
+      expect(find.text('most points left'), findsOneWidget);
     });
 
     testWidgets('website figures that fail to load fall back to the plain '
@@ -212,6 +213,9 @@ void main() {
       expect(find.text('Good start.'), findsOneWidget);
       expect(find.text('Carry on'), findsOneWidget);
       expect(find.textContaining('rounds left'), findsOneWidget);
+      // "Mathematics · Round 2 of N" under the button (owner, 2026-10-16).
+      expect(find.text('Mathematics'), findsOneWidget);
+      expect(find.textContaining('Round 2 of'), findsOneWidget);
     });
 
     testWidgets(

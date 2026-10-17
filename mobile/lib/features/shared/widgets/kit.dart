@@ -35,7 +35,12 @@ class PillButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onFill = fill == AppColors.charcoal
+    // Cream on every dark fill, charcoal on the light ones.
+    final onFill =
+        fill == AppColors.charcoal ||
+            fill == AppColors.tile ||
+            fill == AppColors.tile2 ||
+            fill == AppColors.forest
         ? AppColors.cream
         : AppColors.charcoal;
     final onCircle = circle == AppColors.spring || circle == AppColors.cream
