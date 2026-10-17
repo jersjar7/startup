@@ -41,7 +41,8 @@ describe('Contact us', () => {
     const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({ ok: true, json: async () => ({ ok: true }) });
     mount('me@byu.edu');
     expect(screen.queryByLabelText('Your email')).toBeNull();
-    expect(screen.getByText("We'll reply to me@byu.edu.")).toBeInTheDocument();
+    expect(screen.getByText("We'll reply to the email on your account.")).toBeInTheDocument();
+    expect(screen.queryByText(/me@byu\.edu/)).toBeNull();
     fireEvent.change(screen.getByLabelText('Your message'), { target: { value: 'Love it' } });
     fireEvent.click(screen.getByRole('button', { name: /send message/i }));
     await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Sent. Thank you.'));

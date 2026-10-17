@@ -98,7 +98,9 @@ void main() {
     await t.tap(find.text('open contact'));
     await t.pumpAndSettle();
     expect(find.byType(ContactPage), findsOneWidget);
-    expect(find.textContaining('writes back to sam@byu.edu'), findsOneWidget);
+    expect(find.textContaining('email on your account'), findsOneWidget);
+    // Never an address: shown here it read as ours (owner, 2026-10-17).
+    expect(find.textContaining('@'), findsNothing);
 
     await t.tap(find.text('Send it'));
     await t.pumpAndSettle();

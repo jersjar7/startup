@@ -80,7 +80,7 @@ export function Contact({ userName = '' }) {
                 onChange={(e) => setMessage(e.target.value)}
               />
               {signedIn ? (
-                <p className="contact-from">We'll reply to {userName}.</p>
+                <p className="contact-from">We'll reply to the email on your account.</p>
               ) : (
                 <div className="contact-row">
                   <div>

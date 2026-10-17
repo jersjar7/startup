@@ -70,7 +70,6 @@ class _ContactPageState extends State<ContactPage> {
 
   @override
   Widget build(BuildContext context) {
-    final email = (widget.auth.user?['email'] ?? '') as String;
     final keyboard = MediaQuery.viewInsetsOf(context).bottom;
     return AnimatedPadding(
       duration: const Duration(milliseconds: 200),
@@ -104,10 +103,8 @@ class _ContactPageState extends State<ContactPage> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  email.isEmpty
-                      ? 'A person reads every message and writes back.'
-                      : 'A person reads every message and writes back to '
-                            '$email.',
+                  'A person reads every message and writes back to the '
+                  'email on your account.',
                   style: AppTheme.body(size: 16, color: AppColors.mutedOnLight),
                 ),
                 const SizedBox(height: 26),
@@ -128,9 +125,11 @@ class _ContactPageState extends State<ContactPage> {
                   controller: _text,
                   label: 'Your message',
                   hint: 'Your message',
-                  caption: email.isEmpty
-                      ? 'A person reads every one and writes back.'
-                      : 'A person reads every one and writes back to $email.',
+                  // Never the address itself: shown here it read as ours,
+                  // not the student's (owner, 2026-10-17).
+                  caption:
+                      'A person reads every one and writes back to the email '
+                      'on your account.',
                   error: _error,
                   keyboardType: TextInputType.multiline,
                   onSubmitted: (_) => _send(),
