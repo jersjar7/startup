@@ -149,6 +149,7 @@ class _FeedbackSheetState extends State<FeedbackSheet> {
       child: SafeArea(
         top: false,
         child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           padding: const EdgeInsets.fromLTRB(24, 12, 24, 34),
           child: Column(
             mainAxisSize: MainAxisSize.min,

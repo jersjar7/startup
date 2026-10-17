@@ -402,11 +402,19 @@ class XLField extends StatelessWidget {
   final List<String>? hintTail;
   final Duration hintTailEvery;
 
+  /// A message rather than a value (the feedback and Contact us sheets).
+  /// It wraps and grows to six lines before it scrolls, so what was written
+  /// first stays in view; it opens on a capital and offers autocorrect; and
+  /// Return starts a new line, since tapping away closes the keyboard (owner,
+  /// 2026-10-17: one line of 30 point type hid everything but the last few
+  /// words, and nothing put the keyboard away).
+  bool get _message => keyboardType == TextInputType.multiline;
+
   @override
   Widget build(BuildContext context) {
     final line = error != null ? AppColors.error : accent;
     final style = GoogleFonts.dmSans(
-      fontSize: 30,
+      fontSize: _message ? 24 : 30,
       fontWeight: FontWeight.w600,
       letterSpacing: -0.9,
       color: AppColors.charcoal,
@@ -455,14 +463,24 @@ class XLField extends StatelessWidget {
                 TextField(
                   controller: controller,
                   keyboardType: keyboardType,
-                  textCapitalization: textCapitalization,
+                  textCapitalization: _message
+                      ? TextCapitalization.sentences
+                      : textCapitalization,
                   obscureText: obscure,
                   autofocus: autofocus,
-                  autocorrect: false,
+                  autocorrect: _message,
                   enableSuggestions: !obscure,
                   autofillHints: autofillHints,
-                  textInputAction: TextInputAction.done,
-                  onSubmitted: onSubmitted,
+                  minLines: 1,
+                  maxLines: _message ? 6 : 1,
+                  textInputAction: _message
+                      ? TextInputAction.newline
+                      : TextInputAction.done,
+                  onSubmitted: _message ? null : onSubmitted,
+                  // Tapping anywhere else puts the keyboard away, on every
+                  // field, so it never sits over the button below.
+                  onTapOutside: (_) =>
+                      FocusManager.instance.primaryFocus?.unfocus(),
                   cursorColor: accent,
                   style: style,
                   decoration: InputDecoration(
