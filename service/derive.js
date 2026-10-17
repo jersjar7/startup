@@ -196,9 +196,11 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
   }
 
   let phoneXpTotal = 0;
+  const phoneXpByDay = {}; // the phone's XP per local day, after the cap
   for (const [day, c] of Object.entries(phoneByDay)) {
     const capped = Math.min(XP.phoneDailyCap, phoneXp(c));
     phoneXpTotal += capped;
+    phoneXpByDay[day] = capped;
     earn(day, capped);
   }
   for (const t of Object.values(topicProgress)) t.masteryLevel = calculateEarnedMastery(t);
@@ -211,6 +213,7 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
     daysStudied: days.length,
     lastSessionDate: days[days.length - 1] || null,
     phoneXp: phoneXpTotal,
+    phoneXpByDay,
     webXp,
     totalXp: phoneXpTotal + webXp,
     sessions,

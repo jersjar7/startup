@@ -4,6 +4,7 @@ const DB = require('../database.js');
 const { deriveAccount } = require('../derive.js');
 const { allEvents, weekIdFor } = require('../rederive.js');
 const { getBadgeDetails } = require('../badges.js');
+const { XP } = require('../xp.js');
 
 const router = express.Router();
 
@@ -24,6 +25,14 @@ router.get('/state', verifyAuth, async (req, res) => {
   res.send({
     totalXp: d.totalXp,
     weeklyXp,
+    // Where the XP came from, for the phone's XP page: the app's rounds and
+    // the website's practice, and how much of today's app allowance is used.
+    xp: {
+      phone: d.phoneXp,
+      web: d.webXp,
+      phoneToday: d.phoneXpByDay[today] || 0,
+      phoneDailyCap: XP.phoneDailyCap,
+    },
     daysStudied: d.daysStudied,
     studyDays: d.studyDays,
     lastSessionDate: d.lastSessionDate,

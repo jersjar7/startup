@@ -23,6 +23,7 @@ import 'account_extras.dart';
 import 'badges.dart';
 import 'badges_page.dart';
 import 'concepts_page.dart';
+import 'xp_page.dart';
 import 'exam_outcome_card.dart';
 import 'pass_card_screen.dart';
 import 'profile_views.dart';
@@ -670,16 +671,7 @@ class AccountSheet extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.display(
-                          size: 24,
-                          height: 1.1,
-                          tracking: -0.03,
-                        ),
-                      ),
+                      ShrinkingName(name),
                       if (subtitle.isNotEmpty)
                         Text(
                           subtitle,
@@ -707,7 +699,11 @@ class AccountSheet extends StatelessWidget {
             const SizedBox(height: 22),
             Row(
               children: [
-                _Figure(label: 'Total XP', value: _thousands(xp)),
+                _Figure(
+                  label: 'Total XP',
+                  value: _thousands(xp),
+                  onTap: () => _openOver(context, XpScreen(total: xp)),
+                ),
                 const SizedBox(width: 10),
                 _Figure(
                   label: 'Badges',
@@ -875,6 +871,50 @@ class _Figure extends StatelessWidget {
 /// The pencil beside the three dots: Edit profile, where the name, email
 /// and school are changed. A dot on its shoulder while something there
 /// needs the student (see profileNeedsAttention).
+/// The account sheet's name, smaller before it is ever cut off (owner,
+/// 2026-10-17): the pencil and the three dots leave it the row's middle, and
+/// a long name ellipsized to "Maximili..." identifies nobody. It steps down
+/// from 24 to 18, and only past 18 does it end in an ellipsis.
+@visibleForTesting
+class ShrinkingName extends StatelessWidget {
+  const ShrinkingName(this.name, {super.key});
+
+  final String name;
+
+  static const sizes = [24.0, 22.0, 20.0, 18.0];
+
+  static TextStyle styleAt(double size) =>
+      AppTheme.display(size: size, height: 1.1, tracking: -0.03);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, box) {
+        final scaler = MediaQuery.textScalerOf(context);
+        var size = sizes.last;
+        for (final s in sizes) {
+          final painter = TextPainter(
+            text: TextSpan(text: name, style: styleAt(s)),
+            maxLines: 1,
+            textDirection: TextDirection.ltr,
+            textScaler: scaler,
+          )..layout();
+          if (painter.width <= box.maxWidth) {
+            size = s;
+            break;
+          }
+        }
+        return Text(
+          name,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: styleAt(size),
+        );
+      },
+    );
+  }
+}
+
 class _EditButton extends StatelessWidget {
   const _EditButton({required this.onTap, this.dot = false});
 

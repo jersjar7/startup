@@ -40,7 +40,7 @@ describe('foldAnswer: the review-queue rules, from the student\'s day', () => {
 describe('deriveAccount: an account from its log', () => {
   it('is empty from an empty log', () => {
     expect(deriveAccount({ events: [] })).toEqual({
-      history: {}, chapterMastery: {}, studyDays: [], daysStudied: 0, lastSessionDate: null, phoneXp: 0, webXp: 0, totalXp: 0,
+      history: {}, chapterMastery: {}, studyDays: [], daysStudied: 0, lastSessionDate: null, phoneXp: 0, phoneXpByDay: {}, webXp: 0, totalXp: 0,
       sessions: { practice: 0, review: 0, diagnostic: 0, quickstart: 0, exam: 0 }, examDate: null, xpByDay: {}, topicProgress: {}, games: {}, problemsAnswered: 0,
     });
   });
@@ -58,6 +58,7 @@ describe('deriveAccount: an account from its log', () => {
     expect(s.lastSessionDate).toBe('2026-09-20');
     expect(s.problemsAnswered).toBe(6);
     expect(s.phoneXp).toBe(40);
+    expect(s.phoneXpByDay).toEqual({ '2026-09-19': 40 });
     const m = s.chapterMastery.mathematics;
     expect(m.gamesCleared).toBe(1);
     expect(m.gamesTotal).toBe(48);
@@ -67,6 +68,17 @@ describe('deriveAccount: an account from its log', () => {
     expect(s.history['math-q14'].reviewActive).toBe(true);
     expect(s.history['math-slq-q2'].deskAttempts).toBe(0);
     expect(s.games['perpendicular-flip']).toEqual({ rounds: [1, 2, 3, 4, 5, 6, 7, 8], firstTry: 8 });
+  });
+
+  it('keeps the phone\'s XP per day after the cap, for the phone\'s XP page', () => {
+    const events = [
+      // twenty rounds in one day is 100 before the cap
+      ...Array.from({ length: 20 }, (_, r) => ev(`math-slq-q2:perpendicular-flip:${r + 1}`, { ts: r })),
+      ev('math-slq-q2:perpendicular-flip:21', { day: '2026-09-20', ts: 50 }),
+    ];
+    const s = deriveAccount({ events });
+    expect(s.phoneXpByDay).toEqual({ '2026-09-19': 60, '2026-09-20': 5 });
+    expect(s.phoneXp).toBe(65);
   });
 
   it('takes an opening diagnostic balance as an input, rescaled from the old 40 cap', () => {

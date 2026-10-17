@@ -14,6 +14,7 @@ import 'package:mobile/features/profile/account_extras.dart';
 import 'package:mobile/features/profile/badges_page.dart';
 import 'package:mobile/features/profile/concepts_page.dart';
 import 'package:mobile/features/profile/profile_tab.dart';
+import 'package:mobile/features/profile/xp_page.dart';
 import 'package:mobile/features/study/study_tab.dart' show appClock;
 
 import 'support/fonts.dart';
@@ -223,7 +224,7 @@ void main() {
     await _drain(tester);
   });
 
-  testWidgets('Concepts and Badges open over the sheet, and Back returns to it', (
+  testWidgets('XP, Badges and Concepts open over the sheet, and Back returns to it', (
     tester,
   ) async {
     _phone(tester);
@@ -255,6 +256,17 @@ void main() {
     await tester.tap(find.byTooltip('Back'));
     await tester.pumpAndSettle();
     expect(find.byType(BadgesScreen), findsNothing);
+    expect(find.byType(AccountSheet), findsOneWidget);
+
+    // And for the XP, which explains where it came from.
+    await tester.tap(
+      find.textContaining(RegExp(r'^total xp$', caseSensitive: false)).first,
+    );
+    await tester.pumpAndSettle();
+    expect(find.byType(XpScreen), findsOneWidget);
+    await tester.tap(find.byTooltip('Back'));
+    await tester.pumpAndSettle();
+    expect(find.byType(XpScreen), findsNothing);
     expect(find.byType(AccountSheet), findsOneWidget);
     await _drain(tester);
   });
