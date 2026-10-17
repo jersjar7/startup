@@ -220,6 +220,27 @@ void main() {
       expect(find.textContaining('Round 2 of'), findsOneWidget);
     });
 
+    testWidgets('the longest chapter name gives way, the round count never '
+        'does, on one line', (tester) async {
+      final longest = chapterMaps.values.reduce(
+        (a, b) => cardNameFor(a).length >= cardNameFor(b).length ? a : b,
+      );
+      final game = longest.lessons.first.builtGames.first;
+      GameProgress.instance.markRoundCleared(game.id, 0, firstTry: true);
+      await _pump(tester, const HomeShell(), size: const Size(320, 640));
+      expect(tester.takeException(), isNull);
+      final round = find.textContaining('Round 2 of');
+      expect(round, findsOneWidget);
+      final name = tester.widget<Text>(find.text(cardNameFor(longest)));
+      expect(name.maxLines, 1);
+      expect(name.overflow, TextOverflow.ellipsis);
+      // One line: the two sit side by side.
+      expect(
+        tester.getCenter(find.text(cardNameFor(longest))).dy,
+        tester.getCenter(round).dy,
+      );
+    });
+
     testWidgets(
       'a small phone scrolls rather than cutting anything off (P14)',
       (tester) async {
@@ -237,7 +258,7 @@ void main() {
     String h({
       String name = 'Sam',
       String? last,
-      int streak = 0,
+      int run = 0,
       int? exam,
       String? chapter,
       bool done = false,
@@ -245,18 +266,20 @@ void main() {
       name: name,
       today: today,
       lastStudyAtOpen: last,
-      streak: streak,
+      run: run,
       examDays: exam,
       chapterJustDone: chapter,
       allDone: done,
     );
 
     test('back the same day', () {
-      expect(h(last: '2026-12-01', streak: 9, exam: 2), 'Back for more, Sam.');
+      expect(h(last: '2026-12-01', run: 9, exam: 2), 'Back for more, Sam.');
     });
     test('a run of three days or more', () {
-      expect(h(last: '2026-11-30', streak: 5), '5 days running, Sam.');
-      expect(h(last: '2026-11-30', streak: 2), 'Welcome back, Sam.');
+      expect(h(last: '2026-11-30', run: 5), '5 days running, Sam.');
+      expect(h(last: '2026-11-30', run: 2), 'Welcome back, Sam.');
+      // A run that broke is never mentioned.
+      expect(h(last: '2026-11-27', run: 5), 'Good to see you again, Sam.');
     });
     test('back after three days or more away', () {
       expect(h(last: '2026-11-27'), 'Good to see you again, Sam.');
@@ -274,18 +297,23 @@ void main() {
     });
     test('the first day ever', () {
       expect(h(), 'Good start, Sam.');
+      // Not for somebody with days behind them whose last day is missing.
+      expect(
+        underwayHeadline(name: 'Sam', today: today, totalDays: 6),
+        'Welcome back, Sam.',
+      );
     });
     test('everything done outranks all of it', () {
       expect(h(last: '2026-12-01', done: true), 'Every lesson done, Sam.');
     });
     test('no name: the sentence stands alone', () {
       expect(h(name: '', last: '2026-12-01'), 'Back for more.');
-      expect(h(name: '', streak: 4, last: '2026-11-30'), '4 days running.');
+      expect(h(name: '', run: 4, last: '2026-11-30'), '4 days running.');
     });
     test('first match wins, in the agreed order', () {
       // Same day beats a streak; a streak beats the exam; away beats the exam.
-      expect(h(last: '2026-12-01', streak: 4), 'Back for more, Sam.');
-      expect(h(last: '2026-11-30', streak: 4, exam: 5), '4 days running, Sam.');
+      expect(h(last: '2026-12-01', run: 4), 'Back for more, Sam.');
+      expect(h(last: '2026-11-30', run: 4, exam: 5), '4 days running, Sam.');
       expect(h(last: '2026-11-20', exam: 5), 'Good to see you again, Sam.');
       expect(
         h(last: '2026-11-30', exam: 5, chapter: 'Statics'),

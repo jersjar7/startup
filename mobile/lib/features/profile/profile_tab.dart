@@ -243,7 +243,8 @@ class _ProfileTabState extends State<ProfileTab> {
                   name: first,
                   today: appClock(),
                   lastStudyAtOpen: _lastStudyAtOpen,
-                  streak: streak,
+                  run: (user['runToLastDay'] as int?) ?? 0,
+                  totalDays: streak,
                   examDays: days,
                   chapterJustDone:
                       last != null && ChapterFacts.of(last, progress).cleared

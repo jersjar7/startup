@@ -111,3 +111,21 @@ describe('calculateStreak (cumulative days studied)', () => {
     expect(r.lastSessionDate).toBe('2026-09-20');
   });
 });
+
+describe('runToLastDay, for the greeting only', () => {
+  const { runToLastDay } = require('./streak.js');
+  it('counts the days in a row that end on the last one', () => {
+    expect(runToLastDay(['2026-10-10', '2026-10-14', '2026-10-15', '2026-10-16'])).toBe(3);
+  });
+  it('is one after a gap, and nothing with no days', () => {
+    expect(runToLastDay(['2026-10-10', '2026-10-16'])).toBe(1);
+    expect(runToLastDay([])).toBe(0);
+    expect(runToLastDay(undefined)).toBe(0);
+  });
+  it('ignores order and repeats', () => {
+    expect(runToLastDay(['2026-10-16', '2026-10-15', '2026-10-15'])).toBe(2);
+  });
+  it('crosses a month', () => {
+    expect(runToLastDay(['2026-09-30', '2026-10-01'])).toBe(2);
+  });
+});

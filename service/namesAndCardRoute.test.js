@@ -274,6 +274,17 @@ describe('the last day studied', () => {
     expect(r.body.lastSessionDate).toBe('2026-10-15');
   });
 
+  it('carries the days in a row ending on it, apart from the total', async () => {
+    DB.getUserStats = async () => ({
+      lastSessionDate: '2026-10-15',
+      currentStreak: 6, // the cumulative count, despite its name
+      studyDays: ['2026-10-01', '2026-10-05', '2026-10-09', '2026-10-13', '2026-10-14', '2026-10-15'],
+    });
+    const r = await request(app()).get('/api/auth/me').set(as('named@x.com'));
+    expect(r.body.currentStreak).toBe(6);
+    expect(r.body.runToLastDay).toBe(3);
+  });
+
   it('is null for somebody who has not studied', async () => {
     const r = await request(app()).get('/api/auth/me').set(as('named@x.com'));
     expect(r.body.lastSessionDate).toBeNull();

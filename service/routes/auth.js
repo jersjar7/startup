@@ -23,6 +23,7 @@ const { generateToken, hashToken } = require('../crypto.js');
 const { sendPasswordResetEmail, sendVerificationEmail } = require('../email.js');
 const { sanitizeName, displayName, normalizeExamDate } = require('../profile.js');
 const { canSeeCard, cardPayload, cardNameUpdate } = require('../passCardAccess.js');
+const { runToLastDay } = require('../streak.js');
 
 const router = express.Router();
 
@@ -250,6 +251,9 @@ router.get('/me', verifyAuth, async (req, res) => {
     // stay quiet on a day already studied, and Profile to say "back for
     // more"; it was read on the phone but never sent (found 2026-10-16).
     lastSessionDate: stats?.lastSessionDate || null,
+    // Days in a row ending on that day, for Profile's "5 days running". A
+    // greeting only: the count that matters is the cumulative one.
+    runToLastDay: runToLastDay(stats?.studyDays),
     badges: getBadgeDetails(earnedBadgeIds),
     allBadges: getAllBadges(),
     acquisitionSource: user.acquisition?.source || null,

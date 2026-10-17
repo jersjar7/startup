@@ -42,4 +42,22 @@ function calculateStreak(currentStats, today) {
   };
 }
 
-module.exports = { calculateStreak };
+/// How many days in a row end on the last day studied, from the list of
+/// study days ('YYYY-MM-DD', the student's own calendar). Only a greeting:
+/// Profile says "5 days running" when this is 3 or more and the last day is
+/// today or yesterday, and says nothing about a run that broke. The number
+/// that counts stays the cumulative one above, which never resets (owner,
+/// 2026-10-16).
+function runToLastDay(studyDays) {
+  const days = [...new Set(Array.isArray(studyDays) ? studyDays : [])].sort();
+  if (days.length === 0) return 0;
+  const at = (d) => Date.parse(`${d}T00:00:00Z`);
+  let run = 1;
+  for (let i = days.length - 1; i > 0; i--) {
+    if (at(days[i]) - at(days[i - 1]) !== 86400000) break;
+    run++;
+  }
+  return run;
+}
+
+module.exports = { calculateStreak, runToLastDay };

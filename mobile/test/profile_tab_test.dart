@@ -149,8 +149,9 @@ void main() {
     );
     await _settle(tester);
 
-    // Six days running outranks a plain welcome (owner, 2026-10-16).
-    expect(find.text('6 days running, Jerson.'), findsOneWidget);
+    // Six days studied is the total, not a run: no run is on the account,
+    // so it is a plain welcome back (owner, 2026-10-16).
+    expect(find.text('Welcome back, Jerson.'), findsOneWidget);
     expect(find.textContaining('rounds left'), findsOneWidget);
     expect(find.text('Carry on'), findsOneWidget);
     expect(find.text('6'), findsOneWidget); // days studied

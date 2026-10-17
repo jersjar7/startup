@@ -240,13 +240,18 @@ class ProfileUnderway extends StatelessWidget {
 /// what is true about the student today, never a phrase picked at random.
 /// Checked in order, first match wins. Pure, so every case is tested.
 ///
+/// [run] is the days in a row ending on that day (`runToLastDay` on the
+/// account), never the cumulative days studied, which the account calls
+/// `currentStreak` for history's sake.
+///
 /// [lastStudyAtOpen] is the last day studied as it stood when the app
 /// opened, so a round played a minute ago does not count as an earlier visit.
 String underwayHeadline({
   required String name,
   required DateTime today,
   String? lastStudyAtOpen,
-  int streak = 0,
+  int run = 0,
+  int totalDays = 0,
   int? examDays,
   String? chapterJustDone,
   bool allDone = false,
@@ -259,13 +264,18 @@ String underwayHeadline({
       ? null
       : day.difference(DateTime(last.year, last.month, last.day)).inDays;
   if (away == 0) return said('Back for more');
-  if (streak >= 3) return said('$streak days running');
+  // Days in a row, alive only while the last one is today or yesterday. A
+  // run that broke is never mentioned: the count that matters is the total,
+  // which never resets (service/streak.js).
+  if (run >= 3 && away != null && away <= 1) return said('$run days running');
   if (away != null && away >= 3) return said('Good to see you again');
   if (examDays != null && examDays >= 0 && examDays <= 14) {
     return examDays <= 3 ? said('Almost there') : said('$examDays days to go');
   }
   if (chapterJustDone != null) return '$chapterJustDone, done.';
-  if (last == null) return said('Good start');
+  // The first day, and only the first: a returning student whose last day
+  // did not arrive is still welcomed back.
+  if (last == null && totalDays <= 1) return said('Good start');
   return said('Welcome back');
 }
 
