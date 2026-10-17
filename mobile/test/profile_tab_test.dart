@@ -10,6 +10,7 @@ import 'package:mobile/features/auth/auth_controller.dart';
 import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/home/home_shell.dart';
+import 'package:mobile/features/profile/badges_page.dart';
 import 'package:mobile/features/profile/concepts_page.dart';
 import 'package:mobile/features/profile/profile_tab.dart';
 import 'package:mobile/features/study/study_tab.dart' show appClock;
@@ -220,7 +221,7 @@ void main() {
     await _drain(tester);
   });
 
-  testWidgets('the Concepts figure opens the concepts it counts', (
+  testWidgets('Concepts and Badges open over the sheet, and Back returns to it', (
     tester,
   ) async {
     _phone(tester);
@@ -235,8 +236,24 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.byType(ConceptsScreen), findsOneWidget);
-    expect(find.byType(AccountSheet), findsNothing);
     expect(find.text(held.first.brief!.title), findsOneWidget);
+
+    // Back returns to the sheet it was opened from, not the Profile tab.
+    await tester.tap(find.byTooltip('Back'));
+    await tester.pumpAndSettle();
+    expect(find.byType(ConceptsScreen), findsNothing);
+    expect(find.byType(AccountSheet), findsOneWidget);
+
+    // And the same for Badges.
+    await tester.tap(
+      find.textContaining(RegExp(r'^badges$', caseSensitive: false)).first,
+    );
+    await tester.pumpAndSettle();
+    expect(find.byType(BadgesScreen), findsOneWidget);
+    await tester.tap(find.byTooltip('Back'));
+    await tester.pumpAndSettle();
+    expect(find.byType(BadgesScreen), findsNothing);
+    expect(find.byType(AccountSheet), findsOneWidget);
     await _drain(tester);
   });
 }

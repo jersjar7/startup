@@ -707,29 +707,13 @@ class AccountSheet extends StatelessWidget {
                 _Figure(
                   label: 'Badges',
                   value: '$badges',
-                  onTap: () {
-                    final nav = Navigator.of(context, rootNavigator: true);
-                    Navigator.of(context).pop();
-                    nav.push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => const BadgesScreen(),
-                      ),
-                    );
-                  },
+                  onTap: () => _openOver(context, const BadgesScreen()),
                 ),
                 const SizedBox(width: 10),
                 _Figure(
                   label: 'Concepts',
                   value: '$held',
-                  onTap: () {
-                    final nav = Navigator.of(context, rootNavigator: true);
-                    Navigator.of(context).pop();
-                    nav.push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => const ConceptsScreen(),
-                      ),
-                    );
-                  },
+                  onTap: () => _openOver(context, const ConceptsScreen()),
                 ),
               ],
             ),
@@ -807,6 +791,16 @@ class AccountSheet extends StatelessWidget {
     }
     return out.toString();
   }
+}
+
+/// Opens a page over the account sheet, leaving the sheet open under it, so
+/// Back returns to the sheet the student tapped from (owner, 2026-10-17:
+/// closing the sheet first dropped them on the Profile tab instead).
+void _openOver(BuildContext context, Widget page) {
+  Navigator.of(
+    context,
+    rootNavigator: true,
+  ).push(MaterialPageRoute<void>(builder: (_) => page));
 }
 
 class _Figure extends StatelessWidget {
