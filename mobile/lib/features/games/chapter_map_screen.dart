@@ -167,7 +167,7 @@ class _Header extends StatelessWidget {
               _Chip(
                 '$cleared of ${chapter.lessons.length} cleared',
                 fill: AppColors.charcoal,
-                ink: AppColors.spring,
+                ink: AppColors.springOnDark,
               ),
             ],
           ),
@@ -482,7 +482,7 @@ class _NodeLabel extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
       decoration: BoxDecoration(
-        color: AppColors.spring,
+        color: AppColors.springField,
         borderRadius: BorderRadius.circular(20),
       ),
       child: text,
@@ -598,7 +598,7 @@ class _GameTile extends StatelessWidget {
     return Opacity(
       opacity: game.built ? 1 : 0.55,
       child: Material(
-        color: next ? AppColors.spring : AppColors.creamDark,
+        color: next ? AppColors.springField : AppColors.creamDark,
         borderRadius: BorderRadius.circular(24),
         child: InkWell(
           borderRadius: BorderRadius.circular(24),
@@ -649,7 +649,7 @@ class _GameTile extends StatelessWidget {
                     ),
                     child: Icon(
                       cleared ? Icons.check_rounded : Icons.play_arrow_rounded,
-                      color: next ? AppColors.spring : AppColors.cream,
+                      color: next ? AppColors.springOnDark : AppColors.cream,
                       size: cleared ? 22 : 24,
                     ),
                   ),

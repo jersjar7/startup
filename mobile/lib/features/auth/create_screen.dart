@@ -144,7 +144,7 @@ class _CreateScreenState extends State<CreateScreen> {
           : onName
           ? AppColors.butter
           : onPassword
-          ? AppColors.spring
+          ? AppColors.springField
           : AppColors.peach,
       child: Scaffold(
         backgroundColor: Colors.transparent,

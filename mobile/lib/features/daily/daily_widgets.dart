@@ -128,7 +128,7 @@ class StreakTile extends StatelessWidget {
                   style: AppTheme.display(
                     size: 19,
                     weight: FontWeight.w700,
-                    color: AppColors.cream,
+                    color: AppColors.onTile,
                     height: 1.1,
                     tracking: -0.02,
                   ),

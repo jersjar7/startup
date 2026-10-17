@@ -149,7 +149,7 @@ class _ExamDateScreenState extends State<ExamDateScreen> {
         : '$out days out';
 
     return Scaffold(
-      backgroundColor: AppColors.spring,
+      backgroundColor: AppColors.springField,
       body: SafeArea(
         // The smallest phone Apple still supports is 568 tall, where the
         // headline, the date and the strip no longer fit at full size. The
@@ -224,7 +224,7 @@ class _ExamDateScreenState extends State<ExamDateScreen> {
                             style: AppTheme.mono(
                               size: 13,
                               weight: FontWeight.w600,
-                              color: AppColors.spring,
+                              color: AppColors.springOnDark,
                             ),
                           ),
                         ),
@@ -313,7 +313,7 @@ class _MonthChip extends StatelessWidget {
               label.toUpperCase(),
               style: AppTheme.eyebrow(
                 size: 13,
-                color: on ? AppColors.spring : AppColors.charcoal,
+                color: on ? AppColors.springOnDark : AppColors.charcoal,
               ),
             ),
           ),
@@ -359,7 +359,7 @@ class _DayCell extends StatelessWidget {
                 weekday,
                 style: AppTheme.eyebrow(
                   size: 11,
-                  color: on ? AppColors.spring : AppColors.charcoal,
+                  color: on ? AppColors.springOnDark : AppColors.charcoal,
                 ),
               ),
               const SizedBox(height: 6),
@@ -369,7 +369,7 @@ class _DayCell extends StatelessWidget {
                   size: on ? 26 : 22,
                   height: 1,
                   tracking: -0.03,
-                  color: on ? AppColors.spring : AppColors.charcoal,
+                  color: on ? AppColors.springOnDark : AppColors.charcoal,
                 ),
               ),
             ],

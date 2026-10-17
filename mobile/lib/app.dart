@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 import 'core/network/api_client.dart';
 import 'core/router.dart';
 import 'core/storage/app_storage.dart';
+import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/theme_mode.dart';
 import 'features/auth/auth_controller.dart';
 
 class FeRaccoonsApp extends StatefulWidget {
@@ -35,19 +37,21 @@ class _FeRaccoonsAppState extends State<FeRaccoonsApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: _auth,
-      child: MaterialApp.router(
-        title: 'FE for Raccoons',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.light,
-        routerConfig: _router,
-        // A tap anywhere that is not a field puts the keyboard away. Every
-        // form in the app gets this without asking (owner, 2026-09-18).
-        builder: (context, child) => GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: child,
+    return ThemeModeHost(
+      child: ChangeNotifierProvider.value(
+        value: _auth,
+        child: MaterialApp.router(
+          title: 'FE for Raccoons',
+          debugShowCheckedModeBanner: false,
+          theme: AppPalette.dark ? AppTheme.dark : AppTheme.light,
+          routerConfig: _router,
+          // A tap anywhere that is not a field puts the keyboard away. Every
+          // form in the app gets this without asking (owner, 2026-09-18).
+          builder: (context, child) => GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: child,
+          ),
         ),
       ),
     );

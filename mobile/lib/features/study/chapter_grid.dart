@@ -80,7 +80,7 @@ class _Tile extends StatelessWidget {
         : AppColors.ink2;
 
     return Material(
-      color: isCurrent ? AppColors.spring : AppColors.cream,
+      color: isCurrent ? AppColors.springField : AppColors.cream,
       borderRadius: BorderRadius.circular(24),
       child: InkWell(
         onTap: onTap,

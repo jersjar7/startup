@@ -96,6 +96,23 @@ Rules:
 - Two accents per screen at most, counting the ground.
 - No gradients. No translucent glass. No hues beyond these.
 
+### At night ("Warm night", ADR 0025)
+
+The app follows the phone's dark mode, or the student's Appearance choice.
+Every token in `lib/core/theme/app_colors.dart` has a night value; the
+screen's own colour is kept, turned down. Fog is #1B1A18, cream #272522,
+creamDark #312E2A, charcoal text #F2ECE2, butter and peach grounds a deep
+amber and a deep ember. Rules for anything new:
+
+- Add a colour only as a `ThemedColor` with its night value.
+- Bright spring stays bright at night. What sits on it uses `onAccent`.
+- Spring as a ground or a big tile is `springField` (deep green at night).
+- Spring as a mark on a charcoal fill is `springOnDark`.
+- Text on a dark tile that stays dark is `onTile`.
+- Never write a colour into a widget with `Color(0x...)`: it will not follow.
+- Check it: `flutter test --dart-define=DARK_PALETTE=true` writes a night
+  picture of every tested screen under `test/failures/`.
+
 ## Typography
 
 The brand's three faces, with the display face finally allowed to be big.

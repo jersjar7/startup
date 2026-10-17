@@ -10,17 +10,23 @@ import 'app_colors.dart';
 /// - **JetBrains Mono** is all numbers, formulas, and data — use
 ///   [AppTheme.mono] where a value is shown.
 abstract final class AppTheme {
-  static ThemeData get light {
+  static ThemeData get light => _build(Brightness.light);
+
+  /// The same theme for "Warm night": the tokens answer for the mode, so
+  /// only the brightness Material uses for its own defaults changes.
+  static ThemeData get dark => _build(Brightness.dark);
+
+  static ThemeData _build(Brightness brightness) {
     final base = ThemeData(
       useMaterial3: true,
-      brightness: Brightness.light,
+      brightness: brightness,
       scaffoldBackgroundColor: AppColors.cream,
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.ember,
         primary: AppColors.ember,
         surface: AppColors.cream,
         error: AppColors.error,
-        brightness: Brightness.light,
+        brightness: brightness,
       ),
       splashFactory: InkRipple.splashFactory,
     );

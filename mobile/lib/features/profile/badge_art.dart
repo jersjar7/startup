@@ -27,7 +27,15 @@ abstract final class BadgeArt {
   static const stateMachine = 'Main';
 
   /// The view model's properties, by name.
-  static const inputs = ['mark', 'coin', 'rim', 'ink', 'glow', 'glowSoft'];
+  static const inputs = [
+    'mark',
+    'coin',
+    'rim',
+    'ink',
+    'glow',
+    'glowSoft',
+    'card',
+  ];
 
   /// The events the earned moment fires, for the phone to answer with a tap.
   static const landEvent = 'land';
@@ -91,15 +99,15 @@ class BadgePalette {
 
   static const chapter = BadgePalette(
     coin: AppColors.spring,
-    rim: AppColors.forest,
-    ink: AppColors.charcoal,
+    rim: AppColors.forestCoin,
+    ink: AppColors.onAccent,
     glow: AppColors.spring,
   );
 
   static const milestone = BadgePalette(
-    coin: AppColors.butter,
+    coin: AppColors.butterCoin,
     rim: AppColors.sunbeam,
-    ink: AppColors.charcoal,
+    ink: AppColors.onAccent,
     glow: AppColors.sunbeam,
   );
 
@@ -133,6 +141,8 @@ class _BadgeBinding {
       'ink': p.ink,
       'glow': p.glow.withValues(alpha: 0.4),
       'glowSoft': p.glow.withValues(alpha: 0.2),
+      // The card follows the mode; the coin on it does not.
+      'card': AppColors.cream,
     };
     _props.add(mark);
     for (final e in colors.entries) {

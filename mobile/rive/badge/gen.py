@@ -59,9 +59,11 @@ def clamp(v, a, b): return max(a, min(b, v))
 
 # ---------------------------------------------------------------- view model
 VM, VMI = nid(), nid()
-P = {n: nid() for n in ("mark", "coin", "rim", "ink", "glow", "glowSoft")}
+P = {n: nid() for n in ("mark", "coin", "rim", "ink", "glow", "glowSoft", "card")}
 PROPS = [("mark", "Number", "0"), ("coin", "Color", SPRING), ("rim", "Color", FOREST),
-         ("ink", "Color", CHAR), ("glow", "Color", "6663F0A8"), ("glowSoft", "Color", "3363F0A8")]
+         ("ink", "Color", CHAR), ("glow", "Color", "6663F0A8"), ("glowSoft", "Color", "3363F0A8"),
+         # The card under the coin: cream by day, the night card by night (point 9).
+         ("card", "Color", CREAM)]
 
 def bind(prop, key):
     return f'<DataBindContext sourcePathIds="{VM}-{P[prop]}" propertyKey="{key}"/>'
@@ -451,7 +453,7 @@ def build_earned():
 
     # ---- card
     o.append(f'<Shape x="{CARD["x"]}" y="{CARD["y"]}" name="Card"><Rectangle width="{CARD["w"]}" height="{CARD["h"]}" '
-             f'originX="0" originY="0" cornerRadiusTL="{CARD["r"]}"/>{fill(CREAM)}</Shape>')
+             f'originX="0" originY="0" cornerRadiusTL="{CARD["r"]}"/>{fill(CREAM, "card")}</Shape>')
 
     # ---------------------------------------------------------- keys
     anim.key(med, 18, [(0, 0, "linear"), (5, 1, "hold")])

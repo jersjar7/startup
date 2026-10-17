@@ -153,7 +153,7 @@ class _DailyDoneScreenState extends State<DailyDoneScreen> {
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: AppColors.spring,
+                  color: AppColors.springField,
                   borderRadius: BorderRadius.circular(36),
                 ),
                 child: Column(

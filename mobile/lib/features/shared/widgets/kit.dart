@@ -43,9 +43,13 @@ class PillButton extends StatelessWidget {
             fill == AppColors.forest
         ? AppColors.cream
         : AppColors.charcoal;
-    final onCircle = circle == AppColors.spring || circle == AppColors.cream
+    // The spring circle stays bright at night, so its arrow stays dark; any
+    // other circle is a surface that follows the mode.
+    final onCircle = circle == AppColors.spring
+        ? AppColors.onAccent
+        : circle == AppColors.cream
         ? AppColors.charcoal
-        : AppColors.spring;
+        : AppColors.springOnDark;
     final tap = onTap;
     return _Pressable(
       onTap: tap ?? () {},
@@ -169,7 +173,7 @@ class RoundNextButton extends StatelessWidget {
       onTap: onTap,
       label: label,
       size: 72,
-      iconColor: AppColors.spring,
+      iconColor: AppColors.springOnDark,
       loading: loading,
     );
   }
@@ -731,7 +735,7 @@ class BottomDock extends StatelessWidget {
                                         : items[i].icon,
                                     size: 24,
                                     color: i == index
-                                        ? AppColors.charcoal
+                                        ? AppColors.onAccent
                                         : AppColors.ink2,
                                   ),
                                 ),

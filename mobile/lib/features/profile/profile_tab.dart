@@ -722,6 +722,7 @@ class AccountSheet extends StatelessWidget {
             // Name, email and school are behind the pencil; whether they
             // want reminding is a setting rather than an action, so it sits
             // above the buttons.
+            const AppearanceRow(),
             if (notifications != null)
               RemindersRow(
                 notifications: notifications!,
@@ -981,7 +982,7 @@ class _MoreButton extends StatelessWidget {
     TextStyle label() => AppTheme.body(
       size: 15,
       weight: FontWeight.w600,
-      color: AppColors.cream,
+      color: AppColors.onTile,
     );
     return PopupMenuButton<String>(
       tooltip: 'More',

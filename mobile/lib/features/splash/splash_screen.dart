@@ -13,13 +13,19 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    // At night the iOS launch screen shows the night cut of the mark on the
+    // night ground (its asset catalog has both), so this does too.
+    return Scaffold(
       backgroundColor: AppColors.fog,
       body: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 48),
+          padding: const EdgeInsets.symmetric(horizontal: 48),
           child: Image(
-            image: AssetImage('assets/brand/wordmark.png'),
+            image: AssetImage(
+              AppPalette.dark
+                  ? 'assets/brand/wordmark_night.png'
+                  : 'assets/brand/wordmark.png',
+            ),
             width: 200,
             fit: BoxFit.contain,
           ),

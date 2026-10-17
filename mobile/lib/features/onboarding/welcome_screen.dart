@@ -125,7 +125,7 @@ class WelcomeCards extends StatelessWidget {
               top: 18,
               left: 0,
               child: card(
-                color: AppColors.spring,
+                color: AppColors.springField,
                 eyebrow: 'STATICS',
                 width: w * 0.58,
                 height: 236,

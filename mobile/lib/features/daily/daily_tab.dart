@@ -449,7 +449,7 @@ class _GameRow extends StatelessWidget {
       height: 64,
       padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
       decoration: BoxDecoration(
-        color: done ? AppColors.spring : AppColors.creamDark,
+        color: done ? AppColors.springField : AppColors.creamDark,
         borderRadius: BorderRadius.circular(22),
       ),
       child: Row(
@@ -466,7 +466,7 @@ class _GameRow extends StatelessWidget {
                   ? const Icon(
                       Icons.check_rounded,
                       size: 22,
-                      color: AppColors.spring,
+                      color: AppColors.springOnDark,
                     )
                   : ChapterMark(
                       chapterId: game.chapterId,

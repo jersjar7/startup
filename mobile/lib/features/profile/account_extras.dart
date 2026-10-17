@@ -8,6 +8,7 @@ import '../../core/network/api_client.dart';
 import '../../core/network/api_exception.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/theme_mode.dart';
 import '../auth/auth_controller.dart';
 import '../shared/widgets/kit.dart';
 import 'about_story.dart';
@@ -182,7 +183,7 @@ class StripChip extends StatelessWidget {
               maxLines: 1,
               style: AppTheme.eyebrow(
                 size: 12,
-                color: on ? AppColors.spring : AppColors.charcoal,
+                color: on ? AppColors.springOnDark : AppColors.charcoal,
               ),
             ),
           ),
@@ -357,6 +358,50 @@ class _RemindersRowState extends State<RemindersRow> {
         value: _on ?? false,
         onChanged: _on == null || _busy ? null : _toggle,
         activeTrackColor: AppColors.spring,
+      ),
+    );
+  }
+}
+
+/// Light, dark, or whatever the phone is set to (point 9; owner 2026-10-17,
+/// "automatic plus a choice"). Automatic is the default, so a student who
+/// never opens this gets the phone's own setting.
+class AppearanceRow extends StatelessWidget {
+  const AppearanceRow({super.key});
+
+  static const _labels = {
+    AppearanceChoice.automatic: 'Auto',
+    AppearanceChoice.light: 'Light',
+    AppearanceChoice.dark: 'Dark',
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<AppearanceChoice>(
+      valueListenable: Appearance.choice,
+      builder: (context, choice, _) => SheetRow(
+        label: 'Appearance',
+        value: '',
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (final c in AppearanceChoice.values)
+              Semantics(
+                button: true,
+                selected: c == choice,
+                label: c == AppearanceChoice.automatic
+                    ? 'Automatic, as the phone is set'
+                    : _labels[c],
+                child: ExcludeSemantics(
+                  child: StripChip(
+                    label: _labels[c]!,
+                    on: c == choice,
+                    onTap: () => Appearance.set(c),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

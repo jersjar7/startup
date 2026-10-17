@@ -140,7 +140,7 @@ class _ChapterTile extends StatelessWidget {
     // Spring once a chapter is mastered, cream below it. The peach the
     // focus tiles used lives on the field above now.
     final accent = pct >= 80;
-    final color = accent ? AppColors.spring : AppColors.cream;
+    final color = accent ? AppColors.springField : AppColors.cream;
     final muted = accent ? AppColors.charcoal : AppColors.mutedOnLight;
     return Container(
       constraints: const BoxConstraints(minHeight: 196),

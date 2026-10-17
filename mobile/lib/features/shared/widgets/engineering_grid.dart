@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_colors.dart';
+
 /// The sage-green engineering-paper grid the website draws behind exercises.
 /// A faint fine grid plus a stronger major grid on an off-white base. Wraps a
 /// child; used behind exercise cards and the exercise screen.
@@ -36,7 +38,7 @@ class _GridPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.drawRect(
       Offset.zero & size,
-      Paint()..color = const Color(0xFFFDFCF8),
+      Paint()..color = AppColors.paper,
     );
 
     void grid(double step, double opacity) {

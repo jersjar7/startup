@@ -166,7 +166,7 @@ class _PassCardScreenState extends State<PassCardScreen> {
   Widget build(BuildContext context) {
     final ready = _step == _Step.ready;
     return Scaffold(
-      backgroundColor: ready ? AppColors.spring : AppColors.fog,
+      backgroundColor: ready ? AppColors.springField : AppColors.fog,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),

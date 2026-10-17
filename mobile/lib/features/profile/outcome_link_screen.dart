@@ -132,7 +132,7 @@ class _OutcomeLinkScreenState extends State<OutcomeLinkScreen> {
     );
     final passed = widget.answer == 'passed' && _card;
     return Scaffold(
-      backgroundColor: passed ? AppColors.spring : AppColors.fog,
+      backgroundColor: passed ? AppColors.springField : AppColors.fog,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),

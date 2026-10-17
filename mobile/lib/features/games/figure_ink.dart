@@ -281,7 +281,7 @@ void writeStack(
 /// What a figure panel is actually painted on: the engineering grid lays this
 /// down across the whole panel before anything is drawn on it. A patch has to
 /// be this exact color, or it reads as a tinted box sitting on the drawing.
-const panelBase = Color(0xFFFDFCF8);
+const panelBase = AppColors.paper;
 
 void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
   if (!_wantsPatch(text)) {
@@ -302,14 +302,16 @@ void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
   text.paint(canvas, at);
 }
 
-/// Pale ink means the label is on a dark fill, where a patch would be worse
-/// than the line it is hiding.
+/// Ink that stands out from the paper wants a patch over the lines under
+/// it; ink that matches the paper is sitting on a solid fill of the other
+/// tone, where a patch would be worse than the line it hides. By day that is
+/// dark ink; at night the paper is dark, so it is pale ink.
 bool _wantsPatch(TextPainter text) {
   final span = text.text;
   final color = span is TextSpan ? span.style?.color : null;
   if (color == null) return true;
   final l = (0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b);
-  return l < 0.72;
+  return AppPalette.dark ? l > 0.28 : l < 0.72;
 }
 
 /// Where every label landed, grouped by the panel it landed in, for the test

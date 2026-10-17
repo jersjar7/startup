@@ -390,7 +390,7 @@ class _Together extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 const _PlaceTile(
-                  color: AppColors.spring,
+                  color: AppColors.springField,
                   eyebrow: 'The app',
                   title: 'Keep it',
                   lines: [

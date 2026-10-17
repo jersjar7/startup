@@ -227,7 +227,7 @@ class FadedCards extends StatelessWidget {
           Positioned(
             top: 96,
             left: 22,
-            child: card(AppColors.spring, 232, 284, -0.12),
+            child: card(AppColors.springField, 232, 284, -0.12),
           ),
           Positioned(
             top: 160,

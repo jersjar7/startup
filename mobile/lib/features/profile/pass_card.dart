@@ -57,7 +57,7 @@ const passCardHeight = 627.0;
 const passCardExportScale = 2.0;
 const _pad = 52.0;
 
-const _paper = Color(0xFFFDFCF8);
+const _paper = Color(0xFFFDFCF8); // the pass card is an image, light in both modes
 const _gridFine = Color(0x0E2C2C2C); // rgba(44,44,44,0.055)
 const _gridBold = Color(0x1A2C2C2C); // rgba(44,44,44,0.10)
 const _mute = Color(0xFFA8A196);

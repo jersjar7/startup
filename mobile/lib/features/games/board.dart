@@ -503,7 +503,7 @@ class BoardFeedback extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(22, 20, 22, 20),
       decoration: BoxDecoration(
-        color: correct ? AppColors.spring : AppColors.peach,
+        color: correct ? AppColors.springField : AppColors.peach,
         borderRadius: BorderRadius.circular(28),
       ),
       child: Column(
@@ -597,7 +597,7 @@ class BoardDone extends StatelessWidget {
                 height: 300,
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: AppColors.spring,
+                  color: AppColors.springField,
                   borderRadius: BorderRadius.circular(36),
                 ),
                 child: Column(

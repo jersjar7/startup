@@ -327,11 +327,11 @@ class _ChapterTile extends StatelessWidget {
     final Color circle;
     final Color mark;
     if (isCurrent) {
-      circle = AppColors.spring;
+      circle = AppColors.springField;
       mark = AppColors.charcoal;
     } else if (facts.cleared) {
       circle = AppColors.charcoal;
-      mark = AppColors.spring;
+      mark = AppColors.springOnDark;
     } else {
       circle = AppColors.creamDark;
       mark = AppColors.charcoal;

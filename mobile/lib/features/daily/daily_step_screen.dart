@@ -97,7 +97,7 @@ class DailyStepScreen extends StatelessWidget {
                             width: 140,
                             height: 140,
                             decoration: const BoxDecoration(
-                              color: AppColors.spring,
+                              color: AppColors.springField,
                               shape: BoxShape.circle,
                             ),
                             child: Center(
