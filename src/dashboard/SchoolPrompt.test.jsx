@@ -333,6 +333,7 @@ describe('SchoolPrompt, already graduated', () => {
     render(<SchoolPrompt onClose={() => {}} />);
     fireEvent.click(screen.getByText('Already graduated'));
     expect(screen.getByText(/when did you graduate/i)).toBeInTheDocument();
+    expect(screen.getByText('Where did you study?')).toBeInTheDocument();
     expect(screen.queryByText('Summer')).toBeNull();
     const now = new Date().getFullYear();
     expect(screen.getByRole('button', { name: String(now - 7) })).toBeInTheDocument();

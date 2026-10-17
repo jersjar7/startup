@@ -164,7 +164,7 @@ export function SchoolPrompt({
           <X size={14} weight="bold" />
         </button>
       )}
-      <span className="school-prompt-q">Where are you studying?</span>
+      <span className="school-prompt-q">{graduated ? 'Where did you study?' : 'Where are you studying?'}</span>
       <span className="school-prompt-why">
         So we can show you how you compare with other students at your school.
       </span>
