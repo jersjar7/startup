@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/theme/theme_mode.dart';
+import 'package:mobile/features/games/lesson_node.dart';
 import 'package:mobile/features/profile/account_extras.dart';
 
 /// Point 9, dark mode ("Warm night", owner 2026-10-17): every token has a
@@ -21,6 +22,34 @@ void main() {
     AppPalette.dark = false;
   });
   tearDown(() => AppPalette.dark = false);
+
+  test('every stone has a side at night, and it is not the road', () {
+    // Lifting the dark stone toward cream gave it no side at night, because
+    // cream is that stone's own face then (owner, 2026-10-17).
+    AppPalette.dark = true;
+    double lstar(Color c) {
+      final y = c.computeLuminance();
+      return y > 0.008856
+          ? 116 * math.pow(y, 1 / 3) - 16
+          : 116 * (7.787 * y + 16 / 116) - 16;
+    }
+
+    for (final state in NodeState.values) {
+      final skin = NodeSkin.of(state);
+      expect(
+        (lstar(skin.face) - lstar(skin.plinth)).abs(),
+        greaterThanOrEqualTo(18),
+        reason: '$state has no readable side at night',
+      );
+      if (skin.face.computeLuminance() < 0.184) {
+        expect(
+          (lstar(skin.plinth) - lstar(AppColors.charcoal)).abs(),
+          greaterThanOrEqualTo(30),
+          reason: "$state's side reads as the road",
+        );
+      }
+    }
+  });
 
   group('a token', () {
     test('answers for the mode it is used in', () {

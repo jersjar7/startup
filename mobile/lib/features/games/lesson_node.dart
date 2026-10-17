@@ -56,9 +56,18 @@ class NodeSkin {
   /// which is what the white node has always had and what makes a plinth read
   /// as a plinth rather than as a bulge. The test is against relative
   /// luminance 0.184, which is where L* 50 falls.
+  ///
+  /// At night cream is the dark stone's own face, so lifting toward it left
+  /// the unstarted stones with no side at all, and lifting toward a light
+  /// tone would make the side the road's color (owner, 2026-10-17). The
+  /// night lift goes toward the same taupe the day's pale stones sink to.
   static Color plinthFor(Color face) => face.computeLuminance() < 0.184
-      ? Color.lerp(face, AppColors.cream, 0.26)!
-      : Color.lerp(face, const Color(0xFF8A7A62), 0.52)!;
+      ? AppPalette.dark
+            ? Color.lerp(face, _taupe, 0.65)!
+            : Color.lerp(face, AppColors.cream, 0.26)!
+      : Color.lerp(face, _taupe, 0.52)!;
+
+  static const _taupe = Color(0xFF8A7A62);
 
   static NodeSkin of(NodeState state) => switch (state) {
     // The heaviest ink on the page, because "what have I finished" is the
