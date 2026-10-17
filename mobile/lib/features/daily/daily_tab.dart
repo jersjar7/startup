@@ -366,6 +366,13 @@ class _Today extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text('SAME FOR EVERYONE', style: AppTheme.eyebrow()),
+              const SizedBox(height: 6),
+              // The payoff, said before playing: it is only shown after, so
+              // a newcomer could not know it was coming (owner, 2026-10-16).
+              Text(
+                'Play, then see how you did against everyone else today.',
+                style: AppTheme.body(size: 14, color: AppColors.mutedOnLight),
+              ),
               const SizedBox(height: 16),
               Text.rich(
                 TextSpan(

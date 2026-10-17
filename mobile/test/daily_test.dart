@@ -319,6 +319,11 @@ void main() {
       expect(find.text('Which Distance Counts'), findsOneWidget);
       expect(find.text('Play today\'s'), findsOneWidget);
       expect(find.text('5'), findsOneWidget); // the streak
+      // What comes after playing, said before it (owner, 2026-10-16).
+      expect(
+        find.text('Play, then see how you did against everyone else today.'),
+        findsOneWidget,
+      );
       expect(find.textContaining(_dailyNumber), findsNothing);
       await expectLater(
         find.byType(MaterialApp),

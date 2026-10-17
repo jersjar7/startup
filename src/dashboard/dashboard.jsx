@@ -54,6 +54,7 @@ import { ExamSimCard } from '../exam/ExamSimCard';
 import { ScoringModal } from './ScoringModal';
 import { SetupTodo } from './SetupTodo';
 import './dashboard.css';
+import { givenName } from '../data/names.js';
 
 // Live-activity presence arrives as { from, topic } (practice) or
 // { from, chapter, lesson } (lessons). Resolve a readable label from whichever
@@ -373,7 +374,9 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       <div className="dash-header">
         <div>
           <h2 className="dash-title">Dashboard</h2>
-          <span className="dash-greeting">{firstName ? `Welcome back, ${firstName}` : 'Welcome back'}</span>
+          {/* The given name only: "Jerson Test" reads "Welcome back, Jerson"
+              (owner, 2026-10-16). */}
+          <span className="dash-greeting">{givenName(firstName) ? `Welcome back, ${givenName(firstName)}` : 'Welcome back'}</span>
         </div>
         {/* account actions live on Profile — keep the dashboard about study */}
       </div>

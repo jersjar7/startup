@@ -5,6 +5,7 @@ const { recordSend } = require('./sendBudget.js');
 const { STUDENT_CENTS, STANDARD_CENTS } = require('./pricing.js');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const { givenName } = require('./profile.js');
 const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 const appUrl = process.env.APP_URL || 'https://fe4raccoons.com';
 const fromHeader = `FE for Raccoons <${fromEmail}>`;
@@ -453,7 +454,9 @@ async function sendWeeklyDigestEmail(toEmail, d = {}) {
 }
 
 // Exam-date countdown. Copy adapts to how close exam day is.
-async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, focusChapter = null, unsubUrl, simPitch = false, trackToken = null, firstName = null } = {}) {
+async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, focusChapter = null, unsubUrl, simPitch = false, trackToken = null, firstName: typedName = null } = {}) {
+  // The given name only: "Hey Jerson", never "Hey Jerson Test".
+  const firstName = givenName(typedName) || null;
   // A few weeks out and they don't own the sim yet: a short, personal letter from
   // Jerson (plain layout, no campaign styling) with the one piece of advice that
   // matters most, backed by Mitch's story. Links tracked via /api/track.
@@ -551,7 +554,8 @@ Unsubscribe: ${unsubUrl}`;
 // (~48h later). Warmer + lower-pressure than the pitch itself: they already
 // showed interest, so address the real hesitations (time + cost) and invite a
 // reply. Both links are tracked (same as the pitch).
-async function sendSimPitchFollowupEmail(toEmail, { unsubUrl, trackToken = null, firstName = null } = {}) {
+async function sendSimPitchFollowupEmail(toEmail, { unsubUrl, trackToken = null, firstName: typedName = null } = {}) {
+  const firstName = givenName(typedName) || null;
   // Plain-text personal follow-up (no HTML/images/price) for Primary placement.
   const greeting = firstName ? `Hey ${firstName}, it's Jerson again.` : "Hey, it's Jerson again.";
   const text = `${greeting}
@@ -627,7 +631,8 @@ async function sendWinbackEmail(toEmail, { focusChapter = null, unsubUrl } = {})
 // The tone matters more than usual here. Somebody who failed is being asked
 // about it, so the mail has to be worth opening either way and must not
 // celebrate before it knows.
-async function sendExamOutcomeEmail(toEmail, { unsubUrl, firstName = null, outcomeToken = null, attempt = 1 } = {}) {
+async function sendExamOutcomeEmail(toEmail, { unsubUrl, firstName: typedName = null, outcomeToken = null, attempt = 1 } = {}) {
+  const firstName = givenName(typedName) || null;
   const hi = firstName ? `${firstName}, how` : 'How';
   // One tap records the answer. No sign in: requiring one would lose most of
   // the replies, and the non-response is exactly what is biased here.
@@ -743,6 +748,8 @@ function getEmailConfig() {
 }
 
 module.exports = {
+  // The sending client, so tests can read what would have gone out.
+  __resendForTests: resend,
   sendExamOutcomeEmail,
   sendSaleAlertEmail,
   sendFeedbackAlertEmail,

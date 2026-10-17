@@ -9,11 +9,23 @@ function sanitizeName(s) {
   return s.replace(/[^\p{L}\p{M} '\-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, 40);
 }
 
+// The first word of what they typed as a first name: the given name. Sign-up
+// asks "What should we call you?" in one field and people type a whole name
+// into it, so "Jerson Test" greets "Jerson" in an email and on Profile
+// (owner, 2026-10-16).
+function givenName(raw) {
+  const clean = sanitizeName(raw || '');
+  return clean ? clean.split(' ')[0] : '';
+}
+
 // "Maria G." from first + last; first-only if no last; else the email's local
-// part (before @) — never the full email.
+// part (before @) — never the full email. A whole name typed into the first
+// name field reads the same way: "Jerson Test" is "Jerson T." on a board.
 function displayName(user) {
-  const first = sanitizeName(user?.firstName || '');
-  const last = sanitizeName(user?.lastName || '');
+  const typed = sanitizeName(user?.firstName || '');
+  const first = givenName(typed);
+  const rest = typed.split(' ').slice(1).join(' ');
+  const last = sanitizeName(user?.lastName || '') || rest;
   if (first) return last ? `${first} ${last[0].toUpperCase()}.` : first;
   const local = String(user?.email || '').split('@')[0];
   return local || 'A student';
@@ -81,6 +93,6 @@ function examTimingFromMetadata(metadata = {}) {
 }
 
 module.exports = {
-  sanitizeName, displayName, normalizeExamDate, daysUntilExam, examTimingFromMetadata,
+  sanitizeName, givenName, displayName, normalizeExamDate, daysUntilExam, examTimingFromMetadata,
   examDateBounds,
 };

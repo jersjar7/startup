@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-const { sanitizeName, displayName, normalizeExamDate, daysUntilExam, examTimingFromMetadata, examDateBounds } = require('./profile');
+const { sanitizeName, givenName, displayName, normalizeExamDate, daysUntilExam, examTimingFromMetadata, examDateBounds } = require('./profile');
 
 describe('sanitizeName', () => {
   it('keeps letters, spaces, hyphens, apostrophes and trims/collapses', () => {
@@ -147,5 +147,26 @@ describe('examDateBounds', () => {
     const b = examDateBounds();
     expect(normalizeExamDate(b.max)).toBe(b.max);
     expect(normalizeExamDate(b.min)).toBe(b.min);
+  });
+});
+
+// One field, "What should we call you?", and people type a whole name into
+// it (owner, 2026-10-16).
+describe('the given name', () => {
+  it('is the first word of what was typed', () => {
+    expect(givenName('Jerson Test')).toBe('Jerson');
+    expect(givenName('  María   José ')).toBe('María');
+    expect(givenName('Sam')).toBe('Sam');
+    expect(givenName('')).toBe('');
+    expect(givenName(null)).toBe('');
+  });
+
+  it('reads a whole name in the first name field as first name and initial', () => {
+    expect(displayName({ firstName: 'Jerson Test' })).toBe('Jerson T.');
+    expect(displayName({ firstName: 'Ana María Ruiz' })).toBe('Ana M.');
+  });
+
+  it('still prefers the last name field when there is one', () => {
+    expect(displayName({ firstName: 'Jerson Test', lastName: 'Garcia' })).toBe('Jerson G.');
   });
 });
