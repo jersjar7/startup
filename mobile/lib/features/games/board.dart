@@ -9,6 +9,8 @@ import '../../core/storage/app_storage.dart';
 import '../shared/widgets/kit.dart';
 import '../daily/daily_run.dart';
 import '../daily/daily_step_screen.dart';
+import '../profile/badge_moment.dart';
+import '../profile/badges.dart';
 import 'feedback_sheet.dart';
 import 'game_catalog.dart';
 import 'game_progress.dart';
@@ -133,10 +135,14 @@ class BoardSession extends ChangeNotifier {
       _freshCleared.add(r);
     }
     if (ok) {
-      GameProgress.instance.markRoundCleared(
-        gameId,
-        r,
-        firstTry: !_seen.contains(r),
+      // A round can finish a lesson, and so earn a badge; the summary (or
+      // the Daily's last screen) shows it.
+      BadgeLedger.watch(
+        () => GameProgress.instance.markRoundCleared(
+          gameId,
+          r,
+          firstTry: !_seen.contains(r),
+        ),
       );
     } else {
       _queue.add(r); // comes back later in the same sitting
@@ -554,7 +560,11 @@ class BoardDone extends StatelessWidget {
   Widget build(BuildContext context) {
     // A Daily game ends on the Daily's next step, not on its own summary.
     if (session.isDaily) return DailyAfterGame(game: session.dailyGame!);
+    // The round that finished this board may have earned a badge.
+    return BadgeMomentHost(child: Builder(builder: _summary));
+  }
 
+  Widget _summary(BuildContext context) {
     final total = session.total;
     final first = session.firstTryCount;
     final missed = total - first;

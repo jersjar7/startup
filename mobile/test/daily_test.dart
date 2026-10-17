@@ -15,6 +15,8 @@ import 'package:mobile/features/daily/daily_step_screen.dart';
 import 'package:mobile/features/daily/daily_tab.dart';
 import 'package:mobile/features/games/board.dart';
 import 'package:mobile/features/games/game_progress.dart';
+import 'package:mobile/features/profile/badge_moment.dart';
+import 'package:mobile/features/profile/badges.dart';
 
 import 'support/fonts.dart';
 
@@ -176,6 +178,10 @@ void main() {
   setUp(() {
     SharedPreferences.setMockInitialValues({});
     DailyRun.instance.debugReset();
+    // The Daily badges are earned long ago in every test but the one about
+    // them, so no badge stands between a Daily and the screen under test.
+    BadgeLedger.debugReset();
+    BadgeLedger.dailyBest.value = 99;
     for (final g in _games) {
       GameProgress.instance.reset(g.gameId);
     }
@@ -360,6 +366,35 @@ void main() {
       await _settle(tester);
       expect(find.text('Play today\'s'), findsNothing);
       expect(find.text('You beat 70% today'), findsOneWidget);
+    });
+
+    testWidgets('a Daily that earns badges shows them after the score', (
+      tester,
+    ) async {
+      _phone(tester);
+      BadgeLedger.debugReset();
+      final repo = _FakeRepo(_puzzle());
+      final run = DailyRun.instance..begin(_puzzle());
+      for (var g = 0; g < 3; g++) {
+        for (var r = 0; r < 6; r++) {
+          run.markRound(g, r, ok: true);
+        }
+        run.finishGame(g);
+      }
+      await tester.pumpWidget(_app(const DailyDoneScreen(), repo));
+      await _settle(tester);
+      // The server says this account's longest run is nine days: the first
+      // Daily and seven in a row, both new to this phone.
+      expect(find.byType(BadgeMomentScreen), findsOneWidget);
+      expect(find.text('First Daily'), findsOneWidget);
+      await tester.tap(find.text('Next badge'));
+      await _settle(tester);
+      expect(find.text('Seven in a row'), findsOneWidget);
+      await tester.tap(find.text('Carry on'));
+      await _settle(tester);
+      expect(find.byType(BadgeMomentScreen), findsNothing);
+      expect(find.byType(DailyDoneScreen), findsOneWidget);
+      expect(BadgeLedger.dailyBest.value, 9);
     });
 
     testWidgets('the tab after you play: how everyone did', (tester) async {

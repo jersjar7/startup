@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -6,6 +8,8 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../games/game_catalog.dart';
 import '../home/home_shell.dart';
+import '../profile/badge_moment.dart';
+import '../profile/badges.dart';
 import '../shared/widgets/kit.dart';
 import 'daily_models.dart';
 import 'daily_repository.dart';
@@ -72,6 +76,12 @@ class _DailyDoneScreenState extends State<DailyDoneScreen> {
       lastPlayedDay: puzzle.date,
       streak: streak.current,
     );
+    // The first Daily and seven in a row are badges. Kept on the phone, a
+    // result's run is counted the same way the server will count it.
+    await BadgeLedger.noteDailyBest(
+      math.max(streak.best, streak.current),
+      announce: true,
+    );
     if (!mounted) return;
     setState(() {
       _sending = false;
@@ -108,7 +118,14 @@ class _DailyDoneScreenState extends State<DailyDoneScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => BadgeMomentHost(
+    // Held until the result is in, so badges from the Daily's games and from
+    // the Daily itself arrive together, after the score has been seen.
+    ready: !_sending,
+    child: Builder(builder: _page),
+  );
+
+  Widget _page(BuildContext context) {
     final puzzle = _puzzle;
     if (puzzle == null) {
       return const Scaffold(backgroundColor: AppColors.fog);

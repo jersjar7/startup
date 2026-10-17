@@ -20,6 +20,8 @@ import 'study_days_screen.dart';
 import '../../core/notifications/notification_plan.dart';
 import '../../core/notifications/notifications.dart';
 import 'account_extras.dart';
+import 'badges.dart';
+import 'badges_page.dart';
 import 'exam_outcome_card.dart';
 import 'pass_card_screen.dart';
 import 'profile_views.dart';
@@ -616,7 +618,10 @@ class AccountSheet extends StatelessWidget {
     final name = shown.isNotEmpty ? shown : email;
     final subtitle = shown.isNotEmpty ? email : '';
     final xp = (user['totalXp'] ?? 0) as int;
-    final badges = (user['badges'] as List?)?.length ?? 0;
+    // The app's own badges (badges.dart). The website's are earned on the
+    // website, for website things, and a phone student could earn almost
+    // none of them (tester's point 8).
+    final badges = BadgeLedger.earnedNow().length;
     final held = conceptsHeld(GameProgress.instance);
 
     return SafeArea(
@@ -698,7 +703,19 @@ class AccountSheet extends StatelessWidget {
               children: [
                 _Figure(label: 'Total XP', value: _thousands(xp)),
                 const SizedBox(width: 10),
-                _Figure(label: 'Badges', value: '$badges'),
+                _Figure(
+                  label: 'Badges',
+                  value: '$badges',
+                  onTap: () {
+                    final nav = Navigator.of(context, rootNavigator: true);
+                    Navigator.of(context).pop();
+                    nav.push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const BadgesScreen(),
+                      ),
+                    );
+                  },
+                ),
                 const SizedBox(width: 10),
                 _Figure(label: 'Concepts', value: '$held'),
               ],
@@ -780,35 +797,63 @@ class AccountSheet extends StatelessWidget {
 }
 
 class _Figure extends StatelessWidget {
-  const _Figure({required this.label, required this.value});
+  const _Figure({required this.label, required this.value, this.onTap});
 
   final String label;
   final String value;
 
+  /// Set when the figure opens something (Badges opens the Badges page);
+  /// an arrow beside the label says so.
+  final VoidCallback? onTap;
+
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: AppColors.creamDark,
-          borderRadius: BorderRadius.circular(22),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label.toUpperCase(),
-              style: AppTheme.eyebrow(size: 11, color: AppColors.ink2),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              value,
-              style: AppTheme.display(size: 26, height: 0.9, tracking: -0.04),
-            ),
-          ],
-        ),
+    final body = Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.creamDark,
+        borderRadius: BorderRadius.circular(22),
       ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Flexible(
+                child: Text(
+                  label.toUpperCase(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.eyebrow(size: 11, color: AppColors.ink2),
+                ),
+              ),
+              if (onTap != null)
+                const Icon(
+                  Icons.chevron_right_rounded,
+                  size: 16,
+                  color: AppColors.ink2,
+                ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: AppTheme.display(size: 26, height: 0.9, tracking: -0.04),
+          ),
+        ],
+      ),
+    );
+    return Expanded(
+      child: onTap == null
+          ? body
+          : Semantics(
+              button: true,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: onTap,
+                child: body,
+              ),
+            ),
     );
   }
 }

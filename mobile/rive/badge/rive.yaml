@@ -1,0 +1,13 @@
+# The badge artwork: the earned moment and the coin on the Badges page.
+# Generated, then built with the Rive CLI:
+#   flutter test tool/export_badge_marks_test.dart
+#   python3 rive/badge/gen.py
+#   rive rive/badge --once
+# writes ../../assets/rive/badge.riv, which the app bundles.
+name: badge
+main: BadgeEarned
+output:
+  dir: ../../assets/rive
+logs:
+  file: build/rive.log
+  problems: build/problems.log

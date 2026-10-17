@@ -55,6 +55,7 @@ that supersedes it, so the history of thinking stays readable.
 | [0021](0021-the-daily.md) | The Daily: one shared puzzle a day, picked by the server, built from the games we have | 2026-10-15 | Superseded in part by [0022](0022-the-daily-has-a-date-not-a-number.md) |
 | [0022](0022-the-daily-has-a-date-not-a-number.md) | A student sees the Daily's date, never its number | 2026-10-16 | Accepted |
 | [0023](0023-names-and-the-pass-card.md) | Two names, one card, and the card where the student already is | 2026-10-16 | Accepted |
+| [0024](0024-app-badges.md) | The app's own badges, worked out on the phone, drawn by Rive | 2026-10-16 | Accepted |
 
 Records 0002–0005 were written on 2026-08-04, backfilled from commit messages.
 The **Date** column is when the decision was made, not when it was written up.

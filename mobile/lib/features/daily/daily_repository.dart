@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
@@ -6,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/network/api_client.dart';
 import '../auth/auth_controller.dart';
+import '../profile/badges.dart';
 import 'daily_calendar.dart';
 import 'daily_models.dart';
 
@@ -47,6 +49,8 @@ class DailyRepository {
       final data = await api.get('/daily?date=$date') as Map<String, dynamic>;
       final puzzle = DailyPuzzle.fromJson(data);
       await _write(_kPuzzle, puzzle.toJson());
+      // The account's Daily run, for the badges; a new phone learns it here.
+      unawaited(BadgeLedger.noteDailyBest(puzzle.streak.best));
       return puzzle;
     } catch (e) {
       final cached = await _read(_kPuzzle);
