@@ -22,6 +22,7 @@ import '../../core/notifications/notifications.dart';
 import 'account_extras.dart';
 import 'badges.dart';
 import 'badges_page.dart';
+import 'concepts_page.dart';
 import 'exam_outcome_card.dart';
 import 'pass_card_screen.dart';
 import 'profile_views.dart';
@@ -717,7 +718,19 @@ class AccountSheet extends StatelessWidget {
                   },
                 ),
                 const SizedBox(width: 10),
-                _Figure(label: 'Concepts', value: '$held'),
+                _Figure(
+                  label: 'Concepts',
+                  value: '$held',
+                  onTap: () {
+                    final nav = Navigator.of(context, rootNavigator: true);
+                    Navigator.of(context).pop();
+                    nav.push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const ConceptsScreen(),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
             const SizedBox(height: 18),

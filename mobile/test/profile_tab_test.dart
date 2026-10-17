@@ -10,6 +10,7 @@ import 'package:mobile/features/auth/auth_controller.dart';
 import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/home/home_shell.dart';
+import 'package:mobile/features/profile/concepts_page.dart';
 import 'package:mobile/features/profile/profile_tab.dart';
 import 'package:mobile/features/study/study_tab.dart' show appClock;
 
@@ -216,6 +217,26 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Sign out?'), findsNothing);
     expect(find.text('Version 1.0.0'), findsOneWidget);
+    await _drain(tester);
+  });
+
+  testWidgets('the Concepts figure opens the concepts it counts', (
+    tester,
+  ) async {
+    _phone(tester);
+    _clear('mathematics', 1);
+    final held = chapterMaps['mathematics']!.lessons.first.builtGames;
+    await tester.pumpWidget(_app({'firstName': 'Jerson', 'email': 'j@x.edu'}));
+    await _settle(tester);
+    await tester.tap(find.byTooltip('Account'));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.textContaining(RegExp(r'^concepts$', caseSensitive: false)).first,
+    );
+    await tester.pumpAndSettle();
+    expect(find.byType(ConceptsScreen), findsOneWidget);
+    expect(find.byType(AccountSheet), findsNothing);
+    expect(find.text(held.first.brief!.title), findsOneWidget);
     await _drain(tester);
   });
 }
