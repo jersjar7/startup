@@ -5,6 +5,10 @@ export function Footer() {
   return (
     <footer>
       <div className="footer-legal">
+        <Link to="/about">About</Link>
+        <span className="footer-divider">|</span>
+        <Link to="/contact">Contact us</Link>
+        <span className="footer-divider">|</span>
         <Link to="/terms">Terms of Service</Link>
         <span className="footer-divider">|</span>
         <Link to="/privacy">Privacy Policy</Link>

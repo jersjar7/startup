@@ -10,6 +10,8 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
 import '../shared/widgets/kit.dart';
+import 'about_story.dart';
+import 'contact_page.dart';
 
 /// The two rows the account sheet grew, and the editors behind them.
 ///
@@ -684,6 +686,7 @@ class AccountSheetHostState extends State<AccountSheetHost> {
   void showAccount() => setState(() => _page = 'account');
   void showSignOut() => setState(() => _page = 'signout');
   void showAbout() => setState(() => _page = 'about');
+  void showContact() => setState(() => _page = 'contact');
 
   @override
   Widget build(BuildContext context) {
@@ -713,6 +716,7 @@ class AccountSheetHostState extends State<AccountSheetHost> {
                         child.key == const ValueKey('name') ||
                         child.key == const ValueKey('email') ||
                         child.key == const ValueKey('profile') ||
+                        child.key == const ValueKey('contact') ||
                         child.key == const ValueKey('signout') ||
                         child.key == const ValueKey('about')
                     ? 0.06
@@ -741,6 +745,11 @@ class AccountSheetHostState extends State<AccountSheetHost> {
             ),
             'profile' => EditProfilePage(
               key: const ValueKey('profile'),
+              auth: widget.auth,
+              onBack: showAccount,
+            ),
+            'contact' => ContactPage(
+              key: const ValueKey('contact'),
               auth: widget.auth,
               onBack: showAccount,
             ),
@@ -837,20 +846,39 @@ class AboutPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            Text('About', style: AppTheme.display(size: 30, height: 1.05)),
-            const SizedBox(height: 18),
-            FutureBuilder<String?>(
-              future: appVersion,
-              builder: (context, snap) =>
-                  SheetRow(label: 'Version', value: snap.data ?? ''),
-            ),
-            SheetRow(
-              label: 'Open source licenses',
-              value: '',
-              onTap: () => showLicensePage(
-                context: context,
-                applicationName: 'FE for Raccoons',
-                applicationLegalese: '\u00a9 2026 Oqupa LLC',
+            // The story is long for a sheet, so it scrolls inside one no
+            // taller than most of the screen (the tester's point 12b).
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.sizeOf(context).height * 0.72,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const AboutStory(),
+                    const SizedBox(height: 22),
+                    SheetRow(
+                      label: 'Contact us',
+                      value: '',
+                      onTap: () => AccountSheetHost.of(context)?.showContact(),
+                    ),
+                    FutureBuilder<String?>(
+                      future: appVersion,
+                      builder: (context, snap) =>
+                          SheetRow(label: 'Version', value: snap.data ?? ''),
+                    ),
+                    SheetRow(
+                      label: 'Open source licenses',
+                      value: '',
+                      onTap: () => showLicensePage(
+                        context: context,
+                        applicationName: 'FE for Raccoons',
+                        applicationLegalese: '\u00a9 2026 Oqupa LLC',
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

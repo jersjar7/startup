@@ -1,7 +1,7 @@
 # FE for Raccoons — Project Instructions
 
 ## What This Project Is
-FE for Raccoons is a gamified study platform for the Fundamentals of Engineering (FE) Civil exam. It's a React + Vite + Tailwind app. The name comes from a YouTube video called "Raccoon Engineering" — the raccoon theme gives the brand personality but should never be cartoonish or childish.
+FE for Raccoons is a gamified study platform for the Fundamentals of Engineering (FE) Civil exam. It's a React + Vite + Tailwind app. The name has no special origin (owner, 2026-10-17, on the About page): it was chosen to be fun, different and memorable, and he leaves its meaning to each student, so never invent a story for it. The raccoon theme gives the brand personality but should never be cartoonish or childish.
 
 ## Tech Stack
 - **Framework:** React 19 + React Router 7

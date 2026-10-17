@@ -743,6 +743,28 @@ async function sendFeedbackAlertEmail({ email, gameId, gameName = null, chapterI
   });
 }
 
+// Internal owner alert: one per "Contact us" message, from the website or
+// the app. Reply goes straight to the sender.
+async function sendContactAlertEmail({ email, name = null, message, source = 'web', signedIn = false, build = null } = {}) {
+  const to = process.env.OWNER_ALERT_EMAIL || 'jersondevs@gmail.com';
+  const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const rows = [
+    `<strong>From:</strong> ${esc(name ? `${name} <${email}>` : email)}`,
+    `<strong>Sent from:</strong> ${source === 'app' ? 'the app' : 'the website'}${signedIn ? ', signed in' : ', not signed in'}`,
+    build ? `<strong>App build:</strong> ${esc(build)}` : null,
+  ];
+  return sendEmail({
+    to,
+    replyTo: email,
+    subject: `Contact: ${message.replace(/\s+/g, ' ').slice(0, 60)}`,
+    html: emailLayout({
+      preheader: message.slice(0, 120),
+      heading: 'A message from Contact us',
+      inner: para(esc(message).replace(/\n/g, '<br>')) + bullets(rows) + para('Reply to this email and it goes to them.'),
+    }),
+  });
+}
+
 function getEmailConfig() {
   return { from: fromEmail, usingTestSender, appUrl };
 }
@@ -753,6 +775,7 @@ module.exports = {
   sendExamOutcomeEmail,
   sendSaleAlertEmail,
   sendFeedbackAlertEmail,
+  sendContactAlertEmail,
   sendPasswordResetEmail,
   sendVerificationEmail,
   sendVerifyReminderEmail,

@@ -55,6 +55,10 @@ const ROUTES = [
   // store listing.
   '/privacy',
   '/terms',
+  // The tester's point 12: who is behind this and how to reach them, worth
+  // being readable by anybody who looks, crawlers included.
+  '/about',
+  '/contact',
   ...TOPICS.map(([id]) => `/fe-civil/${id}`),
 ];
 
@@ -91,6 +95,8 @@ const urls = [
   { loc: `${SITE}/fe-civil-exam-guide`, priority: '0.9', freq: 'weekly' },
   { loc: `${SITE}/exam-simulation`, priority: '0.9', freq: 'weekly' },
   ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}`, priority: '0.8', freq: 'monthly' })),
+  { loc: `${SITE}/about`, priority: '0.5', freq: 'yearly' },
+  { loc: `${SITE}/contact`, priority: '0.4', freq: 'yearly' },
   { loc: `${SITE}/login`, priority: '0.4', freq: 'monthly' },
   { loc: `${SITE}/delete-account`, priority: '0.3', freq: 'yearly' },
   { loc: `${SITE}/privacy`, priority: '0.3', freq: 'yearly' },

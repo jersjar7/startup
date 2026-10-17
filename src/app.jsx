@@ -8,6 +8,8 @@ import { NotFound } from './components/NotFound';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Landing } from './landing/landing';
 import { Terms } from './legal/terms';
+import { About } from './about/About';
+import { Contact } from './about/Contact';
 import { Privacy } from './legal/privacy';
 import { DeleteAccount } from './legal/deleteAccount';
 import 'katex/dist/katex.min.css';
@@ -210,6 +212,8 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
             <Route path="/pass-card/:token" element={<PassCard />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact userName={userName} />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/delete-account" element={<DeleteAccount />} />

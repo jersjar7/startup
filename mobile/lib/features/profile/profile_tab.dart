@@ -993,11 +993,28 @@ class _MoreButton extends StatelessWidget {
       onSelected: (choice) {
         if (choice == 'delete') {
           onDelete();
+        } else if (choice == 'contact') {
+          AccountSheetHost.of(context)?.showContact();
         } else {
           AccountSheetHost.of(context)?.showAbout();
         }
       },
       itemBuilder: (_) => [
+        PopupMenuItem(
+          value: 'contact',
+          height: 52,
+          child: Row(
+            children: [
+              const Icon(
+                Icons.mail_outline_rounded,
+                size: 20,
+                color: AppColors.mutedOnDark,
+              ),
+              const SizedBox(width: 12),
+              Text('Contact us', style: label()),
+            ],
+          ),
+        ),
         PopupMenuItem(
           value: 'about',
           height: 52,
