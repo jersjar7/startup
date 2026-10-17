@@ -578,6 +578,8 @@ void main() {
       await _pump(tester, const HomeShell());
       await tester.tap(find.byTooltip('Account'));
       await _settle(tester);
+      await tester.tap(find.byTooltip('Edit profile'));
+      await _settle(tester);
       await tester.tap(find.byType(SchoolRow));
       await _settle(tester);
       await typeSchool(tester, 'Brigham');
@@ -714,6 +716,8 @@ void main() {
       await _pump(tester, const HomeShell());
       await tester.tap(find.byTooltip('Account'));
       await _settle(tester);
+      await tester.tap(find.byTooltip('Edit profile'));
+      await _settle(tester);
       expect(find.text('BYU, graduated'), findsOneWidget);
       // A finished answer: no "Add graduation" nudge.
       expect(find.text('Add graduation'), findsNothing);
@@ -754,6 +758,10 @@ void main() {
       server.me = {'email': 's@x.com', 'firstName': 'Sam'};
       await _pump(tester, const HomeShell());
       await tester.tap(find.byTooltip('Account'));
+      await _settle(tester);
+      // Name, email and school are behind the pencil (owner, 2026-10-17).
+      expect(find.byType(NameRow), findsNothing);
+      await tester.tap(find.byTooltip('Edit profile'));
       await _settle(tester);
       expect(find.byType(NameRow), findsOneWidget);
       await tester.tap(find.byType(NameRow));

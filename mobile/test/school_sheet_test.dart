@@ -110,7 +110,7 @@ void main() {
     await t.tap(find.text('School'));
     await t.pumpAndSettle();
 
-    final back = find.text('Account');
+    final back = find.text('Edit profile');
     expect(
       back,
       findsOneWidget,

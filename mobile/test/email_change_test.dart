@@ -158,7 +158,7 @@ void main() {
       final auth = _auth(_Api());
       await t.pumpWidget(_host(auth, EmailEditor(auth: auth, onDone: () {})));
       await t.pumpAndSettle();
-      expect(find.text('Account'), findsOneWidget);
+      expect(find.text('Edit profile'), findsOneWidget);
     });
   });
 }

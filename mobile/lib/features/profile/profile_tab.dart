@@ -691,6 +691,11 @@ class AccountSheet extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 10),
+                _EditButton(
+                  dot: profileNeedsAttention(auth.user),
+                  onTap: () => AccountSheetHost.of(context)?.showProfile(),
+                ),
+                const SizedBox(width: 8),
                 _MoreButton(
                   onDelete: () {
                     Navigator.of(context).pop();
@@ -718,11 +723,9 @@ class AccountSheet extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 18),
-            // Where they study, and whether they want reminding. Both are
-            // settings rather than actions, so they sit above the buttons.
-            NameRow(auth: auth),
-            EmailRow(auth: auth),
-            SchoolRow(auth: auth),
+            // Name, email and school are behind the pencil; whether they
+            // want reminding is a setting rather than an action, so it sits
+            // above the buttons.
             if (notifications != null)
               RemindersRow(
                 notifications: notifications!,
@@ -869,6 +872,65 @@ class _Figure extends StatelessWidget {
 /// that cannot be undone is never a stray tap away (owner's call,
 /// 2026-10-13). About holds the open source licenses, one level in, as other
 /// apps keep them.
+/// The pencil beside the three dots: Edit profile, where the name, email
+/// and school are changed. A dot on its shoulder while something there
+/// needs the student (see profileNeedsAttention).
+class _EditButton extends StatelessWidget {
+  const _EditButton({required this.onTap, this.dot = false});
+
+  final VoidCallback onTap;
+  final bool dot;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: dot ? 'Edit profile, something needs you' : 'Edit profile',
+      child: ExcludeSemantics(
+        child: Tooltip(
+          message: 'Edit profile',
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: onTap,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: const BoxDecoration(
+                    color: AppColors.creamDark,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.edit_outlined,
+                    size: 21,
+                    color: AppColors.charcoal,
+                  ),
+                ),
+                if (dot)
+                  Positioned(
+                    top: 1,
+                    right: 1,
+                    child: Container(
+                      width: 12,
+                      height: 12,
+                      decoration: BoxDecoration(
+                        color: AppColors.ember,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: AppColors.cream, width: 2.5),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _MoreButton extends StatelessWidget {
   const _MoreButton({required this.onDelete});
 

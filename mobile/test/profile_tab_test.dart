@@ -10,6 +10,7 @@ import 'package:mobile/features/auth/auth_controller.dart';
 import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/home/home_shell.dart';
+import 'package:mobile/features/profile/account_extras.dart';
 import 'package:mobile/features/profile/badges_page.dart';
 import 'package:mobile/features/profile/concepts_page.dart';
 import 'package:mobile/features/profile/profile_tab.dart';
@@ -170,8 +171,9 @@ void main() {
     expect(find.byType(AccountSheet), findsOneWidget);
     expect(find.text('Sign out'), findsOneWidget);
     expect(find.text('1,240'), findsOneWidget);
-    // Where the sign-up step's "change it any time" is true (ADR 0023).
-    expect(find.text('Name'), findsOneWidget);
+    // Where the sign-up step's "change it any time" is true (ADR 0023):
+    // behind the pencil since 2026-10-17.
+    expect(find.byTooltip('Edit profile'), findsOneWidget);
     // The version as plain text where Licences used to be; Delete account
     // is off the sheet's face (owner's call, 2026-10-13).
     expect(find.text('Version 1.0.0'), findsOneWidget);
@@ -255,5 +257,95 @@ void main() {
     expect(find.byType(BadgesScreen), findsNothing);
     expect(find.byType(AccountSheet), findsOneWidget);
     await _drain(tester);
+  });
+
+  testWidgets('the pencil holds name, email and school, and comes back', (
+    tester,
+  ) async {
+    _phone(tester);
+    await tester.pumpWidget(
+      _app({
+        'firstName': 'Jerson',
+        'email': 'j@x.edu',
+        'emailVerified': true,
+        'school': {'name': 'BYU', 'graduationYear': 2025, 'graduated': true},
+      }),
+    );
+    await _settle(tester);
+    await tester.tap(find.byTooltip('Account'));
+    await tester.pumpAndSettle();
+    // The sheet's face no longer repeats the header as rows.
+    expect(find.text('Name'), findsNothing);
+    expect(find.text('School'), findsNothing);
+    expect(find.bySemanticsLabel('Edit profile'), findsOneWidget);
+
+    await tester.tap(find.byTooltip('Edit profile'));
+    await tester.pumpAndSettle();
+    expect(find.byType(EditProfilePage), findsOneWidget);
+    expect(find.text('Name'), findsOneWidget);
+    expect(find.text('Email'), findsOneWidget);
+    expect(find.text('School'), findsOneWidget);
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/home/account-sheet-edit.png'),
+    );
+
+    // An editor returns to Edit profile, not to the account.
+    await tester.tap(find.text('Name'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Edit profile'));
+    await tester.pumpAndSettle();
+    expect(find.byType(EditProfilePage), findsOneWidget);
+
+    // And Edit profile returns to the account.
+    await tester.tap(find.bySemanticsLabel('Back to the account'));
+    await tester.pumpAndSettle();
+    expect(find.byType(EditProfilePage), findsNothing);
+    expect(find.byType(AccountSheet), findsOneWidget);
+    await _drain(tester);
+  });
+
+  testWidgets('the pencil carries a dot while something there needs them', (
+    tester,
+  ) async {
+    _phone(tester);
+    await tester.pumpWidget(_app({'firstName': 'Jerson', 'email': 'j@x.edu'}));
+    await _settle(tester);
+    await tester.tap(find.byTooltip('Account'));
+    await tester.pumpAndSettle();
+    expect(
+      find.bySemanticsLabel('Edit profile, something needs you'),
+      findsOneWidget,
+    );
+    await _drain(tester);
+  });
+
+  group('what puts a dot on the pencil', () {
+    test('an email not confirmed', () {
+      expect(profileNeedsAttention({'email': 'a@b.c'}), isTrue);
+      expect(
+        profileNeedsAttention({'email': 'a@b.c', 'emailVerified': true}),
+        isFalse,
+      );
+    });
+    test('a school with no graduation year', () {
+      final ok = {'email': 'a@b.c', 'emailVerified': true};
+      expect(
+        profileNeedsAttention({
+          ...ok,
+          'school': {'name': 'BYU', 'graduationYear': null},
+        }),
+        isTrue,
+      );
+      expect(
+        profileNeedsAttention({
+          ...ok,
+          'school': {'name': 'BYU', 'graduationYear': 2025},
+        }),
+        isFalse,
+      );
+      // No school at all is a choice, not a gap.
+      expect(profileNeedsAttention(ok), isFalse);
+    });
   });
 }

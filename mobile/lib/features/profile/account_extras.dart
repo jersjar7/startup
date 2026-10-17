@@ -574,7 +574,7 @@ class _SchoolEditorState extends State<SchoolEditor> {
                           ),
                           const SizedBox(width: 6),
                           Text(
-                            'Account',
+                            'Edit profile',
                             style: AppTheme.body(
                               size: 14.5,
                               color: AppColors.ink2,
@@ -677,6 +677,7 @@ class AccountSheetHostState extends State<AccountSheetHost> {
   /// Which page the one container is showing.
   String _page = 'account';
 
+  void showProfile() => setState(() => _page = 'profile');
   void showSchool() => setState(() => _page = 'school');
   void showName() => setState(() => _page = 'name');
   void showEmail() => setState(() => _page = 'email');
@@ -686,13 +687,16 @@ class AccountSheetHostState extends State<AccountSheetHost> {
 
   @override
   Widget build(BuildContext context) {
-    // The back gesture closes the school form first and the sheet second, so
-    // the two levels unwind in the order they were entered.
+    // The back gesture unwinds in the order the levels were entered: an
+    // editor back to Edit profile, Edit profile back to the account, and the
+    // sheet last.
     final deeper = _page != 'account';
+    final editing = const {'name', 'email', 'school'}.contains(_page);
     return PopScope(
       canPop: !deeper,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop && deeper) showAccount();
+        if (didPop || !deeper) return;
+        editing ? showProfile() : showAccount();
       },
       child: AnimatedSize(
         duration: const Duration(milliseconds: 220),
@@ -707,6 +711,8 @@ class AccountSheetHostState extends State<AccountSheetHost> {
               begin: Offset(
                 child.key == const ValueKey('school') ||
                         child.key == const ValueKey('name') ||
+                        child.key == const ValueKey('email') ||
+                        child.key == const ValueKey('profile') ||
                         child.key == const ValueKey('signout') ||
                         child.key == const ValueKey('about')
                     ? 0.06
@@ -721,17 +727,22 @@ class AccountSheetHostState extends State<AccountSheetHost> {
             'school' => SchoolEditor(
               key: const ValueKey('school'),
               auth: widget.auth,
-              onDone: showAccount,
+              onDone: showProfile,
             ),
             'name' => NameEditor(
               key: const ValueKey('name'),
               auth: widget.auth,
-              onDone: showAccount,
+              onDone: showProfile,
             ),
             'email' => EmailEditor(
               key: const ValueKey('email'),
               auth: widget.auth,
-              onDone: showAccount,
+              onDone: showProfile,
+            ),
+            'profile' => EditProfilePage(
+              key: const ValueKey('profile'),
+              auth: widget.auth,
+              onBack: showAccount,
             ),
             'about' => AboutPage(
               key: const ValueKey('about'),
@@ -847,6 +858,94 @@ class AboutPage extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The account's details, one level in from the pencil beside the three
+/// dots (owner, 2026-10-17). The name and email already head the sheet, so
+/// their rows lived there only to be edited; School joined them so the
+/// sheet's face is the figures, reminders and the actions.
+class EditProfilePage extends StatelessWidget {
+  const EditProfilePage({super.key, required this.auth, required this.onBack});
+
+  final AuthController auth;
+  final VoidCallback onBack;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Center(child: Grabber()),
+            const SizedBox(height: 14),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Semantics(
+                button: true,
+                label: 'Back to the account',
+                child: ExcludeSemantics(
+                  child: GestureDetector(
+                    onTap: onBack,
+                    behavior: HitTestBehavior.opaque,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 4,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.arrow_back_rounded,
+                            size: 18,
+                            color: AppColors.ink2,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Account',
+                            style: AppTheme.body(
+                              size: 14.5,
+                              color: AppColors.ink2,
+                              weight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Edit profile',
+              style: AppTheme.display(size: 30, height: 1.05),
+            ),
+            const SizedBox(height: 18),
+            NameRow(auth: auth),
+            EmailRow(auth: auth),
+            SchoolRow(auth: auth),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Something in Edit profile wants the student: an email not yet confirmed,
+/// or a school with no graduation year (a cohort needs the year, owner
+/// 2026-10-07). The pencil carries a dot while it is true, since the rows
+/// that said so are no longer on the sheet's face.
+bool profileNeedsAttention(Map<String, dynamic>? user) {
+  final email = (user?['email'] ?? '') as String;
+  if (email.isNotEmpty && user?['emailVerified'] != true) return true;
+  final school = user?['school'] as Map<String, dynamic>?;
+  final name = (school?['name'] ?? '') as String;
+  return name.isNotEmpty && school?['graduationYear'] == null;
 }
 
 /// Asked before signing out, in the same sheet rather than a dialog over
@@ -1081,7 +1180,7 @@ class _EmailEditorState extends State<EmailEditor> {
                           ),
                           const SizedBox(width: 6),
                           Text(
-                            'Account',
+                            'Edit profile',
                             style: AppTheme.body(
                               size: 14.5,
                               color: AppColors.ink2,
@@ -1249,7 +1348,7 @@ class _NameEditorState extends State<NameEditor> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: TextAction(
-                  label: 'Account',
+                  label: 'Edit profile',
                   onTap: () {
                     FocusManager.instance.primaryFocus?.unfocus();
                     widget.onDone();
