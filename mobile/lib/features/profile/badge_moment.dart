@@ -60,9 +60,12 @@ class _BadgeMomentScreenState extends State<BadgeMomentScreen> {
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: box.maxHeight - 36),
+              // The card in the middle, the way on at the bottom, a thumb's
+              // reach away (13c-game-done is the closest reference).
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  const SizedBox.shrink(),
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 420),
                     child: BadgeEarnedCard(
@@ -72,27 +75,36 @@ class _BadgeMomentScreenState extends State<BadgeMomentScreen> {
                       animate: !still,
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  PillButton(
-                    label: last ? 'Carry on' : 'Next badge',
-                    onTap: () {
-                      if (last) {
-                        Navigator.of(context).pop();
-                      } else {
-                        setState(() => _at++);
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 6),
-                  if (!widget.replay)
-                    TextAction(
-                      label: 'See all badges',
-                      onTap: () => Navigator.of(context).pushReplacement(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const BadgesScreen(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 24),
+                    child: Row(
+                      children: [
+                        if (!widget.replay) ...[
+                          TextAction(
+                            label: 'All badges',
+                            onTap: () => Navigator.of(context).pushReplacement(
+                              MaterialPageRoute<void>(
+                                builder: (_) => const BadgesScreen(),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 14),
+                        ],
+                        Expanded(
+                          child: PillButton(
+                            label: last ? 'Carry on' : 'Next badge',
+                            onTap: () {
+                              if (last) {
+                                Navigator.of(context).pop();
+                              } else {
+                                setState(() => _at++);
+                              }
+                            },
+                          ),
                         ),
-                      ),
+                      ],
                     ),
+                  ),
                 ],
               ),
             ),

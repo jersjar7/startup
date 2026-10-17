@@ -44,7 +44,7 @@ MARK_SPAN = 248          # the 512 drawing square, on the face
 
 # Defaults only: Dart pushes the real colours (badge_art.dart).
 SPRING, FOREST, CHAR = "FF63F0A8", "FF2D7A5F", "FF2C2C2C"
-CREAM, SUN, EMBER = "FFFFF9F0", "FFF5B731", "FFF0703F"
+CREAM, SUN, EMBER = "FFFFF9F0", "FFF5B731", "FFE8683A"
 
 _id = [10]
 def nid():

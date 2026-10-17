@@ -257,7 +257,7 @@ void main() {
       expect(find.byType(BadgeEarnedCard), findsOneWidget);
       expect(find.text('Your first lesson in Statics, done.'), findsOneWidget);
       // Watching again offers no way round to the page it came from.
-      expect(find.text('See all badges'), findsNothing);
+      expect(find.text('All badges'), findsNothing);
       await tester.tap(find.text('Carry on'));
       await tester.pumpAndSettle();
       expect(find.text('1 of 19 earned.'), findsOneWidget);
