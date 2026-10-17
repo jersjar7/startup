@@ -45,7 +45,7 @@ void main() {
     // The dock is icon-only; the items carry their names as semantics.
     final profileTab = tester.getCenter(find.bySemanticsLabel('Profile'));
     final studyTab = tester.getCenter(find.bySemanticsLabel('Study'));
-    final dailyTab = tester.getCenter(find.bySemanticsLabel('Daily'));
+    final dailyTab = tester.getCenter(find.bySemanticsLabel(RegExp(r'^Daily')));
     expect(profileTab.dx, lessThan(studyTab.dx));
     expect(studyTab.dx, lessThan(dailyTab.dx));
 

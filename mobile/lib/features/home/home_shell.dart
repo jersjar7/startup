@@ -1,12 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../core/notifications/notification_plan.dart';
 import '../../core/notifications/notifications.dart';
 import '../../core/theme/app_colors.dart';
+import '../daily/daily_repository.dart';
 import '../daily/daily_tab.dart';
 import '../profile/profile_tab.dart';
 import '../shared/widgets/kit.dart';
-import '../study/study_tab.dart';
+import '../study/study_tab.dart' show StudyTab, appClock;
 
 /// The tabs, in dock order.
 enum HomeTab { profile, study, daily }
@@ -38,14 +41,20 @@ class HomeShell extends StatefulWidget {
   State<HomeShell> createState() => _HomeShellState();
 }
 
-class _HomeShellState extends State<HomeShell> {
+class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   int _index = 0;
+
+  /// Wakes the dock at the next midnight, when a new Daily is due.
+  Timer? _midnight;
 
   @override
   void initState() {
     super.initState();
     HomeShell.requested.addListener(_onRequest);
     Notifications.tapped.addListener(_onTap);
+    DailyDone.day.addListener(_refreshDot);
+    WidgetsBinding.instance.addObserver(this);
+    _armMidnight();
     _onRequest();
     _onTap();
   }
@@ -54,7 +63,34 @@ class _HomeShellState extends State<HomeShell> {
   void dispose() {
     HomeShell.requested.removeListener(_onRequest);
     Notifications.tapped.removeListener(_onTap);
+    DailyDone.day.removeListener(_refreshDot);
+    WidgetsBinding.instance.removeObserver(this);
+    _midnight?.cancel();
     super.dispose();
+  }
+
+  // Back from the background, perhaps on a new day: the dot is worked out
+  // again, and so is the next midnight.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _armMidnight();
+      _refreshDot();
+    }
+  }
+
+  void _refreshDot() {
+    if (mounted) setState(() {});
+  }
+
+  void _armMidnight() {
+    _midnight?.cancel();
+    final now = appClock();
+    final next = DateTime(now.year, now.month, now.day + 1);
+    _midnight = Timer(next.difference(now), () {
+      _refreshDot();
+      _armMidnight();
+    });
   }
 
   void _onRequest() {
@@ -102,6 +138,7 @@ class _HomeShellState extends State<HomeShell> {
       icon: Icons.wb_sunny_outlined,
       activeIcon: Icons.wb_sunny_rounded,
       label: 'Daily',
+      dotLabel: "today's not played yet",
     ),
   ];
 
@@ -128,6 +165,7 @@ class _HomeShellState extends State<HomeShell> {
         items: _items,
         index: _index,
         onSelect: (i) => setState(() => _index = i),
+        dots: {if (DailyDone.dueOn(appClock())) HomeTab.daily.index},
       ),
     );
   }

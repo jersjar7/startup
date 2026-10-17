@@ -49,6 +49,10 @@ class DailyRepository {
       final data = await api.get('/daily?date=$date') as Map<String, dynamic>;
       final puzzle = DailyPuzzle.fromJson(data);
       await _write(_kPuzzle, puzzle.toJson());
+      // Played already, here or on another phone: the dock's dot goes.
+      if (puzzle.mine != null || puzzle.streak.playedToday) {
+        await DailyDone.note(date);
+      }
       // The account's Daily run, for the badges; a new phone learns it here.
       unawaited(BadgeLedger.noteDailyBest(puzzle.streak.best));
       return puzzle;
@@ -70,6 +74,9 @@ class DailyRepository {
     required int ms,
   }) async {
     final body = {'date': date, 'rounds': rounds, 'ms': ms};
+    // All three games are finished: that is the student's part done, sent
+    // or not, so the dock's dot goes either way.
+    await DailyDone.note(date);
     try {
       final data =
           await api.post('/daily/$number/result', body) as Map<String, dynamic>;
@@ -132,6 +139,45 @@ class DailyRepository {
       await (await SharedPreferences.getInstance()).remove(key);
     } catch (_) {}
   }
+}
+
+/// The last day this account finished the Daily, for the ember dot on the
+/// dock's Daily button (owner, 2026-10-17): it shows from the start of each
+/// day until all three games are finished, by the phone's own calendar, the
+/// same day the Daily itself goes by.
+class DailyDone {
+  DailyDone._();
+
+  static const _key = 'daily_done_day';
+
+  /// The finished day as 'YYYY-MM-DD', or null when none is known.
+  static final day = ValueNotifier<String?>(null);
+
+  static Future<void> load() async {
+    try {
+      day.value = (await SharedPreferences.getInstance()).getString(_key);
+    } catch (_) {}
+  }
+
+  static Future<void> note(String date) async {
+    if (day.value == date) return;
+    day.value = date;
+    try {
+      await (await SharedPreferences.getInstance()).setString(_key, date);
+    } catch (_) {}
+  }
+
+  /// Signed out: the next account has its own Daily.
+  static Future<void> clear() async {
+    day.value = null;
+    try {
+      await (await SharedPreferences.getInstance()).remove(_key);
+    } catch (_) {}
+  }
+
+  /// Whether today's Daily is still to finish. False before Daily No. 1.
+  static bool dueOn(DateTime now) =>
+      dailyNumberOn(now) != null && day.value != dayKey(now);
 }
 
 /// What the server answers a finished Daily with.

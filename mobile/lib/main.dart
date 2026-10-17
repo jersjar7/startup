@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'app.dart';
 import 'core/licenses.dart';
 import 'core/storage/app_storage.dart';
+import 'features/daily/daily_repository.dart';
 import 'features/games/game_progress.dart';
 import 'features/games/lesson_node_rive.dart';
 import 'features/profile/badge_art.dart';
@@ -29,6 +30,8 @@ Future<void> main() async {
   await GameProgress.instance.load(AppStorage());
   // The one thing badges keep beyond the rounds: the longest Daily run.
   await BadgeLedger.load();
+  // The last finished Daily, so the dock's dot is right on the first frame.
+  await DailyDone.load();
   // The lesson node artwork loads in the background. The first screen is
   // never the map, so it is in long before a node is drawn; if it fails, the
   // nodes paint themselves and nothing else notices.

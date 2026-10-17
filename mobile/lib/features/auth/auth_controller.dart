@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../core/network/api_client.dart';
 import '../../core/storage/app_storage.dart';
+import '../daily/daily_repository.dart';
 import '../games/game_progress.dart';
 import '../profile/badges.dart';
 
@@ -231,7 +232,9 @@ class AuthController extends ChangeNotifier {
     await storage.clearToken();
     api.setToken(null);
     user = null;
-    // The Daily run belongs to the account, not the phone.
+    // The Daily run belongs to the account, not the phone, and so does
+    // whether today's has been played.
     await BadgeLedger.clear();
+    await DailyDone.clear();
   }
 }

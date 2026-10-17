@@ -621,10 +621,14 @@ class DockItem {
     required this.icon,
     required this.activeIcon,
     required this.label,
+    this.dotLabel,
   });
   final IconData icon;
   final IconData activeIcon;
   final String label;
+
+  /// What a screen reader adds while the item carries its dot.
+  final String? dotLabel;
 }
 
 /// The dock: a full-bleed cream bar with its top corners rounded, sitting
@@ -639,11 +643,16 @@ class BottomDock extends StatelessWidget {
     required this.items,
     required this.index,
     required this.onSelect,
+    this.dots = const {},
   });
 
   final List<DockItem> items;
   final int index;
   final ValueChanged<int> onSelect;
+
+  /// The items carrying an ember dot on the shoulder of their circle: the
+  /// Daily until today's is finished.
+  final Set<int> dots;
 
   @override
   Widget build(BuildContext context) {
@@ -674,7 +683,9 @@ class BottomDock extends StatelessWidget {
                   child: Semantics(
                     button: true,
                     selected: i == index,
-                    label: items[i].label,
+                    label: dots.contains(i) && items[i].dotLabel != null
+                        ? '${items[i].label}, ${items[i].dotLabel}'
+                        : items[i].label,
                     child: _Pressable(
                       onTap: () => onSelect(i),
                       child: SizedBox(
@@ -682,26 +693,49 @@ class BottomDock extends StatelessWidget {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            AnimatedContainer(
-                              duration: const Duration(milliseconds: 180),
-                              curve: Curves.easeOut,
-                              width: 54,
-                              height: 54,
-                              decoration: BoxDecoration(
-                                color: i == index
-                                    ? AppColors.spring
-                                    : Colors.transparent,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                i == index
-                                    ? items[i].activeIcon
-                                    : items[i].icon,
-                                size: 24,
-                                color: i == index
-                                    ? AppColors.charcoal
-                                    : AppColors.ink2,
-                              ),
+                            Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                AnimatedContainer(
+                                  duration: const Duration(milliseconds: 180),
+                                  curve: Curves.easeOut,
+                                  width: 54,
+                                  height: 54,
+                                  decoration: BoxDecoration(
+                                    color: i == index
+                                        ? AppColors.spring
+                                        : Colors.transparent,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    i == index
+                                        ? items[i].activeIcon
+                                        : items[i].icon,
+                                    size: 24,
+                                    color: i == index
+                                        ? AppColors.charcoal
+                                        : AppColors.ink2,
+                                  ),
+                                ),
+                                if (dots.contains(i))
+                                  Positioned(
+                                    top: 4,
+                                    right: 4,
+                                    child: Container(
+                                      key: ValueKey('dock-dot-$i'),
+                                      width: 12,
+                                      height: 12,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.ember,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: AppColors.cream,
+                                          width: 2.5,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
                             const SizedBox(height: 4),
                             ExcludeSemantics(
