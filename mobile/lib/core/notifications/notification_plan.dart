@@ -308,10 +308,10 @@ int _id(NotifyKind kind, DateTime when) {
 
 String _readyBody(int dayOffset) {
   const bodies = [
-    'Three games from three chapters, the same for everyone today. About '
+    'Three concepts from three chapters, the same for everyone today. About '
         'three minutes.',
-    'Three chapters, three games, about three minutes. See how you stack up.',
-    'Today\'s three games are up. Play them before your coffee gets cold.',
+    'Three chapters, three concepts, about three minutes. See how you stack up.',
+    'Today\'s three concepts are up. Play them before your coffee gets cold.',
   ];
   return bodies[dayOffset % bodies.length];
 }
@@ -319,8 +319,8 @@ String _readyBody(int dayOffset) {
 String _eveningBody(int dayOffset) {
   const bodies = [
     'Three minutes before bed keeps the concepts fresh.',
-    'There is still time tonight. Three games, then you are done.',
-    'Today\'s three games are waiting. A few minutes is all it takes.',
+    'There is still time tonight. Three concepts, then you are done.',
+    'Today\'s three concepts are waiting. A few minutes is all it takes.',
   ];
   return bodies[dayOffset % bodies.length];
 }

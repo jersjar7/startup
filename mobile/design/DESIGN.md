@@ -220,6 +220,11 @@ Short, direct, a little playful. A study partner, not a registration system.
   FE tests, not a probability of passing"; never a pass percentage; never a
   countdown to a date the student did not give us ("Set your exam date").
 - "Completely free" is the claim; never "free to start".
+- Never "game" in anything a student reads (owner and the tester,
+  2026-10-17, point 10: it made the app sound less serious). What a student
+  does is a **round**; one item of rounds, which teaches one idea, is a
+  **concept** ("3 concepts, about 3 min", "Concept 2 of 3"). The code keeps
+  its `game` names; only the words on screen change.
 
 ## Translating our screens into this language
 

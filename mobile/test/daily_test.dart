@@ -474,9 +474,9 @@ void main() {
         _app(const DailyStepScreen(justFinished: 0), _FakeRepo(_puzzle())),
       );
       await _settle(tester);
-      expect(find.text('GAME 2 OF 3'), findsOneWidget);
+      expect(find.text('CONCEPT 2 OF 3'), findsOneWidget);
       expect(find.text('Which Stretches More'), findsOneWidget);
-      expect(find.text('Play game 2'), findsOneWidget);
+      expect(find.text('Play concept 2'), findsOneWidget);
       expect(
         find.text('Which Distance Counts: 5 of 6 on the first try.'),
         findsOneWidget,

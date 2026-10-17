@@ -290,7 +290,7 @@ class _Waiting extends StatelessWidget {
                     Text(
                       refused
                           ? 'Today\'s Daily is not open yet.'
-                          : 'Today\'s games come from the server, once a day.',
+                          : 'Today\'s Daily comes from the server, once a day.',
                       style: AppTheme.display(size: 26, height: 1.1),
                     ),
                     const SizedBox(height: 8),
@@ -346,7 +346,7 @@ class _Today extends StatelessWidget {
     final minutes = (puzzle.total / 6).round().clamp(1, 9);
     final going = run != null && run!.started;
     final label = going
-        ? 'Pick up game ${run!.gameIndex + 1} of ${puzzle.games.length}'
+        ? 'Pick up concept ${run!.gameIndex + 1} of ${puzzle.games.length}'
         : 'Play today\'s';
 
     return Column(
@@ -385,7 +385,7 @@ class _Today extends StatelessWidget {
                   children: [
                     const TextSpan(text: ' '),
                     TextSpan(
-                      text: 'games, about $minutes min',
+                      text: 'concepts, about $minutes min',
                       style: AppTheme.display(
                         size: 22,
                         weight: FontWeight.w700,
@@ -414,7 +414,7 @@ class _Today extends StatelessWidget {
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: Text(
-                    'Today\'s Daily has a game this version of the app does '
+                    'Today\'s Daily has a concept this version of the app does '
                     'not have yet. Update the app to play it.',
                     style: AppTheme.body(size: 15),
                   ),
@@ -641,7 +641,7 @@ class _Results extends StatelessWidget {
         // Replays are plain practice: opened like any game from Study, never
         // armed for the Daily, so the first try stays the one on the board
         // (owner, 2026-10-16).
-        Text('TODAY\'S GAMES', style: AppTheme.eyebrow()),
+        Text('TODAY\'S CONCEPTS', style: AppTheme.eyebrow()),
         const SizedBox(height: 6),
         Text(
           'Play them again as practice. Your first try is the one that counts.',

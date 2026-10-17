@@ -115,9 +115,9 @@ class ConceptsPage extends StatelessWidget {
             const SizedBox(height: 14),
             Text(
               held.isEmpty
-                  ? 'None yet. Finish every round of a game and its concept '
+                  ? 'None yet. Clear all the rounds on one concept and it '
                         'lands here.'
-                  : 'Each one a game finished here on the phone, every round. '
+                  : 'Each one finished here on the phone, every round cleared. '
                         'The website counts its own practice.',
               style: AppTheme.body(size: 16, color: AppColors.mutedOnLight),
             ),

@@ -200,7 +200,7 @@ class _FeedbackSheetState extends State<FeedbackSheet> {
                   label: 'What tripped you up?',
                   hint: 'What tripped you up?',
                   caption:
-                      'We read every one. Your round and game come along, so '
+                      'We read every one. The round you were on comes along, so '
                       'you can keep it short.',
                   error: _error,
                   keyboardType: TextInputType.multiline,

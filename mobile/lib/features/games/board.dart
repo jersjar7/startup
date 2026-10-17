@@ -424,7 +424,7 @@ class _DailyLine extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          'TODAY\'S DAILY · GAME ${game + 1} OF $count',
+          'TODAY\'S DAILY · CONCEPT ${game + 1} OF $count',
           style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
         ),
       ),

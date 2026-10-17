@@ -61,7 +61,7 @@ class DailyStepScreen extends StatelessWidget {
                   Text('TODAY\'S DAILY', style: AppTheme.eyebrow()),
                   const Spacer(),
                   Text(
-                    'GAME ${at + 1} OF $count',
+                    'CONCEPT ${at + 1} OF $count',
                     style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
                   ),
                 ],
@@ -150,7 +150,7 @@ class DailyStepScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               PillButton(
-                label: at == 0 && done == null ? 'Play' : 'Play game ${at + 1}',
+                label: at == 0 && done == null ? 'Play' : 'Play concept ${at + 1}',
                 onTap: () {
                   run.arm();
                   context.pushReplacement('/games/play/${game.gameId}');

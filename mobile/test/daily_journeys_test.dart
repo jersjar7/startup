@@ -139,10 +139,10 @@ void main() {
     await _settle(tester);
     for (var g = 0; g < 3; g++) {
       expect(find.byType(DailyStepScreen), findsOneWidget);
-      expect(find.text('GAME ${g + 1} OF 3'), findsOneWidget);
+      expect(find.text('CONCEPT ${g + 1} OF 3'), findsOneWidget);
       await tester.tap(find.byType(PillButton));
       await _settle(tester);
-      expect(find.text('TODAY\'S DAILY · GAME ${g + 1} OF 3'), findsOneWidget);
+      expect(find.text('TODAY\'S DAILY · CONCEPT ${g + 1} OF 3'), findsOneWidget);
       await _playThrough(tester);
     }
 
@@ -174,7 +174,7 @@ void main() {
     expect(DailyRun.instance.clearedIn(0), isNotEmpty);
 
     await reopen(tester);
-    expect(find.text('Pick up game 1 of 3'), findsOneWidget);
+    expect(find.text('Pick up concept 1 of 3'), findsOneWidget);
     expect(DailyRun.instance.clearedIn(0), isNotEmpty);
     expect(server.kept, isEmpty);
   });

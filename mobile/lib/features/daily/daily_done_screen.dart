@@ -107,7 +107,7 @@ class _DailyDoneScreenState extends State<DailyDoneScreen> {
       final n = _mine.rounds[g].where((r) => !r).length;
       if (n == 0) continue;
       missed += n;
-      final chapter = chapterMaps[puzzle.games[g].chapterId]?.name ?? 'a game';
+      final chapter = chapterMaps[puzzle.games[g].chapterId]?.name ?? 'a chapter';
       parts.add('${n < words.length ? words[n] : '$n'} in $chapter');
     }
     final list = parts.length <= 1
