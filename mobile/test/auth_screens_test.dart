@@ -220,64 +220,65 @@ void main() {
     expect(find.text('Create my account'), findsOneWidget);
   });
 
-  testWidgets('create account: email, name on butter, then password on spring', (
-    tester,
-  ) async {
-    _phone(tester);
-    await tester.pumpWidget(_app(const CreateScreen()));
-    await _settle(tester);
-    expect(find.text('Log in instead'), findsOneWidget);
-    await _golden(tester, 'create-1-email');
+  testWidgets(
+    'create account: email, name on butter, then password on spring',
+    (tester) async {
+      _phone(tester);
+      await tester.pumpWidget(_app(const CreateScreen()));
+      await _settle(tester);
+      expect(find.text('Log in instead'), findsOneWidget);
+      await _golden(tester, 'create-1-email');
 
-    // No email: stay, and say so.
-    await tester.tap(find.byTooltip('Next'));
-    await tester.pumpAndSettle();
-    expect(find.text('Enter your email.'), findsOneWidget);
+      // No email: stay, and say so.
+      await tester.tap(find.byTooltip('Next'));
+      await tester.pumpAndSettle();
+      expect(find.text('Enter your email.'), findsOneWidget);
 
-    await tester.enterText(find.byType(TextField), 'you@school.edu');
-    await tester.tap(find.byTooltip('Next'));
-    await tester.pumpAndSettle();
-    // What to call them: optional, and honest about where it shows
-    // (ADR 0023).
-    expect(find.text('What should\nwe call you?'), findsOneWidget);
-    expect(find.text('Skip'), findsOneWidget);
-    await _golden(tester, 'create-2-name');
-    await tester.enterText(find.byType(TextField), 'Sam');
-    await tester.tap(find.byTooltip('Next'));
-    await tester.pumpAndSettle();
-    expect(find.text('Pick a\npassword.'), findsOneWidget);
+      await tester.enterText(find.byType(TextField), 'you@school.edu');
+      await tester.tap(find.byTooltip('Next'));
+      await tester.pumpAndSettle();
+      // What to call them: optional, and honest about where it shows
+      // (ADR 0023).
+      expect(find.text('What should\nwe call you?'), findsOneWidget);
+      expect(find.text('Skip'), findsOneWidget);
+      await _golden(tester, 'create-2-name');
+      await tester.enterText(find.byType(TextField), 'Sam');
+      await tester.tap(find.byTooltip('Next'));
+      await tester.pumpAndSettle();
+      expect(find.text('Pick a\npassword.'), findsOneWidget);
 
-    // Back keeps the name typed.
-    await tester.tap(find.byTooltip('Back'));
-    await tester.pumpAndSettle();
-    expect(find.text('Sam'), findsOneWidget);
-    await tester.tap(find.byTooltip('Next'));
-    await tester.pumpAndSettle();
-    await _golden(tester, 'create-2-password');
+      // Back keeps the name typed.
+      await tester.tap(find.byTooltip('Back'));
+      await tester.pumpAndSettle();
+      expect(find.text('Sam'), findsOneWidget);
+      await tester.tap(find.byTooltip('Next'));
+      await tester.pumpAndSettle();
+      await _golden(tester, 'create-2-password');
 
-    // A short password is refused before anyone fills in a third screen.
-    await tester.enterText(find.byType(TextField), 'short');
-    await tester.tap(find.byTooltip('Next'));
-    await tester.pumpAndSettle();
-    expect(find.text('Use at least 8 characters.'), findsOneWidget);
+      // A short password is refused before anyone fills in a third screen.
+      await tester.enterText(find.byType(TextField), 'short');
+      await tester.tap(find.byTooltip('Next'));
+      await tester.pumpAndSettle();
+      expect(find.text('Use at least 8 characters.'), findsOneWidget);
 
-    // Then the school, which is what makes a cohort report possible at all.
-    // It is skippable: nobody is held at the door over a research field.
-    await tester.enterText(find.byType(TextField), 'longenough');
-    await tester.tap(find.byTooltip('Next'));
-    await tester.pumpAndSettle();
-    expect(find.text('Where do\nyou study?'), findsOneWidget);
-    expect(find.text('Skip'), findsOneWidget);
-    // Real years, not a template that printed its own variable name.
-    expect(find.text('${DateTime.now().year}'), findsOneWidget);
-    // The four terms sit in one row that cannot wrap, and the
-    // already-graduated answer is a text action rather than another chip,
-    // exactly as "Clear the date" is on the exam date screen.
-    expect(find.text('SPRING'), findsOneWidget);
-    expect(find.text('FALL'), findsOneWidget);
-    expect(find.text('I have already graduated'), findsOneWidget);
-    await _golden(tester, 'create-3-school');
-  });
+      // Then the school, which is what makes a cohort report possible at all.
+      // It is skippable: nobody is held at the door over a research field.
+      await tester.enterText(find.byType(TextField), 'longenough');
+      await tester.tap(find.byTooltip('Next'));
+      await tester.pumpAndSettle();
+      expect(find.text('Where do\nyou study?'), findsOneWidget);
+      expect(find.text('Skip'), findsOneWidget);
+      // Real years, not a template that printed its own variable name.
+      expect(find.text('${DateTime.now().year}'), findsOneWidget);
+      // The four terms sit in one row that cannot wrap, and the
+      // already-graduated answer is a text action rather than another chip,
+      // exactly as "Clear the date" is on the exam date screen.
+      expect(find.text('SPRING'), findsOneWidget);
+      expect(find.text('FALL'), findsOneWidget);
+      expect(find.text('I have already graduated'), findsOneWidget);
+      await _golden(tester, 'create-3-school');
+    },
+  );
 
   testWidgets('log in: email, then password', (tester) async {
     _phone(tester);
