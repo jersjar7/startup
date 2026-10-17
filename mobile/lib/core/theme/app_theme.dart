@@ -44,6 +44,11 @@ abstract final class AppTheme {
         elevation: 0,
         centerTitle: false,
       ),
+      // The sheets that do not choose their own dimming keep Flutter's by
+      // day and get the near-black night scrim.
+      bottomSheetTheme: const BottomSheetThemeData(
+        modalBarrierColor: AppColors.scrimDefault,
+      ),
       dividerTheme: const DividerThemeData(
         color: AppColors.line,
         thickness: 1,

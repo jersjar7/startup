@@ -67,8 +67,8 @@ class _BadgesScreenState extends State<BadgesScreen> {
   Future<void> _showHow(BuildContext context, AppBadge b) =>
       showModalBottomSheet<void>(
         context: context,
-        backgroundColor: AppColors.cream,
-        barrierColor: const Color(0xA62C2C2C),
+        backgroundColor: AppColors.sheet,
+        barrierColor: AppColors.scrim,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
         ),

@@ -47,8 +47,24 @@ abstract final class AppColors {
   // Grounds and paper
   static const fog = ThemedColor(0xFFE3DFD7, 0xFF1B1A18); // the screen ground
   static const cream = ThemedColor(0xFFFFF9F0, 0xFF272522); // paper: sheets, light tiles
-  static const creamDark = ThemedColor(0xFFF5EDE0, 0xFF312E2A); // second light tile
+  static const creamDark = ThemedColor(0xFFF5EDE0, 0xFF3A3732); // second light tile
   static const white = ThemedColor(0xFFFFFFFF, 0xFF24221F);
+
+  /// A bottom sheet. Cream by day; at night lifted above the ground, since a
+  /// sheet the colour of the screen behind it reads as no sheet at all
+  /// (owner, 2026-10-17). Tiles on it are creamDark, lighter still.
+  static const sheet = ThemedColor(0xFFFFF9F0, 0xFF2E2B27);
+
+  /// The one sheet that is fog by day (the Daily's share sheet, over butter).
+  static const sheetFog = ThemedColor(0xFFE3DFD7, 0xFF2E2B27);
+
+  /// What dims the screen behind a sheet. Charcoal at two thirds by day;
+  /// near black at night, where charcoal over a dark ground dimmed nothing.
+  static const scrim = ThemedColor(0xA62C2C2C, 0xC7000000);
+
+  /// The same night scrim for the sheets that keep Flutter's own dimming by
+  /// day (black at 54 percent).
+  static const scrimDefault = ThemedColor(0x8A000000, 0xC7000000);
 
   /// The engineering paper every figure is drawn on. By night the board
   /// ("Warm night"): every figure's ink and fills are tokens that follow the

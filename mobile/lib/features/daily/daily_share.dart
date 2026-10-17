@@ -113,7 +113,7 @@ Future<void> showDailyShare(
 }) {
   return showModalBottomSheet<void>(
     context: context,
-    backgroundColor: AppColors.fog,
+    backgroundColor: AppColors.sheetFog,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(40)),

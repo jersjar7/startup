@@ -80,6 +80,18 @@ void main() {
     });
   });
 
+  test('a sheet stands off the dimmed screen behind it at night', () {
+    // Owner, 2026-10-17: the sheet was the colour of the screen behind it.
+    AppPalette.dark = true;
+    double lum(Color c) => 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
+    for (final scrim in [AppColors.scrim, AppColors.scrimDefault]) {
+      final behind = lum(AppColors.fog) * (1 - scrim.a);
+      expect(lum(AppColors.sheet), greaterThan(behind * 2.5));
+    }
+    // And a tile on the sheet stands off the sheet.
+    expect(lum(AppColors.creamDark), greaterThan(lum(AppColors.sheet) * 1.15));
+  });
+
   group('the choice', () {
     test('automatic follows the phone, and the others do not', () {
       expect(

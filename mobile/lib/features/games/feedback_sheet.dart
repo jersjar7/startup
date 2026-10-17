@@ -22,7 +22,7 @@ Future<void> showFeedbackSheet(
 }) {
   return showModalBottomSheet<void>(
     context: context,
-    backgroundColor: AppColors.cream,
+    backgroundColor: AppColors.sheet,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(40)),

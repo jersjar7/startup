@@ -419,8 +419,8 @@ class _ProfileTabState extends State<ProfileTab> {
   Future<void> _openAccount(AuthController auth) {
     return showModalBottomSheet<void>(
       context: context,
-      backgroundColor: AppColors.cream,
-      barrierColor: const Color(0xA62C2C2C),
+      backgroundColor: AppColors.sheet,
+      barrierColor: AppColors.scrim,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
