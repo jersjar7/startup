@@ -167,7 +167,9 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthController>();
     final user = auth.user ?? const {};
-    final first = ((user['firstName'] ?? '') as String).trim();
+    // The given name only: "Jerson Test" typed at sign-up greets "Jerson"
+    // (owner, 2026-10-16).
+    final first = givenName(user['firstName'] as String?);
     final examIso = user['examDate'] as String?;
     final days = daysUntil(examIso);
     final exam = ExamFacts(days: days, label: _examLabel(examIso, days));
@@ -517,9 +519,21 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 }
 
+/// The first word of what they typed as their name, which is the given
+/// name: Profile greets "Jerson", not "Jerson Test".
+String givenName(String? typed) {
+  final words = (typed ?? '').trim().split(RegExp(r'\s+'));
+  return words.isEmpty ? '' : words.first;
+}
+
 String initialsOf(Map user) {
-  final first = (user['firstName'] ?? '') as String;
-  final last = (user['lastName'] ?? '') as String;
+  final typed = ((user['firstName'] ?? '') as String).trim();
+  final words = typed.split(RegExp(r'\s+'));
+  final first = typed.isEmpty ? '' : words.first;
+  // A full name typed in the one field still gives two initials.
+  final last = ((user['lastName'] ?? '') as String).trim().isNotEmpty
+      ? (user['lastName'] as String).trim()
+      : (words.length > 1 ? words[1] : '');
   final email = (user['email'] ?? '') as String;
   if (first.isNotEmpty) {
     return (first[0] + (last.isNotEmpty ? last[0] : '')).toUpperCase();

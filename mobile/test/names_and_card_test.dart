@@ -726,6 +726,29 @@ void main() {
     });
   });
 
+  group('the given name only', () {
+    test('the first word of what was typed', () {
+      expect(givenName('Jerson Test'), 'Jerson');
+      expect(givenName('  Maria   José García '), 'Maria');
+      expect(givenName('Sam'), 'Sam');
+      expect(givenName(''), '');
+      expect(givenName(null), '');
+    });
+
+    test('two initials from a full name in one field', () {
+      expect(initialsOf({'firstName': 'Jerson Test'}), 'JT');
+      expect(initialsOf({'firstName': 'Sam'}), 'S');
+      expect(initialsOf({'firstName': 'Sam', 'lastName': 'Reyes'}), 'SR');
+      expect(initialsOf({'email': 'q@x.com'}), 'Q');
+    });
+
+    testWidgets('Profile greets by the first word', (tester) async {
+      server.me = {'email': 's@x.com', 'firstName': 'Jerson Test'};
+      await _pump(tester, const HomeShell());
+      expect(find.text('Jerson, your FE prep starts here.'), findsOneWidget);
+    });
+  });
+
   group('what we call a student', () {
     testWidgets('the account sheet changes it (N7)', (tester) async {
       server.me = {'email': 's@x.com', 'firstName': 'Sam'};
