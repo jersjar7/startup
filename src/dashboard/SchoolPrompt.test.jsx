@@ -72,7 +72,7 @@ describe('SchoolPrompt', () => {
     expect(lastBody(fetchFn)).toEqual({ name: 'UWF', graduationYear: null, graduationTerm: null });
   });
 
-  it('sends a null year for someone who has already graduated', async () => {
+  it('sends "already graduated" as an answer, not a blank year', async () => {
     const fetchFn = mockFetch(() => Promise.resolve({ ok: true, json: () => Promise.resolve({}) }));
     render(<SchoolPrompt onClose={vi.fn()} />);
 
@@ -80,7 +80,9 @@ describe('SchoolPrompt', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Already graduated' }));
     fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
-    await waitFor(() => expect(lastBody(fetchFn)).toEqual({ name: 'UWF', graduationYear: null, graduationTerm: null }));
+    await waitFor(() => expect(lastBody(fetchFn)).toEqual({
+      name: 'UWF', graduationYear: null, graduationTerm: null, graduated: true,
+    }));
   });
 
   it('lets a year be unpicked, so a mis-tap is not permanent', async () => {

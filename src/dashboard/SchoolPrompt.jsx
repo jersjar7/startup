@@ -123,14 +123,14 @@ export function SchoolPrompt({
     if (busy || !trimmed) return;
     setBusy(true);
     try {
-      // "Already graduated" sends a null year rather than a guessed one: the
-      // contract has no slot for a past date we were never told. A name with a
-      // null year still reads correctly, because schoolResolved is what marks
-      // the question answered, not the year.
+      // "Already graduated" is sent as an answer of its own, never a guessed
+      // year. It used to go as a bare null, stored exactly like somebody who
+      // skipped the question (owner, 2026-10-16).
       await postSchool({
         name: trimmed,
         graduationYear: typeof year === 'number' ? year : null,
-        graduationTerm: term ? term.toLowerCase() : null,
+        graduationTerm: term && year !== 'graduated' ? term.toLowerCase() : null,
+        ...(year === 'graduated' ? { graduated: true } : {}),
       });
     } catch { /* non-blocking: never trap a user behind a profile question */ }
     onClose(true);

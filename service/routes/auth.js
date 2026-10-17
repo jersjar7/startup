@@ -119,12 +119,18 @@ router.post('/create', async (req, res) => {
     if (school) {
       const gradYear = validGraduationYear(req.body.graduationYear);
       const gradTerm = validGraduationTerm(req.body.graduationTerm);
+      // "I have already graduated" is an answer of its own, not a blank
+      // year: repeat takers are a third of the FE Civil population, and
+      // without this they were stored exactly like somebody who skipped the
+      // question (owner, 2026-10-16).
+      const graduated = req.body.graduated === true;
       user.school = {
         name: school.name,
         key: school.key,
         domain,
-        graduationYear: gradYear === undefined ? null : gradYear,
-        graduationTerm: gradTerm === undefined ? null : gradTerm,
+        graduationYear: graduated || gradYear === undefined ? null : gradYear,
+        graduationTerm: graduated || gradTerm === undefined ? null : gradTerm,
+        graduated,
         answeredAt: new Date(),
       };
     } else {
@@ -248,6 +254,7 @@ router.get('/me', verifyAuth, async (req, res) => {
           short: shortSchoolName(user.school.name),
           graduationYear: user.school.graduationYear ?? null,
           graduationTerm: user.school.graduationTerm ?? null,
+          graduated: user.school.graduated === true,
         }
       : null,
     schoolResolved: isSchoolResolved(user),
@@ -347,14 +354,24 @@ router.post('/school', verifyAuth, async (req, res) => {
   const term = validGraduationTerm(req.body.graduationTerm);
   if (term === undefined) return res.status(400).send({ msg: 'That graduation term is not valid' });
 
-  await DB.setUserFields(req.user.email, {
+  const update = {
     'school.name': parsed.name,
     'school.key': parsed.key,
     'school.domain': academicDomain(req.user.email, req.user.verifiedStudentEmail),
     'school.graduationYear': year,
     'school.graduationTerm': term,
     'school.answeredAt': new Date(),
-  });
+  };
+  // Already graduated, a real answer (see /create). Only changed when the
+  // client says so or gives a year, so a client that only edits the name
+  // never quietly forgets it.
+  if ('graduated' in req.body) {
+    update['school.graduated'] = req.body.graduated === true && year === null;
+    if (update['school.graduated']) update['school.graduationTerm'] = null;
+  } else if (year !== null) {
+    update['school.graduated'] = false;
+  }
+  await DB.setUserFields(req.user.email, update);
   res.send({ ok: true, school: { name: parsed.name, graduationYear: year } });
 });
 

@@ -205,3 +205,48 @@ describe('school suggestions', () => {
     expect(limited).toBe(true);
   });
 });
+
+// "I have already graduated" is an answer, not a blank: repeat takers are a
+// third of the FE Civil population (owner, 2026-10-16: the app showed
+// "Not set" after it was tapped, and both clients saved a plain null).
+describe('already graduated', () => {
+  it('is kept at sign-up, apart from somebody who skipped the year', async () => {
+    await request(app()).post('/api/auth/create').send({
+      email: 'grad@x.com', password: 'Abcdefg1', school: 'Brigham Young University', graduated: true,
+    });
+    await request(app()).post('/api/auth/create').send({
+      email: 'skip@x.com', password: 'Abcdefg1', school: 'Brigham Young University',
+    });
+    expect(users['grad@x.com'].school).toMatchObject({ graduated: true, graduationYear: null });
+    expect(users['skip@x.com'].school).toMatchObject({ graduated: false, graduationYear: null });
+  });
+
+  it('wins over a year sent with it at sign-up', async () => {
+    await request(app()).post('/api/auth/create').send({
+      email: 'both@x.com', password: 'Abcdefg1', school: 'BYU', graduated: true, graduationYear: 2027,
+    });
+    expect(users['both@x.com'].school).toMatchObject({ graduated: true, graduationYear: null });
+  });
+
+  it('is saved from the account and shown back', async () => {
+    users['named@x.com'].school = { name: 'BYU' };
+    await request(app()).post('/api/auth/school').set(as('named@x.com'))
+      .send({ name: 'BYU', graduated: true });
+    expect(users['named@x.com'].school.graduated).toBe(true);
+    const me = await request(app()).get('/api/auth/me').set(as('named@x.com'));
+    expect(me.body.school.graduated).toBe(true);
+  });
+
+  it('is not forgotten by a client that only edits the name', async () => {
+    users['named@x.com'].school = { name: 'BYU', graduated: true };
+    await request(app()).post('/api/auth/school').set(as('named@x.com')).send({ name: 'BYU Idaho' });
+    expect(users['named@x.com'].school.graduated).toBe(true);
+  });
+
+  it('gives way when a graduation year is picked', async () => {
+    users['named@x.com'].school = { name: 'BYU', graduated: true };
+    await request(app()).post('/api/auth/school').set(as('named@x.com'))
+      .send({ name: 'BYU', graduationYear: 2027 });
+    expect(users['named@x.com'].school.graduated).toBe(false);
+  });
+});

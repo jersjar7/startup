@@ -49,10 +49,15 @@ class GraduationPicker extends StatelessWidget {
     required this.onYear,
     required this.onTerm,
     this.onClear,
+    this.graduated = false,
   });
 
   final int? year;
   final String? term;
+
+  /// "I have already graduated" was chosen. An answer of its own, shown as
+  /// one, not a blank that reads "Not set" (owner, 2026-10-16).
+  final bool graduated;
   final ValueChanged<int?> onYear;
   final ValueChanged<String?> onTerm;
 
@@ -87,7 +92,9 @@ class GraduationPicker extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          term == null && year == null
+          graduated
+              ? 'Already graduated'
+              : term == null && year == null
               ? 'Not set'
               : '${term ?? 'Term'} ${year?.toString() ?? ''}'.trim(),
           style: AppTheme.display(size: 38, height: 1.0, tracking: -0.05),
@@ -113,15 +120,25 @@ class GraduationPicker extends StatelessWidget {
         ),
         if (onClear != null) ...[
           const SizedBox(height: 16),
-          GestureDetector(
-            onTap: onClear,
-            child: Text(
-              'I have already graduated',
-              style: AppTheme.body(
-                size: 14,
-                weight: FontWeight.w600,
-                color: AppColors.ink2,
-              ).copyWith(decoration: TextDecoration.underline),
+          // A real button with a real hit area: the bare text it replaced
+          // only took a tap on the letters themselves.
+          Semantics(
+            button: true,
+            selected: graduated,
+            child: InkWell(
+              onTap: onClear,
+              borderRadius: BorderRadius.circular(12),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                  'I have already graduated',
+                  style: AppTheme.body(
+                    size: 14,
+                    weight: FontWeight.w600,
+                    color: graduated ? AppColors.charcoal : AppColors.ink2,
+                  ).copyWith(decoration: TextDecoration.underline),
+                ),
+              ),
             ),
           ),
         ],
@@ -372,7 +389,12 @@ class SchoolRow extends StatelessWidget {
     //
     // This is not special-cased to inferred schools. Anybody missing a year
     // should be able to see it from the row (owner, 2026-10-07).
-    String withYear(String n) => year == null ? n : '$n, $year';
+    final graduated = school?['graduated'] == true;
+    String withYear(String n) => graduated
+        ? '$n, graduated'
+        : year == null
+        ? n
+        : '$n, $year';
     final shown = name.isEmpty ? 'Not set' : withYear(name);
     final shownCompact = name.isEmpty || short == null || short == name
         ? null
@@ -391,7 +413,9 @@ class SchoolRow extends StatelessWidget {
       // On its own line because the value line truncates. Not special-cased to
       // inferred schools either: anybody missing a year should see it here.
       valueCompact: shownCompact,
-      note: name.isNotEmpty && year == null ? 'Add graduation' : null,
+      note: name.isNotEmpty && year == null && !graduated
+          ? 'Add graduation'
+          : null,
       // Swaps the content of the sheet it is already in. Opening a second sheet
       // on top left the first one visible behind at its own taller height, and
       // the two rounded tops stacked read as a mistake (owner, 2026-10-07).
@@ -437,6 +461,7 @@ class _SchoolEditorState extends State<SchoolEditor> {
   late final TextEditingController _name;
   int? _year;
   String? _term;
+  bool _graduated = false;
   bool _busy = false;
   String? _error;
 
@@ -446,6 +471,7 @@ class _SchoolEditorState extends State<SchoolEditor> {
     final school = widget.auth.user?['school'] as Map<String, dynamic>?;
     _name = TextEditingController(text: (school?['name'] ?? '') as String);
     _year = school?['graduationYear'] as int?;
+    _graduated = school?['graduated'] == true;
     final t = school?['graduationTerm'] as String?;
     _term = t == null
         ? null
@@ -477,7 +503,7 @@ class _SchoolEditorState extends State<SchoolEditor> {
       _error = null;
     });
     try {
-      await widget.auth.setSchool(name, _year, _term);
+      await widget.auth.setSchool(name, _year, _term, _graduated);
       if (!mounted) return;
       if (widget.onDone != null) {
         widget.onDone!();
@@ -595,11 +621,19 @@ class _SchoolEditorState extends State<SchoolEditor> {
               GraduationPicker(
                 year: _year,
                 term: _term,
-                onYear: (y) => setState(() => _year = y),
-                onTerm: (t) => setState(() => _term = t),
+                graduated: _graduated,
+                onYear: (y) => setState(() {
+                  _year = y;
+                  if (y != null) _graduated = false;
+                }),
+                onTerm: (t) => setState(() {
+                  _term = t;
+                  if (t != null) _graduated = false;
+                }),
                 onClear: () => setState(() {
                   _year = null;
                   _term = null;
+                  _graduated = true;
                 }),
               ),
               const SizedBox(height: 26),

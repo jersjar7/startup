@@ -38,6 +38,10 @@ class _CreateScreenState extends State<CreateScreen> {
   final _school = TextEditingController();
   int? _gradYear;
   String? _gradTerm;
+
+  /// "I have already graduated": a real answer, sent as one (owner,
+  /// 2026-10-16), not the blank year it used to be.
+  bool _graduated = false;
   int _step = 0;
   bool _loading = false;
   String? _error;
@@ -109,6 +113,7 @@ class _CreateScreenState extends State<CreateScreen> {
         school: _school.text,
         graduationYear: _gradYear,
         graduationTerm: _gradTerm,
+        graduated: _graduated,
         firstName: _name.text,
       );
       if (mounted) context.go('/verify');
@@ -282,11 +287,19 @@ class _CreateScreenState extends State<CreateScreen> {
                                 GraduationPicker(
                                   year: _gradYear,
                                   term: _gradTerm,
-                                  onYear: (y) => setState(() => _gradYear = y),
-                                  onTerm: (t) => setState(() => _gradTerm = t),
+                                  graduated: _graduated,
+                                  onYear: (y) => setState(() {
+                                    _gradYear = y;
+                                    if (y != null) _graduated = false;
+                                  }),
+                                  onTerm: (t) => setState(() {
+                                    _gradTerm = t;
+                                    if (t != null) _graduated = false;
+                                  }),
                                   onClear: () => setState(() {
                                     _gradYear = null;
                                     _gradTerm = null;
+                                    _graduated = true;
                                   }),
                                 ),
                               ],
@@ -310,6 +323,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                         _school.clear();
                                         _gradYear = null;
                                         _gradTerm = null;
+                                        _graduated = false;
                                         _submit();
                                       },
                                     )

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -487,6 +488,88 @@ void main() {
         1,
         reason: 'one search, in SchoolSuggestions, not a second copy',
       );
+    });
+  });
+
+  group('already graduated, a real answer', () {
+    Future<void> toSchoolStep(WidgetTester tester) async {
+      // A router, because creating the account moves on to /verify.
+      await _pump(
+        tester,
+        Router.withConfig(
+          config: GoRouter(
+            initialLocation: '/create',
+            routes: [
+              GoRoute(path: '/create', builder: (_, _) => const CreateScreen()),
+              GoRoute(
+                path: '/verify',
+                builder: (_, _) => const Scaffold(body: Text('VERIFY')),
+              ),
+            ],
+          ),
+        ),
+        signedIn: false,
+      );
+      await tester.enterText(find.byType(EditableText), 's@x.edu');
+      await tester.tap(find.byTooltip('Next'));
+      await _settle(tester);
+      await tester.tap(find.text('Skip'));
+      await _settle(tester);
+      await tester.enterText(find.byType(EditableText), 'longenough1');
+      await tester.tap(find.byTooltip('Next'));
+      await _settle(tester);
+    }
+
+    testWidgets('the tap shows it, and sign-up sends it', (tester) async {
+      await toSchoolStep(tester);
+      expect(find.text('Not set'), findsOneWidget);
+      await tester.tap(find.text('I have already graduated'));
+      await tester.pumpAndSettle();
+      // Before: the tap cleared the year and the screen still said Not set.
+      expect(find.text('Already graduated'), findsOneWidget);
+      expect(find.text('Not set'), findsNothing);
+
+      await tester.enterText(
+        find.byType(EditableText),
+        'Brigham Young University',
+      );
+      await tester.tap(find.byTooltip('Create account'));
+      await _settle(tester);
+      expect(server.posts['/auth/create'], containsPair('graduated', true));
+      expect(
+        server.posts['/auth/create']!.containsKey('graduationYear'),
+        isFalse,
+      );
+    });
+
+    testWidgets('picking a year takes it back', (tester) async {
+      await toSchoolStep(tester);
+      await tester.tap(find.text('I have already graduated'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('${DateTime.now().year + 1}'));
+      await tester.pumpAndSettle();
+      expect(find.text('Already graduated'), findsNothing);
+    });
+
+    testWidgets('the account sheet shows it, keeps it and saves it', (
+      tester,
+    ) async {
+      server.me = {
+        'email': 's@x.com',
+        'school': {'name': 'BYU', 'graduationYear': null, 'graduated': true},
+      };
+      await _pump(tester, const HomeShell());
+      await tester.tap(find.byTooltip('Account'));
+      await _settle(tester);
+      expect(find.text('BYU, graduated'), findsOneWidget);
+      // A finished answer: no "Add graduation" nudge.
+      expect(find.text('Add graduation'), findsNothing);
+      await tester.tap(find.byType(SchoolRow));
+      await _settle(tester);
+      expect(find.text('Already graduated'), findsOneWidget);
+      await tester.tap(find.text('Save'));
+      await _settle(tester);
+      expect(server.posts['/user/school'], containsPair('graduated', true));
     });
   });
 

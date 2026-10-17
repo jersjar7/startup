@@ -72,9 +72,10 @@ class AuthController extends ChangeNotifier {
     String? school,
     int? graduationYear,
     String? graduationTerm,
+    bool graduated = false,
     String? firstName,
   }) async {
-    final body = {'email': email, 'password': password};
+    final body = <String, dynamic>{'email': email, 'password': password};
     if (firstName != null && firstName.trim().isNotEmpty) {
       body['firstName'] = firstName.trim();
     }
@@ -84,6 +85,7 @@ class AuthController extends ChangeNotifier {
       if (graduationTerm != null) {
         body['graduationTerm'] = graduationTerm.toLowerCase();
       }
+      if (graduated) body['graduated'] = true;
     }
     final data = await api.post('/auth/create', body) as Map<String, dynamic>;
     await _accept(data);
@@ -97,11 +99,15 @@ class AuthController extends ChangeNotifier {
     String name,
     int? graduationYear, [
     String? graduationTerm,
+    bool graduated = false,
   ]) async {
     await api.post('/user/school', {
       'name': name,
       'graduationYear': ?graduationYear,
       'graduationTerm': ?graduationTerm?.toLowerCase(),
+      // Always sent from the app, which always shows the choice, so taking
+      // it back is saved too.
+      'graduated': graduated,
     });
     await refreshMe();
   }
