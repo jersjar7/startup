@@ -227,22 +227,17 @@ class _BadgeEarnedCardState extends State<BadgeEarnedCard>
                     : CustomPaint(painter: _EarnedAtRest(b)),
               ),
               if (_binding == null)
-                // The raccoon over the card's edge, as the animation ends.
+                // The raccoon as the animation ends: the face rests on the
+                // card's top edge and the nose sits over the card.
                 Positioned(
                   left: (552 - 288 * 0.84 / 2) * k,
                   top: (BadgeArt.cardTop - 110 * 0.84) * k,
                   width: 288 * 0.84 * k,
-                  height: 110 * 0.84 * k,
-                  child: ClipRect(
-                    child: OverflowBox(
-                      alignment: Alignment.topCenter,
-                      maxHeight: double.infinity,
-                      child: Image.asset(
-                        'assets/brand/raccoon_peek.png',
-                        width: 288 * 0.84 * k,
-                        excludeFromSemantics: true,
-                      ),
-                    ),
+                  height: 133 * 0.84 * k,
+                  child: Image.asset(
+                    'assets/brand/raccoon_peek.png',
+                    width: 288 * 0.84 * k,
+                    excludeFromSemantics: true,
                   ),
                 ),
               Positioned(

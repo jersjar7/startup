@@ -1,1 +1,9 @@
 #include "Generated.xcconfig"
+
+// Keep the Rive engine reachable in release builds. Dart finds its functions
+// by name at run time, and the archive's default strip removes those names
+// from the app, so on a real phone every Rive animation silently fell back
+// to its still drawing (debug and simulator builds are not stripped, which
+// hid it). Non-global keeps the names Dart looks up and still strips the
+// rest. This is Flutter's advice for native code reached through FFI.
+STRIP_STYLE = non-global

@@ -440,7 +440,8 @@ def build_earned():
 
     confetti(False)
 
-    # ---- raccoon, peeking over the card's top edge, clipped above it
+    # ---- raccoon, listed before the card so it draws in front of it: the
+    # face rests on the card's top edge and the nose sits over the card.
     rac, racPose, racClip, racClipR = nid(), nid(), nid(), nid()
     o.append(f'<Node x="552" y="{CARD["y"]}" name="Raccoon" id="{rac}">'
              f'<Node y="140" name="Pose" id="{racPose}">'
