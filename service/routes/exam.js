@@ -19,6 +19,8 @@ const router = express.Router();
 // NCEES FE Civil exam question distribution (110 total) — single backend source
 // of truth in examWeights.js.
 const { EXAM_DISTRIBUTION } = require('../examWeights.js');
+const { buildExamQuestions } = require('../examQuestions.js');
+const content = require('../content.json');
 
 const TOTAL_QUESTIONS = 110;
 // An abandoned attempt is only graded if at least this share of the exam was
@@ -216,15 +218,13 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
       });
     }
 
-    const { questions: clientQuestions } = req.body;
-
-    if (!clientQuestions || !Array.isArray(clientQuestions) || clientQuestions.length === 0) {
-      return res.status(400).send({ msg: 'Questions array is required' });
+    // The client picks the questions; the server supplies everything about
+    // them, the answer key above all (see ../examQuestions.js).
+    const built = buildExamQuestions(req.body.questions, content, EXAM_DISTRIBUTION);
+    if (built.error) {
+      return res.status(400).send({ msg: built.error });
     }
-
-    if (clientQuestions.length > TOTAL_QUESTIONS + 20) {
-      return res.status(400).send({ msg: 'Too many questions' });
-    }
+    const examQuestions = built.questions;
 
     const attemptNumber = (await DB.getExamAttemptCount(userId)) + 1;
 
@@ -232,15 +232,15 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
     const attemptId = await DB.createExamAttempt(userId, {
       attemptNumber,
       status: 'in_progress',
-      questions: clientQuestions,
+      questions: examQuestions,
       timeLimit: TIME_LIMIT_SECONDS,
       startedAt,
-      totalQuestions: clientQuestions.length,
+      totalQuestions: examQuestions.length,
     });
 
     res.send({
       attemptId: attemptId.toString(),
-      questions: clientQuestions.map(q => ({
+      questions: examQuestions.map(q => ({
         id: q.id,
         chapterId: q.chapterId,
         lessonId: q.lessonId,

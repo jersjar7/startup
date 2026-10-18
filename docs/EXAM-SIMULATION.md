@@ -116,12 +116,19 @@ debounced server flush. The server merges, so neither layer can blank the other.
 From a 9-agent read-only audit, 63 raw findings, 15 confirmed after adversarial
 verification. None still destroy customer work.
 
-1. **The client picks the questions and sends the answer key.**
-   `ExamSession.jsx` POSTs all 110 questions to `/exam/start` **including
-   `correctAnswerId`**, and the server scores against that payload. Any paying
-   user can forge 110/110, submit a 1-question exam, or read every answer. The
-   full answer key is also in the JS bundle. Architecturally the biggest issue;
-   the fix is server-side question selection.
+1. **The client picks the questions.** FIXED 2026-10-17 for grading:
+   `/exam/start` now rebuilds every question from the server's own bank
+   (`service/examQuestions.js`): the statement, the choices, the chapter and
+   `correctAnswerId` come from `service/content.json`, never from the request.
+   It refuses a set that is not exactly the exam's per-chapter weights, any
+   repeat, any id outside the exam pool. So a forged key, a one-question exam
+   or a lesson-question exam can no longer be posted. STILL OPEN: the browser
+   chooses which exam-bank questions fill each chapter, and the full answer key
+   is in the JS bundle, so a determined user can read answers. The complete fix
+   is server-side selection plus keeping the key out of the bundle.
+   `src/data/exam-bank/serverCopy.test.js` runs the real picker 200 times
+   against the server's rules, and checks a resumed exam stores the same
+   question the page drew.
 2. **Multi-tab last-write-wins.** A whole-state flush from an older tab can
    revert newer answers and clobber `savedFlagged`/`savedIndex`. On resume the
    localStorage mirror is overlaid unconditionally with no `savedAt` comparison,

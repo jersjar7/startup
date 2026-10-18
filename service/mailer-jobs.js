@@ -18,6 +18,7 @@ const {
 const { daysUntilExam } = require('./profile.js');
 const { hasPurchased } = require('./db/purchases.js');
 const { shouldPitchSimInDigest } = require('./digestPitch.js');
+const { weightedMastery } = require('./examWeights.js');
 const { canSendLifecycle, counts: budgetCounts, DAILY_CAP, MONTHLY_CAP } = require('./sendBudget.js');
 const { digestActiveSince, inDigestAudience, audienceNote, DIGEST_ACTIVE_DAYS } = require('./digestAudience.js');
 const { outcomePriorityActive } = require('./outcomePriority.js');
@@ -74,7 +75,11 @@ async function weeklyStatsFor(email) {
   const cm = stats?.chapterMastery || {};
   const entries = Object.entries(cm).map(([k, v]) => [k, Number(v?.totalMastery || 0)]);
   if (entries.length) {
-    masteryTo = Math.round(entries.reduce((a, [, v]) => a + v, 0) / entries.length);
+    // The dashboard's number: every chapter, weighted by its share of the exam,
+    // untouched ones as 0. Averaging only the touched chapters gave 18% here
+    // and 11% on the dashboard for the same student, and starting a chapter
+    // moved the two in opposite directions.
+    masteryTo = weightedMastery(cm);
     focusChapter = entries.slice().sort((a, b) => a[1] - b[1])[0][0];
   }
   return {
