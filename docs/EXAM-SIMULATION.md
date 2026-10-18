@@ -129,10 +129,15 @@ verification. None still destroy customer work.
    `src/data/exam-bank/serverCopy.test.js` runs the real picker 200 times
    against the server's rules, and checks a resumed exam stores the same
    question the page drew.
-2. **Multi-tab last-write-wins.** A whole-state flush from an older tab can
-   revert newer answers and clobber `savedFlagged`/`savedIndex`. On resume the
-   localStorage mirror is overlaid unconditionally with no `savedAt` comparison,
-   so a stale mirror can revert newer server data.
+2. **Multi-tab last-write-wins.** FIXED 2026-10-17: every answer carries the
+   time it was chosen (`answerTimes`, stored as `savedAnswerTimes`), and the
+   flags and position carry one each (`savedFlaggedAt`, `savedIndexAt`). Saves,
+   submit and resume keep the newest per question (`mergeAutosaveStamped`,
+   stamped `mergeSubmission`, `src/exam/restoreAnswers.js`). A page loaded
+   before stamps still saves wherever nothing stamped is stored. Stamps are
+   capped at the server's clock so a fast clock cannot lock an answer.
+   `service/examTwoTabs.test.js`, `src/exam/restoreAnswers.test.js`. Not
+   covered: two saves landing in the same instant still read-modify-write.
 3. **Submit is not idempotent.** FIXED 2026-10-17: completion is a one-time
    claim (`claimExamCompletion`, an update conditioned on the attempt not
    being completed). Only the submit that wins it logs the session, the exam

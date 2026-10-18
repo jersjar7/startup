@@ -38,6 +38,52 @@ function mergeAutosave(stored, incoming) {
   return { ...sanitizeAnswers(stored), ...sanitizeAnswers(incoming) };
 }
 
+// When each answer was chosen, as the browser stamped it (epoch ms), keyed by
+// questionId. Kept beside savedAnswers so two tabs on one exam cannot undo
+// each other.
+//
+// Every save sends the tab's WHOLE answer sheet, and a tab saves the moment
+// the student switches away from it. So an older second tab, just by being
+// left, used to overwrite newer answers made in the other one. With the
+// stamps, the newest choice for each question wins wherever it was made.
+function sanitizeTimes(input, now = Date.now()) {
+  if (!input || typeof input !== 'object') return {};
+  const out = {};
+  for (const [questionId, t] of Object.entries(input)) {
+    if (typeof questionId !== 'string' || !questionId || questionId.length > 120) continue;
+    const n = Number(t);
+    if (!Number.isFinite(n) || n <= 0) continue;
+    // A clock running ahead must not lock an answer against later changes.
+    out[questionId] = Math.min(n, now);
+  }
+  return out;
+}
+
+// Is an incoming value newer than the stored one? A stamp beats no stamp and
+// ties go to the incoming save. A save with no stamp at all comes from a page
+// loaded before stamps existed: it still applies wherever nothing stamped is
+// stored, which is exactly the old behaviour for a single tab.
+function isNewer(incomingAt, storedAt) {
+  if (incomingAt == null) return storedAt == null;
+  return storedAt == null || incomingAt >= storedAt;
+}
+
+// AUTOSAVE merge with stamps. Same rule as mergeAutosave (null clears), but
+// per question only when the incoming choice is at least as new as what the
+// server holds. Returns the answers and their stamps.
+function mergeAutosaveStamped(stored, storedTimes, incoming, incomingTimes, now = Date.now()) {
+  const answers = sanitizeAnswers(stored);
+  const times = sanitizeTimes(storedTimes, now);
+  const inTimes = sanitizeTimes(incomingTimes, now);
+  for (const [questionId, choiceId] of Object.entries(sanitizeAnswers(incoming))) {
+    const at = inTimes[questionId];
+    if (!isNewer(at, times[questionId])) continue;
+    answers[questionId] = choiceId;
+    if (at != null) times[questionId] = at;
+  }
+  return { answers, times };
+}
+
 // SUBMIT merge. Deliberately different: submit can only ADD answers, never clear
 // them.
 //
@@ -50,10 +96,18 @@ function mergeAutosave(stored, incoming) {
 //
 // So at submit, nulls and absent entries are ignored: whatever the server has
 // already saved stands.
-function mergeSubmission(stored, submitted) {
+//
+// With stamps (storedTimes/submittedTimes), a submitted choice also has to be
+// at least as new as the saved one, so a stale tab's submit cannot swap a
+// newer answer back. Without them it is the original additive rule.
+function mergeSubmission(stored, submitted, storedTimes = null, submittedTimes = null, now = Date.now()) {
   const base = sanitizeAnswers(stored);
+  const times = sanitizeTimes(storedTimes, now);
+  const inTimes = sanitizeTimes(submittedTimes, now);
   for (const [questionId, choiceId] of Object.entries(sanitizeAnswers(submitted))) {
-    if (choiceId) base[questionId] = choiceId; // additive only
+    if (!choiceId) continue; // additive only
+    if (base[questionId] && !isNewer(inTimes[questionId], times[questionId])) continue;
+    base[questionId] = choiceId;
   }
   return base;
 }
@@ -116,6 +170,6 @@ function elapsedSeconds(startedAt, now = new Date()) {
 }
 
 module.exports = {
-  sanitizeAnswers, mergeAutosave, mergeSubmission, answeredCount, elapsedSeconds,
+  sanitizeAnswers, sanitizeTimes, isNewer, mergeAutosave, mergeAutosaveStamped, mergeSubmission, answeredCount, elapsedSeconds,
   examDeadlineMs, isPastDeadline, BREAK_LIMIT_SECONDS,
 };

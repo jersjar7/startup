@@ -10,7 +10,7 @@ const { getWeekId } = require('./leaderboard.js');
 const { isAttemptExpired } = require('../examAttempt.js');
 const { scoreAttempt } = require('../examScoring.js');
 const {
-  sanitizeAnswers, mergeAutosave, mergeSubmission, answeredCount, elapsedSeconds,
+  sanitizeAnswers, sanitizeTimes, isNewer, mergeAutosaveStamped, mergeSubmission, answeredCount, elapsedSeconds,
   examDeadlineMs, isPastDeadline,
 } = require('../examProgress.js');
 
@@ -237,6 +237,9 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
         deadline: examDeadlineMs(full, TIME_LIMIT_SECONDS),
         resumed: true,
         savedAnswers: sanitizeAnswers(full.savedAnswers),
+        // When each saved answer was chosen, so the page can tell whether its
+        // own local copy of an answer is newer than the server's.
+        savedAnswerTimes: sanitizeTimes(full.savedAnswerTimes),
         currentIndex: Number.isInteger(full.savedIndex) ? full.savedIndex : 0,
         flagged: Array.isArray(full.savedFlagged) ? full.savedFlagged : [],
         breakTaken: full.breakTaken === true,
@@ -297,7 +300,10 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
 async function saveProgress(req, res) {
   try {
     const userId = req.user._id.toString();
-    const { attemptId, answers, currentIndex, flagged, breakTaken, breakStartedAt, breakEndedAt } = req.body;
+    const {
+      attemptId, answers, currentIndex, flagged, breakTaken, breakStartedAt, breakEndedAt,
+      answerTimes, flaggedAt, indexAt,
+    } = req.body;
     if (!attemptId) return res.status(400).send({ msg: 'attemptId is required' });
 
     const attempt = await DB.getExamAttempt(attemptId, userId);
@@ -308,10 +314,23 @@ async function saveProgress(req, res) {
     }
 
     const update = { savedAt: new Date() };
-    if (answers !== undefined) update.savedAnswers = mergeAutosave(attempt.savedAnswers, answers);
-    if (Number.isInteger(currentIndex)) update.savedIndex = currentIndex;
-    if (Array.isArray(flagged)) {
+    // Newest wins, per question, so a second tab left open cannot undo the
+    // first (see mergeAutosaveStamped). The flags and the position follow the
+    // same rule as a whole.
+    const now = Date.now();
+    const stamp = (t) => (Number.isFinite(Number(t)) && Number(t) > 0 ? Math.min(Number(t), now) : null);
+    if (answers !== undefined) {
+      const merged = mergeAutosaveStamped(attempt.savedAnswers, attempt.savedAnswerTimes, answers, answerTimes, now);
+      update.savedAnswers = merged.answers;
+      update.savedAnswerTimes = merged.times;
+    }
+    if (Number.isInteger(currentIndex) && isNewer(stamp(indexAt), attempt.savedIndexAt ?? null)) {
+      update.savedIndex = currentIndex;
+      if (stamp(indexAt) != null) update.savedIndexAt = stamp(indexAt);
+    }
+    if (Array.isArray(flagged) && isNewer(stamp(flaggedAt), attempt.savedFlaggedAt ?? null)) {
       update.savedFlagged = flagged.filter((n) => Number.isInteger(n)).slice(0, 200);
+      if (stamp(flaggedAt) != null) update.savedFlaggedAt = stamp(flaggedAt);
     }
     // Break is one-way: once taken it stays taken, so a refresh cannot hand out
     // a second 25-minute break.
@@ -373,7 +392,7 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
   }
   // Additive: a submitting client can add answers but can never erase what was
   // autosaved. See mergeSubmission for why these two paths differ.
-  const answerMap = mergeSubmission(attempt.savedAnswers, submitted);
+  const answerMap = mergeSubmission(attempt.savedAnswers, submitted, attempt.savedAnswerTimes, req.body.answerTimes);
 
   const result = await finalizeAttempt({
     attempt, userId, email, answerMap, timeUsedSeconds, autoSubmitted: false,

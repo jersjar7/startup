@@ -18,6 +18,7 @@ import { priceForEmail } from '../data/pricing';
 import '../diagnostic/diagnostic.css';
 import './exam.css';
 import { localDate } from '../data/localDate';
+import { restoreAnswers } from './restoreAnswers';
 
 const TIME_LIMIT = 5 * 3600 + 20 * 60; // 5h 20min in seconds
 const BREAK_AFTER_QUESTION = 55; // Halfway through — like the real FE exam
@@ -92,6 +93,13 @@ export function ExamSession({ userName, preview = false }) {
   const deadlineRef = React.useRef(null);
   const breakStartedAtRef = React.useRef(null);
   const breakEndedAtRef = React.useRef(null);
+  // When each answer, the flags and the position were last changed IN THIS
+  // TAB (epoch ms). Every save sends the whole sheet, so without these an
+  // older second tab overwrote newer answers just by being switched away from.
+  // The server keeps whichever is newest.
+  const answerTimesRef = React.useRef({});
+  const flaggedAtRef = React.useRef(null);
+  const indexAtRef = React.useRef(null);
   const SAVE_DEBOUNCE_MS = 8000;
 
   const localKey = (id) => `fe4r_exam_progress_${id}`;
@@ -113,6 +121,7 @@ export function ExamSession({ userName, preview = false }) {
     try {
       localStorage.setItem(localKey(attemptId), JSON.stringify({
         ...stateRef.current,
+        answerTimes: answerTimesRef.current,
         savedAt: Date.now(),
       }));
     } catch { /* storage full or blocked — the server flush still covers us */ }
@@ -132,6 +141,9 @@ export function ExamSession({ userName, preview = false }) {
       currentIndex: ci,
       flagged: fl,
       breakTaken: bt,
+      answerTimes: answerTimesRef.current,
+      flaggedAt: flaggedAtRef.current ?? undefined,
+      indexAt: indexAtRef.current ?? undefined,
       breakStartedAt: breakStartedAtRef.current ? new Date(breakStartedAtRef.current).toISOString() : undefined,
       breakEndedAt: breakEndedAtRef.current ? new Date(breakEndedAtRef.current).toISOString() : undefined,
     });
@@ -247,16 +259,15 @@ export function ExamSession({ userName, preview = false }) {
         // Server answers are authoritative, but the localStorage mirror can be
         // newer than the last successful flush (that is the whole point of it),
         // so overlay it.
-        let restored = data.savedAnswers || {};
+        // Per question, newest wins: another tab may have saved a newer answer
+        // since this browser last did (see restoreAnswers).
+        let local = null;
         try {
           const raw = localStorage.getItem(localKey(data.attemptId));
-          if (raw) {
-            const local = JSON.parse(raw);
-            if (local && typeof local.userAnswers === 'object') {
-              restored = { ...restored, ...local.userAnswers };
-            }
-          }
+          if (raw) local = JSON.parse(raw);
         } catch { /* ignore a corrupt mirror; the server copy stands */ }
+        const { answers: restored, times } = restoreAnswers(data.savedAnswers, data.savedAnswerTimes, local);
+        answerTimesRef.current = times;
 
         setUserAnswers(restored);
         setFlagged(new Set(Array.isArray(data.flagged) ? data.flagged : []));
@@ -357,6 +368,7 @@ export function ExamSession({ userName, preview = false }) {
   function handleSelectChoice(choiceId) {
     const qid = questions[currentIndex]?.id;
     if (!qid) return;
+    answerTimesRef.current = { ...answerTimesRef.current, [qid]: Date.now() };
     setUserAnswers(prev => ({ ...prev, [qid]: choiceId }));
     markDirty();
   }
@@ -368,6 +380,7 @@ export function ExamSession({ userName, preview = false }) {
       else next.add(currentIndex);
       return next;
     });
+    flaggedAtRef.current = Date.now();
     markDirty();
   }
 
@@ -388,6 +401,7 @@ export function ExamSession({ userName, preview = false }) {
       return;
     }
 
+    indexAtRef.current = Date.now();
     setCurrentIndex(nextIndex);
   }
 
@@ -402,15 +416,20 @@ export function ExamSession({ userName, preview = false }) {
     setBreakTaken(true);
     markDirty();
     flushProgress({ force: true });
+    indexAtRef.current = Date.now();
     setCurrentIndex(BREAK_AFTER_QUESTION);
     setPhase('EXAM');
   }
 
   function handlePrev() {
-    if (currentIndex > 0) setCurrentIndex(i => i - 1);
+    if (currentIndex > 0) {
+      indexAtRef.current = Date.now();
+      setCurrentIndex(i => i - 1);
+    }
   }
 
   function handleJumpTo(index) {
+    indexAtRef.current = Date.now();
     setCurrentIndex(index);
   }
 
@@ -481,7 +500,7 @@ export function ExamSession({ userName, preview = false }) {
       const res = await fetch('/api/exam/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ attemptId, answers, timeUsedSeconds, localDate: localDate() }),
+        body: JSON.stringify({ attemptId, answers, answerTimes: answerTimesRef.current, timeUsedSeconds, localDate: localDate() }),
       });
 
       if (!res.ok) throw new Error('Submit failed');
