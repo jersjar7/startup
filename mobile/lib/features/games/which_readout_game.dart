@@ -197,7 +197,7 @@ class _WhichReadoutGameState extends State<WhichReadoutGame> {
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              color: AppColors.charcoal,
+              color: AppColors.screen,
               borderRadius: BorderRadius.circular(12),
             ),
             clipBehavior: Clip.antiAlias,
@@ -210,7 +210,7 @@ class _WhichReadoutGameState extends State<WhichReadoutGame> {
                   child: Center(
                     child: Text(
                       '1-VAR STATS',
-                      style: AppTheme.overline(color: AppColors.cream),
+                      style: AppTheme.overline(color: AppColors.onScreen),
                     ),
                   ),
                 ),
@@ -303,13 +303,13 @@ class _Line extends StatelessWidget {
                   meaning,
                   style: AppTheme.mono(
                     size: 10,
-                    color: AppColors.cream.withValues(alpha: 0.55),
+                    color: AppColors.onScreen.withValues(alpha: 0.55),
                   ),
                 ),
               ),
               Text(
                 value,
-                style: AppTheme.code(size: 15, color: AppColors.cream),
+                style: AppTheme.code(size: 15, color: AppColors.onScreen),
               ),
             ],
           ),

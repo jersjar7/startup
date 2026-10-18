@@ -73,6 +73,11 @@ abstract final class AppColors {
 
   // Charcoal and its dark surfaces
   static const charcoal = ThemedColor(0xFF2C2C2C, 0xFFF2ECE2); // text; dark tiles, dock, round buttons
+  /// A device screen inside a round: the code panel, the calculator
+  /// readout. Charcoal by day; at night it stays a screen, a shade below the
+  /// ground, instead of turning into the brightest thing on the page.
+  static const screen = ThemedColor(0xFF2C2C2C, 0xFF100F0E);
+  static const onScreen = ThemedColor(0xFFFFF9F0, 0xFFF2ECE2);
   static const tile = ThemedColor(0xFF3A3936, 0xFF34312C); // dark surface: the dock, the mastery row
   static const tile2 = ThemedColor(0xFF47453F, 0xFF403C36); // surface on tile
   static const lineOnDark = ThemedColor(0xFF4F4C45, 0xFF4A463F); // the rare divider on a dark tile

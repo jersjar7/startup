@@ -51,16 +51,21 @@ class PillButton extends StatelessWidget {
         ? AppColors.charcoal
         : AppColors.springOnDark;
     final tap = onTap;
+    // At night a charcoal pill is the lightest thing on the page, and faded
+    // it went a muddy grey with dark words. Resting, it sinks to a dark
+    // surface with light words instead (owner, 2026-10-17).
+    final restingAtNight =
+        tap == null && AppPalette.dark && fill == AppColors.charcoal;
     return _Pressable(
       onTap: tap ?? () {},
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 180),
-        opacity: tap == null ? 0.4 : 1,
+        opacity: tap == null ? (restingAtNight ? 0.55 : 0.4) : 1,
         child: Container(
           height: 72,
           padding: const EdgeInsets.fromLTRB(28, 0, 8, 0),
           decoration: BoxDecoration(
-            color: fill,
+            color: restingAtNight ? AppColors.tile : fill,
             borderRadius: BorderRadius.circular(36),
           ),
           child: Row(
@@ -74,7 +79,7 @@ class PillButton extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     fontSize: 22,
                     letterSpacing: -0.44,
-                    color: onFill,
+                    color: restingAtNight ? AppColors.charcoal : onFill,
                   ),
                 ),
               ),

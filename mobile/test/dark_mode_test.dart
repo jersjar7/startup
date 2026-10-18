@@ -51,6 +51,19 @@ void main() {
     }
   });
 
+  test('a screen inside a round stays a screen at night', () {
+    // The code panels and the calculator readout were charcoal, which turns
+    // light at night and made them the brightest thing on the page (owner,
+    // 2026-10-17).
+    expect(AppColors.screen.toARGB32(), AppColors.charcoal.toARGB32());
+    AppPalette.dark = true;
+    expect(
+      AppColors.screen.computeLuminance(),
+      lessThan(AppColors.fog.computeLuminance()),
+    );
+    expect(AppColors.onScreen.computeLuminance(), greaterThan(0.7));
+  });
+
   group('a token', () {
     test('answers for the mode it is used in', () {
       expect(AppColors.fog.toARGB32(), 0xFFE3DFD7);

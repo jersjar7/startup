@@ -261,7 +261,7 @@ class _CodeBlock extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
       decoration: BoxDecoration(
-        color: AppColors.charcoal,
+        color: AppColors.screen,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -272,7 +272,7 @@ class _CodeBlock extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 2),
               child: Text(
                 line,
-                style: AppTheme.code(size: 13.5, color: AppColors.cream),
+                style: AppTheme.code(size: 13.5, color: AppColors.onScreen),
               ),
             ),
         ],

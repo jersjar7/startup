@@ -203,7 +203,7 @@ class _WhereItStopsGameState extends State<WhereItStopsGame> {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
             decoration: BoxDecoration(
-              color: AppColors.charcoal,
+              color: AppColors.screen,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -211,15 +211,15 @@ class _WhereItStopsGameState extends State<WhereItStopsGame> {
               children: [
                 Text(
                   r.start,
-                  style: AppTheme.code(size: 13.5, color: AppColors.cream),
+                  style: AppTheme.code(size: 13.5, color: AppColors.onScreen),
                 ),
                 Text(
                   'WHILE ${r.condition}',
-                  style: AppTheme.code(size: 13.5, color: AppColors.cream),
+                  style: AppTheme.code(size: 13.5, color: AppColors.onScreen),
                 ),
                 Text(
                   '    ${r.step}',
-                  style: AppTheme.code(size: 13.5, color: AppColors.cream),
+                  style: AppTheme.code(size: 13.5, color: AppColors.onScreen),
                 ),
               ],
             ),

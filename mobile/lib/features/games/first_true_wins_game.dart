@@ -215,12 +215,12 @@ class _FirstTrueWinsGameState extends State<FirstTrueWinsGame> {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
             decoration: BoxDecoration(
-              color: AppColors.charcoal,
+              color: AppColors.screen,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               r.given,
-              style: AppTheme.code(size: 14, color: AppColors.cream),
+              style: AppTheme.code(size: 14, color: AppColors.onScreen),
             ),
           ),
           const SizedBox(height: 10),
