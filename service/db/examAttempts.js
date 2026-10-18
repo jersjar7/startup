@@ -24,6 +24,18 @@ async function updateExamAttempt(attemptId, userId, update) {
   );
 }
 
+// Completes an attempt only if nothing completed it first. Two submits in
+// flight together both read the attempt as in progress; with a plain update
+// both went on to award XP, a session and badges. Returns true for the one
+// that won.
+async function claimExamCompletion(attemptId, userId, update) {
+  const res = await examAttemptsCollection.updateOne(
+    { _id: new ObjectId(attemptId), userId, status: { $ne: 'completed' } },
+    { $set: update }
+  );
+  return res.modifiedCount === 1;
+}
+
 async function getExamAttempts(userId) {
   return examAttemptsCollection
     .find({ userId })
@@ -42,6 +54,7 @@ module.exports = {
   createExamAttempt,
   getExamAttempt,
   updateExamAttempt,
+  claimExamCompletion,
   getExamAttempts,
   getExamAttemptCount,
 };

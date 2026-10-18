@@ -133,8 +133,11 @@ verification. None still destroy customer work.
    revert newer answers and clobber `savedFlagged`/`savedIndex`. On resume the
    localStorage mirror is overlaid unconditionally with no `savedAt` comparison,
    so a stale mirror can revert newer server data.
-3. **Submit is not idempotent.** Two concurrent submits double-award XP, streak
-   and badges.
+3. **Submit is not idempotent.** FIXED 2026-10-17: completion is a one-time
+   claim (`claimExamCompletion`, an update conditioned on the attempt not
+   being completed). Only the submit that wins it logs the session, the exam
+   event and the XP; a repeat, concurrent or later, gets the stored result
+   back instead of an error. `service/examSubmitOnce.test.js`.
 4. **Disputes never revoke `examSimAccess`.** Refunds now have a supported
    path (`service/scripts/refundPurchase.js`, see
    `docs/adr/0011-a-refund-revokes-the-product.md`), but it is manual: nothing

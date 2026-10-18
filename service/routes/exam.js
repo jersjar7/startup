@@ -41,6 +41,28 @@ async function requirePurchase(req, res, next) {
 }
 
 
+// The result of an attempt that is already graded, for a submit that arrives
+// after it was: a double tap, or a retry whose first response was lost. The
+// results page reads only the score, so the repeat lands there too instead of
+// on "Submit failed".
+function storedResult(a) {
+  return {
+    attemptId: a._id.toString(),
+    attemptNumber: a.attemptNumber,
+    chapterScores: a.chapterScores,
+    totalCorrect: a.totalCorrect,
+    totalAttempted: a.totalAttempted,
+    totalQuestions: a.totalQuestions,
+    timeUsedSeconds: a.timeUsedSeconds,
+    timeLimit: TIME_LIMIT_SECONDS,
+    overallPercentage: a.overallPercentage,
+    xpEarned: a.xpEarned,
+    autoSubmitted: a.autoSubmitted === true,
+    alreadySubmitted: true,
+    newBadges: [],
+  };
+}
+
 // Score an attempt, persist it, and apply the stats side effects.
 //
 // Shared by POST /submit and by the expiry path in POST /start, so an attempt
@@ -71,7 +93,9 @@ async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeco
   // copy carried the time, pacing would be blank on the pass everybody sees.
   const finalTimeUsed = Math.min(Math.max(reportedTime, serverElapsed), TIME_LIMIT_SECONDS);
 
-  await DB.updateExamAttempt(attemptId, userId, {
+  // One completion per attempt. A second submit in flight at the same moment
+  // loses this claim and awards nothing (see claimExamCompletion).
+  const claimed = await DB.claimExamCompletion(attemptId, userId, {
     status: 'completed',
     completedAt: new Date(),
     timeUsedSeconds: finalTimeUsed,
@@ -85,6 +109,7 @@ async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeco
     overallPercentage,
     xpEarned: xpTotal,
   });
+  if (!claimed) return null;
 
   const today = dayFor({ localDate }); // the student's day; UTC on an expiry
 
@@ -336,7 +361,7 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
   }
 
   if (attempt.status === 'completed') {
-    return res.status(400).send({ msg: 'This exam has already been submitted' });
+    return res.send(storedResult(attempt));
   }
 
   // Build the answer map by MERGING what the client submitted over what was
@@ -354,6 +379,10 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
     attempt, userId, email, answerMap, timeUsedSeconds, autoSubmitted: false,
     localDate: req.body.localDate,
   });
+  if (!result) {
+    // Another submit completed it a moment ago; answer with what it stored.
+    return res.send(storedResult(await DB.getExamAttempt(attemptId, userId)));
+  }
   res.send(result);
   } catch (err) {
     console.error('[exam/submit] Error:', err);
