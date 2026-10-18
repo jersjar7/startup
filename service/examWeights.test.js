@@ -46,6 +46,10 @@ describe('examWeights', () => {
     // sync by hand. They diverging is the silent failure: the dashboard and
     // the phone would show different mastery for the same account.
     const fs = require('node:fs');
+    const path = require('node:path');
+    // From this file, not the working directory: the service's own test run
+    // starts in service/ and the root run starts one level up.
+    const repo = (...p) => path.join(__dirname, '..', ...p);
     const parse = (src, open) => {
       const i = src.indexOf(open);
       const body = src.slice(i, src.indexOf('};', i));
@@ -54,11 +58,11 @@ describe('examWeights', () => {
       return out;
     };
     const bank = parse(
-      fs.readFileSync('src/data/exam-bank/index.js', 'utf8'),
+      fs.readFileSync(repo('src/data/exam-bank/index.js'), 'utf8'),
       'const EXAM_DISTRIBUTION = {',
     );
     const phone = parse(
-      fs.readFileSync('mobile/lib/features/profile/mastery_model.dart', 'utf8'),
+      fs.readFileSync(repo('mobile/lib/features/profile/mastery_model.dart'), 'utf8'),
       'const examWeights = <String, int>{',
     );
     expect(bank).toEqual(EXAM_DISTRIBUTION);
