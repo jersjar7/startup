@@ -101,28 +101,6 @@ export function getExamBankForChapter(chapterId) {
 }
 
 /**
- * Selects 110 weighted questions from the non-diagnostic pool.
- * Uses Fisher-Yates shuffle for fair randomization.
- */
-export function selectExamQuestions() {
-  const selected = [];
-
-  for (const chapterId of CHAPTER_IDS) {
-    const target = EXAM_DISTRIBUTION[chapterId] || 5;
-    // Exclude diagnostic questions from the simulation pool
-    const pool = (CHAPTER_BANKS[chapterId] || [])
-      .filter(p => !diagnosticIdSet.has(p.id));
-
-    if (pool.length === 0) continue;
-
-    const shuffled = fisherYatesShuffle([...pool]);
-    selected.push(...shuffled.slice(0, target));
-  }
-
-  return fisherYatesShuffle(selected);
-}
-
-/**
  * Free preview: one question from each of the `count` highest-weight chapters,
  * for breadth. A risk-free taste of the full timed exam simulation.
  */

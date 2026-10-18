@@ -1,104 +1,97 @@
 import { describe, it, expect } from 'vitest';
 import { createRequire } from 'node:module';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const require = createRequire(import.meta.url);
-const { buildExamQuestions } = require('./examQuestions.js');
+const { pickExamQuestionIds, buildExamQuestions, publicQuestion } = require('./examQuestions.js');
 const { EXAM_DISTRIBUTION } = require('./examWeights.js');
+const { DIAGNOSTIC_IDS } = require('./diagnosticIds.js');
 const content = require('./content.json');
 
-// A real exam's worth of questions, as the browser would post them: the
-// right number from each chapter, every one from the exam bank.
-function honestPick() {
-  const byChapter = {};
-  for (const [id, ix] of Object.entries(content.problemIndex)) {
-    if (ix.pool !== 'exam') continue;
-    (byChapter[ix.chapterId] ||= []).push(id);
-  }
-  const out = [];
-  for (const [chapterId, n] of Object.entries(EXAM_DISTRIBUTION)) {
-    for (const id of byChapter[chapterId].slice(0, n)) {
-      const q = content.problemsById[id];
-      out.push({ ...q, chapterId, choices: [...q.choices].reverse() });
-    }
-  }
-  return out;
-}
+const chapterOf = (id) => content.problemIndex[id].chapterId;
+const pick = (seen = []) => pickExamQuestionIds(content, EXAM_DISTRIBUTION, { seen });
 
-describe('buildExamQuestions', () => {
-  it('every chapter has enough exam questions for its slots', () => {
-    const counts = {};
-    for (const ix of Object.values(content.problemIndex)) {
-      if (ix.pool === 'exam') counts[ix.chapterId] = (counts[ix.chapterId] || 0) + 1;
-    }
-    for (const [chapterId, n] of Object.entries(EXAM_DISTRIBUTION)) {
-      expect(counts[chapterId] || 0, chapterId).toBeGreaterThanOrEqual(n);
+describe('pickExamQuestionIds', () => {
+  it('gives every chapter its weight, from the exam bank, with no repeats', () => {
+    for (let run = 0; run < 100; run++) {
+      const ids = pick();
+      expect(ids).toHaveLength(110);
+      expect(new Set(ids).size).toBe(110);
+      const counts = {};
+      for (const id of ids) {
+        expect(content.problemIndex[id].pool).toBe('exam');
+        counts[chapterOf(id)] = (counts[chapterOf(id)] || 0) + 1;
+      }
+      expect(counts).toEqual(EXAM_DISTRIBUTION);
     }
   });
 
-  it('accepts an honest exam and keeps the order its choices were shown in', () => {
-    const picked = honestPick();
-    const { questions, error } = buildExamQuestions(picked, content, EXAM_DISTRIBUTION);
-    expect(error).toBeUndefined();
-    expect(questions).toHaveLength(110);
-    expect(questions[0].choices.map((c) => c.id)).toEqual(picked[0].choices.map((c) => c.id));
-  });
-
-  it('grades against the server\'s answer, whatever the browser claims', () => {
-    const picked = honestPick().map((q) => ({
-      ...q,
-      correctAnswerId: 'forged',
-      statement: 'forged',
-      choices: q.choices.map((c) => ({ ...c, text: 'forged' })),
-    }));
-    const { questions } = buildExamQuestions(picked, content, EXAM_DISTRIBUTION);
-    for (const q of questions) {
-      const stored = content.problemsById[q.id];
-      expect(q.correctAnswerId).toBe(stored.correctAnswerId);
-      expect(q.statement).toBe(stored.statement);
-      expect(q.choices.every((c) => c.text !== 'forged')).toBe(true);
+  it('never asks a diagnostic question', () => {
+    const diagnostic = new Set(DIAGNOSTIC_IDS);
+    for (let run = 0; run < 100; run++) {
+      expect(pick().filter((id) => diagnostic.has(id))).toEqual([]);
     }
   });
 
-  it('turns away a short exam, a padded one, repeats and made-up questions', () => {
-    const picked = honestPick();
-    expect(buildExamQuestions(picked.slice(0, 1), content, EXAM_DISTRIBUTION).error).toBeTruthy();
-    expect(buildExamQuestions([...picked, picked[0]], content, EXAM_DISTRIBUTION).error).toBeTruthy();
+  it('leads with questions the student has not seen', () => {
+    const first = pick();
+    const second = pick(first);
+    expect(second.filter((id) => first.includes(id))).toEqual([]);
 
-    const repeated = [...picked];
-    repeated[1] = repeated[0];
-    expect(buildExamQuestions(repeated, content, EXAM_DISTRIBUTION).error).toBeTruthy();
-
-    const invented = [...picked];
-    invented[0] = { ...invented[0], id: 'not-a-question' };
-    expect(buildExamQuestions(invented, content, EXAM_DISTRIBUTION).error).toBeTruthy();
+    // A third exam has to reuse some, and only where a chapter ran out.
+    const third = pick([...first, ...second]);
+    const reused = third.filter((id) => first.includes(id) || second.includes(id));
+    expect(reused.length).toBeGreaterThan(0);
+    expect(reused.length).toBeLessThan(15);
+    const reusedChapters = new Set(reused.map(chapterOf));
+    for (const chapterId of reusedChapters) {
+      const pool = Object.keys(content.problemIndex).filter(
+        (id) => content.problemIndex[id].pool === 'exam' && chapterOf(id) === chapterId && !DIAGNOSTIC_IDS.includes(id),
+      );
+      expect(pool.length, chapterId).toBeLessThan(3 * EXAM_DISTRIBUTION[chapterId]);
+    }
   });
 
-  it('turns away lesson questions and an exam that skips the chapter weights', () => {
-    const picked = honestPick();
-    const lessonId = Object.keys(content.problemIndex).find((id) => content.problemIndex[id].pool === 'lesson');
-    const withLesson = [...picked];
-    withLesson[0] = { ...content.problemsById[lessonId] };
-    expect(buildExamQuestions(withLesson, content, EXAM_DISTRIBUTION).error).toBeTruthy();
-
-    // Swap one question for an unused one from another chapter: still 110,
-    // but the weights are off.
-    const used = new Set(picked.map((q) => q.id));
-    const other = Object.keys(content.problemIndex).find(
-      (id) => content.problemIndex[id].pool === 'exam'
-        && !used.has(id)
-        && content.problemIndex[id].chapterId !== picked[0].chapterId,
-    );
-    const skewed = [...picked];
-    skewed[0] = { ...content.problemsById[other] };
-    expect(buildExamQuestions(skewed, content, EXAM_DISTRIBUTION).error).toBeTruthy();
+  it('when it must repeat, repeats the questions seen least often', () => {
+    const seen = [];
+    for (let k = 0; k < 4; k++) seen.push(...pick(seen));
+    const times = {};
+    for (const id of seen) times[id] = (times[id] || 0) + 1;
+    const fifth = pick(seen);
+    const pools = {};
+    for (const [id, ix] of Object.entries(content.problemIndex)) {
+      if (ix.pool === 'exam' && !DIAGNOSTIC_IDS.includes(id)) (pools[ix.chapterId] ||= []).push(id);
+    }
+    // Nothing left out of a chapter was seen fewer times than something taken.
+    for (const [chapterId, pool] of Object.entries(pools)) {
+      const taken = pool.filter((id) => fifth.includes(id)).map((id) => times[id] || 0);
+      const left = pool.filter((id) => !fifth.includes(id)).map((id) => times[id] || 0);
+      if (left.length) expect(Math.min(...left), chapterId).toBeGreaterThanOrEqual(Math.max(...taken));
+    }
   });
+});
 
-  it('falls back to the server\'s choice order when the browser\'s does not match', () => {
-    const picked = honestPick();
-    picked[0] = { ...picked[0], choices: [{ id: 'zz' }] };
-    const { questions } = buildExamQuestions(picked, content, EXAM_DISTRIBUTION);
-    expect(questions[0].choices.map((c) => c.id)).toEqual(
-      content.problemsById[picked[0].id].choices.map((c) => c.id),
-    );
+describe('buildExamQuestions and publicQuestion', () => {
+  it('stores the server\'s answer and sends the question without it', () => {
+    const ids = pick();
+    const stored = buildExamQuestions(ids, content);
+    stored.forEach((q, k) => {
+      const source = content.problemsById[ids[k]];
+      expect(q.correctAnswerId).toBe(source.correctAnswerId);
+      expect(q.statement).toBe(source.statement);
+      expect(q.diagram?.figureId).toBeUndefined();
+      const sent = publicQuestion(q);
+      expect(JSON.stringify(sent)).not.toContain('correctAnswerId');
+      expect(sent.choices.map((c) => c.id)).toEqual(source.choices.map((c) => c.id));
+    });
+  });
+});
+
+describe('the diagnostic list', () => {
+  it('matches the website\'s copy', () => {
+    const src = fs.readFileSync(path.join(__dirname, '..', 'src/data/exam-bank/diagnostic-ids.js'), 'utf8');
+    const ids = [...src.matchAll(/'([a-z0-9-]+)'/g)].map((m) => m[1]);
+    expect(ids).toEqual(DIAGNOSTIC_IDS);
   });
 });

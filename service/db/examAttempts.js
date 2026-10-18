@@ -46,6 +46,16 @@ async function getExamAttempts(userId) {
     .toArray();
 }
 
+// Every question id from the student's earlier attempts, once per attempt,
+// so a new exam can lead with questions they have not seen.
+async function getExamQuestionIdsSeen(userId) {
+  const attempts = await examAttemptsCollection
+    .find({ userId })
+    .project({ 'questions.id': 1 })
+    .toArray();
+  return attempts.flatMap((a) => (a.questions || []).map((q) => q.id));
+}
+
 async function getExamAttemptCount(userId) {
   return examAttemptsCollection.countDocuments({ userId });
 }
@@ -57,4 +67,5 @@ module.exports = {
   claimExamCompletion,
   getExamAttempts,
   getExamAttemptCount,
+  getExamQuestionIdsSeen,
 };

@@ -19,7 +19,7 @@ const router = express.Router();
 // NCEES FE Civil exam question distribution (110 total) — single backend source
 // of truth in examWeights.js.
 const { EXAM_DISTRIBUTION } = require('../examWeights.js');
-const { buildExamQuestions } = require('../examQuestions.js');
+const { pickExamQuestionIds, buildExamQuestions, publicQuestion } = require('../examQuestions.js');
 const content = require('../content.json');
 
 const TOTAL_QUESTIONS = 110;
@@ -221,15 +221,7 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
       const full = await DB.getExamAttempt(inProgress._id.toString(), userId);
       return res.send({
         attemptId: full._id.toString(),
-        questions: full.questions.map(q => ({
-          id: q.id,
-          chapterId: q.chapterId,
-          lessonId: q.lessonId,
-          statement: q.statement,
-          choices: (q.choices || []).map(c => ({ id: c.id, text: c.text })),
-          type: q.type,
-          diagram: q.diagram || null,
-        })),
+        questions: full.questions.map(publicQuestion),
         timeLimit: TIME_LIMIT_SECONDS,
         startedAt: full.startedAt,
         // Server-issued so the client never derives its own clock. A hidden tab
@@ -246,13 +238,18 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
       });
     }
 
-    // The client picks the questions; the server supplies everything about
-    // them, the answer key above all (see ../examQuestions.js).
-    const built = buildExamQuestions(req.body.questions, content, EXAM_DISTRIBUTION);
-    if (built.error) {
-      return res.status(400).send({ msg: built.error });
+    // A page from before the server picked the questions posts its own and
+    // then shows them, not the ones stored, so every answer would be scored
+    // against a different exam. Turn it away before an attempt exists; a
+    // reload brings the current page.
+    if (Array.isArray(req.body?.questions)) {
+      return res.status(409).send({ msg: 'This page has been updated. Please reload it to start your exam.' });
     }
-    const examQuestions = built.questions;
+
+    // The server picks the questions, unseen ones first, and keeps the answer
+    // key to itself (see ../examQuestions.js).
+    const seen = await DB.getExamQuestionIdsSeen(userId);
+    const examQuestions = buildExamQuestions(pickExamQuestionIds(content, EXAM_DISTRIBUTION, { seen }), content);
 
     const attemptNumber = (await DB.getExamAttemptCount(userId)) + 1;
 
@@ -268,15 +265,7 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
 
     res.send({
       attemptId: attemptId.toString(),
-      questions: examQuestions.map(q => ({
-        id: q.id,
-        chapterId: q.chapterId,
-        lessonId: q.lessonId,
-        statement: q.statement,
-        choices: (q.choices || []).map(c => ({ id: c.id, text: c.text })),
-        type: q.type,
-        diagram: q.diagram || null,
-      })),
+      questions: examQuestions.map(publicQuestion),
       timeLimit: TIME_LIMIT_SECONDS,
       startedAt,
       deadline: examDeadlineMs({ startedAt }, TIME_LIMIT_SECONDS),

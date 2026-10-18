@@ -116,19 +116,23 @@ debounced server flush. The server merges, so neither layer can blank the other.
 From a 9-agent read-only audit, 63 raw findings, 15 confirmed after adversarial
 verification. None still destroy customer work.
 
-1. **The client picks the questions.** FIXED 2026-10-17 for grading:
-   `/exam/start` now rebuilds every question from the server's own bank
-   (`service/examQuestions.js`): the statement, the choices, the chapter and
-   `correctAnswerId` come from `service/content.json`, never from the request.
-   It refuses a set that is not exactly the exam's per-chapter weights, any
-   repeat, any id outside the exam pool. So a forged key, a one-question exam
-   or a lesson-question exam can no longer be posted. STILL OPEN: the browser
-   chooses which exam-bank questions fill each chapter, and the full answer key
-   is in the JS bundle, so a determined user can read answers. The complete fix
-   is server-side selection plus keeping the key out of the bundle.
-   `src/data/exam-bank/serverCopy.test.js` runs the real picker 200 times
-   against the server's rules, and checks a resumed exam stores the same
-   question the page drew.
+1. **The client picks the questions.** FIXED 2026-10-17. The server picks
+   (`service/examQuestions.js`): the exam's per-chapter weights, never a
+   diagnostic question (`service/diagnosticIds.js`, kept equal to the
+   website's list by its test), and questions the student has not met on an
+   earlier attempt first, then the least-seen. A student's first two exams
+   share no question; a third repeats about five (Statics and Construction run
+   out first). Statement, choices, chapter and `correctAnswerId` come from
+   `service/content.json` and the browser is sent the questions without the
+   key. `/exam/start` answers a page that still posts its own questions with
+   409 "reload", before creating an attempt; resume is unaffected.
+   `service/examStart.test.js`, `service/examQuestions.test.js`.
+   STILL OPEN, by design for now: the free preview, the diagnostic and quick
+   start grade in the browser from the same bank, so the bank (answers
+   included) is still in the site's code and a determined buyer could look up
+   answers by question text. Closing that means moving those three to the
+   server too. The stake is small: a looked-up score fools the buyer and adds at most
+   2 XP a question (220 per exam) toward the leaderboard.
 2. **Multi-tab last-write-wins.** FIXED 2026-10-17: every answer carries the
    time it was chosen (`answerTimes`, stored as `savedAnswerTimes`), and the
    flags and position carry one each (`savedFlaggedAt`, `savedIndexAt`). Saves,

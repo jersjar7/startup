@@ -117,8 +117,8 @@ fixes rest on non-obvious invariants. The two most important:
   Collapsing them reintroduces a bug that scored paying customers ~0%.
 - **Answers are keyed by `questionId`, never array position**, and resume must
   render the SERVER's stored questions.
-Known and unfixed: the client picks the 110 questions and POSTs them **including
-`correctAnswerId`**, so any buyer can forge a perfect score.
+The server picks the 110 questions (unseen first) and never sends
+`correctAnswerId`; see the doc before letting the browser choose questions again.
 
 ## Analytics & attribution
 `docs/ANALYTICS-ATTRIBUTION.md`. Plausible measures pre-signup; `user.acquisition`

@@ -12,7 +12,7 @@ import {
 } from '@phosphor-icons/react';
 import { MathText } from '../components/MathText';
 import { CHAPTERS } from '../data/chapters';
-import { selectExamQuestions, selectPreviewQuestions } from '../data/exam-bank/index';
+import { selectPreviewQuestions } from '../data/exam-bank/index';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import { priceForEmail } from '../data/pricing';
 import '../diagnostic/diagnostic.css';
@@ -212,28 +212,12 @@ export function ExamSession({ userName, preview = false }) {
         return;
       }
 
-      const selected = selectExamQuestions();
-      if (selected.length === 0) {
-        setError('No exam questions available.');
-        setPhase('LOADING');
-        return;
-      }
-
-      const serverQuestions = selected.map(q => ({
-        id: q.id,
-        chapterId: q.chapterId,
-        lessonId: q.lessonId,
-        statement: q.statement,
-        choices: q.choices,
-        correctAnswerId: q.correctAnswerId,
-        type: q.type,
-        diagram: q.diagram || null,
-      }));
-
       const res = await fetch('/api/exam/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ questions: serverQuestions }),
+        // The server picks the questions and keeps their answers; it sends
+        // them back without the key.
+        body: JSON.stringify({}),
       });
 
       if (res.status === 403) {
@@ -249,12 +233,14 @@ export function ExamSession({ userName, preview = false }) {
       const data = await res.json();
       setAttemptId(data.attemptId);
 
+      if (!Array.isArray(data.questions) || data.questions.length === 0) {
+        throw new Error('No exam questions available.');
+      }
+      // Always the questions the SERVER stored. A page that showed its own set
+      // once had its answers scored against a different exam, every one blank.
+      setQuestions(shuffleQuestionChoices(data.questions));
+
       if (data.resumed) {
-        // Use the questions the SERVER stored, not the freshly generated local
-        // set. Regenerating meant the user answered a different exam than the
-        // one being scored, so their questionIds did not match and every answer
-        // was counted blank.
-        setQuestions(shuffleQuestionChoices(data.questions || []));
 
         // Server answers are authoritative, but the localStorage mirror can be
         // newer than the last successful flush (that is the whole point of it),
@@ -284,7 +270,6 @@ export function ExamSession({ userName, preview = false }) {
         deadlineRef.current = data.deadline || (new Date(data.startedAt).getTime() + TIME_LIMIT * 1000);
         setTimeLeft(remainingFromDeadline());
       } else {
-        setQuestions(shuffleQuestionChoices(selected));
         deadlineRef.current = data.deadline || (Date.now() + TIME_LIMIT * 1000);
         setStartTime(new Date(data.startedAt || Date.now()).getTime());
         setTimeLeft(remainingFromDeadline());
