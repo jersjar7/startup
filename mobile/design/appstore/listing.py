@@ -14,10 +14,12 @@ from asc import call, APP  # noqa: E402
 SHOTS = pathlib.Path(__file__).parent / 'out'
 DISPLAY = 'APP_IPHONE_67'  # what 1320 x 2868 is called in the API
 
-SUBTITLE = 'Free FE Civil exam practice'
+# Apple 2.3.7 (rejection of 2026-10-20): no price word, "free" included, in
+# the subtitle or promotional text. The description may say it.
+SUBTITLE = 'FE Civil exam practice'
 
 PROMO = ('Fifteen chapters, 135 lessons and 2,269 rounds of FE Civil practice, built around '
-         'the figures the exam actually uses. All of it free, nothing locked.')
+         'the figures the exam actually uses. Nothing locked.')
 
 KEYWORDS = ('FE exam,civil engineering,NCEES,EIT,engineer in training,'
             'fundamentals,exam prep,practice,PE,study')
