@@ -11,6 +11,10 @@ import 'package:mobile/core/storage/app_storage.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/features/auth/auth_controller.dart';
+import 'package:mobile/features/daily/daily_calendar.dart';
+import 'package:mobile/features/daily/daily_repository.dart';
+import 'package:mobile/features/daily/daily_run.dart';
+import 'package:mobile/features/daily/daily_tab.dart';
 import 'package:mobile/features/games/chapter_map_screen.dart';
 import 'package:mobile/features/games/counting_the_net_game.dart';
 import 'package:mobile/features/games/lesson_brief.dart';
@@ -88,9 +92,99 @@ const _gamesDone = <String, int>{
 /// Answers the two reads the home screen makes, so the website's half of the
 /// card shows a real student's figures instead of the zeros you get with no
 /// server. The numbers are the same seeded account used everywhere here.
+/// The Daily as the seeded student sees it on 20 October: today's three
+/// concepts (the live server's own pick for that day), and, once played, the
+/// whole field and their school's board. Names are first names and an
+/// initial, as the real board shows them.
+const _dailyDate = '2026-10-20';
+const _dailyGames = [
+  {'chapterId': 'ethics', 'gameId': 'is-there-a-deal', 'rounds': 6},
+  {'chapterId': 'statistics', 'gameId': 'how-do-they-sit', 'rounds': 6},
+  {
+    'chapterId': 'water-resources',
+    'gameId': 'filling-or-emptying',
+    'rounds': 6,
+  },
+];
+bool _dailyPlayed = false;
+
+Map<String, dynamic> _board(List<(String, int, int)> rows, int me) => {
+  'players': rows.length,
+  'distribution': {
+    for (final r in rows) '${r.$2}': rows.where((x) => x.$2 == r.$2).length,
+  },
+  'top': [
+    for (var i = 0; i < rows.length && i < 5; i++)
+      {
+        'rank': i + 1,
+        'name': rows[i].$1,
+        'score': rows[i].$2,
+        'ms': rows[i].$3,
+        'isYou': i == me,
+      },
+  ],
+  'me': {
+    'rank': me + 1,
+    'score': rows[me].$2,
+    'total': 18,
+    'ms': rows[me].$3,
+    'beat': (100 * (rows.length - 1 - me) / (rows.length - 1)).round(),
+  },
+};
+
 class _SeededApi extends ApiClient {
   @override
   Future<dynamic> get(String path) async {
+    if (path.startsWith('/daily?')) {
+      return {
+        'number': dailyNumberOn(DateTime.parse(_dailyDate)),
+        'date': _dailyDate,
+        'games': _dailyGames,
+        'total': 18,
+        'mine': _dailyPlayed
+            ? {
+                'score': 16,
+                'total': 18,
+                'ms': 154000,
+                'rounds': [
+                  [true, true, true, true, true, true],
+                  [true, true, false, true, true, true],
+                  [true, true, true, true, false, true],
+                ],
+              }
+            : null,
+        'streak': {'current': 6, 'best': 9, 'playedToday': _dailyPlayed},
+      };
+    }
+    if (path.startsWith('/daily/') && path.endsWith('/results')) {
+      final everyone = [
+        for (var i = 0; i < 212; i++)
+          ('Player ${i + 1}', 18 - i ~/ 14, 120000 + i * 900),
+      ];
+      everyone[0] = ('Maya R.', 18, 101000);
+      everyone[1] = ('Tomas L.', 18, 118000);
+      everyone[2] = ('Priya S.', 18, 126000);
+      everyone[3] = ('Ben K.', 17, 109000);
+      everyone[4] = ('Ana G.', 17, 131000);
+      everyone[40] = ('Jerson G.', 16, 154000);
+      return {
+        ..._board(everyone, 40),
+        'school': {
+          'name': 'Your school',
+          'players': 14,
+          'needs': 5,
+          'board': _board([
+            ('Ana G.', 17, 131000),
+            ('Jerson G.', 16, 154000),
+            ('Lucas P.', 16, 171000),
+            ('Emma W.', 15, 140000),
+            ('Noah T.', 14, 162000),
+            for (var i = 0; i < 9; i++)
+              ('Classmate ${i + 1}', 13 - i ~/ 3, 150000 + i * 4000),
+          ], 1),
+        },
+      };
+    }
     if (path == '/auth/me') return _student;
     if (path == '/diagnostic/mastery') {
       return <String, dynamic>{
@@ -110,19 +204,34 @@ class _SeededApi extends ApiClient {
   }
 }
 
-Widget _app(Widget home, {bool signedIn = true}) {
-  final auth = AuthController(api: _SeededApi(), storage: AppStorage())
+Widget _app(Widget home, {bool signedIn = true, bool guest = false}) {
+  final api = _SeededApi();
+  final auth = AuthController(api: api, storage: AppStorage())
     ..user = signedIn ? _student : null
     ..status = signedIn ? AuthStatus.authenticated : AuthStatus.unauthenticated
-    ..onboardingSeen = true;
+    ..onboardingSeen = true
+    ..guest = guest;
   return ChangeNotifierProvider<AuthController>.value(
     value: auth,
-    child: MaterialApp(
-      theme: AppTheme.light,
-      debugShowCheckedModeBanner: false,
-      home: home,
+    child: Provider<DailyRepository>.value(
+      value: DailyRepository(api),
+      child: MaterialApp(
+        theme: AppTheme.light,
+        debugShowCheckedModeBanner: false,
+        home: home,
+      ),
     ),
   );
+}
+
+/// A shot in the night palette (ADR 0025), for the dark-mode store set.
+Future<void> _night(Future<void> Function() shoot) async {
+  AppPalette.dark = true;
+  try {
+    await shoot();
+  } finally {
+    AppPalette.dark = false;
+  }
 }
 
 Future<void> _settle(WidgetTester tester) async {
@@ -306,5 +415,92 @@ void main() {
     await _settle(tester);
     await _shoot(tester, 'calendar');
     await _drain(tester);
+  });
+
+  // Added 2026-10-20 for the App Store's custom product pages, product page
+  // optimization and creative assets (marketing: appstore-growth/).
+
+  Future<void> dailyShot(
+    WidgetTester tester,
+    String name, {
+    bool played = false,
+  }) async {
+    _appStore(tester);
+    appClock = () => DateTime(2026, 10, 20, 9);
+    DailyRun.instance.debugReset();
+    _dailyPlayed = played;
+    await tester.pumpWidget(
+      _app(
+        Scaffold(
+          backgroundColor: AppColors.butter,
+          body: DailyTab(visible: true),
+        ),
+      ),
+    );
+    await _settle(tester);
+    await _shoot(tester, name);
+    appClock = () => DateTime(2026, 9, 18, 10);
+  }
+
+  testWidgets('daily: today, same for everyone', (tester) async {
+    await dailyShot(tester, 'daily-today');
+  });
+
+  testWidgets('daily: the results and the school board', (tester) async {
+    await dailyShot(tester, 'daily-results', played: true);
+  });
+
+  testWidgets('guest: Study with no account', (tester) async {
+    _appStore(tester);
+    _clear('mathematics', 1);
+    await tester.pumpWidget(
+      _app(
+        const Scaffold(backgroundColor: AppColors.fog, body: StudyTab()),
+        signedIn: false,
+        guest: true,
+      ),
+    );
+    await _settle(tester);
+    await _shoot(tester, 'guest-study');
+  });
+
+  testWidgets('night: the flow net', (tester) async {
+    await _night(() async {
+      _appStore(tester);
+      await tester.pumpWidget(_app(const CountingTheNetGame()));
+      await _settle(tester);
+      await _shoot(tester, 'round-seepage-night');
+    });
+  });
+
+  testWidgets('night: the concept sheet', (tester) async {
+    await _night(() async {
+      _appStore(tester);
+      await tester.pumpWidget(
+        _app(
+          const Scaffold(
+            body: SafeArea(child: ConceptView(section: goingDeepBrief)),
+          ),
+        ),
+      );
+      await _settle(tester);
+      await _shoot(tester, 'sheet-piles-night');
+    });
+  });
+
+  testWidgets('night: the Daily', (tester) async {
+    await _night(() => dailyShot(tester, 'daily-today-night'));
+  });
+
+  testWidgets('night: the chapter map', (tester) async {
+    await _night(() async {
+      _appStore(tester);
+      _clear('mathematics', 4);
+      await tester.pumpWidget(
+        _app(const ChapterMapScreen(chapter: mathematicsMap)),
+      );
+      await _settle(tester);
+      await _shoot(tester, 'map-night');
+    });
   });
 }
