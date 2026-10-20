@@ -160,10 +160,28 @@ class _SeededApi extends ApiClient {
       };
     }
     if (path.startsWith('/daily/') && path.endsWith('/results')) {
+      // A believable spread for 212 players: a bell peaking at 15 of 18, so the
+      // folded last row stays small and the bars read as a curve.
+      // Three perfect scores (the named top three), then the 17s from Ben
+      // and Ana to just above you, so the names and the bars agree.
+      const spread = {
+        18: 3,
+        17: 37,
+        16: 48,
+        15: 52,
+        14: 38,
+        13: 18,
+        12: 10,
+        11: 4,
+        10: 2,
+      };
       final everyone = [
-        for (var i = 0; i < 212; i++)
-          ('Player ${i + 1}', 18 - i ~/ 14, 120000 + i * 900),
+        for (final e in spread.entries)
+          for (var k = 0; k < e.value; k++) ('Player', e.key, 0),
       ];
+      for (var i = 0; i < everyone.length; i++) {
+        everyone[i] = ('Player ${i + 1}', everyone[i].$2, 120000 + i * 900);
+      }
       everyone[0] = ('Maya R.', 18, 101000);
       everyone[1] = ('Tomas L.', 18, 118000);
       everyone[2] = ('Priya S.', 18, 126000);
