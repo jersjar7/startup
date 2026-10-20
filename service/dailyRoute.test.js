@@ -61,6 +61,30 @@ describe('the Daily routes', () => {
     expect(a.body.streak).toEqual({ current: 0, best: 0, playedToday: false });
   });
 
+  it('shows a guest today\'s games with no account, and nothing about anybody', async () => {
+    let accountReads = 0;
+    const getUser = DB.getUser;
+    DB.getUser = async (e) => { accountReads++; return getUser(e); };
+    const guest = await request(app()).get(`/api/daily/preview?date=${today}`);
+    expect(guest.status).toBe(200);
+    expect(accountReads).toBe(0);
+    expect(Object.keys(guest.body).sort()).toEqual(['date', 'games', 'number', 'total']);
+    const signedIn = await request(app()).get(`/api/daily?date=${today}`).set(as('me@byu.edu'));
+    expect(guest.body.games).toEqual(signedIn.body.games);
+    expect(guest.body.total).toBe(signedIn.body.total);
+    expect((await request(app()).get('/api/daily/preview?date=2099-01-01')).status).toBe(400);
+  });
+
+  it('still asks for an account to play, or to see who played', async () => {
+    const { body: d } = await request(app()).get(`/api/daily/preview?date=${today}`);
+    const sent = await request(app()).post(`/api/daily/${d.number}/result`)
+      .send({ date: today, rounds: allRight(d.games), ms: 1000 });
+    expect(sent.status).toBe(401);
+    expect(results).toHaveLength(0);
+    expect((await request(app()).get(`/api/daily/${d.number}/results`)).status).toBe(401);
+    expect((await request(app()).get(`/api/daily?date=${today}`)).status).toBe(401);
+  });
+
   it('will not show a day that is not open yet', async () => {
     const res = await request(app()).get('/api/daily?date=2099-01-01').set(as('me@byu.edu'));
     expect(res.status).toBe(400);

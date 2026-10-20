@@ -66,6 +66,24 @@ router.get('/', verifyAuth, async (req, res) => {
   });
 });
 
+// Today's Daily with nothing about anybody in it: which concepts, for the
+// app's guest Daily tab (Apple 5.1.1(v), 2026-10-20). A guest sees them but
+// cannot play, since a result is ranked and kept against an account. No
+// account is read or written; the only write is the day's pick, which the
+// first request of the day makes whoever asks.
+router.get('/preview', async (req, res) => {
+  const date = req.query.date;
+  if (!isOpenDate(date)) return res.status(400).send({ msg: 'That Daily is not open.' });
+  const number = dayNumber(date);
+  const puzzle = await puzzleFor(number);
+  res.send({
+    number,
+    date,
+    games: puzzle.games,
+    total: puzzle.games.reduce((s, g) => s + g.rounds, 0),
+  });
+});
+
 // A finished Daily. Kept once; a second send returns the first.
 router.post('/:number/result', verifyAuth, async (req, res) => {
   const number = Number(req.params.number);
