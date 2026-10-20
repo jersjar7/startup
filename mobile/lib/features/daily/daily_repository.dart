@@ -65,6 +65,15 @@ class DailyRepository {
     }
   }
 
+  /// Today's Daily without an account: which concepts, nothing about who
+  /// played. For the guest's Daily tab, which shows them but cannot play.
+  Future<DailyPuzzle> preview(DateTime now) async {
+    final data =
+        await api.get('/daily/preview?date=${dayKey(now)}')
+            as Map<String, dynamic>;
+    return DailyPuzzle.fromJson(data);
+  }
+
   /// Sends a finished Daily. Returns null when it could not be sent; it is
   /// then kept and sent by [sendPending] next time.
   Future<DailySubmission?> submit({

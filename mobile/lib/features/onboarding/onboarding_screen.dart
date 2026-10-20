@@ -8,6 +8,7 @@ import '../auth/auth_controller.dart';
 import '../games/stretched_or_squashed_game.dart' show workRounds;
 import '../games/truss_figures.dart';
 import '../shared/widgets/engineering_grid.dart';
+import '../home/home_shell.dart';
 import '../shared/widgets/kit.dart';
 import '../shared/widgets/legal_line.dart';
 import '../shared/widgets/raccoon_peek.dart';
@@ -75,6 +76,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     context.push(route);
   }
 
+  /// "Try a round first": straight into Study, with no account.
+  Future<void> _tryFirst() async {
+    final auth = context.read<AuthController>();
+    try {
+      await auth.completeOnboarding();
+    } catch (_) {}
+    await auth.startGuest();
+    HomeShell.select(HomeTab.study);
+    if (mounted) context.go('/home');
+  }
+
   /// Back from the first page returns wherever it was opened from: the
   /// account sheet for a replay, the welcome screen otherwise.
   void _leave() => context.canPop()
@@ -107,6 +119,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               onBack: () => _to(1),
               onCreate: () => _go('/create'),
               onSignIn: () => _go('/signin'),
+              onTry: _tryFirst,
             ),
           ],
         ),
@@ -491,6 +504,7 @@ class _Honest extends StatelessWidget {
     required this.onBack,
     required this.onCreate,
     required this.onSignIn,
+    required this.onTry,
   });
 
   /// A reader who already has an account just closes the tour.
@@ -498,6 +512,9 @@ class _Honest extends StatelessWidget {
   final VoidCallback onBack;
   final VoidCallback onCreate;
   final VoidCallback onSignIn;
+
+  /// Into the app with no account (Apple 5.1.1(v)).
+  final VoidCallback onTry;
 
   @override
   Widget build(BuildContext context) {
@@ -507,16 +524,16 @@ class _Honest extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _StepRow(at: 3, onBack: onBack),
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
             Text('Honest by\ndesign.', style: AppTheme.display()),
             const SizedBox(height: 12),
             Text(
-              'Everything you play in the app is saved to your account, and you can see it on the website too. It does not raise your mastery score, though. Recognizing a concept is not the same as solving a problem with it, so mastery only comes from problems you work at a desk.',
+              'With an account, everything you play in the app is saved, and you can see it on the website too. It does not raise your mastery score, though. Recognizing a concept is not the same as solving a problem with it, so mastery only comes from problems you work at a desk.',
               style: AppTheme.body(size: 16, height: 1.45),
             ),
             const Spacer(),
             Container(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
               decoration: BoxDecoration(
                 color: AppColors.cream,
                 borderRadius: BorderRadius.circular(36),
@@ -528,7 +545,7 @@ class _Honest extends StatelessWidget {
                     'WHERE MASTERY COMES FROM',
                     style: AppTheme.eyebrow(size: 11, color: AppColors.ink2),
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 10),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.baseline,
                     textBaseline: TextBaseline.alphabetic,
@@ -562,9 +579,9 @@ class _Honest extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
                   const Pips(count: 10, filled: 10),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 8),
                   Text(
                     'Practice in the app does not change this number, but it helps you have the concepts fresh for more effective study sessions.',
                     style: AppTheme.body(
@@ -576,12 +593,19 @@ class _Honest extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 22),
+            SizedBox(height: replay ? 22 : 14),
             PillButton(
               label: replay ? 'Got it' : 'Create my account',
               onTap: onCreate,
             ),
-            const SizedBox(height: 6),
+            if (!replay) ...[
+              const SizedBox(height: 8),
+              SheetButton(
+                label: 'Try a round first',
+                filled: false,
+                onTap: onTry,
+              ),
+            ],
             if (!replay)
               Center(
                 child: TextButton(

@@ -170,6 +170,24 @@ class GameProgress extends ChangeNotifier {
     return applyServerEvents(events);
   }
 
+  /// Forget every round on this phone. Used when an account signs out, so
+  /// the next person on the phone (or a guest) does not start with someone
+  /// else's map, and so a guest's later account is never credited with work
+  /// another account did. The server keeps the account's record; signing
+  /// back in restores it.
+  void clearAll() {
+    if (_rounds.isEmpty && _firstTry.isEmpty && _lastGame == null) return;
+    _rounds.clear();
+    _firstTry.clear();
+    _lastGame = null;
+    notifyListeners();
+    _save();
+  }
+
+  /// Every round cleared on this phone, across every game.
+  int get totalRoundsCleared =>
+      _rounds.values.fold(0, (sum, rounds) => sum + rounds.length);
+
   /// Start the whole thing over (the "play again" path).
   void reset(String gameId) {
     _rounds.remove(gameId);

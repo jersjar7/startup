@@ -837,6 +837,16 @@ GoRouter buildRouter(AuthController auth) {
         return null;
       }
 
+      // A guest (Apple 5.1.1(v)): the tabs, with the account screens one push
+      // away. Profile and the Daily show what an account adds instead of
+      // their own content (features/guest).
+      if (auth.isGuest) {
+        if (loc == '/splash' || loc == '/verify' || loc.startsWith('/daily/')) {
+          return '/home';
+        }
+        return null;
+      }
+
       // Signed out. The tour is the root on a first run, so nobody reaches
       // sign-up without being told how the phone and the website relate
       // (owner's call, 2026-10-04). After that the welcome screen is the

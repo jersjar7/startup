@@ -6,6 +6,8 @@ import '../../core/network/api_client.dart';
 import '../../core/storage/app_storage.dart';
 import '../daily/daily_repository.dart';
 import '../games/game_progress.dart';
+import '../games/game_sync.dart';
+import '../games/guest_log.dart';
 import '../profile/badges.dart';
 
 enum AuthStatus { unknown, authenticated, unauthenticated }
@@ -24,6 +26,15 @@ class AuthController extends ChangeNotifier {
   Map<String, dynamic>? user;
   bool onboardingSeen = false;
 
+  /// Using the app without an account (Apple 5.1.1(v), 2026-10-20). Study
+  /// is open to a guest; everything that belongs to an account still asks
+  /// for one. Nothing a guest does is sent to the server: their rounds wait
+  /// in [GuestLog] until they sign up or sign in.
+  bool guest = false;
+
+  /// True while somebody is using the app as a guest.
+  bool get isGuest => guest && status == AuthStatus.unauthenticated;
+
   /// The opening titles play once per launch, before the tour. Not stored:
   /// a title card is for the start of a session, not once in a lifetime.
   bool titlesShown = false;
@@ -38,8 +49,13 @@ class AuthController extends ChangeNotifier {
   /// Launch gate: read the stored token and confirm it with /me.
   Future<void> bootstrap() async {
     onboardingSeen = await storage.onboardingSeen();
+    guest = await storage.guestMode();
     final token = await storage.readToken();
     if (token == null) {
+      // A fresh install (no tour seen, no guest) can still find an earlier
+      // install's rounds, because that mirror lives in the keychain, which
+      // survives deleting the app. They belong to nobody now.
+      if (!onboardingSeen && !guest) GameProgress.instance.clearAll();
       status = AuthStatus.unauthenticated;
       notifyListeners();
       return;
@@ -51,7 +67,9 @@ class AuthController extends ChangeNotifier {
       // The map this account earned on any phone (audit F8).
       unawaited(GameProgress.instance.restoreFromServer(api));
     } catch (_) {
-      await _clear();
+      // Possibly only no signal at launch: keep the phone's rounds, which
+      // signing back in would restore anyway.
+      await _clear(wipePhone: false);
       status = AuthStatus.unauthenticated;
     }
     notifyListeners();
@@ -180,6 +198,24 @@ class AuthController extends ChangeNotifier {
     }
   }
 
+  /// "Try a round first": into the app with no account.
+  Future<void> startGuest() async {
+    guest = true;
+    await storage.setGuestMode(true);
+    notifyListeners();
+  }
+
+  /// The rounds played as a guest go to the account just made or signed
+  /// into, then the guest is gone. A failed send keeps them for next time.
+  Future<void> _adoptGuest() async {
+    if (!guest) return;
+    final events = await GuestLog.all();
+    if (events.isNotEmpty && !await GameSync(api).push(events)) return;
+    await GuestLog.clear();
+    guest = false;
+    await storage.setGuestMode(false);
+  }
+
   Future<void> completeOnboarding() async {
     onboardingSeen = true;
     await storage.setOnboardingSeen();
@@ -217,8 +253,13 @@ class AuthController extends ChangeNotifier {
     sessionExpired = false;
     status = AuthStatus.authenticated;
     notifyListeners();
-    // The map this account earned on any phone (audit F8).
-    unawaited(GameProgress.instance.restoreFromServer(api));
+    // A guest's rounds first, so the account's state read next includes
+    // them; then the map this account earned on any phone (audit F8).
+    unawaited(
+      _adoptGuest().whenComplete(
+        () => GameProgress.instance.restoreFromServer(api),
+      ),
+    );
   }
 
   void _onSessionLost() {
@@ -228,10 +269,17 @@ class AuthController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _clear() async {
+  Future<void> _clear({bool wipePhone = true}) async {
     await storage.clearToken();
     api.setToken(null);
     user = null;
+    if (wipePhone) {
+      // The rounds on this phone are this account's; the server keeps them.
+      GameProgress.instance.clearAll();
+      guest = false;
+      await storage.setGuestMode(false);
+      await GuestLog.clear();
+    }
     // The Daily run belongs to the account, not the phone, and so does
     // whether today's has been played.
     await BadgeLedger.clear();

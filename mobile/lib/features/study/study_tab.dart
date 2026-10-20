@@ -10,6 +10,7 @@ import '../games/chapter_map_screen.dart';
 import '../games/game_catalog.dart';
 import '../games/game_progress.dart';
 import '../shared/widgets/kit.dart';
+import '../guest/guest_tabs.dart' show SignInChip;
 import 'chapter_grid.dart';
 import 'chapter_marks.dart';
 
@@ -65,6 +66,7 @@ class _StudyTabState extends State<StudyTab> {
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthController>();
+    final guest = auth.isGuest;
     final user = auth.user ?? const <String, dynamic>{};
     final days = daysUntil(user['examDate'] as String?);
 
@@ -82,7 +84,12 @@ class _StudyTabState extends State<StudyTab> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _TopLine(days: days, grid: _grid, onToggle: _toggle),
+                _TopLine(
+                  days: days,
+                  grid: _grid,
+                  onToggle: _toggle,
+                  guest: guest,
+                ),
                 const SizedBox(height: 16),
                 if (_grid)
                   Expanded(
@@ -111,7 +118,28 @@ class _StudyTabState extends State<StudyTab> {
                   // take the room the pill used to occupy out here, or it
                   // grows by that much and the chapter mark floats in the
                   // middle of it. This is the old 18 + 72 + 14.
-                  const SizedBox(height: 104),
+                  SizedBox(
+                    height: 104,
+                    child: guest
+                        ? Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
+                              child: Text(
+                                'Rounds you finish are kept on this phone. '
+                                'Create an account to keep them on the '
+                                'website too.',
+                                textAlign: TextAlign.center,
+                                style: AppTheme.body(
+                                  size: 14,
+                                  color: AppColors.mutedOnLight,
+                                ),
+                              ),
+                            ),
+                          )
+                        : null,
+                  ),
                   _Dots(count: _chapters.length, page: _page, onTap: _toggle),
                   const SizedBox(height: 6),
                 ],
@@ -272,11 +300,15 @@ class _TopLine extends StatelessWidget {
     required this.days,
     required this.grid,
     required this.onToggle,
+    this.guest = false,
   });
 
   final int? days;
   final bool grid;
   final VoidCallback onToggle;
+
+  /// No account: no exam date to count down to, and a way to sign in.
+  final bool guest;
 
   @override
   Widget build(BuildContext context) {
@@ -284,10 +316,11 @@ class _TopLine extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            examLine(days).toUpperCase(),
+            guest ? 'NOT SIGNED IN' : examLine(days).toUpperCase(),
             style: AppTheme.eyebrow(color: AppColors.ink2),
           ),
         ),
+        if (guest) ...[const SignInChip(), const SizedBox(width: 10)],
         RoundIconButton(
           icon: grid ? Icons.crop_square_rounded : Icons.grid_view_rounded,
           onTap: onToggle,

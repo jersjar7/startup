@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../auth/auth_controller.dart';
+import '../home/home_shell.dart';
 import '../shared/widgets/kit.dart';
 import '../study/chapter_marks.dart';
 
@@ -43,7 +46,19 @@ class WelcomeScreen extends StatelessWidget {
                 // road from here.
                 onTap: () => context.push('/create'),
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: 10),
+              // The same third way in as the tour's last screen, for anyone
+              // who skipped the tour (Apple 5.1.1(v)).
+              SheetButton(
+                label: 'Try a round first',
+                filled: false,
+                onTap: () async {
+                  await context.read<AuthController>().startGuest();
+                  HomeShell.select(HomeTab.study);
+                  if (context.mounted) context.go('/home');
+                },
+              ),
+              const SizedBox(height: 6),
               Center(
                 child: TextButton(
                   onPressed: () => context.push('/signin'),

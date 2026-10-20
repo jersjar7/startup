@@ -671,15 +671,19 @@ class BottomDock extends StatelessWidget {
     required this.index,
     required this.onSelect,
     this.dots = const {},
+    this.dotColor = AppColors.ember,
   });
 
   final List<DockItem> items;
   final int index;
   final ValueChanged<int> onSelect;
 
-  /// The items carrying an ember dot on the shoulder of their circle: the
-  /// Daily until today's is finished.
+  /// The items carrying a dot on the shoulder of their circle: the Daily
+  /// until today's is finished.
   final Set<int> dots;
+
+  /// Ember says "waiting for you"; a guest's grey says "needs an account".
+  final Color dotColor;
 
   @override
   Widget build(BuildContext context) {
@@ -753,7 +757,7 @@ class BottomDock extends StatelessWidget {
                                       width: 12,
                                       height: 12,
                                       decoration: BoxDecoration(
-                                        color: AppColors.ember,
+                                        color: dotColor,
                                         shape: BoxShape.circle,
                                         border: Border.all(
                                           color: AppColors.cream,

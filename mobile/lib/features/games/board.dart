@@ -15,6 +15,8 @@ import 'feedback_sheet.dart';
 import 'game_catalog.dart';
 import 'game_progress.dart';
 import 'game_sync.dart';
+import 'guest_log.dart';
+import '../guest/account_needed.dart';
 import 'lesson_brief.dart';
 
 /// Shared plumbing for one sitting: which round is up, what is left, what has
@@ -176,6 +178,16 @@ class BoardSession extends ChangeNotifier {
     } catch (_) {
       return;
     }
+    if (auth.status != AuthStatus.authenticated) {
+      // A guest's rounds stay on the phone until they have an account
+      // (guest_log.dart); nothing is sent. Signed out and not a guest cannot
+      // reach a board, but if it did there is nowhere to send to either.
+      if (auth.guest) {
+        await GuestLog.add(batch);
+        _pending.removeWhere(batch.contains);
+      }
+      return;
+    }
     final api = auth.api;
     final ok = await GameSync(api).push(batch);
     if (ok) _pending.removeWhere(batch.contains);
@@ -312,6 +324,18 @@ class _BoardShellState extends State<BoardShell> {
   }
 
   void _openFlag() {
+    // A report is sent to us with the account it came from, so a guest is
+    // asked for one first.
+    if (_isGuest(context)) {
+      showAccountNeeded(
+        context,
+        title: 'Reporting a round needs an account',
+        body:
+            'Reports come to us with your account, so we can write back '
+            'when the round is fixed.',
+      );
+      return;
+    }
     if (!_flagSeen) {
       _storage.setFlagDotSeen();
       setState(() {
@@ -776,5 +800,13 @@ class _HalfTile extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+bool _isGuest(BuildContext context) {
+  try {
+    return context.read<AuthController>().isGuest;
+  } catch (_) {
+    return false;
   }
 }

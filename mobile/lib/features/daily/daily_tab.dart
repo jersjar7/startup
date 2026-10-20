@@ -332,10 +332,14 @@ class _Today extends StatelessWidget {
     required this.playable,
     required this.run,
     required this.onPlay,
+    this.guest = false,
   });
 
   final DailyPuzzle puzzle;
   final bool playable;
+
+  /// No account: today's concepts are shown, and the button asks for one.
+  final bool guest;
 
   /// Today's run when one is under way.
   final DailyRun? run;
@@ -404,7 +408,9 @@ class _Today extends StatelessWidget {
                 ),
               ],
               const SizedBox(height: 16),
-              if (playable)
+              if (guest)
+                const _GuestPlay()
+              else if (playable)
                 PillButton(label: label, onTap: onPlay)
               else
                 Container(
@@ -423,11 +429,194 @@ class _Today extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        StreakTile(
-          current: puzzle.streak.current,
-          playedToday: puzzle.streak.playedToday,
+        if (guest)
+          const _GuestWhy()
+        else
+          StreakTile(
+            current: puzzle.streak.current,
+            playedToday: puzzle.streak.playedToday,
+          ),
+      ],
+    );
+  }
+}
+
+// ───────────────────────────── a guest's Daily ─────────────────────
+
+/// The Daily for somebody using the app without an account (Apple
+/// 5.1.1(v)). The Daily ranks a result against everyone who played and
+/// keeps a streak, so playing it needs an account; today's three concepts
+/// are shown anyway, from the public preview, and every one of them is in
+/// Study for free.
+class GuestDailyTab extends StatefulWidget {
+  const GuestDailyTab({super.key});
+
+  @override
+  State<GuestDailyTab> createState() => _GuestDailyTabState();
+}
+
+class _GuestDailyTabState extends State<GuestDailyTab> {
+  DailyPuzzle? _puzzle;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    setState(() => _loading = true);
+    DailyPuzzle? puzzle;
+    try {
+      puzzle = await DailyRepository.of(context).preview(appClock());
+    } catch (_) {}
+    if (!mounted) return;
+    setState(() {
+      _puzzle = puzzle ?? _puzzle;
+      _loading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final puzzle = _puzzle;
+    return Material(
+      color: AppColors.butter,
+      child: SafeArea(
+        bottom: false,
+        child: RefreshIndicator(
+          color: AppColors.charcoal,
+          backgroundColor: AppColors.cream,
+          onRefresh: _load,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.fromLTRB(
+              16,
+              22,
+              16,
+              30 + MediaQuery.paddingOf(context).bottom,
+            ),
+            child: puzzle != null
+                ? _Today(
+                    puzzle: puzzle,
+                    playable: false,
+                    run: null,
+                    onPlay: () {},
+                    guest: true,
+                  )
+                : _GuestNoPreview(loading: _loading),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Without a signal there is no list of today's concepts, but what the
+/// Daily is and what it needs still stand.
+class _GuestNoPreview extends StatelessWidget {
+  const _GuestNoPreview({required this.loading});
+
+  final bool loading;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          _dayLine(appClock().toIso8601String()).toUpperCase(),
+          style: AppTheme.eyebrow(),
+        ),
+        const SizedBox(height: 10),
+        Text('Today\'s Daily', style: AppTheme.display(size: 44)),
+        const SizedBox(height: 22),
+        Container(
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
+            color: AppColors.cream,
+            borderRadius: BorderRadius.circular(36),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text('SAME FOR EVERYONE', style: AppTheme.eyebrow()),
+              const SizedBox(height: 6),
+              Text(
+                'Three concepts a day, then see how you did against everyone '
+                'else today.',
+                style: AppTheme.body(size: 14, color: AppColors.mutedOnLight),
+              ),
+              const SizedBox(height: 22),
+              if (loading)
+                const Center(
+                  child: SizedBox(
+                    width: 28,
+                    height: 28,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      color: AppColors.charcoal,
+                    ),
+                  ),
+                )
+              else
+                const _GuestPlay(),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
+        const _GuestWhy(),
+      ],
+    );
+  }
+}
+
+class _GuestPlay extends StatelessWidget {
+  const _GuestPlay();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        PillButton(
+          label: 'Sign up to play',
+          onTap: () => context.push('/create'),
+        ),
+        const SizedBox(height: 2),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Already have one?',
+              style: AppTheme.body(size: 14, color: AppColors.mutedOnLight),
+            ),
+            TextAction(label: 'Sign in', onTap: () => context.push('/signin')),
+          ],
         ),
       ],
+    );
+  }
+}
+
+class _GuestWhy extends StatelessWidget {
+  const _GuestWhy();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+      decoration: BoxDecoration(
+        color: AppColors.charcoal.withValues(alpha: 0.07),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Text(
+        'The Daily ranks you against everyone who played today and keeps '
+        'your streak, so it needs an account. These concepts are in Study, '
+        'free to play now.',
+        style: AppTheme.body(size: 14, height: 1.45),
+      ),
     );
   }
 }

@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/notifications/notification_plan.dart';
 import '../../core/notifications/notifications.dart';
 import '../../core/theme/app_colors.dart';
+import '../auth/auth_controller.dart';
 import '../daily/daily_repository.dart';
 import '../daily/daily_tab.dart';
+import '../guest/guest_tabs.dart';
 import '../profile/profile_tab.dart';
 import '../shared/widgets/kit.dart';
 import '../study/study_tab.dart' show StudyTab, appClock;
@@ -50,6 +53,10 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    // A guest's way in is Study; Profile only says what an account adds.
+    try {
+      if (context.read<AuthController>().isGuest) _index = HomeTab.study.index;
+    } catch (_) {}
     HomeShell.requested.addListener(_onRequest);
     Notifications.tapped.addListener(_onTap);
     DailyDone.day.addListener(_refreshDot);
@@ -142,8 +149,29 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     ),
   ];
 
+  static const _guestItems = [
+    DockItem(
+      icon: Icons.person_outline_rounded,
+      activeIcon: Icons.person_rounded,
+      label: 'Profile',
+      dotLabel: 'needs an account',
+    ),
+    DockItem(
+      icon: Icons.menu_book_outlined,
+      activeIcon: Icons.menu_book_rounded,
+      label: 'Study',
+    ),
+    DockItem(
+      icon: Icons.wb_sunny_outlined,
+      activeIcon: Icons.wb_sunny_rounded,
+      label: 'Daily',
+      dotLabel: 'needs an account',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
+    final guest = context.watch<AuthController>().isGuest;
     return Scaffold(
       backgroundColor: AppColors.fog,
       // Each tab's ground runs on under the dock, so its rounded corners sit
@@ -155,17 +183,24 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
       extendBody: true,
       body: IndexedStack(
         index: _index,
-        children: [
-          const ProfileTab(),
-          const StudyTab(),
-          DailyTab(visible: _index == HomeTab.daily.index),
-        ],
+        // A guest (Apple 5.1.1(v)) has Study as it is; Profile and the Daily
+        // show what an account adds instead (features/guest).
+        children: guest
+            ? const [GuestProfileTab(), StudyTab(), GuestDailyTab()]
+            : [
+                const ProfileTab(),
+                const StudyTab(),
+                DailyTab(visible: _index == HomeTab.daily.index),
+              ],
       ),
       bottomNavigationBar: BottomDock(
-        items: _items,
+        items: guest ? _guestItems : _items,
         index: _index,
         onSelect: (i) => setState(() => _index = i),
-        dots: {if (DailyDone.dueOn(appClock())) HomeTab.daily.index},
+        dots: guest
+            ? {HomeTab.profile.index, HomeTab.daily.index}
+            : {if (DailyDone.dueOn(appClock())) HomeTab.daily.index},
+        dotColor: guest ? AppColors.ink3 : AppColors.ember,
       ),
     );
   }

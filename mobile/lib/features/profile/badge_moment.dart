@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../auth/auth_controller.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../shared/widgets/kit.dart';
@@ -160,6 +163,9 @@ class _BadgeMomentHostState extends State<BadgeMomentHost> {
   Future<void> _check() async {
     if (_showing || !mounted || !widget.ready) return;
     if (BadgeLedger.pending.value.isEmpty) return;
+    // Badges belong to an account. A guest's wait for the account they make,
+    // and are shown at the first summary after it.
+    if (_guest()) return;
     final route = ModalRoute.of(context);
     if (route != null && !route.isCurrent) return;
     // The artwork was loaded at launch (main.dart); if it never arrived, the
@@ -167,6 +173,14 @@ class _BadgeMomentHostState extends State<BadgeMomentHost> {
     _showing = true;
     await showBadgeMoments(context, BadgeLedger.takePending());
     _showing = false;
+  }
+
+  bool _guest() {
+    try {
+      return context.read<AuthController>().isGuest;
+    } catch (_) {
+      return false;
+    }
   }
 
   @override

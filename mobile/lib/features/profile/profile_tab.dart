@@ -688,7 +688,7 @@ class AccountSheet extends StatelessWidget {
                   onTap: () => AccountSheetHost.of(context)?.showProfile(),
                 ),
                 const SizedBox(width: 8),
-                _MoreButton(
+                AccountMoreButton(
                   onDelete: () {
                     Navigator.of(context).pop();
                     onDelete();
@@ -773,7 +773,7 @@ class AccountSheet extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 22),
-            const Center(child: _VersionLine()),
+            const Center(child: VersionLine()),
           ],
         ),
       ),
@@ -972,10 +972,13 @@ class _EditButton extends StatelessWidget {
   }
 }
 
-class _MoreButton extends StatelessWidget {
-  const _MoreButton({required this.onDelete});
+/// The account sheet's three dots: Contact us, About, and Delete account.
+/// A guest's sheet passes no [onDelete], since a guest has no account to
+/// delete.
+class AccountMoreButton extends StatelessWidget {
+  const AccountMoreButton({super.key, this.onDelete});
 
-  final VoidCallback onDelete;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -993,7 +996,7 @@ class _MoreButton extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       onSelected: (choice) {
         if (choice == 'delete') {
-          onDelete();
+          onDelete?.call();
         } else if (choice == 'contact') {
           AccountSheetHost.of(context)?.showContact();
         } else {
@@ -1031,21 +1034,22 @@ class _MoreButton extends StatelessWidget {
             ],
           ),
         ),
-        PopupMenuItem(
-          value: 'delete',
-          height: 52,
-          child: Row(
-            children: [
-              const Icon(
-                Icons.delete_outline_rounded,
-                size: 20,
-                color: AppColors.ember,
-              ),
-              const SizedBox(width: 12),
-              Text('Delete account', style: label()),
-            ],
+        if (onDelete != null)
+          PopupMenuItem(
+            value: 'delete',
+            height: 52,
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.delete_outline_rounded,
+                  size: 20,
+                  color: AppColors.ember,
+                ),
+                const SizedBox(width: 12),
+                Text('Delete account', style: label()),
+              ],
+            ),
           ),
-        ),
       ],
       child: Container(
         width: 48,
@@ -1066,8 +1070,8 @@ class _MoreButton extends StatelessWidget {
 
 /// The version the student is running, the marketing number only (1.0.0,
 /// not the build), as plain text. Where it cannot be read it shows nothing.
-class _VersionLine extends StatelessWidget {
-  const _VersionLine();
+class VersionLine extends StatelessWidget {
+  const VersionLine({super.key});
 
   @override
   Widget build(BuildContext context) {

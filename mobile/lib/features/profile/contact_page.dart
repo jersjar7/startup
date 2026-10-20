@@ -24,6 +24,10 @@ class ContactPage extends StatefulWidget {
 
 class _ContactPageState extends State<ContactPage> {
   final _text = TextEditingController();
+
+  /// A guest has no account email, so they give one to be written back to.
+  final _email = TextEditingController();
+  bool get _guest => widget.auth.status != AuthStatus.authenticated;
   bool _sending = false;
   bool _sent = false;
   String? _error;
@@ -31,6 +35,7 @@ class _ContactPageState extends State<ContactPage> {
   @override
   void dispose() {
     _text.dispose();
+    _email.dispose();
     super.dispose();
   }
 
@@ -41,6 +46,11 @@ class _ContactPageState extends State<ContactPage> {
       setState(() => _error = 'Write a message first.');
       return;
     }
+    final email = _email.text.trim();
+    if (_guest && !email.contains('@')) {
+      setState(() => _error = 'Add an email address so we can write back.');
+      return;
+    }
     setState(() {
       _sending = true;
       _error = null;
@@ -48,6 +58,7 @@ class _ContactPageState extends State<ContactPage> {
     try {
       await widget.auth.api.post('/feedback/contact', {
         'message': text,
+        if (_guest) 'email': email,
         'source': 'app',
         'build': appBuild,
       });
@@ -103,12 +114,18 @@ class _ContactPageState extends State<ContactPage> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'A person reads every message and writes back to the '
-                  'email on your account.',
+                  _guest
+                      ? 'A person reads every message and writes back to the '
+                            'email you gave.'
+                      : 'A person reads every message and writes back to the '
+                            'email on your account.',
                   style: AppTheme.body(size: 16, color: AppColors.mutedOnLight),
                 ),
                 const SizedBox(height: 26),
-                PillButton(label: 'Back to the account', onTap: widget.onBack),
+                PillButton(
+                  label: _guest ? 'Back' : 'Back to the account',
+                  onTap: widget.onBack,
+                ),
               ] else ...[
                 Text(
                   'Contact us',
@@ -121,15 +138,27 @@ class _ContactPageState extends State<ContactPage> {
                   style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
                 ),
                 const SizedBox(height: 22),
+                if (_guest) ...[
+                  XLField(
+                    controller: _email,
+                    label: 'Your email',
+                    hint: 'Your email',
+                    caption: 'Where we write back. You do not need an account.',
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(height: 14),
+                ],
                 XLField(
                   controller: _text,
                   label: 'Your message',
                   hint: 'Your message',
                   // Never the address itself: shown here it read as ours,
                   // not the student's (owner, 2026-10-17).
-                  caption:
-                      'A person reads every one and writes back to the email '
-                      'on your account.',
+                  caption: _guest
+                      ? 'A person reads every one and writes back to that '
+                            'email.'
+                      : 'A person reads every one and writes back to the '
+                            'email on your account.',
                   error: _error,
                   keyboardType: TextInputType.multiline,
                   onSubmitted: (_) => _send(),

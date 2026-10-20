@@ -13,7 +13,34 @@ class GameEvent {
     required this.gameId,
     required this.round,
     required this.correct,
-  }) : ts = DateTime.now();
+    DateTime? ts,
+  }) : ts = ts ?? DateTime.now();
+
+  /// How a guest's round is kept on the phone until they have an account
+  /// (guest_log.dart), and read back to send it.
+  Map<String, dynamic> toJson() => {
+    'sourceProblemId': sourceProblemId,
+    'chapterId': chapterId,
+    'gameId': gameId,
+    'round': round,
+    'correct': correct,
+    'ts': ts.millisecondsSinceEpoch,
+  };
+
+  static GameEvent? fromJson(Map<String, dynamic> j) {
+    try {
+      return GameEvent(
+        sourceProblemId: j['sourceProblemId'] as String,
+        chapterId: j['chapterId'] as String,
+        gameId: j['gameId'] as String,
+        round: (j['round'] as num).toInt(),
+        correct: j['correct'] as bool,
+        ts: DateTime.fromMillisecondsSinceEpoch((j['ts'] as num).toInt()),
+      );
+    } catch (_) {
+      return null;
+    }
+  }
 
   /// The web problem this item was authored from. Mastery is keyed by it.
   final String sourceProblemId;

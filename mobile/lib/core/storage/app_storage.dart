@@ -20,6 +20,7 @@ class AppStorage {
   static const _kBookDotSeen = 'book_dot_seen';
   static const _kFlagDotSeen = 'flag_dot_seen';
   static const _kMissedOnce = 'missed_once';
+  static const _kGuest = 'guest_mode';
 
   Future<String?> readToken() => _storage.read(key: _kToken);
   Future<void> writeToken(String token) =>
@@ -45,6 +46,20 @@ class AppStorage {
   Future<void> setOnboardingSeen() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_kOnboardingSeen, true);
+  }
+
+  /// Using the app without an account (tour, "Try a round first"). Plain
+  /// preferences like the tour flag, so it dies with the app.
+  Future<bool> guestMode() => _flag(_kGuest);
+  Future<void> setGuestMode(bool on) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      if (on) {
+        await prefs.setBool(_kGuest, true);
+      } else {
+        await prefs.remove(_kGuest);
+      }
+    } catch (_) {}
   }
 
   // The one-time cues on a game round (plain preferences, like the tour flag).

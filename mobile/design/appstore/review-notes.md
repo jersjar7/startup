@@ -13,18 +13,29 @@ FE for Raccoons is a free study tool for the NCEES Fundamentals of
 Engineering (FE) Civil exam, used by engineering students and working
 engineers preparing for licensure.
 
+USING THE APP WITHOUT AN ACCOUNT
+No account is needed to study. On the first screens, tap "Try a round
+first" (on the last page of the short tour, or on the welcome screen).
+That opens Study, where every chapter, round and concept is available.
+Rounds finished this way are kept on the device only.
+
+An account is asked for only by features that belong to one: the Daily
+(results are ranked against everyone who played that day, with a streak),
+mastery and badges, syncing with the website, the exam date, and
+reporting a problem with a round. The app is a companion to
+fe4raccoons.com, where the same account is used.
+
 SIGNING IN
-The app requires an account to show study content. Please use the demo
-account provided in the fields above. It is a normal production account
-with an exam date and a school set, so the home screen shows the exam
-countdown straight away. The progress figures read zero because the
-account has not worked through any lessons yet; that is the honest
-starting state for a new account, not an error.
+To see the account features, use the demo account provided in the fields
+above. It is a normal production account with an exam date and a school
+set. The progress figures read zero because the account has not worked
+through any lessons yet; that is the honest starting state for a new
+account, not an error.
 
 WHAT THE APP DOES
 Short practice rounds organised into the 15 chapters of the FE Civil
 exam specification. Tap Study, choose a chapter, and tap the play button
-to begin. Everything is reachable from the two tabs at the bottom.
+to begin. Everything is reachable from the three tabs at the bottom.
 
 PURCHASES
 There are none. The app is free, contains no in-app purchases, no
@@ -40,11 +51,14 @@ looking for it.
 THE WEBSITE
 The app pairs with fe4raccoons.com, the same product on a larger screen.
 The "Open the website" button in the account sheet opens it in the
-browser. The website is also free; nothing in the app links to a purchase.
+browser. Studying on the website is free too; the app sells nothing and
+nothing in it links to a purchase.
 
 ACCOUNT DELETION
-Profile icon (top right) → Delete account. It asks for the password and
-removes the account and all its data immediately.
+Signed in: Profile tab → the round button at the top right → the three
+dots → Delete account. It asks for the password and removes the account
+and all its data immediately. Using the app without an account creates
+no account, so there is nothing to delete.
 
 CONTACT
 [your name], [your email], [your phone]
