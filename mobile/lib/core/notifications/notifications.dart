@@ -71,6 +71,17 @@ class Notifications {
   bool _ready = false;
   bool _broken = false;
 
+  /// Whether this launch's notification has been asked for. Static because
+  /// the answer belongs to the launch, not to any one instance.
+  static bool _launchRead = false;
+
+  @visibleForTesting
+  static void debugResetLaunch() {
+    _launchRead = false;
+    launchedBy = null;
+    tapped.value = null;
+  }
+
   /// Everything here goes through a plugin, and a plugin can be absent: in a
   /// widget test, on a platform that does not implement it, or when the host
   /// has torn the channel down. None of that is a reason for the profile
@@ -118,12 +129,20 @@ class Notifications {
         ?.createNotificationChannel(_channel);
 
     // A notification that launched the app from cold is not delivered through
-    // the callback above, so it has to be asked for.
-    final launch = await _plugin.getNotificationAppLaunchDetails();
-    if (launch?.didNotificationLaunchApp == true) {
-      final payload = launch!.notificationResponse?.payload;
-      launchedBy = _kindNamed(payload);
-      if (launchedBy != null) tapped.value = launchedBy;
+    // the callback above, so it has to be asked for. Asked ONCE per launch:
+    // the system goes on answering with the same notification for as long as
+    // the app runs, and every round sent makes a new Notifications and calls
+    // this. Asking each time sent a student back to the Daily tab after every
+    // round, for the rest of a session opened from the morning reminder
+    // (owner's phone, 2026-10-19).
+    if (!_launchRead) {
+      _launchRead = true;
+      final launch = await _plugin.getNotificationAppLaunchDetails();
+      if (launch?.didNotificationLaunchApp == true) {
+        final payload = launch!.notificationResponse?.payload;
+        launchedBy = _kindNamed(payload);
+        if (launchedBy != null) tapped.value = launchedBy;
+      }
     }
     _ready = true;
   }
