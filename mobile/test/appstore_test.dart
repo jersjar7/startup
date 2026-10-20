@@ -19,6 +19,9 @@ import 'package:mobile/features/games/chapter_map_screen.dart';
 import 'package:mobile/features/games/counting_the_net_game.dart';
 import 'package:mobile/features/games/lesson_brief.dart';
 import 'package:mobile/features/games/read_the_circle_game.dart';
+import 'package:mobile/features/games/stretched_or_squashed_game.dart';
+import 'package:mobile/features/games/where_do_you_cut_game.dart';
+import 'package:mobile/features/games/which_carry_nothing_game.dart';
 import 'package:mobile/features/games/which_area_goes_in_game.dart';
 import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/game_progress.dart';
@@ -375,6 +378,28 @@ void main() {
     await tester.pumpWidget(_app(const ReadTheCircleGame()));
     await _settle(tester);
     await _shoot(tester, 'round-mohr');
+  });
+
+  // Truss analysis, for the store header (owner, 2026-10-20).
+  testWidgets('round: the truss, which members carry nothing', (tester) async {
+    _appStore(tester);
+    await tester.pumpWidget(_app(const WhichCarryNothingGame()));
+    await _settle(tester);
+    await _shoot(tester, 'round-truss-idle');
+  });
+
+  testWidgets('round: the truss, stretched or squashed', (tester) async {
+    _appStore(tester);
+    await tester.pumpWidget(_app(const StretchedOrSquashedGame()));
+    await _settle(tester);
+    await _shoot(tester, 'round-truss-sense');
+  });
+
+  testWidgets('round: the truss, where to cut', (tester) async {
+    _appStore(tester);
+    await tester.pumpWidget(_app(const WhereDoYouCutGame()));
+    await _settle(tester);
+    await _shoot(tester, 'round-truss-cut');
   });
 
   testWidgets('sheet: the concept, picture first', (tester) async {
