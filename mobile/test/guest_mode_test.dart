@@ -71,10 +71,11 @@ class _Server extends ApiClient {
       };
     }
     if (path == '/auth/me') return {'email': 'new@school.edu'};
-    if (path.startsWith('/account/state'))
+    if (path.startsWith('/account/state')) {
       return {
         'phone': {'games': {}},
       };
+    }
     return <String, dynamic>{};
   }
 
@@ -344,8 +345,9 @@ void main() {
 class _FailingSync extends _Server {
   @override
   Future<dynamic> post(String path, [Map<String, dynamic>? body]) async {
-    if (path == '/sync/events')
+    if (path == '/sync/events') {
       throw ApiException('no signal', isNetwork: true);
+    }
     return super.post(path, body);
   }
 }

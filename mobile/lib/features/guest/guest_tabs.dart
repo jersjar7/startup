@@ -213,10 +213,11 @@ class GuestProfileTab extends StatelessWidget {
                       GuestAccountButtons(
                         onCreate: () => context.push('/create'),
                         onSignIn: () => context.push('/signin'),
-                        lead: rounds == 0
-                            ? 'Already have one?'
-                            : 'The $rounds ${roundsWord(rounds)} come with '
-                                  'you. Have one?',
+                        lead: switch (rounds) {
+                          0 => 'Already have one?',
+                          1 => 'Your round comes with you. Have one?',
+                          _ => 'The $rounds rounds come with you. Have one?',
+                        },
                       ),
                     ],
                   ),

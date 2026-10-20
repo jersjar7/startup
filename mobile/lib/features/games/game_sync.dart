@@ -14,7 +14,9 @@ class GameEvent {
     required this.round,
     required this.correct,
     DateTime? ts,
-  }) : ts = ts ?? DateTime.now();
+    String? eventId,
+  }) : ts = ts ?? DateTime.now(),
+       eventId = eventId ?? GameSync.newEventId();
 
   /// How a guest's round is kept on the phone until they have an account
   /// (guest_log.dart), and read back to send it.
@@ -25,6 +27,7 @@ class GameEvent {
     'round': round,
     'correct': correct,
     'ts': ts.millisecondsSinceEpoch,
+    'eventId': eventId,
   };
 
   static GameEvent? fromJson(Map<String, dynamic> j) {
@@ -36,6 +39,7 @@ class GameEvent {
         round: (j['round'] as num).toInt(),
         correct: j['correct'] as bool,
         ts: DateTime.fromMillisecondsSinceEpoch((j['ts'] as num).toInt()),
+        eventId: j['eventId'] as String?,
       );
     } catch (_) {
       return null;
@@ -49,6 +53,11 @@ class GameEvent {
   final int round;
   final bool correct;
   final DateTime ts;
+
+  /// Made once, when the round is answered, and sent with every retry: the
+  /// server keeps one row per eventId, so a batch whose answer was lost and
+  /// is sent again is never counted twice.
+  final String eventId;
 
   /// `<problemId>:<game>:<round>` — the server takes everything before the
   /// first colon as the parent problem, so a game item strengthens the problem
@@ -69,7 +78,10 @@ class GameSync {
 
   static final _rand = Random.secure();
 
-  static String _eventId() {
+  /// The most events the server takes in one push (service/routes/sync.js).
+  static const maxBatch = 200;
+
+  static String newEventId() {
     const hex = '0123456789abcdef';
     return List.generate(32, (_) => hex[_rand.nextInt(16)]).join();
   }
@@ -90,7 +102,7 @@ class GameSync {
         'events': [
           for (final e in events)
             {
-              'eventId': _eventId(),
+              'eventId': e.eventId,
               'itemId': e.itemId,
               'chapterId': e.chapterId,
               'grade': e.correct ? 'gotIt' : 'forgot',

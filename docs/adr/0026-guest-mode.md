@@ -77,7 +77,28 @@ What was found before deciding (research, 2026-10-20):
 - The Daily's preview is a new public route; the first request of a day
   creates that day's pick, which happened on the first signed-in request
   before.
-- Tests: `mobile/test/guest_mode_test.dart` (a guest's rounds are never
-  sent, they follow the guest into a new account, signing out clears the
-  phone, the screens) and `service/dailyRoute.test.js` (the preview reads no
-  account; playing still needs one).
+- **Two bugs the end-to-end test found before release** (owner asked for
+  integration tests, 2026-10-20). A guest's rounds were sent once at
+  sign-up and never again if that send failed; and they went in one push,
+  which the server refuses above 200 events, so a guest with more than 200
+  rounds would never have had them moved. Now they go in batches of
+  `GameSync.maxBatch`, each removed from the phone once it lands, and the
+  next launch sends whatever is left. Every event keeps the eventId it was
+  given when the round was answered, so a retry is never counted twice
+  (before, a fresh id was made on every send, for every round, guest or
+  not).
+- Tests:
+  - `mobile/test/guest_journey_test.dart`, end to end on the real router and
+    screens: fresh install, Skip, "Try a round first", two rounds on the real
+    game screen, Profile, the real sign-up form, the rounds on the account,
+    the account's own home; the tour's last page; a relaunch as a guest; and
+    450 rounds with no signal on the second batch and a relaunch, every round
+    landing once. Each fix was broken on purpose and the tests failed.
+  - `service/guestAdoption.test.js` pushes the exact body the app sent
+    (`mobile/test/fixtures/guest-adoption-events.json`, written by the
+    journey test) through the real sync and account routes: accepted,
+    shown as the guest's cleared rounds, kept once on a retry, refused
+    without an account, and the batch size matches the app's.
+  - `mobile/test/guest_mode_test.dart` (the screens, day and night) and
+    `service/dailyRoute.test.js` (the preview reads no account; playing
+    still needs one).

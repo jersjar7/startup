@@ -1,0 +1,23 @@
+{
+  "events": [
+    {
+      "eventId": "guest-adoption-0",
+      "itemId": "fm-fp-q1:which-property:1",
+      "chapterId": "fluid-mechanics",
+      "grade": "gotIt",
+      "source": "android",
+      "ts": 1792500000000,
+      "localDate": "2026-10-20"
+    },
+    {
+      "eventId": "guest-adoption-1",
+      "itemId": "fm-fp-q1:which-property:2",
+      "chapterId": "fluid-mechanics",
+      "grade": "forgot",
+      "source": "android",
+      "ts": 1792500000001,
+      "localDate": "2026-10-20"
+    }
+  ],
+  "device": "Android"
+}

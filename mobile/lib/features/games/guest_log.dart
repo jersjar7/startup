@@ -44,6 +44,27 @@ class GuestLog {
     } catch (_) {}
   }
 
+  /// Drops the events already sent, by id, keeping anything else (rounds
+  /// answered while the send was under way).
+  static Future<void> removeSent(Set<String> eventIds) async {
+    if (eventIds.isEmpty) return;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final kept = [
+        for (final e in await all())
+          if (!eventIds.contains(e.eventId)) e,
+      ];
+      if (kept.isEmpty) {
+        await prefs.remove(_key);
+      } else {
+        await prefs.setString(
+          _key,
+          jsonEncode([for (final e in kept) e.toJson()]),
+        );
+      }
+    } catch (_) {}
+  }
+
   static Future<void> clear() async {
     try {
       (await SharedPreferences.getInstance()).remove(_key);

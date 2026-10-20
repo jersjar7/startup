@@ -64,8 +64,13 @@ class AuthController extends ChangeNotifier {
     try {
       user = await api.get('/auth/me') as Map<String, dynamic>;
       status = AuthStatus.authenticated;
-      // The map this account earned on any phone (audit F8).
-      unawaited(GameProgress.instance.restoreFromServer(api));
+      // Guest rounds a failed send left behind, then the map this account
+      // earned on any phone (audit F8).
+      unawaited(
+        _adoptGuest().whenComplete(
+          () => GameProgress.instance.restoreFromServer(api),
+        ),
+      );
     } catch (_) {
       // Possibly only no signal at launch: keep the phone's rounds, which
       // signing back in would restore anyway.
@@ -206,12 +211,23 @@ class AuthController extends ChangeNotifier {
   }
 
   /// The rounds played as a guest go to the account just made or signed
-  /// into, then the guest is gone. A failed send keeps them for next time.
+  /// into, then the guest is gone.
+  ///
+  /// Sent in batches the server accepts (it takes [GameSync.maxBatch] at a
+  /// time), each removed from the phone once it has landed. A failed batch
+  /// stops there and keeps the rest; [bootstrap] tries again on the next
+  /// launch, and every event keeps its eventId, so nothing is counted twice.
   Future<void> _adoptGuest() async {
     if (!guest) return;
     final events = await GuestLog.all();
-    if (events.isNotEmpty && !await GameSync(api).push(events)) return;
-    await GuestLog.clear();
+    for (var i = 0; i < events.length; i += GameSync.maxBatch) {
+      final batch = events.sublist(
+        i,
+        (i + GameSync.maxBatch).clamp(0, events.length),
+      );
+      if (!await GameSync(api).push(batch)) return;
+      await GuestLog.removeSent({for (final e in batch) e.eventId});
+    }
     guest = false;
     await storage.setGuestMode(false);
   }
