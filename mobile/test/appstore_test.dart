@@ -59,6 +59,12 @@ import 'support/fonts.dart';
 void _appStore(WidgetTester tester) {
   tester.view.physicalSize = const Size(1360, 2956);
   tester.view.devicePixelRatio = 4;
+  // An iPhone's real insets: the status bar and Dynamic Island at the top,
+  // the home indicator at the bottom. Without them the app lays out under
+  // where the island sits, and store art that draws the phone looks fake.
+  const insets = FakeViewPadding(top: 59 * 4, bottom: 34 * 4);
+  tester.view.padding = insets;
+  tester.view.viewPadding = insets;
   addTearDown(tester.view.reset);
 }
 
