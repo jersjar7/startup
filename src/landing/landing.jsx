@@ -2,27 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import {
-  ArrowRight,
   Lightning,
   BookOpenText,
   MapPin,
   Warning,
   Exam,
-  Function,
-  ChartBar,
-  Scales,
-  CurrencyDollar,
-  Barbell,
-  Atom,
-  Wrench,
-  CubeTransparent,
-  Drop,
-  Compass,
-  WaveSine,
-  Bridge,
-  Mountains,
-  Path,
-  HardHat,
   CaretDown,
   BookBookmark,
   SealWarning,
@@ -36,6 +20,10 @@ import {
   Timer,
 } from '@phosphor-icons/react';
 import { TopicLabel, HeroSvg } from './hero-svg';
+import { RaccoonPeek } from '../components/brand/RaccoonPeek';
+import { ChapterCoin } from '../components/brand/ChapterCoin';
+import { AppArrow } from '../components/brand/AppArrow';
+import { AppComingSoon } from './AppComingSoon';
 import { BeamDiagram } from './beam-diagram';
 import { Math } from './math';
 import './landing.css';
@@ -52,21 +40,21 @@ const EXPLAINER_VERSION = 2;
 
 /* ── Chapter data (15 FE Civil topics) ── */
 const chapters = [
-  { num: 1,  name: 'Mathematics',            qs: '8–12',  icon: Function,         accent: 'ember' },
-  { num: 2,  name: 'Probability & Statistics', qs: '4–6',  icon: ChartBar,         accent: 'sunbeam' },
-  { num: 3,  name: 'Ethics & Prof. Practice', qs: '4–6',   icon: Scales,           accent: 'forest' },
-  { num: 4,  name: 'Engineering Economics',   qs: '5–8',   icon: CurrencyDollar,   accent: 'ember' },
-  { num: 5,  name: 'Statics',                qs: '8–12',  icon: Barbell,          accent: 'sunbeam' },
-  { num: 6,  name: 'Dynamics',               qs: '4–6',   icon: Atom,             accent: 'forest' },
-  { num: 7,  name: 'Mechanics of Materials', qs: '7–11',  icon: Wrench,           accent: 'ember' },
-  { num: 8,  name: 'Materials',              qs: '5–8',   icon: CubeTransparent,  accent: 'sunbeam' },
-  { num: 9,  name: 'Fluid Mechanics',        qs: '6–9',   icon: Drop,             accent: 'forest' },
-  { num: 10, name: 'Surveying',              qs: '6–9',   icon: Compass,          accent: 'ember' },
-  { num: 11, name: 'Water Resources & Env.', qs: '10–15', icon: WaveSine,         accent: 'sunbeam' },
-  { num: 12, name: 'Structural Engineering', qs: '10–15', icon: Bridge,           accent: 'forest' },
-  { num: 13, name: 'Geotechnical Eng.',      qs: '10–15', icon: Mountains,        accent: 'ember' },
-  { num: 14, name: 'Transportation Eng.',    qs: '9–14',  icon: Path,             accent: 'sunbeam' },
-  { num: 15, name: 'Construction Eng.',      qs: '8–12',  icon: HardHat,          accent: 'forest' },
+  { num: 1,  id: 'mathematics', name: 'Mathematics',            qs: '8–12',  accent: 'ember' },
+  { num: 2,  id: 'statistics', name: 'Probability & Statistics', qs: '4–6',  accent: 'sunbeam' },
+  { num: 3,  id: 'ethics', name: 'Ethics & Prof. Practice', qs: '4–6',   accent: 'forest' },
+  { num: 4,  id: 'economics', name: 'Engineering Economics',   qs: '5–8',   accent: 'ember' },
+  { num: 5,  id: 'statics', name: 'Statics',                qs: '8–12',  accent: 'sunbeam' },
+  { num: 6,  id: 'dynamics', name: 'Dynamics',               qs: '4–6',   accent: 'forest' },
+  { num: 7,  id: 'mechanics-materials', name: 'Mechanics of Materials', qs: '7–11',  accent: 'ember' },
+  { num: 8,  id: 'materials', name: 'Materials',              qs: '5–8',   accent: 'sunbeam' },
+  { num: 9,  id: 'fluid-mechanics', name: 'Fluid Mechanics',        qs: '6–9',   accent: 'forest' },
+  { num: 10, id: 'surveying', name: 'Surveying',              qs: '6–9',   accent: 'ember' },
+  { num: 11, id: 'water-resources', name: 'Water Resources & Env.', qs: '10–15', accent: 'sunbeam' },
+  { num: 12, id: 'structural', name: 'Structural Engineering', qs: '10–15', accent: 'forest' },
+  { num: 13, id: 'geotechnical', name: 'Geotechnical Eng.',      qs: '10–15', accent: 'ember' },
+  { num: 14, id: 'transportation', name: 'Transportation Eng.',    qs: '9–14',  accent: 'sunbeam' },
+  { num: 15, id: 'construction', name: 'Construction Eng.',      qs: '8–12',  accent: 'forest' },
 ];
 
 /* ── Sample problem data ── */
@@ -127,7 +115,7 @@ export function Landing({ userName }) {
           </p>
           <button className="hero-cta" onClick={() => navigate('/login')}>
             Get started
-            <ArrowRight weight="bold" size={18} />
+            <AppArrow />
           </button>
           <p className="hero-login-row">
             Already have an account?{' '}
@@ -179,6 +167,9 @@ export function Landing({ userName }) {
           </div>
         </div>
       </section>
+
+      {/* ══════ SECTION — ALSO ON YOUR PHONE ══════ */}
+      <AppComingSoon />
 
       {/* ══════ SECTION 1 — HOW YOU'LL STUDY ══════ */}
       <section className="s-method">
@@ -271,11 +262,10 @@ export function Landing({ userName }) {
 
           <div className="chapters-list">
             {chapters.map((ch) => {
-              const Icon = ch.icon;
               return (
                 <div key={ch.num} className="ch-row">
                   <span className="ch-num">{String(ch.num).padStart(2, '0')}</span>
-                  <Icon weight="bold" size={18} className={`ch-icon ch-icon--${ch.accent}`} />
+                  <ChapterCoin chapterId={ch.id} accent={ch.accent} className="ch-icon" />
                   <span className="ch-name">{ch.name}</span>
                   <span className={`ch-badge ch-badge--${ch.accent}`}>{ch.qs} Qs</span>
                 </div>
@@ -301,188 +291,190 @@ export function Landing({ userName }) {
             This is what every problem looks like.
           </h2>
 
-          <div className="sample-split">
-            {/* ── LEFT: problem + choices on engineering paper ── */}
-            <div className="sample-left">
-              <div className="sample-paper">
-                <div className="sample-paper-header">
-                  <span className="sample-chapter">{sampleProblem.chapter}</span>
-                  <span className="sample-difficulty sample-difficulty--medium">{sampleProblem.difficulty}</span>
-                </div>
-                <div className="sample-problem-area">
-                  <p className="sample-statement">{sampleProblem.statement}</p>
-                  <BeamDiagram />
-                  <div className="sample-choices">
-                    {sampleProblem.choices.map((c) => (
-                      <div key={c.label} className="sample-choice">
-                        <span className="sample-choice-label">{c.label}</span>
-                        <span className="sample-choice-text">{c.text}</span>
-                      </div>
-                    ))}
+          <RaccoonPeek at={0.86} animated>
+            <div className="sample-split">
+              {/* ── LEFT: problem + choices on engineering paper ── */}
+              <div className="sample-left">
+                <div className="sample-paper">
+                  <div className="sample-paper-header">
+                    <span className="sample-chapter">{sampleProblem.chapter}</span>
+                    <span className="sample-difficulty sample-difficulty--medium">{sampleProblem.difficulty}</span>
                   </div>
-                  <div className="sample-submit-btn">
-                    Submit Answer
+                  <div className="sample-problem-area">
+                    <p className="sample-statement">{sampleProblem.statement}</p>
+                    <BeamDiagram />
+                    <div className="sample-choices">
+                      {sampleProblem.choices.map((c) => (
+                        <div key={c.label} className="sample-choice">
+                          <span className="sample-choice-label">{c.label}</span>
+                          <span className="sample-choice-text">{c.text}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="sample-submit-btn">
+                      Submit Answer
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* ── RIGHT: resource panels (matching real app order) ── */}
-            <div className="sample-right">
-              {/* Lesson (unlocked) */}
-              <button
-                className={`sample-panel-trigger ${openPanel === 'lesson' ? 'is-open' : ''}`}
-                onClick={() => togglePanel('lesson')}
-              >
-                <Tag weight="bold" size={18} className="spt-icon spt-icon--sunbeam" />
-                <span>Lesson</span>
-                <CaretDown weight="bold" size={14} className="spt-caret" />
-              </button>
-              {openPanel === 'lesson' && (
-                <div className="sample-panel-body">
-                  <p className="sample-lesson-name">{sampleProblem.lesson}</p>
-                  <p>This problem belongs to the beam analysis lesson inside the Statics chapter. The lesson covers support types, reaction forces, and bending moment diagrams for common loading conditions.</p>
-                </div>
-              )}
-
-              {/* FE Handbook (unlocked — new UX) */}
-              <button
-                className={`sample-panel-trigger ${openPanel === 'handbook' ? 'is-open' : ''}`}
-                onClick={() => togglePanel('handbook')}
-              >
-                <BookBookmark weight="bold" size={18} className="spt-icon spt-icon--forest" />
-                <span>FE Handbook</span>
-                <CaretDown weight="bold" size={14} className="spt-caret" />
-              </button>
-              {openPanel === 'handbook' && (
-                <div className="sample-panel-body">
-                  <div className="sample-handbook-content">
-                    <Math tex={sampleProblem.handbookFormula} block />
-                    <div className="sample-handbook-page-row">
-                      <span className="sample-handbook-hidden">
-                        <BookBookmark size={14} weight="bold" />
-                        Page hidden
-                      </span>
-                      <span className="sample-handbook-toggle">
-                        <Eye size={14} weight="bold" />
-                      </span>
-                    </div>
-                    <p className="sample-handbook-hint">
-                      Practice finding this reference yourself — navigating the handbook quickly is a key exam skill.
-                    </p>
-                    <a
-                      href="https://help.ncees.org/article/87-ncees-exam-reference-handbooks"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="sample-handbook-link"
-                    >
-                      <ArrowSquareOut size={14} weight="bold" />
-                      Download FE Reference Handbook
-                    </a>
-                    <p className="sample-handbook-link-note">Requires an NCEES account (free to create)</p>
+              {/* ── RIGHT: resource panels (matching real app order) ── */}
+              <div className="sample-right">
+                {/* Lesson (unlocked) */}
+                <button
+                  className={`sample-panel-trigger ${openPanel === 'lesson' ? 'is-open' : ''}`}
+                  onClick={() => togglePanel('lesson')}
+                >
+                  <Tag weight="bold" size={18} className="spt-icon spt-icon--sunbeam" />
+                  <span>Lesson</span>
+                  <CaretDown weight="bold" size={14} className="spt-caret" />
+                </button>
+                {openPanel === 'lesson' && (
+                  <div className="sample-panel-body">
+                    <p className="sample-lesson-name">{sampleProblem.lesson}</p>
+                    <p>This problem belongs to the beam analysis lesson inside the Statics chapter. The lesson covers support types, reaction forces, and bending moment diagrams for common loading conditions.</p>
                   </div>
-                </div>
-              )}
-
-              {/* ELI5 (locked) */}
-              <button
-                className={`sample-panel-trigger ${openPanel === 'eli5' ? 'is-open' : ''}`}
-                onClick={() => togglePanel('eli5')}
-              >
-                <BookOpenText weight="bold" size={18} className="spt-icon spt-icon--forest" />
-                <span>Explain like I'm 5</span>
-                {openPanel === 'eli5' ? (
-                  <CaretDown weight="bold" size={14} className="spt-caret" />
-                ) : (
-                  <span className="spt-lock">
-                    <LockSimple size={12} weight="bold" />
-                    Submit answer to unlock
-                  </span>
                 )}
-              </button>
-              {openPanel === 'eli5' && (
-                <div className="sample-panel-body">
-                  <p>{sampleProblem.eli5}</p>
-                </div>
-              )}
 
-              {/* Step-by-Step (locked) */}
-              <button
-                className={`sample-panel-trigger ${openPanel === 'steps' ? 'is-open' : ''}`}
-                onClick={() => togglePanel('steps')}
-              >
-                <ArrowsClockwise weight="bold" size={18} className="spt-icon spt-icon--ember" />
-                <span>Step-by-Step</span>
-                {openPanel === 'steps' ? (
+                {/* FE Handbook (unlocked — new UX) */}
+                <button
+                  className={`sample-panel-trigger ${openPanel === 'handbook' ? 'is-open' : ''}`}
+                  onClick={() => togglePanel('handbook')}
+                >
+                  <BookBookmark weight="bold" size={18} className="spt-icon spt-icon--forest" />
+                  <span>FE Handbook</span>
                   <CaretDown weight="bold" size={14} className="spt-caret" />
-                ) : (
-                  <span className="spt-lock">
-                    <LockSimple size={12} weight="bold" />
-                    Submit answer to unlock
-                  </span>
-                )}
-              </button>
-              {openPanel === 'steps' && (
-                <div className="sample-panel-body">
-                  <div className="sample-steps-math">
-                    <div className="step-item">
-                      <span className="step-num">1</span>
-                      <div className="step-content">
-                        <p>Identify the given values:</p>
-                        <Math tex="w = 10 \text{ kN/m}, \quad L = 6 \text{ m}" block />
+                </button>
+                {openPanel === 'handbook' && (
+                  <div className="sample-panel-body">
+                    <div className="sample-handbook-content">
+                      <Math tex={sampleProblem.handbookFormula} block />
+                      <div className="sample-handbook-page-row">
+                        <span className="sample-handbook-hidden">
+                          <BookBookmark size={14} weight="bold" />
+                          Page hidden
+                        </span>
+                        <span className="sample-handbook-toggle">
+                          <Eye size={14} weight="bold" />
+                        </span>
                       </div>
-                    </div>
-                    <div className="step-item">
-                      <span className="step-num">2</span>
-                      <div className="step-content">
-                        <p>For a UDL on a simply supported beam, the maximum bending moment occurs at midspan:</p>
-                        <Math tex="M_{max} = \frac{wL^2}{8}" block />
-                      </div>
-                    </div>
-                    <div className="step-item">
-                      <span className="step-num">3</span>
-                      <div className="step-content">
-                        <p>Substitute and solve:</p>
-                        <Math tex="M_{max} = \frac{(10)(6)^2}{8} = \frac{360}{8} = 45 \text{ kN·m}" block />
-                      </div>
-                    </div>
-                    <div className="step-item step-item--answer">
-                      <span className="step-num">✓</span>
-                      <div className="step-content">
-                        <p>The maximum bending moment is <Math tex="45 \text{ kN·m}" /> at midspan.</p>
-                      </div>
+                      <p className="sample-handbook-hint">
+                        Practice finding this reference yourself — navigating the handbook quickly is a key exam skill.
+                      </p>
+                      <a
+                        href="https://help.ncees.org/article/87-ncees-exam-reference-handbooks"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="sample-handbook-link"
+                      >
+                        <ArrowSquareOut size={14} weight="bold" />
+                        Download FE Reference Handbook
+                      </a>
+                      <p className="sample-handbook-link-note">Requires an NCEES account (free to create)</p>
                     </div>
                   </div>
-                </div>
-              )}
-
-              {/* Common Traps (locked) */}
-              <button
-                className={`sample-panel-trigger ${openPanel === 'traps' ? 'is-open' : ''}`}
-                onClick={() => togglePanel('traps')}
-              >
-                <SealWarning weight="bold" size={18} className="spt-icon spt-icon--ember" />
-                <span>Common Traps</span>
-                {openPanel === 'traps' ? (
-                  <CaretDown weight="bold" size={14} className="spt-caret" />
-                ) : (
-                  <span className="spt-lock">
-                    <LockSimple size={12} weight="bold" />
-                    Submit answer to unlock
-                  </span>
                 )}
-              </button>
-              {openPanel === 'traps' && (
-                <div className="sample-panel-body">
-                  <ul className="sample-traps">
-                    {sampleProblem.traps.map((t, i) => (
-                      <li key={i}>{t}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+
+                {/* ELI5 (locked) */}
+                <button
+                  className={`sample-panel-trigger ${openPanel === 'eli5' ? 'is-open' : ''}`}
+                  onClick={() => togglePanel('eli5')}
+                >
+                  <BookOpenText weight="bold" size={18} className="spt-icon spt-icon--forest" />
+                  <span>Explain like I'm 5</span>
+                  {openPanel === 'eli5' ? (
+                    <CaretDown weight="bold" size={14} className="spt-caret" />
+                  ) : (
+                    <span className="spt-lock">
+                      <LockSimple size={12} weight="bold" />
+                      Submit answer to unlock
+                    </span>
+                  )}
+                </button>
+                {openPanel === 'eli5' && (
+                  <div className="sample-panel-body">
+                    <p>{sampleProblem.eli5}</p>
+                  </div>
+                )}
+
+                {/* Step-by-Step (locked) */}
+                <button
+                  className={`sample-panel-trigger ${openPanel === 'steps' ? 'is-open' : ''}`}
+                  onClick={() => togglePanel('steps')}
+                >
+                  <ArrowsClockwise weight="bold" size={18} className="spt-icon spt-icon--ember" />
+                  <span>Step-by-Step</span>
+                  {openPanel === 'steps' ? (
+                    <CaretDown weight="bold" size={14} className="spt-caret" />
+                  ) : (
+                    <span className="spt-lock">
+                      <LockSimple size={12} weight="bold" />
+                      Submit answer to unlock
+                    </span>
+                  )}
+                </button>
+                {openPanel === 'steps' && (
+                  <div className="sample-panel-body">
+                    <div className="sample-steps-math">
+                      <div className="step-item">
+                        <span className="step-num">1</span>
+                        <div className="step-content">
+                          <p>Identify the given values:</p>
+                          <Math tex="w = 10 \text{ kN/m}, \quad L = 6 \text{ m}" block />
+                        </div>
+                      </div>
+                      <div className="step-item">
+                        <span className="step-num">2</span>
+                        <div className="step-content">
+                          <p>For a UDL on a simply supported beam, the maximum bending moment occurs at midspan:</p>
+                          <Math tex="M_{max} = \frac{wL^2}{8}" block />
+                        </div>
+                      </div>
+                      <div className="step-item">
+                        <span className="step-num">3</span>
+                        <div className="step-content">
+                          <p>Substitute and solve:</p>
+                          <Math tex="M_{max} = \frac{(10)(6)^2}{8} = \frac{360}{8} = 45 \text{ kN·m}" block />
+                        </div>
+                      </div>
+                      <div className="step-item step-item--answer">
+                        <span className="step-num">✓</span>
+                        <div className="step-content">
+                          <p>The maximum bending moment is <Math tex="45 \text{ kN·m}" /> at midspan.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Common Traps (locked) */}
+                <button
+                  className={`sample-panel-trigger ${openPanel === 'traps' ? 'is-open' : ''}`}
+                  onClick={() => togglePanel('traps')}
+                >
+                  <SealWarning weight="bold" size={18} className="spt-icon spt-icon--ember" />
+                  <span>Common Traps</span>
+                  {openPanel === 'traps' ? (
+                    <CaretDown weight="bold" size={14} className="spt-caret" />
+                  ) : (
+                    <span className="spt-lock">
+                      <LockSimple size={12} weight="bold" />
+                      Submit answer to unlock
+                    </span>
+                  )}
+                </button>
+                {openPanel === 'traps' && (
+                  <div className="sample-panel-body">
+                    <ul className="sample-traps">
+                      {sampleProblem.traps.map((t, i) => (
+                        <li key={i}>{t}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          </RaccoonPeek>
         </div>
       </section>
 
@@ -539,7 +531,7 @@ export function Landing({ userName }) {
               </ul>
               <button className="pricing-btn pricing-btn--free" onClick={() => navigate('/login')}>
                 Get started free
-                <ArrowRight weight="bold" size={16} />
+                <AppArrow />
               </button>
             </div>
 
@@ -562,7 +554,7 @@ export function Landing({ userName }) {
               </ul>
               <button className="pricing-btn pricing-btn--paid" onClick={() => navigate('/login', { state: { returnTo: '/exam' } })}>
                 Get Exam Simulation
-                <ArrowRight weight="bold" size={16} />
+                <AppArrow />
               </button>
             </div>
           </div>
@@ -580,7 +572,7 @@ export function Landing({ userName }) {
           <p className="s-cta__sub">Free to start. No credit card. Just problems and explanations.</p>
           <button className="hero-cta" onClick={() => navigate('/login')}>
             Create Free Account
-            <ArrowRight weight="bold" size={18} />
+            <AppArrow />
           </button>
         </div>
       </section>
