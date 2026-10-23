@@ -1,0 +1,206 @@
+/* Hero drawing (see HeroProblems.jsx). A 30s loop of five 6s scenes. Every
+   piece of every scene runs on the same 30s clock, started at its scene's
+   offset (--d), so percentages below are of 30s: 1s = 3.333%.
+   Base styles are the finished drawing; keyframes only animate toward it, so
+   reduced motion simply switches the animations off. */
+
+.hp {
+  --hp-s: 1;
+  position: absolute;
+  z-index: 0;
+  width: calc(560px * var(--hp-s));
+  height: calc(372px * var(--hp-s));
+  pointer-events: none;
+  visibility: hidden;
+}
+.hp.is-placed { visibility: visible; }
+.hp-box {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 560px;
+  height: 340px;
+  transform: scale(var(--hp-s));
+  transform-origin: 0 0;
+}
+
+/* ── the card ── */
+.hp-float { position: absolute; }
+.hp-float--card { inset: 0; animation: hp-float 5s ease-in-out infinite; }
+.hp-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background-color: #fff;
+  background-image:
+    linear-gradient(rgba(44, 44, 44, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(44, 44, 44, 0.07) 1px, transparent 1px),
+    linear-gradient(rgba(44, 44, 44, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(44, 44, 44, 0.035) 1px, transparent 1px);
+  background-size: 105px 105px, 105px 105px, 21px 21px, 21px 21px;
+  background-position: 70px 40px;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.6), 0 12px 30px rgba(44, 44, 44, 0.12), 0 60px 140px rgba(44, 44, 44, 0.10);
+  transform: rotate(-1.2deg);
+}
+.hp-scene { position: absolute; inset: 0; }
+.hp-scene svg { position: absolute; inset: 0; overflow: visible; }
+.hp-cap {
+  position: absolute;
+  left: 26px;
+  top: 20px;
+  font: 600 12px/1 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8A8478;
+}
+.hp-ans {
+  position: absolute;
+  top: 302px;
+  font: 700 17px/1 var(--font-mono);
+  color: #C4532A;
+  white-space: nowrap;
+}
+
+/* drawing vocabulary */
+.hp-m { stroke: var(--charcoal); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.hp-thin { stroke-width: 2; }
+.hp-mute { stroke: #8A8478; }
+.hp-n { fill: #fff; stroke: var(--charcoal); stroke-width: 2.5; }
+.hp-ink { fill: var(--charcoal); }
+.hp-ember { stroke: var(--ember); fill: none; }
+.hp-water { fill: rgba(59, 130, 184, 0.16); }
+.hp-wt { stroke: var(--info); stroke-width: 2; fill: none; }
+.hp-wt-fill { fill: var(--info); }
+.hp-lbl { font: 600 13px var(--font-mono); fill: #8A8478; }
+.hp-giv { font: 700 14px var(--font-mono); fill: var(--charcoal); }
+.hp-dot { fill: var(--info); }
+.hp-crest-dot { fill: var(--ember); stroke: #fff; stroke-width: 3; transform: translate(240px, -43.2px); }
+
+/* ── coins: the front one is this scene's chapter, the blurred one behind
+   is the next chapter ── */
+.hp-float--back { left: -46px; top: -40px; width: 78px; height: 86px; filter: blur(2.5px); animation: hp-float-b 5s ease-in-out infinite; }
+.hp-float--front { left: 520px; top: 286px; width: 66px; height: 72px; animation: hp-float-f 5s ease-in-out infinite; }
+.hp-coin { position: absolute; left: 0; top: 0; }
+.hp-coin--back { --coin-d: 78px; opacity: 0.85; }
+.hp-coin--front { --coin-d: 66px; }
+
+/* ── clocks ── */
+.hp-scene, .hp-scene *, .hp-coin {
+  animation-duration: 30s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-delay: calc(var(--d, 0s) + var(--o, 0s));
+  animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+.hp-scene { animation-name: hp-scene; animation-timing-function: linear; }
+.hp-draw { stroke-dasharray: 1; animation-name: hp-draw; }
+.hp-fade-early { animation-name: hp-fade-early; }
+.hp-fade { animation-name: hp-fade; }
+.hp-fill { animation-name: hp-fill; }
+.hp-drop { animation-name: hp-drop; animation-timing-function: linear; }
+.hp-wy1 { transform-box: fill-box; transform-origin: 50% 0; animation-name: hp-wy1; }
+.hp-wx1 { transform-box: fill-box; transform-origin: 0 50%; animation-name: hp-wx1; }
+.hp-wx1.hp-from-right { transform-origin: 100% 50%; }
+.hp-wx2 { transform-box: fill-box; transform-origin: 0 50%; animation-name: hp-wx2; }
+.hp-dl { stroke-dasharray: 1; animation-name: hp-dl; }
+.hp-fy { transform-box: fill-box; transform-origin: 50% 0; animation-name: hp-fy; }
+.hp-in-a { animation-name: hp-in-a; }
+.hp-in-b { animation-name: hp-in-b; }
+.hp-in-c { animation-name: hp-in-c; }
+.hp-crest-dot { animation-name: hp-crest; animation-timing-function: linear; }
+.hp-ans { animation-name: hp-type; animation-timing-function: linear; }
+.hp-coin--front { animation-name: hp-coin-front; animation-timing-function: linear; }
+.hp-coin--back { animation-name: hp-coin-back; animation-timing-function: linear; }
+/* water moving through the pipe: 80 px/s in the wide part, 320 px/s in the
+   narrow part (area ratio 4), on its own 3.2s loop */
+.hp-scene .hp-dot { animation-duration: 3.2s; animation-timing-function: linear; animation-fill-mode: none; }
+.hp-dot--top { animation-name: hp-dot-top; }
+.hp-dot--mid { animation-name: hp-dot-mid; }
+.hp-dot--bot { animation-name: hp-dot-bot; }
+
+/* scene visible 0 to 5.85s of its slot */
+@keyframes hp-scene { 0% { opacity: 0; } 1% { opacity: 1; } 17.67% { opacity: 1; } 19.5%, 100% { opacity: 0; } }
+@keyframes hp-draw { 0% { stroke-dashoffset: 1; } 2.33%, 100% { stroke-dashoffset: 0; } }
+@keyframes hp-fade-early { 0%, 0.67% { opacity: 0; } 2.33%, 100% { opacity: 1; } }
+@keyframes hp-fade { 0%, 3.33% { opacity: 0; } 5%, 100% { opacity: 1; } }
+@keyframes hp-fill { 0%, 2% { opacity: 0; } 4%, 100% { opacity: 1; } }
+@keyframes hp-drop {
+  0%, 3.33% { opacity: 0; transform: translateY(-46px); }
+  4% { opacity: 1; }
+  5% { transform: translateY(3px); }
+  5.67%, 100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes hp-wy1 { 0%, 5.67% { transform: scaleY(0); } 7.67%, 100% { transform: scaleY(1); } }
+@keyframes hp-wx1 { 0%, 5.33% { transform: scaleX(0); } 7%, 100% { transform: scaleX(1); } }
+@keyframes hp-wx2 { 0%, 7.33% { transform: scaleX(0); } 9%, 100% { transform: scaleX(1); } }
+@keyframes hp-dl { 0%, 7.67% { stroke-dashoffset: 1; } 9.33%, 100% { stroke-dashoffset: 0; } }
+@keyframes hp-fy { 0%, 5.33% { transform: scaleY(0); } 8%, 100% { transform: scaleY(1); } }
+@keyframes hp-in-a { 0%, 6.67% { opacity: 0; } 7.33%, 100% { opacity: 1; } }
+@keyframes hp-in-b { 0%, 8.67% { opacity: 0; } 9.33%, 100% { opacity: 1; } }
+@keyframes hp-in-c { 0%, 8.67% { opacity: 0; } 9.67%, 100% { opacity: 1; } }
+@keyframes hp-type {
+  0%, 10% { clip-path: inset(-4px 100% -4px 0); animation-timing-function: steps(18, end); }
+  12.67%, 100% { clip-path: inset(-4px 0 -4px 0); }
+}
+@keyframes hp-crest {
+  0%, 5.33% { opacity: 0; transform: translate(0, 0); }
+  5.67% { opacity: 1; transform: translate(0, 0); }
+  6.04% { transform: translate(56.2px, -17.9px); }
+  6.42% { transform: translate(105px, -29.5px); }
+  6.79% { transform: translate(146.2px, -36.6px); }
+  7.17% { transform: translate(180px, -40.5px); }
+  7.54% { transform: translate(206.2px, -42.3px); }
+  7.92% { transform: translate(225px, -43px); }
+  8.29% { transform: translate(236.2px, -43.2px); }
+  8.67%, 100% { opacity: 1; transform: translate(240px, -43.2px); }
+}
+@keyframes hp-coin-front {
+  0% { opacity: 0; transform: scaleX(0.05); }
+  0.1% { opacity: 1; transform: scaleX(0.05); }
+  1.67% { transform: scaleX(1); }
+  19.9% { opacity: 1; transform: scaleX(1); }
+  20%, 100% { opacity: 0; transform: scaleX(1); }
+}
+@keyframes hp-coin-back { 0% { opacity: 0; } 1.67% { opacity: 0.85; } 18.33% { opacity: 0.85; } 20%, 100% { opacity: 0; } }
+@keyframes hp-dot-top {
+  0% { opacity: 0; transform: translate(0, -38px); } 4% { opacity: 1; }
+  66.4% { transform: translate(170px, -38px); } 80.5% { transform: translate(240px, -19px); }
+  96% { opacity: 1; } 100% { opacity: 0; transform: translate(440px, -19px); }
+}
+@keyframes hp-dot-mid {
+  0% { opacity: 0; transform: translate(0, 0); } 4% { opacity: 1; }
+  66.4% { transform: translate(170px, 0); } 80.5% { transform: translate(240px, 0); }
+  96% { opacity: 1; } 100% { opacity: 0; transform: translate(440px, 0); }
+}
+@keyframes hp-dot-bot {
+  0% { opacity: 0; transform: translate(0, 38px); } 4% { opacity: 1; }
+  66.4% { transform: translate(170px, 38px); } 80.5% { transform: translate(240px, 19px); }
+  96% { opacity: 1; } 100% { opacity: 0; transform: translate(440px, 19px); }
+}
+@keyframes hp-float { 0%, 100% { transform: translateY(-3px); } 50% { transform: translateY(3px); } }
+@keyframes hp-float-b { 0%, 100% { transform: translateY(3px) rotate(-5deg); } 50% { transform: translateY(-4px) rotate(5deg); } }
+@keyframes hp-float-f { 0%, 100% { transform: translateY(-4px) rotate(-12deg); } 50% { transform: translateY(5px) rotate(-4deg); } }
+
+.hp--paused, .hp--paused * { animation-play-state: paused !important; }
+
+/* Tablets and phones: the card sits under the hero text, sized to the column. */
+@media (max-width: 1024px) {
+  .hp {
+    position: relative;
+    width: min(460px, calc(100% - 3rem));
+    height: auto;
+    aspect-ratio: 560 / 372;
+    margin: 2.5rem 0 0 clamp(2rem, 6vw, 6rem);
+  }
+}
+@media (max-width: 768px) {
+  .hp { margin-left: 1.5rem; }
+  /* the blurred coin would hang off the left edge of a phone */
+  .hp-float--back { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hp *, .hp-scene, .hp-coin { animation: none !important; }
+  .hp-scene:not(:first-child), .hp-coin--front:not(:first-child), .hp-coin--back:not(:first-child) { display: none; }
+  .hp-scene .hp-dot { display: none; }
+}

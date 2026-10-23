@@ -1266,6 +1266,19 @@
    RESPONSIVE
    ═══════════════════════════════════════ */
 
+/* Tablets and phones: the hero drawing stacks under the text, so the hero
+   grows to fit instead of clipping at one screen tall. */
+@media (max-width: 1024px) {
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: auto;
+    min-height: 100vh;
+    padding: 6rem 0 5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .hero-content {
     padding-left: 1.5rem;

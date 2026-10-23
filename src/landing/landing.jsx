@@ -19,7 +19,7 @@ import {
   CheckCircle,
   Timer,
 } from '@phosphor-icons/react';
-import { TopicLabel, HeroSvg } from './hero-svg';
+import { HeroProblems } from './HeroProblems';
 import { RaccoonPeek } from '../components/brand/RaccoonPeek';
 import { ChapterCoin } from '../components/brand/ChapterCoin';
 import { AppArrow } from '../components/brand/AppArrow';
@@ -98,8 +98,6 @@ export function Landing({ userName }) {
     <>
       {/* ══════ HERO ══════ */}
       <section className="hero">
-        <HeroSvg />
-        <TopicLabel />
         <div className="hero-content">
           <span className="hero-overline">
             <span className="hero-overline-dash" />
@@ -128,6 +126,8 @@ export function Landing({ userName }) {
             ${STUDENT_PRICE} for students, ${STANDARD_PRICE} standard.
           </p>
         </div>
+
+        <HeroProblems />
 
         <div className="hero-lockup" aria-hidden="true">
           <div className="hero-lockup-top">
