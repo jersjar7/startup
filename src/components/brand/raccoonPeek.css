@@ -1,0 +1,91 @@
+/* The app's raccoon peeking over a card's top edge (see RaccoonPeek.jsx).
+   Every size is a fraction of --peek-w so it scales as one piece. The source
+   image is 288x133; the card edge crosses it at 185/222 of its height, so the
+   paws and nose sit on the card and the head stands above it. */
+.peek-host { position: relative; }
+
+.peek {
+  --peek-w: 128px;
+  --peek-h: calc(var(--peek-w) * 0.4618);   /* image height */
+  --peek-g: calc(var(--peek-w) * 0.0770);   /* the part that overlaps the card */
+  position: absolute;
+  top: calc(var(--peek-w) * -0.3849);
+  /* never closer than 8px to either side of the card */
+  left: clamp(calc(var(--peek-w) / 2 + 8px), calc(var(--peek-at, 0.85) * 100%), calc(100% - var(--peek-w) / 2 - 8px));
+  width: var(--peek-w);
+  margin-left: calc(var(--peek-w) / -2);
+  z-index: 2;
+  pointer-events: none;
+  transform-origin: 50% 100%;
+}
+.peek-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  /* The head is cream, like the page. A hairline of charcoal traces it, the
+     way a sticker's edge does, so it never dissolves into the background. */
+  filter: drop-shadow(0 0 0.6px rgba(44, 44, 44, 0.55)) drop-shadow(0 -2px 6px rgba(44, 44, 44, 0.10));
+}
+
+/* Eyelids for the blink. Placed on the eye centres of the source image. */
+.peek-lid {
+  position: absolute;
+  top: 57.14%;
+  width: 6.25%;
+  height: 13.53%;
+  border-radius: 50%;
+  background: var(--charcoal);
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+}
+.peek-lid--l { left: 30.56%; }
+.peek-lid--r { left: 63.89%; }
+
+/* Hidden behind the card until it scrolls into view. */
+.peek--waiting {
+  transform: translateY(var(--peek-h));
+  clip-path: inset(-20px -20px calc(var(--peek-h) + var(--peek-g)) -20px);
+}
+.peek--playing { animation: peek-rise 3.4s linear both; }
+.peek--playing .peek-lid { animation: peek-blink 3.4s linear both; }
+
+/* Rise with a small overshoot, the nose drops onto the edge with a squash,
+   a look to one side and back, then rest. The clip keeps the body hidden
+   below the card edge until the nose lands. */
+@keyframes peek-rise {
+  0%, 7.35% {
+    transform: translateY(var(--peek-h)) rotate(0deg) scale(1, 1);
+    clip-path: inset(-20px -20px calc(var(--peek-h) + var(--peek-g)) -20px);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  27.9% {
+    transform: translateY(0) rotate(0deg) scale(1, 1);
+    clip-path: inset(-20px -20px var(--peek-g) -20px);
+  }
+  30.9% {
+    transform: translateY(0) rotate(0deg) scale(1.03, 0.97);
+    clip-path: inset(-20px -20px 0px -20px);
+  }
+  32.4% { transform: translateY(0) rotate(0deg) scale(0.95, 1.05); animation-timing-function: ease-out; }
+  35.3%, 60.3% { transform: translateY(0) rotate(0deg) scale(1, 1); animation-timing-function: ease-in-out; }
+  72.1% { transform: translateY(0) rotate(6deg) scale(1, 1); animation-timing-function: ease-in-out; }
+  83.8% { transform: translateY(0) rotate(0deg) scale(1, 1); animation-timing-function: ease-in-out; }
+  89.7% { transform: translateY(0) rotate(-3deg) scale(1, 1); animation-timing-function: ease-in-out; }
+  95.6%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1, 1);
+    clip-path: inset(-20px -20px 0px -20px);
+  }
+}
+@keyframes peek-blink {
+  0%, 45.6%, 50.3%, 88.2%, 92.9%, 100% { transform: scaleY(0); }
+  47.9%, 90.6% { transform: scaleY(1); }
+}
+
+@media (max-width: 600px) {
+  .peek { --peek-w: 104px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .peek--waiting { transform: none; clip-path: none; }
+  .peek--playing, .peek--playing .peek-lid { animation: none; }
+}

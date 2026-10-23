@@ -1,0 +1,44 @@
+/* Chapter coin (see ChapterCoin.jsx). A face sitting on a slightly darker rim
+   a few pixels below it, with a soft highlight on top: the same build as the
+   app's coins, in the website's palette. */
+.coin {
+  --coin-d: 34px;
+  --coin-lift: calc(var(--coin-d) * 0.09);
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: var(--coin-d);
+  height: calc(var(--coin-d) + var(--coin-lift));
+  vertical-align: middle;
+}
+.coin--ember   { --coin-face: #FEB89C; --coin-rim: #C4532A; }
+.coin--sunbeam { --coin-face: #F9D28A; --coin-rim: #B8862C; }
+.coin--forest  { --coin-face: var(--cream); --coin-rim: #CFC3B1; }
+
+.coin-rim, .coin-face {
+  position: absolute;
+  left: 0;
+  width: var(--coin-d);
+  height: var(--coin-d);
+  border-radius: 50%;
+}
+.coin-rim {
+  top: var(--coin-lift);
+  background: linear-gradient(180deg, var(--coin-rim) 30%, color-mix(in srgb, var(--coin-rim) 80%, transparent) 100%);
+}
+.coin-face {
+  top: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 36% 24%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 58%),
+    linear-gradient(180deg, rgba(44, 44, 44, 0) 48%, rgba(44, 44, 44, 0.14)),
+    var(--coin-face);
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.55);
+}
+.coin-face img {
+  position: absolute;
+  left: 19%;
+  top: 19%;
+  width: 62%;
+  height: 62%;
+}

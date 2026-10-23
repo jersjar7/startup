@@ -1,0 +1,15 @@
+.app-arrow {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: currentColor;
+  transition: transform 0.2s ease;
+}
+.app-arrow svg { color: var(--btn-bg, var(--ember)); }
+button:hover > .app-arrow, a:hover > .app-arrow { transform: translateX(2px); }
+@media (max-width: 600px) {
+  .app-arrow { width: 38px; height: 38px; }
+}
