@@ -32,7 +32,9 @@ FE for Raccoons is a gamified study platform for the Fundamentals of Engineering
 - **Headings:** `font-family: 'DM Sans'` — weight 600-700, tight letter-spacing (-0.02em to -0.04em)
 - **Body:** `font-family: 'Inter'` — weight 400-500, line-height 1.6
 - **Code/Data/Formulas:** `font-family: 'JetBrains Mono'`
-- **Overlines/Badges:** DM Sans 600, 0.7rem, uppercase, letter-spacing 0.08em
+- **Overlines:** JetBrains Mono 600, 0.75rem, uppercase, letter-spacing 0.06em, type alone with no dash (the app's typewriter labels, adopted 2026-10-23)
+- **Badges:** DM Sans 600, 0.7rem, uppercase, letter-spacing 0.08em
+- **Shared brand pieces** in `src/components/brand/`: `RaccoonPeek` (one per page, animated on the landing page only), `ChapterCoin`, `AppArrow` (main buttons are fully round with an arrow disc)
 
 ### Design Tokens
 - **Border radius:** 6px (small/chips), 10px (buttons/inputs), 16px (cards), 24px (hero/banners)
