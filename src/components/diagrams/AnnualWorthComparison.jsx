@@ -125,7 +125,7 @@ export function AnnualWorthComparison({
               {fmt(s.om)}/yr
             </Label>
 
-            {/* Salvage (upward at year n) — omitted when there is no salvage */}
+            {/* Salvage (upward at year n), omitted when there is no salvage */}
             {s.salv > 0 && (
               <>
                 <line x1={yearX(s.n)} y1={tY - 2} x2={yearX(s.n)} y2={tY - sH}

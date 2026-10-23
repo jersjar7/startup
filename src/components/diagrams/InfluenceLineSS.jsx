@@ -5,12 +5,12 @@ import { PinSupport, RollerSupport, DimensionLine, Label } from './primitives';
  * Influence line for a simply supported beam.
  *
  * Top section: beam elevation with pin (left) and roller (right).
- * Bottom section: IL graph — positive ordinates plotted ABOVE the zero baseline
+ * Bottom section: IL graph, positive ordinates plotted ABOVE the zero baseline
  * (standard structural convention).
  *
- * type = 'reaction'  — IL for left reaction RA (linear 1→0)
- * type = 'shear'     — IL for shear at section a (jump at section)
- * type = 'moment'    — IL for bending moment at section a (triangle)
+ * type = 'reaction': IL for left reaction RA (linear 1→0)
+ * type = 'shear': IL for shear at section a (jump at section)
+ * type = 'moment': IL for bending moment at section a (triangle)
  *
  * Does NOT show: computed values (student solves using the IL).
  */
@@ -29,7 +29,7 @@ export function InfluenceLineSS({
   const beamRight = W - 60;
   const beamLen = beamRight - beamLeft;
 
-  // IL graph — zero baseline near bottom, positive extends UPWARD
+  // IL graph: zero baseline near bottom, positive extends UPWARD
   const ilZeroY = 290;
   const ilTopY = type === 'shear' ? 150 : 140; // top extent of the IL graph
   const ilH = ilZeroY - ilTopY;
@@ -99,7 +99,7 @@ export function InfluenceLineSS({
 }
 
 function renderReactionIL(left, right, zeroY, scale) {
-  // IL for RA: 1.0 at A, 0 at B — positive UPWARD (smaller Y in SVG)
+  // IL for RA: 1.0 at A, 0 at B, positive UPWARD (smaller Y in SVG)
   const peakY = zeroY - scale * 1.0;
 
   return (
@@ -164,7 +164,7 @@ function renderShearIL(left, right, sectionX, aFrac, zeroY, scale) {
 }
 
 function renderMomentIL(left, right, sectionX, a, L, zeroY, scale) {
-  // Peak ordinate at the section: a(L-a)/L — plotted UPWARD (positive = up)
+  // Peak ordinate at the section: a(L-a)/L, plotted UPWARD (positive = up)
   const peak = (a * (L - a)) / L;
   const peakY = zeroY - peak * scale;
 

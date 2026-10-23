@@ -199,7 +199,7 @@ export function QuestionAudit() {
           Ch{chapter.num}: {chapter.name}
         </h1>
         <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)', margin: '0.25rem 0 0' }}>
-          Question Audit — {lessonData.length} lessons
+          Question Audit: {lessonData.length} lessons
         </p>
       </div>
 

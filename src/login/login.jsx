@@ -10,7 +10,7 @@ import './index.css';
 export function Login({ userName, onLogin }) {
   const navigate = useNavigate();
   const location = useLocation();
-  // Where to go after auth — honor returnTo (e.g. a paid user sent here from /exam).
+  // Where to go after auth, honor returnTo (e.g. a paid user sent here from /exam).
   const dest = location.state?.returnTo || '/dashboard';
   const sessionExpired = location.state?.expired === true;
   useDocumentTitle('Sign In');
@@ -25,7 +25,7 @@ export function Login({ userName, onLogin }) {
   // Without it the boards show the first letters of their email.
   const [firstName, setFirstName] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
-  // One form, one mode at a time — returning users never parse signup chrome.
+  // One form, one mode at a time, returning users never parse signup chrome.
   const [mode, setMode] = React.useState('login'); // 'login' | 'create'
   // Set once registration succeeds: swaps the form for the one attribution
   // question, then routes on. See handleRegister.
@@ -98,7 +98,7 @@ export function Login({ userName, onLogin }) {
 
   async function handleRegister() {
     setError('');
-    // The button stays tappable — an unexplained dead button reads as broken.
+    // The button stays tappable, an unexplained dead button reads as broken.
     if (!acceptedTerms) {
       setError('Check the Terms box below to create an account.');
       return;
@@ -119,7 +119,7 @@ export function Login({ userName, onLogin }) {
       if (res.ok) {
         const data = await res.json();
         // Order matters: flag first, THEN onLogin. onLogin sets userName in the
-        // parent and the redirect effect above keys off both — setting the flag
+        // parent and the redirect effect above keys off both, setting the flag
         // first means the prompt survives even without React's batching.
         //
         // /api/auth/create already set the auth cookie, so we are authenticated
@@ -208,7 +208,7 @@ export function Login({ userName, onLogin }) {
   }
 
   // Account created: ask the one attribution question, then continue. Not
-  // dismissible — a single tap is the whole ask, and it is the only chance we
+  // dismissible: a single tap is the whole ask, and it is the only chance we
   // get to attribute channels that strip referrers (TikTok, Instagram, Reddit).
   if (justRegistered) {
     return (
@@ -281,7 +281,7 @@ export function Login({ userName, onLogin }) {
         <p className="login-subtitle">Log in or create a free account.</p>
         {sessionExpired && (
           <p role="status" style={{ background: 'var(--sunbeam-bg)', color: 'var(--charcoal)', padding: '0.6rem 0.8rem', borderRadius: '8px', fontSize: '0.85rem', marginBottom: '0.75rem' }}>
-            Your session expired — please sign in again.
+            Your session expired. Please sign in again.
           </p>
         )}
         {error && <p className="error-banner" role="alert">{error}</p>}

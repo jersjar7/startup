@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * FE4 RACCOONS brand logo — "FE" charcoal + "4" ember, "RACCOONS" below.
+ * FE4 RACCOONS brand logo, "FE" charcoal + "4" ember, "RACCOONS" below.
  * No padding, no extra whitespace. Fits any container.
  * @param {number} height - height in px (default 36)
  */

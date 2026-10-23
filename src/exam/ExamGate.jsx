@@ -62,7 +62,7 @@ export function ExamGate({ userName }) {
       } catch {
         setPurchased(false);
       }
-      // Attempts are purchase-gated (403 for free users) — only fetch if owned.
+      // Attempts are purchase-gated (403 for free users), only fetch if owned.
       if (isPurchased) {
         try {
           const r = await fetch('/api/exam/attempts');
@@ -232,19 +232,19 @@ export function ExamGate({ userName }) {
                 <MagnifyingGlass weight="bold" size={20} className="egf-icon egf-icon--sunbeam" />
                 <div>
                   <span className="egf-label">Review every answer</span>
-                  <span className="egf-desc">Afterward, see every question you got right and wrong — each with a step-by-step explanation</span>
+                  <span className="egf-desc">Afterward, see every question you got right and wrong, each with a step-by-step explanation</span>
                 </div>
               </div>
               <div className="exam-gate-feature">
                 <ListChecks weight="bold" size={20} className="egf-icon egf-icon--ember" />
                 <div>
                   <span className="egf-label">Unlimited retakes</span>
-                  <span className="egf-desc">Take it as many times as you want — a different, randomly drawn exam each time</span>
+                  <span className="egf-desc">Take it as many times as you want, with a different, randomly drawn exam each time</span>
                 </div>
               </div>
             </div>
 
-            {/* Why we charge — the genuine message */}
+            {/* Why we charge: the genuine message */}
             <div className="exam-gate-why">
               <Heart weight="bold" size={18} className="exam-gate-why-icon" />
               <div>
@@ -271,13 +271,13 @@ export function ExamGate({ userName }) {
             {studentApplies ? (
               <p className="exam-gate-student-note">
                 <CheckCircle weight="fill" size={15} />
-                {' '}Student price applied{pricing?.verifiedStudentEmail ? ` — verified ${pricing.verifiedStudentEmail}` : ''}.
+                {' '}Student price applied{pricing?.verifiedStudentEmail ? ` (verified ${pricing.verifiedStudentEmail})` : ''}.
               </p>
             ) : (
               <div className="exam-student-verify">
                 {studentStep === 'unavailable' ? (
                   <p className="exam-student-unavailable">
-                    {studentMsg || 'Student verification is being set up — please check back soon.'}
+                    {studentMsg || 'Student verification is being set up. Please check back soon.'}
                   </p>
                 ) : studentStep === 'code' ? (
                   <>
@@ -351,7 +351,7 @@ export function ExamGate({ userName }) {
             </button>
 
             <p className="exam-gate-guarantee">
-              14-day money-back guarantee — and if you don't pass, we'll extend your access free.
+              14-day money-back guarantee, and if you don't pass, we'll extend your access free.
             </p>
 
             <button className="exam-gate-preview-btn" onClick={() => navigate('/exam/preview')}>

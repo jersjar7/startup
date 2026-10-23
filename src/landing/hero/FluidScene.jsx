@@ -3,14 +3,14 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { C } from './primitives';
 
-// FE topic: Fluid Mechanics — a NATURAL open river channel cut into the ground.
+// FE topic: Fluid Mechanics, a NATURAL open river channel cut into the ground.
 // A long earthen channel with sloped trapezoidal banks (soil + grass, not steel
 // walls), a living free surface whose crests advect downstream, drifting leaves,
 // a paddling duck, swaying reeds + bank grass, a few rocks, and a dragonfly. No
 // man-made plumbing or weir. Every material honors `opacity` for the cross-fade.
 
 // ── Channel cross-section (in the Z–Y plane), extruded along X (the flow) ──────
-const L = 10.5;          // channel length (flow direction X) — long
+const L = 10.5;          // channel length (flow direction X): long
 const HALF_BED = 0.7;    // half width of the channel bed (Z)
 const BANK_RUN = 1.3;    // horizontal run of each sloped bank (Z)
 const HALF_TOP = 2.9;    // half width of the ground surface (Z)
@@ -31,7 +31,7 @@ const _grassCols = ['#5b6b42', '#6f7a4a', '#485836'].map((c) => new THREE.Color(
 function EarthChannel({ opacity }) {
   const geo = React.useMemo(() => {
     const s = new THREE.Shape();
-    // (lateral Z, vertical Y) — solid ground with a trapezoidal channel notch.
+    // (lateral Z, vertical Y), solid ground with a trapezoidal channel notch.
     s.moveTo(-HALF_TOP, BLOCK_BOTTOM);
     s.lineTo(HALF_TOP, BLOCK_BOTTOM);
     s.lineTo(HALF_TOP, GROUND_Y);
@@ -371,7 +371,7 @@ export function FluidScene({ opacity }) {
       <BankGrass opacity={opacity} />
       <Rocks opacity={opacity} />
 
-      {/* Free surface — semi-transparent natural water; the soil bed shows
+      {/* Free surface: semi-transparent natural water; the soil bed shows
           through. Crests advect downstream for a directed current. */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, WATER_Y, 0]} receiveShadow>
         <planeGeometry ref={geoRef} args={[waterL, waterW, SX, SY]} />

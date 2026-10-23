@@ -2,19 +2,19 @@ import React from 'react';
 import { X } from '@phosphor-icons/react';
 import './SourcePrompt.css';
 
-// "How did you find us?" — asked once per user, then never again.
+// "How did you find us?", asked once per user, then never again.
 //
 // Its job is NARROW and worth stating: automatic referrer capture (app.jsx ->
 // login.jsx -> auth.js) already attributes search traffic and accounts for
 // roughly half of all signups on its own. This survey exists only to catch the
 // channels that strip referrers and cannot be measured any other way: TikTok,
-// Instagram, Reddit, and word of mouth. Keep the fixed options — free text is
+// Instagram, Reddit, and word of mouth. Keep the fixed options, free text is
 // unusable in aggregate.
 //
 // Asked at registration because that is the one point EVERY new user passes
 // through while already authenticated (/api/auth/create sets the cookie), with
 // the dashboard as a safety net for anyone who slipped past it. The rule is
-// "ask until resolved, never after" — see src/dashboard/acquisitionGate.js.
+// "ask until resolved, never after", see src/dashboard/acquisitionGate.js.
 // The verification screen was tried and removed: it reaches only the ~75% who
 // verify, and has no session, so the answer could not be written server-side.
 const OPTIONS = [
@@ -57,7 +57,7 @@ export function SourcePrompt({ onClose, dismissible = true, className = '' }) {
           <X size={14} weight="bold" />
         </button>
       )}
-      <span className="source-prompt-q">Quick question — how did you find us?</span>
+      <span className="source-prompt-q">Quick question: how did you find us?</span>
       <div className="source-prompt-chips">
         {OPTIONS.map((o) => (
           <button key={o.id} className="source-chip" disabled={busy} onClick={() => pick(o.id)}>

@@ -3,7 +3,7 @@ import { deg } from './geo';
 import { DashedLine, AngleArc, Label } from './primitives';
 
 /**
- * Horizontal curve — plan view (bird's-eye).
+ * Horizontal curve: plan view (bird's-eye).
  *
  * Two tangent road segments meeting at PI, connected by a circular arc.
  *
@@ -20,7 +20,7 @@ export function HorizontalCurve({
   const W = 420;
   const H = 280;
 
-  // Geometry — the back tangent enters from the upper-left, the curve bends right
+  // Geometry: the back tangent enters from the upper-left, the curve bends right
   const halfI = I / 2;
   const halfIRad = deg(halfI);
   const iRad = deg(I);
@@ -28,11 +28,11 @@ export function HorizontalCurve({
   // Tangent distance (for layout, not labeled unless showT)
   const T = R * Math.tan(halfIRad);
 
-  // Scale to fit viewBox — we need room for tangent extensions beyond PI
+  // Scale to fit viewBox, we need room for tangent extensions beyond PI
   const maxExtent = Math.max(T + 80, R);
   const scale = Math.min(200 / maxExtent, 0.22);
 
-  // PI position — center-ish in the viewBox
+  // PI position: center-ish in the viewBox
   const piX = 200;
   const piY = 70;
 
@@ -53,7 +53,7 @@ export function HorizontalCurve({
   const ptX = piX + aheadDirX * T * scale;
   const ptY = piY + aheadDirY * T * scale;
 
-  // Arc center — perpendicular to the back tangent at PC, toward the inside of the curve
+  // Arc center: perpendicular to the back tangent at PC, toward the inside of the curve
   // The curve bends to the right (downward), so the center is below the back tangent
   const arcCx = pcX;
   const arcCy = pcY + R * scale;
@@ -70,7 +70,7 @@ export function HorizontalCurve({
   const aheadExtX = ptX + aheadDirX * extLen;
   const aheadExtY = ptY + aheadDirY * extLen;
 
-  // Arc sweep — large arc flag
+  // Arc sweep: large arc flag
   const largeArc = I > 180 ? 1 : 0;
 
   // Radius line from arc center to curve midpoint
@@ -90,10 +90,10 @@ export function HorizontalCurve({
       {/* Back tangent PC → PI (dashed) */}
       <line x1={pcX} y1={pcY} x2={piX} y2={piY}
         stroke="var(--gray-400)" strokeWidth={1.5} strokeDasharray="6,4" />
-      {/* Back tangent extension BEYOND PI (dashed) — forms one side of angle I */}
+      {/* Back tangent extension BEYOND PI (dashed): forms one side of angle I */}
       <line x1={piX} y1={piY} x2={piX + extLen} y2={piY}
         stroke="var(--gray-400)" strokeWidth={1.5} strokeDasharray="6,4" />
-      {/* Ahead tangent PI → PT (dashed) — forms other side of angle I */}
+      {/* Ahead tangent PI → PT (dashed): forms other side of angle I */}
       <line x1={piX} y1={piY} x2={ptX} y2={ptY}
         stroke="var(--gray-400)" strokeWidth={1.5} strokeDasharray="6,4" />
       {/* Road departure after PT (solid) */}
@@ -105,14 +105,14 @@ export function HorizontalCurve({
         d={`M ${pcX},${pcY} A ${rPx},${rPx} 0 ${largeArc} 1 ${ptX},${ptY}`}
         fill="none" stroke="var(--charcoal)" strokeWidth={2.5} />
 
-      {/* 3. Intersection angle arc at PI — between extended back tangent (0°) and ahead tangent (-I°) */}
+      {/* 3. Intersection angle arc at PI, between extended back tangent (0°) and ahead tangent (-I°) */}
       <AngleArc cx={piX} cy={piY} radius={36}
         startAngle={-I} endAngle={0}
         color="var(--ember)" />
-      {/* Angle label — offset further right so it doesn't overlap the arc */}
+      {/* Angle label: offset further right so it doesn't overlap the arc */}
       {(() => {
         const midA = deg(-halfI);
-        const lr = 56; // label radius — well beyond the arc
+        const lr = 56; // label radius: well beyond the arc
         return (
           <Label x={piX + lr * Math.cos(midA)} y={piY - lr * Math.sin(midA)}
             fontSize={10} color="var(--ember)" bold>

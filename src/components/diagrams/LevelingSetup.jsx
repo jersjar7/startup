@@ -2,7 +2,7 @@ import React from 'react';
 import { DashedLine, Label } from './primitives';
 
 /**
- * Differential leveling profile — instrument with sight lines to rods.
+ * Differential leveling profile: instrument with sight lines to rods.
  *
  * Shows: ground terrain, instrument on tripod, rod at BM and target point,
  *        horizontal sight line (dashed), BS/FS labels, point labels.
@@ -21,7 +21,7 @@ export function LevelingSetup({
   const W = isSingle ? 380 : 460;
   const H = 200;
 
-  // Ground profile — gentle undulation
+  // Ground profile: gentle undulation
   const groundY = 150;
   const groundLeft = 20;
   const groundRight = W - 20;
@@ -51,7 +51,7 @@ export function LevelingSetup({
   // Rod height
   const rodH = 50;
 
-  // Instrument sight line Y — mid-height of level body (rect is 6px tall)
+  // Instrument sight line Y, mid-height of level body (rect is 6px tall)
   const sightY1 = groundBmY - instH + 3;
 
   // ── Iconic level instrument ──
@@ -104,7 +104,7 @@ export function LevelingSetup({
       role="img" aria-label={`Differential leveling setup with ${setups} instrument setup${setups > 1 ? 's' : ''}`}
       style={{ width: '100%', height: 'auto' }}>
 
-      {/* 1. Ground line — gentle undulation */}
+      {/* 1. Ground line: gentle undulation */}
       <path d={isSingle
         ? `M ${groundLeft},${groundBmY} Q ${(bmX + instX) / 2},${groundY - 3} ${instX},${groundY} Q ${(instX + targetX) / 2},${groundY + 3} ${groundRight},${groundTargetY}`
         : `M ${groundLeft},${groundBmY} Q ${bmX + 30},${groundY - 2} ${instX},${groundY} Q ${(instX + tpX) / 2},${groundY + 6} ${tpX},${groundTpY} Q ${(tpX + inst2X) / 2},${groundY + 2} ${inst2X},${groundY} Q ${(inst2X + targetX) / 2},${groundY - 4} ${groundRight},${groundTargetY}`
@@ -174,7 +174,7 @@ export function LevelingSetup({
       <text x={W / 2} y={H - 4} textAnchor="middle"
         fontFamily="var(--font-body)" fontSize={7} fontStyle="italic"
         fill="var(--gray-400)">
-        Illustration only — not to scale
+        Illustration only, not to scale
       </text>
     </svg>
   );

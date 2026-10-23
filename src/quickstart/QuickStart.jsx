@@ -175,22 +175,22 @@ export function QuickStart({ userName }) {
           {resuming ? (
             <p className="qs-lead">
               You've mapped <strong>{state.sampledCount} of {state.totalChapters}</strong> chapters.
-              Next up: <strong>{nextName}</strong> — answer {qCount} more, about 5 minutes.
+              Next up: <strong>{nextName}</strong>. Answer {qCount} more, about 5 minutes.
             </p>
           ) : (
             <p className="qs-lead">
-              Answer {qCount} questions and we'll start mapping where you stand — about
+              Answer {qCount} questions and we'll start mapping where you stand, in about
               5 minutes. You can stop anytime and study any chapter right away.
             </p>
           )}
           <ul className="qs-facts">
             <li><strong>{qCount} questions</strong> from one chapter, with instant feedback</li>
-            <li><strong>~5 minutes</strong> — measured in questions, not a timer</li>
-            <li><strong>Always free</strong> — this builds your study plan</li>
+            <li><strong>~5 minutes</strong>, measured in questions, not a timer</li>
+            <li><strong>Always free</strong>, because this builds your study plan</li>
           </ul>
           <div className="qs-actions">
             <button className="btn-primary" onClick={() => startSegment(state.nextChapterId, qCount)}>
-              {resuming ? <>Continue with {nextName}</> : <>Start — first up: {nextName}</>}
+              {resuming ? <>Continue with {nextName}</> : <>Start with {nextName}</>}
               <ArrowRight size={16} weight="bold" />
             </button>
             <button className="qs-text-btn" onClick={() => navigate('/dashboard')}>
@@ -210,7 +210,7 @@ export function QuickStart({ userName }) {
           <span className="qs-overline"><Flag size={14} weight="bold" /> Complete</span>
           <h1 className="qs-title">You've mapped all 15 chapters</h1>
           <p className="qs-lead">
-            Here's your full readiness map. These are early reads — your mastery
+            Here's your full readiness map. These are early reads, and your mastery
             grows as you study and review over time.
           </p>
           <ChapterMapWrap state={state} />
@@ -306,7 +306,7 @@ export function QuickStart({ userName }) {
     // Use the chapter's current map value so the headline always matches the
     // map bar below. For a fresh chapter that's this segment's read; if the
     // chapter already had a higher score (e.g. a prior diagnostic), we keep the
-    // higher — never lower — so headline and bar can't disagree.
+    // higher (never lower) so headline and bar can't disagree.
     const fam = segResult.familiarity[segResult.chapterId] ?? segResult.chapterFamiliarity ?? 0;
     return (
       <main className="qs-main">
@@ -317,7 +317,7 @@ export function QuickStart({ userName }) {
             You got <strong>{segResult.correct} of {segResult.total}</strong>. That starts the chapter at <strong>{fam}% mastery</strong>.
           </p>
           <p className="qs-honest">
-            This is a starting point, not a grade — a short read can seed a chapter with at most 25.
+            This is a starting point, not a grade. A short read can seed a chapter with at most 25.
             The rest is earned at the desk, one problem at a time.
           </p>
 
@@ -342,12 +342,12 @@ export function QuickStart({ userName }) {
           ) : (
             <>
               <p className="qs-checkpoint-help">
-                The more chapters you answer, the more complete your plan. You can stop anytime —
+                The more chapters you answer, the more complete your plan. You can stop anytime, and
                 every chapter is open to study right now.
               </p>
               <div className="qs-actions">
                 <button className="btn-primary" onClick={() => startSegment(segResult.nextChapterId, segResult.nextChapterQuestions)}>
-                  Keep going — next: {nextName} <ArrowRight size={16} weight="bold" />
+                  Keep going with {nextName} <ArrowRight size={16} weight="bold" />
                 </button>
                 <button className="qs-text-btn" onClick={() => navigate('/dashboard')}>
                   Stop &amp; start studying

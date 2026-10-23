@@ -13,12 +13,12 @@ export const SOURCE_LABEL = {
 
 // Account-created date + time in Pacific Time, e.g. "6/9/26, 5:38 PM".
 export const fmtJoined = (iso) => {
-  if (!iso) return '—';
+  if (!iso) return 'Unknown';
   try {
     return new Intl.DateTimeFormat('en-US', {
       timeZone: 'America/Los_Angeles',
       month: 'numeric', day: 'numeric', year: '2-digit',
       hour: 'numeric', minute: '2-digit',
     }).format(new Date(iso));
-  } catch { return '—'; }
+  } catch { return 'Unknown'; }
 };

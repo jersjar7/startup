@@ -18,7 +18,7 @@ export function EarthworkSection({
   const W = 440;
   const H = 220;
 
-  // Layout — two cross-sections side by side
+  // Layout: two cross-sections side by side
   const secW = 100;    // width of each cross-section trapezoid
   const maxA = Math.max(A1, A2, Am || 0);
 

@@ -36,7 +36,7 @@ describe('shouldShowSimPitch', () => {
   });
 
   it('rescues a user whose exam date has gone stale but who is still working', () => {
-    // Date in the past, so no countdown — but 60 problems is real effort.
+    // Date in the past, so no countdown, but 60 problems is real effort.
     expect(shouldShowSimPitch({ daysLeft: -30, problemsAnswered: 60 })).toBe(true);
   });
 
@@ -58,7 +58,7 @@ describe('usesCountdownCopy', () => {
     expect(usesCountdownCopy(2)).toBe(true);
   });
 
-  it('is FALSE without a date — otherwise the banner renders "Just null days to go."', () => {
+  it('is FALSE without a date, otherwise the banner renders "Just null days to go."', () => {
     expect(usesCountdownCopy(null)).toBe(false);
     expect(usesCountdownCopy(undefined)).toBe(false);
   });

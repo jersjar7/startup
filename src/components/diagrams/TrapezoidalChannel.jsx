@@ -18,7 +18,7 @@ export function TrapezoidalChannel({
   const W = 400;
   const H = 280;
 
-  // Layout — scale so the channel fills nicely
+  // Layout: scale so the channel fills nicely
   const botPx = 120;                           // bottom width in px
   const depthPx = Math.min((y / b) * botPx, 110); // proportional depth
   const slopePx = z * depthPx;                 // horizontal run of side slope

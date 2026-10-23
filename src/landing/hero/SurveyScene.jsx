@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { C, Box, Node, Person } from './primitives';
 
-// FE topic: Surveying — graded ground with real elevation, a tripod-mounted
+// FE topic: Surveying: graded ground with real elevation, a tripod-mounted
 // TOTAL STATION (tribrach base + yoke standards + journaled telescope), the
 // woman engineer leaning into the instrument, and a rodperson plumbing a
 // graduated leveling rod at the far extent. The ember line of sight runs from
@@ -96,7 +96,7 @@ function TotalStation({ x, z, opacity, look }) {
   );
   // Aim dither + occasional discrete re-aim. The fine dither reads as settling;
   // every ~8s a brief small yaw step (gaussian bump) reads as the operator
-  // swinging the alidade onto a new sight and locking on — "taking a shot."
+  // swinging the alidade onto a new sight and locking on, "taking a shot."
   useFrame((state) => {
     if (!alidadeRef.current) return;
     const t = state.clock.elapsedTime;
@@ -156,7 +156,7 @@ function TotalStation({ x, z, opacity, look }) {
 }
 
 // A graduated leveling rod: a WHITE rod face carrying classic survey graduation
-// blocks — bold charcoal E-pattern marks every decimal, with a thin ember band
+// blocks: bold charcoal E-pattern marks every decimal, with a thin ember band
 // only as an accent at each foot mark. Reads as a real stadia rod, not a
 // candy-cane hazard pole.
 const ROD_WHITE = '#F2EEE6';
@@ -258,7 +258,7 @@ function Tree({ x, z, scale = 1, phase = 0, distant = false, opacity }) {
     }
     if (topRef.current) {
       // upper cluster lags in phase so the crown deforms rather than rotating
-      // rigidly — the top tuft trails the main mass in the gust.
+      // rigidly: the top tuft trails the main mass in the gust.
       topRef.current.rotation.z = amp * 0.85 * Math.sin(t * (rate * 1.2) + phase + 0.9);
       topRef.current.rotation.x = amp * 0.6 * Math.sin(t * (rate * 0.9) + phase * 1.3 + 0.6);
     }
@@ -439,7 +439,7 @@ function Birds({ opacity }) {
 }
 
 // A low-poly field dog on open ground near the crew: capsule body, box legs,
-// sphere head with stub ears. Idle behavior loop — a gentle head bob plus an
+// sphere head with stub ears. Idle behavior loop, a gentle head bob plus an
 // occasional look-around (periodic yaw turn) and a steady tail wag, all via ref
 // rotation. Oriented broadside to camera so the head/tail/legs silhouette reads
 // clearly. Scaled up so it registers as a charming focal accent.
@@ -455,7 +455,7 @@ function Dog({ x, z, opacity }) {
     const t = state.clock.elapsedTime;
     if (rootRef.current) {
       // slow grazing drift: the dog ambles a short distance over a long (~14s)
-      // loop, pads forward in little surges, then drifts back — reads as the
+      // loop, pads forward in little surges, then drifts back, reads as the
       // dog wandering the field rather than pivoting in place. Stays on terrain.
       const driftX = 0.5 * Math.sin(t * (2 * Math.PI / 14));
       const driftZ = 0.28 * Math.sin(t * (2 * Math.PI / 14) * 1.3 + 0.6);
@@ -652,7 +652,7 @@ export function SurveyScene({ opacity }) {
       const baseTilt = 0.03 * Math.sin(t * 1.3);
       // periodic plumb correction: a clear tilt-back every ~5s. A narrow
       // gaussian bump reads as the rodperson nudging the rod true, then
-      // settling — now at a higher amplitude so it reads in a quick glance.
+      // settling: now at a higher amplitude so it reads in a quick glance.
       const cyc = (t % 5.0) - 1.2; // peak ~1.2s into each cycle
       const bump = Math.exp(-(cyc * cyc) / 0.18);
       const correct = -0.085 * bump * Math.sin(t * 2.4);
@@ -727,7 +727,7 @@ export function SurveyScene({ opacity }) {
       <Tree x={4.0} z={0.55} scale={0.92} phase={5.3} opacity={opacity} />
       <Tree x={3.7} z={1.15} scale={0.74} phase={2.9} opacity={opacity} />
 
-      {/* drifting sky — settled lower and flatter, with some z-depth variation,
+      {/* drifting sky: settled lower and flatter, with some z-depth variation,
           so the band feels atmospheric and belongs above the terrain rather
           than floating as a detached layer */}
       <Cloud y={2.3} z={-2.2} speed={0.16} offset={0} scale={1.15} opacity={opacity} />
@@ -807,7 +807,7 @@ export function SurveyScene({ opacity }) {
       </group>
 
       {/* staked traverse hubs marching across the foreground bare path, tying
-          the station and rod stations together with bright flagging — reads as
+          the station and rod stations together with bright flagging, reads as
           a real survey line and uses the otherwise-empty center */}
       <SurveyStake x={-1.5} z={1.1} phase={0.0} flag={C.sunbeam} opacity={opacity} />
       <SurveyStake x={-0.55} z={1.0} phase={1.4} flag={C.ember} opacity={opacity} />

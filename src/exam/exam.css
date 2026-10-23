@@ -405,7 +405,7 @@
 
 
 /* ═══════════════════════════════════════
-   EXAM HUB (Purchased — Launch & History)
+   EXAM HUB (Purchased: Launch & History)
    ═══════════════════════════════════════ */
 
 .exam-hub {
@@ -776,7 +776,7 @@
 }
 
 /* Chapter breakdown */
-/* Pacing strip — time used and questions answered, above the chapter table */
+/* Pacing strip: time used and questions answered, above the chapter table */
 .er-stats {
   background: white;
   border-radius: var(--radius-xl);
@@ -926,7 +926,7 @@
 
 
 /* ═══════════════════════════════════════
-   EXAM SIM INLINE CTA (Dashboard — below chapters)
+   EXAM SIM INLINE CTA (Dashboard: below chapters)
    ═══════════════════════════════════════ */
 
 .exam-sim-inline {

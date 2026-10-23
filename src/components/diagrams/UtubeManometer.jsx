@@ -64,7 +64,7 @@ export function UtubeManometer({
   let hgLeftY, hgRightY;
   if (isDual) {
     // h1 = mercury above pipe on left (tank) side
-    // h2 = mercury above pipe on right (atm) side — taller column
+    // h2 = mercury above pipe on right (atm) side: taller column
     hgLeftY = pipeRefY - h1 * scale;
     hgRightY = pipeRefY - h2 * scale;
   } else {
@@ -140,7 +140,7 @@ export function UtubeManometer({
       <line x1={innerRL} y1={hgRightY} x2={innerRR} y2={hgRightY}
         stroke="var(--charcoal)" strokeWidth={2} />
 
-      {/* 4. Pipe stub — dual mode only */}
+      {/* 4. Pipe stub: dual mode only */}
       {isDual && (
         <>
           <line x1={pipeX} y1={pipeY - pipeBore / 2} x2={outerLL} y2={pipeY - pipeBore / 2}
@@ -170,7 +170,7 @@ export function UtubeManometer({
       {/* 6. Height dimensions */}
       {isDual ? (
         <>
-          {/* h₁ — left of pipe, from pipe connection to left mercury surface */}
+          {/* h₁: left of pipe, from pipe connection to left mercury surface */}
           <DimensionLine
             x1={pipeX - 14} y1={pipeY}
             x2={pipeX - 14} y2={hgLeftY}
@@ -178,7 +178,7 @@ export function UtubeManometer({
           <DashedLine x1={pipeX - 22} y1={pipeY} x2={pipeX} y2={pipeY} />
           <DashedLine x1={pipeX - 22} y1={hgLeftY} x2={pipeX} y2={hgLeftY} />
 
-          {/* h₂ — right of right leg, from pipe connection level to mercury surface */}
+          {/* h₂: right of right leg, from pipe connection level to mercury surface */}
           <DimensionLine
             x1={outerRR + 18} y1={pipeY}
             x2={outerRR + 18} y2={hgRightY}
@@ -188,7 +188,7 @@ export function UtubeManometer({
         </>
       ) : (
         <>
-          {/* h dimension — between the two mercury surfaces */}
+          {/* h dimension: between the two mercury surfaces */}
           <DimensionLine
             x1={outerRR + 36} y1={hgRightY}
             x2={outerRR + 36} y2={hgLeftY}

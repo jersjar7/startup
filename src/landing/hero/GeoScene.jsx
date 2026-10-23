@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { C, Box, Member, Person, smoothstep } from './primitives';
 
-// FE topic: Geotechnical — solid stacked soil strata with a spread footing and
+// FE topic: Geotechnical: solid stacked soil strata with a spread footing and
 // column carried into the soil on driven piles, a groundwater table, and a
 // banded borehole core sample beside the block. The front-left corner is cut
 // away (stepped notch) so the driven pile group is exposed and "footing on
@@ -18,10 +18,10 @@ import { C, Box, Member, Person, smoothstep } from './primitives';
 // `wetColor` is the saturated tint used below the water table so the phreatic
 // zone reads as darker, wetter soil instead of a floating slab.
 const STRATA = [
-  { color: '#9b9183', wet: '#6f675b', H: 0.34 }, // topsoil — light tan, thin
-  { color: '#857a64', wet: '#5d5544', H: 0.5 },  // sand — warm gray-brown
-  { color: '#6a5f4c', wet: '#4a4234', H: 0.66 }, // clay — darker, thicker
-  { color: '#574d3d', wet: '#3e372b', H: 0.56 }, // stiff clay — deep brown
+  { color: '#9b9183', wet: '#6f675b', H: 0.34 }, // topsoil: light tan, thin
+  { color: '#857a64', wet: '#5d5544', H: 0.5 },  // sand: warm gray-brown
+  { color: '#6a5f4c', wet: '#4a4234', H: 0.66 }, // clay: darker, thicker
+  { color: '#574d3d', wet: '#3e372b', H: 0.56 }, // stiff clay: deep brown
   { color: '#4b4640', wet: '#363230', H: 0.5 },  // dense sand / weathered rock
 ];
 
@@ -84,7 +84,7 @@ export function GeoScene({ opacity }) {
   const footingTopY = topSurface + 0.16;
   const footingW = 2.0, footingD = 1.8;
 
-  // Groundwater table elevation — sits within the clay band (3rd layer down).
+  // Groundwater table elevation: sits within the clay band (3rd layer down).
   const wtY = layers.arr[2].y + layers.arr[2].H / 2;
 
   // Per-layer color: layers fully below the water table read as the wet tint;
@@ -168,7 +168,7 @@ export function GeoScene({ opacity }) {
   // A planted survey level: a tripod + instrument set up on the back-right
   // surface, sighting toward the footing column. The walking surveyor paces
   // near it. A thin forest line-of-sight laser locks the 'survey' read (a
-  // line, not an arrow — explicitly allowed).
+  // line, not an arrow, explicitly allowed).
   const instX = 2.55, instZ = -D / 2 + 0.5;            // planted level position
   const instY = topSurface + 0.16 + 0.92;              // instrument optical center
   const sightTarget = [0, footingTopY + 0.75, 0];      // aim at the steel column
@@ -238,7 +238,7 @@ export function GeoScene({ opacity }) {
 
     // Footing/column/pile group: slow consolidation creep + a perceptible dip on
     // each hammer blow (couples the rig's work to settlement). The signature
-    // geotech motion — kept tasteful, not bouncy: the footing eases down a hair
+    // geotech motion: kept tasteful, not bouncy: the footing eases down a hair
     // per blow with a tiny coupled tilt so the settlement is actually felt.
     if (settleRef.current) {
       const bob = -0.018 - 0.012 * (0.5 - 0.5 * Math.cos(t * (Math.PI * 2) / 8));
@@ -247,7 +247,7 @@ export function GeoScene({ opacity }) {
     }
 
     // Groundwater: each exposed waterline band reads as WET SOIL, not a neon
-    // stripe. 'Wet' comes through specular — a slow roughness shimmer wave — and
+    // stripe. 'Wet' comes through specular (a slow roughness shimmer wave) and
     // only the faintest water-teal glint, never a glowing blue band. The
     // saturated soil tint below wtY carries the zone; the WaterMarker triangle
     // labels the datum. A single very subtle glint sweeps the front band so the
@@ -357,7 +357,7 @@ export function GeoScene({ opacity }) {
       personRef.current.rotation.y = cur;
       // bob with stride (stronger so the walk reads at tile scale); during the
       // pause the surveyor briefly crouches to sight the planted level, then
-      // rises — reads as doing survey work rather than pacing.
+      // rises: reads as doing survey work rather than pacing.
       const stride = paused ? 0 : 0.045 * Math.abs(Math.sin(t * 6));
       // crouch dip: a gentle down-then-up over the pause window.
       const crouchU = paused ? (u - 0.46) / (0.58 - 0.46) : 0; // 0..1 across pause
@@ -384,7 +384,7 @@ export function GeoScene({ opacity }) {
       b.rotation.z = 0.4 * Math.sin(t * 12 + i * 1.3);
     }
 
-    // A lone hawk soars a slow, lazy circle high above the site — a calmer
+    // A lone hawk soars a slow, lazy circle high above the site, a calmer
     // layer of sky life distinct from the flapping flock. Wings held flat; the
     // body banks gently into the turn. 24s loop, large radius, stays in frame.
     if (hawkRef.current) {
@@ -455,7 +455,7 @@ export function GeoScene({ opacity }) {
     <group position={[0, 0.05, 0]}>
       {layerMeshes}
 
-      {/* Exposed inner faces of the cutaway — lifted in value so the embedded
+      {/* Exposed inner faces of the cutaway, lifted in value so the embedded
           piles are not lost in shadow against the trench wall. */}
       <mesh position={[notchXc, layers.arr[1].y, D / 2 - notchD + 0.005]} receiveShadow>
         <boxGeometry args={[notchW, STRATA[0].H + STRATA[1].H + STRATA[2].H, 0.02]} />
@@ -499,7 +499,7 @@ export function GeoScene({ opacity }) {
           on the front-right exposed face. */}
       <WaterMarker position={[W / 2 - 1.0, wtY + 0.26, D / 2 + 0.02]} opacity={opacity} />
 
-      {/* The footing + pile cap + driven pile group settle together under load —
+      {/* The footing + pile cap + driven pile group settle together under load,
           a slow consolidation creep plus a micro-dip on each hammer blow,
           driven in useFrame (replaces the old load arrow). */}
       <group ref={settleRef}>
@@ -509,7 +509,7 @@ export function GeoScene({ opacity }) {
         {pileXs.map((px) =>
           pileZs.map((pz, j) => (
             <React.Fragment key={`pile${px}-${j}`}>
-              {/* Pale concrete pile carrying the footing — front row a touch
+              {/* Pale concrete pile carrying the footing, front row a touch
                   brighter than the back row to read as depth, both pale enough
                   to pop off the lifted trench wall. */}
               <Member a={[px, pileTop, pz]} b={[px, pileBottom, pz]} radius={0.135} color={(pz === pileZs[0]) ? CONCRETE : CONCRETE_DK} opacity={opacity} />
@@ -530,13 +530,13 @@ export function GeoScene({ opacity }) {
           color={CONCRETE} opacity={opacity} metalness={0.04} roughness={0.95}
         />
 
-        {/* Spread footing (cast concrete) — warm off-white, high roughness, near
+        {/* Spread footing (cast concrete): warm off-white, high roughness, near
             zero metalness, with a stepped pedestal so it reads cast-in-place. */}
         <Box position={[0, footingTopY, 0]} size={[footingW, 0.3, footingD]} color={CONCRETE} opacity={opacity} metalness={0.03} roughness={0.95} />
         <Box position={[0, footingTopY + 0.2, 0]} size={[footingW - 0.5, 0.12, footingD - 0.5]} color={CONCRETE_DK} opacity={opacity} metalness={0.03} roughness={0.95} />
         {/* Steel baseplate at the column joint reads as a structural connection. */}
         <Box position={[0, footingTopY + 0.28, 0]} size={[0.66, 0.04, 0.66]} color={C.steel} opacity={opacity} metalness={0.6} roughness={0.4} />
-        {/* Column / pier — slimmer than the footing, steel so it contrasts the
+        {/* Column / pier: slimmer than the footing, steel so it contrasts the
             concrete below it. */}
         <Box position={[0, footingTopY + 0.3 + 0.45, 0]} size={[0.46, 0.9, 0.46]} color={C.steelLt} opacity={opacity} metalness={0.45} roughness={0.45} />
       </group>
@@ -631,7 +631,7 @@ export function GeoScene({ opacity }) {
         />
       </mesh>
 
-      {/* Surface vegetation — low-poly trees/shrubs that sway in the wind. */}
+      {/* Surface vegetation: low-poly trees/shrubs that sway in the wind. */}
       {trees.map((tr, i) => (
         <Tree
           key={`tree${i}`}
@@ -675,7 +675,7 @@ export function GeoScene({ opacity }) {
           return (
             <>
               {segs}
-              {/* Steel sampler half-tube around the back of the core — lighter
+              {/* Steel sampler half-tube around the back of the core, lighter
                   so it frames the bands without dominating them. */}
               <mesh position={[0, baseY + coreH / 2, 0]} castShadow>
                 <cylinderGeometry args={[0.185, 0.185, coreH, 24, 1, true, Math.PI * 0.35, Math.PI * 1.3]} />
@@ -707,7 +707,7 @@ export function GeoScene({ opacity }) {
 }
 
 // Downward-pointing groundwater-table triangle marker (filled triangle on a
-// thin slab) — the classic geotech waterline symbol. Honors `opacity`.
+// thin slab): the classic geotech waterline symbol. Honors `opacity`.
 function WaterMarker({ position, opacity }) {
   const geom = React.useMemo(() => {
     const shape = new THREE.Shape();
@@ -878,7 +878,7 @@ function PileDriver({ x, z, baseY, pileBottom, hammerRef, pileRef, drumRef, cabl
         </group>
       </group>
 
-      {/* Hoist cable from the crown sheave down to the ram top — length tracks
+      {/* Hoist cable from the crown sheave down to the ram top, length tracks
           the ram via cableRef (scale.y of a unit cylinder). */}
       <mesh ref={cableRef} position={[0, baseY + 0.8, 0.0]}>
         <cylinderGeometry args={[0.012, 0.012, 1, 6]} />
@@ -890,9 +890,9 @@ function PileDriver({ x, z, baseY, pileBottom, hammerRef, pileRef, drumRef, cabl
         <boxGeometry args={[railDX * 2 + 0.26, 0.16, 0.42]} />
         <meshStandardMaterial color={C.steelLt} metalness={0.55} roughness={0.5} transparent={trans} opacity={opacity} />
       </mesh>
-      {/* Heavy ram riding between the rails — lightened to steelLt with a thicker
+      {/* Heavy ram riding between the rails, lightened to steelLt with a thicker
           silhouette so it is not a black void on cream and the drop reads at
-          tile scale — animated via ref. */}
+          tile scale: animated via ref. */}
       <mesh ref={hammerRef} position={[0, baseY + 0.6, 0]} castShadow>
         <boxGeometry args={[railDX * 2 + 0.06, 0.46, 0.26]} />
         <meshStandardMaterial color={C.steelLt} metalness={0.8} roughness={0.36} transparent={trans} opacity={opacity} />
@@ -973,7 +973,7 @@ function CarriedTripod({ opacity = 1 }) {
 }
 
 // A planted survey level: a tripod standing on the surface with a small
-// telescope/level instrument on top, sighting toward the footing. Static —
+// telescope/level instrument on top, sighting toward the footing. Static,
 // the thin forest line-of-sight laser (built in the scene) emanates from its
 // optical center. Honors `opacity`.
 function SurveyLevel({ position, opacity = 1 }) {

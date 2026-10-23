@@ -36,7 +36,7 @@ const COLORS = {
   info: '#3B82B8',
 };
 
-/* A single time-series chart — bars (per-day counts) or an area line
+/* A single time-series chart, bars (per-day counts) or an area line
    (cumulative / level metrics). Self-contained SVG, on-brand, with a hover
    tooltip and a light grid. */
 export function Chart({ axis, data, type = 'bar', color = 'ember', label, fmt = (v) => v }) {
@@ -73,7 +73,7 @@ export function Chart({ axis, data, type = 'bar', color = 'ember', label, fmt = 
   const onMove = (e) => {
     if (!width) return;
     // The capture rect starts at x=pad.left, so the pointer offset (px) is
-    // already relative to the plot's left edge — map it straight onto the bars.
+    // already relative to the plot's left edge, map it straight onto the bars.
     const rect = e.currentTarget.getBoundingClientRect();
     const px = e.clientX - rect.left;
     const i = Math.max(0, Math.min(n - 1, Math.round((px / plotW) * (n - 1))));

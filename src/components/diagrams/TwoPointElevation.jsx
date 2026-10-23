@@ -3,7 +3,7 @@ import { polar, K, rad2deg } from './geo';
 import { ArrowMarkerDefs, DashedLine, AngleArc, DimensionLine, Label } from './primitives';
 
 /**
- * Double-triangle tower problem — two observation points measuring angles to tower top.
+ * Double-triangle tower problem: two observation points measuring angles to tower top.
  * Shows: vertical tower, ground with points A and B, dashed sight lines, angle arcs, 30 m dimension.
  * Does NOT show: tower height or distance from B to base (both unknowns).
  */
@@ -46,7 +46,7 @@ export function TwoPointElevation({ dist: separation = 30, angleA = 25, angleB =
       <DashedLine x1={bx} y1={groundY} x2={towerBaseX} y2={towerTopY}
         color="var(--gray-400)" strokeWidth={1.5} dasharray="6,4" />
 
-      {/* Angle arcs — sweep to visual angle of sight line, label with given angle */}
+      {/* Angle arcs: sweep to visual angle of sight line, label with given angle */}
       <AngleArc cx={ax} cy={groundY} radius={28}
         startAngle={0} endAngle={visAngleA}
         label={`${angleA}\u00b0`} />

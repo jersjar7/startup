@@ -208,7 +208,7 @@ export function DiagnosticExam({ userName }) {
               </div>
 
               <div className="dx-intro-tips">
-                <p>Skip questions freely — blank answers tell us where to help you.</p>
+                <p>Skip questions freely. Blank answers tell us where to help you.</p>
                 <p>You earn 10 XP per question attempted + 5 XP bonus per correct answer.</p>
                 <p>Your results personalize your study plan and set your starting mastery bars.</p>
               </div>

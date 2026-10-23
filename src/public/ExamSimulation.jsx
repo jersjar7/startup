@@ -12,14 +12,14 @@ import './public.css';
 
 const SITE = 'https://fe4raccoons.com';
 
-// OUR simulation's timing, which is not the same as EXAM_FACTS.durationLabel —
+// OUR simulation's timing, which is not the same as EXAM_FACTS.durationLabel,
 // that describes the real NCEES appointment (6 hours including tutorial and
 // survey). The simulation is the testing time plus the scheduled break. Saying
 // "6 hours" here would overstate what the customer actually sits.
 const SIM_DURATION = '5 hours 20 minutes of testing, plus the scheduled 25-minute break';
 
 // The public page for the only paid product. It exists because there was no way
-// to read about the Exam Simulation without signing up first — a professor, or
+// to read about the Exam Simulation without signing up first, a professor, or
 // anyone arriving from social, had to create an account to find out what it is.
 //
 // Its job is CONVERSION, not ranking. The commercial query it would target
@@ -29,7 +29,7 @@ const SIM_DURATION = '5 hours 20 minutes of testing, plus the scheduled 25-minut
 //
 // Every number here is derived from the same source the product uses, so the
 // page cannot drift from what customers actually receive. It is also built from
-// the shared public.css components rather than bespoke classes — the first
+// the shared public.css components rather than bespoke classes, the first
 // draft invented its own class names, none of which existed, and shipped as
 // unstyled markup.
 
@@ -44,7 +44,7 @@ const FAQ = [
   },
   {
     q: 'How much does the exam simulation cost?',
-    a: `$${STANDARD_PRICE} standard, or $${STUDENT_PRICE} for verified students with a .edu email. One time, no subscription. Everything else on FE for Raccoons — the lessons, the ${PROBLEM_COUNT_LABEL} practice problems and the diagnostic — is free.`,
+    a: `$${STANDARD_PRICE} standard, or $${STUDENT_PRICE} for verified students with a .edu email. One time, no subscription. Everything else on FE for Raccoons (the lessons, the ${PROBLEM_COUNT_LABEL} practice problems and the diagnostic) is free.`,
   },
   {
     q: 'Can I try it before paying?',
@@ -63,7 +63,7 @@ const FAQ = [
 export function ExamSimulation() {
   const topics = allTopics();
   const url = `${SITE}/exam-simulation`;
-  const title = 'FE Civil Exam Simulation — Full 110-Question Timed Practice Exam | FE for Raccoons';
+  const title = 'FE Civil Exam Simulation: Full 110-Question Timed Practice Exam | FE for Raccoons';
   const description = `A full-length, timed FE Civil practice exam: 110 questions matched to the NCEES topic distribution, ${SIM_DURATION}, with a chapter-by-chapter score report. $${STANDARD_PRICE}, or $${STUDENT_PRICE} for students. Everything else on the platform is free.`;
 
   const jsonLd = [
@@ -143,7 +143,7 @@ export function ExamSimulation() {
           <li><span>Price</span><strong>${STANDARD_PRICE}, or ${STUDENT_PRICE} for students</strong></li>
         </ul>
         <p className="pub-note">
-          Everything else on FE for Raccoons is free — the lessons, the{' '}
+          Everything else on FE for Raccoons is free: the lessons, the{' '}
           {PROBLEM_COUNT_LABEL} practice problems and the diagnostic. This is the
           only thing that costs money.
         </p>
@@ -342,7 +342,7 @@ export function ExamSimulation() {
 
       <p className="pub-note">
         New to the exam? Start with the{' '}
-        <Link to="/fe-civil-exam-guide">FE Civil exam guide</Link> — format,
+        <Link to="/fe-civil-exam-guide">FE Civil exam guide</Link> for the format,
         topics and free study resources for all 15 areas.
       </p>
     </main>

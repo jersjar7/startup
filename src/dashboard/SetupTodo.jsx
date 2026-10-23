@@ -27,9 +27,9 @@ export function SetupTodo({ emailVerified, hasName, hasExam }) {
       const res = await fetch('/api/auth/resend-verification', { method: 'POST' });
       if (res.ok) setSent(true);
       else if (res.status === 429) setErr('Wait a minute, then try again.');
-      else setErr("Couldn't send — try again shortly.");
+      else setErr("Couldn't send. Try again shortly.");
     } catch {
-      setErr('Network error — try again.');
+      setErr('Network error. Try again.');
     } finally {
       setResending(false);
     }
@@ -42,7 +42,7 @@ export function SetupTodo({ emailVerified, hasName, hasExam }) {
         Set up your account
         <span className="setup-todo-count">{count}</span>
       </h3>
-      <p className="setup-todo-sub">Quick logistics — they keep your account and reminders working.</p>
+      <p className="setup-todo-sub">Quick logistics. They keep your account and reminders working.</p>
 
       <ul className="setup-todo-list">
         {needEmail && (
@@ -51,7 +51,7 @@ export function SetupTodo({ emailVerified, hasName, hasExam }) {
             <div className="setup-todo-body">
               <span className="setup-todo-label">Verify your email</span>
               {sent ? (
-                <span className="setup-todo-note setup-todo-note--ok">Sent — check your inbox.</span>
+                <span className="setup-todo-note setup-todo-note--ok">Sent. Check your inbox.</span>
               ) : err ? (
                 <span className="setup-todo-note setup-todo-note--err">{err}</span>
               ) : (

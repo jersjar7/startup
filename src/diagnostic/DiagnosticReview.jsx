@@ -103,7 +103,7 @@ export function DiagnosticReview({ userName }) {
               const isSkipped = !q.selectedAnswerId;
 
               // Resolve the full problem (statement/choices/eli5/steps) by id
-              // across all pools — diagnostic questions come from the exam bank.
+              // across all pools: diagnostic questions come from the exam bank.
               const examProblem = getProblemById(q.questionId);
 
               // Fallback: try to build choice text from stored data

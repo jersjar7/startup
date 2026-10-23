@@ -7,7 +7,7 @@ const PRINCIPLES = [
     Icon: Target,
     accent: 'ember',
     title: 'Recall, don’t just read',
-    body: 'You earn mastery by answering correctly from memory. Pulling the answer out of your own head — not recognizing it on the page — is the rep that actually sticks.',
+    body: 'You earn mastery by answering correctly from memory. Pulling the answer out of your own head (not recognizing it on the page) is the rep that actually sticks.',
   },
   {
     Icon: ArrowsClockwise,
@@ -25,7 +25,7 @@ const PRINCIPLES = [
     Icon: Compass,
     accent: 'ember',
     title: 'We point you where it counts',
-    body: 'Focus Areas surfaces the chapters that move your score the most — weighted by how often each one shows up on the FE Civil exam — so your time goes where it pays off.',
+    body: 'Focus Areas surfaces the chapters that move your score the most, weighted by how often each one shows up on the FE Civil exam, so your time goes where it pays off.',
   },
 ];
 
@@ -49,7 +49,7 @@ export function ScoringModal({ open, onClose }) {
         <p className="scoring-overline">Built on how people actually learn</p>
         <h2 className="scoring-title">How your mastery is scored</h2>
         <p className="scoring-lede">
-          We built FE for Raccoons on real learning science — not on how many problems you click.
+          We built FE for Raccoons on real learning science, not on how many problems you click.
           Here’s what actually moves your concept mastery.
         </p>
 
@@ -69,7 +69,7 @@ export function ScoringModal({ open, onClose }) {
           <Heart weight="fill" size={18} />
           <p>
             <strong>And the rule that matters most: any studying beats none.</strong> A five-minute
-            session still moves you forward. Study in whatever way fits your life — we’ll meet you
+            session still moves you forward. Study in whatever way fits your life. We’ll meet you
             there and help you make every minute count.
           </p>
         </div>

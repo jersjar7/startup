@@ -93,7 +93,7 @@ export function CoordinatePolygon({
       {/* 3. Vertex dots and labels */}
       {vertices.map((v, i) => {
         const p = pts[i];
-        // Smart label placement — offset away from polygon centroid
+        // Smart label placement: offset away from polygon centroid
         const cx = pts.reduce((s, pt) => s + pt.sx, 0) / pts.length;
         const cy = pts.reduce((s, pt) => s + pt.sy, 0) / pts.length;
         const dx = p.sx - cx;

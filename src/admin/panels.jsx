@@ -244,8 +244,8 @@ export function RevenuePanel({ ts, m, metrics, pitchStats, recent, openInfo, set
               <div key={i} className="recent-purchase-row">
                 <span className="recent-email">{p.emailMasked}</span>
                 <span>${(p.amount / 100).toFixed(2)}</span>
-                <span className="recent-muted">{p.tier || '—'}</span>
-                <span className="recent-muted">{p.createdAt ? new Date(p.createdAt).toLocaleDateString() : '—'}</span>
+                <span className="recent-muted">{p.tier || 'None'}</span>
+                <span className="recent-muted">{p.createdAt ? new Date(p.createdAt).toLocaleDateString() : 'Unknown'}</span>
               </div>
             ))}
           </div>
@@ -289,11 +289,11 @@ export function UsersPanel({ recent, lookup, setLookup, onLookup, emailStatus })
             <span className="recent-num">{(recent.total || (recent.users || []).length) - i}</span>
             <span className="recent-email">{u.emailMasked}</span>
             <span>{fmtJoined(u.createdAt)}</span>
-            <span>{u.emailVerified ? <CheckCircle weight="fill" size={15} className="recent-ok" /> : <span className="recent-muted">—</span>}</span>
-            <span>{u.activated ? <CheckCircle weight="fill" size={15} className="recent-ok" /> : <span className="recent-muted">—</span>}</span>
+            <span>{u.emailVerified ? <CheckCircle weight="fill" size={15} className="recent-ok" /> : <span className="recent-muted">No</span>}</span>
+            <span>{u.activated ? <CheckCircle weight="fill" size={15} className="recent-ok" /> : <span className="recent-muted">No</span>}</span>
             <span>{u.chaptersMapped}/15</span>
             <span>{u.totalXp}</span>
-            <span>{u.purchased ? <CheckCircle weight="fill" size={15} className="recent-paid" /> : <span className="recent-muted">—</span>}</span>
+            <span>{u.purchased ? <CheckCircle weight="fill" size={15} className="recent-paid" /> : <span className="recent-muted">No</span>}</span>
           </div>
         ))}
         {recent && (recent.users || []).length === 0 && <div className="recent-empty">No users yet.</div>}
@@ -316,15 +316,15 @@ export function UsersPanel({ recent, lookup, setLookup, onLookup, emailStatus })
 
 export function UserCard({ u, onClose }) {
   const fields = [
-    ['Name', [u.firstName, u.lastName].filter(Boolean).join(' ') || '—'],
-    ['Joined', u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '—'],
+    ['Name', [u.firstName, u.lastName].filter(Boolean).join(' ') || 'Not set'],
+    ['Joined', u.createdAt ? new Date(u.createdAt).toLocaleDateString() : 'Unknown'],
     ['Verified', u.emailVerified ? 'Yes' : 'No'],
-    ['Exam date', u.examDate || '—'],
+    ['Exam date', u.examDate || 'Not set'],
     ['XP', u.totalXp],
     ['Days studied', `${u.currentStreak}`],
     ['Chapters mapped', `${u.chaptersMapped}/15`],
     ['Activated', u.activatedAt ? new Date(u.activatedAt).toLocaleDateString() : 'No'],
-    ['Exam sim', u.examSimAccess ? 'Purchased' : '—'],
+    ['Exam sim', u.examSimAccess ? 'Purchased' : 'Not purchased'],
   ];
   return (
     <div className="user-card">
@@ -341,7 +341,7 @@ export function UserCard({ u, onClose }) {
       {u.purchases && u.purchases.length > 0 && (
         <div className="user-card-purchases">
           {u.purchases.map((p, i) => (
-            <div key={i}>${(p.amount / 100).toFixed(2)} · {p.tier || '—'} · {p.status}{p.createdAt ? ` · ${new Date(p.createdAt).toLocaleDateString()}` : ''}{p.comp ? ' · complimentary (not a sale)' : ''}{p.uncollected ? ' · not collected (excluded from revenue)' : ''}</div>
+            <div key={i}>${(p.amount / 100).toFixed(2)} · {p.tier || 'no tier'} · {p.status}{p.createdAt ? ` · ${new Date(p.createdAt).toLocaleDateString()}` : ''}{p.comp ? ' · complimentary (not a sale)' : ''}{p.uncollected ? ' · not collected (excluded from revenue)' : ''}</div>
           ))}
         </div>
       )}

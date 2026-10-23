@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowMarkerDefs, Label, DimensionLine } from './primitives';
 
 /**
- * Hydraulic jump longitudinal profile — side view of flow transition.
+ * Hydraulic jump longitudinal profile, side view of flow transition.
  *
  * Shows: shallow supercritical flow (y1) transitioning to deep subcritical flow (y2),
  *        turbulent zone, flow direction arrows, channel bottom.
@@ -22,7 +22,7 @@ export function HydraulicJump({
   const rightX = 380;
   const jumpX = 180;      // where the jump starts
 
-  // Scale depths — y2 is approximately y1/2 * (-1 + sqrt(1+8Fr^2))
+  // Scale depths: y2 is approximately y1/2 * (-1 + sqrt(1+8Fr^2))
   // We compute it for proportional drawing only
   const y2Est = (y1 / 2) * (-1 + Math.sqrt(1 + 8 * Fr1 * Fr1));
   const maxDepth = Math.max(y2Est, y1);
@@ -88,7 +88,7 @@ export function HydraulicJump({
       <DimensionLine x1={leftX + 10} y1={botY} x2={leftX + 10} y2={waterY1}
         label={`y\u2081 = ${y1} m`} offset={-24} fontSize={9} />
 
-      {/* 8. Depth dimension y2 (right) — label only "y₂ = ?" */}
+      {/* 8. Depth dimension y2 (right): label only "y₂ = ?" */}
       <DimensionLine x1={rightX - 10} y1={botY} x2={rightX - 10} y2={waterY2}
         label={'y\u2082 = ?'} offset={18} fontSize={9} />
 

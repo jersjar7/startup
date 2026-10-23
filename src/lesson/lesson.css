@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════
-   LESSON PAGE — Full-screen practice
+   LESSON PAGE: Full-screen practice
    ═══════════════════════════════════════ */
 
 /* Override main padding for lesson page */
@@ -113,7 +113,7 @@
 }
 
 
-/* ═══ LEFT COLUMN — Engineering Paper ═══ */
+/* ═══ LEFT COLUMN: Engineering Paper ═══ */
 .lesson-left {
   background-color: #FDFCF8;
   background-image:
@@ -222,7 +222,7 @@
   font-family: var(--font-body);
 }
 
-/* Pointer devices only — prevents "sticky hover" on touch, where the tapped
+/* Pointer devices only: prevents "sticky hover" on touch, where the tapped
    choice keeps the ember highlight and looks pre-selected. */
 @media (hover: hover) {
   .lesson-choice:hover:not(.lesson-choice--disabled) {
@@ -394,7 +394,7 @@
 }
 
 
-/* ═══ RIGHT COLUMN — Resource Panels ═══ */
+/* ═══ RIGHT COLUMN: Resource Panels ═══ */
 .lesson-right {
   background: white;
   overflow-y: auto;

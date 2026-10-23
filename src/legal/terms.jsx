@@ -74,8 +74,8 @@ export function Terms() {
         <section className="legal-section">
           <h2>5. Intellectual Property</h2>
           <p>
-            All original content on the Platform — including lessons, practice problems, illustrations,
-            and user interface design — is the property of FE for Raccoons and is protected by
+            All original content on the Platform (including lessons, practice problems, illustrations,
+            and user interface design) is the property of FE for Raccoons and is protected by
             copyright law. References to the FE Reference Handbook and exam specifications are the
             intellectual property of NCEES. FE for Raccoons is not affiliated with, endorsed by, or
             sponsored by NCEES.

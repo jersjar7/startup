@@ -59,7 +59,7 @@ export function BaselineOffsets({
     return d;
   })();
 
-  // Shaded area path — curve + baseline close
+  // Shaded area path: curve + baseline close
   const areaPath = curvePath +
     ` L ${pts[pts.length - 1].x},${baseY}` +
     ` L ${pts[0].x},${baseY} Z`;
@@ -100,7 +100,7 @@ export function BaselineOffsets({
         </g>
       ))}
 
-      {/* 5. Spacing dimension — between first two offsets */}
+      {/* 5. Spacing dimension: between first two offsets */}
       {n >= 2 && (
         <>
           <line x1={pts[0].x} y1={baseY + 18} x2={pts[1].x} y2={baseY + 18}

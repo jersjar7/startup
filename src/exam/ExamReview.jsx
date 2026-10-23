@@ -113,7 +113,7 @@ export function ExamReview({ userName }) {
 
         {orderedChapters.length === 0 && (
           <div className="drev-card" style={{ textAlign: 'center' }}>
-            <CheckCircle size={20} weight="fill" style={{ color: 'var(--forest)' }} /> Nothing to review here — nice work.
+            <CheckCircle size={20} weight="fill" style={{ color: 'var(--forest)' }} /> Nothing to review here. Nice work.
           </div>
         )}
 

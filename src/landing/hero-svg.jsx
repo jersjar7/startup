@@ -181,7 +181,7 @@ export function TopicLabel() {
       const currentPhase = Math.min(Math.floor(posInCycle / PHASE), 4);
 
       if (currentPhase !== lastPhase) {
-        // Phase changed — fade out, swap text, fade in
+        // Phase changed: fade out, swap text, fade in
         setVisible(false);
         setTimeout(() => {
           setIndex(currentPhase);

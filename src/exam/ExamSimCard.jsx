@@ -49,7 +49,7 @@ export function ExamSimCard() {
 
   if (purchased === null) return null;
 
-  // Not purchased — subtle inline CTA, no price shown
+  // Not purchased: subtle inline CTA, no price shown
   if (!purchased) {
     return (
       <button
@@ -65,7 +65,7 @@ export function ExamSimCard() {
     );
   }
 
-  // Purchased — show status
+  // Purchased: show status
   return (
     <button className="exam-sim-inline exam-sim-inline--owned" onClick={() => navigate('/exam')}>
       <Exam size={18} weight="bold" className="exam-sim-inline-icon" />

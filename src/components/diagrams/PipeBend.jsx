@@ -26,7 +26,7 @@ export function PipeBend({
   const inletLen = 110;
   const outletLen = 100;
 
-  // Bend point — where the pipe centerline begins to curve
+  // Bend point: where the pipe centerline begins to curve
   const bcx = 155;
   const bcy = 80;
   const bendR = 50;

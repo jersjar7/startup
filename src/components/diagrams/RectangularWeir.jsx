@@ -2,7 +2,7 @@ import React from 'react';
 import { DimensionLine, Label } from './primitives';
 
 /**
- * Rectangular weir — side view showing water flowing over a crest.
+ * Rectangular weir: side view showing water flowing over a crest.
  *
  * Shows: weir wall, upstream water, nappe (curved water sheet),
  *        crest label, head H dimension, crest length L note.
@@ -47,7 +47,7 @@ export function RectangularWeir({
       <rect x={weirX} y={weirTop} width={weirW} height={weirH}
         fill="var(--gray-200)" stroke="var(--charcoal)" strokeWidth={2} />
 
-      {/* 4. Nappe (curved water sheet — top from water surface, bottom from crest) */}
+      {/* 4. Nappe (curved water sheet: top from water surface, bottom from crest) */}
       {(() => {
         const nX = weirX + weirW;
         const dropY = botY;

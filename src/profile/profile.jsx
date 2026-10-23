@@ -419,7 +419,7 @@ export function Profile({ userName, onLogout }) {
             </div>
           </div>
           <p className="details-hint">
-            Shown as <strong>{previewName}</strong> in Live Activity — other students never see your email.
+            Shown as <strong>{previewName}</strong> in Live Activity. Other students never see your email.
           </p>
 
           <div className="details-row">
@@ -524,7 +524,7 @@ export function Profile({ userName, onLogout }) {
             <span className="profile-label">Exam Simulation</span>
             <span className="profile-value">
               <Link to="/exam" style={{ color: 'var(--ember)', fontWeight: 600, textDecoration: 'none' }}>
-                Not purchased — ${priceForEmail(userName)}
+                Not purchased (${priceForEmail(userName)})
               </Link>
             </span>
           </div>

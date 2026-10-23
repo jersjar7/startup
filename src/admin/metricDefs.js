@@ -19,19 +19,19 @@ export function buildMetrics(snap) {
     },
     activationRate: {
       id: 'activationRate', icon: Compass, label: 'Activation rate', accent: 'ember',
-      value: snap.activationRate != null ? `${snap.activationRate}%` : '—',
+      value: snap.activationRate != null ? `${snap.activationRate}%` : 'No data',
       desc: 'Of the people who signed up since the quick-start launched, the share who actually started it (answered at least one quick-start question). Your honest "are new users engaging, not just registering?" number.',
       example: '20 people signed up since launch and 5 of them answered a quick-start question, so 5 ÷ 20 = 25%.',
     },
     cohortActivated: {
       id: 'cohortActivated', icon: Users, label: 'Activated · since launch', accent: 'forest',
-      value: snap.cohortSignups != null ? `${snap.cohortActivated}/${snap.cohortSignups}` : '—',
+      value: snap.cohortSignups != null ? `${snap.cohortActivated}/${snap.cohortSignups}` : 'No data',
       desc: 'The two raw numbers behind the activation rate: people who started the quick-start ÷ everyone who signed up since launch.',
       example: 'Shown as 5/20, so 5 of the 20 post-launch signups have started. That fraction is the activation rate.',
     },
     medianStart: {
       id: 'medianStart', icon: Timer, label: 'Median time to start', accent: 'info',
-      value: snap.activationMedianMinutes != null ? `${snap.activationMedianMinutes} min` : '—',
+      value: snap.activationMedianMinutes != null ? `${snap.activationMedianMinutes} min` : 'No data',
       desc: 'Among users who activated, the typical wait between signing up and answering their first question. It is the median (the middle person), so one slow returner cannot skew the number.',
       example: 'If activators waited 2, 6, and 40 minutes, the median is 6 min. Half started faster, half slower. Lower is better.',
     },

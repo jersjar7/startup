@@ -24,13 +24,13 @@ import { trackPitch } from '../exam/trackPitch';
 // 8 buyers had answered 45+ before purchasing, yet tuning to 45 would be
 // overfitting 8 data points. Only 1 of 8 buyers was below 25, so 25 costs
 // almost nothing in precision and nearly doubles reach.
-// Gate logic lives in simPitchGate.js so it can be unit tested — it decides the
+// Gate logic lives in simPitchGate.js so it can be unit tested, it decides the
 // reach of the only paid product.
 const DISMISS_KEY = 'fe4r-sim-banner-snoozed';
 
 // "Maybe later" snooze TIGHTENS as the exam nears, but never below a day: relaxed
 // early (3 days), a gentle daily nudge inside the final two weeks. A 24h floor keeps
-// it a reminder, not a nag — the trust behind "core is free" is worth more than a
+// it a reminder, not a nag, the trust behind "core is free" is worth more than a
 // few extra impressions.
 function snoozeMs(daysLeft) {
   // No exam date means no deadline pressure, so use the relaxed cadence.
@@ -70,7 +70,7 @@ function pitchFor(daysLeft) {
   }
   if (daysLeft >= 7) {
     return {
-      lead: `Test week is close — ${daysLeft} days out.`,
+      lead: `Test week is close: ${daysLeft} days out.`,
       body: 'Do one complete run under real conditions so the format, the clock, and the fatigue are familiar, not a surprise on exam day.',
       urgent: true,
     };

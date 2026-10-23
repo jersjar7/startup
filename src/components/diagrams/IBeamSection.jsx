@@ -51,7 +51,7 @@ export function IBeamSection({ depth = 300, flangeW = 150, flangeT = 20, webT = 
       <RectShape x={ox} y={botFlangeTop} width={sFW} height={sFT}
         fill="var(--cream-dark)" />
 
-      {/* Neutral axis (dashed) — stop before depth dimension */}
+      {/* Neutral axis (dashed): stop before depth dimension */}
       <DashedLine x1={ox - 15} y1={naY} x2={ox + sFW + 15} y2={naY}
         color="var(--gray-400)" dasharray="5,3" />
       <Label x={ox + sFW + 20} y={naY} anchor="start" fontSize={10} italic
@@ -59,7 +59,7 @@ export function IBeamSection({ depth = 300, flangeW = 150, flangeT = 20, webT = 
         NA
       </Label>
 
-      {/* Junction marker — dashed horizontal at flange-web interface */}
+      {/* Junction marker: dashed horizontal at flange-web interface */}
       <DashedLine x1={webLeft - 8} y1={topFlangeBot} x2={webRight + 8} y2={topFlangeBot}
         color="var(--ember)" strokeWidth={1} dasharray="3,2" />
       <circle cx={cx} cy={topFlangeBot} r={2.5} fill="var(--ember)" />
@@ -80,7 +80,7 @@ export function IBeamSection({ depth = 300, flangeW = 150, flangeT = 20, webT = 
       <DimensionLine x1={ox - 16} y1={topFlangeBot} x2={ox - 16} y2={topFlangeTop}
         label={`${flangeT}`} offset={-18} />
 
-      {/* Web thickness — leader arrow pointing to web edge + label */}
+      {/* Web thickness: leader arrow pointing to web edge + label */}
       <ForceArrow x1={webLabelX} y1={webLabelY} x2={webRight + 2} y2={webLabelY}
         color="var(--gray-500)" strokeWidth={1} markerId="arrowGray" />
       <Label x={webLabelX + 4} y={webLabelY} anchor="start" fontSize={11}

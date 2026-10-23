@@ -38,7 +38,7 @@
   box-shadow: var(--shadow-card);
 }
 
-/* Figures stay companion-sized — uncapped they pushed every answer choice
+/* Figures stay companion-sized: uncapped they pushed every answer choice
    below the fold at 1440x900. Left-aligned per the brand rule. */
 .prob-diagram {
   max-width: 540px;

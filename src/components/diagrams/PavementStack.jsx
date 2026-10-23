@@ -2,7 +2,7 @@ import React from 'react';
 import { DimensionLine, Label } from './primitives';
 
 /**
- * Flexible pavement cross-section — stacked layers.
+ * Flexible pavement cross-section: stacked layers.
  *
  * Shows: surface, base, and subbase layers with thickness labels,
  * layer coefficient annotations, and drainage coefficients.
@@ -83,7 +83,7 @@ export function PavementStack({
         Subgrade
       </Label>
 
-      {/* Thickness dimensions — right side, bottom-to-top */}
+      {/* Thickness dimensions: right side, bottom-to-top */}
       <DimensionLine
         x1={right + 20} y1={surfBot}
         x2={right + 20} y2={surfTop}
@@ -102,7 +102,7 @@ export function PavementStack({
         label={`D\u2083 = ${subbase.D} ${unit}`}
         offset={24} fontSize={8} />
 
-      {/* Layer coefficient annotations — left side */}
+      {/* Layer coefficient annotations: left side */}
       <Label x={left - 10} y={surfTop + surfH / 2}
         fontSize={8} color="var(--gray-500)" anchor="end">
         a{'\u2081'} = {surface.a}

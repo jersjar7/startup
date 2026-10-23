@@ -290,7 +290,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
           <h2>Nothing to review</h2>
           <p>
             Review is just your mistakes. Miss a problem and it shows up here to re-practice;
-            get it right twice and it graduates for good. Keep studying new material — reviews
+            get it right twice and it graduates for good. Keep studying new material. Reviews
             only build up from what you actually got wrong.
           </p>
         </section>
@@ -316,7 +316,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
         </div>
         <section className="summary-card">
           <h2>Chapter practice problems coming soon</h2>
-          <p>In the meantime, practice individual lessons from the chapter page — each lesson has 3 practice problems.</p>
+          <p>In the meantime, practice individual lessons from the chapter page. Each lesson has 3 practice problems.</p>
         </section>
         <div className="summary-actions">
           <button className="btn-primary" onClick={() => navigate(`/study/${topicId}`)}>
@@ -397,7 +397,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
                 <h3 className="recommend-title">Focus on {recommendation.ch.name}</h3>
                 <p className="recommend-text">
                   {recommendation.masteryPct > 0 ? `${recommendation.masteryPct}% mastery` : 'Not started yet'}
-                  {' '}— one of your biggest score opportunities on the exam.
+                  {', '}one of your biggest score opportunities on the exam.
                 </p>
                 <button className="btn-primary recommend-btn" onClick={() => navigate(`/study/${recommendation.ch.id}`)}>
                   Study {recommendation.ch.name}
@@ -456,7 +456,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
       </div>
 
       <section className="progress-bar-section">
-        {/* segmented like the mobile session header — a continuous empty bar
+        {/* segmented like the mobile session header, a continuous empty bar
             read as a skeleton at problem 1 */}
         <div className="progress-segments">
           {problems.map((_, i) => (
@@ -516,7 +516,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
         ) : (
           <div className="feedback-section">
             <div className={`feedback-banner ${isCorrect ? 'correct' : 'incorrect'}`}>
-              {isCorrect ? 'Correct! +10 XP' : `Incorrect — the answer is ${correctLabel}. +5 XP`}
+              {isCorrect ? 'Correct! +10 XP' : `Incorrect. The answer is ${correctLabel}. +5 XP`}
             </div>
 
             {/* Rich feedback for chapter-practice problems */}

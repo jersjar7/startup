@@ -7,7 +7,7 @@ export function MathText({ text }) {
   // Normalize \(...\) delimiters to $...$ before splitting
   const normalized = text.replace(/\\\((.+?)\\\)/g, (_, m) => `$${m}$`);
 
-  // Split on $...$ delimiters — odd indices are math, even are plain text
+  // Split on $...$ delimiters, odd indices are math, even are plain text
   const parts = normalized.split(/\$([^$]+)\$/g);
 
   return (
@@ -15,7 +15,7 @@ export function MathText({ text }) {
       {parts.map((part, i) => {
         if (i % 2 === 1) {
           // Plain numeric values (no real math notation) read better in the
-          // brand's mono than in KaTeX's serif — matches the phone app.
+          // brand's mono than in KaTeX's serif, matches the phone app.
           const isPlainValue =
             /\d/.test(part) && // must be a value, not a lone variable
             /^[\d\s.,+\-%():\/a-zA-Z°·]*$/.test(part) &&
@@ -28,7 +28,7 @@ export function MathText({ text }) {
               </span>
             );
           }
-          // Math segment — render with KaTeX
+          // Math segment: render with KaTeX
           try {
             const html = katex.renderToString(part, { throwOnError: false });
             return <span key={i} dangerouslySetInnerHTML={{ __html: html }} />;
@@ -36,7 +36,7 @@ export function MathText({ text }) {
             return <code key={i}>{part}</code>;
           }
         }
-        // Plain text — clean up stray LaTeX artifacts and preserve newlines
+        // Plain text: clean up stray LaTeX artifacts and preserve newlines
         const cleaned = part.replace(/\{,\}/g, ',');
         return cleaned.split('\n').map((line, j) => (
           <span key={`${i}-${j}`}>

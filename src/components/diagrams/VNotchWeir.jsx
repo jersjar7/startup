@@ -2,7 +2,7 @@ import React from 'react';
 import { AngleArc, DimensionLine, Label } from './primitives';
 
 /**
- * V-notch weir — front view showing the triangular notch and head.
+ * V-notch weir: front view showing the triangular notch and head.
  *
  * Shows: flat plate, 90° V-notch cut (vertex at bottom, opening upward),
  *        water level through the notch, head H from vertex to water surface,
@@ -27,7 +27,7 @@ export function VNotchWeir({
 
   const cx = W / 2;
 
-  // V-notch geometry — vertex at BOTTOM, opens upward
+  // V-notch geometry: vertex at BOTTOM, opens upward
   const halfAngle = (angle / 2) * Math.PI / 180;
   const notchDepth = 80;
   const notchHalfW = notchDepth * Math.tan(halfAngle);
@@ -47,7 +47,7 @@ export function VNotchWeir({
       <rect x={plateX} y={plateY} width={plateW} height={plateH}
         fill="var(--gray-100)" stroke="var(--charcoal)" strokeWidth={2} rx={2} />
 
-      {/* 2. V-notch cut (cream to show opening) — vertex at bottom */}
+      {/* 2. V-notch cut (cream to show opening), vertex at bottom */}
       <path d={`M ${cx},${vertexY}
         L ${cx - notchHalfW},${notchTopY}
         L ${cx + notchHalfW},${notchTopY} Z`}

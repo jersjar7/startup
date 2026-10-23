@@ -21,7 +21,7 @@ import { localDate } from '../data/localDate';
 import { restoreAnswers } from './restoreAnswers';
 
 const TIME_LIMIT = 5 * 3600 + 20 * 60; // 5h 20min in seconds
-const BREAK_AFTER_QUESTION = 55; // Halfway through — like the real FE exam
+const BREAK_AFTER_QUESTION = 55; // Halfway through, like the real FE exam
 const BREAK_DURATION = 25 * 60; // 25 minutes in seconds
 
 function shuffleArray(arr) {
@@ -73,9 +73,9 @@ export function ExamSession({ userName, preview = false }) {
   // submitted single-digit answer counts because of it.
   //
   // Two layers:
-  //   1. localStorage, written synchronously on every change — instant, and
+  //   1. localStorage, written synchronously on every change, instant, and
   //      covers the gap before the next network flush plus offline moments.
-  //   2. a debounced PATCH to the server — authoritative, survives clearing
+  //   2. a debounced PATCH to the server, authoritative, survives clearing
   //      site data or switching device.
   // The server MERGES, so neither layer can blank out the other.
   const dirtyRef = React.useRef(false);
@@ -124,7 +124,7 @@ export function ExamSession({ userName, preview = false }) {
         answerTimes: answerTimesRef.current,
         savedAt: Date.now(),
       }));
-    } catch { /* storage full or blocked — the server flush still covers us */ }
+    } catch { /* storage full or blocked, the server flush still covers us */ }
   }, [userAnswers, currentIndex, flagged, breakTaken, attemptId, preview]);
 
   React.useEffect(() => { attemptIdRef.current = attemptId; }, [attemptId]);
@@ -172,7 +172,7 @@ export function ExamSession({ userName, preview = false }) {
     return () => clearInterval(t);
   }, [phase, preview, flushProgress]);
 
-  // Flush when the tab is hidden or unloaded — the moment answers used to die.
+  // Flush when the tab is hidden or unloaded, the moment answers used to die.
   React.useEffect(() => {
     if (preview) return undefined;
     const onHide = () => { flushProgress({ beacon: true, force: true }); };
@@ -464,7 +464,7 @@ export function ExamSession({ userName, preview = false }) {
     //
     // The countdown effect depends only on [phase], so the submitExam it calls
     // is captured from the render where the exam began. Reading closure state
-    // there meant a timed-out exam submitted the answer set from hours earlier —
+    // there meant a timed-out exam submitted the answer set from hours earlier,
     // on a fresh attempt, nothing at all, scoring 0/110. stateRef is kept in
     // sync on every change precisely so this path can be trusted.
     const liveAnswers = stateRef.current.userAnswers || {};
@@ -612,7 +612,7 @@ export function ExamSession({ userName, preview = false }) {
           <span className="ex-preview-tag">Free preview · {r.totalQuestions} questions</span>
           <h2 className="ex-preview-score">{r.totalCorrect}/{r.totalQuestions} correct &middot; {r.overallPercentage}%</h2>
           <p className="ex-preview-lead">
-            This is exactly how the full exam works — timed, NCEES-weighted, and scored by chapter.
+            This is exactly how the full exam works: timed, NCEES-weighted, and scored by chapter.
           </p>
           <div className="ex-preview-breakdown">
             {rows.map((row) => {
@@ -629,10 +629,10 @@ export function ExamSession({ userName, preview = false }) {
           <div className="ex-preview-cta">
             <p className="ex-preview-cta-text">
               That was a 10-question taste. The full simulation is <strong>110 questions</strong>, timed like
-              exam day, with <strong>unlimited retakes</strong> — and a money-back guarantee.
+              exam day, with <strong>unlimited retakes</strong> and a money-back guarantee.
             </p>
             <button className="btn-primary" onClick={() => navigate('/exam')}>
-              Unlock the full exam — ${priceForEmail(userName)}
+              Unlock the full exam for ${priceForEmail(userName)}
               <ArrowRight size={16} weight="bold" />
             </button>
             <button className="btn-secondary" onClick={() => window.location.reload()}>

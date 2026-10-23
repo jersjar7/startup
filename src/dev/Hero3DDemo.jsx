@@ -53,7 +53,7 @@ function TopicLabel() {
 export function Hero3DDemo() {
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: C.cream, overflow: 'hidden' }}>
-      {/* Right-side slot — exactly where .hero-svg lives (right:0, width:60%, height:100%) */}
+      {/* Right-side slot: exactly where .hero-svg lives (right:0, width:60%, height:100%) */}
       <div style={{ position: 'absolute', top: 0, right: 0, width: '60%', height: '100%', zIndex: 0 }}>
         <HeroScene />
       </div>

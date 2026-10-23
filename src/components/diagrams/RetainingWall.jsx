@@ -52,7 +52,7 @@ export function RetainingWall({
       <line x1={wallLeft - 30} y1={groundY} x2={soilRight} y2={groundY}
         stroke="var(--charcoal)" strokeWidth={2} />
 
-      {/* Ground hatching — left of wall */}
+      {/* Ground hatching: left of wall */}
       {[-24, -12].map(dx => (
         <line key={dx}
           x1={wallLeft + dx} y1={groundY}
@@ -60,7 +60,7 @@ export function RetainingWall({
           stroke="var(--charcoal)" strokeWidth={1.2} />
       ))}
 
-      {/* Ground hatching — right of wall (under backfill) */}
+      {/* Ground hatching: right of wall (under backfill) */}
       {Array.from({ length: 10 }, (_, i) => (
         <line key={i}
           x1={wallRight + 10 + i * 24} y1={groundY}

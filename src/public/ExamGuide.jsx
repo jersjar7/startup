@@ -15,7 +15,7 @@ const SITE = 'https://fe4raccoons.com';
 const FAQ = [
   {
     q: 'How many questions are on the FE Civil exam?',
-    a: 'The FE Civil exam has 110 multiple-choice questions and is computer-based (CBT). You get 6 hours total, including a tutorial and an optional break — about 5 hours and 20 minutes of actual testing time.',
+    a: 'The FE Civil exam has 110 multiple-choice questions and is computer-based (CBT). You get 6 hours total, including a tutorial and an optional break, so about 5 hours and 20 minutes of actual testing time.',
   },
   {
     q: 'What topics are on the FE Civil exam?',
@@ -31,18 +31,18 @@ const FAQ = [
   },
   {
     q: 'Is there a free way to study for the FE Civil exam?',
-    a: `Yes. FE for Raccoons is a free FE Civil study platform: bite-sized lessons, ${PROBLEM_COUNT_LABEL} practice problems across all 15 NCEES topics, and a personalized 5-minute diagnostic — all free. The only paid feature is an optional, one-time timed exam simulation.`,
+    a: `Yes. FE for Raccoons is a free FE Civil study platform: bite-sized lessons, ${PROBLEM_COUNT_LABEL} practice problems across all 15 NCEES topics, and a personalized 5-minute diagnostic, all free. The only paid feature is an optional, one-time timed exam simulation.`,
   },
   {
     q: 'How much does FE for Raccoons cost?',
-    a: `The core study experience is free — the lessons, ${PROBLEM_COUNT_LABEL} practice problems, and the diagnostic. The only paid item is an optional one-time timed exam simulation: $${STUDENT_PRICE} for verified students (.edu) or $${STANDARD_PRICE} standard. There is no subscription.`,
+    a: `The core study experience is free: the lessons, ${PROBLEM_COUNT_LABEL} practice problems, and the diagnostic. The only paid item is an optional one-time timed exam simulation: $${STUDENT_PRICE} for verified students (.edu) or $${STANDARD_PRICE} standard. There is no subscription.`,
   },
 ];
 
 export function ExamGuide() {
   const topics = allTopics();
   const url = `${SITE}/fe-civil-exam-guide`;
-  const title = 'FE Civil Exam Guide — Format, Topics & Free Study Resources | FE for Raccoons';
+  const title = 'FE Civil Exam Guide: Format, Topics & Free Study Resources | FE for Raccoons';
   const description = 'Complete FE Civil exam guide: 110-question CBT format, all 15 NCEES topic areas with free study guides, key formulas, sample problems, and how to prepare. Free FE Civil practice.';
 
   const jsonLd = [
@@ -80,7 +80,7 @@ export function ExamGuide() {
           <h1>The FE Civil Exam: format, topics &amp; how to prepare</h1>
           <p className="pub-lede">
             The NCEES FE Civil exam is a {EXAM_FACTS.questions}-question, computer-based test and the first
-            step toward your PE license. This guide breaks down the format and every topic area — with free
+            step toward your PE license. This guide breaks down the format and every topic area, with free
             study guides, key formulas, and sample problems for all 15 chapters.
           </p>
           <div className="pub-cta-row">
@@ -102,7 +102,7 @@ export function ExamGuide() {
         </ul>
       </section>
 
-      {/* All 15 topics — chapter rows */}
+      {/* All 15 topics: chapter rows */}
       <RaccoonPeek at={0.84}>
         <section className="pub-section pub-panel">
           <span className="pub-label"><span className="pub-label-dash" />All 15 chapters</span>
@@ -140,7 +140,7 @@ export function ExamGuide() {
 
       <section className="pub-final-cta">
         <h2>Ready to start?</h2>
-        <p>Free FE Civil practice across all 15 chapters — bite-sized lessons, instant feedback, and progress tracking.</p>
+        <p>Free FE Civil practice across all 15 chapters: bite-sized lessons, instant feedback, and progress tracking.</p>
         <Link className="pub-btn pub-btn-primary" to="/login">Create a free account <AppArrow /></Link>
       </section>
     </main>

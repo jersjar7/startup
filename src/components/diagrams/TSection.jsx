@@ -42,19 +42,19 @@ export function TSection({
       <rect x={webLeft} y={oy + fH} width={wW} height={wH}
         fill="var(--cream-dark)" stroke="var(--charcoal)" strokeWidth={2.5} />
 
-      {/* Dimensions — flange width (above) */}
+      {/* Dimensions: flange width (above) */}
       <DimensionLine x1={ox} y1={oy - 10} x2={ox + fW} y2={oy - 10}
         label={`${flangeW}`} offset={-10} />
 
-      {/* Dimensions — flange height (right side) */}
+      {/* Dimensions: flange height (right side) */}
       <DimensionLine x1={ox + fW + 14} y1={oy + fH} x2={ox + fW + 14} y2={oy}
         label={`${flangeH}`} offset={16} />
 
-      {/* Dimensions — web width (below) */}
+      {/* Dimensions: web width (below) */}
       <DimensionLine x1={webLeft} y1={svgBottom + 14} x2={webLeft + wW} y2={svgBottom + 14}
         label={`${webW}`} offset={12} />
 
-      {/* Dimensions — web height (right side) */}
+      {/* Dimensions: web height (right side) */}
       <DimensionLine x1={ox + fW + 14} y1={svgBottom} x2={ox + fW + 14} y2={oy + fH}
         label={`${webH}`} offset={16} />
 

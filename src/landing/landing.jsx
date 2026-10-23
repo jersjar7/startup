@@ -32,7 +32,7 @@ import { STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
 
 import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
 // Cache-buster for the explainer video. The file has a STABLE name, so browsers
-// that already have it will not refetch on their own — it was served
+// that already have it will not refetch on their own, it was served
 // `immutable` for a year until 2026-08-09, and a cached response keeps the
 // directive it arrived with. BUMP THIS whenever explainer.mp4 is re-rendered,
 // or returning visitors keep watching the old cut. See docs/DEPLOY.md.
@@ -59,7 +59,7 @@ const chapters = [
 
 /* ── Sample problem data ── */
 const sampleProblem = {
-  chapter: 'Ch. 5 — Statics',
+  chapter: 'Ch. 5: Statics',
   lesson: 'Bending Moment in Simply Supported Beams',
   difficulty: 'Medium',
   statement:
@@ -70,11 +70,11 @@ const sampleProblem = {
     { label: 'C', text: '60 kN·m' },
     { label: 'D', text: '22.5 kN·m' },
   ],
-  eli5: 'Imagine laying a ruler across two books and pressing down evenly with your hand. The ruler bends the most right in the middle — that\'s where the bending moment is greatest. For a uniform load on a simple beam, the max moment is always at the center.',
+  eli5: 'Imagine laying a ruler across two books and pressing down evenly with your hand. The ruler bends the most right in the middle, and that\'s where the bending moment is greatest. For a uniform load on a simple beam, the max moment is always at the center.',
   handbookPage: 'p. 128',
   handbookFormula: 'M_{max} = \\frac{wL^2}{8}',
   traps: [
-    'The formula is wL²/8 — not wL/8. The square matters.',
+    'The formula is wL²/8, not wL/8. The square matters.',
     'Units must be consistent: kN/m × m² = kN·m.',
   ],
 };
@@ -110,7 +110,7 @@ export function Landing({ userName }) {
             <span className="hero-title-emphasis">Everything.</span>
           </h1>
           <p className="hero-subtitle">
-            First attempt or a retake — you don't need to relearn everything.
+            First attempt or a retake? You don't need to relearn everything.
             You need targeted practice on exactly what the exam tests.
           </p>
           <button className="hero-cta" onClick={() => navigate('/login')}>
@@ -122,9 +122,9 @@ export function Landing({ userName }) {
             <button className="hero-login-link" onClick={() => navigate('/login')}>Log in</button>
           </p>
           <p className="hero-price">
-            <strong>The whole platform is free</strong> — every lesson, {PROBLEM_COUNT_LABEL} practice problems,
+            <strong>The whole platform is free</strong>: every lesson, {PROBLEM_COUNT_LABEL} practice problems,
             the diagnostic, and spaced repetition. No trial, no credit card. The one optional
-            extra is the Exam Pass — a full timed 110-question exam simulation:
+            extra is the Exam Pass, a full timed 110-question exam simulation:
             ${STUDENT_PRICE} for students, ${STANDARD_PRICE} standard.
           </p>
         </div>
@@ -143,7 +143,7 @@ export function Landing({ userName }) {
         </div>
       </section>
 
-      {/* ══════ SECTION — WATCH HOW IT WORKS ══════ */}
+      {/* ══════ SECTION: WATCH HOW IT WORKS ══════ */}
       <section className="s-video">
         <div className="s-video__inner">
           <span className="section-label">
@@ -152,7 +152,7 @@ export function Landing({ userName }) {
           </span>
           <h2 className="s-video__heading">Watch how it works</h2>
           <p className="s-video__sub">
-            From the free diagnostic to exam-day confidence — the whole platform in under 30 seconds.
+            From the free diagnostic to exam-day confidence: the whole platform in under 30 seconds.
           </p>
           <div className="s-video__frame">
             <video
@@ -168,10 +168,10 @@ export function Landing({ userName }) {
         </div>
       </section>
 
-      {/* ══════ SECTION — ALSO ON YOUR PHONE ══════ */}
+      {/* ══════ SECTION: ALSO ON YOUR PHONE ══════ */}
       <AppComingSoon />
 
-      {/* ══════ SECTION 1 — HOW YOU'LL STUDY ══════ */}
+      {/* ══════ SECTION 1: HOW YOU'LL STUDY ══════ */}
       <section className="s-method">
         <div className="s-method__inner">
           <span className="section-label">
@@ -193,7 +193,7 @@ export function Landing({ userName }) {
                   Problem-first learning
                 </h3>
                 <p className="method-desc">
-                  You see the problem before anything else. Try it, struggle with it, then we break it down — that's how real understanding sticks.
+                  You see the problem before anything else. Try it, struggle with it, then we break it down. That's how real understanding sticks.
                 </p>
               </div>
             </div>
@@ -208,7 +208,7 @@ export function Landing({ userName }) {
                   ELI5 explanations
                 </h3>
                 <p className="method-desc">
-                  Every concept explained like you're five. No jargon walls. Civil engineering is intuitive — your professors just didn't have time to show you why.
+                  Every concept explained like you're five. No jargon walls. Civil engineering is intuitive. Your professors just didn't have time to show you why.
                 </p>
               </div>
             </div>
@@ -238,7 +238,7 @@ export function Landing({ userName }) {
                   Traps & common mistakes
                 </h3>
                 <p className="method-desc">
-                  Every problem flags the mistakes that trip people up — unit errors, sign flips, wrong formulas. You'll see them before they see you.
+                  Every problem flags the mistakes that trip people up: unit errors, sign flips, wrong formulas. You'll see them before they see you.
                 </p>
               </div>
             </div>
@@ -246,7 +246,7 @@ export function Landing({ userName }) {
         </div>
       </section>
 
-      {/* ══════ SECTION 2 — 15 CHAPTERS ══════ */}
+      {/* ══════ SECTION 2: 15 CHAPTERS ══════ */}
       <section className="s-chapters">
         <div className="s-chapters__inner">
           <span className="section-label">
@@ -275,12 +275,12 @@ export function Landing({ userName }) {
 
           <div className="chapters-total">
             <Exam weight="bold" size={20} />
-            <span>110 questions total — we cover every single one.</span>
+            <span>110 questions total, and we cover every single one.</span>
           </div>
         </div>
       </section>
 
-      {/* ══════ SECTION 3 — SAMPLE PROBLEM (split layout) ══════ */}
+      {/* ══════ SECTION 3: SAMPLE PROBLEM (split layout) ══════ */}
       <section className="s-sample">
         <div className="s-sample__inner">
           <span className="section-label">
@@ -336,7 +336,7 @@ export function Landing({ userName }) {
                   </div>
                 )}
 
-                {/* FE Handbook (unlocked — new UX) */}
+                {/* FE Handbook (unlocked: new UX) */}
                 <button
                   className={`sample-panel-trigger ${openPanel === 'handbook' ? 'is-open' : ''}`}
                   onClick={() => togglePanel('handbook')}
@@ -359,7 +359,7 @@ export function Landing({ userName }) {
                         </span>
                       </div>
                       <p className="sample-handbook-hint">
-                        Practice finding this reference yourself — navigating the handbook quickly is a key exam skill.
+                        Practice finding this reference yourself. Navigating the handbook quickly is a key exam skill.
                       </p>
                       <a
                         href="https://help.ncees.org/article/87-ncees-exam-reference-handbooks"
@@ -489,7 +489,7 @@ export function Landing({ userName }) {
             The FE is not as hard as you think.
           </h2>
           <p className="s-reality__text">
-            Most exam questions test <strong>one formula or one method</strong> — not multi-step monsters. If you're familiar with the topic and know where to find the formula in the FE Reference Handbook, you can solve it. Quite a few questions are purely conceptual, and some are even drag-and-drop. The exam rewards familiarity, not genius.
+            Most exam questions test <strong>one formula or one method</strong>, not multi-step monsters. If you're familiar with the topic and know where to find the formula in the FE Reference Handbook, you can solve it. Quite a few questions are purely conceptual, and some are even drag-and-drop. The exam rewards familiarity, not genius.
           </p>
           <p className="s-reality__text">
             That's exactly how this platform prepares you: learn the concepts, practice applying one method at a time, and memorize where things live in the Handbook. Do that consistently, and you'll walk into the exam confident.
@@ -508,7 +508,7 @@ export function Landing({ userName }) {
             Built for students, not for profit.
           </h2>
           <p className="s-pricing__message">
-            We know most people taking the FE are college students or recent grads. You're already paying for tuition, textbooks, and the exam itself. The last thing you need is another platform charging hundreds of dollars for study materials. So we made everything you need to learn and practice completely free — no trial period, no feature gates, no surprises. We only ask you to pay once, when you're ready to put it all to the test.
+            We know most people taking the FE are college students or recent grads. You're already paying for tuition, textbooks, and the exam itself. The last thing you need is another platform charging hundreds of dollars for study materials. So we made everything you need to learn and practice completely free: no trial period, no feature gates, no surprises. We only ask you to pay once, when you're ready to put it all to the test.
           </p>
 
           <div className="pricing-cards">
@@ -543,7 +543,7 @@ export function Landing({ userName }) {
                 <span className="pricing-card-period">students &middot; ${STANDARD_PRICE} standard &middot; one-time</span>
               </div>
               <p className="pricing-card-desc">
-                A bonus for when you're ready to test yourself — everything in Free, plus:
+                A bonus for when you're ready to test yourself. Everything in Free, plus:
               </p>
               <ul className="pricing-features">
                 <li><Timer weight="bold" size={16} className="pricing-check pricing-check--ember" /> Timed 110-question practice exam</li>
@@ -560,7 +560,7 @@ export function Landing({ userName }) {
           </div>
 
           <p className="s-pricing__footnote">
-            We need to keep the servers running and the content growing. Your one-time purchase helps us do that — and helps the next student who finds this platform. No subscriptions, no recurring charges.
+            We need to keep the servers running and the content growing. Your one-time purchase helps us do that, and helps the next student who finds this platform. No subscriptions, no recurring charges.
           </p>
         </div>
       </section>

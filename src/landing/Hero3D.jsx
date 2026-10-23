@@ -20,7 +20,7 @@ function canUse3D() {
 }
 
 export function Hero3D() {
-  // Decide on the client only — SSR/prerender and the first paint get the SVG.
+  // Decide on the client only, SSR/prerender and the first paint get the SVG.
   const [use3D, setUse3D] = React.useState(false);
   React.useEffect(() => {
     setUse3D(canUse3D());

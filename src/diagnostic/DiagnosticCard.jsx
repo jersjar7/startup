@@ -35,7 +35,7 @@ export function DiagnosticCard({ diagnosticStatus, quickstart = {}, onSkip }) {
   const qsTotal = quickstart?.totalChapters || 15;
 
   // Quick-start in progress: show readiness-map progress + a continue CTA.
-  // Takes priority — it reflects the live onboarding path.
+  // Takes priority: it reflects the live onboarding path.
   if (qsCount > 0 && qsCount < qsTotal) {
     const pct = Math.round((qsCount / qsTotal) * 100);
     return (
@@ -96,8 +96,8 @@ export function DiagnosticCard({ diagnosticStatus, quickstart = {}, onSkip }) {
             <div className="diag-card-body">
               {/* the numbers live in exactly one place: the meta row */}
               <p>
-                A quick start that maps where you stand, one chapter at a time —
-                stop anytime, your mastery map keeps what you've built.
+                A quick start that maps where you stand, one chapter at a time.
+                Stop anytime, your mastery map keeps what you've built.
               </p>
               <p style={{ fontSize: '0.82rem', color: 'var(--gray-400)' }}>
                 5 questions to start &middot; ~5 minutes &middot; always free
@@ -173,8 +173,8 @@ export function DiagnosticCard({ diagnosticStatus, quickstart = {}, onSkip }) {
         </div>
         <p style={{ fontSize: '0.78rem', color: 'var(--gray-500)', margin: 0 }}>
           {chaptersAt60 > 0
-            ? `Nice — you're ${chaptersAt60} of ${chaptersNeeded} chapters there. Keep practicing and a retake unlocks.`
-            : `Keep practicing — reach 60% mastery in ${chaptersNeeded} chapters and a retake unlocks.`}
+            ? `Nice, you're ${chaptersAt60} of ${chaptersNeeded} chapters there. Keep practicing and a retake unlocks.`
+            : `Keep practicing. Reach 60% mastery in ${chaptersNeeded} chapters and a retake unlocks.`}
         </p>
       </div>
     );

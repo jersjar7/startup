@@ -2,7 +2,7 @@ import React from 'react';
 import { DimensionLine, DashedLine, Label } from './primitives';
 
 /**
- * Steel tension member — plan view of flat plate with bolt holes.
+ * Steel tension member: plan view of flat plate with bolt holes.
  *
  * Shows: plate rectangle, bolt holes (open circles) at one cross-section,
  *        plate width, bolt diameter note, net section dashed line.
@@ -23,7 +23,7 @@ export function TensionPlateNet({
   const edgePad = 20; // min edge distance from plate top/bottom to bolt center
   const minSpacing = holePx * 2 + 8; // min center-to-center between bolts
 
-  // Plate geometry — height scales with bolt count to prevent overlap
+  // Plate geometry: height scales with bolt count to prevent overlap
   const plateW = 240;
   const plateH = Math.max(80, 2 * edgePad + (numBolts - 1) * minSpacing);
   const plateLeft = (W - plateW) / 2;

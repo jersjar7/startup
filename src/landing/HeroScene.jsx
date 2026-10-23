@@ -75,7 +75,7 @@ export function HeroScene() {
       <directionalLight position={[-6, 3, -4]} intensity={0.4} color="#E8683A" />
       <Cycler reduced={reduced} />
       <ContactShadows position={[0, -2.4, 0]} opacity={0.32} scale={18} blur={2.6} far={6} color="#2C2C2C" />
-      {/* Self-contained studio environment — gives the steel its metallic
+      {/* Self-contained studio environment: gives the steel its metallic
           reflections without fetching an HDR from an external CDN. */}
       <Environment resolution={256}>
         <Lightformer intensity={2.6} position={[0, 5, -6]} scale={[12, 12, 1]} color="#FFF9F0" />

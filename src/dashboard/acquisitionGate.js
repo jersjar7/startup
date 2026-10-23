@@ -4,7 +4,7 @@
 //
 // Registration (src/login/login.jsx) is the primary ask, since it is the one
 // point every new user passes through. The dashboard is the safety net for
-// anyone who slipped past it — someone who closed the tab mid-signup, or who
+// anyone who slipped past it, someone who closed the tab mid-signup, or who
 // registered before the question existed at all.
 //
 // "Resolved" is server-side (service/acquisition.js): the user answered, or

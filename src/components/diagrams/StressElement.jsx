@@ -37,7 +37,7 @@ export function StressElement({ sigmaX = 80, sigmaY = -20, tauXY = 0 }) {
       <rect x={left} y={top} width={half * 2} height={half * 2}
         fill="var(--cream-dark)" stroke="var(--charcoal)" strokeWidth={2} rx={1} />
 
-      {/* σx arrows — horizontal, pointing outward for tension, inward for compression */}
+      {/* σx arrows: horizontal, pointing outward for tension, inward for compression */}
       {sigmaX !== 0 && (
         <>
           {/* Right face */}
@@ -66,7 +66,7 @@ export function StressElement({ sigmaX = 80, sigmaY = -20, tauXY = 0 }) {
         </>
       )}
 
-      {/* σy arrows — vertical, pointing outward for tension, inward for compression */}
+      {/* σy arrows: vertical, pointing outward for tension, inward for compression */}
       {sigmaY !== 0 && (
         <>
           {/* Top face */}
@@ -95,34 +95,34 @@ export function StressElement({ sigmaX = 80, sigmaY = -20, tauXY = 0 }) {
         </>
       )}
 
-      {/* τxy arrows — shear on each face, offset slightly from edges */}
+      {/* τxy arrows: shear on each face, offset slightly from edges */}
       {hasShear && (
         <>
-          {/* Right face — upward for positive τxy */}
+          {/* Right face: upward for positive τxy */}
           <ForceArrow
             x1={right + shearOff} y1={tauXY > 0 ? cy + arrowLen / 2 : cy - arrowLen / 2}
             x2={right + shearOff} y2={tauXY > 0 ? cy - arrowLen / 2 : cy + arrowLen / 2}
             color="var(--ember)" markerId="arrowShear" strokeWidth={1.5} />
 
-          {/* Left face — downward for positive τxy */}
+          {/* Left face: downward for positive τxy */}
           <ForceArrow
             x1={left - shearOff} y1={tauXY > 0 ? cy - arrowLen / 2 : cy + arrowLen / 2}
             x2={left - shearOff} y2={tauXY > 0 ? cy + arrowLen / 2 : cy - arrowLen / 2}
             color="var(--ember)" markerId="arrowShear" strokeWidth={1.5} />
 
-          {/* Top face — rightward for positive τxy */}
+          {/* Top face: rightward for positive τxy */}
           <ForceArrow
             x1={tauXY > 0 ? cx - arrowLen / 2 : cx + arrowLen / 2} y1={top - shearOff}
             x2={tauXY > 0 ? cx + arrowLen / 2 : cx - arrowLen / 2} y2={top - shearOff}
             color="var(--ember)" markerId="arrowShear" strokeWidth={1.5} />
 
-          {/* Bottom face — leftward for positive τxy */}
+          {/* Bottom face: leftward for positive τxy */}
           <ForceArrow
             x1={tauXY > 0 ? cx + arrowLen / 2 : cx - arrowLen / 2} y1={bottom + shearOff}
             x2={tauXY > 0 ? cx - arrowLen / 2 : cx + arrowLen / 2} y2={bottom + shearOff}
             color="var(--ember)" markerId="arrowShear" strokeWidth={1.5} />
 
-          {/* Shear label — top-right corner */}
+          {/* Shear label: top-right corner */}
           <Label x={right + 10} y={top - 12}
             anchor="start" italic color="var(--ember)" fontSize={11}>
             {'τ = '}{Math.abs(tauXY)}

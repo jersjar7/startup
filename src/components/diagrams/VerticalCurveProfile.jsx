@@ -2,7 +2,7 @@ import React from 'react';
 import { DashedLine, Label } from './primitives';
 
 /**
- * Vertical curve profile — parabolic transition between two road grades.
+ * Vertical curve profile: parabolic transition between two road grades.
  *
  * Shows: datum line, dashed grade (tangent) lines, parabolic curve (Q Bezier),
  *        PVC/PVI/PVT markers, grade annotations, elevation labels.
@@ -36,7 +36,7 @@ export function VerticalCurveProfile({
   const maxElev = Math.max(...elevs);
   const elevRange = maxElev - minElev || 10;
 
-  // ── Layout — profile view with vertical exaggeration ──
+  // ── Layout: profile view with vertical exaggeration ──
   const plotLeft = 55;
   const plotRight = W - 50;
   const plotTop = 50;
@@ -106,13 +106,13 @@ export function VerticalCurveProfile({
         );
       })}
 
-      {/* 2. Grade (tangent) lines — dashed */}
+      {/* 2. Grade (tangent) lines: dashed */}
       <DashedLine x1={backExtX} y1={backExtYCalc} x2={pviX} y2={pviY}
         color="var(--gray-400)" strokeWidth={1.5} />
       <DashedLine x1={pviX} y1={pviY} x2={aheadExtX} y2={aheadExtYCalc}
         color="var(--gray-400)" strokeWidth={1.5} />
 
-      {/* 3. Vertical curve — quadratic Bezier (PVI is the control point) */}
+      {/* 3. Vertical curve: quadratic Bezier (PVI is the control point) */}
       <path
         d={`M ${pvcX},${pvcY} Q ${pviX},${pviY} ${pvtX},${pvtY}`}
         fill="none" stroke="var(--charcoal)" strokeWidth={2.5} />
@@ -136,7 +136,7 @@ export function VerticalCurveProfile({
       <circle cx={pviX} cy={pviY} r={3.5} fill="var(--charcoal)" />
       <circle cx={pvtX} cy={pvtY} r={3.5} fill="var(--charcoal)" />
 
-      {/* 6. Point labels — above for crest, below for sag at PVI */}
+      {/* 6. Point labels: above for crest, below for sag at PVI */}
       <Label x={pvcX - 4} y={pvcY - 14}
         fontSize={9} color="var(--charcoal)" bold anchor="end">
         PVC

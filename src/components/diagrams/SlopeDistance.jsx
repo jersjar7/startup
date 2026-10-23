@@ -18,12 +18,12 @@ export function SlopeDistance({
   const W = 380;
   const H = 220;
 
-  // Origin — bottom-left of triangle
+  // Origin: bottom-left of triangle
   const ox = 60;
   const oy = below ? 60 : 160;
   const slopeLen = 220;
 
-  // Triangle tip — slope goes up-right (or down-right if below)
+  // Triangle tip: slope goes up-right (or down-right if below)
   const effectiveAngle = below ? -angle : angle;
   const tip = polar(ox, oy, slopeLen, effectiveAngle);
 
@@ -54,12 +54,12 @@ export function SlopeDistance({
       {/* 5. Endpoint */}
       <circle cx={tip.x} cy={tip.y} r={3} fill="var(--charcoal)" />
 
-      {/* 6. Angle arc — large radius so small angles are legible */}
+      {/* 6. Angle arc: large radius so small angles are legible */}
       <AngleArc cx={ox} cy={oy} radius={100}
         startAngle={0} endAngle={effectiveAngle}
         label={`${angle}\u00b0`} />
 
-      {/* 7. Slope distance label — along the hypotenuse */}
+      {/* 7. Slope distance label, along the hypotenuse */}
       {(() => {
         const midSlope = polar(ox, oy, slopeLen / 2, effectiveAngle);
         const labelOffset = below ? 16 : -16;

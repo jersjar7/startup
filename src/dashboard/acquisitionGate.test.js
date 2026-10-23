@@ -29,7 +29,7 @@ describe('shouldAskSource', () => {
     expect(shouldAskSource({ acquisitionResolved: NaN })).toBe(false);
   });
 
-  it('ignores createdAt entirely — there is no date cutoff any more', () => {
+  it('ignores createdAt entirely: there is no date cutoff any more', () => {
     expect(shouldAskSource({ acquisitionResolved: false, createdAt: '2020-01-01T00:00:00Z' })).toBe(true);
     expect(shouldAskSource({ acquisitionResolved: false, createdAt: '2099-01-01T00:00:00Z' })).toBe(true);
   });

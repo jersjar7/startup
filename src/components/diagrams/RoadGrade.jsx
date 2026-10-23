@@ -2,7 +2,7 @@ import React from 'react';
 import { DashedLine, DimensionLine, Label, RightAngleMarker } from './primitives';
 
 /**
- * Profile view of sloped road — right triangle showing run, rise, and slope.
+ * Profile view of sloped road, right triangle showing run, rise, and slope.
  * Shows: horizontal ground (run), vertical rise, sloped road surface, station labels, elevations.
  * Does NOT show: grade percentage (that's the answer).
  */
@@ -17,7 +17,7 @@ export function RoadGrade({ run = 300, rise = 6 }) {
   const bx = W - pad - 30;    // right station point
   const by = ay;               // same ground level
 
-  // Rise is small relative to run — exaggerate for visibility
+  // Rise is small relative to run, exaggerate for visibility
   const riseVis = Math.min(70, Math.max(30, (rise / run) * 800));
   const cx = bx;
   const cy = ay - riseVis;

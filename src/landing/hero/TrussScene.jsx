@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { RoundedBox } from '@react-three/drei';
 import { C, P, Member, Box, Node, Person } from './primitives';
 
-// FE topic: Structural Analysis — a 3D Warren/Pratt through-truss bridge with a
+// FE topic: Structural Analysis, a 3D Warren/Pratt through-truss bridge with a
 // roadway deck, abutments, and the two boundary conditions a truss problem
 // hinges on: a PINNED support (left) and a ROLLER support (right). The live load
 // is literal: cars cross the deck while a river flows underneath, across the
@@ -37,7 +37,7 @@ function trussData() {
     bracing.push({ a: tF[i], b: tB[i + 1], chord: false });
     bracing.push({ a: tB[i], b: tF[i + 1], chord: false });
   }
-  // (No end portal X-braces — the deck openings at the entrance/exit stay clear
+  // (No end portal X-braces, the deck openings at the entrance/exit stay clear
   // so traffic visibly drives through them.)
 
   const left = P(200, 500, 0);
@@ -137,7 +137,7 @@ function Vehicle({ x0, x1, deckTopY, z, dir, kind, bodyColor, speed, phase, opac
   const greenhouseZ = bodyW - 0.05;
   return (
     <group ref={group}>
-      {/* lower body — rounded */}
+      {/* lower body: rounded */}
       <RoundedBox args={[2 * halfL, 0.2, bodyW]} radius={0.07} smoothness={3} position={[0, bodyY, 0]} castShadow>
         {mat(bodyColor, 0.5, 0.35)}
       </RoundedBox>
@@ -168,17 +168,17 @@ function Vehicle({ x0, x1, deckTopY, z, dir, kind, bodyColor, speed, phase, opac
         </>
       ) : (
         <>
-          {/* rounded greenhouse / cab. The front of the lower body IS the hood —
+          {/* rounded greenhouse / cab. The front of the lower body IS the hood,
               no separate raised block jutting off the nose. */}
           <RoundedBox args={[0.6, 0.22, greenhouseZ]} radius={0.08} smoothness={4} position={[-0.07, bodyY + 0.22, 0]} castShadow>
             {mat(bodyColor, 0.45, 0.4)}
           </RoundedBox>
-          {/* windshield — top leans rearward (toward the cab), sloping inward */}
+          {/* windshield: top leans rearward (toward the cab), sloping inward */}
           <mesh position={[0.21, bodyY + 0.24, 0]} rotation={[0, 0, 0.52]}>
             <boxGeometry args={[0.04, 0.19, greenhouseZ - 0.04]} />
             {glass('#bcd8e8')}
           </mesh>
-          {/* rear window — top leans forward (toward the cab), sloping inward */}
+          {/* rear window: top leans forward (toward the cab), sloping inward */}
           <mesh position={[-0.36, bodyY + 0.23, 0]} rotation={[0, 0, -0.5]}>
             <boxGeometry args={[0.04, 0.17, greenhouseZ - 0.04]} />
             {glass('#9fc0d0')}
@@ -205,7 +205,7 @@ function Vehicle({ x0, x1, deckTopY, z, dir, kind, bodyColor, speed, phase, opac
           {mat(C.ember, 0.2, 0.4)}
         </mesh>
       ))}
-      {/* wheels — each in a spin group whose axle is along Z (rolls toward travel) */}
+      {/* wheels: each in a spin group whose axle is along Z (rolls toward travel) */}
       {wheelPos.map((w, i) => (
         <group key={`wh${i}`} ref={(el) => { wheels.current[i] = el; }} position={[w[0], wheelR, w[1]]}>
           <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
@@ -223,7 +223,7 @@ function Vehicle({ x0, x1, deckTopY, z, dir, kind, bodyColor, speed, phase, opac
   );
 }
 
-// A lone pedestrian strolling the near fascia walkway — a slower, human scale of
+// A lone pedestrian strolling the near fascia walkway, a slower, human scale of
 // life beside the vehicle traffic. Walks the span and back (ping-pong).
 function Pedestrian({ x0, x1, y, z, speed, opacity }) {
   const group = React.useRef();

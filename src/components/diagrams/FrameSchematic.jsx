@@ -8,15 +8,15 @@ import { PinSupport, RollerSupport } from './primitives';
  *        internal hinge markers (small open circles).
  * Student counts m, j, r, c to classify the structure.
  *
- * variant = 'portal'  — 4 joints, 3 members (simple portal frame)
- * variant = 'twobay'  — 6 joints, 5 members (two-bay frame with center column)
+ * variant = 'portal': 4 joints, 3 members (simple portal frame)
+ * variant = 'twobay': 6 joints, 5 members (two-bay frame with center column)
  */
 
 const LAYOUTS = {
   portal: {
     joints: [
-      [130, 180], [290, 180],   // j0, j1 — bottom (column bases)
-      [130, 50], [290, 50],     // j2, j3 — top (beam-column joints)
+      [130, 180], [290, 180],   // j0, j1: bottom (column bases)
+      [130, 50], [290, 50],     // j2, j3: top (beam-column joints)
     ],
     members: [
       [0, 2], [2, 3], [3, 1],  // left col, beam, right col
@@ -26,8 +26,8 @@ const LAYOUTS = {
   },
   twobay: {
     joints: [
-      [70, 180], [200, 180], [330, 180],   // j0, j1, j2 — bottom
-      [70, 50], [200, 50], [330, 50],       // j3, j4, j5 — top
+      [70, 180], [200, 180], [330, 180],   // j0, j1, j2: bottom
+      [70, 50], [200, 50], [330, 50],       // j3, j4, j5: top
     ],
     members: [
       [0, 3], [3, 4], [4, 5], [5, 2], [1, 4], // left col, left beam, right beam, right col, center col

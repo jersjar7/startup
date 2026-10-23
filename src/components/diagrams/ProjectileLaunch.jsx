@@ -33,7 +33,7 @@ export function ProjectileLaunch({ v0 = 20, angle = 60 }) {
   const range = visRange * scale;
 
   // Parametric parabola: y = 4H·t·(1-t), x = range·t
-  // At t=0, slope = 4H/range = tan(θ) — matches the launch angle
+  // At t=0, slope = 4H/range = tan(θ): matches the launch angle
   const points = [];
   for (let i = 0; i <= 40; i++) {
     const t = i / 40;

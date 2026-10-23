@@ -431,7 +431,7 @@ input:focus {
 }
 
 .btn-primary:disabled {
-  /* desaturated cream, not tinted ember — white-on-pale-salmon reads broken */
+  /* desaturated cream, not tinted ember, white-on-pale-salmon reads broken */
   background: var(--cream-dark, #f5ede0);
   color: rgba(44, 44, 44, 0.45);
   box-shadow: none;
@@ -608,7 +608,7 @@ input:focus {
 
 .verification-resend-btn {
   background: var(--sunbeam);
-  color: var(--charcoal); /* white-on-sunbeam is ~2:1 — illegible */
+  color: var(--charcoal); /* white-on-sunbeam is ~2:1, illegible */
   font-size: 0.8rem;
   font-weight: 600;
   padding: 0.25rem 0.75rem;

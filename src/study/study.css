@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════
-   STUDY PAGE — Chapter Hub
+   STUDY PAGE: Chapter Hub
    ═══════════════════════════════════════ */
 
 .study-main {
@@ -153,7 +153,7 @@
 
 
 /* ═══════════════════════════════════════
-   LEFT — SUBTOPIC PROGRESSION
+   LEFT: SUBTOPIC PROGRESSION
    ═══════════════════════════════════════ */
 
 .st-list {
@@ -345,8 +345,8 @@
   padding-left: 0.25rem;
 }
 
-/* Chapter practice fraction. Deliberately laid out like a subtopic row — label
-   left, count right — so it reads as another line of the same list rather than
+/* Chapter practice fraction. Deliberately laid out like a subtopic row, label
+   left, count right, so it reads as another line of the same list rather than
    a different kind of thing. No marker: the dot means "n of 3 exercises" and
    would mean something else entirely on a set of 11-29. */
 .study-practice-row {
@@ -387,7 +387,7 @@
 
 
 /* ═══════════════════════════════════════
-   RIGHT — SIDEBAR
+   RIGHT: SIDEBAR
    ═══════════════════════════════════════ */
 
 .study-sidebar {
@@ -677,7 +677,7 @@
   position: relative;
   flex-shrink: 0;
   display: inline-flex;
-  /* Line up with the lesson NAME, not the middle of the two-line block —
+  /* Line up with the lesson NAME, not the middle of the two-line block,
      the marker describes the lesson, so it should read against its title.
      The nudge was 0.28rem when this was an 11px dot that had to be centred on
      the title line; the capsule is 22px and roughly spans that line already. */

@@ -3,10 +3,10 @@ import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { C, Beam, Box } from './primitives';
 
-// FE topic: Transportation — a roadway carried over an earth CREST VERTICAL
+// FE topic: Transportation: a roadway carried over an earth CREST VERTICAL
 // CURVE. The asphalt deck rides a parabolic crest seated into continuous
 // embankment side-slopes (not a bridge span). The vertical-curve geometry is
-// felt through the parabolic profile itself; it is now a LIVING road —
+// felt through the parabolic profile itself; it is now a LIVING road,
 // vehicles drive up and over the crest in both lanes (each pitched to the
 // local grade), one truck for size variety, roadside trees sway in the wind, a
 // streetlight stands near the crest, and a pedestrian walks the shoulder.
@@ -203,7 +203,7 @@ export function RoadScene({ opacity }) {
   // index. Right lane (z=+0.45) travels +x, left lane (z=-0.45) travels -x.
   // Phases staged so the lead right-lane car (idx 0, +x) and the lead left-lane
   // car (idx 3, -x) approach the apex from OPPOSITE sides at nearly the same
-  // beat — the classic "driver can't see oncoming driver over the crest" moment
+  // beat: the classic "driver can't see oncoming driver over the crest" moment
   // that defines a crest vertical curve. Idx 0 reaches p~0.5 (apex) a touch
   // before idx 3, so one is just cresting as the other rises into view.
   const VEHICLES = React.useMemo(() => ([
@@ -220,7 +220,7 @@ export function RoadScene({ opacity }) {
   const treeRefs = React.useRef([]);
   const lampRef = React.useRef();
 
-  // Reusable scratch objects — allocate once, never inside the frame loop.
+  // Reusable scratch objects: allocate once, never inside the frame loop.
   const _euler = React.useMemo(() => new THREE.Euler(), []);
   const _m4 = React.useMemo(() => new THREE.Matrix4(), []);
   const _q = React.useMemo(() => new THREE.Quaternion(), []);
@@ -240,7 +240,7 @@ export function RoadScene({ opacity }) {
     { x: -3.4, dropY: 1.7, zSign: -1, s: 1.14, phase: 0.0, broad: true, lean: 0.14, gust: 1.0 },
     { x: -3.0, dropY: 1.5, zSign: 1, s: 0.74, phase: 0.6, broad: false, lean: 0.08, gust: 0.8 },
     { x: -2.6, dropY: 1.95, zSign: -1, s: 0.9, phase: 1.4, broad: false, lean: 0.1, gust: 1.0 },
-    // mid (camera-side, larger) — one tree gets a stronger gust envelope
+    // mid (camera-side, larger): one tree gets a stronger gust envelope
     { x: -1.7, dropY: 1.05, zSign: -1, s: 0.98, phase: 1.3, broad: true, lean: 0.12, gust: 1.8 },
     { x: 1.3, dropY: 1.0, zSign: 1, s: 0.7, phase: 2.1, broad: false, lean: 0.07, gust: 0.9 },
     // lower-right cluster
@@ -508,7 +508,7 @@ export function RoadScene({ opacity }) {
     }
     // Tyre dust trail behind the fastest car: each speck loops on its own
     // phase, born just behind the rear wheels at the car's current pose, then
-    // drifting back (-travel) and up while shrinking — sells a dry, fast road.
+    // drifting back (-travel) and up while shrinking, sells a dry, fast road.
     const fastG = carRefs.current[FAST_IDX];
     if (dustTrailRef.current && fastG) {
       const dir = VEHICLES[FAST_IDX].dir;
@@ -813,7 +813,7 @@ export function RoadScene({ opacity }) {
           <meshBasicMaterial color={C.sunbeam} transparent opacity={opacity * 0.1} depthWrite={false} side={THREE.DoubleSide} />
         </mesh>
         {/* soft downward halo disc on the deck so the streetlight purpose is
-            obvious — enlarged so it registers at small tile scale */}
+            obvious: enlarged so it registers at small tile scale */}
         <mesh position={[lampX, crest(lampX) + 0.1, halfW - 0.42]} rotation={[Math.PI / 2, 0, 0]}>
           <circleGeometry args={[0.4, 24]} />
           <meshBasicMaterial color={C.sunbeam} transparent opacity={opacity * 0.22} depthWrite={false} side={THREE.DoubleSide} />

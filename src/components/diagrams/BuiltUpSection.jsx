@@ -43,11 +43,11 @@ export function BuiltUpSection({
       <rect x={ox} y={oy + tH + wH} width={bW} height={bH}
         fill="var(--cream-dark)" stroke="var(--charcoal)" strokeWidth={2.5} />
 
-      {/* Dimensions — bottom flange width */}
+      {/* Dimensions: bottom flange width */}
       <DimensionLine x1={ox} y1={svgBottom + 14} x2={ox + bW} y2={svgBottom + 14}
         label={`${botW}`} offset={12} />
 
-      {/* Dimensions — top flange width */}
+      {/* Dimensions: top flange width */}
       <DimensionLine x1={topLeft} y1={oy - 10} x2={topLeft + tW} y2={oy - 10}
         label={`${topW}`} offset={-10} />
 

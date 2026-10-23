@@ -19,7 +19,7 @@ export function SubmergedGate({
   const W = 380;
   const H = 250;
 
-  // ── Layout — water left, gate right ──
+  // ── Layout: water left, gate right ──
   const waterLeftX = 40;
   const faceX = 210;             // right edge of water / structure face
   const groundY = 215;
@@ -56,7 +56,7 @@ export function SubmergedGate({
       {/* 1. Water fill */}
       <path d={waterPath} fill="rgba(160,210,240,0.30)" />
 
-      {/* 2. Wall lines — contain the water */}
+      {/* 2. Wall lines: contain the water */}
       <line x1={waterLeftX} y1={surfaceY} x2={waterLeftX} y2={groundY}
         stroke="var(--charcoal)" strokeWidth={2} />
       {topDepth > 0 && (
@@ -105,7 +105,7 @@ export function SubmergedGate({
         Gate
       </Label>
 
-      {/* Width annotation (into the page) — below ground line */}
+      {/* Width annotation (into the page): below ground line */}
       <Label x={(waterLeftX + faceX) / 2} y={groundY + 16}
         fontSize={9} color="var(--gray-500)">
         b = {width} {unit}

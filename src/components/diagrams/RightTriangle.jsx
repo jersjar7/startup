@@ -5,12 +5,12 @@ export function RightTriangle({ angle = 35, labels = true }) {
   const theta = Math.max(15, Math.min(75, angle));
   const rad = (theta * Math.PI) / 180;
 
-  // Triangle geometry — right angle at bottom-left
+  // Triangle geometry: right angle at bottom-left
   const adjLen = 180; // adjacent side length (horizontal)
   const oppLen = adjLen * Math.tan(rad);
   const hypLen = adjLen / Math.cos(rad);
 
-  // Vertices — position triangle so viewBox fits tightly
+  // Vertices: position triangle so viewBox fits tightly
   const ax = 60;
   const ay = oppLen + 30;         // top padding of 30
   const bx = ax + adjLen;         // bottom-right
@@ -34,7 +34,7 @@ export function RightTriangle({ angle = 35, labels = true }) {
   const oppMidX = ax - 16;
   const oppMidY = (ay + cy) / 2;
 
-  // Hypotenuse label — midpoint, offset perpendicular outward from triangle
+  // Hypotenuse label: midpoint, offset perpendicular outward from triangle
   const hypRawX = (bx + cx) / 2;
   const hypRawY = (by + cy) / 2;
   // Direction along hypotenuse (from C top-left to B bottom-right)

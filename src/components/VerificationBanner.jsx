@@ -19,10 +19,10 @@ export function VerificationBanner({ emailVerified }) {
       } else if (res.status === 429) {
         setResendError('Please wait a minute before requesting another email.');
       } else {
-        setResendError("Couldn't send right now — try again shortly.");
+        setResendError("Couldn't send right now. Try again shortly.");
       }
     } catch {
-      setResendError('Network error — try again.');
+      setResendError('Network error. Try again.');
     } finally {
       setResending(false);
     }

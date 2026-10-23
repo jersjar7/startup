@@ -139,7 +139,7 @@
   opacity: 1;
 }
 
-/* Review with items due — draw attention */
+/* Review with items due, draw attention */
 .review-btn--due {
   box-shadow: 0 0 0 3px var(--ember-bg);
 }
@@ -190,7 +190,7 @@
 }
 
 /* ═══════════════════════════════════════
-   LEFT — CHAPTER LIST (table-of-contents)
+   LEFT: CHAPTER LIST (table-of-contents)
    ═══════════════════════════════════════ */
 
 .dash-chapters {
@@ -290,7 +290,7 @@
   visibility: visible;
 }
 
-/* Right-aligned tooltips (Mastery, Exam Qs) — anchor to right edge */
+/* Right-aligned tooltips (Mastery, Exam Qs): anchor to right edge */
 .ch-header-info--right::before {
   left: auto;
   right: 0;
@@ -583,7 +583,7 @@
 
 
 /* ═══════════════════════════════════════
-   RIGHT — SIDEBAR
+   RIGHT: SIDEBAR
    ═══════════════════════════════════════ */
 
 .dash-sidebar {

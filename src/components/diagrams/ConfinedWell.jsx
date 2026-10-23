@@ -34,7 +34,7 @@ export function ConfinedWell({
   const leftX = 30;
   const rightX = W - 30;
 
-  // Scale piezometric heights — h1/h2 from aquifer bottom
+  // Scale piezometric heights: h1/h2 from aquifer bottom
   const maxH = Math.max(h1, h2) * 1.1;
   const hScale = (aquiferBotY - groundY + 20) / maxH;
   const h1Px = h1 * hScale;
@@ -43,7 +43,7 @@ export function ConfinedWell({
   const piezoObs1Y = aquiferBotY - h1Px;
   const piezoObs2Y = aquiferBotY - h2Px;
 
-  // X positions — pumping well, obs1 (at r1), obs2 (at r2)
+  // X positions: pumping well, obs1 (at r1), obs2 (at r2)
   const wellX = 100;
   const obs1X = 210;
   const obs2X = 380;

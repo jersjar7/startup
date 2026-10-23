@@ -7,8 +7,8 @@ import { DimensionLine, Label } from './primitives';
  * Shows: concrete rectangle (or circle), longitudinal bars distributed
  *        around the perimeter, tie/stirrup outline (dashed).
  *
- * shape = 'square' | 'rectangular' — uses w and h
- * shape = 'circular' — uses diameter
+ * shape = 'square' | 'rectangular': uses w and h
+ * shape = 'circular': uses diameter
  *
  * Does NOT show: capacity, strain, or interaction diagram (student solves).
  */
@@ -74,7 +74,7 @@ export function RCColumnSection({
       <DimensionLine x1={secLeft} y1={secBot + 20} x2={secRight} y2={secBot + 20}
         label={`${w} ${unit}`} offset={12} fontSize={9} />
 
-      {/* 5. Dimension: height (right side) — only if rectangular */}
+      {/* 5. Dimension: height (right side): only if rectangular */}
       {w !== colH && (
         <DimensionLine x1={secRight + 20} y1={secBot} x2={secRight + 20} y2={secTop}
           label={`${colH} ${unit}`} offset={22} fontSize={9} />

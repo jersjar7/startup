@@ -22,7 +22,7 @@ export function PublicTopic() {
   const title = `FE Civil ${topic.name}: Free Practice Problems & Study Guide | FE for Raccoons`;
   const description = `Free FE Civil ${topic.name} study guide: what NCEES tests (${topic.questionRange} questions), key formulas with FE Reference Handbook pages, sample problems with plain-English explanations, and common mistakes to avoid.`;
 
-  // Per-topic FAQ built from real topic data — targets long-tail "how many /
+  // Per-topic FAQ built from real topic data, targets long-tail "how many /
   // is it hard / free practice" queries and the People-Also-Ask boxes.
   const subtopicList = topic.subtopics.map((s) => s.name).join(', ');
   const faqs = [
@@ -38,11 +38,11 @@ export function PublicTopic() {
     },
     {
       q: `Is FE Civil ${topic.name} hard?`,
-      a: `${topic.name} is very learnable for the FE. It rewards recognizing a handful of standard problem types and applying the right FE Reference Handbook formula — not deep theory. Practicing past-style problems is the fastest way to master it.`,
+      a: `${topic.name} is very learnable for the FE. It rewards recognizing a handful of standard problem types and applying the right FE Reference Handbook formula, not deep theory. Practicing past-style problems is the fastest way to master it.`,
     },
     {
       q: `Where can I find free FE Civil ${topic.name} practice problems?`,
-      a: `FE for Raccoons has free ${topic.name} lessons and practice problems with step-by-step explanations — part of a ${PROBLEM_COUNT_LABEL}-problem bank covering all 15 FE Civil topics, free at fe4raccoons.com.`,
+      a: `FE for Raccoons has free ${topic.name} lessons and practice problems with step-by-step explanations, part of a ${PROBLEM_COUNT_LABEL}-problem bank covering all 15 FE Civil topics, free at fe4raccoons.com.`,
     },
   ];
 
@@ -58,7 +58,7 @@ export function PublicTopic() {
       learningResourceType: 'Study guide',
       isAccessibleForFree: true,
       provider: { '@type': 'Organization', name: 'FE for Raccoons', url: SITE },
-      about: { '@type': 'Thing', name: `Fundamentals of Engineering (FE) Civil — ${topic.name}` },
+      about: { '@type': 'Thing', name: `Fundamentals of Engineering (FE) Civil: ${topic.name}` },
     },
     {
       '@context': 'https://schema.org',
@@ -104,7 +104,7 @@ export function PublicTopic() {
         {Icon && <div className="pub-hero-icon" aria-hidden="true"><Icon size={48} weight="duotone" /></div>}
       </header>
 
-      {/* What the FE tests — numbered rows */}
+      {/* What the FE tests, numbered rows */}
       {topic.subtopics.length > 0 && (
         <section className="pub-section">
           <span className="pub-label"><span className="pub-label-dash" />What the FE tests</span>
@@ -162,13 +162,13 @@ export function PublicTopic() {
             </div>
           </RaccoonPeek>
           <p className="pub-note">
-            2 of <strong>{PROBLEM_COUNT_LABEL}</strong> problems across all 15 chapters — the full bank, lessons, mastery
+            2 of <strong>{PROBLEM_COUNT_LABEL}</strong> problems across all 15 chapters. The full bank, lessons, mastery
             tracking, and timed exam simulation live inside the app.
           </p>
         </section>
       )}
 
-      {/* Common mistakes — accent rows */}
+      {/* Common mistakes: accent rows */}
       {topic.traps.length > 0 && (
         <section className="pub-section pub-panel">
           <span className="pub-label"><span className="pub-label-dash" />Avoid these</span>
@@ -181,7 +181,7 @@ export function PublicTopic() {
         </section>
       )}
 
-      {/* FAQ — visible Q&A backing the FAQPage schema */}
+      {/* FAQ: visible Q&A backing the FAQPage schema */}
       <section className="pub-section">
         <span className="pub-label"><span className="pub-label-dash" />FAQ</span>
         <h2>FE Civil {topic.name}: common questions</h2>
@@ -198,7 +198,7 @@ export function PublicTopic() {
       {/* Final CTA */}
       <section className="pub-final-cta">
         <h2>Study {topic.name} the smart way</h2>
-        <p>Bite-sized lessons, one-problem-at-a-time practice with instant feedback, and progress that adds up every day you study — built for the FE Civil exam.</p>
+        <p>Bite-sized lessons, one-problem-at-a-time practice with instant feedback, and progress that adds up every day you study, built for the FE Civil exam.</p>
         <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Start practicing {topic.name} <AppArrow /></Link>
       </section>
     </main>

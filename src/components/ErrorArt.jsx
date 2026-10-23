@@ -1,13 +1,13 @@
 import React from 'react';
 
-// Engineering-themed line-art for error screens — on brand (charcoal lines,
+// Engineering-themed line-art for error screens, on brand (charcoal lines,
 // ember accent for "the problem"), matching the hero SVG aesthetic.
 
 const C = '#2C2C2C';   // charcoal
 const E = '#E8683A';   // ember
 const G = '#A09C93';   // muted ground
 
-/* 404 — a truss bridge with a broken span: "this path doesn't connect". */
+/* 404: a truss bridge with a broken span: "this path doesn't connect". */
 export function BrokenBridge() {
   return (
     <svg width="208" height="132" viewBox="0 0 208 132" fill="none" role="img" aria-label="A bridge with a broken span">
@@ -36,7 +36,7 @@ export function BrokenBridge() {
   );
 }
 
-/* 404 alt — a survey instrument sighting off into nothing: "can't locate it". */
+/* 404 alt: a survey instrument sighting off into nothing: "can't locate it". */
 export function LostSurveyor() {
   return (
     <svg width="208" height="132" viewBox="0 0 208 132" fill="none" role="img" aria-label="A survey instrument sighting into the unknown">
@@ -56,7 +56,7 @@ export function LostSurveyor() {
   );
 }
 
-/* Error boundary — a beam failing under overload: "something gave way". */
+/* Error boundary: a beam failing under overload: "something gave way". */
 export function OverloadedBeam() {
   return (
     <svg width="208" height="132" viewBox="0 0 208 132" fill="none" role="img" aria-label="A beam cracking under overload">

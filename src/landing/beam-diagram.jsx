@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Simply supported beam with UDL — SVG engineering diagram.
+ * Simply supported beam with UDL, SVG engineering diagram.
  * Looks like a textbook figure: clean lines, dimension arrows, hatching.
  */
 export function BeamDiagram() {
@@ -59,7 +59,7 @@ export function BeamDiagram() {
         w = 10 kN/m
       </text>
 
-      {/* ── Pin support (left) — triangle ── */}
+      {/* ── Pin support (left): triangle ── */}
       <polygon
         points={`${beamX1},${beamY + 2} ${beamX1 - 12},${beamY + 22} ${beamX1 + 12},${beamY + 22}`}
         fill="none" stroke="var(--charcoal)" strokeWidth="1.5"
@@ -75,7 +75,7 @@ export function BeamDiagram() {
         />
       ))}
 
-      {/* ── Roller support (right) — triangle + circle ── */}
+      {/* ── Roller support (right): triangle + circle ── */}
       <polygon
         points={`${beamX2},${beamY + 2} ${beamX2 - 12},${beamY + 22} ${beamX2 + 12},${beamY + 22}`}
         fill="none" stroke="var(--charcoal)" strokeWidth="1.5"

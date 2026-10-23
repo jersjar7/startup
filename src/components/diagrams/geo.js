@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════
-   geo.js — Geometry utilities for engineering SVG diagrams.
+   geo.js: Geometry utilities for engineering SVG diagrams.
 
    The core problem: engineering diagrams use y-up (origin at bottom-left),
    but SVG uses y-down (origin at top-left). Every trig operation, every

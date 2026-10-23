@@ -42,7 +42,7 @@ const ExamSimulation = React.lazy(() => import('./public/ExamSimulation').then(m
 const PublicTopic = React.lazy(() => import('./public/PublicTopic').then(m => ({ default: m.PublicTopic })));
 const MitchStory = React.lazy(() => import('./stories/MitchStory').then(m => ({ default: m.MitchStory })));
 
-// Dev tools — only available in dev mode
+// Dev tools: only available in dev mode
 const DiagramPreview = import.meta.env.DEV
   ? React.lazy(() => import('./dev/DiagramPreview').then(m => ({ default: m.DiagramPreview })))
   : null;
@@ -84,7 +84,7 @@ export default function App() {
           if (!cancelled) setUserName('');
           return;
         }
-        // 429 / 5xx / network blip — transient. Don't drop the session; retry.
+        // 429 / 5xx / network blip, transient. Don't drop the session; retry.
         throw new Error('transient');
       } catch {
         if (attempt < 3 && !cancelled) {
@@ -101,7 +101,7 @@ export default function App() {
   }, []);
 
   // Capture acquisition (utm params + external referrer) once, on first load,
-  // before signup — stored locally and sent with the register call so we know
+  // before signup: stored locally and sent with the register call so we know
   // where new users came from even when they navigate around first.
   React.useEffect(() => {
     try {
@@ -123,7 +123,7 @@ export default function App() {
   }, []);
 
   // Login/register now return verified status + profile, so set it all
-  // synchronously — no second /me round-trip, no verification-banner flash.
+  // synchronously: no second /me round-trip, no verification-banner flash.
   function onLogin(data) {
     setUserName(data.email);
     setEmailVerified(data.emailVerified === true);

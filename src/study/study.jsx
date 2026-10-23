@@ -49,7 +49,7 @@ function MathBlock({ tex }) {
 
    Everything drawn is forest, the same green a correct answer gets in the
    lesson player. Under the ladder, a lesson with 1 of 3 right was drawn in
-   EMBER — the colour this product uses for a wrong answer. It reported a right
+   EMBER: the colour this product uses for a wrong answer. It reported a right
    answer in the wrong-answer colour.
 
    Accepted cost, same as on mobile: forest also means "done" on this page
@@ -63,7 +63,7 @@ function MathBlock({ tex }) {
    a tooltip. */
 
 /* How full the capsule is, 0..1. Read off `correct`/`total` rather than the
-   state word so the marker follows the server's own count — if a lesson ever
+   state word so the marker follows the server's own count, if a lesson ever
    gains a fourth exercise the fill stays honest instead of quietly meaning
    something new. Clamped: a marker must never draw past full. */
 function markerFill(p) {
@@ -84,7 +84,7 @@ function markerLabel(p) {
 function LessonMarker({ progress }) {
   // `undefined` means progress has not loaded (or failed to). That is NOT the
   // same as "untouched", and must never be drawn as though the user has done
-  // nothing — showing a blank marker for unknown data is exactly the misleading
+  // nothing: showing a blank marker for unknown data is exactly the misleading
   // signal this feature exists to remove.
   const [open, setOpen] = React.useState(false);
   const label = markerLabel(progress);
@@ -150,11 +150,11 @@ function SubtopicRow({ sub, index, isExpanded, onToggle, accent, chapterId, less
         <span className="st-num">{String(index + 1).padStart(2, '0')}</span>
         <span className="st-name">{sub.name}</span>
         {/* Collapsed rows still tell you how big the chunk is, and once progress
-            is known they say how much of it is DONE — the row is collapsed by
+            is known they say how much of it is DONE, the row is collapsed by
             default, so this is the only progress signal visible without opening
             it. Falls back to the plain count while progress is unknown, because
             "0 of 6" would be a claim we cannot yet make.
-            (Always rendered — the 4-column row grid needs the cell even when
+            (Always rendered: the 4-column row grid needs the cell even when
             empty.) */}
         <span className={`st-row-meta ${subtopicProgress && done === total && total > 0 ? 'st-row-meta--done' : ''}`}>
           {subtopicProgress
@@ -220,7 +220,7 @@ function FormulaCard({ formula }) {
    MAIN STUDY PAGE COMPONENT
    ══════════════════════════════════════════ */
 export function Study({ userName, onLogout, displayName }) {
-  // Live Activity shows this to other users — never the raw email.
+  // Live Activity shows this to other users, never the raw email.
   const activityName = displayName || (userName || '').split('@')[0] || 'A student';
   const navigate = useNavigate();
   const { topicId } = useParams();
@@ -328,7 +328,7 @@ export function Study({ userName, onLogout, displayName }) {
 
           {progressFailed && (
             <p className="st-progress-note">
-              Progress markers are unavailable right now. Your work is saved — this is only the display.
+              Progress markers are unavailable right now. Your work is saved. This is only the display.
             </p>
           )}
 
@@ -348,7 +348,7 @@ export function Study({ userName, onLogout, displayName }) {
             ))}
           </div>
 
-          {/* ── Chapter practice (secondary — the guided lesson is primary) ──
+          {/* ── Chapter practice (secondary: the guided lesson is primary) ──
               Its own row with a PLAIN FRACTION and no marker. The five-state dot
               is calibrated to a lesson's 3 exercises; practice sets run 11-29,
               so the same colours would mean "3 correct" on a lesson and "29
@@ -383,7 +383,7 @@ export function Study({ userName, onLogout, displayName }) {
                       // "Weighted by your weakest areas" is not true when there
                       // are none left, so stop claiming it.
                       ? 'You have answered every practice problem here correctly. Run it again any time.'
-                      : 'Mixed session across all subtopics — weighted by your weakest areas'}
+                      : 'Mixed session across all subtopics, weighted by your weakest areas'}
                   </span>
                 )}
               </div>
@@ -414,7 +414,7 @@ export function Study({ userName, onLogout, displayName }) {
               </button>
               {formulasOpen && (
                 <div className="formulas-grid">
-                  <p className="formulas-hint">You'll have the FE Handbook during the exam — practice finding these quickly.</p>
+                  <p className="formulas-hint">You'll have the FE Handbook during the exam, so practice finding these quickly.</p>
                   {details.formulas.map((f, i) => (
                     <FormulaCard key={i} formula={f} />
                   ))}

@@ -22,16 +22,16 @@ export function BeltPulley({ mu = 0.30, slackT = 200, wrapDeg = 180 }) {
         fill="none" stroke="var(--charcoal)" strokeWidth={2.5} />
       <circle cx={cx} cy={cy} r={4} fill="var(--charcoal)" />
 
-      {/* Belt wrap arc (top half — 180° contact) */}
+      {/* Belt wrap arc (top half: 180° contact) */}
       <path
         d={arcPath(cx, cy, r, 0, 180)}
         fill="none" stroke="var(--charcoal)" strokeWidth={2.5} />
 
-      {/* Belt — left side (slack, going down) */}
+      {/* Belt: left side (slack, going down) */}
       <line x1={cx - r} y1={cy} x2={cx - r} y2={cy + beltLen}
         stroke="var(--charcoal)" strokeWidth={2} />
 
-      {/* Belt — right side (tight, going down) */}
+      {/* Belt: right side (tight, going down) */}
       <line x1={cx + r} y1={cy} x2={cx + r} y2={cy + beltLen}
         stroke="var(--charcoal)" strokeWidth={2} />
 
@@ -51,7 +51,7 @@ export function BeltPulley({ mu = 0.30, slackT = 200, wrapDeg = 180 }) {
         (slack)
       </Label>
 
-      {/* Tight side tension F1 (upward arrow — resists slip) */}
+      {/* Tight side tension F1 (upward arrow: resists slip) */}
       <ForceArrow x1={cx + r} y1={cy + beltLen - 4} x2={cx + r} y2={cy + 30}
         color="var(--ember)" strokeWidth={2} markerId="arrowEmber" />
       <Label x={cx + r + K.LABEL_OFFSET} y={cy + 50}

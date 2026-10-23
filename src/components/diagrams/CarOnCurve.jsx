@@ -10,7 +10,7 @@ import {
  * Does NOT show: a_t, a_n, total acceleration (student calculates these).
  */
 export function CarOnCurve({ radius = 200, speed = 30, accelT = 2 }) {
-  const cx = 310; // circle center — right side
+  const cx = 310; // circle center: right side
   const cy = 40;
   const r = 150; // visual radius
   const carAngle = 230; // car position on arc
@@ -21,7 +21,7 @@ export function CarOnCurve({ radius = 200, speed = 30, accelT = 2 }) {
   // Car position
   const car = polar(cx, cy, r, carAngle);
 
-  // Velocity arrow (tangent to curve — perpendicular to radius, pointing forward)
+  // Velocity arrow (tangent to curve: perpendicular to radius, pointing forward)
   const tangentAngle = carAngle + 90;
   const vTip = polar(car.x, car.y, 55, tangentAngle);
 
@@ -49,7 +49,7 @@ export function CarOnCurve({ radius = 200, speed = 30, accelT = 2 }) {
         center
       </Label>
 
-      {/* 4. Radius label — positioned clear of other elements */}
+      {/* 4. Radius label: positioned clear of other elements */}
       <Label x={radiusMid.x + 20} y={radiusMid.y - 10} color="var(--gray-500)" italic fontSize={12}>
         {'\u03C1'} = {radius} m
       </Label>
@@ -61,12 +61,12 @@ export function CarOnCurve({ radius = 200, speed = 30, accelT = 2 }) {
       <ForceArrow x1={car.x} y1={car.y} x2={vTip.x} y2={vTip.y}
         color="var(--charcoal)" strokeWidth={2} markerId="arrowCurve" />
 
-      {/* 7. Velocity label — below and left of arrow tip, away from other labels */}
+      {/* 7. Velocity label: below and left of arrow tip, away from other labels */}
       <Label x={vTip.x - 50} y={vTip.y + 20} color="var(--charcoal)" bold fontSize={11}>
         v = {speed} m/s
       </Label>
 
-      {/* 8. Accelerating note — bottom-left, far from velocity label */}
+      {/* 8. Accelerating note: bottom-left, far from velocity label */}
       <Label x={40} y={240} color="var(--gray-500)" fontSize={10} italic anchor="start">
         accelerating at {accelT} m/s{'\u00B2'}
       </Label>

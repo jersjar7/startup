@@ -19,7 +19,7 @@ export function Header({ userName }) {
         <div className="header-actions">
           {/* Permanent, ungated route to the paid product. The dashboard card
               only appears at the bottom of a long page, and the pitch banner is
-              conditional by design — until this existed there was no path to
+              conditional by design: until this existed there was no path to
               /exam visible from every screen. */}
           <Link
             to="/exam"

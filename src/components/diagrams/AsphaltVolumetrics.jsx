@@ -3,7 +3,7 @@ import { Label } from './primitives';
 
 /**
  * Volumetric (phase) diagram of a compacted asphalt mix.
- * Shows: the three phases stacked by volume — air, asphalt binder, aggregate —
+ * Shows: the three phases stacked by volume (air, asphalt binder, aggregate)
  * with VMA (air + asphalt voids) and Va (air) brackets on the right.
  * Does NOT show: numeric Va / VMA / VFA values (those are the answers).
  */

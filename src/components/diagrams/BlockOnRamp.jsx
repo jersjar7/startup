@@ -72,7 +72,7 @@ export function BlockOnRamp({ weight = 800, angle = 25, mu = 0.50, showPush = tr
         W
       </Label>
 
-      {/* Horizontal push P — only when the problem statement applies one */}
+      {/* Horizontal push P: only when the problem statement applies one */}
       {showPush && (
         <>
           <ForceArrow x1={pushStart.x} y1={pushStart.y}

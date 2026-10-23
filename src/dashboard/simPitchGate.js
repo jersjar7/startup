@@ -38,7 +38,7 @@ export function shouldShowSimPitch({ daysLeft, problemsAnswered = 0 } = {}) {
 }
 
 // Which copy to use. A user with no date, or a stale one, has no countdown to
-// lean on, so they must NOT get the time-based copy — that path renders the
+// lean on, so they must NOT get the time-based copy, that path renders the
 // literal string "Just null days to go."
 export function usesCountdownCopy(daysLeft) {
   return daysLeft != null && daysLeft >= MIN_DAYS;

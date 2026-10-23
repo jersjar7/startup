@@ -4,7 +4,7 @@ import { Label } from './primitives';
 /**
  * Composite beam cross-section of two materials (E1 > E2).
  * Shows: a beam section made of a stiffer material over a softer one, with the
- * neutral axis and the two elastic moduli labeled — the basis for the
+ * neutral axis and the two elastic moduli labeled, the basis for the
  * transformed-section method.
  * Does NOT show: the modular ratio value or stresses (those are the answers).
  */

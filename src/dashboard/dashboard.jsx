@@ -29,7 +29,7 @@ import { CHAPTERS } from '../data/chapters';
 import { getExamWeight } from '../data/exam-bank/index';
 import { computeReadiness, computeFocusAreas, readinessLabel } from '../data/readiness';
 
-// "2026-W24" is debug output, not product copy — show "Week of Jun 8".
+// "2026-W24" is debug output, not product copy, show "Week of Jun 8".
 function formatWeekLabel(weekId) {
   const m = /^(\d{4})-W(\d{1,2})$/.exec(weekId || '');
   if (!m) return `Week ${weekId}`;
@@ -41,7 +41,7 @@ function formatWeekLabel(weekId) {
   return `Week of ${monday.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`;
 }
 
-// Exam-Qs badge color encodes weight on one scale — never the chapter accent.
+// Exam-Qs badge color encodes weight on one scale, never the chapter accent.
 function weightClass(weight) {
   if (weight >= 11) return 'ember';
   if (weight >= 7) return 'sunbeam';
@@ -71,7 +71,7 @@ function prettyTopic(event) {
 export function Dashboard({ userName, onLogout, displayName, firstName, examDate, emailVerified }) {
   const navigate = useNavigate();
   useDocumentTitle('Dashboard');
-  // Shown to other users in Live Activity — never the raw email.
+  // Shown to other users in Live Activity, never the raw email.
   const examDays = examDate
     ? Math.ceil((new Date(`${examDate}T00:00:00`).getTime() - Date.now()) / 86400000)
     : null;
@@ -131,9 +131,9 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   const [chapterMastery, setChapterMastery] = React.useState({});
   const [quickstart, setQuickstart] = React.useState({ sampledCount: 0, totalChapters: 15, nextChapterId: null });
   const [phoneToday, setPhoneToday] = React.useState(null);
-  const [syncState, setSyncState] = React.useState(null); // { at, device, source } — last sync from any device
+  const [syncState, setSyncState] = React.useState(null); // { at, device, source }, last sync from any device
 
-  // A left-open dashboard should notice phone work without a reload — light
+  // A left-open dashboard should notice phone work without a reload, light
   // poll of the activity endpoint while the tab is visible (sync v1; the /ws
   // push upgrade can replace this later).
   React.useEffect(() => {
@@ -252,14 +252,14 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
     const ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
-    // Listen only — presence is broadcast from real lessons/practice sessions,
+    // Listen only: presence is broadcast from real lessons/practice sessions,
     // not from just having the dashboard open.
     ws.onmessage = (event) => {
       // Frames may arrive as a string or a Blob; parse defensively either way.
       const handle = (text) => {
         try {
           const msg = JSON.parse(text);
-          // One row per user (their latest activity) — clients re-broadcast on
+          // One row per user (their latest activity): clients re-broadcast on
           // every WebSocket reconnect, so dedupe by `from` to avoid repeats.
           setEvents((prev) => [msg, ...prev.filter((e) => e.from !== msg.from)].slice(0, 10));
         } catch {
@@ -278,14 +278,14 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   }, [userName, navigate]);
 
   const handleChapterClick = (chapter) => {
-    // Presence is broadcast once the study page actually loads — not on click.
+    // Presence is broadcast once the study page actually loads, not on click.
     navigate(`/study/${chapter.id}`);
   };
 
 
   // Mastery is a single source of truth: chapterMastery[ch.id].totalMastery,
   // written by the diagnostic AND by practice/review (studyScore).
-  // Stage words match the phone exactly (same thresholds) — one vocabulary.
+  // Stage words match the phone exactly (same thresholds): one vocabulary.
   const stageName = (pct) => {
     if (pct >= 80) return 'Mastered';
     if (pct >= 50) return 'Familiar';
@@ -314,7 +314,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     return 'var(--gray-200)';
   }
 
-  /* Mastery % per chapter — fed into the shared readiness/focus model so the
+  /* Mastery % per chapter, fed into the shared readiness/focus model so the
      dashboard and the post-session summary agree. Single source: chapterMastery. */
   const masteryByChapterId = React.useMemo(
     () => Object.fromEntries(CHAPTERS.map((ch) => [ch.id, getProgress(ch).masteryPct])),
@@ -379,7 +379,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
               (owner, 2026-10-16). */}
           <span className="dash-greeting">{givenName(firstName) ? `Welcome back, ${givenName(firstName)}` : 'Welcome back'}</span>
         </div>
-        {/* account actions live on Profile — keep the dashboard about study */}
+        {/* account actions live on Profile, keep the dashboard about study */}
       </div>
 
       {error && <div className="error-banner" role="alert">{error}</div>}
@@ -426,7 +426,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         </div>
       </RaccoonPeek>
 
-      {/* Attribution survey lives at the bottom of the right rail — see below. */}
+      {/* Attribution survey lives at the bottom of the right rail, see below. */}
 
       {/* ── Two-column layout: Chapters (left) + Sidebar (right) ── */}
       <div className="dash-grid">
@@ -540,7 +540,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             })}
           </div>
 
-          {/* Exam Simulation CTA — below chapters */}
+          {/* Exam Simulation CTA: below chapters */}
           <ExamSimCard />
         </section>
 
@@ -582,7 +582,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             );
           })()}
 
-          {/* Account setup — logistics, kept out of the left prep panel */}
+          {/* Account setup: logistics, kept out of the left prep panel */}
           <SetupTodo
             emailVerified={emailVerified}
             hasName={!!firstName}
@@ -613,7 +613,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
               </h3>
               <p className="focus-sub">Where your effort moves the needle most</p>
               {focusAreas.every((f) => f.masteryPct === 0) ? (
-                // No data yet — focus claims would be guesses, not guidance.
+                // No data yet: focus claims would be guesses, not guidance.
                 <p className="focus-sub" style={{ marginTop: '0.5rem' }}>
                   Finish the Quick Start to see your focus areas.
                 </p>
@@ -623,7 +623,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                   <div key={ch.id} className="focus-row">
                     <div className="focus-row-top">
                       <span className="focus-name">{ch.name}</span>
-                      {/* same range chips as the chapter table — one source, no contradiction */}
+                      {/* same range chips as the chapter table, one source, no contradiction */}
                       <span className="focus-weight">{ch.qs ? `${ch.qs} exam Qs` : `${weight} exam Qs`}</span>
                     </div>
                     <div className="mastery-bar-pct focus-bar">
@@ -722,7 +722,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             })()}
           </div>
 
-          {/* Live Activity — only render when there's real presence. An empty
+          {/* Live Activity: only render when there's real presence. An empty
               "live" feed is mild negative social proof ("nobody's here"); the
               block reappears on its own as concurrency grows. */}
           {events.length > 0 && (
@@ -751,7 +751,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             <p className="referral-text">
               I hope you're finding these resources helpful! We just want more students to benefit
               from quality FE prep without paying hundreds of dollars. If it's helped you, the best
-              thanks is a quick shout-out so other engineers can find us — a post on{' '}
+              thanks is a quick shout-out so other engineers can find us, like a post on{' '}
               <a href="https://www.reddit.com/r/FE_Exam/" target="_blank" rel="noopener noreferrer">r/FE_Exam</a>
               {' '}or{' '}
               <a href="https://www.reddit.com/r/engineeringstudents/" target="_blank" rel="noopener noreferrer">r/engineeringstudents</a>,
@@ -764,7 +764,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       </div>
       {/* Attribution safety net. A modal, not a rail card: in the rail it sat
           below the fold and was effectively invisible.
-          Mandatory, matching the registration ask — one tap, once, ever. There
+          Mandatory, matching the registration ask: one tap, once, ever. There
           is no dismiss because dismissing was permanent and simply lost the
           answer; "Other" is the honest out for anyone who does not remember. */}
       {showSource && (

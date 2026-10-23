@@ -10,7 +10,7 @@ export function MomentVector3D({ rx = 3, ry = 4, fz = -50 }) {
   const W = 360;
   const H = 270;
 
-  // Isometric origin — centered to accommodate P below-left and z-axis above
+  // Isometric origin: centered to accommodate P below-left and z-axis above
   const ox = 180;
   const oy = 120;
 

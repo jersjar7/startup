@@ -11,7 +11,7 @@ import { DashedLine, Label } from './primitives';
  * Does NOT show: computed Mn value (student solves).
  */
 
-/* Subscript helper — renders "base" then a shifted-down subscript */
+/* Subscript helper: renders "base" then a shifted-down subscript */
 const S = ({ children, size = 6, dy = 3 }) => (
   <tspan dy={dy} fontSize={size}>{children}</tspan>
 );

@@ -7,8 +7,8 @@ import { PinSupport, RollerSupport } from './primitives';
  * Shows: members (lines), joints (dots), support symbols.
  * Student counts m, j, r to classify the structure.
  *
- * variant = 'warren7'  — 7 joints, 11 members (Warren zigzag)
- * variant = 'pratt6'   — 6 joints, 9 members (rectangular Pratt)
+ * variant = 'warren7': 7 joints, 11 members (Warren zigzag)
+ * variant = 'pratt6': 6 joints, 9 members (rectangular Pratt)
  */
 
 const LAYOUTS = {

@@ -104,7 +104,7 @@ function HandbookPanel({ problem }) {
           </div>
           {!showPage && (
             <p className="lp-handbook-hint">
-              Practice finding this reference yourself — navigating the handbook quickly is a key exam skill.
+              Practice finding this reference yourself. Navigating the handbook quickly is a key exam skill.
             </p>
           )}
         </div>
@@ -156,7 +156,7 @@ export function LessonPage({ userName }) {
   const chapter = CHAPTERS.find((c) => c.id === chapterId);
   const details = CHAPTER_DETAILS[chapterId];
   const lesson = getLessonById(chapterId, lessonId);
-  useDocumentTitle(lesson ? `${lesson.name} — ${chapter?.name}` : 'Lesson');
+  useDocumentTitle(lesson ? `${lesson.name} | ${chapter?.name}` : 'Lesson');
 
   // Current problem
   const totalProblems = lesson?.problems?.length ?? 0;
@@ -281,7 +281,7 @@ export function LessonPage({ userName }) {
   function getSubMessage() {
     if (scorePercent === 100) return 'You nailed every problem. That FE Handbook knowledge is solid.';
     if (scorePercent >= 67) return 'Strong performance. Review the ones you missed and try again.';
-    return 'No worries — review the step-by-step solutions and give it another shot.';
+    return 'No worries. Review the step-by-step solutions and give it another shot.';
   }
 
   // Find subtopic name for breadcrumb
@@ -304,7 +304,7 @@ export function LessonPage({ userName }) {
           </div>
           <div className="lesson-header-center">
             <span className="lesson-breadcrumb">
-              <strong>Review Mistakes</strong> — {missedAnswers.length} {missedAnswers.length === 1 ? 'problem' : 'problems'}
+              <strong>Review Mistakes</strong>: {missedAnswers.length} {missedAnswers.length === 1 ? 'problem' : 'problems'}
             </span>
           </div>
           <div className="lesson-header-right" />

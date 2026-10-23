@@ -50,7 +50,7 @@ export function InfiniteSlope({ beta = 25 }) {
       {/* Angle β at base */}
       <AngleArc cx={start.x} cy={start.y} radius={38} startAngle={0} endAngle={beta} label={`${beta}°`} />
 
-      {/* Labels — rotated to the slope, offset clear of their lines */}
+      {/* Labels: rotated to the slope, offset clear of their lines */}
       {(() => {
         const ang = (Math.atan2(end.y - start.y, end.x - start.x) * 180) / Math.PI;
         const ms = along((start.x + end.x) / 2, (start.y + end.y) / 2, b.outward, 15);

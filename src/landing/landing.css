@@ -64,7 +64,7 @@
 .hero-subtitle {
   font-size: 1rem;
   font-weight: 400;
-  /* ~5.1:1 on cream — gray-500 sat a hair under WCAG AA at body size */
+  /* ~5.1:1 on cream: gray-500 sat a hair under WCAG AA at body size */
   color: #6b675e;
   line-height: 1.6;
   max-width: 400px;
@@ -179,7 +179,7 @@
   color: var(--gray-400);
 }
 
-/* ===== SHARED — SECTION LABEL ===== */
+/* ===== SHARED: SECTION LABEL ===== */
 .section-label {
   display: inline-flex;
   align-items: center;
@@ -202,7 +202,7 @@
 
 
 /* ═══════════════════════════════════════
-   SECTION 1 — HOW YOU'LL STUDY
+   SECTION 1: HOW YOU'LL STUDY
    ═══════════════════════════════════════ */
 
 .s-method {
@@ -232,7 +232,7 @@
   color: var(--ember);
 }
 
-/* Numbered stack layout — no cards */
+/* Numbered stack layout: no cards */
 .method-stack {
   display: flex;
   flex-direction: column;
@@ -315,7 +315,7 @@
 
 
 /* ═══════════════════════════════════════
-   SECTION 2 — 15 CHAPTERS
+   SECTION 2: 15 CHAPTERS
    ═══════════════════════════════════════ */
 
 .s-chapters {
@@ -360,7 +360,7 @@
   margin-bottom: 2.5rem;
 }
 
-/* Chapter rows — table-of-contents feel */
+/* Chapter rows: table-of-contents feel */
 .chapters-list {
   display: flex;
   flex-direction: column;
@@ -453,7 +453,7 @@
 
 
 /* ═══════════════════════════════════════
-   SECTION 3 — SAMPLE PROBLEM (split)
+   SECTION 3: SAMPLE PROBLEM (split)
    ═══════════════════════════════════════ */
 
 /* ═══════ WATCH HOW IT WORKS ═══════ */
@@ -504,7 +504,7 @@
 }
 
 /* ═══════════════════════════════════════
-   SECTION — ALSO ON YOUR PHONE (coming very soon)
+   SECTION: ALSO ON YOUR PHONE (coming very soon)
    ═══════════════════════════════════════ */
 .s-app {
   background: var(--cream);
@@ -1321,7 +1321,7 @@
   }
 }
 
-/* "Already have an account? Log in" — returning-user path under the hero CTA */
+/* "Already have an account? Log in", returning-user path under the hero CTA */
 .hero-login-row {
   margin-top: 0.9rem;
   font-size: 0.9rem;

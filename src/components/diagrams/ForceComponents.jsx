@@ -7,7 +7,7 @@ import {
 /**
  * Force vector decomposition on x/y axes.
  * Shows: axes, force vector at angle, angle arc, dashed projection lines forming right triangle.
- * Different from ForceAtAngle — this one shows the decomposition triangle with Fx/Fy labels.
+ * Different from ForceAtAngle: this one shows the decomposition triangle with Fx/Fy labels.
  * Does NOT show: actual Fx/Fy numeric values.
  */
 export function ForceComponents({ force = 12, angle = 40, unit = 'kN' }) {

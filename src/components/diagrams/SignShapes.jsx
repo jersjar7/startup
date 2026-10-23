@@ -18,18 +18,18 @@ export function SignShapes() {
       role="img" aria-label="Three traffic-sign categories: regulatory octagon, warning diamond, guide rectangle"
       style={{ width: '100%', height: 'auto' }}>
 
-      {/* Regulatory — red octagon (STOP) */}
+      {/* Regulatory: red octagon (STOP) */}
       <polygon points={oct} fill="var(--error)" stroke="white" strokeWidth={2} />
       <Label x={70} y={cy} color="white" bold fontSize={13}>STOP</Label>
       <Label x={70} y={cy + r + 18} color="var(--gray-500)" fontSize={10}>regulatory</Label>
 
-      {/* Warning — yellow diamond */}
+      {/* Warning: yellow diamond */}
       <polygon points={`190,${cy - r} ${190 + r},${cy} 190,${cy + r} ${190 - r},${cy}`}
         fill="var(--sunbeam)" stroke="var(--charcoal)" strokeWidth={2} />
       <Label x={190} y={cy + 1} color="var(--charcoal)" bold fontSize={20}>!</Label>
       <Label x={190} y={cy + r + 18} color="var(--gray-500)" fontSize={10}>warning</Label>
 
-      {/* Guide — green rectangle */}
+      {/* Guide: green rectangle */}
       <rect x={310 - r} y={cy - r * 0.62} width={r * 2} height={r * 1.24}
         fill="var(--forest)" stroke="white" strokeWidth={2} rx={2} />
       <Label x={310} y={cy} color="white" bold fontSize={15}>{'→'}</Label>
