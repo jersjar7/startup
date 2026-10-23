@@ -2,17 +2,17 @@ export default {
   id: 'engineering-contracts',
   name: 'Engineering Contracts',
   subtopicId: 'contracts-liability',
-  application: 'Almost every engineering service is delivered under a contract — between owner and engineer, owner and contractor, or engineer and subconsultant. As a civil engineer you should recognize what makes an agreement legally binding, how different contract types shift cost risk, and how projects are delivered. The FE tests these as scenario questions about contract elements, payment types, and project delivery methods.',
+  application: 'Almost every engineering service is delivered under a contract: between owner and engineer, owner and contractor, or engineer and subconsultant. As a civil engineer you should recognize what makes an agreement legally binding, how different contract types shift cost risk, and how projects are delivered. The FE tests these as scenario questions about contract elements, payment types, and project delivery methods.',
   content: [
     { type: 'text', body: 'A contract is a legally enforceable agreement between parties. Courts will enforce it only if certain elements are present, and the way the contract is priced determines who carries the risk if costs run over.' },
     { type: 'heading', body: 'Elements of a Valid Contract' },
     { type: 'text', body: 'A binding contract requires: (1) an OFFER, (2) ACCEPTANCE of that offer, (3) CONSIDERATION (something of value exchanged by each side), (4) legal CAPACITY of the parties, and (5) a LAWFUL purpose. Notarization or a witness is not required for most contracts to be enforceable.' },
     { type: 'heading', body: 'Contract Types (Pricing)' },
-    { type: 'text', body: 'Lump sum (fixed price): one set price — the CONTRACTOR bears the risk of overruns, and the owner has cost certainty. Cost-plus: owner reimburses actual cost plus a fee — the OWNER bears the overrun risk. Unit price: payment per measured unit of work (e.g., per cubic yard), good when quantities are uncertain. Time-and-materials (T&M): labor hours plus materials, used for small or ill-defined scopes.' },
+    { type: 'text', body: 'Lump sum (fixed price): one set price, and the CONTRACTOR bears the risk of overruns, and the owner has cost certainty. Cost-plus: owner reimburses actual cost plus a fee, and the OWNER bears the overrun risk. Unit price: payment per measured unit of work (e.g., per cubic yard), good when quantities are uncertain. Time-and-materials (T&M): labor hours plus materials, used for small or ill-defined scopes.' },
     { type: 'heading', body: 'Project Delivery Methods' },
-    { type: 'text', body: 'Design-Bid-Build (DBB): the owner contracts separately for design, then bids out construction — design and construction are separate entities. Design-Build (DB): a single entity is responsible for BOTH design and construction under one contract. Construction Manager at Risk (CMAR): a CM joins early to advise on design, then delivers construction under a guaranteed maximum price.' },
+    { type: 'text', body: 'Design-Bid-Build (DBB): the owner contracts separately for design, then bids out construction, so design and construction are separate entities. Design-Build (DB): a single entity is responsible for BOTH design and construction under one contract. Construction Manager at Risk (CMAR): a CM joins early to advise on design, then delivers construction under a guaranteed maximum price.' },
     { type: 'callout', variant: 'tip', body: 'Map the contract type to who holds the cost risk: lump sum → contractor; cost-plus → owner; unit price → shared, tied to actual measured quantities.' },
-    { type: 'callout', variant: 'warning', body: 'Consideration is essential — a promise to do something for nothing (a gift) is not an enforceable contract. Both sides must exchange value.' },
+    { type: 'callout', variant: 'warning', body: 'Consideration is essential: a promise to do something for nothing (a gift) is not an enforceable contract. Both sides must exchange value.' },
   ],
   illustration: null,
   problems: [
@@ -27,7 +27,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'A valid contract needs an offer, acceptance, consideration, legal capacity, and a lawful purpose. Notarization is not required for most contracts to be enforceable — it is a formality that helps prove authenticity but is not an element of formation. The offer, consideration, and acceptance choices are all genuine required elements.',
+      eli5: 'A valid contract needs an offer, acceptance, consideration, legal capacity, and a lawful purpose. Notarization is not required for most contracts to be enforceable. It is a formality that helps prove authenticity but is not an element of formation. The offer, consideration, and acceptance choices are all genuine required elements.',
       hint: 'Recall the core elements: offer, acceptance, consideration, capacity, legality. Which listed item is not among them?',
       steps: [
         { text: 'Required elements: offer, acceptance, consideration, capacity, lawful purpose.', latex: null },
@@ -54,7 +54,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'In a lump-sum contract the price is fixed, so if the work costs more than expected, the contractor absorbs the loss — the contractor carries the overrun risk and the owner has cost certainty. In cost-plus and time-and-materials contracts the owner reimburses actual costs, so the OWNER bears the overrun risk. That is why owners favor lump sum when the scope is well defined.',
+      eli5: 'In a lump-sum contract the price is fixed, so if the work costs more than expected, the contractor absorbs the loss, so the contractor carries the overrun risk and the owner has cost certainty. In cost-plus and time-and-materials contracts the owner reimburses actual costs, so the OWNER bears the overrun risk. That is why owners favor lump sum when the scope is well defined.',
       hint: 'Which pricing fixes the price regardless of actual cost, leaving the contractor to absorb overruns?',
       steps: [
         { text: 'Lump sum fixes the price; overruns come out of the contractor’s margin.', latex: null },
@@ -65,7 +65,7 @@ export default {
       handbookFormula: null,
       videoUrl: null,
       traps: [
-        'Confusing who carries risk — cost-plus protects the contractor, not the owner',
+        'Confusing who carries risk: cost-plus protects the contractor, not the owner',
         'Assuming all contract types allocate risk the same way',
       ],
       diagram: null,

@@ -41,7 +41,7 @@ export default {
       handbookFormula: 'R = \\frac{5{,}729.58}{D}',
       videoUrl: null,
       traps: [
-        'Multiplying 5,729.58 by D instead of dividing \u2014 the relationship is inverse',
+        'Multiplying 5,729.58 by D instead of dividing, when the relationship is inverse',
         'Confusing arc definition with chord definition',
       ],
       diagram: null,
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'T = R tan(I/2) = 1,200 \u00D7 tan(15\u00B0) = 1,200 \u00D7 0.2679 = 321.5 \u2248 322 ft. The 693 ft choice used tan(I) = tan(30\u00B0) = 0.5774 instead of tan(I/2) \u2014 forgot to halve the angle: 1,200 \u00D7 0.5774 = 693. The 628 ft choice is the curve length L = RI(\u03C0/180) = 1,200 \u00D7 30 \u00D7 \u03C0/180 = 628 \u2014 confused T with L. The 161 ft choice divided by 2 one too many times.',
+      eli5: 'T = R tan(I/2) = 1,200 \u00D7 tan(15\u00B0) = 1,200 \u00D7 0.2679 = 321.5 \u2248 322 ft. The 693 ft choice used tan(I) = tan(30\u00B0) = 0.5774 instead of tan(I/2), so it forgot to halve the angle: 1,200 \u00D7 0.5774 = 693. The 628 ft choice is the curve length L = RI(\u03C0/180) = 1,200 \u00D7 30 \u00D7 \u03C0/180 = 628, so it confused T with L. The 161 ft choice divided by 2 one too many times.',
       hint: 'T = R tan(I/2). Make sure to halve the intersection angle before taking the tangent.',
       steps: [
         { text: 'Tangent distance:', latex: 'T = R \\tan\\!\\left(\\frac{I}{2}\\right) = 1{,}200 \\times \\tan(15\\degree) = 1{,}200 \\times 0.2679 = 322 \\text{ ft}' },
@@ -66,7 +66,7 @@ export default {
       handbookFormula: 'T = R \\tan(I/2)',
       videoUrl: null,
       traps: [
-        'Using tan(I) instead of tan(I/2) \u2014 the intersection angle must be halved',
+        'Using tan(I) instead of tan(I/2), when the intersection angle must be halved',
         'Confusing tangent distance T with curve length L',
       ],
       diagram: { component: 'HorizontalCurve', props: { R: 1200, I: 30 } },
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: '0.01e + f = V\u00B2/(15R) = 45\u00B2/(15 \u00D7 600) = 2,025/9,000 = 0.225. Solve: 0.01e = 0.225 \u2212 0.15 = 0.075. e = 7.5%. The 22.5% option forgot to subtract f \u2014 set 0.01e = 0.225, so e = 22.5. The 0.075% option solved for 0.01e and reported that as e without dividing by 0.01. The 15.0% option confused e with f \u00D7 100.',
+      eli5: '0.01e + f = V\u00B2/(15R) = 45\u00B2/(15 \u00D7 600) = 2,025/9,000 = 0.225. Solve: 0.01e = 0.225 \u2212 0.15 = 0.075. e = 7.5%. The 22.5% option forgot to subtract f: set 0.01e = 0.225, so e = 22.5. The 0.075% option solved for 0.01e and reported that as e without dividing by 0.01. The 15.0% option confused e with f \u00D7 100.',
       hint: 'Solve 0.01e + f = V\u00B2/(15R) for e. Remember e is in percent, so 0.01e converts it to decimal.',
       steps: [
         { text: 'Compute the right side:', latex: '\\frac{V^2}{15R} = \\frac{45^2}{15 \\times 600} = \\frac{2{,}025}{9{,}000} = 0.225' },
@@ -94,8 +94,8 @@ export default {
       videoUrl: null,
       traps: [
         'Forgetting to subtract the friction factor f before solving for e',
-        'Reporting 0.01e (= 0.075) as e \u2014 the factor of 0.01 must be divided out',
-        'Confusing the formula with e + f = V\u00B2/(gR) from physics \u2014 the handbook uses the highway version with 15R',
+        'Reporting 0.01e (= 0.075) as e, when the factor of 0.01 must be divided out',
+        'Confusing the formula with e + f = V\u00B2/(gR) from physics, when the handbook uses the highway version with 15R',
       ],
       diagram: null,
     },

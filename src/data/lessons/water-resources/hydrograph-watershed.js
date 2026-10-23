@@ -2,7 +2,7 @@ export default {
   id: 'hydrograph-watershed',
   name: 'Hydrographs & Watershed Analysis',
   subtopicId: 'hydrology-groundwater',
-  application: 'Civil engineers use hydrographs to predict the shape and timing of runoff \u2014 not just the peak flow, but how long the storm takes to arrive, peak, and recede. You need the full hydrograph to size detention ponds, route flows through a reservoir, and design outlet structures. Watershed characteristics like time of concentration and drainage area control how fast runoff reaches the outlet. On the FE, expect problems scaling unit hydrographs, computing time of concentration, and applying the hydrologic mass balance.',
+  application: 'Civil engineers use hydrographs to predict the shape and timing of runoff, not just the peak flow, but how long the storm takes to arrive, peak, and recede. You need the full hydrograph to size detention ponds, route flows through a reservoir, and design outlet structures. Watershed characteristics like time of concentration and drainage area control how fast runoff reaches the outlet. On the FE, expect problems scaling unit hydrographs, computing time of concentration, and applying the hydrologic mass balance.',
   content: [
     { type: 'text', body: 'A hydrograph plots discharge vs. time at a watershed outlet. The unit hydrograph is the fundamental building block for predicting runoff from any storm.' },
     { type: 'heading', body: 'Unit Hydrograph' },
@@ -11,7 +11,7 @@ export default {
     { type: 'heading', body: 'Hydrograph Components' },
     { type: 'text', body: 'Total streamflow = direct runoff + baseflow. Direct runoff is the storm-generated component. The rising limb reflects rainfall intensity; the falling limb (recession) reflects drainage of stored water. The peak occurs after the centroid of rainfall, delayed by the basin lag time.' },
     { type: 'heading', body: 'Time of Concentration' },
-    { type: 'text', body: 'Time of concentration ($t_c$) is the time for water to travel from the most hydraulically distant point in the watershed to the outlet. For the Rational Method, the design storm duration equals $t_c$ \u2014 this produces the maximum peak discharge.' },
+    { type: 'text', body: 'Time of concentration ($t_c$) is the time for water to travel from the most hydraulically distant point in the watershed to the outlet. For the Rational Method, the design storm duration equals $t_c$, because this produces the maximum peak discharge.' },
     { type: 'heading', body: 'Watershed Storage Routing' },
     { type: 'formula', latex: 'I - O = \\frac{\\Delta S}{\\Delta t}', label: 'Storage routing equation' },
     { type: 'text', body: 'Where $I$ is inflow, $O$ is outflow, and $\\Delta S/\\Delta t$ is the rate of change in storage. This is the basis for reservoir routing (Modified Puls method) used to design detention ponds.' },
@@ -68,8 +68,8 @@ export default {
       handbookFormula: 'Q = CIA',
       videoUrl: null,
       traps: [
-        'Converting minutes to hours and dividing the intensity \u2014 the intensity is already in in./hr for the correct duration',
-        'Using an intensity for a different duration than t_c \u2014 Q = CIA requires the intensity for storm duration = t_c',
+        'Converting minutes to hours and dividing the intensity, when the intensity is already in in./hr for the correct duration',
+        'Using an intensity for a different duration than t_c, when Q = CIA requires the intensity for storm duration = t_c',
       ],
       diagram: null,
     },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'I \u2013 O = \u0394S/\u0394t. So \u0394S/\u0394t = 800 \u2013 500 = 300 cfs. Since it\'s positive, storage is INCREASING \u2014 more water is coming in than going out. This is the fundamental principle behind detention pond design: during a storm, the pond fills (I > O), storing water to reduce the downstream peak. The "storage is not changing" choice assumes steady state. The "decreasing at 300 cfs" choice reverses the sign. The "increasing at 1,300 cfs" choice adds instead of subtracting.',
+      eli5: 'I \u2013 O = \u0394S/\u0394t. So \u0394S/\u0394t = 800 \u2013 500 = 300 cfs. Since it\'s positive, storage is INCREASING: more water is coming in than going out. This is the fundamental principle behind detention pond design: during a storm, the pond fills (I > O), storing water to reduce the downstream peak. The "storage is not changing" choice assumes steady state. The "decreasing at 300 cfs" choice reverses the sign. The "increasing at 1,300 cfs" choice adds instead of subtracting.',
       hint: 'Apply I \u2013 O = \u0394S/\u0394t. A positive result means storage is increasing.',
       steps: [
         { text: 'Storage routing equation:', latex: 'I - O = \\frac{\\Delta S}{\\Delta t}' },

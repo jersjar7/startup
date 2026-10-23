@@ -2,9 +2,9 @@ export default {
   "id": "dot-product-angle",
   "name": "Dot Product & Angle Between Vectors",
   "subtopicId": "vector-operations",
-  "application": "The dot product is how civil engineers find the angle between two forces, compute the component of one force along another direction, and check whether two vectors are perpendicular. In structural analysis, you use it to find the projection of a load onto a member axis. In surveying, it helps find the angle between two traverse legs. On the FE, dot product questions are quick if you know the two formulas — the component formula and the cosine formula — and when to use each.",
+  "application": "The dot product is how civil engineers find the angle between two forces, compute the component of one force along another direction, and check whether two vectors are perpendicular. In structural analysis, you use it to find the projection of a load onto a member axis. In surveying, it helps find the angle between two traverse legs. On the FE, dot product questions are quick if you know the two formulas (the component formula and the cosine formula) and when to use each.",
   "content": [
-    { "type": "text", "body": "The dot product takes two vectors and returns a scalar. It has two equivalent formulas — one for computing, one for finding angles." },
+    { "type": "text", "body": "The dot product takes two vectors and returns a scalar. It has two equivalent formulas: one for computing, one for finding angles." },
     { "type": "heading", "body": "Dot Product (Component Form)" },
     { "type": "formula", "latex": "\\vec{A} \\cdot \\vec{B} = A_xB_x + A_yB_y + A_zB_z" },
     { "type": "text", "body": "Multiply matching components and add. This is the formula you use to compute the number." },
@@ -32,7 +32,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "easy",
-      "eli5": "Multiply matching components and add: x with x, y with y. That's it. The negative sign on B_x = -2 is critical — (3)(-2) = -6, not +6. Then add (4)(5) = 20. Total: 14. The choice -6 is just the first term without adding the second.",
+      "eli5": "Multiply matching components and add: x with x, y with y. That's it. The negative sign on B_x = -2 is critical: (3)(-2) = -6, not +6. Then add (4)(5) = 20. Total: 14. The choice -6 is just the first term without adding the second.",
       "hint": "Multiply x-components together, multiply y-components together, then add.",
       "steps": [
         { "text": "Apply the component formula:", "latex": "\\vec{A} \\cdot \\vec{B} = (3)(-2) + (4)(5)" },
@@ -43,7 +43,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Dropping the negative sign: (3)(-2) = -6, not +6",
-        "Cross-multiplying components (A_x B_y) instead of matching (A_x B_x) — that's the cross product pattern"
+        "Cross-multiplying components (A_x B_y) instead of matching (A_x B_x). That's the cross product pattern"
       ],
       "diagram": null
     },
@@ -58,7 +58,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "medium",
-      "eli5": "This is the standard three-step workflow: (1) compute the dot product with components, (2) compute both magnitudes, (3) divide and take inverse cosine. Vector A points along the x-axis, vector B points at 45° in the xy-plane — so the answer makes geometric sense. Always sanity-check your angle.",
+      "eli5": "This is the standard three-step workflow: (1) compute the dot product with components, (2) compute both magnitudes, (3) divide and take inverse cosine. Vector A points along the x-axis, vector B points at 45° in the xy-plane, so the answer makes geometric sense. Always sanity-check your angle.",
       "hint": "Use $\\cos\\theta = (\\vec{A} \\cdot \\vec{B}) / (|\\vec{A}||\\vec{B}|)$ and solve for $\\theta$.",
       "steps": [
         { "text": "Dot product:", "latex": "\\vec{A} \\cdot \\vec{B} = (1)(1) + (0)(1) + (0)(0) = 1" },
@@ -86,8 +86,8 @@ export default {
       ],
       "correctAnswerId": "c4",
       "difficulty": "hard",
-      "eli5": "The scalar projection tells you how much of the force acts along the member's axis. Compute the dot product (which mixes all three components), then divide by the magnitude of the direction vector — not the force vector. The 1500 N option is the raw dot product without dividing — the most common mistake. The 900 N option is the sum of force component magnitudes, which ignores direction entirely.",
-      "hint": "The component of F along d is (F · d) / |d| — divide by the magnitude of the direction, not the force.",
+      "eli5": "The scalar projection tells you how much of the force acts along the member's axis. Compute the dot product (which mixes all three components), then divide by the magnitude of the direction vector, not the force vector. The 1500 N option is the raw dot product without dividing, the most common mistake. The 900 N option is the sum of force component magnitudes, which ignores direction entirely.",
+      "hint": "The component of F along d is (F · d) / |d|, so divide by the magnitude of the direction, not the force.",
       "steps": [
         { "text": "Dot product:", "latex": "\\vec{F} \\cdot \\vec{d} = (300)(2) + (600)(2) + (-300)(1) = 600 + 1200 - 300 = 1500" },
         { "text": "Magnitude of direction:", "latex": "|\\vec{d}| = \\sqrt{4 + 4 + 1} = 3" },
@@ -97,8 +97,8 @@ export default {
       "handbookFormula": "\\text{proj}_{\\vec{B}}\\vec{A} = \\frac{\\vec{A} \\cdot \\vec{B}}{|\\vec{B}|}",
       "videoUrl": null,
       "traps": [
-        "Using the raw dot product (1500) without dividing by |d| — the projection requires normalization",
-        "Dividing by |F| instead of |d| — you project onto the direction vector, not the force"
+        "Using the raw dot product (1500) without dividing by |d|. The projection requires normalization",
+        "Dividing by |F| instead of |d|. You project onto the direction vector, not the force"
       ],
       "diagram": null
     }

@@ -470,7 +470,7 @@ const PROBLEMS = [
         latex: '20 - 3 = 17\\ \\text{years}'
       }
     ],
-    handbookPage: 'p. 12, Intellectual Property — Patents',
+    handbookPage: 'p. 12, Intellectual Property: Patents',
     handbookFormula:
       '\\text{Patent: exclusive right to make, use, sell an invention for 20 years from filing date.}',
     videoUrl: null,
@@ -527,7 +527,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 12, Intellectual Property — Patents',
+    handbookPage: 'p. 12, Intellectual Property: Patents',
     handbookFormula:
       '\\text{Patent requires public disclosure; trade secret requires maintained secrecy. The two are mutually exclusive.}',
     videoUrl: null,
@@ -551,7 +551,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'A unit-price contract pays a set rate per measured unit (e.g., per cubic yard), so it handles uncertain quantities well — the owner pays for what is actually built. A lump-sum contract requires a defined quantity up front. Design-build is a delivery method, not a pricing basis, and a GMP caps total cost rather than pricing per unit.',
+    eli5: 'A unit-price contract pays a set rate per measured unit (e.g., per cubic yard), so it handles uncertain quantities well, because the owner pays for what is actually built. A lump-sum contract requires a defined quantity up front. Design-build is a delivery method, not a pricing basis, and a GMP caps total cost rather than pricing per unit.',
     hint: 'Which pricing basis pays per measured unit of work?',
     steps: [
       { text: 'Uncertain quantities favor paying per measured unit.', latex: null },
@@ -581,10 +581,10 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'In Design-Bid-Build the owner first contracts with a designer, then separately bids and contracts the construction — two separate contracts and two separate entities. A single combined entity describes Design-Build (the "single entity responsible for both design and construction" choice). The choices stating the contractor performs the design and that the engineer guarantees the construction cost misstate the roles.',
+    eli5: 'In Design-Bid-Build the owner first contracts with a designer, then separately bids and contracts the construction: two separate contracts and two separate entities. A single combined entity describes Design-Build (the "single entity responsible for both design and construction" choice). The choices stating the contractor performs the design and that the engineer guarantees the construction cost misstate the roles.',
     hint: 'Does DBB combine or separate the design and construction contracts?',
     steps: [
-      { text: 'DBB = design, then bid, then build — in sequence.', latex: null },
+      { text: 'DBB = design, then bid, then build, in sequence.', latex: null },
       { text: 'The owner holds separate contracts for design and construction.', latex: null },
       { text: 'Design and construction are therefore separate entities.', latex: null },
     ],
@@ -612,7 +612,7 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'easy',
     eli5: 'Negligence requires duty, breach, causation, and damages. The "duty, intent, causation, damages" option swaps in intent, which belongs to intentional torts, not negligence. The "offer, acceptance, consideration, breach" option lists contract-formation elements. The "breach, malice, harm, profit" option invents elements that are not part of the test.',
-    hint: 'Negligence does not require intent — what are the four real elements?',
+    hint: 'Negligence does not require intent. What are the four real elements?',
     steps: [
       { text: 'Negligence elements: duty, breach, causation, damages.', latex: null },
       { text: 'Intent is for intentional torts, not negligence.', latex: null },
@@ -634,14 +634,14 @@ const PROBLEMS = [
     type: 'conceptual',
     statement: 'A claim is filed against an engineer 12 years after a building was substantially completed. The jurisdiction has a 10-year statute of repose for construction. What is the effect?',
     choices: [
-      { id: 'c1', text: 'The claim is barred — the statute of repose set an absolute 10-year cutoff from substantial completion' },
+      { id: 'c1', text: 'The claim is barred because the statute of repose set an absolute 10-year cutoff from substantial completion' },
       { id: 'c2', text: 'The claim proceeds because the harm was only recently discovered' },
       { id: 'c3', text: 'The statute of repose does not apply to engineers' },
       { id: 'c4', text: 'The claim proceeds because there is no time limit on negligence' },
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'A statute of repose sets an absolute outer deadline measured from a fixed event — here, substantial completion — regardless of when the harm is discovered. Twelve years exceeds the 10-year repose period, so the claim is barred. The "recently discovered" option describes a statute of limitations (discovery-based), which the repose period overrides. The options claiming repose doesn\'t apply to engineers and that there is no time limit on negligence are simply incorrect.',
+    eli5: 'A statute of repose sets an absolute outer deadline measured from a fixed event (here, substantial completion) regardless of when the harm is discovered. Twelve years exceeds the 10-year repose period, so the claim is barred. The "recently discovered" option describes a statute of limitations (discovery-based), which the repose period overrides. The options claiming repose doesn\'t apply to engineers and that there is no time limit on negligence are simply incorrect.',
     hint: 'A statute of repose runs from completion, not discovery, and is absolute.',
     steps: [
       { text: 'Statute of repose: absolute cutoff from substantial completion.', latex: null },

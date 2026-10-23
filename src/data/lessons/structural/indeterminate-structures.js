@@ -2,11 +2,11 @@ export default {
   "id": "indeterminate-structures",
   "name": "Elementary Indeterminate Structures",
   "subtopicId": "analysis-loads",
-  "application": "Real structures are usually statically indeterminate — continuous beams, fixed-end members, propped cantilevers. The FE keeps this elementary: count the degree of indeterminacy, then handle a single redundant with the force method (consistent deformations) or recall standard results like the propped-cantilever reaction and fixed-end moments.",
+  "application": "Real structures are usually statically indeterminate: continuous beams, fixed-end members, propped cantilevers. The FE keeps this elementary: count the degree of indeterminacy, then handle a single redundant with the force method (consistent deformations) or recall standard results like the propped-cantilever reaction and fixed-end moments.",
   "content": [
     {
       "type": "text",
-      "body": "A structure is statically indeterminate when it has more reaction/internal unknowns than equilibrium equations. The degree of static indeterminacy (DSI) is how many extra unknowns there are — the number of redundants you must release to make it determinate."
+      "body": "A structure is statically indeterminate when it has more reaction/internal unknowns than equilibrium equations. The degree of static indeterminacy (DSI) is how many extra unknowns there are, the number of redundants you must release to make it determinate."
     },
     {
       "type": "heading",
@@ -45,7 +45,7 @@ export default {
     {
       "type": "callout",
       "variant": "warning",
-      "body": "Don't confuse fixed-end moment wL²/12 with the simple-span maximum moment wL²/8 — the fixed ends pull the moment down at midspan and create end moments instead."
+      "body": "Don't confuse fixed-end moment wL²/12 with the simple-span maximum moment wL²/8. The fixed ends pull the moment down at midspan and create end moments instead."
     }
   ],
   "illustration": null,
@@ -61,7 +61,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "Count reactions: the fixed end provides 3 (horizontal, vertical, moment) and the roller provides 1 (vertical), giving 4. A planar beam has 3 equilibrium equations, so $DSI = 4 - 3 = 1$ — indeterminate to the first degree. The \"0\" option would be a determinate beam (e.g., simply supported).",
+      "eli5": "Count reactions: the fixed end provides 3 (horizontal, vertical, moment) and the roller provides 1 (vertical), giving 4. A planar beam has 3 equilibrium equations, so $DSI = 4 - 3 = 1$, so it is indeterminate to the first degree. The \"0\" option would be a determinate beam (e.g., simply supported).",
       "hint": "Count reaction components, subtract the 3 equilibrium equations.",
       "steps": [
         { "text": "Fixed end = 3 reactions; roller = 1 reaction; total $r = 4$.", "latex": null },
@@ -115,7 +115,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Fixed-fixed beam under UDL: the fixed-end moment is $wL^2/12 = 10(6^2)/12 = 360/12 = 30\\text{ kN·m}$. The 45 kN\u00b7m choice uses the simple-span midspan moment $wL^2/8$ by mistake — that's the wrong formula for a fixed end.",
+      "eli5": "Fixed-fixed beam under UDL: the fixed-end moment is $wL^2/12 = 10(6^2)/12 = 360/12 = 30\\text{ kN·m}$. The 45 kN\u00b7m choice uses the simple-span midspan moment $wL^2/8$ by mistake, and that's the wrong formula for a fixed end.",
       "hint": "Fixed-fixed beam, UDL → fixed-end moment = wL²/12.",
       "steps": [
         { "text": "Standard result for a fixed-fixed beam under UDL.", "latex": null },

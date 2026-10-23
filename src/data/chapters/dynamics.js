@@ -2,7 +2,7 @@ export default {
   context: 'This chapter tests kinematics, kinetics, energy methods, and momentum principles for particles and rigid bodies.',
   subtopics: [
     { id: 'kinematics', name: 'Kinematics',
-      application: 'Kinematics describes motion without worrying about forces — how fast, how far, what path. Civil engineers use it to derive stopping sight distance on highways, predict projectile trajectories for debris analysis, and calculate the motion of rotating machinery components.' },
+      application: 'Kinematics describes motion without worrying about forces: how fast, how far, what path. Civil engineers use it to derive stopping sight distance on highways, predict projectile trajectories for debris analysis, and calculate the motion of rotating machinery components.' },
     { id: 'kinetics-and-energy', name: 'Kinetics & Energy',
       application: 'Kinetics connects forces to the motion they cause. Civil engineers use Newton\'s second law to compute dynamic forces from earthquake ground acceleration on a building, impact forces on bridge barriers, and work-energy methods to size pump motors, design guardrails for crash energy absorption, and calculate power requirements for construction equipment.' },
     { id: 'momentum-and-vibrations', name: 'Momentum & Vibrations',
@@ -18,10 +18,10 @@ export default {
     { latex: '\\omega_n = \\sqrt{k/m}', label: 'Natural Frequency', page: 'p. 112' },
   ],
   traps: [
-    'Using kinematic equations when acceleration is NOT constant — they only work for uniform acceleration.',
-    'Forgetting to include all forces (gravity, friction, normals) in ΣF = ma — draw the FBD first.',
-    'Mixing up elastic and inelastic collisions — kinetic energy is only conserved in elastic collisions.',
-    'Not converting angular units — ω must be in rad/s, not rpm, for most formulas.',
-    'Confusing velocity and speed in projectile motion — velocity has direction.',
+    'Using kinematic equations when acceleration is NOT constant, because they only work for uniform acceleration.',
+    'Forgetting to include all forces (gravity, friction, normals) in ΣF = ma. Draw the FBD first.',
+    'Mixing up elastic and inelastic collisions: kinetic energy is only conserved in elastic collisions.',
+    'Not converting angular units, since ω must be in rad/s, not rpm, for most formulas.',
+    'Confusing velocity and speed in projectile motion: velocity has direction.',
   ],
 };

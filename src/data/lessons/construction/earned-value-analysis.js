@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: '$CV = BCWP - ACWP = 400{,}000 - 450{,}000 = -50{,}000$. Negative CV means the project spent more than the work is worth \u2014 over budget. The +50,000 (under budget) choice flipped the subtraction order. The -50,000 (under budget) choice got the sign right but misinterpreted it. The +50,000 (over budget) choice got both wrong.',
+      eli5: '$CV = BCWP - ACWP = 400{,}000 - 450{,}000 = -50{,}000$. Negative CV means the project spent more than the work is worth, so it is over budget. The +50,000 (under budget) choice flipped the subtraction order. The -50,000 (under budget) choice got the sign right but misinterpreted it. The +50,000 (over budget) choice got both wrong.',
       hint: 'CV = Earned \u2212 Actual. Negative = over budget (you spent more than you earned).',
       steps: [
         { text: 'Cost variance:', latex: 'CV = BCWP - ACWP = 400{,}000 - 450{,}000 = -50{,}000' },
@@ -39,7 +39,7 @@ export default {
       handbookFormula: 'CV = BCWP - ACWP',
       videoUrl: null,
       traps: [
-        'Subtracting in the wrong order (ACWP \u2212 BCWP) \u2014 the formula is BCWP \u2212 ACWP',
+        'Subtracting in the wrong order (ACWP \u2212 BCWP), when the formula is BCWP \u2212 ACWP',
         'Misinterpreting the sign: negative CV = over budget, positive = under budget',
       ],
       diagram: null,
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: '$SV = BCWP - BCWS = 420{,}000 - 500{,}000 = -80{,}000$. Negative SV means the project earned less value than planned \u2014 behind schedule. The $-60{,}000$ choice confused SV with CV: $BCWP - ACWP = 420{,}000 - 480{,}000 = -60{,}000$. That is the cost variance, not the schedule variance. The $+80{,}000$ choice flipped the sign. The $+20{,}000$ choice used $BCWS - ACWP = 500{,}000 - 480{,}000 = 20{,}000$, which is not a standard formula.',
+      eli5: '$SV = BCWP - BCWS = 420{,}000 - 500{,}000 = -80{,}000$. Negative SV means the project earned less value than planned, so it is behind schedule. The $-60{,}000$ choice confused SV with CV: $BCWP - ACWP = 420{,}000 - 480{,}000 = -60{,}000$. That is the cost variance, not the schedule variance. The $+80{,}000$ choice flipped the sign. The $+20{,}000$ choice used $BCWS - ACWP = 500{,}000 - 480{,}000 = 20{,}000$, which is not a standard formula.',
       hint: 'SV = BCWP \u2212 BCWS. Don\'t confuse it with CV = BCWP \u2212 ACWP.',
       steps: [
         { text: 'Schedule variance:', latex: 'SV = BCWP - BCWS = 420{,}000 - 500{,}000 = -80{,}000' },
@@ -66,7 +66,7 @@ export default {
       handbookFormula: 'SV = BCWP - BCWS',
       videoUrl: null,
       traps: [
-        'Computing CV instead of SV \u2014 SV uses BCWS, CV uses ACWP',
+        'Computing CV instead of SV, when SV uses BCWS, CV uses ACWP',
         'Mixing up the three values: BCWS (planned), ACWP (actual cost), BCWP (earned value)',
       ],
       diagram: null,
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: '$SV = BCWP - BCWS = 270{,}000 - 300{,}000 = -30{,}000 < 0$ \u2014 behind schedule. $CV = BCWP - ACWP = 270{,}000 - 250{,}000 = +20{,}000 > 0$ \u2014 under budget. So the project did less work than planned (behind schedule) but spent less than the work is worth (under budget). This combination is common \u2014 the crew is efficient but slow. "Ahead of schedule and under budget" has schedule wrong. "Behind schedule and over budget" has cost wrong. "Ahead of schedule and over budget" has both wrong.',
+      eli5: '$SV = BCWP - BCWS = 270{,}000 - 300{,}000 = -30{,}000 < 0$, so it is behind schedule. $CV = BCWP - ACWP = 270{,}000 - 250{,}000 = +20{,}000 > 0$, so it is under budget. So the project did less work than planned (behind schedule) but spent less than the work is worth (under budget). This combination is common: the crew is efficient but slow. "Ahead of schedule and under budget" has schedule wrong. "Behind schedule and over budget" has cost wrong. "Ahead of schedule and over budget" has both wrong.',
       hint: 'Compute both CV and SV. CV tells you cost performance, SV tells you schedule performance.',
       steps: [
         { text: 'Schedule:', latex: 'SV = 270{,}000 - 300{,}000 = -30{,}000 < 0 \\;\\rightarrow\\; \\text{behind schedule}' },
@@ -93,7 +93,7 @@ export default {
       handbookFormula: 'CV = BCWP - ACWP,\\quad SV = BCWP - BCWS',
       videoUrl: null,
       traps: [
-        'Assuming over budget and behind schedule always go together \u2014 they are independent measures',
+        'Assuming over budget and behind schedule always go together, when they are independent measures',
         'Mixing up the sign interpretation: positive = good (under budget or ahead of schedule)',
       ],
       diagram: null,

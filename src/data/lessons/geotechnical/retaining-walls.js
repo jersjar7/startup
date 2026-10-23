@@ -39,7 +39,7 @@ export default {
       handbookFormula: 'FS_{\\text{overturning}} = \\frac{\\Sigma M_R}{M_O}',
       videoUrl: null,
       traps: [
-        'Inverting the ratio \u2014 FS = resisting/driving, not driving/resisting',
+        'Inverting the ratio, when FS = resisting/driving, not driving/resisting',
         'Subtracting MO from MR instead of dividing',
       ],
       diagram: null,
@@ -66,7 +66,7 @@ export default {
       handbookFormula: 'e = \\frac{B}{2} - \\frac{\\Sigma M_R - M_O}{\\Sigma V}',
       videoUrl: null,
       traps: [
-        'Reporting x\u0304 (distance from toe) as the eccentricity \u2014 eccentricity is measured from the center of the base',
+        'Reporting x\u0304 (distance from toe) as the eccentricity, when eccentricity is measured from the center of the base',
         'Forgetting to subtract MO from MR before dividing by \u03A3V',
       ],
       diagram: { component: 'WallBase', props: { baseWidth: 6, unit: 'ft' } },
@@ -93,9 +93,9 @@ export default {
       handbookFormula: 'q_{\\text{toe}} = \\frac{\\Sigma V}{B}\\left(1 + \\frac{6e}{B}\\right)',
       videoUrl: null,
       traps: [
-        'Using \u03A3V/B as the answer without accounting for eccentricity \u2014 this only works when e = 0 (resultant at the center)',
-        'Forgetting the factor of 6 in 6e/B \u2014 the formula is derived from the trapezoidal stress distribution',
-        'Using e in the wrong formula \u2014 the (1 + 6e/B) formula only applies when e \u2264 B/6',
+        'Using \u03A3V/B as the answer without accounting for eccentricity, when this only works when e = 0 (resultant at the center)',
+        'Forgetting the factor of 6 in 6e/B, when the formula is derived from the trapezoidal stress distribution',
+        'Using e in the wrong formula, since the (1 + 6e/B) formula only applies when e \u2264 B/6',
       ],
       diagram: { component: 'WallBase', props: { baseWidth: 8, resultantPos: 3.0, unit: 'ft' } },
     },

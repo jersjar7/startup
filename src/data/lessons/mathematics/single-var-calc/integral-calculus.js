@@ -2,11 +2,11 @@ export default {
   "id": "integral-calculus",
   "name": "Integral Calculus",
   "subtopicId": "single-var-calc",
-  "application": "Civil engineers integrate constantly — computing the area under a load diagram to find total force, calculating earthwork volumes from cross-section data, finding the total flow through a culvert over time, or determining the deflection of a beam from its moment equation. The FE gives you a function and asks for an antiderivative or a definite integral. You have the integral table in the handbook, so the real skill is recognizing which formula fits and applying substitution or integration by parts when it doesn't match directly.",
+  "application": "Civil engineers integrate constantly: computing the area under a load diagram to find total force, calculating earthwork volumes from cross-section data, finding the total flow through a culvert over time, or determining the deflection of a beam from its moment equation. The FE gives you a function and asks for an antiderivative or a definite integral. You have the integral table in the handbook, so the real skill is recognizing which formula fits and applying substitution or integration by parts when it doesn't match directly.",
   "content": [
     {
       "type": "text",
-      "body": "Integration is the reverse of differentiation. On the FE, you either evaluate a definite integral (get a number) or find an indefinite integral (get a function + C). The handbook gives you 27 integral formulas — your job is pattern matching."
+      "body": "Integration is the reverse of differentiation. On the FE, you either evaluate a definite integral (get a number) or find an indefinite integral (get a function + C). The handbook gives you 27 integral formulas, and your job is pattern matching."
     },
     {
       "type": "heading",
@@ -18,7 +18,7 @@ export default {
     },
     {
       "type": "text",
-      "body": "Where $F'(x) = f(x)$. The $+C$ matters on the exam — wrong answer choices often omit it."
+      "body": "Where $F'(x) = f(x)$. The $+C$ matters on the exam, because wrong answer choices often omit it."
     },
     {
       "type": "heading",
@@ -42,7 +42,7 @@ export default {
     },
     {
       "type": "text",
-      "body": "Use when the integrand is a product of two different types (e.g., $x\\,e^x$, $x\\,\\sin x$). Pick $u$ using LIATE: Logs, Inverse trig, Algebraic, Trig, Exponential — earlier in the list = better choice for $u$."
+      "body": "Use when the integrand is a product of two different types (e.g., $x\\,e^x$, $x\\,\\sin x$). Pick $u$ using LIATE: Logs, Inverse trig, Algebraic, Trig, Exponential. Earlier in the list = better choice for $u$."
     },
     {
       "type": "heading",
@@ -62,7 +62,7 @@ export default {
     },
     {
       "type": "text",
-      "body": "Find the antiderivative, plug in the upper limit, subtract the lower limit. No $+C$ needed — it cancels."
+      "body": "Find the antiderivative, plug in the upper limit, subtract the lower limit. No $+C$ needed, because it cancels."
     },
     {
       "type": "callout",
@@ -72,7 +72,7 @@ export default {
     {
       "type": "callout",
       "variant": "exam",
-      "body": "The FE handbook has the integral table on p. 50. You don't need to memorize all 27 formulas — but you DO need to recognize when substitution or by-parts is needed to get an integrand into a form that matches the table."
+      "body": "The FE handbook has the integral table on p. 50. You don't need to memorize all 27 formulas, but you DO need to recognize when substitution or by-parts is needed to get an integrand into a form that matches the table."
     }
   ],
   "illustration": null,
@@ -100,7 +100,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "easy",
-      "eli5": "Total force from a varying pressure is just the integral of the pressure function over the loaded length. Power rule: bring the exponent up by 1 and divide. The 3 and the 1/3 cancel perfectly here — clean answer, no tricks.",
+      "eli5": "Total force from a varying pressure is just the integral of the pressure function over the loaded length. Power rule: bring the exponent up by 1 and divide. The 3 and the 1/3 cancel perfectly here: clean answer, no tricks.",
       "hint": "Integrate the pressure function from 0 to 2 using the power rule.",
       "steps": [
         {
@@ -121,7 +121,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Forgetting to evaluate at both limits (plugging in only the upper bound)",
-        "Confusing pressure (kPa) with force (kN/m) — the integral of pressure over length gives force per unit width"
+        "Confusing pressure (kPa) with force (kN/m). The integral of pressure over length gives force per unit width"
       ],
       "diagram": null
     },
@@ -148,8 +148,8 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "You've got $x$ times $e^{2x}$ — two different types multiplied together, so it's integration by parts. LIATE says pick $u = x$ (algebraic) since it comes before exponential. Then $dv = e^{2x}\\,dx$ and you integrate that to get $v$. Watch the factor of 1/2 from integrating $e^{2x}$ — that's where most errors happen.",
-      "hint": "LIATE: $x$ is algebraic (A), $e^{2x}$ is exponential (E). Algebraic comes first — let $u = x$.",
+      "eli5": "You've got $x$ times $e^{2x}$, two different types multiplied together, so it's integration by parts. LIATE says pick $u = x$ (algebraic) since it comes before exponential. Then $dv = e^{2x}\\,dx$ and you integrate that to get $v$. Watch the factor of 1/2 from integrating $e^{2x}$, because that's where most errors happen.",
+      "hint": "LIATE: $x$ is algebraic (A), $e^{2x}$ is exponential (E). Algebraic comes first, so let $u = x$.",
       "steps": [
         {
           "text": "Use integration by parts:",
@@ -181,7 +181,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Forgetting the 1/2 factor when integrating $e^{2x}$ (the antiderivative is $\\frac{e^{2x}}{2}$, not $e^{2x}$)",
-        "Picking $u$ and $dv$ backwards — if you let $u = e^{2x}$, the integral gets harder, not easier"
+        "Picking $u$ and $dv$ backwards. If you let $u = e^{2x}$, the integral gets harder, not easier"
       ],
       "diagram": null
     },
@@ -208,7 +208,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "hard",
-      "eli5": "Whenever you see $\\sin^n x \\cdot \\cos x$ (or $\\cos^n x \\cdot \\sin x$), it's screaming for u-sub. The $\\cos x$ is the derivative of $\\sin x$ — that's the $g'(x)$ that makes substitution work. After substituting, you're left with a basic power rule integral. Don't forget to change the limits when it's a definite integral.",
+      "eli5": "Whenever you see $\\sin^n x \\cdot \\cos x$ (or $\\cos^n x \\cdot \\sin x$), it's screaming for u-sub. The $\\cos x$ is the derivative of $\\sin x$, and that's the $g'(x)$ that makes substitution work. After substituting, you're left with a basic power rule integral. Don't forget to change the limits when it's a definite integral.",
       "hint": "Notice that $\\cos x$ is the derivative of $\\sin x$. Let $u = \\sin x$.",
       "steps": [
         {
@@ -237,7 +237,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Forgetting to change the integration limits when substituting (going back to $x$ limits with a $u$ antiderivative)",
-        "Mixing up which function is $u$ and which is $du$ — the one with the higher power ($\\sin^3 x$) stays, its derivative ($\\cos x\\,dx$) becomes $du$"
+        "Mixing up which function is $u$ and which is $du$. The one with the higher power ($\\sin^3 x$) stays, its derivative ($\\cos x\\,dx$) becomes $du$"
       ],
       "diagram": null
     }

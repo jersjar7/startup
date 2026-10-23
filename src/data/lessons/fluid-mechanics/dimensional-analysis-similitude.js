@@ -2,7 +2,7 @@ export default {
   id: 'dimensional-analysis-similitude',
   name: 'Dimensional Analysis & Similitude',
   subtopicId: 'flow-analysis-measurement',
-  application: 'Civil engineers use dimensional analysis when building physical models \u2014 a scale model of a spillway in a hydraulics lab or a wind tunnel model of a bridge deck. The Buckingham Pi theorem tells you how many dimensionless groups exist. Similitude rules (Reynolds, Froude) tell you which parameters to match so model results predict full-scale behavior. On the FE, expect problems using the Pi theorem to count dimensionless groups or applying Froude similitude to scale model results.',
+  application: 'Civil engineers use dimensional analysis when building physical models, such as a scale model of a spillway in a hydraulics lab or a wind tunnel model of a bridge deck. The Buckingham Pi theorem tells you how many dimensionless groups exist. Similitude rules (Reynolds, Froude) tell you which parameters to match so model results predict full-scale behavior. On the FE, expect problems using the Pi theorem to count dimensionless groups or applying Froude similitude to scale model results.',
   content: [
     { type: 'text', body: 'Dimensional analysis reduces the number of variables in a problem by grouping them into dimensionless parameters. Similitude then uses those parameters to relate model behavior to prototype behavior.' },
     { type: 'heading', body: 'Buckingham Pi Theorem' },
@@ -13,11 +13,11 @@ export default {
     { type: 'formula', latex: 'Fr = \\frac{v}{\\sqrt{gl}}', label: 'Froude number (gravity similitude)' },
     { type: 'text', body: 'Reynolds number governs problems where viscous forces dominate (pipe flow, drag on submerged objects). Froude number governs problems where gravity forces dominate (open-channel flow, spillways, ship hulls).' },
     { type: 'heading', body: 'Similitude Rules' },
-    { type: 'text', body: 'For dynamic similarity, the model and prototype must have the same relevant dimensionless numbers. In civil engineering, this usually means matching either Reynolds or Froude \u2014 rarely both at the same scale.' },
+    { type: 'text', body: 'For dynamic similarity, the model and prototype must have the same relevant dimensionless numbers. In civil engineering, this usually means matching either Reynolds or Froude, rarely both at the same scale.' },
     { type: 'formula', latex: 'Re_m = Re_p \\quad \\Rightarrow \\quad \\frac{v_m l_m}{\\nu_m} = \\frac{v_p l_p}{\\nu_p}', label: 'Reynolds similitude' },
     { type: 'formula', latex: 'Fr_m = Fr_p \\quad \\Rightarrow \\quad \\frac{v_m}{\\sqrt{g l_m}} = \\frac{v_p}{\\sqrt{g l_p}}', label: 'Froude similitude' },
     { type: 'callout', variant: 'tip', body: 'For open-channel models (spillways, weirs, rivers), match the Froude number. For closed-conduit models (pipe fittings, valve testing), match the Reynolds number.' },
-    { type: 'callout', variant: 'exam', body: 'The Buckingham Pi theorem is quick points on the FE: count variables, count dimensions, subtract. Don\u2019t overthink it \u2014 it\u2019s just arithmetic.' },
+    { type: 'callout', variant: 'exam', body: 'The Buckingham Pi theorem is quick points on the FE: count variables, count dimensions, subtract. Don\u2019t overthink it, because it\u2019s just arithmetic.' },
   ],
   illustration: null,
   problems: [
@@ -42,7 +42,7 @@ export default {
       handbookFormula: 'k = n - r',
       videoUrl: null,
       traps: [
-        'Confusing variables with dimensions \u2014 n is the number of physical variables, r is the number of base dimensions',
+        'Confusing variables with dimensions, when n is the number of physical variables, r is the number of base dimensions',
         'Including duplicate or dependent variables in the count',
       ],
       diagram: null,
@@ -70,7 +70,7 @@ export default {
       videoUrl: null,
       traps: [
         'Dividing by the scale factor directly (25) instead of by the square root of the scale factor (5)',
-        'Using Reynolds similitude instead of Froude \u2014 open-channel flows require Froude matching',
+        'Using Reynolds similitude instead of Froude, when open-channel flows require Froude matching',
       ],
       diagram: null,
     },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Reynolds similitude: Re_m = Re_p. With the same fluid (\u03BD_m = \u03BD_p), we get v_m l_m = v_p l_p, so v_m = v_p \u00D7 (l_p/l_m) = 3 \u00D7 10 = 30 m/s. The model must move FASTER because it\u2019s smaller \u2014 to maintain the same Reynolds number, velocity must increase inversely with length. This is why Reynolds similitude is often impractical at small scales. The 0.3 m/s option divides by 10 (confuses the ratio direction). The 3 m/s option uses the same velocity. The 0.949 m/s option divides by the square root of the ratio (confusing with Froude).',
+      eli5: 'Reynolds similitude: Re_m = Re_p. With the same fluid (\u03BD_m = \u03BD_p), we get v_m l_m = v_p l_p, so v_m = v_p \u00D7 (l_p/l_m) = 3 \u00D7 10 = 30 m/s. The model must move FASTER because it\u2019s smaller. To maintain the same Reynolds number, velocity must increase inversely with length. This is why Reynolds similitude is often impractical at small scales. The 0.3 m/s option divides by 10 (confuses the ratio direction). The 3 m/s option uses the same velocity. The 0.949 m/s option divides by the square root of the ratio (confusing with Froude).',
       hint: 'Reynolds similitude with the same fluid: v_m = v_p \u00D7 (L_p/L_m). Smaller model means higher velocity.',
       steps: [
         { text: 'Reynolds similitude with same fluid ($\\nu_m = \\nu_p$):', latex: 'v_m l_m = v_p l_p' },
@@ -95,8 +95,8 @@ export default {
       handbookFormula: 'Re_m = Re_p \\quad \\Rightarrow \\quad \\frac{v_m l_m}{\\nu_m} = \\frac{v_p l_p}{\\nu_p}',
       videoUrl: null,
       traps: [
-        'Inverting the length ratio \u2014 smaller model needs HIGHER velocity, not lower',
-        'Confusing Reynolds similitude with Froude similitude \u2014 Reynolds uses the linear ratio, Froude uses the square root',
+        'Inverting the length ratio, when a smaller model needs HIGHER velocity, not lower',
+        'Confusing Reynolds similitude with Froude similitude. Reynolds uses the linear ratio, Froude uses the square root',
         'Applying Froude scaling (v_m = v_p\u221A(1/10) = 0.949) instead of Reynolds scaling',
       ],
       diagram: null,

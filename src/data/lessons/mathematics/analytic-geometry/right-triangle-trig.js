@@ -2,7 +2,7 @@ export default {
   "id": "right-triangle-trig",
   "name": "Right Triangle Trigonometry",
   "subtopicId": "analytic-geometry",
-  "application": "Civil engineers use right triangle trig constantly — resolving cable forces into horizontal and vertical components, computing slope distances on graded roads, sizing retaining wall footings, and laying out survey lines. On the FE exam, any time you see an angle paired with a force or a length, you're reaching for SOH-CAH-TOA. This is foundational for statics, surveying, and structural problems throughout the test.",
+  "application": "Civil engineers use right triangle trig constantly: resolving cable forces into horizontal and vertical components, computing slope distances on graded roads, sizing retaining wall footings, and laying out survey lines. On the FE exam, any time you see an angle paired with a force or a length, you're reaching for SOH-CAH-TOA. This is foundational for statics, surveying, and structural problems throughout the test.",
   "content": [
     {
       "type": "text",
@@ -71,8 +71,8 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "You are standing 50 m from a building and looking up at $35°$. You know the ground distance (adjacent) and want the height (opposite) — that is tangent. Multiply 50 by $\\tan(35°)$ and you are done. The trap is using sin or cos instead.",
-      "hint": "You know the adjacent side and want the opposite — which trig ratio connects those two?",
+      "eli5": "You are standing 50 m from a building and looking up at $35°$. You know the ground distance (adjacent) and want the height (opposite), so that is tangent. Multiply 50 by $\\tan(35°)$ and you are done. The trap is using sin or cos instead.",
+      "hint": "You know the adjacent side and want the opposite. Which trig ratio connects those two?",
       "steps": [
         {
           "text": "Identify the triangle: building height is opposite the 35° angle, the 50 m ground distance is adjacent.",
@@ -119,8 +119,8 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "medium",
-      "eli5": "\"40 degrees above horizontal\" means the angle is measured FROM the horizontal axis. The horizontal component is the side touching the angle — that's adjacent — so you use cosine. The classic trap is using sin for horizontal because it \"feels\" right. Remember: cos is cozy with the adjacent side.",
-      "hint": "The angle is measured from the horizontal axis — which side of the triangle is the horizontal component relative to that angle?",
+      "eli5": "\"40 degrees above horizontal\" means the angle is measured FROM the horizontal axis. The horizontal component is the side touching the angle, which is adjacent, so you use cosine. The classic trap is using sin for horizontal because it \"feels\" right. Remember: cos is cozy with the adjacent side.",
+      "hint": "The angle is measured from the horizontal axis. Which side of the triangle is the horizontal component relative to that angle?",
       "steps": [
         {
           "text": "The angle is measured from horizontal, so the horizontal component is adjacent to the angle.",
@@ -167,8 +167,8 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "hard",
-      "eli5": "This is a two-triangle problem. You set up tan equations from both positions — each has the same unknown height h but different distances. Write both equations, substitute one into the other, and solve for h. It looks nasty but it's just algebra after the two tan equations are set up. Don't try to shortcut — set up both equations first, then eliminate d.",
-      "hint": "Set up a separate tan equation from each observation point. Both share the same unknown height — eliminate the distance variable.",
+      "eli5": "This is a two-triangle problem. You set up tan equations from both positions, and each has the same unknown height h but different distances. Write both equations, substitute one into the other, and solve for h. It looks nasty but it's just algebra after the two tan equations are set up. Don't try to shortcut. Set up both equations first, then eliminate d.",
+      "hint": "Set up a separate tan equation from each observation point. Both share the same unknown height, so eliminate the distance variable.",
       "steps": [
         {
           "text": "Let h = tower height, d = horizontal distance from B to the base.",

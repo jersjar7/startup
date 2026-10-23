@@ -42,7 +42,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Because the four lifts are stated to be the whole population, divide the sum of squared deviations by $N = 4$, not $n - 1 = 3$. The mean is 51. The squared deviations sum to 20, so the variance is $20/4 = 5$ and the standard deviation is $\\sqrt{5} = 2.24$. The 2.58 mm choice is the sample standard deviation, which divides by $n - 1 = 3$ — wrong here because the problem says population. The 5.0 mm choice is the variance, not the standard deviation; the square root was skipped. The 51.0 mm choice is the mean, not a measure of spread.',
+    eli5: 'Because the four lifts are stated to be the whole population, divide the sum of squared deviations by $N = 4$, not $n - 1 = 3$. The mean is 51. The squared deviations sum to 20, so the variance is $20/4 = 5$ and the standard deviation is $\\sqrt{5} = 2.24$. The 2.58 mm choice is the sample standard deviation, which divides by $n - 1 = 3$, which is wrong here because the problem says population. The 5.0 mm choice is the variance, not the standard deviation; the square root was skipped. The 51.0 mm choice is the mean, not a measure of spread.',
     hint: 'The data is a full population, so divide the squared deviations by $N$, then take the square root.',
     steps: [
       { text: 'Compute the mean:', latex: '\\mu = \\frac{50 + 54 + 48 + 52}{4} = \\frac{204}{4} = 51' },
@@ -314,7 +314,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Compute the z-statistic: standard error is $14/\\sqrt{49} = 14/7 = 2.0$, so $z = (106 - 100)/2.0 = 3.0$. Since $|3.0| > 1.96$, reject $H_0$ — the slump differs from the target. The "fail to reject" choice computes $z = 3.0$ correctly but then draws the wrong decision; $3.0$ exceeds $1.96$, so you reject. The choices using $z = 0.43$ get it from dividing by $\\sigma$ itself ($6/14$) instead of the standard error $\\sigma/\\sqrt{n}$.',
+    eli5: 'Compute the z-statistic: standard error is $14/\\sqrt{49} = 14/7 = 2.0$, so $z = (106 - 100)/2.0 = 3.0$. Since $|3.0| > 1.96$, reject $H_0$: the slump differs from the target. The "fail to reject" choice computes $z = 3.0$ correctly but then draws the wrong decision; $3.0$ exceeds $1.96$, so you reject. The choices using $z = 0.43$ get it from dividing by $\\sigma$ itself ($6/14$) instead of the standard error $\\sigma/\\sqrt{n}$.',
     hint: 'Compute the standard error $\\sigma/\\sqrt{n}$ first, then the z-statistic, and compare its magnitude to 1.96.',
     steps: [
       { text: 'Set up a two-tailed test: $H_0: \\mu = 100$, $H_1: \\mu \\neq 100$.', latex: null },
@@ -346,7 +346,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'medium',
     eli5: 'Rejecting $H_0$ when $H_0$ is actually true is a Type I error (a false alarm), and its probability is the significance level $\\alpha$, chosen before the test. The "Type II error, controlled by $\\beta$" choice describes a Type II error (failing to reject a false $H_0$), which is the opposite situation. The "Type I error, controlled by $\\beta$" and "Type II error, controlled by $\\alpha$" choices pair the error type with the wrong controlling probability: Type I goes with $\\alpha$, and Type II goes with $\\beta$.',
-    hint: 'A false alarm — rejecting a true null — is the error whose probability you set in advance.',
+    hint: 'A false alarm (rejecting a true null) is the error whose probability you set in advance.',
     steps: [
       { text: 'Rejecting $H_0$ while $H_0$ is in fact true is a Type I error.', latex: null },
       { text: 'The probability of a Type I error is the significance level, chosen before testing:', latex: 'P(\\text{Type I}) = \\alpha' },

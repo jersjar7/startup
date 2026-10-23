@@ -1,5 +1,5 @@
 // Exam bank: statics
-// Auto-extracted from lesson files — 25 questions
+// Auto-extracted from lesson files (25 questions)
 
 const PROBLEMS = [
   {
@@ -46,7 +46,7 @@ const PROBLEMS = [
     handbookFormula: 'F_x = \\frac{x}{R}\\,F',
     videoUrl: null,
     traps: [
-      'Swapping the horizontal and vertical legs — the horizontal leg goes with the horizontal component',
+      'Swapping the horizontal and vertical legs. The horizontal leg goes with the horizontal component',
       'Failing to recognize the 5-12-13 triangle and wasting time computing the hypotenuse'
     ],
     diagram: { component: 'CableGeometry', props: { horiz: 5, vert: 12, force: 2600 } },
@@ -77,7 +77,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'This is a 3-4-5 triangle in disguise. $R_x = 300$ N, $R_y = 400$ N. The resultant magnitude is $R = \\sqrt{300^2 + 400^2} = \\sqrt{250{,}000} = 500$ N. The angle is $\\theta = \\arctan(400/300) = \\arctan(1.333) = 53.1\\degree$ from the horizontal. The $700$ N choice adds the magnitudes directly ($300 + 400 = 700$) — you cannot add non-collinear forces by simple addition. The $500$ N at $36.9\\degree$ choice gets the magnitude right but uses $\\arctan(300/400) = 36.9\\degree$, which is the angle from the vertical, not the horizontal. The $350$ N at $53.1\\degree$ choice averages the forces ($300+400)/2=350$ and gets the direction right.',
+    eli5: 'This is a 3-4-5 triangle in disguise. $R_x = 300$ N, $R_y = 400$ N. The resultant magnitude is $R = \\sqrt{300^2 + 400^2} = \\sqrt{250{,}000} = 500$ N. The angle is $\\theta = \\arctan(400/300) = \\arctan(1.333) = 53.1\\degree$ from the horizontal. The $700$ N choice adds the magnitudes directly ($300 + 400 = 700$), but you cannot add non-collinear forces by simple addition. The $500$ N at $36.9\\degree$ choice gets the magnitude right but uses $\\arctan(300/400) = 36.9\\degree$, which is the angle from the vertical, not the horizontal. The $350$ N at $53.1\\degree$ choice averages the forces ($300+400)/2=350$ and gets the direction right.',
     hint: 'This is a familiar Pythagorean triple. The angle is measured from the x-axis using $\\arctan(R_y/R_x)$.',
     steps: [
       {
@@ -93,7 +93,7 @@ const PROBLEMS = [
         latex: '\\theta = \\arctan\\!\\left(\\frac{400}{300}\\right) = \\arctan(1.333) = 53.1\\degree\\text{ from horizontal}'
       },
       {
-        text: 'The choice giving $500$ N at $36.9\\degree$ uses $\\arctan(300/400) = 36.9\\degree$, which is the complement — the angle from the vertical axis, not the horizontal.',
+        text: 'The choice giving $500$ N at $36.9\\degree$ uses $\\arctan(300/400) = 36.9\\degree$, which is the complement, the angle from the vertical axis, not the horizontal.',
         latex: null
       }
     ],
@@ -102,7 +102,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Adding force magnitudes directly instead of using vector addition',
-      'Swapping the numerator and denominator in the arctan — $R_y/R_x$ gives the angle from the x-axis'
+      'Swapping the numerator and denominator in the arctan, since $R_y/R_x$ gives the angle from the x-axis'
     ],
     diagram: null,
     lessonId: 'force-systems-resultants',
@@ -132,8 +132,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'A couple is a free vector — its moment is the same about any point on the body. The moment equals $F \\times d = 50 \\times 2 = 100$ N$\\cdot$m, and it does not depend on where the couple is placed or which reference point you choose. This is a defining property of couples that separates them from single forces. The "Change depending on the new location" option treats the couple like a single force (whose moment depends on the reference point). The "Become zero because it moved away from the original point" option confuses a couple with a force that must pass through a point. The "Double because it now acts at a greater distance" option has no physical basis.',
-    hint: 'A couple is a special case in statics — its moment is independent of the reference point.',
+    eli5: 'A couple is a free vector, so its moment is the same about any point on the body. The moment equals $F \\times d = 50 \\times 2 = 100$ N$\\cdot$m, and it does not depend on where the couple is placed or which reference point you choose. This is a defining property of couples that separates them from single forces. The "Change depending on the new location" option treats the couple like a single force (whose moment depends on the reference point). The "Become zero because it moved away from the original point" option confuses a couple with a force that must pass through a point. The "Double because it now acts at a greater distance" option has no physical basis.',
+    hint: 'A couple is a special case in statics: its moment is independent of the reference point.',
     steps: [
       {
         text: 'A couple consists of two equal, opposite, parallel forces.',
@@ -144,7 +144,7 @@ const PROBLEMS = [
         latex: 'M = F \\times d = 50 \\times 2 = 100\\,\\text{N}\\cdot\\text{m}'
       },
       {
-        text: 'Key property: the moment of a couple is the same about every point. It is a free vector — it can be moved anywhere on the body without changing its effect.',
+        text: 'Key property: the moment of a couple is the same about every point. It is a free vector, so it can be moved anywhere on the body without changing its effect.',
         latex: null
       }
     ],
@@ -1160,7 +1160,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'The parallel axis theorem says $I_{total} = I_{centroid} + Ad^2$. The $Ad^2$ term accounts for the fact that the shape\'s centroid is offset from the axis you care about. $A$ is the shape\'s area, and $d$ is the distance between centroids. It is always added — never subtracted.',
+    eli5: 'The parallel axis theorem says $I_{total} = I_{centroid} + Ad^2$. The $Ad^2$ term accounts for the fact that the shape\'s centroid is offset from the axis you care about. $A$ is the shape\'s area, and $d$ is the distance between centroids. It is always added, never subtracted.',
     hint: 'Think about what happens when an axis is shifted away from the centroid.',
     steps: [
       {
@@ -1208,7 +1208,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The polar moment of inertia for a circle is $J = \\pi r^4/2$, or equivalently $J = \\pi d^4/32$. With $d = 200$ mm, $J = \\pi(200)^4/32 = \\pi(1.6 \\times 10^9)/32 = 157.1 \\times 10^6$ mm$^4$. Another way to get there: $I_x = \\pi r^4/4 = 78.5 \\times 10^6$, then $J = 2I_x = 157.1 \\times 10^6$. The $78.5 \\times 10^6$ option is just $I_x$ (the moment about one axis, not the polar moment). The $39.3 \\times 10^6$ option halves $I_x$ — probably from using $\\pi r^4/8$ by mistake. The $314.2 \\times 10^6$ option doubles the correct answer.',
+    eli5: 'The polar moment of inertia for a circle is $J = \\pi r^4/2$, or equivalently $J = \\pi d^4/32$. With $d = 200$ mm, $J = \\pi(200)^4/32 = \\pi(1.6 \\times 10^9)/32 = 157.1 \\times 10^6$ mm$^4$. Another way to get there: $I_x = \\pi r^4/4 = 78.5 \\times 10^6$, then $J = 2I_x = 157.1 \\times 10^6$. The $78.5 \\times 10^6$ option is just $I_x$ (the moment about one axis, not the polar moment). The $39.3 \\times 10^6$ option halves $I_x$, probably from using $\\pi r^4/8$ by mistake. The $314.2 \\times 10^6$ option doubles the correct answer.',
     hint: 'Remember that $J = I_x + I_y$, and for a circle $I_x = I_y$.',
     steps: [
       {
@@ -1283,7 +1283,7 @@ const PROBLEMS = [
         latex: 'I_x = 6.83 + 32.53 + 32.53 \\approx 71.9 \\times 10^6\\,\\text{mm}^4'
       },
       {
-        text: 'Note how the flanges\' $Ad^2$ terms dominate — that is why wide flanges far from the centroid make beams stiff.',
+        text: 'Note how the flanges\' $Ad^2$ terms dominate. That is why wide flanges far from the centroid make beams stiff.',
         latex: null
       }
     ],

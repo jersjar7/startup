@@ -9,11 +9,11 @@ export default {
     { type: 'text', body: 'Primary (enforceable, health) examples: arsenic 0.010 mg/L, nitrate (as N) 10 mg/L, lead action level 0.015 mg/L, and a turbidity treatment technique (≤ 0.3 NTU in 95% of samples). Secondary (aesthetic) examples: iron 0.3 mg/L, manganese 0.05 mg/L, total dissolved solids 500 mg/L, chloride 250 mg/L, and pH 6.5--8.5.' },
     { type: 'text', body: 'On the wastewater side, the Clean Water Act regulates discharges through NPDES permits. Conventional secondary treatment must achieve roughly 30 mg/L BOD₅ and 30 mg/L total suspended solids in the effluent (about 85% removal).' },
     { type: 'heading', body: 'Hardness as CaCO₃' },
-    { type: 'text', body: 'Hardness is caused mainly by divalent cations — calcium (Ca²⁺) and magnesium (Mg²⁺). To add them on a common basis, each is converted to an equivalent concentration of calcium carbonate.' },
+    { type: 'text', body: 'Hardness is caused mainly by divalent cations: calcium (Ca²⁺) and magnesium (Mg²⁺). To add them on a common basis, each is converted to an equivalent concentration of calcium carbonate.' },
     { type: 'formula', latex: '\\text{Hardness as CaCO}_3 = \\sum C_i \\times \\frac{50}{EW_i}', label: 'EW: Ca²⁺ = 20, Mg²⁺ = 12.15, CaCO₃ = 50 (mg/meq)' },
     { type: 'text', body: 'Classification (mg/L as CaCO₃): soft < 60, moderately hard 60--120, hard 120--180, very hard > 180.' },
     { type: 'callout', variant: 'tip', body: 'For calcium, 50/20 = 2.5, so multiply Ca²⁺ (mg/L) by 2.5. For magnesium, 50/12.15 ≈ 4.12. Convert each ion separately, then add.' },
-    { type: 'callout', variant: 'warning', body: 'Primary standards are legally enforceable and protect health; secondary standards are advisory and address aesthetics. A bad taste or rusty color violates only a secondary guideline — not the law.' },
+    { type: 'callout', variant: 'warning', body: 'Primary standards are legally enforceable and protect health; secondary standards are advisory and address aesthetics. A bad taste or rusty color violates only a secondary guideline, not the law.' },
   ],
   illustration: null,
   problems: [
@@ -40,7 +40,7 @@ export default {
       videoUrl: null,
       traps: [
         'Adding raw ion concentrations without converting to CaCO₃',
-        'Using the same multiplier for Ca²⁺ and Mg²⁺ — their equivalent weights differ',
+        'Using the same multiplier for Ca²⁺ and Mg²⁺. Their equivalent weights differ',
       ],
       diagram: null,
     },
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Arsenic is a toxic contaminant with a legally enforceable, health-based MCL (0.010 mg/L) — a primary standard. Iron, total dissolved solids, and color are all SECONDARY standards: they affect taste, staining, and appearance, not health, and are advisory rather than enforceable.',
+      eli5: 'Arsenic is a toxic contaminant with a legally enforceable, health-based MCL (0.010 mg/L), a primary standard. Iron, total dissolved solids, and color are all SECONDARY standards: they affect taste, staining, and appearance, not health, and are advisory rather than enforceable.',
       hint: 'Primary standards protect health and are enforceable; secondary standards are aesthetic (taste, color, staining) and advisory.',
       steps: [
         { text: 'Primary standards are enforceable MCLs that protect human health.', latex: null },
@@ -93,7 +93,7 @@ export default {
       handbookFormula: null,
       videoUrl: null,
       traps: [
-        'Assuming any numeric limit is enforceable — secondary standards are advisory',
+        'Assuming any numeric limit is enforceable. Secondary standards are advisory',
         'Confusing aesthetic parameters (iron, color, TDS) with health-based contaminants',
       ],
       diagram: null,

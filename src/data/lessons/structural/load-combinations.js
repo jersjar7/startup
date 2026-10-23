@@ -32,7 +32,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: '1.2D + 1.6L = 1.2(20) + 1.6(40) = 24 + 64 = 88 kips. This is the most common LRFD combination for gravity loading. The 60 kips option is the unfactored sum D + L. The 96 kips option applies 1.6 to both D and L, which is wrong \u2014 dead load gets a lower factor (1.2) because it is more predictable. The 84 kips option might come from using wrong factors like 1.4D + L.',
+      eli5: '1.2D + 1.6L = 1.2(20) + 1.6(40) = 24 + 64 = 88 kips. This is the most common LRFD combination for gravity loading. The 60 kips option is the unfactored sum D + L. The 96 kips option applies 1.6 to both D and L, which is wrong because dead load gets a lower factor (1.2) because it is more predictable. The 84 kips option might come from using wrong factors like 1.4D + L.',
       hint: 'Multiply D by 1.2 and L by 1.6, then add.',
       steps: [
         { text: 'LRFD Combination 2:', latex: '1.2D + 1.6L' },
@@ -44,7 +44,7 @@ export default {
       videoUrl: null,
       traps: [
         'Using unfactored loads (D + L = 60) instead of applying LRFD factors',
-        'Applying the 1.6 factor to dead load instead of 1.2 \u2014 dead load has a lower factor because it is more predictable',
+        'Applying the 1.6 factor to dead load instead of 1.2, when dead load has a lower factor because it is more predictable',
       ],
       diagram: null,
     },
@@ -72,7 +72,7 @@ export default {
       videoUrl: null,
       traps: [
         'Only checking one combination instead of all relevant ones',
-        'Mixing up which load gets the 1.6 factor in Combo 2 vs. Combo 3 \u2014 Combo 2 puts 1.6 on L, Combo 3 puts 1.6 on S',
+        'Mixing up which load gets the 1.6 factor in Combo 2 vs. Combo 3: Combo 2 puts 1.6 on L, Combo 3 puts 1.6 on S',
       ],
       diagram: null,
     },
@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'L = L_o(0.25 + 15/\u221A(K_LL \u00D7 A_T)) = 50(0.25 + 15/\u221A(4 \u00D7 600)) = 50(0.25 + 15/\u221A2400) = 50(0.25 + 15/49.0) = 50(0.25 + 0.306) = 50(0.556) = 27.8 \u2248 28 psf. Check the minimum: for one floor, L \u2265 0.50 L_o = 25 psf. Since 28 > 25, the reduction is valid. The 50 psf option is the unreduced load. The 25 psf option is the minimum allowed \u2014 it would apply only if the formula gave a value below 25. The 13 psf option uses 0.25 \u00D7 L_o, which misapplies the formula.',
+      eli5: 'L = L_o(0.25 + 15/\u221A(K_LL \u00D7 A_T)) = 50(0.25 + 15/\u221A(4 \u00D7 600)) = 50(0.25 + 15/\u221A2400) = 50(0.25 + 15/49.0) = 50(0.25 + 0.306) = 50(0.556) = 27.8 \u2248 28 psf. Check the minimum: for one floor, L \u2265 0.50 L_o = 25 psf. Since 28 > 25, the reduction is valid. The 50 psf option is the unreduced load. The 25 psf option is the minimum allowed, and it would apply only if the formula gave a value below 25. The 13 psf option uses 0.25 \u00D7 L_o, which misapplies the formula.',
       hint: 'Use $L = L_o(0.25 + 15/\\sqrt{K_{LL} A_T})$ and check against the minimum of $0.50 L_o$.',
       steps: [
         { text: 'Live load reduction formula:', latex: 'L = L_o \\left(0.25 + \\frac{15}{\\sqrt{K_{LL} A_T}}\\right)' },

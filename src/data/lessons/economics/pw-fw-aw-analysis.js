@@ -3,11 +3,11 @@ export default {
   name: 'Present Worth, Future Worth & Annual Worth Analysis',
   subtopicId: 'time-value-of-money',
   application:
-    'When a DOT compares two bridge rehabilitation options with different lifespans and costs, they need a common basis for comparison. Present worth converts everything to today\'s dollars, future worth projects everything to a target date, and annual worth spreads everything into equivalent yearly costs. The FE tests whether you can pick the right method, apply the correct factors from the tables, and compare alternatives using MARR as the decision threshold. These are the bread-and-butter problems of engineering economics \u2014 expect at least one on exam day.',
+    'When a DOT compares two bridge rehabilitation options with different lifespans and costs, they need a common basis for comparison. Present worth converts everything to today\'s dollars, future worth projects everything to a target date, and annual worth spreads everything into equivalent yearly costs. The FE tests whether you can pick the right method, apply the correct factors from the tables, and compare alternatives using MARR as the decision threshold. These are the bread-and-butter problems of engineering economics. Expect at least one on exam day.',
   content: [
     {
       type: 'text',
-      body: 'The three workhorse methods for comparing alternatives are present worth (PW), future worth (FW), and annual worth (AW). They all give the same accept/reject decision \u2014 the difference is which time frame you convert everything to.',
+      body: 'The three workhorse methods for comparing alternatives are present worth (PW), future worth (FW), and annual worth (AW). They all give the same accept/reject decision. The difference is which time frame you convert everything to.',
     },
     { type: 'heading', body: 'Present Worth Analysis' },
     {
@@ -26,12 +26,12 @@ export default {
     {
       type: 'callout',
       variant: 'exam',
-      body: 'When comparing alternatives with different service lives, you must use either the least common multiple of lives or the annual worth method. You cannot compare PW values for a 10-year and a 15-year option directly \u2014 the time horizons aren\'t equal.',
+      body: 'When comparing alternatives with different service lives, you must use either the least common multiple of lives or the annual worth method. You cannot compare PW values for a 10-year and a 15-year option directly, because the time horizons aren\'t equal.',
     },
     { type: 'heading', body: 'Future Worth Analysis' },
     {
       type: 'text',
-      body: 'Convert all cash flows to their equivalent value at time $n$. Use $(F/P)$ for present amounts and $(F/A)$ for annual amounts. Future worth is less common on the exam but works the same way \u2014 just shift the reference point to the end of the study period.',
+      body: 'Convert all cash flows to their equivalent value at time $n$. Use $(F/P)$ for present amounts and $(F/A)$ for annual amounts. Future worth is less common on the exam but works the same way: just shift the reference point to the end of the study period.',
     },
     {
       type: 'formula',
@@ -41,7 +41,7 @@ export default {
     { type: 'heading', body: 'Annual Worth Analysis' },
     {
       type: 'text',
-      body: 'Convert all cash flows to an equivalent uniform annual amount. This is often the fastest method because you don\'t need to worry about matching service lives \u2014 if the annual cost is computed correctly, you can compare alternatives with different lifespans directly.',
+      body: 'Convert all cash flows to an equivalent uniform annual amount. This is often the fastest method because you don\'t need to worry about matching service lives. If the annual cost is computed correctly, you can compare alternatives with different lifespans directly.',
     },
     {
       type: 'formula',
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Both options cost money over 20 years, so you need to convert everything to today\'s dollars. Option A has a higher upfront cost but lower annual maintenance. Option B is cheaper to build but more expensive to maintain. When you discount those annual costs back to the present at 6%, Option A comes out cheaper overall. The two undiscounted choices (Option A at 220,000 and Option B at 260,000) just add the raw numbers without discounting (120K + 20\u00d75K = 220K and 80K + 20\u00d79K = 260K) \u2014 that ignores the time value of money entirely.',
+      eli5: 'Both options cost money over 20 years, so you need to convert everything to today\'s dollars. Option A has a higher upfront cost but lower annual maintenance. Option B is cheaper to build but more expensive to maintain. When you discount those annual costs back to the present at 6%, Option A comes out cheaper overall. The two undiscounted choices (Option A at 220,000 and Option B at 260,000) just add the raw numbers without discounting (120K + 20\u00d75K = 220K and 80K + 20\u00d79K = 260K), but that ignores the time value of money entirely.',
       hint: 'Convert each option\'s annual maintenance to present worth using $(P/A)$, then add the initial cost. Compare totals.',
       steps: [
         {
@@ -114,8 +114,8 @@ export default {
       handbookFormula: 'P = A \\cdot \\frac{(1+i)^n - 1}{i(1+i)^n}',
       videoUrl: null,
       traps: [
-        'Adding raw costs without discounting (120K + 100K = 220K) \u2014 this ignores the time value of money',
-        'Using the wrong factor (A/P instead of P/A) \u2014 you want to convert annual costs to present worth, not the reverse',
+        'Adding raw costs without discounting (120K + 100K = 220K), which ignores the time value of money',
+        'Using the wrong factor (A/P instead of P/A), when you want to convert annual costs to present worth, not the reverse',
       ],
       diagram: null,
     },
@@ -131,7 +131,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'The annual cost of owning a machine isn\'t just the purchase price divided by its life \u2014 you also need to account for the interest rate (opportunity cost of capital) and the money you get back at the end (salvage). Use $(A/P)$ to spread the purchase price into annual payments, add the yearly operating cost, then subtract the annual equivalent of the salvage using $(A/F)$. The 72,000 dollars choice forgets the capital recovery and just adds operating costs to a rough estimate. The 81,700 dollars choice uses the wrong factor for salvage (or forgets to subtract it). The 85,400 dollars choice adds salvage instead of subtracting it.',
+      eli5: 'The annual cost of owning a machine isn\'t just the purchase price divided by its life. You also need to account for the interest rate (opportunity cost of capital) and the money you get back at the end (salvage). Use $(A/P)$ to spread the purchase price into annual payments, add the yearly operating cost, then subtract the annual equivalent of the salvage using $(A/F)$. The 72,000 dollars choice forgets the capital recovery and just adds operating costs to a rough estimate. The 81,700 dollars choice uses the wrong factor for salvage (or forgets to subtract it). The 85,400 dollars choice adds salvage instead of subtracting it.',
       hint: 'Annual cost = capital recovery of initial cost + operating costs - annual equivalent of salvage value.',
       steps: [
         {
@@ -163,8 +163,8 @@ export default {
       handbookFormula: 'EUAC = C_0(A/P,\\, i\\%,\\, n) + A_{\\text{oper}} - S_n(A/F,\\, i\\%,\\, n)',
       videoUrl: null,
       traps: [
-        'Forgetting to subtract the salvage value \u2014 it reduces the annual cost, not increases it',
-        'Dividing the initial cost by the number of years instead of using the capital recovery factor (A/P) \u2014 this ignores the interest rate',
+        'Forgetting to subtract the salvage value, which reduces the annual cost, not increases it',
+        'Dividing the initial cost by the number of years instead of using the capital recovery factor (A/P), which ignores the interest rate',
       ],
       diagram: null,
     },
@@ -180,11 +180,11 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'When alternatives have different lifespans, annual worth is the way to go \u2014 it automatically accounts for the repeat cycle. Pump X is cheaper upfront but runs up higher operating costs and dies sooner (6 years vs. 12). When you convert each pump\'s total cost into an equivalent annual amount, Pump Y\'s lower operating costs and longer life make it the better deal. The "Pump X, AW = 14,370 dollars" option computes Pump X’s annual worth correctly but misses that Pump Y is cheaper; the "Pump X, AW = 13,500 dollars" option uses the wrong factors for Pump X, and the "Pump Y, AW = 13,700 dollars" option picks the right pump but miscalculates its annual worth.',
-      hint: 'With different service lives, use annual worth \u2014 it lets you compare directly without matching lifespans. Compute AW for each pump separately.',
+      eli5: 'When alternatives have different lifespans, annual worth is the way to go because it automatically accounts for the repeat cycle. Pump X is cheaper upfront but runs up higher operating costs and dies sooner (6 years vs. 12). When you convert each pump\'s total cost into an equivalent annual amount, Pump Y\'s lower operating costs and longer life make it the better deal. The "Pump X, AW = 14,370 dollars" option computes Pump X’s annual worth correctly but misses that Pump Y is cheaper; the "Pump X, AW = 13,500 dollars" option uses the wrong factors for Pump X, and the "Pump Y, AW = 13,700 dollars" option picks the right pump but miscalculates its annual worth.',
+      hint: 'With different service lives, use annual worth, because it lets you compare directly without matching lifespans. Compute AW for each pump separately.',
       steps: [
         {
-          text: 'The pumps have different lives (6 vs. 12 years). Use annual worth analysis \u2014 it handles unequal lives without needing the least common multiple.',
+          text: 'The pumps have different lives (6 vs. 12 years). Use annual worth analysis, because it handles unequal lives without needing the least common multiple.',
           latex: null,
         },
         {
@@ -220,8 +220,8 @@ export default {
       handbookFormula: 'AW = C_0(A/P,\\, i\\%,\\, n) + A_{\\text{oper}} - S_n(A/F,\\, i\\%,\\, n)',
       videoUrl: null,
       traps: [
-        'Trying to compare present worth directly when service lives differ \u2014 PW requires the least common multiple (12 years here), which means repeating Pump X twice',
-        'Forgetting that annual worth handles unequal lives automatically \u2014 no need to extend the analysis period',
+        'Trying to compare present worth directly when service lives differ, when PW requires the least common multiple (12 years here), which means repeating Pump X twice',
+        'Forgetting that annual worth handles unequal lives automatically, with no need to extend the analysis period',
       ],
       diagram: { component: 'AnnualWorthComparison', props: { costX: 30000, omX: 8000, salvX: 4000, nX: 6, labelX: 'Pump X', costY: 50000, omY: 5000, salvY: 8000, nY: 12, labelY: 'Pump Y', rate: 10 } },
     },

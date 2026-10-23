@@ -1,5 +1,5 @@
 // Exam bank: structural
-// Auto-extracted from lesson files — 32 questions
+// Auto-extracted from lesson files (32 questions)
 
 const PROBLEMS = [
   {
@@ -101,7 +101,7 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Confusing indeterminacy with instability — indeterminate means too many supports, unstable means too few'
+      'Confusing indeterminacy with instability. Indeterminate means too many supports, unstable means too few'
     ],
     diagram: null,
     lessonId: 'determinacy-stability',
@@ -155,7 +155,7 @@ const PROBLEMS = [
     handbookFormula: '3m + r = 3j + c \\implies \\text{Statically determinate}',
     videoUrl: null,
     traps: [
-      'Forgetting to include internal hinges in the condition equations (c) — each hinge adds one equation',
+      'Forgetting to include internal hinges in the condition equations (c), since each hinge adds one equation',
       'Mixing up the truss formula (m + r vs 2j) with the frame formula (3m + r vs 3j + c)'
     ],
     diagram: {
@@ -178,7 +178,7 @@ const PROBLEMS = [
     choices: [
       {
         id: 'c1',
-        text: 'Unstable — concurrent reactions cannot maintain equilibrium'
+        text: 'Unstable, because concurrent reactions cannot maintain equilibrium'
       },
       {
         id: 'c2',
@@ -207,7 +207,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: '$\\Sigma M$ about that point cannot be satisfied for arbitrary loading — the structure is geometrically unstable.',
+        text: '$\\Sigma M$ about that point cannot be satisfied for arbitrary loading, so the structure is geometrically unstable.',
         latex: null
       },
       {
@@ -219,8 +219,8 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Assuming the numerical count alone guarantees stability — arrangement of reactions matters',
-      'Confusing concurrent reactions (all through one point) with parallel reactions (all in one direction) — both cause instability'
+      'Assuming the numerical count alone guarantees stability, when the arrangement of reactions matters',
+      'Confusing concurrent reactions (all through one point) with parallel reactions (all in one direction), since both cause instability'
     ],
     diagram: null,
     lessonId: 'determinacy-stability',
@@ -270,7 +270,7 @@ const PROBLEMS = [
     handbookFormula: '1.2D + 1.6(L_r \\text{ or } S \\text{ or } R) + (L \\text{ or } 0.5W)',
     videoUrl: null,
     traps: [
-      'Applying 1.6 to dead load instead of 1.2 — dead load always gets the lower factor'
+      'Applying 1.6 to dead load instead of 1.2, when dead load always gets the lower factor'
     ],
     diagram: null,
     lessonId: 'load-combinations',
@@ -300,15 +300,15 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Load factors in LRFD reflect the uncertainty in predicting each load magnitude. Dead load (self-weight of structure, permanent fixtures) can be calculated accurately from material densities and dimensions, so its variability is low — hence a 1.2 factor. Live load (people, furniture, stored goods) is much harder to predict and varies widely over a building\'s life, so it gets the larger 1.6 factor. The "dead load is always smaller than live load" choice is wrong because dead load can easily exceed live load in some structures. The "factors based on load duration" choice confuses duration with uncertainty. The "dead load only acts during construction" choice is incorrect — dead load acts permanently, not just during construction.',
+    eli5: 'Load factors in LRFD reflect the uncertainty in predicting each load magnitude. Dead load (self-weight of structure, permanent fixtures) can be calculated accurately from material densities and dimensions, so its variability is low, hence a 1.2 factor. Live load (people, furniture, stored goods) is much harder to predict and varies widely over a building\'s life, so it gets the larger 1.6 factor. The "dead load is always smaller than live load" choice is wrong because dead load can easily exceed live load in some structures. The "factors based on load duration" choice confuses duration with uncertainty. The "dead load only acts during construction" choice is incorrect, because dead load acts permanently, not just during construction.',
     hint: 'Think about which load can be estimated more reliably from engineering calculations.',
     steps: [
       {
-        text: 'Dead load is computed from known material weights and geometry — low uncertainty.',
+        text: 'Dead load is computed from known material weights and geometry, so uncertainty is low.',
         latex: null
       },
       {
-        text: 'Live load depends on occupancy and use — high variability over the structure\'s life.',
+        text: 'Live load depends on occupancy and use, so variability is high over the structure\'s life.',
         latex: null
       },
       {
@@ -320,7 +320,7 @@ const PROBLEMS = [
     handbookFormula: '1.2D + 1.6L',
     videoUrl: null,
     traps: [
-      'Assuming load factors are based on magnitude rather than uncertainty — a small but uncertain load still gets a high factor'
+      'Assuming load factors are based on magnitude rather than uncertainty, when a small but uncertain load still gets a high factor'
     ],
     diagram: null,
     lessonId: 'load-combinations',
@@ -350,7 +350,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$L = L_o(0.25 + 15/\\sqrt{K_{LL} \\cdot A_T}) = 80(0.25 + 15/\\sqrt{2 \\times 1200}) = 80(0.25 + 15/\\sqrt{2400}) = 80(0.25 + 15/49.0) = 80(0.25 + 0.306) = 80(0.556) = 44.5 \\approx 44$ psf. Check minimum: for one floor, $L \\geq 0.50 L_o = 40$ psf. Since $44 > 40$, the reduction is valid. The 40 psf choice is the minimum allowed — it would only apply if the formula gave a value below 40. The 80 psf choice is the unreduced load. The 20 psf choice misapplies $0.25 \\times L_o$.',
+    eli5: '$L = L_o(0.25 + 15/\\sqrt{K_{LL} \\cdot A_T}) = 80(0.25 + 15/\\sqrt{2 \\times 1200}) = 80(0.25 + 15/\\sqrt{2400}) = 80(0.25 + 15/49.0) = 80(0.25 + 0.306) = 80(0.556) = 44.5 \\approx 44$ psf. Check minimum: for one floor, $L \\geq 0.50 L_o = 40$ psf. Since $44 > 40$, the reduction is valid. The 40 psf choice is the minimum allowed, and it would only apply if the formula gave a value below 40. The 80 psf choice is the unreduced load. The 20 psf choice misapplies $0.25 \\times L_o$.',
     hint: 'Use $L = L_o(0.25 + 15/\\sqrt{K_{LL} A_T})$ with $K_{LL} = 2$ for beams, then check the one-floor minimum.',
     steps: [
       {
@@ -375,7 +375,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Using $K_{LL} = 4$ (column value) instead of $K_{LL} = 2$ (beam value)',
-      'Skipping the minimum live load check — the formula can over-reduce if the influence area is very large'
+      'Skipping the minimum live load check, since the formula can over-reduce if the influence area is very large'
     ],
     diagram: null,
     lessonId: 'load-combinations',
@@ -388,15 +388,15 @@ const PROBLEMS = [
     choices: [
       {
         id: 'c1',
-        text: 'Combination 1 ($70 \\text{ kips}$) — dead load alone is the critical case'
+        text: 'Combination 1 ($70 \\text{ kips}$), because dead load alone is the critical case'
       },
       {
         id: 'c2',
-        text: 'Combination 2 ($138 \\text{ kips}$) — Combination 2 always controls for gravity loading'
+        text: 'Combination 2 ($138 \\text{ kips}$), because Combination 2 always controls for gravity loading'
       },
       {
         id: 'c3',
-        text: 'Combination 3 ($186 \\text{ kips}$) — snow dominates floor live load, so the 1.6 factor on $S$ produces a larger total'
+        text: 'Combination 3 ($186 \\text{ kips}$), because snow dominates floor live load, so the 1.6 factor on $S$ produces a larger total'
       },
       {
         id: 'c4',
@@ -405,8 +405,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'Combo 2: $1.2(50) + 1.6(30) + 0.5(60) = 60 + 48 + 30 = 138$ kips. Combo 3: $1.2(50) + 1.6(60) + 1.0(30) = 60 + 96 + 30 = 186$ kips. Combo 3 controls at 186 kips because snow ($S = 60$) is much larger than floor live load ($L = 30$), so putting the 1.6 factor on snow amplifies the dominant transient load. The Combination 2 (138 kips) choice assumes Combo 2 always governs — that is only true when floor live load exceeds snow. You must always evaluate multiple combinations and pick the largest.',
-    hint: 'Compute both combinations. The 1.6 factor amplifies whichever load it multiplies — when $S > L$, putting 1.6 on $S$ produces more.',
+    eli5: 'Combo 2: $1.2(50) + 1.6(30) + 0.5(60) = 60 + 48 + 30 = 138$ kips. Combo 3: $1.2(50) + 1.6(60) + 1.0(30) = 60 + 96 + 30 = 186$ kips. Combo 3 controls at 186 kips because snow ($S = 60$) is much larger than floor live load ($L = 30$), so putting the 1.6 factor on snow amplifies the dominant transient load. The Combination 2 (138 kips) choice assumes Combo 2 always governs, but that is only true when floor live load exceeds snow. You must always evaluate multiple combinations and pick the largest.',
+    hint: 'Compute both combinations. The 1.6 factor amplifies whichever load it multiplies, so when $S > L$, putting 1.6 on $S$ produces more.',
     steps: [
       {
         text: 'Combo 2:',
@@ -425,7 +425,7 @@ const PROBLEMS = [
     handbookFormula: '1.2D + 1.6(L_r \\text{ or } S \\text{ or } R) + (L \\text{ or } 0.5W)',
     videoUrl: null,
     traps: [
-      'Assuming Combination 2 always controls — it only does when floor live load exceeds roof/snow loads',
+      'Assuming Combination 2 always controls, when it only does when floor live load exceeds roof/snow loads',
       'Forgetting to include the companion load in Combination 3 ($L$ at factor 1.0)'
     ],
     diagram: null,
@@ -467,7 +467,7 @@ const PROBLEMS = [
     handbookPage: 'p. 268',
     handbookFormula: '\\eta_{R_A}(x) = \\frac{L - x}{L}',
     videoUrl: null,
-    traps: ['Using x/L instead of (L - x)/L — that gives the right reaction, not the left'],
+    traps: ['Using x/L instead of (L - x)/L, since that gives the right reaction, not the left'],
     diagram: {
       component: 'InfluenceLineSS',
       props: {
@@ -505,7 +505,7 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'medium',
     eli5: 'The influence line for bending moment at a section is triangular. It goes from 0 at both supports to a peak at the section itself. The peak ordinate is $a(L - a)/L$. This means to produce the maximum moment at that section, you place the load directly at the section. The midspan-ordinate choice ($L/4$) is only correct when the section happens to be at midspan ($a = L/2$, giving $L/4$). The two support choices (ordinate 1.0 at a support) describe the reaction influence line, not the moment influence line.',
-    hint: 'The IL for moment at a section forms a triangle — think about where the peak of that triangle occurs.',
+    hint: 'The IL for moment at a section forms a triangle. Think about where the peak of that triangle occurs.',
     steps: [
       {
         text: 'The IL for moment at section $a$ is triangular, peaking at the section.',
@@ -524,7 +524,7 @@ const PROBLEMS = [
     handbookFormula: '\\eta_M = \\frac{a(L - a)}{L} \\text{ at the section}',
     videoUrl: null,
     traps: [
-      'Assuming the peak is always L/4 — that is only true at midspan',
+      'Assuming the peak is always L/4, but that is only true at midspan',
       'Confusing the moment IL (triangular, peaks at the section) with the reaction IL (linear, peaks at the support)'
     ],
     diagram: {
@@ -584,7 +584,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Using P times ordinate (for concentrated loads) instead of w times area (for distributed loads)',
-      'Computing the area of the triangle incorrectly — remember it is (1/2)(base)(height)'
+      'Computing the area of the triangle incorrectly. Remember it is (1/2)(base)(height)'
     ],
     diagram: {
       component: 'InfluenceLineSS',
@@ -622,7 +622,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'The IL for shear at a section jumps by 1.0 at the section. On the right side of the section, the ordinate is positive and maximum just to the right of the cut ($+0.75$), decreasing linearly to 0 at the right support. On the left side, ordinates are negative. To maximize the positive shear, place the load where the positive ordinate is largest — that is just to the right of the section. Placing the load at midspan gives a smaller positive ordinate (the IL decreases linearly from the section to the right support). Placing it just to the left gives the maximum negative shear ($-0.25$), not positive. At the right support, the ordinate is 0.',
+    eli5: 'The IL for shear at a section jumps by 1.0 at the section. On the right side of the section, the ordinate is positive and maximum just to the right of the cut ($+0.75$), decreasing linearly to 0 at the right support. On the left side, ordinates are negative. To maximize the positive shear, place the load where the positive ordinate is largest, which is just to the right of the section. Placing the load at midspan gives a smaller positive ordinate (the IL decreases linearly from the section to the right support). Placing it just to the left gives the maximum negative shear ($-0.25$), not positive. At the right support, the ordinate is 0.',
     hint: 'The IL for positive shear is largest immediately to the right of the section and decreases linearly toward the right support.',
     steps: [
       {
@@ -650,8 +650,8 @@ const PROBLEMS = [
     handbookFormula: '\\eta^+ = 1 - \\frac{a}{L}, \\quad \\eta^- = -\\frac{a}{L}',
     videoUrl: null,
     traps: [
-      'Placing the load at midspan — the IL ordinate at midspan is less than the ordinate just right of the section unless the section is at midspan',
-      'Confusing positive and negative shear — the jump in the IL occurs at the section, and the sign changes there'
+      'Placing the load at midspan, when the IL ordinate at midspan is less than the ordinate just right of the section unless the section is at midspan',
+      'Confusing positive and negative shear. The jump in the IL occurs at the section, and the sign changes there'
     ],
     diagram: {
       component: 'InfluenceLineSS',
@@ -705,7 +705,7 @@ const PROBLEMS = [
     handbookFormula: 'a = \\frac{A_s f_y}{0.85 f_c\' b}',
     videoUrl: null,
     traps: [
-      'Forgetting the 0.85 coefficient in the denominator — this would overestimate $a$ and underestimate the moment arm'
+      'Forgetting the 0.85 coefficient in the denominator, which would overestimate $a$ and underestimate the moment arm'
     ],
     diagram: {
       component: 'RCBeamSection',
@@ -743,7 +743,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The Whitney stress block replaces the actual nonlinear compression zone with a uniform rectangular block of depth $a$. The resultant compressive force $C = 0.85 f_c\' b a$ acts at the centroid of this rectangle, which is $a/2$ from the compression face. The tension force $T = A_s f_y$ acts at the centroid of the steel, located at depth $d$. The moment is force times lever arm: $M_n = T \\times (d - a/2)$. The "concrete carries no tension" choice is partially true but does not explain the lever arm formula. The choice claiming $a$ always equals $d$ is wrong — $a$ is much smaller than $d$ in typical designs. The choice calling $d - a/2$ a safety reduction is wrong — this is a real mechanics derivation, not an arbitrary reduction.',
+    eli5: 'The Whitney stress block replaces the actual nonlinear compression zone with a uniform rectangular block of depth $a$. The resultant compressive force $C = 0.85 f_c\' b a$ acts at the centroid of this rectangle, which is $a/2$ from the compression face. The tension force $T = A_s f_y$ acts at the centroid of the steel, located at depth $d$. The moment is force times lever arm: $M_n = T \\times (d - a/2)$. The "concrete carries no tension" choice is partially true but does not explain the lever arm formula. The choice claiming $a$ always equals $d$ is wrong, because $a$ is much smaller than $d$ in typical designs. The choice calling $d - a/2$ a safety reduction is wrong, because this is a real mechanics derivation, not an arbitrary reduction.',
     hint: 'Think about where the resultant compression force acts in a uniform rectangular stress block.',
     steps: [
       {
@@ -763,7 +763,7 @@ const PROBLEMS = [
     handbookFormula: 'M_n = A_s f_y \\left(d - \\frac{a}{2}\\right)',
     videoUrl: null,
     traps: [
-      'Using $d$ instead of $(d - a/2)$ as the moment arm — this overestimates capacity by ignoring the offset of the compression resultant'
+      'Using $d$ instead of $(d - a/2)$ as the moment arm, which overestimates capacity by ignoring the offset of the compression resultant'
     ],
     diagram: {
       component: 'RCBeamSection',
@@ -801,7 +801,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$V_c = 2\\lambda\\sqrt{f_c\'} \\cdot b_w d = 2(1.0)\\sqrt{5000} \\times 16 \\times 26 = 2(70.71)(416) = 58{,}830$ lb $= 58.8$ kips. $\\phi V_c = 0.75 \\times 58.8 = 44.1 \\approx 44.2$ kips. The 58.9 kips choice is $V_c$ without the $\\phi$ factor. The 5.9 kips choice uses $\\sqrt{f_c\'}$ in ksi: $\\sqrt{5} = 2.236$, then $2(2.236)(416) = 1{,}860$ lb $= 1.86$ kips — way too low. Actually, 5.9 might come from $2\\sqrt{5}(16)(26)/1000 = 5.87$, confirming the ksi vs. psi trap. The 29.5 kips choice halves $V_c$ somehow, perhaps using $\\lambda = 0.75$ for lightweight concrete when it should be 1.0 for normal weight.',
+    eli5: '$V_c = 2\\lambda\\sqrt{f_c\'} \\cdot b_w d = 2(1.0)\\sqrt{5000} \\times 16 \\times 26 = 2(70.71)(416) = 58{,}830$ lb $= 58.8$ kips. $\\phi V_c = 0.75 \\times 58.8 = 44.1 \\approx 44.2$ kips. The 58.9 kips choice is $V_c$ without the $\\phi$ factor. The 5.9 kips choice uses $\\sqrt{f_c\'}$ in ksi: $\\sqrt{5} = 2.236$, then $2(2.236)(416) = 1{,}860$ lb $= 1.86$ kips, which is way too low. Actually, 5.9 might come from $2\\sqrt{5}(16)(26)/1000 = 5.87$, confirming the ksi vs. psi trap. The 29.5 kips choice halves $V_c$ somehow, perhaps using $\\lambda = 0.75$ for lightweight concrete when it should be 1.0 for normal weight.',
     hint: 'Use $V_c = 2\\sqrt{f_c\'} \\cdot b_w d$ with $f_c\'$ in psi. Then multiply by $\\phi = 0.75$.',
     steps: [
       {
@@ -821,8 +821,8 @@ const PROBLEMS = [
     handbookFormula: 'V_c = 2\\lambda \\sqrt{f_c\'} \\, b_w d',
     videoUrl: null,
     traps: [
-      'Using $f_c\'$ in ksi instead of psi — this produces an answer 1,000 times too small',
-      'Forgetting $\\phi = 0.75$ for shear — always apply the resistance factor'
+      'Using $f_c\'$ in ksi instead of psi, which produces an answer 1,000 times too small',
+      'Forgetting $\\phi = 0.75$ for shear. Always apply the resistance factor'
     ],
     diagram: { component: 'RCBeamSection', props: { b: 16, d: 26, numBars: 4, unit: 'in.' } },
     lessonId: 'rc-flexure-shear',
@@ -835,24 +835,24 @@ const PROBLEMS = [
     choices: [
       {
         id: 'c1',
-        text: 'Design stirrups for computed $V_s$ — $V_u > \\phi V_c$'
+        text: 'Design stirrups for computed $V_s$, since $V_u > \\phi V_c$'
       },
       {
         id: 'c2',
-        text: 'No stirrups needed — $V_u \\leq \\phi V_c/2$'
+        text: 'No stirrups needed, since $V_u \\leq \\phi V_c/2$'
       },
       {
         id: 'c3',
-        text: 'Provide minimum stirrups — $\\phi V_c/2 < V_u \\leq \\phi V_c$'
+        text: 'Provide minimum stirrups, since $\\phi V_c/2 < V_u \\leq \\phi V_c$'
       },
       {
         id: 'c4',
-        text: 'Enlarge the section — concrete cannot carry any shear at all'
+        text: 'Enlarge the section, because concrete cannot carry any shear at all'
       }
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: '$\\phi V_c/2 = 30/2 = 15$ kips. Since $\\phi V_c/2 = 15 < V_u = 20 \\leq \\phi V_c = 30$, the code says provide minimum stirrups. The threshold is: $V_u \\leq \\phi V_c/2$ means no stirrups; $\\phi V_c/2 < V_u \\leq \\phi V_c$ means minimum stirrups; $V_u > \\phi V_c$ means design stirrups for $V_s$. With $V_u = 20$ falling between $\\phi V_c/2 = 15$ and $\\phi V_c = 30$, minimum stirrups are required. The "no stirrups needed" choice would require $V_u \\leq 15$. The "design stirrups for computed $V_s$" choice would require $V_u > 30$. The "enlarge the section" choice is wrong — concrete absolutely carries shear through $V_c$.',
+    eli5: '$\\phi V_c/2 = 30/2 = 15$ kips. Since $\\phi V_c/2 = 15 < V_u = 20 \\leq \\phi V_c = 30$, the code says provide minimum stirrups. The threshold is: $V_u \\leq \\phi V_c/2$ means no stirrups; $\\phi V_c/2 < V_u \\leq \\phi V_c$ means minimum stirrups; $V_u > \\phi V_c$ means design stirrups for $V_s$. With $V_u = 20$ falling between $\\phi V_c/2 = 15$ and $\\phi V_c = 30$, minimum stirrups are required. The "no stirrups needed" choice would require $V_u \\leq 15$. The "design stirrups for computed $V_s$" choice would require $V_u > 30$. The "enlarge the section" choice is wrong, because concrete absolutely carries shear through $V_c$.',
     hint: 'Compare $V_u$ to both $\\phi V_c/2$ and $\\phi V_c$ to determine which shear reinforcement zone applies.',
     steps: [
       {
@@ -872,8 +872,8 @@ const PROBLEMS = [
     handbookFormula: 'V_u \\leq \\phi V_c/2 \\text{ (no stirrups)}, \\quad V_u > \\phi V_c \\text{ (computed } V_s\\text{)}',
     videoUrl: null,
     traps: [
-      'Confusing the three shear zones — there are three distinct requirements depending on the $V_u$/$\\phi V_c$ ratio',
-      'Comparing $V_u$ to $V_c$ instead of $\\phi V_c$ — always use the factored capacity for comparison'
+      'Confusing the three shear zones. There are three distinct requirements depending on the $V_u$/$\\phi V_c$ ratio',
+      'Comparing $V_u$ to $V_c$ instead of $\\phi V_c$. Always use the factored capacity for comparison'
     ],
     diagram: null,
     lessonId: 'rc-flexure-shear',
@@ -923,7 +923,7 @@ const PROBLEMS = [
     handbookFormula: '\\phi P_n = 0.80\\phi \\left[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y\\right]',
     videoUrl: null,
     traps: [
-      'Forgetting the 0.80 accidental eccentricity factor — it only applies to columns, not beams'
+      'Forgetting the 0.80 accidental eccentricity factor, which only applies to columns, not beams'
     ],
     diagram: {
       component: 'RCColumnSection',
@@ -957,12 +957,12 @@ const PROBLEMS = [
       },
       {
         id: 'c4',
-        text: 'Accidental eccentricity — columns never truly carry pure concentric axial load'
+        text: 'Accidental eccentricity, because columns never truly carry pure concentric axial load'
       }
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'In practice, no column carries a perfectly centered axial load. Construction tolerances, member crookedness, and load eccentricities introduce bending even when the design intent is pure compression. The 0.80 factor (0.85 for spiral columns) reduces the theoretical capacity to account for this inevitable moment. Spiral columns get a slightly more favorable factor because spirals provide better confinement and ductility, allowing the column to maintain capacity under eccentric loading. The cylinder-vs-actual-strength choice describes the 0.85 $f_c\'$ coefficient in the stress block, not the 0.80 column factor. The self-weight choice is wrong — self-weight is handled through loads, not capacity reduction. The choice equating it with $\\phi$ confuses it with the resistance factor, which is a separate reliability factor.',
+    eli5: 'In practice, no column carries a perfectly centered axial load. Construction tolerances, member crookedness, and load eccentricities introduce bending even when the design intent is pure compression. The 0.80 factor (0.85 for spiral columns) reduces the theoretical capacity to account for this inevitable moment. Spiral columns get a slightly more favorable factor because spirals provide better confinement and ductility, allowing the column to maintain capacity under eccentric loading. The cylinder-vs-actual-strength choice describes the 0.85 $f_c\'$ coefficient in the stress block, not the 0.80 column factor. The self-weight choice is wrong, because self-weight is handled through loads, not capacity reduction. The choice equating it with $\\phi$ confuses it with the resistance factor, which is a separate reliability factor.',
     hint: 'Think about whether a column in a real building ever carries load at the exact center of its cross-section.',
     steps: [
       {
@@ -974,7 +974,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'This factor is separate from $\\phi$ — both are applied: $\\phi P_n = 0.80\\phi[\\ldots]$',
+        text: 'This factor is separate from $\\phi$, and both are applied: $\\phi P_n = 0.80\\phi[\\ldots]$',
         latex: null
       }
     ],
@@ -982,7 +982,7 @@ const PROBLEMS = [
     handbookFormula: '\\phi P_n = 0.80\\phi \\left[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y\\right]',
     videoUrl: null,
     traps: [
-      'Confusing the 0.80 factor with the 0.85 in $0.85 f_c\'$ — the 0.85 on $f_c\'$ accounts for concrete strength differences between test cylinders and the actual structure'
+      'Confusing the 0.80 factor with the 0.85 in $0.85 f_c\'$. The 0.85 on $f_c\'$ accounts for concrete strength differences between test cylinders and the actual structure'
     ],
     diagram: null,
     lessonId: 'rc-columns',
@@ -1075,7 +1075,7 @@ const PROBLEMS = [
     hint: 'Compare $\\varepsilon_t$ to the ACI thresholds: 0.002 (compression-controlled boundary) and 0.005 (tension-controlled boundary).',
     steps: [
       {
-        text: '$\\varepsilon_t = 0.0015 \\leq 0.002$ — compression-controlled.',
+        text: '$\\varepsilon_t = 0.0015 \\leq 0.002$, so the section is compression-controlled.',
         latex: null
       },
       {
@@ -1091,8 +1091,8 @@ const PROBLEMS = [
     handbookFormula: '\\varepsilon_t \\leq 0.002 \\implies \\phi = 0.65 \\text{ (tied)}',
     videoUrl: null,
     traps: [
-      'Confusing the strain thresholds — 0.002 is the compression-controlled limit, 0.005 is the tension-controlled limit',
-      'Using $\\phi = 0.90$ for all column sections — this only applies to tension-controlled sections like beams'
+      'Confusing the strain thresholds. 0.002 is the compression-controlled limit, 0.005 is the tension-controlled limit',
+      'Using $\\phi = 0.90$ for all column sections, when this only applies to tension-controlled sections like beams'
     ],
     diagram: null,
     lessonId: 'rc-columns',
@@ -1138,7 +1138,7 @@ const PROBLEMS = [
     handbookFormula: 'M_n = M_p = F_y Z_x',
     videoUrl: null,
     traps: [
-      'Reporting nominal $M_p$ instead of design $\\phi_b M_p$ — always include the resistance factor for LRFD'
+      'Reporting nominal $M_p$ instead of design $\\phi_b M_p$. Always include the resistance factor for LRFD'
     ],
     diagram: null,
     lessonId: 'steel-beams',
@@ -1151,15 +1151,15 @@ const PROBLEMS = [
     choices: [
       {
         id: 'c1',
-        text: '$Z_x = 112 \\text{ in}^3$ — the plastic modulus is used for LRFD strength design'
+        text: '$Z_x = 112 \\text{ in}^3$, because the plastic modulus is used for LRFD strength design'
       },
       {
         id: 'c2',
-        text: '$S_x = 100 \\text{ in}^3$ — the elastic modulus is always more conservative'
+        text: '$S_x = 100 \\text{ in}^3$, because the elastic modulus is always more conservative'
       },
       {
         id: 'c3',
-        text: 'Either one — they give the same design strength after applying $\\phi$'
+        text: 'Either one, because they give the same design strength after applying $\\phi$'
       },
       {
         id: 'c4',
@@ -1168,7 +1168,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'For LRFD, the plastic moment capacity is $M_p = F_y Z_x$, using the plastic section modulus. The plastic modulus accounts for the full cross-section reaching yield stress, which is the actual failure mode for compact sections with full bracing. $S_x$ (elastic modulus) is used in the lateral-torsional buckling formula as the lower-bound term ($0.7 F_y S_x$) and in ASD. Using $S_x$ for the plastic moment underestimates capacity by about 10–15% for typical W-shapes. The $S_x$ choice is more conservative but incorrect for LRFD — LRFD is calibrated to use $Z_x$. The choice that swaps moduli by compactness has it backwards.',
+    eli5: 'For LRFD, the plastic moment capacity is $M_p = F_y Z_x$, using the plastic section modulus. The plastic modulus accounts for the full cross-section reaching yield stress, which is the actual failure mode for compact sections with full bracing. $S_x$ (elastic modulus) is used in the lateral-torsional buckling formula as the lower-bound term ($0.7 F_y S_x$) and in ASD. Using $S_x$ for the plastic moment underestimates capacity by about 10–15% for typical W-shapes. The $S_x$ choice is more conservative but incorrect for LRFD, because LRFD is calibrated to use $Z_x$. The choice that swaps moduli by compactness has it backwards.',
     hint: 'LRFD uses plastic moment capacity, which requires the section modulus that corresponds to full yielding of the cross-section.',
     steps: [
       {
@@ -1188,8 +1188,8 @@ const PROBLEMS = [
     handbookFormula: 'M_n = F_y Z_x',
     videoUrl: null,
     traps: [
-      'Using $S_x$ instead of $Z_x$ for the plastic moment — $S_x$ is for elastic/ASD calculations and the LTB formula',
-      'Assuming more conservative always means correct — LRFD is calibrated to use $Z_x$'
+      'Using $S_x$ instead of $Z_x$ for the plastic moment, when $S_x$ is for elastic/ASD calculations and the LTB formula',
+      'Assuming more conservative always means correct, when LRFD is calibrated to use $Z_x$'
     ],
     diagram: null,
     lessonId: 'steel-beams',
@@ -1240,7 +1240,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Using the full cross-sectional area instead of web area $A_w = d \\times t_w$',
-      'Forgetting the 0.6 coefficient — shear yield stress is $0.6 F_y$, not $F_y$'
+      'Forgetting the 0.6 coefficient, since shear yield stress is $0.6 F_y$, not $F_y$'
     ],
     diagram: null,
     lessonId: 'steel-beams',
@@ -1270,15 +1270,15 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'The first beam has $L_b = 10 = L_p$, so it is fully braced and reaches $M_n = M_p = 600$ kip-ft. The second beam has $L_p = 10 < L_b = 20 \\leq L_r = 30$, so it falls in the inelastic LTB zone. Its capacity is reduced by the linear interpolation formula: $M_n = M_p - (M_p - 0.7 F_y S_x)(L_b - L_p)/(L_r - L_p) < M_p$. The "both reach $M_p$" choice ignores the effect of unbraced length — same section does not mean same capacity if bracing conditions differ. The "both are reduced by LTB" choice is wrong because the first beam meets $L_b \\leq L_p$. The "elastic LTB" choice is wrong because $L_b = 20 < L_r = 30$, so the second beam is in inelastic LTB, not elastic.',
+    eli5: 'The first beam has $L_b = 10 = L_p$, so it is fully braced and reaches $M_n = M_p = 600$ kip-ft. The second beam has $L_p = 10 < L_b = 20 \\leq L_r = 30$, so it falls in the inelastic LTB zone. Its capacity is reduced by the linear interpolation formula: $M_n = M_p - (M_p - 0.7 F_y S_x)(L_b - L_p)/(L_r - L_p) < M_p$. The "both reach $M_p$" choice ignores the effect of unbraced length, because the same section does not mean same capacity if bracing conditions differ. The "both are reduced by LTB" choice is wrong because the first beam meets $L_b \\leq L_p$. The "elastic LTB" choice is wrong because $L_b = 20 < L_r = 30$, so the second beam is in inelastic LTB, not elastic.',
     hint: 'Compare $L_b$ to $L_p$ and $L_r$ for each beam. If $L_b \\leq L_p$, full $M_p$. If $L_p < L_b \\leq L_r$, inelastic LTB reduces capacity.',
     steps: [
       {
-        text: 'Beam 1: $L_b = 10 \\leq L_p = 10$ — no LTB, $M_n = M_p = 600$ kip-ft.',
+        text: 'Beam 1: $L_b = 10 \\leq L_p = 10$, so there is no LTB and, $M_n = M_p = 600$ kip-ft.',
         latex: null
       },
       {
-        text: 'Beam 2: $L_p = 10 < L_b = 20 \\leq L_r = 30$ — inelastic LTB zone.',
+        text: 'Beam 2: $L_p = 10 < L_b = 20 \\leq L_r = 30$, which is the inelastic LTB zone.',
         latex: null
       },
       {
@@ -1290,7 +1290,7 @@ const PROBLEMS = [
     handbookFormula: 'M_n = C_b\\left[M_p - (M_p - 0.7F_yS_x)\\frac{L_b - L_p}{L_r - L_p}\\right] \\leq M_p',
     videoUrl: null,
     traps: [
-      'Assuming the same section always gives the same capacity — bracing conditions can reduce flexural strength significantly',
+      'Assuming the same section always gives the same capacity, when bracing conditions can reduce flexural strength significantly',
       'Confusing $L_b = L_p$ (full capacity) with $L_b > L_p$ (LTB reduction)'
     ],
     diagram: {
@@ -1347,7 +1347,7 @@ const PROBLEMS = [
     handbookPage: 'p. 281',
     handbookFormula: '\\frac{KL}{r}',
     videoUrl: null,
-    traps: ['Forgetting to convert feet to inches — $r$ is always given in inches on the FE'],
+    traps: ['Forgetting to convert feet to inches, since $r$ is always given in inches on the FE'],
     diagram: null,
     lessonId: 'steel-columns',
     chapterId: 'structural'
@@ -1363,20 +1363,20 @@ const PROBLEMS = [
       },
       {
         id: 'c2',
-        text: 'The pin-pin column — its lower $K$ means less restraint and lower capacity'
+        text: 'The pin-pin column, because its lower $K$ means less restraint and lower capacity'
       },
       {
         id: 'c3',
-        text: 'The cantilever — its larger $K$ produces a higher $KL/r$, reducing $\\phi_c F_{cr}$'
+        text: 'The cantilever, because its larger $K$ produces a higher $KL/r$, reducing $\\phi_c F_{cr}$'
       },
       {
         id: 'c4',
-        text: 'The cantilever — but only because it has a different $\\phi_c$ factor'
+        text: 'The cantilever, but only because it has a different $\\phi_c$ factor'
       }
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The effective length factor $K$ converts the physical length into an equivalent pin-pin length for buckling. A cantilever ($K = 2.10$) has an effective length more than twice the physical length because one end is free to translate. This dramatically increases $KL/r$, which reduces the critical buckling stress $F_{cr}$. The pin-pin column ($K = 1.0$) buckles over exactly its physical length. Higher $KL/r$ always means lower strength. The choice claiming the pin-pin column is weaker confuses $K$ with restraint — lower $K$ actually means MORE restraint (better support conditions). The choice saying both have the same strength ignores the role of end conditions. The choice blaming a different $\\phi_c$ factor is wrong because $\\phi_c = 0.90$ for both.',
+    eli5: 'The effective length factor $K$ converts the physical length into an equivalent pin-pin length for buckling. A cantilever ($K = 2.10$) has an effective length more than twice the physical length because one end is free to translate. This dramatically increases $KL/r$, which reduces the critical buckling stress $F_{cr}$. The pin-pin column ($K = 1.0$) buckles over exactly its physical length. Higher $KL/r$ always means lower strength. The choice claiming the pin-pin column is weaker confuses $K$ with restraint, since lower $K$ actually means MORE restraint (better support conditions). The choice saying both have the same strength ignores the role of end conditions. The choice blaming a different $\\phi_c$ factor is wrong because $\\phi_c = 0.90$ for both.',
     hint: 'Higher $K$ means a longer effective length for buckling. Longer effective length means higher $KL/r$ and lower critical stress.',
     steps: [
       {
@@ -1396,7 +1396,7 @@ const PROBLEMS = [
     handbookFormula: 'K = 2.10 \\text{ (fixed-free)}, \\quad K = 1.0 \\text{ (pin-pin)}',
     videoUrl: null,
     traps: [
-      'Thinking lower $K$ means less stability — it is the opposite; lower $K$ means better end restraint and more stability'
+      'Thinking lower $K$ means less stability, when it is the opposite; lower $K$ means better end restraint and more stability'
     ],
     diagram: null,
     lessonId: 'steel-columns',
@@ -1450,8 +1450,8 @@ const PROBLEMS = [
     handbookFormula: '\\phi_c P_n = \\phi_c F_{cr} \\times A_g',
     videoUrl: null,
     traps: [
-      'Using $F_y$ directly instead of the table value $\\phi_c F_{cr}$ — buckling reduces the effective stress',
-      'Applying $\\phi_c = 0.90$ again on top of $\\phi_c F_{cr}$ — the table value already includes $\\phi_c$'
+      'Using $F_y$ directly instead of the table value $\\phi_c F_{cr}$, but buckling reduces the effective stress',
+      'Applying $\\phi_c = 0.90$ again on top of $\\phi_c F_{cr}$, since the table value already includes $\\phi_c$'
     ],
     diagram: null,
     lessonId: 'steel-columns',
@@ -1464,7 +1464,7 @@ const PROBLEMS = [
     choices: [
       {
         id: 'c1',
-        text: 'Neither controls — check only the axis with the larger $r$ value'
+        text: 'Neither controls, so check only the axis with the larger $r$ value'
       },
       {
         id: 'c2',
@@ -1476,12 +1476,12 @@ const PROBLEMS = [
       },
       {
         id: 'c4',
-        text: 'Strong axis ($KL/r_x = 24$) and weak axis ($KL/r_y = 36$) — weak axis controls with the larger ratio'
+        text: 'Strong axis ($KL/r_x = 24$) and weak axis ($KL/r_y = 36$), and the weak axis controls with the larger ratio'
       }
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'Strong axis: $KL/r_x = (1.0 \\times 12 \\times 12)/6.0 = 144/6.0 = 24$. Weak axis: $KL/r_y = (1.0 \\times 6 \\times 12)/2.0 = 72/2.0 = 36$. The weak axis has the larger slenderness ratio ($36 > 24$), so it controls. Even though the weak axis has a shorter unbraced length (6 ft vs. 12 ft), $r_y$ is so much smaller than $r_x$ that it still produces the larger $KL/r$. The "strong axis controls because it has the longer unbraced length" choice only considers length, not the radius of gyration. The "weak axis controls because $r_y < r_x$, regardless of bracing" choice states the conclusion correctly but for the wrong reason — you must compute both ratios, not assume. The "check only the axis with the larger $r$ value" choice is backwards — check the axis with the LARGER $KL/r$, not the larger $r$.',
+    eli5: 'Strong axis: $KL/r_x = (1.0 \\times 12 \\times 12)/6.0 = 144/6.0 = 24$. Weak axis: $KL/r_y = (1.0 \\times 6 \\times 12)/2.0 = 72/2.0 = 36$. The weak axis has the larger slenderness ratio ($36 > 24$), so it controls. Even though the weak axis has a shorter unbraced length (6 ft vs. 12 ft), $r_y$ is so much smaller than $r_x$ that it still produces the larger $KL/r$. The "strong axis controls because it has the longer unbraced length" choice only considers length, not the radius of gyration. The "weak axis controls because $r_y < r_x$, regardless of bracing" choice states the conclusion correctly but for the wrong reason, because you must compute both ratios, not assume. The "check only the axis with the larger $r$ value" choice is backwards. Check the axis with the LARGER $KL/r$, not the larger $r$.',
     hint: 'Compute $KL/r$ for both axes using their respective unbraced lengths. The larger ratio governs.',
     steps: [
       {
@@ -1501,8 +1501,8 @@ const PROBLEMS = [
     handbookFormula: '\\text{Controlling: } \\max\\left(\\frac{KL}{r_x}, \\frac{KL}{r_y}\\right)',
     videoUrl: null,
     traps: [
-      'Assuming the longer unbraced length always controls — the radius of gyration matters just as much',
-      'Checking only one axis — you must compute $KL/r$ for both axes and use the larger value'
+      'Assuming the longer unbraced length always controls, when the radius of gyration matters just as much',
+      'Checking only one axis, when you must compute $KL/r$ for both axes and use the larger value'
     ],
     diagram: null,
     lessonId: 'steel-columns',
@@ -1552,7 +1552,7 @@ const PROBLEMS = [
     handbookFormula: 'A_n = \\left[b_g - \\Sigma\\left(d_b + \\tfrac{1}{8}\\text{ in.}\\right)\\right] t',
     videoUrl: null,
     traps: [
-      'Forgetting the 1/8" addition for clearance and damage — the hole is larger than the bolt'
+      'Forgetting the 1/8" addition for clearance and damage, since the hole is larger than the bolt'
     ],
     diagram: {
       component: 'TensionPlateNet',
@@ -1591,15 +1591,15 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Yielding spreads across the gross section gradually — the member elongates and gives visible warning before failure. Rupture, on the other hand, happens suddenly at the weakest net section with little plastic deformation. Because rupture is a more dangerous failure mode (no warning, no redistribution), AISC applies a lower resistance factor to build in a larger safety margin. The "higher material strength (Fu)" choice confuses material strength with reliability philosophy. The "low-grade steels only" choice is wrong — rupture can occur in any grade of steel. The "bolt hole drilling inaccuracy" choice is partially related (hole deductions matter) but the fundamental reason is the brittle failure mode.',
+    eli5: 'Yielding spreads across the gross section gradually. The member elongates and gives visible warning before failure. Rupture, on the other hand, happens suddenly at the weakest net section with little plastic deformation. Because rupture is a more dangerous failure mode (no warning, no redistribution), AISC applies a lower resistance factor to build in a larger safety margin. The "higher material strength (Fu)" choice confuses material strength with reliability philosophy. The "low-grade steels only" choice is wrong, because rupture can occur in any grade of steel. The "bolt hole drilling inaccuracy" choice is partially related (hole deductions matter) but the fundamental reason is the brittle failure mode.',
     hint: 'Think about which failure mode gives more warning and allows load redistribution.',
     steps: [
       {
-        text: 'Yielding: gradual, ductile — the member stretches visibly before failure.',
+        text: 'Yielding: gradual and ductile, so the member stretches visibly before failure.',
         latex: null
       },
       {
-        text: 'Rupture: sudden, brittle — fracture at the net section with little warning.',
+        text: 'Rupture: sudden and brittle, with fracture at the net section with little warning.',
         latex: null
       },
       {
@@ -1611,7 +1611,7 @@ const PROBLEMS = [
     handbookFormula: '\\phi_y = 0.90 \\text{ (yielding)}, \\quad \\phi_t = 0.75 \\text{ (rupture)}',
     videoUrl: null,
     traps: [
-      'Thinking the lower factor is just to offset the higher $F_u$ value — the reason is fundamentally about failure mode ductility'
+      'Thinking the lower factor is just to offset the higher $F_u$ value, when the reason is fundamentally about failure mode ductility'
     ],
     diagram: null,
     lessonId: 'steel-tension',
@@ -1641,7 +1641,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$A_g = 10 \\times 0.625 = 6.25$ in$^2$. Each hole: $7/8 + 1/8 = 1.0$ in. $A_n = [10 - 3(1.0)] \\times 0.625 = 7.0 \\times 0.625 = 4.375$ in$^2$. With $U = 1.0$: $A_e = 4.375$ in$^2$. Yielding: $\\phi P_n = 0.90 \\times 36 \\times 6.25 = 202.5$ kips. Rupture: $\\phi P_n = 0.75 \\times 58 \\times 4.375 = 190$ kips. Controlling = min(202.5, 190) = 190 kips (rupture governs). The 203 kips choice is the yielding value, but that is the larger capacity — the smaller one controls. The 225 kips choice uses $F_y \\times A_g$ without the $\\phi$ factor. The 254 kips choice is $F_u \\times A_n$ without $\\phi$.',
+    eli5: '$A_g = 10 \\times 0.625 = 6.25$ in$^2$. Each hole: $7/8 + 1/8 = 1.0$ in. $A_n = [10 - 3(1.0)] \\times 0.625 = 7.0 \\times 0.625 = 4.375$ in$^2$. With $U = 1.0$: $A_e = 4.375$ in$^2$. Yielding: $\\phi P_n = 0.90 \\times 36 \\times 6.25 = 202.5$ kips. Rupture: $\\phi P_n = 0.75 \\times 58 \\times 4.375 = 190$ kips. Controlling = min(202.5, 190) = 190 kips (rupture governs). The 203 kips choice is the yielding value, but that is the larger capacity, and the smaller one controls. The 225 kips choice uses $F_y \\times A_g$ without the $\\phi$ factor. The 254 kips choice is $F_u \\times A_n$ without $\\phi$.',
     hint: 'Check both yielding ($\\phi_y F_y A_g$) and rupture ($\\phi_t F_u A_e$). The smaller value controls.',
     steps: [
       {
@@ -1669,7 +1669,7 @@ const PROBLEMS = [
     handbookFormula: '\\text{Yielding: } \\phi_y P_n = 0.90 F_y A_g; \\quad \\text{Rupture: } \\phi_t P_n = 0.75 F_u A_e',
     videoUrl: null,
     traps: [
-      'Picking the larger capacity instead of the smaller — the weaker limit state controls',
+      'Picking the larger capacity instead of the smaller, when the weaker limit state controls',
       'Forgetting to add 1/8" to each bolt diameter for hole size'
     ],
     diagram: {
@@ -1692,7 +1692,7 @@ const PROBLEMS = [
     choices: [
       {
         id: 'c1',
-        text: '$A_e$ is the same — $U = 1.0$ for all tension members'
+        text: '$A_e$ is the same, since $U = 1.0$ for all tension members'
       },
       {
         id: 'c2',
@@ -1709,7 +1709,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'When a tension member is connected through only part of its cross-section (like an angle bolted through one leg), the stress does not distribute uniformly across the full section. The unconnected leg experiences "shear lag" — it cannot fully develop its tensile capacity before the connection ends. AISC accounts for this with the shear lag factor $U = 1 - \\bar{x}/L$, where $\\bar{x}$ is the distance from the connection plane to the centroid of the member and $L$ is the connection length. For a flat bar bolted through its full width, all elements are connected so $U = 1.0$. For an angle connected through one leg, $U < 1.0$, reducing $A_e = U \\cdot A_n$. The "larger because the unconnected leg adds extra capacity" option is backwards. The "same, U = 1.0 for all tension members" option is only true for fully connected members. The "different phi factor" option confuses shear lag with resistance factors.',
+    eli5: 'When a tension member is connected through only part of its cross-section (like an angle bolted through one leg), the stress does not distribute uniformly across the full section. The unconnected leg experiences "shear lag": it cannot fully develop its tensile capacity before the connection ends. AISC accounts for this with the shear lag factor $U = 1 - \\bar{x}/L$, where $\\bar{x}$ is the distance from the connection plane to the centroid of the member and $L$ is the connection length. For a flat bar bolted through its full width, all elements are connected so $U = 1.0$. For an angle connected through one leg, $U < 1.0$, reducing $A_e = U \\cdot A_n$. The "larger because the unconnected leg adds extra capacity" option is backwards. The "same, U = 1.0 for all tension members" option is only true for fully connected members. The "different phi factor" option confuses shear lag with resistance factors.',
     hint: 'Shear lag means not all of the cross-section can develop full stress when only part of it is connected.',
     steps: [
       {
@@ -1729,8 +1729,8 @@ const PROBLEMS = [
     handbookFormula: 'A_e = U \\cdot A_n',
     videoUrl: null,
     traps: [
-      'Assuming $U = 1.0$ for all shapes — it equals 1.0 only when all cross-sectional elements are connected',
-      'Confusing shear lag reduction with resistance factor reduction — they are separate concepts'
+      'Assuming $U = 1.0$ for all shapes, when it equals 1.0 only when all cross-sectional elements are connected',
+      'Confusing shear lag reduction with resistance factor reduction, when they are separate concepts'
     ],
     diagram: null,
     lessonId: 'steel-tension',

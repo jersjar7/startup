@@ -4,15 +4,15 @@ export default {
   subtopicId: 'pavement-earthwork',
   application: 'Highways and airfields use rigid (Portland cement concrete) pavement where heavy loads and long service life justify it. As a civil engineer you should understand how a rigid slab carries load differently from flexible asphalt, what the modulus of subgrade reaction represents, and why joints and dowels are used. On the FE, expect conceptual questions comparing rigid and flexible pavement and on joint function.',
   content: [
-    { type: 'text', body: 'Rigid pavement is a Portland cement concrete (PCC) slab. Unlike flexible (asphalt) pavement, which flexes and spreads load downward through granular layers, a rigid slab is stiff and carries load by BEAM (slab) action — bending and distributing the wheel load over a wide area of subgrade.' },
+    { type: 'text', body: 'Rigid pavement is a Portland cement concrete (PCC) slab. Unlike flexible (asphalt) pavement, which flexes and spreads load downward through granular layers, a rigid slab is stiff and carries load by BEAM (slab) action, bending and distributing the wheel load over a wide area of subgrade.' },
     { type: 'heading', body: 'Rigid vs. Flexible' },
     { type: 'text', body: 'Flexible pavement relies on the strength of each layer and is designed with the AASHTO structural number (SN). Rigid pavement relies on the slab’s flexural strength (concrete modulus of rupture) and spreads load so widely that it depends much less on subgrade strength. Because of this, rigid pavement tolerates weak subgrades better but costs more initially.' },
     { type: 'heading', body: 'Modulus of Subgrade Reaction' },
-    { type: 'text', body: 'The support a subgrade provides to a rigid slab is characterized by the modulus of subgrade reaction $k$ — the pressure required to produce a unit deflection (units of force per length cubed, e.g., pci). A higher $k$ means a stiffer foundation.' },
+    { type: 'text', body: 'The support a subgrade provides to a rigid slab is characterized by the modulus of subgrade reaction $k$, the pressure required to produce a unit deflection (units of force per length cubed, e.g., pci). A higher $k$ means a stiffer foundation.' },
     { type: 'heading', body: 'Joints' },
     { type: 'text', body: 'Concrete slabs crack from temperature and shrinkage stresses, so joints are built in: CONTRACTION joints control where cracks form, EXPANSION joints allow thermal growth, and CONSTRUCTION joints occur where paving stops. DOWEL bars across transverse joints transfer wheel load from one slab to the next while still allowing the slabs to move.' },
     { type: 'callout', variant: 'tip', body: 'Think "beam vs. blanket": a rigid slab acts like a beam bridging weak spots, while flexible pavement acts like a blanket transmitting load down through its layers. That is why rigid pavement is less sensitive to subgrade strength.' },
-    { type: 'callout', variant: 'warning', body: 'Dowel bars TRANSFER load across a joint while permitting movement — they are not there to tie slabs rigidly together. Confusing dowels (load transfer) with tie bars (holding joints closed) is a common mistake.' },
+    { type: 'callout', variant: 'warning', body: 'Dowel bars TRANSFER load across a joint while permitting movement. They are not there to tie slabs rigidly together. Confusing dowels (load transfer) with tie bars (holding joints closed) is a common mistake.' },
   ],
   illustration: null,
   problems: [
@@ -27,7 +27,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'A rigid slab is stiff and bends like a beam, spreading each wheel load over a wide area of subgrade — so it depends less on subgrade strength. The "flexing and transmitting load through granular layers" option describes flexible (asphalt) pavement. The "concentrating the load directly beneath the wheel" option is the opposite of what a slab does. The "does not transmit load to the subgrade at all" option is incorrect — load still reaches the subgrade, just spread out.',
+      eli5: 'A rigid slab is stiff and bends like a beam, spreading each wheel load over a wide area of subgrade, so it depends less on subgrade strength. The "flexing and transmitting load through granular layers" option describes flexible (asphalt) pavement. The "concentrating the load directly beneath the wheel" option is the opposite of what a slab does. The "does not transmit load to the subgrade at all" option is incorrect, because load still reaches the subgrade, just spread out.',
       hint: 'A stiff slab behaves like a beam; flexible pavement behaves like layered granular material.',
       steps: [
         { text: 'Flexible pavement spreads load down through its layers.', latex: null },
@@ -55,7 +55,7 @@ export default {
       correctAnswerId: 'c1',
       difficulty: 'medium',
       eli5: 'Dowel bars span a transverse joint and transfer wheel load from one slab to the next, reducing faulting, while still letting the slabs expand and contract. "Bond the slabs together so they cannot move" describes tie bars (which hold longitudinal joints closed). "Increase the concrete\'s compressive strength" confuses dowels with reinforcement. "Waterproof the joint" is the job of joint sealant, not dowels.',
-      hint: 'Dowels handle load transfer across a joint — do they lock the slabs or let them move?',
+      hint: 'Dowels handle load transfer across a joint. Do they lock the slabs or let them move?',
       steps: [
         { text: 'Slabs must be free to expand and contract at joints.', latex: null },
         { text: 'Dowel bars carry load across the joint without locking the slabs.', latex: null },
@@ -81,7 +81,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The modulus of subgrade reaction k is the foundation stiffness — pressure per unit deflection (e.g., pci) — describing how firmly the subgrade supports the slab. The flexural-strength option is the concrete’s modulus of rupture. The total-thickness option is a thickness, not a stiffness. The equivalent-single-axle-loads option is the ESAL traffic measure.',
+      eli5: 'The modulus of subgrade reaction k is the foundation stiffness (pressure per unit deflection, e.g., pci), describing how firmly the subgrade supports the slab. The flexural-strength option is the concrete’s modulus of rupture. The total-thickness option is a thickness, not a stiffness. The equivalent-single-axle-loads option is the ESAL traffic measure.',
       hint: 'k describes how stiff the foundation is: how much pressure for how much deflection?',
       steps: [
         { text: 'k relates subgrade pressure to deflection.', latex: null },

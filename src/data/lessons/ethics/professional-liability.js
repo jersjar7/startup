@@ -6,13 +6,13 @@ export default {
   content: [
     { type: 'text', body: 'Professional liability is about legal accountability for professional work. The central concept is the standard of care, and the most common claim against engineers is negligence.' },
     { type: 'heading', body: 'Standard of Care' },
-    { type: 'text', body: 'The standard of care is the degree of skill and diligence that a reasonably competent engineer would exercise under similar circumstances. Engineers are NOT guarantors of perfect results — they are liable only when they fail to meet this standard, not simply because a design later proves imperfect.' },
+    { type: 'text', body: 'The standard of care is the degree of skill and diligence that a reasonably competent engineer would exercise under similar circumstances. Engineers are NOT guarantors of perfect results. They are liable only when they fail to meet this standard, not simply because a design later proves imperfect.' },
     { type: 'heading', body: 'Negligence: Four Elements' },
-    { type: 'text', body: 'To win a negligence claim, a plaintiff must prove all four: (1) a DUTY owed (e.g., to meet the standard of care), (2) a BREACH of that duty, (3) CAUSATION — the breach actually caused the harm, and (4) DAMAGES — measurable injury or loss. Intent or malice is NOT required; negligence is about failing to act reasonably, not about meaning to cause harm.' },
+    { type: 'text', body: 'To win a negligence claim, a plaintiff must prove all four: (1) a DUTY owed (e.g., to meet the standard of care), (2) a BREACH of that duty, (3) CAUSATION: the breach actually caused the harm, and (4) DAMAGES: measurable injury or loss. Intent or malice is NOT required; negligence is about failing to act reasonably, not about meaning to cause harm.' },
     { type: 'heading', body: 'Time Limits & Risk Transfer' },
     { type: 'text', body: 'A statute of LIMITATIONS sets a deadline to sue measured from when the injury occurs or is discovered. A statute of REPOSE sets an absolute outer deadline measured from a fixed event (such as substantial completion), after which no claim may be brought even if the harm has not yet appeared. Indemnification (hold-harmless) clauses shift defined risks between parties, and professional liability (errors and omissions, E&O) insurance covers claims arising from professional negligence.' },
-    { type: 'callout', variant: 'tip', body: 'Meeting the standard of care is the engineer’s shield. Liability does not require a perfect design — it requires that you acted as a reasonably prudent engineer would have under the same conditions.' },
-    { type: 'callout', variant: 'warning', body: 'A statute of repose can bar a claim before the injury even happens, because it runs from project completion — not from the date of harm or discovery like a statute of limitations.' },
+    { type: 'callout', variant: 'tip', body: 'Meeting the standard of care is the engineer’s shield. Liability does not require a perfect design. It requires that you acted as a reasonably prudent engineer would have under the same conditions.' },
+    { type: 'callout', variant: 'warning', body: 'A statute of repose can bar a claim before the injury even happens, because it runs from project completion, not from the date of harm or discovery like a statute of limitations.' },
   ],
   illustration: null,
   problems: [
@@ -27,8 +27,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Engineers are measured against the standard of care — what a reasonably competent peer would do under similar conditions. They are not guarantors of perfection (the "any imperfection" option) and negligence does not require intent (the "intentionally causes harm" option); intent would be a different, more serious claim. Client dissatisfaction alone (the "client is dissatisfied" option) is not negligence. Liability attaches when the engineer falls short of the standard of care.',
-      hint: 'Engineers are not held to perfection — they are held to a professional benchmark. What is that benchmark?',
+      eli5: 'Engineers are measured against the standard of care: what a reasonably competent peer would do under similar conditions. They are not guarantors of perfection (the "any imperfection" option) and negligence does not require intent (the "intentionally causes harm" option); intent would be a different, more serious claim. Client dissatisfaction alone (the "client is dissatisfied" option) is not negligence. Liability attaches when the engineer falls short of the standard of care.',
+      hint: 'Engineers are not held to perfection. They are held to a professional benchmark. What is that benchmark?',
       steps: [
         { text: 'The benchmark is the standard of care, not perfection.', latex: null },
         { text: 'Negligence is failing to meet that standard; intent is not required.', latex: null },
@@ -54,7 +54,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The four elements of negligence are duty, breach, causation, and damages. Intent is NOT one of them — negligence is about failing to act reasonably, not about meaning to cause harm (that would be an intentional tort). The duty, breach, and damages choices are three of the four real elements (the fourth being causation).',
+      eli5: 'The four elements of negligence are duty, breach, causation, and damages. Intent is NOT one of them, because negligence is about failing to act reasonably, not about meaning to cause harm (that would be an intentional tort). The duty, breach, and damages choices are three of the four real elements (the fourth being causation).',
       hint: 'List the four elements of negligence. Which listed item is not one of them?',
       steps: [
         { text: 'Negligence elements: duty, breach, causation, damages.', latex: null },
@@ -65,7 +65,7 @@ export default {
       handbookFormula: null,
       videoUrl: null,
       traps: [
-        'Adding intent to the negligence elements — it belongs to intentional torts',
+        'Adding intent to the negligence elements, when it belongs to intentional torts',
         'Forgetting causation, the element most often omitted',
       ],
       diagram: null,
@@ -81,7 +81,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'A statute of limitations starts when the injury occurs or is discovered. A statute of repose runs from a fixed event — typically substantial completion — and sets an absolute outer cutoff, so it can bar a claim even before any injury appears. The "no time limit" option is wrong (repose does have a limit). The "always gives more time to sue" option is backwards (repose can cut off claims earlier). The "two names for the same rule" option is false (they are distinct rules).',
+      eli5: 'A statute of limitations starts when the injury occurs or is discovered. A statute of repose runs from a fixed event (typically substantial completion) and sets an absolute outer cutoff, so it can bar a claim even before any injury appears. The "no time limit" option is wrong (repose does have a limit). The "always gives more time to sue" option is backwards (repose can cut off claims earlier). The "two names for the same rule" option is false (they are distinct rules).',
       hint: 'One clock starts at the injury/discovery; the other starts at a fixed project event and cannot be extended.',
       steps: [
         { text: 'Statute of limitations: clock starts at injury or its discovery.', latex: null },

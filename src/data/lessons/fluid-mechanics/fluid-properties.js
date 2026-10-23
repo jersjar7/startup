@@ -4,7 +4,7 @@ export default {
   subtopicId: 'fluid-properties-statics',
   application: 'Civil engineers need fluid properties for every hydraulic calculation. Density and specific weight let you compute hydrostatic forces on dams and retaining walls. Viscosity determines whether flow in a water main is laminar or turbulent, which controls friction losses and pipe sizing. Specific gravity lets you compare fluids to water quickly. On the FE, expect questions that require converting between density, specific weight, and specific gravity, or applying viscosity in a shear stress calculation.',
   content: [
-    { type: 'text', body: 'Fluid mechanics starts with three linked properties: density, specific weight, and specific gravity. Know how to convert between them \u2014 the FE gives you one and asks for another.' },
+    { type: 'text', body: 'Fluid mechanics starts with three linked properties: density, specific weight, and specific gravity. Know how to convert between them, because the FE gives you one and asks for another.' },
     { type: 'heading', body: 'Density, Specific Weight & Specific Gravity' },
     { type: 'formula', latex: '\\gamma = \\rho g', label: 'Specific weight from density' },
     { type: 'formula', latex: 'SG = \\frac{\\rho}{\\rho_w} = \\frac{\\gamma}{\\gamma_w}', label: 'Specific gravity' },
@@ -16,8 +16,8 @@ export default {
     { type: 'heading', body: 'Surface Tension & Capillarity' },
     { type: 'formula', latex: 'h = \\frac{4\\sigma \\cos \\beta}{\\gamma d}', label: 'Capillary rise' },
     { type: 'text', body: 'Surface tension $\\sigma$ is force per unit length at a fluid interface. Capillary rise depends on tube diameter $d$, contact angle $\\beta$, and the fluid\u2019s specific weight $\\gamma$.' },
-    { type: 'callout', variant: 'tip', body: 'Specific gravity is dimensionless \u2014 it\u2019s just the ratio to water. SG = 1.0 for water, SG = 13.6 for mercury, SG = 0.8\u20130.9 for oil. Multiply SG by 9,810 N/m\u00B3 to get specific weight in SI.' },
-    { type: 'callout', variant: 'warning', body: 'Don\u2019t confuse dynamic viscosity ($\\mu$, in Pa\u00B7s) with kinematic viscosity ($\\nu$, in m\u00B2/s). The FE handbook uses both \u2014 check which one the problem gives you before plugging in.' },
+    { type: 'callout', variant: 'tip', body: 'Specific gravity is dimensionless: it\u2019s just the ratio to water. SG = 1.0 for water, SG = 13.6 for mercury, SG = 0.8\u20130.9 for oil. Multiply SG by 9,810 N/m\u00B3 to get specific weight in SI.' },
+    { type: 'callout', variant: 'warning', body: 'Don\u2019t confuse dynamic viscosity ($\\mu$, in Pa\u00B7s) with kinematic viscosity ($\\nu$, in m\u00B2/s). The FE handbook uses both, so check which one the problem gives you before plugging in.' },
   ],
   illustration: null,
   problems: [
@@ -32,7 +32,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'Specific gravity is the ratio of the fluid\u2019s density (or specific weight) to water\u2019s. So $\\gamma = SG \\times \\gamma_w = 0.85 \\times 9{,}810 = 8{,}338.5$ N/m\u00B3. The 850 N/m\u00b3 choice just multiplies $0.85 \\times 1{,}000$ and slaps on the wrong units. The 9,810 N/m\u00b3 choice is water\u2019s specific weight ($SG = 1.0$). The 8,338 kg/m\u00b3 choice has the right number but wrong units \u2014 specific weight is force per volume (N/m\u00B3), not mass per volume (kg/m\u00B3).',
+      eli5: 'Specific gravity is the ratio of the fluid\u2019s density (or specific weight) to water\u2019s. So $\\gamma = SG \\times \\gamma_w = 0.85 \\times 9{,}810 = 8{,}338.5$ N/m\u00B3. The 850 N/m\u00b3 choice just multiplies $0.85 \\times 1{,}000$ and slaps on the wrong units. The 9,810 N/m\u00b3 choice is water\u2019s specific weight ($SG = 1.0$). The 8,338 kg/m\u00b3 choice has the right number but wrong units, because specific weight is force per volume (N/m\u00B3), not mass per volume (kg/m\u00B3).',
       hint: 'Specific weight $= SG$ times the specific weight of water ($9{,}810$ N/m\u00B3 in SI).',
       steps: [
         { text: 'Specific weight from specific gravity:', latex: '\\gamma = SG \\times \\gamma_w' },
@@ -42,7 +42,7 @@ export default {
       handbookFormula: 'SG = \\frac{\\gamma}{\\gamma_w}',
       videoUrl: null,
       traps: [
-        'Confusing specific weight (N/m\u00B3) with density (kg/m\u00B3) \u2014 different units, related by $g$',
+        'Confusing specific weight (N/m\u00B3) with density (kg/m\u00B3), which have different units, related by $g$',
         'Using $\\rho_w = 1{,}000$ instead of $\\gamma_w = 9{,}810$ when computing specific weight',
       ],
       diagram: null,
@@ -69,7 +69,7 @@ export default {
       handbookFormula: '\\tau = \\mu \\frac{dv}{dy}',
       videoUrl: null,
       traps: [
-        'Forgetting to convert mm to m for the film thickness \u2014 off by a factor of 1,000',
+        'Forgetting to convert mm to m for the film thickness, which is off by a factor of 1,000',
         'Using kinematic viscosity $\\nu$ instead of dynamic viscosity $\\mu$ in the shear stress formula',
       ],
       diagram: null,
@@ -96,9 +96,9 @@ export default {
       handbookFormula: 'h = \\frac{4\\sigma \\cos \\beta}{\\gamma d}',
       videoUrl: null,
       traps: [
-        'Dropping the factor of 4 in the numerator \u2014 gives a quarter of the answer, 4.95 mm (choice A)',
-        'Using 2 rather than 4, as though the formula were written for a radius \u2014 gives 9.9 mm (choice B)',
-        'Using radius instead of diameter \u2014 doubles the answer',
+        'Dropping the factor of 4 in the numerator, which gives a quarter of the answer, 4.95 mm (choice A)',
+        'Using 2 rather than 4, as though the formula were written for a radius, which gives 9.9 mm (choice B)',
+        'Using radius instead of diameter, which doubles the answer',
         'Forgetting to convert mm to m for the tube diameter',
       ],
       diagram: null,

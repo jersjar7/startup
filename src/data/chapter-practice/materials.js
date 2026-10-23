@@ -517,10 +517,10 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Above the fiber saturation point, free water in the cell cavities leaves first with little effect on size or strength. Below the FSP (~30% MC), water leaves the cell walls — the wood shrinks and gains strength and stiffness. The "swells and loses strength" option reverses both effects. The "dimensions and strength stay constant" option ignores the change below FSP. The "shrinks but loses strength" option gets the strength direction wrong.',
+    eli5: 'Above the fiber saturation point, free water in the cell cavities leaves first with little effect on size or strength. Below the FSP (~30% MC), water leaves the cell walls, so the wood shrinks and gains strength and stiffness. The "swells and loses strength" option reverses both effects. The "dimensions and strength stay constant" option ignores the change below FSP. The "shrinks but loses strength" option gets the strength direction wrong.',
     hint: 'Below the fiber saturation point, losing bound water from the cell walls changes both dimensions and strength.',
     steps: [
-      { text: 'Above FSP: only free water leaves — minimal dimensional/strength change.', latex: null },
+      { text: 'Above FSP: only free water leaves, with minimal dimensional/strength change.', latex: null },
       { text: 'Below FSP: bound water leaves the cell walls.', latex: null },
       { text: 'Result: the wood shrinks and gains strength and stiffness.', latex: null },
     ],
@@ -528,7 +528,7 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Assuming wood weakens as it dries — below the FSP it strengthens',
+      'Assuming wood weakens as it dries, when below the FSP it strengthens',
       'Thinking drying has no effect below the fiber saturation point',
     ],
     diagram: null,

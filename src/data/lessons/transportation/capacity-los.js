@@ -40,7 +40,7 @@ export default {
       videoUrl: null,
       traps: [
         'Using rolling terrain PCE (3.0) when the problem specifies level terrain (2.0)',
-        'Using PT \u00D7 ET directly instead of PT \u00D7 (ET \u2212 1) \u2014 the \u22121 accounts for replacing a truck with a passenger car',
+        'Using PT \u00D7 ET directly instead of PT \u00D7 (ET \u2212 1), when the \u22121 accounts for replacing a truck with a passenger car',
       ],
       diagram: null,
     },
@@ -65,7 +65,7 @@ export default {
       videoUrl: null,
       traps: [
         'Forgetting one of the three adjustment factors in the denominator',
-        'Multiplying by the factors instead of dividing \u2014 the flow rate per lane is always higher than V/N',
+        'Multiplying by the factors instead of dividing, when the flow rate per lane is always higher than V/N',
       ],
       diagram: null,
     },
@@ -92,9 +92,9 @@ export default {
       handbookFormula: 'v_p = \\frac{V}{PHF \\times N \\times f_{HV}}, \\quad D = \\frac{v_p}{S}',
       videoUrl: null,
       traps: [
-        'Forgetting the fHV adjustment \u2014 dropping it moves the answer from LOS E to LOS D',
-        'Using volume directly as density \u2014 density = flow/speed, not flow alone',
-        'Reading the LOS table incorrectly \u2014 the boundaries are density-based, not flow-based',
+        'Forgetting the fHV adjustment, because dropping it moves the answer from LOS E to LOS D',
+        'Using volume directly as density, when density = flow/speed, not flow alone',
+        'Reading the LOS table incorrectly, when the boundaries are density-based, not flow-based',
       ],
       diagram: null,
     },

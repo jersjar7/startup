@@ -1,10 +1,10 @@
 export default {
-  context: 'This chapter covers fluid properties, hydrostatic pressure and forces, Bernoulli\'s equation, pipe flow and head loss, the momentum equation, flow measurement devices, and dimensional analysis — the core fluid mechanics topics tested on the FE Civil exam.',
+  context: 'This chapter covers fluid properties, hydrostatic pressure and forces, Bernoulli\'s equation, pipe flow and head loss, the momentum equation, flow measurement devices, and dimensional analysis, the core fluid mechanics topics tested on the FE Civil exam.',
   subtopics: [
     { id: 'fluid-properties-statics', name: 'Fluid Properties & Statics',
       application: 'As a civil engineer, you need fluid properties to size every hydraulic system. Density and specific weight let you compute hydrostatic forces on dams and retaining walls. Viscosity determines whether flow is laminar or turbulent in water mains. Manometers and pressure calculations are how you verify pressures in the field and on design drawings. Buoyancy governs whether a buried tank floats out of saturated ground.' },
     { id: 'fluid-dynamics', name: 'Fluid Dynamics',
-      application: 'As a civil engineer, continuity and Bernoulli\'s equation are the first tools you reach for in any pipe or channel analysis. The Darcy-Weisbach equation gives you friction head loss for pipe sizing, and the momentum equation lets you compute forces at pipe bends and nozzles — which is how you design thrust blocks and restrained joints for water mains.' },
+      application: 'As a civil engineer, continuity and Bernoulli\'s equation are the first tools you reach for in any pipe or channel analysis. The Darcy-Weisbach equation gives you friction head loss for pipe sizing, and the momentum equation lets you compute forces at pipe bends and nozzles, which is how you design thrust blocks and restrained joints for water mains.' },
     { id: 'flow-analysis-measurement', name: 'Flow Analysis & Measurement',
       application: 'As a civil engineer, you measure flow to monitor treatment processes, calibrate hydraulic models, and verify stormwater controls. Pitot tubes, venturi meters, and orifice plates each exploit Bernoulli\'s principle to give you velocity or flow rate. Dimensional analysis and similitude let you build scale models of spillways and bridge decks that actually predict full-scale behavior.' },
   ],
@@ -20,11 +20,11 @@ export default {
     { latex: '\\Sigma F = \\rho Q(v_2 - v_1)', label: 'Momentum Equation', page: 'p. 186' },
   ],
   traps: [
-    'Forgetting to convert units — pressure in kPa, velocity in m/s, diameter in m (not mm or cm).',
-    'Bernoulli only applies along a streamline for steady, incompressible, inviscid flow — adding friction requires the energy equation.',
-    'Using the wrong friction factor — Moody diagram gives Darcy f, not Fanning f (which is 4\u00D7 smaller).',
-    'The resultant hydrostatic force uses the pressure at the centroid, but it acts at the center of pressure — they are NOT the same point.',
-    'Re < 2,100 = laminar, Re > 10,000 = fully turbulent — the transition zone is 2,100\u201310,000.',
-    'For Froude similitude, velocity scales as the square root of the length ratio — not the linear ratio (that\u2019s Reynolds).',
+    'Forgetting to convert units: pressure in kPa, velocity in m/s, diameter in m (not mm or cm).',
+    'Bernoulli only applies along a streamline for steady, incompressible, inviscid flow. Adding friction requires the energy equation.',
+    'Using the wrong friction factor: the Moody diagram gives Darcy f, not Fanning f (which is 4\u00D7 smaller).',
+    'The resultant hydrostatic force uses the pressure at the centroid, but it acts at the center of pressure, and they are NOT the same point.',
+    'Re < 2,100 = laminar, Re > 10,000 = fully turbulent, and the transition zone is 2,100\u201310,000.',
+    'For Froude similitude, velocity scales as the square root of the length ratio, not the linear ratio (that\u2019s Reynolds).',
   ],
 };

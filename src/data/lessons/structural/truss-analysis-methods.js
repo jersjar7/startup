@@ -2,11 +2,11 @@ export default {
   "id": "truss-analysis-methods",
   "name": "Truss Analysis: Joints & Sections",
   "subtopicId": "analysis-loads",
-  "application": "Finding member forces in a determinate truss is a bread-and-butter FE structural-analysis skill. The method of joints gets you forces at a connection; the method of sections cuts straight to one member without solving the whole truss. Knowing when to use each — and spotting zero-force members instantly — saves real time on the exam.",
+  "application": "Finding member forces in a determinate truss is a bread-and-butter FE structural-analysis skill. The method of joints gets you forces at a connection; the method of sections cuts straight to one member without solving the whole truss. Knowing when to use each, and spotting zero-force members instantly, saves real time on the exam.",
   "content": [
     {
       "type": "text",
-      "body": "A truss carries load through axial forces only — every member is in pure tension or compression. Sign convention: treat unknown forces as TENSION (arrow pulling away from the joint). A negative answer then means the member is in compression."
+      "body": "A truss carries load through axial forces only, so every member is in pure tension or compression. Sign convention: treat unknown forces as TENSION (arrow pulling away from the joint). A negative answer then means the member is in compression."
     },
     {
       "type": "heading",
@@ -26,7 +26,7 @@ export default {
     },
     {
       "type": "text",
-      "body": "To find one specific member force without marching through every joint, cut an imaginary section through the truss (through at most three members whose forces are unknown) and treat one side as a rigid body. Take moments about the point where the other two cut members intersect — that isolates the force you want in a single equation."
+      "body": "To find one specific member force without marching through every joint, cut an imaginary section through the truss (through at most three members whose forces are unknown) and treat one side as a rigid body. Take moments about the point where the other two cut members intersect, which isolates the force you want in a single equation."
     },
     {
       "type": "formula",
@@ -49,7 +49,7 @@ export default {
     {
       "type": "callout",
       "variant": "warning",
-      "body": "A negative member force is not an error — it means your tension assumption was wrong and the member is in compression. Report the magnitude with the correct sense (T or C)."
+      "body": "A negative member force is not an error. It means your tension assumption was wrong and the member is in compression. Report the magnitude with the correct sense (T or C)."
     }
   ],
   "illustration": null,
@@ -65,8 +65,8 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Only the diagonal can resist the vertical load — the horizontal member has no vertical component. So $\\sum F_y = 0$ gives $F_{AC}\\sin 45^\\circ = 500$, hence $F_{AC} = 500/0.707 = 707$ lb. The 500 lb choice forgets to divide by $\\sin 45^\\circ$ and just reports the load. The 354 lb choice multiplies by $\\sin 45^\\circ$ instead of dividing. The 1,000 lb choice uses $\\sin 45^\\circ = 0.5$, which is the sine of 30 degrees.",
-      "hint": "Only the diagonal has a vertical component — use $\\sum F_y = 0$ at joint A.",
+      "eli5": "Only the diagonal can resist the vertical load, because the horizontal member has no vertical component. So $\\sum F_y = 0$ gives $F_{AC}\\sin 45^\\circ = 500$, hence $F_{AC} = 500/0.707 = 707$ lb. The 500 lb choice forgets to divide by $\\sin 45^\\circ$ and just reports the load. The 354 lb choice multiplies by $\\sin 45^\\circ$ instead of dividing. The 1,000 lb choice uses $\\sin 45^\\circ = 0.5$, which is the sine of 30 degrees.",
+      "hint": "Only the diagonal has a vertical component, so use $\\sum F_y = 0$ at joint A.",
       "steps": [
         { "text": "Horizontal member AB carries no vertical force, so the diagonal must balance the load.", "latex": null },
         { "text": "$\\sum F_y = 0$:", "latex": "F_{AC}\\sin 45^\\circ = 500" },
@@ -119,7 +119,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "Set up equilibrium perpendicular to the two collinear members. The two collinear members have no component in that perpendicular direction, and there's no external load — so the only force with a component there is the angled member, which must therefore be zero. This is the classic zero-force-member rule.",
+      "eli5": "Set up equilibrium perpendicular to the two collinear members. The two collinear members have no component in that perpendicular direction, and there's no external load, so the only force with a component there is the angled member, which must therefore be zero. This is the classic zero-force-member rule.",
       "hint": "Sum forces perpendicular to the two collinear members.",
       "steps": [
         { "text": "The two collinear members act along one line; resolve forces perpendicular to that line.", "latex": null },
@@ -130,7 +130,7 @@ export default {
       "handbookFormula": "Zero-force member identification",
       "videoUrl": null,
       "traps": [
-        "Assuming every member carries load — zero-force members are common at unloaded joints",
+        "Assuming every member carries load. Zero-force members are common at unloaded joints",
         "Confusing this with the two-member unloaded-joint rule"
       ],
       "diagram": { "component": "ZeroForceJoint", "props": {} }

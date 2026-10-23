@@ -1,5 +1,5 @@
 // Exam bank: geotechnical
-// Auto-extracted from lesson files — 36 questions
+// Auto-extracted from lesson files (36 questions)
 
 const PROBLEMS = [
   {
@@ -1116,7 +1116,7 @@ const PROBLEMS = [
     handbookPage: 'p. 264',
     handbookFormula: 'q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma',
     videoUrl: null,
-    traps: ['Thinking depth affects the width term (it does not — B is width, not depth)'],
+    traps: ['Thinking depth affects the width term (it does not, since B is width, not depth)'],
     diagram: null,
     lessonId: 'bearing-capacity',
     chapterId: 'geotechnical'
@@ -1165,8 +1165,8 @@ const PROBLEMS = [
     handbookFormula: 'q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma',
     videoUrl: null,
     traps: [
-      'Thinking buoyancy helps the footing — it actually reduces bearing capacity',
-      'Assuming the cohesion term is affected by the water table — c is a soil property, not a function of gamma'
+      'Thinking buoyancy helps the footing, when it actually reduces bearing capacity',
+      'Assuming the cohesion term is affected by the water table, but c is a soil property, not a function of gamma'
     ],
     diagram: null,
     lessonId: 'bearing-capacity',

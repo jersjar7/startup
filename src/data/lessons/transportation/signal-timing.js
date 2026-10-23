@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'First convert 50 mph to ft/sec: 50 \u00D7 1.467 = 73.3 ft/sec. Then y = t + v/(2a) = 1.0 + 73.3/(2 \u00D7 10) = 1.0 + 73.3/20 = 1.0 + 3.67 = 4.67 \u2248 4.7 sec. The 3.5 sec option used mph directly: 1.0 + 50/20 = 3.5 \u2014 forgot to convert to ft/sec. The 3.7 sec option forgot the reaction time: 73.3/20 = 3.67. The 8.3 sec option used v/a instead of v/(2a): 1.0 + 73.3/10 = 8.3.',
+      eli5: 'First convert 50 mph to ft/sec: 50 \u00D7 1.467 = 73.3 ft/sec. Then y = t + v/(2a) = 1.0 + 73.3/(2 \u00D7 10) = 1.0 + 73.3/20 = 1.0 + 3.67 = 4.67 \u2248 4.7 sec. The 3.5 sec option used mph directly: 1.0 + 50/20 = 3.5, so it forgot to convert to ft/sec. The 3.7 sec option forgot the reaction time: 73.3/20 = 3.67. The 8.3 sec option used v/a instead of v/(2a): 1.0 + 73.3/10 = 8.3.',
       hint: 'Convert mph to ft/sec first (multiply by 1.467), then plug into y = t + v/(2a).',
       steps: [
         { text: 'Convert speed:', latex: 'v = 50 \\times 1.467 = 73.3 \\text{ ft/sec}' },
@@ -40,8 +40,8 @@ export default {
       handbookFormula: 'y = t + \\frac{v}{2a \\pm 64.4G}',
       videoUrl: null,
       traps: [
-        'Using mph instead of ft/sec \u2014 the formula requires v in ft/sec',
-        'Forgetting the factor of 2 in the denominator \u2014 v/(2a), not v/a',
+        'Using mph instead of ft/sec, when the formula requires v in ft/sec',
+        'Forgetting the factor of 2 in the denominator: v/(2a), not v/a',
       ],
       diagram: null,
     },
@@ -66,8 +66,8 @@ export default {
       handbookFormula: 'r = \\frac{W + l}{v}',
       videoUrl: null,
       traps: [
-        'Using mph instead of ft/sec \u2014 gives 1.6 sec instead of 1.1 sec',
-        'Forgetting to add the vehicle length l \u2014 the vehicle must fully clear the intersection',
+        'Using mph instead of ft/sec, which gives 1.6 sec instead of 1.1 sec',
+        'Forgetting to add the vehicle length l, when the vehicle must fully clear the intersection',
       ],
       diagram: null,
     },
@@ -93,7 +93,7 @@ export default {
       handbookFormula: 'G_p = 3.2 + \\frac{L}{S_p} + 0.27 N_{\\text{ped}}',
       videoUrl: null,
       traps: [
-        'Forgetting the 0.27Nped term \u2014 the pedestrian count affects the required green time',
+        'Forgetting the 0.27Nped term, when the pedestrian count affects the required green time',
         'Using a pedestrian speed other than the default 3.5 ft/sec when none is specified',
         'Forgetting the 3.2-second start-up constant',
       ],

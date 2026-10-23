@@ -2,7 +2,7 @@ export default {
   id: 'horizontal-curves',
   name: 'Horizontal Curves',
   subtopicId: 'curves',
-  application: 'Civil engineers design horizontal curves for road alignments that connect tangent sections. The curve geometry \u2014 radius, tangent distance, curve length, and external distance \u2014 determines lane widths, superelevation, and sight distance. On the FE, expect problems computing curve elements (R, T, L, E, M) from the degree of curve or intersection angle, and checking superelevation requirements.',
+  application: 'Civil engineers design horizontal curves for road alignments that connect tangent sections. The curve geometry (radius, tangent distance, curve length, and external distance) determines lane widths, superelevation, and sight distance. On the FE, expect problems computing curve elements (R, T, L, E, M) from the degree of curve or intersection angle, and checking superelevation requirements.',
   content: [
     { type: 'text', body: 'Horizontal curves are circular arcs that connect two tangent road segments. The intersection angle $I$ (also called $\\Delta$) and the radius $R$ define everything else.' },
     { type: 'heading', body: 'Degree of Curve (Arc Definition)' },
@@ -42,7 +42,7 @@ export default {
       handbookFormula: 'D = \\frac{5{,}729.58}{R}',
       videoUrl: null,
       traps: [
-        'Multiplying instead of dividing \u2014 D \u00D7 R = 5,729.58, so R = 5,729.58/D',
+        'Multiplying instead of dividing: D \u00D7 R = 5,729.58, so R = 5,729.58/D',
         'Using the chord definition instead of the arc definition of degree of curve',
       ],
       diagram: null,
@@ -94,7 +94,7 @@ export default {
       handbookFormula: 'L = \\frac{\\pi R I}{180}',
       videoUrl: null,
       traps: [
-        'Using degrees in the formula without converting properly \u2014 the \u03C0/180 does the conversion',
+        'Using degrees in the formula without converting properly, when the \u03C0/180 does the conversion',
         'Confusing curve length L with tangent distance T',
         'Adding the tangent distance instead of the curve length to get PT station',
       ],

@@ -105,8 +105,8 @@ const PROBLEMS = [
     correctAnswerId: 'c4',
     difficulty: 'medium',
     eli5:
-      'Sum moments about B to eliminate $B_y$ and find $A_y$ directly, or sum moments about A to find $B_y$ first. Taking moments about A: $B_y(8) - 10(10) = 0$, so $B_y = 12.5$ kN. Then $\\sum F_y = 0$: $A_y + 12.5 - 10 = 0$, giving $A_y = -2.5$ kN, i.e. $2.5$ kN downward. The overhang load actually pulls the pin down (it acts as a tie-down). The 12.5 kN upward choice reports $B_y$ instead of $A_y$. The 5.0 kN choice splits the load evenly, valid only for a midspan load between the supports. The 2.5 kN upward choice has the right magnitude but the wrong direction — the sign matters here because an overhang can reverse the reaction.',
-    hint: 'Sum moments about B to get $B_y$, then apply $\\sum F_y = 0$. Watch the sign — an overhang load can produce a downward reaction.',
+      'Sum moments about B to eliminate $B_y$ and find $A_y$ directly, or sum moments about A to find $B_y$ first. Taking moments about A: $B_y(8) - 10(10) = 0$, so $B_y = 12.5$ kN. Then $\\sum F_y = 0$: $A_y + 12.5 - 10 = 0$, giving $A_y = -2.5$ kN, i.e. $2.5$ kN downward. The overhang load actually pulls the pin down (it acts as a tie-down). The 12.5 kN upward choice reports $B_y$ instead of $A_y$. The 5.0 kN choice splits the load evenly, valid only for a midspan load between the supports. The 2.5 kN upward choice has the right magnitude but the wrong direction, and the sign matters here because an overhang can reverse the reaction.',
+    hint: 'Sum moments about B to get $B_y$, then apply $\\sum F_y = 0$. Watch the sign: an overhang load can produce a downward reaction.',
     steps: [
       {
         text: 'Sum moments about A (CCW positive), load is $10$ m from A, $B_y$ is $8$ m from A:',
@@ -117,7 +117,7 @@ const PROBLEMS = [
         latex: 'A_y + B_y - 10 = 0 \\quad \\Rightarrow \\quad A_y = 10 - 12.5 = -2.5\\,\\text{kN}',
       },
       {
-        text: 'The negative sign means $A_y$ acts downward — the pin holds the beam down against the overhang load:',
+        text: 'The negative sign means $A_y$ acts downward, so the pin holds the beam down against the overhang load:',
         latex: 'A_y = 2.5\\,\\text{kN (downward)}',
       },
     ],
@@ -126,7 +126,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Reporting the reaction at B instead of A',
-      'Ignoring the sign — an overhang load can reverse the near-support reaction to downward',
+      'Ignoring the sign, even though an overhang load can reverse the near-support reaction to downward',
     ],
     diagram: null,
     lessonId: 'equilibrium-free-body-diagrams',
@@ -187,8 +187,8 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'medium',
     eli5:
-      'The load is off-center, so the reactions are unequal — find them first. Taking moments about A: $30(3) - C_y(9) = 0$, so $C_y = 10$ kN and $A_y = 30 - 10 = 20$ kN. At joint A the only members are diagonal AE and bottom chord AB. Diagonal AE runs from A$(0,0)$ to E$(3,4)$, length $5$ (a 3-4-5 triangle), direction cosines $(0.6, 0.8)$. Vertical equilibrium at A: $20 + F_{AE}(0.8) = 0$, so $F_{AE} = -25$ kN — the negative sign means compression. The 20.0 kN choice is the reaction $A_y$, not the member force. The 15.0 kN tension choice is the bottom-chord force AB ($-F_{AE}(0.6) = 15$ kN tension), the other member at the joint. The 33.3 kN choice swaps the direction cosines, dividing the reaction by $0.6$ instead of $0.8$.',
-    hint: 'The load is off-center, so reactions are unequal — take moments about A to get $A_y$. Then at joint A only AE has a vertical component; use $\\sum F_y = 0$.',
+      'The load is off-center, so the reactions are unequal. Find them first. Taking moments about A: $30(3) - C_y(9) = 0$, so $C_y = 10$ kN and $A_y = 30 - 10 = 20$ kN. At joint A the only members are diagonal AE and bottom chord AB. Diagonal AE runs from A$(0,0)$ to E$(3,4)$, length $5$ (a 3-4-5 triangle), direction cosines $(0.6, 0.8)$. Vertical equilibrium at A: $20 + F_{AE}(0.8) = 0$, so $F_{AE} = -25$ kN, and the negative sign means compression. The 20.0 kN choice is the reaction $A_y$, not the member force. The 15.0 kN tension choice is the bottom-chord force AB ($-F_{AE}(0.6) = 15$ kN tension), the other member at the joint. The 33.3 kN choice swaps the direction cosines, dividing the reaction by $0.6$ instead of $0.8$.',
+    hint: 'The load is off-center, so reactions are unequal. Take moments about A to get $A_y$. Then at joint A only AE has a vertical component; use $\\sum F_y = 0$.',
     steps: [
       {
         text: 'Reactions (load is off midspan). Sum moments about A:',
@@ -207,7 +207,7 @@ const PROBLEMS = [
     handbookFormula: '\\sum F_H = 0 \\quad \\sum F_V = 0',
     videoUrl: null,
     traps: [
-      'Assuming equal reactions when the load is off-center — take moments to get the unequal $A_y$',
+      'Assuming equal reactions when the load is off-center instead of taking moments to get the unequal $A_y$',
       'Reporting the reaction ($20$ kN) or the bottom-chord force ($15$ kN) instead of the diagonal AE',
     ],
     diagram: null,
@@ -228,8 +228,8 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'medium',
     eli5:
-      'The zero-force rule (Rule 2) says that when three members meet at an unloaded joint and two are collinear, the third (non-collinear) member is zero-force. The critical word is unloaded. Here a load $P$ is applied at the joint, so the rule does not apply. Summing vertical forces at K: the two horizontal top-chord members have no vertical component, so the vertical member alone must balance the load — $F_{vert} = P$. The "zero-force member" choice is the trap: applying the zero-force rule without checking for the applied load. The "P/2 split" choice wrongly splits the load into the collinear members, which carry only horizontal force. The "2P" choice has no physical basis.',
-    hint: 'Check the zero-force rule carefully — it requires an unloaded joint. What balances the vertical load here?',
+      'The zero-force rule (Rule 2) says that when three members meet at an unloaded joint and two are collinear, the third (non-collinear) member is zero-force. The critical word is unloaded. Here a load $P$ is applied at the joint, so the rule does not apply. Summing vertical forces at K: the two horizontal top-chord members have no vertical component, so the vertical member alone must balance the load: $F_{vert} = P$. The "zero-force member" choice is the trap: applying the zero-force rule without checking for the applied load. The "P/2 split" choice wrongly splits the load into the collinear members, which carry only horizontal force. The "2P" choice has no physical basis.',
+    hint: 'Check the zero-force rule carefully, since it requires an unloaded joint. What balances the vertical load here?',
     steps: [
       {
         text: 'Rule 2 (zero-force) applies only when the joint is unloaded. Here a load $P$ acts at the joint, so the rule is void.',
@@ -292,7 +292,7 @@ const PROBLEMS = [
       'Reporting $\\mu_s N$ when the block is not on the verge of sliding',
       'Using $\\mu_s W$ instead of $\\mu_s W\\cos\\theta$ for the maximum friction',
     ],
-    // No applied force in this stem — suppress the P arrow (figure-text drift)
+    // No applied force in this stem, so suppress the P arrow (figure-text drift)
     diagram: { component: 'BlockOnRamp', props: { weight: 400, angle: 20, mu: 0.40, showPush: false } },
     lessonId: 'friction',
     chapterId: 'statics',
@@ -311,7 +311,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'hard',
     eli5:
-      'The block tends to slide down, so friction acts up the incline at its maximum. A horizontal $P$ increases the normal force because part of $P$ presses into the surface: $N = W\\cos\\theta + P\\sin\\theta$. At impending downward motion, the up-slope resistances (the up-slope component of $P$ plus friction) balance the down-slope weight component: $W\\sin\\theta = P\\cos\\theta + \\mu_s N$. Substituting $N$ and solving gives $P = W(\\sin\\theta - \\mu_s\\cos\\theta)/(\\cos\\theta + \\mu_s\\sin\\theta) = 228.9$ N. The 461.9 N choice ignores friction entirely ($P = W\\tan\\theta = 461.9$). The 261.9 N choice uses $N = W\\cos\\theta$ only, forgetting that $P$ also adds to the normal force. The 773.5 N choice points friction the wrong way (down-slope): using $W\\sin\\theta = P\\cos\\theta - \\mu_s N$ gives $P = W(\\sin\\theta + \\mu_s\\cos\\theta)/(\\cos\\theta - \\mu_s\\sin\\theta) = 773.5$ N — but with the block on the verge of sliding down, friction must resist that motion by acting up-slope.',
+      'The block tends to slide down, so friction acts up the incline at its maximum. A horizontal $P$ increases the normal force because part of $P$ presses into the surface: $N = W\\cos\\theta + P\\sin\\theta$. At impending downward motion, the up-slope resistances (the up-slope component of $P$ plus friction) balance the down-slope weight component: $W\\sin\\theta = P\\cos\\theta + \\mu_s N$. Substituting $N$ and solving gives $P = W(\\sin\\theta - \\mu_s\\cos\\theta)/(\\cos\\theta + \\mu_s\\sin\\theta) = 228.9$ N. The 461.9 N choice ignores friction entirely ($P = W\\tan\\theta = 461.9$). The 261.9 N choice uses $N = W\\cos\\theta$ only, forgetting that $P$ also adds to the normal force. The 773.5 N choice points friction the wrong way (down-slope): using $W\\sin\\theta = P\\cos\\theta - \\mu_s N$ gives $P = W(\\sin\\theta + \\mu_s\\cos\\theta)/(\\cos\\theta - \\mu_s\\sin\\theta) = 773.5$ N, but with the block on the verge of sliding down, friction must resist that motion by acting up-slope.',
     hint: 'Friction acts up-slope at its max. Remember the horizontal $P$ also increases the normal force: $N = W\\cos\\theta + P\\sin\\theta$.',
     steps: [
       {
@@ -319,7 +319,7 @@ const PROBLEMS = [
         latex: 'N = W\\cos\\theta + P\\sin\\theta',
       },
       {
-        text: 'Impending sliding down — balance along the incline ($P$ up-slope component plus friction resist the weight):',
+        text: 'Impending sliding down, so balance along the incline ($P$ up-slope component plus friction resist the weight):',
         latex: 'W\\sin\\theta = P\\cos\\theta + \\mu_s(W\\cos\\theta + P\\sin\\theta)',
       },
       {
@@ -518,8 +518,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Loaded at only two points → two-force member, so the forces are equal, opposite, and directed along the member axis. That immediately fixes the force direction and simplifies the frame analysis. The "bending with perpendicular pin forces" choice describes a multi-force member. The "carries no force at all" choice is false (it can carry axial force). The "force direction cannot be determined" choice is wrong — the direction IS known.',
-    hint: 'A member loaded at exactly two points is a special case — what does that fix?',
+    eli5: 'Loaded at only two points → two-force member, so the forces are equal, opposite, and directed along the member axis. That immediately fixes the force direction and simplifies the frame analysis. The "bending with perpendicular pin forces" choice describes a multi-force member. The "carries no force at all" choice is false (it can carry axial force). The "force direction cannot be determined" choice is wrong because the direction IS known.',
+    hint: 'A member loaded at exactly two points is a special case. What does that fix?',
     steps: [
       { text: 'Two load points → two-force member.', latex: null },
       { text: 'Equilibrium makes the forces collinear with the two pins.', latex: null },

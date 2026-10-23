@@ -2,7 +2,7 @@ export default {
   "id": "structured-programming",
   "name": "Structured Programming",
   "subtopicId": "computational-tools",
-  "application": "Whether you script earthwork calcs, automate a hydraulic spreadsheet with a macro, or just read someone else's analysis routine, you need to trace structured logic. The FE keeps it conceptual: given a short block of pseudocode with an if-then-else or a loop, predict the output or count the iterations. No language syntax to memorize — just sequence, selection, and iteration.",
+  "application": "Whether you script earthwork calcs, automate a hydraulic spreadsheet with a macro, or just read someone else's analysis routine, you need to trace structured logic. The FE keeps it conceptual: given a short block of pseudocode with an if-then-else or a loop, predict the output or count the iterations. No language syntax to memorize, just sequence, selection, and iteration.",
   "content": [
     {
       "type": "text",
@@ -14,7 +14,7 @@ export default {
     },
     {
       "type": "text",
-      "body": "A condition evaluates to TRUE or FALSE and decides which branch runs. Conditions chain with ELSE IF, and they are checked top to bottom — the FIRST true condition wins and the rest are skipped. Example: IF x > 10 THEN y = 1; ELSE IF x > 5 THEN y = 2; ELSE y = 3. With x = 7, the first test fails, the second (7 > 5) is true, so y = 2 and the final ELSE never runs."
+      "body": "A condition evaluates to TRUE or FALSE and decides which branch runs. Conditions chain with ELSE IF, and they are checked top to bottom, and the FIRST true condition wins and the rest are skipped. Example: IF x > 10 THEN y = 1; ELSE IF x > 5 THEN y = 2; ELSE y = 3. With x = 7, the first test fails, the second (7 > 5) is true, so y = 2 and the final ELSE never runs."
     },
     {
       "type": "heading",
@@ -22,7 +22,7 @@ export default {
     },
     {
       "type": "text",
-      "body": "A counted FOR loop like FOR i = 1 TO 4 runs its body once for each value 1, 2, 3, 4 — that is 4 times (the endpoints are inclusive). A WHILE loop runs as long as its condition stays true and re-checks the condition before each pass; it stops the moment the condition is false."
+      "body": "A counted FOR loop like FOR i = 1 TO 4 runs its body once for each value 1, 2, 3, 4, so that is 4 times (the endpoints are inclusive). A WHILE loop runs as long as its condition stays true and re-checks the condition before each pass; it stops the moment the condition is false."
     },
     {
       "type": "heading",
@@ -30,7 +30,7 @@ export default {
     },
     {
       "type": "text",
-      "body": "To trace, write the variables in a column and update them pass by pass. Example — total = 0; FOR i = 1 TO 4: total = total + i. After the passes total = 0+1+2+3+4 = 10. Accumulator problems (running sum or product) are the most common FE pseudocode question."
+      "body": "To trace, write the variables in a column and update them pass by pass. Example: total = 0; FOR i = 1 TO 4: total = total + i. After the passes total = 0+1+2+3+4 = 10. Accumulator problems (running sum or product) are the most common FE pseudocode question."
     },
     {
       "type": "callout",

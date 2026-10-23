@@ -5,7 +5,7 @@ export default {
   application: 'Soil classification communicates subsurface conditions in a standard language. The Unified Soil Classification System (USCS) assigns a two-letter symbol based on grain size and plasticity. The AASHTO system rates soils for highway subgrade suitability. On the FE, expect problems that give sieve data and Atterberg limits and ask you to classify the soil or compute the coefficient of uniformity.',
   content: [
     { type: 'text', body: 'Two classification systems appear on the FE: USCS (ASTM D2487) for general geotechnical work and AASHTO for transportation subgrades.' },
-    { type: 'heading', body: 'USCS \u2014 First Split' },
+    { type: 'heading', body: 'USCS: First Split' },
     { type: 'text', body: 'If more than 50% is retained on the No. 200 sieve (0.075 mm), the soil is coarse-grained. Otherwise, it is fine-grained. Coarse-grained soils are further split at the No. 4 sieve: gravels (G) vs. sands (S).' },
     { type: 'heading', body: 'Gradation Coefficients' },
     { type: 'formula', latex: 'C_u = \\frac{D_{60}}{D_{10}}, \\quad C_c = \\frac{(D_{30})^2}{D_{10} \\times D_{60}}', label: 'Coefficient of uniformity and concavity' },
@@ -42,8 +42,8 @@ export default {
       handbookFormula: '\\text{A-line: } PI = 0.73(LL - 20)',
       videoUrl: null,
       traps: [
-        'Confusing CL with ML \u2014 CL is above the A-line (clay), ML is below (silt)',
-        'Using LL = 50 as the clay/silt boundary instead of the A-line \u2014 LL = 50 separates L from H, not clay from silt',
+        'Confusing CL with ML. CL is above the A-line (clay), ML is below (silt)',
+        'Using LL = 50 as the clay/silt boundary instead of the A-line, when LL = 50 separates L from H, not clay from silt',
       ],
       diagram: null,
     },
@@ -69,7 +69,7 @@ export default {
       handbookFormula: 'C_u = \\frac{D_{60}}{D_{10}}, \\quad C_c = \\frac{(D_{30})^2}{D_{10} \\times D_{60}}',
       videoUrl: null,
       traps: [
-        'Assuming the sand is well-graded because Cu \u2265 6 \u2014 BOTH Cu and Cc must pass',
+        'Assuming the sand is well-graded because Cu \u2265 6, when BOTH Cu and Cc must pass',
         'Using the gravel criteria (Cu \u2265 4) instead of the sand criteria (Cu \u2265 6)',
       ],
       diagram: null,
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: '60% passes #200 \u2192 fine-grained. LL = 55 > 50 \u2192 high plasticity (H). A-line at LL = 55: PI = 0.73(55 \u2013 20) = 25.6. Actual PI = 28 > 25.6 \u2192 above A-line \u2192 clay (C). Classification: CH (fat clay). The MH choice is below the A-line (silt). The CL choice requires LL < 50. The OH choice is an organic soil which requires lab testing (oven-dried LL) \u2014 not determinable from the given data alone, so assume inorganic.',
+      eli5: '60% passes #200 \u2192 fine-grained. LL = 55 > 50 \u2192 high plasticity (H). A-line at LL = 55: PI = 0.73(55 \u2013 20) = 25.6. Actual PI = 28 > 25.6 \u2192 above A-line \u2192 clay (C). Classification: CH (fat clay). The MH choice is below the A-line (silt). The CL choice requires LL < 50. The OH choice is an organic soil which requires lab testing (oven-dried LL), so it is not determinable from the given data alone, so assume inorganic.',
       hint: 'Fine or coarse? LL < or > 50? Above or below the A-line? Each step narrows to one symbol.',
       steps: [
         { text: '60% passes #200 \u2192 fine-grained.', latex: null },
@@ -97,9 +97,9 @@ export default {
       handbookFormula: '\\text{A-line: } PI = 0.73(LL - 20)',
       videoUrl: null,
       traps: [
-        'Confusing CH with MH \u2014 above the A-line is always clay (C), below is silt (M)',
+        'Confusing CH with MH. Above the A-line is always clay (C), below is silt (M)',
         'Using LL = 50 as the clay/silt boundary instead of the A-line',
-        'Choosing OH without evidence of organic content \u2014 organic classification requires comparing oven-dried LL to natural LL',
+        'Choosing OH without evidence of organic content, when organic classification requires comparing oven-dried LL to natural LL',
       ],
       diagram: null,
     },

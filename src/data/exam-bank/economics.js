@@ -1,5 +1,5 @@
 // Exam bank: economics
-// Auto-extracted from lesson files — 21 questions
+// Auto-extracted from lesson files (21 questions)
 
 const PROBLEMS = [
   {
@@ -27,7 +27,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'easy',
     eli5: 'This is the most basic time-value-of-money problem: you have money now ($P$) and want to know what it grows to ($F$). Use the compound amount factor $(F/P)$. Multiply $15{,}000 \\times (1.08)^5 = 15{,}000 \\times 1.4693 = 22{,}040$. The 21,000 dollars choice comes from using simple interest ($15{,}000 \\times 0.08 \\times 5 = 6{,}000$, then adding to 15,000 = 21,000). The 19,800 dollars choice uses the wrong number of years or the wrong rate. The 23,400 dollars choice overshoots, possibly by applying the rate twice somewhere.',
-    hint: 'You have P and need F — use the single payment compound amount factor $(F/P, i\\%, n)$.',
+    hint: 'You have P and need F, so use the single payment compound amount factor $(F/P, i\\%, n)$.',
     steps: [
       {
         text: 'Identify: $P = 15{,}000$, $i = 8\\%$, $n = 5$ years. Find $F$.',
@@ -50,7 +50,7 @@ const PROBLEMS = [
     handbookFormula: 'F = P(1+i)^n',
     videoUrl: null,
     traps: [
-      'Using simple interest (P + P times i times n) instead of compound interest — always compound on the FE unless told otherwise'
+      'Using simple interest (P + P times i times n) instead of compound interest, but always compound on the FE unless told otherwise'
     ],
     diagram: null,
     lessonId: 'equivalence-interest-factors',
@@ -80,8 +80,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'You have a present amount (the loan) and need to find equal annual payments that pay it off. This is the capital recovery factor $(A/P)$. Look up $(A/P,\\, 10\\%,\\, 8) = 0.18744$ in the 10% table and multiply by 200,000. The 25,000 dollars choice divides 200,000 by 8 and ignores interest entirely. The 29,440 dollars choice might use $(A/F)$ instead of $(A/P)$ — that is for a sinking fund, not a loan. The 43,200 dollars choice uses the wrong factor or adds interest on top of the payment.',
-    hint: 'You know the present loan amount and need equal annual payments — which factor converts P to A?',
+    eli5: 'You have a present amount (the loan) and need to find equal annual payments that pay it off. This is the capital recovery factor $(A/P)$. Look up $(A/P,\\, 10\\%,\\, 8) = 0.18744$ in the 10% table and multiply by 200,000. The 25,000 dollars choice divides 200,000 by 8 and ignores interest entirely. The 29,440 dollars choice might use $(A/F)$ instead of $(A/P)$, but that is for a sinking fund, not a loan. The 43,200 dollars choice uses the wrong factor or adds interest on top of the payment.',
+    hint: 'You know the present loan amount and need equal annual payments. Which factor converts P to A?',
     steps: [
       {
         text: 'Identify: $P = 200{,}000$, $i = 10\\%$, $n = 8$ years. Find $A$.',
@@ -101,7 +101,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Dividing the loan by the number of years (ignoring interest completely)',
-      'Using the sinking fund factor (A/F) instead of capital recovery (A/P) — A/F is for building up to a future amount, not paying down a present amount'
+      'Using the sinking fund factor (A/F) instead of capital recovery (A/P), but A/F is for building up to a future amount, not paying down a present amount'
     ],
     diagram: null,
     lessonId: 'equivalence-interest-factors',
@@ -131,7 +131,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'There are usually multiple valid paths through the factor tables. You can go future to present with $(P/F)$, then present to annual with $(A/P)$ — two steps. Or you can go directly from future to annual with $(A/F)$ — one step. Both give the same answer because the factors are mathematically consistent. The path that starts with $(F/P)$ is wrong because $(F/P)$ compounds forward in time, but the cost is already in the future — compounding it further moves it to the wrong point. The key insight is that the factor tables are all interconnected, and any valid path through them gives the same result.',
+    eli5: 'There are usually multiple valid paths through the factor tables. You can go future to present with $(P/F)$, then present to annual with $(A/P)$, which is two steps. Or you can go directly from future to annual with $(A/F)$, which is one step. Both give the same answer because the factors are mathematically consistent. The path that starts with $(F/P)$ is wrong because $(F/P)$ compounds forward in time, but the cost is already in the future, so compounding it further moves it to the wrong point. The key insight is that the factor tables are all interconnected, and any valid path through them gives the same result.',
     hint: 'Think about which factor converts a future amount directly to an annual series, and whether a two-step path through P would also work.',
     steps: [
       {
@@ -155,8 +155,8 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Thinking there is only one valid path through the factor tables — multiple equivalent paths exist',
-      'Confusing (F/P) with (P/F) — the letter before the slash is what you are solving for'
+      'Thinking there is only one valid path through the factor tables, when multiple equivalent paths exist',
+      'Confusing (F/P) with (P/F), since the letter before the slash is what you are solving for'
     ],
     diagram: null,
     lessonId: 'equivalence-interest-factors',
@@ -186,7 +186,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'When deposits and compounding happen quarterly, work in quarters — not years. The periodic rate is $8\\% / 4 = 2\\%$ per quarter, and the number of periods is $3 \\times 4 = 12$ quarters. Use the compound amount factor for a uniform series: $(F/A,\\, 2\\%,\\, 12)$. That equals $[(1.02)^{12} - 1] / 0.02 = 13.412$. Multiply by 5,000 and you get 67,060. The 60,000 dollars choice just adds up 12 deposits of 5,000 without any interest. The 63,410 dollars choice uses the effective annual rate but only 3 periods, mixing quarterly deposits with annual compounding. The 70,120 dollars choice overshoots, likely using the wrong rate or period count.',
+    eli5: 'When deposits and compounding happen quarterly, work in quarters, not years. The periodic rate is $8\\% / 4 = 2\\%$ per quarter, and the number of periods is $3 \\times 4 = 12$ quarters. Use the compound amount factor for a uniform series: $(F/A,\\, 2\\%,\\, 12)$. That equals $[(1.02)^{12} - 1] / 0.02 = 13.412$. Multiply by 5,000 and you get 67,060. The 60,000 dollars choice just adds up 12 deposits of 5,000 without any interest. The 63,410 dollars choice uses the effective annual rate but only 3 periods, mixing quarterly deposits with annual compounding. The 70,120 dollars choice overshoots, likely using the wrong rate or period count.',
     hint: 'When deposits match the compounding period (quarterly), use the periodic rate and the total number of periods directly in the $(F/A)$ factor.',
     steps: [
       {
@@ -215,7 +215,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Using the annual rate (8%) with 3 periods instead of the quarterly rate (2%) with 12 periods',
-      'Summing deposits without interest (5,000 times 12 = 60,000) — this ignores compounding entirely'
+      'Summing deposits without interest (5,000 times 12 = 60,000), which ignores compounding entirely'
     ],
     diagram: null,
     lessonId: 'equivalence-interest-factors',
@@ -269,7 +269,7 @@ const PROBLEMS = [
     handbookFormula: 'PW = -C_0 + A(P/A,\\, i\\%,\\, n) + S_n(P/F,\\, i\\%,\\, n)',
     videoUrl: null,
     traps: [
-      'Forgetting the salvage value — it reduces the net cost of the investment',
+      'Forgetting the salvage value, which reduces the net cost of the investment',
       'Treating the initial cost as positive (benefits) instead of negative (cost)'
     ],
     diagram: null,
@@ -324,8 +324,8 @@ const PROBLEMS = [
     handbookFormula: 'FW = -C_0(F/P,\\, i\\%,\\, n) + A(F/A,\\, i\\%,\\, n)',
     videoUrl: null,
     traps: [
-      'Forgetting to compound the initial cost forward — it must grow at the interest rate just like the savings do',
-      'Adding nominal cash flows without compounding (15,000 times 12 minus 100,000 = 80,000) — this ignores the time value of money'
+      'Forgetting to compound the initial cost forward, since it must grow at the interest rate just like the savings do',
+      'Adding nominal cash flows without compounding (15,000 times 12 minus 100,000 = 80,000), which ignores the time value of money'
     ],
     diagram: null,
     lessonId: 'pw-fw-aw-analysis',
@@ -342,7 +342,7 @@ const PROBLEMS = [
       },
       {
         id: 'c2',
-        text: 'The study period must equal the least common multiple of the service lives, which is 60 years — not 20'
+        text: 'The study period must equal the least common multiple of the service lives, which is 60 years, not 20'
       },
       {
         id: 'c3',
@@ -355,7 +355,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'When you use present worth to compare alternatives with different lives, you must compare over the same time horizon. The correct horizon is the least common multiple (LCM) of the lives — for 15 and 20 years, that is 60 years. A 20-year window does not give Strategy A a full second cycle (it would only run 5 years of its second 15-year life). The annual worth choice describes a valid alternative approach (annual worth does handle unequal lives automatically), but the question asks what is wrong with the proposed PW approach, not what method to use instead. The specific flaw is the wrong study period length.',
+    eli5: 'When you use present worth to compare alternatives with different lives, you must compare over the same time horizon. The correct horizon is the least common multiple (LCM) of the lives. For 15 and 20 years, that is 60 years. A 20-year window does not give Strategy A a full second cycle (it would only run 5 years of its second 15-year life). The annual worth choice describes a valid alternative approach (annual worth does handle unequal lives automatically), but the question asks what is wrong with the proposed PW approach, not what method to use instead. The specific flaw is the wrong study period length.',
     hint: 'For PW analysis with unequal lives, the study period must allow each alternative to complete full cycles. What is the LCM of 15 and 20?',
     steps: [
       {
@@ -367,7 +367,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'A 20-year study period cuts Strategy A short in its second cycle — only 5 of 15 years — making the comparison unfair.',
+        text: 'A 20-year study period cuts Strategy A short in its second cycle (only 5 of 15 years), making the comparison unfair.',
         latex: null
       },
       {
@@ -379,7 +379,7 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Thinking you can just use the longer life as the study period — the LCM ensures both alternatives complete full cycles',
+      'Thinking you can just use the longer life as the study period, when the LCM ensures both alternatives complete full cycles',
       'Confusing the LCM requirement with the individual service life of the longer alternative'
     ],
     diagram: null,
@@ -410,7 +410,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'With different service lives (4 vs. 8 years), annual worth is the smart choice — it handles unequal lives automatically. For each compressor, annualize the initial cost using $(A/P)$, add yearly operating costs, and subtract the annual equivalent of salvage using $(A/F)$. Compressor A: $60{,}000 \\times 0.31547 + 12{,}000 - 8{,}000 \\times 0.21547 = 18{,}928 + 12{,}000 - 1{,}724 = 29{,}204$. Compressor B: $90{,}000 \\times 0.18744 + 8{,}000 - 12{,}000 \\times 0.08744 = 16{,}870 + 8{,}000 - 1{,}049 = 23{,}821$. Compressor B wins at about 23,800. The "Compressor A, AW = 27,000" distractor mis-annualizes Compressor A\'s cash flows, and the "Compressor B, AW = 19,300" distractor mishandles Compressor B\'s salvage credit; both still come out higher than the correct Compressor B value of about 23,800.',
+    eli5: 'With different service lives (4 vs. 8 years), annual worth is the smart choice because it handles unequal lives automatically. For each compressor, annualize the initial cost using $(A/P)$, add yearly operating costs, and subtract the annual equivalent of salvage using $(A/F)$. Compressor A: $60{,}000 \\times 0.31547 + 12{,}000 - 8{,}000 \\times 0.21547 = 18{,}928 + 12{,}000 - 1{,}724 = 29{,}204$. Compressor B: $90{,}000 \\times 0.18744 + 8{,}000 - 12{,}000 \\times 0.08744 = 16{,}870 + 8{,}000 - 1{,}049 = 23{,}821$. Compressor B wins at about 23,800. The "Compressor A, AW = 27,000" distractor mis-annualizes Compressor A\'s cash flows, and the "Compressor B, AW = 19,300" distractor mishandles Compressor B\'s salvage credit; both still come out higher than the correct Compressor B value of about 23,800.',
     hint: 'Use annual worth to compare directly without matching lifespans. AW = initial cost times $(A/P)$ + annual operating cost - salvage times $(A/F)$.',
     steps: [
       {
@@ -446,8 +446,8 @@ const PROBLEMS = [
     handbookFormula: 'AW = C_0(A/P,\\, i\\%,\\, n) + A_{\\text{oper}} - S_n(A/F,\\, i\\%,\\, n)',
     videoUrl: null,
     traps: [
-      'Trying to compare present worth directly with different service lives — PW requires matching the study period to the LCM (8 years here, which happens to work, but AW is safer)',
-      'Forgetting to subtract the salvage value credit — it reduces the annual cost'
+      'Trying to compare present worth directly with different service lives, since PW requires matching the study period to the LCM (8 years here, which happens to work, but AW is safer)',
+      'Forgetting to subtract the salvage value credit, which reduces the annual cost'
     ],
     diagram: { component: 'AnnualWorthComparison', props: { costX: 60000, omX: 12000, salvX: 8000, nX: 4, labelX: 'Compressor A', costY: 90000, omY: 8000, salvY: 12000, nY: 8, labelY: 'Compressor B', rate: 10 } },
     lessonId: 'pw-fw-aw-analysis',
@@ -583,7 +583,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Compute the total cost for each method at $Q = 2{,}500$ and pick the lower one. Method A: $12{,}000 + 8.50(2{,}500) = 12{,}000 + 21{,}250 = 33{,}250$. Method B: $20{,}000 + 4.50(2{,}500) = 20{,}000 + 11{,}250 = 31{,}250$. Method B is cheaper at 31,250. The break-even quantity is $(20{,}000 - 12{,}000)/(8.50 - 4.50) = 8{,}000/4 = 2{,}000$ cy. Since 2,500 > 2,000, the method with the higher fixed cost but lower variable cost (Method B) wins. The 33,250 option is Method A\'s total cost — not wrong to compute, but it is the more expensive option. The 32,000 option is a rounding error or arithmetic slip. The 20,000 option uses only Method B\'s fixed cost without adding the variable portion.',
+    eli5: 'Compute the total cost for each method at $Q = 2{,}500$ and pick the lower one. Method A: $12{,}000 + 8.50(2{,}500) = 12{,}000 + 21{,}250 = 33{,}250$. Method B: $20{,}000 + 4.50(2{,}500) = 20{,}000 + 11{,}250 = 31{,}250$. Method B is cheaper at 31,250. The break-even quantity is $(20{,}000 - 12{,}000)/(8.50 - 4.50) = 8{,}000/4 = 2{,}000$ cy. Since 2,500 > 2,000, the method with the higher fixed cost but lower variable cost (Method B) wins. The 33,250 option is Method A\'s total cost. It is not wrong to compute, but it is the more expensive option. The 32,000 option is a rounding error or arithmetic slip. The 20,000 option uses only Method B\'s fixed cost without adding the variable portion.',
     hint: 'Compute TC = FC + VC times Q for both methods at Q = 2,500 and compare.',
     steps: [
       {
@@ -642,7 +642,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'The 1.5 million is already spent and cannot be recovered regardless of which site the DOT chooses. That is the textbook definition of a sunk cost. The correct comparison is: original site at 35 million versus new site at $22{,}000{,}000 + 2{,}000{,}000 = 24{,}000{,}000$. The 1.5 million does not appear in either equation. The "add it to the original site cost" option is the most tempting trap because the investigation "belongs" to the original site physically — but the money is gone either way. The "subtract it as a credit on the new site" option invents a credit mechanism that makes no economic sense. The "split it proportionally between both options" option creates an allocation method that sounds fair but violates the sunk-cost principle. The FE loves to test whether you fall for the emotional pull of wanting to "count" money already spent.',
+    eli5: 'The 1.5 million is already spent and cannot be recovered regardless of which site the DOT chooses. That is the textbook definition of a sunk cost. The correct comparison is: original site at 35 million versus new site at $22{,}000{,}000 + 2{,}000{,}000 = 24{,}000{,}000$. The 1.5 million does not appear in either equation. The "add it to the original site cost" option is the most tempting trap because the investigation "belongs" to the original site physically, but the money is gone either way. The "subtract it as a credit on the new site" option invents a credit mechanism that makes no economic sense. The "split it proportionally between both options" option creates an allocation method that sounds fair but violates the sunk-cost principle. The FE loves to test whether you fall for the emotional pull of wanting to "count" money already spent.',
     hint: 'Can the DOT recover the 1.5 million by choosing one option over the other? If the answer is no, what type of cost is it?',
     steps: [
       {
@@ -662,7 +662,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 229, Engineering Economics — Sunk Costs',
+    handbookPage: 'p. 229, Engineering Economics: Sunk Costs',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -767,7 +767,7 @@ const PROBLEMS = [
     handbookPage: 'p. 229',
     handbookFormula: null,
     videoUrl: null,
-    traps: ['Thinking any positive B/C means the project is justified — it must be >= 1.0'],
+    traps: ['Thinking any positive B/C means the project is justified, when it must be >= 1.0'],
     diagram: null,
     lessonId: 'benefit-cost-decision-trees',
     chapterId: 'economics'
@@ -779,24 +779,24 @@ const PROBLEMS = [
     choices: [
       {
         id: 'c1',
-        text: 'Project X — it has the higher B/C ratio (1.40 vs. 1.30)'
+        text: 'Project X, because it has the higher B/C ratio (1.40 vs. 1.30)'
       },
       {
         id: 'c2',
-        text: 'Either project — both have B/C above 1.0'
+        text: 'Either project, because both have B/C above 1.0'
       },
       {
         id: 'c3',
-        text: 'Project Y — the incremental B/C of moving from X to Y is 1.15'
+        text: 'Project Y, because the incremental B/C of moving from X to Y is 1.15'
       },
       {
         id: 'c4',
-        text: 'Neither project — incremental analysis is only for independent projects'
+        text: 'Neither project, because incremental analysis is only for independent projects'
       }
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Both projects pass on their own ($B/C > 1$), so the question is whether spending the extra 2,000,000 on Project Y is justified. The incremental benefit is $6{,}500{,}000 - 4{,}200{,}000 = 2{,}300{,}000$, and the incremental cost is $5{,}000{,}000 - 3{,}000{,}000 = 2{,}000{,}000$. The incremental $\\Delta B/C = 2{,}300{,}000 / 2{,}000{,}000 = 1.15$, which exceeds 1.0, so the extra investment is worth it. The "Project X \u2014 higher B/C ratio" choice picks Project X because its individual $B/C$ is higher, but that ignores the scale of the investment. The "Either project" choice treats both as equally acceptable, which only works for independent projects.',
+    eli5: 'Both projects pass on their own ($B/C > 1$), so the question is whether spending the extra 2,000,000 on Project Y is justified. The incremental benefit is $6{,}500{,}000 - 4{,}200{,}000 = 2{,}300{,}000$, and the incremental cost is $5{,}000{,}000 - 3{,}000{,}000 = 2{,}000{,}000$. The incremental $\\Delta B/C = 2{,}300{,}000 / 2{,}000{,}000 = 1.15$, which exceeds 1.0, so the extra investment is worth it. The "Project X, higher B/C ratio" choice picks Project X because its individual $B/C$ is higher, but that ignores the scale of the investment. The "Either project" choice treats both as equally acceptable, which only works for independent projects.',
     hint: 'Rank alternatives by cost, then check whether the extra investment from X to Y is justified by computing the incremental B/C ratio.',
     steps: [
       {
@@ -820,7 +820,7 @@ const PROBLEMS = [
     handbookFormula: '\\Delta B/C = \\frac{B_2 - B_1}{C_2 - C_1} \\geq 1',
     videoUrl: null,
     traps: [
-      'Selecting the project with the highest individual B/C ratio — incremental analysis is required for mutually exclusive alternatives',
+      'Selecting the project with the highest individual B/C ratio, when incremental analysis is required for mutually exclusive alternatives',
       'Treating mutually exclusive alternatives as independent and accepting both'
     ],
     diagram: null,
@@ -842,7 +842,7 @@ const PROBLEMS = [
       },
       {
         id: 'c3',
-        text: 'Replace; expected PW = 1,500,000 dollars — certainty is preferable'
+        text: 'Replace; expected PW = 1,500,000 dollars, because certainty is preferable'
       },
       {
         id: 'c4',
@@ -859,11 +859,11 @@ const PROBLEMS = [
         latex: '(P/F,\\, 6\\%,\\, 10) = (1.06)^{-10} = 0.5584'
       },
       {
-        text: 'Repair — major rehab branch (p = 0.35):',
+        text: 'Repair, major rehab branch (p = 0.35):',
         latex: 'PW = 800{,}000 + 1{,}200{,}000 \\times 0.5584 = 800{,}000 + 670{,}100 = 1{,}470{,}100'
       },
       {
-        text: 'Repair — minor work branch (p = 0.65):',
+        text: 'Repair, minor work branch (p = 0.65):',
         latex: 'PW = 800{,}000 + 200{,}000 \\times 0.5584 = 800{,}000 + 111{,}700 = 911{,}700'
       },
       {
@@ -910,7 +910,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Straight-line depreciation spreads the depreciable amount evenly across the useful life. The depreciable amount is $C - S = 120{,}000 - 20{,}000 = 100{,}000$. Divide by 10 years: $100{,}000/10 = 10{,}000$ per year. The 12,000 option divides the full cost by 10 without subtracting the salvage value — that is the most common trap. The 2,000 option divides only the salvage value by 10. The 14,000 option adds the salvage value to the cost before dividing, which makes no sense.',
+    eli5: 'Straight-line depreciation spreads the depreciable amount evenly across the useful life. The depreciable amount is $C - S = 120{,}000 - 20{,}000 = 100{,}000$. Divide by 10 years: $100{,}000/10 = 10{,}000$ per year. The 12,000 option divides the full cost by 10 without subtracting the salvage value, which is the most common trap. The 2,000 option divides only the salvage value by 10. The 14,000 option adds the salvage value to the cost before dividing, which makes no sense.',
     hint: 'Straight-line depreciation subtracts salvage value from the initial cost before dividing by the useful life.',
     steps: [
       {
@@ -957,7 +957,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Taxable income is revenue minus expenses minus depreciation: $500{,}000 - 350{,}000 - 40{,}000 = 110{,}000$. Then multiply by the tax rate: $0.25 \\times 110{,}000 = 27{,}500$. The 37,500 option ignores the depreciation deduction, computing $0.25 \\times (500{,}000 - 350{,}000) = 0.25 \\times 150{,}000 = 37{,}500$. That is the whole point of depreciation — it reduces taxable income. The 125,000 option applies the tax rate to the full revenue. The 10,000 option computes only the tax shield from depreciation ($0.25 \\times 40{,}000$), which is useful information but not the total tax owed.',
+    eli5: 'Taxable income is revenue minus expenses minus depreciation: $500{,}000 - 350{,}000 - 40{,}000 = 110{,}000$. Then multiply by the tax rate: $0.25 \\times 110{,}000 = 27{,}500$. The 37,500 option ignores the depreciation deduction, computing $0.25 \\times (500{,}000 - 350{,}000) = 0.25 \\times 150{,}000 = 37{,}500$. That is the whole point of depreciation: it reduces taxable income. The 125,000 option applies the tax rate to the full revenue. The 10,000 option computes only the tax shield from depreciation ($0.25 \\times 40{,}000$), which is useful information but not the total tax owed.',
     hint: 'Taxable income = Revenue minus Expenses minus Depreciation. Then multiply by the tax rate.',
     steps: [
       {
@@ -1067,7 +1067,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'This tests whether you understand the structural differences between the two methods. MACRS uses IRS-defined percentages applied to the full purchase price — salvage value is completely ignored. Straight-line subtracts salvage first and then divides the remainder evenly. The option saying straight-line depreciates more is wrong because total depreciation over the full life is often similar (and MACRS may actually depreciate more since it ignores salvage). The option calling MACRS the even method gets it exactly backwards — MACRS front-loads depreciation into early years, while straight-line is the even method. The option restricting MACRS to 20-year assets is fabricated — MACRS covers 3-, 5-, 7-, 10-, 15-, and 20-year properties.',
+    eli5: 'This tests whether you understand the structural differences between the two methods. MACRS uses IRS-defined percentages applied to the full purchase price, and salvage value is completely ignored. Straight-line subtracts salvage first and then divides the remainder evenly. The option saying straight-line depreciates more is wrong because total depreciation over the full life is often similar (and MACRS may actually depreciate more since it ignores salvage). The option calling MACRS the even method gets it exactly backwards, since MACRS front-loads depreciation into early years, while straight-line is the even method. The option restricting MACRS to 20-year assets is fabricated, since MACRS covers 3-, 5-, 7-, 10-, 15-, and 20-year properties.',
     hint: 'Think about how each method handles salvage value and the timing of deductions across the asset life.',
     steps: [
       {
@@ -1083,11 +1083,11 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'The option saying MACRS spreads depreciation evenly while straight-line front-loads it reverses the two methods — MACRS front-loads, straight-line is uniform.',
+        text: 'The option saying MACRS spreads depreciation evenly while straight-line front-loads it reverses the two methods. MACRS front-loads, straight-line is uniform.',
         latex: null
       },
       {
-        text: 'The option claiming MACRS applies only to assets with a useful life of 20 years or more is fabricated — the MACRS table on p. 231 covers 3-, 5-, 7-, and 10-year recovery periods (among others).',
+        text: 'The option claiming MACRS applies only to assets with a useful life of 20 years or more is fabricated, since the MACRS table on p. 231 covers 3-, 5-, 7-, and 10-year recovery periods (among others).',
         latex: null
       }
     ],
@@ -1095,7 +1095,7 @@ const PROBLEMS = [
     handbookFormula: 'D_j = d_j \\times C \\quad \\text{(MACRS)} \\qquad D_j = \\frac{C - S_n}{n} \\quad \\text{(SL)}',
     videoUrl: null,
     traps: [
-      'Thinking MACRS also subtracts salvage value — it does not',
+      'Thinking MACRS also subtracts salvage value, when it does not',
       'Confusing which method front-loads depreciation and which one is uniform'
     ],
     diagram: null,

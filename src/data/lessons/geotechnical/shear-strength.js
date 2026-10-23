@@ -14,7 +14,7 @@ export default {
     { type: 'formula', latex: 's = \\frac{\\sigma_1 + \\sigma_3}{2}, \\quad t = \\frac{\\sigma_1 - \\sigma_3}{2}', label: 'Center and radius of Mohr circle' },
     { type: 'text', body: 'For a cohesionless soil ($c = 0$), the failure envelope passes through the origin and $\\sin \\phi = t/s$.' },
     { type: 'callout', variant: 'tip', body: 'Quick check: for c = 0, sin \u03C6 = (\u03C31 \u2013 \u03C33)/(\u03C31 + \u03C33). This is the fastest way to get \u03C6 from a triaxial test without drawing the Mohr circle.' },
-    { type: 'callout', variant: 'warning', body: 'Drained (c\u2019, \u03C6\u2019) parameters use effective stresses. Undrained (cu, \u03C6u = 0) parameters use total stresses. Mixing these is a common exam trap \u2014 check which drainage condition the problem specifies.' },
+    { type: 'callout', variant: 'warning', body: 'Drained (c\u2019, \u03C6\u2019) parameters use effective stresses. Undrained (cu, \u03C6u = 0) parameters use total stresses. Mixing these is a common exam trap, so check which drainage condition the problem specifies.' },
   ],
   illustration: null,
   problems: [
@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: '\u03C4f = c\u2019 + \u03C3N\u2019 tan \u03C6\u2019 = 200 + 1,000 \u00D7 tan 30\u00B0 = 200 + 1,000 \u00D7 0.5774 = 200 + 577 = 777 psf. The 577 psf option forgot the cohesion term. The 1,000 psf option is just the normal stress. The 200 psf option is just the cohesion \u2014 ignoring the frictional component entirely.',
+      eli5: '\u03C4f = c\u2019 + \u03C3N\u2019 tan \u03C6\u2019 = 200 + 1,000 \u00D7 tan 30\u00B0 = 200 + 1,000 \u00D7 0.5774 = 200 + 577 = 777 psf. The 577 psf option forgot the cohesion term. The 1,000 psf option is just the normal stress. The 200 psf option is just the cohesion, ignoring the frictional component entirely.',
       hint: 'Plug directly into the Mohr-Coulomb equation: \u03C4f = c + \u03C3\u2019 tan \u03C6.',
       steps: [
         { text: 'Mohr-Coulomb:', latex: '\\tau_f = c\' + \\sigma_N\' \\tan \\phi\'' },
@@ -39,7 +39,7 @@ export default {
       handbookFormula: '\\tau_f = c + \\sigma_N \\tan \\phi',
       videoUrl: null,
       traps: [
-        'Forgetting the cohesion term c \u2014 the shear strength has two components',
+        'Forgetting the cohesion term c, when the shear strength has two components',
         'Using sin \u03C6 instead of tan \u03C6 in the Mohr-Coulomb equation',
       ],
       diagram: null,
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'For c = 0: sin \u03C6 = (\u03C31 \u2013 \u03C33)/(\u03C31 + \u03C33) = (6,000 \u2013 2,000)/(6,000 + 2,000) = 4,000/8,000 = 0.50. \u03C6 = arcsin(0.50) = 30\u00B0. The 45\u00B0 choice might come from using tan\u207B\u00B9(\u03C31/\u03C33) incorrectly. The 26.6\u00B0 choice is arctan(0.50) \u2014 a common mistake from using tan instead of sin.',
+      eli5: 'For c = 0: sin \u03C6 = (\u03C31 \u2013 \u03C33)/(\u03C31 + \u03C33) = (6,000 \u2013 2,000)/(6,000 + 2,000) = 4,000/8,000 = 0.50. \u03C6 = arcsin(0.50) = 30\u00B0. The 45\u00B0 choice might come from using tan\u207B\u00B9(\u03C31/\u03C33) incorrectly. The 26.6\u00B0 choice is arctan(0.50), a common mistake from using tan instead of sin.',
       hint: 'For c = 0: sin \u03C6 = (\u03C31 \u2013 \u03C33)/(\u03C31 + \u03C33). No need to draw the Mohr circle.',
       steps: [
         { text: 'For $c = 0$:', latex: '\\sin \\phi = \\frac{\\sigma_1 - \\sigma_3}{\\sigma_1 + \\sigma_3} = \\frac{6{,}000 - 2{,}000}{6{,}000 + 2{,}000} = \\frac{4{,}000}{8{,}000} = 0.50' },
@@ -65,7 +65,7 @@ export default {
       handbookFormula: '\\sin \\phi = \\frac{t}{s} = \\frac{\\sigma_1 - \\sigma_3}{\\sigma_1 + \\sigma_3}',
       videoUrl: null,
       traps: [
-        'Using arctan(0.50) instead of arcsin(0.50) \u2014 the Mohr circle gives sin \u03C6 = t/s, not tan \u03C6',
+        'Using arctan(0.50) instead of arcsin(0.50), when the Mohr circle gives sin \u03C6 = t/s, not tan \u03C6',
         'Computing \u03C31/\u03C33 = 3.0 and using it as \u03C6 or tan \u03C6',
       ],
       diagram: null,
@@ -81,7 +81,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'In a UU test on saturated clay, \u03C6u = 0. The Mohr circle has its center at s = (\u03C31+\u03C33)/2 and radius t = (\u03C31\u2013\u03C33)/2. For \u03C6 = 0, the failure envelope is a horizontal line at \u03C4 = cu, and cu = the radius = (\u03C31\u2013\u03C33)/2 = 2,400/2 = 1,200 psf. The 2,400 psf choice is the deviator stress itself, not halved. The 2,700 psf choice is (\u03C31+\u03C33)/2 = (3,900+1,500)/2 \u2014 that is the center of the Mohr circle, not the radius. The 1,500 psf choice is just \u03C33.',
+      eli5: 'In a UU test on saturated clay, \u03C6u = 0. The Mohr circle has its center at s = (\u03C31+\u03C33)/2 and radius t = (\u03C31\u2013\u03C33)/2. For \u03C6 = 0, the failure envelope is a horizontal line at \u03C4 = cu, and cu = the radius = (\u03C31\u2013\u03C33)/2 = 2,400/2 = 1,200 psf. The 2,400 psf choice is the deviator stress itself, not halved. The 2,700 psf choice is (\u03C31+\u03C33)/2 = (3,900+1,500)/2, which is the center of the Mohr circle, not the radius. The 1,500 psf choice is just \u03C33.',
       hint: 'For \u03C6 = 0 (undrained clay): cu = (\u03C31 \u2013 \u03C33)/2 = radius of the Mohr circle.',
       steps: [
         { text: 'Deviator stress at failure:', latex: '\\sigma_1 - \\sigma_3 = 2{,}400 \\text{ psf}' },

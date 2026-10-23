@@ -25,7 +25,7 @@ const PROBLEMS = [
     handbookFormula: '\\text{Degree} = (3m + r) - (3j + c)',
     videoUrl: null,
     traps: [
-      'Counting a fixed support as 2 reactions instead of 3 — a fixed base resists horizontal force, vertical force, and moment',
+      'Counting a fixed support as 2 reactions instead of 3, when a fixed base resists horizontal force, vertical force, and moment',
       'Applying the truss formula (m + r vs 2j) to a rigid frame',
     ],
     diagram: { component: 'FrameSchematic', props: { variant: 'portal', leftSupport: 'fixed', rightSupport: 'fixed' } },
@@ -37,14 +37,14 @@ const PROBLEMS = [
     type: 'conceptual',
     statement: 'A single straight beam (one rigid member) is supported by a pin at one end and a pin at the other end, with no internal hinges. Treating it as a planar beam with 3 equilibrium equations, how is it classified externally?',
     choices: [
-      { id: 'c1', text: 'Unstable — it is a mechanism' },
+      { id: 'c1', text: 'Unstable: it is a mechanism' },
       { id: 'c2', text: 'Stable and statically determinate' },
       { id: 'c3', text: 'Stable and externally indeterminate to the 1st degree' },
       { id: 'c4', text: 'Stable and externally indeterminate to the 3rd degree' },
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Each pin provides 2 reaction components, so $r = 2 + 2 = 4$. A planar beam has 3 independent equilibrium equations ($\\Sigma F_x = 0$, $\\Sigma F_y = 0$, $\\Sigma M = 0$). The external degree of indeterminacy is $r - 3 = 4 - 3 = 1$. Two pins introduce one redundant horizontal restraint that equilibrium alone cannot resolve. The "stable and statically determinate" choice would require exactly $r = 3$, which is the familiar pin-plus-roller case. The "unstable \u2014 mechanism" choice would require $r < 3$. The "indeterminate to the 3rd degree" choice overcounts the redundancy — only one extra reaction component exists beyond the three equilibrium equations.',
+    eli5: 'Each pin provides 2 reaction components, so $r = 2 + 2 = 4$. A planar beam has 3 independent equilibrium equations ($\\Sigma F_x = 0$, $\\Sigma F_y = 0$, $\\Sigma M = 0$). The external degree of indeterminacy is $r - 3 = 4 - 3 = 1$. Two pins introduce one redundant horizontal restraint that equilibrium alone cannot resolve. The "stable and statically determinate" choice would require exactly $r = 3$, which is the familiar pin-plus-roller case. The "unstable mechanism" choice would require $r < 3$. The "indeterminate to the 3rd degree" choice overcounts the redundancy, since only one extra reaction component exists beyond the three equilibrium equations.',
     hint: 'Count the reaction components, then compare to the 3 equilibrium equations of a planar beam.',
     steps: [
       { text: 'Reaction components (two pins):', latex: 'r = 2 + 2 = 4' },
@@ -56,7 +56,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Treating a pin as 1 reaction component instead of 2',
-      'Assuming any beam with two supports is automatically determinate — a pin-pin beam has a redundant horizontal restraint',
+      'Assuming any beam with two supports is automatically determinate, when a pin-pin beam has a redundant horizontal restraint',
     ],
     diagram: null,
     lessonId: 'determinacy-stability',
@@ -74,7 +74,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'ASD uses unfactored loads with the 0.75 companion factor: $D + 0.75L + 0.75S = 40 + 0.75(30) + 0.75(24) = 40 + 22.5 + 18 = 80.5$ kips. The 94 kips option is the plain sum $D + L + S = 40 + 30 + 24$, forgetting the 0.75 factors. The 84 kips option is the LRFD combination $1.2D + 1.6L = 48 + 48$ — wrong because the problem specifies ASD. The 62.5 kips option drops the snow term and uses only $D + 0.75L = 40 + 22.5$.',
+    eli5: 'ASD uses unfactored loads with the 0.75 companion factor: $D + 0.75L + 0.75S = 40 + 0.75(30) + 0.75(24) = 40 + 22.5 + 18 = 80.5$ kips. The 94 kips option is the plain sum $D + L + S = 40 + 30 + 24$, forgetting the 0.75 factors. The 84 kips option is the LRFD combination $1.2D + 1.6L = 48 + 48$, which is wrong because the problem specifies ASD. The 62.5 kips option drops the snow term and uses only $D + 0.75L = 40 + 22.5$.',
     hint: 'ASD uses service loads. Apply the 0.75 companion factor to both $L$ and $S$.',
     steps: [
       { text: 'ASD combination:', latex: 'D + 0.75L + 0.75S' },
@@ -115,7 +115,7 @@ const PROBLEMS = [
     handbookFormula: '1.4D \\quad \\text{vs} \\quad 1.2D + 1.6L',
     videoUrl: null,
     traps: [
-      'Assuming Combination 2 always controls — when live load is small relative to dead load, $1.4D$ governs',
+      'Assuming Combination 2 always controls (when live load is small relative to dead load, $1.4D$ governs)',
       'Reporting the unfactored service load instead of the factored LRFD load',
     ],
     diagram: null,
@@ -159,7 +159,7 @@ const PROBLEMS = [
     choices: [
       { id: 'c1', text: 'Maximum positive, equal to $wL/8$' },
       { id: 'c2', text: 'Maximum negative, equal to $-wL/8$' },
-      { id: 'c3', text: 'Zero — the equal positive and negative IL areas cancel' },
+      { id: 'c3', text: 'Zero, because the equal positive and negative IL areas cancel' },
       { id: 'c4', text: 'Equal to the midspan moment divided by $L$' },
     ],
     correctAnswerId: 'c3',
@@ -176,7 +176,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Forgetting that the shear IL has both positive and negative regions that cancel under full loading',
-      'To maximize shear at a section, load only the region of one sign — full-span loading gives the net effect, not the maximum',
+      'To maximize shear at a section, load only the region of one sign, since full-span loading gives the net effect, not the maximum',
     ],
     diagram: null,
     lessonId: 'influence-lines',
@@ -194,7 +194,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'ACI requires $A_{s,\\min}$ to be the larger of $\\frac{3\\sqrt{f_c\'}}{f_y} b_w d$ and $\\frac{200}{f_y} b_w d$, with stresses in psi. First term: $\\frac{3\\sqrt{4000}}{60000}(12)(20) = \\frac{189.7}{60000}(240) = 0.759$ in$^2$. Second term: $\\frac{200}{60000}(12)(20) = \\frac{200}{60000}(240) = 0.80$ in$^2$. The larger value governs, so $A_{s,\\min} = 0.80$ in$^2$. The 0.76 in$^2$ choice is the first term alone — but the $200/f_y$ term controls for $f_c\' \\leq 4{,}444$ psi. The 0.40 in$^2$ choice drops $b_w$. The 1.60 in$^2$ choice doubles the area by a unit slip.',
+    eli5: 'ACI requires $A_{s,\\min}$ to be the larger of $\\frac{3\\sqrt{f_c\'}}{f_y} b_w d$ and $\\frac{200}{f_y} b_w d$, with stresses in psi. First term: $\\frac{3\\sqrt{4000}}{60000}(12)(20) = \\frac{189.7}{60000}(240) = 0.759$ in$^2$. Second term: $\\frac{200}{60000}(12)(20) = \\frac{200}{60000}(240) = 0.80$ in$^2$. The larger value governs, so $A_{s,\\min} = 0.80$ in$^2$. The 0.76 in$^2$ choice is the first term alone, but the $200/f_y$ term controls for $f_c\' \\leq 4{,}444$ psi. The 0.40 in$^2$ choice drops $b_w$. The 1.60 in$^2$ choice doubles the area by a unit slip.',
     hint: 'Compute both $\\frac{3\\sqrt{f_c\'}}{f_y} b_w d$ and $\\frac{200}{f_y} b_w d$ (psi units) and take the larger.',
     steps: [
       { text: 'First expression:', latex: '\\frac{3\\sqrt{4000}}{60000}(12)(20) = \\frac{189.7}{60000}(240) = 0.759 \\text{ in}^2' },
@@ -205,7 +205,7 @@ const PROBLEMS = [
     handbookFormula: 'A_{s,\\min} = \\max\\left(\\frac{3\\sqrt{f_c\'}}{f_y} b_w d, \\; \\frac{200}{f_y} b_w d\\right)',
     videoUrl: null,
     traps: [
-      'Computing only one of the two expressions — ACI requires the larger',
+      'Computing only one of the two expressions, when ACI requires the larger',
       'Using $f_c\'$ and $f_y$ in ksi instead of psi, which scales the result incorrectly',
     ],
     diagram: { component: 'RCBeamSection', props: { b: 12, d: 20, numBars: 3, unit: 'in.' } },
@@ -235,7 +235,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Using a single stirrup leg area instead of $A_v$ for both legs',
-      'Substituting the wrong spacing — $s$ is the center-to-center stirrup spacing',
+      'Substituting the wrong spacing, when $s$ is the center-to-center stirrup spacing',
     ],
     diagram: null,
     lessonId: 'rc-flexure-shear',
@@ -276,19 +276,19 @@ const PROBLEMS = [
     type: 'conceptual',
     statement: 'A designer proposes a tied column with a longitudinal reinforcement ratio of $\\rho_g = 0.10$ (10 percent). Per ACI 318, what is the issue?',
     choices: [
-      { id: 'c1', text: 'It is acceptable — there is no upper limit on $\\rho_g$' },
+      { id: 'c1', text: 'It is acceptable because there is no upper limit on $\\rho_g$' },
       { id: 'c2', text: 'It is below the 1 percent minimum, risking brittle failure' },
       { id: 'c3', text: 'It exceeds the 8 percent maximum, causing bar congestion and poor concrete placement' },
       { id: 'c4', text: 'It is only a problem for spiral columns, not tied columns' },
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'ACI limits the longitudinal steel ratio to $0.01 \\leq \\rho_g \\leq 0.08$ (1 to 8 percent). A 10 percent ratio exceeds the 8 percent maximum. The upper limit prevents reinforcement congestion that makes it impossible to place and consolidate concrete around the bars and at lap splices. The "acceptable — no upper limit" choice is wrong because an upper limit exists. The "below the 1 percent minimum" choice has the direction backwards — 10 percent is far above, not below, the minimum. The "only a problem for spiral columns" choice is wrong because the limits apply to both tied and spiral columns.',
+    eli5: 'ACI limits the longitudinal steel ratio to $0.01 \\leq \\rho_g \\leq 0.08$ (1 to 8 percent). A 10 percent ratio exceeds the 8 percent maximum. The upper limit prevents reinforcement congestion that makes it impossible to place and consolidate concrete around the bars and at lap splices. The "acceptable, no upper limit" choice is wrong because an upper limit exists. The "below the 1 percent minimum" choice has the direction backwards: 10 percent is far above, not below, the minimum. The "only a problem for spiral columns" choice is wrong because the limits apply to both tied and spiral columns.',
     hint: 'Recall the ACI reinforcement ratio limits for columns and which bound 10 percent violates.',
     steps: [
       { text: 'ACI limits:', latex: '0.01 \\leq \\rho_g \\leq 0.08' },
       { text: 'Proposed ratio:', latex: '\\rho_g = 0.10 > 0.08' },
-      { text: 'Exceeds the 8 percent maximum — causes bar congestion and placement problems.', latex: null },
+      { text: 'Exceeds the 8 percent maximum, which causes bar congestion and placement problems.', latex: null },
     ],
     handbookPage: 'p. 278',
     handbookFormula: '0.01 \\leq \\rho_g \\leq 0.08',
@@ -313,7 +313,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'With full bracing, $M_n = M_p = F_y Z_x = 50 \\times 100 = 5{,}000$ kip-in $= 416.7$ kip-ft. For ASD, divide by $\\Omega_b = 1.67$: $M_n/\\Omega_b = 416.7/1.67 = 249.5 \\approx 250$ kip-ft. The 417 kip-ft choice is the nominal $M_n$ without applying $\\Omega_b$. The 375 kip-ft choice is the LRFD design strength $\\phi_b M_n = 0.90 \\times 416.7$ — the problem asks for ASD. The 278 kip-ft choice uses an incorrect $\\Omega_b = 1.50$.',
+    eli5: 'With full bracing, $M_n = M_p = F_y Z_x = 50 \\times 100 = 5{,}000$ kip-in $= 416.7$ kip-ft. For ASD, divide by $\\Omega_b = 1.67$: $M_n/\\Omega_b = 416.7/1.67 = 249.5 \\approx 250$ kip-ft. The 417 kip-ft choice is the nominal $M_n$ without applying $\\Omega_b$. The 375 kip-ft choice is the LRFD design strength $\\phi_b M_n = 0.90 \\times 416.7$, but the problem asks for ASD. The 278 kip-ft choice uses an incorrect $\\Omega_b = 1.50$.',
     hint: 'ASD allowable moment $= M_n/\\Omega_b$ with $\\Omega_b = 1.67$. Convert kip-in to kip-ft.',
     steps: [
       { text: 'Plastic moment:', latex: 'M_p = F_y Z_x = 50 \\times 100 = 5{,}000 \\text{ kip-in} = 416.7 \\text{ kip-ft}' },
@@ -372,7 +372,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Euler stress: $F_e = \\frac{\\pi^2 E}{(KL/r)^2} = \\frac{\\pi^2 (29{,}000)}{140^2} = \\frac{286{,}218}{19{,}600} = 14.6$ ksi. For elastic buckling, $F_{cr} = 0.877 F_e = 0.877(14.6) = 12.8$ ksi. The 14.6 ksi choice is $F_e$ itself — it forgets the 0.877 elastic-buckling reduction. The 25.9 ksi choice misapplies the inelastic formula $0.658^{F_y/F_e} F_y$. The 9.6 ksi choice applies the 0.658 base directly.',
+    eli5: 'Euler stress: $F_e = \\frac{\\pi^2 E}{(KL/r)^2} = \\frac{\\pi^2 (29{,}000)}{140^2} = \\frac{286{,}218}{19{,}600} = 14.6$ ksi. For elastic buckling, $F_{cr} = 0.877 F_e = 0.877(14.6) = 12.8$ ksi. The 14.6 ksi choice is $F_e$ itself, which forgets the 0.877 elastic-buckling reduction. The 25.9 ksi choice misapplies the inelastic formula $0.658^{F_y/F_e} F_y$. The 9.6 ksi choice applies the 0.658 base directly.',
     hint: 'First find $F_e = \\pi^2 E/(KL/r)^2$, then apply $F_{cr} = 0.877 F_e$ for elastic buckling.',
     steps: [
       { text: 'Euler buckling stress:', latex: 'F_e = \\frac{\\pi^2 (29{,}000)}{140^2} = \\frac{286{,}218}{19{,}600} = 14.6 \\text{ ksi}' },
@@ -382,7 +382,7 @@ const PROBLEMS = [
     handbookFormula: 'F_{cr} = 0.877 F_e, \\quad F_e = \\frac{\\pi^2 E}{(KL/r)^2}',
     videoUrl: null,
     traps: [
-      'Reporting $F_e$ instead of $F_{cr}$ — elastic buckling reduces $F_e$ by the 0.877 factor',
+      'Reporting $F_e$ instead of $F_{cr}$, when elastic buckling reduces $F_e$ by the 0.877 factor',
       'Applying the inelastic formula $0.658^{F_y/F_e} F_y$ when $KL/r$ exceeds the elastic threshold',
     ],
     diagram: null,
@@ -401,7 +401,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The dividing line between inelastic and elastic column buckling is $4.71\\sqrt{E/F_y} = 4.71\\sqrt{29{,}000/50} = 4.71\\sqrt{580} = 4.71(24.08) = 113.4$. Since the column slenderness $KL/r = 90$ is less than 113.4, the column buckles inelastically and uses $F_{cr} = 0.658^{F_y/F_e} F_y$. The "elastic buckling, because $KL/r = 90 > 113$" choice has the inequality backwards. The "$KL/r > 50$ always means elastic" choice uses an arbitrary cutoff of 50, which is not the AISC threshold. The "cannot be determined without the cross-sectional area" choice is wrong — the regime depends only on $KL/r$, $E$, and $F_y$, not on area.',
+    eli5: 'The dividing line between inelastic and elastic column buckling is $4.71\\sqrt{E/F_y} = 4.71\\sqrt{29{,}000/50} = 4.71\\sqrt{580} = 4.71(24.08) = 113.4$. Since the column slenderness $KL/r = 90$ is less than 113.4, the column buckles inelastically and uses $F_{cr} = 0.658^{F_y/F_e} F_y$. The "elastic buckling, because $KL/r = 90 > 113$" choice has the inequality backwards. The "$KL/r > 50$ always means elastic" choice uses an arbitrary cutoff of 50, which is not the AISC threshold. The "cannot be determined without the cross-sectional area" choice is wrong because the regime depends only on $KL/r$, $E$, and $F_y$, not on area.',
     hint: 'Compute $4.71\\sqrt{E/F_y}$ and compare it to $KL/r$. Below the threshold is inelastic.',
     steps: [
       { text: 'Threshold slenderness:', latex: '4.71\\sqrt{\\frac{E}{F_y}} = 4.71\\sqrt{\\frac{29{,}000}{50}} = 4.71(24.08) = 113.4' },
@@ -412,7 +412,7 @@ const PROBLEMS = [
     handbookFormula: '\\frac{KL}{r} \\leq 4.71\\sqrt{E/F_y} \\implies \\text{inelastic buckling}',
     videoUrl: null,
     traps: [
-      'Reversing the inequality — slenderness below the threshold is inelastic, above is elastic',
+      'Reversing the inequality (slenderness below the threshold is inelastic, above is elastic)',
       'Using a memorized round-number cutoff instead of computing $4.71\\sqrt{E/F_y}$',
     ],
     diagram: null,

@@ -60,7 +60,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'V-notch weir: Q = CH^(5/2) = 2.54 \u00D7 (2.0)^(5/2). (2.0)^(5/2) = 2^2 \u00D7 \u221A2 = 4 \u00D7 1.414 = 5.657. Q = 2.54 \u00D7 5.657 = 14.4 cfs. The 10.2 cfs option uses H^2 = 4.0. The 7.2 cfs option uses H^(3/2) instead of H^(5/2) \u2014 that\'s the rectangular weir exponent. The 20.3 cfs option uses H^3 = 8.0.',
+      eli5: 'V-notch weir: Q = CH^(5/2) = 2.54 \u00D7 (2.0)^(5/2). (2.0)^(5/2) = 2^2 \u00D7 \u221A2 = 4 \u00D7 1.414 = 5.657. Q = 2.54 \u00D7 5.657 = 14.4 cfs. The 10.2 cfs option uses H^2 = 4.0. The 7.2 cfs option uses H^(3/2) instead of H^(5/2), and that\'s the rectangular weir exponent. The 20.3 cfs option uses H^3 = 8.0.',
       hint: 'V-notch weirs use H^(5/2), not H^(3/2). The USCS coefficient for a 90\u00B0 notch is C = 2.54.',
       steps: [
         { text: '90\u00B0 V-notch weir formula (USCS):', latex: 'Q = CH^{5/2} = 2.54 \\times (2.0)^{5/2}' },
@@ -71,7 +71,7 @@ export default {
       handbookFormula: 'Q = CH^{5/2}',
       videoUrl: null,
       traps: [
-        'Using H^(3/2) \u2014 that\'s for rectangular weirs. V-notch uses H^(5/2)',
+        'Using H^(3/2), which is for rectangular weirs. V-notch uses H^(5/2)',
         'Using the rectangular weir coefficient (C = 3.33) instead of the V-notch coefficient (C = 2.54)',
       ],
       diagram: { component: 'VNotchWeir', props: { H: 2.0, angle: 90, unit: 'ft' } },
@@ -98,8 +98,8 @@ export default {
       handbookFormula: 'Q = k_1 C A R_H^{0.63} S_v^{0.54}',
       videoUrl: null,
       traps: [
-        'Thinking lower C means more flow \u2014 higher C means smoother pipe, less friction, more flow',
-        'Raising the ratio to a power (0.63 or 0.54) \u2014 C enters the equation linearly',
+        'Thinking lower C means more flow, when higher C means smoother pipe, less friction, more flow',
+        'Raising the ratio to a power (0.63 or 0.54), when C enters the equation linearly',
       ],
       diagram: null,
     },

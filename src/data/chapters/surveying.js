@@ -1,8 +1,8 @@
 export default {
-  context: 'This chapter covers angles, bearings, and distances; differential leveling; traverse computations; area and volume calculations; and horizontal and vertical curve design \u2014 the core surveying topics tested on the FE Civil exam.',
+  context: 'This chapter covers angles, bearings, and distances; differential leveling; traverse computations; area and volume calculations; and horizontal and vertical curve design, the core surveying topics tested on the FE Civil exam.',
   subtopics: [
     { id: 'measurement-leveling', name: 'Measurement & Leveling',
-      application: 'As a civil engineer, every project starts with measuring angles, distances, and elevations. You convert between bearings and azimuths, run level loops to establish grades for drainage, and close traverses to verify accuracy. Getting the survey wrong means the entire design is wrong \u2014 from building pad elevations to sewer inverts.' },
+      application: 'As a civil engineer, every project starts with measuring angles, distances, and elevations. You convert between bearings and azimuths, run level loops to establish grades for drainage, and close traverses to verify accuracy. Getting the survey wrong means the entire design is wrong, from building pad elevations to sewer inverts.' },
     { id: 'area-volume-traverse', name: 'Area, Volume & Traverse',
       application: 'As a civil engineer, you compute traverse closures to verify boundary surveys, use the coordinate method to determine property areas and impervious surface coverage, and calculate earthwork volumes for cut-and-fill estimating. These computations directly affect project costs, regulatory compliance, and legal property descriptions.' },
     { id: 'curves', name: 'Horizontal & Vertical Curves',
@@ -19,13 +19,13 @@ export default {
     { latex: 'L = \\sqrt{\\Delta E^2 + \\Delta N^2}, \\; Az = \\tan^{-1}\\!\\frac{\\Delta E}{\\Delta N}', label: 'Inverse Computation (distance & azimuth)' },
   ],
   traps: [
-    'Mixing up backsight and foresight in differential leveling \u2014 BS is added, FS is subtracted from the HI.',
-    'Forgetting to close the traverse \u2014 always check that latitudes and departures sum to zero.',
-    'Using the wrong formula for curve length \u2014 horizontal curves use L = \u03C0RI/180, vertical curves use station difference.',
+    'Mixing up backsight and foresight in differential leveling. BS is added, FS is subtracted from the HI.',
+    'Forgetting to close the traverse. Always check that latitudes and departures sum to zero.',
+    'Using the wrong formula for curve length: horizontal curves use L = \u03C0RI/180, vertical curves use station difference.',
     'Confusing azimuth (from north, clockwise, 0\u2013360\u00B0) with bearing (from N or S, toward E or W, 0\u201390\u00B0).',
-    'Assuming the high/low point of a vertical curve is at the midpoint \u2014 it\u2019s only true when |g_1| = |g_2|.',
-    'Forgetting to divide by 2 in the coordinate area formula \u2014 doubles your answer.',
-    'Departure = E-W = L\u00b7sin(Az); latitude = N-S = L\u00b7cos(Az) \u2014 sine with easting, cosine with northing.',
-    'The arctangent alone cannot fix an azimuth\'s quadrant \u2014 use the signs of \u0394E and \u0394N.',
+    'Assuming the high/low point of a vertical curve is at the midpoint. It\u2019s only true when |g_1| = |g_2|.',
+    'Forgetting to divide by 2 in the coordinate area formula, which doubles your answer.',
+    'Departure = E-W = L\u00b7sin(Az); latitude = N-S = L\u00b7cos(Az). Sine with easting, cosine with northing.',
+    'The arctangent alone cannot fix an azimuth\'s quadrant, so use the signs of \u0394E and \u0394N.',
   ],
 };

@@ -2,7 +2,7 @@ export default {
   id: 'asphalt-mix-design',
   name: 'Asphalt Concrete Mix Design',
   subtopicId: 'construction-materials',
-  application: 'Hot-mix asphalt (HMA) is aggregate bound by asphalt cement, and its performance is governed by volumetric properties — chiefly the air voids. As a civil engineer you check that a mix meets target air voids (about 4%), adequate voids in the mineral aggregate (VMA), and a reasonable voids-filled-with-asphalt (VFA). On the FE, expect to compute air voids and the VMA/VFA relationships from specific gravities.',
+  application: 'Hot-mix asphalt (HMA) is aggregate bound by asphalt cement, and its performance is governed by volumetric properties, chiefly the air voids. As a civil engineer you check that a mix meets target air voids (about 4%), adequate voids in the mineral aggregate (VMA), and a reasonable voids-filled-with-asphalt (VFA). On the FE, expect to compute air voids and the VMA/VFA relationships from specific gravities.',
   content: [
     { type: 'text', body: 'A compacted asphalt mix is three phases: aggregate, asphalt binder, and air. Two specific gravities anchor the volumetrics: the bulk specific gravity of the compacted mix (G_mb) and the theoretical maximum specific gravity with zero air (G_mm).' },
     { type: 'heading', body: 'Air Voids (VTM)' },
@@ -11,7 +11,7 @@ export default {
     { type: 'heading', body: 'VMA and VFA' },
     { type: 'formula', latex: 'VMA = 100 - \\frac{G_{mb} \\, P_s}{G_{sb}}', label: 'Voids in mineral aggregate; Ps = % aggregate by total mass, Gsb = aggregate bulk SG' },
     { type: 'formula', latex: 'VFA = 100 \\times \\frac{VMA - V_a}{VMA}', label: 'Voids filled with asphalt, %' },
-    { type: 'text', body: 'VMA is the intergranular void space between aggregate particles in the compacted mix — it must be large enough to hold sufficient asphalt film. VFA is the portion of that VMA actually filled with binder rather than air.' },
+    { type: 'text', body: 'VMA is the intergranular void space between aggregate particles in the compacted mix, and it must be large enough to hold sufficient asphalt film. VFA is the portion of that VMA actually filled with binder rather than air.' },
     { type: 'callout', variant: 'tip', body: 'Remember the void hierarchy: VMA = air voids + effective asphalt voids. So VFA = (VMA − Va)/VMA is just the asphalt-filled fraction of the total aggregate voids.' },
     { type: 'callout', variant: 'warning', body: 'G_mm (theoretical maximum, no air) is always greater than G_mb (bulk, with air). If you compute negative air voids, you have swapped the two specific gravities.' },
   ],
@@ -55,7 +55,7 @@ export default {
       correctAnswerId: 'c1',
       difficulty: 'medium',
       eli5: 'VFA = 100 × (VMA − Va)/VMA = 100 × (15.0 − 4.0)/15.0 = 100 × 11.0/15.0 = 73.3%. The 26.7% choice is the air-filled fraction (Va/VMA). The 11.0% choice is just the difference VMA − Va. The 36.4% choice divides the air voids by the asphalt-filled voids, $4.0/11.0$, instead of dividing the filled voids by the whole VMA.',
-      hint: 'VFA = 100 × (VMA − Va)/VMA — the asphalt-filled fraction of the aggregate voids.',
+      hint: 'VFA = 100 × (VMA − Va)/VMA, the asphalt-filled fraction of the aggregate voids.',
       steps: [
         { text: 'Asphalt-filled voids:', latex: 'VMA - V_a = 15.0 - 4.0 = 11.0\\%' },
         { text: 'Fraction of VMA filled with asphalt:', latex: 'VFA = 100 \\times \\frac{11.0}{15.0} = 73.3\\%' },
@@ -90,7 +90,7 @@ export default {
       handbookFormula: 'VMA = 100 - G_{mb}P_s/G_{sb}',
       videoUrl: null,
       traps: [
-        'Leaving $P_s$ out of the aggregate volume term \u2014 gives 9.4% (choice B)',
+        'Leaving $P_s$ out of the aggregate volume term, which gives 9.4% (choice B)',
         'Reporting the aggregate volume term (86%) instead of its complement',
       ],
       diagram: { component: 'AsphaltVolumetrics', props: {} },

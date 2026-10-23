@@ -12,7 +12,7 @@ export default {
     { type: 'heading', body: 'CM-at-Risk (CMAR)' },
     { type: 'text', body: 'The construction manager joins the team during design and provides a Guaranteed Maximum Price (GMP). The CM acts as a general contractor during construction. Best when the owner wants contractor input during design without giving up separate design control.' },
     { type: 'callout', variant: 'tip', body: 'Key differentiator: in DBB, the contractor has NO input on design. In DB, the same team designs and builds. In CMAR, the contractor advises during design but the designer is a separate entity.' },
-    { type: 'callout', variant: 'warning', body: 'DBB does NOT mean the lowest price overall \u2014 it means the lowest responsible bid for the defined scope. Change orders in DBB can be costly because the contractor had no design input.' },
+    { type: 'callout', variant: 'warning', body: 'DBB does NOT mean the lowest price overall. It means the lowest responsible bid for the defined scope. Change orders in DBB can be costly because the contractor had no design input.' },
   ],
   illustration: null,
   problems: [
@@ -27,7 +27,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'DBB is the standard for public projects that require competitive bidding on complete plans. The agency already has full plans and specs \u2014 they just need to advertise for bids. DB and CMAR involve contractor involvement before plans are complete. IPD is a collaborative method rarely mandated by law.',
+      eli5: 'DBB is the standard for public projects that require competitive bidding on complete plans. The agency already has full plans and specs, so they just need to advertise for bids. DB and CMAR involve contractor involvement before plans are complete. IPD is a collaborative method rarely mandated by law.',
       hint: 'Complete plans + competitive bidding = the traditional method.',
       steps: [
         { text: 'Plans are complete \u2192 no need for contractor design input', latex: null },
@@ -37,7 +37,7 @@ export default {
       handbookFormula: null,
       videoUrl: null,
       traps: [
-        'Choosing DB when the plans are already complete \u2014 DB combines design and construction, which is not needed here',
+        'Choosing DB when the plans are already complete, when DB combines design and construction, which is not needed here',
       ],
       diagram: null,
     },
@@ -62,7 +62,7 @@ export default {
       handbookFormula: null,
       videoUrl: null,
       traps: [
-        'Confusing CMAR with DB \u2014 in CMAR, the designer and CM are separate entities even though the CM is involved early',
+        'Confusing CMAR with DB, when in CMAR, the designer and CM are separate entities even though the CM is involved early',
       ],
       diagram: null,
     },
@@ -88,7 +88,7 @@ export default {
       handbookFormula: null,
       videoUrl: null,
       traps: [
-        'Confusing CMAR with DB \u2014 the key difference is whether the designer is a separate entity',
+        'Confusing CMAR with DB. The key difference is whether the designer is a separate entity',
         'Choosing DBB when the problem explicitly mentions contractor involvement during design',
       ],
       diagram: null,

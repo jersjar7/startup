@@ -569,7 +569,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Dr = (emax − e)/(emax − emin) × 100 = (0.80 − 0.52)/(0.80 − 0.45) × 100 = 0.28/0.35 × 100 = 80% — a dense sand. The 20% choice uses (e − emin) in the numerator. The 65% choice miscomputes the denominator. The 35% choice inverts the numerator.',
+    eli5: 'Dr = (emax − e)/(emax − emin) × 100 = (0.80 − 0.52)/(0.80 − 0.45) × 100 = 0.28/0.35 × 100 = 80%, a dense sand. The 20% choice uses (e − emin) in the numerator. The 65% choice miscomputes the denominator. The 35% choice inverts the numerator.',
     hint: 'Dr = (emax − e)/(emax − emin) × 100.',
     steps: [
       { text: 'Apply the relative-density formula:', latex: 'D_r = \\frac{0.80 - 0.52}{0.80 - 0.45} \\times 100' },
@@ -598,8 +598,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'A pile bearing on sound rock acts essentially as an end-bearing pile — the strong tip support dominates, while the soft soils contribute little skin friction. The "skin friction in the soft soils" option describes a friction pile in deep uniform soil. The "equally by end bearing and negative skin friction" option invents a role for downdrag. The "buoyancy" option is not a real load-carrying mechanism here.',
-    hint: 'Where is the strong material — at the tip or along the shaft?',
+    eli5: 'A pile bearing on sound rock acts essentially as an end-bearing pile: the strong tip support dominates, while the soft soils contribute little skin friction. The "skin friction in the soft soils" option describes a friction pile in deep uniform soil. The "equally by end bearing and negative skin friction" option invents a role for downdrag. The "buoyancy" option is not a real load-carrying mechanism here.',
+    hint: 'Where is the strong material: at the tip or along the shaft?',
     steps: [
       { text: 'The soft soils provide little skin friction.', latex: null },
       { text: 'The pile tip rests on sound rock.', latex: null },

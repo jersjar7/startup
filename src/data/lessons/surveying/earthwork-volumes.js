@@ -2,7 +2,7 @@ export default {
   id: 'earthwork-volumes',
   name: 'Earthwork & Volume Computations',
   subtopicId: 'area-volume-traverse',
-  application: 'Civil engineers compute earthwork volumes to estimate project costs, balance cut and fill quantities, and verify contractor pay quantities. The average end area method is the workhorse for road and site grading projects \u2014 you compute cross-section areas at each station, then multiply by the distance between stations to get volume. On the FE, expect problems computing volumes using the average end area or prismoidal formula.',
+  application: 'Civil engineers compute earthwork volumes to estimate project costs, balance cut and fill quantities, and verify contractor pay quantities. The average end area method is the workhorse for road and site grading projects: you compute cross-section areas at each station, then multiply by the distance between stations to get volume. On the FE, expect problems computing volumes using the average end area or prismoidal formula.',
   content: [
     { type: 'text', body: 'Earthwork volumes answer the question: how much dirt needs to move? You slice the project into cross-sections and compute volumes between them.' },
     { type: 'heading', body: 'Average End Area Method' },
@@ -13,7 +13,7 @@ export default {
     { type: 'text', body: 'Where $A_m$ is the area of the mid-section (at $L/2$). This is more accurate than average end area because it accounts for the taper. Think of it as Simpson\u2019s rule applied to volumes.' },
     { type: 'heading', body: 'Pyramid or Cone' },
     { type: 'formula', latex: 'V = \\frac{h \\times A_{\\text{base}}}{3}', label: 'Volume of pyramid or cone' },
-    { type: 'text', body: 'Used when a cross-section tapers to a point \u2014 like a stockpile, borrow pit, or the end of a fill embankment.' },
+    { type: 'text', body: 'Used when a cross-section tapers to a point, like a stockpile, borrow pit, or the end of a fill embankment.' },
     { type: 'callout', variant: 'tip', body: 'The average end area method is more common in practice (and on the FE) because you rarely have mid-section data. The prismoidal formula gives a more accurate answer when you do.' },
     { type: 'callout', variant: 'warning', body: 'Unit trap: if areas are in ft\u00B2 and distance in ft, the volume is in ft\u00B3. Divide by 27 to convert to cubic yards for pay quantities.' },
   ],
@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'V = L/2 \u00D7 (A_1 + A_2) = 100/2 \u00D7 (120 + 180) = 50 \u00D7 300 = 15,000 ft\u00B3. The 556 yd\u00b3 option converts to cubic yards (15,000/27 = 556) \u2014 right number but wrong unit for what was asked. The 30,000 ft\u00b3 option uses L instead of L/2. The 7,500 ft\u00b3 option divides by 4 instead of 2.',
+      eli5: 'V = L/2 \u00D7 (A_1 + A_2) = 100/2 \u00D7 (120 + 180) = 50 \u00D7 300 = 15,000 ft\u00B3. The 556 yd\u00b3 option converts to cubic yards (15,000/27 = 556), the right number but wrong unit for what was asked. The 30,000 ft\u00b3 option uses L instead of L/2. The 7,500 ft\u00b3 option divides by 4 instead of 2.',
       hint: 'Average the two areas, then multiply by the distance between stations.',
       steps: [
         { text: 'Average end area volume:', latex: 'V = \\frac{L}{2}(A_1 + A_2) = \\frac{100}{2}(120 + 180)' },
@@ -40,8 +40,8 @@ export default {
       handbookFormula: 'V = \\frac{L}{2}(A_1 + A_2)',
       videoUrl: null,
       traps: [
-        'Forgetting to divide L by 2 \u2014 doubles the volume',
-        'Confusing ft\u00B3 with yd\u00B3 \u2014 divide by 27 to convert',
+        'Forgetting to divide L by 2, which doubles the volume',
+        'Confusing ft\u00B3 with yd\u00B3 (divide by 27 to convert)',
       ],
       diagram: { component: 'EarthworkSection', props: { A1: 120, A2: 180, Am: 150, L: 100 } },
     },

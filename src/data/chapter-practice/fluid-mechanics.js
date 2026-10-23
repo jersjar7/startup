@@ -24,7 +24,7 @@ const PROBLEMS = [
     handbookFormula: 'E_v = -\\frac{\\Delta P}{\\Delta V / V}',
     videoUrl: null,
     traps: [
-      'Mismatching the MPa and GPa exponents — gives an answer off by a factor of 10',
+      'Mismatching the MPa and GPa exponents, which gives an answer off by a factor of 10',
       'Inserting a spurious factor of 2 in the bulk-modulus definition',
     ],
     diagram: null,
@@ -55,7 +55,7 @@ const PROBLEMS = [
     handbookFormula: '\\tau = \\mu \\frac{dv}{dy}',
     videoUrl: null,
     traps: [
-      'Assuming all fluids thin when heated — true for liquids, false for gases',
+      'Assuming all fluids thin when heated (true for liquids, false for gases)',
       'Reversing the liquid and gas behaviors',
     ],
     diagram: null,
@@ -145,7 +145,7 @@ const PROBLEMS = [
     handbookFormula: 'F_B = \\gamma V_{\\text{displaced}}',
     videoUrl: null,
     traps: [
-      'Using the block’s SG directly — only valid when floating in water',
+      'Using the block’s SG directly, which is only valid when floating in water',
       'Inverting the SG ratio, giving a value above 1',
     ],
     diagram: null,
@@ -237,7 +237,7 @@ const PROBLEMS = [
     handbookFormula: '\\frac{P_1}{\\gamma} + \\frac{v_1^2}{2g} + z_1 = \\frac{P_2}{\\gamma} + \\frac{v_2^2}{2g} + z_2',
     videoUrl: null,
     traps: [
-      'Forgetting the velocity head — the crest pressure includes both elevation and velocity terms',
+      'Forgetting the velocity head, since the crest pressure includes both elevation and velocity terms',
       'Using only the elevation head and ignoring that the moving water lowers the pressure further',
     ],
     diagram: null,
@@ -287,7 +287,7 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'hard',
     eli5: 'Check the regime first: $Re = vD/\\nu = (0.5)(0.04)/(8 \\times 10^{-5}) = 250$, which is laminar ($Re < 2{,}100$), so $f = 64/Re = 64/250 = 0.256$. Head loss: $h_f = f(L/D)(v^2/2g) = 0.256 \\times (50/0.04) \\times (0.5^2/19.62) = 0.256 \\times 1{,}250 \\times 0.01274 = 4.08$ m. Convert to pressure: $\\Delta P = \\rho g h_f = 900 \\times 9.81 \\times 4.08 = 36{,}020$ Pa $\\approx 36.0$ kPa. The 4.08 kPa choice reports the head loss in meters ($4.08$ m) instead of converting to pressure. The 40.0 kPa choice uses $\\rho = 1{,}000$ (water) instead of the oil density. The 2.81 kPa choice wrongly assumes turbulent flow with $f = 0.02$.',
-    hint: 'Compute $Re$ first — it is laminar, so $f = 64/Re$. Find $h_f$ from Darcy-Weisbach, then convert with $\\Delta P = \\rho g h_f$.',
+    hint: 'Compute $Re$ first: it is laminar, so $f = 64/Re$. Find $h_f$ from Darcy-Weisbach, then convert with $\\Delta P = \\rho g h_f$.',
     steps: [
       { text: 'Reynolds number:', latex: 'Re = \\frac{vD}{\\nu} = \\frac{0.5 \\times 0.04}{8 \\times 10^{-5}} = 250 \\;(\\text{laminar})' },
       { text: 'Laminar friction factor:', latex: 'f = \\frac{64}{Re} = \\frac{64}{250} = 0.256' },
@@ -329,7 +329,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Using the absolute jet velocity instead of the relative velocity for a moving plate',
-      'Squaring only one factor — the relative velocity must appear squared',
+      'Squaring only one factor, when the relative velocity must appear squared',
     ],
     diagram: null,
     lessonId: 'momentum-equation',
@@ -358,7 +358,7 @@ const PROBLEMS = [
     handbookFormula: '\\Sigma F = \\rho Q(v_2 - v_1)',
     videoUrl: null,
     traps: [
-      'Using the flat-plate result $\\rho Q v$ — a $180\\degree$ reversal doubles it',
+      'Using the flat-plate result $\\rho Q v$ even though a $180\\degree$ reversal doubles it',
       'Using the diameter as a radius when computing the jet area',
     ],
     diagram: null,
@@ -449,7 +449,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Scaling time by the length ratio directly instead of its square root',
-      'Multiplying by the scale factor instead of dividing — the model event is faster, not slower',
+      'Multiplying by the scale factor instead of dividing (the model event is faster, not slower)',
     ],
     diagram: null,
     lessonId: 'dimensional-analysis-similitude',

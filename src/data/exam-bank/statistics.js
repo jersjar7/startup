@@ -1,5 +1,5 @@
 // Exam bank: statistics
-// Auto-extracted from lesson files — 24 questions
+// Auto-extracted from lesson files (24 questions)
 
 const PROBLEMS = [
   {
@@ -250,7 +250,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'easy',
-    eli5: 'Plug the five summary statistics straight into the slope formula. Numerator: $5(205) - 25(35) = 1025 - 875 = 150$. Denominator: $5(145) - 25^2 = 725 - 625 = 100$. Slope: $150/100 = 1.50$. The 0.67 choice is the reciprocal — you flipped numerator and denominator ($100/150 \\approx 0.67$). The 7.0 choice is $\\bar{y} = 35/5$ — that is just the mean of $y$, not the slope. The 1.40 choice comes from dividing $\\Sigma y / \\Sigma x = 35/25 = 1.4$ instead of using the regression formula.',
+    eli5: 'Plug the five summary statistics straight into the slope formula. Numerator: $5(205) - 25(35) = 1025 - 875 = 150$. Denominator: $5(145) - 25^2 = 725 - 625 = 100$. Slope: $150/100 = 1.50$. The 0.67 choice is the reciprocal, because you flipped numerator and denominator ($100/150 \\approx 0.67$). The 7.0 choice is $\\bar{y} = 35/5$, which is just the mean of $y$, not the slope. The 1.40 choice comes from dividing $\\Sigma y / \\Sigma x = 35/25 = 1.4$ instead of using the regression formula.',
     hint: 'Use the slope formula: numerator is $n\\sum xy - \\sum x \\sum y$, denominator is $n\\sum x^2 - (\\sum x)^2$.',
     steps: [
       {
@@ -305,7 +305,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The intercept formula is $a = \\bar{y} - b\\bar{x}$. Plug in: $a = 1500 - 350(4) = 1500 - 1400 = 100$. The choice $1500$ is just $\\bar{y}$ — someone forgot to subtract $b\\bar{x}$. The choice $-100$ gets the subtraction backwards, computing $b\\bar{x} - \\bar{y} = 1400 - 1500$. The choice $375$ looks like $\\bar{y}/\\bar{x} = 1500/4 = 375$ — that is the ratio of means, not the intercept.',
+    eli5: 'The intercept formula is $a = \\bar{y} - b\\bar{x}$. Plug in: $a = 1500 - 350(4) = 1500 - 1400 = 100$. The choice $1500$ is just $\\bar{y}$, so someone forgot to subtract $b\\bar{x}$. The choice $-100$ gets the subtraction backwards, computing $b\\bar{x} - \\bar{y} = 1400 - 1500$. The choice $375$ looks like $\\bar{y}/\\bar{x} = 1500/4 = 375$, but that is the ratio of means, not the intercept.',
     hint: 'The regression line always passes through $(\\bar{x}, \\bar{y})$. Use $a = \\bar{y} - b\\bar{x}$.',
     steps: [
       {
@@ -408,7 +408,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The residual is $e_i = y_i - \\hat{y}_i$ — observed minus predicted. A negative residual means the observed value is below the regression line. So the actual IRI is 1.8 units less than the model predicted. The choice saying the predicted IRI is below the observed flips the relationship — that would be a positive residual. The two age-based choices reinterpret the residual as an error in the $x$-variable (age), but residuals always measure vertical distance in the $y$-direction, not the $x$-direction. This is a subtle but critical distinction.',
+    eli5: 'The residual is $e_i = y_i - \\hat{y}_i$, observed minus predicted. A negative residual means the observed value is below the regression line. So the actual IRI is 1.8 units less than the model predicted. The choice saying the predicted IRI is below the observed flips the relationship, which would be a positive residual. The two age-based choices reinterpret the residual as an error in the $x$-variable (age), but residuals always measure vertical distance in the $y$-direction, not the $x$-direction. This is a subtle but critical distinction.',
     hint: 'Residual = observed minus predicted ($e_i = y_i - \\hat{y}_i$). A negative value means the observation is below the line.',
     steps: [
       {
@@ -416,7 +416,7 @@ const PROBLEMS = [
         latex: 'e_i = y_i - \\hat{y}_i'
       },
       {
-        text: 'A negative residual ($e_i = -1.8$) means $y_i < \\hat{y}_i$ — the observed value is below the predicted value.',
+        text: 'A negative residual ($e_i = -1.8$) means $y_i < \\hat{y}_i$, so the observed value is below the predicted value.',
         latex: null
       },
       {

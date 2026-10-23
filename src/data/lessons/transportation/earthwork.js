@@ -15,7 +15,7 @@ export default {
     { type: 'formula', latex: '1 \\text{ yd}^3 = 27 \\text{ ft}^3', label: 'Cubic feet to cubic yards' },
     { type: 'text', body: 'Earthwork quantities are reported in cubic yards ($\\text{yd}^3$). If the formula gives $\\text{ft}^3$ (when $L$ and $A$ are in feet), divide by 27 to convert.' },
     { type: 'callout', variant: 'tip', body: 'The average end area method always overestimates (or equals) the prismoidal result. The difference grows as the two end areas become more unequal. If the problem asks for the "more accurate" method, use the prismoidal formula.' },
-    { type: 'callout', variant: 'warning', body: 'Don\'t forget to divide by 27 when converting ft\u00B3 to yd\u00B3. A common mistake is reporting the answer in ft\u00B3 when the problem asks for yd\u00B3 \u2014 the answer will be 27\u00D7 too large.' },
+    { type: 'callout', variant: 'warning', body: 'Don\'t forget to divide by 27 when converting ft\u00B3 to yd\u00B3. A common mistake is reporting the answer in ft\u00B3 when the problem asks for yd\u00B3, so the answer will be 27\u00D7 too large.' },
   ],
   illustration: null,
   problems: [
@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'V = L(A1 + A2)/2 = 100(200 + 300)/2 = 100 \u00D7 250 = 25,000 ft\u00B3. Convert: 25,000/27 = 926 yd\u00B3. The 1,852 yd\u00B3 option forgot to divide by 2 in the average: 100 \u00D7 500/27 = 1,852. The 25,000 option is the answer in ft\u00B3, not yd\u00B3 \u2014 forgot to divide by 27. The 741 yd\u00B3 option used only A1: 100 \u00D7 200/27 = 741.',
+      eli5: 'V = L(A1 + A2)/2 = 100(200 + 300)/2 = 100 \u00D7 250 = 25,000 ft\u00B3. Convert: 25,000/27 = 926 yd\u00B3. The 1,852 yd\u00B3 option forgot to divide by 2 in the average: 100 \u00D7 500/27 = 1,852. The 25,000 option is the answer in ft\u00B3, not yd\u00B3, because it forgot to divide by 27. The 741 yd\u00B3 option used only A1: 100 \u00D7 200/27 = 741.',
       hint: 'Average the two areas, multiply by L, then divide by 27 to convert ft\u00B3 to yd\u00B3.',
       steps: [
         { text: 'Average end area volume:', latex: 'V = \\frac{100(200 + 300)}{2} = \\frac{100 \\times 500}{2} = 25{,}000 \\text{ ft}^3' },
@@ -40,8 +40,8 @@ export default {
       handbookFormula: 'V = \\frac{L(A_1 + A_2)}{2}',
       videoUrl: null,
       traps: [
-        'Forgetting to divide by 2 \u2014 the formula averages the two end areas, not sums them',
-        'Reporting the answer in ft\u00B3 instead of yd\u00B3 \u2014 always check units',
+        'Forgetting to divide by 2, when the formula averages the two end areas, not sums them',
+        'Reporting the answer in ft\u00B3 instead of yd\u00B3. Always check units',
       ],
       diagram: { component: 'EarthworkSection', props: { A1: 200, A2: 300, L: 100 } },
     },
@@ -66,7 +66,7 @@ export default {
       handbookFormula: 'V = \\frac{L(A_1 + 4A_m + A_2)}{6}',
       videoUrl: null,
       traps: [
-        'Using the average end area formula instead of the prismoidal \u2014 gives 926 yd\u00B3 (overestimate)',
+        'Using the average end area formula instead of the prismoidal, which gives 926 yd\u00B3 (overestimate)',
         'Forgetting to divide by 6 in the prismoidal formula',
       ],
       diagram: { component: 'EarthworkSection', props: { A1: 200, A2: 300, Am: 240, L: 100 } },
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'V = L(A1 + 4Am + A2)/6 = 200(150 + 4\u00D7230 + 350)/6 = 200(150 + 920 + 350)/6 = 200 \u00D7 1,420/6 = 284,000/6 = 47,333 ft\u00B3 = 47,333/27 = 1,753 yd\u00B3. The 1,852 yd\u00B3 option used average end area: 200(150+350)/2 = 50,000 ft\u00B3 = 1,852 yd\u00B3 \u2014 notice the overestimate vs. prismoidal. The 10,519 yd\u00B3 option forgot to divide by 6: 284,000/27 = 10,519. The 876 yd\u00B3 option divided the volume by 2 for no reason.',
+      eli5: 'V = L(A1 + 4Am + A2)/6 = 200(150 + 4\u00D7230 + 350)/6 = 200(150 + 920 + 350)/6 = 200 \u00D7 1,420/6 = 284,000/6 = 47,333 ft\u00B3 = 47,333/27 = 1,753 yd\u00B3. The 1,852 yd\u00B3 option used average end area: 200(150+350)/2 = 50,000 ft\u00B3 = 1,852 yd\u00B3. Notice the overestimate vs. prismoidal. The 10,519 yd\u00B3 option forgot to divide by 6: 284,000/27 = 10,519. The 876 yd\u00B3 option divided the volume by 2 for no reason.',
       hint: 'Apply L(A1 + 4Am + A2)/6, then divide by 27 for yd\u00B3. The prismoidal formula gives a smaller volume than average end area when A1 \u2260 A2.',
       steps: [
         { text: 'Prismoidal volume:', latex: 'V = \\frac{200(150 + 4 \\times 230 + 350)}{6} = \\frac{200 \\times 1{,}420}{6} = \\frac{284{,}000}{6} = 47{,}333 \\text{ ft}^3' },
@@ -93,8 +93,8 @@ export default {
       handbookFormula: 'V = \\frac{L(A_1 + 4A_m + A_2)}{6}',
       videoUrl: null,
       traps: [
-        'Using average end area instead of prismoidal \u2014 gives 1,852 yd\u00B3 (a 5.6% overestimate here)',
-        'Forgetting to divide by 6 \u2014 the prismoidal formula has a denominator of 6, not 2',
+        'Using average end area instead of prismoidal, which gives 1,852 yd\u00B3 (a 5.6% overestimate here)',
+        'Forgetting to divide by 6, when the prismoidal formula has a denominator of 6, not 2',
         'Forgetting the ft\u00B3 to yd\u00B3 conversion (divide by 27)',
       ],
       diagram: { component: 'EarthworkSection', props: { A1: 150, A2: 350, Am: 230, L: 200 } },

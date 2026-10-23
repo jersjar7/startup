@@ -2,7 +2,7 @@ export default {
   "id": "logarithms",
   "name": "Logarithms",
   "subtopicId": "analytic-geometry",
-  "application": "Logarithms show up across multiple FE Civil topics — computing the time for a contaminant to decay to safe levels in environmental engineering, finding the number of compounding periods in engineering economics, and working with the pH scale in water quality. On the FE, log questions tend to be algebra problems: simplify an expression using log rules, change bases, or solve an equation where the unknown is in the exponent. The formulas are all in the handbook — the skill is knowing which identity to apply.",
+  "application": "Logarithms show up across multiple FE Civil topics: computing the time for a contaminant to decay to safe levels in environmental engineering, finding the number of compounding periods in engineering economics, and working with the pH scale in water quality. On the FE, log questions tend to be algebra problems: simplify an expression using log rules, change bases, or solve an equation where the unknown is in the exponent. The formulas are all in the handbook. The skill is knowing which identity to apply.",
   "content": [
     {
       "type": "text",
@@ -97,7 +97,7 @@ export default {
       ],
       "correctAnswerId": "c4",
       "difficulty": "easy",
-      "eli5": "The power rule says you can pull the exponent out front: $\\log(10^x) = x\\log(10)$. And $\\log_{10}(10) = 1$ because '10 to the what power gives 10? The answer is 1.' So the whole thing simplifies to just $x = 3.5$. The trap is overthinking it — some students try to compute $10^{3.5}$ and get confused. The log and the exponent with the same base just cancel.",
+      "eli5": "The power rule says you can pull the exponent out front: $\\log(10^x) = x\\log(10)$. And $\\log_{10}(10) = 1$ because '10 to the what power gives 10? The answer is 1.' So the whole thing simplifies to just $x = 3.5$. The trap is overthinking it. Some students try to compute $10^{3.5}$ and get confused. The log and the exponent with the same base just cancel.",
       "hint": "What happens when the base of the log matches the base of the exponent?",
       "steps": [
         {
@@ -145,7 +145,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "You need to 'undo' the exponential, and the natural log does exactly that — $\\ln(e^{\\text{something}}) = \\text{something}$. So take $\\ln$ of both sides to bring the exponent down. The main trap is forgetting to divide out $C_0$ first, or getting confused by the negatives. Both $\\ln(0.25)$ and $-0.03$ are negative, so they cancel and $t$ comes out positive — which makes sense because time cannot be negative.",
+      "eli5": "You need to 'undo' the exponential, and the natural log does exactly that: $\\ln(e^{\\text{something}}) = \\text{something}$. So take $\\ln$ of both sides to bring the exponent down. The main trap is forgetting to divide out $C_0$ first, or getting confused by the negatives. Both $\\ln(0.25)$ and $-0.03$ are negative, so they cancel and $t$ comes out positive, which makes sense because time cannot be negative.",
       "hint": "Divide both sides by $C_0$ first, then take the natural log to isolate $t$.",
       "steps": [
         {
@@ -197,11 +197,11 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "hard",
-      "eli5": "Three terms with the same base — combine them. Subtraction means divide, addition means multiply: $\\log_2(32/4 \\times 8) = \\log_2(64)$. Then ask: 2 to the what power gives 64? Count the doublings: 2, 4, 8, 16, 32, 64 — that is 6. The trap is trying to evaluate each log separately and then doing regular arithmetic on the results without being careful. You can do it that way too ($5 - 2 + 3 = 6$), but combining first is faster and less error-prone. The sneaky distractor is 36 — which is what you get if you multiply the separate values ($5 \\times 2 \\times 3$) instead of adding them.",
+      "eli5": "Three terms with the same base, so combine them. Subtraction means divide, addition means multiply: $\\log_2(32/4 \\times 8) = \\log_2(64)$. Then ask: 2 to the what power gives 64? Count the doublings: 2, 4, 8, 16, 32, 64. That is 6. The trap is trying to evaluate each log separately and then doing regular arithmetic on the results without being careful. You can do it that way too ($5 - 2 + 3 = 6$), but combining first is faster and less error-prone. The sneaky distractor is 36, which is what you get if you multiply the separate values ($5 \\times 2 \\times 3$) instead of adding them.",
       "hint": "Combine the logs into a single log using the product and quotient rules before evaluating.",
       "steps": [
         {
-          "text": "Combine using log rules — quotient and product:",
+          "text": "Combine using log rules (quotient and product):",
           "latex": "\\log_2(32) - \\log_2(4) + \\log_2(8) = \\log_2\\!\\left(\\frac{32 \\cdot 8}{4}\\right)"
         },
         {

@@ -3,7 +3,7 @@ export default {
   name: 'Benefit-Cost Analysis & Decision Trees',
   subtopicId: 'cost-and-economic-analysis',
   application:
-    'Public-sector projects live or die by the benefit-cost ratio. When a DOT evaluates a highway interchange, a flood control levee, or a new transit line, the deciding metric is whether public benefits outweigh government costs. The FE tests two skills: computing the conventional B/C ratio and using incremental analysis to choose between mutually exclusive alternatives (you cannot simply pick the highest individual B/C). Decision trees add probability to the picture \u2014 you compute expected values at chance nodes and pick the best path at decision nodes. Civil engineers at agencies like USACE, FHWA, and municipal public works use B/C analysis on nearly every capital project, and decision trees show up whenever outcomes depend on uncertain factors like traffic growth, flood frequency, or construction delays.',
+    'Public-sector projects live or die by the benefit-cost ratio. When a DOT evaluates a highway interchange, a flood control levee, or a new transit line, the deciding metric is whether public benefits outweigh government costs. The FE tests two skills: computing the conventional B/C ratio and using incremental analysis to choose between mutually exclusive alternatives (you cannot simply pick the highest individual B/C). Decision trees add probability to the picture: you compute expected values at chance nodes and pick the best path at decision nodes. Civil engineers at agencies like USACE, FHWA, and municipal public works use B/C analysis on nearly every capital project, and decision trees show up whenever outcomes depend on uncertain factors like traffic growth, flood frequency, or construction delays.',
   content: [
     {
       type: 'text',
@@ -45,12 +45,12 @@ export default {
     {
       type: 'callout',
       variant: 'exam',
-      body: 'The FE specifically tests whether you know that you must use incremental analysis for mutually exclusive alternatives. Picking the project with the highest individual B/C ratio is wrong \u2014 it ignores the scale of investment.',
+      body: 'The FE specifically tests whether you know that you must use incremental analysis for mutually exclusive alternatives. Picking the project with the highest individual B/C ratio is wrong because it ignores the scale of investment.',
     },
     { type: 'heading', body: 'Decision Trees' },
     {
       type: 'text',
-      body: 'A decision tree models problems with uncertain outcomes. It uses three node types: decision nodes (squares \u2014 you choose a path), chance nodes (circles \u2014 probability determines the outcome), and outcome nodes (triangles or endpoints \u2014 the final payoff or cost).',
+      body: 'A decision tree models problems with uncertain outcomes. It uses three node types: decision nodes (squares, where you choose a path), chance nodes (circles, where probability determines the outcome), and outcome nodes (triangles or endpoints, which give the final payoff or cost).',
     },
     {
       type: 'formula',
@@ -86,7 +86,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Divide annual benefits by annual costs \u2014 but annual costs include both the annualized construction cost and the yearly O&M. Use $(A/P)$ to spread the 4.5 million over 30 years at 6%, then add the 60,000 dollars of O&M. That gives you 386,700 dollars per year in costs against 420,000 dollars in benefits, so B/C = 1.09. The 0.93 choice inverts the ratio (costs/benefits instead of benefits/costs). The 7.00 choice divides benefits by O&M alone, forgetting the construction cost entirely. The 1.29 choice leaves out the O&M and only annualizes the construction cost.',
+      eli5: 'Divide annual benefits by annual costs, but annual costs include both the annualized construction cost and the yearly O&M. Use $(A/P)$ to spread the 4.5 million over 30 years at 6%, then add the 60,000 dollars of O&M. That gives you 386,700 dollars per year in costs against 420,000 dollars in benefits, so B/C = 1.09. The 0.93 choice inverts the ratio (costs/benefits instead of benefits/costs). The 7.00 choice divides benefits by O&M alone, forgetting the construction cost entirely. The 1.29 choice leaves out the O&M and only annualizes the construction cost.',
       hint: 'Annual cost has two components: the annualized initial cost using $(A/P)$ plus the yearly O&M.',
       steps: [
         {
@@ -114,7 +114,7 @@ export default {
       handbookFormula: 'B/C = \\frac{B}{C} \\geq 1',
       videoUrl: null,
       traps: [
-        'Forgetting to include O&M in the denominator \u2014 it is a cost to the government',
+        'Forgetting to include O&M in the denominator, even though it is a cost to the government',
         'Computing costs/benefits instead of benefits/costs (getting the inverse ratio)',
       ],
       diagram: null,
@@ -124,14 +124,14 @@ export default {
       statement:
         'A city is evaluating three mutually exclusive drainage improvement projects, all with 20-year lives at MARR = 8%. Project A has PW of costs = 800,000 dollars and PW of benefits = 1,040,000 dollars. Project B has PW of costs = 1,200,000 dollars and PW of benefits = 1,440,000 dollars. Project C has PW of costs = 1,800,000 dollars and PW of benefits = 2,070,000 dollars. Using incremental B/C analysis, which project should the city select?',
       choices: [
-        { id: 'c1', text: 'Project A \u2014 it has the highest B/C ratio (1.30)' },
-        { id: 'c2', text: 'Project B \u2014 the middle option balances cost and benefit' },
-        { id: 'c3', text: 'Project C \u2014 incremental analysis justifies each step up in cost' },
+        { id: 'c1', text: 'Project A, because it has the highest B/C ratio (1.30)' },
+        { id: 'c2', text: 'Project B, because the middle option balances cost and benefit' },
+        { id: 'c3', text: 'Project C, because incremental analysis justifies each step up in cost' },
         { id: 'c4', text: 'All are equally acceptable since all have B/C > 1' },
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'You might think Project A is best because its B/C ratio (1.30) is the highest \u2014 but that reasoning is wrong for mutually exclusive alternatives. The question isn\'t "which project returns the most per dollar?" but "is the extra investment in a bigger project justified?" Each time you step up in cost, the additional benefits exceed the additional costs (incremental B/C \u2265 1), so the city should go all the way to Project C. The "highest B/C ratio" choice (Project A) is the classic trap \u2014 picking by individual B/C ratio ignores the scale of the investment.',
+      eli5: 'You might think Project A is best because its B/C ratio (1.30) is the highest, but that reasoning is wrong for mutually exclusive alternatives. The question isn\'t "which project returns the most per dollar?" but "is the extra investment in a bigger project justified?" Each time you step up in cost, the additional benefits exceed the additional costs (incremental B/C \u2265 1), so the city should go all the way to Project C. The "highest B/C ratio" choice (Project A) is the classic trap, because picking by individual B/C ratio ignores the scale of the investment.',
       hint: 'Rank the alternatives by cost, then check whether each step up in cost is justified by comparing the change in benefits to the change in costs.',
       steps: [
         {
@@ -163,7 +163,7 @@ export default {
       handbookFormula: '\\Delta B/C = \\frac{B_2 - B_1}{C_2 - C_1} \\geq 1',
       videoUrl: null,
       traps: [
-        'Selecting the alternative with the highest individual B/C ratio \u2014 this is only correct for independent (not mutually exclusive) projects',
+        'Selecting the alternative with the highest individual B/C ratio, which is only correct for independent (not mutually exclusive) projects',
         'Forgetting to verify that each individual alternative has B/C \u2265 1 before doing incremental analysis',
       ],
       diagram: null,
@@ -176,11 +176,11 @@ export default {
         { id: 'c1', text: 'Widening; expected cost of 5 million dollars' },
         { id: 'c2', text: 'Widening; expected cost of 7 million dollars' },
         { id: 'c3', text: 'Widening; expected cost of 10 million dollars' },
-        { id: 'c4', text: 'Bypass; expected cost of 12 million dollars \u2014 certainty is worth paying for' },
+        { id: 'c4', text: 'Bypass; expected cost of 12 million dollars, because certainty is worth paying for' },
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'The bypass is a sure thing at 12 million dollars \u2014 no uncertainty. Widening is cheaper upfront (5 million) but has a 40% chance of needing another 5 million. To compare, compute the expected cost of widening: there\'s a 40% chance you pay 10 million total and a 60% chance you pay only 5 million. The weighted average is 7 million dollars, which is well below the 12 million dollar bypass. The "5 million" choice only counts the initial cost and ignores the probability of expansion. The "10 million" choice assumes high growth is certain (100% instead of 40%). The bypass choice treats certainty as inherently valuable, but expected value analysis does not add a premium for certainty.',
+      eli5: 'The bypass is a sure thing at 12 million dollars, with no uncertainty. Widening is cheaper upfront (5 million) but has a 40% chance of needing another 5 million. To compare, compute the expected cost of widening: there\'s a 40% chance you pay 10 million total and a 60% chance you pay only 5 million. The weighted average is 7 million dollars, which is well below the 12 million dollar bypass. The "5 million" choice only counts the initial cost and ignores the probability of expansion. The "10 million" choice assumes high growth is certain (100% instead of 40%). The bypass choice treats certainty as inherently valuable, but expected value analysis does not add a premium for certainty.',
       hint: 'At the chance node, multiply each outcome\'s total cost by its probability and sum them. Then compare to the certain cost of the bypass.',
       steps: [
         {
@@ -209,7 +209,7 @@ export default {
       videoUrl: null,
       traps: [
         'Using only the initial widening cost (5 million dollars) without accounting for the probabilistic expansion',
-        'Assuming the worst case is certain \u2014 the 40% probability of high growth does not mean it will definitely happen',
+        'Assuming the worst case is certain, when the 40% probability of high growth does not mean it will definitely happen',
       ],
       diagram: null,
     },

@@ -2,7 +2,7 @@ export default {
   id: 'pipe-flow-head-loss',
   name: 'Pipe Flow & Head Loss',
   subtopicId: 'fluid-dynamics',
-  application: 'Civil engineers size water mains, sewage force mains, and fire protection systems by computing head loss. The Darcy-Weisbach equation gives friction head loss in any pipe, while the Hazen-Williams equation is the shortcut for water-only systems. The Reynolds number tells you if flow is laminar or turbulent \u2014 which determines whether you read the Moody diagram for the friction factor or use the laminar formula directly. On the FE, expect problems that require computing head loss, finding the friction factor from the Moody diagram, or comparing flow regimes.',
+  application: 'Civil engineers size water mains, sewage force mains, and fire protection systems by computing head loss. The Darcy-Weisbach equation gives friction head loss in any pipe, while the Hazen-Williams equation is the shortcut for water-only systems. The Reynolds number tells you if flow is laminar or turbulent, which determines whether you read the Moody diagram for the friction factor or use the laminar formula directly. On the FE, expect problems that require computing head loss, finding the friction factor from the Moody diagram, or comparing flow regimes.',
   content: [
     { type: 'text', body: 'Once you have velocity from continuity and pressure from Bernoulli, the next question is: how much energy does friction steal? That\u2019s head loss.' },
     { type: 'heading', body: 'Reynolds Number' },
@@ -17,8 +17,8 @@ export default {
     { type: 'heading', body: 'Hazen-Williams (Water Only)' },
     { type: 'formula', latex: 'v = k_1 C R_H^{0.63} S^{0.54}', label: 'Hazen-Williams velocity' },
     { type: 'text', body: 'Where $k_1 = 0.849$ (SI) or $1.318$ (USCS), $C$ is the roughness coefficient, $R_H$ is hydraulic radius, and $S$ is the slope of the energy grade line. This is an empirical formula used specifically for water.' },
-    { type: 'callout', variant: 'exam', body: 'The Moody diagram gives the Darcy friction factor $f$. Some textbooks use the Fanning friction factor $f_F = f/4$. The FE handbook uses Darcy \u2014 don\u2019t divide by 4.' },
-    { type: 'callout', variant: 'warning', body: 'For laminar flow, f = 64/Re \u2014 no Moody diagram needed. For turbulent flow, you MUST use the Moody diagram or the Colebrook equation. Mixing these up is a common exam mistake.' },
+    { type: 'callout', variant: 'exam', body: 'The Moody diagram gives the Darcy friction factor $f$. Some textbooks use the Fanning friction factor $f_F = f/4$. The FE handbook uses Darcy, so don\u2019t divide by 4.' },
+    { type: 'callout', variant: 'warning', body: 'For laminar flow, f = 64/Re, with no Moody diagram needed. For turbulent flow, you MUST use the Moody diagram or the Colebrook equation. Mixing these up is a common exam mistake.' },
   ],
   illustration: null,
   problems: [
@@ -26,14 +26,14 @@ export default {
       id: 'fm-pfh-q1',
       statement: 'Water at 20\u00B0C ($\\nu = 1.003 \\times 10^{-6} \\text{ m}^2/\\text{s}$) flows through a $D = 0.1 \\text{ m}$ pipe at $v = 2 \\text{ m/s}$. What is the Reynolds number, and is the flow laminar or turbulent?',
       choices: [
-        { id: 'c1', text: '$Re = 199{,}400$ \u2014 turbulent' },
-        { id: 'c2', text: '$Re = 1{,}994$ \u2014 laminar' },
-        { id: 'c3', text: '$Re = 19{,}940$ \u2014 turbulent' },
-        { id: 'c4', text: '$Re = 199{,}400$ \u2014 laminar' },
+        { id: 'c1', text: '$Re = 199{,}400$, turbulent' },
+        { id: 'c2', text: '$Re = 1{,}994$, laminar' },
+        { id: 'c3', text: '$Re = 19{,}940$, turbulent' },
+        { id: 'c4', text: '$Re = 199{,}400$, laminar' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Re = vD/\u03BD = 2 \u00D7 0.1 / 1.003\u00D710^-6 = 0.2 / 1.003\u00D710^-6 = 199,400. Since 199,400 >> 10,000, the flow is fully turbulent. The Re = 1,994 choice uses D = 0.001 m (didn\u2019t realize D is already in meters). The Re = 19,940 choice uses D = 0.01 m. The Re = 199,400 \u2014 laminar choice gets the right Re but misidentifies the flow regime.',
+      eli5: 'Re = vD/\u03BD = 2 \u00D7 0.1 / 1.003\u00D710^-6 = 0.2 / 1.003\u00D710^-6 = 199,400. Since 199,400 >> 10,000, the flow is fully turbulent. The Re = 1,994 choice uses D = 0.001 m (didn\u2019t realize D is already in meters). The Re = 19,940 choice uses D = 0.01 m. The "Re = 199,400, laminar" choice gets the right Re but misidentifies the flow regime.',
       hint: 'Re = vD/\u03BD. Compare your result to the thresholds: < 2,100 is laminar, > 10,000 is turbulent.',
       steps: [
         { text: 'Reynolds number:', latex: 'Re = \\frac{vD}{\\nu} = \\frac{2 \\times 0.1}{1.003 \\times 10^{-6}} = \\frac{0.2}{1.003 \\times 10^{-6}}' },
@@ -44,8 +44,8 @@ export default {
       handbookFormula: 'Re = \\frac{vD}{\\nu}',
       videoUrl: null,
       traps: [
-        'Using the wrong diameter units \u2014 if given in mm, must convert to meters',
-        'Confusing laminar/turbulent thresholds \u2014 Re > 4,000 (some refs) vs. Re > 10,000 (fully turbulent)',
+        'Using the wrong diameter units: if given in mm, must convert to meters',
+        'Confusing laminar/turbulent thresholds: Re > 4,000 (some refs) vs. Re > 10,000 (fully turbulent)',
       ],
       diagram: null,
     },
@@ -61,7 +61,7 @@ export default {
       correctAnswerId: 'c2',
       difficulty: 'medium',
       eli5: 'Straight Darcy-Weisbach: h_f = f \u00D7 L/D \u00D7 v\u00B2/(2g) = 0.02 \u00D7 100/0.2 \u00D7 3\u00B2/(2\u00D79.81) = 0.02 \u00D7 500 \u00D7 0.4587 = 10 \u00D7 0.4587 = 4.587 m \u2248 4.59 m. The 9.17 m choice leaves the 2 out of the velocity head, using $v^2/g$ rather than $v^2/2g$, which doubles it. The 45.9 m choice uses L/D = 5000 (used D = 0.02). The 0.459 m choice uses L/D = 50 (used D = 2).',
-      hint: 'Plug directly into Darcy-Weisbach. Watch the units \u2014 L and D must be in the same units.',
+      hint: 'Plug directly into Darcy-Weisbach. Watch the units: L and D must be in the same units.',
       steps: [
         { text: 'Velocity head:', latex: '\\frac{v^2}{2g} = \\frac{3^2}{2 \\times 9.81} = \\frac{9}{19.62} = 0.4587 \\text{ m}' },
         { text: 'Length-to-diameter ratio:', latex: '\\frac{L}{D} = \\frac{100}{0.2} = 500' },
@@ -71,7 +71,7 @@ export default {
       handbookFormula: 'h_f = f \\frac{L}{D} \\frac{v^2}{2g}',
       videoUrl: null,
       traps: [
-        'Using the Fanning friction factor (Darcy/4) instead of the Darcy factor \u2014 answer would be 4\u00D7 too small',
+        'Using the Fanning friction factor (Darcy/4) instead of the Darcy factor, so the answer would be 4\u00D7 too small',
         'Miscomputing L/D by using inconsistent units for pipe length and diameter',
       ],
       diagram: null,
@@ -99,7 +99,7 @@ export default {
       handbookFormula: 'h_{f,\\text{fitting}} = C \\frac{v^2}{2g}',
       videoUrl: null,
       traps: [
-        'Forgetting to include minor losses \u2014 only reporting the friction head loss',
+        'Forgetting to include minor losses and only reporting the friction head loss',
         'Counting the elbows only once instead of twice',
         'Using the Fanning friction factor when the problem gives the Darcy factor',
       ],

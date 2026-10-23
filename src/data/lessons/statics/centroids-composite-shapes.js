@@ -37,12 +37,12 @@ export default {
     {
       type: 'callout',
       variant: 'tip',
-      body: 'For shapes with holes, treat the hole as a piece with negative area. The formula still works \u2014 the hole\u2019s contribution subtracts from both the numerator and the denominator.',
+      body: 'For shapes with holes, treat the hole as a piece with negative area. The formula still works, because the hole\u2019s contribution subtracts from both the numerator and the denominator.',
     },
     {
       type: 'callout',
       variant: 'exam',
-      body: 'The handbook (pp. 98\u2013100) provides centroid locations for triangles, rectangles, circles, semicircles, and parabolic segments. You do not need to integrate \u2014 just look up the centroid and multiply by the area.',
+      body: 'The handbook (pp. 98\u2013100) provides centroid locations for triangles, rectangles, circles, semicircles, and parabolic segments. You do not need to integrate. Just look up the centroid and multiply by the area.',
     },
     {
       type: 'callout',
@@ -117,7 +117,7 @@ export default {
           latex: '\\bar{y} = \\frac{60{,}000 \\times 100 - 2{,}827 \\times 150}{60{,}000 - 2{,}827} = \\frac{6{,}000{,}000 - 424{,}050}{57{,}173} = \\frac{5{,}575{,}950}{57{,}173} = 97.5 \\text{ mm}',
         },
         {
-          text: 'The hole is above the plate\u2019s center, so removing it shifts the centroid downward \u2014 consistent with our answer being less than 100 mm.',
+          text: 'The hole is above the plate\u2019s center, so removing it shifts the centroid downward, consistent with our answer being less than 100 mm.',
           latex: null,
         },
       ],
@@ -126,7 +126,7 @@ export default {
       videoUrl: null,
       traps: [
         'Ignoring the hole and reporting the centroid of the full plate (100 mm)',
-        'Adding the hole contribution instead of subtracting it \u2014 removing material above the centroid shifts it down, not up',
+        'Adding the hole contribution instead of subtracting it, when removing material above the centroid shifts it down, not up',
       ],
       diagram: { component: 'PlateWithHole', props: { plateW: 300, plateH: 200, holeDia: 60, holeX: 150, holeY: 150 } },
     },
@@ -171,7 +171,7 @@ export default {
       videoUrl: null,
       traps: [
         'Using the geometric midpoint (100 mm) instead of the area-weighted centroid',
-        'Forgetting one of the three pieces \u2014 especially the web, which is easy to overlook',
+        'Forgetting one of the three pieces, especially the web, which is easy to overlook',
       ],
       diagram: { component: 'BuiltUpSection', props: { botW: 200, botH: 30, webW: 30, webH: 140, topW: 150, topH: 30 } },
     },

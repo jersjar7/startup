@@ -41,7 +41,7 @@ export default {
       handbookFormula: 'A = \\frac{1}{2}|\\sum(x_i y_{i+1} - x_{i+1} y_i)|',
       videoUrl: null,
       traps: [
-        'Forgetting to divide by 2 \u2014 gives double the area',
+        'Forgetting to divide by 2, which gives double the area',
         'Getting the cross-product order wrong (x_i \u00D7 y_{i+1} \u2013 x_{i+1} \u00D7 y_i, not the reverse)',
       ],
       diagram: { component: 'CoordinatePolygon', props: { vertices: [{ x: 0, y: 0, label: 'A' }, { x: 6, y: 0, label: 'B' }, { x: 3, y: 4, label: 'C' }] } },
@@ -71,7 +71,7 @@ export default {
       handbookFormula: 'A = \\frac{1}{2}|\\sum(x_i y_{i+1} - x_{i+1} y_i)|',
       videoUrl: null,
       traps: [
-        'Forgetting to close the polygon \u2014 must pair last vertex with first vertex',
+        'Forgetting to close the polygon, since you must pair last vertex with first vertex',
         'Forgetting to divide by 2',
         'Getting the subtraction order wrong in the cross products',
       ],

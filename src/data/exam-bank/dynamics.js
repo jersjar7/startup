@@ -1,5 +1,5 @@
 // Exam bank: dynamics
-// Auto-extracted from lesson files — 24 questions
+// Auto-extracted from lesson files (24 questions)
 
 const PROBLEMS = [
   {
@@ -26,11 +26,11 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'You have initial velocity, final velocity, and distance — but no time. That combination screams v-squared equation. Plug in and solve for a. The 0.10 m/s^2 choice comes from dividing the velocity difference by the distance (20/200). The 4.0 m/s^2 choice comes from dropping the factor of 2 and computing (v^2 - v_0^2)/s = 800/200.',
+    eli5: 'You have initial velocity, final velocity, and distance, but no time. That combination screams v-squared equation. Plug in and solve for a. The 0.10 m/s^2 choice comes from dividing the velocity difference by the distance (20/200). The 4.0 m/s^2 choice comes from dropping the factor of 2 and computing (v^2 - v_0^2)/s = 800/200.',
     hint: 'Which kinematic equation connects two velocities and a distance without needing time?',
     steps: [
       {
-        text: 'No time given — use the v-squared equation:',
+        text: 'No time given, so use the v-squared equation:',
         latex: 'v^2 = v_0^2 + 2a(s - s_0)'
       },
       {
@@ -77,7 +77,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'For range, you can either use the range formula $R = v_0^2 \\sin(2\\theta) / g$, or work it from first principles: find time of flight from the vertical equation, then multiply by horizontal velocity. At 45 degrees, $\\sin(90°) = 1$, so $R = v_0^2 / g$. The 115.3 m choice comes from using $v_0 \\sin 45°$ instead of $v_0^2$. The 326.1 m choice comes from doubling the correct answer — maybe computing total distance incorrectly.',
+    eli5: 'For range, you can either use the range formula $R = v_0^2 \\sin(2\\theta) / g$, or work it from first principles: find time of flight from the vertical equation, then multiply by horizontal velocity. At 45 degrees, $\\sin(90°) = 1$, so $R = v_0^2 / g$. The 115.3 m choice comes from using $v_0 \\sin 45°$ instead of $v_0^2$. The 326.1 m choice comes from doubling the correct answer, maybe from computing total distance incorrectly.',
     hint: 'For a symmetric projectile (launched from and landing at the same height), use the range formula or find the total flight time from the vertical motion.',
     steps: [
       {
@@ -134,7 +134,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Constant speed means the tangential acceleration is zero — the particle is not speeding up or slowing down. But velocity is a vector, and on a curved path the direction is always changing. That direction change requires a centripetal (normal) acceleration pointing toward the center of curvature. So the acceleration is purely normal. This is the concept behind uniform circular motion.',
+    eli5: 'Constant speed means the tangential acceleration is zero. The particle is not speeding up or slowing down. But velocity is a vector, and on a curved path the direction is always changing. That direction change requires a centripetal (normal) acceleration pointing toward the center of curvature. So the acceleration is purely normal. This is the concept behind uniform circular motion.',
     hint: 'Acceleration is a vector. If speed is constant but direction changes, is there still acceleration?',
     steps: [
       {
@@ -154,7 +154,7 @@ const PROBLEMS = [
     handbookFormula: 'a_n = \\frac{v^2}{\\rho}',
     videoUrl: null,
     traps: [
-      'Confusing speed (scalar) with velocity (vector) — constant speed does not mean zero acceleration',
+      'Confusing speed (scalar) with velocity (vector), since constant speed does not mean zero acceleration',
       'Thinking zero tangential acceleration means zero total acceleration'
     ],
     diagram: null,
@@ -185,7 +185,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'This is a two-step problem. First, find how long it takes to fall 45 m using the vertical equation (no initial vertical velocity since the throw is horizontal). Then multiply that time by the horizontal speed. The horizontal and vertical motions are independent — that is the key concept. The 18.2 m option uses half the correct fall time. The 54.5 m option multiplies the height by the horizontal speed directly.',
+    eli5: 'This is a two-step problem. First, find how long it takes to fall 45 m using the vertical equation (no initial vertical velocity since the throw is horizontal). Then multiply that time by the horizontal speed. The horizontal and vertical motions are independent, and that is the key concept. The 18.2 m option uses half the correct fall time. The 54.5 m option multiplies the height by the horizontal speed directly.',
     hint: 'The ball has no initial vertical velocity. Find the fall time from the vertical motion, then multiply by the horizontal speed.',
     steps: [
       {
@@ -201,7 +201,7 @@ const PROBLEMS = [
     handbookFormula: 'x = v_0 \\cos\\theta \\cdot t + x_0',
     videoUrl: null,
     traps: [
-      'Trying to combine horizontal and vertical into one equation — they must be solved independently',
+      'Trying to combine horizontal and vertical into one equation, when they must be solved independently',
       'Forgetting that the initial vertical velocity is zero for a horizontal throw'
     ],
     diagram: {
@@ -484,11 +484,11 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The friction acts FORWARD on the box — it is the only horizontal force on the box, and it must act in the direction of the box\'s acceleration (forward with the truck). Many students think friction always opposes motion, but friction opposes RELATIVE motion. Without friction, the box would slide backward relative to the truck, so friction acts forward to prevent that.',
-    hint: 'Think about what would happen without friction — which way would the box slide relative to the truck?',
+    eli5: 'The friction acts FORWARD on the box. It is the only horizontal force on the box, and it must act in the direction of the box\'s acceleration (forward with the truck). Many students think friction always opposes motion, but friction opposes RELATIVE motion. Without friction, the box would slide backward relative to the truck, so friction acts forward to prevent that.',
+    hint: 'Think about what would happen without friction. Which way would the box slide relative to the truck?',
     steps: [
       {
-        text: 'Without friction, the box would stay at rest while the truck moves forward — the box slides backward relative to the truck.',
+        text: 'Without friction, the box would stay at rest while the truck moves forward, so the box slides backward relative to the truck.',
         latex: null
       },
       {
@@ -504,7 +504,7 @@ const PROBLEMS = [
     handbookFormula: 'F = ma',
     videoUrl: null,
     traps: [
-      'Thinking friction always opposes the direction of motion — it opposes RELATIVE motion',
+      'Thinking friction always opposes the direction of motion, when it opposes RELATIVE motion',
       'Forgetting that static friction is what accelerates objects'
     ],
     diagram: null,
@@ -560,7 +560,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Forgetting that the vertical component of tension reduces the normal force',
-      'Using mg as the normal force directly — only valid when the pull is perfectly horizontal'
+      'Using mg as the normal force directly, which is only valid when the pull is perfectly horizontal'
     ],
     diagram: {
       component: 'CrateCablePull',
@@ -658,7 +658,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'All potential energy converts to kinetic energy: $mgh = \\tfrac{1}{2}mv^2$. Mass cancels, so $v = \\sqrt{2gh}$. The answer does not depend on the mass at all. The 196.2 option is $gh$ (forgetting the factor of 2). The 392.4 option is $2gh$, which equals $v^2$ — taking the square root gives the correct answer, so it is $v^2$ reported instead of $v$.',
+    eli5: 'All potential energy converts to kinetic energy: $mgh = \\tfrac{1}{2}mv^2$. Mass cancels, so $v = \\sqrt{2gh}$. The answer does not depend on the mass at all. The 196.2 option is $gh$ (forgetting the factor of 2). The 392.4 option is $2gh$, which equals $v^2$. Taking the square root gives the correct answer, so it is $v^2$ reported instead of $v$.',
     hint: 'With no air resistance, all potential energy converts to kinetic energy. Mass cancels out.',
     steps: [
       {
@@ -675,7 +675,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Reporting $2gh$ as the speed instead of taking the square root',
-      'Thinking mass affects the answer — it cancels in frictionless free fall'
+      'Thinking mass affects the answer, but it cancels in frictionless free fall'
     ],
     diagram: null,
     lessonId: 'work-energy-power',
@@ -772,7 +772,7 @@ const PROBLEMS = [
     handbookFormula: 'T_1 + V_1 = T_2 + V_2',
     videoUrl: null,
     traps: [
-      'Thinking more potential energy means more speed — it does not, because more mass also means more inertia',
+      'Thinking more potential energy means more speed. It does not, because more mass also means more inertia',
       'Confusing the total kinetic energy (which IS different) with speed (which is the same)'
     ],
     diagram: null,
@@ -820,7 +820,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Forgetting to take the square root when solving for x',
-      'Using the wrong energy equation — this is elastic PE, not gravitational PE'
+      'Using the wrong energy equation, since this is elastic PE, not gravitational PE'
     ],
     diagram: {
       component: 'BlockSpringCompress',

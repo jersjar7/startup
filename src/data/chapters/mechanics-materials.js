@@ -2,11 +2,11 @@ export default {
   context: 'This chapter tests internal forces, stress-strain analysis, deformations, and stability of structural members.',
   subtopics: [
     { id: 'stress-strain-fundamentals', name: 'Stress, Strain & Material Behavior',
-      application: 'As a civil engineer, you compute stresses and deformations to check whether structural members are safe and serviceable \u2014 axial stress in columns, torsional shear in shafts, and material properties from stress-strain curves. These fundamentals underpin every structural calculation.' },
+      application: 'As a civil engineer, you compute stresses and deformations to check whether structural members are safe and serviceable: axial stress in columns, torsional shear in shafts, and material properties from stress-strain curves. These fundamentals underpin every structural calculation.' },
     { id: 'beams', name: 'Beams',
       application: 'As a civil engineer, you design beams by constructing shear and moment diagrams, computing bending and shear stresses from internal forces, and checking deflections against serviceability limits. From floor joists to bridge girders, beam analysis is the most frequently tested mechanics topic.' },
     { id: 'combined-loading-stability', name: 'Combined Loading & Stability',
-      application: 'As a civil engineer, real members experience combined stresses \u2014 axial plus bending, shear plus torsion. You find principal stresses and maximum shear using Mohr\'s circle, and check slender columns against Euler buckling to prevent sudden stability failures.' },
+      application: 'As a civil engineer, real members experience combined stresses: axial plus bending, shear plus torsion. You find principal stresses and maximum shear using Mohr\'s circle, and check slender columns against Euler buckling to prevent sudden stability failures.' },
   ],
   formulas: [
     { latex: '\\sigma = \\frac{P}{A}', label: 'Axial Stress', page: 'p. 130' },
@@ -21,12 +21,12 @@ export default {
     { latex: 'M_p = F_y Z', label: 'Plastic Moment (Z = plastic section modulus)', page: 'p. 281' },
   ],
   traps: [
-    'Using diameter instead of radius for c in \u03C3 = Mc/I and \u03C4 = Tc/J \u2014 c is the distance from the neutral axis.',
-    'Forgetting to use the effective length factor K in Euler\'s buckling formula \u2014 K depends on end conditions.',
-    'Sign errors in shear/moment diagrams \u2014 remember V = dM/dx and the relationship between loading and shear.',
+    'Using diameter instead of radius for c in \u03C3 = Mc/I and \u03C4 = Tc/J, since c is the distance from the neutral axis.',
+    'Forgetting to use the effective length factor K in Euler\'s buckling formula, since K depends on end conditions.',
+    'Sign errors in shear/moment diagrams. Remember V = dM/dx and the relationship between loading and shear.',
     'Using I (area moment) instead of J (polar moment) for torsion problems, or vice versa.',
-    'Not checking units \u2014 mixing MPa and kPa, or mm and m, is the #1 source of wrong answers.',
+    'Not checking units. Mixing MPa and kPa, or mm and m, is the #1 source of wrong answers.',
     'For a composite section, multiply the stiffer material width by n = E\u2081/E\u2082; the stiffer material carries n times the stress.',
-    'Use the PLASTIC section modulus Z for Mp = Fy\u00b7Z \u2014 using the elastic S gives only the smaller yield moment.',
+    'Use the PLASTIC section modulus Z for Mp = Fy\u00b7Z, because using the elastic S gives only the smaller yield moment.',
   ],
 };

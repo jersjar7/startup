@@ -12,7 +12,7 @@ export default {
     { type: 'formula', latex: 'D_r = \\frac{e_{max} - e}{e_{max} - e_{min}} \\times 100', label: 'Density state of sands and gravels' },
     { type: 'text', body: 'For clean sands and gravels, relative density (how the in-place void ratio compares to the loosest and densest states) describes the compaction state better than relative compaction.' },
     { type: 'heading', body: 'Soil Improvement & Stabilization' },
-    { type: 'text', body: 'When compaction alone is insufficient, soils are stabilized: mechanically (blending gradations, densification), chemically (LIME is effective in plastic clays — it reduces plasticity and swelling; CEMENT works well in granular soils), or with geosynthetics for reinforcement, separation, and drainage. Proper drainage removes water that would otherwise weaken the soil.' },
+    { type: 'text', body: 'When compaction alone is insufficient, soils are stabilized: mechanically (blending gradations, densification), chemically (LIME is effective in plastic clays because it reduces plasticity and swelling; CEMENT works well in granular soils), or with geosynthetics for reinforcement, separation, and drainage. Proper drainage removes water that would otherwise weaken the soil.' },
     { type: 'callout', variant: 'tip', body: 'Match the chemical stabilizer to the soil: lime for high-plasticity clays (it reduces the plasticity index), cement for granular and low-plasticity soils.' },
     { type: 'callout', variant: 'warning', body: 'Relative compaction (vs. a Proctor maximum) and relative density (vs. loosest/densest void ratios) are different measures. Relative density applies to cohesionless soils; do not mix the two formulas.' },
   ],
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Dr = (emax − e)/(emax − emin) × 100 = (0.90 − 0.60)/(0.90 − 0.40) × 100 = 0.30/0.50 × 100 = 60% — a medium-dense sand. The 40% choice uses (e − emin) in the numerator. The 67% choice uses (e − emin)/(emax − e). The 33% choice inverts the numerator difference.',
+      eli5: 'Dr = (emax − e)/(emax − emin) × 100 = (0.90 − 0.60)/(0.90 − 0.40) × 100 = 0.30/0.50 × 100 = 60%, a medium-dense sand. The 40% choice uses (e − emin) in the numerator. The 67% choice uses (e − emin)/(emax − e). The 33% choice inverts the numerator difference.',
       hint: 'Dr = (emax − e)/(emax − emin) × 100.',
       steps: [
         { text: 'Apply the relative-density formula:', latex: 'D_r = \\frac{e_{max} - e}{e_{max} - e_{min}} \\times 100 = \\frac{0.90 - 0.60}{0.90 - 0.40} \\times 100' },
@@ -92,7 +92,7 @@ export default {
       handbookFormula: null,
       videoUrl: null,
       traps: [
-        'Defaulting to cement for every soil — it suits granular, not plastic clay',
+        'Defaulting to cement for every soil, when it suits granular, not plastic clay',
         'Assuming added water improves a swelling clay',
       ],
       diagram: null,

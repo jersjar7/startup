@@ -241,7 +241,7 @@ const PROBLEMS = [
     handbookFormula: 'Q = CIA',
     videoUrl: null,
     traps: [
-      'Multiplying by $C$ instead of dividing — the coefficient belongs in the denominator',
+      'Multiplying by $C$ instead of dividing, when the coefficient belongs in the denominator',
       'Dropping the runoff coefficient and computing $Q/I$',
     ],
     diagram: null,
@@ -301,7 +301,7 @@ const PROBLEMS = [
     handbookFormula: 'd = \\frac{V}{A}',
     videoUrl: null,
     traps: [
-      'Reporting 0.25 ft as inches — you must multiply by 12',
+      'Reporting 0.25 ft as inches instead of multiplying by 12',
       'Applying the 12 in./ft conversion twice',
     ],
     diagram: null,
@@ -382,7 +382,7 @@ const PROBLEMS = [
     correctAnswerId: 'c4',
     difficulty: 'medium',
     eli5: 'BOD remaining is the organic matter not yet decomposed: $L_t = L_0 e^{-kt} = 320\\,e^{-0.18 \\times 4} = 320\\,e^{-0.72} = 320(0.487) = 155.8$ mg/L. Note the BOD exerted ($L_0(1 - e^{-kt}) = 164.2$) plus the remaining ($155.8$) sum to the ultimate $320$. The 164.2 mg/L choice gives the BOD exerted rather than remaining. The 57.6 mg/L choice applies $kt$ as a percentage ($0.18 \\times 4 = 0.72$, then $320 \\times 0.18 = 57.6$), a formula confusion. The 320 mg/L choice reports the ultimate BOD, as if no decay had occurred.',
-    hint: 'BOD remaining is $L_t = L_0 e^{-kt}$ — exponential decay, not the exerted form $L_0(1 - e^{-kt})$.',
+    hint: 'BOD remaining is $L_t = L_0 e^{-kt}$, which is exponential decay, not the exerted form $L_0(1 - e^{-kt})$.',
     steps: [
       { text: 'BOD remaining (decay form):', latex: 'L_t = L_0 e^{-kt} = 320\\,e^{-0.18 \\times 4}' },
       { text: 'Evaluate the exponent:', latex: 'e^{-0.72} = 0.487' },

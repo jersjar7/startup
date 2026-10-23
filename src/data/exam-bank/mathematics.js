@@ -1,5 +1,5 @@
 // Exam bank: mathematics
-// Auto-extracted from lesson files — 53 questions
+// Auto-extracted from lesson files (53 questions)
 
 const PROBLEMS = [
   {
@@ -173,7 +173,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The discriminant tells you everything about the nature of the roots. Positive means two distinct real roots, zero means one repeated root, negative means no real roots (complex conjugate pair). A negative discriminant means $\\sqrt{\\Delta}$ involves the square root of a negative number in the quadratic formula, which has no real solution. The equation can still be solved with complex numbers, so the choice claiming the equation cannot be solved is wrong — it is solvable, just not over the reals.',
+    eli5: 'The discriminant tells you everything about the nature of the roots. Positive means two distinct real roots, zero means one repeated root, negative means no real roots (complex conjugate pair). A negative discriminant means $\\sqrt{\\Delta}$ involves the square root of a negative number in the quadratic formula, which has no real solution. The equation can still be solved with complex numbers, so the choice claiming the equation cannot be solved is wrong, because it is solvable, just not over the reals.',
     hint: 'Recall what the sign of the discriminant tells you about the number and type of roots.',
     steps: [
       {
@@ -185,7 +185,7 @@ const PROBLEMS = [
         latex: '\\sqrt{-16} = 4i'
       },
       {
-        text: 'The quadratic formula produces complex conjugate roots — no real solutions exist.',
+        text: 'The quadratic formula produces complex conjugate roots, so no real solutions exist.',
         latex: null
       }
     ],
@@ -193,7 +193,7 @@ const PROBLEMS = [
     handbookFormula: 'x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}',
     videoUrl: null,
     traps: [
-      'Confusing "no real roots" with "no solution at all" — complex roots still exist',
+      'Confusing "no real roots" with "no solution at all", since complex roots still exist',
       'Thinking a negative discriminant means one root'
     ],
     diagram: null,
@@ -239,7 +239,7 @@ const PROBLEMS = [
     handbookPage: 'p. 36',
     handbookFormula: '\\log_b(x) = c \\iff b^c = x',
     videoUrl: null,
-    traps: ['Confusing powers of 3 — 3^3 = 27, not 81', 'Dividing 81 by 3 repeatedly but losing count'],
+    traps: ['Confusing powers of 3 (3^3 = 27, not 81)', 'Dividing 81 by 3 repeatedly but losing count'],
     diagram: null,
     lessonId: 'logarithms',
     chapterId: 'mathematics'
@@ -315,7 +315,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Take the natural log of both sides to bring the exponent down: $\\ln(2) = 0.06t$. Then divide: $t = \\ln(2) / 0.06 = 0.6931 / 0.06 = 11.6$ years. The main mistake is using $\\log_{10}(2)$ instead of $\\ln(2)$ — those are different numbers. Since the base of the exponent is $e$, you need the natural log to cancel it.',
+    eli5: 'Take the natural log of both sides to bring the exponent down: $\\ln(2) = 0.06t$. Then divide: $t = \\ln(2) / 0.06 = 0.6931 / 0.06 = 11.6$ years. The main mistake is using $\\log_{10}(2)$ instead of $\\ln(2)$, and those are different numbers. Since the base of the exponent is $e$, you need the natural log to cancel it.',
     hint: 'Take $\\ln$ of both sides to undo the exponential, then isolate $t$.',
     steps: [
       {
@@ -362,7 +362,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The power rule says you can pull an exponent out as a coefficient: $\\log(x^c) = c \\cdot \\log x$. The other three choices are the most common log mistakes students make. There is NO log rule for sums ($x + y$) or differences ($x - y$) inside a log. And the product rule says $\\log(xy) = \\log x + \\log y$ (addition), not multiplication. If you remember only one thing: logs turn multiplication into addition and powers into multiplication — never sums into anything.',
+    eli5: 'The power rule says you can pull an exponent out as a coefficient: $\\log(x^c) = c \\cdot \\log x$. The other three choices are the most common log mistakes students make. There is NO log rule for sums ($x + y$) or differences ($x - y$) inside a log. And the product rule says $\\log(xy) = \\log x + \\log y$ (addition), not multiplication. If you remember only one thing: logs turn multiplication into addition and powers into multiplication, never sums into anything.',
     hint: 'Only products, quotients, and powers have log identities. Sums and differences inside a log cannot be split.',
     steps: [
       {
@@ -370,11 +370,11 @@ const PROBLEMS = [
         latex: '\\log(x^c) = c \\cdot \\log x'
       },
       {
-        text: 'The sum choice is wrong: $\\log(x + y) \\neq \\log x + \\log y$ — no identity for sums.',
+        text: 'The sum choice is wrong: $\\log(x + y) \\neq \\log x + \\log y$, since there is no identity for sums.',
         latex: null
       },
       {
-        text: 'The difference choice is wrong: $\\log(x - y) \\neq \\log x - \\log y$ — no identity for differences.',
+        text: 'The difference choice is wrong: $\\log(x - y) \\neq \\log x - \\log y$, since there is no identity for differences.',
         latex: null
       },
       {
@@ -386,8 +386,8 @@ const PROBLEMS = [
     handbookFormula: '\\log(x^c) = c\\,\\log x',
     videoUrl: null,
     traps: [
-      'Confusing the product rule — log(xy) = log x + log y, not log x times log y',
-      'Thinking log(x + y) can be split — there is no identity for sums inside a log'
+      'Confusing the product rule: log(xy) = log x + log y, not log x times log y',
+      'Thinking log(x + y) can be split, when there is no identity for sums inside a log'
     ],
     diagram: null,
     lessonId: 'logarithms',
@@ -486,7 +486,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Using tangent instead of sine',
-      'Using cos instead of sin — that gives the ground distance, not the wire length'
+      'Using cos instead of sin, which gives the ground distance, not the wire length'
     ],
     diagram: null,
     lessonId: 'right-triangle-trig',
@@ -516,7 +516,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'You know the opposite (rise = 1.5 m) and the adjacent (run = 12 m). That is tangent. Take the inverse tangent of $1.5/12 = 0.125$ to get $7.1°$. The $0.125°$ choice is the ratio itself without taking the inverse trig function. The $82.9°$ choice is $90°$ minus the correct answer — that would be the angle from the vertical, not the horizontal.',
+    eli5: 'You know the opposite (rise = 1.5 m) and the adjacent (run = 12 m). That is tangent. Take the inverse tangent of $1.5/12 = 0.125$ to get $7.1°$. The $0.125°$ choice is the ratio itself without taking the inverse trig function. The $82.9°$ choice is $90°$ minus the correct answer, which would be the angle from the vertical, not the horizontal.',
     hint: 'You have the rise and the run. Which trig function relates opposite to adjacent?',
     steps: [
       {
@@ -554,7 +554,7 @@ const PROBLEMS = [
       },
       {
         id: 'c2',
-        text: 'The sin and cos are swapped — $F_x$ should use cos and $F_y$ should use sin'
+        text: 'The sin and cos are swapped, so $F_x$ should use cos and $F_y$ should use sin'
       },
       {
         id: 'c3',
@@ -623,7 +623,7 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'easy',
     eli5: 'You have a complete side-angle pair ($p$ and $P$) plus another angle ($Q$), so Law of Sines is your move. Set up the proportion and cross-multiply to solve for $q$. The bigger angle ($65°$ vs $50°$) should give a bigger side, so $q > 24$ is a quick sanity check. If your answer came out smaller, you probably flipped the fraction.',
-    hint: 'You have a side-angle pair — which law works directly with that setup?',
+    hint: 'You have a side-angle pair. Which law works directly with that setup?',
     steps: [
       {
         text: 'Set up Law of Sines:',
@@ -673,8 +673,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Two sides and the angle between them (SAS) means Law of Cosines. Plug in, compute each piece, then take the square root. The included angle is less than $90°$, so $\\cos 48°$ is positive and the correction term subtracts from $a^2 + b^2$. If the angle were obtuse, $\\cos C$ would be negative and you would actually add — that is a subtlety to watch for.',
-    hint: 'Two sides with their included angle — which formula generalizes the Pythagorean theorem?',
+    eli5: 'Two sides and the angle between them (SAS) means Law of Cosines. Plug in, compute each piece, then take the square root. The included angle is less than $90°$, so $\\cos 48°$ is positive and the correction term subtracts from $a^2 + b^2$. If the angle were obtuse, $\\cos C$ would be negative and you would actually add, which is a subtlety to watch for.',
+    hint: 'Two sides with their included angle. Which formula generalizes the Pythagorean theorem?',
     steps: [
       {
         text: 'Apply Law of Cosines:',
@@ -728,7 +728,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'All three sides, no angles — SSS situation. Rearrange the Law of Cosines to isolate $\\cos A$. Plug in the sides, do the arithmetic, and take inverse cosine. The numerator here comes out positive, so the angle is acute (less than $90°$). If it had come out negative, the angle would be obtuse. Always let the sign of the cosine tell you the story.',
+    eli5: 'All three sides, no angles, so it is an SSS situation. Rearrange the Law of Cosines to isolate $\\cos A$. Plug in the sides, do the arithmetic, and take inverse cosine. The numerator here comes out positive, so the angle is acute (less than $90°$). If it had come out negative, the angle would be obtuse. Always let the sign of the cosine tell you the story.',
     hint: 'Rearrange the Law of Cosines to solve for the angle: $\\cos A = \\frac{b^2 + c^2 - a^2}{2bc}$.',
     steps: [
       {
@@ -748,7 +748,7 @@ const PROBLEMS = [
     handbookFormula: '\\cos A = \\frac{b^2 + c^2 - a^2}{2bc}',
     videoUrl: null,
     traps: [
-      'Mixing up which side to subtract in the numerator — always subtract the side opposite the angle you want',
+      'Mixing up which side to subtract in the numerator. Always subtract the side opposite the angle you want',
       'Squaring side lengths incorrectly (7.5² = 56.25, not 52.5)'
     ],
     diagram: null,
@@ -779,7 +779,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'With ASA you know two angles — and since the angles in a triangle sum to 180°, the third angle is free. Now you have a complete side-angle pair, which is exactly what the Law of Sines needs. The Law of Cosines requires SAS or SSS, and the Pythagorean theorem only works for right triangles. The decision tree is simple: if you can form a side-angle pair, use Sines; if you have SAS or SSS, use Cosines.',
+    eli5: 'With ASA you know two angles, and since the angles in a triangle sum to 180°, the third angle is free. Now you have a complete side-angle pair, which is exactly what the Law of Sines needs. The Law of Cosines requires SAS or SSS, and the Pythagorean theorem only works for right triangles. The decision tree is simple: if you can form a side-angle pair, use Sines; if you have SAS or SSS, use Cosines.',
     hint: 'The three angles of a triangle sum to 180°. Once you know all three angles, which law uses a side-angle pair?',
     steps: [
       {
@@ -830,7 +830,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: '150° is in the second quadrant. Its reference angle is $180° - 150° = 30°$. Sine of 30° is $1/2$. In Q2, sine is positive (y-coordinates are positive above the x-axis), so $\\sin 150° = +1/2$. The trap is picking the negative version — sine is only negative in Q3 and Q4. Also don\'t confuse $\\sin 30°$ with $\\cos 30°$ which is $\\sqrt{3}/2$.',
+    eli5: '150° is in the second quadrant. Its reference angle is $180° - 150° = 30°$. Sine of 30° is $1/2$. In Q2, sine is positive (y-coordinates are positive above the x-axis), so $\\sin 150° = +1/2$. The trap is picking the negative version, since sine is only negative in Q3 and Q4. Also don\'t confuse $\\sin 30°$ with $\\cos 30°$ which is $\\sqrt{3}/2$.',
     hint: 'Find the reference angle for 150°, then determine the sign from the quadrant.',
     steps: [
       {
@@ -846,7 +846,7 @@ const PROBLEMS = [
     handbookFormula: '\\sin 30° = \\frac{1}{2}',
     videoUrl: null,
     traps: [
-      'Applying a negative sign — sine is positive in Q2',
+      'Applying a negative sign, when sine is positive in Q2',
       'Using $\\cos 30° = \\sqrt{3}/2$ instead of $\\sin 30° = 1/2$'
     ],
     diagram: null,
@@ -877,7 +877,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Start with the Pythagorean identity: $\\sin^2\\theta = 1 - \\cos^2\\theta = 1 - 49/625 = 576/625$. Square root gives $\\pm 24/25$. Now check the quadrant: Q4 means y is negative, so sine is negative. The answer is $-24/25$ (the $-\\frac{24}{25}$ choice). The $\\frac{24}{25}$ choice is the positive root — that\'s Q1, not Q4. Always let the quadrant tell you the sign.',
+    eli5: 'Start with the Pythagorean identity: $\\sin^2\\theta = 1 - \\cos^2\\theta = 1 - 49/625 = 576/625$. Square root gives $\\pm 24/25$. Now check the quadrant: Q4 means y is negative, so sine is negative. The answer is $-24/25$ (the $-\\frac{24}{25}$ choice). The $\\frac{24}{25}$ choice is the positive root, but that\'s Q1, not Q4. Always let the quadrant tell you the sign.',
     hint: 'Use $\\sin^2\\theta + \\cos^2\\theta = 1$, then pick the sign from the quadrant.',
     steps: [
       {
@@ -928,7 +928,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Use the double-angle formula $\\cos 2\\theta = 2\\cos^2\\theta - 1$. Plug in: $2(9/25) - 1 = 18/25 - 25/25 = -7/25$. The choice $\\frac{6}{5}$ is wrong because it just doubles cos — that\'s not how double-angle works. The choice $\\frac{9}{25}$ uses $\\cos^2\\theta$ without the doubling and subtraction. The negative result is totally fine — it means $2\\theta$ lands in Q2 or Q3 where cosine is negative.',
+    eli5: 'Use the double-angle formula $\\cos 2\\theta = 2\\cos^2\\theta - 1$. Plug in: $2(9/25) - 1 = 18/25 - 25/25 = -7/25$. The choice $\\frac{6}{5}$ is wrong because it just doubles cos, and that\'s not how double-angle works. The choice $\\frac{9}{25}$ uses $\\cos^2\\theta$ without the doubling and subtraction. The negative result is totally fine. It means $2\\theta$ lands in Q2 or Q3 where cosine is negative.',
     hint: 'The double-angle formula $\\cos 2\\theta = 2\\cos^2\\theta - 1$ only needs $\\cos\\theta$.',
     steps: [
       {
@@ -975,7 +975,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Tangent is sine divided by cosine. It\'s positive when both have the same sign. In Q1, both sin and cos are positive — positive/positive = positive. In Q3, both are negative — negative/negative = positive. In Q2 and Q4, they have opposite signs, so tangent is negative. The mnemonic \'All Students Take Calculus\' tells you which trig functions are positive in each quadrant: All (Q1), Sine (Q2), Tangent (Q3), Cosine (Q4).',
+    eli5: 'Tangent is sine divided by cosine. It\'s positive when both have the same sign. In Q1, both sin and cos are positive, so positive/positive = positive. In Q3, both are negative, so negative/negative = positive. In Q2 and Q4, they have opposite signs, so tangent is negative. The mnemonic \'All Students Take Calculus\' tells you which trig functions are positive in each quadrant: All (Q1), Sine (Q2), Tangent (Q3), Cosine (Q4).',
     hint: 'Tangent = sin/cos. In which quadrants do sine and cosine share the same sign?',
     steps: [
       {
@@ -983,11 +983,11 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'Q1: sin > 0, cos > 0 — tan > 0.',
+        text: 'Q1: sin > 0, cos > 0, so tan > 0.',
         latex: null
       },
       {
-        text: 'Q3: sin < 0, cos < 0 — tan > 0.',
+        text: 'Q3: sin < 0, cos < 0, so tan > 0.',
         latex: null
       },
       {
@@ -1074,7 +1074,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Complete the square for both $x$ and $y$. For $x$: half of 8 is 4, squared is 16. For $y$: half of $-6$ is $-3$, squared is 9. Add both to each side. You get $(x+4)^2 + (y-3)^2 = 25$. The center is $(-4, 3)$ because $x + 4 = x - (-4)$. The choice with center $(4, -3)$ flips the signs — that is the most common error with completing the square.',
+    eli5: 'Complete the square for both $x$ and $y$. For $x$: half of 8 is 4, squared is 16. For $y$: half of $-6$ is $-3$, squared is 9. Add both to each side. You get $(x+4)^2 + (y-3)^2 = 25$. The center is $(-4, 3)$ because $x + 4 = x - (-4)$. The choice with center $(4, -3)$ flips the signs, which is the most common error with completing the square.',
     hint: 'Complete the square for x and y separately. Remember the sign convention: $(x - h)$ means center coordinate $h$.',
     steps: [
       {
@@ -1125,7 +1125,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The larger denominator tells you which axis is major. Here $16 > 9$, so the major axis is along $x$. The semi-major axis is $a = \\sqrt{16} = 4$, but the FULL major axis is $2a = 8$. The choice "4" is the semi-major axis — the question asks for the full length. The choice "6" is the minor axis length ($2 \\times 3 = 6$).',
+    eli5: 'The larger denominator tells you which axis is major. Here $16 > 9$, so the major axis is along $x$. The semi-major axis is $a = \\sqrt{16} = 4$, but the FULL major axis is $2a = 8$. The choice "4" is the semi-major axis, but the question asks for the full length. The choice "6" is the minor axis length ($2 \\times 3 = 6$).',
     hint: 'The semi-axis is the square root of the denominator. The full axis length is twice that.',
     steps: [
       {
@@ -1173,8 +1173,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'When $A = C$ and $B = 0$, the $x^2$ and $y^2$ terms have the same coefficient and there is no $xy$ term. That is the definition of a circle — both axes are scaled the same, so the curve has equal "width" in every direction. An ellipse would have $A \\neq C$. A parabola has only one squared term (either $A$ or $C$ is zero). A hyperbola has opposite signs for $A$ and $C$.',
-    hint: 'Think about what makes a circle different from an ellipse — it is the relationship between the coefficients of $x^2$ and $y^2$.',
+    eli5: 'When $A = C$ and $B = 0$, the $x^2$ and $y^2$ terms have the same coefficient and there is no $xy$ term. That is the definition of a circle: both axes are scaled the same, so the curve has equal "width" in every direction. An ellipse would have $A \\neq C$. A parabola has only one squared term (either $A$ or $C$ is zero). A hyperbola has opposite signs for $A$ and $C$.',
+    hint: 'Think about what makes a circle different from an ellipse. It is the relationship between the coefficients of $x^2$ and $y^2$.',
     steps: [
       {
         text: 'When $A = C$ and $B = 0$, the equation becomes $A(x^2 + y^2) + Dx + Ey + F = 0$.',
@@ -1224,8 +1224,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'The derivative of $\\ln(u)$ is $1/u$ times $du/dx$ — chain rule. The outer derivative gives $1/(5x^2 + 1)$, and the inner derivative is $10x$. Multiply them together. The choice $\\frac{1}{5x^2+1}$ is what you get if you skip the chain rule entirely. The choice $\\frac{5x}{5x^2+1}$ misses the factor of 2 from differentiating $x^2$.',
-    hint: 'The argument is not plain $x$ — what does the chain rule add?',
+    eli5: 'The derivative of $\\ln(u)$ is $1/u$ times $du/dx$ (chain rule). The outer derivative gives $1/(5x^2 + 1)$, and the inner derivative is $10x$. Multiply them together. The choice $\\frac{1}{5x^2+1}$ is what you get if you skip the chain rule entirely. The choice $\\frac{5x}{5x^2+1}$ misses the factor of 2 from differentiating $x^2$.',
+    hint: 'The argument is not plain $x$. What does the chain rule add?',
     steps: [
       {
         text: 'Identify the chain rule: outer function is $\\ln(u)$, inner function is $u = 5x^2 + 1$.',
@@ -1245,7 +1245,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Forgetting the chain rule and omitting the inner derivative',
-      'Getting the inner derivative wrong — $d/dx(5x^2) = 10x$, not $5x$'
+      'Getting the inner derivative wrong, since $d/dx(5x^2) = 10x$, not $5x$'
     ],
     diagram: null,
     lessonId: 'derivatives-rules',
@@ -1275,7 +1275,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Two functions multiplied means product rule. And $\\sin(2t)$ needs the chain rule for its derivative — you get $\\cos(2t) \\cdot 2$, not just $\\cos(2t)$. The choice $3t^2 \\sin(2t) + t^3 \\cos(2t)$ is the classic trap: it applies the product rule correctly but forgets the chain rule factor of 2 on the trig part. The choice $3t^2 \\cos(2t)$ only differentiates one factor. Always check: did I use BOTH product rule terms, and did I chain rule the inner function?',
+    eli5: 'Two functions multiplied means product rule. And $\\sin(2t)$ needs the chain rule for its derivative, so you get $\\cos(2t) \\cdot 2$, not just $\\cos(2t)$. The choice $3t^2 \\sin(2t) + t^3 \\cos(2t)$ is the classic trap: it applies the product rule correctly but forgets the chain rule factor of 2 on the trig part. The choice $3t^2 \\cos(2t)$ only differentiates one factor. Always check: did I use BOTH product rule terms, and did I chain rule the inner function?',
     hint: 'Product rule first, then chain rule on $\\sin(2t)$.',
     steps: [
       {
@@ -1350,7 +1350,7 @@ const PROBLEMS = [
     handbookFormula: '\\frac{d}{dx}\\!\\left(\\frac{u}{v}\\right) = \\frac{v\\,\\frac{du}{dx} - u\\,\\frac{dv}{dx}}{v^2}',
     videoUrl: null,
     traps: [
-      'Flipping the subtraction in the quotient rule — it is $v\\,du - u\\,dv$, not $u\\,dv - v\\,du$',
+      'Flipping the subtraction in the quotient rule, when it is $v\\,du - u\\,dv$, not $u\\,dv - v\\,du$',
       'Forgetting to factor and not matching any answer choice'
     ],
     diagram: null,
@@ -1405,8 +1405,8 @@ const PROBLEMS = [
     handbookFormula: '\\frac{d}{dx}[f(g(x))] = f\'(g(x)) \\cdot g\'(x)',
     videoUrl: null,
     traps: [
-      'Thinking a single chain rule application is enough — the inner function $3x^2$ also needs differentiation',
-      'Confusing this with a product rule situation — $\\sin(3x^2)$ is a composition, not a product'
+      'Thinking a single chain rule application is enough, when the inner function $3x^2$ also needs differentiation',
+      'Confusing this with a product rule situation, since $\\sin(3x^2)$ is a composition, not a product'
     ],
     diagram: null,
     lessonId: 'derivatives-rules',
@@ -1436,7 +1436,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Take the derivative: $f\'(x) = 3x^2 - 12x + 9 = 3(x-1)(x-3)$. Setting it to zero gives $x = 1$ and $x = 3$. Now use the second derivative test: $f\'\'(x) = 6x - 12$. At $x = 1$: $f\'\'(1) = -6 < 0$ — concave down, so it\'s a max. At $x = 3$: $f\'\'(3) = 6 > 0$ — concave up, so it\'s a min. The question asks for the max, so $x = 1$.',
+    eli5: 'Take the derivative: $f\'(x) = 3x^2 - 12x + 9 = 3(x-1)(x-3)$. Setting it to zero gives $x = 1$ and $x = 3$. Now use the second derivative test: $f\'\'(x) = 6x - 12$. At $x = 1$: $f\'\'(1) = -6 < 0$, so it is concave down, so it\'s a max. At $x = 3$: $f\'\'(3) = 6 > 0$, so it is concave up, so it\'s a min. The question asks for the max, so $x = 1$.',
     hint: 'Set $f\'(x) = 0$ to find critical points, then use $f\'\'(x)$ to classify each one.',
     steps: [
       {
@@ -1452,7 +1452,7 @@ const PROBLEMS = [
         latex: 'f\'\'(x) = 6x - 12'
       },
       {
-        text: 'At $x = 1$: $f\'\'(1) = 6 - 12 = -6 < 0$ — local maximum.',
+        text: 'At $x = 1$: $f\'\'(1) = 6 - 12 = -6 < 0$, so it is a local maximum.',
         latex: null
       }
     ],
@@ -1515,7 +1515,7 @@ const PROBLEMS = [
     handbookFormula: 'f\'(a) = 0 \\text{ and } f\'\'(a) > 0 \\implies \\text{minimum}',
     videoUrl: null,
     traps: [
-      'Forgetting to apply the power rule to $20{,}000/d$ — it is $-20{,}000/d^2$, not $-20{,}000$',
+      'Forgetting to apply the power rule to $20{,}000/d$, since it is $-20{,}000/d^2$, not $-20{,}000$',
       'Dividing 20,000 by 500 to get 40 but forgetting to take the square root'
     ],
     diagram: null,
@@ -1546,7 +1546,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'An inflection point is where the second derivative equals zero and changes sign. First derivative: $6x^2 - 18x + 12$. Second derivative: $12x - 18$. Set to zero: $x = 18/12 = 1.5$. Check sign change: $f\'\'(1) = -6 < 0$ and $f\'\'(2) = 6 > 0$ — yes, it changes sign. The choices $x = 1$ and $x = 2$ are the critical points where $f\'(x) = 0$ — the classic mistake of using the first derivative instead of the second.',
+    eli5: 'An inflection point is where the second derivative equals zero and changes sign. First derivative: $6x^2 - 18x + 12$. Second derivative: $12x - 18$. Set to zero: $x = 18/12 = 1.5$. Check sign change: $f\'\'(1) = -6 < 0$ and $f\'\'(2) = 6 > 0$, so yes, it changes sign. The choices $x = 1$ and $x = 2$ are the critical points where $f\'(x) = 0$, which is the classic mistake of using the first derivative instead of the second.',
     hint: 'Set the second derivative (not the first) to zero.',
     steps: [
       {
@@ -1562,7 +1562,7 @@ const PROBLEMS = [
         latex: '12x - 18 = 0 \\implies x = 1.5'
       },
       {
-        text: 'Verify sign change: $f\'\'(1) = -6$ and $f\'\'(2) = 6$ — sign changes, confirming inflection point.',
+        text: 'Verify sign change: $f\'\'(1) = -6$ and $f\'\'(2) = 6$, so the sign changes, confirming inflection point.',
         latex: null
       }
     ],
@@ -1570,7 +1570,7 @@ const PROBLEMS = [
     handbookFormula: 'f\'\'(a) = 0 \\text{ and } f\'\'(x) \\text{ changes sign} \\implies \\text{inflection point}',
     videoUrl: null,
     traps: [
-      'Using $f\'(x) = 0$ instead of $f\'\'(x) = 0$ — that gives critical points, not inflection points',
+      'Using $f\'(x) = 0$ instead of $f\'\'(x) = 0$, which gives critical points, not inflection points',
       'Arithmetic error in solving $12x = 18$'
     ],
     diagram: null,
@@ -1601,7 +1601,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The second derivative test classifies critical points as max ($f\'\' < 0$), min ($f\'\' > 0$), or inconclusive ($f\'\' = 0$). When the second derivative is zero, the test fails — you can\'t tell if it\'s a max, min, or neither. Consider $f(x) = x^4$: $f\'(0) = 0$ and $f\'\'(0) = 0$, but it\'s a minimum. Meanwhile $f(x) = x^3$: $f\'(0) = 0$ and $f\'\'(0) = 0$, but it\'s neither a max nor a min. Same second derivative value, different conclusions — that\'s why it\'s called inconclusive.',
+    eli5: 'The second derivative test classifies critical points as max ($f\'\' < 0$), min ($f\'\' > 0$), or inconclusive ($f\'\' = 0$). When the second derivative is zero, the test fails, so you can\'t tell if it\'s a max, min, or neither. Consider $f(x) = x^4$: $f\'(0) = 0$ and $f\'\'(0) = 0$, but it\'s a minimum. Meanwhile $f(x) = x^3$: $f\'(0) = 0$ and $f\'\'(0) = 0$, but it\'s neither a max nor a min. Same second derivative value, different conclusions, and that\'s why it\'s called inconclusive.',
     hint: 'The second derivative test gives three outcomes depending on the sign of $f\'\'(a)$. What if the sign is neither positive nor negative?',
     steps: [
       {
@@ -1617,7 +1617,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: '$f\'\'(a) = 0$ means the test is inconclusive — you need another method (first derivative test or higher-order derivatives).',
+        text: '$f\'\'(a) = 0$ means the test is inconclusive, so you need another method (first derivative test or higher-order derivatives).',
         latex: null
       }
     ],
@@ -1625,7 +1625,7 @@ const PROBLEMS = [
     handbookFormula: 'f\'\'(a) = 0 \\implies \\text{test is inconclusive}',
     videoUrl: null,
     traps: [
-      'Thinking $f\'\'(a) = 0$ always means inflection point — it could be a flat max/min like $x^4$',
+      'Thinking $f\'\'(a) = 0$ always means inflection point, when it could be a flat max/min like $x^4$',
       'Confusing \'inconclusive\' with \'does not exist\''
     ],
     diagram: null,
@@ -1656,7 +1656,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Integrate term by term: the antiderivative of $2x$ is $x^2$ and the antiderivative of $3$ is $3x$. Evaluate from 1 to 4: $(16 + 12) - (1 + 3) = 28 - 4 = 24$. The trap is forgetting to evaluate at the lower limit — if you only plug in $x = 4$ you get 28, which isn\'t even a choice, but arithmetic mistakes can land you elsewhere.',
+    eli5: 'Integrate term by term: the antiderivative of $2x$ is $x^2$ and the antiderivative of $3$ is $3x$. Evaluate from 1 to 4: $(16 + 12) - (1 + 3) = 28 - 4 = 24$. The trap is forgetting to evaluate at the lower limit. If you only plug in $x = 4$ you get 28, which isn\'t even a choice, but arithmetic mistakes can land you elsewhere.',
     hint: 'Find the antiderivative, then evaluate at the upper and lower limits and subtract.',
     steps: [
       {
@@ -1681,7 +1681,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Forgetting to evaluate at the lower limit',
-      'Antiderivative error — the antiderivative of $2x$ is $x^2$, not $2x^2$'
+      'Antiderivative error: the antiderivative of $2x$ is $x^2$, not $2x^2$'
     ],
     diagram: null,
     lessonId: 'integral-calculus',
@@ -1767,7 +1767,7 @@ const PROBLEMS = [
     correctAnswerId: 'c3',
     difficulty: 'medium',
     eli5: 'This is an integration by parts problem. LIATE says $\\ln x$ (Log) comes before $x$ (Algebraic), so let $u = \\ln x$ and $dv = x\\,dx$. Then $du = dx/x$ and $v = x^2/2$. The formula gives $(x^2/2)\\ln x - \\int x/2\\,dx = (x^2/2)\\ln x - x^2/4$. Evaluate from 0 to 1: at $x = 1$, $\\ln 1 = 0$ so the first term vanishes, leaving $-1/4$. At $x = 0$ both terms go to 0 (given in the hint). So the answer is $-1/4$.',
-    hint: 'LIATE: $\\ln x$ is a log (L), which comes first — let $u = \\ln x$.',
+    hint: 'LIATE: $\\ln x$ is a log (L), which comes first, so let $u = \\ln x$.',
     steps: [
       {
         text: 'Integration by parts: let $u = \\ln x$, $dv = x\\,dx$.',
@@ -1798,7 +1798,7 @@ const PROBLEMS = [
     handbookFormula: '\\int u\\,dv = uv - \\int v\\,du',
     videoUrl: null,
     traps: [
-      'Choosing $u$ and $dv$ backwards — if you let $u = x$, you would need to integrate $\\ln x$, which is harder',
+      'Choosing $u$ and $dv$ backwards. If you let $u = x$, you would need to integrate $\\ln x$, which is harder',
       'Forgetting the negative sign from the by-parts formula'
     ],
     diagram: null,
@@ -1829,8 +1829,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'When you compute $F(b) - F(a)$, any constant $C$ appears in both terms: $(F(b) + C) - (F(a) + C) = F(b) - F(a)$. The $C$\'s cancel out perfectly. It\'s not that $C = 0$ or that it doesn\'t exist — it\'s that it subtracts away. This is a subtle but important distinction. The choice claiming definite integrals do not involve antiderivatives is flat wrong — definite integrals absolutely use antiderivatives (that\'s the Fundamental Theorem of Calculus). The choice claiming the constant is always zero is a common misconception.',
-    hint: 'Write out $F(b) + C$ and $F(a) + C$ and subtract them — what happens to $C$?',
+    eli5: 'When you compute $F(b) - F(a)$, any constant $C$ appears in both terms: $(F(b) + C) - (F(a) + C) = F(b) - F(a)$. The $C$\'s cancel out perfectly. It\'s not that $C = 0$ or that it doesn\'t exist. It\'s that it subtracts away. This is a subtle but important distinction. The choice claiming definite integrals do not involve antiderivatives is flat wrong, because definite integrals absolutely use antiderivatives (that\'s the Fundamental Theorem of Calculus). The choice claiming the constant is always zero is a common misconception.',
+    hint: 'Write out $F(b) + C$ and $F(a) + C$ and subtract them. What happens to $C$?',
     steps: [
       {
         text: 'The antiderivative is $F(x) + C$.',
@@ -1880,12 +1880,12 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Plug in $x = 0$: $(1 - 1)/0 = 0/0$ — indeterminate, so L\'Hopital\'s applies. Differentiate top and bottom: $\\sin x / 2x$. Plug in again: $0/0$ — still indeterminate! Apply a second time: $\\cos x / 2$. Now plug in: $\\cos 0 / 2 = 1/2$. Two rounds is typical for the FE. If you stopped after one round, you\'d get stuck — don\'t quit early.',
+    eli5: 'Plug in $x = 0$: $(1 - 1)/0 = 0/0$, which is indeterminate, so L\'Hopital\'s applies. Differentiate top and bottom: $\\sin x / 2x$. Plug in again: $0/0$, still indeterminate! Apply a second time: $\\cos x / 2$. Now plug in: $\\cos 0 / 2 = 1/2$. Two rounds is typical for the FE. If you stopped after one round, you\'d get stuck, so don\'t quit early.',
     hint: 'Direct substitution gives 0/0. You may need to apply the rule more than once.',
     steps: [
       {
         text: 'Direct substitution:',
-        latex: '\\frac{1 - \\cos 0}{0^2} = \\frac{0}{0} \\text{ — indeterminate}'
+        latex: '\\frac{1 - \\cos 0}{0^2} = \\frac{0}{0} \\text{ (indeterminate)}'
       },
       {
         text: 'First round:',
@@ -1935,11 +1935,11 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'As $x \\to \\infty$, both the top and bottom blow up: $\\infty / \\infty$. That\'s an indeterminate form, so L\'Hopital\'s applies. First round: $6x / e^x$ — still $\\infty/\\infty$. Second round: $6 / e^x$. Now the top is a constant and the bottom goes to infinity, so the limit is 0. The exponential always wins against any polynomial. This is a key fact for the FE.',
+    eli5: 'As $x \\to \\infty$, both the top and bottom blow up: $\\infty / \\infty$. That\'s an indeterminate form, so L\'Hopital\'s applies. First round: $6x / e^x$, still $\\infty/\\infty$. Second round: $6 / e^x$. Now the top is a constant and the bottom goes to infinity, so the limit is 0. The exponential always wins against any polynomial. This is a key fact for the FE.',
     hint: 'This is $\\infty/\\infty$ form. Apply L\'Hopital\'s until the numerator stops growing.',
     steps: [
       {
-        text: 'Form check: $\\infty/\\infty$ — L\'Hopital\'s applies.',
+        text: 'Form check: $\\infty/\\infty$, so L\'Hopital\'s applies.',
         latex: null
       },
       {
@@ -1959,7 +1959,7 @@ const PROBLEMS = [
     handbookFormula: '\\lim_{x \\to a}\\frac{f(x)}{g(x)} = \\lim_{x \\to a}\\frac{f\'(x)}{g\'(x)}',
     videoUrl: null,
     traps: [
-      'Assuming infinity/infinity always diverges — it can converge to zero',
+      'Assuming infinity/infinity always diverges, when it can converge to zero',
       'Differentiating $e^x$ incorrectly (it is its own derivative)'
     ],
     diagram: null,
@@ -2014,8 +2014,8 @@ const PROBLEMS = [
     handbookFormula: '\\lim_{x \\to a}\\frac{f(x)}{g(x)} = \\lim_{x \\to a}\\frac{f\'(x)}{g\'(x)}',
     videoUrl: null,
     traps: [
-      'Stopping too early — this problem requires three rounds',
-      'Differentiating $\\sec^2(x)$ incorrectly — its derivative is $2\\sec^2(x)\\tan(x)$'
+      'Stopping too early, since this problem requires three rounds',
+      'Differentiating $\\sec^2(x)$ incorrectly, since its derivative is $2\\sec^2(x)\\tan(x)$'
     ],
     diagram: null,
     lessonId: 'lhopitals-rule',
@@ -2045,19 +2045,19 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'L\'Hopital\'s Rule only applies to two forms: $0/0$ and $\\infty/\\infty$. The form $1/0$ is NOT indeterminate — it means the function blows up to $\\pm\\infty$ or the limit doesn\'t exist. The rule explicitly requires an indeterminate form before you can differentiate. Applying L\'Hopital\'s when the form isn\'t indeterminate gives a wrong answer. This is the trap in problems like $\\lim_{x \\to 0} e^x/x$ — students apply the rule without checking and get 1, but the correct answer is DNE.',
+    eli5: 'L\'Hopital\'s Rule only applies to two forms: $0/0$ and $\\infty/\\infty$. The form $1/0$ is NOT indeterminate. It means the function blows up to $\\pm\\infty$ or the limit doesn\'t exist. The rule explicitly requires an indeterminate form before you can differentiate. Applying L\'Hopital\'s when the form isn\'t indeterminate gives a wrong answer. This is the trap in problems like $\\lim_{x \\to 0} e^x/x$, where students apply the rule without checking and get 1, but the correct answer is DNE.',
     hint: 'L\'Hopital\'s Rule has exactly two qualifying forms. Any fraction with a nonzero numerator and zero denominator is not one of them.',
     steps: [
       {
-        text: '$0/0$ is indeterminate — L\'Hopital\'s applies.',
+        text: '$0/0$ is indeterminate, so L\'Hopital\'s applies.',
         latex: null
       },
       {
-        text: '$\\infty/\\infty$ is indeterminate — L\'Hopital\'s applies.',
+        text: '$\\infty/\\infty$ is indeterminate, so L\'Hopital\'s applies.',
         latex: null
       },
       {
-        text: '$1/0$ is NOT indeterminate — it represents a function that blows up. The limit is $\\pm\\infty$ or DNE.',
+        text: '$1/0$ is NOT indeterminate, because it represents a function that blows up. The limit is $\\pm\\infty$ or DNE.',
         latex: null
       },
       {
@@ -2100,8 +2100,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Square each component, add them up, take the square root: $\\sqrt{36 + 4 + 9} = \\sqrt{49} = 7$. Don\'t forget to include the negative component — squaring it makes it positive anyway ($(-3)^2 = 9$). The trap is adding the raw components ($6 + 2 - 3 = 5$) instead of using the magnitude formula.',
-    hint: 'The magnitude formula uses the square root of the sum of squares — not just the sum of components.',
+    eli5: 'Square each component, add them up, take the square root: $\\sqrt{36 + 4 + 9} = \\sqrt{49} = 7$. Don\'t forget to include the negative component, though squaring it makes it positive anyway ($(-3)^2 = 9$). The trap is adding the raw components ($6 + 2 - 3 = 5$) instead of using the magnitude formula.',
+    hint: 'The magnitude formula uses the square root of the sum of squares, not just the sum of components.',
     steps: [
       {
         text: 'Apply the magnitude formula:',
@@ -2147,7 +2147,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'First find the magnitude: $\\sqrt{4 + 36 + 9} = \\sqrt{49} = 7$. Then divide each component by 7. The choice that just repeats 2i - 6j + 3k is the original vector — that\'s what you get if you skip the normalization. The choice dividing by 11 divides by the sum of components instead of the magnitude (7). Always verify: the unit vector\'s magnitude should equal 1.',
+    eli5: 'First find the magnitude: $\\sqrt{4 + 36 + 9} = \\sqrt{49} = 7$. Then divide each component by 7. The choice that just repeats 2i - 6j + 3k is the original vector, and that\'s what you get if you skip the normalization. The choice dividing by 11 divides by the sum of components instead of the magnitude (7). Always verify: the unit vector\'s magnitude should equal 1.',
     hint: 'Compute the magnitude first, then divide every component by it.',
     steps: [
       {
@@ -2164,7 +2164,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Dividing by the sum of absolute values of components instead of the magnitude',
-      'Forgetting to normalize — reporting the raw vector as the unit vector'
+      'Forgetting to normalize, reporting the raw vector as the unit vector'
     ],
     diagram: null,
     lessonId: 'vector-basics-unit-vectors',
@@ -2249,8 +2249,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'Magnitude is always positive: $|\\vec{A}| = \\sqrt{(-5)^2 + 0^2} = 5$, not $-5$. The negative sign on the component tells you direction, not magnitude. The "magnitude is -5" choice is the most common mistake — magnitudes can never be negative. The "positive x-direction with magnitude 5" choice gets the magnitude right but the direction wrong. A negative $x$-component means the vector points in the negative $x$-direction. Separating magnitude from direction is fundamental to vector analysis.',
-    hint: 'Magnitude is always non-negative — the sign of a component indicates direction, not size.',
+    eli5: 'Magnitude is always positive: $|\\vec{A}| = \\sqrt{(-5)^2 + 0^2} = 5$, not $-5$. The negative sign on the component tells you direction, not magnitude. The "magnitude is -5" choice is the most common mistake, because magnitudes can never be negative. The "positive x-direction with magnitude 5" choice gets the magnitude right but the direction wrong. A negative $x$-component means the vector points in the negative $x$-direction. Separating magnitude from direction is fundamental to vector analysis.',
+    hint: 'Magnitude is always non-negative. The sign of a component indicates direction, not size.',
     steps: [
       {
         text: 'Magnitude:',
@@ -2269,7 +2269,7 @@ const PROBLEMS = [
     handbookFormula: '|\\vec{A}| = \\sqrt{A_x^2 + A_y^2}',
     videoUrl: null,
     traps: [
-      'Reporting a negative magnitude — magnitudes are always non-negative',
+      'Reporting a negative magnitude, when magnitudes are always non-negative',
       'Confusing the sign of a component with the sign of the magnitude'
     ],
     diagram: null,
@@ -2300,7 +2300,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Multiply matching components and add: $(5)(-1) + (-3)(4) + (2)(6) = -5 - 12 + 12 = -5$. Watch the signs carefully — the negative components produce negative products. The $-12$ and $+12$ cancel, leaving just $-5$ from the first pair. A negative dot product means the vectors point in generally opposite directions (the angle between them is obtuse).',
+    eli5: 'Multiply matching components and add: $(5)(-1) + (-3)(4) + (2)(6) = -5 - 12 + 12 = -5$. Watch the signs carefully, because the negative components produce negative products. The $-12$ and $+12$ cancel, leaving just $-5$ from the first pair. A negative dot product means the vectors point in generally opposite directions (the angle between them is obtuse).',
     hint: 'Multiply x with x, y with y, z with z, then add all three products.',
     steps: [
       {
@@ -2372,7 +2372,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Forgetting to divide by both magnitudes',
-      'Arithmetic error in the dot product — every component pair matters'
+      'Arithmetic error in the dot product, since every component pair matters'
     ],
     diagram: null,
     lessonId: 'dot-product-angle',
@@ -2402,7 +2402,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The scalar projection is $(\\vec{F} \\cdot \\vec{d}) / |\\vec{d}|$. Dot product: $(200)(4) + (400)(0) + (100)(3) = 800 + 0 + 300 = 1100$. Magnitude of $\\vec{d}$: $\\sqrt{16 + 0 + 9} = 5$. Projection: $1100/5 = 220$ N. The 1100 N choice is the raw dot product without dividing — the most common mistake. Always divide by the magnitude of the direction vector.',
+    eli5: 'The scalar projection is $(\\vec{F} \\cdot \\vec{d}) / |\\vec{d}|$. Dot product: $(200)(4) + (400)(0) + (100)(3) = 800 + 0 + 300 = 1100$. Magnitude of $\\vec{d}$: $\\sqrt{16 + 0 + 9} = 5$. Projection: $1100/5 = 220$ N. The 1100 N choice is the raw dot product without dividing, which is the most common mistake. Always divide by the magnitude of the direction vector.',
     hint: 'Scalar projection = (F dot d) / |d|. Divide by the magnitude of the direction, not the force.',
     steps: [
       {
@@ -2451,7 +2451,7 @@ const PROBLEMS = [
     correctAnswerId: 'c3',
     difficulty: 'hard',
     eli5: 'The dot product formula says $\\vec{A} \\cdot \\vec{B} = |A||B|\\cos\\theta$. This equals zero when $\\cos\\theta = 0$ (meaning $\\theta = 90°$, so perpendicular) OR when one of the magnitudes is zero (a zero vector). Most problems assume nonzero vectors, so the quick answer is \'perpendicular.\' But technically, the zero vector is dotted with anything and gives zero, so the complete answer includes that case. Parallel vectors have $\\cos\\theta = \\pm 1$, giving a nonzero dot product (unless one is the zero vector).',
-    hint: 'The angle formula $A \\cdot B = |A||B|\\cos\\theta$ — when does this equal zero?',
+    hint: 'The angle formula $A \\cdot B = |A||B|\\cos\\theta$. When does this equal zero?',
     steps: [
       {
         text: 'From the angle formula: $\\vec{A} \\cdot \\vec{B} = |\\vec{A}||\\vec{B}|\\cos\\theta = 0$.',
@@ -2470,7 +2470,7 @@ const PROBLEMS = [
     handbookFormula: '\\vec{A} \\cdot \\vec{B} = |\\vec{A}||\\vec{B}|\\cos\\theta',
     videoUrl: null,
     traps: [
-      'Assuming zero dot product always means perpendicular — it could also mean a zero vector is involved',
+      'Assuming zero dot product always means perpendicular, when it could also mean a zero vector is involved',
       'Confusing zero dot product (perpendicular) with zero cross product (parallel)'
     ],
     diagram: null,
@@ -2501,7 +2501,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Set up the 3x3 determinant with $\\hat{i}, \\hat{j}, \\hat{k}$ in the top row. The $\\hat{i}$ component: $(3)(4) - (0)(0) = 12$. The $\\hat{j}$ component: $-[(2)(4) - (0)(0)] = -8$. The $\\hat{k}$ component: $(2)(0) - (3)(0) = 0$. So the result is $12\\hat{i} - 8\\hat{j}$. The choice $-12\\hat{i} + 8\\hat{j} + 0\\hat{k}$ has the signs flipped — that\'s $\\vec{B} \\times \\vec{A}$. Remember the sign pattern: $+, -, +$ for $\\hat{i}, \\hat{j}, \\hat{k}$.',
+    eli5: 'Set up the 3x3 determinant with $\\hat{i}, \\hat{j}, \\hat{k}$ in the top row. The $\\hat{i}$ component: $(3)(4) - (0)(0) = 12$. The $\\hat{j}$ component: $-[(2)(4) - (0)(0)] = -8$. The $\\hat{k}$ component: $(2)(0) - (3)(0) = 0$. So the result is $12\\hat{i} - 8\\hat{j}$. The choice $-12\\hat{i} + 8\\hat{j} + 0\\hat{k}$ has the signs flipped, and that\'s $\\vec{B} \\times \\vec{A}$. Remember the sign pattern: $+, -, +$ for $\\hat{i}, \\hat{j}, \\hat{k}$.',
     hint: 'Use the determinant formula. Watch the negative sign on the $\\hat{j}$ cofactor.',
     steps: [
       {
@@ -2588,7 +2588,7 @@ const PROBLEMS = [
     handbookFormula: '\\vec{M}_O = \\vec{r} \\times \\vec{F}',
     videoUrl: null,
     traps: [
-      'Sign error on the j cofactor — the pattern is +, -, +',
+      'Sign error on the j cofactor, since the pattern is +, -, +',
       'Computing F x r instead of r x F (wrong order reverses the moment direction)'
     ],
     diagram: null,
@@ -2619,7 +2619,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The cross product magnitude gives the parallelogram area, so divide by 2 for the triangle. Both vectors are in the $xy$-plane, so only the $\\hat{k}$ component survives: $(3)(4) - (1)(-1) = 12 + 1 = 13$. The cross product is $13\\hat{k}$, magnitude is 13. Triangle area = $13/2 = 6.5$ m$^2$. The 13 m$^2$ option is the parallelogram area — forgetting to halve is the most common mistake.',
+    eli5: 'The cross product magnitude gives the parallelogram area, so divide by 2 for the triangle. Both vectors are in the $xy$-plane, so only the $\\hat{k}$ component survives: $(3)(4) - (1)(-1) = 12 + 1 = 13$. The cross product is $13\\hat{k}$, magnitude is 13. Triangle area = $13/2 = 6.5$ m$^2$. The 13 m$^2$ option is the parallelogram area, and forgetting to halve is the most common mistake.',
     hint: 'Triangle area = $\\frac{1}{2}|\\vec{u} \\times \\vec{v}|$. Don\'t forget the $\\frac{1}{2}$.',
     steps: [
       {
@@ -2639,7 +2639,7 @@ const PROBLEMS = [
     handbookFormula: '|\\vec{A} \\times \\vec{B}| = |\\vec{A}||\\vec{B}|\\sin\\theta',
     videoUrl: null,
     traps: [
-      'Forgetting to divide by 2 — the cross product gives parallelogram area, not triangle area',
+      'Forgetting to divide by 2, since the cross product gives parallelogram area, not triangle area',
       'Sign error in the $\\hat{k}$ component: $(3)(4) - (1)(-1) = 13$, not 11'
     ],
     diagram: null,
@@ -2710,7 +2710,7 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'easy',
     eli5: 'Spreadsheets follow order of operations: division before addition. Compute B3/B4 = 20/4 = 5 first, then add B2: 10 + 5 = 15. The 7.5 option is the mistake of doing (B2+B3)/B4 = 30/4. The 30 option ignores the division entirely.',
-    hint: 'Division happens before addition — evaluate B3/B4 first.',
+    hint: 'Division happens before addition, so evaluate B3/B4 first.',
     steps: [
       { text: 'Precedence: division before addition. Evaluate B3/B4 = 20/4 = 5.', latex: null },
       { text: 'Add B2: 10 + 5 = 15.', latex: null }
@@ -2769,7 +2769,7 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'easy',
     eli5: 'SUM(C2:C6) adds every value in the inclusive range C2 through C6: 12 + 15 + 18 + 9 + 6 = 60. Choices that drop an endpoint (54 omits the 6; 48 omits the 12) are the classic range-boundary mistakes. The choice 12 reads only the first cell.',
-    hint: 'SUM over C2:C6 includes both endpoints — add all five values.',
+    hint: 'SUM over C2:C6 includes both endpoints, so add all five values.',
     steps: [
       { text: 'The range C2:C6 includes all five cells.', latex: null },
       { text: '12 + 15 + 18 + 9 + 6 = 60.', latex: null }
@@ -2797,7 +2797,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The loop multiplies a running product by i for i = 1, 2, 3, 4, 5 — that is 5 factorial: 1×1×2×3×4×5 = 120. The 15 choice adds instead of multiplies (1+2+3+4+5). The 24 choice stops at i = 4 (4!). The 720 choice runs one extra pass to i = 6.',
+    eli5: 'The loop multiplies a running product by i for i = 1, 2, 3, 4, 5, which is 5 factorial: 1×1×2×3×4×5 = 120. The 15 choice adds instead of multiplies (1+2+3+4+5). The 24 choice stops at i = 4 (4!). The 720 choice runs one extra pass to i = 6.',
     hint: 'A running product over i = 1..5 is 5 factorial.',
     steps: [
       { text: 'i = 1: p = 1. i = 2: p = 2. i = 3: p = 6.', latex: null },

@@ -1,5 +1,5 @@
 // Exam bank: surveying
-// Auto-extracted from lesson files — 29 questions
+// Auto-extracted from lesson files (29 questions)
 
 const PROBLEMS = [
   {
@@ -138,7 +138,7 @@ const PROBLEMS = [
     handbookFormula: 'VD = SD \\sin\\alpha',
     videoUrl: null,
     traps: [
-      'Ignoring the sign convention — below horizontal means negative elevation change',
+      'Ignoring the sign convention, since below horizontal means negative elevation change',
       'Using cosine instead of sine for vertical distance'
     ],
     diagram: {
@@ -447,7 +447,7 @@ const PROBLEMS = [
         latex: '\\text{Dep} = L \\sin\\theta = 350 \\times \\sin 55\\degree = 350 \\times 0.8192 = 286.7 \\text{ m}'
       },
       {
-        text: 'S 55\\degree E is in the SE quadrant — departure is eastward (positive).',
+        text: 'S 55\\degree E is in the SE quadrant, so departure is eastward (positive).',
         latex: null
       },
       {
@@ -459,7 +459,7 @@ const PROBLEMS = [
     handbookFormula: '\\text{Dep} = L \\sin\\theta',
     videoUrl: null,
     traps: [
-      'Confusing sine and cosine — departure uses sine, latitude uses cosine',
+      'Confusing sine and cosine. Departure uses sine, latitude uses cosine',
       'Getting the sign wrong for the SE quadrant'
     ],
     diagram: { component: 'CoordinateInverse', props: {  } },
@@ -604,7 +604,7 @@ const PROBLEMS = [
     handbookFormula: '\\text{Corr}_{\\text{Dep}} = -E_D \\times \\frac{L_i}{\\Sigma L}',
     videoUrl: null,
     traps: [
-      'Getting the sign of the correction wrong — correction opposes the error',
+      'Getting the sign of the correction wrong, since the correction opposes the error',
       'Applying the latitude error to the departure correction'
     ],
     diagram: null,
@@ -654,7 +654,7 @@ const PROBLEMS = [
     handbookPage: 'p. 280',
     handbookFormula: 'A = \\frac{1}{2}|\\sum(x_i y_{i+1} - x_{i+1} y_i)|',
     videoUrl: null,
-    traps: ['Forgetting to divide by 2 — gives double the actual area', 'Reversing the cross product order'],
+    traps: ['Forgetting to divide by 2, which gives double the actual area', 'Reversing the cross product order'],
     diagram: {
       component: 'CoordinatePolygon',
       props: {
@@ -769,7 +769,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Simpson\'s 1/3 rule: $A = (w/3)(h_1 + 4h_2 + 2h_3 + 4h_4 + h_5)$. We have 5 measurements (odd), so we have 4 intervals (even) — Simpson\'s applies. $A = (10/3)(0 + 4 \\times 5 + 2 \\times 8 + 4 \\times 6 + 0) = (10/3)(0 + 20 + 16 + 24 + 0) = (10/3)(60) = 200$ m². The 126.7 m\u00b2 choice uses $w/3$ but misses the coefficients. The 190.0 m\u00b2 choice uses the trapezoidal rule. The 280.0 m\u00b2 choice uses $w$ instead of $w/3$.',
+    eli5: 'Simpson\'s 1/3 rule: $A = (w/3)(h_1 + 4h_2 + 2h_3 + 4h_4 + h_5)$. We have 5 measurements (odd), so we have 4 intervals (even), so Simpson\'s applies. $A = (10/3)(0 + 4 \\times 5 + 2 \\times 8 + 4 \\times 6 + 0) = (10/3)(0 + 20 + 16 + 24 + 0) = (10/3)(60) = 200$ m². The 126.7 m\u00b2 choice uses $w/3$ but misses the coefficients. The 190.0 m\u00b2 choice uses the trapezoidal rule. The 280.0 m\u00b2 choice uses $w$ instead of $w/3$.',
     hint: 'Simpson’s 1/3 rule requires an odd number of offsets. The pattern of coefficients is 1, 4, 2, 4, 1.',
     steps: [
       {
@@ -849,7 +849,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'The trapezoidal rule has no such restriction — it works with any number of offsets.',
+        text: 'The trapezoidal rule has no such restriction. It works with any number of offsets.',
         latex: null
       }
     ],
@@ -857,7 +857,7 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Confusing the requirement — Simpson’s needs odd offsets (even intervals), not the other way around'
+      'Confusing the requirement. Simpson’s needs odd offsets (even intervals), not the other way around'
     ],
     diagram: null,
     lessonId: 'area-computations',
@@ -1037,7 +1037,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'A cone (or pyramid) volume is $V = h \\times A_{base} / 3 = 15 \\times 2000 / 3 = 10000$ ft³. The 1/3 factor distinguishes a cone from a cylinder. The 30,000 ft³ choice uses $V = h \\times A$ (no 1/3 factor — that is a cylinder). The 15,000 ft³ choice uses $V = h \\times A / 2$ (average end area with $A_2 = 0$, which overcounts). The 5,000 ft³ choice divides by 6 instead of 3.',
+    eli5: 'A cone (or pyramid) volume is $V = h \\times A_{base} / 3 = 15 \\times 2000 / 3 = 10000$ ft³. The 1/3 factor distinguishes a cone from a cylinder. The 30,000 ft³ choice uses $V = h \\times A$ (no 1/3 factor, which is a cylinder). The 15,000 ft³ choice uses $V = h \\times A / 2$ (average end area with $A_2 = 0$, which overcounts). The 5,000 ft³ choice divides by 6 instead of 3.',
     hint: 'A cone tapers to a point, so V = (h x A_base) / 3, not h x A.',
     steps: [
       {
@@ -1471,7 +1471,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: '$K = L/A$, so $L = K \\times A$. First find $A = |g_1 - g_2| = |4 - (-2)| = 6\\%$. Then $L = 120 \\times 6 = 720$ ft. The $K$-value represents feet of curve per percent change in grade — a higher $K$ means a longer, gentler curve with better sight distance. The 480 ft option uses $A = 4$ (only one grade, not the difference). The 240 ft option uses $A = 2$. The 20 ft option uses $K/A$ instead of $K \\times A$.',
+    eli5: '$K = L/A$, so $L = K \\times A$. First find $A = |g_1 - g_2| = |4 - (-2)| = 6\\%$. Then $L = 120 \\times 6 = 720$ ft. The $K$-value represents feet of curve per percent change in grade. A higher $K$ means a longer, gentler curve with better sight distance. The 480 ft option uses $A = 4$ (only one grade, not the difference). The 240 ft option uses $A = 2$. The 20 ft option uses $K/A$ instead of $K \\times A$.',
     hint: 'K = L/A, so L = K x A. Remember that A = |g_1 - g_2| is in percent.',
     steps: [
       {

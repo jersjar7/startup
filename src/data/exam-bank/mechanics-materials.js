@@ -1,5 +1,5 @@
 // Exam bank: mechanics-materials
-// Auto-extracted from lesson files — 33 questions
+// Auto-extracted from lesson files (33 questions)
 
 const PROBLEMS = [
   {
@@ -94,7 +94,7 @@ const PROBLEMS = [
     handbookFormula: '\\sigma = E\\varepsilon',
     videoUrl: null,
     traps: [
-      'Thinking the material follows the same path back (it does not — plastic deformation is permanent)'
+      'Thinking the material follows the same path back (it does not, because plastic deformation is permanent)'
     ],
     diagram: null,
     lessonId: 'axial-stress-strain-deformation',

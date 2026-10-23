@@ -1,5 +1,5 @@
 export default {
-  context: 'This is the highest-weighted chapter — covering open channel flow, hydrology, groundwater, and environmental engineering.',
+  context: 'This is the highest-weighted chapter, covering open channel flow, hydrology, groundwater, and environmental engineering.',
   subtopics: [
     { id: 'hydraulics', name: 'Hydraulics',
       application: 'As a civil engineer, you design open channels, storm sewers, and water distribution systems using Manning\'s equation, Hazen-Williams, and weir formulas. You classify flow as subcritical or supercritical using the Froude number, compute critical depth for channel transitions, and size pumps and pipes to deliver adequate pressure and flow while guarding against cavitation.' },
@@ -27,13 +27,13 @@ export default {
     { latex: '\\text{Hardness as CaCO}_3 = \\sum C_i \\tfrac{50}{EW_i}', label: 'Total Hardness as CaCO₃' },
   ],
   traps: [
-    'Manning\'s n is a roughness coefficient — in US Customary, multiply by 1.486 (K factor).',
-    'Hydraulic radius R_H = A/P is NOT the physical radius — for a full pipe, R_H = D/4.',
-    'Hazen-Williams C is the OPPOSITE convention from Manning\'s n — higher C means smoother pipe.',
+    'Manning\'s n is a roughness coefficient. In US Customary, multiply by 1.486 (K factor).',
+    'Hydraulic radius R_H = A/P is NOT the physical radius. For a full pipe, R_H = D/4.',
+    'Hazen-Williams C is the OPPOSITE convention from Manning\'s n: higher C means smoother pipe.',
     'The Rational Method Q = CIA only works for small watersheds (< 200 acres).',
     'SCS runoff equation gives depth in inches, NOT discharge in cfs.',
-    'Darcy velocity is NOT the actual seepage velocity — divide by porosity for real velocity.',
+    'Darcy velocity is NOT the actual seepage velocity. Divide by porosity for real velocity.',
     'Dupuit (unconfined) uses h² differences; Thiem (confined) uses linear h differences.',
-    'BOD₅ is the 5-day BOD, not the ultimate BOD (L₀) — they are different values.',
+    'BOD₅ is the 5-day BOD, not the ultimate BOD (L₀). They are different values.',
   ],
 };

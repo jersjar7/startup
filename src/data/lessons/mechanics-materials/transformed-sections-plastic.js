@@ -11,7 +11,7 @@ export default {
     { type: 'text', body: 'A beam of two materials is transformed into an equivalent section of ONE material by scaling the width of the stiffer material by the modular ratio $n = E_1/E_2$. After finding the transformed centroid and $I_T$, the stress in the stiffer material carries the extra factor of $n$.' },
     { type: 'heading', body: 'Plastic Moment' },
     { type: 'formula', latex: 'M_p = F_y Z', label: 'Plastic moment; Z = plastic section modulus' },
-    { type: 'text', body: 'As load increases, yielding spreads from the extreme fibers through the whole section. When fully plastic, the moment is $M_p = F_y Z$, where $Z$ is the plastic section modulus. The shape factor $Z/S$ (plastic over elastic section modulus) measures the reserve beyond first yield — about 1.5 for a rectangle, 1.1--1.2 for a wide-flange.' },
+    { type: 'text', body: 'As load increases, yielding spreads from the extreme fibers through the whole section. When fully plastic, the moment is $M_p = F_y Z$, where $Z$ is the plastic section modulus. The shape factor $Z/S$ (plastic over elastic section modulus) measures the reserve beyond first yield: about 1.5 for a rectangle, 1.1--1.2 for a wide-flange.' },
     { type: 'callout', variant: 'tip', body: 'Transform toward the SOFTER material: multiply the stiffer material\'s width by n = E₁/E₂. The stiffer material then carries n times the stress of the equivalent transformed material at the same fiber.' },
     { type: 'callout', variant: 'warning', body: 'Use the PLASTIC section modulus Z (not the elastic S) for the plastic moment. Mp = Fy·Z; using S gives only the yield moment My = Fy·S, which is smaller.' },
   ],
@@ -81,7 +81,7 @@ export default {
       correctAnswerId: 'c1',
       difficulty: 'medium',
       eli5: 'The transformed-section formulas give σ₁ = nMy/I_T for the stiffer material and σ₂ = My/I_T for the softer one. Because the stiffer material attracts more stress at the same strain, its stress carries the extra factor of n. The "equals My/I_T exactly" choice applies to the softer material. The "divided by n" choice inverts the relationship. The "independent of the modular ratio" choice ignores the modular ratio entirely.',
-      hint: 'The stiffer material attracts more stress — by what factor in the transformed-section equations?',
+      hint: 'The stiffer material attracts more stress. By what factor in the transformed-section equations?',
       steps: [
         { text: 'Transformed-section stresses: σ₁ = nMy/I_T, σ₂ = My/I_T.', latex: null },
         { text: 'The stiffer material (Material 1) carries the factor n.', latex: null },

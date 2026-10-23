@@ -43,8 +43,8 @@ export default {
       handbookFormula: '\\text{Lat} = L\\cos\\theta, \\quad \\text{Dep} = L\\sin\\theta',
       videoUrl: null,
       traps: [
-        'Swapping sine and cosine \u2014 latitude uses cosine (N-S), departure uses sine (E-W)',
-        'Getting the sign wrong for the quadrant \u2014 NE quadrant has both positive',
+        'Swapping sine and cosine, when latitude uses cosine (N-S), departure uses sine (E-W)',
+        'Getting the sign wrong for the quadrant (the NE quadrant has both positive)',
       ],
       diagram: { component: 'CoordinateInverse', props: {  } },
     },
@@ -95,7 +95,7 @@ export default {
       handbookFormula: '\\text{Corr}_{\\text{Lat}} = -E_L \\times \\frac{L_i}{\\Sigma L}',
       videoUrl: null,
       traps: [
-        'Forgetting the negative sign \u2014 the correction opposes the error direction',
+        'Forgetting the negative sign, when the correction opposes the error direction',
         'Applying the full error to one course instead of distributing proportionally',
         'Using the course count instead of the course length ratio for distribution',
       ],

@@ -38,7 +38,7 @@ export default {
       handbookFormula: 'K_a = \\tan^2(45\\degree - \\phi/2)',
       videoUrl: null,
       traps: [
-        'Using tan instead of tan\u00B2 \u2014 the coefficient is the square of the tangent',
+        'Using tan instead of tan\u00B2, when the coefficient is the square of the tangent',
         'Swapping the sign: using (45 + \u03C6/2) gives Kp, not Ka',
       ],
       diagram: null,
@@ -64,8 +64,8 @@ export default {
       handbookFormula: 'P_a = \\frac{1}{2} K_a \\gamma H^2',
       videoUrl: null,
       traps: [
-        'Forgetting the 1/2 factor \u2014 the pressure diagram is triangular, so the resultant is half the rectangle',
-        'Using Kp instead of Ka \u2014 active pressure is when the wall moves AWAY from the soil',
+        'Forgetting the 1/2 factor, when the pressure diagram is triangular, so the resultant is half the rectangle',
+        'Using Kp instead of Ka, when active pressure is when the wall moves AWAY from the soil',
       ],
       diagram: { component: 'RetainingWall', props: { height: 15, unit: 'ft' } },
     },
@@ -92,7 +92,7 @@ export default {
       handbookFormula: 'P_a = \\frac{1}{2} K_a \\gamma H^2',
       videoUrl: null,
       traps: [
-        'Forgetting to multiply the surcharge by Ka \u2014 the surcharge is not applied directly as a horizontal force; it is reduced by Ka',
+        'Forgetting to multiply the surcharge by Ka. The surcharge is not applied directly as a horizontal force; it is reduced by Ka',
         'Adding the surcharge to the soil pressure without applying Ka first',
         'Treating the surcharge pressure as triangular instead of rectangular',
       ],

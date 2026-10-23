@@ -543,7 +543,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'If no warrant is met, a signal is not justified — installing one can increase rear-end crashes and cause unnecessary delay. The "install anyway" option wrongly assumes signals always help. The claim that warrants do not apply to existing intersections is false (warrants apply broadly). The "a signal must be installed" option inverts the purpose of a warrant analysis.',
+    eli5: 'If no warrant is met, a signal is not justified, because installing one can increase rear-end crashes and cause unnecessary delay. The "install anyway" option wrongly assumes signals always help. The claim that warrants do not apply to existing intersections is false (warrants apply broadly). The "a signal must be installed" option inverts the purpose of a warrant analysis.',
     hint: 'What does failing to meet any warrant tell you about installing a signal?',
     steps: [
       { text: 'No warrant met means conditions do not justify a signal.', latex: null },

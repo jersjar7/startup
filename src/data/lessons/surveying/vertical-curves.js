@@ -2,7 +2,7 @@ export default {
   id: 'vertical-curves',
   name: 'Vertical Curves',
   subtopicId: 'curves',
-  application: 'Civil engineers design vertical curves \u2014 parabolic profiles that transition between road grades. Crest curves must provide adequate stopping sight distance over the top, and sag curves must allow headlight illumination. You compute elevations at any point on the curve using the PVC elevation, the grades, and the curve length. On the FE, expect problems finding the elevation at a specific station on a vertical curve, locating the high or low point, and selecting the minimum curve length for sight distance.',
+  application: 'Civil engineers design vertical curves, parabolic profiles that transition between road grades. Crest curves must provide adequate stopping sight distance over the top, and sag curves must allow headlight illumination. You compute elevations at any point on the curve using the PVC elevation, the grades, and the curve length. On the FE, expect problems finding the elevation at a specific station on a vertical curve, locating the high or low point, and selecting the minimum curve length for sight distance.',
   content: [
     { type: 'text', body: 'Vertical curves are parabolas that smoothly transition between two grades. The curve is defined by its length $L$, the incoming grade $g_1$, and the outgoing grade $g_2$.' },
     { type: 'heading', body: 'Vertical Curve Elevation' },
@@ -42,7 +42,7 @@ export default {
       handbookFormula: '\\text{Tangent elevation} = Y_{PVC} + g_1 x',
       videoUrl: null,
       traps: [
-        'Computing the curve elevation at PVI instead of the tangent elevation \u2014 the PVI is on the tangent by definition',
+        'Computing the curve elevation at PVI instead of the tangent elevation, when the PVI is on the tangent by definition',
         'Forgetting to convert percent grade to decimal (4% = 0.04)',
       ],
       diagram: { component: 'VerticalCurveProfile', props: { g1: 4, g2: -2, L: 600, elevPVC: 100 } },
@@ -97,7 +97,7 @@ export default {
       handbookFormula: 'x_m = \\frac{-g_1 L}{g_2 - g_1}',
       videoUrl: null,
       traps: [
-        'Assuming the high point is at the midpoint (L/2) \u2014 only true when |g_1| = |g_2|',
+        'Assuming the high point is at the midpoint (L/2), which is only true when |g_1| = |g_2|',
         'Forgetting to convert grades from percent to decimal',
         'Getting the sign wrong in the denominator (g_2 \u2013 g_1, not g_1 \u2013 g_2)',
       ],

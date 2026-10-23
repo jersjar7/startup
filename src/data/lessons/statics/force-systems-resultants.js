@@ -3,11 +3,11 @@ export default {
   name: 'Force Systems & Resultants',
   subtopicId: 'forces-and-equilibrium',
   application:
-    'Civil engineers resolve force systems every time they combine dead load, live load, and wind on a structural connection, or find the net effect of soil pressure on a retaining wall. The FE tests whether you can break a force into x and y components, find the resultant of multiple concurrent forces, and compute the moment of a force about a point. These are the building blocks \u2014 every equilibrium, truss, and beam problem starts here. The handbook gives you the formulas on p. 94, but the exam tests whether you can apply them quickly with direction cosines, geometry-based resolution, and the cross product.',
+    'Civil engineers resolve force systems every time they combine dead load, live load, and wind on a structural connection, or find the net effect of soil pressure on a retaining wall. The FE tests whether you can break a force into x and y components, find the resultant of multiple concurrent forces, and compute the moment of a force about a point. These are the building blocks: every equilibrium, truss, and beam problem starts here. The handbook gives you the formulas on p. 94, but the exam tests whether you can apply them quickly with direction cosines, geometry-based resolution, and the cross product.',
   content: [
     {
       type: 'text',
-      body: 'Statics problems start with forces. A force is a vector \u2014 it has magnitude, direction, and a point of application. Everything in this lesson is about breaking forces apart and putting them back together.',
+      body: 'Statics problems start with forces. A force is a vector: it has magnitude, direction, and a point of application. Everything in this lesson is about breaking forces apart and putting them back together.',
     },
     { type: 'heading', body: 'Resolution of a Force into Components' },
     {
@@ -56,7 +56,7 @@ export default {
     },
     {
       type: 'text',
-      body: 'A couple is two equal, opposite, parallel forces separated by a distance. The moment of a couple is the same about any point \u2014 it equals $M = Fd$ where $d$ is the distance between the two forces.',
+      body: 'A couple is two equal, opposite, parallel forces separated by a distance. The moment of a couple is the same about any point. It equals $M = Fd$ where $d$ is the distance between the two forces.',
     },
     {
       type: 'callout',
@@ -88,8 +88,8 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'The angle is measured from the horizontal, so the horizontal component uses cosine and the vertical uses sine. The most common trap is flipping them \u2014 the choice Fx = 287 N, Fy = 410 N swaps sin and cos. The choice with Fx = Fy = 354 N uses cos(45) for both, which would only be right at 45 degrees. The choice with Fx = Fy = 500 N does not resolve the force at all and just reports the full magnitude for both components.',
-      hint: 'The angle is from the horizontal axis \u2014 which trig function goes with the adjacent side (horizontal)?',
+      eli5: 'The angle is measured from the horizontal, so the horizontal component uses cosine and the vertical uses sine. The most common trap is flipping them. The choice Fx = 287 N, Fy = 410 N swaps sin and cos. The choice with Fx = Fy = 354 N uses cos(45) for both, which would only be right at 45 degrees. The choice with Fx = Fy = 500 N does not resolve the force at all and just reports the full magnitude for both components.',
+      hint: 'The angle is from the horizontal axis. Which trig function goes with the adjacent side (horizontal)?',
       steps: [
         {
           text: 'Identify: Force = 500 N, angle = 35 degrees above horizontal.',
@@ -104,7 +104,7 @@ export default {
           latex: 'F_y = 500\\sin 35\\degree = 500 \\times 0.5736 = 286.8 \\approx 287 \\text{ N}',
         },
         {
-          text: '4. The choice Fx = 287 N, Fy = 410 N swaps the components \u2014 it uses sine for horizontal and cosine for vertical.',
+          text: '4. The choice Fx = 287 N, Fy = 410 N swaps the components: it uses sine for horizontal and cosine for vertical.',
           latex: null,
         },
       ],
@@ -112,8 +112,8 @@ export default {
       handbookFormula: 'F_x = F\\cos\\theta_x \\quad F_y = F\\cos\\theta_y',
       videoUrl: null,
       traps: [
-        'Swapping sine and cosine \u2014 cosine always goes with the adjacent side (the axis the angle is measured from)',
-        'Forgetting to set your calculator to degree mode \u2014 radian mode gives completely wrong trig values',
+        'Swapping sine and cosine, when cosine always goes with the adjacent side (the axis the angle is measured from)',
+        'Forgetting to set your calculator to degree mode, since radian mode gives completely wrong trig values',
       ],
       diagram: { component: 'ForceAtAngle', props: { force: 500, angle: 35 } },
     },
@@ -129,7 +129,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'When geometry gives you the direction instead of an angle, use the rise-over-run approach: find $R = \\sqrt{x^2 + y^2}$, then $F_x = (x/R) \\times F$ and $F_y = (y/R) \\times F$. The 5-12-13 triangle is one of the FE\u2019s favorite right triangles \u2014 recognize it instantly. The choice $F_x = 1{,}200$ N, $F_y = 500$ N swaps the components (applies the vertical leg to the horizontal direction). The choice $F_x = 650$ N, $F_y = 650$ N splits the force evenly, which would only be correct at 45 degrees. The choice $F_x = 260$ N, $F_y = 1{,}040$ N uses the wrong denominator (divides by 25 and 5 instead of 13).',
+      eli5: 'When geometry gives you the direction instead of an angle, use the rise-over-run approach: find $R = \\sqrt{x^2 + y^2}$, then $F_x = (x/R) \\times F$ and $F_y = (y/R) \\times F$. The 5-12-13 triangle is one of the FE\u2019s favorite right triangles, so recognize it instantly. The choice $F_x = 1{,}200$ N, $F_y = 500$ N swaps the components (applies the vertical leg to the horizontal direction). The choice $F_x = 650$ N, $F_y = 650$ N splits the force evenly, which would only be correct at 45 degrees. The choice $F_x = 260$ N, $F_y = 1{,}040$ N uses the wrong denominator (divides by 25 and 5 instead of 13).',
       hint: 'You do not need to find the angle. Use the geometry directly: $F_x = (x/R) \\times F$ where $R$ is the distance from the wall to the anchor point.',
       steps: [
         {
@@ -145,7 +145,7 @@ export default {
           latex: 'F_y = \\frac{12}{13} \\times 1{,}300 = 1{,}200 \\text{ N}',
         },
         {
-          text: '4. The choice $F_x = 1{,}200$ N, $F_y = 500$ N swaps the legs \u2014 it applies the vertical leg (12) to the horizontal component and vice versa.',
+          text: '4. The choice $F_x = 1{,}200$ N, $F_y = 500$ N swaps the legs: it applies the vertical leg (12) to the horizontal component and vice versa.',
           latex: null,
         },
       ],
@@ -153,7 +153,7 @@ export default {
       handbookFormula: 'F_x = \\frac{x}{R}\\,F \\quad F_y = \\frac{y}{R}\\,F',
       videoUrl: null,
       traps: [
-        'Swapping the x and y legs when geometry is given \u2014 the horizontal leg goes with the horizontal component',
+        'Swapping the x and y legs when geometry is given, when the horizontal leg goes with the horizontal component',
         'Using the force magnitude as the denominator instead of the hypotenuse distance R',
       ],
       diagram: { component: 'CableGeometry', props: { horiz: 5, vert: 12, force: 1300 } },
@@ -170,7 +170,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'The load hangs straight down from the boom tip \u2014 it is a vertical force. To find the moment about the pivot, you need the perpendicular distance from the pivot to the force\u2019s line of action. Since the force is vertical, that perpendicular distance is the horizontal distance from the pivot to the tip, which is the boom length times cosine of the boom angle. The 50,000 N\u00b7m choice uses the full boom length as if the perpendicular distance equals the boom length (only true if the boom were horizontal). The 32,100 N\u00b7m choice uses sine instead of cosine, which gives the vertical projection of the boom \u2014 that is perpendicular to the boom, not to the force.',
+      eli5: 'The load hangs straight down from the boom tip, so it is a vertical force. To find the moment about the pivot, you need the perpendicular distance from the pivot to the force\u2019s line of action. Since the force is vertical, that perpendicular distance is the horizontal distance from the pivot to the tip, which is the boom length times cosine of the boom angle. The 50,000 N\u00b7m choice uses the full boom length as if the perpendicular distance equals the boom length (only true if the boom were horizontal). The 32,100 N\u00b7m choice uses sine instead of cosine, which gives the vertical projection of the boom, and that is perpendicular to the boom, not to the force.',
       hint: 'The force is vertical (gravity). The perpendicular distance to a vertical force is a horizontal distance. How far horizontally is the boom tip from the pivot?',
       steps: [
         {

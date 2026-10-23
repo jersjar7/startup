@@ -6,7 +6,7 @@ export default {
     { id: 'trusses-and-friction', name: 'Trusses & Friction',
       application: 'Civil engineers analyze trusses when designing roof systems, pedestrian bridges, and transmission towers. Method of joints gives you all member forces; method of sections lets you cut straight to the one member you need to size. Friction governs the sliding stability of retaining walls, the traction of vehicles on road surfaces, and belt-driven equipment loads.' },
     { id: 'section-properties', name: 'Section Properties',
-      application: 'Centroids locate the neutral axis of composite beam cross-sections and the point of application of distributed loads. Moments of inertia control how much a beam bends and where it fails in flexure. You compute these for composite sections using the parallel axis theorem \u2014 built-up steel columns, reinforced concrete T-beams, and timber box beams all require combining individual shape properties about a common axis.' },
+      application: 'Centroids locate the neutral axis of composite beam cross-sections and the point of application of distributed loads. Moments of inertia control how much a beam bends and where it fails in flexure. You compute these for composite sections using the parallel axis theorem: built-up steel columns, reinforced concrete T-beams, and timber box beams all require combining individual shape properties about a common axis.' },
   ],
   formulas: [
     { latex: '\\sum F_x = 0,\\quad \\sum F_y = 0,\\quad \\sum M = 0', label: 'Equilibrium Equations', page: 'p. 94' },
@@ -17,12 +17,12 @@ export default {
     { latex: 'F_{out} = F_{in}\\,\\frac{a_{in}}{a_{out}}', label: 'Lever / Machine (mechanical advantage)' },
   ],
   traps: [
-    'Incorrect free body diagram \u2014 forgetting a reaction force or including an internal force on the wrong side of the cut.',
-    'Wrong sign convention for moments \u2014 pick CW or CCW positive and stick with it throughout.',
+    'Incorrect free body diagram: forgetting a reaction force or including an internal force on the wrong side of the cut.',
+    'Wrong sign convention for moments. Pick CW or CCW positive and stick with it throughout.',
     'In trusses, confusing method of joints (all forces at a joint) with method of sections (cutting through members).',
     'Forgetting the Ad\u00b2 term in the parallel axis theorem when computing composite moments of inertia.',
-    'Assuming friction force equals \u03bcN before verifying impending motion \u2014 it could be less than the maximum.',
+    'Assuming friction force equals \u03bcN before verifying impending motion. It could be less than the maximum.',
     'A two-force member carries force along the line joining its two pins; a multi-force member (in frames/machines) does not.',
-    'Analyze frames and machines by dismembering them \u2014 at a shared pin, the forces on the two members are equal and opposite.',
+    'Analyze frames and machines by dismembering them. At a shared pin, the forces on the two members are equal and opposite.',
   ],
 };

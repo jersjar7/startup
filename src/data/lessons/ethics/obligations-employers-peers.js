@@ -3,7 +3,7 @@ export default {
   name: 'Obligations to Employers, Clients & Other Licensees',
   subtopicId: 'professional-conduct',
   application:
-    "Sections B and C of the Model Rules govern how you deal with the people you work for and the people you work alongside. On the FE, these rules show up as conflict-of-interest scenarios, confidentiality dilemmas, and questions about professional competence boundaries. Civil engineers constantly juggle multiple clients, subconsultants, and government agencies — the exam checks that you know where the ethical lines are when money, loyalty, and professional reputation are in play.",
+    "Sections B and C of the Model Rules govern how you deal with the people you work for and the people you work alongside. On the FE, these rules show up as conflict-of-interest scenarios, confidentiality dilemmas, and questions about professional competence boundaries. Civil engineers constantly juggle multiple clients, subconsultants, and government agencies, and the exam checks that you know where the ethical lines are when money, loyalty, and professional reputation are in play.",
   content: [
     {
       type: 'text',
@@ -12,27 +12,27 @@ export default {
     { type: 'heading', body: 'Stay in Your Lane' },
     {
       type: 'text',
-      body: "Rule B.1 is the competence rule: only take on assignments you're qualified for by education or experience. Rule B.2 backs it up — don't sign or seal anything outside your area of competence, or anything not prepared under your responsible charge. The exception is B.3: you can coordinate an entire project if each technical segment is signed by the specialist who prepared it.",
+      body: "Rule B.1 is the competence rule: only take on assignments you're qualified for by education or experience. Rule B.2 backs it up: don't sign or seal anything outside your area of competence, or anything not prepared under your responsible charge. The exception is B.3: you can coordinate an entire project if each technical segment is signed by the specialist who prepared it.",
     },
     {
       type: 'callout',
       variant: 'exam',
-      body: '"Responsible charge" is a term the exam loves. It means direct control and personal supervision. If you didn\'t prepare the work or directly supervise the person who did, you can\'t seal it — even if you reviewed it and it looks fine.',
+      body: '"Responsible charge" is a term the exam loves. It means direct control and personal supervision. If you didn\'t prepare the work or directly supervise the person who did, you can\'t seal it, even if you reviewed it and it looks fine.',
     },
     { type: 'heading', body: 'Confidentiality and Conflicts of Interest' },
     {
       type: 'text',
-      body: "Rule B.4 protects client information — don't reveal facts obtained in a professional capacity without consent, except when required by law. Rules B.5 through B.7 address money and loyalty: no gratuities from contractors (B.5), disclose all conflicts of interest (B.6), and don't accept payment from multiple parties on the same project without written consent from everyone (B.7).",
+      body: "Rule B.4 protects client information: don't reveal facts obtained in a professional capacity without consent, except when required by law. Rules B.5 through B.7 address money and loyalty: no gratuities from contractors (B.5), disclose all conflicts of interest (B.6), and don't accept payment from multiple parties on the same project without written consent from everyone (B.7).",
     },
     {
       type: 'callout',
       variant: 'warning',
-      body: "Conflict-of-interest questions are the most common trap in Sections B and C. The exam tests whether you can spot the conflict — not whether the engineer is actually biased. Under B.6, even the appearance of a conflict requires disclosure.",
+      body: "Conflict-of-interest questions are the most common trap in Sections B and C. The exam tests whether you can spot the conflict, not whether the engineer is actually biased. Under B.6, even the appearance of a conflict requires disclosure.",
     },
     { type: 'heading', body: 'Government Service' },
     {
       type: 'text',
-      body: "Rule B.8 is specific to engineers who serve on government bodies. If you sit on a selection committee or advisory board, you cannot participate in decisions about contracts involving your own firm or personal connections. The reverse also applies — your firm can't bid on work from a body where you serve. B.9 rounds out the section: don't use confidential information from your assignments for personal profit.",
+      body: "Rule B.8 is specific to engineers who serve on government bodies. If you sit on a selection committee or advisory board, you cannot participate in decisions about contracts involving your own firm or personal connections. The reverse also applies: your firm can't bid on work from a body where you serve. B.9 rounds out the section: don't use confidential information from your assignments for personal profit.",
     },
     { type: 'heading', body: 'Obligations to Other Licensees' },
     {
@@ -47,7 +47,7 @@ export default {
     {
       type: 'callout',
       variant: 'exam',
-      body: "When a question involves two licensees disagreeing, check whether public safety is at risk. If yes, escalate per A.3/A.8. If no, the answer is usually C.4 — make a reasonable effort to inform the other licensee directly.",
+      body: "When a question involves two licensees disagreeing, check whether public safety is at risk. If yes, escalate per A.3/A.8. If no, the answer is usually C.4: make a reasonable effort to inform the other licensee directly.",
     },
   ],
   illustration: null,
@@ -76,7 +76,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: "Rule B.1 is blunt — you only take on work you're actually qualified for. \"Close enough\" doesn't cut it. Highway intersection design and roundabout design share some fundamentals, but roundabouts have their own geometry, sight-distance criteria, and capacity methods. Accepting and learning roundabout design on the job is wrong because it puts the project at risk. Accepting because highway intersection experience is \"close enough\" is wrong because adjacent experience isn't the same as specific competence. Accepting but having a colleague review the final design sounds safe but a peer review doesn't make you qualified — the person signing and sealing needs to be competent, not just the reviewer.",
+      eli5: "Rule B.1 is blunt: you only take on work you're actually qualified for. \"Close enough\" doesn't cut it. Highway intersection design and roundabout design share some fundamentals, but roundabouts have their own geometry, sight-distance criteria, and capacity methods. Accepting and learning roundabout design on the job is wrong because it puts the project at risk. Accepting because highway intersection experience is \"close enough\" is wrong because adjacent experience isn't the same as specific competence. Accepting but having a colleague review the final design sounds safe but a peer review doesn't make you qualified. The person signing and sealing needs to be competent, not just the reviewer.",
       hint: 'What does Rule B.1 say about the relationship between your qualifications and the assignments you accept?',
       steps: [
         {
@@ -88,7 +88,7 @@ export default {
           latex: null,
         },
         {
-          text: 'General intersection experience does not satisfy the "specific technical fields" requirement for roundabout design — geometry, deflection angles, and capacity analysis differ significantly.',
+          text: 'General intersection experience does not satisfy the "specific technical fields" requirement for roundabout design, because geometry, deflection angles, and capacity analysis differ significantly.',
           latex: null,
         },
         {
@@ -130,11 +130,11 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: "This one stacks three rules on top of each other. You've got confidential info from City A (B.4), you've got an obvious conflict of interest (B.6), and you'd be getting paid by two parties on related work (B.7). The accept-anyway option ignores the conflict entirely. The keep-files-confidential option tries to compartmentalize, but you can't un-know what you know from the City A project — and the rules require disclosure, not just self-discipline. The decline-outright option is too extreme — the Model Rules don't say you can never work for competing parties, they say you need full disclosure and written consent. The exam wants you to pick the answer that involves transparency and consent, not avoidance.",
+      eli5: "This one stacks three rules on top of each other. You've got confidential info from City A (B.4), you've got an obvious conflict of interest (B.6), and you'd be getting paid by two parties on related work (B.7). The accept-anyway option ignores the conflict entirely. The keep-files-confidential option tries to compartmentalize, but you can't un-know what you know from the City A project, and the rules require disclosure, not just self-discipline. The decline-outright option is too extreme, because the Model Rules don't say you can never work for competing parties, they say you need full disclosure and written consent. The exam wants you to pick the answer that involves transparency and consent, not avoidance.",
       hint: "When two clients' interests overlap, what do the Model Rules require before you can serve both?",
       steps: [
         {
-          text: "Identify the issue: the engineer has confidential knowledge from City A's project that is directly relevant to City B's request — this is a clear conflict of interest.",
+          text: "Identify the issue: the engineer has confidential knowledge from City A's project that is directly relevant to City B's request, so this is a clear conflict of interest.",
           latex: null,
         },
         {
@@ -159,7 +159,7 @@ export default {
         '\\text{B.7: Do not accept compensation from more than one party unless fully disclosed and agreed to in writing.}',
       videoUrl: null,
       traps: [
-        "Thinking that different scopes of work eliminate the conflict — the engineer's knowledge from City A is the issue, not the project boundaries",
+        "Thinking that different scopes of work eliminate the conflict, when the engineer's knowledge from City A is the issue, not the project boundaries",
         "Choosing to decline outright when disclosure + consent is the Model Rules' preferred resolution",
       ],
       diagram: null,
@@ -171,7 +171,7 @@ export default {
       choices: [
         {
           id: 'c1',
-          text: "Do nothing — the senior partner managed the project, so claiming it as the firm's work is acceptable",
+          text: "Do nothing: the senior partner managed the project, so claiming it as the firm's work is acceptable",
         },
         {
           id: 'c2',
@@ -188,7 +188,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: "This is a C.1 + C.4 combo. The marketing materials exaggerate the firm's role — the partner managed the project but didn't do the bridge design. That's a misrepresentation under C.1, especially since it's being used to win new work (\"presentations incidental to the solicitation of employment\"). But you don't jump straight to the board or the client. Rule C.4 says make a reasonable effort to inform the licensee first. The \"do nothing\" option is wrong because \"project manager\" doesn't equal \"performed the design.\" Reporting straight to the licensing board skips the direct conversation step. Contacting the prospective client goes outside the firm before trying to fix it internally. Start with the partner, then escalate if they refuse to correct it.",
+      eli5: "This is a C.1 + C.4 combo. The marketing materials exaggerate the firm's role. The partner managed the project but didn't do the bridge design. That's a misrepresentation under C.1, especially since it's being used to win new work (\"presentations incidental to the solicitation of employment\"). But you don't jump straight to the board or the client. Rule C.4 says make a reasonable effort to inform the licensee first. The \"do nothing\" option is wrong because \"project manager\" doesn't equal \"performed the design.\" Reporting straight to the licensing board skips the direct conversation step. Contacting the prospective client goes outside the firm before trying to fix it internally. Start with the partner, then escalate if they refuse to correct it.",
       hint: 'Before reporting to the board or contacting the client, what does Rule C.4 require you to do first?',
       steps: [
         {
@@ -217,7 +217,7 @@ export default {
         '\\text{C.1: Shall not misrepresent or exaggerate degree of responsibility in prior assignments.}',
       videoUrl: null,
       traps: [
-        "Assuming that project management equals design responsibility — the materials must accurately reflect who did the technical work",
+        "Assuming that project management equals design responsibility, when the materials must accurately reflect who did the technical work",
         'Jumping to the board before making a reasonable effort to inform the senior partner directly (C.4 requires the direct approach first)',
       ],
       diagram: null,

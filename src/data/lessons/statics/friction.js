@@ -3,7 +3,7 @@ export default {
   name: 'Friction',
   subtopicId: 'trusses-and-friction',
   application:
-    'Friction problems on the FE test whether you understand the difference between static and kinetic friction, can identify when impending motion occurs, and can apply the belt friction and screw-jack formulas. Civil engineers check friction when designing retaining walls against sliding, analyzing braking forces on highway grades, and sizing belt-driven equipment. The handbook (pp. 96\u201397) covers static friction ($F \\leq \\mu_s N$), screw-jack mechanics, and belt friction. Expect one friction problem on the exam \u2014 it is usually straightforward if you set up the normal force correctly.',
+    'Friction problems on the FE test whether you understand the difference between static and kinetic friction, can identify when impending motion occurs, and can apply the belt friction and screw-jack formulas. Civil engineers check friction when designing retaining walls against sliding, analyzing braking forces on highway grades, and sizing belt-driven equipment. The handbook (pp. 96\u201397) covers static friction ($F \\leq \\mu_s N$), screw-jack mechanics, and belt friction. Expect one friction problem on the exam. It is usually straightforward if you set up the normal force correctly.',
   content: [
     {
       type: 'text',
@@ -47,7 +47,7 @@ export default {
     {
       type: 'callout',
       variant: 'tip',
-      body: 'For belt friction, always identify which side is the tight side ($F_1$) \u2014 it is the side in the direction the belt is trying to slip. The angle $\\theta$ must be in radians, not degrees.',
+      body: 'For belt friction, always identify which side is the tight side ($F_1$): it is the side in the direction the belt is trying to slip. The angle $\\theta$ must be in radians, not degrees.',
     },
     {
       type: 'callout',
@@ -89,8 +89,8 @@ export default {
       handbookFormula: 'F \\leq \\mu_s N',
       videoUrl: null,
       traps: [
-        'Forgetting that the normal force equals the weight only on a flat surface \u2014 on an incline, $N = W\\cos\\theta$',
-        'Dividing by $\\mu$ instead of multiplying \u2014 getting 1,250 N instead of 200 N',
+        'Forgetting that the normal force equals the weight only on a flat surface (on an incline, $N = W\\cos\\theta$)',
+        'Dividing by $\\mu$ instead of multiplying, getting 1,250 N instead of 200 N',
       ],
       diagram: { component: 'BlockFlat', props: { weight: 500, mu: 0.40 } },
     },
@@ -106,7 +106,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Belt friction is exponential, not linear \u2014 that is the key insight. The tight side tension equals the slack side times $e^{\\mu\\theta}$. With $\\mu = 0.30$ and $\\theta = \\pi$ radians (180 degrees), you get $F_1 = 200 \\times e^{0.30\\pi} = 200 \\times 2.566 = 513$ N. The 260 N option treats friction as a simple percentage add-on ($200 + 0.30 \\times 200 = 260$), ignoring the exponential. The 320 N option uses 90 degrees ($\\pi/2$) instead of 180 degrees ($\\pi$) for the contact angle. The 200 N option assumes the belt cannot transmit any additional force through friction.',
+      eli5: 'Belt friction is exponential, not linear, and that is the key insight. The tight side tension equals the slack side times $e^{\\mu\\theta}$. With $\\mu = 0.30$ and $\\theta = \\pi$ radians (180 degrees), you get $F_1 = 200 \\times e^{0.30\\pi} = 200 \\times 2.566 = 513$ N. The 260 N option treats friction as a simple percentage add-on ($200 + 0.30 \\times 200 = 260$), ignoring the exponential. The 320 N option uses 90 degrees ($\\pi/2$) instead of 180 degrees ($\\pi$) for the contact angle. The 200 N option assumes the belt cannot transmit any additional force through friction.',
       hint: 'Convert the contact angle to radians before using the belt friction formula. 180 degrees = $\\pi$ radians.',
       steps: [
         {
@@ -134,7 +134,7 @@ export default {
       handbookFormula: 'F_1 = F_2\\, e^{\\mu\\theta}',
       videoUrl: null,
       traps: [
-        'Using degrees instead of radians for the contact angle \u2014 180 degrees must become $\\pi$ radians',
+        'Using degrees instead of radians for the contact angle, when 180 degrees must become $\\pi$ radians',
         'Adding friction linearly ($F_2 + \\mu F_2$) instead of using the exponential relationship',
       ],
       diagram: { component: 'BeltPulley', props: { mu: 0.30, slackT: 200, wrapDeg: 180 } },
@@ -184,7 +184,7 @@ export default {
       videoUrl: null,
       traps: [
         'Forgetting that $P$ has a component perpendicular to the ramp that changes the normal force',
-        'Using the weight as the normal force \u2014 on an incline with a horizontal push, $N$ depends on both $W$ and $P$',
+        'Using the weight as the normal force, when on an incline with a horizontal push, $N$ depends on both $W$ and $P$',
       ],
       diagram: { component: 'BlockOnRamp', props: { weight: 800, angle: 25, mu: 0.50 } },
     },

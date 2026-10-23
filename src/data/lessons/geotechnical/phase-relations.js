@@ -41,8 +41,8 @@ export default {
       handbookFormula: 'S = \\frac{\\omega G_s}{e}',
       videoUrl: null,
       traps: [
-        'Using w = 20 instead of 0.20 in the formula \u2014 water content must be a decimal in Se = wGs',
-        'Confusing void ratio (e) with porosity (n) \u2014 n = e/(1+e)',
+        'Using w = 20 instead of 0.20 in the formula, when water content must be a decimal in Se = wGs',
+        'Confusing void ratio (e) with porosity (n), where n = e/(1+e)',
       ],
       diagram: null,
     },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Start with \u03B3sat = (Gs + e)\u03B3w/(1+e). Plug in: 125(1+e) = 62.4(2.72+e). Expand: 125 + 125e = 169.73 + 62.4e. Solve: 62.6e = 44.73, so e = 0.714. Since the soil is saturated (S = 1): w = Se/Gs = e/Gs = 0.714/2.72 = 0.263 = 26%. The 71% choice confuses e with w \u2014 the void ratio is 0.714 but the water content is e/Gs. The 17% choice might come from using the wrong unit weight formula.',
+      eli5: 'Start with \u03B3sat = (Gs + e)\u03B3w/(1+e). Plug in: 125(1+e) = 62.4(2.72+e). Expand: 125 + 125e = 169.73 + 62.4e. Solve: 62.6e = 44.73, so e = 0.714. Since the soil is saturated (S = 1): w = Se/Gs = e/Gs = 0.714/2.72 = 0.263 = 26%. The 71% choice confuses e with w: the void ratio is 0.714 but the water content is e/Gs. The 17% choice might come from using the wrong unit weight formula.',
       hint: 'Solve the \u03B3sat formula for e first. Then use w = e/Gs (since S = 1 for saturated soil).',
       steps: [
         { text: 'Saturated unit weight formula:', latex: '\\gamma_{sat} = \\frac{(G_s + e)\\gamma_w}{1+e}' },
@@ -96,7 +96,7 @@ export default {
       handbookFormula: '\\gamma_{sat} = \\frac{(G_s + e)\\gamma_w}{1+e}',
       videoUrl: null,
       traps: [
-        'Reporting the void ratio (0.714) as the water content \u2014 w = e/Gs, not e itself',
+        'Reporting the void ratio (0.714) as the water content, when w = e/Gs, not e itself',
         'Using \u03B3w = 9.81 kN/m\u00B3 when the problem is in US customary units (\u03B3w = 62.4 pcf)',
         'Forgetting that saturated means S = 1, which simplifies Se = wGs to e = wGs',
       ],

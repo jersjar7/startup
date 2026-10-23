@@ -6,11 +6,11 @@ export default {
   content: [
     { type: 'text', body: 'The Manual on Uniform Traffic Control Devices (MUTCD) is the national standard governing all traffic control devices. To be effective, a device must fulfill a need, command attention, convey a clear and simple meaning, command road-user respect, and give adequate time for response.' },
     { type: 'heading', body: 'Categories of Signs' },
-    { type: 'text', body: 'REGULATORY signs tell drivers what they must or must not do (e.g., STOP, YIELD, speed limit) — typically white rectangles, with the red octagon reserved for STOP. WARNING signs alert drivers to conditions ahead and are yellow diamonds. GUIDE signs give directions and distances and are green.' },
+    { type: 'text', body: 'REGULATORY signs tell drivers what they must or must not do (e.g., STOP, YIELD, speed limit). They are typically white rectangles, with the red octagon reserved for STOP. WARNING signs alert drivers to conditions ahead and are yellow diamonds. GUIDE signs give directions and distances and are green.' },
     { type: 'heading', body: 'Signal Warrants' },
-    { type: 'text', body: 'A traffic signal is installed only when a MUTCD WARRANT is satisfied — for example, the eight-hour vehicular volume, peak-hour volume, pedestrian volume, school crossing, or crash-experience warrants. Meeting a warrant shows a signal is justified, but engineering judgment still governs the final decision.' },
+    { type: 'text', body: 'A traffic signal is installed only when a MUTCD WARRANT is satisfied, for example, the eight-hour vehicular volume, peak-hour volume, pedestrian volume, school crossing, or crash-experience warrants. Meeting a warrant shows a signal is justified, but engineering judgment still governs the final decision.' },
     { type: 'callout', variant: 'tip', body: 'Read signs by shape and color: red octagon = STOP, yellow diamond = warning, green = guide/direction, white rectangle = regulatory. The shape alone often tells you the category.' },
-    { type: 'callout', variant: 'warning', body: 'A signal is NOT automatically an improvement. Unwarranted signals can increase rear-end crashes and cause excessive delay — which is exactly why the MUTCD requires a warrant analysis before one is installed.' },
+    { type: 'callout', variant: 'warning', body: 'A signal is NOT automatically an improvement. Unwarranted signals can increase rear-end crashes and cause excessive delay, which is exactly why the MUTCD requires a warrant analysis before one is installed.' },
   ],
   illustration: null,
   problems: [
@@ -25,7 +25,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Yellow diamond-shaped signs are WARNING signs — they alert drivers to conditions ahead such as curves, intersections, or merges. Regulatory signs state laws (STOP, speed limit). Guide signs are green and give directions. A construction barricade is a temporary-traffic-control device, not this sign.',
+      eli5: 'Yellow diamond-shaped signs are WARNING signs. They alert drivers to conditions ahead such as curves, intersections, or merges. Regulatory signs state laws (STOP, speed limit). Guide signs are green and give directions. A construction barricade is a temporary-traffic-control device, not this sign.',
       hint: 'Yellow + diamond shape signals which category in the MUTCD?',
       steps: [
         { text: 'Shape and color identify the category.', latex: null },
@@ -52,7 +52,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Signals are not automatically beneficial — installing one where it is not warranted can raise rear-end crashes and create unnecessary delay. Warrants test whether conditions (volumes, pedestrians, crashes) justify a signal. The claim that signals always reduce all types of crashes is false (signals can increase some crash types, like rear-end). The option about cycle length confuses warrants with timing design. The federal permit-fee option is fabricated.',
+      eli5: 'Signals are not automatically beneficial. Installing one where it is not warranted can raise rear-end crashes and create unnecessary delay. Warrants test whether conditions (volumes, pedestrians, crashes) justify a signal. The claim that signals always reduce all types of crashes is false (signals can increase some crash types, like rear-end). The option about cycle length confuses warrants with timing design. The federal permit-fee option is fabricated.',
       hint: 'Is a signal always an improvement? What can go wrong if one is installed unnecessarily?',
       steps: [
         { text: 'Signals can worsen rear-end crashes and add delay.', latex: null },
@@ -79,7 +79,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'A STOP sign imposes a legal requirement — drivers must stop — so it is a REGULATORY sign (the distinctive red octagon is reserved for STOP). Warning signs (yellow diamonds) alert to conditions; guide signs (green) give directions; recreational signs mark parks and points of interest.',
+      eli5: 'A STOP sign imposes a legal requirement (drivers must stop), so it is a REGULATORY sign (the distinctive red octagon is reserved for STOP). Warning signs (yellow diamonds) alert to conditions; guide signs (green) give directions; recreational signs mark parks and points of interest.',
       hint: 'Does a STOP sign state a law (regulatory) or merely warn of a condition?',
       steps: [
         { text: 'A STOP sign legally requires drivers to stop.', latex: null },

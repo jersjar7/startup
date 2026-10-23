@@ -4,7 +4,7 @@ export default {
   subtopicId: 'flow-analysis-measurement',
   application: 'Civil engineers measure flow to monitor water treatment, calibrate hydraulic models, and verify stormwater controls. Pitot tubes measure point velocity from stagnation pressure. Venturi meters and orifice plates measure flow rate in closed conduits using the Bernoulli principle with a calibration coefficient. On the FE, expect problems using the Pitot tube equation or computing flow through a venturi or orifice meter.',
   content: [
-    { type: 'text', body: 'Flow measurement devices exploit Bernoulli\u2019s equation \u2014 they create a measurable pressure difference that correlates with velocity or flow rate.' },
+    { type: 'text', body: 'Flow measurement devices exploit Bernoulli\u2019s equation: they create a measurable pressure difference that correlates with velocity or flow rate.' },
     { type: 'heading', body: 'Pitot Tube' },
     { type: 'formula', latex: 'v = \\sqrt{\\frac{2(P_0 - P_s)}{\\rho}}', label: 'Velocity from Pitot tube' },
     { type: 'text', body: 'A Pitot tube measures stagnation pressure $P_0$ by pointing directly into the flow. The difference between stagnation and static pressure $P_s$ gives velocity. This is just Bernoulli with one velocity set to zero.' },
@@ -14,8 +14,8 @@ export default {
     { type: 'heading', body: 'Orifice Meter' },
     { type: 'formula', latex: 'Q = C A_0 \\sqrt{\\frac{2g\\left(\\frac{P_1 - P_2}{\\gamma}\\right)}{1 - \\left(\\frac{A_0}{A_1}\\right)^2}}', label: 'Orifice meter flow rate' },
     { type: 'text', body: 'An orifice plate is a sharp-edged restriction. The discharge coefficient $C$ combines the contraction coefficient $C_c$ and velocity coefficient $C_v$. Typical values: sharp-edged orifice $C_c = 0.62$, $C_v = 0.98$.' },
-    { type: 'callout', variant: 'tip', body: 'All three devices use the same underlying principle \u2014 Bernoulli. The Pitot measures velocity at a point; the venturi and orifice measure total flow rate through a pipe.' },
-    { type: 'callout', variant: 'exam', body: 'On the FE, you\u2019ll typically be given the coefficient values. Don\u2019t memorize them \u2014 just know where they go in the formula.' },
+    { type: 'callout', variant: 'tip', body: 'All three devices use the same underlying principle: Bernoulli. The Pitot measures velocity at a point; the venturi and orifice measure total flow rate through a pipe.' },
+    { type: 'callout', variant: 'exam', body: 'On the FE, you\u2019ll typically be given the coefficient values. Don\u2019t memorize them. Just know where they go in the formula.' },
   ],
   illustration: null,
   problems: [
@@ -41,8 +41,8 @@ export default {
       handbookFormula: 'v = \\sqrt{\\frac{2(P_0 - P_s)}{\\rho}}',
       videoUrl: null,
       traps: [
-        'Forgetting to convert kPa to Pa \u2014 off by a factor of \u221A1000',
-        'Dropping the factor of 2 in the numerator \u2014 gives v = 5.0 m/s',
+        'Forgetting to convert kPa to Pa, which is off by a factor of \u221A1000',
+        'Dropping the factor of 2 in the numerator, which gives v = 5.0 m/s',
       ],
       diagram: null,
     },
@@ -99,8 +99,8 @@ export default {
       handbookFormula: 'Q = C A_0 \\sqrt{\\frac{2g\\left(\\frac{P_1 - P_2}{\\gamma}\\right)}{1 - \\left(\\frac{A_0}{A_1}\\right)^2}}',
       videoUrl: null,
       traps: [
-        'Using the pipe diameter instead of the orifice diameter for the area \u2014 gives 4\u00D7 too large',
-        'Forgetting the discharge coefficient C \u2014 gives the ideal flow rate, not the actual',
+        'Using the pipe diameter instead of the orifice diameter for the area, which gives 4\u00D7 too large',
+        'Forgetting the discharge coefficient C, which gives the ideal flow rate, not the actual',
         'Not accounting for the area ratio in the denominator',
       ],
       diagram: null,

@@ -2,7 +2,7 @@ export default {
   id: 'combined-stresses-mohrs-circle',
   name: 'Combined Stresses & Mohr\'s Circle',
   subtopicId: 'combined-loading-stability',
-  application: 'Real structural members rarely see just one type of stress. A bridge pier experiences axial compression from dead load plus bending from lateral wind. A shaft in a pump station sees torsion and bending simultaneously. Civil engineers combine these stresses and find the principal stresses to check the actual failure condition \u2014 the material doesn\'t know it\'s seeing "bending plus shear," it just sees stress at a point. Mohr\'s circle gives a graphical way to find principal stresses, maximum shear stress, and stresses on any rotated plane. On the FE, expect problems that give \u03C3x, \u03C3y, and \u03C4xy and ask for principal stresses or max shear stress.',
+  application: 'Real structural members rarely see just one type of stress. A bridge pier experiences axial compression from dead load plus bending from lateral wind. A shaft in a pump station sees torsion and bending simultaneously. Civil engineers combine these stresses and find the principal stresses to check the actual failure condition, because the material doesn\'t know it\'s seeing "bending plus shear," it just sees stress at a point. Mohr\'s circle gives a graphical way to find principal stresses, maximum shear stress, and stresses on any rotated plane. On the FE, expect problems that give \u03C3x, \u03C3y, and \u03C4xy and ask for principal stresses or max shear stress.',
   content: [
     { type: 'text', body: 'At any point in a loaded member, the stress state depends on which plane you\'re looking at. Principal stress analysis finds the worst-case plane.' },
     { type: 'heading', body: 'Principal Stresses (2D)' },
@@ -20,7 +20,7 @@ export default {
     { type: 'text', body: 'In plane stress, $\\sigma_3 = 0$. If $\\sigma_1$ and $\\sigma_2$ have the same sign, the absolute max shear stress is $\\sigma_1/2$ (not the in-plane value R).' },
     { type: 'callout', variant: 'tip', body: 'C and R are your two best friends. Compute those first: C = average of the two normal stresses, R = Pythagorean combination of the half-difference and shear. Then \u03C3\u2081 = C + R, \u03C3\u2082 = C \u2212 R, \u03C4_max = R.' },
     { type: 'callout', variant: 'warning', body: 'The in-plane max shear stress (R) and the absolute max shear stress can be different. If both principal stresses are tensile (same sign), the absolute max shear includes the zero out-of-plane stress: \u03C4_abs = \u03C3\u2081/2.' },
-    { type: 'callout', variant: 'exam', body: 'Most FE problems give you \u03C3x, \u03C3y, and \u03C4xy and ask for either the principal stresses or the max shear stress. It\'s plug-and-chug with the formulas \u2014 you rarely need to actually draw the circle.' },
+    { type: 'callout', variant: 'exam', body: 'Most FE problems give you \u03C3x, \u03C3y, and \u03C4xy and ask for either the principal stresses or the max shear stress. It\'s plug-and-chug with the formulas, and you rarely need to actually draw the circle.' },
   ],
   illustration: null,
   problems: [
@@ -35,7 +35,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'When there\'s no shear stress (\u03C4xy = 0), the given normal stresses ARE already the principal stresses \u2014 the axes are already aligned with the principal directions. You can verify with the formula: C \u00B1 R = 30 \u00B1 50 = 80 and \u221220. The (100, 0) option comes from adding the magnitudes instead of using the formula. The (50, \u221250) option gives just the R values, not C \u00B1 R. The (30, 30) option is just the center \u2014 you forgot to add/subtract the radius.',
+      eli5: 'When there\'s no shear stress (\u03C4xy = 0), the given normal stresses ARE already the principal stresses, because the axes are already aligned with the principal directions. You can verify with the formula: C \u00B1 R = 30 \u00B1 50 = 80 and \u221220. The (100, 0) option comes from adding the magnitudes instead of using the formula. The (50, \u221250) option gives just the R values, not C \u00B1 R. The (30, 30) option is just the center, because you forgot to add/subtract the radius.',
       hint: 'When \u03C4xy = 0, what does that tell you about the relationship between the given stresses and the principal stresses?',
       steps: [
         { text: 'Center:', latex: 'C = \\frac{80 + (-20)}{2} = 30 \\text{ MPa}' },
@@ -46,7 +46,7 @@ export default {
       handbookFormula: '\\sigma_{1,2} = \\frac{\\sigma_x + \\sigma_y}{2} \\pm \\sqrt{\\left(\\frac{\\sigma_x - \\sigma_y}{2}\\right)^2 + \\tau_{xy}^2}',
       videoUrl: null,
       traps: [
-        'Overthinking it \u2014 when \u03C4xy = 0, the given stresses are already the principal stresses',
+        'Overthinking it, when \u03C4xy = 0, the given stresses are already the principal stresses',
         'Reporting the center value (30) instead of C \u00B1 R (choice D)',
         'Adding magnitudes instead of using algebraic signs (choice A)',
       ],
@@ -63,7 +63,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Classic 3-4-5 triangle hiding in a Mohr\'s circle problem. The half-difference is 30, the shear is 40, so R = \u221A(30\u00B2 + 40\u00B2) = 50 (that\'s a 3-4-5 right triangle scaled by 10). Then \u03C3\u2081 = C + R = 30 + 50 = 80. The 50 MPa choice is just the radius R \u2014 that\'s the max shear stress, not the max normal stress. The 60 MPa choice is just \u03C3x \u2014 ignoring the shear contribution. The 100 MPa choice comes from adding \u03C3x + \u03C4xy (not how stress transformation works).',
+      eli5: 'Classic 3-4-5 triangle hiding in a Mohr\'s circle problem. The half-difference is 30, the shear is 40, so R = \u221A(30\u00B2 + 40\u00B2) = 50 (that\'s a 3-4-5 right triangle scaled by 10). Then \u03C3\u2081 = C + R = 30 + 50 = 80. The 50 MPa choice is just the radius R, and that\'s the max shear stress, not the max normal stress. The 60 MPa choice is just \u03C3x, ignoring the shear contribution. The 100 MPa choice comes from adding \u03C3x + \u03C4xy (not how stress transformation works).',
       hint: 'Compute the center C and radius R of Mohr\'s circle first. The max principal stress is C + R.',
       steps: [
         { text: 'Center:', latex: 'C = \\frac{60 + 0}{2} = 30 \\text{ MPa}' },
@@ -75,8 +75,8 @@ export default {
       videoUrl: null,
       traps: [
         'Reporting R = 50 as the principal stress instead of C + R = 80 (choice A)',
-        'Ignoring the shear stress contribution \u2014 \u03C3\u2081 is always \u2265 \u03C3x when \u03C4xy \u2260 0',
-        'Adding \u03C3x + \u03C4xy directly (choice D) \u2014 stresses don\'t add like that',
+        'Ignoring the shear stress contribution, when \u03C3\u2081 is always \u2265 \u03C3x when \u03C4xy \u2260 0',
+        'Adding \u03C3x + \u03C4xy directly (choice D), but stresses don\'t add like that',
       ],
       diagram: { component: 'StressElement', props: { sigmaX: 60, sigmaY: 0, tauXY: 40 } },
     },
@@ -103,9 +103,9 @@ export default {
       handbookFormula: '\\tau_{abs\\,max} = \\frac{\\sigma_1 - \\sigma_3}{2}',
       videoUrl: null,
       traps: [
-        'Reporting R = 50 (in-plane max shear) as the absolute max shear \u2014 only correct when \u03C3\u2081 and \u03C3\u2082 have opposite signs (choice B)',
+        'Reporting R = 50 (in-plane max shear) as the absolute max shear, which is only correct when \u03C3\u2081 and \u03C3\u2082 have opposite signs (choice B)',
         'Forgetting the out-of-plane principal stress \u03C3\u2083 = 0 in plane stress',
-        'Using (\u03C3x \u2212 \u03C3y)/2 = 40 as the max shear \u2014 that ignores \u03C4xy (choice A)',
+        'Using (\u03C3x \u2212 \u03C3y)/2 = 40 as the max shear, which ignores \u03C4xy (choice A)',
       ],
       diagram: { component: 'StressElement', props: { sigmaX: 120, sigmaY: 40, tauXY: 30 } },
     },

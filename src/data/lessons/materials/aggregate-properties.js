@@ -2,7 +2,7 @@ export default {
   id: 'aggregate-properties',
   name: 'Aggregate Properties & Gradation',
   subtopicId: 'construction-materials',
-  application: 'Aggregates make up 60--75% of concrete by volume and the bulk of asphalt mixes and base courses. As a civil engineer you specify and test their gradation, specific gravity, and absorption to proportion mixes correctly — too much absorption steals mix water, and a poorly graded aggregate wastes paste or binder. On the FE, expect to compute absorption, bulk specific gravity, and fineness modulus from lab data.',
+  application: 'Aggregates make up 60--75% of concrete by volume and the bulk of asphalt mixes and base courses. As a civil engineer you specify and test their gradation, specific gravity, and absorption to proportion mixes correctly. Too much absorption steals mix water, and a poorly graded aggregate wastes paste or binder. On the FE, expect to compute absorption, bulk specific gravity, and fineness modulus from lab data.',
   content: [
     { type: 'text', body: 'Aggregate behavior is described by three property groups: how dense the particles are (specific gravity), how much water they soak up (absorption), and how the particle sizes are distributed (gradation).' },
     { type: 'heading', body: 'Specific Gravity & Absorption' },

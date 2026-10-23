@@ -1,5 +1,5 @@
 // Exam bank: water-resources
-// Auto-extracted from lesson files — 36 questions
+// Auto-extracted from lesson files (36 questions)
 
 const PROBLEMS = [
   {
@@ -462,7 +462,7 @@ const PROBLEMS = [
       },
       {
         id: 'c3',
-        text: 'Higher $C$ has the same meaning as higher Manning\'s $n$ — both indicate smoother surfaces'
+        text: 'Higher $C$ has the same meaning as higher Manning\'s $n$, since both indicate smoother surfaces'
       },
       {
         id: 'c4',
@@ -471,8 +471,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'In Hazen-Williams, $C$ appears directly in the numerator: $v = k\\,C\\,R_H^{0.63}\\,S^{0.54}$. A larger $C$ means higher velocity and more flow for the same pipe and gradient. This is the opposite of Manning\'s $n$, where higher $n$ means rougher and slower. The choice claiming $C$ only affects velocity forgets that $Q = vA$, so anything that increases $v$ also increases $Q$. The choice that higher $C$ means a rougher pipe reverses the meaning. The choice equating $C$ with Manning\'s $n$ confuses Hazen-Williams $C$ with Manning\'s $n$ — they work in opposite directions.',
-    hint: 'Look at where $C$ appears in the Hazen-Williams equation — is it in the numerator or denominator?',
+    eli5: 'In Hazen-Williams, $C$ appears directly in the numerator: $v = k\\,C\\,R_H^{0.63}\\,S^{0.54}$. A larger $C$ means higher velocity and more flow for the same pipe and gradient. This is the opposite of Manning\'s $n$, where higher $n$ means rougher and slower. The choice claiming $C$ only affects velocity forgets that $Q = vA$, so anything that increases $v$ also increases $Q$. The choice that higher $C$ means a rougher pipe reverses the meaning. The choice equating $C$ with Manning\'s $n$ confuses Hazen-Williams $C$ with Manning\'s $n$, but they work in opposite directions.',
+    hint: 'Look at where $C$ appears in the Hazen-Williams equation. Is it in the numerator or denominator?',
     steps: [
       {
         text: 'Hazen-Williams velocity:',
@@ -546,7 +546,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Using the suppressed weir formula (no contraction correction) when the problem says contracted',
-      'Using H^(5/2) — that exponent is for V-notch weirs, not rectangular'
+      'Using H^(5/2), but that exponent is for V-notch weirs, not rectangular'
     ],
     diagram: {
       component: 'RectangularWeir',
@@ -584,7 +584,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'V-notch: $Q = CH^{5/2}$, so doubling $H$ multiplies $Q$ by $2^{5/2} = 4\\sqrt{2} = 5.66$. Rectangular: $Q = CLH^{3/2}$, so doubling $H$ multiplies $Q$ by $2^{3/2} = 2\\sqrt{2} = 2.83$. The V-notch is more sensitive to head changes because it has a higher exponent. This is why V-notch weirs are preferred for measuring low flows — small changes in head produce larger, more measurable changes in discharge. The "wider opening" choice confuses geometry with the exponent sensitivity. The "same factor / linear in H" choice ignores the nonlinear exponents. The choice giving the V-notch 2^{3/2} and the rectangular 2^{5/2} swaps the exponents.',
+    eli5: 'V-notch: $Q = CH^{5/2}$, so doubling $H$ multiplies $Q$ by $2^{5/2} = 4\\sqrt{2} = 5.66$. Rectangular: $Q = CLH^{3/2}$, so doubling $H$ multiplies $Q$ by $2^{3/2} = 2\\sqrt{2} = 2.83$. The V-notch is more sensitive to head changes because it has a higher exponent. This is why V-notch weirs are preferred for measuring low flows, because small changes in head produce larger, more measurable changes in discharge. The "wider opening" choice confuses geometry with the exponent sensitivity. The "same factor / linear in H" choice ignores the nonlinear exponents. The choice giving the V-notch 2^{3/2} and the rectangular 2^{5/2} swaps the exponents.',
     hint: 'Compare the exponents on $H$ in each weir formula. How does $Q$ scale when $H$ doubles?',
     steps: [
       {
@@ -699,7 +699,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'easy',
     eli5: '$Q = CIA = 0.70 \\times 5.5 \\times 30 = 115.5$ cfs. Straight plug-and-chug with no unit conversion needed since 1 acre-in./hr is approximately 1 cfs. The 165.0 cfs choice ignores $C$ and computes $Q = IA = 5.5 \\times 30 = 165$. The 57.8 cfs choice divides by 2 for no valid reason. The 11.6 cfs choice converts acres to hectares unnecessarily.',
-    hint: 'Q = CIA. The units work out directly — no conversion factor needed.',
+    hint: 'Q = CIA. The units work out directly, so no conversion factor needed.',
     steps: [
       {
         text: 'Apply the Rational Method:',
@@ -714,7 +714,7 @@ const PROBLEMS = [
     handbookFormula: 'Q = CIA',
     videoUrl: null,
     traps: [
-      'Trying to convert units — the Rational Method is set up so 1 acre-in./hr is approximately 1 cfs'
+      'Trying to convert units, when the Rational Method is set up so 1 acre-in./hr is approximately 1 cfs'
     ],
     diagram: null,
     lessonId: 'rainfall-runoff',
@@ -768,8 +768,8 @@ const PROBLEMS = [
     handbookFormula: 'Q = \\frac{(P - 0.2S)^2}{P + 0.8S}',
     videoUrl: null,
     traps: [
-      'Using P instead of (P - 0.2S) in the numerator — you must subtract the initial abstraction',
-      'Reporting Q in cfs — the SCS equation gives runoff depth in inches, not discharge'
+      'Using P instead of (P - 0.2S) in the numerator, but you must subtract the initial abstraction',
+      'Reporting Q in cfs, when the SCS equation gives runoff depth in inches, not discharge'
     ],
     diagram: null,
     lessonId: 'rainfall-runoff',
@@ -790,7 +790,7 @@ const PROBLEMS = [
       },
       {
         id: 'c3',
-        text: '$S$ is independent of CN — it depends only on soil type'
+        text: '$S$ is independent of CN and depends only on soil type'
       },
       {
         id: 'c4',
@@ -811,7 +811,7 @@ const PROBLEMS = [
         latex: 'S = \\frac{1{,}000}{55} - 10 = 8.18\\text{ in.}'
       },
       {
-        text: 'Higher CN means lower S — less water retained, more runoff.',
+        text: 'Higher CN means lower S: less water retained, more runoff.',
         latex: null
       }
     ],
@@ -819,7 +819,7 @@ const PROBLEMS = [
     handbookFormula: 'S = \\frac{1{,}000}{CN} - 10',
     videoUrl: null,
     traps: [
-      'Thinking higher CN means more retention — it is the opposite: higher CN = more impervious = more runoff'
+      'Thinking higher CN means more retention, when it is the opposite: higher CN = more impervious = more runoff'
     ],
     diagram: null,
     lessonId: 'rainfall-runoff',
@@ -849,7 +849,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'With $P = 0$ (rain falls on the watershed, not directly counted here), $Q_g = 0$, $E_s = 0$, $T_s = 0$, and $I = 0$, the balance simplifies to $Q_{in} - Q_{out} = \\Delta S$. Since $Q_{in} > Q_{out}$, $\\Delta S > 0$, meaning storage is increasing. The pond is filling up, which is exactly the purpose of detention — temporarily store peak flows to reduce downstream flooding. The "storage is decreasing" choice is wrong because although water is leaving, more is entering. The "storage is unchanged" choice confuses mass balance with zero change. The "storage depends on precipitation" choice ignores that inflow/outflow are the dominant terms for a pond.',
+    eli5: 'With $P = 0$ (rain falls on the watershed, not directly counted here), $Q_g = 0$, $E_s = 0$, $T_s = 0$, and $I = 0$, the balance simplifies to $Q_{in} - Q_{out} = \\Delta S$. Since $Q_{in} > Q_{out}$, $\\Delta S > 0$, meaning storage is increasing. The pond is filling up, which is exactly the purpose of detention: temporarily store peak flows to reduce downstream flooding. The "storage is decreasing" choice is wrong because although water is leaving, more is entering. The "storage is unchanged" choice confuses mass balance with zero change. The "storage depends on precipitation" choice ignores that inflow/outflow are the dominant terms for a pond.',
     hint: 'Simplify the mass balance by setting all zero terms to zero. What sign does $\\Delta S_s$ have when $Q_{in} > Q_{out}$?',
     steps: [
       {
@@ -861,7 +861,7 @@ const PROBLEMS = [
         latex: '\\Delta S_s = Q_{in} - Q_{out} > 0'
       },
       {
-        text: 'Positive $\\Delta S_s$ means storage is increasing — the pond is filling.',
+        text: 'Positive $\\Delta S_s$ means storage is increasing, so the pond is filling.',
         latex: null
       }
     ],
@@ -869,8 +869,8 @@ const PROBLEMS = [
     handbookFormula: 'P + Q_{in} - Q_{out} + Q_g - E_s - T_s - I = \\Delta S_s',
     videoUrl: null,
     traps: [
-      'Confusing "outflow exists" with "storage decreasing" — storage increases whenever inflow exceeds outflow',
-      'Assuming the mass balance equation always equals zero — it equals the change in storage, not zero'
+      'Confusing "outflow exists" with "storage decreasing", since storage increases whenever inflow exceeds outflow',
+      'Assuming the mass balance equation always equals zero, when it equals the change in storage, not zero'
     ],
     diagram: null,
     lessonId: 'rainfall-runoff',
@@ -887,7 +887,7 @@ const PROBLEMS = [
       },
       {
         id: 'c2',
-        text: 'A different unit hydrograph must be derived — the 1-hour UH cannot be used directly for a 2-hour storm'
+        text: 'A different unit hydrograph must be derived, because the 1-hour UH cannot be used directly for a 2-hour storm'
       },
       {
         id: 'c3',
@@ -950,7 +950,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The unit hydrograph represents the response to 1 inch of excess rainfall. To get the hydrograph for 2.5 inches, multiply every ordinate by 2.5. Peak $= 300 \\times 2.5 = 750$ cfs. The time axis does not change — only the magnitudes scale. The 120 cfs choice divides instead of multiplying ($300/2.5 = 120$). The 300 cfs choice does not scale at all (assumes 1 inch). The 600 cfs choice multiplies by 2 instead of 2.5.',
+    eli5: 'The unit hydrograph represents the response to 1 inch of excess rainfall. To get the hydrograph for 2.5 inches, multiply every ordinate by 2.5. Peak $= 300 \\times 2.5 = 750$ cfs. The time axis does not change. Only the magnitudes scale. The 120 cfs choice divides instead of multiplying ($300/2.5 = 120$). The 300 cfs choice does not scale at all (assumes 1 inch). The 600 cfs choice multiplies by 2 instead of 2.5.',
     hint: 'The unit hydrograph gives the response to 1 inch of excess rainfall. Scale linearly for other amounts.',
     steps: [
       {
@@ -967,7 +967,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Dividing by the rainfall depth instead of multiplying',
-      'Trying to adjust the time axis — only ordinates scale, not the time base'
+      'Trying to adjust the time axis, but only ordinates scale, not the time base'
     ],
     diagram: null,
     lessonId: 'hydrograph-watershed',
@@ -998,7 +998,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'medium',
     eli5: 'At duration = t_c, the entire watershed contributes flow to the outlet simultaneously, which maximizes Q. If the storm is shorter than t_c, parts of the watershed that are farther away have not had time to contribute their runoff to the outlet. Even though a shorter storm has higher intensity (from the IDF curve), the reduced contributing area more than offsets it. The Rational Method specifically uses duration = t_c to capture the maximum peak. The choice that Q increases is partially true (shorter storms are more intense) but misses that not all area contributes. The choice that Q stays the same ignores the time dimension. The choice that Q doubles for every halving of duration has no physical basis.',
-    hint: 'Think about what $t_c$ represents — the travel time from the farthest point. What happens if the storm ends before that water arrives?',
+    hint: 'Think about what $t_c$ represents: the travel time from the farthest point. What happens if the storm ends before that water arrives?',
     steps: [
       {
         text: 'At $t_c$, the entire watershed contributes flow simultaneously.',
@@ -1017,7 +1017,7 @@ const PROBLEMS = [
     handbookFormula: 'Q = CIA',
     videoUrl: null,
     traps: [
-      'Thinking shorter storms always produce higher Q because of higher intensity — the reduced contributing area matters more'
+      'Thinking shorter storms always produce higher Q because of higher intensity, but the reduced contributing area matters more'
     ],
     diagram: null,
     lessonId: 'hydrograph-watershed',
@@ -1093,7 +1093,7 @@ const PROBLEMS = [
       },
       {
         id: 'c4',
-        text: 'There is no error — this is the correct seepage velocity'
+        text: 'There is no error, because this is the correct seepage velocity'
       }
     ],
     correctAnswerId: 'c2',
@@ -1118,7 +1118,7 @@ const PROBLEMS = [
     handbookFormula: 'v = \\frac{q}{n}',
     videoUrl: null,
     traps: [
-      'Confusing Darcy velocity with seepage velocity — seepage velocity is always larger because water only flows through pores'
+      'Confusing Darcy velocity with seepage velocity, since seepage velocity is always larger because water only flows through pores'
     ],
     diagram: null,
     lessonId: 'groundwater-wells',
@@ -1176,8 +1176,8 @@ const PROBLEMS = [
     handbookFormula: 'Q = \\frac{2\\pi T(h_2 - h_1)}{\\ln(r_2/r_1)}',
     videoUrl: null,
     traps: [
-      'Using Dupuit ($h^2$ differences) for a confined aquifer — Thiem uses linear $h$',
-      'Using log base 10 instead of natural log — $\\ln(500) = 6.215$, not $\\log(500) = 2.699$'
+      'Using Dupuit ($h^2$ differences) for a confined aquifer, when Thiem uses linear $h$',
+      'Using log base 10 instead of natural log, since $\\ln(500) = 6.215$, not $\\log(500) = 2.699$'
     ],
     diagram: {
       component: 'ConfinedWell',
@@ -1237,7 +1237,7 @@ const PROBLEMS = [
     handbookFormula: 'Q = \\frac{\\pi K(h_2^2 - h_1^2)}{\\ln(r_2/r_1)}',
     videoUrl: null,
     traps: [
-      'Thinking linear and quadratic head formulas give the same result — they only agree for very small drawdowns'
+      'Thinking linear and quadratic head formulas give the same result, when they only agree for very small drawdowns'
     ],
     diagram: null,
     lessonId: 'groundwater-wells',
@@ -1267,7 +1267,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'First find the Darcy velocity: $q = Ki = 8 \\times 10^{-4} \\times 0.015 = 1.2 \\times 10^{-5}$ m/s. Then the seepage velocity: $v = q/n = 1.2 \\times 10^{-5}/0.35 = 3.43 \\times 10^{-5}$ m/s. Travel time $= \\text{distance}/\\text{velocity} = 630/3.43 \\times 10^{-5} = 1.837 \\times 10^7$ seconds. Convert to hours: $1.837 \\times 10^7/3600 = 5{,}100$ hours (about 213 days). Contaminants travel at the seepage velocity, not the Darcy velocity. The 14,600 hours option uses the Darcy velocity (not dividing by porosity) — about 3 times too long. The 1,460 hours option divides by 10 instead of converting properly (likely a decimal error). The 18,400 hours option reports the raw seconds value (1.837e7) with the thousands dropped, never converting to hours.',
+    eli5: 'First find the Darcy velocity: $q = Ki = 8 \\times 10^{-4} \\times 0.015 = 1.2 \\times 10^{-5}$ m/s. Then the seepage velocity: $v = q/n = 1.2 \\times 10^{-5}/0.35 = 3.43 \\times 10^{-5}$ m/s. Travel time $= \\text{distance}/\\text{velocity} = 630/3.43 \\times 10^{-5} = 1.837 \\times 10^7$ seconds. Convert to hours: $1.837 \\times 10^7/3600 = 5{,}100$ hours (about 213 days). Contaminants travel at the seepage velocity, not the Darcy velocity. The 14,600 hours option uses the Darcy velocity (not dividing by porosity), so it is about 3 times too long. The 1,460 hours option divides by 10 instead of converting properly (likely a decimal error). The 18,400 hours option reports the raw seconds value (1.837e7) with the thousands dropped, never converting to hours.',
     hint: 'Find the seepage velocity ($v = Ki/n$), then compute $t = \\text{distance}/v$. Convert seconds to hours.',
     steps: [
       {
@@ -1291,7 +1291,7 @@ const PROBLEMS = [
     handbookFormula: 'v = \\frac{q}{n} = \\frac{Ki}{n}',
     videoUrl: null,
     traps: [
-      'Using Darcy velocity instead of seepage velocity — contamination moves at the actual pore velocity, which is faster',
+      'Using Darcy velocity instead of seepage velocity, since contamination moves at the actual pore velocity, which is faster',
       'Forgetting to convert seconds to hours in the final answer'
     ],
     diagram: null,
@@ -1342,7 +1342,7 @@ const PROBLEMS = [
     handbookFormula: 'BOD_t = L_0(1 - e^{-kt})',
     videoUrl: null,
     traps: [
-      'Confusing BOD exerted with BOD remaining — the remaining is L0 x e^(-kt) = 125, which happens to equal the exerted value at this point'
+      'Confusing BOD exerted with BOD remaining. The remaining is L0 x e^(-kt) = 125, which happens to equal the exerted value at this point'
     ],
     diagram: null,
     lessonId: 'water-quality',
@@ -1372,7 +1372,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The DO sag curve has two competing processes: deoxygenation (organisms consuming oxygen as they decompose BOD) and reaeration (atmospheric oxygen dissolving into the water). Upstream of the critical point, deoxygenation dominates and DO drops. At the critical point, the two rates are exactly equal — DO stops dropping. Downstream of it, reaeration dominates and DO recovers. The "BOD completely consumed" choice is wrong because significant BOD may remain at the critical point. The "DO reaches zero" choice is wrong because DO rarely reaches zero in practice. The "minimum stream velocity" choice confuses velocity with the oxygen balance.',
+    eli5: 'The DO sag curve has two competing processes: deoxygenation (organisms consuming oxygen as they decompose BOD) and reaeration (atmospheric oxygen dissolving into the water). Upstream of the critical point, deoxygenation dominates and DO drops. At the critical point, the two rates are exactly equal, so DO stops dropping. Downstream of it, reaeration dominates and DO recovers. The "BOD completely consumed" choice is wrong because significant BOD may remain at the critical point. The "DO reaches zero" choice is wrong because DO rarely reaches zero in practice. The "minimum stream velocity" choice confuses velocity with the oxygen balance.',
     hint: 'The oxygen deficit is increasing when deoxygenation exceeds reaeration, and decreasing when reaeration exceeds deoxygenation. The minimum DO is where they balance.',
     steps: [
       {
@@ -1392,7 +1392,7 @@ const PROBLEMS = [
     handbookFormula: 'DO = DO_{sat} - D',
     videoUrl: null,
     traps: [
-      'Thinking DO must reach zero at the critical point — it is simply the minimum, which may still be well above zero'
+      'Thinking DO must reach zero at the critical point, when it is simply the minimum, which may still be well above zero'
     ],
     diagram: null,
     lessonId: 'water-quality',
@@ -1442,8 +1442,8 @@ const PROBLEMS = [
     handbookFormula: 'BOD_t = L_0(1 - e^{-kt})',
     videoUrl: null,
     traps: [
-      'Assuming BOD5 equals the ultimate BOD — the 5-day test only captures a fraction of the total',
-      'Using the wrong base for k — make sure k is base e, not base 10'
+      'Assuming BOD5 equals the ultimate BOD, since the 5-day test only captures a fraction of the total',
+      'Using the wrong base for k. Make sure k is base e, not base 10'
     ],
     diagram: null,
     lessonId: 'water-quality',
@@ -1544,7 +1544,7 @@ const PROBLEMS = [
     handbookFormula: 'v_o = Q/A_{surface}',
     videoUrl: null,
     traps: [
-      'Forgetting to convert MGD to gpd — 1 MGD = 1,000,000 gpd',
+      'Forgetting to convert MGD to gpd (1 MGD = 1,000,000 gpd)',
       'Using the diameter without squaring it in the area formula'
     ],
     diagram: null,
@@ -1595,7 +1595,7 @@ const PROBLEMS = [
     handbookFormula: 'v_o = Q/A_{surface}',
     videoUrl: null,
     traps: [
-      'Reversing the comparison — particles with v_s > v_o are removed, not the other way around'
+      'Reversing the comparison, since particles with v_s > v_o are removed, not the other way around'
     ],
     diagram: null,
     lessonId: 'water-treatment',
@@ -1646,7 +1646,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Forgetting to include MLSS (X_A) in the denominator',
-      'Getting confused by units — mg/L cancels between S_0 and X_A, leaving 1/time'
+      'Getting confused by units, since mg/L cancels between S_0 and X_A, leaving 1/time'
     ],
     diagram: null,
     lessonId: 'water-treatment',
@@ -1659,24 +1659,24 @@ const PROBLEMS = [
     choices: [
       {
         id: 'c1',
-        text: 'No — SRT is always much longer than HRT. The values are likely swapped.'
+        text: 'No. SRT is always much longer than HRT. The values are likely swapped.'
       },
       {
         id: 'c2',
-        text: 'Yes — SRT can be shorter than HRT if the sludge is wasted rapidly'
+        text: 'Yes. SRT can be shorter than HRT if the sludge is wasted rapidly'
       },
       {
         id: 'c3',
-        text: 'Yes — SRT and HRT are independent parameters that can take any values'
+        text: 'Yes. SRT and HRT are independent parameters that can take any values'
       },
       {
         id: 'c4',
-        text: 'No — SRT and HRT must always be equal in a properly designed system'
+        text: 'No. SRT and HRT must always be equal in a properly designed system'
       }
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'SRT (solids residence time) measures how long bacteria stay in the system — typically 4--15 days for conventional activated sludge. HRT (hydraulic residence time) measures how long water stays in the aeration basin — typically 4--8 hours. SRT is always much longer than HRT because we recycle the sludge (solids) back to the aeration basin, keeping the bacteria in the system far longer than the water. The reported values ($\\theta_c = 8$ hr, $\\theta = 10$ days) are clearly swapped. The "Yes \u2014 SRT can be shorter than HRT if the sludge is wasted rapidly" choice is wrong because rapid wasting still gives SRT of at least a few days. The "SRT and HRT are independent parameters" choice ignores the physical constraint that sludge recycle makes SRT $>$ HRT. The "SRT and HRT must always be equal" choice is wrong because they are never equal in practice.',
+    eli5: 'SRT (solids residence time) measures how long bacteria stay in the system, typically 4--15 days for conventional activated sludge. HRT (hydraulic residence time) measures how long water stays in the aeration basin, typically 4--8 hours. SRT is always much longer than HRT because we recycle the sludge (solids) back to the aeration basin, keeping the bacteria in the system far longer than the water. The reported values ($\\theta_c = 8$ hr, $\\theta = 10$ days) are clearly swapped. The "Yes, SRT can be shorter than HRT if the sludge is wasted rapidly" choice is wrong because rapid wasting still gives SRT of at least a few days. The "SRT and HRT are independent parameters" choice ignores the physical constraint that sludge recycle makes SRT $>$ HRT. The "SRT and HRT must always be equal" choice is wrong because they are never equal in practice.',
     hint: 'Think about typical values: SRT is in days (4-15), HRT is in hours (4-8). Which parameter should be larger?',
     steps: [
       {
@@ -1696,8 +1696,8 @@ const PROBLEMS = [
     handbookFormula: '\\theta_c = \\frac{V X_A}{Q_w X_w + Q_e X_e}; \\quad \\theta = \\frac{V}{Q}',
     videoUrl: null,
     traps: [
-      'Confusing SRT (days) with HRT (hours) — they differ by orders of magnitude',
-      'Thinking SRT and HRT should be equal — sludge recycle makes SRT much longer'
+      'Confusing SRT (days) with HRT (hours), since they differ by orders of magnitude',
+      'Thinking SRT and HRT should be equal, when sludge recycle makes SRT much longer'
     ],
     diagram: null,
     lessonId: 'water-treatment',

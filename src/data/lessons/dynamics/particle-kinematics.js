@@ -2,7 +2,7 @@ export default {
   id: 'particle-kinematics',
   name: 'Particle Kinematics',
   subtopicId: 'kinematics',
-  application: 'Civil engineers use particle kinematics to derive stopping sight distance on highways, predict how far debris travels after a blast, and calculate the trajectory of water leaving a spillway. On the FE, expect straightforward plug-and-chug with the constant acceleration equations and projectile motion — know which formula connects the variables you\'re given.',
+  application: 'Civil engineers use particle kinematics to derive stopping sight distance on highways, predict how far debris travels after a blast, and calculate the trajectory of water leaving a spillway. On the FE, expect straightforward plug-and-chug with the constant acceleration equations and projectile motion. Know which formula connects the variables you\'re given.',
   content: [
     { type: 'text', body: 'Kinematics describes motion without worrying about forces. For a particle moving in a straight line with constant acceleration, four equations cover everything.' },
     { type: 'heading', body: 'Constant Acceleration (Rectilinear)' },
@@ -17,14 +17,14 @@ export default {
     { type: 'heading', body: 'Curvilinear Motion (Normal-Tangential)' },
     { type: 'text', body: 'When a particle follows a curved path, acceleration has two components: tangential (speeds up or slows down) and normal (changes direction).' },
     { type: 'formula', latex: 'a_t = \\dot{v} = \\frac{dv}{dt}', label: 'Tangential' },
-    { type: 'formula', latex: 'a_n = \\frac{v^2}{\\rho}', label: 'Normal — toward center' },
+    { type: 'formula', latex: 'a_n = \\frac{v^2}{\\rho}', label: 'Normal (toward center)' },
     { type: 'text', body: 'The total acceleration magnitude is $a = \\sqrt{a_t^2 + a_n^2}$.' },
     { type: 'heading', body: 'Relative Motion' },
     { type: 'formula', latex: 'v_A = v_B + v_{A/B}' },
-    { type: 'text', body: 'Works for position, velocity, and acceleration. Useful when two objects move in the same frame — like a car on a moving train.' },
+    { type: 'text', body: 'Works for position, velocity, and acceleration. Useful when two objects move in the same frame, like a car on a moving train.' },
     { type: 'callout', variant: 'tip', body: 'Decision tree: no time in the problem? Use v\u00B2 = v\u2080\u00B2 + 2a(s \u2212 s\u2080). Curved path? Split into a_t and a_n. Two objects? Use relative motion.' },
     { type: 'callout', variant: 'warning', body: 'The constant-acceleration equations ONLY work when a is constant. If acceleration varies with time or position, you need calculus (integrate a(t) to get v(t)).' },
-    { type: 'callout', variant: 'exam', body: 'Projectile problems almost always give you an angle and initial speed. Split into x and y immediately — never mix horizontal and vertical in the same equation.' },
+    { type: 'callout', variant: 'exam', body: 'Projectile problems almost always give you an angle and initial speed. Split into x and y immediately. Never mix horizontal and vertical in the same equation.' },
   ],
   illustration: null,
   problems: [
@@ -39,7 +39,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'You\'ve got initial speed, final speed (zero), and acceleration — no time. That\'s the signature for v\u00B2 = v\u2080\u00B2 + 2a\u0394s. Plug in, solve for s. The trap is forgetting the negative sign on acceleration (braking = negative), but since v = 0 you\'d still get the right magnitude.',
+      eli5: 'You\'ve got initial speed, final speed (zero), and acceleration, but no time. That\'s the signature for v\u00B2 = v\u2080\u00B2 + 2a\u0394s. Plug in, solve for s. The trap is forgetting the negative sign on acceleration (braking = negative), but since v = 0 you\'d still get the right magnitude.',
       hint: 'Which kinematic equation doesn\'t require time?',
       steps: [
         { text: 'Identify knowns: $v_0 = 25$ m/s, $v = 0$ m/s, $a = -5$ m/s\u00B2', latex: null },
@@ -66,7 +66,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'At the top of the arc, the vertical velocity is zero — that\'s your key. Decompose the launch velocity into vertical (v\u2080 sin \u03B8), then use the no-time equation with v_y = 0. Common mistake: using the full 20 m/s instead of just the vertical component, which gives 20.4 m (the 20.4 m choice).',
+      eli5: 'At the top of the arc, the vertical velocity is zero. That\'s your key. Decompose the launch velocity into vertical (v\u2080 sin \u03B8), then use the no-time equation with v_y = 0. Common mistake: using the full 20 m/s instead of just the vertical component, which gives 20.4 m (the 20.4 m choice).',
       hint: 'What is the vertical velocity at the highest point?',
       steps: [
         { text: 'Find vertical component:', latex: 'v_{0y} = 20 \\sin 60\\degree = 17.32 \\text{ m/s}' },
@@ -77,7 +77,7 @@ export default {
       handbookFormula: 'y = -\\frac{g t^2}{2} + v_0 \\sin\\theta \\cdot t + y_0',
       videoUrl: null,
       traps: [
-        'Using v\u2080 = 20 m/s instead of v\u2080y = 20 sin 60\u00B0 — gives 20.4 m (distractor D)',
+        'Using v\u2080 = 20 m/s instead of v\u2080y = 20 sin 60\u00B0, which gives 20.4 m (distractor D)',
         'Mixing up sin and cos for the vertical component',
       ],
       diagram: { component: 'ProjectileLaunch', props: { v0: 20, angle: 60 } },
@@ -94,7 +94,7 @@ export default {
       correctAnswerId: 'c3',
       difficulty: 'hard',
       eli5: 'On a curve, you have two accelerations at right angles: tangential (speeding up, given as 2) and normal (centripetal, v\u00B2/\u03C1). Since they\'re perpendicular, combine with Pythagorean theorem. Choosing just 4.5 means you forgot the tangential piece. Choosing 2.0 means you forgot the normal piece.',
-      hint: 'The car has two perpendicular acceleration components — tangential and normal. How do you combine perpendicular vectors?',
+      hint: 'The car has two perpendicular acceleration components: tangential and normal. How do you combine perpendicular vectors?',
       steps: [
         { text: 'Tangential acceleration (given): $a_t = 2$ m/s\u00B2', latex: null },
         { text: 'Normal acceleration:', latex: 'a_n = \\frac{v^2}{\\rho} = \\frac{30^2}{200} = 4.5 \\text{ m/s}^2' },
@@ -105,7 +105,7 @@ export default {
       videoUrl: null,
       traps: [
         'Reporting only a_n = 4.5 and ignoring tangential acceleration (distractor B)',
-        'Adding a_t + a_n = 6.5 instead of using Pythagorean theorem — they\'re perpendicular, not collinear',
+        'Adding a_t + a_n = 6.5 instead of using Pythagorean theorem (they\'re perpendicular, not collinear)',
       ],
       diagram: { component: 'CarOnCurve', props: { radius: 200, speed: 30, accelT: 2 } },
     },

@@ -2,7 +2,7 @@ export default {
   id: 'hydrostatic-forces-buoyancy',
   name: 'Hydrostatic Forces & Buoyancy',
   subtopicId: 'fluid-properties-statics',
-  application: 'Civil engineers calculate hydrostatic forces to design dams, gates, and lock chambers. The resultant force on a submerged surface acts at the center of pressure \u2014 not the centroid \u2014 which matters for computing overturning moments. Buoyancy governs whether a buried tank floats out of saturated ground, how much a barge settles under load, and the uplift on submerged foundations. On the FE, expect problems requiring the hydrostatic force on a flat surface, locating the center of pressure, or applying Archimedes\u2019 principle.',
+  application: 'Civil engineers calculate hydrostatic forces to design dams, gates, and lock chambers. The resultant force on a submerged surface acts at the center of pressure (not the centroid), which matters for computing overturning moments. Buoyancy governs whether a buried tank floats out of saturated ground, how much a barge settles under load, and the uplift on submerged foundations. On the FE, expect problems requiring the hydrostatic force on a flat surface, locating the center of pressure, or applying Archimedes\u2019 principle.',
   content: [
     { type: 'text', body: 'When a flat surface is submerged in a static fluid, the pressure distribution creates a resultant force. Finding that force and where it acts is a classic FE problem.' },
     { type: 'heading', body: 'Force on a Submerged Plane Surface' },
@@ -14,8 +14,8 @@ export default {
     { type: 'heading', body: 'Archimedes\u2019 Principle' },
     { type: 'formula', latex: 'F_B = \\gamma V_{\\text{displaced}}', label: 'Buoyant force' },
     { type: 'text', body: 'The buoyant force equals the weight of fluid displaced. A floating body displaces its own weight. The center of buoyancy is at the centroid of the displaced fluid volume.' },
-    { type: 'callout', variant: 'tip', body: 'For a rectangular gate: $I_{xC} = bh^3/12$. For a circular gate: $I_{xC} = \\pi r^4/4$. These are centroidal moments of inertia \u2014 the handbook provides them.' },
-    { type: 'callout', variant: 'warning', body: 'The resultant force acts at the CENTER OF PRESSURE, not the centroid. The force is computed using the pressure at the centroid, but it doesn\u2019t act there \u2014 it acts deeper.' },
+    { type: 'callout', variant: 'tip', body: 'For a rectangular gate: $I_{xC} = bh^3/12$. For a circular gate: $I_{xC} = \\pi r^4/4$. These are centroidal moments of inertia, and the handbook provides them.' },
+    { type: 'callout', variant: 'warning', body: 'The resultant force acts at the CENTER OF PRESSURE, not the centroid. The force is computed using the pressure at the centroid, but it doesn\u2019t act there. It acts deeper.' },
   ],
   illustration: null,
   problems: [
@@ -41,7 +41,7 @@ export default {
       handbookFormula: 'F_R = (\\rho g y_C \\sin\\theta) A',
       videoUrl: null,
       traps: [
-        'Using the bottom depth (3 m) instead of the centroid depth (1.5 m) \u2014 doubles the answer',
+        'Using the bottom depth (3 m) instead of the centroid depth (1.5 m), which doubles the answer',
         'Forgetting that the centroid of a rectangle is at its center, not at one-third height',
       ],
       diagram: { component: 'SubmergedGate', props: { width: 2, height: 3, topDepth: 0, unit: 'm' } },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The center of pressure is y_CP = y_C + I_xC/(y_C \u00D7 A). For a vertical surface, y = h. Centroid: y_C = 1.5 m. I_xC = 2(3)^3/12 = 4.5 m^4. A = 6 m\u00B2. Offset = 4.5/(1.5 \u00D7 6) = 0.5 m. So y_CP = 1.5 + 0.5 = 2.0 m. The center of pressure is at 2/3 of the height \u2014 that\u2019s a classic result for a rectangle with its top at the surface. The 1.5 m option is the centroid, not the center of pressure. The 1.0 m option is one-third. The 2.5 m option adds a third of the gate height to the centroid, 1.5 + 1.0, which is the right idea about the shape of the pressure and the wrong distance: the offset here is half a meter, not a third of the height.',
+      eli5: 'The center of pressure is y_CP = y_C + I_xC/(y_C \u00D7 A). For a vertical surface, y = h. Centroid: y_C = 1.5 m. I_xC = 2(3)^3/12 = 4.5 m^4. A = 6 m\u00B2. Offset = 4.5/(1.5 \u00D7 6) = 0.5 m. So y_CP = 1.5 + 0.5 = 2.0 m. The center of pressure is at 2/3 of the height, and that\u2019s a classic result for a rectangle with its top at the surface. The 1.5 m option is the centroid, not the center of pressure. The 1.0 m option is one-third. The 2.5 m option adds a third of the gate height to the centroid, 1.5 + 1.0, which is the right idea about the shape of the pressure and the wrong distance: the offset here is half a meter, not a third of the height.',
       hint: 'The center of pressure is deeper than the centroid. Use the formula y_CP = y_C + I_xC/(y_C \u00D7 A).',
       steps: [
         { text: 'Centroid depth for vertical surface:', latex: 'y_C = h_C = 1.5 \\text{ m}' },
@@ -68,8 +68,8 @@ export default {
       handbookFormula: 'y_{CP} = y_C + \\frac{I_{xC}}{y_C A}',
       videoUrl: null,
       traps: [
-        'Confusing the centroid with the center of pressure \u2014 they\u2019re not the same (choice B)',
-        'Remembering that the resultant sits a third of the way from somewhere and adding h/3 to the centroid \u2014 gives 2.5 m (choice D). The resultant on a surface-topped rectangle sits a third of the height up from the BOTTOM, which is 2.0 m down',
+        'Confusing the centroid with the center of pressure, when they\u2019re not the same (choice B)',
+        'Remembering that the resultant sits a third of the way from somewhere and adding h/3 to the centroid, which gives 2.5 m (choice D). The resultant on a surface-topped rectangle sits a third of the height up from the BOTTOM, which is 2.0 m down',
       ],
       diagram: { component: 'SubmergedGate', props: { width: 2, height: 3, topDepth: 0, unit: 'm' } },
     },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Buoyant force = \u03B3_w \u00D7 V_displaced = 9,810 \u00D7 2.0 = 19,620 N = 19.62 kN. Weight = 15 kN. Since buoyancy > weight, the net force is 19.62 \u2013 15 = 4.62 kN upward \u2014 the tank wants to float. The "4.62 kN downward" option gets the right magnitude but wrong direction. The "19.62 kN upward" option gives the buoyant force alone without subtracting weight. The "15.0 kN downward" option ignores buoyancy entirely.',
+      eli5: 'Buoyant force = \u03B3_w \u00D7 V_displaced = 9,810 \u00D7 2.0 = 19,620 N = 19.62 kN. Weight = 15 kN. Since buoyancy > weight, the net force is 19.62 \u2013 15 = 4.62 kN upward, so the tank wants to float. The "4.62 kN downward" option gets the right magnitude but wrong direction. The "19.62 kN upward" option gives the buoyant force alone without subtracting weight. The "15.0 kN downward" option ignores buoyancy entirely.',
       hint: 'Compare the buoyant force (\u03B3_w \u00D7 V_outer) to the tank\u2019s weight. The net force determines whether the tank sinks or floats.',
       steps: [
         { text: 'Buoyant force:', latex: 'F_B = \\gamma_w V = 9{,}810 \\times 2.0 = 19{,}620 \\text{ N} = 19.62 \\text{ kN}' },
@@ -95,7 +95,7 @@ export default {
       handbookFormula: 'F_B = \\gamma V_{\\text{displaced}}',
       videoUrl: null,
       traps: [
-        'Getting the direction wrong \u2014 net upward means the tank floats, not sinks',
+        'Getting the direction wrong. Net upward means the tank floats, not sinks',
         'Using the steel\u2019s \u03B3 instead of water\u2019s \u03B3 for the buoyant force',
         'Forgetting that buoyancy uses the outer (displaced) volume, not the volume of steel',
       ],

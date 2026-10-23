@@ -23,12 +23,12 @@ export default {
     { latex: 'P_n = F_y A_g \\text{ (yield)}, \\quad P_n = F_u A_e \\text{ (rupture)}', label: 'Steel Tension Members', page: 'p. 283' },
   ],
   traps: [
-    'Using ASD factors when the problem asks for LRFD, or vice versa — read the load combination method carefully.',
-    'Forgetting that d (effective depth) is NOT the same as the total beam height h — d = h minus cover minus bar offset.',
-    'Using Zx (plastic section modulus) vs. Sx (elastic section modulus) — LRFD steel uses Zx, ASD uses Sx.',
-    'Not checking all ASCE 7 load combinations — the controlling case often is not the one with the largest single load.',
-    'Picking the LARGER capacity as the controlling limit state — the SMALLER design strength governs because it represents the weaker failure mode.',
-    'Point-load deflection uses L³ (PL³/48EI); distributed-load deflection uses L⁴ (5wL⁴/384EI) — mixing the powers of L is the #1 deflection error.',
+    'Using ASD factors when the problem asks for LRFD, or vice versa. Read the load combination method carefully.',
+    'Forgetting that d (effective depth) is NOT the same as the total beam height h: d = h minus cover minus bar offset.',
+    'Using Zx (plastic section modulus) vs. Sx (elastic section modulus): LRFD steel uses Zx, ASD uses Sx.',
+    'Not checking all ASCE 7 load combinations, since the controlling case often is not the one with the largest single load.',
+    'Picking the LARGER capacity as the controlling limit state. The SMALLER design strength governs because it represents the weaker failure mode.',
+    'Point-load deflection uses L³ (PL³/48EI); distributed-load deflection uses L⁴ (5wL⁴/384EI), and mixing the powers of L is the #1 deflection error.',
     'Confusing the propped-cantilever prop reaction 3wL/8 with the simple-span reaction wL/2, and the fixed-end moment wL²/12 with the simple-span moment wL²/8.',
   ],
 };

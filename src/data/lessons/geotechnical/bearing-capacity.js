@@ -13,7 +13,7 @@ export default {
     { type: 'text', body: 'Typical FS = 3 for bearing capacity. The allowable pressure is what you compare to the actual foundation pressure from structural loads.' },
     { type: 'heading', body: 'Special Case: \u03C6 = 0 (Undrained Clay)' },
     { type: 'text', body: 'For purely cohesive soil: $N_c \\approx 5.14$, $N_q = 1$, $N_\\gamma = 0$. The equation simplifies to $q_{ult} = c_u \\times 5.14 + \\gamma D_f$.' },
-    { type: 'callout', variant: 'tip', body: 'On the FE, the bearing capacity factors will be given in the problem. You do not need to memorize Nc, Nq, N\u03B3 values for different \u03C6 angles \u2014 just plug into the formula.' },
+    { type: 'callout', variant: 'tip', body: 'On the FE, the bearing capacity factors will be given in the problem. You do not need to memorize Nc, Nq, N\u03B3 values for different \u03C6 angles. Just plug into the formula.' },
     { type: 'callout', variant: 'warning', body: 'FS divides the ultimate bearing capacity, not the applied load. qallow = qult/FS. Also, use the effective unit weight (\u03B3\u2019 if below WT, \u03B3 if above) for the \u03B3 terms.' },
   ],
   illustration: null,
@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'qult = cNc + \u03B3\u2019(0)Nq + 0 = 1,500 \u00D7 5.14 + 0 + 0 = 7,710 psf. With Df = 0, the overburden term vanishes. The 1,500 psf option is just the cohesion. The 5,140 psf option uses c = 1,000 or confuses Nc with the answer. The 3,855 psf option divides by FS = 2 prematurely \u2014 the problem asks for ultimate, not allowable.',
+      eli5: 'qult = cNc + \u03B3\u2019(0)Nq + 0 = 1,500 \u00D7 5.14 + 0 + 0 = 7,710 psf. With Df = 0, the overburden term vanishes. The 1,500 psf option is just the cohesion. The 5,140 psf option uses c = 1,000 or confuses Nc with the answer. The 3,855 psf option divides by FS = 2 prematurely, but the problem asks for ultimate, not allowable.',
       hint: 'For \u03C6 = 0: N\u03B3 = 0 and Nq contributes only if there is overburden (Df > 0).',
       steps: [
         { text: 'Bearing capacity with $D_f = 0$:', latex: 'q_{ult} = c_u N_c = 1{,}500 \\times 5.14 = 7{,}710 \\text{ psf}' },
@@ -66,7 +66,7 @@ export default {
       handbookFormula: 'q_{ult} = c N_c + \\gamma\' D_f N_q + \\frac{1}{2} \\gamma\' B N_\\gamma',
       videoUrl: null,
       traps: [
-        'Forgetting the 1/2 factor on the N\u03B3 term \u2014 it is 0.5\u03B3BN\u03B3, not \u03B3BN\u03B3',
+        'Forgetting the 1/2 factor on the N\u03B3 term: it is 0.5\u03B3BN\u03B3, not \u03B3BN\u03B3',
         'Only computing one of the three terms instead of summing all contributions',
       ],
       diagram: { component: 'FootingSection', props: { width: 4, depth: 3, unit: 'ft' } },
@@ -95,7 +95,7 @@ export default {
       handbookFormula: 'q_{ult} = c N_c + \\gamma\' D_f N_q + \\frac{1}{2} \\gamma\' B N_\\gamma',
       videoUrl: null,
       traps: [
-        'Reporting qult as the answer when the problem asks for qallow \u2014 always check whether FS is needed',
+        'Reporting qult as the answer when the problem asks for qallow. Always check whether FS is needed',
         'Applying FS to each term separately instead of dividing the total qult by FS',
         'Forgetting the 1/2 factor on the N\u03B3 term',
       ],

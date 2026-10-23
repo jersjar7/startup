@@ -2,11 +2,11 @@ export default {
   "id": "derivatives-rules",
   "name": "Derivatives & Derivative Rules",
   "subtopicId": "single-var-calc",
-  "application": "Civil engineers use derivatives any time they need a rate of change — the slope of a deflection curve to find beam rotation, the rate of flow change in a pipe to detect surges, or the velocity of a settling particle in a sedimentation tank. On the FE, derivative questions are usually 'apply the right rule' problems: you see a function, pick the correct derivative rule from the handbook table, and crank through the algebra. The chain rule shows up the most because the FE loves composite functions like sin(3x²) or e^(-0.5t).",
+  "application": "Civil engineers use derivatives any time they need a rate of change: the slope of a deflection curve to find beam rotation, the rate of flow change in a pipe to detect surges, or the velocity of a settling particle in a sedimentation tank. On the FE, derivative questions are usually 'apply the right rule' problems: you see a function, pick the correct derivative rule from the handbook table, and crank through the algebra. The chain rule shows up the most because the FE loves composite functions like sin(3x²) or e^(-0.5t).",
   "content": [
     {
       "type": "text",
-      "body": "The derivative of $y = f(x)$ gives the instantaneous rate of change. The handbook has a full table of 27 derivative formulas — you don't memorize them, you look them up. But you do need to know which rule to apply."
+      "body": "The derivative of $y = f(x)$ gives the instantaneous rate of change. The handbook has a full table of 27 derivative formulas. You don't memorize them, you look them up. But you do need to know which rule to apply."
     },
     {
       "type": "heading",
@@ -50,17 +50,17 @@ export default {
     {
       "type": "formula",
       "latex": "\\frac{d}{dx}(\\sin u) = \\cos u \\cdot \\frac{du}{dx}",
-      "label": "Trig — always chain rule"
+      "label": "Trig (always chain rule)"
     },
     {
       "type": "formula",
       "latex": "\\frac{d}{dx}(e^u) = e^u \\cdot \\frac{du}{dx}",
-      "label": "Exponential — always chain rule"
+      "label": "Exponential (always chain rule)"
     },
     {
       "type": "formula",
       "latex": "\\frac{d}{dx}(\\ln u) = \\frac{1}{u} \\cdot \\frac{du}{dx}",
-      "label": "Natural log — always chain rule"
+      "label": "Natural log (always chain rule)"
     },
     {
       "type": "callout",
@@ -70,7 +70,7 @@ export default {
     {
       "type": "callout",
       "variant": "warning",
-      "body": "The quotient rule is the #1 sign-error generator on the FE. The numerator is $v\\,du - u\\,dv$, not the other way around. A mnemonic: 'lo d-hi minus hi d-lo' — the denominator function ($v$, the 'lo') goes first."
+      "body": "The quotient rule is the #1 sign-error generator on the FE. The numerator is $v\\,du - u\\,dv$, not the other way around. A mnemonic: 'lo d-hi minus hi d-lo'. The denominator function ($v$, the 'lo') goes first."
     }
   ],
   "illustration": null,
@@ -98,8 +98,8 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "easy",
-      "eli5": "The power rule says bring the exponent down and subtract one from the power. But the argument isn't just x — it's 3x + 5 — so you have to chain rule it. That means you also multiply by the derivative of the inside, which is 3. The most common mistake is forgetting that extra factor of 3. The choice $4(3x + 5)^3$ is exactly what you get if you skip the chain rule.",
-      "hint": "The argument isn't plain x — what extra factor does the chain rule add?",
+      "eli5": "The power rule says bring the exponent down and subtract one from the power. But the argument isn't just x. It's 3x + 5, so you have to chain rule it. That means you also multiply by the derivative of the inside, which is 3. The most common mistake is forgetting that extra factor of 3. The choice $4(3x + 5)^3$ is exactly what you get if you skip the chain rule.",
+      "hint": "The argument isn't plain x. What extra factor does the chain rule add?",
       "steps": [
         {
           "text": "Recognize this as a chain rule problem: the outer function is $u^4$ and the inner function is $u = 3x + 5$.",
@@ -146,7 +146,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "medium",
-      "eli5": "Two functions multiplied together means product rule. The tricky part is that e^(3x) also needs the chain rule — its derivative is 3e^(3x), not just e^(3x). The choice e^{3x}(2x + x^2) is what you get if you forget that chain rule factor of 3 on the exponential. The choice 2xe^{3x} only differentiates the x² part and ignores the product rule entirely. Always ask: am I using BOTH terms of the product rule?",
+      "eli5": "Two functions multiplied together means product rule. The tricky part is that e^(3x) also needs the chain rule: its derivative is 3e^(3x), not just e^(3x). The choice e^{3x}(2x + x^2) is what you get if you forget that chain rule factor of 3 on the exponential. The choice 2xe^{3x} only differentiates the x² part and ignores the product rule entirely. Always ask: am I using BOTH terms of the product rule?",
       "hint": "Two functions multiplied means product rule. And $e^{3x}$ needs the chain rule for its own derivative.",
       "steps": [
         {
@@ -198,8 +198,8 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "hard",
-      "eli5": "Quotient rule: 'lo d-hi minus hi d-lo over lo-lo.' The denominator function ($x^2 + 1$) goes first in the numerator — it multiplies the derivative of the top ($\\cos x$). Then subtract the top ($\\sin x$) times the derivative of the bottom ($2x$). The classic trap is flipping the subtraction order. The choice with a plus where there should be a minus (cos x term plus 2x sin x) is wrong. The choice with the terms in the wrong order entirely (2x sin x minus the cos x term) is also wrong. The mnemonic saves you: lo d-hi MINUS hi d-lo.",
-      "hint": "'Lo d-hi minus hi d-lo over lo-lo' — the bottom function goes first in the numerator.",
+      "eli5": "Quotient rule: 'lo d-hi minus hi d-lo over lo-lo.' The denominator function ($x^2 + 1$) goes first in the numerator, where it multiplies the derivative of the top ($\\cos x$). Then subtract the top ($\\sin x$) times the derivative of the bottom ($2x$). The classic trap is flipping the subtraction order. The choice with a plus where there should be a minus (cos x term plus 2x sin x) is wrong. The choice with the terms in the wrong order entirely (2x sin x minus the cos x term) is also wrong. The mnemonic saves you: lo d-hi MINUS hi d-lo.",
+      "hint": "'Lo d-hi minus hi d-lo over lo-lo'. The bottom function goes first in the numerator.",
       "steps": [
         {
           "text": "Identify $u = \\sin x$ and $v = x^2 + 1$. This needs the quotient rule.",

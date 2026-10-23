@@ -14,7 +14,7 @@ export default {
     { type: 'text', body: 'For a full circular pipe of diameter $D$: $R_H = D/4$. For a rectangular channel of width $b$ and depth $y$: $R_H = by/(b + 2y)$. For a trapezoidal channel, add the sloped sides to the wetted perimeter.' },
     { type: 'heading', body: 'Common Manning\'s n Values' },
     { type: 'text', body: 'Concrete: $n \\approx 0.013$. Corrugated metal: $n \\approx 0.024$. Earth channel (clean): $n \\approx 0.022$. Natural stream (clean): $n \\approx 0.030$. Natural stream (weedy): $n \\approx 0.035$.' },
-    { type: 'callout', variant: 'warning', body: 'The 1.486 factor applies ONLY to US Customary units. In SI, K = 1.0. This is the single most common trap on Manning\'s problems \u2014 forgetting the conversion factor changes your answer by almost 50%.' },
+    { type: 'callout', variant: 'warning', body: 'The 1.486 factor applies ONLY to US Customary units. In SI, K = 1.0. This is the single most common trap on Manning\'s problems: forgetting the conversion factor changes your answer by almost 50%.' },
     { type: 'callout', variant: 'tip', body: 'Hydraulic radius is NOT the physical radius. For a full circular pipe, R_H = D/4, not D/2. Only for very wide, shallow channels does R_H approach the depth y.' },
   ],
   illustration: null,
@@ -43,7 +43,7 @@ export default {
       handbookFormula: 'Q = \\frac{K}{n} A R_H^{2/3} S^{1/2}',
       videoUrl: null,
       traps: [
-        'Forgetting the 1.486 factor for USCS units \u2014 using K = 1.0 gives about 19.5 cfs instead of 28.9 cfs',
+        'Forgetting the 1.486 factor for USCS units, so using K = 1.0 gives about 19.5 cfs instead of 28.9 cfs',
         'Using the channel width as the wetted perimeter instead of b + 2y',
       ],
       diagram: { component: 'RectangularChannel', props: { b: 4, y: 2, unit: 'ft' } },
@@ -99,8 +99,8 @@ export default {
       handbookFormula: 'v = \\frac{K}{n} R_H^{2/3} S^{1/2}',
       videoUrl: null,
       traps: [
-        'Thinking higher n means faster flow \u2014 higher n means rougher surface and slower flow',
-        'Computing n_A/n_B instead of n_B/n_A \u2014 velocity is inversely proportional to n',
+        'Thinking higher n means faster flow, when higher n means rougher surface and slower flow',
+        'Computing n_A/n_B instead of n_B/n_A, when velocity is inversely proportional to n',
       ],
       diagram: null,
     },

@@ -2,7 +2,7 @@ export default {
   id: 'steel-tension',
   name: 'Steel Tension Members',
   subtopicId: 'steel-design',
-  application: 'Steel tension members (braces, truss chords, hangers) must be checked for two failure modes: yielding on the gross section and rupture on the net section through bolt holes. The controlling limit state \u2014 whichever gives the smaller design strength \u2014 governs. On the FE, expect problems computing net area with bolt holes, effective net area with the shear lag factor U, and determining which limit state controls.',
+  application: 'Steel tension members (braces, truss chords, hangers) must be checked for two failure modes: yielding on the gross section and rupture on the net section through bolt holes. The controlling limit state (whichever gives the smaller design strength) governs. On the FE, expect problems computing net area with bolt holes, effective net area with the shear lag factor U, and determining which limit state controls.',
   content: [
     { type: 'text', body: 'AISC 360-16 defines two limit states for tension members. Both must be checked, and the smaller design strength controls.' },
     { type: 'heading', body: 'Yielding on Gross Section' },
@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: '$A_g = 0.5 \\times 6 = 3.0$ in$^2$. For yielding: $\\phi_y P_n = 0.90 \\times F_y \\times A_g = 0.90 \\times 36 \\times 3.0 = 97.2 \\approx 97$ kips. The 108 kips choice is $F_y \\times A_g = 108$ without the $\\phi$ factor. The 174 kips choice uses $F_u$ instead of $F_y$ with no $\\phi$ factor: $174 = F_u \\times A_g = 58 \\times 3.0$. The 131 kips choice uses $\\phi = 0.75$ with $F_u$: $0.75 \\times 58 \\times 3.0 = 130.5 \\approx 131$ — that is the rupture check, not yielding.',
+      eli5: '$A_g = 0.5 \\times 6 = 3.0$ in$^2$. For yielding: $\\phi_y P_n = 0.90 \\times F_y \\times A_g = 0.90 \\times 36 \\times 3.0 = 97.2 \\approx 97$ kips. The 108 kips choice is $F_y \\times A_g = 108$ without the $\\phi$ factor. The 174 kips choice uses $F_u$ instead of $F_y$ with no $\\phi$ factor: $174 = F_u \\times A_g = 58 \\times 3.0$. The 131 kips choice uses $\\phi = 0.75$ with $F_u$: $0.75 \\times 58 \\times 3.0 = 130.5 \\approx 131$, but that is the rupture check, not yielding.',
       hint: 'For yielding: $\\phi_y P_n = 0.90 \\times F_y \\times A_g$. No bolt hole deductions.',
       steps: [
         { text: 'Gross area:', latex: 'A_g = 0.5 \\times 6 = 3.0 \\text{ in}^2' },
@@ -40,7 +40,7 @@ export default {
       handbookFormula: 'P_n = F_y A_g, \\quad \\phi_y = 0.90',
       videoUrl: null,
       traps: [
-        'Using $F_u$ instead of $F_y$ for yielding — yielding uses $F_y$ (yield stress), rupture uses $F_u$ (ultimate stress)',
+        'Using $F_u$ instead of $F_y$ for yielding. Yielding uses $F_y$ (yield stress), rupture uses $F_u$ (ultimate stress)',
         'Forgetting the $\\phi_y = 0.90$ factor',
       ],
       diagram: null,
@@ -97,8 +97,8 @@ export default {
       handbookFormula: '\\text{Yielding: } \\phi_y P_n = 0.90 F_y A_g; \\quad \\text{Rupture: } \\phi_t P_n = 0.75 F_u A_e',
       videoUrl: null,
       traps: [
-        'Picking the larger value as the capacity — the smaller design strength controls because it represents the weaker failure mode',
-        'Using the same $\\phi$ factor for both limit states — yielding uses 0.90, rupture uses 0.75',
+        'Picking the larger value as the capacity. The smaller design strength controls because it represents the weaker failure mode',
+        'Using the same $\\phi$ factor for both limit states. Yielding uses 0.90, rupture uses 0.75',
         'Forgetting to deduct bolt holes for the rupture check or deducting holes for the yielding check (yielding uses $A_g$)',
       ],
       diagram: { component: 'TensionPlateNet', props: { width: 8, thickness: 0.5, numBolts: 2, boltDia: 0.75, unit: 'in.' } },

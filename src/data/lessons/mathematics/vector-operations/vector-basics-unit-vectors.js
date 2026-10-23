@@ -2,7 +2,7 @@ export default {
   "id": "vector-basics-unit-vectors",
   "name": "Vector Basics & Unit Vectors",
   "subtopicId": "vector-operations",
-  "application": "Vectors are the language of forces in civil engineering. Every time you draw a free body diagram — resolving a cable tension into horizontal and vertical components, adding wind loads on a structure, or combining soil pressure resultants — you're doing vector math. Unit vectors let you express direction independently of magnitude, which is essential for writing force equilibrium equations in 2D and 3D. On the FE, vector basics show up directly in statics and dynamics problems. If you can add, subtract, and normalize vectors quickly, you'll save time on at least 5-10 questions.",
+  "application": "Vectors are the language of forces in civil engineering. Every time you draw a free body diagram (resolving a cable tension into horizontal and vertical components, adding wind loads on a structure, or combining soil pressure resultants), you're doing vector math. Unit vectors let you express direction independently of magnitude, which is essential for writing force equilibrium equations in 2D and 3D. On the FE, vector basics show up directly in statics and dynamics problems. If you can add, subtract, and normalize vectors quickly, you'll save time on at least 5-10 questions.",
   "content": [
     { "type": "text", "body": "A vector has both magnitude and direction. On the FE, vectors are usually written in component form using unit vectors $\\hat{i}$, $\\hat{j}$, $\\hat{k}$ along the $x$, $y$, $z$ axes." },
     { "type": "heading", "body": "Vector in Component Form" },
@@ -14,11 +14,11 @@ export default {
     { "type": "text", "body": "A unit vector points in the same direction as $\\vec{A}$ but has magnitude 1. Multiply it by any scalar to get a vector of that length in that direction." },
     { "type": "heading", "body": "Vector Addition" },
     { "type": "formula", "latex": "\\vec{A} + \\vec{B} = (A_x + B_x)\\hat{i} + (A_y + B_y)\\hat{j} + (A_z + B_z)\\hat{k}" },
-    { "type": "text", "body": "Add component by component. Subtraction works the same way — subtract each component." },
+    { "type": "text", "body": "Add component by component. Subtraction works the same way: subtract each component." },
     { "type": "heading", "body": "Scalar Multiplication" },
     { "type": "text", "body": "Multiplying a vector by a scalar $c$ scales every component: $c\\vec{A} = cA_x\\hat{i} + cA_y\\hat{j} + cA_z\\hat{k}$. If $c$ is negative, the vector reverses direction." },
     { "type": "callout", "variant": "tip", "body": "To express a force along a known direction: find the unit vector in that direction, then multiply by the force magnitude. This is how you resolve 3D forces into components: $\\vec{F} = F\\,\\hat{u}$." },
-    { "type": "callout", "variant": "warning", "body": "Don't confuse magnitude with a component. $|\\vec{A}|$ uses the square root of the sum of squares. $A_x$ alone is just the projection onto the $x$-axis — it can be negative." }
+    { "type": "callout", "variant": "warning", "body": "Don't confuse magnitude with a component. $|\\vec{A}|$ uses the square root of the sum of squares. $A_x$ alone is just the projection onto the $x$-axis, and it can be negative." }
   ],
   "illustration": null,
   "problems": [
@@ -33,7 +33,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "easy",
-      "eli5": "Distance is the magnitude of the displacement vector. Square each component, add them, take the square root. This is a 3-4-5 right triangle scaled by 10 — if you recognize the Pythagorean triple you can skip the calculator entirely.",
+      "eli5": "Distance is the magnitude of the displacement vector. Square each component, add them, take the square root. This is a 3-4-5 right triangle scaled by 10. If you recognize the Pythagorean triple you can skip the calculator entirely.",
       "hint": "The total distance is the magnitude of the vector, not the sum of components.",
       "steps": [
         { "text": "Apply the magnitude formula:", "latex": "|\\vec{d}| = \\sqrt{30^2 + 40^2}" },
@@ -44,7 +44,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Adding components directly (30 + 40 = 70) instead of using the magnitude formula",
-        "Forgetting to square root — 900 + 1600 = 2500 is not the answer, √2500 = 50 is"
+        "Forgetting to square root: 900 + 1600 = 2500 is not the answer, √2500 = 50 is"
       ],
       "diagram": null
     },
@@ -59,7 +59,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Two steps: first get the direction vector by subtracting coordinates (B − A), then divide every component by the magnitude. The choice 3\u00ee + 4\u0135 + 0k\u0302 is the direction vector before normalizing — that's the most common mistake. Always check that your unit vector's magnitude equals 1: √(0.6² + 0.8²) = √(0.36 + 0.64) = 1. ✓",
+      "eli5": "Two steps: first get the direction vector by subtracting coordinates (B − A), then divide every component by the magnitude. The choice 3\u00ee + 4\u0135 + 0k\u0302 is the direction vector before normalizing, and that's the most common mistake. Always check that your unit vector's magnitude equals 1: √(0.6² + 0.8²) = √(0.36 + 0.64) = 1. ✓",
       "hint": "Subtract A from B to get the direction vector, then divide by its magnitude.",
       "steps": [
         { "text": "Find the direction vector:", "latex": "\\vec{AB} = (4-1)\\hat{i} + (6-2)\\hat{j} + (2-2)\\hat{k} = 3\\hat{i} + 4\\hat{j} + 0\\hat{k}" },
@@ -70,8 +70,8 @@ export default {
       "handbookFormula": "\\hat{u}_A = \\frac{\\vec{A}}{|\\vec{A}|}",
       "videoUrl": null,
       "traps": [
-        "Forgetting to divide by the magnitude — choice B is the raw direction vector, not the unit vector",
-        "Subtracting in the wrong order (A − B instead of B − A) — this reverses the direction"
+        "Forgetting to divide by the magnitude: choice B is the raw direction vector, not the unit vector",
+        "Subtracting in the wrong order (A − B instead of B − A), which reverses the direction"
       ],
       "diagram": null
     },
@@ -86,7 +86,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "hard",
-      "eli5": "Vector addition is component-by-component — add all the x's together, add all the y's together. Then the resultant magnitude is √(Rx² + Ry²). The trap is adding magnitudes directly (500 + 360.6 + 400 \u2248 1261) — that only works if all forces point the same direction, which they never do in real problems. Here √100000 = 100√10 ≈ 316 N.",
+      "eli5": "Vector addition is component-by-component: add all the x's together, add all the y's together. Then the resultant magnitude is √(Rx² + Ry²). The trap is adding magnitudes directly (500 + 360.6 + 400 \u2248 1261), which only works if all forces point the same direction, which they never do in real problems. Here √100000 = 100√10 ≈ 316 N.",
       "hint": "Add the x-components and y-components separately, then find the magnitude of the resultant vector.",
       "steps": [
         { "text": "Add $x$-components:", "latex": "R_x = 500 + (-200) + 0 = 300 \\text{ N}" },
@@ -97,8 +97,8 @@ export default {
       "handbookFormula": "|\\vec{A}| = \\sqrt{A_x^2 + A_y^2}",
       "videoUrl": null,
       "traps": [
-        "Adding magnitudes directly instead of adding components — forces in opposite directions partially cancel",
-        "Forgetting the negative signs on components — F₂ₓ = -200 and F₃ᵧ = -400 are critical"
+        "Adding magnitudes directly instead of adding components. Forces in opposite directions partially cancel",
+        "Forgetting the negative signs on components: F₂ₓ = -200 and F₃ᵧ = -400 are critical"
       ],
       "diagram": null
     }

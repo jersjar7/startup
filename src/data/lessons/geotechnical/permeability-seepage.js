@@ -15,7 +15,7 @@ export default {
     { type: 'formula', latex: 'i_c = \\frac{\\gamma\'}{\\gamma_w} = \\frac{G_s - 1}{1 + e}', label: 'Gradient at which upward seepage causes a quick condition' },
     { type: 'text', body: 'When upward seepage reduces the effective stress to zero, the soil "boils" (quick condition). This happens at the critical gradient $i_c$. The factor of safety against piping is $FS = i_c / i_{exit}$.' },
     { type: 'callout', variant: 'tip', body: 'The critical gradient is almost always near 1.0 for typical sands, because γ′ ≈ γ_w. A quick condition is therefore a real risk wherever the upward exit gradient approaches unity.' },
-    { type: 'callout', variant: 'warning', body: 'Discharge velocity (v = ki) is NOT the real particle speed. Divide by porosity to get the seepage velocity — water travels faster through the smaller pore area than the total-area velocity implies.' },
+    { type: 'callout', variant: 'warning', body: 'Discharge velocity (v = ki) is NOT the real particle speed. Divide by porosity to get the seepage velocity. Water travels faster through the smaller pore area than the total-area velocity implies.' },
   ],
   illustration: null,
   problems: [

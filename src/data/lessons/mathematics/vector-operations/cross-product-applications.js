@@ -2,7 +2,7 @@ export default {
   "id": "cross-product-applications",
   "name": "Cross Product & Applications",
   "subtopicId": "vector-operations",
-  "application": "The cross product gives civil engineers a vector perpendicular to two other vectors — and its magnitude equals the area of the parallelogram they form. In practice, you use it to compute the moment of a force about a point ($\\vec{M} = \\vec{r} \\times \\vec{F}$), find the area of a triangular region defined by two edge vectors, and determine the direction of a normal to a surface. On the FE, cross product questions appear in statics (moment calculations) and occasionally in surveying (area from coordinates). Know the determinant formula and the right-hand rule.",
+  "application": "The cross product gives civil engineers a vector perpendicular to two other vectors, and its magnitude equals the area of the parallelogram they form. In practice, you use it to compute the moment of a force about a point ($\\vec{M} = \\vec{r} \\times \\vec{F}$), find the area of a triangular region defined by two edge vectors, and determine the direction of a normal to a surface. On the FE, cross product questions appear in statics (moment calculations) and occasionally in surveying (area from coordinates). Know the determinant formula and the right-hand rule.",
   "content": [
     { "type": "text", "body": "The cross product takes two vectors and returns a new vector that is perpendicular to both. Its magnitude equals $|\\vec{A}||\\vec{B}|\\sin\\theta$." },
     { "type": "heading", "body": "Cross Product (Determinant Form)" },
@@ -13,9 +13,9 @@ export default {
     { "type": "text", "body": "This equals the area of the parallelogram formed by the two vectors. Half of it gives the area of the triangle." },
     { "type": "heading", "body": "Moment of a Force" },
     { "type": "formula", "latex": "\\vec{M}_O = \\vec{r} \\times \\vec{F}" },
-    { "type": "text", "body": "Where $\\vec{r}$ is the position vector from point $O$ to the point where $\\vec{F}$ is applied. The result is a moment vector — its magnitude is the torque, its direction is the axis of rotation." },
+    { "type": "text", "body": "Where $\\vec{r}$ is the position vector from point $O$ to the point where $\\vec{F}$ is applied. The result is a moment vector: its magnitude is the torque, its direction is the axis of rotation." },
     { "type": "heading", "body": "Key Properties" },
-    { "type": "text", "body": "$\\vec{A} \\times \\vec{B} = -(\\vec{B} \\times \\vec{A})$ — order matters. Reversing the order flips the sign. Also, $\\vec{A} \\times \\vec{A} = \\vec{0}$ — a vector crossed with itself is zero." },
+    { "type": "text", "body": "$\\vec{A} \\times \\vec{B} = -(\\vec{B} \\times \\vec{A})$, so order matters. Reversing the order flips the sign. Also, $\\vec{A} \\times \\vec{A} = \\vec{0}$: a vector crossed with itself is zero." },
     { "type": "callout", "variant": "tip", "body": "For the $\\hat{j}$ component, the sign is NEGATIVE in the cofactor expansion. A common mnemonic: \"+, −, +\" for $\\hat{i}$, $\\hat{j}$, $\\hat{k}$ cofactors." },
     { "type": "callout", "variant": "exam", "body": "The cross product returns a vector, not a scalar. If the problem asks for the magnitude of the moment, compute the cross product first, then take its magnitude." }
   ],
@@ -32,7 +32,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "i × j = k — this is the right-hand rule in action. Point your fingers along x, curl them toward y, and your thumb points along z. This is one of those \"just know it\" results that saves time. The -1k\u0302 choice has the wrong sign — that would be j × i, the reversed order.",
+      "eli5": "i × j = k. This is the right-hand rule in action. Point your fingers along x, curl them toward y, and your thumb points along z. This is one of those \"just know it\" results that saves time. The -1k\u0302 choice has the wrong sign. That would be j × i, the reversed order.",
       "hint": "Use the determinant formula, or recall that i × j = k.",
       "steps": [
         { "text": "Set up the determinant:", "latex": "\\hat{i}(0 \\cdot 0 - 0 \\cdot 1) - \\hat{j}(1 \\cdot 0 - 0 \\cdot 0) + \\hat{k}(1 \\cdot 1 - 0 \\cdot 0)" },
@@ -43,7 +43,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Reversing the order: B × A = -k, not +k",
-        "Thinking the cross product of perpendicular unit vectors is zero — that's the dot product (i · j = 0)"
+        "Thinking the cross product of perpendicular unit vectors is zero, which is true of the dot product (i · j = 0)"
       ],
       "diagram": null
     },
@@ -58,7 +58,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "medium",
-      "eli5": "Moment = r × F. Set up the 3×3 determinant and expand carefully. The j component has the MINUS sign in front of the cofactor — so you get -(3·(-50) - 0) = -(-150) = +150. That negative-of-a-negative is where most people mess up. The distractor $200\\hat{i} - 150\\hat{j} + 0\\hat{k}$ flips all the signs — that is F × r (wrong order).",
+      "eli5": "Moment = r × F. Set up the 3×3 determinant and expand carefully. The j component has the MINUS sign in front of the cofactor, so you get -(3·(-50) - 0) = -(-150) = +150. That negative-of-a-negative is where most people mess up. The distractor $200\\hat{i} - 150\\hat{j} + 0\\hat{k}$ flips all the signs: that is F × r (wrong order).",
       "hint": "Set up the determinant with r in the second row and F in the third row. Watch the sign on the j cofactor.",
       "steps": [
         { "text": "Set up:", "latex": "\\vec{r} \\times \\vec{F} = \\begin{vmatrix} \\hat{i} & \\hat{j} & \\hat{k} \\\\ 3 & 4 & 0 \\\\ 0 & 0 & -50 \\end{vmatrix}" },
@@ -71,8 +71,8 @@ export default {
       "handbookFormula": "\\vec{M}_O = \\vec{r} \\times \\vec{F}",
       "videoUrl": null,
       "traps": [
-        "Forgetting the negative sign on the j cofactor — the pattern is +, −, + across the three components",
-        "Reversing r and F — moment is r × F, not F × r"
+        "Forgetting the negative sign on the j cofactor: the pattern is +, −, + across the three components",
+        "Reversing r and F (moment is r × F, not F × r)"
       ],
       "diagram": { "component": "MomentVector3D", "props": { "rx": 3, "ry": 4, "fz": -50 } }
     },
@@ -87,7 +87,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "hard",
-      "eli5": "The cross product magnitude gives the parallelogram area. A triangle is half the parallelogram. So: compute the cross product, take the magnitude, divide by 2. The 12 m\u00b2 choice is the parallelogram area without halving — the most common mistake. Since both vectors lie in the xy-plane, the cross product points purely in the k direction, which makes the magnitude easy.",
+      "eli5": "The cross product magnitude gives the parallelogram area. A triangle is half the parallelogram. So: compute the cross product, take the magnitude, divide by 2. The 12 m\u00b2 choice is the parallelogram area without halving, the most common mistake. Since both vectors lie in the xy-plane, the cross product points purely in the k direction, which makes the magnitude easy.",
       "hint": "Triangle area = ½|u × v|. Compute the cross product first, then take half its magnitude.",
       "steps": [
         { "text": "Cross product:", "latex": "\\vec{u} \\times \\vec{v} = \\begin{vmatrix} \\hat{i} & \\hat{j} & \\hat{k} \\\\ 4 & 0 & 0 \\\\ 2 & 3 & 0 \\end{vmatrix}" },
@@ -99,8 +99,8 @@ export default {
       "handbookFormula": "|\\vec{A} \\times \\vec{B}| = |\\vec{A}||\\vec{B}|\\sin\\theta",
       "videoUrl": null,
       "traps": [
-        "Forgetting to divide by 2 — the cross product magnitude gives the parallelogram area, not the triangle area",
-        "Using the dot product instead of the cross product — the dot product gives a scalar related to $\\cos\\theta$, not an area"
+        "Forgetting to divide by 2. The cross product magnitude gives the parallelogram area, not the triangle area",
+        "Using the dot product instead of the cross product. The dot product gives a scalar related to $\\cos\\theta$, not an area"
       ],
       "diagram": { "component": "TrianglePlotVectors", "props": { "ux": 4, "uy": 0, "vx": 2, "vy": 3 } }
     }

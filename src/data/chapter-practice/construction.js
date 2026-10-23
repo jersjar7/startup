@@ -54,8 +54,8 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Confusing a dummy activity with a lag — a dummy has zero duration and only fixes logic',
-      'Assuming AON conventions apply to AOA — dummies are an AOA-specific construct',
+      'Confusing a dummy activity with a lag (a dummy has zero duration and only fixes logic)',
+      'Assuming AON conventions apply to AOA, since dummies are an AOA-specific construct',
     ],
     diagram: null,
     lessonId: 'cpm-fundamentals',
@@ -104,7 +104,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'hard',
     eli5: 'Backward pass from $LF = 20$: S(15,20). Q feeds only S, so $LF_Q = LS_S = 15$. Then $LS_Q = 15 - 4 = 11$. The question asks for the late finish, which is 15. Day 10 is the early finish of Q from the forward pass, not the late finish. Day 11 is the late START of Q. Day 20 is the project end, the late finish of S.',
-    hint: 'Q feeds only S. Its late finish equals the late start of S. Do not subtract the duration yet — that gives LS.',
+    hint: 'Q feeds only S. Its late finish equals the late start of S. Do not subtract the duration yet, because that gives LS.',
     steps: [
       { text: 'Backward pass: $LF_S = 20$, $LS_S = 20 - 5 = 15$.', latex: null },
       { text: 'Q feeds only S:', latex: 'LF_Q = LS_S = 15' },
@@ -163,7 +163,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Total float $= LF - EF$. If the late finish increases by 3 while the early finish is unchanged, total float becomes $0 + 3 = 3$ days. Any activity with positive total float is, by definition, NOT on the critical path. The critical path is the set of activities with zero total float. The "remains critical because its early dates did not change" choice confuses early dates with float — float depends on the gap between early and late dates. The "negative float of 3 days" choice describes an over-allocated schedule, the opposite of gaining slack. The "free float increases but total float stays at zero" choice is impossible because free float can never exceed total float.',
+    eli5: 'Total float $= LF - EF$. If the late finish increases by 3 while the early finish is unchanged, total float becomes $0 + 3 = 3$ days. Any activity with positive total float is, by definition, NOT on the critical path. The critical path is the set of activities with zero total float. The "remains critical because its early dates did not change" choice confuses early dates with float, but float depends on the gap between early and late dates. The "negative float of 3 days" choice describes an over-allocated schedule, the opposite of gaining slack. The "free float increases but total float stays at zero" choice is impossible because free float can never exceed total float.',
     hint: 'Total float = LF − EF. If LF moves later but EF holds, what happens to the gap?',
     steps: [
       { text: 'Originally critical: $TF = LF - EF = 0$.', latex: null },
@@ -174,8 +174,8 @@ const PROBLEMS = [
     handbookFormula: '\\text{Float} = LS - ES = LF - EF',
     videoUrl: null,
     traps: [
-      'Believing an activity stays critical because its early dates are unchanged — float depends on the early-to-late gap',
-      'Claiming free float can exceed total float — it never can',
+      'Believing an activity stays critical because its early dates are unchanged, when float depends on the early-to-late gap',
+      'Claiming free float can exceed total float, which it never can',
     ],
     diagram: null,
     lessonId: 'float-critical-path',
@@ -193,17 +193,17 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$CV = BCWP - ACWP = 1{,}050{,}000 - 980{,}000 = +70{,}000$. A positive cost variance means the work performed is worth more than what was spent — the project is under budget. The $-150{,}000$ option computed the schedule variance ($BCWP - BCWS = 1{,}050{,}000 - 1{,}200{,}000$) instead of the cost variance. The $-70{,}000$ option flipped the sign by subtracting in the wrong order. The $+220{,}000$ option used $BCWS - ACWP$, which is not a standard variance.',
+    eli5: '$CV = BCWP - ACWP = 1{,}050{,}000 - 980{,}000 = +70{,}000$. A positive cost variance means the work performed is worth more than what was spent, so the project is under budget. The $-150{,}000$ option computed the schedule variance ($BCWP - BCWS = 1{,}050{,}000 - 1{,}200{,}000$) instead of the cost variance. The $-70{,}000$ option flipped the sign by subtracting in the wrong order. The $+220{,}000$ option used $BCWS - ACWP$, which is not a standard variance.',
     hint: 'CV = BCWP − ACWP. Compare earned value to actual cost, not to planned value.',
     steps: [
       { text: 'Cost variance:', latex: 'CV = BCWP - ACWP = 1{,}050{,}000 - 980{,}000 = +70{,}000' },
-      { text: 'Positive CV means earned value exceeds actual cost — under budget.', latex: null },
+      { text: 'Positive CV means earned value exceeds actual cost: under budget.', latex: null },
     ],
     handbookPage: 'p. 310',
     handbookFormula: 'CV = BCWP - ACWP',
     videoUrl: null,
     traps: [
-      'Using BCWS in the cost variance — that yields the schedule variance instead',
+      'Using BCWS in the cost variance, which yields the schedule variance instead',
       'Subtracting in the wrong order (ACWP − BCWP) and flipping the sign',
     ],
     diagram: null,
@@ -233,7 +233,7 @@ const PROBLEMS = [
     handbookFormula: 'CV = BCWP - ACWP,\\quad SV = BCWP - BCWS',
     videoUrl: null,
     traps: [
-      'Allowing BCWP to differ from the other two — that makes at least one variance nonzero',
+      'Allowing BCWP to differ from the other two, which makes at least one variance nonzero',
       'Confusing on-target performance with zero earned value',
     ],
     diagram: null,
@@ -252,7 +252,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: '$SPI = BCWP / BCWS = 840{,}000 / 1{,}050{,}000 = 0.80$. An SPI below 1.0 means the project earned less value than planned — behind schedule. The 1.25 option inverted the ratio to $BCWS / BCWP$. The other 0.80 (ahead) option has the right number but misreads the sign — below 1.0 is behind, not ahead. The $-210{,}000$ option is the schedule variance in dollars ($SV = BCWP - BCWS$), not the index.',
+    eli5: '$SPI = BCWP / BCWS = 840{,}000 / 1{,}050{,}000 = 0.80$. An SPI below 1.0 means the project earned less value than planned, so it is behind schedule. The 1.25 option inverted the ratio to $BCWS / BCWP$. The other 0.80 (ahead) option has the right number but misreads the sign: below 1.0 is behind, not ahead. The $-210{,}000$ option is the schedule variance in dollars ($SV = BCWP - BCWS$), not the index.',
     hint: 'SPI = Earned / Planned = BCWP / BCWS. Below 1.0 means behind schedule.',
     steps: [
       { text: 'Schedule Performance Index:', latex: 'SPI = \\frac{BCWP}{BCWS} = \\frac{840{,}000}{1{,}050{,}000} = 0.80' },
@@ -322,7 +322,7 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Choosing CMAR when single-point accountability is required — CMAR keeps the designer separate',
+      'Choosing CMAR when single-point accountability is required, because CMAR keeps the designer separate',
       'Choosing multiple-prime, which fragments rather than consolidates responsibility',
     ],
     diagram: null,
@@ -371,7 +371,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'OSHA prohibits classifying previously disturbed soil as Type A. Previously disturbed, submerged, or seeping soils are treated as the weakest classification, Type C, which requires the flattest slope (1.5H:1V). The disturbance destroys the natural cohesion that would justify a steeper classification. The "Type A, because compacted backfill is the most stable" choice is exactly the forbidden assumption. The "Type B, because backfill is moderately stable" choice still overstates stability. The "it does not need classification if it was engineered fill" choice is wrong — all excavation soils must be classified by a competent person regardless of origin.',
+    eli5: 'OSHA prohibits classifying previously disturbed soil as Type A. Previously disturbed, submerged, or seeping soils are treated as the weakest classification, Type C, which requires the flattest slope (1.5H:1V). The disturbance destroys the natural cohesion that would justify a steeper classification. The "Type A, because compacted backfill is the most stable" choice is exactly the forbidden assumption. The "Type B, because backfill is moderately stable" choice still overstates stability. The "it does not need classification if it was engineered fill" choice is wrong because all excavation soils must be classified by a competent person regardless of origin.',
     hint: 'Disturbed or submerged soil cannot be classified as the strongest type. Which classification is the conservative default?',
     steps: [
       { text: 'OSHA forbids classifying previously disturbed soil as Type A.', latex: null },
@@ -383,7 +383,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Assuming compacted backfill qualifies as the strongest Type A soil',
-      'Believing engineered fill skips classification — every excavation soil must be classified',
+      'Believing engineered fill skips classification, when every excavation soil must be classified',
     ],
     diagram: null,
     lessonId: 'construction-safety',

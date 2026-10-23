@@ -2,7 +2,7 @@ export default {
   id: 'influence-lines',
   name: 'Influence Lines',
   subtopicId: 'analysis-loads',
-  application: 'Influence lines tell you where to place a moving load to produce the maximum structural response \u2014 maximum reaction, shear, or moment at a specific point. This is critical for bridge design where truck loads travel across a span. On the FE, expect problems using influence line ordinates to compute maximum effects from one or more concentrated loads.',
+  application: 'Influence lines tell you where to place a moving load to produce the maximum structural response: maximum reaction, shear, or moment at a specific point. This is critical for bridge design where truck loads travel across a span. On the FE, expect problems using influence line ordinates to compute maximum effects from one or more concentrated loads.',
   content: [
     { type: 'text', body: 'An influence line (IL) shows how a single response quantity (reaction, shear, or moment at a fixed point) varies as a unit load moves across the structure.' },
     { type: 'heading', body: 'Influence Line for Reactions' },
@@ -14,7 +14,7 @@ export default {
     { type: 'heading', body: 'Using Influence Lines' },
     { type: 'text', body: 'To find the effect of concentrated loads, multiply each load by the IL ordinate at its position and sum: $R = \\Sigma P_i \\times \\eta_i$, where $\\eta_i$ is the ordinate under load $P_i$. For a distributed load, multiply the load intensity by the area under the IL over the loaded region.' },
     { type: 'callout', variant: 'tip', body: 'For maximum moment at midspan, place the largest load directly at midspan (where the IL ordinate is highest). For maximum shear, place the largest load just to the right of the section.' },
-    { type: 'callout', variant: 'exam', body: 'On the FE, influence line problems are almost always about simply supported beams. The IL shapes are straight lines \u2014 no curves. Just remember the key ordinates and interpolate linearly.' },
+    { type: 'callout', variant: 'exam', body: 'On the FE, influence line problems are almost always about simply supported beams. The IL shapes are straight lines, with no curves. Just remember the key ordinates and interpolate linearly.' },
   ],
   illustration: null,
   problems: [
@@ -40,7 +40,7 @@ export default {
       videoUrl: null,
       traps: [
         'Using a/L (the negative ordinate) instead of 1 \u2013 a/L (the positive ordinate)',
-        'Assuming the entire load becomes shear at the section \u2014 the load must be multiplied by the IL ordinate',
+        'Assuming the entire load becomes shear at the section, when the load must be multiplied by the IL ordinate',
       ],
       diagram: { component: 'InfluenceLineSS', props: { type: 'shear', L: 24, a: 6, unit: 'ft' } },
     },
@@ -66,7 +66,7 @@ export default {
       videoUrl: null,
       traps: [
         'Confusing L/4 (IL ordinate for moment) with L/2 (the location of midspan)',
-        'Computing PL/4 instead of P \u00D7 (L/4) \u2014 they are the same thing, but watch the units (the IL ordinate has units of length)',
+        'Computing PL/4 instead of P \u00D7 (L/4). They are the same thing, but watch the units (the IL ordinate has units of length)',
       ],
       diagram: { component: 'InfluenceLineSS', props: { type: 'moment', L: 30, a: 15, unit: 'ft' } },
     },
@@ -93,7 +93,7 @@ export default {
       handbookFormula: 'M = \\Sigma P_i \\eta_i',
       videoUrl: null,
       traps: [
-        'Placing both loads symmetrically about midspan instead of placing the heavier load at the peak \u2014 the heavier load should go where the IL ordinate is highest',
+        'Placing both loads symmetrically about midspan instead of placing the heavier load at the peak, when the heavier load should go where the IL ordinate is highest',
         'Only computing the effect of the larger load and ignoring the smaller one',
         'Forgetting that both load positions are possible (loads can approach from either side)',
       ],

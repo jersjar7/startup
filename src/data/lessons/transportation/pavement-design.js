@@ -68,7 +68,7 @@ export default {
       handbookFormula: 'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3',
       videoUrl: null,
       traps: [
-        'Ignoring the drainage coefficient m3 = 0.80 \u2014 using m = 1.0 underestimates the required base thickness',
+        'Ignoring the drainage coefficient m3 = 0.80, because using m = 1.0 underestimates the required base thickness',
         'Solving D2 = SN/a2 without subtracting other layers\' contributions',
       ],
       diagram: null,
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'ESALs = passes \u00D7 LEF = 1,000 \u00D7 3.03 = 3,030. Each pass of a 24-kip single axle does 3.03 times the damage of a standard 18-kip axle. The 260 choice used the tandem-axle LEF (0.260) instead of the single-axle LEF (3.03) \u2014 always check single vs. tandem in the table. The 1,000 choice assumed LEF = 1.0 (only true for an 18-kip axle). The 24,000 choice multiplied by the axle weight instead of the LEF.',
+      eli5: 'ESALs = passes \u00D7 LEF = 1,000 \u00D7 3.03 = 3,030. Each pass of a 24-kip single axle does 3.03 times the damage of a standard 18-kip axle. The 260 choice used the tandem-axle LEF (0.260) instead of the single-axle LEF (3.03). Always check single vs. tandem in the table. The 1,000 choice assumed LEF = 1.0 (only true for an 18-kip axle). The 24,000 choice multiplied by the axle weight instead of the LEF.',
       hint: 'ESALs = number of passes \u00D7 load equivalency factor. Read the correct column (single vs. tandem) from the table.',
       steps: [
         { text: 'Look up LEF for 24,000 lb single axle: $3.03$', latex: null },
@@ -94,8 +94,8 @@ export default {
       handbookFormula: 'SN = a_1 D_1 + a_2 D_2 m_2 + \\ldots',
       videoUrl: null,
       traps: [
-        'Reading the tandem-axle column (0.260) instead of the single-axle column (3.03) \u2014 off by a factor of ~12',
-        'Assuming LEF = 1.0 for all axle loads \u2014 LEF = 1.0 only for the reference 18-kip single axle',
+        'Reading the tandem-axle column (0.260) instead of the single-axle column (3.03), off by a factor of ~12',
+        'Assuming LEF = 1.0 for all axle loads, when LEF = 1.0 only for the reference 18-kip single axle',
       ],
       diagram: null,
     },

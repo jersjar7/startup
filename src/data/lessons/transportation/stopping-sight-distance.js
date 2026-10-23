@@ -32,7 +32,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Plug straight into the formula. Reaction distance = 1.47 \u00D7 60 \u00D7 2.5 = 220.5 ft. Braking distance = 60\u00B2 / [30 \u00D7 (11.2/32.2)] = 3,600/10.43 = 345.1 ft. Total SSD = 220.5 + 345.1 = 565.6 \u2248 566 ft. The 345 ft choice is the braking distance alone \u2014 forgot the reaction component. The 221 ft choice is the reaction distance alone \u2014 forgot braking. The 750 ft choice uses a wrong deceleration value.',
+      eli5: 'Plug straight into the formula. Reaction distance = 1.47 \u00D7 60 \u00D7 2.5 = 220.5 ft. Braking distance = 60\u00B2 / [30 \u00D7 (11.2/32.2)] = 3,600/10.43 = 345.1 ft. Total SSD = 220.5 + 345.1 = 565.6 \u2248 566 ft. The 345 ft choice is the braking distance alone, which forgot the reaction component. The 221 ft choice is the reaction distance alone, which forgot braking. The 750 ft choice uses a wrong deceleration value.',
       hint: 'Two components: reaction distance (1.47Vt) plus braking distance (V\u00B2 over the 30-term).',
       steps: [
         { text: 'Reaction distance:', latex: 'd_r = 1.47 \\times 60 \\times 2.5 = 220.5 \\text{ ft}' },
@@ -59,7 +59,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Downgrade means G = \u22120.04. The denominator becomes 30 \u00D7 (0.348 \u2212 0.04) = 30 \u00D7 0.308 = 9.23. Braking distance = 3,600/9.23 = 390 ft. Add reaction = 220.5 ft. SSD = 610 ft. The 566 ft option used G = 0 (level). The 530 ft option used G = +0.04 (uphill \u2014 wrong direction). The 390 ft option is braking only. The key trap: downhill makes stopping HARDER, so SSD is LONGER.',
+      eli5: 'Downgrade means G = \u22120.04. The denominator becomes 30 \u00D7 (0.348 \u2212 0.04) = 30 \u00D7 0.308 = 9.23. Braking distance = 3,600/9.23 = 390 ft. Add reaction = 220.5 ft. SSD = 610 ft. The 566 ft option used G = 0 (level). The 530 ft option used G = +0.04 (uphill, the wrong direction). The 390 ft option is braking only. The key trap: downhill makes stopping HARDER, so SSD is LONGER.',
       hint: 'Downgrade = negative G in the denominator. The denominator gets smaller, so braking distance gets longer.',
       steps: [
         { text: 'Reaction distance (same regardless of grade):', latex: 'd_r = 1.47 \\times 60 \\times 2.5 = 220.5 \\text{ ft}' },
@@ -70,7 +70,7 @@ export default {
       handbookFormula: 'SSD = 1.47 V t + \\frac{V^2}{30\\left(\\frac{a}{32.2} \\pm G\\right)}',
       videoUrl: null,
       traps: [
-        'Using +G for a downgrade \u2014 uphill is positive, downhill is negative',
+        'Using +G for a downgrade, when uphill is positive, downhill is negative',
         'Using G = 0 and ignoring the grade entirely',
         'Forgetting to add the reaction distance to the braking distance',
       ],
@@ -87,8 +87,8 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'The peak flow rate extrapolates the worst 15 minutes to an hourly rate: 4 \u00D7 V\u2081\u2085 = 4 \u00D7 400 = 1,600 veh/hr. Equivalently, PHF = V/(4\u00D7V\u2081\u2085) = 1,200/1,600 = 0.75, and flow rate = V/PHF = 1,200/0.75 = 1,600. The tricky part: the flow rate is HIGHER than the hourly volume because it represents the peak surge. The 1,200 veh/hr choice is the hourly volume itself \u2014 that is the demand, not the peak rate. The 400 veh/hr choice is V\u2081\u2085 without multiplying by 4. The 900 veh/hr choice multiplied V \u00D7 PHF instead of dividing.',
-      hint: 'The flow rate is 4 \u00D7 V\u2081\u2085 \u2014 it converts a 15-minute count into an equivalent hourly rate.',
+      eli5: 'The peak flow rate extrapolates the worst 15 minutes to an hourly rate: 4 \u00D7 V\u2081\u2085 = 4 \u00D7 400 = 1,600 veh/hr. Equivalently, PHF = V/(4\u00D7V\u2081\u2085) = 1,200/1,600 = 0.75, and flow rate = V/PHF = 1,200/0.75 = 1,600. The tricky part: the flow rate is HIGHER than the hourly volume because it represents the peak surge. The 1,200 veh/hr choice is the hourly volume itself, but that is the demand, not the peak rate. The 400 veh/hr choice is V\u2081\u2085 without multiplying by 4. The 900 veh/hr choice multiplied V \u00D7 PHF instead of dividing.',
+      hint: 'The flow rate is 4 \u00D7 V\u2081\u2085, which converts a 15-minute count into an equivalent hourly rate.',
       steps: [
         { text: 'Peak hour factor:', latex: 'PHF = \\frac{V}{4 \\times V_{15}} = \\frac{1{,}200}{4 \\times 400} = \\frac{1{,}200}{1{,}600} = 0.75' },
         { text: 'Peak 15-minute flow rate:', latex: '\\text{Flow rate} = 4 \\times V_{15} = 4 \\times 400 = 1{,}600 \\text{ veh/hr}' },
@@ -98,8 +98,8 @@ export default {
       handbookFormula: 'PHF = \\frac{V}{4 \\times V_{15}}',
       videoUrl: null,
       traps: [
-        'Confusing the hourly volume (1,200) with the peak flow rate (1,600) \u2014 the flow rate is always \u2265 the hourly volume',
-        'Multiplying V \u00D7 PHF instead of dividing \u2014 that gives 900, which is less than the hourly volume (impossible for a peak rate)',
+        'Confusing the hourly volume (1,200) with the peak flow rate (1,600), when the flow rate is always \u2265 the hourly volume',
+        'Multiplying V \u00D7 PHF instead of dividing, which gives 900, which is less than the hourly volume (impossible for a peak rate)',
       ],
       diagram: null,
     },

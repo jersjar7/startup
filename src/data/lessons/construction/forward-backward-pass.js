@@ -40,7 +40,7 @@ export default {
       handbookFormula: 'ES = \\text{Latest } EF \\text{ of predecessors}',
       videoUrl: null,
       traps: [
-        'Using MIN instead of MAX for the forward pass \u2014 E can\'t start until BOTH predecessors finish',
+        'Using MIN instead of MAX for the forward pass, when E can\'t start until BOTH predecessors finish',
       ],
       diagram: { component: 'CpmNetwork', props: { variant: 'fiveActivity', durations: { A: 3, B: 4, C: 2, D: 6, E: 3 } } },
     },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Backward pass: D(7,13), E(10,13). C feeds only E, so $LF_C = LS_E = 10$. $LS_C = LF_C - D_C = 10 - 2 = 8$. Choice "Day 3" is $LS_B$ from the backward pass \u2014 the question asked for $LS$, not $ES$. Choice "Day 5" is a distractor that does not correspond to a real CPM value for C ($EF_C = 2$). Choice "Day 10" is $LF_C$, not $LS_C$ \u2014 forgot to subtract the duration.',
+      eli5: 'Backward pass: D(7,13), E(10,13). C feeds only E, so $LF_C = LS_E = 10$. $LS_C = LF_C - D_C = 10 - 2 = 8$. Choice "Day 3" is $LS_B$ from the backward pass, but the question asked for $LS$, not $ES$. Choice "Day 5" is a distractor that does not correspond to a real CPM value for C ($EF_C = 2$). Choice "Day 10" is $LF_C$, not $LS_C$, because it forgot to subtract the duration.',
       hint: 'Run the backward pass: LF of C = LS of its successor (E). Then LS = LF \u2212 duration.',
       steps: [
         { text: 'Backward pass from project end ($LF = 13$):', latex: null },
@@ -69,8 +69,8 @@ export default {
       handbookFormula: 'LS = LF - D,\\quad LF = \\text{Earliest } LS \\text{ of successors}',
       videoUrl: null,
       traps: [
-        'Confusing ES (forward pass) with LS (backward pass) \u2014 read the question carefully',
-        'Reporting LF instead of LS \u2014 don\'t forget to subtract the duration',
+        'Confusing ES (forward pass) with LS (backward pass). Read the question carefully',
+        'Reporting LF instead of LS. Don\'t forget to subtract the duration',
       ],
       diagram: { component: 'CpmNetwork', props: { variant: 'fiveActivity', durations: { A: 3, B: 4, C: 2, D: 6, E: 3 } } },
     },
@@ -96,7 +96,7 @@ export default {
       handbookFormula: 'LF = \\text{Earliest } LS \\text{ of successors}',
       videoUrl: null,
       traps: [
-        'Using MAX instead of MIN on the backward pass \u2014 B must finish before its tightest successor',
+        'Using MAX instead of MIN on the backward pass, when B must finish before its tightest successor',
         'Only considering one successor and ignoring the other',
       ],
       diagram: { component: 'CpmNetwork', props: { variant: 'fiveActivity', durations: { A: 3, B: 4, C: 2, D: 6, E: 3 } } },

@@ -13,7 +13,7 @@ export default {
     { type: 'heading', body: 'Masonry: Units & Mortar' },
     { type: 'text', body: 'Mortar is classified M, S, N, O in order of DECREASING compressive strength (Type M strongest, Type O weakest); higher-strength mortars give less workability and bond flexibility. The specified compressive strength of masonry is $f\'_m$. Grout fills the cells of hollow units to embed reinforcement and increase capacity.' },
     { type: 'callout', variant: 'tip', body: 'Mnemonic for mortar types M-S-N-O: take every other letter of "MaSoN wOrK" → M, S, N, O, strongest to weakest.' },
-    { type: 'callout', variant: 'warning', body: 'Moisture content is always referenced to the OVEN-DRY weight, not the wet weight — and it can exceed 100% for green timber, since it is a ratio of water mass to dry wood mass.' },
+    { type: 'callout', variant: 'warning', body: 'Moisture content is always referenced to the OVEN-DRY weight, not the wet weight, and it can exceed 100% for green timber, since it is a ratio of water mass to dry wood mass.' },
   ],
   illustration: null,
   problems: [
@@ -80,8 +80,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Wood can carry higher stress for loads applied briefly. The load duration factor C_D exceeds 1.0 for short-duration loads — about 1.6 for wind or seismic and 1.25 for a 7-day load — and drops below 1.0 (0.9) for permanent loads. So for a wind load, C_D ≈ 1.6 increases the allowable stress. The "C_D < 1.0, decreasing allowable stress" choice has the direction backwards. The "C_D = 1.0 for all load types" choice ignores duration effects. The "applies only to permanent dead loads" choice misstates where the factor applies.',
-      hint: 'Wood gets stronger (in allowable terms) for briefly applied loads — which direction does C_D move?',
+      eli5: 'Wood can carry higher stress for loads applied briefly. The load duration factor C_D exceeds 1.0 for short-duration loads (about 1.6 for wind or seismic and 1.25 for a 7-day load) and drops below 1.0 (0.9) for permanent loads. So for a wind load, C_D ≈ 1.6 increases the allowable stress. The "C_D < 1.0, decreasing allowable stress" choice has the direction backwards. The "C_D = 1.0 for all load types" choice ignores duration effects. The "applies only to permanent dead loads" choice misstates where the factor applies.',
+      hint: 'Wood gets stronger (in allowable terms) for briefly applied loads. Which direction does C_D move?',
       steps: [
         { text: 'Shorter load duration → higher allowable stress in wood.', latex: null },
         { text: 'Wind/seismic loads use C_D ≈ 1.6 (> 1.0); permanent loads use C_D = 0.9.', latex: null },
@@ -91,7 +91,7 @@ export default {
       handbookFormula: 'Load Duration Factor, C_D',
       videoUrl: null,
       traps: [
-        'Reversing the direction — assuming brief loads reduce capacity',
+        'Reversing the direction by assuming brief loads reduce capacity',
         'Treating C_D as a constant 1.0 regardless of load duration',
       ],
       diagram: null,

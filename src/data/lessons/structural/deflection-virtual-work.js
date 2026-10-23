@@ -2,7 +2,7 @@ export default {
   "id": "deflection-virtual-work",
   "name": "Deflection of Determinate Structures",
   "subtopicId": "analysis-loads",
-  "application": "The FE asks you to find how far a determinate beam, truss, or frame moves under load — for serviceability checks and to set up indeterminate analysis. The unit-load (virtual work) method is the general tool, and for common beams you simply look up a deflection formula. Both show up on the exam.",
+  "application": "The FE asks you to find how far a determinate beam, truss, or frame moves under load, for serviceability checks and to set up indeterminate analysis. The unit-load (virtual work) method is the general tool, and for common beams you simply look up a deflection formula. Both show up on the exam.",
   "content": [
     {
       "type": "text",
@@ -10,7 +10,7 @@ export default {
     },
     {
       "type": "heading",
-      "body": "Trusses — Unit-Load Method"
+      "body": "Trusses: Unit-Load Method"
     },
     {
       "type": "formula",
@@ -23,7 +23,7 @@ export default {
     },
     {
       "type": "heading",
-      "body": "Beams & Frames — Unit-Load Method"
+      "body": "Beams & Frames: Unit-Load Method"
     },
     {
       "type": "formula",
@@ -45,12 +45,12 @@ export default {
     {
       "type": "callout",
       "variant": "tip",
-      "body": "On the exam, first check whether the beam/loading matches a standard case in the handbook deflection table — if so, just plug into the formula. Reserve the full unit-load integral for non-standard cases or truss/frame deflections."
+      "body": "On the exam, first check whether the beam/loading matches a standard case in the handbook deflection table. If so, just plug into the formula. Reserve the full unit-load integral for non-standard cases or truss/frame deflections."
     },
     {
       "type": "callout",
       "variant": "warning",
-      "body": "Watch the powers of L: a point load gives $L^3$, a distributed load gives $L^4$. And keep units consistent — mixing kN·m² with N·mm² is the #1 numerical error."
+      "body": "Watch the powers of L: a point load gives $L^3$, a distributed load gives $L^4$. And keep units consistent, because mixing kN·m² with N·mm² is the #1 numerical error."
     }
   ],
   "illustration": null,

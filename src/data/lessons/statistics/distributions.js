@@ -2,9 +2,9 @@ export default {
   id: 'probability-distributions',
   name: 'Probability Distributions',
   subtopicId: 'probability',
-  application: 'Civil engineers deal with probability every time they design for uncertainty \u2014 sizing a culvert for the 100-year storm, estimating the chance that fewer than 3 out of 20 concrete cylinders fail spec, or determining whether observed traffic accidents at an intersection are statistically unusual. The FE tests your ability to compute basic probabilities, apply the binomial distribution for discrete pass/fail scenarios, and use the normal distribution with z-scores to find areas under the curve.',
+  application: 'Civil engineers deal with probability every time they design for uncertainty: sizing a culvert for the 100-year storm, estimating the chance that fewer than 3 out of 20 concrete cylinders fail spec, or determining whether observed traffic accidents at an intersection are statistically unusual. The FE tests your ability to compute basic probabilities, apply the binomial distribution for discrete pass/fail scenarios, and use the normal distribution with z-scores to find areas under the curve.',
   content: [
-    { type: 'text', body: 'This lesson covers three layers: counting methods (how many ways can something happen), discrete probability (binomial), and continuous probability (normal). The FE handbook gives you all the formulas \u2014 your job is recognizing which distribution fits the problem.' },
+    { type: 'text', body: 'This lesson covers three layers: counting methods (how many ways can something happen), discrete probability (binomial), and continuous probability (normal). The FE handbook gives you all the formulas, and your job is recognizing which distribution fits the problem.' },
     { type: 'heading', body: 'Permutations and Combinations' },
     { type: 'text', body: 'A permutation cares about order. A combination does not. Use permutations when arrangement matters (e.g., ranking), combinations when you\u2019re just choosing a group.' },
     { type: 'formula', latex: 'P(n, r) = \\frac{n!}{(n - r)!}', label: 'Permutations' },
@@ -23,8 +23,8 @@ export default {
     { type: 'formula', latex: 'z = \\frac{x - \\mu}{\\sigma}', label: 'Z-Score' },
     { type: 'text', body: 'In the handbook table: $F(z)$ = area from $-\\infty$ to $z$, $R(z)$ = area from $z$ to $\\infty$, $W(z)$ = area between $-z$ and $z$. Remember that $F(-z) = 1 - F(z)$.' },
     { type: 'callout', variant: 'tip', body: 'Decision tree: Fixed number of trials with pass/fail outcome \u2192 Binomial. Continuous measurement with a bell-shaped spread \u2192 Normal. If the problem gives you $\\mu$ and $\\sigma$ and asks for a probability above or below some value, it\u2019s always z-score.' },
-    { type: 'callout', variant: 'warning', body: 'The binomial formula uses $C(n, x)$, not $P(n, x)$. Order doesn\u2019t matter when counting successes \u2014 3 failures out of 10 is the same regardless of which 3 failed.' },
-    { type: 'callout', variant: 'exam', body: 'The FE handbook includes a full unit normal distribution table at the end of the statistics section. You do NOT need to memorize z-values \u2014 just know how to read the table. $F(z)$ gives you the left-tail area directly.' },
+    { type: 'callout', variant: 'warning', body: 'The binomial formula uses $C(n, x)$, not $P(n, x)$. Order doesn\u2019t matter when counting successes, so 3 failures out of 10 is the same regardless of which 3 failed.' },
+    { type: 'callout', variant: 'exam', body: 'The FE handbook includes a full unit normal distribution table at the end of the statistics section. You do NOT need to memorize z-values, just know how to read the table. $F(z)$ gives you the left-tail area directly.' },
   ],
   illustration: null,
   problems: [
@@ -39,7 +39,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'This is a straight combinations problem \u2014 you\u2019re choosing a group, not ranking them, so order doesn\u2019t matter. The choice 336 is the permutation $P(8,3)$ \u2014 that\u2019s what you\u2019d get if you cared about who was picked first, second, and third. The choice 24 is $4!$, which has nothing to do with this problem. The choice 512 is $8^3$, which would be the answer if each pick were independent with replacement.',
+      eli5: 'This is a straight combinations problem, because you\u2019re choosing a group, not ranking them, so order doesn\u2019t matter. The choice 336 is the permutation $P(8,3)$, and that\u2019s what you\u2019d get if you cared about who was picked first, second, and third. The choice 24 is $4!$, which has nothing to do with this problem. The choice 512 is $8^3$, which would be the answer if each pick were independent with replacement.',
       hint: 'Are you arranging the inspectors in order, or just picking a group? That tells you permutation vs. combination.',
       steps: [
         { text: 'Order doesn\u2019t matter (a team is a team), so use combinations.', latex: null },
@@ -67,7 +67,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The binomial formula has three pieces: the number of ways to arrange 8 passes and 2 failures ($C(10,8) = 45$), the probability of 8 passes ($0.9^8$), and the probability of 2 failures ($0.1^2$). You multiply all three. The 0.349 distractor is $P(X = 10) = 0.9^{10}$ \u2014 the probability of all 10 passing, not exactly 8. The 0.900 distractor is just $p$ itself, not a binomial calculation. The 0.387 distractor is $P(X = 9)$ \u2014 the probability of exactly 9 passing, not 8.',
+      eli5: 'The binomial formula has three pieces: the number of ways to arrange 8 passes and 2 failures ($C(10,8) = 45$), the probability of 8 passes ($0.9^8$), and the probability of 2 failures ($0.1^2$). You multiply all three. The 0.349 distractor is $P(X = 10) = 0.9^{10}$, the probability of all 10 passing, not exactly 8. The 0.900 distractor is just $p$ itself, not a binomial calculation. The 0.387 distractor is $P(X = 9)$, the probability of exactly 9 passing, not 8.',
       hint: 'Identify $n$, $x$, $p$, and $q$, then plug into the binomial formula. Don\u2019t forget the $C(n,x)$ term.',
       steps: [
         { text: 'Identify parameters: $n = 10$, $x = 8$, $p = 0.90$, $q = 0.10$.', latex: null },
@@ -96,7 +96,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'You\u2019re looking for the left-tail area \u2014 the percentage below 4,000 psi. First convert 4,000 to a z-score: it\u2019s 1.67 standard deviations below the mean, so $z = -1.67$. The handbook table gives you $F(1.67) = 0.9525$, which is the area to the LEFT of positive 1.67. For the negative side, flip it: $1 - 0.9525 = 0.0475$, or 4.75%. The 95.25% option is $F(1.67)$ \u2014 that\u2019s the percentage that PASSES, not fails. The 1.67% option is the z-score itself (1.67) misread as a probability. The 45.25% option treats it as if the mean were shifted or misreads the table.',
+      eli5: 'You\u2019re looking for the left-tail area, the percentage below 4,000 psi. First convert 4,000 to a z-score: it\u2019s 1.67 standard deviations below the mean, so $z = -1.67$. The handbook table gives you $F(1.67) = 0.9525$, which is the area to the LEFT of positive 1.67. For the negative side, flip it: $1 - 0.9525 = 0.0475$, or 4.75%. The 95.25% option is $F(1.67)$, and that\u2019s the percentage that PASSES, not fails. The 1.67% option is the z-score itself (1.67) misread as a probability. The 45.25% option treats it as if the mean were shifted or misreads the table.',
       hint: 'Compute the z-score for $4{,}000$ psi, then use $F(-z) = 1 - F(z)$ to find the left-tail probability.',
       steps: [
         { text: '\u201cFail\u201d means $X < 4{,}000$. Convert to a z-score:', latex: 'z = \\frac{x - \\mu}{\\sigma} = \\frac{4{,}000 - 4{,}500}{300} = \\frac{-500}{300} = -1.67' },

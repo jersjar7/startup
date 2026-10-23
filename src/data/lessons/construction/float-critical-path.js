@@ -2,7 +2,7 @@ export default {
   id: 'float-critical-path',
   name: 'Float & Critical Path',
   subtopicId: 'scheduling-cpm',
-  application: 'Total float tells you how much an activity can slip without delaying the project. Free float tells you how much it can slip without affecting any successor. Activities with zero total float form the critical path \u2014 the longest chain through the network that controls the project duration. On the FE, expect problems computing total float, identifying critical activities, and distinguishing total float from free float.',
+  application: 'Total float tells you how much an activity can slip without delaying the project. Free float tells you how much it can slip without affecting any successor. Activities with zero total float form the critical path, the longest chain through the network that controls the project duration. On the FE, expect problems computing total float, identifying critical activities, and distinguishing total float from free float.',
   content: [
     { type: 'text', body: 'After the forward and backward passes, float reveals how much scheduling flexibility each activity has.' },
     { type: 'heading', body: 'Total Float' },
@@ -13,8 +13,8 @@ export default {
     { type: 'text', body: 'Free float is the maximum delay without affecting any immediate successor\'s early start. Free float $\\leq$ total float, always.' },
     { type: 'heading', body: 'Critical Path' },
     { type: 'text', body: 'The critical path is the sequence of activities with $TF = 0$. It is also the longest path through the network. Any delay on the critical path delays the entire project.' },
-    { type: 'callout', variant: 'tip', body: 'Shortcut: to find the critical path, trace the longest duration path through the network. You don\'t always need the full backward pass \u2014 just compare path lengths.' },
-    { type: 'callout', variant: 'warning', body: 'Free float \u2264 total float. If your free float exceeds total float, something is wrong. Also, an activity can have TF > 0 but FF = 0 \u2014 delaying it won\'t affect the project end, but it will affect a successor.' },
+    { type: 'callout', variant: 'tip', body: 'Shortcut: to find the critical path, trace the longest duration path through the network. You don\'t always need the full backward pass. Just compare path lengths.' },
+    { type: 'callout', variant: 'warning', body: 'Free float \u2264 total float. If your free float exceeds total float, something is wrong. Also, an activity can have TF > 0 but FF = 0. Delaying it won\'t affect the project end, but it will affect a successor.' },
   ],
   illustration: null,
   problems: [
@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: '$TF = LS - ES = 8 - 3 = 5$ days. Or equivalently, $TF = LF - EF = 10 - 5 = 5$ days. Both give the same answer. The 2-day choice is the duration ($EF - ES = 5 - 3 = 2$). The 0-day choice would mean it is critical \u2014 it is not. The 7-day choice subtracted wrong values ($LF - ES = 10 - 3 = 7$, but that is not the formula).',
+      eli5: '$TF = LS - ES = 8 - 3 = 5$ days. Or equivalently, $TF = LF - EF = 10 - 5 = 5$ days. Both give the same answer. The 2-day choice is the duration ($EF - ES = 5 - 3 = 2$). The 0-day choice would mean it is critical, and it is not. The 7-day choice subtracted wrong values ($LF - ES = 10 - 3 = 7$, but that is not the formula).',
       hint: 'Total float = LS \u2212 ES (or LF \u2212 EF). Both formulas give the same result.',
       steps: [
         { text: 'Total float:', latex: 'TF = LS - ES = 8 - 3 = 5 \\text{ days}' },
@@ -40,7 +40,7 @@ export default {
       videoUrl: null,
       traps: [
         'Confusing duration (EF \u2212 ES) with float (LS \u2212 ES)',
-        'Computing LF \u2212 ES (= 7) \u2014 that is not a valid float formula',
+        'Computing LF \u2212 ES (= 7), which is not a valid float formula',
       ],
       diagram: null,
     },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'The critical path is the LONGEST path through the network: A\u2192B\u2192D = 15 days. This is the minimum time to complete the project. A\u2192C\u2192E (10) is the shortest path \u2014 not critical. A\u2192C\u2192D (12) is an intermediate path. The "all paths, 37 days" option summed every path, which makes no sense since activities run concurrently.',
+      eli5: 'The critical path is the LONGEST path through the network: A\u2192B\u2192D = 15 days. This is the minimum time to complete the project. A\u2192C\u2192E (10) is the shortest path, so it is not critical. A\u2192C\u2192D (12) is an intermediate path. The "all paths, 37 days" option summed every path, which makes no sense since activities run concurrently.',
       hint: 'The critical path = the longest path = the path that takes the most time. Compare total durations.',
       steps: [
         { text: 'Path 1: A\\u2192B\\u2192D = 4 + 6 + 5 = 15 days', latex: null },
@@ -67,8 +67,8 @@ export default {
       handbookFormula: '\\text{Float} = LS - ES = LF - EF',
       videoUrl: null,
       traps: [
-        'Choosing the shortest path as critical \u2014 the critical path is the LONGEST',
-        'Summing all paths instead of comparing them \u2014 parallel paths overlap',
+        'Choosing the shortest path as critical, when the critical path is the LONGEST',
+        'Summing all paths instead of comparing them, when parallel paths overlap',
       ],
       diagram: null,
     },
@@ -94,8 +94,8 @@ export default {
       handbookFormula: '\\text{Float} = LS - ES = LF - EF',
       videoUrl: null,
       traps: [
-        'Confusing free float (2) with total float (5) \u2014 free float only considers the immediate successor',
-        'Free float is always \u2264 total float \u2014 if you get a larger free float, recheck',
+        'Confusing free float (2) with total float (5). Free float only considers the immediate successor',
+        'Free float is always \u2264 total float, so if you get a larger free float, recheck',
       ],
       diagram: { component: 'CpmNetwork', props: { variant: 'fiveActivity', durations: { A: 3, B: 4, C: 2, D: 6, E: 3 } } },
     },

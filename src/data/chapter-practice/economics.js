@@ -39,7 +39,7 @@ const PROBLEMS = [
     handbookFormula: 'P = A \\cdot \\frac{(1+i)^n - 1}{i(1+i)^n}',
     videoUrl: null,
     traps: [
-      'Summing the payments without discounting (18,000 times 6 = 108,000) — this ignores the time value of money',
+      'Summing the payments without discounting (18,000 times 6 = 108,000), which ignores the time value of money',
       'Reading the factor from the wrong interest rate table (6% instead of 8%)',
     ],
     diagram: null,
@@ -236,7 +236,7 @@ const PROBLEMS = [
     correctAnswerId: 'c3',
     difficulty: 'medium',
     eli5:
-      'By choosing to stage equipment on the lot, the firm gives up the 30,000 dollars per year it could have earned by leasing it out. The value of the best forgone alternative is the definition of an opportunity cost, and it must be counted as a cost of the staging decision even though no cash actually changes hands. The sunk-cost choice confuses ownership with sunk cost — the lease income is a future, recoverable alternative, not money already spent and lost. The fixed-cost choice is wrong because the forgone income does not arise from operating the yard; it exists regardless of activity level. The marginal-cost choice misapplies marginal cost, which is the cost of one more unit of output, not a forgone alternative use of an asset.',
+      'By choosing to stage equipment on the lot, the firm gives up the 30,000 dollars per year it could have earned by leasing it out. The value of the best forgone alternative is the definition of an opportunity cost, and it must be counted as a cost of the staging decision even though no cash actually changes hands. The sunk-cost choice confuses ownership with sunk cost: the lease income is a future, recoverable alternative, not money already spent and lost. The fixed-cost choice is wrong because the forgone income does not arise from operating the yard; it exists regardless of activity level. The marginal-cost choice misapplies marginal cost, which is the cost of one more unit of output, not a forgone alternative use of an asset.',
     hint: 'What term describes the value of the best alternative you give up by choosing a particular option?',
     steps: [
       {
@@ -260,7 +260,7 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Calling forgone income a sunk cost because the asset is already owned — sunk costs are past and irrecoverable, not forgone future alternatives',
+      'Calling forgone income a sunk cost because the asset is already owned, when sunk costs are past and irrecoverable, not forgone future alternatives',
       'Treating the forgone income as a fixed operating cost of the chosen option',
     ],
     diagram: null,
@@ -282,7 +282,7 @@ const PROBLEMS = [
     difficulty: 'medium',
     eli5:
       'Disbenefits are negative effects on the public, so they are subtracted from the benefits in the numerator: $B/C = (B - D)/C = (8{,}000{,}000 - 1{,}200{,}000)/5{,}500{,}000 = 6{,}800{,}000/5{,}500{,}000 = 1.24$. The 1.45 option ignores the disbenefits entirely ($8{,}000{,}000/5{,}500{,}000$). The 1.19 option incorrectly adds the disbenefits to the cost denominator ($8{,}000{,}000/6{,}700{,}000$). The 1.86 option incorrectly subtracts the disbenefits from the cost denominator ($8{,}000{,}000/4{,}300{,}000$) instead of from the benefits.',
-    hint: 'Disbenefits are public losses — subtract them from benefits in the numerator, not from the cost in the denominator.',
+    hint: 'Disbenefits are public losses, so subtract them from benefits in the numerator, not from the cost in the denominator.',
     steps: [
       {
         text: 'Subtract disbenefits from benefits in the numerator:',
@@ -323,7 +323,7 @@ const PROBLEMS = [
     difficulty: 'medium',
     eli5:
       'At a chance node you weight each outcome by its probability and sum: $EV = 0.50(500{,}000) + 0.30(200{,}000) + 0.20(-100{,}000) = 250{,}000 + 60{,}000 - 20{,}000 = 290{,}000$. The 200,000 dollars choice takes the plain arithmetic average of the three outcomes ($(500{,}000 + 200{,}000 - 100{,}000)/3$) and ignores the probabilities. The 330,000 dollars choice treats the low-demand outcome as a gain instead of a loss (adds 20,000 instead of subtracting). The 310,000 dollars choice drops the unprofitable low-demand branch entirely and sums only the first two terms.',
-    hint: 'Multiply each NPV by its probability and add — remember the low-demand outcome is negative.',
+    hint: 'Multiply each NPV by its probability and add, remembering that the low-demand outcome is negative.',
     steps: [
       {
         text: 'Confirm probabilities sum to 1.0: $0.50 + 0.30 + 0.20 = 1.00$.',

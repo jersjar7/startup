@@ -31,12 +31,12 @@ export default {
     {
       type: 'callout',
       variant: 'exam',
-      body: 'The FE will not tell you to draw an FBD \u2014 it will just ask for reactions or forces. But your first step should always be sketching one. Mark every external force, every support reaction, and every applied moment before writing any equations.',
+      body: 'The FE will not tell you to draw an FBD. It will just ask for reactions or forces. But your first step should always be sketching one. Mark every external force, every support reaction, and every applied moment before writing any equations.',
     },
     { type: 'heading', body: 'Strategy for Solving' },
     {
       type: 'text',
-      body: 'Start by summing moments about a point where two unknowns intersect \u2014 this eliminates them and gives you a single equation with one unknown. Then use the force sum equations to find the remaining reactions.',
+      body: 'Start by summing moments about a point where two unknowns intersect, because this eliminates them and gives you a single equation with one unknown. Then use the force sum equations to find the remaining reactions.',
     },
     {
       type: 'callout',
@@ -46,7 +46,7 @@ export default {
     {
       type: 'callout',
       variant: 'warning',
-      body: 'A common FBD mistake: forgetting the direction of a roller reaction. A roller can only push, never pull. If your solution gives a negative roller reaction, recheck the problem setup \u2014 it usually means you drew the FBD wrong or made a sign error.',
+      body: 'A common FBD mistake: forgetting the direction of a roller reaction. A roller can only push, never pull. If your solution gives a negative roller reaction, recheck the problem setup, because it usually means you drew the FBD wrong or made a sign error.',
     },
   ],
   illustration: null,
@@ -63,7 +63,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'Sum moments about point A to eliminate both reactions at A. The only forces creating moments about A are the 12 kN load at 3 m and the roller reaction at B at 8 m. Set the sum to zero: $12 \\times 3 = B_y \\times 8$, so $B_y = 4.5$ kN. The 7.5 kN choice is the reaction at support A, not B \u2014 a classic trap where you solve correctly but report the wrong support. The 6.0 kN choice splits the load in half, which would only be right if the load were at midspan. The 12.0 kN choice puts the entire load on one support, ignoring equilibrium entirely.',
+      eli5: 'Sum moments about point A to eliminate both reactions at A. The only forces creating moments about A are the 12 kN load at 3 m and the roller reaction at B at 8 m. Set the sum to zero: $12 \\times 3 = B_y \\times 8$, so $B_y = 4.5$ kN. The 7.5 kN choice is the reaction at support A, not B, a classic trap where you solve correctly but report the wrong support. The 6.0 kN choice splits the load in half, which would only be right if the load were at midspan. The 12.0 kN choice puts the entire load on one support, ignoring equilibrium entirely.',
       hint: 'Sum moments about the pin support to eliminate two unknowns at once. Be sure to report the reaction at B, not A.',
       steps: [
         {
@@ -91,8 +91,8 @@ export default {
       handbookFormula: '\\sum F_x = 0 \\quad \\sum F_y = 0 \\quad \\sum M = 0',
       videoUrl: null,
       traps: [
-        'Reporting the reaction at the wrong support \u2014 read the question carefully to see which support it asks for',
-        'Splitting the load evenly between supports \u2014 this is only valid when the load is at midspan',
+        'Reporting the reaction at the wrong support. Read the question carefully to see which support it asks for',
+        'Splitting the load evenly between supports, when this is only valid when the load is at midspan',
       ],
       diagram: { component: 'SimplySupportedBeam', props: { span: 8, loadPos: 3, load: 12 } },
     },
@@ -149,7 +149,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'This problem has both a force and a couple (pure moment). The couple has no net force \u2014 it only shows up in the moment equation, not the force equations. Sum moments about A to find $B_y$ first: the 20 kN load at 4 m creates a clockwise moment of 80, and the CCW couple adds 10 in the opposite direction. So $B_y = (80 - 10)/10 = 7$ kN. Then from $\\sum F_y = 0$: $A_y = 20 - 7 = 13$ kN. The 12.0 kN choice ignores the couple entirely: $20 \\times 6 / 10 = 12$. The 11.0 kN choice gets the couple sign wrong, subtracting it from the wrong side.',
+      eli5: 'This problem has both a force and a couple (pure moment). The couple has no net force, so it only shows up in the moment equation, not the force equations. Sum moments about A to find $B_y$ first: the 20 kN load at 4 m creates a clockwise moment of 80, and the CCW couple adds 10 in the opposite direction. So $B_y = (80 - 10)/10 = 7$ kN. Then from $\\sum F_y = 0$: $A_y = 20 - 7 = 13$ kN. The 12.0 kN choice ignores the couple entirely: $20 \\times 6 / 10 = 12$. The 11.0 kN choice gets the couple sign wrong, subtracting it from the wrong side.',
       hint: 'A couple contributes to the moment equation but not to the force equations. Sum moments about one support, then use $\\sum F_y = 0$ to find the other reaction.',
       steps: [
         {
@@ -181,8 +181,8 @@ export default {
       handbookFormula: '\\sum M = 0',
       videoUrl: null,
       traps: [
-        'Ignoring the couple in the moment equation \u2014 it contributes directly regardless of where it is located on the beam',
-        'Getting the sign of the couple wrong \u2014 a counterclockwise couple is positive if your convention is CCW positive',
+        'Ignoring the couple in the moment equation, when it contributes directly regardless of where it is located on the beam',
+        'Getting the sign of the couple wrong. A counterclockwise couple is positive if your convention is CCW positive',
       ],
       diagram: { component: 'BeamWithCouple', props: { span: 10, loadPos: 4, load: 20, couplePos: 7, couple: 10 } },
     },

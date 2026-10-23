@@ -2,7 +2,7 @@ export default {
   "id": "spreadsheet-computations",
   "name": "Spreadsheet Computations",
   "subtopicId": "computational-tools",
-  "application": "Civil engineers live in spreadsheets — earthwork volume tables, quantity takeoffs, load combinations, rebar schedules, and cost estimates are all built from cell formulas. The FE tests whether you can read a formula, apply the correct order of operations, and predict what happens to relative vs. absolute references when a formula is copied. These are quick points if you know the rules cold.",
+  "application": "Civil engineers live in spreadsheets: earthwork volume tables, quantity takeoffs, load combinations, rebar schedules, and cost estimates are all built from cell formulas. The FE tests whether you can read a formula, apply the correct order of operations, and predict what happens to relative vs. absolute references when a formula is copied. These are quick points if you know the rules cold.",
   "content": [
     {
       "type": "text",
@@ -14,7 +14,7 @@ export default {
     },
     {
       "type": "text",
-      "body": "Spreadsheets follow standard algebraic precedence (PEMDAS): parentheses first, then exponentiation (^), then multiplication and division (left to right), then addition and subtraction (left to right). So =2+3*4 is 14, not 20 — the multiplication happens before the addition. Use parentheses to force a different order: =(2+3)*4 is 20."
+      "body": "Spreadsheets follow standard algebraic precedence (PEMDAS): parentheses first, then exponentiation (^), then multiplication and division (left to right), then addition and subtraction (left to right). So =2+3*4 is 14, not 20, because the multiplication happens before the addition. Use parentheses to force a different order: =(2+3)*4 is 20."
     },
     {
       "type": "heading",
@@ -34,7 +34,7 @@ export default {
     },
     {
       "type": "text",
-      "body": "SUM(range) adds a range, AVERAGE(range) means the arithmetic mean, MAX/MIN return the largest/smallest, COUNT counts numeric cells, and ROUND(value, digits) rounds. The logical function IF(test, value_if_true, value_if_false) returns one of two results based on a comparison — e.g., =IF(A1>=3000, \"PASS\", \"FAIL\")."
+      "body": "SUM(range) adds a range, AVERAGE(range) means the arithmetic mean, MAX/MIN return the largest/smallest, COUNT counts numeric cells, and ROUND(value, digits) rounds. The logical function IF(test, value_if_true, value_if_false) returns one of two results based on a comparison, e.g., =IF(A1>=3000, \"PASS\", \"FAIL\")."
     },
     {
       "type": "callout",
@@ -44,7 +44,7 @@ export default {
     {
       "type": "callout",
       "variant": "warning",
-      "body": "The #1 spreadsheet error is forgetting the $ — the constant reference drifts when copied and every row below the first is wrong. The #2 error is order of operations: =A1+A2/A3 divides A2 by A3 first, it does NOT add A1+A2 before dividing."
+      "body": "The #1 spreadsheet error is forgetting the $, so the constant reference drifts when copied and every row below the first is wrong. The #2 error is order of operations: =A1+A2/A3 divides A2 by A3 first, it does NOT add A1+A2 before dividing."
     }
   ],
   "illustration": null,
@@ -61,7 +61,7 @@ export default {
       "correctAnswerId": "c1",
       "difficulty": "easy",
       "eli5": "Spreadsheets follow PEMDAS, so multiplication happens before addition. Compute A2*A3 = 3*4 = 12 first, then add A1: 2 + 12 = 14. The 20 option is the classic mistake of working strictly left to right as (2+3)*4. The 9 option just adds all three. The 24 option multiplies all three.",
-      "hint": "Spreadsheets obey order of operations — do the multiplication before the addition.",
+      "hint": "Spreadsheets obey order of operations, so do the multiplication before the addition.",
       "steps": [
         { "text": "Apply precedence: multiplication before addition. Evaluate A2*A3 first.", "latex": null },
         { "text": "A2*A3 = 3 × 4 = 12.", "latex": null },
@@ -98,7 +98,7 @@ export default {
       "handbookFormula": null,
       "videoUrl": null,
       "traps": [
-        "Thinking A1 stays fixed — it is relative and shifts to A2",
+        "Thinking A1 stays fixed, when it is relative and shifts to A2",
         "Accidentally shifting the locked $B$1 reference"
       ],
       "diagram": null
@@ -114,7 +114,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "IF(test, value_if_true, value_if_false) checks the test first. Here A1>=10 asks 'is 12 at least 10?' — yes, so the function returns the TRUE result, A1*2 = 12 × 2 = 24. The choice 17 is the FALSE branch A1+5, which only applies if the test fails. The choice 1 is the mistake of treating TRUE as the literal number 1.",
+      "eli5": "IF(test, value_if_true, value_if_false) checks the test first. Here A1>=10 asks 'is 12 at least 10?' Yes, so the function returns the TRUE result, A1*2 = 12 × 2 = 24. The choice 17 is the FALSE branch A1+5, which only applies if the test fails. The choice 1 is the mistake of treating TRUE as the literal number 1.",
       "hint": "Evaluate the test (is A1 ≥ 10?) and return the matching branch.",
       "steps": [
         { "text": "Test: A1 >= 10 → 12 >= 10 → TRUE.", "latex": null },

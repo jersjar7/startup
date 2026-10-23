@@ -9,7 +9,7 @@ export default {
     { type: 'formula', latex: 'x_{j+1} = x_j - \\frac{f(x_j)}{f\'(x_j)}', label: 'Each iteration refines the estimate using the slope' },
     { type: 'text', body: 'Starting from an estimate $x_j$, Newton\'s method follows the tangent line to a better estimate. It converges quickly when the initial guess is near the root, but can fail if the guess is poor or the derivative is near zero.' },
     { type: 'heading', body: 'Bisection Method' },
-    { type: 'text', body: 'Bisection brackets a root in an interval $[a, b]$ where the function changes sign — that is, $f(a)\\cdot f(b) < 0$ — then repeatedly halves the interval, keeping the half that still contains the sign change. It always converges but more slowly than Newton\'s method.' },
+    { type: 'text', body: 'Bisection brackets a root in an interval $[a, b]$ where the function changes sign (that is, $f(a)\\cdot f(b) < 0$), then repeatedly halves the interval, keeping the half that still contains the sign change. It always converges but more slowly than Newton\'s method.' },
     { type: 'callout', variant: 'tip', body: 'Newton\'s method is fast but needs a good starting guess and the derivative; bisection is slow but guaranteed to converge as long as the interval brackets a sign change.' },
     { type: 'callout', variant: 'warning', body: 'Newton\'s method can diverge or oscillate if the initial estimate is far from the root or if f′(x) is near zero (a flat slope sends the next estimate far away).' },
   ],
@@ -81,7 +81,7 @@ export default {
       correctAnswerId: 'c1',
       difficulty: 'medium',
       eli5: 'Newton\'s method follows the tangent slope. A poor (far) starting guess or a near-zero derivative (a nearly flat tangent) throws the next estimate far away, so the method may diverge or oscillate. A close starting guess and a straight line (where it converges in one step) are ideal, not failures. A large derivative gives small, well-behaved steps.',
-      hint: 'The method uses the slope — what makes a tangent line send you far from the root?',
+      hint: 'The method uses the slope. What makes a tangent line send you far from the root?',
       steps: [
         { text: 'Newton\'s step is f(x)/f′(x); a near-zero f′ makes the step huge.', latex: null },
         { text: 'A far initial guess can also send iterations away from the root.', latex: null },

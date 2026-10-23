@@ -621,7 +621,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Shape factor = Z/S = 120/100 = 1.20 — the reserve strength between first yield and full plastic moment. The 0.83 choice inverts the ratio (S/Z). The 20 choice is the difference (Z - S). The 1.00 choice would mean no plastic reserve.',
+    eli5: 'Shape factor = Z/S = 120/100 = 1.20, the reserve strength between first yield and full plastic moment. The 0.83 choice inverts the ratio (S/Z). The 20 choice is the difference (Z - S). The 1.00 choice would mean no plastic reserve.',
     hint: 'Shape factor = plastic section modulus / elastic section modulus = Z/S.',
     steps: [
       { text: 'Shape factor:', latex: '\\frac{Z}{S} = \\frac{120}{100} = 1.20' },

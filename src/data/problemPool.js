@@ -3,8 +3,8 @@
 // This is the single source of truth for looking up a problem by its id.
 // The spaced-repetition review flow stores only problem ids server-side
 // (in problemHistory); it resolves them here so due problems resurface from
-// the exact content the student studied — lesson practice, exam bank, and
-// chapter practice — with no separate database copy to drift out of sync.
+// the exact content the student studied (lesson practice, exam bank, and
+// chapter practice) with no separate database copy to drift out of sync.
 
 import { LESSONS } from './lessons/index';
 import { getExamBankForChapter } from './exam-bank/index';

@@ -43,7 +43,7 @@ export default {
       videoUrl: null,
       traps: [
         'Forgetting to convert $KL$ from feet to inches before dividing by $r$ (which is in inches)',
-        'Using $r_x$ (strong axis) instead of $r_y$ (weak axis) — the larger $KL/r$ controls',
+        'Using $r_x$ (strong axis) instead of $r_y$ (weak axis). The larger $KL/r$ controls',
       ],
       diagram: null,
     },
@@ -58,7 +58,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: '$\\phi_c P_n = \\phi_c F_{cr} \\times A_g = 34.6 \\times 15.0 = 519$ kips. That is the total design compressive strength after buckling reduction and safety factor. The 750 kips choice is $F_y \\times A_g = 50 \\times 15 = 750$, which ignores buckling entirely — this would only be correct for a zero-length column. The 345 kips choice might come from an incorrect table lookup. The 675 kips choice applies $\\phi_c = 0.90$ to the gross yield: $0.90 \\times 750 = 675$, still ignoring buckling.',
+      eli5: '$\\phi_c P_n = \\phi_c F_{cr} \\times A_g = 34.6 \\times 15.0 = 519$ kips. That is the total design compressive strength after buckling reduction and safety factor. The 750 kips choice is $F_y \\times A_g = 50 \\times 15 = 750$, which ignores buckling entirely. This would only be correct for a zero-length column. The 345 kips choice might come from an incorrect table lookup. The 675 kips choice applies $\\phi_c = 0.90$ to the gross yield: $0.90 \\times 750 = 675$, still ignoring buckling.',
       hint: 'Design strength $= \\phi_c F_{cr} \\times A_g$. The $\\phi_c F_{cr}$ value is read directly from the AISC table.',
       steps: [
         { text: 'From AISC Table 4-14 at $KL/r = 60$:', latex: '\\phi_c F_{cr} = 34.6 \\text{ ksi}' },
@@ -68,8 +68,8 @@ export default {
       handbookFormula: '\\phi_c P_n = \\phi_c F_{cr} \\times A_g',
       videoUrl: null,
       traps: [
-        'Using $F_y$ directly instead of $F_{cr}$ — buckling reduces the effective stress below yield for slender columns',
-        'Applying $\\phi_c$ again on top of $\\phi_c F_{cr}$ — the table value already includes $\\phi_c = 0.90$',
+        'Using $F_y$ directly instead of $F_{cr}$. Buckling reduces the effective stress below yield for slender columns',
+        'Applying $\\phi_c$ again on top of $\\phi_c F_{cr}$, because the table value already includes $\\phi_c = 0.90$',
       ],
       diagram: null,
     },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Column A: $KL/r = (1.0 \\times 12 \\times 12)/2.0 = 144/2.0 = 72$. Column B: $KL/r = (0.80 \\times 18 \\times 12)/2.0 = 172.8/2.0 = 86.4 \\approx 86$. Column B has the higher $KL/r$ despite having a lower $K$ factor, because its physical length is much longer. Higher $KL/r$ means lower $\\phi_c F_{cr}$ and therefore lower design strength. The choice "Column A because $K = 1.0 > 0.80$" is the trap — a lower $K$ factor helps, but it does not always compensate for a much longer column. You must compute the actual $KL/r$ to compare.',
+      eli5: 'Column A: $KL/r = (1.0 \\times 12 \\times 12)/2.0 = 144/2.0 = 72$. Column B: $KL/r = (0.80 \\times 18 \\times 12)/2.0 = 172.8/2.0 = 86.4 \\approx 86$. Column B has the higher $KL/r$ despite having a lower $K$ factor, because its physical length is much longer. Higher $KL/r$ means lower $\\phi_c F_{cr}$ and therefore lower design strength. The choice "Column A because $K = 1.0 > 0.80$" is the trap. A lower $K$ factor helps, but it does not always compensate for a much longer column. You must compute the actual $KL/r$ to compare.',
       hint: 'Compute $KL/r$ for each column. Remember: $K$ reduces the effective length, but a much longer column can still have a higher $KL/r$.',
       steps: [
         { text: 'Column A:', latex: '\\frac{KL}{r} = \\frac{1.0 \\times 12 \\times 12}{2.0} = \\frac{144}{2.0} = 72' },
@@ -95,9 +95,9 @@ export default {
       handbookFormula: 'L_c = KL',
       videoUrl: null,
       traps: [
-        'Assuming a lower $K$ automatically means better performance — the physical length matters too',
+        'Assuming a lower $K$ automatically means better performance. The physical length matters too',
         'Forgetting to convert feet to inches when computing $KL/r$',
-        'Using $r_x$ instead of $r_y$ — weak-axis buckling typically governs for W-shapes',
+        'Using $r_x$ instead of $r_y$. Weak-axis buckling typically governs for W-shapes',
       ],
       diagram: null,
     },

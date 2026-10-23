@@ -3,7 +3,7 @@ export default {
   name: 'Depreciation, Taxation & Inflation',
   subtopicId: 'depreciation-and-finance',
   application:
-    'Every capital asset a civil engineering firm owns \u2014 excavators, survey equipment, vehicles, even software \u2014 loses value over time, and the IRS lets you deduct that loss. The FE tests whether you can compute depreciation using straight-line and MACRS methods, calculate book value, and understand how depreciation affects taxable income. Inflation shows up when you need to convert between real and nominal dollars or adjust an interest rate for purchasing power erosion. These topics tie directly to after-tax cash flow analysis and project justification. Expect at least one depreciation or inflation-adjusted problem on exam day, and the MACRS table is provided right in the handbook (p. 231).',
+    'Every capital asset a civil engineering firm owns (excavators, survey equipment, vehicles, even software) loses value over time, and the IRS lets you deduct that loss. The FE tests whether you can compute depreciation using straight-line and MACRS methods, calculate book value, and understand how depreciation affects taxable income. Inflation shows up when you need to convert between real and nominal dollars or adjust an interest rate for purchasing power erosion. These topics tie directly to after-tax cash flow analysis and project justification. Expect at least one depreciation or inflation-adjusted problem on exam day, and the MACRS table is provided right in the handbook (p. 231).',
   content: [
     {
       type: 'text',
@@ -17,12 +17,12 @@ export default {
     },
     {
       type: 'text',
-      body: '$C$ is the initial cost, $S_n$ is the salvage value at end of life, and $n$ is the depreciable life in years. Every year gets the same deduction. This is the simplest method and the one students default to \u2014 but the FE more often tests MACRS.',
+      body: '$C$ is the initial cost, $S_n$ is the salvage value at end of life, and $n$ is the depreciable life in years. Every year gets the same deduction. This is the simplest method and the one students default to, but the FE more often tests MACRS.',
     },
     { type: 'heading', body: 'MACRS Depreciation' },
     {
       type: 'text',
-      body: 'The Modified Accelerated Cost Recovery System (MACRS) uses IRS-defined percentages that front-load depreciation into the early years. The handbook provides a table of MACRS factors for 3-, 5-, 7-, and 10-year recovery periods (p. 231). Salvage value is ignored \u2014 MACRS depreciates the full initial cost.',
+      body: 'The Modified Accelerated Cost Recovery System (MACRS) uses IRS-defined percentages that front-load depreciation into the early years. The handbook provides a table of MACRS factors for 3-, 5-, 7-, and 10-year recovery periods (p. 231). Salvage value is ignored because MACRS depreciates the full initial cost.',
     },
     {
       type: 'formula',
@@ -31,12 +31,12 @@ export default {
     },
     {
       type: 'text',
-      body: '$d_j$ is the MACRS factor (percentage) from the table for year $j$, and $C$ is the initial cost. There is no salvage subtraction \u2014 MACRS always depreciates from the full cost basis.',
+      body: '$d_j$ is the MACRS factor (percentage) from the table for year $j$, and $C$ is the initial cost. There is no salvage subtraction, because MACRS always depreciates from the full cost basis.',
     },
     {
       type: 'callout',
       variant: 'exam',
-      body: 'The MACRS table is on p. 231 of the handbook. You do not need to memorize the percentages \u2014 just know how to read the table. A 5-year MACRS asset actually has 6 years of depreciation (years 1\u20136) because of the half-year convention.',
+      body: 'The MACRS table is on p. 231 of the handbook. You do not need to memorize the percentages. Just know how to read the table. A 5-year MACRS asset actually has 6 years of depreciation (years 1\u20136) because of the half-year convention.',
     },
     { type: 'heading', body: 'Book Value' },
     {
@@ -51,7 +51,7 @@ export default {
     { type: 'heading', body: 'Taxation' },
     {
       type: 'text',
-      body: 'Taxable income equals total revenue minus operating expenses minus depreciation. Capital purchases are not directly expensed \u2014 they are depreciated over their recovery period. The tax owed is the tax rate times taxable income.',
+      body: 'Taxable income equals total revenue minus operating expenses minus depreciation. Capital purchases are not directly expensed. They are depreciated over their recovery period. The tax owed is the tax rate times taxable income.',
     },
     {
       type: 'formula',
@@ -60,7 +60,7 @@ export default {
     },
     {
       type: 'text',
-      body: '$t$ is the tax rate and $D$ is the depreciation deduction for that year. Depreciation reduces taxable income but is not an actual cash outflow \u2014 it is a non-cash deduction that saves you $t \\times D$ in taxes each year.',
+      body: '$t$ is the tax rate and $D$ is the depreciation deduction for that year. Depreciation reduces taxable income but is not an actual cash outflow. It is a non-cash deduction that saves you $t \\times D$ in taxes each year.',
     },
     { type: 'heading', body: 'Inflation' },
     {
@@ -97,7 +97,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: "MACRS doesn't spread depreciation evenly \u2014 it front-loads it. Year 2 of a 5-year asset gets the biggest chunk (32%). Just look up the percentage in the table and multiply by the full purchase price. No salvage value subtraction with MACRS. The 12,000 dollars choice is the straight-line trap \u2014 people divide 60,000 by 5 years, which is a completely different method. The 10,000 dollars choice divides by 6 years (the actual number of MACRS depreciation years due to the half-year convention). The 11,520 dollars choice grabs the wrong row from the table (it is the year 4/5 factor of 11.52%).",
+      eli5: "MACRS doesn't spread depreciation evenly. It front-loads it. Year 2 of a 5-year asset gets the biggest chunk (32%). Just look up the percentage in the table and multiply by the full purchase price. No salvage value subtraction with MACRS. The 12,000 dollars choice is the straight-line trap: people divide 60,000 by 5 years, which is a completely different method. The 10,000 dollars choice divides by 6 years (the actual number of MACRS depreciation years due to the half-year convention). The 11,520 dollars choice grabs the wrong row from the table (it is the year 4/5 factor of 11.52%).",
       hint: 'Look up the MACRS factor for year 2 of a 5-year property in the handbook table, then multiply by the initial cost.',
       steps: [
         {
@@ -121,8 +121,8 @@ export default {
       handbookFormula: 'D_j = d_j \\times C',
       videoUrl: null,
       traps: [
-        'Using straight-line depreciation instead of MACRS \u2014 the problem specifies MACRS',
-        'Subtracting salvage value before applying the MACRS factor \u2014 MACRS depreciates the full cost',
+        'Using straight-line depreciation instead of MACRS, when the problem specifies MACRS',
+        'Subtracting salvage value before applying the MACRS factor, when MACRS depreciates the full cost',
       ],
       diagram: null,
     },
@@ -138,7 +138,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: "Book value is what's left after you subtract all the depreciation taken so far. Add up the MACRS percentages for years 1\u20133 (14.29 + 24.49 + 17.49 = 56.27%), multiply by the initial cost to get total depreciation (281,350 dollars), then subtract from 500,000. The 281,350 dollars choice is the accumulated depreciation itself \u2014 a common mix-up between \"how much you've depreciated\" and \"how much is left.\" The 412,450 dollars choice roughly corresponds to subtracting only year 3's depreciation instead of all three years. The 87,450 dollars choice is just the year 3 depreciation alone.",
+      eli5: "Book value is what's left after you subtract all the depreciation taken so far. Add up the MACRS percentages for years 1\u20133 (14.29 + 24.49 + 17.49 = 56.27%), multiply by the initial cost to get total depreciation (281,350 dollars), then subtract from 500,000. The 281,350 dollars choice is the accumulated depreciation itself, a common mix-up between \"how much you've depreciated\" and \"how much is left.\" The 412,450 dollars choice roughly corresponds to subtracting only year 3's depreciation instead of all three years. The 87,450 dollars choice is just the year 3 depreciation alone.",
       hint: 'Book value = initial cost minus the sum of all depreciation taken through year $j$. Add up the MACRS factors for years 1 through 3 first.',
       steps: [
         {
@@ -183,8 +183,8 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: "When cash flows are in actual (nominal) dollars \u2014 meaning they include inflation \u2014 you need to discount at the combined rate, not just the real rate. The formula is $d = i + f + if$, not just $i + f$. The cross-term (0.04 \u00d7 0.03 = 0.0012) is small but enough to change the answer from 7.00% to 7.12%. The 7.00% option is the trap for students who just add the two rates. The 7.12%/0.676 option gets the rate right but reads the wrong present worth factor. The 4.00% option uses the real rate (4%) which would only be correct if the cash flows were in constant (real) dollars.",
-      hint: 'Actual dollars means you need the inflation-adjusted rate. The formula has three terms, not two \u2014 don\'t forget the cross-term $i \\times f$.',
+      eli5: "When cash flows are in actual (nominal) dollars, meaning they include inflation, you need to discount at the combined rate, not just the real rate. The formula is $d = i + f + if$, not just $i + f$. The cross-term (0.04 \u00d7 0.03 = 0.0012) is small but enough to change the answer from 7.00% to 7.12%. The 7.00% option is the trap for students who just add the two rates. The 7.12%/0.676 option gets the rate right but reads the wrong present worth factor. The 4.00% option uses the real rate (4%) which would only be correct if the cash flows were in constant (real) dollars.",
+      hint: 'Actual dollars means you need the inflation-adjusted rate. The formula has three terms, not two, so don\'t forget the cross-term $i \\times f$.',
       steps: [
         {
           text: 'Since cash flows are in actual (nominal) dollars, use the inflation-adjusted rate.',
@@ -211,8 +211,8 @@ export default {
       handbookFormula: 'd = i + f + (i \\times f)',
       videoUrl: null,
       traps: [
-        'Simply adding the real rate and inflation rate (7.00% instead of 7.12%) \u2014 the cross-term matters',
-        'Using the real interest rate for nominal cash flows or the combined rate for real cash flows \u2014 match the rate to the dollar type',
+        'Simply adding the real rate and inflation rate (7.00% instead of 7.12%), when the cross-term matters',
+        'Using the real interest rate for nominal cash flows or the combined rate for real cash flows instead of matching the rate to the dollar type',
       ],
       diagram: null,
     },

@@ -1,4 +1,4 @@
-// Pricing — single source of truth for DISPLAY.
+// Pricing: single source of truth for DISPLAY.
 // The server (service/pricing.js + service/routes/checkout.js) is authoritative
 // for the actual charge; keep these dollar amounts in sync with the cents there.
 

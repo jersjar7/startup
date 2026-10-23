@@ -41,7 +41,7 @@ export function computeFocusAreas(masteryByChapterId = {}, { exclude = [], limit
 }
 
 /**
- * Human-readable mastery tier. Mastery language only — never a pass
+ * Human-readable mastery tier. Mastery language only, never a pass
  * probability or "ready" verdict (nobody can promise that).
  */
 export function readinessLabel(pct) {

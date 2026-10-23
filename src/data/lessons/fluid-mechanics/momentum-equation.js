@@ -2,7 +2,7 @@ export default {
   id: 'momentum-equation',
   name: 'Momentum Equation',
   subtopicId: 'fluid-dynamics',
-  application: 'Civil engineers use the momentum equation to compute forces at pipe bends, tees, and reducers \u2014 which is how you design thrust blocks and restrained joints for water mains. It also gives the force on a bridge pier from river flow and the reaction force from a fire hose nozzle. On the FE, momentum problems typically involve a pipe bend at some angle, where you solve for the force components using the impulse-momentum principle.',
+  application: 'Civil engineers use the momentum equation to compute forces at pipe bends, tees, and reducers, which is how you design thrust blocks and restrained joints for water mains. It also gives the force on a bridge pier from river flow and the reaction force from a fire hose nozzle. On the FE, momentum problems typically involve a pipe bend at some angle, where you solve for the force components using the impulse-momentum principle.',
   content: [
     { type: 'text', body: 'The momentum equation relates forces to changes in fluid momentum. It\u2019s Newton\u2019s second law applied to a control volume of moving fluid.' },
     { type: 'heading', body: 'General Momentum Equation' },
@@ -41,8 +41,8 @@ export default {
       handbookFormula: '\\Sigma F = \\rho Q (v_2 - v_1)',
       videoUrl: null,
       traps: [
-        'Using F = \u03C1Av instead of \u03C1Av\u00B2 \u2014 forgetting the velocity appears in both Q and the momentum term',
-        'Doubling the force \u2014 that\u2019s for a 180\u00B0 reversal, not a 90\u00B0 flat plate',
+        'Using F = \u03C1Av instead of \u03C1Av\u00B2, forgetting the velocity appears in both Q and the momentum term',
+        'Doubling the force, when that\u2019s for a 180\u00B0 reversal, not a 90\u00B0 flat plate',
       ],
       diagram: null,
     },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For a 90\u00B0 bend with constant diameter, v_1 = v_2 = v and P_1 = P_2 = P. Set x as the inlet direction, y as the outlet direction. In x: F_x = PA + \u03C1Qv (momentum in, nothing goes out in x). In y: F_y = PA + \u03C1Qv (momentum out, nothing comes in from y). A = \u03C0(0.3)\u00B2/4 = 0.0707 m\u00B2. Q = 0.0707 \u00D7 4 = 0.2827 m\u00B3/s. PA = 200,000 \u00D7 0.0707 = 14,140 N. \u03C1Qv = 1,000 \u00D7 0.2827 \u00D7 4 = 1,131 N. So F_x = F_y = 14,140 + 1,131 = 15,271 N. Resultant = \u221A(F_x\u00B2 + F_y\u00B2) = 15,271\u221A2 = 21,593 N \u2248 21.6 kN. The 14.1 kN choice is just PA = 14,140 N \u2014 a single component, forgetting both the momentum term and the \u221A2 resultant factor. The 28.3 kN choice is 2\u00B7PA = 28,280 N (uses 2PA instead of the correct PA\u221A2 resultant). The 1.6 kN choice keeps only the momentum term and combines it the same way: 1,131 N in each direction is 1.6 kN as a resultant, with the dominant pressure force left out.',
+      eli5: 'For a 90\u00B0 bend with constant diameter, v_1 = v_2 = v and P_1 = P_2 = P. Set x as the inlet direction, y as the outlet direction. In x: F_x = PA + \u03C1Qv (momentum in, nothing goes out in x). In y: F_y = PA + \u03C1Qv (momentum out, nothing comes in from y). A = \u03C0(0.3)\u00B2/4 = 0.0707 m\u00B2. Q = 0.0707 \u00D7 4 = 0.2827 m\u00B3/s. PA = 200,000 \u00D7 0.0707 = 14,140 N. \u03C1Qv = 1,000 \u00D7 0.2827 \u00D7 4 = 1,131 N. So F_x = F_y = 14,140 + 1,131 = 15,271 N. Resultant = \u221A(F_x\u00B2 + F_y\u00B2) = 15,271\u221A2 = 21,593 N \u2248 21.6 kN. The 14.1 kN choice is just PA = 14,140 N, a single component, forgetting both the momentum term and the \u221A2 resultant factor. The 28.3 kN choice is 2\u00B7PA = 28,280 N (uses 2PA instead of the correct PA\u221A2 resultant). The 1.6 kN choice keeps only the momentum term and combines it the same way: 1,131 N in each direction is 1.6 kN as a resultant, with the dominant pressure force left out.',
       hint: 'For a 90\u00B0 bend with the same pipe diameter, both F_x and F_y have the same magnitude. The resultant force is F\u221A2.',
       steps: [
         { text: 'Pipe area:', latex: 'A = \\frac{\\pi (0.3)^2}{4} = 0.0707 \\text{ m}^2' },
@@ -70,8 +70,8 @@ export default {
       handbookFormula: 'P_1 A_1 - P_2 A_2 \\cos\\alpha - F_x = Q\\rho(v_2 \\cos\\alpha - v_1)',
       videoUrl: null,
       traps: [
-        'Forgetting the pressure forces \u2014 they\u2019re often larger than the momentum forces',
-        'Reporting F_x or F_y instead of the resultant \u2014 for a 90\u00B0 bend you must combine them vectorially',
+        'Forgetting the pressure forces, when they\u2019re often larger than the momentum forces',
+        'Reporting F_x or F_y instead of the resultant, when for a 90\u00B0 bend you must combine them vectorially',
         'Getting signs wrong in the momentum equation',
       ],
       diagram: { component: 'PipeBend', props: { angle: 90, diameter: 0.3, velocity: 4, pressure: 200 } },
@@ -100,9 +100,9 @@ export default {
       handbookFormula: '\\Sigma F = \\rho Q(v_2 - v_1)',
       videoUrl: null,
       traps: [
-        'Forgetting the pressure force on the inlet face \u2014 only accounting for momentum change',
+        'Forgetting the pressure force on the inlet face and only accounting for momentum change',
         'Not using continuity to find the exit velocity first',
-        'Confusing the force direction \u2014 the holder pushes forward (toward the nozzle), opposing the hose reaction',
+        'Confusing the force direction: the holder pushes forward (toward the nozzle), opposing the hose reaction',
       ],
       diagram: null,
     },

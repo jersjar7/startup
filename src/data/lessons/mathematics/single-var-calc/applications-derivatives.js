@@ -2,7 +2,7 @@ export default {
   "id": "applications-derivatives",
   "name": "Applications of Derivatives",
   "subtopicId": "single-var-calc",
-  "application": "Civil engineers use max/min analysis constantly — finding where bending moment is maximum along a beam, optimizing the dimensions of a channel for maximum flow, or locating the peak elevation on a vertical highway curve. Inflection points tell you where a beam changes from bending one way to the other. On the FE, these problems are formulaic: take the derivative, set it equal to zero, solve, and use the second derivative to classify. They're free points if you don't make sign errors.",
+  "application": "Civil engineers use max/min analysis constantly: finding where bending moment is maximum along a beam, optimizing the dimensions of a channel for maximum flow, or locating the peak elevation on a vertical highway curve. Inflection points tell you where a beam changes from bending one way to the other. On the FE, these problems are formulaic: take the derivative, set it equal to zero, solve, and use the second derivative to classify. They're free points if you don't make sign errors.",
   "content": [
     {
       "type": "text",
@@ -37,12 +37,12 @@ export default {
     {
       "type": "callout",
       "variant": "tip",
-      "body": "Memory trick: second derivative negative means the curve frowns (concave down) — that's a max. Second derivative positive means the curve smiles (concave up) — that's a min."
+      "body": "Memory trick: second derivative negative means the curve frowns (concave down), so that's a max. Second derivative positive means the curve smiles (concave up), so that's a min."
     },
     {
       "type": "callout",
       "variant": "exam",
-      "body": "The FE almost always gives you a polynomial or a simple function. Take the derivative, set it to zero, factor or use the quadratic formula, then plug critical points into the second derivative. Don't skip the second derivative test — some problems have both a max and a min."
+      "body": "The FE almost always gives you a polynomial or a simple function. Take the derivative, set it to zero, factor or use the quadratic formula, then plug critical points into the second derivative. Don't skip the second derivative test, because some problems have both a max and a min."
     }
   ],
   "illustration": null,
@@ -70,7 +70,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "easy",
-      "eli5": "Take the derivative, set it to zero, solve for $x$. That is it. The second derivative is $-4$, which is negative — concave down — so it is a max, not a min. Since the leading coefficient is negative, the parabola opens downward, so of course it is a max. The choice $x = 8$ is what you get if you forget the factor of 2 when differentiating $-2x^2$. Always double-check your power rule on the leading term.",
+      "eli5": "Take the derivative, set it to zero, solve for $x$. That is it. The second derivative is $-4$, which is negative (concave down), so it is a max, not a min. Since the leading coefficient is negative, the parabola opens downward, so of course it is a max. The choice $x = 8$ is what you get if you forget the factor of 2 when differentiating $-2x^2$. Always double-check your power rule on the leading term.",
       "hint": "Set $f'(x) = 0$ and solve. Is the parabola opening up or down?",
       "steps": [
         {
@@ -118,7 +118,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Same process — derivative, set to zero, solve. You get $h = 6$. The second derivative is positive ($6 > 0$), so it is concave up — a minimum. The extra step is plugging $h = 6$ back into the original function to get the cost. The choice giving C = 150/m is the trap for students who find the right $h$ but give the constant term (150) as the cost instead of actually evaluating $C(6)$. Always plug back in.",
+      "eli5": "Same process: derivative, set to zero, solve. You get $h = 6$. The second derivative is positive ($6 > 0$), so it is concave up, a minimum. The extra step is plugging $h = 6$ back into the original function to get the cost. The choice giving C = 150/m is the trap for students who find the right $h$ but give the constant term (150) as the cost instead of actually evaluating $C(6)$. Always plug back in.",
       "hint": "After finding where $C'(h) = 0$, plug that value back into the original $C(h)$ to find the minimum cost.",
       "steps": [
         {
@@ -170,7 +170,7 @@ export default {
       ],
       "correctAnswerId": "c4",
       "difficulty": "hard",
-      "eli5": "An inflection point is where the curve changes from bending one way to bending the other — concave up to concave down or vice versa. Set the SECOND derivative to zero, not the first. That is the most common mistake: students set y' = 0 and find critical points instead. The choices x = 2 m and x = 6 m are the critical points where y' = 0 — those are max/min locations, not inflection points. The inflection point is where y'' = 0 and actually changes sign.",
+      "eli5": "An inflection point is where the curve changes from bending one way to bending the other (concave up to concave down or vice versa). Set the SECOND derivative to zero, not the first. That is the most common mistake: students set y' = 0 and find critical points instead. The choices x = 2 m and x = 6 m are the critical points where y' = 0, and those are max/min locations, not inflection points. The inflection point is where y'' = 0 and actually changes sign.",
       "hint": "Inflection points come from the second derivative, not the first. Set $y''(x) = 0$.",
       "steps": [
         {
@@ -186,7 +186,7 @@ export default {
           "latex": "6x - 24 = 0 \\implies x = 4"
         },
         {
-          "text": "Verify sign change: $y''(3) = -6 < 0$ and $y''(5) = 6 > 0$ — sign changes, confirming inflection point.",
+          "text": "Verify sign change: $y''(3) = -6 < 0$ and $y''(5) = 6 > 0$. The sign changes, confirming the inflection point.",
           "latex": null
         }
       ],

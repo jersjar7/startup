@@ -13,7 +13,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Starting from rest with constant acceleration, the average velocity over the trip is simply half the final velocity. Distance equals average velocity times time, so $t = s / \\bar{v} = 360 / 12 = 30\\,\\text{s}$. You can also find $a$ from the v-squared equation, then use $v = at$. The 15 s choice halves the time by using the final velocity (24) instead of the average velocity (12) \u2014 equivalently, dividing distance by the final velocity (360/24 = 15). The 7.5 s choice divides the distance by twice the final velocity. The 21.2 s choice comes from misusing $t = \\sqrt{2s/a}$ with the wrong (doubled) acceleration.',
+    eli5: 'Starting from rest with constant acceleration, the average velocity over the trip is simply half the final velocity. Distance equals average velocity times time, so $t = s / \\bar{v} = 360 / 12 = 30\\,\\text{s}$. You can also find $a$ from the v-squared equation, then use $v = at$. The 15 s choice halves the time by using the final velocity (24) instead of the average velocity (12). Equivalently, it divides distance by the final velocity (360/24 = 15). The 7.5 s choice divides the distance by twice the final velocity. The 21.2 s choice comes from misusing $t = \\sqrt{2s/a}$ with the wrong (doubled) acceleration.',
     hint: 'From rest, the average velocity is half the final velocity. Distance equals average velocity times time.',
     steps: [
       { text: 'From rest, find acceleration with the no-time equation:', latex: 'v^2 = v_0^2 + 2a(s - s_0) \\implies 24^2 = 0 + 2a(360)' },
@@ -75,7 +75,7 @@ const PROBLEMS = [
     correctAnswerId: 'c3',
     difficulty: 'medium',
     eli5: 'No time is given, so use the angular no-time equation $\\omega^2 = \\omega_0^2 + 2\\alpha(\\theta - \\theta_0)$, the rotational twin of $v^2 = v_0^2 + 2a\\,s$. The pulley stops, so $\\omega = 0$. Solve for $\\theta = \\omega_0^2 / (2\\alpha) = 1600 / 5 = 320\\,\\text{rad}$. The $16\\,\\text{rad}$ option is $\\omega_0 / \\alpha$, the time to stop, not the angle. The $640\\,\\text{rad}$ option drops the factor of 2 in the denominator ($1600/2.5 = 640$). The $160\\,\\text{rad}$ option is just half of the correct answer.',
-    hint: 'No time given — reach for the angular analog of $v^2 = v_0^2 + 2a s$.',
+    hint: 'No time given, so reach for the angular analog of $v^2 = v_0^2 + 2a s$.',
     steps: [
       { text: 'Angular no-time equation, stopping so $\\omega = 0$:', latex: '\\omega^2 = \\omega_0^2 + 2\\alpha(\\theta - \\theta_0)' },
       { text: 'Insert values with $\\alpha = -2.5\\,\\text{rad/s}^2$:', latex: '0 = 40^2 + 2(-2.5)\\,\\theta' },
@@ -195,7 +195,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'medium',
     eli5: 'Change in kinetic energy is $\\tfrac{1}{2}m(v_2^2 - v_1^2)$. Square each speed separately first: $25^2 - 10^2 = 625 - 100 = 525$. Then $\\tfrac{1}{2}(1200)(525) = 315{,}000\\,\\text{J}$. The $135\\,\\text{kJ}$ choice squares the velocity difference $(25-10)^2 = 225$ instead of the difference of squares, giving $\\tfrac{1}{2}(1200)(225) = 135{,}000\\,\\text{J}$. The $162\\,\\text{kJ}$ choice comes from a partial-squaring slip. The $270\\,\\text{kJ}$ choice both drops the one-half and uses the squared difference: $(1200)(225) = 270{,}000\\,\\text{J}$.',
-    hint: 'Use $\\Delta T = \\tfrac{1}{2}m(v_2^2 - v_1^2)$ — square the speeds first, then subtract.',
+    hint: 'Use $\\Delta T = \\tfrac{1}{2}m(v_2^2 - v_1^2)$. Square the speeds first, then subtract.',
     steps: [
       { text: 'Change in kinetic energy:', latex: '\\Delta T = \\tfrac{1}{2}m(v_2^2 - v_1^2)' },
       { text: 'Difference of squares (not the square of the difference):', latex: 'v_2^2 - v_1^2 = 25^2 - 10^2 = 625 - 100 = 525\\,\\text{m}^2/\\text{s}^2' },
@@ -255,7 +255,7 @@ const PROBLEMS = [
     correctAnswerId: 'c4',
     difficulty: 'medium',
     eli5: 'Impulse equals the change in momentum, and direction matters. Taking the outgoing direction as positive, the incoming velocity is $-40$ and the outgoing is $+50$, so the velocity change is $50 - (-40) = 90\\,\\text{m/s}$. Impulse is $m\\,\\Delta v = 0.15(90) = 13.5\\,\\text{N}{\\cdot}\\text{s}$. The 1.5 N\u00b7s option uses the speed difference $50 - 40 = 10$, ignoring the reversal. The 6.0 N\u00b7s option uses the incoming speed only ($0.15 \\times 40$). The 7.5 N\u00b7s option uses the outgoing speed only ($0.15 \\times 50$). The reversal is the whole point.',
-    hint: 'The ball reverses direction — the velocities have opposite signs, so add their magnitudes.',
+    hint: 'The ball reverses direction, so the velocities have opposite signs, so add their magnitudes.',
     steps: [
       { text: 'Take the outgoing direction as positive. Incoming velocity is negative:', latex: 'v_1 = -40\\,\\text{m/s}, \\quad v_2 = +50\\,\\text{m/s}' },
       { text: 'Velocity change:', latex: '\\Delta v = v_2 - v_1 = 50 - (-40) = 90\\,\\text{m/s}' },

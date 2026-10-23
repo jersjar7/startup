@@ -2,7 +2,7 @@ export default {
   id: 'continuity-bernoulli',
   name: 'Continuity & Bernoulli\u2019s Equation',
   subtopicId: 'fluid-dynamics',
-  application: 'The continuity equation and Bernoulli\u2019s equation are the two most-used tools in hydraulic design. Continuity (Q = Av) tells you how velocity changes when a pipe transitions from one diameter to another. Bernoulli connects pressure, velocity, and elevation along a streamline \u2014 letting you determine if a hydrant will deliver adequate pressure or compute the velocity of a jet at a spillway. On the FE, these two equations often appear together in a single problem: use continuity to find the velocity, then Bernoulli to find the pressure.',
+  application: 'The continuity equation and Bernoulli\u2019s equation are the two most-used tools in hydraulic design. Continuity (Q = Av) tells you how velocity changes when a pipe transitions from one diameter to another. Bernoulli connects pressure, velocity, and elevation along a streamline, letting you determine if a hydrant will deliver adequate pressure or compute the velocity of a jet at a spillway. On the FE, these two equations often appear together in a single problem: use continuity to find the velocity, then Bernoulli to find the pressure.',
   content: [
     { type: 'text', body: 'Two equations form the backbone of every pipe and channel analysis: continuity conserves mass, and Bernoulli conserves energy (for frictionless flow).' },
     { type: 'heading', body: 'Continuity Equation' },
@@ -41,8 +41,8 @@ export default {
       handbookFormula: 'A_1 v_1 = A_2 v_2',
       videoUrl: null,
       traps: [
-        'Using the diameter ratio to the first power instead of squaring it \u2014 gives 4 m/s',
-        'Turning the ratio upside down \u2014 with the square it gives 0.5 m/s, and without it 1 m/s (choice D)',
+        'Using the diameter ratio to the first power instead of squaring it, which gives 4 m/s',
+        'Turning the ratio upside down: with the square it gives 0.5 m/s, and without it 1 m/s (choice D)',
       ],
       diagram: null,
     },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Two steps: continuity first, then Bernoulli. From continuity, v_2 = 1.5 \u00D7 (200/100)\u00B2 = 6.0 m/s. For a horizontal pipe (z_1 = z_2), Bernoulli gives P_2 = P_1 + \u03C1/2 \u00D7 (v_1\u00B2 \u2013 v_2\u00B2) = 250,000 + 500 \u00D7 (2.25 \u2013 36) = 250,000 \u2013 16,875 = 233,125 Pa \u2248 233 kPa. Pressure drops because velocity increases \u2014 that\u2019s Bernoulli\u2019s principle. The 250 kPa option assumes no pressure change. The 268 kPa option adds the section 2 velocity head instead of subtracting the CHANGE in velocity head: $250 + 18$. The 214 kPa option drops the one half and the upstream term together, taking $\\rho v_2^2$ rather than $\\rho(v_2^2 - v_1^2)/2$.',
+      eli5: 'Two steps: continuity first, then Bernoulli. From continuity, v_2 = 1.5 \u00D7 (200/100)\u00B2 = 6.0 m/s. For a horizontal pipe (z_1 = z_2), Bernoulli gives P_2 = P_1 + \u03C1/2 \u00D7 (v_1\u00B2 \u2013 v_2\u00B2) = 250,000 + 500 \u00D7 (2.25 \u2013 36) = 250,000 \u2013 16,875 = 233,125 Pa \u2248 233 kPa. Pressure drops because velocity increases, and that\u2019s Bernoulli\u2019s principle. The 250 kPa option assumes no pressure change. The 268 kPa option adds the section 2 velocity head instead of subtracting the CHANGE in velocity head: $250 + 18$. The 214 kPa option drops the one half and the upstream term together, taking $\\rho v_2^2$ rather than $\\rho(v_2^2 - v_1^2)/2$.',
       hint: 'Use continuity to find v_2 first, then apply Bernoulli with z_1 = z_2 (horizontal pipe). Pressure drops where velocity increases.',
       steps: [
         { text: 'Find $v_2$ from continuity:', latex: 'v_2 = v_1 \\left(\\frac{D_1}{D_2}\\right)^2 = 1.5 \\times 4 = 6.0 \\text{ m/s}' },
@@ -69,8 +69,8 @@ export default {
       handbookFormula: '\\frac{P_1}{\\gamma} + \\frac{v_1^2}{2g} + z_1 = \\frac{P_2}{\\gamma} + \\frac{v_2^2}{2g} + z_2',
       videoUrl: null,
       traps: [
-        'Forgetting to use continuity first \u2014 you need v_2 before applying Bernoulli',
-        'Adding the velocity term instead of subtracting \u2014 pressure should DROP where velocity increases',
+        'Forgetting to use continuity first, when you need v_2 before applying Bernoulli',
+        'Adding the velocity term instead of subtracting, when pressure should DROP where velocity increases',
         'Forgetting to square the velocities in the kinetic energy terms',
       ],
       diagram: null,
@@ -86,7 +86,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'This is Torricelli\u2019s theorem \u2014 a direct result of Bernoulli. Both pressures are atmospheric (open tank, discharge to atmosphere), so they cancel. Surface velocity is negligible, so v_1 \u2248 0. Bernoulli reduces to z_1 = v_2\u00B2/(2g), giving v_2 = \u221A(2gh) = \u221A(2 \u00D7 9.81 \u00D7 10) = \u221A196.2 = 14.0 m/s. The 9.9 m/s choice uses \u221A(gh) instead of \u221A(2gh) \u2014 forgot the 2. The 19.8 m/s choice uses \u221A(2)\u00B7\u221A(2gh) (an extra factor of \u221A2). The 4.43 m/s choice uses \u221A(2g) without h.',
+      eli5: 'This is Torricelli\u2019s theorem, a direct result of Bernoulli. Both pressures are atmospheric (open tank, discharge to atmosphere), so they cancel. Surface velocity is negligible, so v_1 \u2248 0. Bernoulli reduces to z_1 = v_2\u00B2/(2g), giving v_2 = \u221A(2gh) = \u221A(2 \u00D7 9.81 \u00D7 10) = \u221A196.2 = 14.0 m/s. The 9.9 m/s choice uses \u221A(gh) instead of \u221A(2gh), so it forgot the 2. The 19.8 m/s choice uses \u221A(2)\u00B7\u221A(2gh) (an extra factor of \u221A2). The 4.43 m/s choice uses \u221A(2g) without h.',
       hint: 'When both surfaces are at atmospheric pressure and the tank surface velocity is negligible, Bernoulli simplifies to Torricelli\u2019s theorem: $v = \\sqrt{2gh}$.',
       steps: [
         { text: 'Simplify Bernoulli ($P_1 = P_2 = 0$ gauge, $v_1 \\approx 0$):', latex: 'z_1 = \\frac{v_2^2}{2g}' },
@@ -97,7 +97,7 @@ export default {
       handbookFormula: '\\frac{P_1}{\\gamma} + \\frac{v_1^2}{2g} + z_1 = \\frac{P_2}{\\gamma} + \\frac{v_2^2}{2g} + z_2',
       videoUrl: null,
       traps: [
-        'Forgetting the factor of 2 under the square root \u2014 using \u221A(gh) instead of \u221A(2gh)',
+        'Forgetting the factor of 2 under the square root by using \u221A(gh) instead of \u221A(2gh)',
         'Not recognizing that both pressures cancel when both sides are open to atmosphere',
         'Including the surface velocity when the tank is large (it\u2019s negligible)',
       ],

@@ -2,11 +2,11 @@ export default {
   context: 'This chapter covers CPM scheduling, earned value analysis, project delivery methods, and construction safety.',
   subtopics: [
     { id: 'scheduling-cpm', name: 'CPM Scheduling',
-      application: 'As a civil engineer, CPM scheduling is how you plan and track construction projects. You identify activities, durations, and dependencies, then compute early/late start and finish times. The forward pass finds the earliest each activity can start; the backward pass finds the latest without delaying the project. Activities with zero total float form the critical path — any delay on the critical path delays the entire project.' },
+      application: 'As a civil engineer, CPM scheduling is how you plan and track construction projects. You identify activities, durations, and dependencies, then compute early/late start and finish times. The forward pass finds the earliest each activity can start; the backward pass finds the latest without delaying the project. Activities with zero total float form the critical path, and any delay on the critical path delays the entire project.' },
     { id: 'earned-value', name: 'Earned Value Management',
       application: 'As a civil engineer managing a project, earned value analysis lets you track cost and schedule performance simultaneously. BCWS is what you planned to spend, BCWP is the budgeted value of work completed, and ACWP is what you actually spent. Cost and schedule variances tell you if you are over/under budget and ahead/behind schedule. Performance indices (CPI, SPI) and forecasting formulas (ETC, EAC) predict total cost at completion.' },
     { id: 'project-delivery', name: 'Project Delivery & Safety',
-      application: 'As a civil engineer, you work within different project delivery systems — design-bid-build, design-build, and CM-at-risk — each allocating risk and responsibility differently. You also must understand OSHA construction safety requirements: excavation protection at 5 ft, fall protection at 6 ft, and PE-designed systems for excavations deeper than 20 ft. These topics appear as scenario-based questions on the FE.' },
+      application: 'As a civil engineer, you work within different project delivery systems (design-bid-build, design-build, and CM-at-risk), each allocating risk and responsibility differently. You also must understand OSHA construction safety requirements: excavation protection at 5 ft, fall protection at 6 ft, and PE-designed systems for excavations deeper than 20 ft. These topics appear as scenario-based questions on the FE.' },
   ],
   formulas: [
     { latex: 'EF = ES + D', label: 'Early Finish', page: 'p. 310' },
@@ -21,8 +21,8 @@ export default {
     { latex: 'EAC = ACWP + ETC', label: 'Estimate at Completion', page: 'p. 311' },
   ],
   traps: [
-    'Critical path has ZERO total float — if you calculate negative float, your backward pass has an error.',
-    'Free float \u2264 total float — always. If your free float exceeds total float, recheck the calculation.',
+    'Critical path has ZERO total float. If you calculate negative float, your backward pass has an error.',
+    'Free float \u2264 total float, always. If your free float exceeds total float, recheck the calculation.',
     'Forward pass uses MAX of predecessor EFs; backward pass uses MIN of successor LSs.',
     'CV = BCWP \u2212 ACWP (not ACWP \u2212 BCWP). Negative CV = over budget.',
     'ETC uses remaining work (BAC \u2212 BCWP), not remaining budget (BAC \u2212 ACWP).',

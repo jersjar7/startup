@@ -2,7 +2,7 @@ export default {
   id: 'vibrations-natural-frequency',
   name: 'Vibrations & Natural Frequency',
   subtopicId: 'momentum-and-vibrations',
-  application: 'Civil engineers check natural frequencies to ensure a pedestrian bridge doesn\'t resonate with walking footfalls, a building doesn\'t amplify earthquake ground motion, or a machine foundation doesn\'t vibrate excessively. If the forcing frequency matches the natural frequency, even small loads cause dangerously large oscillations. On the FE, expect basic natural frequency calculations and understanding of resonance \u2014 rarely anything beyond undamped free vibration.',
+  application: 'Civil engineers check natural frequencies to ensure a pedestrian bridge doesn\'t resonate with walking footfalls, a building doesn\'t amplify earthquake ground motion, or a machine foundation doesn\'t vibrate excessively. If the forcing frequency matches the natural frequency, even small loads cause dangerously large oscillations. On the FE, expect basic natural frequency calculations and understanding of resonance, and rarely anything beyond undamped free vibration.',
   content: [
     { type: 'text', body: 'Vibration problems boil down to one question: what\'s the natural frequency, and is it close to anything that could excite it?' },
     { type: 'heading', body: 'Undamped Free Vibration' },
@@ -18,7 +18,7 @@ export default {
     { type: 'formula', latex: '\\zeta = \\frac{c}{2\\sqrt{km}} = \\frac{c}{c_c}' },
     { type: 'text', body: '$\\zeta < 1$: underdamped (oscillates and decays). $\\zeta = 1$: critically damped (fastest return, no oscillation). $\\zeta > 1$: overdamped (slow return, no oscillation).' },
     { type: 'heading', body: 'Forced Vibration & Resonance' },
-    { type: 'text', body: 'When an external periodic force $F_0 \\sin(\\omega t)$ is applied, the steady-state amplitude peaks when the forcing frequency $\\omega$ approaches $\\omega_n$. This is resonance \u2014 the most dangerous condition in structural dynamics.' },
+    { type: 'text', body: 'When an external periodic force $F_0 \\sin(\\omega t)$ is applied, the steady-state amplitude peaks when the forcing frequency $\\omega$ approaches $\\omega_n$. This is resonance, the most dangerous condition in structural dynamics.' },
     { type: 'callout', variant: 'tip', body: 'Most FE vibration questions just ask for the natural frequency. Find k (spring stiffness) and m (mass), plug into \u03C9_n = \u221A(k/m), and convert to Hz or period as needed.' },
     { type: 'callout', variant: 'warning', body: 'Don\'t confuse \u03C9_n (rad/s) with f_n (Hz). They differ by a factor of 2\u03C0. The exam will try to catch you mixing these up.' },
     { type: 'callout', variant: 'exam', body: 'If a problem describes a system and asks "at what frequency will resonance occur," the answer is the natural frequency. Resonance = forcing frequency matches natural frequency.' },
@@ -36,7 +36,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Two steps: compute \u03C9_n in rad/s, then divide by 2\u03C0 to get Hz. The biggest trap is stopping at 4.0 rad/s (the 4.0 rad/s choice) \u2014 that\'s \u03C9_n, not f_n. The question asks for frequency, which is in Hz. Always check the units the question wants.',
+      eli5: 'Two steps: compute \u03C9_n in rad/s, then divide by 2\u03C0 to get Hz. The biggest trap is stopping at 4.0 rad/s (the 4.0 rad/s choice), because that\'s \u03C9_n, not f_n. The question asks for frequency, which is in Hz. Always check the units the question wants.',
       hint: 'Compute \u03C9_n = \u221A(k/m) first, then convert from rad/s to Hz.',
       steps: [
         { text: 'Natural circular frequency:', latex: '\\omega_n = \\sqrt{\\frac{k}{m}} = \\sqrt{\\frac{800}{50}} = \\sqrt{16} = 4.0 \\text{ rad/s}' },
@@ -47,7 +47,7 @@ export default {
       videoUrl: null,
       traps: [
         'Reporting \u03C9_n = 4.0 rad/s as the answer without converting to Hz (distractor C)',
-        'Confusing \u03C9_n (rad/s) with f_n (Hz) \u2014 they differ by a factor of 2\u03C0',
+        'Confusing \u03C9_n (rad/s) with f_n (Hz), when they differ by a factor of 2\u03C0',
         'Forgetting to take the square root of k/m',
       ],
       diagram: { component: 'SpringMass', props: { mass: 50, stiffness: 800 } },
@@ -63,8 +63,8 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'medium',
-      eli5: 'Resonance = forcing frequency matches natural frequency. So the question is really "what\'s the natural frequency?" The twist is that weight is given (2,000 N) instead of mass \u2014 divide by g first. Then it\'s the standard \u03C9_n = \u221A(k/m) converted to Hz. The 5.0 choice is two slips stacked: using the weight as the mass gives 5.0 rad/s, and then it is reported as Hz without the conversion. The 25.0 choice goes further still and skips the square root as well. The 15.7 rad/s choice is the right \u03C9_n, simply not converted.',
-      hint: 'Resonance occurs at the natural frequency. But first \u2014 is the 2,000 N a mass or a weight?',
+      eli5: 'Resonance = forcing frequency matches natural frequency. So the question is really "what\'s the natural frequency?" The twist is that weight is given (2,000 N) instead of mass, so divide by g first. Then it\'s the standard \u03C9_n = \u221A(k/m) converted to Hz. The 5.0 choice is two slips stacked: using the weight as the mass gives 5.0 rad/s, and then it is reported as Hz without the conversion. The 25.0 choice goes further still and skips the square root as well. The 15.7 rad/s choice is the right \u03C9_n, simply not converted.',
+      hint: 'Resonance occurs at the natural frequency. But first: is the 2,000 N a mass or a weight?',
       steps: [
         { text: 'Convert weight to mass:', latex: 'm = \\frac{W}{g} = \\frac{2{,}000}{9.81} = 203.9 \\text{ kg}' },
         { text: 'Natural circular frequency:', latex: '\\omega_n = \\sqrt{\\frac{k}{m}} = \\sqrt{\\frac{50{,}000}{203.9}} = \\sqrt{245.2} = 15.66 \\text{ rad/s}' },
@@ -74,9 +74,9 @@ export default {
       handbookFormula: '\\omega_n = \\sqrt{k/m}',
       videoUrl: null,
       traps: [
-        'Using weight (2,000 N) as mass \u2014 must divide by g to get kg',
+        'Using weight (2,000 N) as mass, when you must divide by g to get kg',
         'Stopping at \u03C9_n in rad/s and not converting to Hz (distractor C)',
-        'Skipping the square root as well as the mass conversion \u2014 gives 25.0 (distractor A)',
+        'Skipping the square root as well as the mass conversion, which gives 25.0 (distractor A)',
         'Confusing spring stiffness with total force',
       ],
       diagram: null,
@@ -92,7 +92,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Same structure as linear vibration \u2014 just swap k for k_t and m for I. Compute \u03C9_n = \u221A(k_t/I), then divide by 2\u03C0 for Hz. The extra knowledge needed is knowing that torsional stiffness replaces spring stiffness and mass moment of inertia replaces mass. The 31.6 rad/s choice is \u03C9_n in rad/s \u2014 right number, wrong unit.',
+      eli5: 'Same structure as linear vibration: just swap k for k_t and m for I. Compute \u03C9_n = \u221A(k_t/I), then divide by 2\u03C0 for Hz. The extra knowledge needed is knowing that torsional stiffness replaces spring stiffness and mass moment of inertia replaces mass. The 31.6 rad/s choice is \u03C9_n in rad/s: right number, wrong unit.',
       hint: 'Torsional vibration uses the same formula as linear vibration but with k_t and I instead of k and m.',
       steps: [
         { text: 'Natural circular frequency:', latex: '\\omega_n = \\sqrt{\\frac{k_t}{I}} = \\sqrt{\\frac{500}{0.5}} = \\sqrt{1{,}000} = 31.6 \\text{ rad/s}' },
@@ -103,7 +103,7 @@ export default {
       videoUrl: null,
       traps: [
         'Reporting \u03C9_n in rad/s instead of converting to Hz (distractor C)',
-        'Confusing mass moment of inertia (kg\u00B7m\u00B2) with area moment of inertia (m\u2074) \u2014 different quantities',
+        'Confusing mass moment of inertia (kg\u00B7m\u00B2) with area moment of inertia (m\u2074), which are different quantities',
         'Forgetting that k_t = GJ/L when shaft properties are given instead of k_t directly',
       ],
       diagram: null,

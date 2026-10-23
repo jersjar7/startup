@@ -2,7 +2,7 @@ export default {
   "id": "law-of-sines-cosines",
   "name": "Law of Sines & Law of Cosines",
   "subtopicId": "analytic-geometry",
-  "application": "Civil engineers encounter oblique triangles — triangles with no right angle — when surveying irregular property boundaries, computing forces in non-orthogonal truss members, or triangulating positions from two known points. The Law of Sines and Law of Cosines let you solve any triangle when you can't drop a clean perpendicular. On the FE exam, if the given triangle isn't a right triangle, one of these two laws is your only path forward.",
+  "application": "Civil engineers encounter oblique triangles (triangles with no right angle) when surveying irregular property boundaries, computing forces in non-orthogonal truss members, or triangulating positions from two known points. The Law of Sines and Law of Cosines let you solve any triangle when you can't drop a clean perpendicular. On the FE exam, if the given triangle isn't a right triangle, one of these two laws is your only path forward.",
   "content": [
     {
       "type": "text",
@@ -69,7 +69,7 @@ export default {
       "correctAnswerId": "c2",
       "difficulty": "easy",
       "eli5": "You have a side and its opposite angle (a and A), plus another angle (B). That's a textbook Law of Sines setup. Cross-multiply to isolate b: multiply 18 by sin(75°)/sin(40°). The most common mistake is flipping the fraction and getting a smaller number instead of a bigger one.",
-      "hint": "You have a complete side-angle pair (a and A) — which law lets you use that directly?",
+      "hint": "You have a complete side-angle pair (a and A). Which law lets you use that directly?",
       "steps": [
         {
           "text": "Identify the known pair: side a = 18 m is opposite angle A = 40°. We want side b opposite angle B = 75°.",
@@ -116,8 +116,8 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "medium",
-      "eli5": "When you see two sides and the angle between them, that is SAS — go straight to Law of Cosines. It is basically the Pythagorean theorem with a correction term ($-2ab\\cos C$) for non-right triangles. The trap is forgetting to subtract that term, or accidentally using sine instead of cosine.",
-      "hint": "You know two sides and the included angle — which formula generalizes the Pythagorean theorem for non-right triangles?",
+      "eli5": "When you see two sides and the angle between them, that is SAS, so go straight to Law of Cosines. It is basically the Pythagorean theorem with a correction term ($-2ab\\cos C$) for non-right triangles. The trap is forgetting to subtract that term, or accidentally using sine instead of cosine.",
+      "hint": "You know two sides and the included angle. Which formula generalizes the Pythagorean theorem for non-right triangles?",
       "steps": [
         {
           "text": "Two sides and included angle (SAS) → Law of Cosines.",
@@ -168,7 +168,7 @@ export default {
       ],
       "correctAnswerId": "c4",
       "difficulty": "hard",
-      "eli5": "When you have all three sides but no angles, rearrange the Law of Cosines to solve for cosine of the angle. The key insight: if the numerator comes out negative, the cosine is negative, which means the angle is obtuse (bigger than 90°). Don't panic when you see a negative — just hit inverse cosine on your calculator and it handles it. The trap is second-guessing the negative and subtracting from 180°.",
+      "eli5": "When you have all three sides but no angles, rearrange the Law of Cosines to solve for cosine of the angle. The key insight: if the numerator comes out negative, the cosine is negative, which means the angle is obtuse (bigger than 90°). Don't panic when you see a negative. Just hit inverse cosine on your calculator and it handles it. The trap is second-guessing the negative and subtracting from 180°.",
       "hint": "Rearrange the Law of Cosines to isolate $\\cos C$. What does a negative value of cosine tell you about the angle?",
       "steps": [
         {

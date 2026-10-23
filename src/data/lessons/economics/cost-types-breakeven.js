@@ -3,7 +3,7 @@ export default {
   name: 'Cost Types & Break-Even Analysis',
   subtopicId: 'cost-and-economic-analysis',
   application:
-    'Before you can compare alternatives or run an economic analysis, you need to classify costs correctly. The FE tests whether you can separate fixed from variable costs, recognize sunk costs (and ignore them in decisions), and find the break-even point where two alternatives switch from one being cheaper to the other. Civil engineers use break-even analysis constantly \u2014 deciding when to buy vs. rent equipment, choosing between two construction methods at different volumes, or determining whether a capital investment pays for itself within the project timeline. Expect at least one cost-classification or break-even problem on the exam.',
+    'Before you can compare alternatives or run an economic analysis, you need to classify costs correctly. The FE tests whether you can separate fixed from variable costs, recognize sunk costs (and ignore them in decisions), and find the break-even point where two alternatives switch from one being cheaper to the other. Civil engineers use break-even analysis constantly: deciding when to buy vs. rent equipment, choosing between two construction methods at different volumes, or determining whether a capital investment pays for itself within the project timeline. Expect at least one cost-classification or break-even problem on the exam.',
   content: [
     {
       type: 'text',
@@ -12,7 +12,7 @@ export default {
     { type: 'heading', body: 'Fixed vs. Variable Costs' },
     {
       type: 'text',
-      body: 'Fixed costs do not change with the level of output \u2014 rent, insurance, loan payments. Variable costs scale directly with production volume \u2014 materials, fuel, labor hours. Total cost is the sum of both.',
+      body: 'Fixed costs do not change with the level of output: rent, insurance, loan payments. Variable costs scale directly with production volume: materials, fuel, labor hours. Total cost is the sum of both.',
     },
     {
       type: 'formula',
@@ -60,7 +60,7 @@ export default {
     { type: 'heading', body: 'Payback Period' },
     {
       type: 'text',
-      body: 'The payback period is the time it takes for an investment to recoup its initial cost from net annual savings or revenue. Simple payback ignores the time value of money \u2014 it just divides the initial cost by annual net benefit.',
+      body: 'The payback period is the time it takes for an investment to recoup its initial cost from net annual savings or revenue. Simple payback ignores the time value of money. It just divides the initial cost by annual net benefit.',
     },
     {
       type: 'formula',
@@ -75,7 +75,7 @@ export default {
     {
       type: 'callout',
       variant: 'tip',
-      body: 'When a break-even problem gives you two cost equations, set them equal and solve for the unknown. If the variable costs are equal, the alternatives never cross \u2014 the one with the lower fixed cost always wins.',
+      body: 'When a break-even problem gives you two cost equations, set them equal and solve for the unknown. If the variable costs are equal, the alternatives never cross, and the one with the lower fixed cost always wins.',
     },
   ],
   illustration: null,
@@ -92,7 +92,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The 3.2 million dollars was spent 5 years ago and is gone no matter what the county decides next. That makes it a textbook sunk cost. The decision right now is only between the 1.8 million dollar expansion and the 2.5 million dollar new plant \u2014 the past expenditure does not change the future costs of either option. The option that adds the cost to Option A is the most tempting trap because the expansion physically connects to the existing plant, but the original cost is still irrecoverable. The choices to split the cost equally or depreciate it over the remaining plant life invent allocation methods that sound reasonable but violate the sunk cost principle.',
+      eli5: 'The 3.2 million dollars was spent 5 years ago and is gone no matter what the county decides next. That makes it a textbook sunk cost. The decision right now is only between the 1.8 million dollar expansion and the 2.5 million dollar new plant, because the past expenditure does not change the future costs of either option. The option that adds the cost to Option A is the most tempting trap because the expansion physically connects to the existing plant, but the original cost is still irrecoverable. The choices to split the cost equally or depreciate it over the remaining plant life invent allocation methods that sound reasonable but violate the sunk cost principle.',
       hint: 'Ask yourself: can the county recover any of the original 3.2 million by choosing one option over the other? If not, what kind of cost is it?',
       steps: [
         {
@@ -108,7 +108,7 @@ export default {
           latex: null,
         },
         {
-          text: 'The choice to add the cost to Option A is wrong because even though the expansion builds on the existing plant, the original cost is still irrecoverable \u2014 it does not change the incremental cost of the expansion.',
+          text: 'The choice to add the cost to Option A is wrong because even though the expansion builds on the existing plant, the original cost is still irrecoverable, so it does not change the incremental cost of the expansion.',
           latex: null,
         },
       ],
@@ -117,7 +117,7 @@ export default {
       videoUrl: null,
       traps: [
         'Adding the sunk cost to one alternative because it "belongs" to that option physically',
-        'Trying to depreciate or allocate the sunk cost \u2014 sunk means sunk, regardless of accounting treatment',
+        'Trying to depreciate or allocate the sunk cost, when sunk means sunk, regardless of accounting treatment',
       ],
       diagram: null,
     },
@@ -133,7 +133,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Method A costs more up front (owned trucks = higher fixed cost) but less per cubic yard to operate. Method B is cheap to start each day (low rental fee) but charges more per yard. At some volume they cost the same \u2014 set the two total cost equations equal and solve for Q. Below that volume, use Method B (lower fixed cost dominates). Above it, use Method A (lower variable cost dominates). The 500 cy/day choice comes from a rounding or setup error. The 1,400 cy/day choice roughly doubles the correct answer (or divides 3,000 by ~2.1 instead of 4.30). The 1,000 cy/day choice comes from mis-setting the variable-cost difference.',
+      eli5: 'Method A costs more up front (owned trucks = higher fixed cost) but less per cubic yard to operate. Method B is cheap to start each day (low rental fee) but charges more per yard. At some volume they cost the same, so set the two total cost equations equal and solve for Q. Below that volume, use Method B (lower fixed cost dominates). Above it, use Method A (lower variable cost dominates). The 500 cy/day choice comes from a rounding or setup error. The 1,400 cy/day choice roughly doubles the correct answer (or divides 3,000 by ~2.1 instead of 4.30). The 1,000 cy/day choice comes from mis-setting the variable-cost difference.',
       hint: 'Write a total cost equation for each method in the form TC = FC + VC \u00d7 Q, set them equal, and solve for Q.',
       steps: [
         {
@@ -165,7 +165,7 @@ export default {
       handbookFormula: 'Q^* = \\frac{FC_A - FC_B}{VC_B - VC_A}',
       videoUrl: null,
       traps: [
-        'Subtracting variable costs in the wrong order \u2014 the denominator must be (higher VC \u2212 lower VC) to get a positive Q',
+        'Subtracting variable costs in the wrong order, when the denominator must be (higher VC \u2212 lower VC) to get a positive Q',
         'Forgetting to include fixed costs and only comparing variable costs per unit',
       ],
       diagram: null,
@@ -182,7 +182,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Simple payback = initial cost divided by net annual savings. The tricky part is getting the net savings right. You save 280,000 dollars in labor but spend 80,000 dollars on maintenance, so the net savings are only 200,000 dollars per year. Divide 1.4 million by 200,000 and you get 7 years. The 5.0 years choice divides by the gross savings (280,000) without subtracting maintenance \u2014 that is the most common trap. The 3.5 years choice might come from using only half the initial cost. The 2.3 years choice could result from dividing maintenance cost by savings or another setup error.',
+      eli5: 'Simple payback = initial cost divided by net annual savings. The tricky part is getting the net savings right. You save 280,000 dollars in labor but spend 80,000 dollars on maintenance, so the net savings are only 200,000 dollars per year. Divide 1.4 million by 200,000 and you get 7 years. The 5.0 years choice divides by the gross savings (280,000) without subtracting maintenance, and that is the most common trap. The 3.5 years choice might come from using only half the initial cost. The 2.3 years choice could result from dividing maintenance cost by savings or another setup error.',
       hint: 'Net annual savings = gross savings minus new annual costs. Payback = initial investment divided by net annual savings.',
       steps: [
         {
@@ -206,8 +206,8 @@ export default {
       handbookFormula: '\\text{Payback Period} = \\frac{\\text{Initial Investment}}{\\text{Annual Net Savings}}',
       videoUrl: null,
       traps: [
-        'Using gross savings (280,000 dollars) instead of net savings (200,000 dollars) \u2014 always subtract new annual costs from annual benefits',
-        'Confusing simple payback with discounted payback \u2014 simple payback ignores the time value of money entirely',
+        'Using gross savings (280,000 dollars) instead of net savings (200,000 dollars). Always subtract new annual costs from annual benefits',
+        'Confusing simple payback with discounted payback, when simple payback ignores the time value of money entirely',
       ],
       diagram: null,
     },

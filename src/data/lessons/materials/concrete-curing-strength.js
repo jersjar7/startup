@@ -4,7 +4,7 @@ export default {
   subtopicId: 'concrete-technology',
   application: 'The curing process makes or breaks concrete performance. As a civil engineer, you write curing specifications, decide when forms can be stripped, and evaluate cylinder break results at 7 and 28 days to verify that the placed concrete meets the design strength. Understanding why moist curing matters, how strength develops over time, and why concrete is reinforced with steel gives you the foundation to manage concrete quality on every project. On the FE, expect questions about curing conditions, the 7-day to 28-day strength relationship, and why concrete needs reinforcement.',
   content: [
-    { type: 'text', body: 'Concrete gains strength through hydration \u2014 the chemical reaction between cement and water. This reaction needs water to continue, which is why curing conditions are critical.' },
+    { type: 'text', body: 'Concrete gains strength through hydration, the chemical reaction between cement and water. This reaction needs water to continue, which is why curing conditions are critical.' },
     { type: 'heading', body: 'Moist Curing' },
     { type: 'text', body: 'Continuously moist-cured concrete reaches its highest potential strength. Concrete exposed to air too early loses moisture, slowing or stopping hydration. The FE Handbook (p. 125) shows that concrete moist-cured for only 3 days and then left in air may reach only 55\u201365% of the strength of continuously moist-cured concrete at 28 days.' },
     { type: 'heading', body: 'Strength Gain Over Time' },
@@ -12,7 +12,7 @@ export default {
     { type: 'heading', body: 'Compressive Strength Testing' },
     { type: 'text', body: 'Standard cylinders (6\u201D \u00D7 12\u201D or 4\u201D \u00D7 8\u201D) are cast from each batch, moist-cured in the lab, and broken in a compression testing machine. Results below $f\'_c$ may require core testing of the in-place concrete or structural evaluation.' },
     { type: 'heading', body: 'Why Concrete Is Reinforced' },
-    { type: 'text', body: 'Concrete has high compressive strength (3,000\u20138,000+ psi) but very low tensile strength \u2014 roughly 8\u201312% of its compressive strength. Reinforcing steel (rebar) is embedded in the tension zones to carry the tensile forces. This is why every concrete beam, slab, and column has rebar.' },
+    { type: 'text', body: 'Concrete has high compressive strength (3,000\u20138,000+ psi) but very low tensile strength, roughly 8\u201312% of its compressive strength. Reinforcing steel (rebar) is embedded in the tension zones to carry the tensile forces. This is why every concrete beam, slab, and column has rebar.' },
     { type: 'callout', variant: 'tip', body: 'Quick ratio: 7-day strength \u2248 70% of 28-day strength for Type I cement. If a 7-day break is at least 65% of the specified f\u2019c, the concrete is usually on track.' },
     { type: 'callout', variant: 'warning', body: 'Concrete that dries out early (forms stripped too soon, no curing compound, hot windy weather) may reach only 50\u201360% of its potential 28-day strength. Early form stripping is a common cause of understrength concrete in the field.' },
     { type: 'callout', variant: 'exam', body: 'The handbook (p. 125) shows two graphs you should know: (1) W/C vs. compressive strength, and (2) age vs. compressive strength for different curing durations. Both are commonly tested.' },
@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'If 7-day strength = 70% of 28-day strength, then $28\\text{-day} = 7\\text{-day} / 0.70 = 2{,}800 / 0.70 = 4{,}000$ psi. The key trap: dividing, not multiplying. The 1,960 psi option multiplies $2{,}800 \\times 0.70$ \u2014 that gives 70% of the 7-day strength, which is meaningless. The 2,800 psi option assumes no further strength gain. The 9,330 psi option divides by 0.30 instead of 0.70.',
+      eli5: 'If 7-day strength = 70% of 28-day strength, then $28\\text{-day} = 7\\text{-day} / 0.70 = 2{,}800 / 0.70 = 4{,}000$ psi. The key trap: dividing, not multiplying. The 1,960 psi option multiplies $2{,}800 \\times 0.70$, and that gives 70% of the 7-day strength, which is meaningless. The 2,800 psi option assumes no further strength gain. The 9,330 psi option divides by 0.30 instead of 0.70.',
       hint: 'If 7-day is 70% of 28-day, then 28-day = 7-day / 0.70, not 7-day \u00D7 0.70.',
       steps: [
         { text: 'The 7-day strength is 70% of the 28-day value:', latex: 'f\'_{c,7} = 0.70 \\times f\'_{c,28}' },
@@ -40,8 +40,8 @@ export default {
       handbookFormula: '\\text{Concrete strength vs. curing time (graph)}',
       videoUrl: null,
       traps: [
-        'Multiplying by 0.70 instead of dividing \u2014 gives 1,960 psi (choice B)',
-        'Dividing by 0.30 (using the remaining percentage) \u2014 gives 9,330 psi (choice D)',
+        'Multiplying by 0.70 instead of dividing, which gives 1,960 psi (choice B)',
+        'Dividing by 0.30 (using the remaining percentage), which gives 9,330 psi (choice D)',
       ],
       diagram: null,
     },
@@ -57,7 +57,7 @@ export default {
       correctAnswerId: 'c1',
       difficulty: 'medium',
       eli5: 'The partially cured concrete reaches 90% of the fully moist-cured value: $0.90 \\times 5{,}200 = 4{,}680$ psi. The 5,780 psi choice divides instead of multiplying: $5{,}200/0.90$. The 520 psi choice uses 10% instead of 90%: $5{,}200 \\times 0.10$. The 5,200 psi choice ignores the curing reduction entirely.',
-      hint: 'The partially cured concrete reaches 90% of the fully cured value \u2014 multiply, don\u2019t divide.',
+      hint: 'The partially cured concrete reaches 90% of the fully cured value, so multiply, don\u2019t divide.',
       steps: [
         { text: 'Fully cured 28-day strength = 5,200 psi', latex: null },
         { text: 'Partially cured concrete reaches 90% of this:', latex: 'f\'_c = 0.90 \\times 5{,}200 = 4{,}680 \\text{ psi}' },
@@ -66,8 +66,8 @@ export default {
       handbookFormula: '\\text{Concrete strength vs. curing conditions (graph)}',
       videoUrl: null,
       traps: [
-        'Dividing by 0.90 instead of multiplying \u2014 gives 5,780 psi (choice B)',
-        'Confusing 90% with 10% \u2014 gives 520 psi (choice C)',
+        'Dividing by 0.90 instead of multiplying, which gives 5,780 psi (choice B)',
+        'Confusing 90% with 10%, which gives 520 psi (choice C)',
       ],
       diagram: null,
     },
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Compute the expected field strength for each mix. Mix A: $5{,}400 \\times 0.92 = 4{,}968$ psi $\\geq 4{,}500$. Mix B: $4{,}600 \\times 0.85 = 3{,}910$ psi $< 4{,}500$. Only Mix A meets the requirement. The "Both mixes" choice ignores the curing reduction \u2014 the lab strengths (5,400 and 4,600) both look adequate until you apply the field curing factors. The "Only Mix B" choice reverses the conclusion. The "Neither mix" choice comes from applying the 7-day rule of 70% instead of the field curing factors: $5{,}400 \\times 0.70 = 3{,}780$ and $4{,}600 \\times 0.70 = 3{,}220$, which fails both.',
+      eli5: 'Compute the expected field strength for each mix. Mix A: $5{,}400 \\times 0.92 = 4{,}968$ psi $\\geq 4{,}500$. Mix B: $4{,}600 \\times 0.85 = 3{,}910$ psi $< 4{,}500$. Only Mix A meets the requirement. The "Both mixes" choice ignores the curing reduction: the lab strengths (5,400 and 4,600) both look adequate until you apply the field curing factors. The "Only Mix B" choice reverses the conclusion. The "Neither mix" choice comes from applying the 7-day rule of 70% instead of the field curing factors: $5{,}400 \\times 0.70 = 3{,}780$ and $4{,}600 \\times 0.70 = 3{,}220$, which fails both.',
       hint: 'Multiply each mix\u2019s lab-tested strength by its curing factor to get the expected field strength, then compare to 4,500 psi.',
       steps: [
         { text: 'Mix A field strength:', latex: 'f\'_{c,A} = 5{,}400 \\times 0.92 = 4{,}968 \\text{ psi} \\geq 4{,}500 \\; \\checkmark' },
@@ -93,7 +93,7 @@ export default {
       handbookFormula: '\\text{Concrete strength vs. curing conditions (graph)}',
       videoUrl: null,
       traps: [
-        'Comparing lab strengths directly without applying curing factors \u2014 both lab values are above 4,500, so you would pick "Both mixes" (choice A)',
+        'Comparing lab strengths directly without applying curing factors. Both lab values are above 4,500, so you would pick "Both mixes" (choice A)',
         'Forgetting that air entrainment slightly reduces strength compared to non-air mixes at the same W/C',
       ],
       diagram: null,

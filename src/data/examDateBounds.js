@@ -7,7 +7,7 @@
 //
 // A rolling window rather than fixed years, so it keeps working without anyone
 // remembering to bump a constant. Kept in sync with the server by hand, the same
-// way src/data/exam-bank mirrors service/examWeights.js — the server is
+// way src/data/exam-bank mirrors service/examWeights.js. The server is
 // authoritative and rejects anything outside this range regardless.
 export function examDateBounds(now = new Date()) {
   const min = new Date(now.getTime());

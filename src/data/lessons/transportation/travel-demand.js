@@ -6,12 +6,12 @@ export default {
   content: [
     { type: 'text', body: 'Regional travel is forecast with the classic FOUR-STEP model, applied in order to a set of traffic analysis zones.' },
     { type: 'heading', body: 'The Four-Step Model' },
-    { type: 'text', body: '(1) Trip GENERATION — how many trips each zone produces and attracts, from land use. (2) Trip DISTRIBUTION — where the trips go, usually via the gravity model. (3) MODE choice — which travel mode (auto, transit, walk). (4) Traffic ASSIGNMENT — which routes the trips take through the network.' },
+    { type: 'text', body: '(1) Trip GENERATION: how many trips each zone produces and attracts, from land use. (2) Trip DISTRIBUTION: where the trips go, usually via the gravity model. (3) MODE choice: which travel mode (auto, transit, walk). (4) Traffic ASSIGNMENT: which routes the trips take through the network.' },
     { type: 'heading', body: 'Gravity Model (Trip Distribution)' },
     { type: 'formula', latex: 'T_{ij} = P_i \\left[ \\frac{A_j F_{ij} K_{ij}}{\\sum_j A_j F_{ij} K_{ij}} \\right]', label: 'Trips from zone i to zone j' },
     { type: 'text', body: 'Here $P_i$ is the trips produced in zone $i$, $A_j$ the trips attracted to zone $j$, $F_{ij}$ a friction factor that DECREASES as travel time/impedance between $i$ and $j$ increases, and $K_{ij}$ a socioeconomic adjustment. Trips spread to each destination in proportion to its attractions and its friction factor.' },
     { type: 'callout', variant: 'tip', body: 'Like gravity between masses, trips grow with the "mass" of attractions (Aj) and shrink with distance/impedance (through the friction factor Fij). Closer, more attractive zones get more trips.' },
-    { type: 'callout', variant: 'warning', body: 'The denominator sums over ALL destination zones j. Forgetting to normalize by that sum is the most common gravity-model error — the fractions to all zones must add to 1.' },
+    { type: 'callout', variant: 'warning', body: 'The denominator sums over ALL destination zones j. Forgetting to normalize by that sum is the most common gravity-model error. The fractions to all zones must add to 1.' },
   ],
   illustration: null,
   problems: [
@@ -53,7 +53,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The gravity model distributes the trips produced by each zone among destination zones — that is trip DISTRIBUTION (step 2). Trip generation (step 1) just counts productions and attractions; mode choice (step 3) splits trips among modes; traffic assignment (step 4) loads trips onto routes.',
+      eli5: 'The gravity model distributes the trips produced by each zone among destination zones, and that is trip DISTRIBUTION (step 2). Trip generation (step 1) just counts productions and attractions; mode choice (step 3) splits trips among modes; traffic assignment (step 4) loads trips onto routes.',
       hint: 'Which step decides WHERE the generated trips go?',
       steps: [
         { text: 'Generation counts trips; distribution sends them to destinations.', latex: null },
@@ -75,13 +75,13 @@ export default {
       choices: [
         { id: 'c1', text: 'Decreases, because the friction factor decreases' },
         { id: 'c2', text: 'Increases, because the friction factor increases' },
-        { id: 'c3', text: 'Stays the same — only attractions matter' },
+        { id: 'c3', text: 'Stays the same, because only attractions matter' },
         { id: 'c4', text: 'Depends only on the number of productions' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The friction factor F decreases as travel time or distance grows, so more-distant zones receive fewer trips — just as gravitational attraction weakens with distance. The "increases because the friction factor increases" choice reverses this. The "only attractions matter" and "depends only on productions" choices ignore the impedance term entirely.',
-      hint: 'The friction factor models resistance to travel — what happens to it as distance grows?',
+      eli5: 'The friction factor F decreases as travel time or distance grows, so more-distant zones receive fewer trips, just as gravitational attraction weakens with distance. The "increases because the friction factor increases" choice reverses this. The "only attractions matter" and "depends only on productions" choices ignore the impedance term entirely.',
+      hint: 'The friction factor models resistance to travel. What happens to it as distance grows?',
       steps: [
         { text: 'Friction factor F falls as impedance (time/distance) rises.', latex: null },
         { text: 'Lower F means a smaller share of trips to that zone.', latex: null },

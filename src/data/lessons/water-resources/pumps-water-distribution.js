@@ -15,7 +15,7 @@ export default {
     { type: 'heading', body: 'NPSH & Cavitation' },
     { type: 'formula', latex: 'NPSH_A = H_{pa} + H_s - \\textstyle\\sum h_L - H_{vp}', label: 'Net positive suction head available' },
     { type: 'text', body: 'NPSH available is the atmospheric pressure head ($H_{pa}$) plus the static suction head ($H_s$, negative for a suction lift), minus suction-line friction ($\\sum h_L$) and the vapor pressure head ($H_{vp}$). To avoid cavitation, $NPSH_A$ must exceed the pump\'s required $NPSH_R$.' },
-    { type: 'callout', variant: 'tip', body: 'Fluid power uses γQH directly. Because a pump is less than 100% efficient, the brake power the motor delivers is always LARGER — divide by efficiency, never multiply.' },
+    { type: 'callout', variant: 'tip', body: 'Fluid power uses γQH directly. Because a pump is less than 100% efficient, the brake power the motor delivers is always LARGER, so divide by efficiency, never multiply.' },
     { type: 'callout', variant: 'warning', body: 'In NPSH_A, the static suction term is negative when the pump sits ABOVE the water surface (a suction lift). Sign errors here are the most common NPSH mistake.' },
   ],
   illustration: null,
@@ -43,7 +43,7 @@ export default {
       videoUrl: null,
       traps: [
         'Reporting fluid power and forgetting to divide by efficiency',
-        'Multiplying by η instead of dividing — brake power must be larger than fluid power',
+        'Multiplying by η instead of dividing. Brake power must be larger than fluid power',
       ],
       diagram: { component: 'PumpSystem', props: {} },
     },

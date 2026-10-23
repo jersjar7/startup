@@ -1,5 +1,5 @@
 // Exam bank: fluid-mechanics
-// Auto-extracted from lesson files — 32 questions
+// Auto-extracted from lesson files (32 questions)
 
 const PROBLEMS = [
   {
@@ -26,7 +26,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Specific weight is density times gravitational acceleration: $\\gamma = \\rho \\times g = 870 \\times 9.81 = 8{,}534.7$ N/m³. The 870 N/m\u00b3 choice confuses density with specific weight (forgot to multiply by $g$). The 88.7 N/m\u00b3 choice divides by $g$ instead of multiplying. The 8,535 kg/m\u00b3 choice has the right number but wrong units — specific weight is force per volume (N/m³), not mass per volume.',
+    eli5: 'Specific weight is density times gravitational acceleration: $\\gamma = \\rho \\times g = 870 \\times 9.81 = 8{,}534.7$ N/m³. The 870 N/m\u00b3 choice confuses density with specific weight (forgot to multiply by $g$). The 88.7 N/m\u00b3 choice divides by $g$ instead of multiplying. The 8,535 kg/m\u00b3 choice has the right number but wrong units, because specific weight is force per volume (N/m³), not mass per volume.',
     hint: 'Specific weight relates to density by $\\gamma = \\rho g$. Make sure your answer has force units.',
     steps: [
       {
@@ -137,7 +137,7 @@ const PROBLEMS = [
     handbookFormula: '\\nu = \\frac{\\mu}{\\rho}',
     videoUrl: null,
     traps: [
-      'Dividing $\\nu$ by $\\rho$ instead of multiplying — gives a tiny number',
+      'Dividing $\\nu$ by $\\rho$ instead of multiplying, which gives a tiny number',
       'Mixing up which viscosity is which (dynamic vs. kinematic)'
     ],
     diagram: null,
@@ -168,7 +168,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Kinematic viscosity is dynamic viscosity divided by density: $\\nu = \\mu/\\rho$. It is called "kinematic" because its units (m²/s) involve only length and time — no mass. This makes it convenient for the Reynolds number, $Re = vD/\\nu$. The choice claiming $\\mu$ has units of m²/s reverses the units. The choice claiming they are identical for water is wrong because they are never numerically equal in SI ($\\mu$ for water is about $0.001$ Pa·s while $\\nu$ is about $1 \\times 10^{-6}$ m²/s). The choice claiming $\\mu$ applies only to gases and $\\nu$ only to liquids is wrong because both types apply to all fluids.',
+    eli5: 'Kinematic viscosity is dynamic viscosity divided by density: $\\nu = \\mu/\\rho$. It is called "kinematic" because its units (m²/s) involve only length and time, with no mass. This makes it convenient for the Reynolds number, $Re = vD/\\nu$. The choice claiming $\\mu$ has units of m²/s reverses the units. The choice claiming they are identical for water is wrong because they are never numerically equal in SI ($\\mu$ for water is about $0.001$ Pa·s while $\\nu$ is about $1 \\times 10^{-6}$ m²/s). The choice claiming $\\mu$ applies only to gases and $\\nu$ only to liquids is wrong because both types apply to all fluids.',
     hint: 'Think about what dividing by density does to the units of viscosity.',
     steps: [
       {
@@ -286,7 +286,7 @@ const PROBLEMS = [
     handbookFormula: 'P_2 - P_1 = \\gamma h',
     videoUrl: null,
     traps: [
-      'Using $\\gamma_w$ instead of $\\gamma_{\\text{glycerin}}$ — ignoring the specific gravity',
+      'Using $\\gamma_w$ instead of $\\gamma_{\\text{glycerin}}$, which ignores the specific gravity',
       'Forgetting to add the surface pressure to the hydrostatic increase'
     ],
     diagram: null,
@@ -317,7 +317,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Walk from the open (atmospheric) side to the pipe connection. On the open side, go down 0.45 m of mercury (adds pressure). On the tank side, go up 0.15 m of mercury and 0.15 m of water to reach the pipe (subtracts pressure). Setting $P_{\\text{atm}} = 0$ gauge: $0 + \\gamma_{Hg}(0.45) = P + \\gamma_{Hg}(0.15) + \\gamma_w(0.15)$. So $P = \\gamma_{Hg}(0.30) - \\gamma_w(0.15) = 133{,}416(0.30) - 9{,}810(0.15) = 40{,}025 - 1{,}472 = 38{,}553$ Pa $= 38.6$ kPa. The water column on the tank side matters — it subtracts about 1.5 kPa. The 2.94 kPa choice uses $\\gamma_w$ for the entire column instead of $\\gamma_{Hg}$. The 59.9 kPa choice ignores the water column and uses the full 0.45 m of mercury. The 40.0 kPa choice ignores the water column correction (gets 40.0 kPa).',
+    eli5: 'Walk from the open (atmospheric) side to the pipe connection. On the open side, go down 0.45 m of mercury (adds pressure). On the tank side, go up 0.15 m of mercury and 0.15 m of water to reach the pipe (subtracts pressure). Setting $P_{\\text{atm}} = 0$ gauge: $0 + \\gamma_{Hg}(0.45) = P + \\gamma_{Hg}(0.15) + \\gamma_w(0.15)$. So $P = \\gamma_{Hg}(0.30) - \\gamma_w(0.15) = 133{,}416(0.30) - 9{,}810(0.15) = 40{,}025 - 1{,}472 = 38{,}553$ Pa $= 38.6$ kPa. The water column on the tank side matters, because it subtracts about 1.5 kPa. The 2.94 kPa choice uses $\\gamma_w$ for the entire column instead of $\\gamma_{Hg}$. The 59.9 kPa choice ignores the water column and uses the full 0.45 m of mercury. The 40.0 kPa choice ignores the water column correction (gets 40.0 kPa).',
     hint: 'Walk from the atmospheric side to the tank side, adding pressure going down and subtracting going up. Use $\\gamma_{Hg} = SG \\times \\gamma_w$.',
     steps: [
       {
@@ -379,7 +379,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Hydrostatic pressure depends only on depth and fluid specific weight: $P = \\gamma \\times h$. The container shape, surface area, and total volume of water do not matter. Both tanks have the same depth (2 m) and the same fluid (water), so the gauge pressures at the bottom are identical. This is sometimes called the hydrostatic paradox. The "five times the pressure" choice confuses total force (which does depend on area) with pressure. The "smaller area" choice tries to apply $P = F/A$ using weight, which does not apply to fluid pressure — that reasoning works for solids on a surface, not fluids. The "same fluid at the same temperature" choice adds an unnecessary condition; both tanks already contain the same fluid (water).',
+    eli5: 'Hydrostatic pressure depends only on depth and fluid specific weight: $P = \\gamma \\times h$. The container shape, surface area, and total volume of water do not matter. Both tanks have the same depth (2 m) and the same fluid (water), so the gauge pressures at the bottom are identical. This is sometimes called the hydrostatic paradox. The "five times the pressure" choice confuses total force (which does depend on area) with pressure. The "smaller area" choice tries to apply $P = F/A$ using weight, which does not apply to fluid pressure. That reasoning works for solids on a surface, not fluids. The "same fluid at the same temperature" choice adds an unnecessary condition; both tanks already contain the same fluid (water).',
     hint: 'Recall that $P = \\gamma h$ has no term for area or volume.',
     steps: [
       {
@@ -540,7 +540,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Volume: $V = 0.5^3 = 0.125$ m³. Weight: $W = \\gamma_c \\times V = 23{,}500 \\times 0.125 = 2{,}937.5$ N. Buoyant force: $F_B = \\gamma_w \\times V = 9{,}810 \\times 0.125 = 1{,}226.3$ N. Since $W > F_B$ ($2{,}937.5 > 1{,}226.3$), the cube sinks. A cable holding it to the bottom would go slack because gravity already keeps it down. No cable tension is needed. The question is a trap — it asks about a cable holding the cube to the bottom, but since concrete is denser than water, the cube stays down on its own. The 1.71 kN choice computes $W - F_B$. The 2.94 kN choice gives the weight alone. The 1.22 kN choice gives the buoyant force alone.',
+    eli5: 'Volume: $V = 0.5^3 = 0.125$ m³. Weight: $W = \\gamma_c \\times V = 23{,}500 \\times 0.125 = 2{,}937.5$ N. Buoyant force: $F_B = \\gamma_w \\times V = 9{,}810 \\times 0.125 = 1{,}226.3$ N. Since $W > F_B$ ($2{,}937.5 > 1{,}226.3$), the cube sinks. A cable holding it to the bottom would go slack because gravity already keeps it down. No cable tension is needed. The question is a trap: it asks about a cable holding the cube to the bottom, but since concrete is denser than water, the cube stays down on its own. The 1.71 kN choice computes $W - F_B$. The 2.94 kN choice gives the weight alone. The 1.22 kN choice gives the buoyant force alone.',
     hint: 'Before computing cable tension, check whether the object actually floats. Compare its weight to the buoyant force.',
     steps: [
       {
@@ -595,7 +595,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'The center of pressure offset from the centroid is $I_{xC}/(y_C \\times A)$. The moment of inertia $I_{xC}$ and area $A$ are fixed properties of the plate shape. As the plate goes deeper, $y_C$ increases, making the denominator larger and the offset smaller. In the limit, at very large depth the center of pressure essentially coincides with the centroid because the pressure distribution becomes nearly uniform across the plate height. The choice claiming the distance increases gets the reasoning backwards. The choice claiming it stays the same ignores the $y_C$ term in the denominator. The choice claiming it decreases to zero then increases again is wrong — the offset never increases again once the plate goes deeper.',
+    eli5: 'The center of pressure offset from the centroid is $I_{xC}/(y_C \\times A)$. The moment of inertia $I_{xC}$ and area $A$ are fixed properties of the plate shape. As the plate goes deeper, $y_C$ increases, making the denominator larger and the offset smaller. In the limit, at very large depth the center of pressure essentially coincides with the centroid because the pressure distribution becomes nearly uniform across the plate height. The choice claiming the distance increases gets the reasoning backwards. The choice claiming it stays the same ignores the $y_C$ term in the denominator. The choice claiming it decreases to zero then increases again is wrong, because the offset never increases again once the plate goes deeper.',
     hint: 'Look at the formula $y_{CP} - y_C = I_{xC}/(y_C A)$ and consider what happens to the right side as $y_C$ gets large.',
     steps: [
       {
@@ -615,7 +615,7 @@ const PROBLEMS = [
     handbookFormula: 'y_{CP} = y_C + \\frac{I_{xC}}{y_C A}',
     videoUrl: null,
     traps: [
-      'Thinking the offset is constant because $I_{xC}$ and $A$ are constants — $y_C$ is in the denominator',
+      'Thinking the offset is constant because $I_{xC}$ and $A$ are constants, and $y_C$ is in the denominator',
       'Confusing pressure increase with offset increase'
     ],
     diagram: null,
@@ -697,7 +697,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Bernoulli\'s equation shows that for horizontal flow, $P + \\frac{1}{2}\\rho v^2 = \\text{constant}$. If velocity goes up, the dynamic pressure term increases, so static pressure must decrease to keep the total constant. This is the Venturi effect — it is why airplane wings generate lift and why spray bottles work.',
+    eli5: 'Bernoulli\'s equation shows that for horizontal flow, $P + \\frac{1}{2}\\rho v^2 = \\text{constant}$. If velocity goes up, the dynamic pressure term increases, so static pressure must decrease to keep the total constant. This is the Venturi effect, and it is why airplane wings generate lift and why spray bottles work.',
     hint: 'Think about the trade-off between pressure and velocity in Bernoulli\'s equation.',
     steps: [
       {
@@ -796,7 +796,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'This is Torricelli but with friction. The energy equation gives $z_1 = v_2^2/(2g) + z_2 + h_f$. Setting $z_2 = 0$ and $z_1 = 12$ m: $12 = v_2^2/(2 \\times 9.81) + 0 + 1.8$, so $v_2^2/19.62 = 10.2$, $v_2^2 = 200.1$, $v_2 = 14.1$ m/s. Without friction you would get $\\sqrt{2 \\times 9.81 \\times 12} = 15.3$ m/s — that is the trap answer. The friction steals energy, so the actual jet velocity is lower.',
+    eli5: 'This is Torricelli but with friction. The energy equation gives $z_1 = v_2^2/(2g) + z_2 + h_f$. Setting $z_2 = 0$ and $z_1 = 12$ m: $12 = v_2^2/(2 \\times 9.81) + 0 + 1.8$, so $v_2^2/19.62 = 10.2$, $v_2^2 = 200.1$, $v_2 = 14.1$ m/s. Without friction you would get $\\sqrt{2 \\times 9.81 \\times 12} = 15.3$ m/s, which is the trap answer. The friction steals energy, so the actual jet velocity is lower.',
     hint: 'Use the energy equation (Bernoulli + $h_f$). The friction loss reduces the available head from 12 m to $(12 - h_f)$.',
     steps: [
       {
@@ -816,7 +816,7 @@ const PROBLEMS = [
     handbookFormula: '\\frac{P_1}{\\gamma} + \\frac{v_1^2}{2g} + z_1 = \\frac{P_2}{\\gamma} + \\frac{v_2^2}{2g} + z_2 + h_f',
     videoUrl: null,
     traps: [
-      'Ignoring the friction loss and using pure Torricelli — gives 15.3 m/s instead of 14.1',
+      'Ignoring the friction loss and using pure Torricelli, which gives 15.3 m/s instead of 14.1',
       'Adding $h_f$ instead of subtracting it from the available head'
     ],
     diagram: null,
@@ -1024,7 +1024,7 @@ const PROBLEMS = [
     handbookFormula: 'h_f = f \\frac{L}{D} \\frac{v^2}{2g}',
     videoUrl: null,
     traps: [
-      'Using the Fanning factor directly in the Darcy-Weisbach equation — answer is 4x too small',
+      'Using the Fanning factor directly in the Darcy-Weisbach equation, so the answer is 4x too small',
       'Dividing instead of multiplying by 4'
     ],
     diagram: null,
@@ -1244,7 +1244,7 @@ const PROBLEMS = [
     handbookFormula: 'F = \\rho Q v = \\rho A v^2',
     videoUrl: null,
     traps: [
-      'Thinking force is proportional to $v$ (linear) — it is proportional to $v^2$',
+      'Thinking force is proportional to $v$ (linear), when it is proportional to $v^2$',
       'Forgetting that $Q$ itself depends on $v$, so doubling $v$ doubles both $Q$ and the momentum per unit volume'
     ],
     diagram: null,
@@ -1295,7 +1295,7 @@ const PROBLEMS = [
     handbookFormula: 'v = \\sqrt{\\frac{2(P_0 - P_s)}{\\rho}}',
     videoUrl: null,
     traps: [
-      'Forgetting to convert kPa to Pa — off by a factor of $\\sqrt{1{,}000}$',
+      'Forgetting to convert kPa to Pa, which is off by a factor of $\\sqrt{1{,}000}$',
       'Dropping the factor of 2 under the radical'
     ],
     diagram: null,
@@ -1444,7 +1444,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'A venturi meter has a smooth, gradual contraction followed by a gradual expansion. This streamlined shape keeps the flow attached to the walls, minimizing turbulent losses and vena contracta effects. The result is a coefficient close to 1.0 (typically 0.95 to 0.99). An orifice plate has a sharp edge that causes the flow to separate and contract into a vena contracta downstream. This abrupt geometry causes significant energy loss and a much lower discharge coefficient (typically 0.60 to 0.65). The "smaller portion of flow" choice is wrong — both devices measure the full pipe flow. The "interchangeable / manufacturing tolerance" choice is wrong — the difference is fundamental to the geometry, not manufacturing. The "different location in the pipe" choice is wrong — location does not explain the coefficient difference.',
+    eli5: 'A venturi meter has a smooth, gradual contraction followed by a gradual expansion. This streamlined shape keeps the flow attached to the walls, minimizing turbulent losses and vena contracta effects. The result is a coefficient close to 1.0 (typically 0.95 to 0.99). An orifice plate has a sharp edge that causes the flow to separate and contract into a vena contracta downstream. This abrupt geometry causes significant energy loss and a much lower discharge coefficient (typically 0.60 to 0.65). The "smaller portion of flow" choice is wrong because both devices measure the full pipe flow. The "interchangeable / manufacturing tolerance" choice is wrong because the difference is fundamental to the geometry, not manufacturing. The "different location in the pipe" choice is wrong because location does not explain the coefficient difference.',
     hint: 'Think about what happens to the flow as it passes through each device. A sharp edge causes more separation than a gradual contraction.',
     steps: [
       {
@@ -1601,7 +1601,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Under Reynolds similitude with the same fluid, $v_m L_m = v_p L_p$, so $v_m = v_p \\times (L_p/L_m) = 20 v_p$. Force $= \\rho v^2 L^2$ (from dimensional analysis). So $F_r = (v_m/v_p)^2 \\times (L_m/L_p)^2 = 20^2 \\times (1/20)^2 = 400/400 = 1$. The force ratio is 1 — the model force equals the prototype force. $F_p = 80$ N. This is a non-obvious result: with the same fluid and Reynolds similitude, the force on the model equals the force on the prototype. The 32,000 N choice multiplies by 400. The 1,600 N choice multiplies by 20. The 4 N choice divides by 20.',
+    eli5: 'Under Reynolds similitude with the same fluid, $v_m L_m = v_p L_p$, so $v_m = v_p \\times (L_p/L_m) = 20 v_p$. Force $= \\rho v^2 L^2$ (from dimensional analysis). So $F_r = (v_m/v_p)^2 \\times (L_m/L_p)^2 = 20^2 \\times (1/20)^2 = 400/400 = 1$. The force ratio is 1, so the model force equals the prototype force. $F_p = 80$ N. This is a non-obvious result: with the same fluid and Reynolds similitude, the force on the model equals the force on the prototype. The 32,000 N choice multiplies by 400. The 1,600 N choice multiplies by 20. The 4 N choice divides by 20.',
     hint: 'Force scales as $\\rho v^2 L^2$. Under Reynolds similitude with the same fluid, $v_m/v_p = L_p/L_m$. Work out the combined scaling.',
     steps: [
       {

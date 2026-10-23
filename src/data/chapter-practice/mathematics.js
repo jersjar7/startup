@@ -25,7 +25,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The point-to-line distance formula is $d = |Ax_0 + By_0 + C| / \\sqrt{A^2 + B^2}$. Plug in: numerator $= |3(8) - 4(6) + 10| = |24 - 24 + 10| = 10$; denominator $= \\sqrt{9 + 16} = 5$; so $d = 10/5 = 2$. The value 10 is the numerator alone — forgetting to divide by the magnitude of the coefficient vector. The value 1.4 comes from dividing by $\\sqrt{2}$ instead of $\\sqrt{A^2+B^2}$. The value 50 forgets the square root in the denominator.',
+    eli5: 'The point-to-line distance formula is $d = |Ax_0 + By_0 + C| / \\sqrt{A^2 + B^2}$. Plug in: numerator $= |3(8) - 4(6) + 10| = |24 - 24 + 10| = 10$; denominator $= \\sqrt{9 + 16} = 5$; so $d = 10/5 = 2$. The value 10 is the numerator alone, from forgetting to divide by the magnitude of the coefficient vector. The value 1.4 comes from dividing by $\\sqrt{2}$ instead of $\\sqrt{A^2+B^2}$. The value 50 forgets the square root in the denominator.',
     hint: 'Use the point-to-line distance formula and divide the absolute numerator by $\\sqrt{A^2 + B^2}$.',
     steps: [
       {
@@ -76,7 +76,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The vertex of a parabola occurs at $x = -b/(2a) = 12/4 = 3$. The minimum elevation is the $y$-value there: $y = 2(3)^2 - 12(3) + 5 = 18 - 36 + 5 = -13$. The value 3 is the vertex $x$-coordinate, not the elevation — a classic mix-up. The value 5 is the $y$-intercept (the value at $x = 0$), not the minimum. The value $-7$ is just a distractor; computing $y$ correctly at $x=3$ gives $18-36+5=-13$ (dropping the constant term would instead give $-18$).',
+    eli5: 'The vertex of a parabola occurs at $x = -b/(2a) = 12/4 = 3$. The minimum elevation is the $y$-value there: $y = 2(3)^2 - 12(3) + 5 = 18 - 36 + 5 = -13$. The value 3 is the vertex $x$-coordinate, not the elevation, a classic mix-up. The value 5 is the $y$-intercept (the value at $x = 0$), not the minimum. The value $-7$ is just a distractor; computing $y$ correctly at $x=3$ gives $18-36+5=-13$ (dropping the constant term would instead give $-18$).',
     hint: 'Find the vertex $x = -b/(2a)$ first, then substitute back to get the minimum $y$.',
     steps: [
       {
@@ -123,7 +123,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'The quotient rule turns a difference of logs into the log of a quotient: $\\log_2(48) - \\log_2(3) = \\log_2(48/3) = \\log_2(16)$. Since $2^4 = 16$, the answer is 4. The choice $\\log_2(45)$ is the result of wrongly subtracting the arguments ($48 - 3 = 45$) inside the log — there is no such identity. The value 45 is just that wrong subtraction. The value 16 is the argument itself, forgetting to take the log.',
+    eli5: 'The quotient rule turns a difference of logs into the log of a quotient: $\\log_2(48) - \\log_2(3) = \\log_2(48/3) = \\log_2(16)$. Since $2^4 = 16$, the answer is 4. The choice $\\log_2(45)$ is the result of wrongly subtracting the arguments ($48 - 3 = 45$) inside the log, but there is no such identity. The value 45 is just that wrong subtraction. The value 16 is the argument itself, forgetting to take the log.',
     hint: 'A difference of logs with the same base becomes the log of a quotient.',
     steps: [
       {
@@ -222,7 +222,7 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'easy',
     eli5: 'The horizontal distance (60 m) is adjacent to the angle, and the tower height is opposite. Opposite over adjacent is tangent: $\\tan 32° = h/60$, so $h = 60\\tan 32° = 60(0.6249) = 37.5$ m. The value 31.8 uses sine of the distance ($60\\sin 32°$), 50.9 uses cosine, and 96.0 divides instead of multiplying ($60/\\tan 32°$).',
-    hint: 'You know the adjacent side and want the opposite side — which ratio is that?',
+    hint: 'You know the adjacent side and want the opposite side. Which ratio is that?',
     steps: [
       {
         text: 'The 60 m distance is adjacent to the angle; the height is opposite. Use tangent:',
@@ -268,7 +268,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The angle at the horizontal leg has the 9 m vertical leg opposite it and the 12 m horizontal leg adjacent. So $\\tan\\theta = 9/12 = 0.75$ and $\\theta = \\tan^{-1}(0.75) = 36.9°$. The value 53.1 is the complementary angle — what the hypotenuse makes with the vertical leg, computed by swapping opposite and adjacent. The value 48.6 uses $\\sin^{-1}(9/12)$ by mistake, and 41.4 uses $\\cos^{-1}(9/12)$.',
+    eli5: 'The angle at the horizontal leg has the 9 m vertical leg opposite it and the 12 m horizontal leg adjacent. So $\\tan\\theta = 9/12 = 0.75$ and $\\theta = \\tan^{-1}(0.75) = 36.9°$. The value 53.1 is the complementary angle (what the hypotenuse makes with the vertical leg), computed by swapping opposite and adjacent. The value 48.6 uses $\\sin^{-1}(9/12)$ by mistake, and 41.4 uses $\\cos^{-1}(9/12)$.',
     hint: 'Relative to the horizontal leg, identify which side is opposite and which is adjacent, then use inverse tangent.',
     steps: [
       {
@@ -316,7 +316,7 @@ const PROBLEMS = [
     correctAnswerId: 'c4',
     difficulty: 'medium',
     eli5: 'You have a complete side-angle pair ($a$, $A$) and another side ($b$), so Law of Sines solves for angle $B$: $\\sin B = b\\sin A / a = 14\\sin 40° / 18 = 14(0.6428)/18 = 0.4999$, giving $B = \\sin^{-1}(0.5) = 30.0°$. The smaller side ($14 < 18$) must face the smaller angle ($30° < 40°$), which is a good sanity check. The value 59.4 flips the ratio ($a\\sin A / b$). The value 52.7 drops the sine on angle $A$.',
-    hint: 'You have a side-angle pair plus another side — set up the Law of Sines and solve for $\\sin B$.',
+    hint: 'You have a side-angle pair plus another side, so set up the Law of Sines and solve for $\\sin B$.',
     steps: [
       {
         text: 'Set up the Law of Sines:',
@@ -433,7 +433,7 @@ const PROBLEMS = [
     handbookFormula: '\\tan 45° = 1',
     videoUrl: null,
     traps: [
-      'Assigning a negative sign — tangent is positive in Q3',
+      'Assigning a negative sign, when tangent is positive in Q3',
       'Confusing $\\tan 45°$ with $\\sin 45° = \\sqrt{2}/2$'
     ],
     diagram: null,
@@ -711,8 +711,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Acceleration is the second derivative of position. First derivative (velocity): $v(t) = 3t^2 - 12t$. Second derivative (acceleration): $a(t) = 6t - 12$. At $t = 3$: $a(3) = 18 - 12 = 6$ m/s squared. The value $-9$ is the velocity at $t = 3$ ($v(3) = 27 - 36 = -9$) — the classic mistake of stopping at the first derivative. The value 0 is the velocity at the turning point, and 18 is $6t$ without the constant.',
-    hint: 'Acceleration is the second derivative of position — differentiate twice.',
+    eli5: 'Acceleration is the second derivative of position. First derivative (velocity): $v(t) = 3t^2 - 12t$. Second derivative (acceleration): $a(t) = 6t - 12$. At $t = 3$: $a(3) = 18 - 12 = 6$ m/s squared. The value $-9$ is the velocity at $t = 3$ ($v(3) = 27 - 36 = -9$), the classic mistake of stopping at the first derivative. The value 0 is the velocity at the turning point, and 18 is $6t$ without the constant.',
+    hint: 'Acceleration is the second derivative of position, so differentiate twice.',
     steps: [
       {
         text: 'Velocity is the first derivative:',
@@ -818,7 +818,7 @@ const PROBLEMS = [
     correctAnswerId: 'c3',
     difficulty: 'easy',
     eli5: 'The antiderivative of $\\sin x$ is $-\\cos x$. Evaluate from 0 to $\\pi/2$: $[-\\cos x]_0^{\\pi/2} = -\\cos(\\pi/2) - (-\\cos 0) = -0 + 1 = 1$. The value $-1$ drops the negative sign on the antiderivative (using $+\\cos x$). The value 0 comes from evaluating only at one limit. The value $\\pi/2$ confuses the integral of sine with the width of the interval.',
-    hint: 'The antiderivative of $\\sin x$ is $-\\cos x$ — mind the negative sign.',
+    hint: 'The antiderivative of $\\sin x$ is $-\\cos x$, so mind the negative sign.',
     steps: [
       {
         text: 'Find the antiderivative:',
@@ -916,7 +916,7 @@ const PROBLEMS = [
     correctAnswerId: 'c4',
     difficulty: 'medium',
     eli5: 'Direct substitution gives $(1 - 1)/0 = 0/0$, an indeterminate form, so apply L\'Hopital\'s. Differentiate top and bottom: the top becomes $2e^{2x}$ and the bottom becomes $3\\cos 3x$. Now substitute $x = 0$: $2e^0 / (3\\cos 0) = 2(1)/(3(1)) = 2/3$. The value $3/2$ inverts the ratio. The value 1 forgets the chain-rule factors of 2 and 3. The value 0 wrongly evaluates before differentiating.',
-    hint: 'It is $0/0$ — differentiate numerator and denominator, keeping the chain-rule factors.',
+    hint: 'It is $0/0$, so differentiate numerator and denominator, keeping the chain-rule factors.',
     steps: [
       {
         text: 'Direct substitution gives $0/0$. Apply L\'Hopital\'s:',
@@ -963,7 +963,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'medium',
     eli5: 'As $x \\to \\infty$ both top and bottom go to infinity, so it is $\\infty/\\infty$ and L\'Hopital\'s applies. Derivative of $\\ln x$ is $1/x$; derivative of $\\sqrt{x} = x^{1/2}$ is $\\tfrac{1}{2}x^{-1/2}$. The ratio is $(1/x)/(\\tfrac{1}{2}x^{-1/2}) = \\tfrac{2}{\\sqrt{x}}$, which goes to 0 as $x \\to \\infty$. Any positive power of $x$ eventually beats $\\ln x$. The value $\\infty$ assumes the log wins (it does not). The value $1/2$ is the leftover coefficient without the limit.',
-    hint: 'This is $\\infty/\\infty$. After one application, simplify the algebra and take the limit — roots beat logs.',
+    hint: 'This is $\\infty/\\infty$. After one application, simplify the algebra and take the limit: roots beat logs.',
     steps: [
       {
         text: 'Form is $\\infty/\\infty$. Apply L\'Hopital\'s:',
@@ -1060,8 +1060,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Add the vectors component by component first: $\\vec{A} + \\vec{B} = (3+1)\\hat{i} + (-2+4)\\hat{j} + (6-2)\\hat{k} = 4\\hat{i} + 2\\hat{j} + 4\\hat{k}$. Then take the magnitude: $\\sqrt{4^2 + 2^2 + 4^2} = \\sqrt{16 + 4 + 16} = \\sqrt{36} = 6$ N. The value 10 adds the individual magnitudes ($|\\vec{A}| = 7$, $|\\vec{B}| \\approx 4.6$) — magnitudes do not add directly. The value 36 forgets the square root. The value 8.5 adds magnitudes another way.',
-    hint: 'Add components first to get the resultant, then take its magnitude — do not add magnitudes directly.',
+    eli5: 'Add the vectors component by component first: $\\vec{A} + \\vec{B} = (3+1)\\hat{i} + (-2+4)\\hat{j} + (6-2)\\hat{k} = 4\\hat{i} + 2\\hat{j} + 4\\hat{k}$. Then take the magnitude: $\\sqrt{4^2 + 2^2 + 4^2} = \\sqrt{16 + 4 + 16} = \\sqrt{36} = 6$ N. The value 10 adds the individual magnitudes ($|\\vec{A}| = 7$, $|\\vec{B}| \\approx 4.6$), but magnitudes do not add directly. The value 36 forgets the square root. The value 8.5 adds magnitudes another way.',
+    hint: 'Add components first to get the resultant, then take its magnitude. Do not add magnitudes directly.',
     steps: [
       {
         text: 'Add the vectors component by component:',
@@ -1108,7 +1108,7 @@ const PROBLEMS = [
     correctAnswerId: 'c4',
     difficulty: 'medium',
     eli5: 'Work is the dot product of force and displacement: $W = \\vec{F} \\cdot \\vec{d} = (40)(2) + (-20)(3) + (10)(-1) = 80 - 60 - 10 = 10$ J. The negative products from the opposing components reduce the total. The value 130 mishandles the signs. The value 150 keeps everything positive ($80 + 60 + 10$). The value 80 uses only the first term.',
-    hint: 'Work equals the dot product of force and displacement — keep every sign.',
+    hint: 'Work equals the dot product of force and displacement, so keep every sign.',
     steps: [
       {
         text: 'Apply the dot product:',
@@ -1257,7 +1257,7 @@ const PROBLEMS = [
     correctAnswerId: 'c4',
     difficulty: 'medium',
     eli5: 'The parallelogram area is the magnitude of the cross product. Cross product: $\\hat{i}[(0)(0)-(4)(5)] - \\hat{j}[(3)(0)-(4)(0)] + \\hat{k}[(3)(5)-(0)(0)] = -20\\hat{i} + 0\\hat{j} + 15\\hat{k}$. Magnitude: $\\sqrt{(-20)^2 + 0 + 15^2} = \\sqrt{400 + 225} = \\sqrt{625} = 25$ m squared. The value 12.5 halves it (that would be the triangle area). The value 15 uses only the $\\hat{k}$ component. The value 20 keeps only the $\\hat{i}$ contribution incorrectly.',
-    hint: 'Parallelogram area is the magnitude of the cross product — do not halve it.',
+    hint: 'Parallelogram area is the magnitude of the cross product, so do not halve it.',
     steps: [
       {
         text: 'Compute the cross product:',
@@ -1350,7 +1350,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Bisection always converges once you bracket a sign change — it just keeps halving the interval. Newton\'s method is faster but can diverge with a poor guess or near-zero derivative. The "neither converges reliably" and "both fail if the function is nonlinear" options are false; both methods handle nonlinear functions.',
+    eli5: 'Bisection always converges once you bracket a sign change, because it just keeps halving the interval. Newton\'s method is faster but can diverge with a poor guess or near-zero derivative. The "neither converges reliably" and "both fail if the function is nonlinear" options are false; both methods handle nonlinear functions.',
     hint: 'Which method only needs a bracketed sign change, not a good initial guess or derivative?',
     steps: [
       { text: 'Bisection halves a bracketed interval each step.', latex: null },

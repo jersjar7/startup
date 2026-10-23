@@ -3,7 +3,7 @@ export default {
   name: 'Equivalence & Interest Factors',
   subtopicId: 'time-value-of-money',
   application:
-    "Every engineering economics problem on the FE boils down to moving money through time. You'll convert a lump sum today into its future equivalent, spread a present cost into equal annual payments, or discount a series of future cash flows back to the present. The nine standard interest factors are the tools \u2014 and the factor tables in the handbook (pp. 232\u2013236) are your shortcut. Civil engineers use these constantly: sizing a sinking fund for bridge replacement, calculating loan payments on equipment, or comparing the annual cost of two pavement alternatives. If you can read a cash flow diagram and pick the right factor, these are fast points.",
+    "Every engineering economics problem on the FE boils down to moving money through time. You'll convert a lump sum today into its future equivalent, spread a present cost into equal annual payments, or discount a series of future cash flows back to the present. The nine standard interest factors are the tools, and the factor tables in the handbook (pp. 232\u2013236) are your shortcut. Civil engineers use these constantly: sizing a sinking fund for bridge replacement, calculating loan payments on equipment, or comparing the annual cost of two pavement alternatives. If you can read a cash flow diagram and pick the right factor, these are fast points.",
   content: [
     {
       type: 'text',
@@ -13,12 +13,12 @@ export default {
     {
       type: 'formula',
       latex: 'F = P(1+i)^n',
-      label: 'Future Worth given P \u2014 (F/P, i%, n)',
+      label: 'Future Worth given P (F/P, i%, n)',
     },
     {
       type: 'formula',
       latex: 'P = F(1+i)^{-n}',
-      label: 'Present Worth given F \u2014 (P/F, i%, n)',
+      label: 'Present Worth given F (P/F, i%, n)',
     },
     {
       type: 'text',
@@ -28,22 +28,22 @@ export default {
     {
       type: 'formula',
       latex: 'A = F \\cdot \\frac{i}{(1+i)^n - 1}',
-      label: 'Sinking Fund \u2014 (A/F, i%, n)',
+      label: 'Sinking Fund (A/F, i%, n)',
     },
     {
       type: 'formula',
       latex: 'A = P \\cdot \\frac{i(1+i)^n}{(1+i)^n - 1}',
-      label: 'Capital Recovery \u2014 (A/P, i%, n)',
+      label: 'Capital Recovery (A/P, i%, n)',
     },
     {
       type: 'formula',
       latex: 'F = A \\cdot \\frac{(1+i)^n - 1}{i}',
-      label: 'Compound Amount \u2014 (F/A, i%, n)',
+      label: 'Compound Amount (F/A, i%, n)',
     },
     {
       type: 'formula',
       latex: 'P = A \\cdot \\frac{(1+i)^n - 1}{i(1+i)^n}',
-      label: 'Present Worth of Annuity \u2014 (P/A, i%, n)',
+      label: 'Present Worth of Annuity (P/A, i%, n)',
     },
     {
       type: 'text',
@@ -67,7 +67,7 @@ export default {
     { type: 'heading', body: 'Cash Flow Diagrams' },
     {
       type: 'text',
-      body: 'Every problem should start with a cash flow diagram. Draw a horizontal timeline, mark periods 0 through $n$, and place arrows up (income) or down (costs) at the correct time. The most common mistake on the FE is putting a payment at the wrong period \u2014 especially confusing "beginning of year" with "end of year."',
+      body: 'Every problem should start with a cash flow diagram. Draw a horizontal timeline, mark periods 0 through $n$, and place arrows up (income) or down (costs) at the correct time. The most common mistake on the FE is putting a payment at the wrong period, especially confusing "beginning of year" with "end of year."',
     },
     {
       type: 'callout',
@@ -92,7 +92,7 @@ export default {
     {
       type: 'callout',
       variant: 'calculator',
-      body: 'TI-36X Pro: for $(1+i)^n$, type the base, press $x^y$, then $n$. For factor table lookups, the handbook provides tables at 0.5%, 1%, 1.5%, 2%, 4%, 6%, 8%, 10%, 12%, and 18%. If the problem uses one of these rates, read the factor directly \u2014 don\'t compute it by hand.',
+      body: 'TI-36X Pro: for $(1+i)^n$, type the base, press $x^y$, then $n$. For factor table lookups, the handbook provides tables at 0.5%, 1%, 1.5%, 2%, 4%, 6%, 8%, 10%, 12%, and 18%. If the problem uses one of these rates, read the factor directly. Don\'t compute it by hand.',
     },
   ],
   illustration: null,
@@ -109,15 +109,15 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: "This is a straight sinking fund problem \u2014 you need equal annual deposits that grow to 500K in 10 years at 6%. The factor you want is $(A/F)$ because you're finding $A$ given $F$. Look up $(A/F, 6\\%, 10)$ in the 6% table, multiply by 500,000, done. The 50,000 dollars choice is the trap for people who just divide 500K by 10 years and ignore interest entirely. The 67,950 dollars choice uses the wrong factor \u2014 that's $(A/P)$, which is for loan payments on a present amount, not a future target. The 41,240 dollars choice is a computation error.",
-      hint: 'You know the future amount needed and want to find the annual deposit \u2014 which factor converts F to A?',
+      eli5: "This is a straight sinking fund problem: you need equal annual deposits that grow to 500K in 10 years at 6%. The factor you want is $(A/F)$ because you're finding $A$ given $F$. Look up $(A/F, 6\\%, 10)$ in the 6% table, multiply by 500,000, done. The 50,000 dollars choice is the trap for people who just divide 500K by 10 years and ignore interest entirely. The 67,950 dollars choice uses the wrong factor: that's $(A/P)$, which is for loan payments on a present amount, not a future target. The 41,240 dollars choice is a computation error.",
+      hint: 'You know the future amount needed and want to find the annual deposit. Which factor converts F to A?',
       steps: [
         {
           text: 'Identify the variables: $F = 500{,}000$, $i = 6\\%$, $n = 10$ years. We need to find $A$.',
           latex: null,
         },
         {
-          text: 'This is a "find A given F" problem \u2014 use the Sinking Fund factor $(A/F, 6\\%, 10)$.',
+          text: 'This is a "find A given F" problem, so use the Sinking Fund factor $(A/F, 6\\%, 10)$.',
           latex: null,
         },
         {
@@ -142,7 +142,7 @@ export default {
       videoUrl: null,
       traps: [
         'Dividing 500K by 10 years (ignoring the time value of money entirely)',
-        'Using (A/P) instead of (A/F) \u2014 capital recovery vs. sinking fund',
+        'Using (A/P) instead of (A/F): capital recovery vs. sinking fund',
       ],
       diagram: { component: 'SinkingFundCFD', props: { n: 10, F: 500000, rate: 6 } },
     },
@@ -158,8 +158,8 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: "When a rate is \"compounded monthly,\" the 12% isn't really 12% \u2014 it's 1% per month, and that compounds. So you earn interest on your interest 12 times a year, which pushes the effective rate above 12%. The formula is $(1 + r/m)^m - 1$. Plug in $r = 0.12$ and $m = 12$, and you get $(1.01)^{12} - 1 = 12.68\\%$. The 12.00% choice is the nominal rate \u2014 that's the one they gave you, not the effective rate. The 12.36% and 12.55% choices come from using the wrong compounding frequency (semiannual gives (1.06)^2 - 1 = 12.36%, quarterly gives (1.03)^4 - 1 = 12.55%).",
-      hint: 'The nominal rate is 12% but compounding happens monthly \u2014 use the effective annual rate formula to find what 12 months of monthly compounding actually produces.',
+      eli5: "When a rate is \"compounded monthly,\" the 12% isn't really 12%. It's 1% per month, and that compounds. So you earn interest on your interest 12 times a year, which pushes the effective rate above 12%. The formula is $(1 + r/m)^m - 1$. Plug in $r = 0.12$ and $m = 12$, and you get $(1.01)^{12} - 1 = 12.68\\%$. The 12.00% choice is the nominal rate, which is the one they gave you, not the effective rate. The 12.36% and 12.55% choices come from using the wrong compounding frequency (semiannual gives (1.06)^2 - 1 = 12.36%, quarterly gives (1.03)^4 - 1 = 12.55%).",
+      hint: 'The nominal rate is 12% but compounding happens monthly, so use the effective annual rate formula to find what 12 months of monthly compounding actually produces.',
       steps: [
         {
           text: 'Identify the variables: $r = 12\\%$ nominal annual rate, $m = 12$ compounding periods per year.',
@@ -190,7 +190,7 @@ export default {
       handbookFormula: 'i_e = \\left(1 + \\frac{r}{m}\\right)^m - 1',
       videoUrl: null,
       traps: [
-        'Reporting the nominal rate (12%) as the answer \u2014 the question asks for the effective rate',
+        'Reporting the nominal rate (12%) as the answer, when the question asks for the effective rate',
         'Dividing the nominal rate by 12 and stopping there (1% per month is the periodic rate, not the effective annual rate)',
       ],
       diagram: null,

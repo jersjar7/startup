@@ -28,7 +28,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: '\u03C3 = \u03B3sat \u00D7 H = 115 \u00D7 10 = 1,150 psf. u = \u03B3w \u00D7 H = 62.4 \u00D7 10 = 624 psf. \u03C3\' = 1,150 \u2013 624 = 526 psf. Or use the shortcut: \u03C3\' = \u03B3\' \u00D7 H = (115 \u2013 62.4) \u00D7 10 = 52.6 \u00D7 10 = 526 psf. The 1,150 psf option is the total stress \u2014 forgetting to subtract pore pressure. The 624 psf option is the pore pressure itself.',
+      eli5: '\u03C3 = \u03B3sat \u00D7 H = 115 \u00D7 10 = 1,150 psf. u = \u03B3w \u00D7 H = 62.4 \u00D7 10 = 624 psf. \u03C3\' = 1,150 \u2013 624 = 526 psf. Or use the shortcut: \u03C3\' = \u03B3\' \u00D7 H = (115 \u2013 62.4) \u00D7 10 = 52.6 \u00D7 10 = 526 psf. The 1,150 psf option is the total stress, from forgetting to subtract pore pressure. The 624 psf option is the pore pressure itself.',
       hint: '\u03C3\' = \u03C3 \u2013 u. Compute total stress and pore water pressure separately, then subtract.',
       steps: [
         { text: 'Total stress:', latex: '\\sigma = \\gamma_{sat} \\times H = 115 \\times 10 = 1{,}150 \\text{ psf}' },
@@ -39,7 +39,7 @@ export default {
       handbookFormula: '\\sigma\' = \\sigma - u',
       videoUrl: null,
       traps: [
-        'Reporting total stress instead of effective stress \u2014 always subtract pore pressure below the WT',
+        'Reporting total stress instead of effective stress. Always subtract pore pressure below the WT',
         'Using \u03B3w = 64 pcf or some other value instead of 62.4 pcf',
       ],
       diagram: { component: 'SoilProfile', props: { layers: [{ name: 'Saturated soil', h: 10, gamma: 115, saturated: true }], wtDepth: 0, depthUnit: 'ft', weightUnit: 'pcf' } },
@@ -66,8 +66,8 @@ export default {
       handbookFormula: '\\sigma\' = \\sigma - u',
       videoUrl: null,
       traps: [
-        'Subtracting pore pressure through the sand layer too \u2014 the sand is above the WT so u = 0 there',
-        'Using buoyant unit weight for the sand above the WT \u2014 only subtract \u03B3w below the water table',
+        'Subtracting pore pressure through the sand layer too, when the sand is above the WT so u = 0 there',
+        'Using buoyant unit weight for the sand above the WT, when you only subtract \u03B3w below the water table',
       ],
       diagram: { component: 'SoilProfile', props: { layers: [{ name: 'Dry Sand', h: 5, gamma: 110, saturated: false }, { name: 'Sat. Clay', h: 8, gamma: 120, saturated: true }], wtDepth: 5, depthUnit: 'ft', weightUnit: 'pcf' } },
     },
@@ -93,7 +93,7 @@ export default {
       handbookFormula: '\\sigma\' = \\sigma - u',
       videoUrl: null,
       traps: [
-        'Adding the surcharge to pore pressure \u2014 surcharge increases total stress only, not u',
+        'Adding the surcharge to pore pressure, when surcharge increases total stress only, not u',
         'Forgetting to include the surcharge in the total stress calculation',
         'Subtracting \u03B3w through the dry sand layer above the water table',
       ],

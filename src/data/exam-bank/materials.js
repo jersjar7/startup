@@ -1,5 +1,5 @@
 // Exam bank: materials
-// Auto-extracted from lesson files — 32 questions
+// Auto-extracted from lesson files (32 questions)
 
 const PROBLEMS = [
   {
@@ -77,7 +77,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Use Hooke\'s law to find strain first, then multiply by gauge length. $\\varepsilon = \\sigma/E = 250/200{,}000 = 0.00125$. Then $\\Delta L = \\varepsilon \\times L_0 = 0.00125 \\times 200 = 0.25$ mm. The 2.5 mm choice uses $E = 20$ GPa instead of 200 GPa — off by a factor of 10. The 0.025 mm choice uses $L = 20$ mm instead of 200 mm. The 1.25 mm choice mishandles the unit conversion and just reports the strain-like ratio $250/200$ as if it were the answer.',
+    eli5: 'Use Hooke\'s law to find strain first, then multiply by gauge length. $\\varepsilon = \\sigma/E = 250/200{,}000 = 0.00125$. Then $\\Delta L = \\varepsilon \\times L_0 = 0.00125 \\times 200 = 0.25$ mm. The 2.5 mm choice uses $E = 20$ GPa instead of 200 GPa, which is off by a factor of 10. The 0.025 mm choice uses $L = 20$ mm instead of 200 mm. The 1.25 mm choice mishandles the unit conversion and just reports the strain-like ratio $250/200$ as if it were the answer.',
     hint: 'Find strain from Hooke\'s law first, then multiply by gauge length to get elongation.',
     steps: [
       {
@@ -124,7 +124,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Stiffness and strength are different properties. Stiffness is measured by elastic modulus $E$ — how much a material resists deformation. Strength is measured by yield stress — how much stress it can carry before permanent deformation. Material A ($E = 200$ GPa) is stiffer because it has the higher modulus. Material B ($\\sigma_y = 480$ MPa) is stronger because it has the higher yield strength. These are independent properties. A classic example: steel is stiffer than aluminum, but some aluminum alloys have higher yield strength than mild steel.',
+    eli5: 'Stiffness and strength are different properties. Stiffness is measured by elastic modulus $E$, meaning how much a material resists deformation. Strength is measured by yield stress, meaning how much stress it can carry before permanent deformation. Material A ($E = 200$ GPa) is stiffer because it has the higher modulus. Material B ($\\sigma_y = 480$ MPa) is stronger because it has the higher yield strength. These are independent properties. A classic example: steel is stiffer than aluminum, but some aluminum alloys have higher yield strength than mild steel.',
     hint: 'Stiffness is about elastic modulus (E), strength is about yield stress. They are independent properties.',
     steps: [
       {
@@ -281,7 +281,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'For US Customary units, the BHN-to-TS relationship is $\\text{TS (psi)} = 500 \\times \\text{BHN}$. So $TS = 500 \\times 250 = 125{,}000$ psi. The 862 MPa choice uses the SI formula ($3.45 \\times 250$) but reports in MPa — the question asks for US Customary. The 72 psi choice divides BHN by 3.45 instead of multiplying by 500. The 500,000 psi choice multiplies BHN by 2,000 instead of 500.',
+    eli5: 'For US Customary units, the BHN-to-TS relationship is $\\text{TS (psi)} = 500 \\times \\text{BHN}$. So $TS = 500 \\times 250 = 125{,}000$ psi. The 862 MPa choice uses the SI formula ($3.45 \\times 250$) but reports in MPa, but the question asks for US Customary. The 72 psi choice divides BHN by 3.45 instead of multiplying by 500. The 500,000 psi choice multiplies BHN by 2,000 instead of 500.',
     hint: 'The handbook gives two versions of the BHN-TS formula: one in MPa (multiply by 3.45) and one in psi (multiply by 500). The question asks for US Customary units.',
     steps: [
       {
@@ -481,7 +481,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Use the thermal expansion formula: $\\Delta L = \\alpha L \\Delta T$. The temperature change is $55 - 20 = 35$ degrees C. Then $\\Delta L = 23 \\times 10^{-6} \\times 6{,}000 \\times 35 = 4.83$ mm. The 7.59 mm choice uses $\\Delta T = 55$ degrees C (the final temperature instead of the change). The 0.48 mm choice uses $L = 0.6$ m without converting to mm consistently. The 48.3 mm choice is off by a factor of 10 — possibly using $\\alpha = 230 \\times 10^{-6}$.',
+    eli5: 'Use the thermal expansion formula: $\\Delta L = \\alpha L \\Delta T$. The temperature change is $55 - 20 = 35$ degrees C. Then $\\Delta L = 23 \\times 10^{-6} \\times 6{,}000 \\times 35 = 4.83$ mm. The 7.59 mm choice uses $\\Delta T = 55$ degrees C (the final temperature instead of the change). The 0.48 mm choice uses $L = 0.6$ m without converting to mm consistently. The 48.3 mm choice is off by a factor of 10, possibly from using $\\alpha = 230 \\times 10^{-6}$.',
     hint: 'Temperature change is the difference between final and initial temperatures. Make sure your units are consistent.',
     steps: [
       {
@@ -1095,7 +1095,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'In a fiber composite, the fibers carry the load (they are much stronger and stiffer). The matrix transfers load to the fibers through interfacial shear. That is why composites are strongest along the fiber direction — the fibers are aligned to carry axial load. Perpendicular to fibers, the weaker matrix dominates. This is why composites are anisotropic, not isotropic.',
+    eli5: 'In a fiber composite, the fibers carry the load (they are much stronger and stiffer). The matrix transfers load to the fibers through interfacial shear. That is why composites are strongest along the fiber direction, where the fibers are aligned to carry axial load. Perpendicular to fibers, the weaker matrix dominates. This is why composites are anisotropic, not isotropic.',
     hint: 'Think about the role of fibers vs. matrix in carrying load.',
     steps: [
       {
@@ -1114,7 +1114,7 @@ const PROBLEMS = [
     handbookPage: 'p. 120',
     handbookFormula: null,
     videoUrl: null,
-    traps: ['Thinking composites are isotropic — they are anisotropic (direction-dependent)'],
+    traps: ['Thinking composites are isotropic, when they are anisotropic (direction-dependent)'],
     diagram: null,
     lessonId: 'composite-materials',
     chapterId: 'materials'

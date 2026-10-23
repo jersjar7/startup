@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'CPI = BCWP/ACWP = 600,000/750,000 = 0.80. For every dollar spent, only 0.80 of value is earned \u2014 the project is over budget. The 1.25 choice inverted the ratio: ACWP/BCWP. The 0.75 choice might come from a different calculation. The 150,000 choice is the cost variance CV, not the index.',
+      eli5: 'CPI = BCWP/ACWP = 600,000/750,000 = 0.80. For every dollar spent, only 0.80 of value is earned, so the project is over budget. The 1.25 choice inverted the ratio: ACWP/BCWP. The 0.75 choice might come from a different calculation. The 150,000 choice is the cost variance CV, not the index.',
       hint: 'CPI = Earned / Actual = BCWP / ACWP. Less than 1.0 = over budget.',
       steps: [
         { text: 'Cost Performance Index:', latex: 'CPI = \\frac{BCWP}{ACWP} = \\frac{600{,}000}{750{,}000} = 0.80' },
@@ -39,7 +39,7 @@ export default {
       handbookFormula: 'CPI = \\frac{BCWP}{ACWP}',
       videoUrl: null,
       traps: [
-        'Inverting the ratio (ACWP/BCWP = 1.25) \u2014 CPI = Earned/Actual, not Actual/Earned',
+        'Inverting the ratio (ACWP/BCWP = 1.25), when CPI = Earned/Actual, not Actual/Earned',
         'Confusing the index (ratio) with the variance (dollar amount)',
       ],
       diagram: null,
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'ETC = (BAC \u2212 BCWP)/CPI = (2,000,000 \u2212 600,000)/0.80 = 1,400,000/0.80 = 1,750,000. The remaining work (1.4M budgeted) will cost more because CPI < 1.0. The 1,400,000 option forgot to divide by CPI \u2014 it assumed the remaining work will cost exactly as budgeted. The 1,000,000 option used BAC/2. The 2,500,000 option is the EAC (BAC/CPI), not ETC.',
+      eli5: 'ETC = (BAC \u2212 BCWP)/CPI = (2,000,000 \u2212 600,000)/0.80 = 1,400,000/0.80 = 1,750,000. The remaining work (1.4M budgeted) will cost more because CPI < 1.0. The 1,400,000 option forgot to divide by CPI, so it assumed the remaining work will cost exactly as budgeted. The 1,000,000 option used BAC/2. The 2,500,000 option is the EAC (BAC/CPI), not ETC.',
       hint: 'ETC = (BAC \u2212 BCWP) / CPI. The remaining work is inflated by the cost performance.',
       steps: [
         { text: 'Remaining work (budgeted):', latex: 'BAC - BCWP = 2{,}000{,}000 - 600{,}000 = 1{,}400{,}000' },
@@ -65,7 +65,7 @@ export default {
       handbookFormula: 'ETC = \\frac{BAC - BCWP}{CPI}',
       videoUrl: null,
       traps: [
-        'Using BAC \u2212 BCWP as ETC without dividing by CPI \u2014 this ignores the cost overrun trend',
+        'Using BAC \u2212 BCWP as ETC without dividing by CPI, which ignores the cost overrun trend',
         'Using BAC \u2212 ACWP in the numerator instead of BAC \u2212 BCWP',
       ],
       diagram: null,
@@ -81,7 +81,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'EAC = ACWP + ETC = 750,000 + 1,750,000 = 2,500,000. The project originally budgeted 2,000,000 but is now forecast to cost 2,500,000 \u2014 a 25% overrun. The 2,000,000 option is BAC (the original budget), ignoring the overrun trend. The 1,750,000 option is ETC alone, not EAC. The 2,150,000 option might come from using CPI = 1.0 for ETC: ETC = 1,400,000, EAC = 750,000 + 1,400,000 = 2,150,000.',
+      eli5: 'EAC = ACWP + ETC = 750,000 + 1,750,000 = 2,500,000. The project originally budgeted 2,000,000 but is now forecast to cost 2,500,000, a 25% overrun. The 2,000,000 option is BAC (the original budget), ignoring the overrun trend. The 1,750,000 option is ETC alone, not EAC. The 2,150,000 option might come from using CPI = 1.0 for ETC: ETC = 1,400,000, EAC = 750,000 + 1,400,000 = 2,150,000.',
       hint: 'EAC = money already spent (ACWP) + money still needed (ETC).',
       steps: [
         { text: 'Estimate at completion:', latex: 'EAC = ACWP + ETC = 750{,}000 + 1{,}750{,}000 = 2{,}500{,}000' },
@@ -91,9 +91,9 @@ export default {
       handbookFormula: 'EAC = ACWP + ETC',
       videoUrl: null,
       traps: [
-        'Reporting ETC (1,750,000) as EAC \u2014 EAC includes the money already spent',
-        'Using BAC as EAC \u2014 BAC is the original budget, EAC is the revised forecast',
-        'Using CPI = 1.0 when computing ETC \u2014 this assumes the overrun trend stops, giving a falsely optimistic forecast',
+        'Reporting ETC (1,750,000) as EAC, when EAC includes the money already spent',
+        'Using BAC as EAC, when BAC is the original budget, EAC is the revised forecast',
+        'Using CPI = 1.0 when computing ETC, which assumes the overrun trend stops, giving a falsely optimistic forecast',
       ],
       diagram: null,
     },

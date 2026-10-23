@@ -87,7 +87,7 @@ export function getExamWeight(chapterId) {
 
 /**
  * Returns the fixed 30 diagnostic questions.
- * Always the same set — shuffled for presentation by the caller.
+ * Always the same set, shuffled for presentation by the caller.
  */
 export function getDiagnosticQuestions() {
   return DIAGNOSTIC_IDS.map(id => ALL_PROBLEMS[id]).filter(Boolean);

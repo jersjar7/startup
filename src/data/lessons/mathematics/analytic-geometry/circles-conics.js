@@ -2,7 +2,7 @@ export default {
   "id": "circles-conics",
   "name": "Circles & Conic Sections",
   "subtopicId": "analytic-geometry",
-  "application": "Conic sections appear in civil engineering more than you'd expect — circular curves on highway alignments, parabolic profiles for vertical road curves, and elliptical arches in bridge design. On the FE exam, you need to recognize the standard equation of a circle, identify its center and radius, and know the basic forms of parabolas and ellipses. Most FE problems stick to circles, but an occasional parabola or ellipse shows up in the math section.",
+  "application": "Conic sections appear in civil engineering more than you'd expect: circular curves on highway alignments, parabolic profiles for vertical road curves, and elliptical arches in bridge design. On the FE exam, you need to recognize the standard equation of a circle, identify its center and radius, and know the basic forms of parabolas and ellipses. Most FE problems stick to circles, but an occasional parabola or ellipse shows up in the math section.",
   "content": [
     {
       "type": "heading",
@@ -24,7 +24,7 @@ export default {
     {
       "type": "formula",
       "latex": "y = a(x-h)^2 + k",
-      "label": "Vertical — sign of a sets direction"
+      "label": "Vertical (sign of a sets direction)"
     },
     {
       "type": "formula",
@@ -43,7 +43,7 @@ export default {
     {
       "type": "callout",
       "variant": "tip",
-      "body": "The key FE skill is converting from general form to standard form by completing the square — practice until it's automatic."
+      "body": "The key FE skill is converting from general form to standard form by completing the square. Practice until it's automatic."
     }
   ],
   "illustration": null,
@@ -71,8 +71,8 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "easy",
-      "eli5": "Read the center straight from the equation: $(x - 5)$ means $h = 5$, and $(y + 3)$ means $k = -3$ because $y + 3 = y - (-3)$. The number on the right is $r^2$, not $r$ — so take the square root. The two traps are getting the sign of $k$ wrong and forgetting to square-root the radius.",
-      "hint": "The sign inside the parentheses is opposite to the coordinate — $(y + 3)$ means $k = -3$. And 64 is $r^2$, not $r$.",
+      "eli5": "Read the center straight from the equation: $(x - 5)$ means $h = 5$, and $(y + 3)$ means $k = -3$ because $y + 3 = y - (-3)$. The number on the right is $r^2$, not $r$, so take the square root. The two traps are getting the sign of $k$ wrong and forgetting to square-root the radius.",
+      "hint": "The sign inside the parentheses is opposite to the coordinate: $(y + 3)$ means $k = -3$. And 64 is $r^2$, not $r$.",
       "steps": [
         {
           "text": "Match to standard form $(x-h)^2 + (y-k)^2 = r^2$:",
@@ -119,8 +119,8 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Move the constant to the right side, then complete the square for both $x$ and $y$. For $x^2 - 10x$, half of 10 is 5, squared is 25 — add 25 to both sides. For $y^2 + 6y$, half of 6 is 3, squared is 9 — add 9 to both sides. Now you have standard form and can read off the radius. The trap is forgetting to add the completing-the-square values to both sides, or giving $r^2$ as the answer.",
-      "hint": "Group the x and y terms, then complete the square for each — remember to add the same values to both sides.",
+      "eli5": "Move the constant to the right side, then complete the square for both $x$ and $y$. For $x^2 - 10x$, half of 10 is 5, squared is 25, so add 25 to both sides. For $y^2 + 6y$, half of 6 is 3, squared is 9, so add 9 to both sides. Now you have standard form and can read off the radius. The trap is forgetting to add the completing-the-square values to both sides, or giving $r^2$ as the answer.",
+      "hint": "Group the x and y terms, then complete the square for each, and remember to add the same values to both sides.",
       "steps": [
         {
           "text": "Move the constant and group:",
@@ -172,10 +172,10 @@ export default {
       "correctAnswerId": "c4",
       "difficulty": "hard",
       "eli5": "For a parabola $y = ax^2 + bx + c$, the vertex is at $x = -b/(2a)$. Plug in $a = -0.004$ and $b = 2.4$ to get $x = 300$. Then substitute $x = 300$ back into the equation to get $y = 160$. The big trap is forgetting the 2 in the denominator and using $-b/a = 600$ instead. Always double-check by plugging the $x$ value back in.",
-      "hint": "The vertex of $y = ax^2 + bx + c$ is at $x = -b/(2a)$ — do not forget the 2 in the denominator.",
+      "hint": "The vertex of $y = ax^2 + bx + c$ is at $x = -b/(2a)$. Do not forget the 2 in the denominator.",
       "steps": [
         {
-          "text": "Since a = -0.004 < 0, the parabola opens downward — the vertex is the maximum.",
+          "text": "Since a = -0.004 < 0, the parabola opens downward, so the vertex is the maximum.",
           "latex": null
         },
         {

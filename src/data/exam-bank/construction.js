@@ -1,5 +1,5 @@
 // Exam bank: construction
-// Auto-extracted from lesson files — 28 questions
+// Auto-extracted from lesson files (28 questions)
 
 const PROBLEMS = [
   {
@@ -26,7 +26,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'In AON notation, the boxes (nodes) represent activities. The arrows between boxes show logical dependencies — which activity must come before another. This is the opposite of Activity-on-Arrow (AOA), where the arrows represent the activities themselves. Resource assignments and durations are shown inside the nodes, not on the arrows.',
+    eli5: 'In AON notation, the boxes (nodes) represent activities. The arrows between boxes show logical dependencies, meaning which activity must come before another. This is the opposite of Activity-on-Arrow (AOA), where the arrows represent the activities themselves. Resource assignments and durations are shown inside the nodes, not on the arrows.',
     hint: 'In AON, nodes are activities. What role do the connecting arrows serve?',
     steps: [
       {
@@ -42,7 +42,7 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Confusing AON with AOA — in AOA the arrows ARE the activities, but in AON the arrows are dependencies'
+      'Confusing AON with AOA. In AOA the arrows ARE the activities, but in AON the arrows are dependencies'
     ],
     diagram: null,
     lessonId: 'cpm-fundamentals',
@@ -72,7 +72,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Start-to-Start means B cannot start until A starts. Since A starts on day 4, B can start no earlier than day 4. SS does not mean they finish together (that would be Finish-to-Finish). It does not mean B waits for A to finish (that would be Finish-to-Start). And SS has nothing to do with matching durations — B can be longer or shorter than A.',
+    eli5: 'Start-to-Start means B cannot start until A starts. Since A starts on day 4, B can start no earlier than day 4. SS does not mean they finish together (that would be Finish-to-Finish). It does not mean B waits for A to finish (that would be Finish-to-Start). And SS has nothing to do with matching durations, since B can be longer or shorter than A.',
     hint: 'SS means the successor cannot start until the predecessor starts. It does not constrain the finish.',
     steps: [
       {
@@ -92,7 +92,7 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Confusing SS with FS — FS requires the predecessor to finish, SS only requires it to start',
+      'Confusing SS with FS. FS requires the predecessor to finish, SS only requires it to start',
       'Assuming SS means both activities finish together'
     ],
     diagram: null,
@@ -147,7 +147,7 @@ const PROBLEMS = [
     handbookFormula: 'EF = ES + D',
     videoUrl: null,
     traps: [
-      'Summing all paths (35 days) instead of taking the longest — parallel paths overlap',
+      'Summing all paths (35 days) instead of taking the longest, but parallel paths overlap',
       'Choosing the shortest path instead of the longest'
     ],
     diagram: null,
@@ -199,7 +199,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Taking the minimum or first predecessor EF instead of the maximum',
-      'Averaging predecessor finish dates — the forward pass uses MAX, not average'
+      'Averaging predecessor finish dates, when the forward pass uses MAX, not average'
     ],
     diagram: null,
     lessonId: 'cpm-fundamentals',
@@ -245,7 +245,7 @@ const PROBLEMS = [
     handbookFormula: 'LF = \\min(LS \\text{ of all successors})',
     videoUrl: null,
     traps: [
-      'Using MAX instead of MIN on the backward pass — the activity must finish before its tightest successor'
+      'Using MAX instead of MIN on the backward pass, because the activity must finish before its tightest successor'
     ],
     diagram: null,
     lessonId: 'forward-backward-pass',
@@ -275,7 +275,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Total float $= LS - ES = 8 - 8 = 0$. An activity with zero total float is on the critical path. Any delay to J will push the project end date. The "5 days of total float" choice is wrong because 5 is the duration ($EF - ES = 13 - 8 = 5$), not the float. The "can be delayed without affecting the project" choice is wrong because zero float means NO room for delay. The "free float but no total float" choice is contradictory — free float cannot exceed total float, and if $TF = 0$ then $FF = 0$ too.',
+    eli5: 'Total float $= LS - ES = 8 - 8 = 0$. An activity with zero total float is on the critical path. Any delay to J will push the project end date. The "5 days of total float" choice is wrong because 5 is the duration ($EF - ES = 13 - 8 = 5$), not the float. The "can be delayed without affecting the project" choice is wrong because zero float means NO room for delay. The "free float but no total float" choice is contradictory, because free float cannot exceed total float, and if $TF = 0$ then $FF = 0$ too.',
     hint: 'Compare ES to LS (or EF to LF). If they are equal, what does that tell you about float?',
     steps: [
       {
@@ -350,8 +350,8 @@ const PROBLEMS = [
     handbookFormula: 'LS = LF - D',
     videoUrl: null,
     traps: [
-      'Reporting ES (4) instead of LS (6) — the question asks for the backward pass value',
-      'Reporting LF (9) instead of LS (6) — do not forget to subtract the duration'
+      'Reporting ES (4) instead of LS (6), when the question asks for the backward pass value',
+      'Reporting LF (9) instead of LS (6), so do not forget to subtract the duration'
     ],
     diagram: {
       component: 'CpmNetwork',
@@ -416,7 +416,7 @@ const PROBLEMS = [
     handbookFormula: 'LF = \\min(LS \\text{ of all successors})',
     videoUrl: null,
     traps: [
-      'Thinking the error understates float — using MAX gives a later deadline, which INCREASES apparent slack',
+      'Thinking the error understates float, when using MAX gives a later deadline, which INCREASES apparent slack',
       'Assuming errors in the backward pass do not affect total float calculations'
     ],
     diagram: null,
@@ -447,7 +447,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Total float of 4 means the activity can slip 4 days without delaying the project. A 2-day delay is within that limit, so the project end date is safe. However, free float of 0 means ANY delay pushes at least one immediate successor. So the successor\'s early start shifts by 2 days, even though the project finish does not. The option saying both end date and successor early starts are unaffected ignores free float = 0. The option saying the project end date is pushed back by 2 days is wrong because the delay is within total float. The option saying the delay has no effect because the activity is not on the critical path oversimplifies — non-critical does not mean no consequences.',
+    eli5: 'Total float of 4 means the activity can slip 4 days without delaying the project. A 2-day delay is within that limit, so the project end date is safe. However, free float of 0 means ANY delay pushes at least one immediate successor. So the successor\'s early start shifts by 2 days, even though the project finish does not. The option saying both end date and successor early starts are unaffected ignores free float = 0. The option saying the project end date is pushed back by 2 days is wrong because the delay is within total float. The option saying the delay has no effect because the activity is not on the critical path oversimplifies, since non-critical does not mean no consequences.',
     hint: 'Total float protects the project end. Free float protects the successor. What happens when FF = 0?',
     steps: [
       {
@@ -467,7 +467,7 @@ const PROBLEMS = [
     handbookFormula: '\\text{Float} = LS - ES = LF - EF',
     videoUrl: null,
     traps: [
-      'Assuming non-critical activities can be freely delayed without any consequence — free float determines successor impact'
+      'Assuming non-critical activities can be freely delayed without any consequence, when free float determines successor impact'
     ],
     diagram: null,
     lessonId: 'float-critical-path',
@@ -505,7 +505,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'Path 1 and Path 3 are both 22 days — two critical paths.',
+        text: 'Path 1 and Path 3 are both 22 days, so there are two critical paths.',
         latex: null
       },
       {
@@ -517,7 +517,7 @@ const PROBLEMS = [
     handbookFormula: '\\text{Float} = LS - ES = LF - EF',
     videoUrl: null,
     traps: [
-      'Assuming only one critical path can exist — tied paths are all critical',
+      'Assuming only one critical path can exist, when tied paths are all critical',
       'Giving Path 2 activities zero float even though their path is 4 days shorter'
     ],
     diagram: null,
@@ -569,7 +569,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Only checking the crashed path and ignoring near-critical paths',
-      'Assuming the full 3-day reduction applies to the project — it is limited by the next-longest path'
+      'Assuming the full 3-day reduction applies to the project, when it is limited by the next-longest path'
     ],
     diagram: null,
     lessonId: 'float-critical-path',
@@ -624,7 +624,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Forgetting to compute ES of the successor from ALL predecessors before finding free float',
-      'Confusing total float with free float — they can differ when multiple predecessors feed the same successor'
+      'Confusing total float with free float, since they can differ when multiple predecessors feed the same successor'
     ],
     diagram: null,
     lessonId: 'float-critical-path',
@@ -670,7 +670,7 @@ const PROBLEMS = [
     handbookFormula: 'CV = BCWP - ACWP,\\quad SV = BCWP - BCWS',
     videoUrl: null,
     traps: [
-      'Reversing the sign interpretation — positive variance is favorable in earned value analysis'
+      'Reversing the sign interpretation, since positive variance is favorable in earned value analysis'
     ],
     diagram: null,
     lessonId: 'earned-value-analysis',
@@ -720,7 +720,7 @@ const PROBLEMS = [
     handbookFormula: 'CV = BCWP - ACWP,\\quad SV = BCWP - BCWS',
     videoUrl: null,
     traps: [
-      'Swapping the CV and SV formulas — CV uses ACWP, SV uses BCWS',
+      'Swapping the CV and SV formulas. CV uses ACWP, SV uses BCWS',
       'Subtracting in the wrong order (ACWP - BCWP)'
     ],
     diagram: null,
@@ -802,7 +802,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: '$SV = BCWP - BCWS = 500{,}000 - 500{,}000 = 0$, so the project IS on schedule. But $CV = BCWP - ACWP = 500{,}000 - 600{,}000 = -100{,}000$, meaning the project is 100,000 over budget. The PM only checked schedule and ignored cost. SV and CV are independent measures — one can be favorable while the other is unfavorable. The choice claiming SV = 0 means on schedule and on budget is wrong because it assumes SV = 0 means everything is fine. The choice claiming the project is ahead of schedule misuses ACWP for schedule assessment. The choice claiming SV cannot be zero unless CV is also zero is wrong because SV and CV are independent.',
+    eli5: '$SV = BCWP - BCWS = 500{,}000 - 500{,}000 = 0$, so the project IS on schedule. But $CV = BCWP - ACWP = 500{,}000 - 600{,}000 = -100{,}000$, meaning the project is 100,000 over budget. The PM only checked schedule and ignored cost. SV and CV are independent measures, so one can be favorable while the other is unfavorable. The choice claiming SV = 0 means on schedule and on budget is wrong because it assumes SV = 0 means everything is fine. The choice claiming the project is ahead of schedule misuses ACWP for schedule assessment. The choice claiming SV cannot be zero unless CV is also zero is wrong because SV and CV are independent.',
     hint: 'SV and CV are independent. Can a project be on schedule but over budget?',
     steps: [
       {
@@ -822,8 +822,8 @@ const PROBLEMS = [
     handbookFormula: 'CV = BCWP - ACWP,\\quad SV = BCWP - BCWS',
     videoUrl: null,
     traps: [
-      'Assuming SV = 0 means the entire project is on track — cost and schedule are independent',
-      'Using ACWP to assess schedule performance — ACWP is only used for cost variance'
+      'Assuming SV = 0 means the entire project is on track, when cost and schedule are independent',
+      'Using ACWP to assess schedule performance, when ACWP is only used for cost variance'
     ],
     diagram: null,
     lessonId: 'earned-value-analysis',
@@ -836,7 +836,7 @@ const PROBLEMS = [
     choices: [
       {
         id: 'c1',
-        text: 'The project is under budget — for every dollar spent, 1.12 of value is earned'
+        text: 'The project is under budget: for every dollar spent, 1.12 of value is earned'
       },
       {
         id: 'c2',
@@ -853,7 +853,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: '$CPI = BCWP / ACWP$. A CPI of 1.12 means for every dollar of actual cost, the project earns 1.12 of budgeted value. $CPI > 1.0$ = under budget (getting more value per dollar spent). The "over budget by 12 percent" choice reverses the interpretation — over budget would be $CPI < 1.0$. The "behind schedule" choice confuses CPI (cost) with SPI (schedule). The "1.12 times over the original budget" choice misinterprets the index as a multiplier on total cost.',
+    eli5: '$CPI = BCWP / ACWP$. A CPI of 1.12 means for every dollar of actual cost, the project earns 1.12 of budgeted value. $CPI > 1.0$ = under budget (getting more value per dollar spent). The "over budget by 12 percent" choice reverses the interpretation, since over budget would be $CPI < 1.0$. The "behind schedule" choice confuses CPI (cost) with SPI (schedule). The "1.12 times over the original budget" choice misinterprets the index as a multiplier on total cost.',
     hint: 'CPI > 1.0 means you earn more than you spend. Is that good or bad for the budget?',
     steps: [
       {
@@ -861,7 +861,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'CPI > 1.0 means earned value exceeds actual cost — the project is under budget.',
+        text: 'CPI > 1.0 means earned value exceeds actual cost, so the project is under budget.',
         latex: null
       },
       {
@@ -872,7 +872,7 @@ const PROBLEMS = [
     handbookPage: 'p. 311',
     handbookFormula: 'CPI = \\frac{BCWP}{ACWP}',
     videoUrl: null,
-    traps: ['Reversing the CPI interpretation — CPI > 1.0 is under budget, not over budget'],
+    traps: ['Reversing the CPI interpretation, since CPI > 1.0 is under budget, not over budget'],
     diagram: null,
     lessonId: 'project-forecasting',
     chapterId: 'construction'
@@ -921,7 +921,7 @@ const PROBLEMS = [
     handbookFormula: 'EAC = ACWP + \\frac{BAC - BCWP}{CPI}',
     videoUrl: null,
     traps: [
-      'Forgetting to divide by CPI when computing ETC — this assumes perfect cost performance going forward',
+      'Forgetting to divide by CPI when computing ETC, which assumes perfect cost performance going forward',
       'Using BAC as EAC without adjusting for the overrun trend'
     ],
     diagram: null,
@@ -952,7 +952,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'For Alpha: $CPI = 0.85 < 1.0$, so over budget. $SPI = 1.05 > 1.0$, so ahead of schedule. For Beta: $CPI = 1.10 > 1.0$, so under budget. $SPI = 0.88 < 1.0$, so behind schedule. The threshold is 1.0 for both indices — above is favorable, below is unfavorable. The choice claiming Alpha is under budget/ahead and Beta over budget/behind reverses both interpretations. The choice saying both projects are over budget ignores that Beta $CPI > 1.0$. The choice saying both are behind schedule ignores that Alpha $SPI > 1.0$.',
+    eli5: 'For Alpha: $CPI = 0.85 < 1.0$, so over budget. $SPI = 1.05 > 1.0$, so ahead of schedule. For Beta: $CPI = 1.10 > 1.0$, so under budget. $SPI = 0.88 < 1.0$, so behind schedule. The threshold is 1.0 for both indices: above is favorable, below is unfavorable. The choice claiming Alpha is under budget/ahead and Beta over budget/behind reverses both interpretations. The choice saying both projects are over budget ignores that Beta $CPI > 1.0$. The choice saying both are behind schedule ignores that Alpha $SPI > 1.0$.',
     hint: 'Index > 1.0 = favorable. Index < 1.0 = unfavorable. CPI for cost, SPI for schedule.',
     steps: [
       {
@@ -968,7 +968,7 @@ const PROBLEMS = [
     handbookFormula: 'CPI = \\frac{BCWP}{ACWP},\\quad SPI = \\frac{BCWP}{BCWS}',
     videoUrl: null,
     traps: [
-      'Confusing CPI with SPI — CPI measures cost efficiency, SPI measures schedule efficiency',
+      'Confusing CPI with SPI. CPI measures cost efficiency, SPI measures schedule efficiency',
       'Reversing the interpretation: values less than 1.0 are unfavorable, not favorable'
     ],
     diagram: null,
@@ -994,12 +994,12 @@ const PROBLEMS = [
       },
       {
         id: 'c4',
-        text: 'The formula was applied incorrectly — ETC can never be less than remaining budget'
+        text: 'The formula was applied incorrectly, since ETC can never be less than remaining budget'
       }
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'ETC = (BAC - BCWP) / CPI. The remaining budget = BAC - ACWP. If ETC < (BAC - ACWP), it means the forecasted remaining cost is less than the money left. This happens when CPI > 1.0 (under budget) — dividing by a number greater than 1 shrinks the numerator. The project is performing efficiently, so remaining work costs less per dollar of value. The CPI < 1.0 choice describes the opposite case, which would make ETC LARGER than remaining budget. The on-budget choice would mean CPI = 1.0 exactly. The choice claiming the formula was misapplied is wrong — ETC can absolutely be less than remaining budget when the project is efficient.',
+    eli5: 'ETC = (BAC - BCWP) / CPI. The remaining budget = BAC - ACWP. If ETC < (BAC - ACWP), it means the forecasted remaining cost is less than the money left. This happens when CPI > 1.0 (under budget), because dividing by a number greater than 1 shrinks the numerator. The project is performing efficiently, so remaining work costs less per dollar of value. The CPI < 1.0 choice describes the opposite case, which would make ETC LARGER than remaining budget. The on-budget choice would mean CPI = 1.0 exactly. The choice claiming the formula was misapplied is wrong, because ETC can absolutely be less than remaining budget when the project is efficient.',
     hint: 'When CPI > 1.0, dividing by CPI makes ETC smaller. What does that say about the budget?',
     steps: [
       {
@@ -1015,7 +1015,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'The remaining work will cost less than the remaining budget — project finishes under budget.',
+        text: 'The remaining work will cost less than the remaining budget, so the project finishes under budget.',
         latex: null
       }
     ],
@@ -1024,7 +1024,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Confusing remaining work (BAC - BCWP) with remaining budget (BAC - ACWP)',
-      'Assuming ETC must always exceed remaining budget — that is only true when CPI < 1.0'
+      'Assuming ETC must always exceed remaining budget, which is only true when CPI < 1.0'
     ],
     diagram: null,
     lessonId: 'project-forecasting',
@@ -1070,7 +1070,7 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Thinking the owner assumes design risk by approving submittals — approval does not transfer liability'
+      'Thinking the owner assumes design risk by approving submittals, but approval does not transfer liability'
     ],
     diagram: null,
     lessonId: 'delivery-methods',
@@ -1104,7 +1104,7 @@ const PROBLEMS = [
     hint: 'Which method gives the contractor zero input on the design before they bid?',
     steps: [
       {
-        text: 'DBB requires complete plans before bidding — contractor bids only on what is shown.',
+        text: 'DBB requires complete plans before bidding, so the contractor bids only on what is shown.',
         latex: null
       },
       {
@@ -1120,7 +1120,7 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Assuming DB has more change orders — DB actually reduces them because the same entity controls design and construction'
+      'Assuming DB has more change orders, when DB actually reduces them because the same entity controls design and construction'
     ],
     diagram: null,
     lessonId: 'delivery-methods',
@@ -1151,7 +1151,7 @@ const PROBLEMS = [
     correctAnswerId: 'c3',
     difficulty: 'medium',
     eli5: 'Three clues point to CMAR: (1) early contractor input on constructability, (2) a Guaranteed Maximum Price, and (3) the city retains its own separate design engineer. DB would combine design and construction under one entity, eliminating the separate designer. DBB would not allow contractor involvement during design. Job Order Contracting is for small, repetitive maintenance tasks, not complex new facilities.',
-    hint: 'Separate designer + early contractor input + GMP — which method checks all three boxes?',
+    hint: 'Separate designer + early contractor input + GMP. Which method checks all three boxes?',
     steps: [
       {
         text: 'Early contractor input during design rules out DBB.',
@@ -1170,7 +1170,7 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Selecting DB when the owner explicitly wants a separate designer — DB merges design and construction',
+      'Selecting DB when the owner explicitly wants a separate designer, since DB merges design and construction',
       'Confusing GMP with a lump-sum bid in DBB'
     ],
     diagram: null,
@@ -1202,14 +1202,14 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'hard',
     eli5: 'DBB awards to the lowest RESPONSIBLE bidder. Contractor B submitted the lowest bid (2,380,000) but is non-responsible because they lack bonding capacity. You skip B and move to the next lowest bid among responsible bidders. Contractor D at 2,395,000 is the lowest responsible bid. Picking B ignores the responsibility requirement. A and C are higher than D.',
-    hint: 'DBB awards to the lowest responsible bidder — not just the lowest number.',
+    hint: 'DBB awards to the lowest responsible bidder, not just the lowest number.',
     steps: [
       {
         text: 'Rank bids: B (2,380,000), D (2,395,000), A (2,450,000), C (2,510,000).',
         latex: null
       },
       {
-        text: 'B is non-responsible (insufficient bonding) — disqualified.',
+        text: 'B is non-responsible (insufficient bonding), so it is disqualified.',
         latex: null
       },
       {
@@ -1221,7 +1221,7 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Awarding to the lowest numerical bid without checking responsibility — B is disqualified',
+      'Awarding to the lowest numerical bid without checking responsibility, but B is disqualified',
       'Confusing "responsive" (bid meets requirements) with "responsible" (bidder is qualified)'
     ],
     diagram: null,
@@ -1272,8 +1272,8 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Thinking a PE is required — a competent person does not need to be an engineer',
-      'Assuming experience alone qualifies someone — they must also have authority to act'
+      'Thinking a PE is required, but a competent person does not need to be an engineer',
+      'Assuming experience alone qualifies someone, but they must also have authority to act'
     ],
     diagram: null,
     lessonId: 'construction-safety',
@@ -1433,7 +1433,7 @@ const PROBLEMS = [
     handbookFormula: null,
     videoUrl: null,
     traps: [
-      'Mixing up slope ratios between soil types — Type C is the flattest, not the steepest',
+      'Mixing up slope ratios between soil types, since Type C is the flattest, not the steepest',
       'Forgetting that a larger H:V ratio means a flatter (safer) slope'
     ],
     diagram: null,

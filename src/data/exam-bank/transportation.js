@@ -1,5 +1,5 @@
 // Exam bank: transportation
-// Auto-extracted from lesson files — 35 questions
+// Auto-extracted from lesson files (35 questions)
 
 const PROBLEMS = [
   {
@@ -368,7 +368,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'The two formulas are derived under different geometric assumptions. The $S \\leq L$ formula assumes the sight line stays within the curve limits, and the $S > L$ formula assumes the sight line extends beyond the curve ends. If you use $S \\leq L$ and get $L < S$, the assumption is violated, so the result is not valid. You must switch to $L = 2S - 2{,}158/A$. The "accept the conservative result" choice is wrong — the $S \\leq L$ formula does not always give a longer curve. In fact, when $S > L$ actually holds, the $S \\leq L$ formula can give a shorter $L$. The "average both formulas" choice has no theoretical basis. The "double the computed $L$" choice is arbitrary.',
+    eli5: 'The two formulas are derived under different geometric assumptions. The $S \\leq L$ formula assumes the sight line stays within the curve limits, and the $S > L$ formula assumes the sight line extends beyond the curve ends. If you use $S \\leq L$ and get $L < S$, the assumption is violated, so the result is not valid. You must switch to $L = 2S - 2{,}158/A$. The "accept the conservative result" choice is wrong because the $S \\leq L$ formula does not always give a longer curve. In fact, when $S > L$ actually holds, the $S \\leq L$ formula can give a shorter $L$. The "average both formulas" choice has no theoretical basis. The "double the computed $L$" choice is arbitrary.',
     hint: 'The two crest formulas come from two different geometric cases. You must use the one that matches your result.',
     steps: [
       {
@@ -1042,8 +1042,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'easy',
-    eli5: 'LOS grades go from A (best, free flow) to F (worst, breakdown). LOS F means demand exceeds capacity — you get queuing, stop-and-go traffic, and long delays. LOS A-C is good, D is approaching unstable, E is at capacity, F is breakdown. This is one of those definitions the FE loves to test.',
-    hint: 'LOS uses a grading scale A through F — what does F represent?',
+    eli5: 'LOS grades go from A (best, free flow) to F (worst, breakdown). LOS F means demand exceeds capacity, so you get queuing, stop-and-go traffic, and long delays. LOS A-C is good, D is approaching unstable, E is at capacity, F is breakdown. This is one of those definitions the FE loves to test.',
+    hint: 'LOS uses a grading scale A through F. What does F represent?',
     steps: [
       {
         text: 'LOS A: Free flow, high speeds, low density.',
@@ -1054,7 +1054,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'LOS F: Forced/breakdown flow — demand exceeds capacity, stop-and-go conditions.',
+        text: 'LOS F: Forced/breakdown flow. Demand exceeds capacity, stop-and-go conditions.',
         latex: null
       }
     ],
@@ -1646,7 +1646,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'A rigid slab bends like a beam and spreads each wheel load over a large area of subgrade, so the foundation strength matters less than for flexible pavement. The "concrete is weaker in bending than asphalt" choice is false (concrete carries the bending). The "transmits all load directly beneath the wheel" choice is the opposite of slab behavior. The "rigid pavement has no subgrade" choice is incorrect — there is always a subgrade.',
+    eli5: 'A rigid slab bends like a beam and spreads each wheel load over a large area of subgrade, so the foundation strength matters less than for flexible pavement. The "concrete is weaker in bending than asphalt" choice is false (concrete carries the bending). The "transmits all load directly beneath the wheel" choice is the opposite of slab behavior. The "rigid pavement has no subgrade" choice is incorrect, because there is always a subgrade.',
     hint: 'How does a stiff slab spread load, and what does that imply about subgrade dependence?',
     steps: [
       { text: 'A rigid slab acts as a beam over the subgrade.', latex: null },

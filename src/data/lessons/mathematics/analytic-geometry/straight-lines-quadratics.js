@@ -2,7 +2,7 @@ export default {
   "id": "straight-lines-quadratics",
   "name": "Straight Lines & Quadratics",
   "subtopicId": "analytic-geometry",
-  "application": "Civil engineers work with straight lines constantly — from defining road alignments and grade slopes, to establishing property boundaries in surveying, to plotting stress-strain relationships in materials testing. The quadratic formula shows up any time a parabolic curve is involved: vertical curves in highway design, projectile trajectories in dynamics, and cable sag calculations. On the FE, expect direct questions asking you to find a slope, a distance between two points, or the roots of a quadratic. These are fast-solve questions if you know the formulas — free points.",
+  "application": "Civil engineers work with straight lines constantly, from defining road alignments and grade slopes, to establishing property boundaries in surveying, to plotting stress-strain relationships in materials testing. The quadratic formula shows up any time a parabolic curve is involved: vertical curves in highway design, projectile trajectories in dynamics, and cable sag calculations. On the FE, expect direct questions asking you to find a slope, a distance between two points, or the roots of a quadratic. These are fast-solve questions if you know the formulas. Free points.",
   "content": [
     {
       "type": "text",
@@ -69,12 +69,12 @@ export default {
     {
       "type": "callout",
       "variant": "tip",
-      "body": "On the exam, if a quadratic looks messy, check the discriminant first. If $b^2 - 4ac < 0$, there are no real roots — you can eliminate answers immediately."
+      "body": "On the exam, if a quadratic looks messy, check the discriminant first. If $b^2 - 4ac < 0$, there are no real roots, so you can eliminate answers immediately."
     },
     {
       "type": "callout",
       "variant": "warning",
-      "body": "The distance formula and the quadratic formula are both in the handbook. Don't waste time memorizing — know where to find them and practice using them fast."
+      "body": "The distance formula and the quadratic formula are both in the handbook. Don't waste time memorizing. Know where to find them and practice using them fast."
     }
   ],
   "illustration": null,
@@ -102,7 +102,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "easy",
-      "eli5": "Station notation is just a way of writing distance in hundreds of feet — station 3+00 means 300 ft. Once you see that, it's just rise over run: 6 ft of rise over 300 ft of run = 0.02 = 2%. The trap is forgetting to convert stations to feet and using \"3\" instead of \"300,\" which gives you 200% — obviously wrong but easy to do under pressure.",
+      "eli5": "Station notation is just a way of writing distance in hundreds of feet, so station 3+00 means 300 ft. Once you see that, it's just rise over run: 6 ft of rise over 300 ft of run = 0.02 = 2%. The trap is forgetting to convert stations to feet and using \"3\" instead of \"300,\" which gives you 200%, obviously wrong but easy to do under pressure.",
       "hint": "Convert the station numbers to feet before dividing.",
       "steps": [
         {
@@ -150,8 +150,8 @@ export default {
       ],
       "correctAnswerId": "c4",
       "difficulty": "medium",
-      "eli5": "First find the slope of the boundary line — rise over run gives you 2/3. Then flip it and negate it for the perpendicular slope: 2/3 becomes -3/2. The most common mistake is only flipping without negating (getting 3/2) or only negating without flipping (getting -2/3). You have to do both — flip AND negate.",
-      "hint": "Perpendicular means negative reciprocal — flip the fraction and change the sign.",
+      "eli5": "First find the slope of the boundary line. Rise over run gives you 2/3. Then flip it and negate it for the perpendicular slope: 2/3 becomes -3/2. The most common mistake is only flipping without negating (getting 3/2) or only negating without flipping (getting -2/3). You have to do both: flip AND negate.",
+      "hint": "Perpendicular means negative reciprocal, so flip the fraction and change the sign.",
       "steps": [
         {
           "text": "Find the slope of boundary PQ:",
@@ -194,7 +194,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "hard",
-      "eli5": "Set the height equation equal to zero and use the quadratic formula. You'll get two roots — one negative and one positive. Negative time doesn't make physical sense, so throw it away. The sneaky part: the negative root (-0.36) shows up as the 0.36 s choice without the minus sign. If you forget to check which root is physically valid, you might pick it. Always ask yourself: does my answer make sense in the real world?",
+      "eli5": "Set the height equation equal to zero and use the quadratic formula. You'll get two roots, one negative and one positive. Negative time doesn't make physical sense, so throw it away. The sneaky part: the negative root (-0.36) shows up as the 0.36 s choice without the minus sign. If you forget to check which root is physically valid, you might pick it. Always ask yourself: does my answer make sense in the real world?",
       "hint": "Set $h(t) = 0$ and apply the quadratic formula. One of the two roots won't make physical sense.",
       "steps": [
         {

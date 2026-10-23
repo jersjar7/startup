@@ -2,7 +2,7 @@ export default {
   id: 'impulse-and-momentum',
   name: 'Impulse & Momentum',
   subtopicId: 'momentum-and-vibrations',
-  application: 'Impulse-momentum methods handle short-duration forces that are hard to model with F = ma directly \u2014 a vehicle slamming into a bridge pier, a water jet striking a turbine blade, or a pile driver hitting a foundation pile. On the FE, expect conservation of momentum for collisions and the coefficient of restitution to distinguish elastic from plastic impacts.',
+  application: 'Impulse-momentum methods handle short-duration forces that are hard to model with F = ma directly: a vehicle slamming into a bridge pier, a water jet striking a turbine blade, or a pile driver hitting a foundation pile. On the FE, expect conservation of momentum for collisions and the coefficient of restitution to distinguish elastic from plastic impacts.',
   content: [
     { type: 'text', body: 'When forces act over a short time (impacts, explosions), impulse-momentum is easier than tracking acceleration. Momentum is always conserved when no external forces act.' },
     { type: 'heading', body: 'Linear Impulse-Momentum' },
@@ -17,10 +17,10 @@ export default {
     { type: 'text', body: 'For a perfectly plastic collision ($e = 0$), the objects move together after impact: $v_1\' = v_2\' = v\'$.' },
     { type: 'heading', body: 'Angular Impulse-Momentum' },
     { type: 'formula', latex: 'I_c \\omega_1 + \\sum \\int M_c \\, dt = I_c \\omega_2' },
-    { type: 'text', body: 'The angular version \u2014 moments produce angular impulse that changes angular momentum. Same structure as the linear case.' },
+    { type: 'text', body: 'The angular version: moments produce angular impulse that changes angular momentum. Same structure as the linear case.' },
     { type: 'callout', variant: 'tip', body: 'For perfectly plastic collisions, you only need conservation of momentum (one equation, one unknown). For other impacts, you need both momentum conservation AND the restitution equation (two equations, two unknowns).' },
     { type: 'callout', variant: 'warning', body: 'The coefficient of restitution formula uses velocities NORMAL to the impact surface. For oblique impacts, tangential velocities don\'t change.' },
-    { type: 'callout', variant: 'exam', body: 'If a problem says "the objects stick together," that\'s e = 0 (perfectly plastic). Combine masses and use conservation of momentum. Don\'t try to conserve kinetic energy \u2014 it isn\'t conserved in plastic impacts.' },
+    { type: 'callout', variant: 'exam', body: 'If a problem says "the objects stick together," that\'s e = 0 (perfectly plastic). Combine masses and use conservation of momentum. Don\'t try to conserve kinetic energy, because it isn\'t conserved in plastic impacts.' },
   ],
   illustration: null,
   problems: [
@@ -36,7 +36,7 @@ export default {
       correctAnswerId: 'c3',
       difficulty: 'easy',
       eli5: '"Lock bumpers" = perfectly plastic = stick together. Total momentum before equals total momentum after, but now it\'s one combined mass. So 2,000 \u00D7 15 = 3,000 \u00D7 v\'. Simple division. The 7.5 m/s option comes from dividing by 4,000 instead of 3,000. The 15 m/s option assumes no speed change, which violates momentum conservation.',
-      hint: 'The cars stick together \u2014 combine their masses and use conservation of momentum.',
+      hint: 'The cars stick together, so combine their masses and use conservation of momentum.',
       steps: [
         { text: 'Perfectly plastic collision (stick together), so $v_1\' = v_2\' = v\'$.', latex: null },
         { text: 'Conservation of momentum:', latex: 'm_1 v_1 + m_2 v_2 = (m_1 + m_2)v\'' },
@@ -47,7 +47,7 @@ export default {
       videoUrl: null,
       traps: [
         'Dividing by the wrong total mass',
-        'Trying to conserve kinetic energy \u2014 KE is NOT conserved in plastic collisions',
+        'Trying to conserve kinetic energy, when KE is NOT conserved in plastic collisions',
       ],
       diagram: { component: 'CollisionDiagram', props: { massA: 2000, massB: 1000, velA: 15, velB: 0 } },
     },
@@ -62,7 +62,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Two equations, two unknowns. Momentum conservation gives you the sum of the final velocities, and the restitution equation gives you their difference. Add and subtract to solve. Equal masses make the algebra clean \u2014 the striking ball slows to 2 m/s and the struck ball picks up 6 m/s. The 4.0 m/s option gives each ball half the original speed, which is what happens at e = 0, when they stick together and move off as one. At e = 1 the striking ball would stop dead and hand over all 8. The 6.0 m/s option is the right answer to the other half of the question, the speed of the ball that was STRUCK.',
+      eli5: 'Two equations, two unknowns. Momentum conservation gives you the sum of the final velocities, and the restitution equation gives you their difference. Add and subtract to solve. Equal masses make the algebra clean: the striking ball slows to 2 m/s and the struck ball picks up 6 m/s. The 4.0 m/s option gives each ball half the original speed, which is what happens at e = 0, when they stick together and move off as one. At e = 1 the striking ball would stop dead and hand over all 8. The 6.0 m/s option is the right answer to the other half of the question, the speed of the ball that was STRUCK.',
       hint: 'You need two equations: conservation of momentum and the restitution formula. Solve them simultaneously.',
       steps: [
         { text: 'Conservation of momentum (equal masses cancel):', latex: 'v_1\' + v_2\' = 8' },
@@ -74,9 +74,9 @@ export default {
       handbookFormula: 'e = \\frac{v_2\' - v_1\'}{v_1 - v_2}',
       videoUrl: null,
       traps: [
-        'Using only momentum conservation without the restitution equation \u2014 gives one equation with two unknowns',
+        'Using only momentum conservation without the restitution equation, which gives one equation with two unknowns',
         'Flipping the restitution formula (swapping numerator and denominator)',
-        'Assuming kinetic energy is conserved \u2014 it\'s only conserved when e = 1',
+        'Assuming kinetic energy is conserved, when it\'s only conserved when e = 1',
       ],
       diagram: { component: 'CollisionDiagram', props: { massA: 2, massB: 2, velA: 8, velB: 0 } },
     },
@@ -91,7 +91,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Impulse = change in momentum. The car goes from 20 m/s to 0, so the change in momentum is 1,500 \u00D7 20 = 30,000 kg\u00B7m/s. Divide by the impact time (0.15 s) to get the average force. The shorter the impact time, the bigger the force \u2014 that\'s why crumple zones extend the impact time to reduce force. The 30,000 N choice is just the momentum change without dividing by time.',
+      eli5: 'Impulse = change in momentum. The car goes from 20 m/s to 0, so the change in momentum is 1,500 \u00D7 20 = 30,000 kg\u00B7m/s. Divide by the impact time (0.15 s) to get the average force. The shorter the impact time, the bigger the force, which is why crumple zones extend the impact time to reduce force. The 30,000 N choice is just the momentum change without dividing by time.',
       hint: 'Impulse equals change in momentum. What\'s the change in momentum, and over what time interval?',
       steps: [
         { text: 'Impulse-momentum theorem:', latex: 'F_{avg} \\cdot \\Delta t = m(v_2 - v_1)' },
@@ -102,8 +102,8 @@ export default {
       handbookFormula: 'm v_1 + \\int F \\, dt = m v_2',
       videoUrl: null,
       traps: [
-        'Reporting the momentum change (30,000) as the force \u2014 must divide by time',
-        'Multiplying by the impact time instead of dividing by it \u2014 gives 4,500 N (distractor A)',
+        'Reporting the momentum change (30,000) as the force, when you must divide by time',
+        'Multiplying by the impact time instead of dividing by it, which gives 4,500 N (distractor A)',
         'Forgetting that the vehicle stops (v\u2082 = 0), so the full 20 m/s is the velocity change',
       ],
       diagram: null,

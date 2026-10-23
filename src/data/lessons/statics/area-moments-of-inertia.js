@@ -3,7 +3,7 @@ export default {
   name: 'Area Moments of Inertia',
   subtopicId: 'section-properties',
   application:
-    'The moment of inertia (second moment of area) controls how much a beam bends and where it fails in flexure. On the FE, you will look up $I$ for simple shapes from the handbook tables, then combine them using the parallel axis theorem for composite sections. This comes up in beam bending stress ($\\sigma = My/I$), beam deflection, and column buckling. The parallel axis theorem is the single most important formula in this lesson \u2014 forgetting the $Ad^2$ term is the most common mistake on the exam.',
+    'The moment of inertia (second moment of area) controls how much a beam bends and where it fails in flexure. On the FE, you will look up $I$ for simple shapes from the handbook tables, then combine them using the parallel axis theorem for composite sections. This comes up in beam bending stress ($\\sigma = My/I$), beam deflection, and column buckling. The parallel axis theorem is the single most important formula in this lesson, and forgetting the $Ad^2$ term is the most common mistake on the exam.',
   content: [
     {
       type: 'text',
@@ -32,7 +32,7 @@ export default {
     {
       type: 'callout',
       variant: 'warning',
-      body: 'The parallel axis theorem only works from a centroidal axis to a non-centroidal axis (or vice versa). You cannot go directly from one non-centroidal axis to another \u2014 you must pass through the centroid first.',
+      body: 'The parallel axis theorem only works from a centroidal axis to a non-centroidal axis (or vice versa). You cannot go directly from one non-centroidal axis to another. You must pass through the centroid first.',
     },
     { type: 'heading', body: 'Polar Moment of Inertia' },
     {
@@ -62,7 +62,7 @@ export default {
     {
       type: 'callout',
       variant: 'exam',
-      body: 'The handbook tables (pp. 98\u2013100) give $I$ about centroidal axes for every standard shape. Do not compute integrals on the FE \u2014 look up the value and apply the parallel axis theorem if needed.',
+      body: 'The handbook tables (pp. 98\u2013100) give $I$ about centroidal axes for every standard shape. Do not compute integrals on the FE. Look up the value and apply the parallel axis theorem if needed.',
     },
   ],
   illustration: null,
@@ -79,7 +79,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'easy',
-      eli5: 'For a rectangle, the centroidal moment of inertia is $bh^3/12$. The key is using the correct dimension for $h$ \u2014 it is the dimension perpendicular to the axis you are computing about. For $I_x$, $h$ is the height (300 mm) and $b$ is the width (150 mm). The choice $1.35 \\times 10^9$ uses $bh^3/3$ instead of $bh^3/12$ \u2014 that is the moment of inertia about the base, not the centroid. The choice $8.44 \\times 10^7$ swaps $b$ and $h$, computing $b^3h/12$ (moment of inertia about the vertical centroidal axis instead). The choice $6.75 \\times 10^8$ doubles the correct value.',
+      eli5: 'For a rectangle, the centroidal moment of inertia is $bh^3/12$. The key is using the correct dimension for $h$: it is the dimension perpendicular to the axis you are computing about. For $I_x$, $h$ is the height (300 mm) and $b$ is the width (150 mm). The choice $1.35 \\times 10^9$ uses $bh^3/3$ instead of $bh^3/12$, which is the moment of inertia about the base, not the centroid. The choice $8.44 \\times 10^7$ swaps $b$ and $h$, computing $b^3h/12$ (moment of inertia about the vertical centroidal axis instead). The choice $6.75 \\times 10^8$ doubles the correct value.',
       hint: 'For a rectangle, $I_{xc} = bh^3/12$. Make sure $h$ is the dimension perpendicular to the axis.',
       steps: [
         {
@@ -104,7 +104,7 @@ export default {
       videoUrl: null,
       traps: [
         'Using $bh^3/3$ (about the base) instead of $bh^3/12$ (about the centroid)',
-        'Swapping width and height \u2014 $h$ must be the dimension perpendicular to the axis of interest',
+        'Swapping width and height, when $h$ must be the dimension perpendicular to the axis of interest',
       ],
       diagram: { component: 'RectangleInertia', props: { width: 150, height: 300 } },
     },
@@ -120,8 +120,8 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'The parallel axis theorem says $I = I_c + Ad^2$. First find the centroidal moment of inertia: $I_c = 50 \\times 100^3/12 = 4.17 \\times 10^6$. Then add the transfer term: $Ad^2 = (50 \\times 100)(50^2) = 12.50 \\times 10^6$. Total: $16.67 \\times 10^6$ mm\u2074. The $4.17 \\times 10^6$ choice is just $I_c$ \u2014 it forgets the $Ad^2$ transfer term entirely. The $12.50 \\times 10^6$ choice is the $Ad^2$ term alone without the centroidal $I_c$. These two errors are the most common parallel axis theorem mistakes on the FE.',
-      hint: 'The distance $d$ from the centroid to the base is half the height. Do not forget either term \u2014 both $I_c$ and $Ad^2$ contribute.',
+      eli5: 'The parallel axis theorem says $I = I_c + Ad^2$. First find the centroidal moment of inertia: $I_c = 50 \\times 100^3/12 = 4.17 \\times 10^6$. Then add the transfer term: $Ad^2 = (50 \\times 100)(50^2) = 12.50 \\times 10^6$. Total: $16.67 \\times 10^6$ mm\u2074. The $4.17 \\times 10^6$ choice is just $I_c$, so it forgets the $Ad^2$ transfer term entirely. The $12.50 \\times 10^6$ choice is the $Ad^2$ term alone without the centroidal $I_c$. These two errors are the most common parallel axis theorem mistakes on the FE.',
+      hint: 'The distance $d$ from the centroid to the base is half the height. Do not forget either term, because both $I_c$ and $Ad^2$ contribute.',
       steps: [
         {
           text: 'Centroidal moment of inertia:',
@@ -165,7 +165,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'For each piece, compute its own centroidal $I$ and then transfer it to the composite centroidal axis using the parallel axis theorem. The web\u2019s centroid is 30 mm below the composite centroid, and the flange\u2019s centroid is 20 mm above it. Add both transferred moments: $I = (I_{c,web} + A_{web} d_{web}^2) + (I_{c,flange} + A_{flange} d_{flange}^2) = 2.29 \\times 10^6 + 1.04 \\times 10^6 = 3.33 \\times 10^6$ mm\u2074. The $0.93 \\times 10^6$ choice adds only the centroidal $I$ values without the $Ad^2$ transfer terms \u2014 the single most common parallel axis theorem mistake. The $2.40 \\times 10^6$ choice includes only the $Ad^2$ terms without the centroidal $I$ values.',
+      eli5: 'For each piece, compute its own centroidal $I$ and then transfer it to the composite centroidal axis using the parallel axis theorem. The web\u2019s centroid is 30 mm below the composite centroid, and the flange\u2019s centroid is 20 mm above it. Add both transferred moments: $I = (I_{c,web} + A_{web} d_{web}^2) + (I_{c,flange} + A_{flange} d_{flange}^2) = 2.29 \\times 10^6 + 1.04 \\times 10^6 = 3.33 \\times 10^6$ mm\u2074. The $0.93 \\times 10^6$ choice adds only the centroidal $I$ values without the $Ad^2$ transfer terms, the single most common parallel axis theorem mistake. The $2.40 \\times 10^6$ choice includes only the $Ad^2$ terms without the centroidal $I$ values.',
       hint: 'Apply the parallel axis theorem to each piece separately: $I_{piece} = I_{c,piece} + A_{piece} \\times d_{piece}^2$, where $d$ is the distance from that piece\u2019s centroid to the composite centroid.',
       steps: [
         {
