@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowRight } from '@phosphor-icons/react';
 import { MathText } from '../components/MathText';
 import { NotFound } from '../components/NotFound';
 import { useSeo } from '../seo/useSeo';
 import { getTopic } from './content';
 import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
+import { AppArrow } from '../components/brand/AppArrow';
+import { RaccoonPeek } from '../components/brand/RaccoonPeek';
 import './public.css';
 
 const SITE = 'https://fe4raccoons.com';
@@ -96,7 +97,7 @@ export function PublicTopic() {
           <h1>FE Civil {topic.name}</h1>
           {topic.context && <p className="pub-lede">{topic.context}</p>}
           <div className="pub-cta-row">
-            <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Practice {topic.name} free <ArrowRight size={16} weight="bold" /></Link>
+            <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Practice {topic.name} free <AppArrow /></Link>
             <Link className="pub-btn pub-btn-ghost" to="/fe-civil-exam-guide">Full exam guide</Link>
           </div>
         </div>
@@ -146,18 +147,20 @@ export function PublicTopic() {
         <section className="pub-section">
           <span className="pub-label"><span className="pub-label-dash" />Try it</span>
           <h2>Sample {topic.name} problems</h2>
-          <div className="pub-problems">
-            {topic.samples.map((p, i) => (
-              <article key={i} className="pub-problem">
-                <p className="pub-problem-q"><span className="pub-problem-tag">Q{i + 1}</span><MathText text={p.statement} /></p>
-                {p.answer && <p className="pub-problem-a"><MathText text={p.answer} /></p>}
-                <details className="pub-eli5">
-                  <summary>Explain it simply</summary>
-                  <p><MathText text={p.eli5} /></p>
-                </details>
-              </article>
-            ))}
-          </div>
+          <RaccoonPeek at={0.8}>
+            <div className="pub-problems">
+              {topic.samples.map((p, i) => (
+                <article key={i} className="pub-problem">
+                  <p className="pub-problem-q"><span className="pub-problem-tag">Q{i + 1}</span><MathText text={p.statement} /></p>
+                  {p.answer && <p className="pub-problem-a"><MathText text={p.answer} /></p>}
+                  <details className="pub-eli5">
+                    <summary>Explain it simply</summary>
+                    <p><MathText text={p.eli5} /></p>
+                  </details>
+                </article>
+              ))}
+            </div>
+          </RaccoonPeek>
           <p className="pub-note">
             2 of <strong>{PROBLEM_COUNT_LABEL}</strong> problems across all 15 chapters — the full bank, lessons, mastery
             tracking, and timed exam simulation live inside the app.
@@ -196,7 +199,7 @@ export function PublicTopic() {
       <section className="pub-final-cta">
         <h2>Study {topic.name} the smart way</h2>
         <p>Bite-sized lessons, one-problem-at-a-time practice with instant feedback, and progress that adds up every day you study — built for the FE Civil exam.</p>
-        <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Start practicing {topic.name} <ArrowRight size={16} weight="bold" /></Link>
+        <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Start practicing {topic.name} <AppArrow /></Link>
       </section>
     </main>
   );

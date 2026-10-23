@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Timer, CaretRight } from '@phosphor-icons/react';
+import { Timer, CaretRight } from '@phosphor-icons/react';
 import { useSeo } from '../seo/useSeo';
 import { allTopics } from './content';
 import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
 import { STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
 import { getExamWeight } from '../data/exam-bank/index';
+import { AppArrow } from '../components/brand/AppArrow';
+import { RaccoonPeek } from '../components/brand/RaccoonPeek';
 import './public.css';
 
 const SITE = 'https://fe4raccoons.com';
@@ -123,7 +125,7 @@ export function ExamSimulation() {
           </p>
           <div className="pub-cta-row">
             <Link className="pub-btn pub-btn-primary" to="/exam/preview">
-              Try 10 questions free <ArrowRight size={16} weight="bold" />
+              Try 10 questions free <AppArrow />
             </Link>
             <Link className="pub-btn pub-btn-ghost" to="/exam">See the full simulation</Link>
           </div>
@@ -270,14 +272,16 @@ export function ExamSimulation() {
             image loads and the section below does not jump. The caption closes
             the section: a second grey note underneath it read as one run-on
             paragraph. */}
-        <figure className="pub-figure">
-          <img
-            src="/exam-score-report.png"
-            width="1440"
-            height="1542"
-            loading="lazy"
-            alt="An exam simulation score report showing 62 out of 110, 56 percent, a passing-score badge, 4 hours 52 minutes used of 5 hours 20 minutes, 104 of 110 questions answered, and a chapter breakdown led by Geotechnical Engineering at 36 percent."
-          />
+        <figure className="pub-figure pub-figure--peek">
+          <RaccoonPeek at={0.82} className="pub-figure-host">
+            <img
+              src="/exam-score-report.png"
+              width="1440"
+              height="1542"
+              loading="lazy"
+              alt="An exam simulation score report showing 62 out of 110, 56 percent, a passing-score badge, 4 hours 52 minutes used of 5 hours 20 minutes, 104 of 110 questions answered, and a chapter breakdown led by Geotechnical Engineering at 36 percent."
+            />
+          </RaccoonPeek>
           <figcaption>
             An example score report. Chapters are sorted weakest first, so the one
             to study next is the top row.
@@ -302,7 +306,7 @@ export function ExamSimulation() {
         </p>
         <div className="pub-cta-row">
           <Link className="pub-btn pub-btn-primary" to="/exam/preview">
-            Try 10 questions free <ArrowRight size={16} weight="bold" />
+            Try 10 questions free <AppArrow />
           </Link>
           <Link className="pub-btn pub-btn-ghost" to="/exam">See the full simulation</Link>
         </div>
@@ -332,7 +336,7 @@ export function ExamSimulation() {
           not what you expected, you have lost ten minutes.
         </p>
         <Link className="pub-btn pub-btn-primary" to="/exam/preview">
-          Try 10 questions free <ArrowRight size={16} weight="bold" />
+          Try 10 questions free <AppArrow />
         </Link>
       </section>
 

@@ -50,6 +50,7 @@ function weightClass(weight) {
 import { PROBLEM_COUNT } from '../data/contentStats';
 import { LoadingState } from '../components/LoadingState';
 import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
+import { RaccoonPeek } from '../components/brand/RaccoonPeek';
 import { ExamSimCard } from '../exam/ExamSimCard';
 import { ScoringModal } from './ScoringModal';
 import { SetupTodo } from './SetupTodo';
@@ -387,41 +388,43 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           main panel stays focused on preparation. */}
 
       {/* ── The strip: four numbers, one band (2026-09-20 redesign) ── */}
-      <div className="stat-strip">
-        <div className="stat-card stat-card--xp">
-          <span className="stat-card-label"><Lightning weight="bold" size={13} /> XP</span>
-          <span className="stat-card-value">{stats.totalXp}</span>
-        </div>
-        <div className="stat-card stat-card--days">
-          <span className="stat-card-label"><Fire weight="bold" size={13} /> Days studied</span>
-          <span className="stat-card-value">
-            {stats.currentStreak}
-            {syncState ? <small>site + app</small> : null}
-          </span>
-        </div>
-        <div className="stat-card stat-card--fe">
-          <span className="stat-card-label"><CalendarBlank weight="bold" size={13} /> Days to the FE</span>
-          {examDays !== null && examDays >= 0 ? (
-            <span className="stat-card-value">
-              {examDays === 0 ? 'Today' : examDays}
-              {examDays > 0 && examDate ? <small>{new Date(`${examDate}T00:00:00`).toLocaleDateString([], { month: 'short', day: 'numeric' })}</small> : null}
-            </span>
-          ) : (
-            <button className="stat-card-set" onClick={() => navigate('/profile')}>Set your exam date</button>
-          )}
-        </div>
-        <div className="stat-card stat-card--mastery">
-          <span className="stat-card-label"><Gauge weight="bold" size={13} /> Total concept mastery</span>
-          <span className="stat-card-value" style={{ color: getMasteryColor(readiness) }}>{readiness}<small>%</small></span>
-          <div className="mastery-bar-pct stat-card-bar">
-            <div className="mastery-bar-fill" style={{ width: `${readiness}%`, background: getMasteryColor(readiness) }} />
+      <RaccoonPeek at={0.88}>
+        <div className="stat-strip">
+          <div className="stat-card stat-card--xp">
+            <span className="stat-card-label"><Lightning weight="bold" size={13} /> XP</span>
+            <span className="stat-card-value">{stats.totalXp}</span>
           </div>
-          <span className="stat-card-cap">
-            All 15 chapters, weighted by how many exam questions each gets.{' '}
-            <button className="scoring-trigger scoring-trigger--inline" onClick={() => setScoringOpen(true)}>How is this scored?</button>
-          </span>
+          <div className="stat-card stat-card--days">
+            <span className="stat-card-label"><Fire weight="bold" size={13} /> Days studied</span>
+            <span className="stat-card-value">
+              {stats.currentStreak}
+              {syncState ? <small>site + app</small> : null}
+            </span>
+          </div>
+          <div className="stat-card stat-card--fe">
+            <span className="stat-card-label"><CalendarBlank weight="bold" size={13} /> Days to the FE</span>
+            {examDays !== null && examDays >= 0 ? (
+              <span className="stat-card-value">
+                {examDays === 0 ? 'Today' : examDays}
+                {examDays > 0 && examDate ? <small>{new Date(`${examDate}T00:00:00`).toLocaleDateString([], { month: 'short', day: 'numeric' })}</small> : null}
+              </span>
+            ) : (
+              <button className="stat-card-set" onClick={() => navigate('/profile')}>Set your exam date</button>
+            )}
+          </div>
+          <div className="stat-card stat-card--mastery">
+            <span className="stat-card-label"><Gauge weight="bold" size={13} /> Total concept mastery</span>
+            <span className="stat-card-value" style={{ color: getMasteryColor(readiness) }}>{readiness}<small>%</small></span>
+            <div className="mastery-bar-pct stat-card-bar">
+              <div className="mastery-bar-fill" style={{ width: `${readiness}%`, background: getMasteryColor(readiness) }} />
+            </div>
+            <span className="stat-card-cap">
+              All 15 chapters, weighted by how many exam questions each gets.{' '}
+              <button className="scoring-trigger scoring-trigger--inline" onClick={() => setScoringOpen(true)}>How is this scored?</button>
+            </span>
+          </div>
         </div>
-      </div>
+      </RaccoonPeek>
 
       {/* Attribution survey lives at the bottom of the right rail — see below. */}
 

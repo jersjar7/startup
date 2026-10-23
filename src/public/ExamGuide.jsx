@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CaretRight } from '@phosphor-icons/react';
+import { CaretRight } from '@phosphor-icons/react';
 import { useSeo } from '../seo/useSeo';
 import { allTopics, EXAM_FACTS } from './content';
 import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
 import { STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
+import { AppArrow } from '../components/brand/AppArrow';
+import { RaccoonPeek } from '../components/brand/RaccoonPeek';
+import { ChapterCoin } from '../components/brand/ChapterCoin';
 import './public.css';
 
 const SITE = 'https://fe4raccoons.com';
@@ -81,7 +84,7 @@ export function ExamGuide() {
             study guides, key formulas, and sample problems for all 15 chapters.
           </p>
           <div className="pub-cta-row">
-            <Link className="pub-btn pub-btn-primary" to="/login">Start practicing free <ArrowRight size={16} weight="bold" /></Link>
+            <Link className="pub-btn pub-btn-primary" to="/login">Start practicing free <AppArrow /></Link>
           </div>
         </div>
       </header>
@@ -100,25 +103,26 @@ export function ExamGuide() {
       </section>
 
       {/* All 15 topics — chapter rows */}
-      <section className="pub-section pub-panel">
-        <span className="pub-label"><span className="pub-label-dash" />All 15 chapters</span>
-        <h2>Every FE Civil topic area</h2>
-        <p className="pub-section-lede">Each guide covers what NCEES tests, key handbook formulas, sample problems, and the mistakes that cost points.</p>
-        <div className="pub-ch-list">
-          {topics.map((t) => {
-            const Icon = t.icon;
-            return (
-              <Link key={t.id} to={`/fe-civil/${t.id}`} className={`pub-ch-row pub-accent-${t.accent}`}>
-                <span className="pub-ch-num">{String(t.num).padStart(2, '0')}</span>
-                <span className="pub-ch-icon">{Icon && <Icon size={22} weight="duotone" />}</span>
-                <span className="pub-ch-name">{t.name}</span>
-                <span className="pub-ch-badge">{t.questionRange} Qs</span>
-                <CaretRight size={16} className="pub-ch-caret" />
-              </Link>
-            );
-          })}
-        </div>
-      </section>
+      <RaccoonPeek at={0.84}>
+        <section className="pub-section pub-panel">
+          <span className="pub-label"><span className="pub-label-dash" />All 15 chapters</span>
+          <h2>Every FE Civil topic area</h2>
+          <p className="pub-section-lede">Each guide covers what NCEES tests, key handbook formulas, sample problems, and the mistakes that cost points.</p>
+          <div className="pub-ch-list">
+            {topics.map((t) => {
+              return (
+                <Link key={t.id} to={`/fe-civil/${t.id}`} className={`pub-ch-row pub-accent-${t.accent}`}>
+                  <span className="pub-ch-num">{String(t.num).padStart(2, '0')}</span>
+                  <span className="pub-ch-icon"><ChapterCoin chapterId={t.id} accent={t.accent} /></span>
+                  <span className="pub-ch-name">{t.name}</span>
+                  <span className="pub-ch-badge">{t.questionRange} Qs</span>
+                  <CaretRight size={16} className="pub-ch-caret" />
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      </RaccoonPeek>
 
       {/* FAQ */}
       <section className="pub-section">
@@ -137,7 +141,7 @@ export function ExamGuide() {
       <section className="pub-final-cta">
         <h2>Ready to start?</h2>
         <p>Free FE Civil practice across all 15 chapters — bite-sized lessons, instant feedback, and progress tracking.</p>
-        <Link className="pub-btn pub-btn-primary" to="/login">Create a free account <ArrowRight size={16} weight="bold" /></Link>
+        <Link className="pub-btn pub-btn-primary" to="/login">Create a free account <AppArrow /></Link>
       </section>
     </main>
   );
