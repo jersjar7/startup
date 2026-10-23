@@ -11,7 +11,7 @@
 // exact failure being fixed, so it must not be reintroduced by the fix.
 
 // Answers are keyed by questionId, never by array position. Position keys break
-// the moment question order changes, which is precisely what resume does — the
+// the moment question order changes, which is precisely what resume does, the
 // old client regenerated its own question set on resume, so index-keyed answers
 // were scored against the wrong questions and silently dropped.
 // The scheduled break, mirroring BREAK_DURATION in src/exam/ExamSession.jsx.
@@ -89,7 +89,7 @@ function mergeAutosaveStamped(stored, storedTimes, incoming, incomingTimes, now 
 //
 // This distinction is the whole ballgame. The client's submit payload sends an
 // explicit null for every question it does not currently hold, and a submitting
-// client may hold only a fraction of the truth — most dangerously the timed
+// client may hold only a fraction of the truth, most dangerously the timed
 // auto-submit, which can fire with a stale snapshot. Honouring those nulls at
 // submit time deleted every autosaved answer and scored the customer ~0%, which
 // is precisely the data loss the autosave was built to prevent.
@@ -121,8 +121,8 @@ function mergeSubmission(stored, submitted, storedTimes = null, submittedTimes =
 // handed out unlimited extra time. A server-issued deadline cannot be paused by
 // hiding a tab.
 //
-// The 25-minute break does NOT count against exam time — that mirrors the real
-// NCEES appointment, where the break sits outside the 5h20m — so any break the
+// The 25-minute break does NOT count against exam time, that mirrors the real
+// NCEES appointment, where the break sits outside the 5h20m, so any break the
 // customer has taken extends the deadline. A break still in progress extends it
 // as it runs.
 function examDeadlineMs(attempt = {}, limitSeconds, now = new Date()) {

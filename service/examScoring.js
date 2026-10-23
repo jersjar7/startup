@@ -32,7 +32,7 @@ function scoreAttempt(questions = [], answerMap = {}, totalQuestions = null) {
     if (!chapterScores[q.chapterId]) {
       chapterScores[q.chapterId] = { correct: 0, total: 0 };
     }
-    // Every question in the chapter counts toward its total, answered or not —
+    // Every question in the chapter counts toward its total, answered or not,
     // an unanswered question is a wrong answer on the real exam.
     chapterScores[q.chapterId].total += 1;
 

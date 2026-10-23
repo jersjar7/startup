@@ -1,4 +1,4 @@
-// Email send budget — keeps us under Resend's plan caps.
+// Email send budget: keeps us under Resend's plan caps.
 // Every successful send (transactional AND lifecycle) is counted via recordSend().
 // Lifecycle jobs check canSendLifecycle() before each send and stop at a safe line,
 // always leaving daily headroom for transactional email (verification / reset /
@@ -17,7 +17,7 @@ const {
 const dayKey = (d = new Date()) => `day:${d.toISOString().slice(0, 10)}`;      // day:YYYY-MM-DD (UTC)
 const monthKey = (d = new Date()) => `month:${d.toISOString().slice(0, 7)}`;   // month:YYYY-MM (UTC)
 
-// Count one (or n) successful send(s). Never throws — a counter hiccup must not
+// Count one (or n) successful send(s). Never throws: a counter hiccup must not
 // break the actual email flow.
 async function recordSend(n = 1, now = new Date()) {
   try {
@@ -55,7 +55,7 @@ async function canSendLifecycle(now = new Date()) {
   const ok = lifecycleAllowed(day, month);
   if (!ok && loggedBlockFor !== dayKey(now)) {
     loggedBlockFor = dayKey(now);
-    console.warn(`[sendBudget] lifecycle paused — ${blockReason(day, month)}`);
+    console.warn(`[sendBudget] lifecycle paused: ${blockReason(day, month)}`);
   }
   return ok;
 }

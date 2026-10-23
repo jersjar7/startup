@@ -14,7 +14,7 @@ const { PRERENDERED_ROUTE_PATTERN } = require('./prerenderedRoutes.js');
 const app = express();
 
 // Behind Caddy (a single reverse proxy on the same host). Trust the first hop
-// so req.ip / X-Forwarded-For resolve to the real client — without this,
+// so req.ip / X-Forwarded-For resolve to the real client, without this,
 // express-rate-limit keys every user to the proxy's IP (one shared bucket) and
 // warns about an X-Forwarded-For misconfiguration.
 app.set('trust proxy', 1);
@@ -55,7 +55,7 @@ app.use(compression());
   }
 }
 
-// Stripe webhook needs raw body for signature verification — mount BEFORE express.json()
+// Stripe webhook needs raw body for signature verification, mount BEFORE express.json()
 app.use('/api/webhook', express.raw({ type: 'application/json' }), require('./routes/webhook.js'));
 
 app.use(express.json({ limit: '1mb' }));
@@ -114,7 +114,7 @@ app.get(PRERENDERED_ROUTE_PATTERN, (req, res, next) => {
 // Vite emits CONTENT-HASHED filenames into /assets, so a change produces a new
 // URL and those can safely be pinned forever.
 //
-// Everything else in public/ is hand-authored with a STABLE name — explainer.mp4,
+// Everything else in public/ is hand-authored with a STABLE name, explainer.mp4,
 // og-image.png, llms.txt, sitemap.xml, robots.txt, exam-score-report.png. Serving
 // those `immutable, max-age=1y` was a real bug, not a tuning choice: `immutable`
 // tells browsers not to revalidate even on an explicit reload, so a re-rendered
@@ -173,11 +173,11 @@ app.use('/go', require('./routes/go.js'));
 
 // Default error handler
 app.use(function (err, req, res, next) {
-  console.error(`[ERROR] ${req.method} ${req.originalUrl} — ${err.message}`);
+  console.error(`[ERROR] ${req.method} ${req.originalUrl}: ${err.message}`);
   res.status(500).send({ msg: 'Internal server error' });
 });
 
-// SPA fallback — no-cache so the browser always gets the current entry point
+// SPA fallback: no-cache so the browser always gets the current entry point
 app.use((_req, res) => {
   res.set('Cache-Control', 'no-cache');
   res.sendFile('index.html', { root: 'public' });

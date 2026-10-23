@@ -1,4 +1,4 @@
-// "Days studied" — a CUMULATIVE count of the distinct calendar days a user has
+// "Days studied": a CUMULATIVE count of the distinct calendar days a user has
 // studied. Every new study day adds 1 and it NEVER resets. A gap doesn't erase
 // your effort; the number only ever goes up. This deliberately replaces the old
 // consecutive-day streak (with weekly freeze), which was a daily-habit mechanic

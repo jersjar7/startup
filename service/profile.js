@@ -19,7 +19,7 @@ function givenName(raw) {
 }
 
 // "Maria G." from first + last; first-only if no last; else the email's local
-// part (before @) — never the full email. A whole name typed into the first
+// part (before @): never the full email. A whole name typed into the first
 // name field reads the same way: "Jerson Test" is "Jerson T." on a board.
 function displayName(user) {
   const typed = sanitizeName(user?.firstName || '');

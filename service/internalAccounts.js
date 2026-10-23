@@ -8,7 +8,7 @@
 // inbox as `admin@oqupa.com`, and Gmail-style plus-tagging is exactly how test
 // accounts get made here. Matching the literal string alone meant the QA account
 // was excluded from `scripts/baseline-report.js` (which strips plus-tags) while
-// still counting as a real user everywhere on the server — two sources of truth
+// still counting as a real user everywhere on the server, two sources of truth
 // disagreeing about whether the same account existed.
 // appreview@ is the demo account Apple and Google reviewers sign in with. It
 // is a REAL account, because review tests what real users get, but a reviewer

@@ -1,4 +1,4 @@
-// XP — the single source of truth for how much every event type is worth,
+// XP: the single source of truth for how much every event type is worth,
 // across web and phone. Keep ALL values here so they stay intentional and
 // consistent; never re-invent an XP number inline in a route.
 //

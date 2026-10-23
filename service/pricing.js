@@ -9,7 +9,7 @@ const STANDARD_CENTS = Number(process.env.PRICE_STANDARD_CENTS) || 4900; // $49
 // Amounts we have actually charged in the past, so historical purchases keep
 // reporting the tier they were sold at. Without this, raising the student price
 // silently reclassified every $29 sale as 'unknown' and the admin tier
-// breakdown — the input to average order value — lost half its rows.
+// breakdown (the input to average order value) lost half its rows.
 // Never remove an entry: it is a record of what a real customer paid.
 const LEGACY_TIER_CENTS = {
   2900: 'student',   // student price until 2026-08-10
@@ -28,7 +28,7 @@ function priceCentsForEmail(email) {
 }
 
 // Anti-fraud gate for the student price. A raw .edu STRING never qualifies on
-// its own — anyone could type one. The student price applies only when the user
+// its own: anyone could type one. The student price applies only when the user
 // has proven control of an academic inbox:
 //   1. studentVerified === true  (verified a .edu via an emailed code), or
 //   2. their ACCOUNT email is academic AND that email is verified.

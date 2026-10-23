@@ -13,7 +13,7 @@ const LESSON_EXERCISE_COUNT = 3;
 // timesCorrect / timesIncorrect, never first-attempt correctness, so "ever" is
 // what the data actually supports. Consequence, accepted deliberately: markers
 // only ever improve and a completed lesson stays completed forever. Completion
-// is not readiness — mastery is the thing that tells that truth.
+// is not readiness: mastery is the thing that tells that truth.
 function isEverCorrect(row) {
   return !!row && (row.timesCorrect || 0) > 0;
 }

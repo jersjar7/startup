@@ -12,7 +12,7 @@ const MAX_INTERVAL_DAYS = 30;
 const EASE_FACTOR = 2.5;
 
 /**
- * v1 — next review interval in days (legacy binary model).
+ * v1: next review interval in days (legacy binary model).
  * @param {number} prevInterval - the previous interval (days); 0/undefined treated as 1.
  * @param {boolean} isCorrect - whether the latest answer was correct.
  */
@@ -23,7 +23,7 @@ function nextInterval(prevInterval, isCorrect) {
 }
 
 /**
- * v2 — next problemHistory scheduling fields via the shared 3-grade SM-2.
+ * v2: next problemHistory scheduling fields via the shared 3-grade SM-2.
  * Seeds ease/reps/lapses from a possibly-legacy row, grades the answer
  * (web is binary, so isCorrect -> gotIt/forgot), and returns the fields to
  * persist plus the yyyy-mm-dd nextReview derived from dueAt.

@@ -1,4 +1,4 @@
-// NCEES FE Civil exam weighting — the single backend source of truth for how
+// NCEES FE Civil exam weighting, the single backend source of truth for how
 // much each chapter counts toward the 110-question exam. Mirrors the frontend
 // copy in src/data/exam-bank/index.js (kept in sync by hand; identical values).
 // Used to weight chapter mastery into one honest, coverage-anchored number.
@@ -31,11 +31,11 @@ const EXAM_DISTRIBUTION = {
   transportation: 10,
   construction: 9,
 };
-// Sum = 110 — matches the NCEES FE Civil total.
+// Sum = 110: matches the NCEES FE Civil total.
 
 const TOTAL_WEIGHT = Object.values(EXAM_DISTRIBUTION).reduce((a, b) => a + b, 0);
 
-// "Touched enough to count as covered" — above a bare diagnostic blip. Crude on
+// "Touched enough to count as covered", above a bare diagnostic blip. Crude on
 // purpose (study-load plan §Q1); refine with telemetry later.
 const COVERAGE_THRESHOLD = 20;
 
@@ -57,7 +57,7 @@ function weightedMastery(chapterMastery = {}) {
 }
 
 // Weighted % of the exam the user has actually covered (chapters past the
-// threshold). Breadth, not depth — bounds how much mastery a projection may
+// threshold). Breadth, not depth, bounds how much mastery a projection may
 // honestly claim.
 function coveragePercent(chapterMastery = {}, threshold = COVERAGE_THRESHOLD) {
   let covered = 0;

@@ -3,7 +3,7 @@
 // The paid simulation is a single timed session (5h20m). If the user never hits
 // submit, the attempt sits at status 'in_progress' forever unless something
 // retires it. Nothing did, and POST /api/exam/start resumed any in_progress
-// attempt unconditionally — so a stale one dropped the user into the exam with
+// attempt unconditionally, so a stale one dropped the user into the exam with
 // a dead clock and no route to a fresh attempt. Three of the first six paying
 // customers were stuck this way, one for 46 days.
 //

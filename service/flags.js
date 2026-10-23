@@ -3,7 +3,7 @@
 //
 // Default OFF everywhere: Stage 1 computes the new plan and LOGS it alongside
 // the old one ("compute-dark") while still serving today's behavior. Stage 2
-// flips these on — and will grow per-user ramp logic here so existing users are
+// flips these on, and will grow per-user ramp logic here so existing users are
 // grandfathered over 5–7 days rather than jumped overnight.
 
 function envOn(name, def = false) {

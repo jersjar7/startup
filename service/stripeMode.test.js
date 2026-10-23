@@ -21,7 +21,7 @@ describe('serverIsLiveMode', () => {
 });
 
 describe('isModeMismatch', () => {
-  it('BLOCKS a test-mode payment on a live server — the actual incident', () => {
+  it('BLOCKS a test-mode payment on a live server, the actual incident', () => {
     expect(isModeMismatch({ livemode: false }, LIVE)).toBe(true);
   });
 

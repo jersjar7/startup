@@ -21,7 +21,7 @@ describe('isEverCorrect', () => {
   });
 });
 
-describe('lessonState — the five states', () => {
+describe('lessonState: the five states', () => {
   it('untouched when nothing was answered', () => {
     expect(lessonState(0, 0)).toBe('untouched');
   });
@@ -132,7 +132,7 @@ describe('buildChapterProgress', () => {
 });
 
 // The guard that matters most. A silently incomplete index would render whole
-// lessons as "untouched" — plausible-looking and wrong, with nothing to notice
+// lessons as "untouched": plausible-looking and wrong, with nothing to notice
 // it. gen-content.mjs also fails the build on this; this checks the artifact
 // that actually ships.
 describe('the shipped problemIndex describes the real content', () => {

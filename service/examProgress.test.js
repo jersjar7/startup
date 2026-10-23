@@ -6,7 +6,7 @@ const {
 
 describe('mergeAutosave', () => {
   // THE critical property. A client that lost its state must not be able to
-  // wipe answers the server already holds — that is the bug being fixed.
+  // wipe answers the server already holds, that is the bug being fixed.
   it('never drops stored answers that the incoming set omits', () => {
     const stored = { q1: 'a', q2: 'b', q3: 'c' };
     expect(mergeAutosave(stored, { q2: 'x' })).toEqual({ q1: 'a', q2: 'x', q3: 'c' });
@@ -90,7 +90,7 @@ describe('elapsedSeconds', () => {
 // those at submit deleted the autosaved answers and scored the customer ~0%.
 // Submit must only ever ADD.
 describe('mergeSubmission', () => {
-  it('CANNOT clear a stored answer with a null — the critical property', () => {
+  it('CANNOT clear a stored answer with a null, the critical property', () => {
     expect(mergeSubmission({ q1: 'a', q2: 'b' }, { q1: null, q2: null }))
       .toEqual({ q1: 'a', q2: 'b' });
   });

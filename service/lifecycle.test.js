@@ -98,7 +98,7 @@ describe('examMilestoneToSend', () => {
   it('sends the CLOSEST milestone and absorbs skipped larger ones (date set late)', () => {
     // 5 days out, nothing sent: send the 7-day bucket, absorb 30/14 so they never fire later.
     expect(examMilestoneToSend(5, [])).toEqual({ milestone: 7, absorb: [30, 14, 7] });
-    // next day at 4 — 30/14/7 absorbed — nothing until the 3-day mark
+    // next day at 4 (30/14/7 absorbed), so nothing until the 3-day mark
     expect(examMilestoneToSend(4, [30, 14, 7])).toBeNull();
     expect(examMilestoneToSend(3, [30, 14, 7])).toEqual({ milestone: 3, absorb: [3] });
   });

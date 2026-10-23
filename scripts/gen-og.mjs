@@ -1,6 +1,6 @@
 // Regenerates the Open Graph share image (public/og-image.png) from the LIVE
 // content counts, so the card people see when they share fe4raccoons.com always
-// reflects the real numbers — never a stale hardcode. Runs as part of build:seo
+// reflects the real numbers, never a stale hardcode. Runs as part of build:seo
 // (before `vite build`, so the fresh PNG gets copied into dist/). Resilient: if
 // rendering can't run (no browser), it warns and leaves the existing image so a
 // build is never broken.

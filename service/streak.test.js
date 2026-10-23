@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 const { calculateStreak } = require('./streak.js');
 
-// "Days studied" — cumulative count of distinct study days; never resets.
+// "Days studied": cumulative count of distinct study days; never resets.
 describe('calculateStreak (cumulative days studied)', () => {
   beforeEach(() => {
     vi.useFakeTimers();

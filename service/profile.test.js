@@ -70,7 +70,7 @@ describe('examTimingFromMetadata', () => {
     expect(examTimingFromMetadata({ daysUntilExam: '0' }).daysUntilExam).toBe(0);
   });
 
-  it('keeps negative days — a retaker with a stale past date is real signal', () => {
+  it('keeps negative days: a retaker with a stale past date is real signal', () => {
     expect(examTimingFromMetadata({ daysUntilExam: '-12' }).daysUntilExam).toBe(-12);
   });
 

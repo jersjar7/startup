@@ -5,7 +5,7 @@
 // production was accidentally running on a Stripe TEST key (2026-07-18 to
 // 2026-07-30), a real student checked out, Stripe reported the session as paid,
 // and the app recorded a completed $29 purchase. No money ever moved. She keeps
-// the product, and that is deliberate — the mistake was ours. But counting her
+// the product, and that is deliberate: the mistake was ours. But counting her
 // $29 as revenue overstated income, sales, and average revenue per paying user
 // on the admin dashboard for months.
 //

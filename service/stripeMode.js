@@ -3,7 +3,7 @@
 // This exists because of a real incident: production silently reverted to a
 // TEST secret key for ~12 days. Checkout still worked, Stripe still reported
 // `payment_status: 'paid'`, both grant paths still granted lifetime access, and
-// the owner still got a "you made a sale" email — for $0. A real student
+// the owner still got a "you made a sale" email, for $0. A real student
 // received the full paid Exam Simulation for free and it was counted as revenue.
 //
 // Nothing in the codebase inspected `livemode`, so nothing could tell the

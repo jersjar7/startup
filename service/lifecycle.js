@@ -23,7 +23,7 @@ function etWeekday(d, tz = TZ_DEFAULT) {
 }
 
 // Welcome is due once the user has crossed into a later calendar day than they
-// verified on — i.e. the morning AFTER verification, never the same moment.
+// verified on: i.e. the morning AFTER verification, never the same moment.
 function isWelcomeDue(verifiedAt, now, tz = TZ_DEFAULT) {
   if (!verifiedAt) return false;
   return etDate(new Date(verifiedAt), tz) < etDate(now, tz);
@@ -37,7 +37,7 @@ function daysSince(date, now) {
 }
 
 // Verify-email reminder is due the morning AFTER signup (same calendar rule as
-// the welcome, but keyed on createdAt) — so someone who signs up but never
+// the welcome, but keyed on createdAt), so someone who signs up but never
 // verifies gets one nudge the next morning rather than silence.
 function isVerifyReminderDue(createdAt, now, tz = TZ_DEFAULT) {
   if (!createdAt) return false;

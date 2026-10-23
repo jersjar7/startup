@@ -13,7 +13,7 @@ const fromHeader = `FE for Raccoons <${fromEmail}>`;
 // read like a note from Jerson, not a brand. Replies still go to REPLY_TO.
 const jersonFrom = `Jerson Garcia <${fromEmail}>`;
 // Replies go to the FE for Raccoons alias on our Google Workspace (Oqupa LLC),
-// which is a real inbox — fe4raccoons.com has no MX, so replies there bounce.
+// which is a real inbox, fe4raccoons.com has no MX, so replies there bounce.
 const replyToEmail = process.env.REPLY_TO_EMAIL || 'fe4raccoons@oqupa.com';
 // Where the owner's own alerts go (a sale, a flagged round, a Contact us
 // message): the same company alias, so every FE for Raccoons email lands in
@@ -28,17 +28,17 @@ try { CONTENT = { ...CONTENT, ...require('./contentStats') }; } catch { /* use f
 const usingTestSender = fromEmail === 'onboarding@resend.dev';
 if (usingTestSender) {
   // Loud, once-at-startup warning. The Resend test sender ONLY delivers to the
-  // Resend account owner's own address — every other recipient is rejected, so
+  // Resend account owner's own address, every other recipient is rejected, so
   // real users never get verification / reset / student-code emails. Set
   // RESEND_FROM_EMAIL to an address on a domain verified at resend.com/domains.
   console.warn(
-    '[email] WARNING: RESEND_FROM_EMAIL is unset — using onboarding@resend.dev. ' +
+    '[email] WARNING: RESEND_FROM_EMAIL is unset, using onboarding@resend.dev. ' +
     'This only delivers to the Resend account owner. Verify a domain and set ' +
     'RESEND_FROM_EMAIL so real users receive email.',
   );
 }
 
-// Low-level send. Returns { ok, id?, error? } — never throws — so callers can
+// Low-level send. Returns { ok, id?, error? } (never throws) so callers can
 // decide how to react (analytics never breaks a flow, but the student-code
 // flow needs to know whether the code actually went out).
 async function sendEmail({ to, subject, html, text, headers, from, replyTo }) {
@@ -52,10 +52,10 @@ async function sendEmail({ to, subject, html, text, headers, from, replyTo }) {
       console.error(`[email] send to ${to} rejected:`, r.error.message);
       return { ok: false, error: r.error.message };
     }
-    // Log successes too (recipient + Resend id) — "delivered" in Resend only
+    // Log successes too (recipient + Resend id), "delivered" in Resend only
     // means the receiving server accepted it, so this is the breadcrumb for
     // diagnosing "accepted but never arrived" (e.g. quarantined upstream).
-    console.log(`[email] sent to ${to} — "${subject}" (id ${r.data?.id})`);
+    console.log(`[email] sent to ${to}: "${subject}" (id ${r.data?.id})`);
     await recordSend(); // count toward the Resend free-plan daily/monthly budget
     return { ok: true, id: r.data?.id };
   } catch (err) {
@@ -209,7 +209,7 @@ async function sendPasswordResetEmail(toEmail, rawToken) {
     subject: 'Reset your FE for Raccoons password',
     html: ctaEmail({
       heading: 'Reset your password',
-      body: 'We got a request to reset your password. Tap the button below to choose a new one — this link expires in 1 hour.',
+      body: 'We got a request to reset your password. Tap the button below to choose a new one. This link expires in 1 hour.',
       ctaText: 'Reset password',
       ctaUrl: `${appUrl}/reset-password/${rawToken}`,
     }),
@@ -219,7 +219,7 @@ async function sendPasswordResetEmail(toEmail, rawToken) {
 async function sendVerificationEmail(toEmail, rawToken) {
   return sendEmail({
     to: toEmail,
-    subject: 'Verify your email — FE for Raccoons',
+    subject: 'Verify your email for FE for Raccoons',
     html: ctaEmail({
       heading: 'Verify your email',
       body: "Welcome to FE for Raccoons! Confirm your email to secure your account and keep your progress, XP, and days studied synced everywhere.",
@@ -234,7 +234,7 @@ async function sendVerificationEmail(toEmail, rawToken) {
 async function sendStudentCodeEmail(toEmail, code) {
   return sendEmail({
     to: toEmail,
-    // Subject must NOT lead with the numeric code — university mail filters
+    // Subject must NOT lead with the numeric code, university mail filters
     // (e.g. Microsoft Defender) quarantine code-first subjects. Code lives in
     // the body; see docs/EMAIL-SETUP.md "University inboxes".
     subject: 'Your FE for Raccoons student code',
@@ -250,7 +250,7 @@ async function sendStudentCodeEmail(toEmail, code) {
 async function sendTestEmail(toEmail) {
   return sendEmail({
     to: toEmail,
-    subject: 'FE for Raccoons — email delivery test',
+    subject: 'FE for Raccoons: email delivery test',
     html: ctaEmail({
       heading: 'Email is working',
       body: 'If you can read this, transactional email delivery is configured correctly and on-brand.',
@@ -321,16 +321,16 @@ async function sendWelcomeEmail(toEmail, { unsubUrl, diagnosticDone = false, foc
       subject: 'Your study plan is ready',
       headers: lifecycleHeaders(unsubUrl),
       html: emailLayout({
-        preheader: 'Nice start — here\'s your best next move.',
+        preheader: 'Nice start. Here\'s your best next move.',
         heading: 'Your plan is ready.',
         unsubUrl,
         inner:
-          para('Great start — your diagnostic is done, so your study plan is built around your real weak spots.') +
+          para('Great start: your diagnostic is done, so your study plan is built around your real weak spots.') +
           (focus
-            ? para(`<strong>Best place to begin: ${focus}</strong> — it\'s your lowest area right now, so it\'s where focused practice moves your score the most.`)
-            : para('Jump back in and start with your lowest-mastery chapter — that\'s where focused practice moves your score the most.')) +
+            ? para(`<strong>Best place to begin: ${focus}</strong>. It\'s your lowest area right now, so it\'s where focused practice moves your score the most.`)
+            : para('Jump back in and start with your lowest-mastery chapter, because that\'s where focused practice moves your score the most.')) +
           button('Start studying', `${appUrl}/dashboard`) +
-          para(`<span style="font-size:13px;color:${C.mute};">Everything here is free, lessons, ${CONTENT.problemsLabel} problems, your plan. The only paid thing is the full timed exam sim, if you ever want it.</span>`) +
+          para(`<span style="font-size:13px;color:${C.mute};">Everything here is free: lessons, ${CONTENT.problemsLabel} problems, your plan. The only paid thing is the full timed exam sim, if you ever want it.</span>`) +
           signatureBlock('Welcome aboard,'),
       }),
     });
@@ -341,12 +341,12 @@ async function sendWelcomeEmail(toEmail, { unsubUrl, diagnosticDone = false, foc
     headers: lifecycleHeaders(unsubUrl),
     html: emailLayout({
       preheader: 'Find your weak spots before you study a thing.',
-      heading: "Welcome — let's pass the FE.",
+      heading: "Welcome, let's pass the FE.",
       unsubUrl,
       inner:
-        para('The smartest first move is the <strong>free quick start</strong>. Answer 5 questions — about 5 minutes — and it begins building your study plan around your weak spots, so you study what actually moves your score.') +
+        para('The smartest first move is the <strong>free quick start</strong>. Answer 5 questions (about 5 minutes) and it begins building your study plan around your weak spots, so you study what actually moves your score.') +
         button('Start the quick start', `${appUrl}/quickstart`) +
-        para(`<span style="font-size:13px;color:${C.mute};">Everything here is free, lessons, ${CONTENT.problemsLabel} problems, the diagnostic. The only paid thing is the full timed exam sim, if you ever want it.</span>`) +
+        para(`<span style="font-size:13px;color:${C.mute};">Everything here is free: lessons, ${CONTENT.problemsLabel} problems, the diagnostic. The only paid thing is the full timed exam sim, if you ever want it.</span>`) +
         signatureBlock('Welcome aboard,'),
     }),
   });
@@ -354,8 +354,8 @@ async function sendWelcomeEmail(toEmail, { unsubUrl, diagnosticDone = false, foc
 
 // Post-purchase follow-up for the exam simulator. Deliberately NOT sent at
 // checkout (they're about to dive in). Two timed variants:
-//   'firstExam' — the morning after they finish their first full sim (ideal)
-//   'nudge'     — ~48h after purchase if they haven't run one yet
+//   'firstExam': the morning after they finish their first full sim (ideal)
+//   'nudge': ~48h after purchase if they haven't run one yet
 async function sendSimFollowupEmail(toEmail, { variant, scorePct = null, focusChapter = null, unsubUrl } = {}) {
   const focus = chapterLabel(focusChapter);
   if (variant === 'nudge') {
@@ -364,14 +364,14 @@ async function sendSimFollowupEmail(toEmail, { variant, scorePct = null, focusCh
       subject: 'Your FE exam simulator is ready',
       headers: lifecycleHeaders(unsubUrl),
       html: emailLayout({
-        preheader: "Whenever you're ready — here's how to get the most from it.",
+        preheader: "Whenever you're ready, here's how to get the most from it.",
         heading: "Your simulator's ready when you are.",
         unsubUrl,
         inner:
-          para('You unlocked the full timed exam simulation — the single best way to prepare is to sit one all the way through.') +
+          para('You unlocked the full timed exam simulation. The single best way to prepare is to sit one all the way through.') +
           bullets([
             'Treat it like the real thing: full length, timed, no notes.',
-            'Afterward, review <strong>every</strong> question — the ones you got right too.',
+            'Afterward, review <strong>every</strong> question, including the ones you got right.',
             focus ? `Then drill your weakest area (<strong>${focus}</strong>) and run it again.` : 'Then drill your weakest topics and run it again.',
           ]) +
           button('Start your exam', `${appUrl}/exam`) +
@@ -391,12 +391,12 @@ async function sendSimFollowupEmail(toEmail, { variant, scorePct = null, focusCh
       unsubUrl,
       inner:
         para(scorePct != null
-          ? `You finished a full timed exam and scored <strong>${scorePct}%</strong> — a real baseline to build on. That single rep is one of the best things you can do to prepare.`
-          : 'You finished a full timed exam — one of the best things you can do to prepare.') +
+          ? `You finished a full timed exam and scored <strong>${scorePct}%</strong>, a real baseline to build on. That single rep is one of the best things you can do to prepare.`
+          : 'You finished a full timed exam, one of the best things you can do to prepare.') +
         para("Here's how to turn it into a score jump:") +
         bullets([
-          'Review <strong>every</strong> question — the ones you got right too (lucky guesses hide gaps).',
-          focus ? `Focus your lowest area: <strong>${focus}</strong>.` : 'Focus your lowest topics — your dashboard shows where.',
+          'Review <strong>every</strong> question, including the ones you got right (lucky guesses hide gaps).',
+          focus ? `Focus your lowest area: <strong>${focus}</strong>.` : 'Focus your lowest topics. Your dashboard shows where.',
           'Retake in a week and watch the number climb.',
         ]) +
         para('Most people improve fast once they study by weakness instead of cramming everything.') +
@@ -407,14 +407,14 @@ async function sendSimFollowupEmail(toEmail, { variant, scorePct = null, focusCh
   });
 }
 
-// Sent the morning after signup if the account is still unverified — one nudge
+// Sent the morning after signup if the account is still unverified, one nudge
 // (with a fresh link) so a missed/spam'd first email doesn't lose the user.
 async function sendVerifyReminderEmail(toEmail, rawToken) {
   return sendEmail({
     to: toEmail,
     subject: 'Finish setting up your FE for Raccoons account',
     html: ctaEmail({
-      heading: 'One step left — verify your email',
+      heading: 'One step left: verify your email',
       body: "You created an account but haven't verified your email yet. Confirm it to secure your account and keep your progress, XP, and days studied synced everywhere.",
       ctaText: 'Verify email',
       ctaUrl: `${appUrl}/verify-email/${rawToken}`,
@@ -439,7 +439,7 @@ async function sendWeeklyDigestEmail(toEmail, d = {}) {
         `<strong>${streak}</strong> day${streak === 1 ? '' : 's'} studied`,
         masteryTo != null ? `Overall mastery: <strong>${masteryTo}%</strong>` : null,
       ]) +
-      (focusChapter ? para(`<strong>Focus next week:</strong> ${focusChapter} — your weakest area right now.`) : '') +
+      (focusChapter ? para(`<strong>Focus next week:</strong> ${focusChapter}, your weakest area right now.`) : '') +
       button('Continue studying', `${appUrl}/dashboard`);
   } else {
     subject = 'Your FE goal is still here';
@@ -452,7 +452,7 @@ async function sendWeeklyDigestEmail(toEmail, d = {}) {
   inner += signatureBlock('Rooting for you,');
   // Below the sign-off on purpose: the digest ends as a personal note, and the
   // offer sits underneath it as a footnote. The caller decides who sees it
-  // (shouldPitchSimInDigest) — never buyers, never the inactive branch.
+  // (shouldPitchSimInDigest): never buyers, never the inactive branch.
   if (simPitch) inner += simDigestFooter();
   return sendEmail({ to: toEmail, subject, headers: lifecycleHeaders(unsubUrl), html: emailLayout({ preheader, heading, inner, unsubUrl }) });
 }
@@ -523,21 +523,21 @@ Unsubscribe: ${unsubUrl}`;
 
   let subject; let heading; let body; let ctaText;
   if (daysLeft <= 0) {
-    subject = "It's exam day — you've got this";
+    subject = "It's exam day. You've got this";
     heading = "Today's the day";
-    body = "Trust your prep. Read each question carefully, lean on the Handbook, and keep moving — don't get stuck on any one problem. You've put in the work. Go pass the FE.";
+    body = "Trust your prep. Read each question carefully, lean on the Handbook, and keep moving. Don't get stuck on any one problem. You've put in the work. Go pass the FE.";
     ctaText = null;
   } else if (daysLeft === 1) {
     subject = 'Your FE exam is tomorrow';
     heading = 'One day to go';
-    body = `Keep it light today, then rest.${focusChapter ? ` If you review one thing, make it <strong>${focusChapter}</strong>.` : ''} A good night's sleep beats late cramming — you're ready.`;
+    body = `Keep it light today, then rest.${focusChapter ? ` If you review one thing, make it <strong>${focusChapter}</strong>.` : ''} A good night's sleep beats late cramming. You're ready.`;
     ctaText = 'Review your weak areas';
   } else {
     subject = `Your FE exam is in ${daysLeft} days`;
     heading = `${daysLeft} days to exam day`;
     const rd = readiness != null ? `You're at <strong>${readiness}% readiness</strong>. ` : '';
     body = `${rd}${focusChapter
-      ? `Your biggest score lever right now is <strong>${focusChapter}</strong> — point your next few sessions there.`
+      ? `Your biggest score lever right now is <strong>${focusChapter}</strong>, so point your next few sessions there.`
       : 'Point your next few sessions at your weakest chapters between now and exam day.'}`;
     ctaText = 'Keep studying';
   }
@@ -696,13 +696,13 @@ async function sendExamOutcomeEmail(toEmail, { unsubUrl, firstName: typedName = 
   });
 }
 
-// Internal owner alert — fires when someone buys the Exam Simulation. Goes to
+// Internal owner alert: fires when someone buys the Exam Simulation. Goes to
 // OWNER_ALERT_EMAIL (defaults to the company alias). Not a lifecycle email, so
 // no unsubscribe; it's a private notification.
 async function sendSaleAlertEmail({ buyerEmail = null, amountCents = 0, tier = null, totalSales = null, totalRevenueCents = null } = {}) {
   const to = process.env.OWNER_ALERT_EMAIL || OWNER_ALERT_DEFAULT;
   const money = (c) => `$${(Math.round(c) / 100).toFixed(2).replace(/\.00$/, '')}`;
-  const tierLabel = tier === 'student' ? 'Student' : tier === 'standard' ? 'Standard' : (tier || '—');
+  const tierLabel = tier === 'student' ? 'Student' : tier === 'standard' ? 'Standard' : (tier || 'Unknown');
   const rows = [
     `<strong>Amount:</strong> ${money(amountCents)}`,
     `<strong>Tier:</strong> ${tierLabel}`,
@@ -713,7 +713,7 @@ async function sendSaleAlertEmail({ buyerEmail = null, amountCents = 0, tier = n
   ];
   return sendEmail({
     to,
-    subject: `New Exam Simulation sale — ${money(amountCents)}`,
+    subject: `New Exam Simulation sale: ${money(amountCents)}`,
     html: emailLayout({
       preheader: `${buyerEmail || 'Someone'} just bought the Exam Simulation.`,
       heading: 'You made a sale',
@@ -722,7 +722,7 @@ async function sendSaleAlertEmail({ buyerEmail = null, amountCents = 0, tier = n
   });
 }
 
-// Internal owner alert — one per report from the flag on a game round. Reply
+// Internal owner alert: one per report from the flag on a game round. Reply
 // goes straight to the student, so thanking them is one keystroke.
 async function sendFeedbackAlertEmail({ email, gameId, gameName = null, chapterId, round = null, kind, kindLabel = null, text, build = null } = {}) {
   const to = process.env.OWNER_ALERT_EMAIL || OWNER_ALERT_DEFAULT;

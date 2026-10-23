@@ -1,7 +1,7 @@
 // Lifecycle-email scheduler. A lightweight self-scheduling loop (no external
 // cron) that, during the morning send hour, dispatches welcome / win-back /
 // weekly-digest emails. All sends are guarded by per-user timestamps, so the
-// loop is idempotent — running it twice in the same hour (or after a restart)
+// loop is idempotent: running it twice in the same hour (or after a restart)
 // never double-sends.
 
 const { userCollection, userStatsCollection, sessionLogCollection, examAttemptsCollection, funnelEventsCollection, purchasesCollection } = require('./db/connection.js');
@@ -31,7 +31,7 @@ const SEND_HOUR = Number(process.env.LIFECYCLE_HOUR) || 8;
 // The exam-sim pitch goes out in its own evening window, not the 8am batch: it
 // asks for a purchase, so it should land when people are in FE-prep headspace
 // with a laptop, and never pre-dawn on the West Coast (8am ET = 5am PT). 7pm ET
-// = 4pm PT — evening for the East, late afternoon for the West.
+// = 4pm PT: evening for the East, late afternoon for the West.
 const PITCH_HOUR = Number(process.env.LIFECYCLE_PITCH_HOUR) || 19;
 const appUrl = process.env.APP_URL || 'https://fe4raccoons.com';
 const MAX_PER_RUN = 300;
@@ -43,7 +43,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const unsubUrl = (token) => `${appUrl}/api/email/unsubscribe/${token}`;
 
 // Spread the weekly digest evenly across the 7 weekdays instead of one big Sunday
-// batch — each user has a stable "digest day" from a hash of their email, so we
+// batch: each user has a stable "digest day" from a hash of their email, so we
 // stay under Resend's free 100/day cap and everyone still gets exactly one/week.
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 function digestDay(email) {
@@ -305,7 +305,7 @@ async function sendWeeklyDigests(now) {
 
   // Only people who have actually studied recently. This used to go to every
   // verified address, which was 394 people, 56 a day, against a lifecycle
-  // ceiling of 65 — the digest was eating the whole free-tier budget and
+  // ceiling of 65: the digest was eating the whole free-tier budget and
   // starving the exam outcome question. See digestAudience.js.
   //
   // One distinct() for the batch rather than a lookup per user. If it throws,
@@ -381,7 +381,7 @@ async function sendWeeklyDigests(now) {
 
 // phase 'morning' sends the motivational countdown; phase 'evening' sends only
 // the sales pitch variant. Each user's countdown is ONE email, routed to the
-// right time by its variant — so nobody gets both a nudge and a pitch same day.
+// right time by its variant, so nobody gets both a nudge and a pitch same day.
 async function sendExamCountdowns(now, phase = 'morning') {
   const users = await userCollection.find({
     emailVerified: true,
@@ -551,7 +551,7 @@ async function runLifecycleEmails(now = new Date()) {
     if (hour !== SEND_HOUR) return { skipped: 'off-hour', retried };
     // Morning batch. Priority order: when the daily/monthly budget is tight,
     // higher-priority emails send first and lower-priority ones defer to the next
-    // day. Exam countdowns here are motivational only — the pitch waits for
+    // day. Exam countdowns here are motivational only, the pitch waits for
     // PITCH_HOUR. (The weekly digest runs EVERY day, sending only each user's shard.)
     const welcome = await sendWelcomes(now);
     const verify = await sendVerifyReminders(now);
@@ -583,7 +583,7 @@ async function runLifecycleEmails(now = new Date()) {
       // of the US day; seeing it in the log is how a squeeze gets noticed before
       // a verification email is the thing that fails.
       const { day, month } = await budgetCounts(now);
-      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam + examLate} weekly=${weekly} simFollow=${simFollow} outcome=${outcome} — budget ${day}/${DAILY_CAP} today (${Math.max(0, DAILY_CAP - day)} left for verification and reset), ${month}/${MONTHLY_CAP} this month`);
+      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam + examLate} weekly=${weekly} simFollow=${simFollow} outcome=${outcome}, budget ${day}/${DAILY_CAP} today (${Math.max(0, DAILY_CAP - day)} left for verification and reset), ${month}/${MONTHLY_CAP} this month`);
     }
     return { welcome, verify, winback, exam: exam + examLate, weekly, simFollow, outcome, retried };
   } catch (e) {
@@ -602,7 +602,7 @@ function startScheduler() {
   setInterval(() => { runLifecycleEmails().catch(() => {}); }, CHECK_INTERVAL_MS);
   // Kick once shortly after boot in case we start during the send hour.
   setTimeout(() => { runLifecycleEmails().catch(() => {}); }, 10 * 1000);
-  console.log(`[lifecycle] scheduler started — morning ${SEND_HOUR}:00, pitch ${PITCH_HOUR}:00 ${TZ}`);
+  console.log(`[lifecycle] scheduler started: morning ${SEND_HOUR}:00, pitch ${PITCH_HOUR}:00 ${TZ}`);
 }
 
 module.exports = { runLifecycleEmails, startScheduler, weeklyStatsFor };

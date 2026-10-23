@@ -28,7 +28,7 @@ const MONTHLY_CAP = 50000;        // Resend Pro: emails/month
 //
 // Sized from real demand, not a guess. The lifecycle batch runs at 08:00 ET,
 // which is the MIDDLE of the UTC day the counter buckets by, so whatever the
-// batch does not spend has to cover every signup from then until 00:00 UTC —
+// batch does not spend has to cover every signup from then until 00:00 UTC,
 // the entire US daytime, when signups actually happen. On 2026-09-09 that tail
 // needed 25 (23 signups plus resets and resends) against a reserve of 15, and
 // the day closed at 103 sends against a 100/day plan cap.
@@ -40,7 +40,7 @@ const MONTHLY_CAP = 50000;        // Resend Pro: emails/month
 // because marketing filled the day. Verification does not actually check this
 // budget, only records against it, so the reserve is belt and braces.
 const DAILY_RESERVE = 100;
-const DAILY_LIFECYCLE_MAX = DAILY_CAP - DAILY_RESERVE;  // 900 — lifecycle stops here
+const DAILY_LIFECYCLE_MAX = DAILY_CAP - DAILY_RESERVE;  // 900: lifecycle stops here
 const MONTHLY_SOFT = 45000;       // buffer under the monthly cap
 
 // Is there room for one more LIFECYCLE email, given what has already gone out

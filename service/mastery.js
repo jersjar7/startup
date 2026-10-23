@@ -1,12 +1,12 @@
 // Mastery level calculation and decay logic.
 //
 // Levels:
-//   0 — Not Started   (no sessions)
-//   1 — Introduced    (completed first session)
-//   2 — Practicing    (50%+ accuracy)
-//   3 — Familiar      (75%+ accuracy, 3+ sessions)
-//   4 — Proficient    (reserved for Phase 3 quiz mode)
-//   5 — Mastered      (reserved for Phase 3 spaced review)
+//   0: Not Started   (no sessions)
+//   1: Introduced    (completed first session)
+//   2: Practicing    (50%+ accuracy)
+//   3: Familiar      (75%+ accuracy, 3+ sessions)
+//   4: Proficient    (reserved for Phase 3 quiz mode)
+//   5: Mastered      (reserved for Phase 3 spaced review)
 //
 // Decay: 14+ days idle = -1 level, 30+ days = -2 levels.
 // Applied lazily on read, not persisted.
