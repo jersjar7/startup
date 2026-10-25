@@ -56,6 +56,7 @@ import { ScoringModal } from './ScoringModal';
 import { SetupTodo } from './SetupTodo';
 import './dashboard.css';
 import { givenName } from '../data/names.js';
+import { ChallengeCard } from '../challenge/ChallengeCard';
 
 // Live-activity presence arrives as { from, topic } (practice) or
 // { from, chapter, lesson } (lessons). Resolve a readable label from whichever
@@ -153,6 +154,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   }, []);
   const [scoringOpen, setScoringOpen] = React.useState(false);
   const [reviewDue, setReviewDue] = React.useState(0);
+  const [challenge, setChallenge] = React.useState(null);
 
   React.useEffect(() => {
     if (!userName) {
@@ -236,6 +238,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       if (masteryResult.status === 'fulfilled') {
         setChapterMastery(masteryResult.value.chapterMastery || {});
         setReviewDue(masteryResult.value.dueReviews || 0);
+        setChallenge(masteryResult.value.challenge || null);
       }
 
       // Reviews due (for the Review badge)
@@ -425,6 +428,9 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           </div>
         </div>
       </RaccoonPeek>
+
+      {/* This month's chapter challenge (ADR 0027), only while one runs. */}
+      <ChallengeCard progress={challenge} today={new Date().toLocaleDateString('en-CA')} />
 
       {/* Attribution survey lives at the bottom of the right rail, see below. */}
 
