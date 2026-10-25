@@ -1,8 +1,7 @@
 # Monthly challenges: spec
 
-Status: Draft for the owner, 2026-10-24. Nothing here is built. Once the
-owner settles the three decisions at the end, the accepted parts become an
-ADR and the build starts.
+Status: Approved by the owner 2026-10-25, all three decisions as
+recommended. The decisions are recorded in ADR 0027; the build is under way.
 
 ## What it is
 

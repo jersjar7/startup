@@ -57,6 +57,8 @@ that supersedes it, so the history of thinking stays readable.
 | [0023](0023-names-and-the-pass-card.md) | Two names, one card, and the card where the student already is | 2026-10-16 | Accepted |
 | [0024](0024-app-badges.md) | The app's own badges, worked out on the phone, drawn by Rive | 2026-10-16 | Accepted |
 | [0025](0025-dark-mode-warm-night.md) | Dark mode is "Warm night": every token has a night value, and the app follows the phone | 2026-10-17 | Accepted |
+| [0026](0026-guest-mode.md) | A guest can study without an account; everything that belongs to an account still asks for one | 2026-10-20 | Accepted |
+| [0027](0027-monthly-chapter-challenges.md) | Monthly chapter challenges: cleared lesson by lesson, on either surface, never mastery | 2026-10-25 | Accepted |
 
 Records 0002–0005 were written on 2026-08-04, backfilled from commit messages.
 The **Date** column is when the decision was made, not when it was written up.
