@@ -5,6 +5,7 @@ const { deriveAccount } = require('../derive.js');
 const { allEvents, weekIdFor } = require('../rederive.js');
 const { getBadgeDetails } = require('../badges.js');
 const { XP } = require('../xp.js');
+const { challengeOn, progress, finishedChallenges } = require('../challenges.js');
 
 const router = express.Router();
 
@@ -46,6 +47,10 @@ router.get('/state', verifyAuth, async (req, res) => {
       lastSync: stats && stats.lastSyncAt ? { at: stats.lastSyncAt, device: stats.lastSyncDevice || null, source: stats.lastSyncSource || null } : null,
       games: d.games,
     },
+    // This month's challenge, lesson by lesson, and the ones finished (ADR
+    // 0027). Worked out from the same log, never stored.
+    challenge: progress(challengeOn(today), events),
+    challenges: finishedChallenges(events),
     derivedAt: Date.now(),
     events: events.length,
   });

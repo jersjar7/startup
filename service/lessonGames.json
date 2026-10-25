@@ -1,0 +1,677 @@
+{
+  "mathematics": {
+    "straight-lines-quadratics": [
+      "perpendicular-flip",
+      "discriminant-gate",
+      "grade-sense"
+    ],
+    "logarithms": [
+      "rule-or-trap",
+      "order-the-moves",
+      "one-log"
+    ],
+    "right-triangle-trig": [
+      "tap-the-side",
+      "which-ratio",
+      "resolve-it"
+    ],
+    "law-of-sines-cosines": [
+      "which-law",
+      "set-it-up",
+      "acute-or-obtuse"
+    ],
+    "unit-circle-trig-identities": [
+      "walk-the-circle",
+      "quadrant-signs",
+      "build-the-identity"
+    ],
+    "circles-conics": [
+      "place-the-center",
+      "read-the-equation",
+      "balance-both-sides"
+    ],
+    "derivatives-rules": [
+      "every-rule",
+      "point-at-the-inside",
+      "find-the-slip"
+    ],
+    "applications-derivatives": [
+      "slide-to-flat",
+      "sign-the-bend",
+      "what-was-asked"
+    ],
+    "integral-calculus": [
+      "pick-u",
+      "which-way-simpler",
+      "whats-missing"
+    ],
+    "lhopitals-rule": [
+      "run-the-loop",
+      "next-line",
+      "both-sides"
+    ],
+    "vector-basics-unit-vectors": [
+      "land-the-resultant",
+      "stretch-it",
+      "reaches-further"
+    ],
+    "dot-product-angle": [
+      "take-the-diagonal",
+      "open-or-closed",
+      "shadow-falls"
+    ],
+    "cross-product-applications": [
+      "which-way-turns",
+      "which-region",
+      "fix-the-sign"
+    ],
+    "spreadsheet-computations": [
+      "copy-it-down",
+      "happens-first",
+      "what-shows"
+    ],
+    "structured-programming": [
+      "fill-the-trace",
+      "first-true-wins",
+      "where-it-stops"
+    ],
+    "numerical-methods": [
+      "follow-the-tangent",
+      "can-it-start",
+      "which-method"
+    ]
+  },
+  "statistics": {
+    "central-tendency-dispersion": [
+      "read-the-line",
+      "which-readout",
+      "what-weights"
+    ],
+    "linear-regression-correlation": [
+      "read-the-scatter",
+      "through-the-means",
+      "r-or-r2"
+    ],
+    "probability-distributions": [
+      "same-pick",
+      "build-the-binomial",
+      "shade-the-tail",
+      "how-do-they-sit"
+    ],
+    "expected-value-weighted-averages": [
+      "where-it-balances",
+      "mind-the-order",
+      "add-the-squares"
+    ],
+    "confidence-intervals-estimation": [
+      "what-goes-under",
+      "wider-or-narrower",
+      "how-many-samples"
+    ],
+    "hypothesis-testing-goodness-of-fit": [
+      "which-way-points",
+      "reject-or-not",
+      "which-cell-hurts"
+    ]
+  },
+  "ethics": {
+    "obligations-to-the-public": [
+      "what-it-triggers",
+      "in-what-order",
+      "enough-or-too-far"
+    ],
+    "obligations-employers-clients-peers": [
+      "can-you-seal-it",
+      "who-has-to-agree",
+      "can-you-claim-that"
+    ],
+    "definitions-practice-of-engineering": [
+      "who-may-do-that",
+      "does-it-hold",
+      "practice-or-title"
+    ],
+    "licensure-path-disciplinary-action": [
+      "what-is-missing-yet",
+      "grounds-or-not",
+      "which-section"
+    ],
+    "engineering-contracts": [
+      "is-there-a-deal",
+      "who-pays-the-overrun",
+      "which-delivery"
+    ],
+    "professional-liability": [
+      "is-that-negligence",
+      "which-element-missing",
+      "which-clock-ran-out"
+    ],
+    "intellectual-property-sustainability": [
+      "which-protection",
+      "how-many-protections",
+      "over-the-whole-life"
+    ]
+  },
+  "economics": {
+    "equivalence-interest-factors": [
+      "which-factor",
+      "which-rate",
+      "what-does-it-take",
+      "when-does-it-land"
+    ],
+    "pw-fw-aw-analysis": [
+      "which-way-it-pushes",
+      "how-long-to-compare",
+      "do-they-agree"
+    ],
+    "cost-types-breakeven": [
+      "which-bucket",
+      "which-side-wins",
+      "what-is-the-saving"
+    ],
+    "benefit-cost-decision-trees": [
+      "where-does-it-go",
+      "which-one-do-you-build",
+      "roll-it-back"
+    ],
+    "rate-of-return": [
+      "balance-the-rate",
+      "over-the-bar",
+      "which-earns-more"
+    ],
+    "depreciation-taxation-inflation": [
+      "find-the-factor",
+      "where-the-cost-went",
+      "match-the-dollars"
+    ]
+  },
+  "statics": {
+    "force-systems-resultants": [
+      "which-arrow-is-that",
+      "which-distance-counts",
+      "which-ones-turn-it"
+    ],
+    "equilibrium-free-body-diagrams": [
+      "what-the-support-gives",
+      "where-it-all-acts",
+      "can-statics-solve-it"
+    ],
+    "trusses-joints-sections": [
+      "which-carry-nothing",
+      "stretched-or-squashed",
+      "where-do-you-cut"
+    ],
+    "friction": [
+      "is-it-about-to-move",
+      "which-side-is-tight",
+      "harder-or-easier",
+      "will-it-hold-itself"
+    ],
+    "frames-machines": [
+      "along-it-or-not",
+      "does-it-multiply",
+      "frame-truss-or-machine"
+    ],
+    "centroids-composite-shapes": [
+      "above-or-below-middle",
+      "tap-its-centroid",
+      "which-distance-goes-in"
+    ],
+    "area-moments-of-inertia": [
+      "rank-by-stiffness",
+      "move-it-right",
+      "which-barely-matters",
+      "which-second-moment"
+    ]
+  },
+  "dynamics": {
+    "particle-kinematics": [
+      "what-is-missing",
+      "tap-the-trajectory",
+      "speeding-up-or-turning"
+    ],
+    "rigid-body-kinematics-mass-moi": [
+      "same-spin-different-speed",
+      "harder-to-spin"
+    ],
+    "force-and-acceleration": [
+      "mass-or-weight",
+      "which-piece-drives-it",
+      "push-it-or-spin-it"
+    ],
+    "work-energy-power": [
+      "where-the-energy-goes",
+      "does-the-mass-matter",
+      "more-in-than-out"
+    ],
+    "impulse-and-momentum": [
+      "stick-or-bounce",
+      "what-survives-the-crash",
+      "stretch-the-time"
+    ],
+    "vibrations-natural-frequency": [
+      "faster-or-slower",
+      "when-it-runs-away",
+      "how-it-settles"
+    ]
+  },
+  "mechanics-materials": {
+    "axial-stress-strain-deformation": [
+      "which-stretches-more",
+      "what-comes-out",
+      "does-it-build-stress"
+    ],
+    "torsion": [
+      "which-j-is-it",
+      "stress-or-twist",
+      "which-area-twists-it"
+    ],
+    "stress-strain-diagrams": [
+      "where-on-the-curve",
+      "stiff-strong-or-stretchy",
+      "can-you-get-there"
+    ],
+    "shear-moment-diagrams": [
+      "which-diagram-belongs",
+      "where-it-peaks",
+      "jump-bend-or-neither"
+    ],
+    "bending-shear-stresses": [
+      "which-fiber-is-worst",
+      "which-width-which-area",
+      "which-one-gets-worse"
+    ],
+    "beam-deflections": [
+      "which-line-in-the-table",
+      "fix-the-bounce",
+      "add-it-up"
+    ],
+    "transformed-sections-plastic": [
+      "widen-the-stiff-one",
+      "same-strain",
+      "how-far-has-it-yielded"
+    ],
+    "combined-stresses-mohrs-circle": [
+      "read-the-circle",
+      "which-circle-is-it",
+      "is-r-the-worst"
+    ],
+    "column-buckling": [
+      "what-are-the-ends-worth",
+      "which-way-does-it-fold",
+      "buckle-or-squash"
+    ]
+  },
+  "materials": {
+    "stress-strain-material-behavior": [
+      "before-or-during",
+      "stiff-is-not-strong",
+      "true-or-engineering"
+    ],
+    "hardness-impact-fatigue": [
+      "edge-or-inside",
+      "which-cracks-first"
+    ],
+    "thermal-processing-phase-diagrams": [
+      "which-one-moves-most",
+      "out-of-the-furnace",
+      "which-arm"
+    ],
+    "concrete-mix-design": [
+      "stronger-or-weaker",
+      "what-this-job-needs"
+    ],
+    "concrete-curing-strength": [
+      "times-or-divided",
+      "does-it-make-the-number"
+    ],
+    "aggregate-properties": [
+      "which-weighing",
+      "coarse-or-fine"
+    ],
+    "asphalt-mix-design": [
+      "tap-the-voids",
+      "something-is-wrong"
+    ],
+    "wood-masonry": [
+      "above-the-point",
+      "which-mortar",
+      "does-it-go-up"
+    ],
+    "composite-materials": [
+      "along-or-across",
+      "same-stretch"
+    ],
+    "corrosion-material-selection": [
+      "which-one-goes",
+      "check-every-box"
+    ]
+  },
+  "fluid-mechanics": {
+    "fluid-properties": [
+      "which-property",
+      "which-drags-more",
+      "which-tube-climbs"
+    ],
+    "hydrostatic-pressure": [
+      "same-depth",
+      "gauge-or-absolute",
+      "walk-the-manometer"
+    ],
+    "hydrostatic-forces-buoyancy": [
+      "where-it-pushes",
+      "float-or-sink"
+    ],
+    "continuity-bernoulli": [
+      "how-much-faster",
+      "where-the-pressure-is",
+      "how-fast-the-jet"
+    ],
+    "pipe-flow-head-loss": [
+      "laminar-or-turbulent",
+      "what-happens-to-the-loss",
+      "add-up-the-losses"
+    ],
+    "momentum-equation": [
+      "which-target-takes-more",
+      "which-one-needs-a-block",
+      "where-the-block-goes"
+    ],
+    "flow-measurement": [
+      "which-area-goes-in",
+      "too-big-or-too-small"
+    ],
+    "dimensional-analysis-similitude": [
+      "which-one-to-match",
+      "does-the-model-run-faster"
+    ]
+  },
+  "surveying": {
+    "angles-distances-bearings": [
+      "find-it-on-the-plan",
+      "which-rule-turns-it",
+      "which-length-is-which"
+    ],
+    "leveling": [
+      "higher-or-lower",
+      "what-is-that-point",
+      "which-run-is-allowed-more"
+    ],
+    "traverse-computations": [
+      "plus-or-minus",
+      "which-course-takes-the-most",
+      "which-traverse-closed-better"
+    ],
+    "area-computations": [
+      "which-method-fits",
+      "what-weight-does-it-get",
+      "does-the-listing-close"
+    ],
+    "earthwork-volumes": [
+      "which-formula-gives-more",
+      "can-you-skip-a-section",
+      "how-much-of-the-box"
+    ],
+    "coordinate-geometry": [
+      "which-way-are-you-working",
+      "where-does-that-pair-land",
+      "what-do-you-add"
+    ],
+    "horizontal-curves": [
+      "which-piece-is-that",
+      "which-curve-is-sharper",
+      "which-is-longer"
+    ],
+    "vertical-curves": [
+      "road-or-grade-line",
+      "where-it-flattens-out"
+    ]
+  },
+  "water-resources": {
+    "open-channel-flow": [
+      "what-the-water-touches",
+      "which-one-runs-faster",
+      "which-number-goes-in-front"
+    ],
+    "energy-critical-flow": [
+      "which-way-does-the-ripple-go",
+      "what-moves-the-critical-depth",
+      "what-survives-the-jump"
+    ],
+    "pipe-systems-weirs": [
+      "which-formula-fits-this-weir",
+      "which-weir-notices-more",
+      "smoother-or-rougher"
+    ],
+    "pumps-water-distribution": [
+      "what-happens-to-the-power",
+      "helps-or-hurts"
+    ],
+    "rainfall-runoff": [
+      "which-one-sheds-more",
+      "where-the-blend-lands",
+      "does-any-of-it-run-off"
+    ],
+    "hydrograph-watershed": [
+      "what-does-the-storm-do",
+      "why-is-this-peak-smaller",
+      "filling-or-emptying"
+    ],
+    "groundwater-wells": [
+      "which-speed-is-that",
+      "which-well-formula",
+      "double-the-drawdown"
+    ],
+    "water-quality": [
+      "how-much-is-used-up",
+      "multiply-or-divide",
+      "warmer-or-colder"
+    ],
+    "water-treatment": [
+      "does-it-settle-out",
+      "hours-or-days",
+      "what-moves-the-ratio"
+    ],
+    "drinking-water-treatment": [
+      "what-do-you-feed",
+      "how-fast-through-the-sand",
+      "what-buys-the-ct"
+    ],
+    "water-quality-standards": [
+      "health-or-taste",
+      "which-ion-counts-more",
+      "removed-or-remaining"
+    ]
+  },
+  "structural": {
+    "determinacy-stability": [
+      "enough-or-too-many",
+      "the-count-says-yes"
+    ],
+    "truss-analysis-methods": [
+      "where-do-you-take-moments",
+      "bigger-than-the-load",
+      "joints-or-sections"
+    ],
+    "deflection-virtual-work": [
+      "what-do-you-hang-on-it",
+      "does-this-one-count"
+    ],
+    "indeterminate-structures": [
+      "what-do-you-let-go",
+      "more-less-or-the-same"
+    ],
+    "load-combinations": [
+      "factored-or-service",
+      "which-one-controls",
+      "how-much-comes-off"
+    ],
+    "influence-lines": [
+      "what-the-height-means",
+      "which-line-is-it",
+      "where-do-you-park-it"
+    ],
+    "rc-flexure-shear": [
+      "which-one-is-d",
+      "stirrups-or-not",
+      "nominal-or-design"
+    ],
+    "rc-columns": [
+      "both-factors-or-one",
+      "too-little-or-too-much"
+    ],
+    "steel-beams": [
+      "how-far-between-braces",
+      "z-or-s",
+      "which-flange-needs-holding"
+    ],
+    "steel-columns": [
+      "which-axis-wins-now",
+      "what-the-table-gives-you"
+    ],
+    "steel-tension": [
+      "gross-or-net",
+      "how-big-is-the-hole",
+      "is-all-of-it-connected"
+    ]
+  },
+  "geotechnical": {
+    "phase-relations": [
+      "over-what",
+      "when-does-it-simplify",
+      "which-gamma"
+    ],
+    "soil-classification": [
+      "which-fork-first",
+      "above-or-below-the-line",
+      "both-or-neither"
+    ],
+    "effective-stress": [
+      "which-stress-is-that",
+      "what-the-water-table-does",
+      "the-short-way-down"
+    ],
+    "consolidation": [
+      "which-case-is-it",
+      "stiff-until-it-remembers",
+      "how-long-does-it-take"
+    ],
+    "shear-strength": [
+      "two-terms",
+      "drained-or-not",
+      "reading-the-circle"
+    ],
+    "permeability-seepage": [
+      "counting-the-net",
+      "when-the-sand-boils"
+    ],
+    "slope-stability": [
+      "steeper-than-its-friction",
+      "after-the-rain",
+      "what-holds-the-wedge"
+    ],
+    "bearing-capacity": [
+      "which-term-drops-out",
+      "wider-or-deeper",
+      "what-gets-divided"
+    ],
+    "lateral-earth-pressure": [
+      "which-way-did-the-wall-move",
+      "triangle-or-rectangle",
+      "double-the-wall"
+    ],
+    "retaining-walls": [
+      "moments-or-forces",
+      "from-the-toe-or-the-center",
+      "what-tips-the-pressure"
+    ],
+    "compaction-stabilization": [
+      "wetter-is-not-denser",
+      "which-measure-is-it",
+      "lime-or-cement"
+    ],
+    "deep-foundations": [
+      "tip-or-shaft",
+      "why-go-deeper",
+      "which-way-the-friction-acts"
+    ]
+  },
+  "transportation": {
+    "stopping-sight-distance": [
+      "think-then-brake",
+      "uphill-or-down",
+      "the-worst-fifteen-minutes"
+    ],
+    "vertical-curves": [
+      "crest-or-sag",
+      "how-big-is-the-break",
+      "how-far-below-the-corner"
+    ],
+    "horizontal-curves": [
+      "sharper-or-flatter",
+      "how-much-bank"
+    ],
+    "signal-timing": [
+      "feet-not-miles",
+      "all-the-way-across",
+      "three-parts-of-a-walk"
+    ],
+    "traffic-flow": [
+      "half-of-each",
+      "what-is-left-of-the-speed",
+      "per-million-what"
+    ],
+    "capacity-los": [
+      "how-many-cars-is-a-truck",
+      "three-things-to-divide-by",
+      "what-the-letter-measures"
+    ],
+    "travel-demand": [
+      "which-step-is-that",
+      "who-gets-the-trips",
+      "farther-means-fewer"
+    ],
+    "traffic-control-devices": [
+      "read-it-by-its-shape",
+      "does-it-need-a-signal"
+    ],
+    "pavement-design": [
+      "what-each-inch-buys",
+      "how-thick-must-it-be",
+      "damage-not-weight"
+    ],
+    "earthwork": [
+      "how-many-yards"
+    ],
+    "rigid-pavement": [
+      "beam-or-blanket",
+      "what-the-bar-is-for",
+      "what-k-measures"
+    ]
+  },
+  "construction": {
+    "cpm-fundamentals": [
+      "when-can-it-start",
+      "how-long-in-all"
+    ],
+    "forward-backward-pass": [
+      "which-way-the-pass-runs"
+    ],
+    "float-critical-path": [
+      "what-float-is",
+      "the-chain-with-no-slack"
+    ],
+    "earned-value-analysis": [
+      "which-variance-is-which"
+    ],
+    "project-forecasting": [
+      "what-it-will-cost"
+    ],
+    "delivery-methods": [
+      "which-one-fits-the-job"
+    ],
+    "construction-safety": [
+      "five-feet-and-twenty",
+      "six-feet-up"
+    ]
+  }
+}

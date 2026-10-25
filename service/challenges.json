@@ -1,0 +1,8 @@
+[
+  { "month": "2026-12", "chapterId": "statics", "name": "Statics Challenge" },
+  { "month": "2027-01", "chapterId": "geotechnical", "name": "Geotechnical Challenge" },
+  { "month": "2027-02", "chapterId": "structural", "name": "Structural Challenge" },
+  { "month": "2027-03", "chapterId": "water-resources", "name": "Water Resources Challenge", "storeName": "Water Resources Challenge" },
+  { "month": "2027-04", "chapterId": "transportation", "name": "Transportation Challenge" },
+  { "month": "2027-05", "chapterId": "construction", "name": "Construction Challenge" }
+]

@@ -111,6 +111,23 @@ async function getPhoneEventsForChapter(email, chapterId) {
     .toArray();
 }
 
+/**
+ * Every right answer in a chapter between two local days, any account, for a
+ * challenge's finished count (challenges.js). Desk answers are matched by
+ * problem id too, in case a session filed them under another topic.
+ */
+async function getChapterAnswersBetween(chapterId, start, end, problemIds = []) {
+  return reviewEventsCollection
+    .find({
+      localDate: { $gte: start, $lte: end },
+      kind: { $in: [null, 'answer'] },
+      grade: { $ne: 'forgot' },
+      $or: [{ chapterId }, { itemId: { $in: problemIds } }],
+    })
+    .project({ _id: 0, email: 1, itemId: 1, grade: 1, source: 1, localDate: 1 })
+    .toArray();
+}
+
 /** Grade tallies for a local day's phone events (XP cap accounting). */
 async function getPhoneGradeCounts(email, localDate) {
   const rows = await reviewEventsCollection
@@ -128,4 +145,4 @@ async function appendEvent(email, { kind, chapterId = null, localDate, ts = Date
   return insertReviewEvents(email, [{ eventId: randomUUID(), kind, chapterId, source, ts, localDate, data }]);
 }
 
-module.exports = { appendEvent, insertReviewEvents, getReviewEventsSince, getPhoneActivity, getPhoneGradeCounts, getPhoneEventsForChapter };
+module.exports = { appendEvent, insertReviewEvents, getReviewEventsSince, getPhoneActivity, getPhoneGradeCounts, getPhoneEventsForChapter, getChapterAnswersBetween };

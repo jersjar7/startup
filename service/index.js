@@ -157,6 +157,7 @@ apiRouter.use('/content', require('./routes/content.js'));
 apiRouter.use('/sync', require('./routes/sync.js'));
 apiRouter.use('/leaderboard', require('./routes/leaderboard.js'));
 apiRouter.use('/daily', require('./routes/daily.js'));
+apiRouter.use('/challenge', require('./routes/challenge.js'));
 apiRouter.use('/diagnostic', require('./routes/diagnostic.js'));
 apiRouter.use('/quickstart', require('./routes/quickstart.js'));
 apiRouter.use('/progress', require('./routes/progress.js'));

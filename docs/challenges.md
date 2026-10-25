@@ -35,7 +35,7 @@ when, during the challenge's dates, the student does one of these:
 - **On the phone:** clears every game in that lesson's path node. Every
   round right, retries allowed, the same rule the map already uses.
 - **At the desk:** answers every practice problem in that lesson right on
-  the website. Statics lessons have 2 to 6 each.
+  the website. Every Statics lesson has 3.
 
 Either way counts the same toward finishing. The website and the phone show
 the same progress, because both read the one record (ADR 0018).
