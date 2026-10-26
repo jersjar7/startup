@@ -66,6 +66,11 @@ async function listDailyResults(number, email) {
   ).toArray();
 }
 
+/** Who finished a Daily and when, every account: the live feed filters it. */
+async function listDailyFinishers(number) {
+  return dailyResultsCollection.find({ number }, { projection: { _id: 0, email: 1, createdAt: 1 } }).toArray();
+}
+
 /** Which Daily numbers an account has played. */
 async function listDailyNumbers(email) {
   const rows = await dailyResultsCollection.find({ email }, { projection: { _id: 0, number: 1 } }).toArray();
@@ -79,6 +84,7 @@ module.exports = {
   insertDailyResult,
   getDailyResult,
   listDailyResults,
+  listDailyFinishers,
   dailyResultsQuery,
   listDailyNumbers,
 };

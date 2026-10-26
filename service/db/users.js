@@ -49,8 +49,17 @@ async function unsetUserFields(email, fields) {
   await userCollection.updateOne({ email }, { $unset: unsetObj });
 }
 
+/** Names and schools for a set of accounts, for boards and the live feed. */
+function getUsersByEmails(emails) {
+  if (!emails.length) return Promise.resolve([]);
+  return userCollection
+    .find({ email: { $in: emails } }, { projection: { _id: 0, email: 1, firstName: 1, lastName: 1, school: 1 } })
+    .toArray();
+}
+
 module.exports = {
   normalizeEmail,
+  getUsersByEmails,
   getUser,
   getUserByToken,
   addUser,

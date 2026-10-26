@@ -59,6 +59,7 @@ if (!process.env.VITEST) (async function testConnection() {
     await reviewEventsCollection.createIndex({ email: 1, _id: 1 });
     await reviewEventsCollection.createIndex({ email: 1, localDate: 1, source: 1 });
     await reviewEventsCollection.createIndex({ localDate: 1, chapterId: 1 }); // a challenge's finished count
+    await reviewEventsCollection.createIndex({ ts: 1 }); // the dashboard's live feed
     await paperFlagsCollection.createIndex({ email: 1, itemId: 1, localDate: 1 }, { unique: true });
     await paperFlagsCollection.createIndex({ email: 1, localDate: 1 });
     await gameFeedbackCollection.createIndex({ email: 1, createdAt: -1 });

@@ -124,8 +124,26 @@ async function getChapterAnswersBetween(chapterId, start, end, problemIds = []) 
       grade: { $ne: 'forgot' },
       $or: [{ chapterId }, { itemId: { $in: problemIds } }],
     })
-    .project({ _id: 0, email: 1, itemId: 1, grade: 1, source: 1, localDate: 1 })
+    .project({ _id: 0, email: 1, itemId: 1, grade: 1, source: 1, localDate: 1, ts: 1 })
     .toArray();
+}
+
+/** Every answer since a moment, any account: the dashboard's live feed (community.js). */
+async function getAnswersSince(sinceTs) {
+  return reviewEventsCollection
+    .find({ ts: { $gte: sinceTs }, kind: { $in: [null, 'answer'] } })
+    .project({ _id: 0, email: 1, eventId: 1, itemId: 1, chapterId: 1, source: 1, ts: 1 })
+    .toArray();
+}
+
+/** The accounts that answered anything on a local day. */
+async function emailsStudiedOn(localDate) {
+  return reviewEventsCollection.distinct('email', { localDate, kind: { $in: [null, 'answer'] } });
+}
+
+/** The accounts that answered anything since a moment. */
+async function emailsActiveSince(sinceTs) {
+  return reviewEventsCollection.distinct('email', { ts: { $gte: sinceTs }, kind: { $in: [null, 'answer'] } });
 }
 
 /** Grade tallies for a local day's phone events (XP cap accounting). */
@@ -145,4 +163,4 @@ async function appendEvent(email, { kind, chapterId = null, localDate, ts = Date
   return insertReviewEvents(email, [{ eventId: randomUUID(), kind, chapterId, source, ts, localDate, data }]);
 }
 
-module.exports = { appendEvent, insertReviewEvents, getReviewEventsSince, getPhoneActivity, getPhoneGradeCounts, getPhoneEventsForChapter, getChapterAnswersBetween };
+module.exports = { appendEvent, insertReviewEvents, getReviewEventsSince, getPhoneActivity, getPhoneGradeCounts, getPhoneEventsForChapter, getChapterAnswersBetween, getAnswersSince, emailsStudiedOn, emailsActiveSince };
