@@ -31,7 +31,7 @@ function ProblemDiagram({ diagram }) {
   return <div className="prob-diagram"><Comp {...(diagram.props || {})} /></div>;
 }
 
-export function Problems({ userName, onLogout, reviewMode = false }) {
+export function Problems({ userName, onLogout, reviewMode = false, displayName }) {
   const navigate = useNavigate();
   const { topicId } = useParams();
 
@@ -129,12 +129,13 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
     ws.onopen = () => {
       ws.send(JSON.stringify({
         type: 'study',
-        from: userName,
+        // Others see this name in their feed: the display name, never the email.
+        from: displayName || 'A student',
         topic: reviewMode ? 'Review' : topicId,
       }));
     };
     return () => ws.close();
-  }, [userName, navigate, topicId, reviewMode]);
+  }, [userName, navigate, topicId, reviewMode, displayName]);
 
   // Normalize chapter-practice problem (lesson schema) to internal format
   function normalizePracticeProblem(p) {

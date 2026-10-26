@@ -221,7 +221,7 @@ function FormulaCard({ formula }) {
    ══════════════════════════════════════════ */
 export function Study({ userName, onLogout, displayName }) {
   // Live Activity shows this to other users, never the raw email.
-  const activityName = displayName || (userName || '').split('@')[0] || 'A student';
+  const activityName = displayName || 'A student';
   const navigate = useNavigate();
   const { topicId } = useParams();
   const [loading, setLoading] = React.useState(true);

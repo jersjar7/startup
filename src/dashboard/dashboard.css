@@ -166,14 +166,23 @@
   line-height: 1;
 }
 
-/* ── Two-column grid ── */
+/* ── Two-column grid: the chapters and the boards under them on the left,
+   the road to the FE on the right, running the full height (2026-10-26). ── */
 .dash-grid {
   display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 2rem;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  grid-template-areas:
+    "chapters rail"
+    "boards   rail";
+  grid-template-rows: auto 1fr;
+  column-gap: 2rem;
+  row-gap: 1.1rem;
   align-items: start;
   margin-bottom: 0;
 }
+.dash-chapters { grid-area: chapters; }
+.dash-sidebar { grid-area: rail; }
+.dash-under { grid-area: boards; display: grid; gap: 0.9rem; }
 
 /* ── Section label (shared) ── */
 .dash-section-label {
@@ -586,14 +595,12 @@
    RIGHT: SIDEBAR
    ═══════════════════════════════════════ */
 
+/* Not sticky and never clipped: the column is as long as the chapters, and
+   the raccoon peeks over the road's top edge. */
 .dash-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  position: sticky;
-  top: 1.5rem;
-  max-height: calc(100vh - 3rem);
-  overflow-y: auto;
+  gap: 0.9rem;
   align-self: start;
 }
 
@@ -865,21 +872,19 @@
    RESPONSIVE
    ═══════════════════════════════════════ */
 
+@media (max-width: 1100px) {
+  .dash-grid { grid-template-columns: minmax(0, 1fr) 320px; column-gap: 1.5rem; }
+}
+
+/* One column: the chapters, then the road, then the boards. */
 @media (max-width: 900px) {
   .dash-grid {
     grid-template-columns: 1fr;
+    grid-template-areas: "chapters" "rail" "boards";
+    grid-template-rows: auto;
+    row-gap: 1.5rem;
   }
-
-  .dash-sidebar {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .sidebar-block {
-    flex: 1;
-    min-width: 260px;
-  }
+  .dash-sidebar { padding-top: 1.5rem; }
 }
 
 @media (max-width: 640px) {

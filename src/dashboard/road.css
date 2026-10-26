@@ -1,0 +1,144 @@
+/* The dashboard's right column and the boards under the chapters
+   (docs/dashboard.md): the road to the FE, the badge shelf, the live feed.
+   White cards on cream; at most two accents in each: ember for actions and
+   the viewer, forest for who is live. */
+
+.road-card, .shelf-card, .feed-card, .board-card {
+  position: relative;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(44, 44, 44, 0.04), 0 4px 16px rgba(44, 44, 44, 0.06);
+  padding: 1.1rem 1.2rem;
+}
+
+/* overlines: JetBrains Mono, type alone */
+.road-over, .road-when, .feed-over {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+.feed-over { display: flex; justify-content: space-between; gap: 0.5rem; margin: 0 0 0.6rem; }
+.feed-over b { font-weight: 600; color: var(--charcoal); }
+
+.road-mono, .board-rank, .board-xp, .feed-when, .shelf-left {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--gray-500);
+}
+
+.road-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--ember);
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.road-link:hover { text-decoration: underline; }
+
+/* ── The road ── */
+.road-card { padding: 1.15rem 1.2rem 0.4rem; }
+.road-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; }
+.road-count { margin: 0.35rem 0 0; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 500; color: var(--charcoal); }
+.road-count b { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1; margin-right: 0.15rem; }
+.road-set { margin-top: 0.5rem; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0; background: none; border: none; color: var(--ember); font-family: var(--font-heading); font-size: 1rem; font-weight: 600; cursor: pointer; }
+.road-mastery { display: grid; justify-items: end; gap: 0.15rem; padding: 0; background: none; border: none; cursor: pointer; text-align: right; }
+.road-mastery b { font-family: var(--font-heading); font-size: 1.45rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+.road-mastery span { display: inline-flex; align-items: center; gap: 0.2rem; font-family: var(--font-mono); font-size: 0.7rem; color: var(--gray-500); }
+.road-mastery:hover span { color: var(--charcoal); }
+
+.road-stops { list-style: none; margin: 0; padding: 0; }
+.road-stop { position: relative; padding: 0 0 1.1rem 1.55rem; }
+.road-stop::before { content: ""; position: absolute; left: 5px; top: 12px; bottom: -2px; border-left: 2px solid var(--cream-dark); }
+.road-stop:last-child::before { display: none; }
+.road-dot { position: absolute; left: 0; top: 1px; width: 12px; height: 12px; border-radius: 50%; background: var(--charcoal); box-shadow: 0 0 0 3px white; }
+.road-stop--today .road-dot { background: var(--ember); }
+.road-stop--exam .road-dot { background: var(--forest); }
+.road-when { display: block; margin-bottom: 0.3rem; }
+.road-title { font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600; color: var(--charcoal); margin-bottom: 0.3rem; letter-spacing: -0.01em; }
+.road-title--coin { display: flex; align-items: center; gap: 0.5rem; }
+.road-text { margin: 0 0 0.25rem; font-size: 0.82rem; line-height: 1.5; color: var(--gray-600, #6B6559); }
+.road-text b { color: var(--charcoal); font-weight: 600; }
+.road-mono { margin: 0.25rem 0 0; line-height: 1.5; }
+
+.road-bars { display: flex; gap: 3px; align-items: flex-end; height: 38px; margin: 0.15rem 0 0.3rem; }
+.road-bars span { flex: 1; border-radius: 3px 3px 0 0; background: #E3D9C8; }
+.road-bars span.is-you { background: var(--ember); }
+
+.road-marks { list-style: none; display: flex; gap: 6px; margin: 0.2rem 0 0.35rem; padding: 0; }
+.road-marks .challenge-mark { width: 16px; height: 16px; }
+.road-cta { min-height: 44px; margin-top: 0.6rem; padding: 4px 5px 4px 16px; gap: 0.9rem; font-size: 0.88rem; }
+.road-cta .app-arrow { width: 34px; height: 34px; }
+.road-cta .challenge-cta-text small { font-size: 0.58rem; }
+
+/* ── Badges ── */
+.shelf-grid { list-style: none; display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.55rem 0.3rem; justify-items: center; margin: 0; padding: 0; }
+.shelf-badge { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; box-sizing: border-box; border: 2px dashed #DCD2C2; color: #CFC3B1; }
+.shelf-badge.is-on { border: none; background: radial-gradient(circle at 36% 26%, #FFF6D8, #F9D28A 62%); box-shadow: 0 3px 0 #B8862C; color: #7A5410; }
+.shelf-next { display: grid; grid-template-columns: auto 1fr auto; gap: 0.6rem; align-items: center; margin-top: 0.85rem; font-family: var(--font-heading); font-size: 0.8rem; font-weight: 600; color: var(--charcoal); }
+.shelf-bar { height: 5px; border-radius: 5px; background: var(--cream-dark); overflow: hidden; }
+.shelf-bar i { display: block; height: 100%; border-radius: 5px; background: var(--sunbeam); }
+
+/* ── Right now ── */
+.feed-live { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--forest); }
+.feed-live i { width: 7px; height: 7px; border-radius: 50%; background: var(--forest); box-shadow: 0 0 0 3px var(--forest-bg); }
+.feed-list { list-style: none; margin: 0; padding: 0; }
+.feed-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 0.7rem; align-items: center; padding: 0.45rem 0; }
+.feed-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-heading); font-size: 0.75rem; font-weight: 700; color: var(--charcoal); box-shadow: 0 0 0 2px white; }
+.feed-avatar.is-live { box-shadow: 0 0 0 2px white, 0 0 0 4px var(--forest); }
+.feed-text { margin: 0; font-size: 0.83rem; line-height: 1.35; color: var(--charcoal); }
+.feed-text b { font-weight: 600; }
+.feed-side { display: grid; justify-items: end; gap: 0.2rem; }
+.feed-when.is-live { color: var(--forest); font-weight: 700; }
+.feed-empty { margin: 0.2rem 0 0.4rem; font-size: 0.82rem; line-height: 1.5; color: var(--gray-500); }
+.feed-foot { display: flex; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; margin: 0.5rem 0 0; padding-top: 0.65rem; border-top: 1px solid var(--cream-dark); font-family: var(--font-mono); font-size: 0.7rem; color: var(--gray-500); }
+.feed-foot b { color: var(--charcoal); }
+
+.dash-share { margin: 0; padding: 0 0.2rem; font-size: 0.76rem; line-height: 1.5; color: var(--gray-500); }
+.dash-share a { color: var(--ember); font-weight: 600; text-decoration: none; }
+.dash-share a:hover { text-decoration: underline; }
+
+/* ── The boards ── */
+.dash-boards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.board-card { padding: 1.1rem 1.3rem; }
+.board-list { list-style: none; margin: 0; padding: 0; }
+.board-row { display: grid; grid-template-columns: 2.2rem minmax(4rem, 7rem) 1fr 3.6rem; gap: 0.6rem; align-items: center; padding: 0.3rem 0; font-size: 0.85rem; color: var(--charcoal); }
+.board-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+.board-xp { text-align: right; }
+.board-bar { height: 8px; border-radius: 8px; background: var(--cream-dark); overflow: hidden; }
+.board-bar i { display: block; height: 100%; border-radius: 8px; background: #D9CDB9; }
+.board-row.is-you, .board-row.is-you .board-rank, .board-row.is-you .board-xp { color: var(--ember); font-weight: 700; }
+.board-row.is-you .board-bar i { background: var(--ember); }
+.board-gap { text-align: center; color: #CFC3B1; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.3em; padding: 0.1rem 0; }
+.board-foot { margin: 0.6rem 0 0; font-family: var(--font-mono); font-size: 0.7rem; color: var(--gray-500); }
+
+/* Under the chapters the shelf is one long row. */
+.dash-under .shelf-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+.dash-under .shelf-next { max-width: 30rem; }
+
+/* Focus marker on a chapter row: type alone, no pill. */
+.ch-focus { margin-left: 0.6rem; font-family: var(--font-mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ember); vertical-align: 2px; }
+
+@media (max-width: 1100px) {
+  .board-row { grid-template-columns: 2rem minmax(0, 1fr) 4rem 3.4rem; }
+  .ch-focus { display: none; }
+}
+
+@media (max-width: 640px) {
+  .dash-boards { grid-template-columns: 1fr; }
+  .dash-under .shelf-grid { grid-template-columns: repeat(6, 1fr); }
+  .board-row { grid-template-columns: 2rem minmax(4rem, 8rem) 1fr 3.4rem; }
+}
+
+/* In the dashboard column the gap between cards does the spacing. */
+.dash-sidebar .diag-card { margin-bottom: 0; }

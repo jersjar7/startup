@@ -63,6 +63,9 @@ export default function App() {
   const [userName, setUserName] = React.useState('');
   const [emailVerified, setEmailVerified] = React.useState(true);
   const [me, setMe] = React.useState({});
+  // The name other students see in their live feed: only a name the student
+  // typed, since the server's displayName falls back to part of the email.
+  const presenceName = me.firstName ? me.displayName : undefined;
   const [authLoading, setAuthLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -224,10 +227,10 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
             <Route path="/profile" element={<Profile userName={userName} onLogout={onLogout} />} />
             <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} displayName={me.displayName} firstName={me.firstName} examDate={me.examDate} emailVerified={emailVerified} />} />
             <Route path="/admin" element={<Admin userName={userName} onLogout={onLogout} />} />
-            <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} displayName={me.displayName} />} />
-            <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
-            <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />
-            <Route path="/lesson/:chapterId/:lessonId" element={<LessonPage userName={userName} onLogout={onLogout} />} />
+            <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} displayName={presenceName} />} />
+            <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} displayName={presenceName} />} />
+            <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode displayName={presenceName} />} />
+            <Route path="/lesson/:chapterId/:lessonId" element={<LessonPage userName={userName} onLogout={onLogout} displayName={presenceName} />} />
             <Route path="/quickstart" element={<QuickStart userName={userName} />} />
             <Route path="/diagnostic" element={<DiagnosticExam userName={userName} />} />
             <Route path="/diagnostic/results/:attemptNumber" element={<DiagnosticResults userName={userName} />} />

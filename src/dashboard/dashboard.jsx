@@ -5,41 +5,16 @@ import { shouldAskSource } from './acquisitionGate';
 import { SchoolPrompt } from './SchoolPrompt';
 import { shouldAskSchool } from './schoolGate';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
-import { SimPitchBanner } from './SimPitchBanner';
 import {
-  Lightning,
   DeviceMobile,
-  CheckCircle,
-  Fire,
   Timer,
-  Trophy,
-  Users,
-  Pulse,
   Info,
   ArrowRight,
   BookOpenText,
-  Megaphone,
-  Gauge,
-  Target,
-  CalendarBlank,
-  X,
-  CaretDown,
 } from '@phosphor-icons/react';
 import { CHAPTERS } from '../data/chapters';
 import { getExamWeight } from '../data/exam-bank/index';
-import { computeReadiness, computeFocusAreas, readinessLabel } from '../data/readiness';
-
-// "2026-W24" is debug output, not product copy, show "Week of Jun 8".
-function formatWeekLabel(weekId) {
-  const m = /^(\d{4})-W(\d{1,2})$/.exec(weekId || '');
-  if (!m) return `Week ${weekId}`;
-  const [, year, week] = m;
-  // ISO week → Monday of that week
-  const jan4 = new Date(Number(year), 0, 4);
-  const monday = new Date(jan4);
-  monday.setDate(jan4.getDate() - ((jan4.getDay() + 6) % 7) + (Number(week) - 1) * 7);
-  return `Week of ${monday.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`;
-}
+import { computeReadiness, computeFocusAreas } from '../data/readiness';
 
 // Exam-Qs badge color encodes weight on one scale, never the chapter accent.
 function weightClass(weight) {
@@ -50,24 +25,14 @@ function weightClass(weight) {
 import { PROBLEM_COUNT } from '../data/contentStats';
 import { LoadingState } from '../components/LoadingState';
 import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
-import { RaccoonPeek } from '../components/brand/RaccoonPeek';
-import { ExamSimCard } from '../exam/ExamSimCard';
 import { ScoringModal } from './ScoringModal';
 import { SetupTodo } from './SetupTodo';
 import './dashboard.css';
 import { givenName } from '../data/names.js';
-import { ChallengeCard } from '../challenge/ChallengeCard';
-
-// Live-activity presence arrives as { from, topic } (practice) or
-// { from, chapter, lesson } (lessons). Resolve a readable label from whichever
-// shape it is and humanize ids like "mechanics-materials" -> "Mechanics Materials".
-function prettyTopic(event) {
-  const raw = event.topic || event.chapter || event.lesson || '';
-  if (!raw) return 'the FE';
-  return /[-_]/.test(raw)
-    ? raw.replace(/[-_]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
-    : raw.charAt(0).toUpperCase() + raw.slice(1);
-}
+import { RoadToFe } from './RoadToFe';
+import { LiveFeed } from './LiveFeed';
+import { Boards } from './Boards';
+import { BadgeShelf } from './BadgeShelf';
 
 export function Dashboard({ userName, onLogout, displayName, firstName, examDate, emailVerified }) {
   const navigate = useNavigate();
@@ -92,17 +57,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     setProfilePromptDismissed(true);
   };
   const [stats, setStats] = React.useState({ totalXp: 0, currentStreak: 0, badges: [], allBadges: [] });
-  const [showAllBadges, setShowAllBadges] = React.useState(false);
-  // Earned achievements first, then the rest; collapsed to 3 so the column's
-  // other sections (leaderboard, live activity, share) stay above the fold.
   const earnedBadgeIds = React.useMemo(() => new Set(stats.badges.map((b) => b.id)), [stats.badges]);
-  const sortedBadges = React.useMemo(
-    () => [...stats.allBadges].sort((a, b) => (earnedBadgeIds.has(b.id) ? 1 : 0) - (earnedBadgeIds.has(a.id) ? 1 : 0)),
-    [stats.allBadges, earnedBadgeIds],
-  );
-  const visibleBadges = showAllBadges ? sortedBadges : sortedBadges.slice(0, 3);
   const [leaderboard, setLeaderboard] = React.useState({ weekId: '', entries: [], allTime: [] });
-  const [lbTab, setLbTab] = React.useState('week');
   const [loading, setLoading] = React.useState(true);
   // Attribution safety net. New users are asked at sign-up
   // (src/login/login.jsx); this catches anyone who slipped past that. Seeded
@@ -119,7 +75,6 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   const [problemsAnswered, setProblemsAnswered] = React.useState(0);
   const [error, setError] = React.useState('');
   const [events, setEvents] = React.useState([]);
-  const [socket, setSocket] = React.useState(null);
   const [diagnosticStatus, setDiagnosticStatus] = React.useState({
     diagnosticCompleted: false,
     diagnosticSkipped: false,
@@ -276,7 +231,6 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       }
     };
 
-    setSocket(ws);
     return () => ws.close();
   }, [userName, navigate]);
 
@@ -326,6 +280,13 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
 
   const readiness = React.useMemo(() => computeReadiness(masteryByChapterId), [masteryByChapterId]);
   const focusAreas = React.useMemo(() => computeFocusAreas(masteryByChapterId), [masteryByChapterId]);
+  // The "Most to gain" marks on the list. Only once there is something
+  // measured: before that they would be guesses, not guidance.
+  const focusIds = React.useMemo(
+    () => new Set(focusAreas.some((f) => f.masteryPct > 0) ? focusAreas.map((f) => f.ch.id) : []),
+    [focusAreas],
+  );
+  const today = new Date().toLocaleDateString('en-CA');
   const hasActivity = React.useMemo(
     () => stats.totalXp > 0 || Object.values(masteryByChapterId).some((p) => p > 0),
     [stats.totalXp, masteryByChapterId],
@@ -390,51 +351,9 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       {/* Account-setup logistics live in the right column (SetupTodo), so the
           main panel stays focused on preparation. */}
 
-      {/* ── The strip: four numbers, one band (2026-09-20 redesign) ── */}
-      <RaccoonPeek at={0.88}>
-        <div className="stat-strip">
-          <div className="stat-card stat-card--xp">
-            <span className="stat-card-label"><Lightning weight="bold" size={13} /> XP</span>
-            <span className="stat-card-value">{stats.totalXp}</span>
-          </div>
-          <div className="stat-card stat-card--days">
-            <span className="stat-card-label"><Fire weight="bold" size={13} /> Days studied</span>
-            <span className="stat-card-value">
-              {stats.currentStreak}
-              {syncState ? <small>site + app</small> : null}
-            </span>
-          </div>
-          <div className="stat-card stat-card--fe">
-            <span className="stat-card-label"><CalendarBlank weight="bold" size={13} /> Days to the FE</span>
-            {examDays !== null && examDays >= 0 ? (
-              <span className="stat-card-value">
-                {examDays === 0 ? 'Today' : examDays}
-                {examDays > 0 && examDate ? <small>{new Date(`${examDate}T00:00:00`).toLocaleDateString([], { month: 'short', day: 'numeric' })}</small> : null}
-              </span>
-            ) : (
-              <button className="stat-card-set" onClick={() => navigate('/profile')}>Set your exam date</button>
-            )}
-          </div>
-          <div className="stat-card stat-card--mastery">
-            <span className="stat-card-label"><Gauge weight="bold" size={13} /> Total concept mastery</span>
-            <span className="stat-card-value" style={{ color: getMasteryColor(readiness) }}>{readiness}<small>%</small></span>
-            <div className="mastery-bar-pct stat-card-bar">
-              <div className="mastery-bar-fill" style={{ width: `${readiness}%`, background: getMasteryColor(readiness) }} />
-            </div>
-            <span className="stat-card-cap">
-              All 15 chapters, weighted by how many exam questions each gets.{' '}
-              <button className="scoring-trigger scoring-trigger--inline" onClick={() => setScoringOpen(true)}>How is this scored?</button>
-            </span>
-          </div>
-        </div>
-      </RaccoonPeek>
-
-      {/* This month's chapter challenge (ADR 0027), only while one runs. */}
-      <ChallengeCard progress={challenge} today={new Date().toLocaleDateString('en-CA')} />
-
-      {/* Attribution survey lives at the bottom of the right rail, see below. */}
-
-      {/* ── Two-column layout: Chapters (left) + Sidebar (right) ── */}
+      {/* ── Chapters first, from the top (2026-10-26 redesign, docs/dashboard.md):
+          the list on the left, the road to the FE on the right, the boards
+          under the list. ── */}
       <div className="dash-grid">
 
         {/* ── LEFT: 15 Chapters ── */}
@@ -522,7 +441,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                 <button key={ch.id} className="ch-row-dash" onClick={() => handleChapterClick(ch)}>
                   <span className="ch-num-d">{String(ch.num).padStart(2, '0')}</span>
                   <Icon weight="bold" size={18} className={`ch-icon-d ch-icon-d--${ch.accent}`} />
-                  <span className="ch-name-d">{ch.name}</span>
+                  <span className="ch-name-d">{ch.name}{focusIds.has(ch.id) && <span className="ch-focus">Most to gain</span>}</span>
                   <div className="ch-mastery">
                     <span className={`ch-pct${pct > 0 ? '' : ' ch-pct--zero'}`} style={pct > 0 ? { color: barColor } : undefined}>{pct}%</span>
                     <div className="mastery-bar-pct">
@@ -546,59 +465,34 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             })}
           </div>
 
-          {/* Exam Simulation CTA: below chapters */}
-          <ExamSimCard />
         </section>
 
-        {/* ── RIGHT: Sidebar ── */}
+        {/* ── RIGHT: the road to the FE, then badges and who else is here ── */}
         <aside className="dash-sidebar">
-          {/* From your phone: everything the app contributes, in one place,
-              only for an account that has synced from one. */}
-          {syncState && syncState.at && (() => {
-            const d = new Date(syncState.at);
-            const sameDay = d.toDateString() === new Date().toDateString();
-            const when = sameDay
-              ? d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
-              : d.toLocaleDateString([], { month: 'short', day: 'numeric' });
-            const device = syncState.device ? `your ${syncState.device}` : 'your phone';
-            const items = phoneToday ? (phoneToday.paperFlags?.length ? phoneToday.paperFlags : (phoneToday.missed || [])) : [];
-            const byCh = {};
-            for (const m of items) byCh[m.chapterId] = (byCh[m.chapterId] || 0) + 1;
-            const topCh = Object.keys(byCh).sort((x, y) => byCh[y] - byCh[x])[0];
-            const chMeta = topCh ? CHAPTERS.find((c) => c.id === topCh) : null;
-            return (
-              <div className="sidebar-block phone-block">
-                <h3 className="dash-section-label phone-block-label">
-                  <DeviceMobile weight="bold" size={18} />
-                  From your phone
-                </h3>
-                <p className="phone-block-line">
-                  {phoneToday
-                    ? <>Today on the app: <b>{phoneToday.cards} {phoneToday.cards === 1 ? 'round' : 'rounds'}</b>{phoneToday.misses > 0 ? `, ${phoneToday.misses} ${phoneToday.misses === 1 ? 'miss' : 'misses'}` : ''}. </>
-                    : <>Nothing from the app today. </>}
-                  Last synced {when} from {device}.
-                </p>
-                <p className="phone-block-sub">Practice in the app is a warm-up. Mastery is earned here, one problem at a time.</p>
-                {chMeta && (
-                  <button className="tonight-btn" onClick={() => navigate(`/problems/${topCh}`)}>
-                    Practice what the app missed: {chMeta.name} <ArrowRight weight="bold" size={13} />
-                  </button>
-                )}
-              </div>
-            );
-          })()}
+          <RoadToFe
+            today={today}
+            examDate={examDate}
+            examDays={examDays}
+            readiness={readiness}
+            masteryColor={readiness > 0 ? getMasteryColor(readiness) : 'var(--charcoal)'}
+            onScoring={() => setScoringOpen(true)}
+            reviewDue={reviewDue}
+            phoneToday={phoneToday}
+            syncState={syncState}
+            focusTop={focusIds.size ? focusAreas[0].ch : null}
+            weekly={leaderboard.entries}
+            totalXp={stats.totalXp}
+            daysStudied={stats.currentStreak}
+            challenge={challenge}
+          />
 
+          {/* The raccoon sits on the road, so these come after it. */}
           {/* Account setup: logistics, kept out of the left prep panel */}
           <SetupTodo
             emailVerified={emailVerified}
             hasName={!!firstName}
             hasExam={!!examDate}
           />
-
-          {/* The simulation pitch lives here now, not across the top */}
-          <div className="sidebar-pitch">
-            <SimPitchBanner examDate={examDate} problemsAnswered={problemsAnswered} />
-          </div>
 
           {/* The readiness map's own card, for the states the head button
               cannot carry: the first-time pitch, and the retake states. */}
@@ -610,163 +504,23 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             );
           })()}
 
-          {/* Focus Areas */}
-          {hasActivity && focusAreas.length > 0 && (
-            <div className="sidebar-block focus-block">
-              <h3 className="dash-section-label">
-                <Target weight="bold" size={18} />
-                Focus Areas
-              </h3>
-              <p className="focus-sub">Where your effort moves the needle most</p>
-              {focusAreas.every((f) => f.masteryPct === 0) ? (
-                // No data yet: focus claims would be guesses, not guidance.
-                <p className="focus-sub" style={{ marginTop: '0.5rem' }}>
-                  Finish the Quick Start to see your focus areas.
-                </p>
-              ) : (
-              <div className="focus-list">
-                {focusAreas.map(({ ch, masteryPct, weight }) => (
-                  <div key={ch.id} className="focus-row">
-                    <div className="focus-row-top">
-                      <span className="focus-name">{ch.name}</span>
-                      {/* same range chips as the chapter table, one source, no contradiction */}
-                      <span className="focus-weight">{ch.qs ? `${ch.qs} exam Qs` : `${weight} exam Qs`}</span>
-                    </div>
-                    <div className="mastery-bar-pct focus-bar">
-                      <div
-                        className="mastery-bar-fill"
-                        style={{ width: `${masteryPct}%`, background: getMasteryColor(masteryPct) }}
-                      />
-                    </div>
-                    <div className="focus-row-bottom">
-                      <span className="focus-mastery">{masteryPct > 0 ? `${masteryPct}% mastery` : 'Not started'}</span>
-                      <button className="focus-practice" onClick={() => handleChapterClick(ch)}>
-                        Practice <ArrowRight weight="bold" size={12} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              )}
-            </div>
-          )}
 
-          {/* Achievements */}
-          {stats.allBadges.length > 0 && (
-            <div className="sidebar-block">
-              <h3 className="dash-section-label">
-                <Trophy weight="bold" size={18} />
-                Achievements
-              </h3>
-              <div className="badges-compact">
-                {visibleBadges.map((badge) => {
-                  const earned = earnedBadgeIds.has(badge.id);
-                  return (
-                    <div key={badge.id} className={`badge-row${earned ? ' badge-row--earned' : ''}`} title={badge.description}>
-                      <span className="badge-name">{badge.name}</span>
-                      <span className="badge-desc">{badge.description}</span>
-                      {/* earned must be verifiable at a glance, not color-only */}
-                      {earned && <CheckCircle weight="bold" size={16} className="badge-check" />}
-                    </div>
-                  );
-                })}
-              </div>
-              {stats.allBadges.length > 3 && (
-                <button className="badges-toggle" onClick={() => setShowAllBadges((v) => !v)} aria-expanded={showAllBadges}>
-                  {showAllBadges
-                    ? 'Show less'
-                    : `Show all ${stats.allBadges.length}${earnedBadgeIds.size > 0 ? ` · ${earnedBadgeIds.size} earned` : ''}`}
-                  <CaretDown weight="bold" size={12} className={`badges-caret${showAllBadges ? ' badges-caret--up' : ''}`} />
-                </button>
-              )}
-            </div>
-          )}
+          <LiveFeed today={today} presence={events} viewerName={displayName || ''} />
 
-          {/* Leaderboard */}
-          <div className="sidebar-block">
-            <h3 className="dash-section-label">
-              <Users weight="bold" size={18} />
-              Leaderboard
-            </h3>
-            <div style={{ display: 'flex', gap: 8, margin: '0 0 10px' }}>
-              {['week', 'alltime'].map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setLbTab(t)}
-                  style={{
-                    flex: 1, padding: '6px 0', fontSize: 13, fontWeight: 700, cursor: 'pointer',
-                    borderRadius: 8, border: '1px solid',
-                    borderColor: lbTab === t ? 'var(--ember)' : 'rgba(44,44,44,0.15)',
-                    background: lbTab === t ? 'var(--ember)' : 'transparent',
-                    color: lbTab === t ? '#fff' : 'var(--charcoal)',
-                  }}
-                >
-                  {t === 'week' ? 'Weekly' : 'All-time'}
-                </button>
-              ))}
-            </div>
-            {lbTab === 'week' && leaderboard.weekId && (
-              <span className="lb-week">{formatWeekLabel(leaderboard.weekId)}</span>
-            )}
-            {(() => {
-              const isWeek = lbTab === 'week';
-              const rows = isWeek ? leaderboard.entries : leaderboard.allTime;
-              if (!rows || rows.length === 0) {
-                return <p className="lb-empty">{isWeek ? 'Complete a session to get on the board!' : 'Earn XP to climb the all-time board!'}</p>;
-              }
-              return (
-                <ol className="lb-list">
-                  {rows.map((entry) => (
-                    <li key={entry.rank} className={`lb-row${entry.isCurrentUser ? ' lb-row--you' : ''}`}>
-                      <span className="lb-rank">#{entry.rank}</span>
-                      <span className="lb-name">{entry.isCurrentUser ? 'You' : entry.name}</span>
-                      <span className="lb-xp">{isWeek ? entry.weeklyXp : entry.totalXp} XP</span>
-                    </li>
-                  ))}
-                </ol>
-              );
-            })()}
-          </div>
-
-          {/* Live Activity: only render when there's real presence. An empty
-              "live" feed is mild negative social proof ("nobody's here"); the
-              block reappears on its own as concurrency grows. */}
-          {events.length > 0 && (
-            <div className="sidebar-block">
-              <h3 className="dash-section-label">
-                <Pulse weight="bold" size={18} />
-                Live Activity
-              </h3>
-              <ul className="activity-list">
-                {events.map((event, index) => (
-                  <li key={index}>
-                    <span className="act-user">{event.from}</span> studying{' '}
-                    <span className="act-topic">{prettyTopic(event)}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Referral / Spread the word */}
-          <div className="sidebar-block referral-card">
-            <h3 className="dash-section-label">
-              <Megaphone weight="bold" size={18} />
-              Spread the word
-            </h3>
-            <p className="referral-text">
-              I hope you're finding these resources helpful! We just want more students to benefit
-              from quality FE prep without paying hundreds of dollars. If it's helped you, the best
-              thanks is a quick shout-out so other engineers can find us, like a post on{' '}
-              <a href="https://www.reddit.com/r/FE_Exam/" target="_blank" rel="noopener noreferrer">r/FE_Exam</a>
-              {' '}or{' '}
-              <a href="https://www.reddit.com/r/engineeringstudents/" target="_blank" rel="noopener noreferrer">r/engineeringstudents</a>,
-              a quick{' '}
-              <a href={`https://x.com/intent/tweet?text=Studying%20for%20the%20FE%20Civil%20exam%3F%20FE%20for%20Raccoons%20is%20free%3A%20lessons%2C%20${PROBLEM_COUNT}%20problems%2C%20a%20diagnostic.%20fe4raccoons.com`} target="_blank" rel="noopener noreferrer">post on X</a>,
-              or a mention anywhere fellow engineers hang out would mean the world.
-            </p>
-          </div>
         </aside>
+
+        {/* ── Under the chapters: both boards, the badges, the share line ── */}
+        <div className="dash-under">
+          <Boards weekly={leaderboard.entries} allTime={leaderboard.allTime} />
+          <BadgeShelf allBadges={stats.allBadges} earnedIds={earnedBadgeIds} totalXp={stats.totalXp} streak={stats.currentStreak} />
+          <p className="dash-share">
+            Know someone taking the FE? A post on{' '}
+            <a href="https://www.reddit.com/r/FE_Exam/" target="_blank" rel="noopener noreferrer">r/FE_Exam</a>
+            {' '}or{' '}
+            <a href={`https://x.com/intent/tweet?text=Studying%20for%20the%20FE%20Civil%20exam%3F%20FE%20for%20Raccoons%20is%20free%3A%20lessons%2C%20${PROBLEM_COUNT}%20problems%2C%20a%20diagnostic.%20fe4raccoons.com`} target="_blank" rel="noopener noreferrer">X</a>
+            {' '}helps the next student find us.
+          </p>
+        </div>
       </div>
       {/* Attribution safety net. A modal, not a rail card: in the rail it sat
           below the fold and was effectively invisible.

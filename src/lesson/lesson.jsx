@@ -138,7 +138,7 @@ const PANELS = [
 /* ═══════════════════════════════════════
    MAIN LESSON PAGE COMPONENT
    ═══════════════════════════════════════ */
-export function LessonPage({ userName }) {
+export function LessonPage({ userName, displayName }) {
   const navigate = useNavigate();
   const { chapterId, lessonId } = useParams();
 
@@ -175,10 +175,11 @@ export function LessonPage({ userName }) {
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
     const ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
     ws.onopen = () => {
-      ws.send(JSON.stringify({ type: 'lesson', from: userName, chapter: chapterId, lesson: lessonId }));
+      // Others see this name in their feed: the display name, never the email.
+      ws.send(JSON.stringify({ type: 'lesson', from: displayName || 'A student', chapter: chapterId, lesson: lessonId }));
     };
     return () => ws.close();
-  }, [userName, navigate, chapterId, lessonId]);
+  }, [userName, navigate, chapterId, lessonId, displayName]);
 
   // Post session results to backend when lesson is complete
   React.useEffect(() => {

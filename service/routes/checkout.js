@@ -230,7 +230,9 @@ router.get('/status', verifyAuth, async (req, res) => {
 // is a banner event. The permanent card and the nav link were live but
 // completely unmeasured, so there was no way to tell whether the always-visible
 // path did anything.
-const PITCH_SURFACES = new Set(['banner', 'card', 'nav', 'dashboard']);
+// 'road' is the simulation stop on the dashboard's road to the FE, which
+// replaced the banner and the card there on 2026-10-26 (docs/dashboard.md).
+const PITCH_SURFACES = new Set(['banner', 'card', 'nav', 'dashboard', 'road']);
 
 router.post('/sim-banner/:action', verifyAuth, async (req, res) => {
   const type = req.params.action === 'click' ? 'sim_banner_click' : 'sim_banner_shown';
