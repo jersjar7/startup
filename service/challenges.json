@@ -1,8 +1,17 @@
-[
-  { "month": "2026-12", "chapterId": "statics", "name": "Statics Challenge" },
-  { "month": "2027-01", "chapterId": "geotechnical", "name": "Geotechnical Challenge" },
-  { "month": "2027-02", "chapterId": "structural", "name": "Structural Challenge" },
-  { "month": "2027-03", "chapterId": "water-resources", "name": "Water Resources Challenge", "storeName": "Water Resources Challenge" },
-  { "month": "2027-04", "chapterId": "transportation", "name": "Transportation Challenge" },
-  { "month": "2027-05", "chapterId": "construction", "name": "Construction Challenge" }
-]
+{
+  "since": "2026-12",
+  "cycle": [
+    { "month": "12", "chapterId": "statics", "name": "Statics Challenge" },
+    { "month": "01", "chapterId": "geotechnical", "name": "Geotechnical Challenge" },
+    { "month": "02", "chapterId": "structural", "name": "Structural Challenge" },
+    { "month": "03", "chapterId": "water-resources", "name": "Water Resources Challenge", "storeName": "Water Resources Challenge" },
+    { "month": "04", "chapterId": "transportation", "name": "Transportation Challenge" },
+    { "month": "05", "chapterId": "construction", "name": "Construction Challenge" },
+    { "month": "06", "chapterId": "mechanics-materials", "name": "Mechanics of Materials Challenge", "storeName": "June Mechanics Challenge" },
+    { "month": "07", "chapterId": "mathematics", "name": "Mathematics Challenge" },
+    { "month": "08", "chapterId": "economics", "name": "Engineering Economics Challenge", "storeName": "August Economics Challenge" },
+    { "month": "09", "chapterId": "materials", "name": "Materials Challenge" },
+    { "month": "10", "chapterId": "fluid-mechanics", "name": "Fluid Mechanics Challenge", "storeName": "October Fluids Challenge" },
+    { "month": "11", "chapterId": "surveying", "name": "Surveying Challenge" }
+  ]
+}

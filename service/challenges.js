@@ -1,6 +1,8 @@
 // Monthly chapter challenges (ADR 0027, docs/challenges.md).
 //
-// The calendar (challenges.json) is one entry a month: month, chapterId, name,
+// The calendar (challenges.json, ADR 0029) is a yearly cycle: the twelve
+// chapters the exam asks most about, one per calendar month, the same month
+// every year, from `since` on. Each entry is month ('MM'), chapterId, name,
 // and optionally line (the one sentence) and storeName (the App Store event
 // name, 30 characters at most; it defaults to "<Month> <name>").
 //
@@ -12,7 +14,7 @@
 //
 // Never mastery (ADR 0020): nothing here is read by derive.js's mastery.
 
-const calendar = require('./challenges.json'); // [{month: 'YYYY-MM', chapterId, name}]
+const { since, cycle: calendar } = require('./challenges.json'); // calendar: [{month: 'MM', chapterId, name}]
 const content = require('./content.json');
 const catalog = require('./gameCatalog.json'); // {chapterId: {gameId: rounds}}
 const lessonGames = require('./lessonGames.json'); // {chapterId: {lessonId: [gameId]}}
@@ -67,17 +69,30 @@ function view(entry) {
   };
 }
 
+/** The month after a 'YYYY-MM' month. */
+function monthAfter(month) {
+  const [y, m] = month.split('-').map(Number);
+  return m === 12 ? `${y + 1}-01` : `${y}-${String(m + 1).padStart(2, '0')}`;
+}
+
+/** The calendar entry for a 'YYYY-MM' month, with its year, or null. */
+function entryFor(month) {
+  if (!/^\d{4}-\d{2}$/.test(month || '') || month < since) return null;
+  const c = calendar.find((e) => e.month === month.slice(5, 7));
+  return c ? { ...c, month } : null;
+}
+
 /** The challenge running on a local day, or null. */
 function challengeOn(day) {
   if (!DAY_RE.test(day || '')) return null;
-  return view(calendar.find((c) => c.month === day.slice(0, 7)) || null);
+  return view(entryFor(day.slice(0, 7)));
 }
 
 /** The next challenge to start after a local day (for "starts Dec 1"), or null. */
 function nextAfter(day) {
-  const month = String(day || '').slice(0, 7);
-  const next = calendar.filter((c) => c.month > month).sort((a, b) => a.month.localeCompare(b.month))[0];
-  return view(next || null);
+  if (!DAY_RE.test(day || '')) return null;
+  const month = day.slice(0, 7);
+  return view(entryFor(month < since ? since : monthAfter(month)));
 }
 
 /**
@@ -126,7 +141,11 @@ function progress(entry, events) {
 /** Every challenge the account has finished, oldest first: the coins. */
 function finishedChallenges(events) {
   const out = [];
-  for (const entry of [...calendar].sort((a, b) => a.month.localeCompare(b.month))) {
+  let last = since;
+  for (const e of events || []) if (DAY_RE.test(e?.localDate || '') && e.localDate.slice(0, 7) > last) last = e.localDate.slice(0, 7);
+  for (let month = since; month <= last; month = monthAfter(month)) {
+    const entry = entryFor(month);
+    if (!entry) continue;
     const p = progress(view(entry), events);
     if (p && p.finished) out.push({ month: p.month, chapterId: p.chapterId, name: entry.name, atDesk: p.finishedAtDesk });
   }
@@ -144,4 +163,4 @@ function finishedCount(entry, eventsByEmail) {
   return { finished, atDesk, taking: eventsByEmail.size };
 }
 
-module.exports = { calendar, monthBounds, lessonsOf, challengeOn, nextAfter, progress, finishedChallenges, finishedCount };
+module.exports = { calendar, since, monthAfter, monthBounds, lessonsOf, challengeOn, nextAfter, progress, finishedChallenges, finishedCount };

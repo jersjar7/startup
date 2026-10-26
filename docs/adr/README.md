@@ -60,6 +60,7 @@ that supersedes it, so the history of thinking stays readable.
 | [0026](0026-guest-mode.md) | A guest can study without an account; everything that belongs to an account still asks for one | 2026-10-20 | Accepted |
 | [0027](0027-monthly-chapter-challenges.md) | Monthly chapter challenges: cleared lesson by lesson, on either surface, never mastery | 2026-10-25 | Accepted |
 | [0028](0028-dashboard-chapters-first-road-and-feed.md) | Dashboard: chapters first, a road to the FE, and a live feed of other students | 2026-10-26 | Accepted |
+| [0029](0029-challenge-calendar-yearly-twelve.md) | The challenge calendar is a yearly cycle of the twelve heaviest chapters | 2026-10-26 | Accepted |
 
 Records 0002–0005 were written on 2026-08-04, backfilled from commit messages.
 The **Date** column is when the decision was made, not when it was written up.

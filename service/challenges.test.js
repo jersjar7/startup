@@ -3,7 +3,7 @@ const catalog = require('./gameCatalog.json');
 const lessonGames = require('./lessonGames.json');
 const { deriveAccount } = require('./derive.js');
 const {
-  calendar, monthBounds, lessonsOf, challengeOn, nextAfter, progress, finishedChallenges, finishedCount,
+  calendar, since, monthBounds, lessonsOf, challengeOn, nextAfter, progress, finishedChallenges, finishedCount,
 } = require('./challenges.js');
 
 const DEC = challengeOn('2026-12-10');
@@ -25,27 +25,42 @@ function deskClear(lessonId, localDate) {
 }
 
 describe('the calendar', () => {
+  const { EXAM_DISTRIBUTION } = require('./examWeights.js');
+
   it('opens with Statics in December 2026', () => {
-    expect(calendar[0]).toMatchObject({ month: '2026-12', chapterId: 'statics' });
+    expect(since).toBe('2026-12');
+    expect(DEC).toMatchObject({ month: '2026-12', chapterId: 'statics' });
     expect(DEC.lessons).toHaveLength(7);
     expect(DEC.line).toBe('Clear every Statics lesson before December ends.');
   });
 
-  it('has one challenge per month, each lesson clearable both ways', () => {
-    const months = calendar.map((c) => c.month);
-    expect(new Set(months).size).toBe(months.length);
+  it('is the twelve chapters the exam asks most about, one per month (ADR 0029)', () => {
+    expect(calendar.map((c) => c.month).sort()).toEqual(['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']);
+    const byWeight = Object.keys(EXAM_DISTRIBUTION).sort((a, b) => EXAM_DISTRIBUTION[b] - EXAM_DISTRIBUTION[a]);
+    expect(new Set(calendar.map((c) => c.chapterId))).toEqual(new Set(byWeight.slice(0, 12)));
+    // The cut is clean: the twelfth weighs more than the thirteenth.
+    expect(EXAM_DISTRIBUTION[byWeight[11]]).toBeGreaterThan(EXAM_DISTRIBUTION[byWeight[12]]);
     for (const c of calendar) {
-      const lessons = lessonsOf(c.chapterId);
-      expect(lessons.length).toBeGreaterThan(0);
-      for (const l of lessons) {
+      for (const l of lessonsOf(c.chapterId)) {
         expect(l.practice.length).toBeGreaterThan(0);
         expect(l.games.length).toBeGreaterThan(0);
       }
     }
   });
 
+  it('repeats every year in the same month', () => {
+    expect(challengeOn('2027-12-10')).toMatchObject({ month: '2027-12', chapterId: 'statics' });
+    expect(challengeOn('2028-06-02')).toMatchObject({ month: '2028-06', chapterId: 'mechanics-materials' });
+  });
+
+  it('gives a coin for each year a chapter is finished', () => {
+    const all = (day) => statics.flatMap((l) => deskClear(l.id, day));
+    const coins = finishedChallenges([...all('2026-12-05'), ...all('2027-12-07')]);
+    expect(coins.map((c) => c.month)).toEqual(['2026-12', '2027-12']);
+  });
+
   it('fits Apple\'s 30-character event name', () => {
-    for (const c of calendar) expect(challengeOn(`${c.month}-01`).storeName.length).toBeLessThanOrEqual(30);
+    for (const c of calendar) expect(challengeOn(`2027-${c.month}-01`).storeName.length).toBeLessThanOrEqual(30);
     expect(DEC.storeName).toBe('December Statics Challenge');
   });
 
@@ -53,6 +68,8 @@ describe('the calendar', () => {
     expect(monthBounds('2027-02')).toEqual({ start: '2027-02-01', end: '2027-02-28' });
     expect(challengeOn('2026-11-30')).toBeNull();
     expect(nextAfter('2026-10-25').month).toBe('2026-12');
+    expect(nextAfter('2026-12-31').month).toBe('2027-01');
+    expect(nextAfter('2027-11-05')).toMatchObject({ month: '2027-12', chapterId: 'statics' });
   });
 });
 

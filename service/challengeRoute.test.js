@@ -49,7 +49,7 @@ describe('GET /api/challenge/current', () => {
     const res = await request(app()).get('/api/challenge/current?date=2026-12-05');
     expect(res.body.current.lessons).toHaveLength(7);
     expect(res.body.finished).toMatchObject({ finished: 1, atDesk: 1 });
-    expect(res.body.next).toBeNull();
+    expect(res.body.next).toMatchObject({ month: '2027-01', chapterId: 'geotechnical' });
   });
 });
 

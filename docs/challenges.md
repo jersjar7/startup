@@ -63,12 +63,22 @@ nudges toward the desk without punishing the phone.
   student's own time zone (the same local day the Daily uses).
 - The App Store event is promoted from 14 days before the 1st, the most
   Apple allows.
-- **Chapters rotate by exam weight.** Heavier chapters come first and come
-  back sooner, the way the Daily picks. Statics opens the rotation because
-  its art is already made.
+- **A yearly cycle of the twelve chapters the exam asks most about**
+  (ADR 0029), the same month every year. Ethics, Dynamics and Statistics
+  never get a month: they are the three lightest, 10 of the 110 questions.
+
+  | Month | Chapter | Month | Chapter |
+  |---|---|---|---|
+  | December | Statics | June | Mechanics of Materials |
+  | January | Geotechnical | July | Mathematics |
+  | February | Structural | August | Engineering Economics |
+  | March | Water Resources | September | Materials |
+  | April | Transportation | October | Fluid Mechanics |
+  | May | Construction | November | Surveying |
+
 - The calendar lives in one file on the server (`service/challenges.json`):
-  month, chapter, name, one line of copy, coin colours. Adding next month is
-  one entry, not a code change, and the App Store event copy is taken from
+  `since` and the twelve months, each with its chapter, name and, where
+  needed, a shorter App Store name. The App Store event copy is taken from
   the same entry.
 
 ## On the phone

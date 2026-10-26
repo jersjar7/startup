@@ -42,7 +42,8 @@ router.get('/current', async (req, res) => {
     }
   }
   res.set('Cache-Control', 'public, max-age=60');
-  res.send({ current, finished, next: current ? null : nextAfter(today) });
+  // `next` always: the phone plans the 1st-of-the-month notification ahead.
+  res.send({ current, finished, next: nextAfter(today) });
 });
 
 module.exports = router;
