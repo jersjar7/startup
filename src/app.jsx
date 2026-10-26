@@ -63,9 +63,6 @@ export default function App() {
   const [userName, setUserName] = React.useState('');
   const [emailVerified, setEmailVerified] = React.useState(true);
   const [me, setMe] = React.useState({});
-  // The name other students see in their live feed: only a name the student
-  // typed, since the server's displayName falls back to part of the email.
-  const presenceName = me.firstName ? me.displayName : undefined;
   const [authLoading, setAuthLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -181,6 +178,9 @@ export default function App() {
 }
 
 function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessionExpired }) {
+  // The name other students see in their live feed: only a name the student
+  // typed, since the server's displayName falls back to part of the email.
+  const presenceName = me.firstName ? me.displayName : undefined;
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
