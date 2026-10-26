@@ -14,6 +14,14 @@ const flags = require('../flags.js');
 
 const router = express.Router();
 
+const DAY_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+/** The student's local day from ?date=, else the server's UTC day. */
+function localDay(req) {
+  const d = req.query.date;
+  return typeof d === 'string' && DAY_RE.test(d) ? d : new Date().toISOString().slice(0, 10);
+}
+
 // Emit web-sourced review events into the shared sync log — the phone pulls
 // these so it never re-drills what was just done at the desk. Never breaks
 // the study flow on failure.
@@ -68,7 +76,8 @@ router.get('/', verifyAuth, async (req, res) => {
   // date entirely (a 6-months-out and a 6-days-out user both got 5). While
   // STUDY_LOAD_V2 is off we still serve the flat cap and only log the plan;
   // when flipped we surface the backlog-and-horizon-aware target instead.
-  const dueCount = await DB.getDueReviewCount(email);
+  const today = localDay(req);
+  const dueCount = await DB.getDueReviewCount(email, today);
   const chapterMastery = stats.chapterMastery || {};
   const plan = computeDailyPlan({
     now: Date.now(),
@@ -90,7 +99,7 @@ router.get('/', verifyAuth, async (req, res) => {
   const count = useV2 ? plan.reviewTarget : requested;
 
   // Overdue problems (nextReview <= today), soonest-due first.
-  const overdue = await DB.getProblemsForReview(email, count);
+  const overdue = await DB.getProblemsForReview(email, count, today);
 
   const problems = overdue.map((h) => ({
     problemId: h.problemId,
@@ -103,7 +112,7 @@ router.get('/', verifyAuth, async (req, res) => {
 
 // Lightweight count of due review items — for the dashboard "reviews due" badge.
 router.get('/count', verifyAuth, async (req, res) => {
-  const count = await DB.getDueReviewCount(req.user.email);
+  const count = await DB.getDueReviewCount(req.user.email, localDay(req));
   res.send({ count });
 });
 

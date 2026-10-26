@@ -151,8 +151,10 @@ async function upsertProblemHistory(email, problemId, topicId, isCorrect, source
 }
 
 // Due review queue = active (un-graduated) weak spots whose date has come.
-async function getProblemsForReview(email, limit = 5) {
-  const today = new Date().toISOString().split('T')[0];
+// `today` is the student's local day ('YYYY-MM-DD'), the same day the
+// deriver schedules nextReview by. The server's UTC date runs ahead of the
+// Americas every evening, which made an evening miss due that same night.
+async function getProblemsForReview(email, limit = 5, today = new Date().toISOString().split('T')[0]) {
   return problemHistoryCollection
     .find({ email, reviewActive: true, nextReview: { $lte: today } })
     .sort({ nextReview: 1 })
@@ -160,8 +162,7 @@ async function getProblemsForReview(email, limit = 5) {
     .toArray();
 }
 
-async function getDueReviewCount(email) {
-  const today = new Date().toISOString().split('T')[0];
+async function getDueReviewCount(email, today = new Date().toISOString().split('T')[0]) {
   return problemHistoryCollection.countDocuments({ email, reviewActive: true, nextReview: { $lte: today } });
 }
 

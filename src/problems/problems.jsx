@@ -68,7 +68,7 @@ export function Problems({ userName, onLogout, reviewMode = false, displayName }
       // Review mode: the API returns due problem references (ids + topic);
       // resolve them against the local question pools so review uses the same
       // content the student studied. Drop any id that no longer exists.
-      fetch('/api/review?count=5')
+      fetch(`/api/review?count=5&date=${new Date().toLocaleDateString('en-CA')}`)
         .then((res) => {
           if (!res.ok) throw new Error('Failed to load problems');
           return res.json();
@@ -232,7 +232,7 @@ export function Problems({ userName, onLogout, reviewMode = false, displayName }
     if (phase !== 'SUMMARY') return;
     let cancelled = false;
     Promise.allSettled([
-      fetch('/api/review/count').then((r) => (r.ok ? r.json() : { count: 0 })),
+      fetch(`/api/review/count?date=${new Date().toLocaleDateString('en-CA')}`).then((r) => (r.ok ? r.json() : { count: 0 })),
       fetch('/api/diagnostic/mastery').then((r) => (r.ok ? r.json() : { chapterMastery: {} })),
     ]).then(([countRes, masteryRes]) => {
       if (cancelled) return;
