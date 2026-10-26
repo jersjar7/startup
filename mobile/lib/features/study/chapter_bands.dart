@@ -26,7 +26,12 @@ class ChapterBand {
   String get examRange {
     var low = 0;
     var high = 0;
+    final counted = <String>{};
     for (final chapter in chapters) {
+      // Mathematics and Statistics share one exam area: count it once.
+      final partner = RegExp(r'shared with (.+)$').firstMatch(chapter.examLine);
+      if (partner != null && counted.contains(partner.group(1))) continue;
+      counted.add(_shortName(chapter));
       final range = _rangeOf(chapter.examLine);
       low += range.$1;
       high += range.$2;
@@ -34,8 +39,15 @@ class ChapterBand {
     return '$low-$high q';
   }
 
+  /// The name another chapter's "shared with" line uses for this one.
+  static String _shortName(ChapterMap chapter) => chapter.id == 'mathematics'
+      ? 'Mathematics'
+      : chapter.id == 'statistics'
+      ? 'Statistics'
+      : chapter.id;
+
   /// Pulls the two numbers out of a line like
-  /// "11 to 17 questions on the real exam".
+  /// "10 to 15 questions on the real exam".
   static (int, int) _rangeOf(String examLine) {
     final found = RegExp(r'(\d+)\s+to\s+(\d+)').firstMatch(examLine);
     if (found == null) return (0, 0);

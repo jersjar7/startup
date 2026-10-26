@@ -308,7 +308,7 @@ export function Study({ userName, onLogout, displayName }) {
         </div>
         <div className="study-header-right">
           <span className={`study-qs-badge badge--${chapter.accent}`}>
-            {chapter.qs} exam questions
+            {chapter.qs} exam questions{chapter.qsShared ? `, shared with ${chapter.qsShared}` : ''}
           </span>
         </div>
       </header>

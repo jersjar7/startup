@@ -1,5 +1,13 @@
 # The app's exam weighting against the current NCEES spec
 
+> **Resolved.** The weights were moved to the July 2020 spec on 2026-10-09
+> (`service/examWeights.js`, Mathematics and Statistics split 7/2). The
+> question ranges students see followed on 2026-10-26: `src/data/chapters.js`,
+> the landing page and the phone's `examLine` now carry the 2020 ranges, with
+> Mathematics and Statistics both showing their shared 8–12. The file NCEES
+> serves today was checked byte for byte against the copy in this folder on
+> 2026-10-26. The notes below are how it stood before.
+
 _2026-10-09. The spec PDF is `fe-civil-cbt-spec.pdf` in this folder: NCEES FE
 CIVIL CBT Exam Specifications, **effective beginning with the July 2020
 examinations**, which is the one in force._

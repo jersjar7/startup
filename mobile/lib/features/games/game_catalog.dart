@@ -92,7 +92,7 @@ const mathematicsMap = ChapterMap(
   id: 'mathematics',
   number: 1,
   name: 'Mathematics & Computational Tools',
-  examLine: '11 to 17 questions on the real exam',
+  examLine: '8 to 12 questions on the real exam, shared with Statistics',
   subtopics: [
     Subtopic('analytic-geometry', 'Analytic Geometry'),
     Subtopic('single-var-calc', 'Single-Variable Calculus'),
@@ -607,7 +607,7 @@ const statisticsMap = ChapterMap(
   id: 'statistics',
   number: 2,
   name: 'Probability & Statistics',
-  examLine: '4 to 6 questions on the real exam',
+  examLine: '8 to 12 questions on the real exam, shared with Mathematics',
   subtopics: [
     Subtopic('descriptive-statistics', 'Descriptive Statistics'),
     Subtopic('probability', 'Probability'),
@@ -1053,7 +1053,7 @@ const economicsMap = ChapterMap(
   id: 'economics',
   number: 4,
   name: 'Engineering Economics',
-  examLine: '4 to 6 questions on the real exam',
+  examLine: '5 to 8 questions on the real exam',
   subtopics: [
     Subtopic('time-value-of-money', 'Time Value of Money'),
     Subtopic('cost-and-economic-analysis', 'Cost & Economic Analysis'),
@@ -2007,7 +2007,7 @@ const materialsMap = ChapterMap(
   id: 'materials',
   number: 8,
   name: 'Materials',
-  examLine: '4 to 6 questions on the real exam',
+  examLine: '5 to 8 questions on the real exam',
   subtopics: [
     Subtopic('mechanical-properties', 'Mechanical Properties'),
     Subtopic('concrete-technology', 'Concrete Technology'),
@@ -2287,7 +2287,7 @@ const fluidMechanicsMap = ChapterMap(
   id: 'fluid-mechanics',
   number: 9,
   name: 'Fluid Mechanics',
-  examLine: '4 to 6 questions on the real exam',
+  examLine: '6 to 9 questions on the real exam',
   subtopics: [
     Subtopic('fluid-properties-statics', 'Properties & Statics'),
     Subtopic('fluid-dynamics', 'Fluid Dynamics'),
@@ -2540,7 +2540,7 @@ const surveyingMap = ChapterMap(
   id: 'surveying',
   number: 10,
   name: 'Surveying',
-  examLine: '4 to 6 questions on the real exam',
+  examLine: '6 to 9 questions on the real exam',
   subtopics: [
     Subtopic('measurement-leveling', 'Measurement & Leveling'),
     Subtopic('area-volume-traverse', 'Area, Volume & Traverse'),
@@ -2809,7 +2809,7 @@ const waterResourcesMap = ChapterMap(
   id: 'water-resources',
   number: 11,
   name: 'Water Resources & Environmental',
-  examLine: '14 to 21 questions on the real exam',
+  examLine: '10 to 15 questions on the real exam',
   subtopics: [
     Subtopic('hydraulics', 'Hydraulics'),
     Subtopic('hydrology-groundwater', 'Hydrology & Groundwater'),
@@ -3178,7 +3178,7 @@ const structuralMap = ChapterMap(
   id: 'structural',
   number: 12,
   name: 'Structural Engineering',
-  examLine: '12 to 18 questions on the real exam',
+  examLine: '10 to 15 questions on the real exam',
   subtopics: [
     Subtopic('analysis-loads', 'Analysis & Load Combinations'),
     Subtopic('rc-design', 'Reinforced Concrete Design'),
@@ -3521,7 +3521,7 @@ const geotechnicalMap = ChapterMap(
   id: 'geotechnical',
   number: 13,
   name: 'Geotechnical Engineering',
-  examLine: '9 to 14 questions on the real exam',
+  examLine: '10 to 15 questions on the real exam',
   subtopics: [
     Subtopic('soil-properties', 'Soil Properties & Classification'),
     Subtopic('consolidation-strength', 'Consolidation & Shear Strength'),
@@ -3914,7 +3914,7 @@ const transportationMap = ChapterMap(
   id: 'transportation',
   number: 14,
   name: 'Transportation Engineering',
-  examLine: '8 to 12 questions on the real exam',
+  examLine: '9 to 14 questions on the real exam',
   subtopics: [
     Subtopic('geometric-design', 'Geometric Design'),
     Subtopic('traffic-engineering', 'Traffic Engineering'),
@@ -4266,7 +4266,7 @@ const constructionMap = ChapterMap(
   id: 'construction',
   number: 15,
   name: 'Construction Engineering',
-  examLine: '4 to 6 questions on the real exam',
+  examLine: '8 to 12 questions on the real exam',
   subtopics: [
     Subtopic('scheduling-cpm', 'CPM Scheduling'),
     Subtopic('earned-value', 'Earned Value Management'),

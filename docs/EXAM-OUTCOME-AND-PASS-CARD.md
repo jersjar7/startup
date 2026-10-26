@@ -88,6 +88,9 @@ Both clear on the next cold launch, which is no defence.
 
 ### 3.3 Our exam question counts are from a retired specification
 
+**Resolved 2026-10-26:** every range a student sees now comes from the July
+2020 specification; see `research/civil/SPEC-RECONCILIATION.md`.
+
 `src/data/chapters.js` carries a `qs` range per chapter. All fifteen reconstruct
 exactly from the NCEES FE Civil specification **effective January 2014**, which
 was superseded in July 2020. The 2014 document has eighteen knowledge areas; our

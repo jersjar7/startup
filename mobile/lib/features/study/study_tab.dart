@@ -286,9 +286,20 @@ void _open(BuildContext context, ChapterMap chapter) {
   ).push(MaterialPageRoute(builder: (_) => ChapterMapScreen(chapter: chapter)));
 }
 
-/// "11 to 17 questions on the real exam" -> "11 to 17 on the exam".
-String examWeight(ChapterMap chapter) =>
-    chapter.examLine.replaceAll(' questions on the real exam', ' on the exam');
+/// "10 to 15 questions on the real exam" -> "10 to 15 on the exam".
+/// Mathematics and Statistics are one area on the exam, so theirs says so:
+/// "8 to 12 questions on the real exam, shared with Statistics" ->
+/// "8 to 12 with Stats", short enough to sit beside "CHAPTER 1" on one line.
+String examWeight(ChapterMap chapter) {
+  const short = {'Statistics': 'Stats', 'Mathematics': 'Math'};
+  final shared = RegExp(r', shared with (.+)$').firstMatch(chapter.examLine);
+  final base = chapter.examLine
+      .replaceAll(RegExp(r', shared with .+$'), '')
+      .replaceAll(' questions on the real exam', '');
+  if (shared == null) return '$base on the exam';
+  final other = shared.group(1)!;
+  return '$base with ${short[other] ?? other}';
+}
 
 // ───────────────────────────── the top line ────────────────────────
 

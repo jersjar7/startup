@@ -40,8 +40,8 @@ const EXPLAINER_VERSION = 2;
 
 /* ── Chapter data (15 FE Civil topics) ── */
 const chapters = [
-  { num: 1,  id: 'mathematics', name: 'Mathematics',            qs: '8–12',  accent: 'ember' },
-  { num: 2,  id: 'statistics', name: 'Probability & Statistics', qs: '4–6',  accent: 'sunbeam' },
+  { num: 1,  id: 'mathematics', name: 'Mathematics',            qs: '8–12', qsShared: 'Probability & Statistics', accent: 'ember' },
+  { num: 2,  id: 'statistics', name: 'Probability & Statistics', qs: '8–12', qsShared: 'Mathematics', accent: 'sunbeam' },
   { num: 3,  id: 'ethics', name: 'Ethics & Prof. Practice', qs: '4–6',   accent: 'forest' },
   { num: 4,  id: 'economics', name: 'Engineering Economics',   qs: '5–8',   accent: 'ember' },
   { num: 5,  id: 'statics', name: 'Statics',                qs: '8–12',  accent: 'sunbeam' },
@@ -267,7 +267,7 @@ export function Landing({ userName }) {
                   <span className="ch-num">{String(ch.num).padStart(2, '0')}</span>
                   <ChapterCoin chapterId={ch.id} accent={ch.accent} className="ch-icon" />
                   <span className="ch-name">{ch.name}</span>
-                  <span className={`ch-badge ch-badge--${ch.accent}`}>{ch.qs} Qs</span>
+                  <span className={`ch-badge ch-badge--${ch.accent}`} title={ch.qsShared ? `Shared with ${ch.qsShared}: one area on the exam` : undefined}>{ch.qs} Qs</span>
                 </div>
               );
             })}

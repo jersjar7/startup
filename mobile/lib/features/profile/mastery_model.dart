@@ -58,7 +58,7 @@ List<String> focusChapters(Map<String, int> mastery, {int limit = 3}) {
   return [for (final r in rows.take(limit)) r.$1];
 }
 
-/// "11 to 17 questions on the real exam" -> "11–17 Q".
+/// "10 to 15 questions on the real exam" -> "10–15 Q".
 String weightChip(ChapterMap chapter) {
   final m = RegExp(r'^(\d+) to (\d+)').firstMatch(chapter.examLine);
   return m == null ? '' : '${m.group(1)}–${m.group(2)} Q';

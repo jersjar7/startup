@@ -425,7 +425,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
               </button>
               <span className="ch-header-label ch-header-label--right">
                 Exam Qs
-                <span className="ch-header-info ch-header-info--right" data-tooltip="The number of questions each topic gets on the actual FE Civil exam, based on the NCEES exam specification. The FE Civil has 110 questions total.">
+                <span className="ch-header-info ch-header-info--right" data-tooltip="The number of questions each topic gets on the FE Civil exam, from the NCEES specification in use since July 2020. Mathematics and Statistics are one area there, 8 to 12 questions together. The exam has 110 questions.">
                   <Info weight="regular" size={13} />
                 </span>
               </span>
@@ -458,7 +458,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                     ) : null}
                   </div>
                   {/* badge color encodes exam weight (one scale), not the chapter's accent */}
-                  <span className={`ch-badge-d ch-badge-d--${weightClass(getExamWeight(ch.id))}`}>{ch.qs} Qs</span>
+                  <span className={`ch-badge-d ch-badge-d--${weightClass(getExamWeight(ch.id))}`} title={ch.qsShared ? `Shared with ${ch.qsShared}: one area on the exam` : undefined}>{ch.qs} Qs</span>
                   <ArrowRight weight="bold" size={14} className="ch-arrow" />
                 </button>
               );
