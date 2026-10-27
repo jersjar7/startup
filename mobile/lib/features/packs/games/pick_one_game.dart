@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../games/board.dart';
+import '../../games/liability_row.dart';
 import '../../shared/widgets/engineering_grid.dart';
 import '../../shared/widgets/math_text.dart';
 import '../drawing/drawing_painter.dart';
@@ -87,15 +88,28 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
               picked: _picked,
               truth: answer,
               onPick: answered ? null : (i) => setState(() => _picked = i),
-              choice: (i) => _Choice(
-                label: options[i],
-                tex: (r['tex'] as List?)?[i] as String?,
-                pad: (r['choicePad'] as num?)?.toDouble() ?? 13,
-                selected: _picked == i,
-                locked: answered,
-                isTruth: answer == i,
-                onTap: answered ? null : () => setState(() => _picked = i),
-              ),
+              choice: (i) => r['notes'] is List
+                  ? LiabilityRow(
+                      title: options[i],
+                      note: (r['notes']! as List)[i]! as String,
+                      selected: _picked == i,
+                      locked: answered,
+                      isTruth: answer == i,
+                      onTap: answered
+                          ? null
+                          : () => setState(() => _picked = i),
+                    )
+                  : _Choice(
+                      label: options[i],
+                      tex: (r['tex'] as List?)?[i] as String?,
+                      pad: (r['choicePad'] as num?)?.toDouble() ?? 13,
+                      selected: _picked == i,
+                      locked: answered,
+                      isTruth: answer == i,
+                      onTap: answered
+                          ? null
+                          : () => setState(() => _picked = i),
+                    ),
               options: options.length,
               feedback: answered
                   ? BoardFeedback(
@@ -192,11 +206,15 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
 /// of those answers is).
 ///
 /// Blocks: `gap` (height), `overline` (with `color`), `mono` (with `size`
-/// and `color`), `text` (with `bold`), `math` (centred, with `size`),
-/// `figure` (a recorded drawing with `h`, framed as `panel`, `grid` or
-/// `none`), `box` (white bordered box holding blocks, with `pad`),
-/// `choices` (the answers, or a list of which ones, with `space` between them and `last`, whether the
-/// last one gets the gap too), `panels` (answers that are drawings: one per
+/// and `color`), `text` (with `bold`, `size` and `line`), `code` (with
+/// `size`), `math` (centred, with `size`), `figure` (a recorded drawing
+/// with `h`, framed as `panel`, `grid`, `clip` with a `radius`, or `none`),
+/// `box` (a box holding blocks, with `pad`, and `fill`, `radius` and
+/// `border` when it is not the white bordered one),
+/// `choices` (the answers, or a list of which ones, with `space` between
+/// them and `last`, whether the last one gets the gap too; a round with
+/// `notes` shows each answer as a title with its note beneath, the app's
+/// titled row), `panels` (answers that are drawings: one per
 /// answer, each drawn as it looks `idle`, `picked`, `right` and `wrong`, or
 /// just `idle` and `on` when only its border changes; in a `row` or a
 /// column, with `h`, `pad`, `space` and `last`), `pickedLabel` (the picked
@@ -233,6 +251,8 @@ class _ScreenBlocks extends StatelessWidget {
     'info': AppColors.info,
     'ink3': AppColors.ink3,
     'charcoal': AppColors.charcoal,
+    'white': AppColors.white,
+    'creamDark': AppColors.creamDark,
   };
 
   bool _shown(Map<String, Object?> b) => switch (b['when']) {
@@ -278,13 +298,16 @@ class _ScreenBlocks extends StatelessWidget {
         Text(
           s,
           style: TextStyle(
-            fontSize: 15,
-            height: 1.5,
+            fontSize: _num(b['size'] ?? 15),
+            height: _num(b['line'] ?? 1.5),
             fontWeight: b['bold'] == true ? FontWeight.w600 : null,
             color: AppColors.charcoal,
           ),
         ),
       ];
+    }
+    if (b['code'] case final String s) {
+      return [Text(s, style: AppTheme.code(size: _num(b['size'])))];
     }
     if (b['math'] case final String tex) {
       return [
@@ -324,6 +347,14 @@ class _ScreenBlocks extends StatelessWidget {
             major: 90,
             child: SizedBox(height: h, child: paint),
           ),
+          'clip' => ClipRRect(
+            borderRadius: BorderRadius.circular(_num(b['radius'])),
+            child: SizedBox(
+              height: h,
+              width: double.infinity,
+              child: EngineeringGrid(minor: 18, major: 90, child: paint),
+            ),
+          ),
           _ => SizedBox(height: h, child: paint),
         },
       ];
@@ -340,9 +371,11 @@ class _ScreenBlocks extends StatelessWidget {
             pad[3].toDouble(),
           ),
           decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.line),
+            color: _colors[b['fill'] ?? 'white'],
+            borderRadius: BorderRadius.circular(_num(b['radius'] ?? 12)),
+            border: b['border'] == false
+                ? null
+                : Border.all(color: AppColors.line),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

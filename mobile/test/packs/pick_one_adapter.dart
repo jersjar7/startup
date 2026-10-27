@@ -68,6 +68,7 @@ Map<String, Object?> pickOne({
 /// One round of a pick-one game laid out as its own screen of blocks.
 typedef ScreenRound = ({
   List<String> options,
+  List<String>? notes,
   List<String>? tex,
   int answer,
   String why,
@@ -100,6 +101,7 @@ Map<String, Object?> pickScreen({
     for (final r in rounds)
       {
         'options': r.options,
+        'notes': ?r.notes,
         'tex': ?r.tex,
         if (choicePad != 13) 'choicePad': choicePad,
         'answer': r.answer,
@@ -145,6 +147,7 @@ Map<String, Object?> figure(
   Draw Function(bool answered) draw,
   Object h, {
   required String frame,
+  num? radius,
   required String what,
 }) {
   double at(bool answered) {
@@ -167,6 +170,7 @@ Map<String, Object?> figure(
     },
     'h': h,
     'frame': frame,
+    'radius': ?radius,
   };
 }
 
