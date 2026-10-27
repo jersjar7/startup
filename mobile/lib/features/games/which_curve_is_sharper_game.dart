@@ -265,28 +265,57 @@ class _WhichCurveIsSharperGameState extends State<WhichCurveIsSharperGame> {
               child: EngineeringGrid(
                 minor: 18,
                 major: 90,
-                child: CustomPaint(
-                  painter: AlignPainter(
-                    bend: r.wider,
-                    other: r.tighter,
-                    names: r.namesInOrder,
-                    pickedCurve: _picked == null || _picked == Sharper.same
+                child: LayoutBuilder(
+                  // Tapping a curve picks it. The two used to be named only
+                  // on the drawing, with nothing to tap: four rounds in six
+                  // could not be answered (found 2026-10-26).
+                  builder: (context, box) => GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTapDown: answered
                         ? null
-                        : (_picked == Sharper.left) == r.leftIsWider
-                        ? 0
-                        : 1,
-                    answerCurve: !answered || r.answer == Sharper.same
-                        ? null
-                        : (r.answer == Sharper.left) == r.leftIsWider
-                        ? 0
-                        : 1,
-                    locked: answered,
-                    label: '${r.leftLabel} and ${r.rightLabel}',
+                        : (details) {
+                            final which = AlignPainter.curveAt(
+                              box.biggest,
+                              r.wider,
+                              r.tighter,
+                              details.localPosition,
+                            );
+                            if (which == null) return;
+                            setState(
+                              () => _picked = (which == 0) == r.leftIsWider
+                                  ? Sharper.left
+                                  : Sharper.right,
+                            );
+                          },
+                    child: CustomPaint(
+                      painter: AlignPainter(
+                        bend: r.wider,
+                        other: r.tighter,
+                        names: r.namesInOrder,
+                        pickedCurve: _picked == null || _picked == Sharper.same
+                            ? null
+                            : (_picked == Sharper.left) == r.leftIsWider
+                            ? 0
+                            : 1,
+                        answerCurve: !answered || r.answer == Sharper.same
+                            ? null
+                            : (r.answer == Sharper.left) == r.leftIsWider
+                            ? 0
+                            : 1,
+                        locked: answered,
+                        label: '${r.leftLabel} and ${r.rightLabel}',
+                      ),
+                      child: const SizedBox.expand(),
+                    ),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'tap the sharper curve, or say they are the same',
+            style: AppTheme.mono(size: 11, color: AppColors.ink3),
           ),
           const SizedBox(height: 10),
           Center(

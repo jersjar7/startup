@@ -181,6 +181,54 @@ class AlignPainter extends CustomPainter {
     };
   }
 
+  /// A point on one of the two curves, part way round: 0 is [bend], the
+  /// outer one; 1 is the second curve tucked inside it.
+  static Offset curveSpot(Size size, Bend2 bend, Bend2 other, int which) {
+    final (centre, r, half) = _arcOf(size, bend, other, which);
+    return centre + Offset(math.sin(half * 0.3) * r, -math.cos(half * 0.3) * r);
+  }
+
+  /// Which of the two curves a tap landed on, the nearer one within 24
+  /// points, or null.
+  static int? curveAt(Size size, Bend2 bend, Bend2 other, Offset tap) {
+    int? best;
+    var near = 24.0;
+    for (final which in [0, 1]) {
+      final (centre, r, half) = _arcOf(size, bend, other, which);
+      final d = tap - centre;
+      // Angle from straight up, which is where both arcs are centred.
+      final angle = math.atan2(d.dx, -d.dy);
+      final double distance;
+      if (angle.abs() <= half) {
+        distance = (d.distance - r).abs();
+      } else {
+        final end =
+            centre +
+            Offset(math.sin(half * angle.sign) * r, -math.cos(half) * r);
+        distance = (tap - end).distance;
+      }
+      if (distance < near) {
+        near = distance;
+        best = which;
+      }
+    }
+    return best;
+  }
+
+  static (Offset, double, double) _arcOf(
+    Size size,
+    Bend2 bend,
+    Bend2 other,
+    int which,
+  ) {
+    if (which == 0) {
+      final f = _frame(size, bend);
+      return (f.crest + Offset(0, f.r), f.r, bend.turn / 2 * math.pi / 180);
+    }
+    final g = _inner(size, bend, other);
+    return (g.crest + Offset(0, g.r), g.r, other.turn / 2 * math.pi / 180);
+  }
+
   static Bit? at(Size size, Bend2 bend, Offset tap) {
     Bit? best;
     var near = 24.0;
