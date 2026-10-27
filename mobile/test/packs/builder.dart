@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
@@ -106,8 +107,62 @@ Object record(
     _refine(at, w, (w + 25).clamp(lo, hi), widths);
   }
   final sorted = widths.toList()..sort();
+  stats['drawings'] = stats['drawings']! + 1;
+  stats['recordings'] = stats['recordings']! + cache.length * 2;
+  return _fromWidths(at, sorted);
+}
 
-  // Split into bands wherever the drawing itself changes.
+/// A drawing from its steps at the widths looked at: one list of steps, or
+/// bands of them where the drawing itself changes with the width.
+///
+/// When only a stretch of it changes (a dashed line that gains a dash
+/// every ten pixels, with a curve of 240 points before and after it), the
+/// steps before and after that stretch can be kept once and only the
+/// stretch in bands (`{"parts": [...]}`, played one after the other).
+/// Kept that way when it is smaller: How Many Samples kept its whole
+/// picture once per dash, 6.9 MB, and 45 KB in parts.
+Object _fromWidths(List<Object?> Function(double) at, List<double> sorted) {
+  final whole = _banded(at, sorted);
+  if (whole is! Map) return whole;
+  final lists = [for (final w in sorted) at(w)];
+  final shortest = lists.map((l) => l.length).reduce(math.min);
+  bool steady(int Function(List<Object?>) index) => lists.every(
+    (l) => _sameShape(l[index(l)], lists.first[index(lists.first)]),
+  );
+  var head = 0;
+  while (head < shortest && steady((l) => head)) {
+    head++;
+  }
+  var tail = 0;
+  while (head + tail < shortest && steady((l) => l.length - 1 - tail)) {
+    tail++;
+  }
+  if (head + tail == 0) return whole;
+  List<Object?> Function(double) slice(int from, int fromEnd) => (w) {
+    final l = at(w);
+    return l.sublist(from, l.length - fromEnd);
+  };
+  final parts = {
+    'parts': [
+      if (head > 0)
+        _banded((w) => at(w).sublist(0, head), sorted, count: false),
+      _banded(slice(head, tail), sorted, count: false),
+      if (tail > 0)
+        _banded((w) {
+          final l = at(w);
+          return l.sublist(l.length - tail);
+        }, sorted, count: false),
+    ],
+  };
+  return jsonEncode(parts).length < jsonEncode(whole).length ? parts : whole;
+}
+
+/// The steps as one list, or in bands where their shape changes.
+Object _banded(
+  List<Object?> Function(double) at,
+  List<double> sorted, {
+  bool count = true,
+}) {
   final bands = <List<double>>[[]];
   for (final w in sorted) {
     if (bands.last.isNotEmpty && !_sameShape(at(bands.last.last), at(w))) {
@@ -115,9 +170,6 @@ Object record(
     }
     bands.last.add(w);
   }
-
-  stats['drawings'] = stats['drawings']! + 1;
-  stats['recordings'] = stats['recordings']! + cache.length * 2;
   var bent = false;
   final merged = [
     for (final band in bands)
@@ -129,12 +181,13 @@ Object record(
         path: const [],
       ),
   ];
-  if (bands.length > 1) {
-    stats['banded'] = stats['banded']! + 1;
-  } else if (bent) {
-    stats['bent'] = stats['bent']! + 1;
-  } else {
-    stats['straight'] = stats['straight']! + 1;
+  if (count) {
+    final kind = bands.length > 1
+        ? 'banded'
+        : bent
+        ? 'bent'
+        : 'straight';
+    stats[kind] = stats[kind]! + 1;
   }
   if (bands.length == 1) return _round(merged.single)!;
   return {
@@ -554,7 +607,52 @@ List<(double, double)> _corners(
     }
   }
   keep.add(w.length - 1);
-  return [for (final i in keep) (w[i], v[i])];
+  final corners = [for (final i in keep) (w[i], v[i])];
+  // A corner falls on a width that was looked at, which is near the real
+  // bend but not on it, so the piece after it starts a hair off its own
+  // line (VennPainter's circles stop growing at 270.45 wide, and the
+  // labels under them came out 0.00003 of a pixel high, on a half pixel,
+  // a whole pixel off). Where both pieces are straight, the corner moves to
+  // where their lines meet, as long as every value still fits.
+  for (var c = 1; c < keep.length - 1; c++) {
+    final k = keep[c];
+    if (k < 2 || k + 2 >= w.length) continue;
+    double slope(int i, int j) => (v[j] - v[i]) / (w[j] - w[i]);
+    final b1 = slope(k - 2, k - 1), b2 = slope(k + 1, k + 2);
+    if ((b1 - b2).abs() < 1e-12) continue;
+    final a1 = v[k - 1] - b1 * w[k - 1], a2 = v[k + 1] - b2 * w[k + 1];
+    final wx = (a2 - a1) / (b1 - b2);
+    if (!(wx > w[k - 1] && wx < w[k + 1])) continue;
+    final moved = [...corners]..[c] = (wx, a1 + b1 * wx);
+    if (_fits(w, v, moved, keep[c - 1], keep[c + 1], tol)) {
+      corners[c] = moved[c];
+    }
+  }
+  return corners;
+}
+
+/// Whether the joins of [corners] stay within [tol] of every value from
+/// index [from] to [to].
+bool _fits(
+  List<double> w,
+  List<double> v,
+  List<(double, double)> corners,
+  int from,
+  int to,
+  double tol,
+) {
+  for (var i = from; i <= to; i++) {
+    var j = 0;
+    while (j + 2 < corners.length && w[i] > corners[j + 1].$1) {
+      j++;
+    }
+    final (w0, v0) = corners[j];
+    final (w1, v1) = corners[j + 1];
+    if ((v0 + (v1 - v0) * (w[i] - w0) / (w1 - w0) - v[i]).abs() > tol) {
+      return false;
+    }
+  }
+  return true;
 }
 
 /// Whole numbers written as whole numbers; everything else exactly as the
@@ -662,6 +760,50 @@ Map<String, Object?> pictureJson(Widget w, String name) {
       ),
       name,
     );
+  }
+  // Any other row of pictures side by side, the same gap between each.
+  if (w is Row &&
+      w.crossAxisAlignment == CrossAxisAlignment.start &&
+      w.mainAxisAlignment == MainAxisAlignment.start &&
+      w.mainAxisSize == MainAxisSize.max &&
+      w.key == null &&
+      w.children.length.isOdd) {
+    final pictures = <ConceptPicture>[];
+    final gaps = <double?>{};
+    for (final (i, c) in w.children.indexed) {
+      if (i.isEven) {
+        if (c case Expanded(flex: 1, child: final ConceptPicture p)) {
+          pictures.add(p);
+        } else {
+          throw UnsupportedError('$name: picture row holds ${c.runtimeType}');
+        }
+      } else if (c case SizedBox(height: null, child: null)) {
+        gaps.add(c.width);
+      } else {
+        throw UnsupportedError('$name: picture row gap ${c.runtimeType}');
+      }
+    }
+    if (gaps.length > 1 || pictures.map((p) => p.height).toSet().length > 1) {
+      throw UnsupportedError('$name: an uneven picture row');
+    }
+    return {
+      'kind': 'row',
+      'h': pictures.first.height,
+      'gap': gaps.isEmpty ? 0 : gaps.single,
+      'children': [
+        for (final (i, p) in pictures.indexed)
+          {
+            'caption': p.caption,
+            'ops': record(
+              p.painter.paint,
+              p.height,
+              // Three across a sheet are each under a third of it.
+              range: (60, 500),
+              what: '$name $i',
+            ),
+          },
+      ],
+    };
   }
   // Only a plain column: any setting off its defaults would be lost.
   if (w is Column &&

@@ -251,37 +251,34 @@ void main() {
     for (final size in const [Size(320, 568), Size(390, 844), Size(430, 932)]) {
       for (final scale in const [1.0, 2.0]) {
         for (final dark in const [false, true]) {
-          testWidgets(
-            'fits ${size.width.toInt()} wide at text x$scale'
-            '${dark ? ', night' : ''}',
-            (tester) async {
-              tester.view.physicalSize = size;
-              tester.view.devicePixelRatio = 1;
-              addTearDown(tester.view.reset);
-              var opened = 0;
-              await tester.pumpWidget(
-                MediaQuery(
-                  data: MediaQueryData(
-                    size: size,
-                    textScaler: TextScaler.linear(scale),
-                  ),
-                  child: MaterialApp(
-                    theme: dark ? AppTheme.dark : AppTheme.light,
-                    debugShowCheckedModeBanner: false,
-                    home: UpdateNeededScreen(openStore: () async => opened++),
-                  ),
+          testWidgets('fits ${size.width.toInt()} wide at text x$scale'
+              '${dark ? ', night' : ''}', (tester) async {
+            tester.view.physicalSize = size;
+            tester.view.devicePixelRatio = 1;
+            addTearDown(tester.view.reset);
+            var opened = 0;
+            await tester.pumpWidget(
+              MediaQuery(
+                data: MediaQueryData(
+                  size: size,
+                  textScaler: TextScaler.linear(scale),
                 ),
-              );
-              await tester.pumpAndSettle();
-              expect(tester.takeException(), isNull);
-              final button = find.text('Update the app');
-              await tester.ensureVisible(button);
-              await tester.pumpAndSettle();
-              await tester.tap(button);
-              await tester.pumpAndSettle();
-              expect(opened, 1);
-            },
-          );
+                child: MaterialApp(
+                  theme: dark ? AppTheme.dark : AppTheme.light,
+                  debugShowCheckedModeBanner: false,
+                  home: UpdateNeededScreen(openStore: () async => opened++),
+                ),
+              ),
+            );
+            await tester.pumpAndSettle();
+            expect(tester.takeException(), isNull);
+            final button = find.text('Update the app');
+            await tester.ensureVisible(button);
+            await tester.pumpAndSettle();
+            await tester.tap(button);
+            await tester.pumpAndSettle();
+            expect(opened, 1);
+          });
         }
       }
     }
