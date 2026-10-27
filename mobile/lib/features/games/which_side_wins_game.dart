@@ -166,21 +166,6 @@ class _WhichSideWinsGameState extends State<WhichSideWinsGame> {
 
   WinsRound get _round => winsRounds[_session.round];
 
-  /// How this line sits against the other one, in both dimensions.
-  static String _describe(WinsRound r, int i) {
-    final mine = r.lines[i];
-    final theirs = r.lines[1 - i];
-    final start = mine.fixed > theirs.fixed
-        ? 'the higher start'
-        : (mine.fixed < theirs.fixed ? 'the lower start' : 'the same start');
-    final rise = mine.variable > theirs.variable
-        ? 'the steeper rise'
-        : (mine.variable < theirs.variable
-              ? 'the flatter rise'
-              : 'the same rise');
-    return '$start, $rise';
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_session.finished) {
@@ -265,7 +250,7 @@ class _WhichSideWinsGameState extends State<WhichSideWinsGame> {
               // told the student a steeper line was the flatter one on the
               // round where one option is worse on every count.
               note: i < 2
-                  ? _describe(r, i)
+                  ? describeSide(r, i)
                   : 'the marked volume is the crossing',
               selected: _picked == i,
               locked: answered,
@@ -285,4 +270,19 @@ class _WhichSideWinsGameState extends State<WhichSideWinsGame> {
       ),
     );
   }
+}
+
+/// How this line sits against the other one, in both dimensions.
+String describeSide(WinsRound r, int i) {
+  final mine = r.lines[i];
+  final theirs = r.lines[1 - i];
+  final start = mine.fixed > theirs.fixed
+      ? 'the higher start'
+      : (mine.fixed < theirs.fixed ? 'the lower start' : 'the same start');
+  final rise = mine.variable > theirs.variable
+      ? 'the steeper rise'
+      : (mine.variable < theirs.variable
+            ? 'the flatter rise'
+            : 'the same rise');
+  return '$start, $rise';
 }
