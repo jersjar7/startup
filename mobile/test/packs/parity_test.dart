@@ -287,15 +287,15 @@ Future<_Run> _playing(
         final alone = ((r['alone'] as List?) ?? const []).cast<int>();
         final tap = _tapBlock(r);
         final hits = (tap?['hits'] as List?)?.cast<int>() ?? const <int>[];
-        // Only what can be tapped: a column heading that is just a label
-        // is listed as an option but is not an answer on screen.
-        final onScreen = {
-          ...hits,
-          for (final (id, _) in _tileAnswers(
-            ((r['screen'] as List?) ?? const []).cast<Map<String, Object?>>(),
-          ))
-            id,
-        };
+        // On a screen of nodes, only what can be tapped: a column heading
+        // that is just a label is listed as an option but is not an answer
+        // on screen. (Other screens have answers the tile lookup does not
+        // see, such as bars.)
+        final screen = ((r['screen'] as List?) ?? const [])
+            .cast<Map<String, Object?>>();
+        final onScreen = screen.any((b) => b['k'] != null)
+            ? {...hits, for (final (id, _) in _tileAnswers(screen)) id}
+            : <int>{};
         final rest = [
           for (var o = 0; o < options.length; o++)
             if (!alone.contains(o) &&
@@ -304,6 +304,10 @@ Future<_Run> _playing(
         ];
         final taps = switch (k) {
           0 => [...rest, rest.first, rest.first],
+          // A round that needs a set number gets that many, from the end,
+          // so it can be locked in.
+          1 when r['need'] is int =>
+            rest.reversed.take(r['need']! as int).toList(),
           1 =>
             alone.isEmpty
                 ? [rest.last]
