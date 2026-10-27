@@ -201,6 +201,42 @@ What else the move needed:
   plot draws its axis, columns and readings as separate steps, and one
   helper in What Goes Under became public. Nothing draws differently.
 
+## Ethics (20 games), 2026-10-27
+
+Moved, published in FE Civil pack version 7 (88 games, 819 KB to
+download). Not switched on. In What Order moved in phase 0, so all 21
+Ethics games are now in the pack.
+
+Most Ethics games are a scene over a short list of rows, each a title with
+a small note, so they are written as screen nodes from a few shared pieces
+in `mobile/test/packs/ethics.dart`. No game needed its own app code. The
+app gained two general things:
+
+- **A check icon node,** for the tick boxes of Who Has to Agree and How
+  Many Protections.
+- **Answer groups** (`groups`): answers in a group are one choice, so
+  picking one replaces the other. Grounds, or Not asks four yes-or-no
+  questions in one round, each question's Yes and No a group.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 120 of 120 runs pass, all 20 games pixel for pixel on every screen, every round played. |
+| Size | Every game under 16 KB to download; the largest are Who Has to Agree and Which Section, both for their concept sheet's picture. |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 88 pack games played to the end. |
+| Everything else | 4,032 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What else the move needed:
+
+- The contract and life-cycle figures switched to the recordable text and
+  path. Nothing draws differently.
+- The parity check fills a round of groups by picking the last answer of
+  each group, so a round that needs one answer per question can be locked
+  in.
+- One small difference in favour of the pack, not seen by the check: in
+  the built-in Who Has to Agree, tapping "No consent makes this
+  acceptable" a second time keeps it picked; in the pack it unpicks it,
+  like every other row.
+
 ## Notes for after (not changed during the move)
 
 1. **Three Dynamics formulas run off a small phone.** On a phone 320
