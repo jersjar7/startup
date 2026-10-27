@@ -41,6 +41,12 @@ describe('validateFeedback', () => {
     expect(validateFeedback({ ...sheet, chapterId: '' }).ok).toBe(false);
   });
 
+  it('keeps the pack a round came from, and drops one it cannot read', () => {
+    expect(validateFeedback({ ...good, pack: 'fe-civil@3' }).value.pack).toBe('fe-civil@3');
+    expect(validateFeedback({ ...good, pack: 'anything at all' }).value.pack).toBeUndefined();
+    expect(validateFeedback(good).value).not.toHaveProperty('pack');
+  });
+
   it('caps reports per hour', () => {
     expect(overTheHourlyLimit(PER_HOUR - 1)).toBe(false);
     expect(overTheHourlyLimit(PER_HOUR)).toBe(true);

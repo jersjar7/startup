@@ -10,9 +10,12 @@ import 'games/tap_figure_game.dart';
 /// One game as a pack describes it (ADR 0030): which game type plays it,
 /// and everything that makes it this lesson's game.
 class PackGame {
-  PackGame(this.json);
+  PackGame(this.json, {this.pack});
 
   final Map<String, Object?> json;
+
+  /// The pack and version it came from (`fe-civil@1`), for reports.
+  final String? pack;
 
   String get id => json['id']! as String;
   String get type => json['type']! as String;

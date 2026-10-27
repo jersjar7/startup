@@ -725,7 +725,7 @@ async function sendSaleAlertEmail({ buyerEmail = null, amountCents = 0, tier = n
 // Internal owner alert: one per report from the flag on a game round or a
 // concept sheet. Reply goes straight to the student, so thanking them is one
 // keystroke.
-async function sendFeedbackAlertEmail({ email, gameId = null, gameName = null, chapterId, round = null, kind, kindLabel = null, text, build = null, concept = null, lessonName = null } = {}) {
+async function sendFeedbackAlertEmail({ email, gameId = null, gameName = null, chapterId, round = null, kind, kindLabel = null, text, build = null, concept = null, lessonName = null, pack = null } = {}) {
   const to = process.env.OWNER_ALERT_EMAIL || OWNER_ALERT_DEFAULT;
   const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
   const about = esc(kindLabel || kind);
@@ -738,6 +738,7 @@ async function sendFeedbackAlertEmail({ email, gameId = null, gameName = null, c
     `<strong>About:</strong> ${about}`,
     `<strong>From:</strong> ${esc(email)}`,
     build ? `<strong>App build:</strong> ${esc(build)}` : null,
+    pack ? `<strong>Content pack:</strong> ${esc(pack)}` : null,
   ];
   return sendEmail({
     to,
