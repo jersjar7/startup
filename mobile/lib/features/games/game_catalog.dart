@@ -4467,3 +4467,13 @@ final Map<BriefSection, LessonNode> _lessonByBrief = Map.identity()
   });
 
 LessonNode? lessonForBrief(BriefSection brief) => _lessonByBrief[brief];
+
+/// The chapter a lesson sits in, so a report from a concept sheet says
+/// which chapter it is about.
+final Map<LessonNode, String> _chapterByLesson = Map.identity()
+  ..addAll({
+    for (final chapter in chapterMaps.values)
+      for (final lesson in chapter.lessons) lesson: chapter.id,
+  });
+
+String? chapterForLesson(LessonNode lesson) => _chapterByLesson[lesson];

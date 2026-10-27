@@ -154,6 +154,7 @@ class DailyStepScreen extends StatelessWidget {
                                 context,
                                 brief,
                                 back: 'Back to the Daily',
+                                gameId: game.gameId,
                               ),
                             ),
                           ),
@@ -165,7 +166,9 @@ class DailyStepScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               PillButton(
-                label: at == 0 && done == null ? 'Play' : 'Play concept ${at + 1}',
+                label: at == 0 && done == null
+                    ? 'Play'
+                    : 'Play concept ${at + 1}',
                 onTap: () {
                   run.arm();
                   context.pushReplacement('/games/play/${game.gameId}');

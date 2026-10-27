@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/kit.dart';
+import '../auth/auth_controller.dart';
+import '../guest/account_needed.dart';
 import '../shared/widgets/math_text.dart';
+import 'feedback_sheet.dart';
 import 'game_catalog.dart';
 import 'mechanics_pictures.dart';
 import 'mathematics_pictures.dart';
@@ -17218,10 +17222,14 @@ const determinacyBrief = BriefSection(
 /// Opens one concept over whatever is on screen: a cream sheet (reference
 /// 14) with the headline, the copy, the formulas as creamDark tiles, the
 /// figure, the paper line and a pill back to where you came from.
+///
+/// [gameId] is the game it was opened from, if any; it travels with a
+/// report from the flag.
 Future<void> showConcept(
   BuildContext context,
   BriefSection section, {
   String back = 'Back to the round',
+  String? gameId,
 }) {
   return showModalBottomSheet<void>(
     context: context,
@@ -17239,6 +17247,7 @@ Future<void> showConcept(
             child: ConceptView(
               section: section,
               back: back,
+              gameId: gameId,
               onBack: () => Navigator.of(context).pop(),
             ),
           ),
@@ -17255,9 +17264,13 @@ class ConceptView extends StatelessWidget {
     required this.section,
     this.back = 'Back to the round',
     this.onBack,
+    this.gameId,
   });
 
   final BriefSection section;
+
+  /// The game the sheet was opened from, if any, for a report.
+  final String? gameId;
 
   /// What the pill at the bottom says, and does. Without [onBack] the pill
   /// pops whatever route the view sits in.
@@ -17336,6 +17349,22 @@ class ConceptView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 18),
+          // The flag, as on a round: right above the pill, on the right
+          // (owner, 2026-10-26). Only when the sheet knows its chapter.
+          if (_chapter != null) ...[
+            Align(
+              alignment: Alignment.centerRight,
+              child: RoundIconButton(
+                icon: Icons.outlined_flag_rounded,
+                label: 'Something unclear?',
+                size: 44,
+                fill: AppColors.creamDark,
+                iconColor: AppColors.charcoal,
+                onTap: () => _openFlag(context),
+              ),
+            ),
+            const SizedBox(height: 12),
+          ],
           PillButton(
             label: back,
             onTap: onBack ?? () => Navigator.of(context).maybePop(),
@@ -17343,6 +17372,56 @@ class ConceptView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  LessonNode? get _lesson => lessonForBrief(section);
+
+  String? get _chapter {
+    final lesson = _lesson;
+    return lesson == null ? null : chapterForLesson(lesson);
+  }
+
+  /// The parts of this sheet a student can find unclear: the words always,
+  /// the picture and the formulas only when it has them.
+  List<(String, String)> get _parts => [
+    FeedbackSheet.words,
+    if (section.picture != null) FeedbackSheet.picture,
+    if (section.formula != null ||
+        section.formulas.isNotEmpty ||
+        section.spoken.isNotEmpty)
+      FeedbackSheet.formula,
+  ];
+
+  void _openFlag(BuildContext context) {
+    // A report comes to us with its account, so a guest is asked for one.
+    if (_isGuest(context)) {
+      showAccountNeeded(
+        context,
+        title: 'Reporting a concept needs an account',
+        body:
+            'Reports come to us with your account, so we can write back '
+            'when the concept is fixed.',
+      );
+      return;
+    }
+    final lesson = _lesson;
+    showConceptFeedbackSheet(
+      context,
+      concept: section.title,
+      chapterId: _chapter!,
+      parts: _parts,
+      lessonId: lesson?.id,
+      lessonName: section.lesson ?? lesson?.name,
+      gameId: gameId,
+    );
+  }
+}
+
+bool _isGuest(BuildContext context) {
+  try {
+    return context.read<AuthController>().isGuest;
+  } catch (_) {
+    return false;
   }
 }
 
