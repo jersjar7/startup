@@ -6,11 +6,11 @@ import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/packs/game_types.dart';
 
 import '../support/fonts.dart';
-import 'adapters.dart';
+import 'moved.dart';
 import 'builder.dart';
 
-/// Builds the FE Civil pack (for now the three phase 0 games, their rounds,
-/// drawings and concept sheets), written to build/packs/fe-civil.json.
+/// Builds the FE Civil pack: every game moved so far (moved.dart), with its
+/// rounds, drawings and concept sheet, written to build/packs/fe-civil.json.
 /// Run before parity_test.dart; publish it with
 ///
 ///   flutter test test/packs/build_pack_test.dart
@@ -23,8 +23,7 @@ void main() {
 
   testWidgets('build the FE Civil pack', (tester) async {
     final games = {
-      for (final g in [perMillionWhat(), tapTheVoids(), inWhatOrder()])
-        g['id']! as String: g,
+      for (final MapEntry(:key, :value) in movedGames.entries) key: value(),
     };
     final pack = {
       'format': packFormat,
@@ -71,7 +70,9 @@ Map<String, Object?> lessonsOf(Map<String, Map<String, Object?>> games) {
       ];
       if (ids.isEmpty) continue;
       lessons['${chapter.id}/${lesson.id}'] = {
-        'minApp': minAppFor([for (final id in ids) games[id]!['type']! as String]),
+        'minApp': minAppFor([
+          for (final id in ids) games[id]!['type']! as String,
+        ]),
         'games': ids,
       };
     }
