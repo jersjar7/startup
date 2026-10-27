@@ -26,7 +26,7 @@ export function Privacy() {
         </Link>
 
         <h1>Privacy Policy</h1>
-        <p className="legal-updated">Last updated: September 7, 2026</p>
+        <p className="legal-updated">Last updated: October 26, 2026</p>
 
         <section className="legal-section">
           <h2>1. Overview</h2>
@@ -46,14 +46,47 @@ export function Privacy() {
             <li><strong>Session data:</strong> When you study, how many problems you complete per session, and XP earned</li>
             <li><strong>Diagnostic results:</strong> Scores and responses from practice diagnostic exams</li>
             <li><strong>Account metadata:</strong> Account creation date, email verification status</li>
-            <li><strong>Profile details you choose to give us:</strong> Your first and last name and your exam date, all optional. A first name is shown on the leaderboard if you enter one; you can leave these blank or change them at any time on the Profile page.</li>
+            <li><strong>Profile details you choose to give us:</strong> Your first and last name and your exam date, all optional. Section 3 explains where your name appears. You can leave these blank or change them at any time on the Profile page.</li>
+            <li><strong>School and graduation year:</strong> We ask once which school you study at, or studied at, and when you graduate. You can skip the question. We use it to show students from the same school how many of them are studying, and to understand which programs use the Platform.</li>
+            <li><strong>Phone app activity:</strong> If you use the phone app while signed in, the rounds you answer there are saved to your account, so your progress is the same on the phone and on the website.</li>
             <li><strong>How you found us:</strong> The referring website and any campaign tag in the link you arrived on, plus your answer to the one-time "how did you hear about us" question at registration. We use this only to know which channels are worth our effort.</li>
             <li><strong>Purchase records:</strong> If you buy the Exam Simulation, we store the amount, the date, the price tier and the Stripe identifiers for the transaction.</li>
           </ul>
         </section>
 
         <section className="legal-section">
-          <h2>3. Payments</h2>
+          <h2>3. What Other Students See</h2>
+          <p>
+            Studying for the FE is easier when you can see that others are doing it too, so some of
+            your activity is visible to other signed-in students:
+          </p>
+          <ul>
+            <li><strong>Leaderboards:</strong> Your weekly and all-time XP and your place on the boards.</li>
+            <li><strong>The Daily:</strong> Your score and time on the daily puzzle, and, once enough students from your school have played, your place on your school's board.</li>
+            <li><strong>Right now:</strong> A feed on the dashboard showing what students did in the last day, such as the lesson or chapter they studied, whether it was on the phone or at a desk, how long ago, and whether they finished the Daily or the month's chapter challenge.</li>
+            <li><strong>Your school:</strong> When at least five students from the same school have studied in a week, students from that school see how many. They never see who.</li>
+          </ul>
+          <p>
+            These show your first name and the first letter of your last name, for example "Maria G."
+            If you have not entered a first name, the feed shows you as "A student" and the leaderboards
+            and the Daily show only the first three characters of your email address followed by asterisks. We never
+            show your full email address, your answers, your mastery or your exam date to other students.
+            Answers you give in the Exam Simulation never appear anywhere.
+          </p>
+        </section>
+
+        <section className="legal-section">
+          <h2>4. The Phone App</h2>
+          <ul>
+            <li><strong>Without an account:</strong> You can use the app as a guest. Your progress then stays on your phone only and is not sent to us. Deleting the app deletes it. If you later create an account or sign in, the rounds you answered as a guest are added to your account.</li>
+            <li><strong>With an account:</strong> The app signs in to the same account as the website, and what you do in it is saved and deleted the same way.</li>
+            <li><strong>Reminders:</strong> Study reminders and exam countdown reminders are scheduled by the app on your phone, at most three a day, and only if you allow notifications. We do not use a push notification service and do not collect a device token. You can turn them off in the app or in your phone's settings.</li>
+            <li><strong>What the app does not use:</strong> Your location, contacts, camera, microphone, photos, or any advertising identifier. The app contains no advertising or tracking code.</li>
+          </ul>
+        </section>
+
+        <section className="legal-section">
+          <h2>5. Payments</h2>
           <p>
             Payments are processed by Stripe. Your card number never reaches our servers and we
             cannot see it. To take a payment, Stripe collects the billing details it needs, which
@@ -63,7 +96,7 @@ export function Privacy() {
         </section>
 
         <section className="legal-section">
-          <h2>4. Analytics</h2>
+          <h2>6. Analytics</h2>
           <p>
             We use Plausible Analytics on our public pages to count visits. Plausible is
             cookie-free, does not track people across other websites, and does not build a profile
@@ -72,19 +105,19 @@ export function Privacy() {
         </section>
 
         <section className="legal-section">
-          <h2>5. Data We Do Not Collect</h2>
+          <h2>7. Data We Do Not Collect</h2>
           <p>We want to be clear about what we do not do:</p>
           <ul>
             <li>We do not use tracking pixels, ad cookies, or any advertising network. Our only analytics is Plausible, described above, which sets no cookies and cannot follow you off our site</li>
             <li>We do not sell, rent, or share your personal data with third parties for marketing</li>
             <li>We never see or store your card number. Stripe handles payments</li>
-            <li>We do not ask for your phone number or your location</li>
+            <li>We do not ask for your phone number or your location, and the phone app does not read them</li>
             <li>We do not track your browsing activity outside of the Platform</li>
           </ul>
         </section>
 
         <section className="legal-section">
-          <h2>6. How We Use Your Data</h2>
+          <h2>8. How We Use Your Data</h2>
           <p>The data we collect is used exclusively to operate the Platform:</p>
           <ul>
             <li><strong>Authentication:</strong> Your email and hashed password let you log in securely</li>
@@ -96,7 +129,7 @@ export function Privacy() {
         </section>
 
         <section className="legal-section">
-          <h2>7. Cookies</h2>
+          <h2>9. Cookies</h2>
           <p>
             We use a single cookie for authentication. This cookie is:
           </p>
@@ -112,7 +145,7 @@ export function Privacy() {
         </section>
 
         <section className="legal-section">
-          <h2>8. Third-Party Services</h2>
+          <h2>10. Third-Party Services</h2>
           <p>We use the following third-party services to operate the Platform:</p>
           <ul>
             <li><strong>MongoDB Atlas:</strong> Cloud database hosted on AWS (US East region) for storing your account and study data. <a href="https://www.mongodb.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">MongoDB Privacy Policy</a></li>
@@ -128,7 +161,7 @@ export function Privacy() {
         </section>
 
         <section className="legal-section">
-          <h2>9. Data Security</h2>
+          <h2>11. Data Security</h2>
           <p>We take reasonable measures to protect your data:</p>
           <ul>
             <li>Passwords are hashed with bcrypt (industry-standard one-way hashing)</li>
@@ -144,10 +177,11 @@ export function Privacy() {
         </section>
 
         <section className="legal-section">
-          <h2>10. Data Retention and Deletion</h2>
+          <h2>12. Data Retention and Deletion</h2>
           <p>
             We retain your data for as long as your account is active. You can delete your account
-            at any time from the <Link to="/profile">Profile page</Link>. When you delete your account,
+            at any time from the <Link to="/profile">Profile page</Link> on the website or from the
+            Profile tab in the phone app. When you delete your account,
             all your data is permanently removed from our systems, including:
           </p>
           <ul>
@@ -156,12 +190,18 @@ export function Privacy() {
             <li>Session history and XP records</li>
             <li>Diagnostic exam results</li>
             <li>Badge and days-studied data</li>
+            <li>Phone app activity, Daily results, and your name and school</li>
           </ul>
-          <p>This deletion is immediate and irreversible.</p>
+          <p>
+            This deletion is immediate and irreversible. Afterwards we keep only an anonymous count
+            that an account was deleted, with no email, name or anything else that points back to you.
+            Stripe keeps its own record of any payment, as payment law requires. An account that is
+            never verified is deleted automatically after 30 days.
+          </p>
         </section>
 
         <section className="legal-section">
-          <h2>11. Children's Privacy</h2>
+          <h2>13. Children's Privacy</h2>
           <p>
             The Platform is designed for adults preparing for the FE professional engineering exam.
             We do not knowingly collect data from children under 13. If you believe a child has
@@ -170,11 +210,12 @@ export function Privacy() {
         </section>
 
         <section className="legal-section">
-          <h2>12. Your Rights</h2>
+          <h2>14. Your Rights</h2>
           <p>You have the right to:</p>
           <ul>
             <li><strong>Access your data:</strong> Your study progress and account information are visible on the Dashboard and Profile pages</li>
-            <li><strong>Delete your data:</strong> You can permanently delete your account and all associated data from the Profile page</li>
+            <li><strong>Delete your data:</strong> You can permanently delete your account and all associated data from the Profile page on the website or in the app</li>
+            <li><strong>Choose how you appear:</strong> You can change or remove your name and school on the Profile page at any time</li>
             <li><strong>Change your credentials:</strong> You can update your password from the Profile page</li>
           </ul>
           <p>
@@ -184,7 +225,7 @@ export function Privacy() {
         </section>
 
         <section className="legal-section">
-          <h2>13. Changes to This Policy</h2>
+          <h2>15. Changes to This Policy</h2>
           <p>
             We may update this Privacy Policy from time to time. If we make material changes, we
             will update the "Last updated" date at the top of this page. Your continued use of the
@@ -193,7 +234,7 @@ export function Privacy() {
         </section>
 
         <section className="legal-section">
-          <h2>14. Contact</h2>
+          <h2>16. Contact</h2>
           <p>
             If you have questions about this Privacy Policy or your data, you can reach us at{' '}
             <a href="mailto:fe4raccoons@oqupa.com">fe4raccoons@oqupa.com</a>.

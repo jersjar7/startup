@@ -27,7 +27,7 @@ export function Terms() {
         </Link>
 
         <h1>Terms of Service</h1>
-        <p className="legal-updated">Last updated: September 7, 2026</p>
+        <p className="legal-updated">Last updated: October 26, 2026</p>
 
         <section className="legal-section">
           <h2>1. Acceptance of Terms</h2>
@@ -43,7 +43,9 @@ export function Terms() {
             FE for Raccoons is an online study platform designed to help users prepare for the
             Fundamentals of Engineering (FE) Civil exam administered by the National Council of
             Examiners for Engineering and Surveying (NCEES). The Platform provides lessons, practice
-            problems, progress tracking, and gamified study tools.
+            problems, progress tracking, and gamified study tools on the website, and short
+            study rounds in a phone app for iPhone and Android. The phone app can be used without an
+            account, with your progress kept on the phone only.
           </p>
         </section>
 
@@ -131,9 +133,26 @@ export function Terms() {
         </section>
 
         <section className="legal-section">
-          <h2>9. Account Termination and Deletion</h2>
+          <h2>9. Challenges, Badges and Leaderboards</h2>
           <p>
-            You may delete your account at any time from the Profile page. Deleting your account
+            The Platform runs a chapter challenge each month and awards badges, coins, XP and places
+            on leaderboards for studying. These are for motivation only. They have no cash value,
+            cannot be exchanged or transferred, and are not a prize or a contest entry. We may change
+            the challenges, the calendar, the badges and the scoring at any time.
+          </p>
+          <p>
+            Other students can see your name and some of your activity, as described in our{' '}
+            <Link to="/privacy">Privacy Policy</Link>. Choose a name that is fine for other students
+            to see. We may remove a name, reset scores or remove someone from the boards if we find
+            offensive names, automated answering or other ways of inflating a score.
+          </p>
+        </section>
+
+        <section className="legal-section">
+          <h2>10. Account Termination and Deletion</h2>
+          <p>
+            You may delete your account at any time from the Profile page on the website or the
+            Profile tab in the phone app. Deleting your account
             permanently removes all your data from our systems, including your progress, session
             history, and diagnostic results. This action is irreversible.
           </p>
@@ -144,7 +163,7 @@ export function Terms() {
         </section>
 
         <section className="legal-section">
-          <h2>10. Changes to These Terms</h2>
+          <h2>11. Changes to These Terms</h2>
           <p>
             We may update these Terms from time to time. If we make material changes, we will
             update the "Last updated" date at the top of this page. Your continued use of the
@@ -153,7 +172,7 @@ export function Terms() {
         </section>
 
         <section className="legal-section">
-          <h2>11. Governing Law</h2>
+          <h2>12. Governing Law</h2>
           <p>
             These Terms are governed by and construed in accordance with the laws of the State of
             Utah, United States, without regard to its conflict of law provisions.
@@ -161,7 +180,7 @@ export function Terms() {
         </section>
 
         <section className="legal-section">
-          <h2>12. Contact</h2>
+          <h2>13. Contact</h2>
           <p>
             If you have questions about these Terms, you can reach us at{' '}
             <a href="mailto:fe4raccoons@oqupa.com">fe4raccoons@oqupa.com</a>.
