@@ -185,6 +185,19 @@ const underRounds = <UnderRound>[
   ),
 ];
 
+/// The half-width the interval takes if [option] is dropped into the blank.
+double marginWith(UnderRound r, int option) {
+  if (r.blank == Blank.denominator) {
+    final under = switch (r.options[option]) {
+      r'\sqrt{n}' => math.sqrt(r.n.toDouble()),
+      r'n' => r.n.toDouble(),
+      _ => 1.0,
+    };
+    return r.z * r.sigma / under;
+  }
+  return double.parse(r.options[option]) * r.sigma / math.sqrt(r.n);
+}
+
 class _WhatGoesUnderGameState extends State<WhatGoesUnderGame> {
   late final BoardSession _session = BoardSession(
     gameId: 'what-goes-under',
@@ -206,19 +219,6 @@ class _WhatGoesUnderGameState extends State<WhatGoesUnderGame> {
   }
 
   UnderRound get _round => underRounds[_session.round];
-
-  /// The half-width the interval takes if [option] is dropped into the blank.
-  static double marginWith(UnderRound r, int option) {
-    if (r.blank == Blank.denominator) {
-      final under = switch (r.options[option]) {
-        r'\sqrt{n}' => math.sqrt(r.n.toDouble()),
-        r'n' => r.n.toDouble(),
-        _ => 1.0,
-      };
-      return r.z * r.sigma / under;
-    }
-    return double.parse(r.options[option]) * r.sigma / math.sqrt(r.n);
-  }
 
   @override
   Widget build(BuildContext context) {

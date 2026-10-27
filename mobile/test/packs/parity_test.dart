@@ -184,6 +184,24 @@ Future<_Run> _play(
 ) async {
   final run = _Run();
   final report = FlutterError.onError;
+  try {
+    return await _playing(tester, screen, game, phone, dark, run, report);
+  } finally {
+    // Put back before anything escapes, or the test framework hides the
+    // real error behind one about the handler.
+    FlutterError.onError = report;
+  }
+}
+
+Future<_Run> _playing(
+  WidgetTester tester,
+  Widget screen,
+  PackGame game,
+  double phone,
+  bool dark,
+  _Run run,
+  void Function(FlutterErrorDetails)? report,
+) async {
   FlutterError.onError = (details) {
     final text = details.exceptionAsString();
     if (text.contains('overflowed by')) {
@@ -192,7 +210,6 @@ Future<_Run> _play(
       report?.call(details);
     }
   };
-  addTearDown(() => FlutterError.onError = report);
   SharedPreferences.setMockInitialValues({'book_dot_seen': true});
   GameProgress.instance.reset(game.id);
   tester.view.physicalSize = Size(phone, 844);
@@ -268,12 +285,29 @@ Future<_Run> _play(
         // untap on the way so toggling is compared too.
         final options = (r['options']! as List).cast<String>();
         final alone = ((r['alone'] as List?) ?? const []).cast<int>();
+        final tap = _tapBlock(r);
+        final hits = (tap?['hits'] as List?)?.cast<int>() ?? const <int>[];
+        // On a screen of nodes, only what can be tapped: a column heading
+        // that is just a label is listed as an option but is not an answer
+        // on screen. (Other screens have answers the tile lookup does not
+        // see, such as bars.)
+        final screen = ((r['screen'] as List?) ?? const [])
+            .cast<Map<String, Object?>>();
+        final onScreen = screen.any((b) => b['k'] != null)
+            ? {...hits, for (final (id, _) in _tileAnswers(screen)) id}
+            : <int>{};
         final rest = [
           for (var o = 0; o < options.length; o++)
-            if (!alone.contains(o)) o,
+            if (!alone.contains(o) &&
+                (onScreen.isEmpty || onScreen.contains(o)))
+              o,
         ];
         final taps = switch (k) {
           0 => [...rest, rest.first, rest.first],
+          // A round that needs a set number gets that many, from the end,
+          // so it can be locked in.
+          1 when r['need'] is int =>
+            rest.reversed.take(r['need']! as int).toList(),
           1 =>
             alone.isEmpty
                 ? [rest.last]
@@ -281,7 +315,11 @@ Future<_Run> _play(
           _ => (r['answer']! as List).cast<int>(),
         };
         for (final t in taps) {
-          await _tapOn(tester, _option(r, options, t));
+          if (hits.contains(t)) {
+            await _tapMark(tester, tap!, t);
+          } else {
+            await _tapOn(tester, _option(r, options, t));
+          }
           await tester.pump();
         }
       case 'pick-one':
@@ -400,6 +438,30 @@ Future<_Run> _play(
   return run;
 }
 
+/// Taps the mark on a drawing that stands for answer [answer]: a
+/// circle's centre, or the middle of a tap area.
+Future<void> _tapMark(
+  WidgetTester tester,
+  Map<String, Object?> tap,
+  int answer,
+) async {
+  final figure = _tapFigure(tester, tap);
+  await tester.ensureVisible(figure);
+  await tester.pumpAndSettle();
+  final size = tester.getSize(figure);
+  final hits = (tap['hits']! as List).cast<int>();
+  final step =
+      drawingSteps(ops(tap['targets']), size.width)[hits.indexOf(answer)]!
+          as List<Object?>;
+  double n(int k) => drawingNumber(step[k], size.width);
+  await tester.tapAt(
+    tester.getTopLeft(figure) +
+        (step[0] == 'rect'
+            ? Rect.fromLTRB(n(1), n(2), n(3), n(4)).center
+            : Offset(n(1), n(2))),
+  );
+}
+
 Future<void> _tapOn(WidgetTester tester, Finder finder) async {
   // A long round builds its answers only once they are scrolled near.
   if (finder.evaluate().isEmpty) {
@@ -425,10 +487,9 @@ int _roundOnScreen(PackGame game) {
 }
 
 /// A round's tap-the-mark drawing, if it has one.
-Map<String, Object?>? _tapBlock(Map<String, Object?> round) => [
-  for (final b in (round['screen'] as List?) ?? const [])
-    if ((b as Map)['tap'] != null) b.cast<String, Object?>(),
-].firstOrNull;
+Map<String, Object?>? _tapBlock(Map<String, Object?> round) => _tapIn(
+  ((round['screen'] as List?) ?? const []).cast<Map<String, Object?>>(),
+);
 
 /// How many of a round's answers are drawings (they come first).
 int _panelCount(Map<String, Object?> round) => [
@@ -452,7 +513,14 @@ Finder _option(Map<String, Object?> round, List<String> options, int i) {
     ((round['screen'] as List?) ?? const []).cast<Map<String, Object?>>(),
   );
   final at = tiles.indexWhere((t) => t.$1 == i);
-  if (at >= 0) return _tiles({for (final t in tiles) t.$2}).at(at);
+  if (at >= 0) {
+    final radius = tiles[at].$2;
+    // A square answer (a table heading, a line of a readout) may be a bare
+    // tap area in the built-in game: found by its words, the topmost.
+    if (radius == 0) return find.text(options[i]).first;
+    final same = tiles.take(at).where((t) => t.$2 == radius).length;
+    return _tiles({radius}).at(same);
+  }
   // Two answers can share their words (told apart by a note).
   final twins = options.take(i).where((o) => o == options[i]);
   return _answer(options[i]).at(twins.length);
@@ -476,6 +544,14 @@ List<(int, double)> _tileAnswers(List<Map<String, Object?>> blocks) => [
           (id, ((c['radius'] as num?) ?? 12).toDouble()),
     if (b['box'] case final List inner)
       ..._tileAnswers(inner.cast<Map<String, Object?>>()),
+    // A round written as screen nodes: its answer nodes, anywhere.
+    if (b['k'] == 'answer')
+      (b['i']! as int, ((b['radius'] as num?) ?? 12).toDouble()),
+    if (b['k'] != null) ...[
+      if (b['child'] case final Map<String, Object?> c) ..._tileAnswers([c]),
+      if (b['c'] case final List c)
+        ..._tileAnswers(c.cast<Map<String, Object?>>()),
+    ],
   ],
 ];
 
@@ -497,6 +573,11 @@ List<String> _words(List<Map<String, Object?>> blocks) => [
       if (b['mono'] case final String s) s,
       if (b['box'] case final List inner)
         ..._words(inner.cast<Map<String, Object?>>()),
+      if (b['k'] == 't' && b['v'] is String) b['v']! as String,
+      if (b['k'] != null && b['k'] != 'answer') ...[
+        if (b['child'] case final Map<String, Object?> c) ..._words([c]),
+        if (b['c'] case final List c) ..._words(c.cast<Map<String, Object?>>()),
+      ],
     ],
 ];
 
@@ -522,4 +603,19 @@ Finder _tapFigure(WidgetTester tester, Map<String, Object?> tap) {
     if ((all[i].size?.height ?? 0) == h) return grids.at(i);
   }
   throw StateError('No drawing $h high on screen');
+}
+
+/// A round's drawing answered by tapping: a tap block, or a tapdraw node
+/// anywhere in its screen.
+Map<String, Object?>? _tapIn(List<Map<String, Object?>> blocks) {
+  for (final b in blocks) {
+    if (b['tap'] != null || b['k'] == 'tapdraw') return b;
+    final inner = <Map<String, Object?>>[
+      if (b['child'] case final Map<String, Object?> c) c,
+      if (b['c'] case final List c) ...c.cast<Map<String, Object?>>(),
+      if (b['box'] case final List c) ...c.cast<Map<String, Object?>>(),
+    ];
+    if (_tapIn(inner) case final found?) return found;
+  }
+  return null;
 }

@@ -3,13 +3,19 @@
   "title": "FE Civil",
   "format": 1,
   "latest": {
-    "version": 5,
-    "file": "fe-civil-v5-136ab9aa9e69.json",
-    "sha256": "136ab9aa9e69c20980523e755759eda60d34eab85e4ca49f7c94fce786817754",
-    "bytes": 5699656,
-    "gzipBytes": 448019,
-    "published": "2026-10-27T12:27:54.479Z",
+    "version": 6,
+    "file": "fe-civil-v6-02c33085c399.json",
+    "sha256": "02c33085c3994b6481d1e9741caa3cfda6346fdbd9a396314c1c78687d4360b0",
+    "bytes": 9939156,
+    "gzipBytes": 737132,
+    "published": "2026-10-27T15:19:48.959Z",
     "lessons": {
+      "statistics/central-tendency-dispersion": "1.2.0",
+      "statistics/linear-regression-correlation": "1.2.0",
+      "statistics/probability-distributions": "1.2.0",
+      "statistics/expected-value-weighted-averages": "1.2.0",
+      "statistics/confidence-intervals-estimation": "1.2.0",
+      "statistics/hypothesis-testing-goodness-of-fit": "1.2.0",
       "ethics/obligations-to-the-public": "1.2.0",
       "economics/equivalence-interest-factors": "1.2.0",
       "economics/pw-fw-aw-analysis": "1.2.0",
@@ -64,6 +70,12 @@
       "file": "fe-civil-v5-136ab9aa9e69.json",
       "sha256": "136ab9aa9e69c20980523e755759eda60d34eab85e4ca49f7c94fce786817754",
       "published": "2026-10-27T12:27:54.479Z"
+    },
+    {
+      "version": 6,
+      "file": "fe-civil-v6-02c33085c399.json",
+      "sha256": "02c33085c3994b6481d1e9741caa3cfda6346fdbd9a396314c1c78687d4360b0",
+      "published": "2026-10-27T15:19:48.959Z"
     }
   ]
 }

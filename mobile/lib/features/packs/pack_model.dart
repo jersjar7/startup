@@ -95,6 +95,27 @@ Widget _picture(Map<String, Object?> p) {
         rightCaption: right['caption']! as String,
         height: height,
       );
+    case 'row':
+      // Pictures side by side, each an equal share, a gap between.
+      final gap = (p['gap']! as num).toDouble();
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (final (i, c)
+              in (p['children']! as List)
+                  .cast<Map<String, Object?>>()
+                  .indexed) ...[
+            if (i > 0) SizedBox(width: gap),
+            Expanded(
+              child: ConceptPicture(
+                painter: DrawingPainter(ops(c['ops'])),
+                caption: c['caption']! as String,
+                height: height,
+              ),
+            ),
+          ],
+        ],
+      );
     default:
       throw UnsupportedError('Unknown picture layout ${p['kind']}');
   }

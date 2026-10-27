@@ -190,25 +190,10 @@ Future<void> _answerRight(
       final blocks = ((round['screen'] as List?) ?? const [])
           .cast<Map<String, Object?>>();
       final panels = blocks.where((b) => b['panels'] != null).firstOrNull;
-      final tap = blocks.where((b) => b['tap'] != null).firstOrNull;
+      final tap = _tapIn(blocks);
       final hits = (tap?['hits'] as List?)?.cast<int>() ?? const <int>[];
       if (hits.contains(answer)) {
-        final figure = _tapFigure(tester, tap!);
-        await tester.ensureVisible(figure);
-        await tester.pumpAndSettle();
-        final size = tester.getSize(figure);
-        final step =
-            drawingSteps(tap['targets']!, size.width)[hits.indexOf(answer)]!
-                as List<Object?>;
-        double n(int k) => drawingNumber(step[k], size.width);
-        // A circle's centre, or the middle of a tap area.
-        await tester.tapAt(
-          tester.getTopLeft(figure) +
-              (step[0] == 'rect'
-                  ? Rect.fromLTRB(n(1), n(2), n(3), n(4)).center
-                  : Offset(n(1), n(2))),
-        );
-        await _settle(tester);
+        await _tapMark(tester, tap!, answer);
       } else if (panels != null &&
           answer < (panels['panels']! as List).length) {
         await _tap(
@@ -229,8 +214,14 @@ Future<void> _answerRight(
       final options = (round['options']! as List).cast<String>();
       final blocks = ((round['screen'] as List?) ?? const [])
           .cast<Map<String, Object?>>();
+      final tap = _tapIn(blocks);
+      final hits = (tap?['hits'] as List?)?.cast<int>() ?? const <int>[];
       for (final i in (round['answer']! as List).cast<int>()) {
-        await _tap(tester, _option(blocks, options, i));
+        if (hits.contains(i)) {
+          await _tapMark(tester, tap!, i);
+        } else {
+          await _tap(tester, _option(blocks, options, i));
+        }
       }
     case 'order':
       final actions = (round['actions']! as List).cast<String>();
@@ -249,6 +240,31 @@ Future<void> _answerRight(
     default:
       fail('No way to answer a $type round');
   }
+}
+
+/// Taps the mark on a drawing that stands for answer [answer]: a
+/// circle's centre, or the middle of a tap area.
+Future<void> _tapMark(
+  WidgetTester tester,
+  Map<String, Object?> tap,
+  int answer,
+) async {
+  final figure = _tapFigure(tester, tap);
+  await tester.ensureVisible(figure);
+  await tester.pumpAndSettle();
+  final size = tester.getSize(figure);
+  final hits = (tap['hits']! as List).cast<int>();
+  final step =
+      drawingSteps(tap['targets']!, size.width)[hits.indexOf(answer)]!
+          as List<Object?>;
+  double n(int k) => drawingNumber(step[k], size.width);
+  await tester.tapAt(
+    tester.getTopLeft(figure) +
+        (step[0] == 'rect'
+            ? Rect.fromLTRB(n(1), n(2), n(3), n(4)).center
+            : Offset(n(1), n(2))),
+  );
+  await _settle(tester);
 }
 
 /// The drawing a round is answered on: the engineering grid as tall as the
@@ -305,5 +321,28 @@ List<(int, double)> _tileAnswers(List<Map<String, Object?>> blocks) => [
           (id, ((c['radius'] as num?) ?? 12).toDouble()),
     if (b['box'] case final List inner)
       ..._tileAnswers(inner.cast<Map<String, Object?>>()),
+    // A round written as screen nodes: its answer nodes, anywhere.
+    if (b['k'] == 'answer')
+      (b['i']! as int, ((b['radius'] as num?) ?? 12).toDouble()),
+    if (b['k'] != null) ...[
+      if (b['child'] case final Map<String, Object?> c) ..._tileAnswers([c]),
+      if (b['c'] case final List c)
+        ..._tileAnswers(c.cast<Map<String, Object?>>()),
+    ],
   ],
 ];
+
+/// A round's drawing answered by tapping: a tap block, or a tapdraw node
+/// anywhere in its screen.
+Map<String, Object?>? _tapIn(List<Map<String, Object?>> blocks) {
+  for (final b in blocks) {
+    if (b['tap'] != null || b['k'] == 'tapdraw') return b;
+    final inner = <Map<String, Object?>>[
+      if (b['child'] case final Map<String, Object?> c) c,
+      if (b['c'] case final List c) ...c.cast<Map<String, Object?>>(),
+      if (b['box'] case final List c) ...c.cast<Map<String, Object?>>(),
+    ];
+    if (_tapIn(inner) case final found?) return found;
+  }
+  return null;
+}

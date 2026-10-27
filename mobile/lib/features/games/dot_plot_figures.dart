@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide TextPainter;
+
+import '../packs/drawing/figure_text.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -73,45 +75,60 @@ class DotPlotPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final baseline = size.height - _axis;
+    paintAxis(canvas, size);
+    for (var v = from; v <= to; v++) {
+      paintColumn(canvas, size, v);
+    }
+    paintReadings(canvas, size);
+  }
 
+  double _baseline(Size size) => size.height - _axis;
+
+  /// The axis line.
+  void paintAxis(Canvas canvas, Size size) {
     canvas.drawLine(
-      Offset(_padX - 8, baseline),
-      Offset(size.width - _padX + 8, baseline),
+      Offset(_padX - 8, _baseline(size)),
+      Offset(size.width - _padX + 8, _baseline(size)),
       Paint()
         ..color = AppColors.ink2
         ..strokeWidth = 1.6,
     );
+  }
 
-    for (var v = from; v <= to; v++) {
-      final x = xOf(size, v);
-      final marked = truth.contains(v);
-      final wrong = picked.contains(v) && !marked;
-      final color = revealed && marked
-          ? AppColors.forest
-          : revealed && wrong
-          ? AppColors.error
-          : picked.contains(v)
-          ? AppColors.ember
-          : AppColors.ink3;
+  /// One value's tick, its label, and its band when it is marked. Drawn
+  /// alone so the pack can redraw a column as it is picked.
+  void paintColumn(Canvas canvas, Size size, int v) {
+    final baseline = _baseline(size);
+    final x = xOf(size, v);
+    final marked = truth.contains(v);
+    final wrong = picked.contains(v) && !marked;
+    final color = revealed && marked
+        ? AppColors.forest
+        : revealed && wrong
+        ? AppColors.error
+        : picked.contains(v)
+        ? AppColors.ember
+        : AppColors.ink3;
 
-      canvas.drawLine(
-        Offset(x, baseline),
-        Offset(x, baseline + 5),
-        Paint()..color = AppColors.ink3,
+    canvas.drawLine(
+      Offset(x, baseline),
+      Offset(x, baseline + 5),
+      Paint()..color = AppColors.ink3,
+    );
+    if (picked.contains(v) || (revealed && marked)) {
+      // A band up the whole column, so a marked value reads as a place on
+      // the axis rather than as a highlighted number.
+      canvas.drawRect(
+        Rect.fromLTRB(x - 9, 6, x + 9, baseline),
+        Paint()..color = color.withValues(alpha: 0.12),
       );
-      if (picked.contains(v) || (revealed && marked)) {
-        // A band up the whole column, so a marked value reads as a place on
-        // the axis rather than as a highlighted number.
-        canvas.drawRect(
-          Rect.fromLTRB(x - 9, 6, x + 9, baseline),
-          Paint()..color = color.withValues(alpha: 0.12),
-        );
-      }
-      _tick(canvas, '$v', Offset(x, baseline + 17), color);
     }
+    _tick(canvas, '$v', Offset(x, baseline + 17), color);
+  }
 
-    // The readings themselves, stacked.
+  /// The readings themselves, stacked.
+  void paintReadings(Canvas canvas, Size size) {
+    final baseline = _baseline(size);
     final counts = <int, int>{};
     for (final v in values) {
       counts[v] = (counts[v] ?? 0) + 1;
