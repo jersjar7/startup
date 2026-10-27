@@ -1,7 +1,7 @@
 # 0031. A pack drawing matches when its geometry matches, not every pixel
 
-**Status:** Proposed (2026-10-27, overnight; for the owner to accept or
-overturn)
+**Status:** Accepted (proposed 2026-10-27 overnight; accepted by the owner
+2026-10-27)
 
 ## Context
 

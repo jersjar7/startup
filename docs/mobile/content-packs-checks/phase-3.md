@@ -116,7 +116,7 @@ What else the move needed:
   few points and any shift at all can cross one. The first three chapters
   matched exactly only because nearly all their numbers are straight lines
   in the width. Written up as [ADR 0031](../../adr/0031-pack-drawings-match-to-sampling-not-bits.md)
-  (proposed, for the owner): the geometry must match to a ten thousandth
+  (accepted by the owner the same day): the geometry must match to a ten thousandth
   of a pixel, and the pixels may differ only as sampling does, no more than
   32 shades on no more than 0.05% of a screen. Every differing screen is
   still printed.
