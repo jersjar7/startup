@@ -129,6 +129,76 @@ What else the move needed:
   phone at the largest text size ran its button off the bottom). At normal
   sizes it is unchanged.
 
+## Statistics (19 games), 2026-10-27
+
+Moved, published in FE Civil pack version 6 (68 games, 737 KB to
+download). Not switched on.
+
+Almost no two Statistics games share a layout: a calculator readout whose
+lines are the answers, a table whose column headings are tapped to give
+each column a role, a formula with three slots that fill as factors are
+picked, a dot plot where any number of ticks are tapped, a bell curve
+tapped by region. Rather than a block per game, a round's screen can now be
+written as **screen nodes**, the same few widgets the built-in games are
+made of, with any value able to follow the round (the answer's state, a
+slot, before and after). Written up as
+[ADR 0032](../../adr/0032-pack-screens-as-widget-nodes.md). The rest the
+app gained, all general and for 1.2.0:
+
+- **Several picks with limits and order:** no more than `most`, exactly
+  `need` before Lock it in, and `order` (`list` for Mind the Order's
+  "first minus second", `slots` for What Gets Weighted's two roles).
+- **A round's own verdict** (Which Line Do You Read says "NOT ON THE
+  SCREEN" when that is the answer).
+- **A row of pictures on a concept sheet** (Which Way Does It Point's three
+  tails side by side).
+- **Drawings kept in parts.** How Many Samples' dashed "wanted" line gains a
+  dash every ten pixels of width, and the builder kept the whole picture,
+  a 240 point curve included, once per dash: 6.9 MB for one game. Now the
+  steps before and after the stretch that changes are kept once, whenever
+  that is smaller: 45 KB.
+
+Descriptions are in `mobile/test/packs/statistics.dart`, written with the
+helpers in `mobile/test/packs/nodes.dart`.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 114 of 114 runs pass, all 19 games pixel for pixel on every screen. |
+| All moved games again after the builder changed | Every one of the 68 passes. Which Rate's concept sheet still differs by sampling only (37 pixels at most 6 shades at 320 wide, 1 pixel at 430). |
+| 5, the game audit | All 19 carry their audited rounds (68 pack games in all). |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 68 pack games played to the end. |
+| Everything else | 3,892 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What else the move needed:
+
+- **Drawing corners placed exactly.** Where a number bends (the Venn
+  circles stop growing at 270.45 pixels wide), the builder put the corner
+  at the nearest width it had looked at, so the straight piece after it
+  started 0.00003 of a pixel low. The letters under the circles sit on a
+  half pixel, and that was enough to round them a whole pixel up. Corners
+  now go where the two straight pieces meet, checked against every value.
+  This changed drawings in every chapter, which is why all 68 games were
+  compared again.
+- **A label's patch drawn in both themes.** A label patches the lines
+  under it by day but not at night, so day and night drew different shapes
+  and could not be kept as one drawing (the readout picture on Which Line
+  Do You Read's sheet). The patch is now drawn clear when it is not wanted.
+  Nothing looks different.
+- **Answers keep their place.** An answer written as a node now keeps its
+  identity when a picture appears above it once answered, as the built-in
+  buttons do, so a layout error is reported once, not once per redraw.
+- **The parity check plays every several-pick round to the end.** A round
+  that needs three picks was tried with one on its second try, so Lock it
+  in never came on and the run stopped at its turn limit before the last
+  rounds; built-in and pack stopped alike, so it passed while covering
+  less. The second try now picks as many as the round needs. Every
+  several-pick game, Economics included, now plays all its rounds. The
+  check also shows a game's real error instead of one about its error
+  handler.
+- The Statistics figures switched to the recordable text and path, the dot
+  plot draws its axis, columns and readings as separate steps, and one
+  helper in What Goes Under became public. Nothing draws differently.
+
 ## Notes for after (not changed during the move)
 
 1. **Three Dynamics formulas run off a small phone.** On a phone 320
@@ -147,3 +217,8 @@ What else the move needed:
    read at launch. Before Mathematics at the latest: one file per chapter,
    loaded when the chapter is opened, and drawings that share most of their
    steps between states stored once.
+
+3. **How Do They Sit runs off a small phone.** On a phone 320 pixels wide,
+   the answer "One changes the odds of the other" wraps to two lines and
+   overflows its button by 18 pixels, in the built-in game as much as in the
+   pack. Fix: let the button grow with its words.

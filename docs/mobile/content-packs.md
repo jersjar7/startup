@@ -118,13 +118,55 @@ and the last three to particular answers (`of`). Balance the Rate uses this
 to redraw its bars at whichever rate is being tried. The app's side is
 `mobile/lib/features/packs/games/pick_one_game.dart`; the adapters that
 describe each game are in `mobile/test/packs/` (`dynamics.dart`,
-`economics.dart`).
+`economics.dart`, `statistics.dart`).
 
 **Pick several** (game type `pick-several`, added 2026-10-27 for
 Economics) is the same screen with any number of answers picked: right when
 exactly the right ones are. An answer may stand alone (`alone`, as "None of
 them clears it"): picking it clears the rest, and picking any other clears
 it. The round's `answer` is then a list.
+
+**Screen nodes** (added 2026-10-27 for Statistics). Statistics has 19
+games and almost no two lay their screen out alike: a calculator's readout
+whose lines are the answers, a table whose columns are tapped to give them a
+role, a formula with three empty slots that fill as factors are picked, a
+dot plot where several ticks are tapped. A block per layout would have meant
+a dozen new blocks for one chapter, each used once. Instead a block may be a
+small widget tree, written with the same widgets the built-in games use, so
+any layout made of them can be described without changing the app:
+
+| Node (`k`) | What it is |
+|---|---|
+| `box` | A container: padding, width (or the full width), height, fill, border (all round, or the top only), corner, alignment, clipping, and one child or a column of children. |
+| `row`, `col` | Children side by side or stacked, with their alignment. |
+| `gap`, `flex`, `center` | Empty space; a child taking a share of the row (or up to a share); a child centred. |
+| `t`, `tex`, `rule` | Words in one of the app's faces (body, mono, code, overline, heading), a formula, a divider. |
+| `draw`, `grid`, `clip` | A recorded drawing, the engineering grid behind it, a rounded corner. |
+| `answer` | An answer, tapped anywhere on what it holds. |
+| `tapdraw` | A drawing answered by tapping on it: by area, by the nearest mark, or by the nearest mark measured across only. With several picks it is drawn in layers, one per mark, so no drawing is kept for every combination of picks. |
+
+Any value in a node may follow the round instead of being fixed: before and
+after the answer; the state of the answer it sits in (idle, picked, right,
+wrong, or which slot it was picked into); what is picked in a slot; which
+place an answer was picked in; or which answer is picked. That one rule is
+what lets a fill turn ember when picked, a slot show the factor put in it,
+or a row show the number it was picked as. A node's child can follow the
+round too, and be nothing for now. The full list is at the top of
+`mobile/lib/features/packs/games/screen_nodes.dart`, and the adapters write
+nodes with the helpers in `mobile/test/packs/nodes.dart`. Why nodes and not
+more blocks: [ADR 0032](../adr/0032-pack-screens-as-widget-nodes.md).
+
+Several picks gained three settings with Statistics: `most` (no more than
+this many at once), `need` (exactly this many before Lock it in), and
+`order` (`list`: right only in the order picked, as Mind the Order fills
+"first, minus second"; `slots`: each pick fills the first empty slot and a
+tap on a picked one empties its slot, as What Gets Weighted gives one column
+each role). A round may also name its own verdict (`right`), for a game
+whose title changes with the answer.
+
+A concept sheet's picture may now be a **row** of pictures side by side,
+any number with the same gap between (Which Way Does It Point's three tails),
+besides one picture, a pair, or a column of those.
 
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is
