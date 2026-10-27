@@ -28,6 +28,8 @@ part of 'pick_one_game.dart';
 /// - `answer`: answer `i`, tapped anywhere on its `child`, with `radius`
 ///   and `fill`. Inside it, a value may follow the answer's state.
 /// - `tapdraw`: a drawing answered by tapping on it (see [_tapDraw]).
+/// - `icon`: one of the few icons the games draw, by name in `v` (only
+///   `check` so far), with `size` and `color`.
 ///
 /// Any value may follow the round: `{"ask": a, "done": b}` (before and
 /// after the answer); `{"idle", "picked", "right", "wrong"}` (the state of
@@ -178,6 +180,15 @@ extension on _ScreenBlocks {
         return Divider(height: d('h') ?? 1, color: _color(v('color')));
       case 'tapdraw':
         return _tapDraw(n);
+      case 'icon':
+        return Icon(
+          switch (v('v')) {
+            'check' => Icons.check_rounded,
+            final other => throw FormatException('Unknown icon $other'),
+          },
+          size: d('size'),
+          color: _color(v('color')),
+        );
     }
     throw FormatException('Unknown screen node $n');
   }

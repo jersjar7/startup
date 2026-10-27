@@ -3,12 +3,12 @@
   "title": "FE Civil",
   "format": 1,
   "latest": {
-    "version": 6,
-    "file": "fe-civil-v6-02c33085c399.json",
-    "sha256": "02c33085c3994b6481d1e9741caa3cfda6346fdbd9a396314c1c78687d4360b0",
-    "bytes": 9939156,
-    "gzipBytes": 737132,
-    "published": "2026-10-27T15:19:48.959Z",
+    "version": 7,
+    "file": "fe-civil-v7-4dad0d3db3f9.json",
+    "sha256": "4dad0d3db3f9190b5e27fcb323f867ab74793e6ab8ae67a008ceec84656318ea",
+    "bytes": 10720254,
+    "gzipBytes": 819339,
+    "published": "2026-10-27T19:04:43.417Z",
     "lessons": {
       "statistics/central-tendency-dispersion": "1.2.0",
       "statistics/linear-regression-correlation": "1.2.0",
@@ -17,6 +17,12 @@
       "statistics/confidence-intervals-estimation": "1.2.0",
       "statistics/hypothesis-testing-goodness-of-fit": "1.2.0",
       "ethics/obligations-to-the-public": "1.2.0",
+      "ethics/obligations-employers-clients-peers": "1.2.0",
+      "ethics/definitions-practice-of-engineering": "1.2.0",
+      "ethics/licensure-path-disciplinary-action": "1.2.0",
+      "ethics/engineering-contracts": "1.2.0",
+      "ethics/professional-liability": "1.2.0",
+      "ethics/intellectual-property-sustainability": "1.2.0",
       "economics/equivalence-interest-factors": "1.2.0",
       "economics/pw-fw-aw-analysis": "1.2.0",
       "economics/cost-types-breakeven": "1.2.0",
@@ -76,6 +82,12 @@
       "file": "fe-civil-v6-02c33085c399.json",
       "sha256": "02c33085c3994b6481d1e9741caa3cfda6346fdbd9a396314c1c78687d4360b0",
       "published": "2026-10-27T15:19:48.959Z"
+    },
+    {
+      "version": 7,
+      "file": "fe-civil-v7-4dad0d3db3f9.json",
+      "sha256": "4dad0d3db3f9190b5e27fcb323f867ab74793e6ab8ae67a008ceec84656318ea",
+      "published": "2026-10-27T19:04:43.417Z"
     }
   ]
 }

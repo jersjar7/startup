@@ -118,7 +118,7 @@ and the last three to particular answers (`of`). Balance the Rate uses this
 to redraw its bars at whichever rate is being tried. The app's side is
 `mobile/lib/features/packs/games/pick_one_game.dart`; the adapters that
 describe each game are in `mobile/test/packs/` (`dynamics.dart`,
-`economics.dart`, `statistics.dart`).
+`economics.dart`, `statistics.dart`, `ethics.dart`).
 
 **Pick several** (game type `pick-several`, added 2026-10-27 for
 Economics) is the same screen with any number of answers picked: right when
@@ -143,6 +143,7 @@ any layout made of them can be described without changing the app:
 | `t`, `tex`, `rule` | Words in one of the app's faces (body, mono, code, overline, heading), a formula, a divider. |
 | `draw`, `grid`, `clip` | A recorded drawing, the engineering grid behind it, a rounded corner. |
 | `answer` | An answer, tapped anywhere on what it holds. |
+| `icon` | One of the few icons the games draw (only the check of a tick box so far, added with Ethics). |
 | `tapdraw` | A drawing answered by tapping on it: by area, by the nearest mark, or by the nearest mark measured across only. With several picks it is drawn in layers, one per mark, so no drawing is kept for every combination of picks. |
 
 Any value in a node may follow the round instead of being fixed: before and
@@ -163,6 +164,11 @@ this many at once), `need` (exactly this many before Lock it in), and
 tap on a picked one empties its slot, as What Gets Weighted gives one column
 each role). A round may also name its own verdict (`right`), for a game
 whose title changes with the answer.
+
+Ethics added one more setting, `groups`: answers in a group are one choice,
+so picking one replaces the other and picking it again keeps it. Grounds, or
+Not asks four yes-or-no questions in one round, each question's Yes and No
+a group, with `need` set to the number of questions.
 
 A concept sheet's picture may now be a **row** of pictures side by side,
 any number with the same gap between (Which Way Does It Point's three tails),

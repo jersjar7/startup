@@ -194,3 +194,10 @@ Node pictured(Object d, num h, {num radius = 16, String? when}) => clip(
   radius,
   when: when,
 );
+
+Node icon(String name, {num? size, Object? color}) => {
+  'k': 'icon',
+  'v': name,
+  'size': ?size,
+  'color': ?color,
+};
