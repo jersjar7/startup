@@ -253,7 +253,7 @@ Future<_Run> _play(
 
   final seen = <int, int>{};
   var tappedEmpty = false;
-  for (var turn = 0; turn < 60; turn++) {
+  for (var turn = 0; turn < 200; turn++) {
     if (find.text('See how you did').evaluate().isNotEmpty) {
       await _tapOn(tester, find.text('See how you did'));
       break;
@@ -262,41 +262,70 @@ Future<_Run> _play(
     final k = seen[i] = (seen[i] ?? -1) + 1;
     final r = game.rounds[i];
     switch (game.type) {
+      case 'pick-several':
+        // Everything that does not stand alone, then what stands alone
+        // (or one answer), then exactly the right ones; a tap and an
+        // untap on the way so toggling is compared too.
+        final options = (r['options']! as List).cast<String>();
+        final alone = ((r['alone'] as List?) ?? const []).cast<int>();
+        final rest = [
+          for (var o = 0; o < options.length; o++)
+            if (!alone.contains(o)) o,
+        ];
+        final taps = switch (k) {
+          0 => [...rest, rest.first, rest.first],
+          1 =>
+            alone.isEmpty
+                ? [rest.last]
+                : [alone.first, rest.first, alone.first],
+          _ => (r['answer']! as List).cast<int>(),
+        };
+        for (final t in taps) {
+          await _tapOn(tester, _option(r, options, t));
+          await tester.pump();
+        }
       case 'pick-one':
         final options = (r['options']! as List).cast<String>();
         final answer = r['answer']! as int;
-        final wrong = [
+        final everyWrong = [
           for (var o = 0; o < options.length; o++)
             if (o != answer) o,
         ];
+        // A round with a table of answers tries its first, middle and
+        // last wrong ones, not all twenty.
+        final wrong = everyWrong.length <= 6
+            ? everyWrong
+            : [
+                everyWrong.first,
+                everyWrong[everyWrong.length ~/ 2],
+                everyWrong.last,
+              ];
         final pick = k < wrong.length ? wrong[k] : answer;
         final drawn = _panelCount(r);
         final tap = _tapBlock(r);
         final hits = (tap?['hits'] as List?)?.cast<int>() ?? const <int>[];
         if (hits.contains(pick)) {
-          final figure = find.byWidgetPredicate(
-            (w) =>
-                w is GestureDetector &&
-                w.onTapDown != null &&
-                w.child is EngineeringGrid,
-          );
+          final figure = _tapFigure(tester, tap!);
           await tester.ensureVisible(figure);
           await tester.pumpAndSettle();
           final origin = tester.getTopLeft(figure);
           final size = tester.getSize(figure);
+          // A mark is a circle's centre, or the middle of a tap area.
+          double n(Object? v) => drawingNumber(v, size.width);
+          final areas = <Rect>[];
           final marks = [
-            for (final step in drawingSteps(ops(tap!['targets']), size.width))
-              if (step case [_, final x, final y, ...])
-                Offset(
-                  drawingNumber(x, size.width),
-                  drawingNumber(y, size.width),
-                ),
+            for (final step in drawingSteps(ops(tap['targets']), size.width))
+              if (step case ['rect', final l, final t, final r, final b, ...])
+                (areas..add(Rect.fromLTRB(n(l), n(t), n(r), n(b)))).last.center
+              else if (step case [_, final x, final y, ...])
+                Offset(n(x), n(y)),
           ];
-          final within = (tap['within']! as num).toDouble();
+          final within = ((tap['within'] as num?) ?? 0).toDouble();
           // Once per sitting, a tap well away from every mark changes
           // nothing.
           const corner = Offset(6, 6);
           if (!tappedEmpty &&
+              areas.every((a) => !a.inflate(4).contains(corner)) &&
               marks.every((m) => (m - corner).distance > within + 4)) {
             tappedEmpty = true;
             await tester.tapAt(origin + corner);
@@ -306,13 +335,8 @@ Future<_Run> _play(
         } else if (pick < drawn) {
           // A drawing answer has no words to find: tap it by its place.
           await _tapOn(tester, _panels.at(pick));
-        } else if (_tileRadius(r) case final double radius) {
-          // So is a tile, whose words may be a formula.
-          await _tapOn(tester, _tiles(radius).at(pick));
         } else {
-          // Two answers can share their words (told apart by a note).
-          final twins = options.take(pick).where((o) => o == options[pick]);
-          await _tapOn(tester, _answer(options[pick]).at(twins.length));
+          await _tapOn(tester, _option(r, options, pick));
         }
       case 'tap-figure':
         final puck = voidRounds[i].puck;
@@ -421,18 +445,46 @@ final _panels = find.byWidgetPredicate(
       w.onTap != null,
 );
 
-/// The corner of a round's tile answers, if it answers with tiles.
-double? _tileRadius(Map<String, Object?> round) => [
-  for (final b in (round['screen'] as List?) ?? const [])
-    if ((b as Map)['tiles'] != null) ((b['radius'] as num?) ?? 12).toDouble(),
-].firstOrNull;
+/// Answer [i] of a round, on screen. A tile is found by its place (its
+/// words may be a formula), anything else by its words.
+Finder _option(Map<String, Object?> round, List<String> options, int i) {
+  final tiles = _tileAnswers(
+    ((round['screen'] as List?) ?? const []).cast<Map<String, Object?>>(),
+  );
+  final at = tiles.indexWhere((t) => t.$1 == i);
+  if (at >= 0) return _tiles({for (final t in tiles) t.$2}).at(at);
+  // Two answers can share their words (told apart by a note).
+  final twins = options.take(i).where((o) => o == options[i]);
+  return _answer(options[i]).at(twins.length);
+}
+
+/// A round's tile answers in the order they sit on screen, each as its
+/// answer and its corner: in a tiles block, or one by one in a row of a
+/// table.
+List<(int, double)> _tileAnswers(List<Map<String, Object?>> blocks) => [
+  for (final b in blocks) ...[
+    if (b['tiles'] case final List tiles)
+      for (final (k, id)
+          in ((b['answers'] as List?) ??
+                  [for (var t = 0; t < tiles.length; t++) t])
+              .cast<int>()
+              .indexed)
+        if (k < tiles.length) (id, ((b['radius'] as num?) ?? 12).toDouble()),
+    if (b['row'] case final List cells)
+      for (final c in cells.cast<Map<String, Object?>>())
+        if (c['answer'] case final int id)
+          (id, ((c['radius'] as num?) ?? 12).toDouble()),
+    if (b['box'] case final List inner)
+      ..._tileAnswers(inner.cast<Map<String, Object?>>()),
+  ],
+];
 
 /// The tiles on screen, in order: the only buttons on their round with
-/// that corner.
-Finder _tiles(double radius) => find.byWidgetPredicate(
+/// those corners.
+Finder _tiles(Set<double> radii) => find.byWidgetPredicate(
   (w) =>
       w is InkWell &&
-      w.borderRadius == BorderRadius.circular(radius) &&
+      radii.any((r) => w.borderRadius == BorderRadius.circular(r)) &&
       w.onTap != null,
 );
 
@@ -458,3 +510,16 @@ Future<void> _settle(WidgetTester tester) async {
 /// An answer's words on its button, not where the problem quotes them.
 Finder _answer(String words) =>
     find.descendant(of: find.byType(InkWell), matching: find.text(words));
+
+/// The drawing a round is answered on: the engineering grid as tall as the
+/// drawing. Found this way because the built-in games build it in
+/// different ways (a stack of tap areas, or one tap handler).
+Finder _tapFigure(WidgetTester tester, Map<String, Object?> tap) {
+  final h = (tap['h']! as num).toDouble();
+  final grids = find.byType(EngineeringGrid, skipOffstage: false);
+  final all = grids.evaluate().toList();
+  for (var i = 0; i < all.length; i++) {
+    if ((all[i].size?.height ?? 0) == h) return grids.at(i);
+  }
+  throw StateError('No drawing $h high on screen');
+}

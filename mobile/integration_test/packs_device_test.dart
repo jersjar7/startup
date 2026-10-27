@@ -193,24 +193,20 @@ Future<void> _answerRight(
       final tap = blocks.where((b) => b['tap'] != null).firstOrNull;
       final hits = (tap?['hits'] as List?)?.cast<int>() ?? const <int>[];
       if (hits.contains(answer)) {
-        final figure = find.byWidgetPredicate(
-          (w) =>
-              w is GestureDetector &&
-              w.onTapDown != null &&
-              w.child is EngineeringGrid,
-        );
+        final figure = _tapFigure(tester, tap!);
         await tester.ensureVisible(figure);
         await tester.pumpAndSettle();
         final size = tester.getSize(figure);
         final step =
-            drawingSteps(tap!['targets']!, size.width)[hits.indexOf(answer)]!
+            drawingSteps(tap['targets']!, size.width)[hits.indexOf(answer)]!
                 as List<Object?>;
+        double n(int k) => drawingNumber(step[k], size.width);
+        // A circle's centre, or the middle of a tap area.
         await tester.tapAt(
           tester.getTopLeft(figure) +
-              Offset(
-                drawingNumber(step[1], size.width),
-                drawingNumber(step[2], size.width),
-              ),
+              (step[0] == 'rect'
+                  ? Rect.fromLTRB(n(1), n(2), n(3), n(4)).center
+                  : Offset(n(1), n(2))),
         );
         await _settle(tester);
       } else if (panels != null &&
@@ -226,34 +222,15 @@ Future<void> _answerRight(
               )
               .at(answer),
         );
-      } else if (blocks.where((b) => b['tiles'] != null).firstOrNull
-          case final tiles?) {
-        // A tile's words may be a formula: tap it by its place.
-        final radius = ((tiles['radius'] as num?) ?? 12).toDouble();
-        await _tap(
-          tester,
-          find
-              .byWidgetPredicate(
-                (w) =>
-                    w is InkWell &&
-                    w.borderRadius == BorderRadius.circular(radius) &&
-                    w.onTap != null,
-              )
-              .at(answer),
-        );
       } else {
-        // The answer's words on its button, not where the problem quotes
-        // them; two answers can share their words.
-        final twins = options.take(answer).where((o) => o == options[answer]);
-        await _tap(
-          tester,
-          find
-              .descendant(
-                of: find.byType(InkWell),
-                matching: find.text(options[answer]),
-              )
-              .at(twins.length),
-        );
+        await _tap(tester, _option(blocks, options, answer));
+      }
+    case 'pick-several':
+      final options = (round['options']! as List).cast<String>();
+      final blocks = ((round['screen'] as List?) ?? const [])
+          .cast<Map<String, Object?>>();
+      for (final i in (round['answer']! as List).cast<int>()) {
+        await _tap(tester, _option(blocks, options, i));
       }
     case 'order':
       final actions = (round['actions']! as List).cast<String>();
@@ -273,3 +250,60 @@ Future<void> _answerRight(
       fail('No way to answer a $type round');
   }
 }
+
+/// The drawing a round is answered on: the engineering grid as tall as the
+/// drawing. Found this way because the built-in games build it in
+/// different ways (a stack of tap areas, or one tap handler).
+Finder _tapFigure(WidgetTester tester, Map<String, Object?> tap) {
+  final h = (tap['h']! as num).toDouble();
+  final grids = find.byType(EngineeringGrid, skipOffstage: false);
+  final all = grids.evaluate().toList();
+  for (var i = 0; i < all.length; i++) {
+    if ((all[i].size?.height ?? 0) == h) return grids.at(i);
+  }
+  throw StateError('No drawing $h high on screen');
+}
+
+/// Answer [i] on screen. A tile is found by its place (its words may be a
+/// formula); anything else by its words on its button, not where the
+/// problem quotes them, two answers sometimes sharing their words.
+Finder _option(List<Map<String, Object?>> blocks, List<String> options, int i) {
+  final tiles = _tileAnswers(blocks);
+  final at = tiles.indexWhere((t) => t.$1 == i);
+  if (at >= 0) {
+    final radii = {for (final t in tiles) t.$2};
+    return find
+        .byWidgetPredicate(
+          (w) =>
+              w is InkWell &&
+              radii.any((r) => w.borderRadius == BorderRadius.circular(r)) &&
+              w.onTap != null,
+        )
+        .at(at);
+  }
+  final twins = options.take(i).where((o) => o == options[i]);
+  return find
+      .descendant(of: find.byType(InkWell), matching: find.text(options[i]))
+      .at(twins.length);
+}
+
+/// A round's tile answers in the order they sit on screen, each as its
+/// answer and its corner: in a tiles block, or one by one in a row of a
+/// table.
+List<(int, double)> _tileAnswers(List<Map<String, Object?>> blocks) => [
+  for (final b in blocks) ...[
+    if (b['tiles'] case final List tiles)
+      for (final (k, id)
+          in ((b['answers'] as List?) ??
+                  [for (var t = 0; t < tiles.length; t++) t])
+              .cast<int>()
+              .indexed)
+        if (k < tiles.length) (id, ((b['radius'] as num?) ?? 12).toDouble()),
+    if (b['row'] case final List cells)
+      for (final c in cells.cast<Map<String, Object?>>())
+        if (c['answer'] case final int id)
+          (id, ((c['radius'] as num?) ?? 12).toDouble()),
+    if (b['box'] case final List inner)
+      ..._tileAnswers(inner.cast<Map<String, Object?>>()),
+  ],
+];

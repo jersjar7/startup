@@ -232,10 +232,12 @@ Map<String, Object?> tapMarks({
   required void Function(Canvas canvas, Size size, int? mark, bool answered)
   paint,
   required int marks,
-  required Offset Function(Size size, int mark) at,
-  required double within,
+  Offset Function(Size size, int mark)? at,
+  double? within,
+  Rect Function(Size size, int mark)? area,
   required List<int> hits,
   required double h,
+  num? radius,
   required String what,
 }) => {
   'tap': {
@@ -247,16 +249,66 @@ Map<String, Object?> tapMarks({
           what: '$what mark $mark ${answered ? 'answered' : 'open'}',
         ),
   },
+  // Each mark a circle (the nearest within reach wins) or an area (the
+  // last one holding the tap wins).
   'targets': record(
     (canvas, size) {
       for (var i = 0; i < marks; i++) {
-        canvas.drawCircle(at(size, i), within, Paint());
+        if (area != null) {
+          canvas.drawRect(area(size, i), Paint());
+        } else {
+          canvas.drawCircle(at!(size, i), within!, Paint());
+        }
       }
     },
     h,
     what: '$what marks',
   ),
-  'within': within,
+  'within': ?within,
   'hits': hits,
   'h': h,
+  'radius': ?radius,
+};
+/// A round where any number of answers may be picked: right when exactly
+/// [answer] are. An answer in [alone] stands by itself ("none of them"):
+/// picking it clears the rest, and picking any other clears it.
+typedef SeveralRound = ({
+  List<String> options,
+  List<int> answer,
+  List<int> alone,
+  String why,
+  String source,
+  List<Map<String, Object?>> screen,
+});
+
+/// A "pick-several" game: the pick-one screen, several answers at once.
+Map<String, Object?> pickSeveral({
+  required String id,
+  required String chapter,
+  required String title,
+  required String closing,
+  required String right,
+  required String wrong,
+  required Map<String, Object?> brief,
+  required List<SeveralRound> rounds,
+}) => {
+  'type': 'pick-several',
+  'id': id,
+  'chapter': chapter,
+  'title': title,
+  'closing': closing,
+  'right': right,
+  'wrong': wrong,
+  'brief': brief,
+  'rounds': [
+    for (final r in rounds)
+      {
+        'options': r.options,
+        'answer': r.answer,
+        if (r.alone.isNotEmpty) 'alone': r.alone,
+        'why': r.why,
+        'source': r.source,
+        'screen': r.screen,
+      },
+  ],
 };
