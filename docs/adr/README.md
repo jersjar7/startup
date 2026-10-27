@@ -62,7 +62,7 @@ that supersedes it, so the history of thinking stays readable.
 | [0028](0028-dashboard-chapters-first-road-and-feed.md) | Dashboard: chapters first, a road to the FE, and a live feed of other students | 2026-10-26 | Accepted |
 | [0029](0029-challenge-calendar-yearly-twelve.md) | The challenge calendar is a yearly cycle of the twelve heaviest chapters | 2026-10-26 | Accepted |
 | [0030](0030-content-packs-and-game-types.md) | Exams ship as content packs; new kinds of games ship in the app; learning comes first | 2026-10-26 | Accepted |
-| [0031](0031-pack-drawings-match-to-sampling-not-bits.md) | A pack drawing matches when its geometry matches, not every pixel | 2026-10-27 | Proposed |
+| [0031](0031-pack-drawings-match-to-sampling-not-bits.md) | A pack drawing matches when its geometry matches, not every pixel | 2026-10-27 | Accepted |
 | [0032](0032-pack-screens-as-widget-nodes.md) | A pack round may describe its screen as a small widget tree | 2026-10-27 | Accepted |
 
 Records 0002–0005 were written on 2026-08-04, backfilled from commit messages.
