@@ -306,6 +306,9 @@ Future<_Run> _play(
         } else if (pick < drawn) {
           // A drawing answer has no words to find: tap it by its place.
           await _tapOn(tester, _panels.at(pick));
+        } else if (_tileRadius(r) case final double radius) {
+          // So is a tile, whose words may be a formula.
+          await _tapOn(tester, _tiles(radius).at(pick));
         } else {
           // Two answers can share their words (told apart by a note).
           final twins = options.take(pick).where((o) => o == options[pick]);
@@ -415,6 +418,21 @@ final _panels = find.byWidgetPredicate(
   (w) =>
       w is InkWell &&
       w.borderRadius == BorderRadius.circular(12) &&
+      w.onTap != null,
+);
+
+/// The corner of a round's tile answers, if it answers with tiles.
+double? _tileRadius(Map<String, Object?> round) => [
+  for (final b in (round['screen'] as List?) ?? const [])
+    if ((b as Map)['tiles'] != null) ((b['radius'] as num?) ?? 12).toDouble(),
+].firstOrNull;
+
+/// The tiles on screen, in order: the only buttons on their round with
+/// that corner.
+Finder _tiles(double radius) => find.byWidgetPredicate(
+  (w) =>
+      w is InkWell &&
+      w.borderRadius == BorderRadius.circular(radius) &&
       w.onTap != null,
 );
 
