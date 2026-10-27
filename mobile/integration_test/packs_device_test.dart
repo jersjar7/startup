@@ -226,8 +226,34 @@ Future<void> _answerRight(
               )
               .at(answer),
         );
+      } else if (blocks.where((b) => b['tiles'] != null).firstOrNull
+          case final tiles?) {
+        // A tile's words may be a formula: tap it by its place.
+        final radius = ((tiles['radius'] as num?) ?? 12).toDouble();
+        await _tap(
+          tester,
+          find
+              .byWidgetPredicate(
+                (w) =>
+                    w is InkWell &&
+                    w.borderRadius == BorderRadius.circular(radius) &&
+                    w.onTap != null,
+              )
+              .at(answer),
+        );
       } else {
-        await _tap(tester, find.text(options[answer]));
+        // The answer's words on its button, not where the problem quotes
+        // them; two answers can share their words.
+        final twins = options.take(answer).where((o) => o == options[answer]);
+        await _tap(
+          tester,
+          find
+              .descendant(
+                of: find.byType(InkWell),
+                matching: find.text(options[answer]),
+              )
+              .at(twins.length),
+        );
       }
     case 'order':
       final actions = (round['actions']! as List).cast<String>();
