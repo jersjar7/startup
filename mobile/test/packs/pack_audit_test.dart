@@ -50,9 +50,10 @@ void main() {
             reason: '$id round ${i + 1}',
           );
           expect(r['answer'], a.answer, reason: '$id round ${i + 1}');
-          // A few audits name enum values where the screen shows words;
-          // those are checked by position and answer above.
-          if (a.options.any((o) => o.contains(' '))) {
+          // A few audits name enum values where the screen shows words,
+          // and a round laid out as its own screen carries the words it
+          // shows; those are checked by position and answer above.
+          if (r['screen'] == null && a.options.any((o) => o.contains(' '))) {
             expect(options, a.options, reason: '$id round ${i + 1}');
           }
         }

@@ -19,6 +19,7 @@ import 'package:mobile/features/games/asphalt_figures.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/guest_log.dart';
 import 'package:mobile/features/games/tap_the_voids_game.dart';
+import 'package:mobile/features/shared/widgets/engineering_grid.dart';
 import 'package:mobile/features/packs/drawing/drawing_painter.dart';
 import 'package:mobile/features/packs/pack_model.dart';
 
@@ -230,7 +231,45 @@ Future<_Run> _play(
             if (o != answer) o,
         ];
         final pick = k < wrong.length ? wrong[k] : answer;
-        await _tapOn(tester, find.text(options[pick]));
+        final drawn = _panelCount(r);
+        final tap = _tapBlock(r);
+        final hits = (tap?['hits'] as List?)?.cast<int>() ?? const <int>[];
+        if (hits.contains(pick)) {
+          final figure = find.byWidgetPredicate(
+            (w) =>
+                w is GestureDetector &&
+                w.onTapDown != null &&
+                w.child is EngineeringGrid,
+          );
+          await tester.ensureVisible(figure);
+          await tester.pumpAndSettle();
+          final origin = tester.getTopLeft(figure);
+          final size = tester.getSize(figure);
+          final marks = [
+            for (final step in drawingSteps(ops(tap!['targets']), size.width))
+              if (step case [_, final x, final y, ...])
+                Offset(
+                  drawingNumber(x, size.width),
+                  drawingNumber(y, size.width),
+                ),
+          ];
+          final within = (tap['within']! as num).toDouble();
+          // Once per sitting, a tap well away from every mark changes
+          // nothing.
+          const corner = Offset(6, 6);
+          if (!tappedEmpty &&
+              marks.every((m) => (m - corner).distance > within + 4)) {
+            tappedEmpty = true;
+            await tester.tapAt(origin + corner);
+            await shot('r$i empty tap');
+          }
+          await tester.tapAt(origin + marks[hits.indexOf(pick)]);
+        } else if (pick < drawn) {
+          // A drawing answer has no words to find: tap it by its place.
+          await _tapOn(tester, _panels.at(pick));
+        } else {
+          await _tapOn(tester, find.text(options[pick]));
+        }
       case 'tap-figure':
         final puck = voidRounds[i].puck;
         final answer = r['answer']! as String;
@@ -294,6 +333,14 @@ Future<_Run> _play(
 }
 
 Future<void> _tapOn(WidgetTester tester, Finder finder) async {
+  // A long round builds its answers only once they are scrolled near.
+  if (finder.evaluate().isEmpty) {
+    await tester.scrollUntilVisible(
+      finder,
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+  }
   await tester.ensureVisible(finder);
   await tester.pumpAndSettle();
   await tester.tap(finder);
@@ -301,11 +348,46 @@ Future<void> _tapOn(WidgetTester tester, Finder finder) async {
 
 int _roundOnScreen(PackGame game) {
   for (final (i, r) in game.rounds.indexed) {
-    final words = (r['asked'] ?? r['scenario'])! as String;
-    if (find.text(words).evaluate().isNotEmpty) return i;
+    final words = r['screen'] == null
+        ? [(r['asked'] ?? r['scenario'])! as String]
+        : _words((r['screen']! as List).cast<Map<String, Object?>>());
+    if (words.every((w) => find.text(w).evaluate().isNotEmpty)) return i;
   }
   throw StateError('No round on screen');
 }
+
+/// A round's tap-the-mark drawing, if it has one.
+Map<String, Object?>? _tapBlock(Map<String, Object?> round) => [
+  for (final b in (round['screen'] as List?) ?? const [])
+    if ((b as Map)['tap'] != null) b.cast<String, Object?>(),
+].firstOrNull;
+
+/// How many of a round's answers are drawings (they come first).
+int _panelCount(Map<String, Object?> round) => [
+  for (final b in (round['screen'] as List?) ?? const [])
+    if ((b as Map)['panels'] case final List p) p.length,
+].fold(0, (a, b) => a + b);
+
+/// The drawing answers on screen, in order: a white panel with a 12 pixel
+/// corner, which no other button on a round has.
+final _panels = find.byWidgetPredicate(
+  (w) =>
+      w is InkWell &&
+      w.borderRadius == BorderRadius.circular(12) &&
+      w.onTap != null,
+);
+
+/// The words a screen of blocks always shows, so its round can be told
+/// from the others.
+List<String> _words(List<Map<String, Object?>> blocks) => [
+  for (final b in blocks)
+    if (b['when'] == null) ...[
+      if (b['text'] case final String s) s,
+      if (b['mono'] case final String s) s,
+      if (b['box'] case final List inner)
+        ..._words(inner.cast<Map<String, Object?>>()),
+    ],
+];
 
 Future<void> _settle(WidgetTester tester) async {
   await tester.runAsync(

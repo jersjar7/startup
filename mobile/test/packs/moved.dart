@@ -1,5 +1,6 @@
 import 'adapters.dart';
 import 'construction.dart' as construction;
+import 'dynamics.dart' as dynamics;
 
 /// Every game moved into the FE Civil pack so far, by chapter, each as the
 /// adapter that turns the built-in game into pack data. The pack builder
@@ -12,6 +13,7 @@ final movedByChapter = <String, Map<String, Map<String, Object?> Function()>>{
     'in-what-order': inWhatOrder,
   },
   'construction': construction.adapters,
+  'dynamics': dynamics.adapters,
 };
 
 /// Every moved game, by id.
