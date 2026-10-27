@@ -36,9 +36,14 @@ class BriefSection {
     this.picture,
     this.steps = const [],
     this.spoken = const [],
+    this.lesson,
   });
 
   final String title;
+
+  /// The lesson this sheet belongs to, for a sheet that came from a pack.
+  /// A built-in sheet is found in the catalog instead ([lessonForBrief]).
+  final String? lesson;
   final String body;
 
   /// The picture-first sheet (owner's call, 2026-09-30): a drawing the
@@ -17275,10 +17280,11 @@ class ConceptView extends StatelessWidget {
           ),
           // The lesson as the website names it, so the sheet says which
           // concept this is before its own headline does (owner, 2026-10-17).
-          if (lessonForBrief(section) case final lesson?) ...[
+          if (section.lesson ?? lessonForBrief(section)?.name
+              case final lesson?) ...[
             const SizedBox(height: 10),
             Text(
-              lesson.name,
+              lesson,
               style: AppTheme.display(
                 size: 17,
                 weight: FontWeight.w700,
