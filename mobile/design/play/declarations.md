@@ -198,9 +198,17 @@ raise the rating.
 
 That matches what this file predicted before the questionnaire was opened.
 
-**This changes the day a leaderboard ships.** Students seeing each other's
-names makes "users can interact or exchange content" a Yes, which raises the
-rating in several regions.
+**Re-checked 2026-10-26, after the Daily boards and the dashboard feed
+shipped: still No.** The form's actual question is whether the app "natively
+allow[s] users to interact or exchange content with other users through voice
+communication, text, or sharing images or audio". Students see each other's
+names, scores and what they studied, but nobody can send anything to anyone:
+no messages, no posts, no images, no audio. A name on a scoreboard is not
+communication. The earlier prediction that a leaderboard flips this to Yes was
+made before the question's wording was seen. It becomes Yes the day students
+can message, comment or post something others read, and then the follow-ups
+(reporting users, chat moderation, invited friends only) need real answers
+and probably a report button.
 
 ## Target audience and content
 
@@ -258,8 +266,8 @@ sentence becomes true.
 ## Before the next release
 
 1. Re-read every answer above. Features change what is true.
-2. **A leaderboard changes the content rating and the data safety answers**,
-   exactly as it does for Apple.
+2. **Messaging, comments or posts change the content rating** (see the content
+   rating note). Names on boards alone did not, re-checked 2026-10-26.
 3. **Saving the pass card to photos** adds a storage or photo permission, which
    is a new line in Data Safety and a new permission a reviewer will ask about.
 4. Confirm the bundle's version code. It is the git commit count, the same rule
