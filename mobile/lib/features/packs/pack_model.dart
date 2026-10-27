@@ -66,6 +66,17 @@ BriefSection briefFromJson(Map<String, Object?> j) {
 }
 
 Widget _picture(Map<String, Object?> p) {
+  switch (p['kind']) {
+    case 'column':
+      return Column(
+        children: [
+          for (final c in p['children']! as List)
+            _picture(c! as Map<String, Object?>),
+        ],
+      );
+    case 'gap':
+      return SizedBox(height: (p['h']! as num).toDouble());
+  }
   final height = (p['h']! as num).toDouble();
   switch (p['kind']) {
     case 'one':
