@@ -1,0 +1,26 @@
+{
+  "exam": "fe-civil",
+  "title": "FE Civil",
+  "format": 1,
+  "latest": {
+    "version": 1,
+    "file": "fe-civil-v1-0633bebc170a.json",
+    "sha256": "0633bebc170aa52d000ba61926474abf1219620d95ae6a45ca8711ebecb6f54f",
+    "bytes": 208174,
+    "gzipBytes": 12621,
+    "published": "2026-10-27T05:20:49.505Z",
+    "lessons": {
+      "ethics/obligations-to-the-public": "1.2.0",
+      "materials/asphalt-mix-design": "1.2.0",
+      "transportation/traffic-flow": "1.2.0"
+    }
+  },
+  "versions": [
+    {
+      "version": 1,
+      "file": "fe-civil-v1-0633bebc170a.json",
+      "sha256": "0633bebc170aa52d000ba61926474abf1219620d95ae6a45ca8711ebecb6f54f",
+      "published": "2026-10-27T05:20:49.505Z"
+    }
+  ]
+}

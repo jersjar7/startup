@@ -1,7 +1,9 @@
 # Moving FE Civil onto content packs
 
 Plan for carrying out [ADR 0030](../adr/0030-content-packs-and-game-types.md).
-Written 2026-10-26. Nothing here is built yet.
+Written 2026-10-26. Status: phases 0 and 1 done (2026-10-26); records in
+`content-packs-checks/`, and how packs work as built in
+[content-packs.md](content-packs.md).
 
 The goal: the phone app holds only the kinds of games (how a round is
 played) and the tools to draw. Everything that belongs to FE Civil itself
