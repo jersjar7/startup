@@ -118,9 +118,10 @@ cannot see a single chapter without an account.
 
 **Demo account:** `appreview@fe4raccoons.com`, credentials in
 `secrets/app-review-login.json` (gitignored). A real production account, not a
-reviewer mode, seeded so the app opens populated and opted out of lifecycle
-email. Excluded from analytics in `service/internalAccounts.js`, by default in
-code rather than an env var so a deploy cannot lose it.
+reviewer mode, opted out of lifecycle email. Excluded from analytics in
+`service/internalAccounts.js`, by default in code rather than an env var so a
+deploy cannot lose it. It has never studied: see the correction below before
+describing what it shows.
 
 **Verified before submitting** that the password signs in, returns a mobile
 bearer token, and `/auth/me` comes back with the exam date and school present.

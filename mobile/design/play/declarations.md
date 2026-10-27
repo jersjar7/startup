@@ -46,8 +46,10 @@ cannot see a chapter without an account.
 
 **Demo account:** `appreview@fe4raccoons.com`, credentials in
 `secrets/app-review-login.json` (gitignored). The same real production account
-given to Apple: seeded so the app opens populated, opted out of lifecycle
-email, and excluded from analytics in `service/internalAccounts.js`.
+given to Apple: opted out of lifecycle email and excluded from analytics in
+`service/internalAccounts.js`. It has never studied, so the app opens on the
+exam countdown with every progress figure at zero. The console instructions say
+exactly that; do not describe it as populated.
 
 ---
 
@@ -253,15 +255,23 @@ children's section states the platform is designed for adults.
 
 ---
 
-## Follow-ups, deliberately not done mid-review
+## The sign-in instructions said something untrue, and no longer do
 
-**The sign-in instructions in the console carry the same wrong claim** that
-`review-notes.md` had: that the home screen "shows a real state rather than an
-empty one". It does show the exam countdown, but chapters, mastery and days
-studied all read zero. Correcting it means editing App content while the app is
-in review, which queues a fresh change against a live submission for a cosmetic
-gain. **Fix it after the review resolves**, or seed the review account so the
-sentence becomes true.
+The console's Sign in details instructions claimed the home screen "shows a real
+state rather than an empty one". It does show the exam countdown, but chapters,
+mastery and days studied all read zero, so the sentence was wrong. It was left
+alone through the review because editing App content mid-review queues a fresh
+change against a live submission for a cosmetic gain.
+
+**Corrected 2026-10-26**, once Publishing overview was empty and the last
+release had published. One sentence changed, nothing else:
+
+> It is a real account: the exam countdown shows, and the progress figures read
+> zero because it has not studied yet.
+
+Saved in App content and now sitting in Publishing overview as an unsent change.
+It rides along with the next release; there is nothing to send for it alone.
+`review-notes.md` carried the same wrong claim and was fixed earlier.
 
 ## Before the next release
 
