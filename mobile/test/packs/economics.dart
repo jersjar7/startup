@@ -1,12 +1,19 @@
+import 'package:mobile/features/games/balance_the_rate_game.dart';
 import 'package:mobile/features/games/breakeven_figures.dart';
 import 'package:mobile/features/games/cash_flow_figures.dart';
 import 'package:mobile/features/games/do_they_agree_game.dart';
 import 'package:mobile/features/games/how_long_to_compare_game.dart';
+import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/games/irr_figures.dart';
 import 'package:mobile/features/games/lesson_brief.dart';
+import 'package:mobile/features/games/match_the_dollars_game.dart';
 import 'package:mobile/features/games/what_is_the_saving_game.dart';
 import 'package:mobile/features/games/where_does_it_go_game.dart';
 import 'package:mobile/features/games/which_bucket_game.dart';
+import 'package:mobile/features/games/which_earns_more_game.dart';
+import 'package:mobile/features/games/which_factor_game.dart';
 import 'package:mobile/features/games/which_rate_game.dart';
+import 'package:mobile/features/games/which_one_do_you_build_game.dart';
 import 'package:mobile/features/games/which_side_wins_game.dart';
 import 'package:mobile/features/games/which_way_it_pushes_game.dart';
 
@@ -381,6 +388,416 @@ Map<String, Object?> whichBucket() => pickScreen(
   ],
 );
 
+/// Answers that tint when picked, one row of cells each (see the pack's
+/// pick-one tiles).
+Map<String, Object?> tiles(
+  List<List<Map<String, Object?>>> each, {
+  required List<num> pad,
+  num radius = 12,
+  num? h,
+  bool center = false,
+  bool row = false,
+  num space = 8,
+}) => {
+  'tiles': each,
+  'pad': pad,
+  'radius': radius,
+  'h': ?h,
+  'center': center,
+  'row': row,
+  'space': space,
+};
+
+Map<String, Object?> matchTheDollars() {
+  String label(Adjust a) => switch (a) {
+    Adjust.inflationOnly => 'the inflation rate',
+    Adjust.real => 'the real rate',
+    Adjust.sum => 'the two rates added',
+    Adjust.combined => 'the two rates compounded',
+  };
+  String n(double v) => v.toStringAsFixed(0);
+  return pickScreen(
+    id: 'match-the-dollars',
+    chapter: 'economics',
+    title: 'Match the Dollars',
+    closing:
+        'Match the rate to the dollars. Money that will really change '
+        'hands has inflation in it and meets the compounded rate; figures '
+        'written in today\'s purchasing power have had it removed and meet '
+        'the real one. And the compounded rate has three terms, not two.',
+    right: 'THAT RATE',
+    wrong: 'A DIFFERENT RATE',
+    brief: briefJson(inflationBrief, 'inflationBrief'),
+    rounds: [
+      for (final r in dollarsRounds)
+        (
+          options: [for (final a in r.order) label(a)],
+          notes: null,
+          tex: null,
+          answer: r.answer,
+          why: r.why,
+          source: r.source,
+          screen: [
+            ...heading('DISCOUNT AT WHICH RATE', r.subject, r.situation),
+            gap(14),
+            tiles(
+              [
+                for (final a in r.order)
+                  [
+                    {'text': label(a), 'size': 14.5, 'fill': true},
+                    {'code': '${r.valueOf(a).toStringAsFixed(2)}%', 'size': 14},
+                  ],
+              ],
+              pad: [14, 0, 14, 0],
+              h: 54,
+            ),
+            gap(16, when: 'done'),
+            {
+              'overline': r.actual ? 'ACTUAL DOLLARS' : 'CONSTANT DOLLARS',
+              'color': 'ink3',
+              'when': 'done',
+            },
+            gap(4, when: 'done'),
+            {
+              'code': r.actual
+                  ? 'd = ${n(r.real)} + ${n(r.inflation)} + '
+                        '${n(r.real)}(${n(r.inflation)})/100 = '
+                        '${r.valueOf(Adjust.combined).toStringAsFixed(2)}%'
+                  : 'i = ${r.real.toStringAsFixed(2)}%, and inflation stays '
+                        'out of it',
+              'size': 12,
+              'when': 'done',
+            },
+            ...feedbackAfter(14),
+          ],
+        ),
+    ],
+  );
+}
+
+Map<String, Object?> whichFactor() => pickScreen(
+  id: 'which-factor',
+  chapter: 'economics',
+  title: 'Which Factor',
+  closing:
+      'Read the picture, not the words. What have you got, a single '
+      'amount or an equal series, and which do you want instead. The two '
+      'that get swapped are the sinking fund and capital recovery, and '
+      'the difference is whether the known amount is at the end or in '
+      'your hand.',
+  right: 'THAT IS THE ONE',
+  wrong: 'THE OTHER WAY',
+  brief: briefJson(factorsBrief, 'factorsBrief'),
+  rounds: [
+    for (final (n, r) in factorRounds.indexed)
+      (
+        options: [for (final f in factors) f.$1],
+        notes: null,
+        tex: null,
+        answer: r.answer,
+        why: r.why,
+        source: r.source,
+        screen: [
+          {'overline': 'SOLID IS WHAT YOU HAVE', 'color': 'ember'},
+          gap(8),
+          {'text': r.scenario},
+          gap(6),
+          {'mono': r.subject, 'size': 11.5, 'color': 'ink3'},
+          gap(12),
+          figure(
+            (_) => CashFlowPainter(
+              flows: r.flows,
+              periods: r.periods,
+              unit: r.unit,
+            ).paint,
+            160,
+            frame: 'clip',
+            radius: 16,
+            what: 'which-factor round $n',
+          ),
+          gap(12),
+          tiles(
+            [
+              for (final f in factors)
+                [
+                  {'tex': f.$1, 'size': 14, 'w': 96},
+                  {'gap': 6},
+                  {'mono': f.$2, 'size': 10.5, 'color': 'ink3', 'fill': true},
+                ],
+            ],
+            pad: [14, 9, 14, 9],
+            space: 7,
+          ),
+          ...feedbackAfter(16),
+        ],
+      ),
+  ],
+);
+
+Map<String, Object?> whichEarnsMore() {
+  String pct(double i) => '${(i * 100).toStringAsFixed(1)}%';
+  return pickScreen(
+    id: 'which-earns-more',
+    chapter: 'economics',
+    title: 'Which Earns More',
+    closing:
+        'A rate is not a total. Money that comes back sooner earns more '
+        'than the same money later, a smaller stake can earn more than a '
+        'larger one, and doubling every figure in a project leaves its '
+        'return exactly where it was.',
+    right: 'THAT ONE',
+    wrong: 'THE OTHER READING',
+    brief: briefJson(timingBrief, 'timingBrief'),
+    rounds: [
+      for (final (n, r) in earnsRounds.indexed)
+        (
+          options: const ['The first', 'The second', 'The same'],
+          notes: null,
+          tex: null,
+          answer: Earns.values.indexOf(r.answer),
+          why: r.why,
+          source: r.source,
+          screen: [
+            ...heading('WHICH RATE IS HIGHER', r.subject, r.situation),
+            gap(12),
+            for (final (i, project) in [r.first, r.second].indexed) ...[
+              if (i > 0) gap(8),
+              {
+                'overline': i == 0 ? 'THE FIRST' : 'THE SECOND',
+                'color': 'ink3',
+              },
+              gap(4),
+              figure(
+                (_) => DealPainter(
+                  project: project,
+                  periods: r.periods,
+                  scale: r.scale,
+                  color: AppColors.charcoal,
+                ).paint,
+                126,
+                frame: 'clip',
+                radius: 14,
+                what: 'which-earns-more round $n, deal $i',
+              ),
+            ],
+            gap(14),
+            tiles(
+              [
+                for (final o in const ['The first', 'The second', 'The same'])
+                  [
+                    {'text': o, 'size': 14.5, 'one': true},
+                  ],
+              ],
+              pad: [4, 0, 4, 0],
+              h: 54,
+              center: true,
+              row: true,
+            ),
+            gap(16, when: 'done'),
+            {'overline': 'WHAT THEY EARN', 'color': 'ink3', 'when': 'done'},
+            gap(4, when: 'done'),
+            {
+              'code':
+                  'the first    ${pct(r.first.irr)}\n'
+                  'the second   ${pct(r.second.irr)}',
+              'size': 12,
+              'when': 'done',
+            },
+            ...feedbackAfter(14),
+          ],
+        ),
+    ],
+  );
+}
+
+Map<String, Object?> balanceTheRate() {
+  String money(double v) {
+    final s = v.round().toString();
+    if (s.length <= 3) return s;
+    return '${s.substring(0, s.length - 3)},${s.substring(s.length - 3)}';
+  }
+
+  return pickScreen(
+    id: 'balance-the-rate',
+    chapter: 'economics',
+    title: 'Balance the Rate',
+    closing:
+        'A rate of return is the rate at which what comes in is worth '
+        'exactly what goes out. At zero percent the bars are the plain '
+        'totals, which is why the total is not the return. Raise the rate '
+        'and later money shrinks. Where the ends meet, the net present '
+        'worth is zero.',
+    right: 'THEY MEET',
+    wrong: 'NOT THERE',
+    brief: briefJson(irrBrief, 'irrBrief'),
+    rounds: [
+      for (final (n, r) in meetRounds.indexed)
+        (
+          options: [for (final s in r.stops) '$s%'],
+          notes: null,
+          tex: null,
+          answer: r.answer,
+          why: r.why,
+          source: r.source,
+          screen: [
+            ...heading('MAKE THE ENDS MEET', r.subject, r.situation),
+            gap(12),
+            // The bars are drawn at the rate being tried: the first stop
+            // until one is picked.
+            for (final (i, rate) in [null, ...r.stops].indexed)
+              {
+                ...figure(
+                  (settled) => BalancePainter(
+                    project: r.project,
+                    rate: (rate ?? r.stops.first) / 100,
+                    reference: r.reference,
+                    settled: settled,
+                  ).paint,
+                  110,
+                  frame: 'clip',
+                  radius: 16,
+                  what: 'balance-the-rate round $n, rate ${rate ?? 'none'}',
+                ),
+                'when': rate == null ? 'none' : 'chosen',
+                if (rate != null) 'of': [i - 1],
+              },
+            gap(6),
+            {
+              'mono': 'shown at ${r.stops.first} percent. try a rate.',
+              'size': 11,
+              'color': 'ink3',
+              'when': 'none',
+            },
+            for (final (i, rate) in r.stops.indexed)
+              {
+                'mono': 'trying $rate percent',
+                'size': 11,
+                'color': 'ink3',
+                'when': 'chosen',
+                'of': [i],
+              },
+            gap(12),
+            tiles(
+              [
+                for (final s in r.stops)
+                  [
+                    {'code': '$s%', 'size': 13},
+                  ],
+              ],
+              pad: [0, 0, 0, 0],
+              radius: 10,
+              h: 52,
+              center: true,
+              row: true,
+              space: 6,
+            ),
+            gap(16, when: 'done'),
+            {'overline': 'WHERE IT BALANCES', 'color': 'ink3', 'when': 'done'},
+            gap(4, when: 'done'),
+            for (final (stop, color) in [
+              (r.stops[r.answer], 'charcoal'),
+              (r.stops.first, 'ink3'),
+            ])
+              {
+                'code':
+                    'at $stop%   in ${money(r.project.pwIn(stop / 100))}'
+                    '   out ${money(r.project.pwOut(stop / 100))}',
+                'size': 12,
+                'color': color,
+                'when': 'done',
+              },
+            ...feedbackAfter(14),
+          ],
+        ),
+    ],
+  );
+}
+
+Map<String, Object?> whichOneDoYouBuild() => pickScreen(
+  id: 'which-one-do-you-build',
+  chapter: 'economics',
+  title: 'Which One Do You Build',
+  closing:
+      'Rank them by cost and ask of each step whether the extra benefit '
+      'covers the extra cost. The highest individual ratio belongs to '
+      'the cheapest option almost every time and is almost never the '
+      'answer. An option that cannot clear one on its own is out before '
+      'the comparison begins.',
+  right: 'BUILD THAT ONE',
+  wrong: 'NOT THAT ONE',
+  brief: briefJson(incrementalBrief, 'incrementalBrief'),
+  rounds: [
+    for (final r in buildRounds)
+      (
+        options: [for (final o in r.options) o.name],
+        notes: null,
+        tex: null,
+        answer: r.answer,
+        why: r.why,
+        source: r.source,
+        screen: [
+          {'overline': 'MUTUALLY EXCLUSIVE. BUILD ONE.', 'color': 'ember'},
+          gap(6),
+          {'mono': r.subject, 'size': 11.5, 'color': 'ink3'},
+          gap(2),
+          {'mono': r.units, 'size': 10.5, 'color': 'ink3'},
+          gap(12),
+          {
+            'box': [
+              {
+                'row': [
+                  {'gap': 74},
+                  for (final label in ['cost', 'benefit', 'B/C'])
+                    {'overline': label, 'color': 'ink3', 'mid': true},
+                ],
+              },
+              for (final o in r.options) ...[
+                {'rule': 5},
+                {
+                  'row': [
+                    {'code': o.name, 'size': 12.5, 'w': 74},
+                    for (final v in [
+                      o.cost.toStringAsFixed(0),
+                      o.benefit.toStringAsFixed(0),
+                      o.ratio.toStringAsFixed(2),
+                    ])
+                      {'code': v, 'size': 12.5, 'mid': true},
+                  ],
+                },
+              ],
+            ],
+            'pad': [12, 8, 12, 8],
+          },
+          gap(14),
+          tiles(
+            [
+              for (final o in r.options)
+                [
+                  {'text': o.name, 'size': 14.5, 'one': true},
+                ],
+            ],
+            pad: [4, 0, 4, 0],
+            h: 54,
+            center: true,
+            row: true,
+          ),
+          gap(16, when: 'done'),
+          {
+            'overline': 'WHAT THE ANALYSIS ASKED',
+            'color': 'ink3',
+            'when': 'done',
+          },
+          gap(4, when: 'done'),
+          for (final step in r.steps) ...[
+            {'code': step, 'size': 12, 'when': 'done'},
+            gap(3, when: 'done'),
+          ],
+          ...feedbackAfter(14),
+        ],
+      ),
+  ],
+);
+
 final adapters = <String, Map<String, Object?> Function()>{
   'which-rate': whichRate,
   'do-they-agree': doTheyAgree,
@@ -390,4 +807,9 @@ final adapters = <String, Map<String, Object?> Function()>{
   'which-side-wins': whichSideWins,
   'what-is-the-saving': whatIsTheSaving,
   'which-bucket': whichBucket,
+  'match-the-dollars': matchTheDollars,
+  'which-factor': whichFactor,
+  'which-earns-more': whichEarnsMore,
+  'balance-the-rate': balanceTheRate,
+  'which-one-do-you-build': whichOneDoYouBuild,
 };
