@@ -304,6 +304,11 @@ Future<_Run> _playing(
         ];
         final taps = switch (k) {
           0 => [...rest, rest.first, rest.first],
+          // A round of groups (yes or no to each question) gets the last
+          // of every group, so it can be locked in.
+          1 when r['groups'] is List => [
+            for (final g in r['groups']! as List) (g as List).last as int,
+          ],
           // A round that needs a set number gets that many, from the end,
           // so it can be locked in.
           1 when r['need'] is int =>

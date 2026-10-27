@@ -1145,7 +1145,7 @@ Node _regionsToTap(TailRound r, String what) {
 }
 
 /// Extra settings on each round of a built game, in order.
-Map<String, Object?> _withRounds(
+Map<String, Object?> withRounds(
   Map<String, Object?> game,
   Map<String, Object?> Function(int round) extra,
 ) {
@@ -1184,7 +1184,7 @@ Map<String, Object?> buildTheBinomial() {
       ),
     ],
   ], main: 'center');
-  return _withRounds(
+  return withRounds(
     pickSeveral(
       id: 'build-the-binomial',
       chapter: 'statistics',
@@ -1303,7 +1303,7 @@ Map<String, Object?> mindTheOrder() {
     child: t(slot(k, values, empty: ''), font: 'code', size: 14),
   );
 
-  return _withRounds(
+  return withRounds(
     pickSeveral(
       id: 'mind-the-order',
       chapter: 'statistics',
@@ -1509,7 +1509,7 @@ Node _lineToTap(LineRound r, String what) {
   };
 }
 
-Map<String, Object?> whatWeights() => _withRounds(
+Map<String, Object?> whatWeights() => withRounds(
   pickSeveral(
     id: 'what-weights',
     chapter: 'statistics',
@@ -1668,7 +1668,7 @@ Map<String, Object?> whichReadout() {
   }
 
   // The right answer is named for what it is: a line, or not on screen.
-  return _withRounds(
+  return withRounds(
     pickScreen(
       id: 'which-readout',
       chapter: 'statistics',
