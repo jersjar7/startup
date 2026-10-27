@@ -1,6 +1,9 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path, TextPainter;
+
+import '../packs/drawing/figure_path.dart';
+import '../packs/drawing/figure_text.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -242,7 +245,7 @@ class _WhenItRunsAwayGameState extends State<WhenItRunsAwayGame> {
           SizedBox(
             height: 130,
             child: CustomPaint(
-              painter: _TunePainter(
+              painter: TunePainter(
                 naturalHz: r.naturalHz,
                 forcingHz: answered ? r.forcingHz : null,
               ),
@@ -290,8 +293,8 @@ class _WhenItRunsAwayGameState extends State<WhenItRunsAwayGame> {
 
 /// The response curve against forcing frequency, with the natural frequency
 /// at the peak and, once the answer is out, a mark where the forcing lands.
-class _TunePainter extends CustomPainter {
-  const _TunePainter({required this.naturalHz, this.forcingHz});
+class TunePainter extends CustomPainter {
+  const TunePainter({required this.naturalHz, this.forcingHz});
 
   final double naturalHz;
   final double? forcingHz;
@@ -401,7 +404,7 @@ class _TunePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_TunePainter old) =>
+  bool shouldRepaint(TunePainter old) =>
       old.naturalHz != naturalHz || old.forcingHz != forcingHz;
 }
 
