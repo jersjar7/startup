@@ -29,6 +29,46 @@ not just at the end:
    effect the next time the student opens a lesson.
 5. **No technical words reach the student.** They see "Update the app to
    play this lesson", never a version number or the word "pack".
+6. **Every game and every concept sheet is checked, one by one,** against
+   how it worked before the move. The full check is in "How every game and
+   concept sheet is checked" below. Nothing is switched on until all of it
+   passes.
+
+## How every game and concept sheet is checked
+
+Looking the same is not enough; a game also has to behave the same. Each
+of the 375 games and every concept sheet gets all of these checks, run
+against the built-in version as the reference:
+
+1. **Looks the same.** Picture comparison of every round, before and after
+   answering, every tappable spot, day and night.
+2. **Plays the same.** An automatic play-through of every round answers it
+   right, then wrong, with every wrong option. Each time it must give the
+   same verdict, the same feedback wording, and the same "this one comes
+   back" behavior for a miss.
+3. **Records the same.** The same answer is sent to the server under the
+   same game id and source problem, so mastery, the Daily, badges,
+   challenges and a guest's saved rounds see no difference.
+4. **The concept sheet reads the same.** Every sheet's text, formulas and
+   pictures compared with the built-in sheet, and reachable from the same
+   games.
+5. **The game checks still pass.** The existing item checks (the game
+   audit) run on the pack version of every game.
+6. **A person plays it.** The owner plays each chapter on his phone before
+   it is switched on.
+7. **Real students confirm it.** After release, each game's completion and
+   accuracy are compared with the weeks before the move. A game whose
+   numbers drop is investigated before the built-in copy is removed.
+
+A written record of the results is kept per chapter in
+`docs/mobile/content-packs-checks/`, so it is clear what was checked and
+when.
+
+**About "or better".** The move itself changes nothing on purpose. If a
+game were improved during the move, the comparison could no longer tell an
+improvement from a breakage. Anything worth improving that is noticed
+during the move goes on that chapter's record as a note, and is done right
+after the chapter passes, as its own change, checked the normal way.
 
 ## What was measured (2026-10-26)
 
@@ -179,18 +219,19 @@ before the big chapters:
 
 For each chapter:
 
-- Lift the rounds and drawings into the builder. Game ids stay the same.
-- Picture comparison of every round, every state, both themes, against
-  the built-in game. Must be identical.
-- The existing item checks (the game audit) pass on the pack version.
-- The owner plays the chapter on his phone from the pack before it is
-  switched on.
+- Lift the rounds, drawings and concept sheets into the builder. Game ids
+  stay the same.
+- Run checks 1 to 6 from "How every game and concept sheet is checked" on
+  every game and sheet in the chapter. All must pass.
+- Write the chapter's record, including any improvement notes for
+  afterwards.
 
 ### Phase 4. Ship it in two releases
 
 1. **First release:** the app plays from the pack, with the built-in games
    still inside as a fallback. Watch real students for a few weeks:
-   errors, downloads that fail, anything that looks different.
+   errors, downloads that fail, anything that looks different, and check 7
+   (completion and accuracy per game against the weeks before).
 2. **Second release:** remove the built-in games. Measure the app size
    before and after and record it.
 
