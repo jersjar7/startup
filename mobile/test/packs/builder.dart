@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/widgets.dart';
@@ -53,6 +54,25 @@ final stats = <String, int>{
 /// How far a played-back number may sit from the painter's own: a ten
 /// thousandth of a pixel, which no phone can show.
 const _tol = 1e-4;
+
+/// The same for an angle. A turn moves a point by the angle times its
+/// distance from the pivot, and a figure is up to a thousand pixels across,
+/// so an angle is kept a thousand times closer (does-the-mass-matter's
+/// blocks on the slope moved edge pixels at the plain tolerance).
+const _angleTol = 1e-7;
+
+/// How close a move of the canvas is kept: it carries everything drawn
+/// after it, turned shapes included, which land a shade differently on an
+/// edge pixel at the plain tolerance.
+const _moveTol = 1e-5;
+
+/// The tolerance for the numbers inside [op]: tighter for a rotation and
+/// for a move of the canvas.
+double _tolFor(List<Object?> op, double tol) => switch (op.firstOrNull) {
+  'rot' => _angleTol,
+  'tr' => _moveTol,
+  _ => tol,
+};
 
 Object record(
   Draw draw,
@@ -163,15 +183,17 @@ bool _straight(
   Object? b,
   double wa,
   double wm,
-  double wb,
-) {
+  double wb, [
+  double tol = _tol,
+]) {
   if (a is num) {
     final predicted = a + ((b! as num) - a) * (wm - wa) / (wb - wa);
-    return (predicted - (m! as num)).abs() <= _tol;
+    return (predicted - (m! as num)).abs() <= tol;
   }
   if (a is List) {
+    final t = _tolFor(a, tol);
     for (var i = 0; i < a.length; i++) {
-      if (!_straight(a[i], (m! as List)[i], (b! as List)[i], wa, wm, wb)) {
+      if (!_straight(a[i], (m! as List)[i], (b! as List)[i], wa, wm, wb, t)) {
         return false;
       }
     }
@@ -183,7 +205,7 @@ bool _straight(
   if (a is Map) {
     for (final k in a.keys) {
       if (k == '#') continue;
-      if (!_straight(a[k], (m! as Map)[k], (b! as Map)[k], wa, wm, wb)) {
+      if (!_straight(a[k], (m! as Map)[k], (b! as Map)[k], wa, wm, wb, tol)) {
         return false;
       }
     }
@@ -278,9 +300,10 @@ Object? _mergeWidths(
   void Function() bent, {
   required List<Object?> Function(double) at,
   required List<Object> path,
+  double tol = _tol,
 }) {
-  Object? merge(List<Object?> sub, Object key) =>
-      _mergeWidths(sub, widths, bent, at: at, path: [...path, key]);
+  Object? merge(List<Object?> sub, Object key, [double t = _tol]) =>
+      _mergeWidths(sub, widths, bent, at: at, path: [...path, key], tol: t);
   final first = trees.first;
   if (first is Map && first.length == 1 && first.containsKey('n')) {
     return _count(trees, widths, at, path);
@@ -290,19 +313,23 @@ Object? _mergeWidths(
       for (final k in first.keys)
         k: k == '#'
             ? first[k]
-            : merge([for (final t in trees) (t! as Map)[k]], k),
+            : merge([for (final t in trees) (t! as Map)[k]], k, tol),
     };
   }
   if (first is List) {
+    final t = _tolFor(first, tol);
     return [
       for (var i = 0; i < first.length; i++)
-        merge([for (final t in trees) (t! as List)[i]], i),
+        merge([for (final tree in trees) (tree! as List)[i]], i, t),
     ];
   }
   if (first is num) {
     final v = [for (final t in trees) (t! as num).toDouble()];
     if (v.every((x) => (x - v.first).abs() < 1e-9)) return first;
-    final keep = _corners(widths, v);
+    if (tol == _angleTol) {
+      if (_slopeAngle(widths, v) case final fit?) return {'a': fit};
+    }
+    final keep = _corners(widths, v, tol);
     if (keep.length == 2) {
       final (w0, v0) = keep[0];
       final (w1, v1) = keep[1];
@@ -422,9 +449,57 @@ Object? _step(Object? a, Object? b) {
   return moved(d) ? d : null;
 }
 
+/// An angle that is atan2 of two straight lines in the width, as a figure
+/// turned to lie along a slope whose run follows the width: `[c, d, e, f]`
+/// for atan2(c + d w, e + f w), when that matches every recorded angle to
+/// within [_angleTol]. Solved from three widths and checked at all of them.
+List<double>? _slopeAngle(List<double> w, List<double> v) {
+  if (w.length < 4) return null;
+  final picks = [0, w.length ~/ 2, w.length - 1];
+  // tan v (1 + b w) = c + d w, so  -w tan v * b + c + d w = tan v.
+  final rows = [
+    for (final i in picks) [-w[i] * math.tan(v[i]), 1.0, w[i], math.tan(v[i])],
+  ];
+  // Gaussian elimination with partial pivoting on the 3 by 4 system.
+  for (var col = 0; col < 3; col++) {
+    var best = col;
+    for (var r = col + 1; r < 3; r++) {
+      if (rows[r][col].abs() > rows[best][col].abs()) best = r;
+    }
+    if (rows[best][col].abs() < 1e-12) return null;
+    final t = rows[col];
+    rows[col] = rows[best];
+    rows[best] = t;
+    for (var r = 0; r < 3; r++) {
+      if (r == col) continue;
+      final k = rows[r][col] / rows[col][col];
+      for (var c = col; c < 4; c++) {
+        rows[r][c] -= k * rows[col][c];
+      }
+    }
+  }
+  final b = rows[0][3] / rows[0][0];
+  final c = rows[1][3] / rows[1][1];
+  final d = rows[2][3] / rows[2][2];
+  // The run (1 + b w) must keep one sign, and match the angle's quadrant.
+  final sign = math.cos(v.first).sign;
+  final fit = [c * sign, d * sign, sign, b * sign];
+  for (var i = 0; i < w.length; i++) {
+    final x = fit[2] + fit[3] * w[i];
+    final y = fit[0] + fit[1] * w[i];
+    if (x.sign != sign) return null;
+    if ((math.atan2(y, x) - v[i]).abs() > _angleTol) return null;
+  }
+  return fit;
+}
+
 /// The fewest (width, value) points whose straight joins stay within
 /// [_tol] of every recorded value.
-List<(double, double)> _corners(List<double> w, List<double> v) {
+List<(double, double)> _corners(
+  List<double> w,
+  List<double> v, [
+  double tol = _tol,
+]) {
   final keep = <int>[0];
   var start = 0;
   for (var end = 2; end < w.length; end++) {
@@ -432,7 +507,7 @@ List<(double, double)> _corners(List<double> w, List<double> v) {
       final predicted =
           v[start] +
           (v[end] - v[start]) * (w[i] - w[start]) / (w[end] - w[start]);
-      if ((predicted - v[i]).abs() > _tol) {
+      if ((predicted - v[i]).abs() > tol) {
         start = end - 1;
         keep.add(start);
         break;
@@ -525,6 +600,29 @@ Map<String, Object?> pictureJson(Widget w, String name) {
         ),
       },
     };
+  }
+  // A row written out by hand exactly as ConceptPair builds it is that pair.
+  if (w case Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.start,
+    mainAxisSize: MainAxisSize.max,
+    key: null,
+    children: [
+      Expanded(flex: 1, child: final ConceptPicture left),
+      SizedBox(width: 10, height: null, child: null),
+      Expanded(flex: 1, child: final ConceptPicture right),
+    ],
+  ) when left.height == right.height) {
+    return pictureJson(
+      ConceptPair(
+        left: left.painter,
+        right: right.painter,
+        leftCaption: left.caption,
+        rightCaption: right.caption,
+        height: left.height,
+      ),
+      name,
+    );
   }
   // Only a plain column: any setting off its defaults would be lost.
   if (w is Column &&

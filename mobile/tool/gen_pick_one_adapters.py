@@ -37,10 +37,34 @@ def choice_block(src):
     return src[src.index('class _Choice'):]
 
 
+def screen_shape(src):
+    """The game's build method with everything a game may vary blanked
+    out: its strings, its brief, its panel height and its painter. Two
+    games with the same shape draw the same screen around their content."""
+    body = src[src.index('Widget build(BuildContext context) {'):src.index('class _Choice')]
+    p = body.index('painter: ') + len('painter: ')
+    name = re.match(r'\w+', body[p:]).group(0)
+    body = body.replace(name + balanced(body, p + len(name)), 'PAINTER')
+    body = re.sub(r"(?:'(?:[^'\\]|\\.)*'\s*)+", 'STR ', body)
+    body = re.sub(r'brief: \w+,', 'brief: BRIEF,', body)
+    body = re.sub(r'Container\(\s*height: \d+,', 'Container(height: H,', body)
+    # The one sanctioned variant: answers that are an enum's labels.
+    body = body.replace('for (final option in ', 'for (OPTIONS in ')
+    return re.sub(r'\s+', ' ', body)
+
+
+SHAPE = None
+
+
 def adapter(path):
+    global SHAPE
     src = path.read_text()
     if choice_block(src) != choice_block(TEMPLATE.read_text()):
         raise SystemExit(f'{path}: answer buttons differ from the template')
+    if SHAPE is None:
+        SHAPE = screen_shape((GAMES / 'when_can_it_start_game.dart').read_text())
+    if 'for (final option in ' not in src and screen_shape(src) != SHAPE:
+        raise SystemExit(f'{path}: the screen differs from the standard pick-one')
     game_id = re.search(r"gameId: '([a-z0-9-]+)'", src).group(1)
     chapter = re.search(r"chapterId: '([a-z0-9-]+)'", src).group(1)
     rounds = re.search(r'total: (\w+)\.length', src).group(1)
