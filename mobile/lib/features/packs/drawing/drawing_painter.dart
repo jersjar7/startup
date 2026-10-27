@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/painting.dart';
@@ -71,7 +72,9 @@ int drawingCount(Object? v, double width) {
 
 bool _isNumber(Object? v) =>
     v is num ||
-    (v is Map && v.length == 1 && (v.containsKey('w') || v.containsKey('p')));
+    (v is Map &&
+        v.length == 1 &&
+        (v.containsKey('w') || v.containsKey('p') || v.containsKey('a')));
 
 Object? _moved(Object? op, Object? step, int i, double w) {
   if (step == null || i == 0) return op;
@@ -83,7 +86,8 @@ Object? _moved(Object? op, Object? step, int i, double w) {
   }
   if (op is List) {
     return [
-      for (var k = 0; k < op.length; k++) _moved(op[k], (step as List)[k], i, w),
+      for (var k = 0; k < op.length; k++)
+        _moved(op[k], (step as List)[k], i, w),
     ];
   }
   if (op is Map) {
@@ -177,6 +181,11 @@ double drawingNumber(Object? v, double width) {
   final m = v as Map;
   final line = m['w'] as List?;
   if (line != null) return (line[0] as num) + (line[1] as num) * width;
+  // An angle between two straight lines in the width, as a painter turns
+  // to lie along a slope: atan2(c + d w, e + f w).
+  if (m['a'] case [num c, num d, num e, num f]) {
+    return math.atan2(c + d * width, e + f * width);
+  }
   // Bent: straight between the recorded corners, and the end pieces carried
   // on past the ends.
   final p = (m['p'] as List).cast<num>();

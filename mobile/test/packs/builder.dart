@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/widgets.dart';
@@ -60,11 +61,18 @@ const _tol = 1e-4;
 /// blocks on the slope moved edge pixels at the plain tolerance).
 const _angleTol = 1e-7;
 
+/// How close a move of the canvas is kept: it carries everything drawn
+/// after it, turned shapes included, which land a shade differently on an
+/// edge pixel at the plain tolerance.
+const _moveTol = 1e-5;
+
 /// The tolerance for the numbers inside [op]: tighter for a rotation and
-/// for a move of the canvas, which carries everything drawn after it,
-/// turned shapes included.
-double _tolFor(List<Object?> op, double tol) =>
-    op.isNotEmpty && (op.first == 'rot' || op.first == 'tr') ? _angleTol : tol;
+/// for a move of the canvas.
+double _tolFor(List<Object?> op, double tol) => switch (op.firstOrNull) {
+  'rot' => _angleTol,
+  'tr' => _moveTol,
+  _ => tol,
+};
 
 Object record(
   Draw draw,
@@ -318,6 +326,9 @@ Object? _mergeWidths(
   if (first is num) {
     final v = [for (final t in trees) (t! as num).toDouble()];
     if (v.every((x) => (x - v.first).abs() < 1e-9)) return first;
+    if (tol == _angleTol) {
+      if (_slopeAngle(widths, v) case final fit?) return {'a': fit};
+    }
     final keep = _corners(widths, v, tol);
     if (keep.length == 2) {
       final (w0, v0) = keep[0];
@@ -436,6 +447,50 @@ Object? _step(Object? a, Object? b) {
       ? v.any(moved)
       : v is Map && v.values.any(moved);
   return moved(d) ? d : null;
+}
+
+/// An angle that is atan2 of two straight lines in the width, as a figure
+/// turned to lie along a slope whose run follows the width: `[c, d, e, f]`
+/// for atan2(c + d w, e + f w), when that matches every recorded angle to
+/// within [_angleTol]. Solved from three widths and checked at all of them.
+List<double>? _slopeAngle(List<double> w, List<double> v) {
+  if (w.length < 4) return null;
+  final picks = [0, w.length ~/ 2, w.length - 1];
+  // tan v (1 + b w) = c + d w, so  -w tan v * b + c + d w = tan v.
+  final rows = [
+    for (final i in picks) [-w[i] * math.tan(v[i]), 1.0, w[i], math.tan(v[i])],
+  ];
+  // Gaussian elimination with partial pivoting on the 3 by 4 system.
+  for (var col = 0; col < 3; col++) {
+    var best = col;
+    for (var r = col + 1; r < 3; r++) {
+      if (rows[r][col].abs() > rows[best][col].abs()) best = r;
+    }
+    if (rows[best][col].abs() < 1e-12) return null;
+    final t = rows[col];
+    rows[col] = rows[best];
+    rows[best] = t;
+    for (var r = 0; r < 3; r++) {
+      if (r == col) continue;
+      final k = rows[r][col] / rows[col][col];
+      for (var c = col; c < 4; c++) {
+        rows[r][c] -= k * rows[col][c];
+      }
+    }
+  }
+  final b = rows[0][3] / rows[0][0];
+  final c = rows[1][3] / rows[1][1];
+  final d = rows[2][3] / rows[2][2];
+  // The run (1 + b w) must keep one sign, and match the angle's quadrant.
+  final sign = math.cos(v.first).sign;
+  final fit = [c * sign, d * sign, sign, b * sign];
+  for (var i = 0; i < w.length; i++) {
+    final x = fit[2] + fit[3] * w[i];
+    final y = fit[0] + fit[1] * w[i];
+    if (x.sign != sign) return null;
+    if ((math.atan2(y, x) - v[i]).abs() > _angleTol) return null;
+  }
+  return fit;
 }
 
 /// The fewest (width, value) points whose straight joins stay within
