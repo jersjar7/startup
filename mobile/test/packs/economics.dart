@@ -1,6 +1,14 @@
 import 'package:mobile/features/games/balance_the_rate_game.dart';
 import 'package:mobile/features/games/breakeven_figures.dart';
 import 'package:mobile/features/games/cash_flow_figures.dart';
+import 'package:mobile/features/games/depreciation_figures.dart';
+import 'package:mobile/features/games/find_the_factor_game.dart';
+import 'package:mobile/features/games/over_the_bar_game.dart';
+import 'package:mobile/features/games/roll_it_back_game.dart';
+import 'package:mobile/features/games/tree_figures.dart';
+import 'package:mobile/features/games/what_does_it_take_game.dart';
+import 'package:mobile/features/games/when_does_it_land_game.dart';
+import 'package:mobile/features/games/where_the_cost_went_game.dart';
 import 'package:mobile/features/games/do_they_agree_game.dart';
 import 'package:mobile/features/games/how_long_to_compare_game.dart';
 import 'package:mobile/core/theme/app_colors.dart';
@@ -16,6 +24,8 @@ import 'package:mobile/features/games/which_rate_game.dart';
 import 'package:mobile/features/games/which_one_do_you_build_game.dart';
 import 'package:mobile/features/games/which_side_wins_game.dart';
 import 'package:mobile/features/games/which_way_it_pushes_game.dart';
+
+import 'package:flutter/material.dart' hide Path, TextPainter;
 
 import 'builder.dart';
 import 'pick_one_adapter.dart';
@@ -798,6 +808,419 @@ Map<String, Object?> whichOneDoYouBuild() => pickScreen(
   ],
 );
 
+/// A plain answer row under the drawing or table, as Over the Bar's and
+/// Find the Factor's "none of them" rows.
+Map<String, Object?> plainRow(String words, int answer) => {
+  ...tiles(
+    [
+      [
+        {'text': words, 'size': 14.5},
+      ],
+    ],
+    pad: [14, 0, 14, 0],
+    h: 50,
+  ),
+  'answers': [answer],
+};
+
+/// A box of what the problem wants, shaded ember.
+Map<String, Object?> wants(String words) => {
+  'box': [
+    {'text': words, 'line': 1.4},
+  ],
+  'pad': [12, 10, 12, 10],
+  'fill': 'emberBg',
+  'radius': 12,
+  'border': false,
+};
+
+Map<String, Object?> whenDoesItLand() {
+  const periods = 5;
+  return pickScreen(
+    id: 'when-does-it-land',
+    chapter: 'economics',
+    title: 'When Does It Land',
+    closing:
+        'Everything lands at the end of its period unless the problem says '
+        'otherwise. The beginning of year n is the end of year n minus '
+        'one, and today is period zero. Draw the diagram before you pick a '
+        'factor, because a cash flow one period out is a mistake that '
+        'leaves no trace in the arithmetic.',
+    right: 'THAT IS THE MARK',
+    wrong: 'A PERIOD OUT',
+    brief: briefJson(periodBrief, 'periodBrief'),
+    rounds: [
+      for (final (n, r) in momentRounds.indexed)
+        (
+          options: [for (var p = 0; p <= periods; p++) 'period $p'],
+          notes: null,
+          tex: null,
+          answer: r.answer,
+          why: r.why,
+          source: r.source,
+          screen: [
+            ...heading('TAP THE PERIOD IT LANDS ON', r.subject, r.setting),
+            gap(14),
+            tapMarks(
+              paint: (canvas, size, mark, answered) => TimelinePainter(
+                periods: periods,
+                picked: mark,
+                truth: r.answer,
+                locked: answered,
+              ).paint(canvas, size),
+              marks: periods + 1,
+              area: (size, p) => Rect.fromLTWH(
+                TimelinePainter.xFor(size, periods, p) - 24,
+                TimelinePainter.axisFor(size) - 62,
+                48,
+                92,
+              ),
+              hits: [for (var p = 0; p <= periods; p++) p],
+              h: 190,
+              radius: 16,
+              what: 'when-does-it-land round $n',
+            ),
+            gap(8),
+            {
+              'mono':
+                  'the numbers under the line are periods, the labels are '
+                  'years',
+              'size': 11,
+              'color': 'ink3',
+            },
+            ...feedbackAfter(16),
+          ],
+        ),
+    ],
+  );
+}
+
+Map<String, Object?> whereTheCostWent() => pickScreen(
+  id: 'where-the-cost-went',
+  chapter: 'economics',
+  title: 'Where the Cost Went',
+  closing:
+      'The cost is one bar and the schedule eats it from the left. What '
+      'is left standing is the book value, everything behind it added up '
+      "is the accumulated depreciation, and one slice is one year's "
+      'deduction. Three different questions, three different stretches '
+      'of the same picture.',
+  right: 'THAT STRETCH',
+  wrong: 'ANOTHER STRETCH',
+  brief: briefJson(bookValueBrief, 'bookValueBrief'),
+  rounds: [
+    for (final (n, r) in costRounds.indexed)
+      (
+        options: [for (final p in r.order) p.name],
+        notes: null,
+        tex: null,
+        answer: r.answer,
+        why: r.why,
+        source: r.source,
+        screen: [
+          ...heading('TAP THE STRETCH THAT ANSWERS IT', r.subject, r.asset),
+          gap(8),
+          wants(r.question),
+          gap(12),
+          // The bar sits 4 in from the sides and 6 from the top and bottom,
+          // and each stretch is a 34 high row under its 40 high bar.
+          tapMarks(
+            paint: (canvas, size, mark, answered) {
+              canvas
+                ..save()
+                ..translate(4, 6);
+              SpentBarPainter(
+                cost: r.cost,
+                factors: r.factors,
+                through: r.through,
+                spans: r.spans,
+                selected: mark,
+                locked: answered,
+                truth: r.answer,
+              ).paint(canvas, Size(size.width - 8, size.height - 12));
+              canvas.restore();
+            },
+            marks: r.spans.length,
+            area: (size, i) =>
+                Rect.fromLTWH(4, 6 + 40 + i * 34.0, size.width - 8, 34),
+            hits: [for (var i = 0; i < r.spans.length; i++) i],
+            h: SpentBarPainter.heightOf(r.spans.length) + 12,
+            radius: 16,
+            what: 'where-the-cost-went round $n',
+          ),
+          ...feedbackAfter(16),
+        ],
+      ),
+  ],
+);
+
+Map<String, Object?> rollItBack() => pickScreen(
+  id: 'roll-it-back',
+  chapter: 'economics',
+  title: 'Roll It Back',
+  closing:
+      'Work backwards. A circle is worth its endings weighted by how '
+      'likely they are, which always lands between the cheapest and the '
+      'dearest and leans toward the likely one. Then stand at the square '
+      'and take the cheapest line. The price today is not the branch, '
+      'and neither is the worst thing that could happen.',
+  right: 'THAT BRANCH',
+  wrong: 'ANOTHER BRANCH',
+  brief: briefJson(rollbackBrief, 'rollbackBrief'),
+  rounds: [
+    for (final (n, r) in treeRounds.indexed)
+      (
+        options: [for (final b in r.branches) b.name],
+        notes: null,
+        tex: null,
+        answer: r.answer,
+        why: r.why,
+        source: r.source,
+        screen: [
+          ...heading('TAKE THE CHEAPEST LINE', r.subject, r.situation),
+          gap(4),
+          {'mono': r.units, 'size': 10.5, 'color': 'ink3'},
+          gap(12),
+          tapMarks(
+            paint: (canvas, size, mark, answered) => TreePainter(
+              branches: r.branches,
+              selected: mark,
+              locked: answered,
+              truth: r.answer,
+            ).paint(canvas, size),
+            marks: r.branches.length,
+            area: (size, i) {
+              var top = 5.0;
+              for (final b in r.branches.take(i)) {
+                top += TreePainter.rowHeight(b);
+              }
+              return Rect.fromLTWH(
+                0,
+                top,
+                size.width,
+                TreePainter.rowHeight(r.branches[i]),
+              );
+            },
+            hits: [for (var i = 0; i < r.branches.length; i++) i],
+            h: TreePainter.heightOf(r.branches),
+            radius: 16,
+            what: 'roll-it-back round $n',
+          ),
+          gap(16, when: 'done'),
+          {'overline': 'ROLLED BACK', 'color': 'ink3', 'when': 'done'},
+          gap(4, when: 'done'),
+          for (final line in r.rollback) ...[
+            {'code': line, 'size': 11.5, 'when': 'done'},
+            gap(3, when: 'done'),
+          ],
+          ...feedbackAfter(14),
+        ],
+      ),
+  ],
+);
+
+Map<String, Object?> findTheFactor() {
+  // Every cell that holds a percentage is an answer, row by row as the
+  // table is read, then the row underneath for a year with none.
+  final cells = [
+    for (var year = 1; year <= tableYears; year++)
+      for (final c in classes)
+        if (year <= macrsFactors[c]!.length) (c, year),
+  ];
+  return pickScreen(
+    id: 'find-the-factor',
+    chapter: 'economics',
+    title: 'Find the Factor',
+    closing:
+        'Find the column before you count the rows, and remember that the '
+        'class name is not the number of years: five year property is '
+        'written off over six, three year over four. MACRS ignores salvage '
+        'entirely and takes the book value to zero.',
+    right: 'THAT CELL',
+    wrong: 'A DIFFERENT CELL',
+    brief: briefJson(macrsBrief, 'macrsBrief'),
+    rounds: [
+      for (final r in cellRounds)
+        (
+          options: [
+            for (final (c, year) in cells) '$c-year property, year $year',
+            nothingLeft,
+          ],
+          notes: null,
+          tex: null,
+          answer: r.exhausted
+              ? cells.length
+              : cells.indexOf((r.recovery, r.year)),
+          why: r.why,
+          source: r.source,
+          screen: [
+            ...heading('TAP THE PERCENTAGE', r.subject, r.asset),
+            gap(8),
+            wants('You want ${r.ask}.'),
+            gap(12),
+            {
+              'box': [
+                {
+                  'row': [
+                    {'overline': 'YEAR', 'color': 'ink3', 'w': 42},
+                    for (final c in classes)
+                      {'overline': '$c-YEAR', 'color': 'ink3', 'mid': true},
+                  ],
+                },
+                {
+                  'rule': [5, 2],
+                },
+                for (var year = 1; year <= tableYears; year++)
+                  {
+                    'row': [
+                      {'code': '$year', 'size': 12, 'color': 'ink2', 'w': 42},
+                      for (final c in classes)
+                        if (year <= macrsFactors[c]!.length)
+                          {
+                            'answer': cells.indexOf((c, year)),
+                            'cells': [
+                              {
+                                'code': macrsFactors[c]![year - 1]
+                                    .toStringAsFixed(2),
+                                'size': 12.5,
+                                'ink': true,
+                              },
+                            ],
+                            'pad': [0, 0, 0, 0],
+                            'radius': 7,
+                            'h': 32,
+                            'center': true,
+                            'idle': 'clear',
+                            'stroke': 1.5,
+                            'margin': [2, 1],
+                            'fill': true,
+                          }
+                        else
+                          {
+                            'text': '-',
+                            'size': 12,
+                            'color': 'ink3',
+                            'h': 34,
+                            'fill': true,
+                          },
+                    ],
+                  },
+              ],
+              'pad': [8, 6, 8, 8],
+            },
+            gap(8),
+            plainRow(nothingLeft, cells.length),
+            ...feedbackAfter(16),
+          ],
+        ),
+    ],
+  );
+}
+
+Map<String, Object?> overTheBar() => pickSeveral(
+  id: 'over-the-bar',
+  chapter: 'economics',
+  title: 'Over the Bar',
+  closing:
+      'Accept at or above the hurdle, reject below it. On the line is '
+      'an acceptance, because the project earns exactly what the money '
+      'was required to earn. A positive return is not a pass, a near '
+      'miss is not a pass, and a year can go by with nothing clearing.',
+  right: 'THAT IS THE LIST',
+  wrong: 'NOT THAT LIST',
+  brief: briefJson(marrBrief, 'marrBrief'),
+  rounds: [
+    for (final r in hurdleRounds)
+      (
+        options: [for (final p in r.projects) p.$1, nobodyClears],
+        // Nobody clearing is its own answer.
+        answer: r.answer.isEmpty ? [r.projects.length] : r.answer,
+        alone: [r.projects.length],
+        why: r.why,
+        source: r.source,
+        screen: [
+          ...heading('WHO GETS OVER IT', r.subject, r.setting),
+          gap(6),
+          {
+            'mono': 'tap everyone to accept, which may be nobody',
+            'size': 11,
+            'color': 'ink3',
+          },
+          gap(12),
+          {
+            'bars': [
+              for (final p in r.projects) [p.$1, p.$2],
+            ],
+            'span': r.span,
+            'line': r.marr,
+            'label': 'MARR ${r.marr}%',
+          },
+          gap(8),
+          plainRow(nobodyClears, r.projects.length),
+          ...feedbackAfter(16),
+        ],
+      ),
+  ],
+);
+
+Map<String, Object?> whatDoesItTake() => pickSeveral(
+  id: 'what-does-it-take',
+  chapter: 'economics',
+  title: 'What Does It Take',
+  closing:
+      'A growing series is two cash flows drawn on top of each other, a '
+      'flat one and a triangle, and each needs its own factor. Anything '
+      'landing on a single date needs a third. Count the pieces in the '
+      'picture before reaching for anything.',
+  right: 'ALL THE PIECES',
+  wrong: 'NOT THOSE PIECES',
+  brief: briefJson(piecesBrief, 'piecesBrief'),
+  rounds: [
+    for (final (n, r) in takeRounds.indexed)
+      (
+        options: [for (final p in pieces) p.$1],
+        answer: r.answer,
+        alone: const [],
+        why: r.why,
+        source: r.source,
+        screen: [
+          {'overline': 'TAP EVERY PIECE THIS TAKES', 'color': 'ember'},
+          gap(8),
+          {'text': r.scenario},
+          gap(6),
+          {'mono': r.subject, 'size': 11.5, 'color': 'ink3'},
+          gap(12),
+          figure(
+            (_) => CashFlowPainter(
+              flows: r.flows,
+              periods: r.periods,
+              unit: 'years',
+            ).paint,
+            150,
+            frame: 'clip',
+            radius: 16,
+            what: 'what-does-it-take round $n',
+          ),
+          gap(12),
+          tiles(
+            [
+              for (final p in pieces)
+                [
+                  {'check': 22, 'radius': 6, 'icon': 15},
+                  {'gap': 10},
+                  {'tex': p.$1, 'size': 13, 'w': 92},
+                  {'gap': 6},
+                  {'mono': p.$2, 'size': 10, 'color': 'ink3', 'fill': true},
+                ],
+            ],
+            pad: [12, 10, 12, 10],
+          ),
+          ...feedbackAfter(16),
+        ],
+      ),
+  ],
+);
+
 final adapters = <String, Map<String, Object?> Function()>{
   'which-rate': whichRate,
   'do-they-agree': doTheyAgree,
@@ -812,4 +1235,10 @@ final adapters = <String, Map<String, Object?> Function()>{
   'which-earns-more': whichEarnsMore,
   'balance-the-rate': balanceTheRate,
   'which-one-do-you-build': whichOneDoYouBuild,
+  'when-does-it-land': whenDoesItLand,
+  'where-the-cost-went': whereTheCostWent,
+  'roll-it-back': rollItBack,
+  'find-the-factor': findTheFactor,
+  'over-the-bar': overTheBar,
+  'what-does-it-take': whatDoesItTake,
 };

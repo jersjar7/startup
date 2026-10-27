@@ -22,6 +22,8 @@ const gameTypes = <String, String>{
   'pick-one': '1.2.0',
   'tap-figure': '1.2.0',
   'order': '1.2.0',
+  // The pick-one screen with any number of answers picked (2026-10-27).
+  'pick-several': '1.2.0',
 };
 
 /// Compares two `major.minor.patch` versions: negative, zero or positive.

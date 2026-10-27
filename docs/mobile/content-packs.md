@@ -104,9 +104,10 @@ per layout, a pick-one round may carry its whole screen as a list of blocks
 | `box` | A box holding blocks: white and bordered, or shaded with its own corner and no border, as Economics quotes a problem. |
 | `row`, `rule` | Words side by side (a column a set width, or sharing what is left, centred), and a hairline between rows. Together they make a small table. |
 | `choices` | The answers as buttons, all of them or a listed few. An answer may carry a symbol before its words (`tex`), or a note beneath it (`notes` on the round, the app's titled row). |
-| `tiles` | Answers that tint as well as border when picked, each a row of words or a formula, in a column or side by side. Most of Economics answers this way. |
+| `tiles` | Answers that tint as well as border when picked, each a row of words or a formula, in a column or side by side. Most of Economics answers this way. A row of a table may hold answer tiles one by one (Find the Factor's table of percentages, about twenty answers a round), and a tile may carry a check box that fills when it is marked. |
+| `bars` | Answers as horizontal bars against a reference line across all of them, each bar an answer tapped anywhere along its row (Over the Bar's projects against the MARR). |
 | `panels` | Answers that are drawings, in a column or a row, each recorded as it looks idle, picked, right and wrong (or just idle and "on" when only the border changes, since a picked border is a pixel thicker and the drawing inside a pixel smaller). |
-| `tap` | A drawing answered by tapping near a mark: the nearest mark within reach wins, as in the games. Recorded for every mark picked, or none, before and after. |
+| `tap` | A drawing answered by tapping near a mark (the nearest within reach wins) or inside an area (the last area holding the tap wins, as the topmost does in a game built from a stack of tap areas). Recorded for every mark picked, or none, before and after. |
 | `pickedLabel` | The picked answer's words, while it is picked. |
 | `feedback` | The verdict and the why. |
 
@@ -118,6 +119,12 @@ to redraw its bars at whichever rate is being tried. The app's side is
 `mobile/lib/features/packs/games/pick_one_game.dart`; the adapters that
 describe each game are in `mobile/test/packs/` (`dynamics.dart`,
 `economics.dart`).
+
+**Pick several** (game type `pick-several`, added 2026-10-27 for
+Economics) is the same screen with any number of answers picked: right when
+exactly the right ones are. An answer may stand alone (`alone`, as "None of
+them clears it"): picking it clears the rest, and picking any other clears
+it. The round's `answer` is then a list.
 
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is

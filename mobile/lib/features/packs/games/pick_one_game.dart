@@ -41,7 +41,39 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
 
   void _onSession() => setState(() {});
 
-  int? _picked;
+  /// What is picked: one answer, or for game type "pick-several" any
+  /// number of them.
+  final _picked = <int>{};
+
+  bool get _several => _game.type == 'pick-several';
+
+  /// The right answers: one, or for "pick-several" every one that must be
+  /// picked (exactly those).
+  Set<int> get _truth => switch (_round['answer']) {
+    final int i => {i},
+    final List all => all.cast<int>().toSet(),
+    final other => throw FormatException('Not an answer: $other'),
+  };
+
+  void _pick(int i) => setState(() {
+    if (!_several) {
+      _picked
+        ..clear()
+        ..add(i);
+      return;
+    }
+    // An answer that stands alone ("nobody clears it") clears the rest,
+    // and picking any other clears it.
+    final alone = ((_round['alone'] as List?) ?? const []).cast<int>();
+    if (alone.contains(i)) {
+      final had = _picked.contains(i);
+      _picked.clear();
+      if (!had) _picked.add(i);
+    } else {
+      _picked.removeAll(alone);
+      if (!_picked.add(i)) _picked.remove(i);
+    }
+  });
 
   @override
   void dispose() {
@@ -66,7 +98,7 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
     final answered = _session.answered;
     final r = _round;
     final options = (r['options']! as List).cast<String>();
-    final answer = r['answer']! as int;
+    final truth = _truth;
 
     return BoardShell(
       session: _session,
@@ -74,41 +106,41 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
       buttonLabel: answered ? _session.advanceLabel : 'Lock it in',
       onButton: answered
           ? () {
-              setState(() => _picked = null);
+              setState(_picked.clear);
               _session.next();
             }
-          : (_picked == null
+          : (_picked.isEmpty
                 ? null
-                : () =>
-                      _session.submit(ok: _picked == answer, context: context)),
+                : () => _session.submit(
+                    ok:
+                        _picked.length == truth.length &&
+                        _picked.containsAll(truth),
+                    context: context,
+                  )),
       child: r['screen'] != null
           ? _ScreenBlocks(
               blocks: (r['screen']! as List).cast<Map<String, Object?>>(),
               answered: answered,
               picked: _picked,
-              truth: answer,
-              onPick: answered ? null : (i) => setState(() => _picked = i),
+              truth: truth,
+              onPick: answered ? null : _pick,
               choice: (i) => r['notes'] is List
                   ? LiabilityRow(
                       title: options[i],
                       note: (r['notes']! as List)[i]! as String,
-                      selected: _picked == i,
+                      selected: _picked.contains(i),
                       locked: answered,
-                      isTruth: answer == i,
-                      onTap: answered
-                          ? null
-                          : () => setState(() => _picked = i),
+                      isTruth: truth.contains(i),
+                      onTap: answered ? null : () => _pick(i),
                     )
                   : _Choice(
                       label: options[i],
                       tex: (r['tex'] as List?)?[i] as String?,
                       pad: (r['choicePad'] as num?)?.toDouble() ?? 13,
-                      selected: _picked == i,
+                      selected: _picked.contains(i),
                       locked: answered,
-                      isTruth: answer == i,
-                      onTap: answered
-                          ? null
-                          : () => setState(() => _picked = i),
+                      isTruth: truth.contains(i),
+                      onTap: answered ? null : () => _pick(i),
                     ),
               options: options.length,
               feedback: answered
@@ -121,7 +153,7 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
                     )
                   : null,
             )
-          : _classic(r, answered, options, answer),
+          : _classic(r, answered, options, truth.single),
     );
   }
 
@@ -177,10 +209,10 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
         for (var i = 0; i < options.length; i++) ...[
           _Choice(
             label: options[i],
-            selected: _picked == i,
+            selected: _picked.contains(i),
             locked: answered,
             isTruth: answer == i,
-            onTap: answered ? null : () => setState(() => _picked = i),
+            onTap: answered ? null : () => _pick(i),
           ),
           if (i != options.length - 1) const SizedBox(height: 8),
         ],
@@ -244,8 +276,8 @@ class _ScreenBlocks extends StatelessWidget {
 
   final List<Map<String, Object?>> blocks;
   final bool answered;
-  final int? picked;
-  final int truth;
+  final Set<int> picked;
+  final Set<int> truth;
   final void Function(int)? onPick;
   final Widget Function(int) choice;
   final int options;
@@ -255,20 +287,22 @@ class _ScreenBlocks extends StatelessWidget {
     'ember': AppColors.ember,
     'forest': AppColors.forest,
     'info': AppColors.info,
+    'ink2': AppColors.ink2,
     'ink3': AppColors.ink3,
     'charcoal': AppColors.charcoal,
     'white': AppColors.white,
     'creamDark': AppColors.creamDark,
+    'emberBg': AppColors.emberBg,
   };
 
   bool _shown(Map<String, Object?> b) {
-    final of = (b['of'] as List?)?.contains(picked) ?? true;
+    final of = (b['of'] as List?)?.any(picked.contains) ?? true;
     return switch (b['when']) {
       'ask' => !answered,
       'done' => answered && of,
-      'none' => picked == null && !answered,
-      'picked' => picked != null && !answered && of,
-      'chosen' => picked != null && of,
+      'none' => picked.isEmpty && !answered,
+      'picked' => picked.isNotEmpty && !answered && of,
+      'chosen' => picked.isNotEmpty && of,
       _ => true,
     };
   }
@@ -382,10 +416,19 @@ class _ScreenBlocks extends StatelessWidget {
         ),
       ];
     }
-    if (b['rule'] case final num v) {
+    if (b['rule'] case final Object v?) {
+      // Room above and below: one number for both, or [above, below].
+      final (above, below) = switch (v) {
+        [final num a, final num b] => (a, b),
+        final num n => (n, n),
+        _ => throw FormatException('Not a rule: $v'),
+      };
       return [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: v.toDouble()),
+          padding: EdgeInsets.only(
+            top: above.toDouble(),
+            bottom: below.toDouble(),
+          ),
           child: const Divider(height: 1, color: AppColors.line),
         ),
       ];
@@ -430,18 +473,13 @@ class _ScreenBlocks extends StatelessWidget {
     }
     if (b['tiles'] case final List tiles) {
       final space = _num(b['space'] ?? 8);
-      Widget tile(int i) => _Tile(
-        cells: (tiles[i]! as List).cast<Map<String, Object?>>(),
-        cell: _cell,
-        height: (b['h'] as num?)?.toDouble(),
-        pad: (b['pad']! as List).cast<num>(),
-        radius: _num(b['radius'] ?? 12),
-        center: b['center'] == true,
-        selected: picked == i,
-        locked: answered,
-        isTruth: truth == i,
-        onTap: onPick == null ? null : () => onPick!(i),
-      );
+      // Answers 0, 1, 2... unless the block says which.
+      final ids =
+          ((b['answers'] as List?) ??
+                  [for (var i = 0; i < tiles.length; i++) i])
+              .cast<int>();
+      Widget tile(int k) =>
+          _tile(b, (tiles[k]! as List).cast<Map<String, Object?>>(), ids[k]);
       if (b['row'] == true) {
         return [
           Row(
@@ -468,9 +506,9 @@ class _ScreenBlocks extends StatelessWidget {
         drawings: (panels[i]! as Map).cast<String, Object?>(),
         height: _num(b['h']),
         pad: _num(b['pad'] ?? 0),
-        selected: picked == i,
+        selected: picked.contains(i),
         locked: answered,
-        isTruth: truth == i,
+        isTruth: truth.contains(i),
         onTap: onPick == null ? null : () => onPick!(i),
       );
       if (b['row'] == true) {
@@ -496,7 +534,7 @@ class _ScreenBlocks extends StatelessWidget {
     if (b['pickedLabel'] case final List labels) {
       return [
         Text(
-          labels[picked!]! as String,
+          labels[picked.single]! as String,
           style: AppTheme.mono(
             size: _num(b['size']),
             color: _colors[b['color']]!,
@@ -506,14 +544,14 @@ class _ScreenBlocks extends StatelessWidget {
     }
     if (b['tap'] case final Map<String, Object?> drawings) {
       final hits = (b['hits']! as List).cast<int>();
-      final mark = hits.indexOf(picked ?? -1);
+      final mark = picked.length == 1 ? hits.indexOf(picked.single) : -1;
       final state = '${mark < 0 ? '-' : mark}|${answered ? 1 : 0}';
       final h = _num(b['h']);
       return [
         LayoutBuilder(
           builder: (context, box) {
             final size = Size(box.maxWidth, h);
-            return GestureDetector(
+            final area = GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTapDown: onPick == null
                   ? null
@@ -534,7 +572,31 @@ class _ScreenBlocks extends StatelessWidget {
                 ),
               ),
             );
+            if (b['radius'] case final num r) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(r.toDouble()),
+                child: area,
+              );
+            }
+            return area;
           },
+        ),
+      ];
+    }
+    if (b['bars'] case final List bars) {
+      return [
+        _Bars(
+          bars: [
+            for (final bar in bars)
+              ((bar as List)[0]! as String, (bar[1]! as num).toDouble()),
+          ],
+          span: _num(b['span']),
+          line: _num(b['line']),
+          label: b['label']! as String,
+          picked: picked,
+          truth: truth,
+          locked: answered,
+          onTap: onPick,
         ),
       ];
     }
@@ -542,23 +604,89 @@ class _ScreenBlocks extends StatelessWidget {
     throw FormatException('Unknown screen block $b');
   }
 
+  /// An answer tile for answer [i], styled by [style] (`pad`, `radius`,
+  /// `h`, `center`; `idle: "clear"` for one with no border or fill until
+  /// picked, `stroke` for a border that keeps one width, `margin` for room
+  /// around it).
+  Widget _tile(
+    Map<String, Object?> style,
+    List<Map<String, Object?>> cells,
+    int i,
+  ) {
+    final margin = (style['margin'] as List?)?.cast<num>();
+    final tile = _Tile(
+      cells: cells,
+      cell: _cell,
+      height: (style['h'] as num?)?.toDouble(),
+      pad: (style['pad']! as List).cast<num>(),
+      radius: _num(style['radius'] ?? 12),
+      center: style['center'] == true,
+      clear: style['idle'] == 'clear',
+      stroke: (style['stroke'] as num?)?.toDouble(),
+      selected: picked.contains(i),
+      locked: answered,
+      isTruth: truth.contains(i),
+      onTap: onPick == null ? null : () => onPick!(i),
+    );
+    if (margin == null) return tile;
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: margin[0].toDouble(),
+        vertical: margin[1].toDouble(),
+      ),
+      child: tile,
+    );
+  }
+
   /// One piece of a row (a tile's, or a `row` block's): words, `code`,
-  /// `mono`, an `overline`, a formula (`tex`) or a horizontal `gap`; `w`
-  /// sets its width, `fill` gives it the width left over and `mid` a share
-  /// of it, centred.
-  Widget _cell(Map<String, Object?> c) {
+  /// `mono`, an `overline`, a formula (`tex`), a horizontal `gap`, a
+  /// `check` box, or an `answer` tile of its own `cells`. `w` sets its width,
+  /// `h` its height (centred in it), `fill` gives it the width left over and
+  /// `mid` a share of it, centred. Inside a tile, `ink` words take the
+  /// tile's state color and a check box fills when the tile is marked.
+  Widget _cell(Map<String, Object?> c, [TileState? tile]) {
     Widget w;
+    final ink = c['ink'] == true ? tile!.ink : null;
     if (c['gap'] case final num g) {
       return SizedBox(width: g.toDouble());
+    } else if (c['answer'] case final int i) {
+      w = _tile(c, (c['cells']! as List).cast<Map<String, Object?>>(), i);
+    } else if (c['check'] case final num size) {
+      final on = tile!.marked;
+      w = Container(
+        width: size.toDouble(),
+        height: size.toDouble(),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(_num(c['radius'])),
+          color: on ? tile.mark : null,
+          border: Border.all(color: on ? tile.mark : AppColors.line),
+        ),
+        child: on
+            ? Icon(
+                Icons.check_rounded,
+                size: _num(c['icon']),
+                color: AppColors.white,
+              )
+            : null,
+      );
     } else if (c['text'] case final String s) {
       w = Text(
         s,
         maxLines: c['one'] == true ? 1 : null,
         overflow: c['one'] == true ? TextOverflow.ellipsis : null,
-        style: TextStyle(fontSize: _num(c['size']), color: AppColors.charcoal),
+        style: TextStyle(
+          fontSize: _num(c['size']),
+          color: ink ?? _colors[c['color'] ?? 'charcoal'],
+        ),
       );
     } else if (c['code'] case final String s) {
-      w = Text(s, style: AppTheme.code(size: _num(c['size'])));
+      w = Text(
+        s,
+        style: AppTheme.code(
+          size: _num(c['size']),
+          color: ink ?? _colors[c['color'] ?? 'charcoal']!,
+        ),
+      );
     } else if (c['mono'] case final String s) {
       w = Text(
         s,
@@ -574,6 +702,12 @@ class _ScreenBlocks extends StatelessWidget {
     } else {
       throw FormatException('Unknown cell $c');
     }
+    if (c['h'] case final num height when c['answer'] == null) {
+      w = SizedBox(
+        height: height.toDouble(),
+        child: Center(child: w),
+      );
+    }
     if (c['w'] case final num width) {
       w = SizedBox(width: width.toDouble(), child: w);
     }
@@ -585,14 +719,28 @@ class _ScreenBlocks extends StatelessWidget {
 
   /// The mark nearest a tap, if one is within reach: the first of equals
   /// wins, as in the games this was built from.
+  ///
+  /// Targets may instead be areas (recorded rectangles): a tap inside one
+  /// picks it, the last of overlapping ones winning, as the topmost tap
+  /// area does in the games built from a stack of them.
   static int? _nearest(Map<String, Object?> b, Size size, Offset tap) {
     int? best;
-    var gap = (b['within']! as num).toDouble();
+    var gap = ((b['within'] as num?) ?? 0).toDouble();
     for (final (i, step) in drawingSteps(
       ops(b['targets']),
       size.width,
     ).indexed) {
       final op = step! as List<Object?>;
+      if (op[0] == 'rect') {
+        final area = Rect.fromLTRB(
+          drawingNumber(op[1], size.width),
+          drawingNumber(op[2], size.width),
+          drawingNumber(op[3], size.width),
+          drawingNumber(op[4], size.width),
+        );
+        if (area.contains(tap)) best = i;
+        continue;
+      }
       if (op[0] != 'circle') throw UnsupportedError('Target shape ${op[0]}');
       final at = Offset(
         drawingNumber(op[1], size.width),
@@ -681,6 +829,171 @@ class _FigureChoice extends StatelessWidget {
 
 /// An answer that tints as well as borders: white, ember when picked, then
 /// forest or red once locked in. Its content is a row of cells.
+/// Answers as horizontal bars with a reference line drawn across all of
+/// them (Over the Bar's projects against the MARR): each bar is answer 0,
+/// 1, 2... in order, tapped anywhere along its row, and shows a check box,
+/// its name and its value before the bar.
+class _Bars extends StatelessWidget {
+  const _Bars({
+    required this.bars,
+    required this.span,
+    required this.line,
+    required this.label,
+    required this.picked,
+    required this.truth,
+    required this.locked,
+    required this.onTap,
+  });
+
+  final List<(String, double)> bars;
+  final double span;
+  final double line;
+  final String label;
+  final Set<int> picked;
+  final Set<int> truth;
+  final bool locked;
+  final void Function(int)? onTap;
+
+  /// Everything left of the bars: the box, the name and the value.
+  static const _gutter = 152.0;
+
+  /// Room at the right-hand end, so a full bar does not touch the edge.
+  static const _tail = 10.0;
+
+  static const _rowHeight = 40.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, box) {
+        // One length for a full bar, for the bars and the line alike.
+        final barFull = box.maxWidth - _gutter - _tail;
+        final lineX = _gutter + line / span * barFull;
+        return SizedBox(
+          height: 18 + bars.length * _rowHeight,
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                right: 0,
+                top: 18,
+                child: Column(
+                  children: [
+                    for (final (i, (name, value)) in bars.indexed)
+                      _bar(i, name, value, barFull),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: lineX,
+                top: 16,
+                bottom: 0,
+                child: Container(width: 1.8, color: AppColors.ember),
+              ),
+              Positioned(
+                left: lineX - 40,
+                top: 0,
+                width: 80,
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: AppTheme.overline(color: AppColors.ember),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _bar(int i, String name, double value, double barFull) {
+    final selected = picked.contains(i);
+    final isTruth = truth.contains(i);
+    final color = locked && isTruth
+        ? AppColors.forest
+        : locked && selected
+        ? AppColors.error
+        : selected
+        ? AppColors.ember
+        : AppColors.ink2;
+    final marked = selected || (locked && isTruth);
+
+    return InkWell(
+      onTap: onTap == null ? null : () => onTap!(i),
+      child: SizedBox(
+        height: _rowHeight,
+        child: Row(
+          children: [
+            SizedBox(
+              width: 22,
+              child: Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: marked ? color : null,
+                  border: Border.all(color: marked ? color : AppColors.line),
+                ),
+                child: marked
+                    ? const Icon(
+                        Icons.check_rounded,
+                        size: 14,
+                        color: AppColors.white,
+                      )
+                    : null,
+              ),
+            ),
+            const SizedBox(width: 6),
+            SizedBox(
+              width: _gutter - 28,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 13.5, color: color),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                    child: Text(
+                      '${value.toStringAsFixed(0)}%',
+                      textAlign: TextAlign.right,
+                      style: AppTheme.mono(size: 10.5, color: color),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                ],
+              ),
+            ),
+            Container(
+              height: 20,
+              width: (value / span * barFull).clamp(1.5, 1e4),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: marked ? 0.35 : 0.18),
+                border: Border.all(color: color, width: marked ? 1.4 : 1),
+                borderRadius: const BorderRadius.horizontal(
+                  left: Radius.circular(3),
+                  right: Radius.circular(3),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// How a tile stands, for the cells inside it: the color its words take
+/// (forest or red once locked in, otherwise charcoal), the color of its
+/// mark, and whether it is marked (picked, or the right answer once locked
+/// in).
+typedef TileState = ({Color ink, Color mark, bool marked});
+
 class _Tile extends StatelessWidget {
   const _Tile({
     required this.cells,
@@ -689,6 +1002,8 @@ class _Tile extends StatelessWidget {
     required this.pad,
     required this.radius,
     required this.center,
+    required this.clear,
+    required this.stroke,
     required this.selected,
     required this.locked,
     required this.isTruth,
@@ -696,11 +1011,13 @@ class _Tile extends StatelessWidget {
   });
 
   final List<Map<String, Object?>> cells;
-  final Widget Function(Map<String, Object?>) cell;
+  final Widget Function(Map<String, Object?>, [TileState?]) cell;
   final double? height;
   final List<num> pad;
   final double radius;
   final bool center;
+  final bool clear;
+  final double? stroke;
   final bool selected;
   final bool locked;
   final bool isTruth;
@@ -714,7 +1031,18 @@ class _Tile extends StatelessWidget {
         ? (AppColors.error, AppColors.errorBg)
         : selected
         ? (AppColors.ember, AppColors.emberBg)
+        : clear
+        ? (Colors.transparent, Colors.transparent)
         : (AppColors.line, AppColors.white);
+    final TileState state = (
+      ink: locked && isTruth
+          ? AppColors.forest
+          : locked && selected
+          ? AppColors.error
+          : AppColors.charcoal,
+      mark: border,
+      marked: selected || (locked && isTruth),
+    );
 
     return Material(
       color: fill,
@@ -736,12 +1064,12 @@ class _Tile extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius),
             border: Border.all(
               color: border,
-              width: border == AppColors.line ? 1 : 2,
+              width: stroke ?? (border == AppColors.line ? 1 : 2),
             ),
           ),
           child: center && cells.length == 1
-              ? cell(cells.single)
-              : Row(children: [for (final c in cells) cell(c)]),
+              ? cell(cells.single, state)
+              : Row(children: [for (final c in cells) cell(c, state)]),
         ),
       ),
     );
