@@ -54,6 +54,18 @@ final stats = <String, int>{
 /// thousandth of a pixel, which no phone can show.
 const _tol = 1e-4;
 
+/// The same for an angle. A turn moves a point by the angle times its
+/// distance from the pivot, and a figure is up to a thousand pixels across,
+/// so an angle is kept a thousand times closer (does-the-mass-matter's
+/// blocks on the slope moved edge pixels at the plain tolerance).
+const _angleTol = 1e-7;
+
+/// The tolerance for the numbers inside [op]: tighter for a rotation and
+/// for a move of the canvas, which carries everything drawn after it,
+/// turned shapes included.
+double _tolFor(List<Object?> op, double tol) =>
+    op.isNotEmpty && (op.first == 'rot' || op.first == 'tr') ? _angleTol : tol;
+
 Object record(
   Draw draw,
   double height, {
@@ -163,15 +175,17 @@ bool _straight(
   Object? b,
   double wa,
   double wm,
-  double wb,
-) {
+  double wb, [
+  double tol = _tol,
+]) {
   if (a is num) {
     final predicted = a + ((b! as num) - a) * (wm - wa) / (wb - wa);
-    return (predicted - (m! as num)).abs() <= _tol;
+    return (predicted - (m! as num)).abs() <= tol;
   }
   if (a is List) {
+    final t = _tolFor(a, tol);
     for (var i = 0; i < a.length; i++) {
-      if (!_straight(a[i], (m! as List)[i], (b! as List)[i], wa, wm, wb)) {
+      if (!_straight(a[i], (m! as List)[i], (b! as List)[i], wa, wm, wb, t)) {
         return false;
       }
     }
@@ -183,7 +197,7 @@ bool _straight(
   if (a is Map) {
     for (final k in a.keys) {
       if (k == '#') continue;
-      if (!_straight(a[k], (m! as Map)[k], (b! as Map)[k], wa, wm, wb)) {
+      if (!_straight(a[k], (m! as Map)[k], (b! as Map)[k], wa, wm, wb, tol)) {
         return false;
       }
     }
@@ -278,9 +292,10 @@ Object? _mergeWidths(
   void Function() bent, {
   required List<Object?> Function(double) at,
   required List<Object> path,
+  double tol = _tol,
 }) {
-  Object? merge(List<Object?> sub, Object key) =>
-      _mergeWidths(sub, widths, bent, at: at, path: [...path, key]);
+  Object? merge(List<Object?> sub, Object key, [double t = _tol]) =>
+      _mergeWidths(sub, widths, bent, at: at, path: [...path, key], tol: t);
   final first = trees.first;
   if (first is Map && first.length == 1 && first.containsKey('n')) {
     return _count(trees, widths, at, path);
@@ -290,19 +305,20 @@ Object? _mergeWidths(
       for (final k in first.keys)
         k: k == '#'
             ? first[k]
-            : merge([for (final t in trees) (t! as Map)[k]], k),
+            : merge([for (final t in trees) (t! as Map)[k]], k, tol),
     };
   }
   if (first is List) {
+    final t = _tolFor(first, tol);
     return [
       for (var i = 0; i < first.length; i++)
-        merge([for (final t in trees) (t! as List)[i]], i),
+        merge([for (final tree in trees) (tree! as List)[i]], i, t),
     ];
   }
   if (first is num) {
     final v = [for (final t in trees) (t! as num).toDouble()];
     if (v.every((x) => (x - v.first).abs() < 1e-9)) return first;
-    final keep = _corners(widths, v);
+    final keep = _corners(widths, v, tol);
     if (keep.length == 2) {
       final (w0, v0) = keep[0];
       final (w1, v1) = keep[1];
@@ -424,7 +440,11 @@ Object? _step(Object? a, Object? b) {
 
 /// The fewest (width, value) points whose straight joins stay within
 /// [_tol] of every recorded value.
-List<(double, double)> _corners(List<double> w, List<double> v) {
+List<(double, double)> _corners(
+  List<double> w,
+  List<double> v, [
+  double tol = _tol,
+]) {
   final keep = <int>[0];
   var start = 0;
   for (var end = 2; end < w.length; end++) {
@@ -432,7 +452,7 @@ List<(double, double)> _corners(List<double> w, List<double> v) {
       final predicted =
           v[start] +
           (v[end] - v[start]) * (w[i] - w[start]) / (w[end] - w[start]);
-      if ((predicted - v[i]).abs() > _tol) {
+      if ((predicted - v[i]).abs() > tol) {
         start = end - 1;
         keep.add(start);
         break;
@@ -525,6 +545,29 @@ Map<String, Object?> pictureJson(Widget w, String name) {
         ),
       },
     };
+  }
+  // A row written out by hand exactly as ConceptPair builds it is that pair.
+  if (w case Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.start,
+    mainAxisSize: MainAxisSize.max,
+    key: null,
+    children: [
+      Expanded(flex: 1, child: final ConceptPicture left),
+      SizedBox(width: 10, height: null, child: null),
+      Expanded(flex: 1, child: final ConceptPicture right),
+    ],
+  ) when left.height == right.height) {
+    return pictureJson(
+      ConceptPair(
+        left: left.painter,
+        right: right.painter,
+        leftCaption: left.caption,
+        rightCaption: right.caption,
+        height: left.height,
+      ),
+      name,
+    );
   }
   // Only a plain column: any setting off its defaults would be lost.
   if (w is Column &&
