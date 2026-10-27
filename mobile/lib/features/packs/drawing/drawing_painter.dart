@@ -32,6 +32,11 @@ class DrawingPainter extends CustomPainter {
 
 /// The steps a drawing takes at this width.
 List<Object?> drawingSteps(Object drawing, double width) {
+  // Kept in parts (the steady steps once, only the stretch that changes
+  // with the width in bands): played one after the other.
+  if (drawing case {'parts': final List parts}) {
+    return [for (final p in parts) ...drawingSteps(p! as Object, width)];
+  }
   var steps = drawing;
   if (drawing is Map) {
     final bands = drawing['bands'] as List;
