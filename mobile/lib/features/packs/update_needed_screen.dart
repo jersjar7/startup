@@ -30,52 +30,67 @@ class UpdateNeededScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.fog,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 4, 24, 34),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                children: [
-                  RoundIconButton(
-                    icon: Icons.chevron_left_rounded,
-                    label: 'Back',
-                    onTap: () =>
-                        context.canPop() ? context.pop() : context.go('/'),
+        // Scrolls only when the words outgrow the screen (a small phone at
+        // a large text size); otherwise the button sits at the bottom.
+        child: LayoutBuilder(
+          builder: (context, box) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: box.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 4, 24, 34),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Row(
+                        children: [
+                          RoundIconButton(
+                            icon: Icons.chevron_left_rounded,
+                            label: 'Back',
+                            onTap: () => context.canPop()
+                                ? context.pop()
+                                : context.go('/'),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                      Text(
+                        'A NEW KIND OF ROUND',
+                        style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+                      ),
+                      const SizedBox(height: 12),
+                      Text.rich(
+                        const TextSpan(
+                          children: [
+                            TextSpan(text: 'Update the app to play '),
+                            TextSpan(
+                              text: 'this lesson.',
+                              style: TextStyle(color: AppColors.forest),
+                            ),
+                          ],
+                        ),
+                        style: AppTheme.display(),
+                      ),
+                      const SizedBox(height: 18),
+                      Text(
+                        'It teaches with something your version does not have yet. '
+                        'Every other lesson works as it is, and nothing you have done '
+                        'is lost.',
+                        style: AppTheme.body(
+                          size: 16,
+                          color: AppColors.mutedOnLight,
+                        ),
+                      ),
+                      const Spacer(),
+                      PillButton(
+                        label: 'Update the app',
+                        onTap: () => (openStore ?? _openStore)(),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              Text(
-                'A NEW KIND OF ROUND',
-                style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
-              ),
-              const SizedBox(height: 12),
-              Text.rich(
-                const TextSpan(
-                  children: [
-                    TextSpan(text: 'Update the app to play '),
-                    TextSpan(
-                      text: 'this lesson.',
-                      style: TextStyle(color: AppColors.forest),
-                    ),
-                  ],
                 ),
-                style: AppTheme.display(),
               ),
-              const SizedBox(height: 18),
-              Text(
-                'It teaches with something your version does not have yet. '
-                'Every other lesson works as it is, and nothing you have done '
-                'is lost.',
-                style: AppTheme.body(size: 16, color: AppColors.mutedOnLight),
-              ),
-              const Spacer(),
-              PillButton(
-                label: 'Update the app',
-                onTap: () => (openStore ?? _openStore)(),
-              ),
-            ],
+            ),
           ),
         ),
       ),
