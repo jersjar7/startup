@@ -84,6 +84,15 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
       }
       return;
     }
+    // Answers in a group ("yes" and "no" to one question) are one choice:
+    // picking one replaces the other, and picking it again keeps it.
+    for (final group in (r['groups'] as List?) ?? const []) {
+      final members = (group as List).cast<int>();
+      if (!members.contains(i)) continue;
+      _picks.removeWhere((p) => p != i && members.contains(p));
+      if (!_picks.contains(i)) _picks.add(i);
+      return;
+    }
     // An answer that stands alone ("nobody clears it") clears the rest,
     // and picking any other clears it.
     final alone = ((r['alone'] as List?) ?? const []).cast<int>();
