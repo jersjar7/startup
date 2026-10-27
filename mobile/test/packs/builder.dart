@@ -61,6 +61,13 @@ const _tol = 1e-4;
 /// blocks on the slope moved edge pixels at the plain tolerance).
 const _angleTol = 1e-7;
 
+/// How many times a run repeats at one width.
+int _runCount(Object? count) => switch (count) {
+  {'n': final int n} => n,
+  final int n => n,
+  _ => 1,
+};
+
 /// How close a move of the canvas is kept: it carries everything drawn
 /// after it, turned shapes included, which land a shade differently on an
 /// edge pixel at the plain tolerance.
@@ -141,9 +148,17 @@ Object record(
   };
 }
 
+/// How close a width where the drawing changes (a dash more, a dash cut
+/// short) is pinned. At a hundredth of a pixel, Which Rate's dashed line
+/// drew its last dash from the wrong side of the change on a few widths.
+const _pin = 1e-6;
+
+/// How close together two widths may be looked at, while a number bends.
+const _finest = 1 / 1024;
+
 /// Adds widths between [a] and [b] until every number between them is a
-/// straight line to within [_tol], and every change of shape is pinned to
-/// a quarter of a pixel.
+/// straight line to within [_tol] (looking no closer than [_finest]), and
+/// every change of shape is pinned to a quarter of a pixel.
 void _refine(
   List<Object?> Function(double) at,
   double a,
@@ -153,12 +168,15 @@ void _refine(
   out
     ..add(a)
     ..add(b);
-  if (b - a <= 0.25) return;
+  if (b - a <= _finest) return;
   final m = (a + b) / 2;
   final ta = at(a), tm = at(m), tb = at(b);
-  if (!_sameShape(ta, tb) ||
-      !_sameShape(ta, tm) ||
-      !_straight(ta, tm, tb, a, m, b)) {
+  final reshaped = !_sameShape(ta, tb) || !_sameShape(ta, tm);
+  // A change of shape is pinned afterwards ([_boundary]), so a quarter of a
+  // pixel is near enough here. A bend in a number (a dash cut short at the
+  // end of its line, from some width on) is followed much closer, or the
+  // straight piece across it misses by a tenth of a pixel.
+  if (reshaped ? b - a > 0.25 : !_straight(ta, tm, tb, a, m, b)) {
     _refine(at, a, m, out);
     _refine(at, m, b, out);
   }
@@ -166,7 +184,7 @@ void _refine(
 
 double _boundary(List<Object?> Function(double) at, double a, double b) {
   final left = at(a);
-  while (b - a > 0.01) {
+  while (b - a > _pin) {
     final m = (a + b) / 2;
     if (_sameShape(left, at(m))) {
       a = m;
@@ -174,7 +192,7 @@ double _boundary(List<Object?> Function(double) at, double a, double b) {
       b = m;
     }
   }
-  return (b * 100).ceil() / 100;
+  return b;
 }
 
 bool _straight(
@@ -192,8 +210,16 @@ bool _straight(
   }
   if (a is List) {
     final t = _tolFor(a, tol);
+    final most = a.firstOrNull == 'run'
+        ? [a, m, b].map((x) => _runCount((x! as List)[1])).reduce(math.max)
+        : 1;
     for (var i = 0; i < a.length; i++) {
-      if (!_straight(a[i], (m! as List)[i], (b! as List)[i], wa, wm, wb, t)) {
+      final ti = most > 1 && i == 2
+          ? t / 2
+          : most > 1 && i == 3
+          ? t / (2 * most)
+          : t;
+      if (!_straight(a[i], (m! as List)[i], (b! as List)[i], wa, wm, wb, ti)) {
         return false;
       }
     }
@@ -318,9 +344,22 @@ Object? _mergeWidths(
   }
   if (first is List) {
     final t = _tolFor(first, tol);
+    final most = first.firstOrNull == 'run'
+        ? trees.map((tree) => _runCount((tree! as List)[1])).reduce(math.max)
+        : 1;
     return [
       for (var i = 0; i < first.length; i++)
-        merge([for (final tree in trees) (tree! as List)[i]], i, t),
+        merge(
+          [for (final tree in trees) (tree! as List)[i]],
+          i,
+          // A run's step is added once per repeat, so its error is too, on
+          // top of the first one's: half the tolerance each.
+          most > 1 && i == 2
+              ? t / 2
+              : most > 1 && i == 3
+              ? t / (2 * most)
+              : t,
+        ),
     ];
   }
   if (first is num) {
@@ -371,7 +410,7 @@ Object _count(
     if (n(trees[i]) == n(trees[i - 1])) continue;
     var (a, b) = (widths[i - 1], widths[i]);
     final left = n(trees[i - 1]);
-    while (b - a > 0.005) {
+    while (b - a > _pin) {
       final m = (a + b) / 2;
       if (countAt(m) == left) {
         a = m;
@@ -379,7 +418,7 @@ Object _count(
         b = m;
       }
     }
-    steps.addAll([(b * 1000).ceil() / 1000, n(trees[i])]);
+    steps.addAll([b, n(trees[i])]);
   }
   return steps.length == 1 ? steps.single : {'n': steps};
 }

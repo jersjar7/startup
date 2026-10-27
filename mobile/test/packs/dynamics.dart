@@ -46,6 +46,7 @@ Map<String, Object?> moreInThanOut() => pickScreen(
     for (final r in powerRounds)
       (
         options: [for (final s in r.options) s.plain],
+        notes: null,
         tex: null,
         answer: r.options.indexOf(r.answer),
         why: r.why,
@@ -83,6 +84,7 @@ Map<String, Object?> whatIsMissing() => pickScreen(
     for (final r in absentRounds)
       (
         options: [for (final k in Known.values) k.plain],
+        notes: null,
         tex: [for (final k in Known.values) k.tex],
         answer: Known.values.indexOf(r.answer),
         why: r.why,
@@ -128,6 +130,7 @@ Map<String, Object?> whenItRunsAway() => pickScreen(
     for (final (i, r) in tuneRounds.indexed)
       (
         options: [for (final d in Danger.values) d.plain],
+        notes: null,
         tex: null,
         answer: Danger.values.indexOf(r.answer),
         why: r.why,
@@ -186,6 +189,7 @@ Map<String, Object?> whatSurvivesTheCrash() => pickScreen(
     for (final (i, r) in surviveRounds.indexed)
       (
         options: [for (final s in Survives.values) s.plain],
+        notes: null,
         tex: null,
         answer: Survives.values.indexOf(r.answer),
         why: r.why,
@@ -231,6 +235,7 @@ Map<String, Object?> pushItOrSpinIt() => pickScreen(
     for (final (i, r) in shoveRounds.indexed)
       (
         options: [for (final n in Needs2.values) n.plain],
+        notes: null,
         tex: null,
         answer: Needs2.values.indexOf(r.answer),
         why: r.why,
@@ -279,6 +284,7 @@ Map<String, Object?> doesTheMassMatter() => pickScreen(
     for (final r in massRounds)
       (
         options: [for (final h in Heavier.values) h.plain],
+        notes: null,
         tex: null,
         answer: Heavier.values.indexOf(r.answer),
         why: r.why,
@@ -322,6 +328,7 @@ Map<String, Object?> stickOrBounce() => pickScreen(
     for (final (i, r) in impactRounds.indexed)
       (
         options: [for (final k in Impact.values) k.plain],
+        notes: null,
         tex: null,
         answer: Impact.values.indexOf(r.answer),
         why: r.why,
@@ -371,6 +378,7 @@ Map<String, Object?> massOrWeight() => pickScreen(
     for (final r in unitRounds)
       (
         options: [for (final p in Prep.values) p.plain],
+        notes: null,
         tex: null,
         answer: Prep.values.indexOf(r.answer),
         why: r.why,
@@ -417,6 +425,7 @@ Map<String, Object?> fasterOrSlower() => pickScreen(
     for (final (n, r) in pairRounds3.indexed)
       (
         options: [for (final q in Quicker.values) q.plain],
+        notes: null,
         tex: null,
         answer: Quicker.values.indexOf(r.answer),
         why: r.why,
@@ -473,6 +482,7 @@ Map<String, Object?> howItSettles() => pickScreen(
     for (final (n, r) in settleRounds.indexed)
       (
         options: [for (final d in r.options) d.plain],
+        notes: null,
         tex: null,
         answer: r.options.indexOf(r.answer),
         why: r.why,
@@ -522,6 +532,7 @@ Map<String, Object?> stretchTheTime() => pickScreen(
       (
         // A drawing has no words; these are only for the audit and reports.
         options: [for (var i = 0; i < r.options.length; i++) 'shape ${i + 1}'],
+        notes: null,
         tex: null,
         answer: r.answer,
         why: r.why,
@@ -568,6 +579,7 @@ Map<String, Object?> harderToSpin() => pickScreen(
     for (final (n, r) in pairRounds2.indexed)
       (
         options: const ['the left one', 'the right one'],
+        notes: null,
         tex: null,
         answer: r.answer,
         why: r.why,
@@ -625,6 +637,7 @@ Map<String, Object?> whereTheEnergyGoes() => pickScreen(
         options: [
           for (var i = 0; i < r.options.length; i++) 'account ${i + 1}',
         ],
+        notes: null,
         tex: null,
         answer: r.answer,
         why: r.why,
@@ -667,6 +680,7 @@ Map<String, Object?> whichPieceDrivesIt() => pickScreen(
     for (final (n, r) in slopeRounds.indexed)
       (
         options: [for (final a in r.arrows) a.plain],
+        notes: null,
         tex: null,
         answer: r.arrows.indexOf(r.answer),
         why: r.why,
@@ -717,6 +731,7 @@ Map<String, Object?> speedingUpOrTurning() => pickScreen(
     for (final (n, r) in cornerRounds.indexed)
       (
         options: [for (final p in r.shown) p.name],
+        notes: null,
         tex: null,
         answer: r.shown.indexOf(r.answer),
         why: r.why,
@@ -773,6 +788,7 @@ Map<String, Object?> sameSpinDifferentSpeed() => pickScreen(
           for (var i = 0; i < r.spinner.marks.length; i++) 'point ${i + 1}',
           'No single point: they are equal on this',
         ],
+        notes: null,
         tex: null,
         answer: r.everywhere ? r.spinner.marks.length : r.answer,
         why: r.why,
@@ -827,6 +843,7 @@ Map<String, Object?> tapTheTrajectory() => pickScreen(
           for (final m in Moment.values) m.plain,
           'No single moment: it is the same the whole way',
         ],
+        notes: null,
         tex: null,
         answer: r.everywhere
             ? Moment.values.length

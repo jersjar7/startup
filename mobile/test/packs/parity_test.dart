@@ -98,13 +98,19 @@ void main() {
           }
           expect(after.cleared, before.cleared, reason: 'rounds cleared');
           expect(after.shots.length, before.shots.length, reason: 'screens');
-          var differing = 0;
+          // ADR 0031: a screen may differ only by the renderer's sampling
+          // flips, a few pixels a few shades apart, never by a real change.
+          var differing = 0, beyond = 0;
           for (var i = 0; i < before.shots.length; i++) {
             final (label, a) = before.shots[i];
             final (_, b) = after.shots[i];
             final d = _diff(a, b);
             if (d.pixels > 0) {
               differing++;
+              if (d.most > _flipShades ||
+                  d.pixels > a.rgba.length ~/ 4 * _flipShare) {
+                beyond++;
+              }
               final dir = Directory('build/packs/parity/$name')
                 ..createSync(recursive: true);
               File('${dir.path}/$i-$label-before.png').writeAsBytesSync(a.png);
@@ -120,12 +126,18 @@ void main() {
             '$name: ${before.shots.length} screens, $differing differ, '
             '${before.events.length} answers recorded',
           );
-          expect(differing, 0);
+          expect(beyond, 0, reason: 'screens differing beyond sampling');
         });
       }
     }
   }
 }
+
+/// The most a sampling flip moves one pixel, out of 255 (ADR 0031).
+const _flipShades = 32;
+
+/// The most of a screen's pixels sampling flips may touch (ADR 0031).
+const _flipShare = 0.0005;
 
 class _Shot {
   _Shot(this.rgba, this.png);
@@ -294,8 +306,13 @@ Future<_Run> _play(
         } else if (pick < drawn) {
           // A drawing answer has no words to find: tap it by its place.
           await _tapOn(tester, _panels.at(pick));
+        } else if (_tileRadius(r) case final double radius) {
+          // So is a tile, whose words may be a formula.
+          await _tapOn(tester, _tiles(radius).at(pick));
         } else {
-          await _tapOn(tester, find.text(options[pick]));
+          // Two answers can share their words (told apart by a note).
+          final twins = options.take(pick).where((o) => o == options[pick]);
+          await _tapOn(tester, _answer(options[pick]).at(twins.length));
         }
       case 'tap-figure':
         final puck = voidRounds[i].puck;
@@ -404,6 +421,21 @@ final _panels = find.byWidgetPredicate(
       w.onTap != null,
 );
 
+/// The corner of a round's tile answers, if it answers with tiles.
+double? _tileRadius(Map<String, Object?> round) => [
+  for (final b in (round['screen'] as List?) ?? const [])
+    if ((b as Map)['tiles'] != null) ((b['radius'] as num?) ?? 12).toDouble(),
+].firstOrNull;
+
+/// The tiles on screen, in order: the only buttons on their round with
+/// that corner.
+Finder _tiles(double radius) => find.byWidgetPredicate(
+  (w) =>
+      w is InkWell &&
+      w.borderRadius == BorderRadius.circular(radius) &&
+      w.onTap != null,
+);
+
 /// The words a screen of blocks always shows, so its round can be told
 /// from the others.
 List<String> _words(List<Map<String, Object?>> blocks) => [
@@ -422,3 +454,7 @@ Future<void> _settle(WidgetTester tester) async {
   );
   await tester.pumpAndSettle();
 }
+
+/// An answer's words on its button, not where the problem quotes them.
+Finder _answer(String words) =>
+    find.descendant(of: find.byType(InkWell), matching: find.text(words));

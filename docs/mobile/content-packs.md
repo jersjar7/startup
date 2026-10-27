@@ -75,6 +75,15 @@ What is kept:
 - **Concept sheet pictures**: one drawing, two side by side, or a column of
   those with gaps (`"kind": "one" | "pair" | "column" | "gap"`).
 
+What "the same" means for a drawing ([ADR 0031](../adr/0031-pack-drawings-match-to-sampling-not-bits.md),
+proposed 2026-10-27): every number within the tolerances above, and on
+screen no pixel more than 32 shades out of 255 from the built-in game's,
+on no more than 0.05% of the screen. A number that is not a straight line
+in the width (a dash along a diagonal) can be as close as you like and
+still tip one pixel's edge sampling, so pixel-for-pixel equality is not a
+bar that can be met for every drawing. The parity check still prints every
+screen that differs at all.
+
 ## A round laid out as its own screen
 
 The first pick-one games all had the same screen: an overline, the
@@ -89,20 +98,26 @@ per layout, a pick-one round may carry its whole screen as a list of blocks
 | Block | What it is |
 |---|---|
 | `gap` | Empty height. |
-| `overline`, `mono`, `text` | The game's three kinds of words (`text` may be `bold`). |
+| `overline`, `mono`, `text`, `code` | The game's kinds of words (`text` may be `bold`, with its own size and line height; `code` may be grey). |
 | `math` | A centered formula. |
-| `figure` | A recorded drawing, before (`ask`) and after (`done`), framed as a bordered `panel`, on the bare `grid`, or `none`. Its height may differ before and after. |
-| `box` | A white bordered box holding blocks. |
-| `choices` | The answers as buttons, all of them or a listed few. An answer may carry a symbol before its words (`tex`). |
+| `figure` | A recorded drawing, before (`ask`) and after (`done`), framed as a bordered `panel`, on the bare `grid`, clipped to a rounded corner (`clip`), or `none`. Its height may differ before and after. |
+| `box` | A box holding blocks: white and bordered, or shaded with its own corner and no border, as Economics quotes a problem. |
+| `row`, `rule` | Words side by side (a column a set width, or sharing what is left, centred), and a hairline between rows. Together they make a small table. |
+| `choices` | The answers as buttons, all of them or a listed few. An answer may carry a symbol before its words (`tex`), or a note beneath it (`notes` on the round, the app's titled row). |
+| `tiles` | Answers that tint as well as border when picked, each a row of words or a formula, in a column or side by side. Most of Economics answers this way. |
 | `panels` | Answers that are drawings, in a column or a row, each recorded as it looks idle, picked, right and wrong (or just idle and "on" when only the border changes, since a picked border is a pixel thicker and the drawing inside a pixel smaller). |
 | `tap` | A drawing answered by tapping near a mark: the nearest mark within reach wins, as in the games. Recorded for every mark picked, or none, before and after. |
 | `pickedLabel` | The picked answer's words, while it is picked. |
 | `feedback` | The verdict and the why. |
 
-Any block can be limited to before the answer, after it, or while an answer
-is picked (`"when": "ask" | "done" | "picked"`). The app's side is
+Any block can be limited to before the answer, after it, while nothing is
+picked, while an answer is picked and not yet locked in, or while one is
+picked at all (`"when": "ask" | "done" | "none" | "picked" | "chosen"`),
+and the last three to particular answers (`of`). Balance the Rate uses this
+to redraw its bars at whichever rate is being tried. The app's side is
 `mobile/lib/features/packs/games/pick_one_game.dart`; the adapters that
-describe each game are in `mobile/test/packs/` (`dynamics.dart`).
+describe each game are in `mobile/test/packs/` (`dynamics.dart`,
+`economics.dart`).
 
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is

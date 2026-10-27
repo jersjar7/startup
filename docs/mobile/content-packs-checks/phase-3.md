@@ -63,6 +63,63 @@ What the move needed:
 - The parity script learned to scroll to answers below the fold, tap a
   drawing answer by its place, and tap a mark.
 
+## Economics (13 of 19 games), 2026-10-27
+
+Thirteen moved, published in FE Civil pack version 4. Not switched on. The
+other six stay built in for now (see "What is left" below). The app
+decides game by game, so a lesson can hold both: its packed games play
+from the pack and the rest as built in.
+
+Every Economics game has its own screen. Eight answer with the app's titled
+row (a title with its condition written small beneath); five with answers
+that tint when picked (`tiles`), one of them as a row of rates whose bars
+redraw at whichever rate is tried. One game shows a small table of costs and
+benefits (`row` and `rule`). Descriptions are in `mobile/test/packs/
+economics.dart`.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 78 of 78 runs pass. Twelve games pixel for pixel. Which Rate's concept sheet differs by sampling only: up to 12 pixels, at most 5 shades out of 255. |
+| All moved games again after the builder changed | 228 of 228 runs pass. Three concept sheets that were exact now differ by sampling only (What Is Missing at 430 wide, 104 pixels at most 7 shades; Tap the Trajectory, under 10 pixels at most 5 shades; Which Rate as above). |
+| 5, the game audit | All 13 carry their audited rounds (43 pack games in all). |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 43 pack games played to the end, tile answers included. |
+
+What the move needed:
+
+- **A bar for "looks the same" that can be met.** Which Rate's concept sheet
+  draws a dashed line on a diagonal. However closely its numbers were kept
+  (a thousand times closer was tried), one or two pixels along it came out a
+  few shades different, because the renderer samples each pixel's edge at a
+  few points and any shift at all can cross one. The first three chapters
+  matched exactly only because nearly all their numbers are straight lines
+  in the width. Written up as [ADR 0031](../../adr/0031-pack-drawings-match-to-sampling-not-bits.md)
+  (proposed, for the owner): the geometry must match to a ten thousandth
+  of a pixel, and the pixels may differ only as sampling does, no more than
+  32 shades on no more than 0.05% of a screen. Every differing screen is
+  still printed.
+- The builder keeps repeated shapes and the widths where a drawing changes
+  closer than before (that is the change the full re-run checks).
+- New blocks for a round's screen: words at their own size and line height,
+  `code`, a shaded box, a clipped figure, note rows, `tiles`, `row` and
+  `rule`, and "when" conditions for nothing picked and a particular answer
+  picked. See the reference.
+- The Economics figures switched to the recordable text and path. One
+  private helper (Which Side Wins's description of a side) became public.
+  Nothing draws differently.
+
+### What is left in Economics
+
+- **Over the Bar** and **What Does It Take** let a student pick several
+  answers. That is a different game ("pick several"), which a pack can only
+  carry once the app has it: a new game type, a new app release.
+- **Find the Factor** answers by tapping one cell of a printed table, about
+  twenty answers a round.
+- **When Does It Land**, **Where the Cost Went** and **Roll It Back** answer
+  by dragging or tapping on a drawing the game lays out itself.
+
+The plan is to add these as game types in one app release with the other
+chapters' needs, rather than one release per chapter.
+
 ## Notes for after (not changed during the move)
 
 1. **Three Dynamics formulas run off a small phone.** On a phone 320

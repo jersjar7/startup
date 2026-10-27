@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../games/board.dart';
+import '../../games/liability_row.dart';
 import '../../shared/widgets/engineering_grid.dart';
 import '../../shared/widgets/math_text.dart';
 import '../drawing/drawing_painter.dart';
@@ -87,15 +88,28 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
               picked: _picked,
               truth: answer,
               onPick: answered ? null : (i) => setState(() => _picked = i),
-              choice: (i) => _Choice(
-                label: options[i],
-                tex: (r['tex'] as List?)?[i] as String?,
-                pad: (r['choicePad'] as num?)?.toDouble() ?? 13,
-                selected: _picked == i,
-                locked: answered,
-                isTruth: answer == i,
-                onTap: answered ? null : () => setState(() => _picked = i),
-              ),
+              choice: (i) => r['notes'] is List
+                  ? LiabilityRow(
+                      title: options[i],
+                      note: (r['notes']! as List)[i]! as String,
+                      selected: _picked == i,
+                      locked: answered,
+                      isTruth: answer == i,
+                      onTap: answered
+                          ? null
+                          : () => setState(() => _picked = i),
+                    )
+                  : _Choice(
+                      label: options[i],
+                      tex: (r['tex'] as List?)?[i] as String?,
+                      pad: (r['choicePad'] as num?)?.toDouble() ?? 13,
+                      selected: _picked == i,
+                      locked: answered,
+                      isTruth: answer == i,
+                      onTap: answered
+                          ? null
+                          : () => setState(() => _picked = i),
+                    ),
               options: options.length,
               feedback: answered
                   ? BoardFeedback(
@@ -187,16 +201,26 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
 
 /// A round's screen as data: each block is one widget of the column, in
 /// order. Any block may carry `"when": "ask"` or `"when": "done"` to show
-/// only before or only after the answer, or `"when": "picked"` to show only
-/// while an answer is picked and not locked in (with `of`, only while one
-/// of those answers is).
+/// only before or only after the answer, `"when": "none"` to show only
+/// while nothing is picked, or `"when": "picked"` to show only while an
+/// answer is picked and not locked in, or `"when": "chosen"` while one is
+/// picked, locked in or not (with `of`, on "picked", "chosen" or "done",
+/// only while one of those answers is the one picked).
 ///
 /// Blocks: `gap` (height), `overline` (with `color`), `mono` (with `size`
-/// and `color`), `text` (with `bold`), `math` (centred, with `size`),
-/// `figure` (a recorded drawing with `h`, framed as `panel`, `grid` or
-/// `none`), `box` (white bordered box holding blocks, with `pad`),
-/// `choices` (the answers, or a list of which ones, with `space` between them and `last`, whether the
-/// last one gets the gap too), `panels` (answers that are drawings: one per
+/// and `color`), `text` (with `bold`, `size` and `line`), `code` (with
+/// `size`), `math` (centred, with `size`), `figure` (a recorded drawing
+/// with `h`, framed as `panel`, `grid`, `clip` with a `radius`, or `none`),
+/// `box` (a box holding blocks, with `pad`, and `fill`, `radius` and
+/// `border` when it is not the white bordered one), `row` (cells side by
+/// side, see [_cell]), `rule` (a hairline with `rule` pixels above and
+/// below),
+/// `choices` (the answers, or a list of which ones, with `space` between
+/// them and `last`, whether the last one gets the gap too; a round with
+/// `notes` shows each answer as a title with its note beneath, the app's
+/// titled row), `tiles` (answers that tint when picked, each a row of
+/// cells, see [_cell]; in a `row` or a column, with `pad`, `radius`, `h`,
+/// `center`, `space` and `last`), `panels` (answers that are drawings: one per
 /// answer, each drawn as it looks `idle`, `picked`, `right` and `wrong`, or
 /// just `idle` and `on` when only its border changes; in a `row` or a
 /// column, with `h`, `pad`, `space` and `last`), `pickedLabel` (the picked
@@ -233,17 +257,21 @@ class _ScreenBlocks extends StatelessWidget {
     'info': AppColors.info,
     'ink3': AppColors.ink3,
     'charcoal': AppColors.charcoal,
+    'white': AppColors.white,
+    'creamDark': AppColors.creamDark,
   };
 
-  bool _shown(Map<String, Object?> b) => switch (b['when']) {
-    'ask' => !answered,
-    'done' => answered,
-    'picked' =>
-      picked != null &&
-          !answered &&
-          ((b['of'] as List?)?.contains(picked) ?? true),
-    _ => true,
-  };
+  bool _shown(Map<String, Object?> b) {
+    final of = (b['of'] as List?)?.contains(picked) ?? true;
+    return switch (b['when']) {
+      'ask' => !answered,
+      'done' => answered && of,
+      'none' => picked == null && !answered,
+      'picked' => picked != null && !answered && of,
+      'chosen' => picked != null && of,
+      _ => true,
+    };
+  }
 
   double _num(Object? v) => switch (v) {
     {'ask': final num ask, 'done': final num done} =>
@@ -278,10 +306,21 @@ class _ScreenBlocks extends StatelessWidget {
         Text(
           s,
           style: TextStyle(
-            fontSize: 15,
-            height: 1.5,
+            fontSize: _num(b['size'] ?? 15),
+            height: _num(b['line'] ?? 1.5),
             fontWeight: b['bold'] == true ? FontWeight.w600 : null,
             color: AppColors.charcoal,
+          ),
+        ),
+      ];
+    }
+    if (b['code'] case final String s) {
+      return [
+        Text(
+          s,
+          style: AppTheme.code(
+            size: _num(b['size']),
+            color: _colors[b['color'] ?? 'charcoal']!,
           ),
         ),
       ];
@@ -324,8 +363,31 @@ class _ScreenBlocks extends StatelessWidget {
             major: 90,
             child: SizedBox(height: h, child: paint),
           ),
+          'clip' => ClipRRect(
+            borderRadius: BorderRadius.circular(_num(b['radius'])),
+            child: SizedBox(
+              height: h,
+              width: double.infinity,
+              child: EngineeringGrid(minor: 18, major: 90, child: paint),
+            ),
+          ),
           _ => SizedBox(height: h, child: paint),
         },
+      ];
+    }
+    if (b['row'] case final List cells) {
+      return [
+        Row(
+          children: [for (final c in cells) _cell(c as Map<String, Object?>)],
+        ),
+      ];
+    }
+    if (b['rule'] case final num v) {
+      return [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: v.toDouble()),
+          child: const Divider(height: 1, color: AppColors.line),
+        ),
       ];
     }
     if (b['box'] case final List inner) {
@@ -340,9 +402,11 @@ class _ScreenBlocks extends StatelessWidget {
             pad[3].toDouble(),
           ),
           decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.line),
+            color: _colors[b['fill'] ?? 'white'],
+            borderRadius: BorderRadius.circular(_num(b['radius'] ?? 12)),
+            border: b['border'] == false
+                ? null
+                : Border.all(color: AppColors.line),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -361,6 +425,40 @@ class _ScreenBlocks extends StatelessWidget {
         for (final (k, i) in shown.indexed) ...[
           choice(i),
           if (k != shown.length - 1 || b['last'] == true) gap,
+        ],
+      ];
+    }
+    if (b['tiles'] case final List tiles) {
+      final space = _num(b['space'] ?? 8);
+      Widget tile(int i) => _Tile(
+        cells: (tiles[i]! as List).cast<Map<String, Object?>>(),
+        cell: _cell,
+        height: (b['h'] as num?)?.toDouble(),
+        pad: (b['pad']! as List).cast<num>(),
+        radius: _num(b['radius'] ?? 12),
+        center: b['center'] == true,
+        selected: picked == i,
+        locked: answered,
+        isTruth: truth == i,
+        onTap: onPick == null ? null : () => onPick!(i),
+      );
+      if (b['row'] == true) {
+        return [
+          Row(
+            children: [
+              for (var i = 0; i < tiles.length; i++) ...[
+                if (i > 0) SizedBox(width: space),
+                Expanded(child: tile(i)),
+              ],
+            ],
+          ),
+        ];
+      }
+      return [
+        for (var i = 0; i < tiles.length; i++) ...[
+          tile(i),
+          if (i != tiles.length - 1 || b['last'] == true)
+            SizedBox(height: space),
         ],
       ];
     }
@@ -442,6 +540,47 @@ class _ScreenBlocks extends StatelessWidget {
     }
     if (b['feedback'] == true) return [?feedback];
     throw FormatException('Unknown screen block $b');
+  }
+
+  /// One piece of a row (a tile's, or a `row` block's): words, `code`,
+  /// `mono`, an `overline`, a formula (`tex`) or a horizontal `gap`; `w`
+  /// sets its width, `fill` gives it the width left over and `mid` a share
+  /// of it, centred.
+  Widget _cell(Map<String, Object?> c) {
+    Widget w;
+    if (c['gap'] case final num g) {
+      return SizedBox(width: g.toDouble());
+    } else if (c['text'] case final String s) {
+      w = Text(
+        s,
+        maxLines: c['one'] == true ? 1 : null,
+        overflow: c['one'] == true ? TextOverflow.ellipsis : null,
+        style: TextStyle(fontSize: _num(c['size']), color: AppColors.charcoal),
+      );
+    } else if (c['code'] case final String s) {
+      w = Text(s, style: AppTheme.code(size: _num(c['size'])));
+    } else if (c['mono'] case final String s) {
+      w = Text(
+        s,
+        style: AppTheme.mono(
+          size: _num(c['size']),
+          color: _colors[c['color']]!,
+        ),
+      );
+    } else if (c['overline'] case final String s) {
+      w = Text(s, style: AppTheme.overline(color: _colors[c['color']]!));
+    } else if (c['tex'] case final String tex) {
+      w = MathBlock(tex, fontSize: _num(c['size']));
+    } else {
+      throw FormatException('Unknown cell $c');
+    }
+    if (c['w'] case final num width) {
+      w = SizedBox(width: width.toDouble(), child: w);
+    }
+    if (c['mid'] == true) {
+      return Expanded(child: Center(widthFactor: 1, child: w));
+    }
+    return c['fill'] == true ? Expanded(child: w) : w;
   }
 
   /// The mark nearest a tap, if one is within reach: the first of equals
@@ -534,6 +673,75 @@ class _FigureChoice extends StatelessWidget {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// An answer that tints as well as borders: white, ember when picked, then
+/// forest or red once locked in. Its content is a row of cells.
+class _Tile extends StatelessWidget {
+  const _Tile({
+    required this.cells,
+    required this.cell,
+    required this.height,
+    required this.pad,
+    required this.radius,
+    required this.center,
+    required this.selected,
+    required this.locked,
+    required this.isTruth,
+    required this.onTap,
+  });
+
+  final List<Map<String, Object?>> cells;
+  final Widget Function(Map<String, Object?>) cell;
+  final double? height;
+  final List<num> pad;
+  final double radius;
+  final bool center;
+  final bool selected;
+  final bool locked;
+  final bool isTruth;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final (Color border, Color fill) = locked && isTruth
+        ? (AppColors.forest, AppColors.forestBg)
+        : locked && selected
+        ? (AppColors.error, AppColors.errorBg)
+        : selected
+        ? (AppColors.ember, AppColors.emberBg)
+        : (AppColors.line, AppColors.white);
+
+    return Material(
+      color: fill,
+      borderRadius: BorderRadius.circular(radius),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(radius),
+        onTap: onTap,
+        child: Container(
+          width: center ? null : double.infinity,
+          height: height,
+          alignment: center ? Alignment.center : null,
+          padding: EdgeInsets.fromLTRB(
+            pad[0].toDouble(),
+            pad[1].toDouble(),
+            pad[2].toDouble(),
+            pad[3].toDouble(),
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(radius),
+            border: Border.all(
+              color: border,
+              width: border == AppColors.line ? 1 : 2,
+            ),
+          ),
+          child: center && cells.length == 1
+              ? cell(cells.single)
+              : Row(children: [for (final c in cells) cell(c)]),
         ),
       ),
     );
