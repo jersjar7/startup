@@ -52,7 +52,17 @@ What is kept:
 
 - **Numbers that follow the width**: a plain number, a straight line
   (`{"w": [a, b]}` is `a + b * width`), or a line with bends
-  (`{"p": [width, value, ...]}`).
+  (`{"p": [width, value, ...]}`). A number is kept to a ten thousandth of a
+  pixel. Two are kept closer (2026-10-27), because Does the Mass Matter's
+  blocks on a slope landed a few edge pixels six shades out of 255 apart at
+  that figure: a turn of the canvas to a ten millionth of a radian (a turn
+  moves a corner by the angle times its distance from the pivot), and a
+  move of the canvas to a hundred thousandth of a pixel.
+- **Angles along a slope** (`{"a": [c, d, e, f]}` is atan2(c + d w,
+  e + f w)), added 2026-10-27. A figure turned to lie along a slope whose
+  run follows the width has an angle no chain of straight pieces can follow
+  closely: the one picture took 190 KB to download kept that way, and 70 KB
+  with this.
 - **Colors** as `{"#": argb}`, or `{"#": [day, night]}`.
 - **Repeated shapes** (a dashed line, a row of ticks, a hatch), added
   2026-10-27: one step drawn so many times, moving by the same amount each
@@ -64,6 +74,40 @@ What is kept:
   really changes at some width.
 - **Concept sheet pictures**: one drawing, two side by side, or a column of
   those with gaps (`"kind": "one" | "pair" | "column" | "gap"`).
+
+## A round laid out as its own screen
+
+The first pick-one games all had the same screen: an overline, the
+problem's subject and question, one drawing, the answers as a list. Most
+chapters lay their rounds out differently: a formula under the drawing, a
+caption that changes once answered, a box of what the problem says, answers
+that are drawings, a drawing you tap near a mark. Rather than a game type
+per layout, a pick-one round may carry its whole screen as a list of blocks
+(`"screen": [...]`), each one widget of the column, in order. Added
+2026-10-27 for Dynamics; the earlier games keep the plain layout.
+
+| Block | What it is |
+|---|---|
+| `gap` | Empty height. |
+| `overline`, `mono`, `text` | The game's three kinds of words (`text` may be `bold`). |
+| `math` | A centered formula. |
+| `figure` | A recorded drawing, before (`ask`) and after (`done`), framed as a bordered `panel`, on the bare `grid`, or `none`. Its height may differ before and after. |
+| `box` | A white bordered box holding blocks. |
+| `choices` | The answers as buttons, all of them or a listed few. An answer may carry a symbol before its words (`tex`). |
+| `panels` | Answers that are drawings, in a column or a row, each recorded as it looks idle, picked, right and wrong (or just idle and "on" when only the border changes, since a picked border is a pixel thicker and the drawing inside a pixel smaller). |
+| `tap` | A drawing answered by tapping near a mark: the nearest mark within reach wins, as in the games. Recorded for every mark picked, or none, before and after. |
+| `pickedLabel` | The picked answer's words, while it is picked. |
+| `feedback` | The verdict and the why. |
+
+Any block can be limited to before the answer, after it, or while an answer
+is picked (`"when": "ask" | "done" | "picked"`). The app's side is
+`mobile/lib/features/packs/games/pick_one_game.dart`; the adapters that
+describe each game are in `mobile/test/packs/` (`dynamics.dart`).
+
+This is still game type `pick-one` at 1.2.0: no app that reads packs has
+shipped, so the type could grow before its first release. Once 1.2.0 is
+out, a new kind of block is a new game type (or a new version of this one),
+dated in the list below.
 
 ## The oldest app a lesson needs
 
