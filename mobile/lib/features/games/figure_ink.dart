@@ -296,7 +296,14 @@ void inkLabel(
   Offset at, {
   Color? patch,
 }) {
+  final box = RRect.fromRectAndRadius(
+    Rect.fromLTWH(at.dx - 2.5, at.dy - 1, text.width + 5, text.height + 2),
+    const Radius.circular(3),
+  );
   if (!_wantsPatch(text)) {
+    // The patch is still drawn, but clear, so day and night draw the same
+    // shapes and differ only in color (a pack keeps them as one drawing).
+    canvas.drawRRect(box, Paint()..color = const Color(0x00000000));
     _recordLabel(
       canvas,
       Rect.fromLTWH(at.dx, at.dy, text.width, text.height),
@@ -305,10 +312,6 @@ void inkLabel(
     text.paint(canvas, at);
     return;
   }
-  final box = RRect.fromRectAndRadius(
-    Rect.fromLTWH(at.dx - 2.5, at.dy - 1, text.width + 5, text.height + 2),
-    const Radius.circular(3),
-  );
   canvas.drawRRect(box, Paint()..color = patch ?? panelBase);
   _recordLabel(canvas, box.outerRect, _plain(text));
   text.paint(canvas, at);
