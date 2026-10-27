@@ -16,6 +16,7 @@ import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/features/auth/auth_controller.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/packs/drawing/drawing_painter.dart';
+import 'package:mobile/features/shared/widgets/engineering_grid.dart';
 import 'package:mobile/features/packs/pack_store.dart';
 import 'package:mobile/features/packs/update_needed_screen.dart';
 
@@ -35,6 +36,14 @@ Future<void> _settle(WidgetTester tester) async {
 }
 
 Future<void> _tap(WidgetTester tester, Finder f) async {
+  // A long round builds its answers only once they are scrolled near.
+  if (f.evaluate().isEmpty) {
+    await tester.scrollUntilVisible(
+      f,
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+  }
   await tester.ensureVisible(f);
   await tester.pumpAndSettle();
   await tester.tap(f);
@@ -177,7 +186,49 @@ Future<void> _answerRight(
   switch (type) {
     case 'pick-one':
       final options = (round['options']! as List).cast<String>();
-      await _tap(tester, find.text(options[round['answer']! as int]));
+      final answer = round['answer']! as int;
+      final blocks = ((round['screen'] as List?) ?? const [])
+          .cast<Map<String, Object?>>();
+      final panels = blocks.where((b) => b['panels'] != null).firstOrNull;
+      final tap = blocks.where((b) => b['tap'] != null).firstOrNull;
+      final hits = (tap?['hits'] as List?)?.cast<int>() ?? const <int>[];
+      if (hits.contains(answer)) {
+        final figure = find.byWidgetPredicate(
+          (w) =>
+              w is GestureDetector &&
+              w.onTapDown != null &&
+              w.child is EngineeringGrid,
+        );
+        await tester.ensureVisible(figure);
+        await tester.pumpAndSettle();
+        final size = tester.getSize(figure);
+        final step =
+            drawingSteps(tap!['targets']!, size.width)[hits.indexOf(answer)]!
+                as List<Object?>;
+        await tester.tapAt(
+          tester.getTopLeft(figure) +
+              Offset(
+                drawingNumber(step[1], size.width),
+                drawingNumber(step[2], size.width),
+              ),
+        );
+        await _settle(tester);
+      } else if (panels != null &&
+          answer < (panels['panels']! as List).length) {
+        await _tap(
+          tester,
+          find
+              .byWidgetPredicate(
+                (w) =>
+                    w is InkWell &&
+                    w.borderRadius == BorderRadius.circular(12) &&
+                    w.onTap != null,
+              )
+              .at(answer),
+        );
+      } else {
+        await _tap(tester, find.text(options[answer]));
+      }
     case 'order':
       final actions = (round['actions']! as List).cast<String>();
       for (final i in (round['order']! as List).cast<int>()) {

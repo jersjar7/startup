@@ -84,6 +84,18 @@ void main() {
           final after = await _play(tester, game.screen()!, game, phone, dark);
 
           expect(after.events, before.events, reason: 'what was recorded');
+          expect(
+            after.layoutErrors,
+            before.layoutErrors,
+            reason: 'layout errors',
+          );
+          if (before.layoutErrors.isNotEmpty) {
+            // ignore: avoid_print
+            print(
+              '$name: the built-in game overflows too: '
+              '${before.layoutErrors.toSet().join('; ')}',
+            );
+          }
           expect(after.cleared, before.cleared, reason: 'rounds cleared');
           expect(after.shots.length, before.shots.length, reason: 'screens');
           var differing = 0;
@@ -125,6 +137,11 @@ class _Run {
   final shots = <(String, _Shot)>[];
   List<String> events = [];
   List<int> cleared = [];
+
+  /// Layout errors the screen raised, such as a formula wider than a small
+  /// phone. One the built-in game has too is a flaw to fix after the move,
+  /// not a difference; the two runs must raise the same ones.
+  final layoutErrors = <String>[];
 }
 
 ({int pixels, int most}) _diff(_Shot a, _Shot b) {
@@ -154,6 +171,16 @@ Future<_Run> _play(
   bool dark,
 ) async {
   final run = _Run();
+  final report = FlutterError.onError;
+  FlutterError.onError = (details) {
+    final text = details.exceptionAsString();
+    if (text.contains('overflowed by')) {
+      run.layoutErrors.add(text.split('\n').first);
+    } else {
+      report?.call(details);
+    }
+  };
+  addTearDown(() => FlutterError.onError = report);
   SharedPreferences.setMockInitialValues({'book_dot_seen': true});
   GameProgress.instance.reset(game.id);
   tester.view.physicalSize = Size(phone, 844);
