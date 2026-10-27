@@ -33,7 +33,7 @@ class PackGame {
   /// The screen for this game, or null when this app has no such game type
   /// (the lesson then asks for an update; ADR 0030, section 5).
   Widget? screen() => switch (type) {
-    'pick-one' => PackPickOneGame(game: this),
+    'pick-one' || 'pick-several' => PackPickOneGame(game: this),
     'tap-figure' => PackTapFigureGame(game: this),
     'order' => PackOrderGame(game: this),
     _ => null,
