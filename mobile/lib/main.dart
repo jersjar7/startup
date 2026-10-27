@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'app.dart';
 import 'core/licenses.dart';
@@ -11,6 +12,7 @@ import 'features/daily/daily_repository.dart';
 import 'features/games/game_progress.dart';
 import 'features/games/lesson_node_rive.dart';
 import 'features/profile/badge_art.dart';
+import 'features/packs/pack_store.dart';
 import 'features/profile/badges.dart';
 
 Future<void> main() async {
@@ -35,6 +37,12 @@ Future<void> main() async {
   await DailyDone.load();
   // Light, dark or the phone's own, before the first frame is drawn.
   await Appearance.load();
+  // The content pack inside the app, or a newer one downloaded before: on
+  // disk, so the first lesson never waits on the network (ADR 0030).
+  if (packsOn) {
+    PackStore.instance.appVersion = (await PackageInfo.fromPlatform()).version;
+    await PackStore.instance.load();
+  }
   // The lesson node artwork loads in the background. The first screen is
   // never the map, so it is in long before a node is drawn; if it fails, the
   // nodes paint themselves and nothing else notices.

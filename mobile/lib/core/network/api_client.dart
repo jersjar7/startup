@@ -41,6 +41,17 @@ class ApiClient {
   Future<dynamic> get(String path) =>
       _send(() => _dio.get(path, options: _opts));
 
+  /// The body exactly as sent, as text: a content pack is checked against
+  /// the hash of its bytes, which decoding and re-encoding would change.
+  Future<String> getText(String path) async =>
+      (await _send(
+            () => _dio.get<String>(
+              path,
+              options: _opts.copyWith(responseType: ResponseType.plain),
+            ),
+          ))
+          as String;
+
   Future<dynamic> post(String path, [Map<String, dynamic>? body]) =>
       _send(() => _dio.post(path, data: body, options: _opts));
 
