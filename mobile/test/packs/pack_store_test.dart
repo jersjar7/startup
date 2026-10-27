@@ -33,9 +33,9 @@ Map<String, Object?> _manifest() =>
     jsonDecode(File('${_published.path}/manifest.json').readAsStringSync())
         as Map<String, Object?>;
 
-String _publishedText() =>
-    File('${_published.path}/${(_manifest()['latest']! as Map)['file']}')
-        .readAsStringSync();
+String _publishedText() => File(
+  '${_published.path}/${(_manifest()['latest']! as Map)['file']}',
+).readAsStringSync();
 
 /// The published pack, as a later version: same games, new number.
 String _asVersion(int version, {String? title}) {
@@ -111,8 +111,7 @@ void main() {
     test('is a version the server published, byte for byte', () {
       final bundled = File('assets/packs/fe-civil.json').readAsStringSync();
       final versions = [
-        for (final v in _manifest()['versions']! as List)
-          (v as Map)['sha256'],
+        for (final v in _manifest()['versions']! as List) (v as Map)['sha256'],
       ];
       expect(versions, contains(_sha(bundled)));
     });
@@ -181,14 +180,11 @@ void main() {
     ) async {
       await tester.runAsync(store.load);
       final was = store.pack!.version;
-      await tester.runAsync(
-        () => store.refresh(_Server(_asVersion(was + 1))),
-      );
+      await tester.runAsync(() => store.refresh(_Server(_asVersion(was + 1))));
       final dir = Directory('${home.path}/packs/fe-civil');
-      final saved = dir
-          .listSync()
-          .whereType<File>()
-          .firstWhere((f) => f.path.contains('-v${was + 1}-'));
+      final saved = dir.listSync().whereType<File>().firstWhere(
+        (f) => f.path.contains('-v${was + 1}-'),
+      );
       saved.writeAsStringSync(_asVersion(was + 1, title: 'Tampered'));
 
       final again = PackStore(folder: () async => home);
