@@ -31,13 +31,68 @@ class DrawingPainter extends CustomPainter {
 
 /// The steps a drawing takes at this width.
 List<Object?> drawingSteps(Object drawing, double width) {
-  if (drawing is List) return drawing;
-  final bands = (drawing as Map)['bands'] as List;
-  var steps = (bands.first as List)[1];
-  for (final band in bands) {
-    if (width >= ((band as List)[0] as num)) steps = band[1];
+  var steps = drawing;
+  if (drawing is Map) {
+    final bands = drawing['bands'] as List;
+    steps = (bands.first as List)[1];
+    for (final band in bands) {
+      if (width >= ((band as List)[0] as num)) steps = band[1];
+    }
   }
-  return steps as List<Object?>;
+  return _unrun(steps as List<Object?>, width);
+}
+
+/// A repeated step (`["run", count, first, step]`) drawn out in full: the
+/// first, then each one moved on by the step, as many times as the width
+/// allows. The painter that was recorded drew them one by one, so this is
+/// the same drawing.
+List<Object?> _unrun(List<Object?> ops, double w) {
+  if (!ops.any((o) => (o! as List).first == 'run')) return ops;
+  return [
+    for (final raw in ops)
+      if (raw case ['run', final count, final first, final step])
+        for (var i = 0; i < drawingCount(count, w); i++)
+          _moved(first, step, i, w)
+      else
+        raw,
+  ];
+}
+
+/// How many times a run is drawn at [width].
+int drawingCount(Object? v, double width) {
+  if (v is num) return v.toInt();
+  final s = ((v! as Map)['n'] as List).cast<num>();
+  var n = s[0];
+  for (var i = 1; i + 1 < s.length; i += 2) {
+    if (width >= s[i]) n = s[i + 1];
+  }
+  return n.toInt();
+}
+
+bool _isNumber(Object? v) =>
+    v is num ||
+    (v is Map && v.length == 1 && (v.containsKey('w') || v.containsKey('p')));
+
+Object? _moved(Object? op, Object? step, int i, double w) {
+  if (step == null || i == 0) return op;
+  if (_isNumber(op)) {
+    // What does not move stays exactly as recorded: some numbers are
+    // settings (a stroke cap, a style) that must stay whole.
+    if (step == 0) return op;
+    return drawingNumber(op, w) + drawingNumber(step, w) * i;
+  }
+  if (op is List) {
+    return [
+      for (var k = 0; k < op.length; k++) _moved(op[k], (step as List)[k], i, w),
+    ];
+  }
+  if (op is Map) {
+    return {
+      for (final k in op.keys)
+        k: k == '#' ? op[k] : _moved(op[k], (step as Map)[k], i, w),
+    };
+  }
+  return op;
 }
 
 void playDrawing(Canvas canvas, Size size, List<Object?> ops) {
