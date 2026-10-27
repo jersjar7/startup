@@ -592,7 +592,7 @@ const mathematicsMap = ChapterMap(
           name: 'Which Method',
           blurb: 'Fast and demanding, or slow and guaranteed.',
           built: true,
-          brief: trussRouteBrief,
+          brief: methodChoiceBrief,
         ),
       ],
     ),
