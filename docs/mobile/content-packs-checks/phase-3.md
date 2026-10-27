@@ -187,14 +187,16 @@ What else the move needed:
 - **Answers keep their place.** An answer written as a node now keeps its
   identity when a picture appears above it once answered, as the built-in
   buttons do, so a layout error is reported once, not once per redraw.
-- **The parity check plays every several-pick round to the end.** A round
-  that needs three picks was tried with one on its second try, so Lock it
-  in never came on and the run stopped at its turn limit before the last
-  rounds; built-in and pack stopped alike, so it passed while covering
-  less. The second try now picks as many as the round needs. Every
-  several-pick game, Economics included, now plays all its rounds. The
-  check also shows a game's real error instead of one about its error
-  handler.
+- **The parity check plays every several-pick round to the end.** Build
+  the Binomial, Mind the Order and What Gets Weighted are the first rounds
+  that need a set number of picks. On its second try the script picked
+  one, so Lock it in never came on and the run stopped at its turn limit
+  before the last rounds; built-in and pack stopped alike, so it passed
+  while covering less. Caught before merging: the second try now picks as
+  many as the round needs, and the 114 runs above play every round. (The
+  Economics several-pick rounds take any number of picks and were never
+  affected.) The check also shows a game's real error instead of one about
+  its error handler.
 - The Statistics figures switched to the recordable text and path, the dot
   plot draws its axis, columns and readings as separate steps, and one
   helper in What Goes Under became public. Nothing draws differently.

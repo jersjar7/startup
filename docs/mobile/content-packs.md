@@ -211,6 +211,13 @@ it publishes nothing. Otherwise it writes:
 - `service/packs/<exam>/manifest.json`, pointing at the new version and
   listing every version ever published.
 
+The build also stops if any game is over 250 KB to download, gzipped, or
+the pack is over 25 KB a game on average (`maxGame`, `maxAverage` in
+`mobile/test/packs/build_pack_test.dart`; the largest game is about 106 KB
+and the average about 11 KB). The ceilings only ever stop the build: a game
+over them is fixed by storing the same drawing better, never by loosening a
+tolerance or drawing less, so a pack cannot lose quality to fit.
+
 Commit both, then deploy the service. The server reads packs when it starts.
 
 **A published version is never edited or deleted.** A phone may be halfway

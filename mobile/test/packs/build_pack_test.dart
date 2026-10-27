@@ -43,20 +43,48 @@ void main() {
     print('pack ${file.path}: ${text.length} bytes, ${zipped(pack)} gzipped');
     // ignore: avoid_print
     print('drawings: $stats');
+    final heavy = <String>[];
     for (final g in games.values) {
-      final rounds = g['rounds']! as List;
-      final figures = [
-        for (final r in rounds)
-          if ((r as Map)['figure'] != null) r['figure'],
-      ];
+      final size = zipped(g);
       // ignore: avoid_print
       print(
-        '  ${g['id']}: ${zipped(g)} gzipped; drawings ${zipped(figures)}, '
+        '  ${g['id']}: $size gzipped; rounds ${zipped(g['rounds']!)}, '
         'concept sheet ${zipped(g['brief']!)}',
       );
+      if (size > maxGame) heavy.add('${g['id']} ($size bytes)');
     }
+
+    // The ceilings only ever stop the build. A game that goes over is fixed
+    // by storing the same drawing better (as How Many Samples was, 6.9 MB
+    // to 45 KB, by keeping its steady steps once), never by drawing less
+    // carefully: no tolerance, sample or step is loosened to fit.
+    expect(
+      heavy,
+      isEmpty,
+      reason:
+          'Over $maxGame bytes to download for one game. Find what the '
+          'builder keeps over and over (bands, states, repeated steps) and '
+          'store it once; do not loosen the drawing to fit.',
+    );
+    final total = zipped(pack);
+    expect(
+      total,
+      lessThanOrEqualTo(maxAverage * games.length),
+      reason:
+          'The pack is $total bytes to download for ${games.length} games, '
+          'over $maxAverage a game on average. Same fix as above.',
+    );
   });
 }
+
+/// The most one game may add to the download, gzipped. The largest today
+/// is about 106 KB (Shade the Tail); the bloat this guards against was 6.9
+/// MB.
+const maxGame = 250 * 1024;
+
+/// The most a game may add on average, gzipped. About 11 KB today; at 25
+/// KB all 375 games would be about 9 MB to download.
+const maxAverage = 25 * 1024;
 
 /// Each lesson keyed `chapter/lesson`, with its games in the catalog's
 /// order and the oldest app that can play all of them.
