@@ -203,6 +203,11 @@ Behind a developer switch, invisible to students:
 - A lesson the app is too old for shows "Update the app to play this
   lesson" with a button to the store (in-app update on Android).
 - The starter copy of the FE Civil pack inside the app (rule 3 above).
+- The report flag keeps working on every pack game, with two additions
+  (owner asked 2026-10-26): the report carries the pack and its version,
+  since a round can now change without an app release and the app build
+  alone no longer says which wording the student saw; and the game's name
+  comes from the pack, so a PE game is reported by name, not by its id.
 
 ### Phase 3. Move the content, chapter by chapter
 
