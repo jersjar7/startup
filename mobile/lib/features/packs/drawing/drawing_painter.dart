@@ -195,17 +195,77 @@ RRect _rrect(List<Object?> op, int at, double w) {
   );
 }
 
-Path _path(int fillType, List<Object?> cmds, double w) {
+Path _path(int fillType, List<Object?> cmds, double w) =>
+    buildPath(fillType, cmds, w);
+
+/// A path from its recorded moves: the moves a figure made (figure_path.dart),
+/// or, for a path built some other way, its traced outline (M, L, Z).
+Path buildPath(int fillType, List<Object?> cmds, double w) {
   final path = Path()..fillType = PathFillType.values[fillType];
   for (final raw in cmds) {
-    final c = raw as List<Object?>;
+    final c = raw! as List<Object?>;
+    double n(int i) => drawingNumber(c[i], w);
+    Rect rect(int i) => Rect.fromLTRB(n(i), n(i + 1), n(i + 2), n(i + 3));
     switch (c[0]) {
+      case 'F':
+        path.fillType = PathFillType.values[c[1]! as int];
       case 'M':
-        path.moveTo(drawingNumber(c[1], w), drawingNumber(c[2], w));
+        path.moveTo(n(1), n(2));
+      case 'm':
+        path.relativeMoveTo(n(1), n(2));
       case 'L':
-        path.lineTo(drawingNumber(c[1], w), drawingNumber(c[2], w));
+        path.lineTo(n(1), n(2));
+      case 'l':
+        path.relativeLineTo(n(1), n(2));
+      case 'Q':
+        path.quadraticBezierTo(n(1), n(2), n(3), n(4));
+      case 'q':
+        path.relativeQuadraticBezierTo(n(1), n(2), n(3), n(4));
+      case 'C':
+        path.cubicTo(n(1), n(2), n(3), n(4), n(5), n(6));
+      case 'c':
+        path.relativeCubicTo(n(1), n(2), n(3), n(4), n(5), n(6));
+      case 'K':
+        path.conicTo(n(1), n(2), n(3), n(4), n(5));
+      case 'A':
+        path.arcTo(rect(1), n(5), n(6), c[7] == 1);
+      case 'AP':
+        path.arcToPoint(
+          Offset(n(1), n(2)),
+          radius: Radius.elliptical(n(3), n(4)),
+          rotation: n(5),
+          largeArc: c[6] == 1,
+          clockwise: c[7] == 1,
+        );
+      case 'R':
+        path.addRect(rect(1));
+      case 'O':
+        path.addOval(rect(1));
+      case 'AA':
+        path.addArc(rect(1), n(5), n(6));
+      case 'PG':
+        final flat = c[2]! as List<Object?>;
+        path.addPolygon([
+          for (var i = 0; i < flat.length; i += 2)
+            Offset(drawingNumber(flat[i], w), drawingNumber(flat[i + 1], w)),
+        ], c[1] == 1);
+      case 'RR':
+        path.addRRect(
+          RRect.fromLTRBAndCorners(
+            n(1),
+            n(2),
+            n(3),
+            n(4),
+            topLeft: Radius.elliptical(n(5), n(6)),
+            topRight: Radius.elliptical(n(7), n(8)),
+            bottomRight: Radius.elliptical(n(9), n(10)),
+            bottomLeft: Radius.elliptical(n(11), n(12)),
+          ),
+        );
       case 'Z':
         path.close();
+      default:
+        throw UnsupportedError('Unknown path move ${c[0]}');
     }
   }
   return path;

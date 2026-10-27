@@ -5,6 +5,9 @@ import 'dart:ui' as ui;
 import 'package:flutter/painting.dart' as painting;
 import 'package:flutter/rendering.dart' show Matrix4;
 
+import 'drawing_painter.dart' show buildPath;
+import 'figure_path.dart' show pathMoves;
+
 /// A canvas that writes down what a figure draws instead of drawing it.
 ///
 /// The pack builder runs each figure's painter against one of these, once
@@ -86,7 +89,7 @@ class RecordingCanvas implements ui.Canvas {
 
   @override
   void clipPath(ui.Path path, {bool doAntiAlias = true}) {
-    ops.add(['clipP', path.fillType.index, pathCommands(path)]);
+    ops.add(['clipP', path.fillType.index, _moves(path)]);
   }
 
   // Shapes
@@ -133,7 +136,29 @@ class RecordingCanvas implements ui.Canvas {
 
   @override
   void drawPath(ui.Path path, ui.Paint paint) =>
-      ops.add(['path', path.fillType.index, pathCommands(path), _paint(paint)]);
+      ops.add(['path', path.fillType.index, _moves(path), _paint(paint)]);
+
+  /// Paths this canvas could only trace, for the build report.
+  static int traced = 0;
+
+  /// The moves that built [path], checked by rebuilding it; or, for a path
+  /// made some other way, its traced outline.
+  static List<Object?> _moves(ui.Path path) {
+    final moves = pathMoves(path);
+    if (moves != null) {
+      final copy = [for (final m in moves) List<Object?>.of(m)];
+      final rebuilt = buildPath(path.fillType.index, copy, 0);
+      if (rebuilt.getBounds() == path.getBounds()) {
+        // The fill rule travels with the path step, not as a move.
+        return [
+          for (final m in copy)
+            if (m[0] != 'F') m,
+        ];
+      }
+    }
+    traced++;
+    return pathCommands(path);
+  }
 
   @override
   void drawPoints(

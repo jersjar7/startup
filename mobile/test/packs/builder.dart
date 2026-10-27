@@ -6,6 +6,7 @@ import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/lesson_brief.dart';
 import 'package:mobile/features/games/mechanics_pictures.dart';
+import 'package:mobile/features/packs/drawing/figure_path.dart';
 import 'package:mobile/features/packs/drawing/recording_canvas.dart';
 
 /// The pack builder's recording half (ADR 0030; docs/mobile/
@@ -182,12 +183,14 @@ bool _straight(
 List<Object?> _once(Draw draw, Size size, {required bool dark}) {
   final was = AppPalette.dark;
   AppPalette.dark = dark;
+  recordPaths = true;
   try {
     final canvas = RecordingCanvas();
     draw(canvas, size);
     return canvas.ops;
   } finally {
     AppPalette.dark = was;
+    recordPaths = false;
   }
 }
 

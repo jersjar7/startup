@@ -7,6 +7,7 @@ import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/coupon_figures.dart';
 import 'package:mobile/features/packs/drawing/drawing_painter.dart';
+import 'package:mobile/features/packs/drawing/recording_canvas.dart';
 
 import '../support/fonts.dart';
 import 'builder.dart';
@@ -60,7 +61,7 @@ void main() {
     // ignore: avoid_print
     print(
       'coupon: $total drawings, at most $worstPixels pixels differ in one, '
-      'by at most $worstShade of 255',
+      'by at most $worstShade of 255; ${RecordingCanvas.traced} paths traced',
     );
   });
 }
