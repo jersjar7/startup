@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import 'features/packs/pack_store.dart';
 import 'core/network/api_client.dart';
 import 'core/router.dart';
 import 'core/storage/app_storage.dart';
@@ -27,6 +30,10 @@ class _FeRaccoonsAppState extends State<FeRaccoonsApp> {
     _auth = AuthController(api: ApiClient(), storage: AppStorage());
     _router = buildRouter(_auth);
     _auth.bootstrap(); // launch gate: token check -> /me
+    // A newer content pack, if the server has one, downloads quietly and
+    // reaches the next lesson opened (ADR 0030). Packs are public, so a
+    // guest gets them too.
+    if (packsOn) unawaited(PackStore.instance.refresh(_auth.api));
   }
 
   @override

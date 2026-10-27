@@ -23,6 +23,8 @@ class _PackOrderGameState extends State<PackOrderGame> {
 
   late final BoardSession _session = BoardSession(
     gameId: _game.id,
+    gameName: _game.title,
+    pack: _game.pack,
     chapterId: _game.chapterId,
     total: _game.rounds.length,
     sourceProblemIdOf: (round) => _game.rounds[round]['source']! as String,

@@ -36,6 +36,11 @@ function validateFeedback(body) {
     ? body.kindLabel.trim().slice(0, 40)
     : kind;
   const value = { kind, kindLabel, text, gameId: gameId || null, chapterId, round, build };
+  // The content pack and version the round came from (`fe-civil@3`): rounds
+  // can change without an app release, so the build alone no longer says
+  // what the student saw (ADR 0030).
+  const pack = str(body.pack, 60);
+  if (/^[a-z0-9-]+@\d+$/.test(pack)) value.pack = pack;
   if (concept) {
     value.concept = concept;
     value.lessonId = str(body.lessonId, 80) || null;

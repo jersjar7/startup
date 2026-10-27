@@ -5,8 +5,11 @@ The reference for packs as built. The decision is
 [content-packs-migration.md](content-packs-migration.md). Written 2026-10-26
 at the end of phase 1.
 
-Students see none of this yet. The app still plays its built-in games;
-reading packs is phase 2.
+Students see none of this yet. Since phase 2 the app can hold, update and
+play packs, but only behind a switch that is off in every build students
+get (`--dart-define=PACKS=true` turns it on for development). The phase 2
+record has what the app does with a pack:
+[content-packs-checks/phase-2.md](content-packs-checks/phase-2.md).
 
 ## What a pack is
 
@@ -40,6 +43,27 @@ code. The app plays it with game types it already has.
   Daily, badges and challenges carry over untouched. `type` names the game
   type that plays it. The rest is described in the
   [phase 0 record](content-packs-checks/phase-0.md).
+
+## How a drawing is kept
+
+Every drawing is recorded by running the game's own painter at every width
+a phone can give it, in day and night (the builder, `mobile/test/packs/`).
+What is kept:
+
+- **Numbers that follow the width**: a plain number, a straight line
+  (`{"w": [a, b]}` is `a + b * width`), or a line with bends
+  (`{"p": [width, value, ...]}`).
+- **Colors** as `{"#": argb}`, or `{"#": [day, night]}`.
+- **Repeated shapes** (a dashed line, a row of ticks, a hatch), added
+  2026-10-27: one step drawn so many times, moving by the same amount each
+  time (`["run", count, first, step]`). The count steps as the width grows
+  (`{"n": [count, width, count, ...]}`). Without it, a dashed line made
+  every few pixels of width a separate drawing: one trench game was 200 KB
+  to download, and is 5 KB with it.
+- **Bands** (`{"bands": [[from width, steps], ...]}`) for a drawing that
+  really changes at some width.
+- **Concept sheet pictures**: one drawing, two side by side, or a column of
+  those with gaps (`"kind": "one" | "pair" | "column" | "gap"`).
 
 ## The oldest app a lesson needs
 

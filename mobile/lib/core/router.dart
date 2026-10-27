@@ -9,6 +9,8 @@ import '../features/auth/verify_link_screen.dart';
 import '../features/auth/verify_screen.dart';
 import '../features/profile/outcome_link_screen.dart';
 import '../features/profile/pass_card_screen.dart';
+import '../features/packs/pack_store.dart';
+import '../features/packs/update_needed_screen.dart';
 import '../features/games/above_or_below_game.dart';
 import '../features/games/above_the_point_game.dart';
 import '../features/games/acute_or_obtuse_game.dart';
@@ -412,6 +414,21 @@ Page<void> _fade(GoRouterState state, Widget child) =>
 /// Direction matters (owner's audit, 2026-09-18): every forward move in the
 /// signed-out flow is a push and every back is a pop, so back slides back.
 /// Only the gate's own landings (splash, welcome, home) fade.
+/// The screen a student gets for a game id. With packs on (ADR 0030), a
+/// game the pack holds plays from the pack, or asks for an app update when
+/// its lesson needs a newer app; everything else is the built-in game.
+Widget playScreenFor(String? id, {PackStore? store, bool on = packsOn}) {
+  if (on && id != null) {
+    final packs = store ?? PackStore.instance;
+    final game = packs.game(id);
+    if (game != null) {
+      if (!packs.canPlay(id)) return const UpdateNeededScreen();
+      return game.screen() ?? const UpdateNeededScreen();
+    }
+  }
+  return gameScreenFor(id);
+}
+
 /// The screen for a game id, or a placeholder for one this build does not
 /// have. Public so the every-game sweep (test/every_game_plays_test.dart) can
 /// open each game exactly the way the router does.
@@ -911,7 +928,7 @@ GoRouter buildRouter(AuthController auth) {
       ),
       GoRoute(
         path: '/games/play/:gameId',
-        builder: (_, state) => gameScreenFor(state.pathParameters['gameId']),
+        builder: (_, state) => playScreenFor(state.pathParameters['gameId']),
       ),
     ],
   );

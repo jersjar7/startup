@@ -17230,6 +17230,8 @@ Future<void> showConcept(
   BriefSection section, {
   String back = 'Back to the round',
   String? gameId,
+  String? chapterId,
+  String? pack,
 }) {
   return showModalBottomSheet<void>(
     context: context,
@@ -17248,6 +17250,8 @@ Future<void> showConcept(
               section: section,
               back: back,
               gameId: gameId,
+              chapterId: chapterId,
+              pack: pack,
               onBack: () => Navigator.of(context).pop(),
             ),
           ),
@@ -17265,12 +17269,21 @@ class ConceptView extends StatelessWidget {
     this.back = 'Back to the round',
     this.onBack,
     this.gameId,
+    this.chapterId,
+    this.pack,
   });
 
   final BriefSection section;
 
   /// The game the sheet was opened from, if any, for a report.
   final String? gameId;
+
+  /// The chapter, when the caller knows it: a sheet from a content pack is
+  /// not in the app's catalog, so it cannot be looked up.
+  final String? chapterId;
+
+  /// The content pack and version the sheet came from, if any.
+  final String? pack;
 
   /// What the pill at the bottom says, and does. Without [onBack] the pill
   /// pops whatever route the view sits in.
@@ -17378,7 +17391,7 @@ class ConceptView extends StatelessWidget {
 
   String? get _chapter {
     final lesson = _lesson;
-    return lesson == null ? null : chapterForLesson(lesson);
+    return chapterId ?? (lesson == null ? null : chapterForLesson(lesson));
   }
 
   /// The parts of this sheet a student can find unclear: the words always,
@@ -17413,6 +17426,7 @@ class ConceptView extends StatelessWidget {
       lessonId: lesson?.id,
       lessonName: section.lesson ?? lesson?.name,
       gameId: gameId,
+      pack: pack,
     );
   }
 }

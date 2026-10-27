@@ -33,6 +33,8 @@ class BoardSession extends ChangeNotifier {
     required this.chapterId,
     required this.total,
     required this.sourceProblemIdOf,
+    this.gameName,
+    this.pack,
   }) : dailyGame = DailyRun.instance.claim(gameId),
        fresh = _takeFresh(gameId) {
     _restore();
@@ -62,6 +64,13 @@ class BoardSession extends ChangeNotifier {
   final String gameId;
   final String chapterId;
   final int total;
+
+  /// The game's name and the pack it came from, for a game played from a
+  /// content pack (ADR 0030): a report then names the game even when the
+  /// app's own catalog does not have it, and says which version of the
+  /// round the student saw, since rounds can change without a release.
+  final String? gameName;
+  final String? pack;
 
   /// This sitting's place in today's Daily, or null for an ordinary sitting.
   ///
@@ -320,7 +329,13 @@ class _BoardShellState extends State<BoardShell> {
       _storage.setBookDotSeen();
       setState(() => _bookDot = false);
     }
-    showConcept(context, widget.brief!, gameId: widget.session.gameId);
+    showConcept(
+      context,
+      widget.brief!,
+      gameId: widget.session.gameId,
+      chapterId: widget.session.chapterId,
+      pack: widget.session.pack,
+    );
   }
 
   void _openFlag() {
@@ -347,10 +362,11 @@ class _BoardShellState extends State<BoardShell> {
     showFeedbackSheet(
       context,
       gameId: s.gameId,
-      gameName: gameDefFor(s.gameId)?.name ?? s.gameId,
+      gameName: s.gameName ?? gameDefFor(s.gameId)?.name ?? s.gameId,
       chapterId: s.chapterId,
       round: s.round + 1,
       answered: s.answered,
+      pack: s.pack,
     );
   }
 

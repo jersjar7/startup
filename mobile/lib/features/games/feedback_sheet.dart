@@ -19,6 +19,7 @@ Future<void> showFeedbackSheet(
   required String chapterId,
   required int round,
   required bool answered,
+  String? pack,
 }) {
   return showModalBottomSheet<void>(
     context: context,
@@ -33,6 +34,7 @@ Future<void> showFeedbackSheet(
       chapterId: chapterId,
       round: round,
       answered: answered,
+      pack: pack,
     ),
   );
 }
@@ -48,6 +50,7 @@ Future<void> showConceptFeedbackSheet(
   String? lessonId,
   String? lessonName,
   String? gameId,
+  String? pack,
   String back = 'Back to the concept',
 }) {
   return showModalBottomSheet<void>(
@@ -64,6 +67,7 @@ Future<void> showConceptFeedbackSheet(
       lessonId: lessonId,
       lessonName: lessonName,
       gameId: gameId,
+      pack: pack,
       back: back,
     ),
   );
@@ -77,6 +81,7 @@ class FeedbackSheet extends StatefulWidget {
     required this.chapterId,
     required int this.round,
     required this.answered,
+    this.pack,
     this.sent = false,
   }) : concept = null,
        parts = const [],
@@ -94,6 +99,7 @@ class FeedbackSheet extends StatefulWidget {
     this.lessonId,
     this.lessonName,
     this.gameId,
+    this.pack,
     this.back = 'Back to the concept',
     this.sent = false,
   }) : gameName = null,
@@ -103,6 +109,9 @@ class FeedbackSheet extends StatefulWidget {
   final String? gameId;
   final String? gameName;
   final String chapterId;
+
+  /// The content pack and version the round or sheet came from, if any.
+  final String? pack;
 
   /// 1-based, as the student sees it. Null for a concept.
   final int? round;
@@ -199,6 +208,7 @@ class _FeedbackSheetState extends State<FeedbackSheet> {
         'concept': ?widget.concept,
         'lessonId': ?widget.lessonId,
         'lessonName': ?widget.lessonName,
+        'pack': ?widget.pack,
         'text': text,
         'build': appBuild,
       });

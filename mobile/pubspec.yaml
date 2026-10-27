@@ -48,6 +48,8 @@ dependencies:
   flutter_timezone: ^5.1.1
   package_info_plus: ^10.2.2
   share_plus: ^13.3.1
+  crypto: ^3.0.8
+  path_provider: ^2.1.6
 
 dev_dependencies:
   flutter_test:
@@ -81,6 +83,10 @@ flutter:
     # The lesson node artwork, built from mobile/rive/lesson_node with the
     # Rive CLI (see docs/mobile/lesson-node-rive.md).
     - assets/rive/
+    # The FE Civil content pack as published (ADR 0030), so a new student
+    # studies straight away, offline, before any download (migration plan,
+    # rule 3). test/packs/pack_store_test.dart checks it is a published one.
+    - assets/packs/
     # The website's wordmark, shown at launch so the app reads as the same
     # platform (owner's call, 2026-10-01). The same file the iOS launch
     # screen uses, so the two cannot drift apart.

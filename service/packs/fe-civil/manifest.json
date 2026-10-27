@@ -3,16 +3,23 @@
   "title": "FE Civil",
   "format": 1,
   "latest": {
-    "version": 1,
-    "file": "fe-civil-v1-0633bebc170a.json",
-    "sha256": "0633bebc170aa52d000ba61926474abf1219620d95ae6a45ca8711ebecb6f54f",
-    "bytes": 208174,
-    "gzipBytes": 12621,
-    "published": "2026-10-27T05:20:49.505Z",
+    "version": 2,
+    "file": "fe-civil-v2-b21f6953d60a.json",
+    "sha256": "b21f6953d60ae073e18a37cc07245890fd95a2802108775b8e9da12c4c03a2c3",
+    "bytes": 744420,
+    "gzipBytes": 49135,
+    "published": "2026-10-27T06:32:54.226Z",
     "lessons": {
       "ethics/obligations-to-the-public": "1.2.0",
       "materials/asphalt-mix-design": "1.2.0",
-      "transportation/traffic-flow": "1.2.0"
+      "transportation/traffic-flow": "1.2.0",
+      "construction/cpm-fundamentals": "1.2.0",
+      "construction/forward-backward-pass": "1.2.0",
+      "construction/float-critical-path": "1.2.0",
+      "construction/earned-value-analysis": "1.2.0",
+      "construction/project-forecasting": "1.2.0",
+      "construction/delivery-methods": "1.2.0",
+      "construction/construction-safety": "1.2.0"
     }
   },
   "versions": [
@@ -21,6 +28,12 @@
       "file": "fe-civil-v1-0633bebc170a.json",
       "sha256": "0633bebc170aa52d000ba61926474abf1219620d95ae6a45ca8711ebecb6f54f",
       "published": "2026-10-27T05:20:49.505Z"
+    },
+    {
+      "version": 2,
+      "file": "fe-civil-v2-b21f6953d60a.json",
+      "sha256": "b21f6953d60ae073e18a37cc07245890fd95a2802108775b8e9da12c4c03a2c3",
+      "published": "2026-10-27T06:32:54.226Z"
     }
   ]
 }

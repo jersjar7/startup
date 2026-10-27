@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mobile/core/network/api_client.dart';
+import 'package:mobile/core/router.dart';
 import 'package:mobile/core/storage/app_storage.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/theme/app_theme.dart';
@@ -17,14 +18,12 @@ import 'package:mobile/features/auth/auth_controller.dart';
 import 'package:mobile/features/games/asphalt_figures.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/guest_log.dart';
-import 'package:mobile/features/games/in_what_order_game.dart';
-import 'package:mobile/features/games/per_million_what_game.dart';
 import 'package:mobile/features/games/tap_the_voids_game.dart';
 import 'package:mobile/features/packs/drawing/drawing_painter.dart';
 import 'package:mobile/features/packs/pack_model.dart';
 
 import '../support/fonts.dart';
-import 'adapters.dart';
+import 'moved.dart';
 
 /// Checks 1 to 4 of the migration plan (docs/mobile/
 /// content-packs-migration.md) on the phase 0 games: each is played twice,
@@ -41,11 +40,11 @@ import 'adapters.dart';
 
 const _phones = [320.0, 390.0, 430.0];
 
-final _builtIn = <String, Widget Function()>{
-  'per-million-what': () => const PerMillionWhatGame(),
-  'tap-the-voids': () => const TapTheVoidsGame(),
-  'in-what-order': () => const InWhatOrderGame(),
-};
+/// One chapter only, to keep a run short:
+/// `flutter test test/packs/parity_test.dart --dart-define=PARITY=construction`.
+const _only = String.fromEnvironment('PARITY');
+
+final _games = _only.isEmpty ? movedGames : movedByChapter[_only]!;
 
 late Map<String, Object?> _pack;
 
@@ -58,19 +57,15 @@ void main() {
         jsonDecode(
               jsonEncode({
                 'games': {
-                  for (final g in [
-                    perMillionWhat(),
-                    tapTheVoids(),
-                    inWhatOrder(),
-                  ])
-                    g['id']: g,
+                  for (final MapEntry(:key, :value) in _games.entries)
+                    key: value(),
                 },
               }),
             )
             as Map<String, Object?>;
   });
 
-  for (final id in _builtIn.keys) {
+  for (final id in _games.keys) {
     for (final dark in [false, true]) {
       for (final phone in _phones) {
         final name = '$id ${dark ? 'night' : 'day'} ${phone.toInt()}';
@@ -80,7 +75,7 @@ void main() {
           );
           final before = await _play(
             tester,
-            _builtIn[id]!(),
+            gameScreenFor(id),
             game,
             phone,
             dark,
@@ -183,6 +178,14 @@ Future<_Run> _play(
     ),
   );
   await _settle(tester);
+  // The badge moment's raccoon is a picture that decodes in the background;
+  // loaded up front, both runs photograph it the same.
+  await tester.runAsync(
+    () => precacheImage(
+      const AssetImage('assets/brand/raccoon_peek.png'),
+      tester.element(find.byType(MaterialApp)),
+    ),
+  );
 
   Future<void> shot(String label) async {
     await _settle(tester);

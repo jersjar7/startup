@@ -18,8 +18,11 @@ final _packsDir = Directory('../service/packs');
 void main() {
   test('every game type is dated, and this app can play each one', () {
     for (final MapEntry(key: type, value: version) in gameTypes.entries) {
-      expect(compareVersions(version, firstPackApp), greaterThanOrEqualTo(0),
-          reason: '$type is older than the first app that reads packs');
+      expect(
+        compareVersions(version, firstPackApp),
+        greaterThanOrEqualTo(0),
+        reason: '$type is older than the first app that reads packs',
+      );
       final screen = PackGame({'type': type}).screen();
       expect(screen, isNotNull, reason: 'no screen plays $type');
     }
@@ -48,9 +51,9 @@ void main() {
   });
 
   for (final dir in exams) {
-    final manifest = jsonDecode(
-      File('${dir.path}/manifest.json').readAsStringSync(),
-    ) as Map<String, Object?>;
+    final manifest =
+        jsonDecode(File('${dir.path}/manifest.json').readAsStringSync())
+            as Map<String, Object?>;
     final latest = manifest['latest']! as Map<String, Object?>;
     final name = manifest['exam'];
 
@@ -59,9 +62,9 @@ void main() {
     });
 
     test('$name: every lesson names exactly the app it needs', () {
-      final pack = jsonDecode(
-        File('${dir.path}/${latest['file']}').readAsStringSync(),
-      ) as Map<String, Object?>;
+      final pack =
+          jsonDecode(File('${dir.path}/${latest['file']}').readAsStringSync())
+              as Map<String, Object?>;
       final games = pack['games']! as Map<String, Object?>;
       final lessons = pack['lessons']! as Map<String, Object?>;
       final listed = latest['lessons']! as Map<String, Object?>;
@@ -74,8 +77,13 @@ void main() {
             (games[g]! as Map<String, Object?>)['type']! as String,
         ];
         for (final t in types) {
-          expect(gameTypes, contains(t), reason: '$id uses $t, which no app '
-              'release has; add it to game_types.dart with its release');
+          expect(
+            gameTypes,
+            contains(t),
+            reason:
+                '$id uses $t, which no app '
+                'release has; add it to game_types.dart with its release',
+          );
         }
         final needed = minAppFor(types);
         expect(lesson['minApp'], needed, reason: id);
