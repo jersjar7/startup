@@ -6,8 +6,9 @@
 // with; see mechanics_pictures.dart for the pattern and the shared
 // ConceptPicture and ConceptPair tiles.
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide TextPainter;
 
+import '../packs/drawing/figure_text.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';

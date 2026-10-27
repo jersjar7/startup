@@ -1,8 +1,10 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter/material.dart' hide TextPainter;
+import 'package:flutter/painting.dart' as painting show TextPainter;
+import 'package:flutter/rendering.dart' hide TextPainter;
 
+import '../packs/drawing/figure_text.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -180,7 +182,12 @@ Offset insidePanel(Size size, Size text, Offset at, {double pad = 7}) {
 
 /// Paints a laid-out label at `at`, moved if it has to be so that none of it
 /// falls off the panel. `at` is the top left of the text.
-void paintInside(Canvas canvas, Size size, TextPainter text, Offset at) {
+void paintInside(
+  Canvas canvas,
+  Size size,
+  painting.TextPainter text,
+  Offset at,
+) {
   text.paint(canvas, insidePanel(size, text.size, at));
 }
 
@@ -283,7 +290,12 @@ void writeStack(
 /// be this exact color, or it reads as a tinted box sitting on the drawing.
 const panelBase = AppColors.paper;
 
-void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
+void inkLabel(
+  Canvas canvas,
+  painting.TextPainter text,
+  Offset at, {
+  Color? patch,
+}) {
   if (!_wantsPatch(text)) {
     _recordLabel(
       canvas,
@@ -306,7 +318,7 @@ void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
 /// it; ink that matches the paper is sitting on a solid fill of the other
 /// tone, where a patch would be worse than the line it hides. By day that is
 /// dark ink; at night the paper is dark, so it is pale ink.
-bool _wantsPatch(TextPainter text) {
+bool _wantsPatch(painting.TextPainter text) {
   final span = text.text;
   final color = span is TextSpan ? span.style?.color : null;
   if (color == null) return true;
@@ -346,7 +358,7 @@ void _recordLabel(Canvas canvas, Rect r, String text) {
 }
 
 /// The words inside a laid-out label, for the overlap test's report.
-String _plain(TextPainter text) {
+String _plain(painting.TextPainter text) {
   final span = text.text;
   return span is TextSpan ? (span.toPlainText()) : '';
 }
