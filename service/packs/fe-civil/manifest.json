@@ -3,14 +3,20 @@
   "title": "FE Civil",
   "format": 1,
   "latest": {
-    "version": 2,
-    "file": "fe-civil-v2-b21f6953d60a.json",
-    "sha256": "b21f6953d60ae073e18a37cc07245890fd95a2802108775b8e9da12c4c03a2c3",
-    "bytes": 744420,
-    "gzipBytes": 49135,
-    "published": "2026-10-27T06:32:54.226Z",
+    "version": 3,
+    "file": "fe-civil-v3-c0a32e62ba42.json",
+    "sha256": "c0a32e62ba42e9362ee63b05f51c456f5b8c926bcc418ad1a52e3d39acb2212a",
+    "bytes": 4107965,
+    "gzipBytes": 319467,
+    "published": "2026-10-27T08:01:40.068Z",
     "lessons": {
       "ethics/obligations-to-the-public": "1.2.0",
+      "dynamics/particle-kinematics": "1.2.0",
+      "dynamics/rigid-body-kinematics-mass-moi": "1.2.0",
+      "dynamics/force-and-acceleration": "1.2.0",
+      "dynamics/work-energy-power": "1.2.0",
+      "dynamics/impulse-and-momentum": "1.2.0",
+      "dynamics/vibrations-natural-frequency": "1.2.0",
       "materials/asphalt-mix-design": "1.2.0",
       "transportation/traffic-flow": "1.2.0",
       "construction/cpm-fundamentals": "1.2.0",
@@ -34,6 +40,12 @@
       "file": "fe-civil-v2-b21f6953d60a.json",
       "sha256": "b21f6953d60ae073e18a37cc07245890fd95a2802108775b8e9da12c4c03a2c3",
       "published": "2026-10-27T06:32:54.226Z"
+    },
+    {
+      "version": 3,
+      "file": "fe-civil-v3-c0a32e62ba42.json",
+      "sha256": "c0a32e62ba42e9362ee63b05f51c456f5b8c926bcc418ad1a52e3d39acb2212a",
+      "published": "2026-10-27T08:01:40.068Z"
     }
   ]
 }
