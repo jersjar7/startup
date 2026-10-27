@@ -320,7 +320,7 @@ class _BoardShellState extends State<BoardShell> {
       _storage.setBookDotSeen();
       setState(() => _bookDot = false);
     }
-    showConcept(context, widget.brief!);
+    showConcept(context, widget.brief!, gameId: widget.session.gameId);
   }
 
   void _openFlag() {

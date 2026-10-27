@@ -1,4 +1,4 @@
-// Feedback on a game round, from the flag on the phone.
+// Feedback on a game round or a concept sheet, from the flag on the phone.
 //
 // A student who finds an explanation or a game unclear taps the flag, picks
 // what it is about, writes a line, and sends it. The report is stored and the
@@ -22,16 +22,26 @@ function validateFeedback(body) {
   const text = typeof body.text === 'string' ? body.text.trim() : '';
   if (!text) return { ok: false, msg: 'Write a line first.' };
   if (text.length > MAX_TEXT) return { ok: false, msg: `Keep it under ${MAX_TEXT} characters.` };
-  const gameId = typeof body.gameId === 'string' ? body.gameId.trim().slice(0, 80) : '';
-  const chapterId = typeof body.chapterId === 'string' ? body.chapterId.trim().slice(0, 40) : '';
-  if (!gameId || !chapterId) return { ok: false, msg: 'Which game this is about got lost. Try again.' };
+  const str = (v, max) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
+  const gameId = str(body.gameId, 80);
+  const chapterId = str(body.chapterId, 40);
+  // A report from a concept sheet names the concept; the game is there only
+  // when the sheet was opened from one (2026-10-26).
+  const concept = str(body.concept, 120);
+  if ((!gameId && !concept) || !chapterId) return { ok: false, msg: 'Which game this is about got lost. Try again.' };
   const round = Number.isInteger(body.round) && body.round >= 0 && body.round < 1000 ? body.round : null;
   const build = typeof body.build === 'string' ? body.build.trim().slice(0, 20) : null;
   // The chip's wording, as the student saw it; what the owner reads.
   const kindLabel = typeof body.kindLabel === 'string' && body.kindLabel.trim()
     ? body.kindLabel.trim().slice(0, 40)
     : kind;
-  return { ok: true, value: { kind, kindLabel, text, gameId, chapterId, round, build } };
+  const value = { kind, kindLabel, text, gameId: gameId || null, chapterId, round, build };
+  if (concept) {
+    value.concept = concept;
+    value.lessonId = str(body.lessonId, 80) || null;
+    value.lessonName = str(body.lessonName, 120) || null;
+  }
+  return { ok: true, value };
 }
 
 /** True when this account has already sent PER_HOUR reports in the last hour. */
