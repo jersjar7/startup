@@ -30,6 +30,17 @@ describe('validateFeedback', () => {
     expect(validateFeedback({ ...good, round: -1 }).value.round).toBeNull();
   });
 
+  it('takes a report from a concept sheet, with or without a game', () => {
+    const sheet = { kind: 'concept', kindLabel: 'The picture', text: 'The arrow points the wrong way.', concept: 'Crash rates', lessonId: 'traffic-flow', lessonName: 'Traffic Flow', chapterId: 'transportation', build: '1200' };
+    expect(validateFeedback(sheet)).toEqual({
+      ok: true,
+      value: { kind: 'concept', kindLabel: 'The picture', text: 'The arrow points the wrong way.', gameId: null, chapterId: 'transportation', round: null, build: '1200', concept: 'Crash rates', lessonId: 'traffic-flow', lessonName: 'Traffic Flow' },
+    });
+    expect(validateFeedback({ ...sheet, gameId: 'per-million-what' }).value.gameId).toBe('per-million-what');
+    expect(validateFeedback({ ...sheet, concept: '' }).ok).toBe(false);
+    expect(validateFeedback({ ...sheet, chapterId: '' }).ok).toBe(false);
+  });
+
   it('caps reports per hour', () => {
     expect(overTheHourlyLimit(PER_HOUR - 1)).toBe(false);
     expect(overTheHourlyLimit(PER_HOUR)).toBe(true);
