@@ -19,7 +19,9 @@ part of 'pick_one_game.dart';
 /// - `center`: its `child` centred, with `wf`, a width factor.
 /// - `t`: words, `v`, in a `font` (`body`, `mono`, `code`, `overline`,
 ///   `heading`) with `size`, `color`, `bold`, `line`, `align`, `one` (one
-///   line, cut short) and `bar` (a line over it, for a macron).
+///   line, cut short), `bar` (a line over it, for a macron) and `weight`
+///   (100 to 900, over the face's own, as Something Is Wrong Here sets a
+///   report's values in bold mono).
 /// - `rule`: a divider `h` high in `color`.
 /// - `tex`: a formula set as a block (`v`, `size`).
 /// - `math`: a formula set in a line of text (`v`, `size`, `color`), as the
@@ -132,6 +134,11 @@ extension on _ScreenBlocks {
             color: color,
           ),
         };
+        if (n['weight'] case final int weight) {
+          style = style.copyWith(
+            fontWeight: FontWeight.values[weight ~/ 100 - 1],
+          );
+        }
         if (bar) {
           style = style.copyWith(
             decoration: TextDecoration.overline,

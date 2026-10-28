@@ -195,15 +195,25 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
               feedback: answered
                   ? BoardFeedback(
                       correct: _session.correct!,
-                      title: _session.correct!
-                          ? (r['right'] as String? ?? _game.text('right'))
-                          : _game.text('wrong'),
+                      title: _verdict(r),
                       body: r['why']! as String,
                     )
                   : null,
             )
           : _classic(r, answered, options, truth.single),
     );
+  }
+
+  /// The verdict over the feedback: the round's own when it names one
+  /// (`right`), and for a miss either the game's or, when the round lists
+  /// one per answer (`wrong`), the one for the answer picked, as Which
+  /// Weighing names the number that was picked instead.
+  String _verdict(Map<String, Object?> r) {
+    if (_session.correct!) return r['right'] as String? ?? _game.text('right');
+    return switch (r['wrong']) {
+      final List each => each[_picked.single]! as String,
+      _ => _game.text('wrong'),
+    };
   }
 
   Widget _classic(
@@ -269,9 +279,7 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
           const SizedBox(height: 14),
           BoardFeedback(
             correct: _session.correct!,
-            title: _session.correct!
-                ? (r['right'] as String? ?? _game.text('right'))
-                : _game.text('wrong'),
+            title: _verdict(r),
             body: r['why']! as String,
           ),
         ],
