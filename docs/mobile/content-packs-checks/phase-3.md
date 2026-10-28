@@ -624,8 +624,8 @@ figures did:
 |---|---|
 | 1 to 4, as above | 210 of 210 runs pass, all 35 games pixel for pixel on every screen, every round played. |
 | Size | 234 KB for the chapter; 3.3 to 53 KB a game. How Long Does It Take is the large one: about 280 small arrowheads on its drainage arrows, kept path by path. Well under the ceiling, so left. |
-| On the iPhone simulator (iPhone 17 Pro) | SIMRESULT |
-| Everything else | SUITERESULT |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 327 pack games played to the end. |
+| Everything else | 5,705 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
 
 What else the move needed:
 
