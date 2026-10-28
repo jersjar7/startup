@@ -93,6 +93,14 @@ Two things about the builder itself, both learned on Fluid Mechanics
   jobs piled up: the first Fluid Mechanics build passed four gigabytes and
   crawled for hours. Each recording now runs its own jobs before it
   returns, and the build stays near 200 MB.
+- **Kept closer** (Statics, 2026-10-28). A figure can be asked to keep
+  its numbers to a ten millionth of a pixel instead (`closer` in the
+  builder). Which Distance Counts runs a dashed line of action straight
+  down a slanted strut, and at the plain tolerance enough of its dash
+  edges sampled a few shades off to pass ADR 0031's share of the screen;
+  a belt round a drum and a block on a slope did the same on one phone
+  each. The cost is a few kilobytes a game, so it is used only where a
+  figure needs it, never as the default.
 
 What "the same" means for a drawing ([ADR 0031](../adr/0031-pack-drawings-match-to-sampling-not-bits.md),
 proposed 2026-10-27): every number within the tolerances above, and on

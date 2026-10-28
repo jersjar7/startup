@@ -56,7 +56,28 @@ final stats = <String, int>{
 
 /// How far a played-back number may sit from the painter's own: a ten
 /// thousandth of a pixel, which no phone can show.
-const _tol = 1e-4;
+const plainTolerance = 1e-4;
+
+/// The tolerance of the drawing being recorded: [plainTolerance], unless
+/// [record] or [closer] asked for closer.
+double _tol = plainTolerance;
+
+/// Runs [body] with every drawing it records kept to [tolerance] instead
+/// of [plainTolerance].
+///
+/// For a figure whose numbers land a pixel's edge sampling on the other
+/// side at the plain tolerance across far more of the screen than ADR 0031
+/// allows: Which Distance Counts runs a dashed line of action down the
+/// middle of a slanted strut, and every dash of it drew a few shades off.
+T closer<T>(double tolerance, T Function() body) {
+  final was = _tol;
+  _tol = tolerance;
+  try {
+    return body();
+  } finally {
+    _tol = was;
+  }
+}
 
 /// The same for an angle. A turn moves a point by the angle times its
 /// distance from the pivot, and a figure is up to a thousand pixels across,
@@ -88,8 +109,24 @@ Object record(
   Draw draw,
   double height, {
   (double, double) range = gameRange,
+  double? tolerance,
   required String what,
 }) {
+  final was = _tol;
+  _tol = tolerance ?? _tol;
+  try {
+    return _recorded(draw, height, range, what);
+  } finally {
+    _tol = was;
+  }
+}
+
+Object _recorded(
+  Draw draw,
+  double height,
+  (double, double) range,
+  String what,
+) {
   final cache = <double, List<Object?>>{};
   List<Object?> at(double w) => cache.putIfAbsent(
     w,
@@ -150,10 +187,14 @@ Object _fromWidths(List<Object?> Function(double) at, List<double> sorted) {
         _banded((w) => at(w).sublist(0, head), sorted, count: false),
       _banded(slice(head, tail), sorted, count: false),
       if (tail > 0)
-        _banded((w) {
-          final l = at(w);
-          return l.sublist(l.length - tail);
-        }, sorted, count: false),
+        _banded(
+          (w) {
+            final l = at(w);
+            return l.sublist(l.length - tail);
+          },
+          sorted,
+          count: false,
+        ),
     ],
   };
   return jsonEncode(parts).length < jsonEncode(whole).length ? parts : whole;
@@ -291,8 +332,9 @@ bool _straight(
   double wa,
   double wm,
   double wb, [
-  double tol = _tol,
+  double? closer,
 ]) {
+  final tol = closer ?? _tol;
   if (a is num) {
     final predicted = a + ((b! as num) - a) * (wm - wa) / (wb - wa);
     return (predicted - (m! as num)).abs() <= tol;
@@ -438,10 +480,17 @@ Object? _mergeWidths(
   void Function() bent, {
   required List<Object?> Function(double) at,
   required List<Object> path,
-  double tol = _tol,
+  double? closer,
 }) {
-  Object? merge(List<Object?> sub, Object key, [double t = _tol]) =>
-      _mergeWidths(sub, widths, bent, at: at, path: [...path, key], tol: t);
+  final tol = closer ?? _tol;
+  Object? merge(List<Object?> sub, Object key, [double? t]) => _mergeWidths(
+    sub,
+    widths,
+    bent,
+    at: at,
+    path: [...path, key],
+    closer: t ?? _tol,
+  );
   final first = trees.first;
   if (first is Map && first.length == 1 && first.containsKey('n')) {
     return _count(trees, widths, at, path);
@@ -649,8 +698,9 @@ List<double>? _slopeAngle(List<double> w, List<double> v) {
 List<(double, double)> _corners(
   List<double> w,
   List<double> v, [
-  double tol = _tol,
+  double? closer,
 ]) {
+  final tol = closer ?? _tol;
   final keep = <int>[0];
   var start = 0;
   for (var end = 2; end < w.length; end++) {
