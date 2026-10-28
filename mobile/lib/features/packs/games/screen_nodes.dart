@@ -19,7 +19,8 @@ part of 'pick_one_game.dart';
 /// - `center`: its `child` centred, with `wf`, a width factor.
 /// - `t`: words, `v`, in a `font` (`body`, `mono`, `code`, `overline`,
 ///   `heading`) with `size`, `color`, `bold`, `line`, `align`, `one` (one
-///   line, cut short), `bar` (a line over it, for a macron) and `weight`
+///   line, cut short), `max` (at most that many lines, the rest cut off
+///   with no ellipsis), `bar` (a line over it, for a macron) and `weight`
 ///   (100 to 900, over the face's own, as Something Is Wrong Here sets a
 ///   report's values in bold mono).
 /// - `rule`: a divider `h` high in `color`.
@@ -65,9 +66,18 @@ extension on _ScreenBlocks {
         final pad = (v('pad') as List?)?.cast<num>();
         final border = v('border');
         final kidsList = n['c'] == null ? null : kids();
+        final limits =
+            n['minw'] != null || n['maxw'] != null || n['minh'] != null;
         return Container(
           width: v('w') == 'max' ? double.infinity : d('w'),
           height: d('h'),
+          constraints: limits
+              ? BoxConstraints(
+                  minWidth: d('minw') ?? 0,
+                  maxWidth: d('maxw') ?? double.infinity,
+                  minHeight: d('minh') ?? 0,
+                )
+              : null,
           alignment: _align(v('align')),
           padding: pad == null
               ? null
@@ -80,6 +90,9 @@ extension on _ScreenBlocks {
           clipBehavior: n['clip'] == true ? Clip.antiAlias : Clip.none,
           decoration: BoxDecoration(
             color: _color(v('fill')),
+            shape: n['shape'] == 'circle'
+                ? BoxShape.circle
+                : BoxShape.rectangle,
             borderRadius: n['radius'] == null
                 ? null
                 : BorderRadius.circular(d('radius')!),
@@ -125,11 +138,29 @@ extension on _ScreenBlocks {
         final bar = n['bar'] == true;
         final color = _color(v('color') ?? 'charcoal')!;
         final size = d('size');
+        // The face's own weight (`fw`), as a game asks the style for it,
+        // which picks a different face from setting the weight after.
+        final face = n['fw'] == null
+            ? null
+            : FontWeight.values[(n['fw']! as int) ~/ 100 - 1];
         var style = switch (v('font') ?? 'body') {
-          'mono' => AppTheme.mono(size: size ?? 14, color: color),
-          'code' => AppTheme.code(size: size ?? 14, color: color),
+          'mono' => AppTheme.mono(
+            size: size ?? 14,
+            color: color,
+            weight: face ?? FontWeight.w500,
+          ),
+          'code' => AppTheme.code(
+            size: size ?? 14,
+            color: color,
+            weight: face ?? FontWeight.w500,
+          ),
           'overline' => AppTheme.overline(color: color),
-          'heading' => AppTheme.heading(size: size ?? 27, color: color),
+          'heading' => AppTheme.heading(
+            size: size ?? 27,
+            color: color,
+            weight: face ?? FontWeight.w700,
+            height: d('line') ?? 1.1,
+          ),
           _ => TextStyle(
             fontSize: size,
             height: d('line'),
@@ -156,19 +187,47 @@ extension on _ScreenBlocks {
             'right' => TextAlign.right,
             _ => null,
           },
-          maxLines: n['one'] == true ? 1 : null,
+          maxLines: n['one'] == true ? 1 : n['max'] as int?,
           overflow: n['one'] == true ? TextOverflow.ellipsis : null,
           style: style,
         );
       case 'tex':
-        return MathBlock(v('v')! as String, fontSize: d('size')!);
+        return MathBlock(
+          v('v')! as String,
+          fontSize: d('size')!,
+          align: _align(v('align')) as Alignment?,
+          fit: n['fit'] != false,
+        );
       case 'math':
         return MathText(
           v('v')! as String,
           style: TextStyle(
             fontSize: d('size'),
+            height: d('line'),
             color: _color(v('color') ?? 'charcoal'),
           ),
+        );
+      case 'wrap':
+        return Wrap(
+          alignment: n['align'] == 'center'
+              ? WrapAlignment.center
+              : WrapAlignment.start,
+          crossAxisAlignment: n['cross'] == 'center'
+              ? WrapCrossAlignment.center
+              : WrapCrossAlignment.start,
+          spacing: d('spacing') ?? 0,
+          runSpacing: d('run') ?? 0,
+          children: kids(),
+        );
+      case 'fade':
+        return Opacity(opacity: d('o')!, child: child());
+      case 'slot':
+        // A filled slot, tapped to take its pick back.
+        final k = n['s']! as int;
+        final filled = k < picks.length && picks[k] != null;
+        return GestureDetector(
+          onTap: onClear == null || !filled ? null : () => onClear!(k),
+          child: child(),
         );
       case 'draw':
         return CustomPaint(
@@ -188,6 +247,15 @@ extension on _ScreenBlocks {
         );
       case 'answer':
         final i = n['i']! as int;
+        final off = onPick == null || _value(n['off'], i) == true;
+        if (n['plain'] == true) {
+          // Tapped with no ink, as games built on a bare tap handler are.
+          return GestureDetector(
+            key: ValueKey('answer-$i'),
+            onTap: off ? null : () => onPick!(i),
+            child: _node(n['child']! as Map<String, Object?>, i),
+          );
+        }
         final radius = BorderRadius.circular(d('radius') ?? 12);
         return Material(
           // Kept as the same answer when something appears above it once
@@ -197,7 +265,7 @@ extension on _ScreenBlocks {
           borderRadius: radius,
           child: InkWell(
             borderRadius: radius,
-            onTap: onPick == null ? null : () => onPick!(i),
+            onTap: off ? null : () => onPick!(i),
             child: _node(n['child']! as Map<String, Object?>, i),
           ),
         );
@@ -209,6 +277,7 @@ extension on _ScreenBlocks {
         return Icon(
           switch (v('v')) {
             'check' => Icons.check_rounded,
+            'close' => Icons.close_rounded,
             final other => throw FormatException('Unknown icon $other'),
           },
           size: d('size'),
@@ -235,6 +304,20 @@ extension on _ScreenBlocks {
   Object? _valueOnce(Object? raw, int? answer) {
     if (raw is! Map) return raw;
     if (raw.containsKey('ask')) return answered ? raw['done'] : raw['ask'];
+    if (raw.containsKey('won')) {
+      return !answered ? raw['open'] : (correct! ? raw['won'] : raw['lost']);
+    }
+    if (raw['picks'] case final Map each) {
+      final now = raw['sorted'] == true
+          ? (picked.toList()..sort())
+          : picks.whereType<int>().toList();
+      final key = now.join(',');
+      return each.containsKey(key) ? each[key] : raw['else'];
+    }
+    if (raw.containsKey('on')) {
+      final i = (raw['of'] as int?) ?? answer!;
+      return picked.contains(i) ? raw['on'] : raw['off'];
+    }
     if (raw['slot'] case final int k) {
       final at = k < picks.length ? picks[k] : null;
       return at == null ? raw['empty'] : (raw['of']! as List)[at];
@@ -319,15 +402,18 @@ extension on _ScreenBlocks {
     _ => CrossAxisAlignment.center,
   };
 
-  /// A drawing `h` high answered by tapping on it. Targets are recorded
-  /// circles, rectangles, lines or arcs, one per mark, and `hits` says
-  /// which answer each mark stands for: a tap inside a rectangle picks it
-  /// (the last of overlapping ones), otherwise the nearest circle within
+  /// A drawing `h` high (or `"h": "w"`, as tall as it is wide) answered by
+  /// tapping on it, and with `drag` by dragging across it too. Targets are
+  /// recorded circles, rectangles, paths, lines or arcs, one per mark, and
+  /// `hits` says which answer each mark stands for: a tap inside a
+  /// rectangle or a path picks it (the last of overlapping ones),
+  /// otherwise the nearest circle within
   /// its radius, by distance or, with `axis: "x"`, across only, or with
   /// `axis: "y"`, up and down only (Which Fiber Is Worst's layers run the
   /// width of the section), the nearest line (the first of lines as near)
-  /// however far, or within its paint's stroke width when it has one (What
-  /// the Water Touches's pieces of a channel's boundary), or the nearest arc
+  /// however far, or with `"reach": "stroke"` within its paint's stroke
+  /// width (What the Water Touches's pieces of a channel's boundary, Tap
+  /// the Side), or the nearest arc
   /// within its paint's stroke width of it (Which Curve Is Sharper's two
   /// curves). With `first`, the first circle within its radius wins rather
   /// than the nearest, as games that check their points in order do.
@@ -336,13 +422,17 @@ extension on _ScreenBlocks {
   /// round of one pick, or `layers`, drawn in order: each either the same
   /// always (`d`) or for one mark (`mark`, keyed `"<0 or 1 for picked>|<0
   /// or 1 for answered>"`), so a drawing of several picks needs no
-  /// drawing per combination. With `"by": "order"` the drawing follows
+  /// drawing per combination, or one drawing moved onto whichever mark is
+  /// picked (`moved`, its origin put on the mark's centre), so a dot on any
+  /// of many points is recorded once. A layer's `d` may follow the round
+  /// as any value does, and may come out as nothing. With `"reach":
+  /// "stroke"`, a line takes only taps within its paint's stroke width of
+  /// it. With `"by": "order"` the drawing follows
   /// every pick in the order made, keyed `"<marks picked, comma separated,
   /// or ->|<0 or 1 for answered>"`, for a ranking whose drawing numbers
   /// each pick (Rank Them by Stiffness).
   Widget _tapDraw(Map<String, Object?> n) {
     final hits = (n['hits']! as List).cast<int>();
-    final h = (n['h']! as num).toDouble();
     final done = answered ? 1 : 0;
     String one() {
       if (n['by'] == 'order') {
@@ -355,16 +445,27 @@ extension on _ScreenBlocks {
 
     return LayoutBuilder(
       builder: (context, box) {
-        final size = Size(box.maxWidth, h);
+        // As tall as it is wide (`"h": "w"`), or a set height.
+        final size = Size(
+          box.maxWidth,
+          n['h'] == 'w' ? box.maxWidth : (n['h']! as num).toDouble(),
+        );
         final layers = n['layers'] as List?;
+        void at(Offset local) {
+          final hit = _hitOf(n, size, local);
+          if (hit != null) onPick!(hits[hit]);
+        }
+
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTapDown: onPick == null
               ? null
-              : (details) {
-                  final hit = _hitOf(n, size, details.localPosition);
-                  if (hit != null) onPick!(hits[hit]);
-                },
+              : (details) => at(details.localPosition),
+          // Dragged across as well as tapped (`drag`), as Slide to the Flat
+          // Spot's marker is.
+          onHorizontalDragUpdate: onPick == null || n['drag'] != true
+              ? null
+              : (details) => at(details.localPosition),
           child: SizedBox(
             width: size.width,
             height: size.height,
@@ -377,7 +478,23 @@ extension on _ScreenBlocks {
                           final int m =>
                             (l['d']!
                                 as Map)['${picked.contains(hits[m]) ? 1 : 0}|$done'],
-                          _ => l['d'],
+                          // One drawing for whichever mark is picked, moved
+                          // onto it (`moved`): Place the Center's dot, on
+                          // any of 169 points.
+                          _ when l['moved'] == true =>
+                            picked.length != 1 || !hits.contains(picked.single)
+                                ? null
+                                : (
+                                    _value(l['d'], null),
+                                    _markAt(
+                                      n,
+                                      size,
+                                      hits.indexOf(picked.single),
+                                    ),
+                                  ),
+                          // The same for every pick, or following the
+                          // round (before and after the answer).
+                          _ => _value(l['d'], null),
                         },
                     ]),
               child: const SizedBox.expand(),
@@ -386,6 +503,17 @@ extension on _ScreenBlocks {
         );
       },
     );
+  }
+
+  /// Where mark [mark] sits: the middle of its tap area, or its circle's
+  /// centre.
+  static Offset _markAt(Map<String, Object?> n, Size size, int mark) {
+    final op =
+        drawingSteps(ops(n['targets']), size.width)[mark]! as List<Object?>;
+    double at(int k) => drawingNumber(op[k], size.width);
+    return op[0] == 'rect'
+        ? Rect.fromLTRB(at(1), at(2), at(3), at(4)).center
+        : Offset(at(1), at(2));
   }
 
   static int? _hitOf(Map<String, Object?> n, Size size, Offset tap) {
@@ -403,6 +531,17 @@ extension on _ScreenBlocks {
       double at(int k) => drawingNumber(op[k], size.width);
       if (op[0] == 'rect') {
         if (Rect.fromLTRB(at(1), at(2), at(3), at(4)).contains(tap)) best = i;
+        continue;
+      }
+      if (op[0] == 'path') {
+        // An area of any shape (Quadrant Signs' quarters of a disc, clear
+        // of the axes): a tap inside it picks it, the last one winning.
+        final area = buildPath(
+          op[1]! as int,
+          op[2]! as List<Object?>,
+          size.width,
+        );
+        if (area.contains(tap)) best = i;
         continue;
       }
       if (op[0] == 'arc') {
@@ -437,16 +576,16 @@ extension on _ScreenBlocks {
         continue;
       }
       if (op[0] == 'line') {
-        // The nearest line: within its stroke width when it has one,
-        // otherwise however far, so every tap picks one.
+        // The nearest line: however far, or with `"reach": "stroke"`
+        // within its paint's stroke width (Tap the Side takes a side
+        // within 60).
         final gap = _toSegment(tap, Offset(at(1), at(2)), Offset(at(3), at(4)));
         if (gap < bestGap) {
           bestGap = gap;
           best = i;
-          final width = (op[5] as Map?)?['w'];
-          reach = width == null
-              ? double.infinity
-              : drawingNumber(width, size.width);
+          reach = n['reach'] == 'stroke'
+              ? drawingNumber((op[5]! as Map)['w'], size.width)
+              : double.infinity;
         }
         continue;
       }
@@ -487,7 +626,8 @@ extension on _ScreenBlocks {
   }
 }
 
-/// Recorded drawings painted one over the other, in order.
+/// Recorded drawings painted one over the other, in order: each a drawing,
+/// or a drawing and the point its origin is moved to.
 class _LayersPainter extends CustomPainter {
   _LayersPainter(this.layers);
 
@@ -496,7 +636,17 @@ class _LayersPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     for (final l in layers) {
-      DrawingPainter(ops(l)).paint(canvas, size);
+      if (l == null) continue;
+      if (l case (final Object? drawing, final Offset at)) {
+        if (drawing == null) continue;
+        canvas
+          ..save()
+          ..translate(at.dx, at.dy);
+        DrawingPainter(ops(drawing)).paint(canvas, size);
+        canvas.restore();
+      } else {
+        DrawingPainter(ops(l)).paint(canvas, size);
+      }
     }
   }
 

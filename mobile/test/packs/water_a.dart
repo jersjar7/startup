@@ -211,6 +211,7 @@ Node _pieces({
   required String what,
 }) => {
   'k': 'tapdraw',
+  'reach': 'stroke',
   'layers': [
     {
       'd': record(
