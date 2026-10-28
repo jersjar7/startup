@@ -3,12 +3,12 @@
   "title": "FE Civil",
   "format": 1,
   "latest": {
-    "version": 12,
-    "file": "fe-civil-v12-5740e9b006ba.json",
-    "sha256": "5740e9b006ba39d0452b9801fb5882c90c2901089c4f2c9039b7f3faa211c4be",
-    "bytes": 37054518,
-    "gzipBytes": 2117999,
-    "published": "2026-10-28T09:20:53.188Z",
+    "version": 13,
+    "file": "fe-civil-v13-e6313575f1bf.json",
+    "sha256": "e6313575f1bfcd733f447e94bbd3641a30a7d12d2a40f756cfbee520025edb6c",
+    "bytes": 39568257,
+    "gzipBytes": 2278520,
+    "published": "2026-10-28T10:52:18.289Z",
     "lessons": {
       "statistics/central-tendency-dispersion": "1.2.0",
       "statistics/linear-regression-correlation": "1.2.0",
@@ -77,6 +77,17 @@
       "surveying/coordinate-geometry": "1.2.0",
       "surveying/horizontal-curves": "1.2.0",
       "surveying/vertical-curves": "1.2.0",
+      "structural/determinacy-stability": "1.2.0",
+      "structural/truss-analysis-methods": "1.2.0",
+      "structural/deflection-virtual-work": "1.2.0",
+      "structural/indeterminate-structures": "1.2.0",
+      "structural/load-combinations": "1.2.0",
+      "structural/influence-lines": "1.2.0",
+      "structural/rc-flexure-shear": "1.2.0",
+      "structural/rc-columns": "1.2.0",
+      "structural/steel-beams": "1.2.0",
+      "structural/steel-columns": "1.2.0",
+      "structural/steel-tension": "1.2.0",
       "transportation/traffic-flow": "1.2.0",
       "construction/cpm-fundamentals": "1.2.0",
       "construction/forward-backward-pass": "1.2.0",
@@ -159,6 +170,12 @@
       "file": "fe-civil-v12-5740e9b006ba.json",
       "sha256": "5740e9b006ba39d0452b9801fb5882c90c2901089c4f2c9039b7f3faa211c4be",
       "published": "2026-10-28T09:20:53.188Z"
+    },
+    {
+      "version": 13,
+      "file": "fe-civil-v13-e6313575f1bf.json",
+      "sha256": "e6313575f1bfcd733f447e94bbd3641a30a7d12d2a40f756cfbee520025edb6c",
+      "published": "2026-10-28T10:52:18.289Z"
     }
   ]
 }
