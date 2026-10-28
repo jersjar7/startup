@@ -251,7 +251,7 @@ class _WhichOneMovesMostGameState extends State<WhichOneMovesMostGame> {
     if (_session.finished) {
       return BoardDone(
         session: _session,
-        title: 'Which One Biggest Most',
+        title: 'Which One Moves Most',
         closing:
             'Three things multiply: what it is made of, how long it is, and '
             'how much the temperature changes. Aluminum moves about twice as '

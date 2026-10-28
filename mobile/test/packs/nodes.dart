@@ -81,6 +81,7 @@ Node t(
   String? align,
   bool one = false,
   bool bar = false,
+  int? weight,
   String? when,
 }) => {
   'k': 't',
@@ -93,6 +94,7 @@ Node t(
   'align': ?align,
   if (one) 'one': true,
   if (bar) 'bar': true,
+  'weight': ?weight,
   'when': ?when,
 };
 

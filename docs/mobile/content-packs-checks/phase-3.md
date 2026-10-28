@@ -21,9 +21,9 @@ chapter.
 | Statistics | 19 | 259 KB | Shade the Tail, 103 KB |
 | Ethics | 21 | 84 KB | Who Has to Agree, 16 KB |
 | Fluid Mechanics | 21 | 185 KB | Where It Pushes, 36 KB |
-| Materials (phase 0 game) | 1 | 5 KB | Tap the Voids, 5 KB |
+| Materials | 23 | 141 KB | What This Job Needs, 15 KB |
 | Transportation (phase 0 game) | 1 | 4 KB | Per Million What, 4 KB |
-| **Whole pack, version 8** | **109** | **1.01 MB** | |
+| **Whole pack, version 9** | **131** | **1.15 MB** | |
 
 The limits the builder enforces are 250 KB for any one game and 25 KB on
 average. The pack grows by about 9 KB a game, so all 375 games should come
@@ -305,6 +305,43 @@ What the move found in the builder, both fixed for every chapter (see
 
 The device test now names each game as it plays it. A full run is about
 23 minutes, and silent, it was once taken for stuck and stopped.
+
+## Materials (22 games), 2026-10-28
+
+Moved, published in FE Civil pack version 9 (131 games, 1.15 MB to
+download; Materials is 141 KB of it). Not switched on. Tap the Voids
+moved in phase 0, so all 23 Materials games are now in the pack.
+
+The adapters are in `mobile/test/packs/materials_a.dart` (stress and
+strain through concrete curing) and `materials_b.dart` (aggregate through
+corrosion), written side by side and registered together as one chapter.
+The app gained two small, general things:
+
+- **A miss verdict per answer:** a round's `wrong` may be a list, one per
+  answer, for games whose miss names the answer picked ("THAT IS APPARENT
+  SPECIFIC GRAVITY" in Which Weighing, and Along or Across).
+- **A weight on words in a node,** for the bold mono values of Something
+  Is Wrong Here.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 132 of 132 runs pass, all 22 games pixel for pixel on every screen, every round played. |
+| Size | 141 KB for the chapter; every game under 16 KB, the largest What This Job Needs. |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 131 pack games played to the end. |
+| Everything else | 4,333 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What else the move needed:
+
+- The curve, crack, thermal, concrete and aggregate figures and the
+  Materials concept pictures switched to the recordable path and text.
+  Nothing draws differently.
+- Two games tap points on two curves that meet. True or Engineering and
+  Coarse or Fine list each curve's points from where the curves are
+  furthest apart, so the parity script taps a point that belongs to one
+  curve only; a tap equally near both still goes to the same curve as in
+  the built-in game.
+- **Fixed in both versions:** Which One Moves Most said "Which One Biggest
+  Most" on its done screen.
 
 ## Notes for after (not changed during the move)
 

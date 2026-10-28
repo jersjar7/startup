@@ -183,7 +183,10 @@ this many at once), `need` (exactly this many before Lock it in), and
 "first, minus second"; `slots`: each pick fills the first empty slot and a
 tap on a picked one empties its slot, as What Gets Weighted gives one column
 each role). A round may also name its own verdict (`right`), for a game
-whose title changes with the answer.
+whose title changes with the answer, and since Materials (2026-10-27) its
+verdict for a miss as one per answer (`wrong`), for a game that names what
+was picked instead ("THAT IS APPARENT SPECIFIC GRAVITY"). Words in a node
+may also carry a `weight`, for a value set in bold mono.
 
 Ethics added one more setting, `groups`: answers in a group are one choice,
 so picking one replaces the other and picking it again keeps it. Grounds, or
