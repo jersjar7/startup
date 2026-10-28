@@ -4,6 +4,7 @@ import 'dynamics.dart' as dynamics;
 import 'economics.dart' as economics;
 import 'ethics.dart' as ethics;
 import 'fluids.dart' as fluids;
+import 'materials_a.dart' as materials_a;
 import 'statistics.dart' as statistics;
 
 /// Every game moved into the FE Civil pack so far, by chapter, each as the
@@ -22,6 +23,7 @@ final movedByChapter = <String, Map<String, Map<String, Object?> Function()>>{
   'statistics': statistics.adapters,
   'ethics': ethics.adapters,
   'fluid-mechanics': fluids.adapters,
+  'materials-a': materials_a.adapters,
 };
 
 /// Every moved game, by id.
