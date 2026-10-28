@@ -207,8 +207,9 @@ Future<void> _answerRight(
         }
         return;
       }
-      // A pick moved with buttons from where it starts (Stretch It to Fit).
-      if (round['start'] case final int start) {
+      // A pick moved with buttons from where it starts (Stretch It to Fit;
+      // not one dragged on a drawing, as Slide to the Flat Spot's marker is).
+      if (round['start'] case final int start when _tapIn(blocks) == null) {
         for (var now = start; now != answer; now += answer > now ? 1 : -1) {
           await _tap(
             tester,
