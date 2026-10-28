@@ -259,7 +259,9 @@ Node _pieces({
     h,
     what: '$what targets',
   ),
-  'hits': [for (var k = 0; k < parts.length; k++) k],
+  // Each piece stands for its own answer, one of the six a boundary can
+  // have, as the game counts them.
+  'hits': [for (final p in parts) Edge.values.indexOf(p)],
   'h': h,
 };
 
@@ -301,8 +303,10 @@ Map<String, Object?> whatTheWaterTouches() => waterGame(
               'wetted perimeter. It is wrong by exactly one piece: either '
               'they counted something the water is not touching, or they '
               'left out something it is.',
-          options: [for (final p in parts) p.plain],
-          answer: parts.indexOf(r.answer),
+          // All six pieces a boundary can have, as the game's answers
+          // are; a channel with no freeboard has no dry wall to tap.
+          options: [for (final e in Edge.values) e.plain],
+          answer: Edge.values.indexOf(r.answer),
           why: r.why,
           source: r.source,
           right: r.isExtra ? 'THAT ONE IS NOT WET' : 'THAT ONE WAS MISSED',
