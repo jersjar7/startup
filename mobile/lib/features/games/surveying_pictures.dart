@@ -185,9 +185,9 @@ const _wander = Strip(offsets: [8, 14, 19, 22, 20, 15, 9], step: 10);
 // Two drawings the painters label along their own bottom edge, so they are
 // stacked at full width rather than set side by side: at half width the
 // painter's own labels land on each other.
-Widget methodPicture() => const _Stacked(
-  top: ParcelPainter(parcel: _parcel, order: [0, 1, 2, 3]),
-  bottom: OffsetsPainter(strip: _wander),
+Widget methodPicture() => _stacked(
+  top: const ParcelPainter(parcel: _parcel, order: [0, 1, 2, 3]),
+  bottom: const OffsetsPainter(strip: _wander),
   topCaption: 'straight sides and known corners: use the coordinates',
   bottomCaption: 'a boundary that wanders: measure offsets off a baseline',
 );
@@ -253,9 +253,9 @@ Widget endAreaPicture() => const ConceptPicture(
   height: 220,
 );
 
-Widget stationsPicture() => const _Stacked(
-  top: HaulPainter(haul: _hump, locked: true),
-  bottom: HaulPainter(haul: _hump, skipMiddle: true, locked: true),
+Widget stationsPicture() => _stacked(
+  top: const HaulPainter(haul: _hump, locked: true),
+  bottom: const HaulPainter(haul: _hump, skipMiddle: true, locked: true),
   topCaption: 'every pair of stations worked and added: the real hill',
   bottomCaption:
       'the two ends only. both are zero, so the whole hill is booked as no '
@@ -330,13 +330,13 @@ Widget arctanPicture() => const ConceptPair(
 
 // The two pieces the lesson says get mixed up, each marked on its own copy
 // of the same curve: the painter marks one at a time.
-Widget roadCurvePicture() => const _Stacked(
-  top: AlignPainter(
+Widget roadCurvePicture() => _stacked(
+  top: const AlignPainter(
     bend: Bend2(radius: 600, turn: 60),
     answer: Bit.tangent,
     locked: true,
   ),
-  bottom: AlignPainter(
+  bottom: const AlignPainter(
     bend: Bend2(radius: 600, turn: 60),
     answer: Bit.arc,
     locked: true,
@@ -384,32 +384,21 @@ Widget highPointPicture() => const ConceptPicture(
 // ---------------------------------------------------------------------------
 // Two drawings one above the other, each at full width
 
-class _Stacked extends StatelessWidget {
-  const _Stacked({
-    required this.top,
-    required this.bottom,
-    required this.topCaption,
-    required this.bottomCaption,
-    this.height = 155,
-  });
-
-  final CustomPainter top;
-  final CustomPainter bottom;
-  final String topCaption;
-  final String bottomCaption;
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ConceptPicture(painter: top, caption: topCaption, height: height),
-        const SizedBox(height: 14),
-        ConceptPicture(painter: bottom, caption: bottomCaption, height: height),
-      ],
-    );
-  }
-}
+// A plain column rather than a widget of its own, so the content pack's
+// builder can read the two pictures in it.
+Widget _stacked({
+  required CustomPainter top,
+  required CustomPainter bottom,
+  required String topCaption,
+  required String bottomCaption,
+  double height = 155,
+}) => Column(
+  children: [
+    ConceptPicture(painter: top, caption: topCaption, height: height),
+    const SizedBox(height: 14),
+    ConceptPicture(painter: bottom, caption: bottomCaption, height: height),
+  ],
+);
 
 // ---------------------------------------------------------------------------
 // The painters that exist only for a sheet
