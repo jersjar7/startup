@@ -25,8 +25,9 @@ chapter.
 | Statics | 23 | 435 KB | Where Do You Cut, 94 KB |
 | Surveying | 23 | 251 KB | Which Traverse Closed Better, 28 KB |
 | Mechanics of Materials | 27 | 250 KB | How Far Has It Yielded, 63 KB |
+| Structural | 28 | 159 KB | Where Do You Take Moments, 15 KB |
 | Transportation (phase 0 game) | 1 | 4 KB | Per Million What, 4 KB |
-| **Whole pack, version 12** | **204** | **2.12 MB** | |
+| **Whole pack, version 13** | **232** | **2.28 MB** | |
 
 The limits the builder enforces are 250 KB for any one game and 25 KB on
 average. The pack grows by about 10 KB a game (Statics, all drawings, ran
@@ -463,6 +464,46 @@ What else the move needed:
 - Square Bar's painter in Which J Is It became public so it can be
   recorded.
 
+## Structural (28 games), 2026-10-28
+
+Moved, published in FE Civil pack version 13 (232 games, 2.28 MB to
+download; Structural is 159 KB of it). Not switched on.
+
+The adapters are in `mobile/test/packs/structural_a.dart` (determinacy
+through influence lines) and `structural_b.dart` (Where Do You Park It,
+reinforced concrete and steel), written side by side and registered
+together as one chapter. Every game is a screen the pack could already
+show, so the app gained nothing new; the builder gained one fix:
+
+- **A bend on a width looked at.** How Much Comes Off draws hatched
+  squares that stop growing at exactly 300 wide. The builder placed that
+  bend where the lines either side meet, 299.99998, and on a 320 phone
+  that moved thousands of hatch pixels a shade or two. When a width the
+  builder sampled sits within a hundredth of a pixel of the meeting and
+  fits every value closer, it is now the corner. This recorded 17 games
+  already in the pack slightly differently; each was compared again and
+  all match to the pixel.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 168 of 168 runs pass, all 28 games pixel for pixel on every screen, every round played. |
+| Size | 159 KB for the chapter; every game under 16 KB, the largest Where Do You Take Moments. |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 232 pack games played to the end. |
+| Everything else | 5,040 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What else the move needed:
+
+- The determinacy, truss, virtual work, redundant, load, influence, steel
+  and reinforced concrete figures and the Structural concept pictures
+  switched to the recordable path and text. Nothing draws differently:
+  the helpers hashed every built-in Structural screen before and after
+  (7,608 screens, and 2,896 drawings at eight widths), all identical.
+- Traced, the steel column's bowed lines would have made Which Axis Wins
+  Now 819 KB; kept as moves it is 4 KB. Two column cage sheets are kept
+  closer, about 4 KB each, so their hatching matches to the pixel.
+- Two private names became public for the adapters (the truss in Joints
+  or Sections, and the load rows in Which One Controls).
+
 ## Notes for after (not changed during the move)
 
 1. **Three Dynamics formulas run off a small phone.** On a phone 320
@@ -492,3 +533,12 @@ What else the move needed:
    pixels at 320, still 105 at 430), Can You Get There (15 at every
    width) and Is R the Worst (15 at 320). Fix: let a long formula wrap or
    scale down.
+
+5. **Structural formulas run off the screen.** In the built-in games as
+   much as in the pack, at 320 pixels wide: Which Line Is It and Which
+   One Controls (287, still 177 at 430), What the Table Gives You (239),
+   Where Do You Park It (235), The Count Says Yes (197, still 87 at 430),
+   Z or S (190 and 176), Both Factors or One (125), Which Axis Wins Now
+   (93), More, Less or the Same (81), Factored or Service (63), Enough or
+   Too Many (47), and about 25 in three steel and concrete games. Fix: as
+   note 4.
