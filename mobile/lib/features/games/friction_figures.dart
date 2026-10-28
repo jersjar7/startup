@@ -527,6 +527,14 @@ class DrumPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    paintDrum(canvas, size);
+    paintEnd(canvas, size, false);
+    paintEnd(canvas, size, true);
+    paintCreep(canvas, size);
+  }
+
+  /// The drum and the belt lying on it, which never change with the pick.
+  void paintDrum(Canvas canvas, Size size) {
     final f = _fit(lap, size);
     final centre = f.centre;
     final r = f.r;
@@ -556,49 +564,70 @@ class DrumPainter extends CustomPainter {
         ..strokeWidth = 3.4
         ..strokeCap = StrokeCap.round,
     );
-
-    final taken = <Rect>[];
-    for (final isEnd in [false, true]) {
-      final root = _on(lap, isEnd ? 1 : 0, size);
-      final tip = endPoint(lap, size, isEnd);
-      final chosen = picked == isEnd;
-      final truth = lap.tightIsEnd == isEnd;
-      final Color colour;
-      if (locked && truth) {
-        colour = AppColors.forest;
-      } else if (locked && chosen) {
-        colour = AppColors.error;
-      } else if (chosen) {
-        colour = AppColors.ember;
-      } else {
-        colour = AppColors.charcoal;
-      }
-      canvas.drawLine(
-        root,
-        tip,
-        Paint()
-          ..color = colour
-          ..strokeWidth = chosen || (locked && truth) ? 4.6 : 3.4
-          ..strokeCap = StrokeCap.round,
-      );
-      // The label goes on further along the belt's own line, so it never
-      // lands back on the drum or on top of the other end.
-      final run = tip - root;
-      final unit = run / run.distance;
-      taken.add(
-        _write(
-          canvas,
-          isEnd ? lap.endLabel : lap.startLabel,
-          tip + unit * 17 - const Offset(0, 6),
-          colour,
-          size,
-          taken,
-        ),
-      );
-    }
-
-    _creepMark(canvas, size, r, taken);
   }
+
+  /// Where a free end's label goes: on further along the belt's own line,
+  /// so it never lands back on the drum or on top of the other end.
+  Offset _labelAt(Size size, bool isEnd) {
+    final root = _on(lap, isEnd ? 1 : 0, size);
+    final tip = endPoint(lap, size, isEnd);
+    final run = tip - root;
+    final unit = run / run.distance;
+    return tip + unit * 17 - const Offset(0, 6);
+  }
+
+  /// The patch a free end's label lands on. The finish end's keeps clear of
+  /// the start end's.
+  Rect _labelBox(Size size, bool isEnd) => _spot(
+    isEnd ? lap.endLabel : lap.startLabel,
+    _labelAt(size, isEnd),
+    AppColors.charcoal,
+    size,
+    [if (isEnd) _labelBox(size, false)],
+  ).$2;
+
+  /// One free end and its label, in the colour the pick gives it. Drawn one
+  /// at a time so a recorded figure can keep each end apart.
+  void paintEnd(Canvas canvas, Size size, bool isEnd) {
+    final root = _on(lap, isEnd ? 1 : 0, size);
+    final tip = endPoint(lap, size, isEnd);
+    final chosen = picked == isEnd;
+    final truth = lap.tightIsEnd == isEnd;
+    final Color colour;
+    if (locked && truth) {
+      colour = AppColors.forest;
+    } else if (locked && chosen) {
+      colour = AppColors.error;
+    } else if (chosen) {
+      colour = AppColors.ember;
+    } else {
+      colour = AppColors.charcoal;
+    }
+    canvas.drawLine(
+      root,
+      tip,
+      Paint()
+        ..color = colour
+        ..strokeWidth = chosen || (locked && truth) ? 4.6 : 3.4
+        ..strokeCap = StrokeCap.round,
+    );
+    _write(
+      canvas,
+      isEnd ? lap.endLabel : lap.startLabel,
+      _labelAt(size, isEnd),
+      colour,
+      size,
+      [if (isEnd) _labelBox(size, false)],
+    );
+  }
+
+  /// The chevrons showing which way the belt creeps, over everything else.
+  void paintCreep(Canvas canvas, Size size) => _creepMark(
+    canvas,
+    size,
+    _fit(lap, size).r,
+    [_labelBox(size, false), _labelBox(size, true)],
+  );
 
   /// Chevrons ON the belt, pointing the way it is creeping.
   ///
@@ -649,6 +678,23 @@ class DrumPainter extends CustomPainter {
     Size size,
     List<Rect> avoid,
   ) {
+    final (tp, box) = _spot(text, at, colour, size, avoid);
+    canvas.drawRect(
+      box,
+      Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+    );
+    tp.paint(canvas, Offset(box.left + 2, box.top));
+    return box;
+  }
+
+  /// A label laid out, and the patch it lands on clear of [avoid].
+  (TextPainter, Rect) _spot(
+    String text,
+    Offset at,
+    Color colour,
+    Size size,
+    List<Rect> avoid,
+  ) {
     final tp = TextPainter(
       text: TextSpan(
         text: text,
@@ -667,12 +713,7 @@ class DrumPainter extends CustomPainter {
     }
     if (y < 1) y = 1;
     if (y + tp.height > size.height - 1) y = size.height - 1 - tp.height;
-    canvas.drawRect(
-      box(),
-      Paint()..color = AppColors.cream.withValues(alpha: 0.92),
-    );
-    tp.paint(canvas, Offset(x, y));
-    return box();
+    return (tp, box());
   }
 
   @override
