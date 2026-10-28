@@ -3,12 +3,12 @@
   "title": "FE Civil",
   "format": 1,
   "latest": {
-    "version": 9,
-    "file": "fe-civil-v9-676842e70224.json",
-    "sha256": "676842e7022443aad90f17cb4ae4d37c0f681904fcc767672bfe715bd0c0c5be",
-    "bytes": 18993272,
-    "gzipBytes": 1153352,
-    "published": "2026-10-28T05:41:45.569Z",
+    "version": 10,
+    "file": "fe-civil-v10-84a443f592f8.json",
+    "sha256": "84a443f592f8a24bd765c7b4817f26306665e5d8b78e6bb9ad887cc4c37ee514",
+    "bytes": 26293663,
+    "gzipBytes": 1600175,
+    "published": "2026-10-28T07:23:35.185Z",
     "lessons": {
       "statistics/central-tendency-dispersion": "1.2.0",
       "statistics/linear-regression-correlation": "1.2.0",
@@ -29,6 +29,13 @@
       "economics/benefit-cost-decision-trees": "1.2.0",
       "economics/rate-of-return": "1.2.0",
       "economics/depreciation-taxation-inflation": "1.2.0",
+      "statics/force-systems-resultants": "1.2.0",
+      "statics/equilibrium-free-body-diagrams": "1.2.0",
+      "statics/trusses-joints-sections": "1.2.0",
+      "statics/friction": "1.2.0",
+      "statics/frames-machines": "1.2.0",
+      "statics/centroids-composite-shapes": "1.2.0",
+      "statics/area-moments-of-inertia": "1.2.0",
       "dynamics/particle-kinematics": "1.2.0",
       "dynamics/rigid-body-kinematics-mass-moi": "1.2.0",
       "dynamics/force-and-acceleration": "1.2.0",
@@ -117,6 +124,12 @@
       "file": "fe-civil-v9-676842e70224.json",
       "sha256": "676842e7022443aad90f17cb4ae4d37c0f681904fcc767672bfe715bd0c0c5be",
       "published": "2026-10-28T05:41:45.569Z"
+    },
+    {
+      "version": 10,
+      "file": "fe-civil-v10-84a443f592f8.json",
+      "sha256": "84a443f592f8a24bd765c7b4817f26306665e5d8b78e6bb9ad887cc4c37ee514",
+      "published": "2026-10-28T07:23:35.185Z"
     }
   ]
 }
