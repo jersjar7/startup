@@ -23,8 +23,9 @@ chapter.
 | Fluid Mechanics | 21 | 185 KB | Where It Pushes, 36 KB |
 | Materials | 23 | 141 KB | What This Job Needs, 15 KB |
 | Statics | 23 | 435 KB | Where Do You Cut, 94 KB |
+| Surveying | 23 | 251 KB | Which Traverse Closed Better, 28 KB |
 | Transportation (phase 0 game) | 1 | 4 KB | Per Million What, 4 KB |
-| **Whole pack, version 10** | **154** | **1.60 MB** | |
+| **Whole pack, version 11** | **177** | **1.86 MB** | |
 
 The limits the builder enforces are 250 KB for any one game and 25 KB on
 average. The pack grows by about 10 KB a game (Statics, all drawings, ran
@@ -387,6 +388,44 @@ What else the move needed:
   in Along It or Not are now laid out slightly differently, at most 31
   shades on a few edge pixels (ADR 0031 allows 32). Nothing a student
   could see.
+
+## Surveying (23 games), 2026-10-28
+
+Moved, published in FE Civil pack version 11 (177 games, 1.86 MB to
+download; Surveying is 251 KB of it). Not switched on.
+
+The adapters are in `mobile/test/packs/surveying_a.dart` (bearings
+through areas) and `surveying_b.dart` (earthwork through vertical
+curves), written side by side and registered together as one chapter.
+The app gained:
+
+- **Dashed lines kept as their two ends.** A dashed line is recorded as
+  one step and dashed on the phone with the same loop the game uses.
+  Before this, the dashed slopes made Road or Grade Line 1.8 MB and Where
+  It Flattens Out 6.7 MB; now they are 8 KB and 15 KB.
+- **An arc to tap** (Which Curve Is Sharper): the nearer of two curves
+  within 24 pixels, measured to the arc itself.
+- **The first mark in reach** (`"first": true`): five Surveying games
+  check their marks in order and take the first within reach, not the
+  nearest, and the pack now does the same.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 138 of 138 runs pass, all 23 games pixel for pixel on every screen, every round played. |
+| Size | 251 KB for the chapter; every game under 30 KB, the largest Which Traverse Closed Better. |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 177 pack games played to the end. The first run stopped at Which Curve Is Sharper because the simulator script did not yet tap an arc; it now taps halfway round it. |
+| Everything else | 4,655 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What else the move needed:
+
+- The bearing, leveling, area, earthwork, coordinate, profile and
+  alignment figures and the Surveying concept pictures switched to the
+  recordable path and text. Nothing draws differently: each helper
+  compared every built-in Surveying screen before and after (184
+  screenshots and 3,256 drawing hashes), all identical.
+- The Surveying sheets stacked two pictures in a small widget of their
+  own; it is now a function that returns a plain column, and the builder
+  can also read any such widget by what it builds.
 
 ## Notes for after (not changed during the move)
 
