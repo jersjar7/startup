@@ -519,6 +519,37 @@ pack copies them exactly (to fix after the move): Which Fork First (78
 pixels over at 320, 8 at 390), Above or Below the Line (53 at 320) and
 Drained or Not (101 at 320, 31 at 390).
 
+Geotechnical, second half (2026-10-28: slope stability, bearing
+capacity, lateral earth pressure, retaining walls, compaction and
+stabilization, deep foundations) needed nothing new on the phone or in
+the builder. All seventeen games are one screen: the problem, a drawing
+in a white panel, in eight of them a formula centred under it (three
+show it only once answered, `"when": "done"`), then plain answer rows
+(`mobile/test/packs/geotech_b.dart`). Two things were found:
+
+- **A traced curve that never finishes.** Wetter Is Not Denser draws its
+  Proctor curve as a path of 61 short lines. Traced, the walk along the
+  path finds a different set of corners at nearly every width, so the
+  builder split the drawing into a band per width and had not finished
+  one round after half an hour. Through the path shim the same curve is
+  its 61 moves, and the round records in under two seconds. The slope,
+  earth pressure, wall stability, compaction and pile figures now all
+  draw through the path shim (the bearing figures build no paths).
+- **Sheet labels set with a plain text painter.** The Geotechnical sheet
+  pictures lay out their own labels (`_text`, then `inkLabel`), which
+  the recorder cannot read. That file now uses the text and path shims,
+  as the Structural sheet pictures do.
+
+Every round drawing of the seventeen games and of Steeper Than Its
+Friction (which shares the slope figures), and every one of the 35
+Geotechnical sheet pictures, hashed the same before and after, at eight
+widths for the rounds and five for the sheets, day and night (3,806
+images). The seventeen games are 3.6 to 7.2 KB to download, 5.2 KB on
+average. All 102 parity screens matched to the pixel. Which Term Drops
+Out's bearing capacity formula runs 27 pixels past the edge on a 320
+phone in the built-in game; the pack copies that exactly, and it is
+noted to fix after the chapter passes.
+
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is
 out, a new kind of block is a new game type (or a new version of this one),
