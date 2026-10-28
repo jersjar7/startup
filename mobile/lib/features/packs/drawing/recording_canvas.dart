@@ -6,8 +6,8 @@ import 'package:flutter/painting.dart' as painting;
 import 'package:flutter/rendering.dart' show Matrix4;
 
 import 'drawing_painter.dart' show buildPath;
-import 'figure_hatch.dart' show recordHatches;
 import 'figure_corner.dart' show Spot, besideTurn;
+import 'figure_hatch.dart' show recordHatches;
 import 'figure_path.dart' show pathMoves;
 
 /// A canvas that writes down what a figure draws instead of drawing it.
