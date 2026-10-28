@@ -212,7 +212,7 @@ class VectorPainter extends CustomPainter {
     }
 
     for (final a in arrows) {
-      _arrow(canvas, g, a);
+      drawArrow(canvas, g, a);
     }
 
     final arc = between;
@@ -304,7 +304,9 @@ class VectorPainter extends CustomPainter {
     tp.paint(canvas, at - Offset(tp.width / 2, tp.height / 2));
   }
 
-  void _arrow(Canvas canvas, GridGeometry g, Arrow a) {
+  /// One arrow with its head and label, on the grid [g]. Public so a pack
+  /// can draw an arrow that changes on its own over a drawing that does not.
+  static void drawArrow(Canvas canvas, GridGeometry g, Arrow a) {
     final from = g.at(a.from.x, a.from.y);
     final to = g.at(a.to.x, a.to.y);
     if ((to - from).distance < 0.5) return;
