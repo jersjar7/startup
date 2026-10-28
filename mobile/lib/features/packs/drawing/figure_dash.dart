@@ -46,3 +46,41 @@ void dashes(
     );
   }
 }
+
+/// A dashed outline along [path] the way the figures draw one: a piece
+/// [on] long every [every] along each of its contours, the last cut short
+/// at the contour's end.
+///
+/// On a real canvas this is the figures' own loop. While the pack builder
+/// records, it is kept as one step holding the path's moves, and the
+/// player rebuilds the path and runs the same loop: a dash cut from a
+/// circle is a curve that could only be traced otherwise (Which Area
+/// Twists It dashes the middle of a tube's wall).
+void drawPathDashes(
+  ui.Canvas canvas,
+  ui.Path path,
+  ui.Paint paint, {
+  double on = 4,
+  double every = 8,
+}) {
+  if (canvas is RecordingCanvas) {
+    canvas.recordPathDashes(path, on, every, paint);
+    return;
+  }
+  pathDashes(canvas, path, paint, on, every);
+}
+
+/// The loop itself, shared by the figures and the player.
+void pathDashes(
+  ui.Canvas canvas,
+  ui.Path path,
+  ui.Paint paint,
+  double on,
+  double every,
+) {
+  for (final m in path.computeMetrics()) {
+    for (var d = 0.0; d < m.length; d += every) {
+      canvas.drawPath(m.extractPath(d, math.min(d + on, m.length)), paint);
+    }
+  }
+}

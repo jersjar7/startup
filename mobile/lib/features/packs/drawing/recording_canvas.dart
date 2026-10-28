@@ -108,6 +108,22 @@ class RecordingCanvas implements ui.Canvas {
     ui.Paint paint,
   ) => ops.add(['dash', a.dx, a.dy, b.dx, b.dy, on, every, _paint(paint)]);
 
+  /// Called by the figures' dashed outlines (figure_dash.dart): the path
+  /// once, which the player cuts into dashes as the figure did.
+  void recordPathDashes(
+    ui.Path path,
+    double on,
+    double every,
+    ui.Paint paint,
+  ) => ops.add([
+    'pdash',
+    path.fillType.index,
+    _moves(path),
+    on,
+    every,
+    _paint(paint),
+  ]);
+
   @override
   void drawRect(ui.Rect rect, ui.Paint paint) =>
       ops.add(['rect', ..._rect(rect), _paint(paint)]);
