@@ -333,6 +333,49 @@ round drawing of the fourteen games and every picture on all 28
 Structural sheets hashed the same before and after, at eight widths, day
 and night.
 
+Transportation, first half (2026-10-28: stopping sight distance and the
+peak hour, vertical and horizontal curves, superelevation, signal
+timing, traffic flow, heavy vehicles) needed nothing new on the phone or
+in the builder. All fourteen games are the screen Per Million What has
+had since phase 0 (`pickOne` in `mobile/test/packs/pick_one_adapter.dart`),
+so `mobile/test/packs/transportation_a.dart` only names each game's
+rounds, painter, panel height and words. Two figure files now draw
+through the path shim (the vertical curve and traffic flow figures);
+the curve figures share the alignment figures with Surveying, which were
+already shimmed. Every round drawing of the five games those two files
+serve, Per Million What's, and the six sheet pictures they draw hashed
+the same before and after, at eight widths, day and night. The fourteen
+games are 3.6 to 104 KB to download, about 15 KB on average. Crest or
+Sag is the large one: its car sits on a hump whose height at the car is a
+square of a fraction of the width, so the car, its headlight beam and the
+beam's label follow a curve in the width that is kept as a line with many
+bends. How Much Bank (49 KB) turns its car to the pavement's tilt, a fixed
+drop over a run of the width less 46; the slope angle form misses it
+because it scales the run to start at one, and this run is negative at
+width zero. Both are well under the ceiling, so neither was changed.
+
+Transportation, second half (2026-10-28: capacity and level of service,
+the four step and gravity models, signs and signal warrants, flexible
+pavement, earthwork in yards, rigid pavement) needed nothing new on the
+phone or in the builder. All fourteen games are the one screen: the
+problem, a drawing in a white panel, the answers as plain rows
+(`mobile/test/packs/transportation_b.dart`). Two things were found:
+
+- **Labels written with Flutter's own text painter.** The sign, flexible
+  pavement and rigid pavement figures write some labels straight onto a
+  colored face, with a plain `TextPainter` rather than `writeOn`, which
+  the recorder cannot read (the build stops on "text drawn with a plain
+  TextPainter"). They now use the text shim.
+- **A traced rectangle.** A guide sign is a path made with `addRect`.
+  Traced, its fill and two pixel border drew about 600 pixels up to six
+  shades off around the edge on every phone, over ADR 0031's share. The
+  sign figures now draw through the path shim, which keeps the rectangle
+  as one move.
+
+Every round drawing of the fourteen games and every Transportation sheet
+picture hashed the same before and after, at eight widths, day and night.
+The fourteen games are 3.9 to 8 KB to download, 5 KB on average.
+
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is
 out, a new kind of block is a new game type (or a new version of this one),

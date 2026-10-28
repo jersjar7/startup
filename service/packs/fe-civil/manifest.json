@@ -3,12 +3,12 @@
   "title": "FE Civil",
   "format": 1,
   "latest": {
-    "version": 13,
-    "file": "fe-civil-v13-e6313575f1bf.json",
-    "sha256": "e6313575f1bfcd733f447e94bbd3641a30a7d12d2a40f756cfbee520025edb6c",
-    "bytes": 39568257,
-    "gzipBytes": 2278520,
-    "published": "2026-10-28T10:52:18.289Z",
+    "version": 14,
+    "file": "fe-civil-v14-27fb072a7ab8.json",
+    "sha256": "27fb072a7ab812f323effe2501ee7b4f10b79f2d149e5bdbce1f24d90ccf7c6e",
+    "bytes": 42316001,
+    "gzipBytes": 2546733,
+    "published": "2026-10-28T11:35:33.958Z",
     "lessons": {
       "statistics/central-tendency-dispersion": "1.2.0",
       "statistics/linear-regression-correlation": "1.2.0",
@@ -88,7 +88,17 @@
       "structural/steel-beams": "1.2.0",
       "structural/steel-columns": "1.2.0",
       "structural/steel-tension": "1.2.0",
+      "transportation/stopping-sight-distance": "1.2.0",
+      "transportation/vertical-curves": "1.2.0",
+      "transportation/horizontal-curves": "1.2.0",
+      "transportation/signal-timing": "1.2.0",
       "transportation/traffic-flow": "1.2.0",
+      "transportation/capacity-los": "1.2.0",
+      "transportation/travel-demand": "1.2.0",
+      "transportation/traffic-control-devices": "1.2.0",
+      "transportation/pavement-design": "1.2.0",
+      "transportation/earthwork": "1.2.0",
+      "transportation/rigid-pavement": "1.2.0",
       "construction/cpm-fundamentals": "1.2.0",
       "construction/forward-backward-pass": "1.2.0",
       "construction/float-critical-path": "1.2.0",
@@ -176,6 +186,12 @@
       "file": "fe-civil-v13-e6313575f1bf.json",
       "sha256": "e6313575f1bfcd733f447e94bbd3641a30a7d12d2a40f756cfbee520025edb6c",
       "published": "2026-10-28T10:52:18.289Z"
+    },
+    {
+      "version": 14,
+      "file": "fe-civil-v14-27fb072a7ab8.json",
+      "sha256": "27fb072a7ab812f323effe2501ee7b4f10b79f2d149e5bdbce1f24d90ccf7c6e",
+      "published": "2026-10-28T11:35:33.958Z"
     }
   ]
 }
