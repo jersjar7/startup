@@ -3,12 +3,12 @@
   "title": "FE Civil",
   "format": 1,
   "latest": {
-    "version": 10,
-    "file": "fe-civil-v10-84a443f592f8.json",
-    "sha256": "84a443f592f8a24bd765c7b4817f26306665e5d8b78e6bb9ad887cc4c37ee514",
-    "bytes": 26293663,
-    "gzipBytes": 1600175,
-    "published": "2026-10-28T07:23:35.185Z",
+    "version": 11,
+    "file": "fe-civil-v11-649a80181e8e.json",
+    "sha256": "649a80181e8ecc16757463a0b0f33575c93a8f2ef988c30d4da8f13dc9256801",
+    "bytes": 32212159,
+    "gzipBytes": 1858594,
+    "published": "2026-10-28T08:28:15.207Z",
     "lessons": {
       "statistics/central-tendency-dispersion": "1.2.0",
       "statistics/linear-regression-correlation": "1.2.0",
@@ -60,6 +60,14 @@
       "fluid-mechanics/momentum-equation": "1.2.0",
       "fluid-mechanics/flow-measurement": "1.2.0",
       "fluid-mechanics/dimensional-analysis-similitude": "1.2.0",
+      "surveying/angles-distances-bearings": "1.2.0",
+      "surveying/leveling": "1.2.0",
+      "surveying/traverse-computations": "1.2.0",
+      "surveying/area-computations": "1.2.0",
+      "surveying/earthwork-volumes": "1.2.0",
+      "surveying/coordinate-geometry": "1.2.0",
+      "surveying/horizontal-curves": "1.2.0",
+      "surveying/vertical-curves": "1.2.0",
       "transportation/traffic-flow": "1.2.0",
       "construction/cpm-fundamentals": "1.2.0",
       "construction/forward-backward-pass": "1.2.0",
@@ -130,6 +138,12 @@
       "file": "fe-civil-v10-84a443f592f8.json",
       "sha256": "84a443f592f8a24bd765c7b4817f26306665e5d8b78e6bb9ad887cc4c37ee514",
       "published": "2026-10-28T07:23:35.185Z"
+    },
+    {
+      "version": 11,
+      "file": "fe-civil-v11-649a80181e8e.json",
+      "sha256": "649a80181e8ecc16757463a0b0f33575c93a8f2ef988c30d4da8f13dc9256801",
+      "published": "2026-10-28T08:28:15.207Z"
     }
   ]
 }
