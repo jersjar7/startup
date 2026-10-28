@@ -97,6 +97,8 @@ void main() {
     await auth.startGuest();
 
     for (final id in store.pack!.games.keys) {
+      // One line a game, so a run that takes half an hour shows it is moving.
+      debugPrint('playing $id');
       GameProgress.instance.reset(id);
       final game = store.game(id)!;
       await tester.pumpWidget(
