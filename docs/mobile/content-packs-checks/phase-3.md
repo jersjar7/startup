@@ -29,7 +29,8 @@ chapter.
 | Transportation | 29 | 271 KB | Crest or Sag, 105 KB |
 | Water Resources | 32 | 248 KB | What Moves the Critical Depth, 29 KB |
 | Geotechnical | 35 | 234 KB | How Long Does It Take, 53 KB |
-| **Whole pack, version 16** | **327** | **3.04 MB** | |
+| Mathematics | 48 | 351 KB | Follow the Tangent, 40 KB |
+| **Whole pack, version 18 (all of FE Civil)** | **375** | **3.40 MB** | |
 
 The limits the builder enforces are 250 KB for any one game and 25 KB on
 average. The pack grows by about 10 KB a game (Statics, all drawings, ran
@@ -633,6 +634,68 @@ What else the move needed:
   the 35 games, of the three other games that share the slope figures,
   and every Geotechnical sheet picture before and after (4,400 and 3,806
   images), all identical.
+
+## Mathematics (48 games), 2026-10-28
+
+Moved, published in FE Civil pack version 18 (375 games, 3.40 MB to
+download; Mathematics is 351 KB of it). Not switched on. With it every
+one of the 375 games in the app is in the pack: all of FE Civil.
+
+Version 17 carried it first; the full phone suite then caught two
+things, so it was fixed and published again rather than merged:
+
+- **Which Happens First numbered its answers its own way.** The game's
+  answers are every piece of the formula, operators included (which are
+  never tappable); the pack listed only the tappable pieces, so each
+  answer was a different number from the game's, which the pack audit
+  test caught. The pack now keeps every piece, as the game does, and the
+  parity check skips a wrong answer that has no button to tap.
+- **A test leaned on a game not being packed.** The pack store test showed
+  that an unpacked game still plays as built-in using Perpendicular Flip,
+  which is now packed; it now takes the game out of a later pack itself.
+
+The adapters are in `mobile/test/packs/mathematics_a.dart` (algebra,
+trigonometry, analytic geometry, calculus and differential equations)
+and `mathematics_b.dart` (integrals, vectors, spreadsheets, programming
+and numerical methods). Mathematics' games were among the first built,
+each laid out its own way, so nearly every screen is written as screen
+nodes, and the chapter taught the phone more than any other
+(`docs/mobile/content-packs.md` has each in full):
+
+- **Drawing steps the player repeats as the figure did:** a parabola
+  (`para`) and a triangle's side labels, angle arcs and corner labels
+  (`beside`, `carc`, `ptext`), found from the points they start at.
+- **New ways to answer:** bare tap areas with no ripple (`plain`, as a
+  spreadsheet cell or a piece of a formula is), slots tapped to empty
+  them, answers dragged across a drawing, a run of moves with no lock in
+  (Run the Loop), a pick moved with plus and minus buttons (Stretch It to
+  Fit), rows filled in turn (Fill the Trace), a drawing pinned or moved
+  onto the one point picked out of 169 (Land the Resultant, Place the
+  Center), other accepted orders, and a button the game names itself.
+- **New tap rules on a drawing:** a line within its own stroke
+  (`"reach": "stroke"`, Tap the Side), the larger of across and up
+  (`"axis": "box"`, a lattice), and the later of two spots as near
+  (`"tie": "last"`, as Slide to the Flat Spot rounds a half up).
+
+The two halves were written side by side and both taught the renderer a
+fade, a wrap, a slot tapped empty, and values that follow how a round
+ended or whether an answer is picked, under different names. They were
+joined on one set of names before the chapter was checked. What the
+Water Touches now asks for its line reach by name too, and passes again.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 288 of 288 runs pass, every round played. Two games carry small differences inside the ADR 0031 bar: Slide to the Flat Spot (108 pixels by at most 8 shades on five screens at 390 wide, at night) and Land the Resultant (5 pixels by at most 2 shades on five screens at 320 wide). Every other screen is pixel for pixel. |
+| Size | 351 KB for the chapter; 2.3 to 40 KB a game, the largest Follow the Tangent. |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 375 pack games played to the end. |
+| Everything else | 6,041 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What else the move needed:
+
+- The vector, cross product, root finding, discriminant, triangle and
+  Mathematics sheet figures draw through the recording shims. The
+  helpers hashed every built-in Mathematics drawing and sheet picture
+  before and after, all identical.
 
 ## Notes for after (not changed during the move)
 
