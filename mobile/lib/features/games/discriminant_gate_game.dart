@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../packs/drawing/figure_parabola.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/engineering_grid.dart';
@@ -473,23 +474,14 @@ class ParaPainter extends CustomPainter {
         ..strokeWidth = 2,
     );
 
-    final vertex = Offset(size.width / 2, axisY + vertexAt);
-    final half = size.width / 2;
-    final k = arm / (half * half);
-    final path = Path();
-    for (double x = 0; x <= size.width; x += 3) {
-      final dx = x - vertex.dx;
-      // Screen y grows downward, so "opens up" subtracts.
-      final y = vertex.dy + (para.opensUp ? -1 : 1) * k * dx * dx;
-      if (x == 0) {
-        path.moveTo(x, y);
-      } else {
-        path.lineTo(x, y);
-      }
-    }
-    canvas.drawPath(
-      path,
-      Paint()
+    drawParabola(
+      canvas,
+      width: size.width,
+      vertex: Offset(size.width / 2, axisY + vertexAt),
+      arm: arm,
+      half: size.width / 2,
+      opensUp: para.opensUp,
+      paint: Paint()
         ..color = color
         ..style = PaintingStyle.stroke
         ..strokeWidth = 3

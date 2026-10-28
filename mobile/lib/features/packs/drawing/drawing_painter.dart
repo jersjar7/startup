@@ -10,6 +10,7 @@ import '../../../core/theme/app_colors.dart';
 import 'figure_dash.dart' show dashes, pathDashes;
 import 'figure_grains.dart' show grains;
 import 'figure_hatch.dart' show hatches;
+import 'figure_parabola.dart' show parabola;
 
 /// Plays back a figure recorded by the pack builder (ADR 0030).
 ///
@@ -172,6 +173,107 @@ void playDrawing(Canvas canvas, Size size, List<Object?> ops) {
           n(op[5]),
           (op[6]! as num).toInt(),
           _paint(op[7], w),
+          _paint(op[8], w),
+        );
+      case 'rect':
+        canvas.drawRect(_rect(op, 1, w), _paint(op[5], w));
+      case 'rrect':
+        canvas.drawRRect(_rrect(op, 1, w), _paint(op[13], w));
+      case 'drrect':
+        canvas.drawDRRect(
+          _rrect(op, 1, w),
+          _rrect(op, 13, w),
+          _paint(op[25], w),
+        );
+      case 'circle':
+        canvas.drawCircle(
+          Offset(n(op[1]), n(op[2])),
+          n(op[3]),
+          _paint(op[4], w),
+        );
+      case 'oval':
+        canvas.drawOval(_rect(op, 1, w), _paint(op[5], w));
+      case 'arc':
+        canvas.drawArc(
+          _rect(op, 1, w),
+          n(op[5]),
+          n(op[6]),
+          op[7] == 1,
+          _paint(op[8], w),
+        );
+      case 'path':
+        canvas.drawPath(
+          _path(op[1] as int, op[2] as List<Object?>, w),
+          _paint(op[3], w),
+        );
+      case 'points':
+        final flat = op[2] as List<Object?>;
+        canvas.drawPoints(ui.PointMode.values[op[1] as int], [
+          for (var i = 0; i < flat.length; i += 2)
+            Offset(n(flat[i]), n(flat[i + 1])),
+        ], _paint(op[3], w));
+      case 'fill':
+        canvas.drawColor(drawingColor(op[1]), BlendMode.values[op[2] as int]);
+      case 'paint':
+        canvas.drawPaint(_paint(op[1], w));
+      case 'text':
+        _text(canvas, op, w);
+      default:
+        throw UnsupportedError('Unknown drawing step ${op[0]}');
+    }
+  }
+}
+
+double drawingNumber(Object? v, double width) {
+  if (v is num) return v.toDouble();
+  final m = v as Map;
+  final line = m['w'] as List?;
+  if (line != null) return (line[0] as num) + (line[1] as num) * width;
+  // An angle between two straight lines in the width, as a painter turns
+  // to lie along a slope: atan2(c + d w, e + f w).
+  if (m['a'] case [num c, num d, num e, num f]) {
+    return math.atan2(c + d * width, e + f * width);
+  }
+  // Bent: straight between the recorded corners, and the end pieces carried
+  // on past the ends.
+  final p = (m['p'] as List).cast<num>();
+  var i = 0;
+  while (i + 4 < p.length && width > p[i + 2]) {
+    i += 2;
+  }
+  final (w0, v0, w1, v1) = (p[i], p[i + 1], p[i + 2], p[i + 3]);
+  return v0 + (v1 - v0) * (width - w0) / (w1 - w0);
+}
+
+Color drawingColor(Object? v) {
+  final c = (v as Map)['#'];
+  if (c is List) {
+    final (day, night) = (c[0], c[1]);
+    if (day is int && night is int) return ThemedColor(day, night);
+    return _PairColor(_color(day), _color(night));
+  }
+  return _color(c);
+}
+
+Color _color(Object? c) {
+  if (c is int) return Color(c);
+  final f = ((c as Map)['f'] as List).cast<num>();
+  return Color.from(
+    alpha: f[0].toDouble(),
+    red: f[1].toDouble(),
+    green: f[2].toDouble(),
+    blue: f[3].toDouble(),
+  );
+      case 'para':
+        // A whole parabola, drawn by the figures' own loop.
+        parabola(
+          canvas,
+          n(op[1]),
+          Offset(n(op[2]), n(op[3])),
+          n(op[4]),
+          n(op[5]),
+          n(op[6]) > 0,
+          n(op[7]),
           _paint(op[8], w),
         );
       case 'rect':

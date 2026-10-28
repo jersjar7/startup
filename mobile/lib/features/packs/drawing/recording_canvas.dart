@@ -156,6 +156,29 @@ class RecordingCanvas implements ui.Canvas {
     _paint(edge),
   ]);
 
+  /// Called by the parabolas of the discriminant figures
+  /// (figure_parabola.dart): one step for the whole curve, which the player
+  /// draws point by point as the figure did. Opening up is 1, down is -1.
+  void recordParabola(
+    double width,
+    ui.Offset vertex,
+    double arm,
+    double half,
+    bool opensUp,
+    double step,
+    ui.Paint paint,
+  ) => ops.add([
+    'para',
+    width,
+    vertex.dx,
+    vertex.dy,
+    arm,
+    half,
+    opensUp ? 1 : -1,
+    step,
+    _paint(paint),
+  ]);
+
   @override
   void drawRect(ui.Rect rect, ui.Paint paint) =>
       ops.add(['rect', ..._rect(rect), _paint(paint)]);
