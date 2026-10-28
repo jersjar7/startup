@@ -9,6 +9,7 @@ import 'materials_b.dart' as materials_b;
 import 'statics_a.dart' as statics_a;
 import 'statics_b.dart' as statics_b;
 import 'statistics.dart' as statistics;
+import 'surveying_a.dart' as surveying_a;
 
 /// Every game moved into the FE Civil pack so far, by chapter, each as the
 /// adapter that turns the built-in game into pack data. The pack builder
@@ -28,6 +29,7 @@ final movedByChapter = <String, Map<String, Map<String, Object?> Function()>>{
   'fluid-mechanics': fluids.adapters,
   'materials': {...materials_a.adapters, ...materials_b.adapters},
   'statics': {...statics_a.adapters, ...statics_b.adapters},
+  'surveying_a': surveying_a.adapters,
 };
 
 /// Every moved game, by id.

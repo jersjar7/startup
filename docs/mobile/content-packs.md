@@ -224,6 +224,14 @@ A concept sheet's picture may now be a **row** of pictures side by side,
 any number with the same gap between (Which Way Does It Point's three tails),
 besides one picture, a pair, or a column of those.
 
+Surveying (2026-10-28) lays some sheet pictures out with a small widget of
+its own (two full width pictures stacked, for drawings whose labels collide
+at half width). The builder reads any such widget by what it builds, so it
+arrives in the pack as the plain column it is; nothing new on the phone.
+The Surveying figures (bearings, leveling, areas) draw their paths through
+the recording path shim, as the Statics figures do, so a recorded curve is
+rebuilt move for move rather than traced.
+
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is
 out, a new kind of block is a new game type (or a new version of this one),
