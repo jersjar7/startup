@@ -7,8 +7,10 @@
 // ConceptPicture and ConceptPair tiles. The few painters that exist only here
 // draw a comparison the games never needed to draw.
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path, TextPainter;
 
+import '../packs/drawing/figure_path.dart';
+import '../packs/drawing/figure_text.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';
