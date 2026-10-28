@@ -112,7 +112,20 @@ Node clip(Node child, num radius, {String? when}) => {
   'when': ?when,
 };
 
-Node grid(Node child) => {'k': 'grid', 'child': child};
+Node grid(Node child, {num? minor, num? major}) => {
+  'k': 'grid',
+  'child': child,
+  'minor': ?minor,
+  'major': ?major,
+};
+
+/// A formula in a line of text, as the games write one inside a box.
+Node math(String v, num size, {Object? color}) => {
+  'k': 'math',
+  'v': v,
+  'size': size,
+  'color': ?color,
+};
 
 Node answer(int i, Node child, {num radius = 12, Object? fill}) => {
   'k': 'answer',

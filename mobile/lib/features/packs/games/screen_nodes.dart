@@ -22,9 +22,12 @@ part of 'pick_one_game.dart';
 ///   line, cut short) and `bar` (a line over it, for a macron).
 /// - `rule`: a divider `h` high in `color`.
 /// - `tex`: a formula set as a block (`v`, `size`).
+/// - `math`: a formula set in a line of text (`v`, `size`, `color`), as the
+///   games write one inside a box or beside words.
 /// - `draw`: a recorded drawing, `d`, filling its parent.
 /// - `clip`: its `child` clipped to a `radius`.
-/// - `grid`: the engineering grid behind its `child`.
+/// - `grid`: the engineering grid behind its `child`, with lines every
+///   `minor` (18) and heavier ones every `major` (90).
 /// - `answer`: answer `i`, tapped anywhere on its `child`, with `radius`
 ///   and `fill`. Inside it, a value may follow the answer's state.
 /// - `tapdraw`: a drawing answered by tapping on it (see [_tapDraw]).
@@ -149,6 +152,14 @@ extension on _ScreenBlocks {
         );
       case 'tex':
         return MathBlock(v('v')! as String, fontSize: d('size')!);
+      case 'math':
+        return MathText(
+          v('v')! as String,
+          style: TextStyle(
+            fontSize: d('size'),
+            color: _color(v('color') ?? 'charcoal'),
+          ),
+        );
       case 'draw':
         return CustomPaint(
           painter: DrawingPainter(ops(v('d'))),
@@ -160,7 +171,11 @@ extension on _ScreenBlocks {
           child: child(),
         );
       case 'grid':
-        return EngineeringGrid(minor: 18, major: 90, child: child()!);
+        return EngineeringGrid(
+          minor: d('minor') ?? 18,
+          major: d('major') ?? 90,
+          child: child()!,
+        );
       case 'answer':
         final i = n['i']! as int;
         final radius = BorderRadius.circular(d('radius') ?? 12);
@@ -283,6 +298,7 @@ extension on _ScreenBlocks {
     'center' => MainAxisAlignment.center,
     'end' => MainAxisAlignment.end,
     'between' => MainAxisAlignment.spaceBetween,
+    'evenly' => MainAxisAlignment.spaceEvenly,
     _ => MainAxisAlignment.start,
   };
 

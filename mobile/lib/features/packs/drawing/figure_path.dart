@@ -11,6 +11,17 @@ import 'dart:ui' as ui;
 extension type Path._(ui.Path _path) implements ui.Path {
   Path() : this._(_start(ui.Path()));
 
+  /// A copy of [source] that goes on from where it ends, its moves copied
+  /// with it.
+  Path.from(ui.Path source) : this._(_copy(source));
+
+  static ui.Path _copy(ui.Path source) {
+    final p = ui.Path.from(source);
+    final moves = _moves[source];
+    if (recordPaths && moves != null) _moves[p] = [...moves];
+    return p;
+  }
+
   static ui.Path _start(ui.Path p) {
     if (recordPaths) _moves[p] = <List<Object?>>[];
     return p;
