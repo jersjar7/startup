@@ -3,12 +3,12 @@
   "title": "FE Civil",
   "format": 1,
   "latest": {
-    "version": 17,
-    "file": "fe-civil-v17-1103351820d7.json",
-    "sha256": "1103351820d717b78dd09fa6739a18f26b46590211126249cca53c93de5c4561",
-    "bytes": 55406226,
-    "gzipBytes": 3403601,
-    "published": "2026-10-28T17:12:46.792Z",
+    "version": 18,
+    "file": "fe-civil-v18-b01f7a503489.json",
+    "sha256": "b01f7a5034899e1d15318a4b26db2e73ed6e1c44558e7bfe69ba2eb5481a2f14",
+    "bytes": 55406274,
+    "gzipBytes": 3403621,
+    "published": "2026-10-28T17:56:43.232Z",
     "lessons": {
       "mathematics/straight-lines-quadratics": "1.2.0",
       "mathematics/logarithms": "1.2.0",
@@ -249,6 +249,12 @@
       "file": "fe-civil-v17-1103351820d7.json",
       "sha256": "1103351820d717b78dd09fa6739a18f26b46590211126249cca53c93de5c4561",
       "published": "2026-10-28T17:12:46.792Z"
+    },
+    {
+      "version": 18,
+      "file": "fe-civil-v18-b01f7a503489.json",
+      "sha256": "b01f7a5034899e1d15318a4b26db2e73ed6e1c44558e7bfe69ba2eb5481a2f14",
+      "published": "2026-10-28T17:56:43.232Z"
     }
   ]
 }
