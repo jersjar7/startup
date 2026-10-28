@@ -1,6 +1,9 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path;
+
+import '../packs/drawing/figure_dash.dart';
+import '../packs/drawing/figure_path.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -274,7 +277,7 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
           minor: 20,
           major: 100,
           child: CustomPaint(
-            painter: _LinesPainter(
+            painter: LinesPainter(
               boundary: r.boundary.value,
               built: _built.value,
               locked: _session.correct,
@@ -404,8 +407,8 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
   }
 }
 
-class _LinesPainter extends CustomPainter {
-  _LinesPainter({
+class LinesPainter extends CustomPainter {
+  LinesPainter({
     required this.boundary,
     required this.built,
     required this.locked,
@@ -481,13 +484,8 @@ class _LinesPainter extends CustomPainter {
       canvas.drawLine(a, b, paint);
       return;
     }
-    const dash = 11.0, gap = 7.0;
-    final total = (b - a).distance;
-    final unit = (b - a) / total;
-    for (double t = 0; t < total; t += dash + gap) {
-      final end = math.min(t + dash, total);
-      canvas.drawLine(a + unit * t, a + unit * end, paint);
-    }
+    // Dashes 11 long with gaps of 7.
+    drawDashes(canvas, a, b, paint, on: 11, every: 18);
   }
 
   void _rightAngle(Canvas canvas, Offset q, double m1, double m2, Color color) {
@@ -510,7 +508,7 @@ class _LinesPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_LinesPainter old) =>
+  bool shouldRepaint(LinesPainter old) =>
       old.boundary != boundary ||
       old.built != built ||
       old.locked != locked ||

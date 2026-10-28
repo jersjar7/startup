@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path;
+
+import '../packs/drawing/figure_path.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -404,7 +406,7 @@ class _BendButton extends StatelessWidget {
             ),
           ),
           child: CustomPaint(
-            painter: _ArcPainter(
+            painter: ArcPainter(
               up: up,
               color: (locked && isTruth)
                   ? AppColors.forest
@@ -424,8 +426,8 @@ class _BendButton extends StatelessWidget {
 /// A smile or a frown, drawn rather than named: the shape IS the vocabulary,
 /// and a student who has to translate "concave up" into a picture every time
 /// is doing the translation instead of the reading.
-class _ArcPainter extends CustomPainter {
-  const _ArcPainter({required this.up, required this.color});
+class ArcPainter extends CustomPainter {
+  const ArcPainter({required this.up, required this.color});
 
   final bool up;
   final Color color;
@@ -450,5 +452,5 @@ class _ArcPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_ArcPainter old) => old.up != up || old.color != color;
+  bool shouldRepaint(ArcPainter old) => old.up != up || old.color != color;
 }
