@@ -288,6 +288,30 @@ and one way to tap:
   layer runs the width of the section. The other way round from
   `"axis": "x"`.
 
+Structural, first half (2026-10-28: determinacy, truss methods, virtual
+work, indeterminate beams, design loads, influence lines) needed nothing
+new. All fourteen games are the one screen the surveying panel games use:
+a drawing in a white panel, a formula under it, plain answer rows. Where
+Do You Take Moments lights the point as it is picked, so its panel holds a
+drawing per pick (`perPick`). Its figures now draw through the path and
+text shims; two private names became public for the adapters (the truss
+in Joints or Sections, and how many load rows sets the panel's height in
+Which One Controls). Every built-in Structural screen hashed the same
+before and after. The fourteen games are 3.5 to 17 KB to download, about
+7 KB on average.
+
+One builder fix came with it: **a bend on a width looked at.** How Much
+Comes Off draws two hatched squares that grow with the width until, at
+exactly 300 wide, the height stops them. The builder placed that bend
+where the lines either side of it meet, 299.99998, because the hatching
+starts from a path's bounds, which the engine keeps in single precision,
+so neither line is exact. On a 320 phone every hatch line lands on a
+whole pixel, and the hundred-thousandth of a pixel was enough to move
+thousands of them a shade or two. Where a width looked at sits within a
+hundredth of a pixel of the meeting and, taken with its own value as the
+corner, fits every value closer, it is the corner instead. Keeping the
+figure closer (`closer`) also matched, but cost 1.6 MB.
+
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is
 out, a new kind of block is a new game type (or a new version of this one),
