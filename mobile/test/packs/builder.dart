@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
@@ -221,7 +223,10 @@ void _refine(
   out
     ..add(a)
     ..add(b);
-  if (b - a <= _finest) return;
+  if (b - a <= _finest) {
+    _pinJump(at, a, b, out);
+    return;
+  }
   final m = (a + b) / 2;
   final ta = at(a), tm = at(m), tb = at(b);
   final reshaped = !_sameShape(ta, tb) || !_sameShape(ta, tm);
@@ -232,6 +237,37 @@ void _refine(
   if (reshaped ? b - a > 0.25 : !_straight(ta, tm, tb, a, m, b)) {
     _refine(at, a, m, out);
     _refine(at, m, b, out);
+  }
+}
+
+/// A number that jumps between two widths is never straight, however close
+/// they are: a label that fits on one line from some width on, its patch
+/// twice as tall below it. Between the two widths around the jump it plays
+/// halfway. Which One Drags More, where "heavy oil, 0.4 Pa s" is exactly as
+/// wide as the panel leaves it on a 320 phone, drew its patch two pixels
+/// tall there. Where the two widths still disagree, a width as round as
+/// any between them is recorded as well, so a jump that falls on a whole
+/// width is played from the side the painter takes.
+void _pinJump(
+  List<Object?> Function(double) at,
+  double a,
+  double b,
+  Set<double> out,
+) {
+  final m = (a + b) / 2;
+  final ta = at(a), tm = at(m), tb = at(b);
+  if (_sameShape(ta, tb) &&
+      _sameShape(ta, tm) &&
+      !_straight(ta, tm, tb, a, m, b)) {
+    out.add(_roundest(a, b));
+  }
+}
+
+/// The width between [a] and [b] with the fewest binary places.
+double _roundest(double a, double b) {
+  for (var step = 1.0; ; step /= 2) {
+    final x = ((a / step).floor() + 1) * step;
+    if (x < b) return x;
   }
 }
 
@@ -298,12 +334,35 @@ List<Object?> _once(Draw draw, Size size, {required bool dark}) {
   recordPaths = true;
   try {
     final canvas = RecordingCanvas();
-    draw(canvas, size);
+    _drained(() => draw(canvas, size));
     return canvas.ops;
   } finally {
     AppPalette.dark = was;
     recordPaths = false;
   }
+}
+
+/// Runs [body], then the small jobs it left for the event loop, before
+/// returning.
+///
+/// Every label a figure writes asks google_fonts for its style, and each
+/// ask queues a job that only runs when the event loop turns. The builder
+/// records each figure at hundreds of widths without ever letting it turn,
+/// so the jobs piled up: Fluid Mechanics passed four gigabytes and slowed
+/// to a crawl. Running them here keeps a build the size of one drawing.
+void _drained(void Function() body) {
+  final jobs = ListQueue<void Function()>();
+  runZoned(
+    () {
+      body();
+      while (jobs.isNotEmpty) {
+        jobs.removeFirst()();
+      }
+    },
+    zoneSpecification: ZoneSpecification(
+      scheduleMicrotask: (self, parent, zone, job) => jobs.add(job),
+    ),
+  );
 }
 
 bool _same(Object? a, Object? b) {
@@ -832,3 +891,21 @@ Object regionOf(Rect Function(Size size) rect, double height, String what) =>
       height,
       what: what,
     );
+
+/// Builds [games] one at a time, letting the event loop turn after each.
+///
+/// Every label a figure writes asks google_fonts for its style, and each ask
+/// leaves a little work queued for the event loop. A build that never lets
+/// the loop turn keeps all of it: Fluid Mechanics grew past four gigabytes
+/// and slowed to a crawl. [pause] is how the caller lets the loop turn.
+Future<Map<String, Map<String, Object?>>> buildGames(
+  Map<String, Map<String, Object?> Function()> games,
+  Future<void> Function() pause,
+) async {
+  final built = <String, Map<String, Object?>>{};
+  for (final MapEntry(:key, :value) in games.entries) {
+    built[key] = value();
+    await pause();
+  }
+  return built;
+}

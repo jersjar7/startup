@@ -45,35 +45,33 @@ const _phones = [320.0, 390.0, 430.0];
 /// `flutter test test/packs/parity_test.dart --dart-define=PARITY=construction`.
 const _only = String.fromEnvironment('PARITY');
 
-final _games = _only.isEmpty ? movedGames : movedByChapter[_only]!;
+/// One game only, to check a fix:
+/// `--dart-define=PARITY=fluid-mechanics --dart-define=PARITY_GAME=which-drags-more`.
+const _game = String.fromEnvironment('PARITY_GAME');
 
-late Map<String, Object?> _pack;
+final _chapter = _only.isEmpty ? movedGames : movedByChapter[_only]!;
+final _games = _game.isEmpty ? _chapter : {_game: _chapter[_game]!};
+
+/// Each game's pack data, built the first time one of its runs needs it,
+/// and sent through JSON the way a downloaded pack arrives. Built game by
+/// game rather than all at the start: every moved game at once outgrew the
+/// test runner's twelve minutes for setting up.
+final _built = <String, Map<String, Object?>>{};
+
+Map<String, Object?> _packGame(String id) => _built.putIfAbsent(
+  id,
+  () => (jsonDecode(jsonEncode(_games[id]!())) as Map).cast<String, Object?>(),
+);
 
 void main() {
-  setUpAll(() async {
-    await loadBrandFonts();
-    // Built here rather than read from build/packs/, and sent through JSON
-    // the way a downloaded pack arrives.
-    _pack =
-        jsonDecode(
-              jsonEncode({
-                'games': {
-                  for (final MapEntry(:key, :value) in _games.entries)
-                    key: value(),
-                },
-              }),
-            )
-            as Map<String, Object?>;
-  });
+  setUpAll(loadBrandFonts);
 
   for (final id in _games.keys) {
     for (final dark in [false, true]) {
       for (final phone in _phones) {
         final name = '$id ${dark ? 'night' : 'day'} ${phone.toInt()}';
         testWidgets(name, (tester) async {
-          final game = PackGame(
-            ((_pack['games']! as Map)[id]! as Map).cast<String, Object?>(),
-          );
+          final game = PackGame(_packGame(id));
           final before = await _play(
             tester,
             gameScreenFor(id),

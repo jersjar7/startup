@@ -75,6 +75,25 @@ What is kept:
 - **Concept sheet pictures**: one drawing, two side by side, or a column of
   those with gaps (`"kind": "one" | "pair" | "column" | "gap"`).
 
+Two things about the builder itself, both learned on Fluid Mechanics
+(2026-10-27):
+
+- **A number that jumps.** A label that fits on one line from some width on
+  has a patch behind it that halves in height at that width. No straight
+  piece crosses the jump, so the builder looks no closer than a thousandth
+  of a pixel and plays the gap between as a slope. Which One Drags More
+  has a label exactly as wide as its panel leaves it on a 320 phone, and
+  drew its patch two pixels tall there. Where two widths that close still
+  disagree, the builder now also records the roundest width between them,
+  so a jump that falls on a whole width is played from the side the
+  painter takes.
+- **Memory.** Every label a figure writes asks google_fonts for its style,
+  and each ask leaves a small job for the event loop. The builder records
+  each figure at hundreds of widths without the loop ever turning, so the
+  jobs piled up: the first Fluid Mechanics build passed four gigabytes and
+  crawled for hours. Each recording now runs its own jobs before it
+  returns, and the build stays near 200 MB.
+
 What "the same" means for a drawing ([ADR 0031](../adr/0031-pack-drawings-match-to-sampling-not-bits.md),
 proposed 2026-10-27): every number within the tolerances above, and on
 screen no pixel more than 32 shades out of 255 from the built-in game's,
@@ -118,7 +137,7 @@ and the last three to particular answers (`of`). Balance the Rate uses this
 to redraw its bars at whichever rate is being tried. The app's side is
 `mobile/lib/features/packs/games/pick_one_game.dart`; the adapters that
 describe each game are in `mobile/test/packs/` (`dynamics.dart`,
-`economics.dart`, `statistics.dart`, `ethics.dart`).
+`economics.dart`, `statistics.dart`, `ethics.dart`, `fluids.dart`).
 
 **Pick several** (game type `pick-several`, added 2026-10-27 for
 Economics) is the same screen with any number of answers picked: right when
@@ -138,10 +157,11 @@ any layout made of them can be described without changing the app:
 | Node (`k`) | What it is |
 |---|---|
 | `box` | A container: padding, width (or the full width), height, fill, border (all round, or the top only), corner, alignment, clipping, and one child or a column of children. |
-| `row`, `col` | Children side by side or stacked, with their alignment. |
+| `row`, `col` | Children side by side or stacked, with their alignment (spaced evenly too). |
 | `gap`, `flex`, `center` | Empty space; a child taking a share of the row (or up to a share); a child centred. |
 | `t`, `tex`, `rule` | Words in one of the app's faces (body, mono, code, overline, heading), a formula, a divider. |
-| `draw`, `grid`, `clip` | A recorded drawing, the engineering grid behind it, a rounded corner. |
+| `draw`, `grid`, `clip` | A recorded drawing, the engineering grid behind it (its own spacing if a game uses a finer one), a rounded corner. |
+| `math` | A formula set inline in a row or column, the way a block's centred formula is set on its own line (added with Fluid Mechanics, for the two numbers under Which One to Match). |
 | `answer` | An answer, tapped anywhere on what it holds. |
 | `icon` | One of the few icons the games draw (only the check of a tick box so far, added with Ethics). |
 | `tapdraw` | A drawing answered by tapping on it: by area, by the nearest mark, or by the nearest mark measured across only. With several picks it is drawn in layers, one per mark, so no drawing is kept for every combination of picks. |

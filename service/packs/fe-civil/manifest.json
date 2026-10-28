@@ -3,12 +3,12 @@
   "title": "FE Civil",
   "format": 1,
   "latest": {
-    "version": 7,
-    "file": "fe-civil-v7-4dad0d3db3f9.json",
-    "sha256": "4dad0d3db3f9190b5e27fcb323f867ab74793e6ab8ae67a008ceec84656318ea",
-    "bytes": 10720254,
-    "gzipBytes": 819339,
-    "published": "2026-10-27T19:04:43.417Z",
+    "version": 8,
+    "file": "fe-civil-v8-577bb48f2f6a.json",
+    "sha256": "577bb48f2f6a489ef6107b4d6fe92d69ea0010fe6c8380b7678924b73fbdb2e6",
+    "bytes": 15491273,
+    "gzipBytes": 1010486,
+    "published": "2026-10-28T02:01:20.400Z",
     "lessons": {
       "statistics/central-tendency-dispersion": "1.2.0",
       "statistics/linear-regression-correlation": "1.2.0",
@@ -36,6 +36,14 @@
       "dynamics/impulse-and-momentum": "1.2.0",
       "dynamics/vibrations-natural-frequency": "1.2.0",
       "materials/asphalt-mix-design": "1.2.0",
+      "fluid-mechanics/fluid-properties": "1.2.0",
+      "fluid-mechanics/hydrostatic-pressure": "1.2.0",
+      "fluid-mechanics/hydrostatic-forces-buoyancy": "1.2.0",
+      "fluid-mechanics/continuity-bernoulli": "1.2.0",
+      "fluid-mechanics/pipe-flow-head-loss": "1.2.0",
+      "fluid-mechanics/momentum-equation": "1.2.0",
+      "fluid-mechanics/flow-measurement": "1.2.0",
+      "fluid-mechanics/dimensional-analysis-similitude": "1.2.0",
       "transportation/traffic-flow": "1.2.0",
       "construction/cpm-fundamentals": "1.2.0",
       "construction/forward-backward-pass": "1.2.0",
@@ -88,6 +96,12 @@
       "file": "fe-civil-v7-4dad0d3db3f9.json",
       "sha256": "4dad0d3db3f9190b5e27fcb323f867ab74793e6ab8ae67a008ceec84656318ea",
       "published": "2026-10-27T19:04:43.417Z"
+    },
+    {
+      "version": 8,
+      "file": "fe-civil-v8-577bb48f2f6a.json",
+      "sha256": "577bb48f2f6a489ef6107b4d6fe92d69ea0010fe6c8380b7678924b73fbdb2e6",
+      "published": "2026-10-28T02:01:20.400Z"
     }
   ]
 }
