@@ -756,6 +756,7 @@ List<(double, double)> _corners(
   }
   keep.add(w.length - 1);
   final corners = [for (final i in keep) (w[i], v[i])];
+  final meetings = <int, (double, int, int)>{};
   // A corner falls on a width that was looked at, which is near the real
   // bend but not on it, so the piece after it starts a hair off its own
   // line (VennPainter's circles stop growing at 270.45 wide, and the
@@ -792,6 +793,9 @@ List<(double, double)> _corners(
     if (_fits(w, v, moved, keep[c - 1], keep[c + 1], tol)) {
       corners[c] = moved[c];
     }
+    meetings[c] = (wx, from, to);
+  }
+  for (final MapEntry(key: c, value: (wx, from, to)) in meetings.entries) {
     // Where the lines meet can still be a hair off a bend that falls on a
     // width looked at (How Much Comes Off's squares stop growing at exactly
     // 300 wide, and the meeting came out at 299.99998: its hatching, every
@@ -799,7 +803,13 @@ List<(double, double)> _corners(
     // shade or two out). A width looked at near the meeting, with its own
     // value, is the corner instead when every value then fits closer.
     // (Never exactly: the figure's hatching starts from the bounds of a
-    // path, which the engine keeps in single precision.)
+    // path, which the engine keeps in single precision.) Judged once every
+    // corner has moved to its meeting: against the next corner still on
+    // its width looked at, a hair up the next piece, the width before the
+    // meeting fitted closer than the meeting itself, and What the Water
+    // Touches' swale kept a bend at 341.9998 that is exactly at 342, its
+    // dimension line 0.00003 of a pixel high on a 430 phone, four shades
+    // out along the line.
     var best = _worst(w, v, corners, keep[c - 1], keep[c + 1]);
     for (var i = from + 1; i < to; i++) {
       if ((w[i] - wx).abs() > 0.01 || best < _exact) continue;
