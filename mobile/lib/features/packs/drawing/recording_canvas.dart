@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart' show Matrix4;
 
 import 'drawing_painter.dart' show buildPath;
 import 'figure_hatch.dart' show recordHatches;
+import 'figure_corner.dart' show Spot, besideTurn;
 import 'figure_path.dart' show pathMoves;
 
 /// A canvas that writes down what a figure draws instead of drawing it.
@@ -179,6 +180,57 @@ class RecordingCanvas implements ui.Canvas {
     _paint(paint),
   ]);
 
+  /// Called by the triangle figures' side labels (figure_corner.dart): the
+  /// side's ends and the point the label keeps away from, which the player
+  /// turns into the same move and turn. The canvas is moved here too, so
+  /// what is recorded after it knows where it stands.
+  void recordBeside(
+    ui.Offset a,
+    ui.Offset b,
+    ui.Offset away,
+    double by,
+    bool turned,
+  ) {
+    final had = ops.length;
+    besideTurn(this, a, b, away, by, turned);
+    ops
+      ..removeRange(had, ops.length)
+      ..add([
+        'beside',
+        a.dx,
+        a.dy,
+        b.dx,
+        b.dy,
+        away.dx,
+        away.dy,
+        by,
+        if (turned) 1 else 0,
+      ]);
+  }
+
+  /// Called by the triangle figures' angle arcs (figure_corner.dart): the
+  /// corner and the two points its sides run to, from which the player
+  /// finds the arc's start and sweep as the figure did.
+  void recordCornerArc(
+    ui.Offset at,
+    ui.Offset p,
+    ui.Offset q,
+    double radius,
+    bool unit,
+    ui.Paint paint,
+  ) => ops.add([
+    'carc',
+    at.dx,
+    at.dy,
+    p.dx,
+    p.dy,
+    q.dx,
+    q.dy,
+    radius,
+    if (unit) 1 else 0,
+    _paint(paint),
+  ]);
+
   @override
   void drawRect(ui.Rect rect, ui.Paint paint) =>
       ops.add(['rect', ..._rect(rect), _paint(paint)]);
@@ -264,12 +316,17 @@ class RecordingCanvas implements ui.Canvas {
 
   /// Called by the figures' own [TextPainter] (figure_text.dart), which
   /// knows its words, where a plain paragraph would not say what it says.
+  ///
+  /// A label centred on a [Spot] that is not a plain point (figure_corner
+  /// .dart) is kept as `["ptext", ..., spot, half width, half height, ...]`,
+  /// and the player finds the spot as the figure did.
   void recordText(
     painting.TextPainter text,
     double minWidth,
     double maxWidth,
-    ui.Offset at,
-  ) {
+    ui.Offset at, {
+    Spot? spot,
+  }) {
     if (text.textScaler != painting.TextScaler.noScaling) {
       _unsupported('scaled text');
     }
@@ -277,12 +334,18 @@ class RecordingCanvas implements ui.Canvas {
       _unsupported('strut or height behavior on text');
     }
     ops.add([
-      'text',
+      if (spot == null) 'text' else 'ptext',
       _span(text.text),
       minWidth,
       maxWidth.isFinite ? maxWidth : null,
-      at.dx,
-      at.dy,
+      if (spot == null) ...[
+        at.dx,
+        at.dy,
+      ] else ...[
+        spot.recorded,
+        text.width / 2,
+        text.height / 2,
+      ],
       {
         if (text.textAlign != ui.TextAlign.start) 'al': text.textAlign.index,
         if (text.textDirection != ui.TextDirection.ltr) 'rtl': 1,
