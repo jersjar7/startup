@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/painting.dart';
@@ -268,9 +269,10 @@ Path _path(int fillType, List<Object?> cmds, double w) =>
     buildPath(fillType, cmds, w);
 
 /// A path from its recorded moves: the moves a figure made (figure_path.dart),
-/// or, for a path built some other way, its traced outline (M, L, Z).
+/// or, for a path built some other way, its traced outline (M, L, Z). A
+/// `T` move carries everything before it through a matrix.
 Path buildPath(int fillType, List<Object?> cmds, double w) {
-  final path = Path()..fillType = PathFillType.values[fillType];
+  var path = Path()..fillType = PathFillType.values[fillType];
   for (final raw in cmds) {
     final c = raw! as List<Object?>;
     double n(int i) => drawingNumber(c[i], w);
@@ -333,6 +335,11 @@ Path buildPath(int fillType, List<Object?> cmds, double w) {
         );
       case 'Z':
         path.close();
+      case 'T':
+        // Everything so far moved by a 4 by 4 matrix, in column order.
+        path = path.transform(
+          Float64List.fromList([for (var i = 1; i <= 16; i++) n(i)]),
+        );
       default:
         throw UnsupportedError('Unknown path move ${c[0]}');
     }

@@ -201,6 +201,25 @@ so picking one replaces the other and picking it again keeps it. Grounds, or
 Not asks four yes-or-no questions in one round, each question's Yes and No
 a group, with `need` set to the number of questions.
 
+Statics (2026-10-27) added a ranking: Rank Them by Stiffness has three
+sections tapped stiffest first, each numbered as it is tapped. Its rounds
+are several picks with `order: list`, `need` set to the number of sections,
+and `trim`: tapping a picked answer again takes it back along with every
+pick after it. Its drawing follows the whole order (a `tapdraw` with `"by":
+"order"`, one drawing per order the picks can be in), since the number on
+each section depends on what was tapped before it.
+
+Statics also draws its cross sections in world units, y up, and moves each
+onto the screen with a matrix (`Path.transform`). The figures' path shim
+keeps that as a move of its own (`T`, the 16 numbers of the matrix), so a
+recorded section is moved exactly as it was drawn, and the builder keeps
+those numbers a hundred million times closer than a pixel, since the
+matrix's scale multiplies every point of the shape. Two builder fixes came
+with it: a shape the search saw at only one width (a dash cut short for a
+third of a pixel of width) is searched again end to end, and a bend in a
+number is placed from lines through widths well inside each straight piece,
+not the ones beside the bend.
+
 A concept sheet's picture may now be a **row** of pictures side by side,
 any number with the same gap between (Which Way Does It Point's three tails),
 besides one picture, a pair, or a column of those.

@@ -34,7 +34,8 @@ part of 'pick_one_game.dart';
 ///   and `fill`. Inside it, a value may follow the answer's state.
 /// - `tapdraw`: a drawing answered by tapping on it (see [_tapDraw]): by
 ///   area, by the nearest mark, or by the nearest line (Which Arrow Is
-///   That's three arrows, where every tap picks one).
+///   That's three arrows, where every tap picks one); drawn as one drawing
+///   per pick, a layer per mark, or one per order of picks.
 /// - `icon`: one of the few icons the games draw, by name in `v` (only
 ///   `check` so far), with `size` and `color`.
 ///
@@ -329,12 +330,21 @@ extension on _ScreenBlocks {
   /// round of one pick, or `layers`, drawn in order: each either the same
   /// always (`d`) or for one mark (`mark`, keyed `"<0 or 1 for picked>|<0
   /// or 1 for answered>"`), so a drawing of several picks needs no
-  /// drawing per combination.
+  /// drawing per combination. With `"by": "order"` the drawing follows
+  /// every pick in the order made, keyed `"<marks picked, comma separated,
+  /// or ->|<0 or 1 for answered>"`, for a ranking whose drawing numbers
+  /// each pick (Rank Them by Stiffness).
   Widget _tapDraw(Map<String, Object?> n) {
     final hits = (n['hits']! as List).cast<int>();
     final h = (n['h']! as num).toDouble();
     final done = answered ? 1 : 0;
     String one() {
+      if (n['by'] == 'order') {
+        final marks = [
+          for (final p in picks.whereType<int>()) hits.indexOf(p),
+        ];
+        return '${marks.isEmpty ? '-' : marks.join(',')}|$done';
+      }
       final mark = picked.length == 1 ? hits.indexOf(picked.single) : -1;
       return '${mark < 0 ? '-' : mark}|$done';
     }
