@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path;
+
+import '../packs/drawing/figure_path.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -363,7 +365,7 @@ class _MoveButton extends StatelessWidget {
               SizedBox(
                 width: 44,
                 height: 36,
-                child: CustomPaint(painter: _MoveGlyph(option, ink)),
+                child: CustomPaint(painter: MoveGlyph(option, ink)),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -396,8 +398,8 @@ class _MoveButton extends StatelessWidget {
 }
 
 /// Two axes and an arrow between them, barred when the move is not allowed.
-class _MoveGlyph extends CustomPainter {
-  const _MoveGlyph(this.option, this.colour);
+class MoveGlyph extends CustomPainter {
+  const MoveGlyph(this.option, this.colour);
 
   final Transfer option;
   final Color colour;
@@ -444,6 +446,6 @@ class _MoveGlyph extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_MoveGlyph old) =>
+  bool shouldRepaint(MoveGlyph old) =>
       old.option != option || old.colour != colour;
 }

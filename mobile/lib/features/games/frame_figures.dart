@@ -1,6 +1,9 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path, TextPainter;
+
+import '../packs/drawing/figure_path.dart';
+import '../packs/drawing/figure_text.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -306,13 +309,18 @@ class FramePainter extends CustomPainter {
         ..strokeWidth = lit ? 5 : 3
         ..strokeCap = StrokeCap.round
         ..style = PaintingStyle.stroke;
-      final path = Path()
-        ..moveTo(at(rig.pins[l.from].at).dx, at(rig.pins[l.from].at).dy);
-      if (l.bend != null) path.lineTo(at(l.bend!).dx, at(l.bend!).dy);
-      path.lineTo(at(rig.pins[l.to].at).dx, at(rig.pins[l.to].at).dy);
+      final line = [
+        at(rig.pins[l.from].at),
+        if (l.bend != null) at(l.bend!),
+        at(rig.pins[l.to].at),
+      ];
       if (l.cable) {
-        _dashed(canvas, path, paint);
+        _dashed(canvas, line, paint);
       } else {
+        final path = Path()..moveTo(line.first.dx, line.first.dy);
+        for (final p in line.skip(1)) {
+          path.lineTo(p.dx, p.dy);
+        }
         canvas.drawPath(path, paint);
       }
     }
@@ -478,14 +486,38 @@ class FramePainter extends CustomPainter {
         : knee + (b - knee) * ((fraction - 0.5) * 2);
   }
 
-  void _dashed(Canvas canvas, Path path, Paint paint) {
-    for (final metric in path.computeMetrics()) {
-      for (var d = 0.0; d < metric.length; d += 9) {
-        canvas.drawPath(
-          metric.extractPath(d, math.min(d + 5, metric.length)),
-          paint,
-        );
+  /// A dash 5 long every 9 along [line], through its corners. Measured
+  /// here rather than cut from the path, so every dash is kept exactly as
+  /// it lies: a cut piece of a path comes back in single precision, and a
+  /// figure recorded for a pack then lands a pixel's edge a shade off.
+  void _dashed(Canvas canvas, List<Offset> line, Paint paint) {
+    final lengths = [
+      for (var i = 1; i < line.length; i++) (line[i] - line[i - 1]).distance,
+    ];
+    final total = lengths.fold(0.0, (a, b) => a + b);
+    Offset at(double d) {
+      var i = 0;
+      while (i < lengths.length - 1 && d > lengths[i]) {
+        d -= lengths[i];
+        i++;
       }
+      return line[i] + (line[i + 1] - line[i]) * (d / lengths[i]);
+    }
+
+    for (var d = 0.0; d < total; d += 9) {
+      final end = math.min(d + 5, total);
+      final start = at(d);
+      final dash = Path()..moveTo(start.dx, start.dy);
+      var corner = 0.0;
+      for (var i = 0; i < lengths.length - 1; i++) {
+        corner += lengths[i];
+        if (corner > d && corner < end) {
+          dash.lineTo(line[i + 1].dx, line[i + 1].dy);
+        }
+      }
+      final stop = at(end);
+      dash.lineTo(stop.dx, stop.dy);
+      canvas.drawPath(dash, paint);
     }
   }
 
