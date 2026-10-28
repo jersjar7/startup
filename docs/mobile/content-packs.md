@@ -184,7 +184,7 @@ any layout made of them can be described without changing the app:
 | `math` | A formula set inline in a row or column, the way a block's centred formula is set on its own line (added with Fluid Mechanics, for the two numbers under Which One to Match). |
 | `answer` | An answer, tapped anywhere on what it holds. |
 | `icon` | One of the few icons the games draw (only the check of a tick box so far, added with Ethics). |
-| `tapdraw` | A drawing answered by tapping on it: by area, by the nearest mark, by the nearest mark measured across only (or up and down only, added with Mechanics of Materials), by the nearest line however far (added with Statics, for Which Arrow Is That, where every tap on the triangle picks the arrow it is closest to), or by the nearest arc within reach (added with Surveying, for Which Curve Is Sharper's two curves). With `first`, the first mark within reach wins rather than the nearest. With several picks it is drawn in layers, one per mark, so no drawing is kept for every combination of picks. |
+| `tapdraw` | A drawing answered by tapping on it: by area, by the nearest mark, by the nearest mark measured across only (or up and down only, added with Mechanics of Materials), by the nearest line however far (added with Statics, for Which Arrow Is That, where every tap on the triangle picks the arrow it is closest to) or within a reach of its own (added with Water Resources, for What the Water Touches), or by the nearest arc within reach (added with Surveying, for Which Curve Is Sharper's two curves). With `first`, the first mark within reach wins rather than the nearest. With several picks it is drawn in layers, one per mark, so no drawing is kept for every combination of picks. |
 
 Any value in a node may follow the round instead of being fixed: before and
 after the answer; the state of the answer it sits in (idle, picked, right,
@@ -375,6 +375,75 @@ problem, a drawing in a white panel, the answers as plain rows
 Every round drawing of the fourteen games and every Transportation sheet
 picture hashed the same before and after, at eight widths, day and night.
 The fourteen games are 3.9 to 8 KB to download, 5 KB on average.
+
+Water Resources, first half (2026-10-28: open channels and Manning's,
+specific energy and the jump, weirs and Hazen-Williams, pumps, the
+rational method and curve numbers, unit hydrographs and the time of
+concentration; `mobile/test/packs/water_a.dart`). Fourteen of the
+sixteen games are the panel screen: the problem, one drawing (or two,
+each bordered forest once it wins) in the white panel, a formula, the
+plain answer rows. Which Formula Fits This Weir's answers are the
+formulas themselves, answer nodes holding a `math`. What the Water
+Touches is answered on the drawing, and needed two things:
+
+- **A line with a reach.** The game measures a tap to each piece of the
+  channel's boundary (the bed, each wall up to the water, the surface,
+  each dry wall above it) and takes the nearest within 22 pixels. A
+  `tapdraw` line target was the nearest line however far, which Which
+  Arrow Is That needs; it now keeps that reach when its paint has a
+  stroke width (`Paint()..strokeWidth = 22`), and stays however far
+  without one, so Which Arrow Is That records and plays as before (its
+  parity passed again, unchanged). The pieces share their corners, so
+  the parity check and the simulator script now tap a line at its middle
+  rather than its first end; a tap at a shared corner picked the piece
+  before it.
+- **Layers.** `SectionPainter` paints in three public pieces now
+  (`paintSection`, `paintPiece`, `paintNotes`), called in the same order
+  as before. The pack keeps the section and its words once a round and
+  each piece for picked and answered, rather than the whole section once
+  per piece.
+- **A hatched shape** (`["hatch", fill, moves, step, slope, paint]`).
+  The figures hatch a channel's lining and a weir's plate with
+  `hatchIn` (`figure_ink.dart`), which starts every line from the bounds
+  of the path, numbers the engine keeps in single precision. Recorded
+  line by line, each end was that single precision number plus a double
+  one, which no straight line in the width lands on exactly; a hundred
+  thousandth of a pixel moved the V-notch plate's hatching two shades on
+  hundreds of pixels at a 390 phone, and keeping it closer (a ten
+  millionth) took Which One Runs Faster to 5.5 MB. While
+  `recordHatches` is on (`figure_hatch.dart`), a hatch is recorded as the
+  shape once and the player runs the figure's own loop on it, taking the
+  bounds from the same path, as `drawPathDashes` does for a dashed
+  outline. It is off unless a game asks: the Water Resources adapters
+  turn it on (`_hatched` in `water_a.dart`), so every game recorded
+  before records the same. On a phone `hatchIn` runs the same loop it
+  always did, moved into `hatches`.
+
+The figures' files now draw through the shims: the channel, flow, weir,
+main and hydrograph figures through the path shim (the weir plate is a
+rectangle less its notch, `Path.combine`), and the Water Resources sheet
+pictures through both, since the sheets' own painters (the two rulers,
+the row of notches, the peak bars) wrote their labels with a plain
+`TextPainter`. Nothing is kept closer than plain.
+
+One builder fix: a bend moved to where its two pieces' lines meet was
+then checked against the next bend while that one still sat on its width
+looked at, a hair up the piece after it, so a width looked at just
+before the meeting seemed to fit closer and was kept instead. What the
+Water Touches' wide swale stops growing at exactly 342 and the bend was
+kept at 341.9998, every height of the section and its dimension line
+0.00003 of a pixel off from there to 870 (554 pixels four shades out on a
+430 phone). Every bend now moves to its meeting first, and only then is
+a width looked at near the meeting tried in its place.
+Every round drawing of the sixteen games, every Water Resources sheet
+picture (the sheets of all 32 games, both halves of the chapter) and
+Filling or Emptying's pond, which shares the hydrograph figures, hashed the same
+before and after, at eight widths, day and night.
+The fix changed the recording of 31 games in other chapters (and, with
+the hatch step, six of the sixteen here); every one passed parity again,
+and the only screens still differing (Which Rate's sheet, one to seven
+pixels) differ the same with the old builder. The sixteen games are 4.3
+to 30 KB to download, 8.6 KB on average.
 
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is
