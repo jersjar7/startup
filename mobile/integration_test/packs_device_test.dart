@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -245,7 +246,7 @@ Future<void> _answerRight(
 }
 
 /// Taps the mark on a drawing that stands for answer [answer]: a
-/// circle's centre, or the middle of a tap area.
+/// circle's centre, the middle of a tap area, or halfway round an arc.
 Future<void> _tapMark(
   WidgetTester tester,
   Map<String, Object?> tap,
@@ -262,12 +263,21 @@ Future<void> _tapMark(
   double n(int k) => drawingNumber(step[k], size.width);
   await tester.tapAt(
     tester.getTopLeft(figure) +
-        (step[0] == 'rect'
-            ? Rect.fromLTRB(n(1), n(2), n(3), n(4)).center
-            : Offset(n(1), n(2))),
+        switch (step[0]) {
+          'rect' => Rect.fromLTRB(n(1), n(2), n(3), n(4)).center,
+          'arc' => _arcMiddle(
+            Rect.fromLTRB(n(1), n(2), n(3), n(4)),
+            n(5) + n(6) / 2,
+          ),
+          _ => Offset(n(1), n(2)),
+        },
   );
   await _settle(tester);
 }
+
+/// The point halfway round an arc drawn in [oval], at [angle].
+Offset _arcMiddle(Rect oval, double angle) =>
+    oval.center + Offset(math.cos(angle), math.sin(angle)) * (oval.width / 2);
 
 /// The drawing a round is answered on: the engineering grid as tall as the
 /// drawing. Found this way because the built-in games build it in
