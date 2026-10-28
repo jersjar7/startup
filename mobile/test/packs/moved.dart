@@ -7,6 +7,7 @@ import 'fluids.dart' as fluids;
 import 'materials_a.dart' as materials_a;
 import 'materials_b.dart' as materials_b;
 import 'mechanics_a.dart' as mechanics_a;
+import 'mechanics_b.dart' as mechanics_b;
 import 'statics_a.dart' as statics_a;
 import 'statics_b.dart' as statics_b;
 import 'statistics.dart' as statistics;
@@ -32,7 +33,7 @@ final movedByChapter = <String, Map<String, Map<String, Object?> Function()>>{
   'materials': {...materials_a.adapters, ...materials_b.adapters},
   'statics': {...statics_a.adapters, ...statics_b.adapters},
   'surveying': {...surveying_a.adapters, ...surveying_b.adapters},
-  'mechanics_a': mechanics_a.adapters,
+  'mechanics-materials': {...mechanics_a.adapters, ...mechanics_b.adapters},
 };
 
 /// Every moved game, by id.
