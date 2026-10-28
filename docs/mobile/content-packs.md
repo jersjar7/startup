@@ -405,6 +405,14 @@ Touches is answered on the drawing, and needed two things:
   the parity check and the simulator script now tap a line at its middle
   rather than its first end; a tap at a shared corner picked the piece
   before it.
+- **Six answers, whatever the channel.** The game's answers are the six
+  pieces a boundary can have (the bed, each wet wall, the surface, each
+  dry wall), and a channel with no freeboard has no dry wall to tap. The
+  pack keeps all six as the answers and maps each drawn piece to its
+  own (`hits`), so the answer is the same number as the game's; it first
+  listed only the pieces drawn, which numbered the answers differently
+  on such a channel (the pack audit caught it). The parity check skips a
+  wrong answer that has no mark and nothing else on screen to tap.
 - **Layers.** `SectionPainter` paints in three public pieces now
   (`paintSection`, `paintPiece`, `paintNotes`), called in the same order
   as before. The pack keeps the section and its words once a round and

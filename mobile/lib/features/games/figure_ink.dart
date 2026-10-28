@@ -74,7 +74,11 @@ void hatchIn(
     ..color = (color ?? AppColors.ink3).withValues(alpha: 0.75)
     ..strokeWidth = 0.9;
   if (recordHatches && canvas is RecordingCanvas) {
-    if (!shape.getBounds().isEmpty) canvas.recordHatch(shape, ink, step, slope);
+    // A shape with no area hatches nothing (see [hatches]), so nothing is
+    // recorded for it.
+    final bounds = shape.getBounds();
+    if (bounds.isEmpty) return;
+    canvas.recordHatch(shape, ink, step, slope);
     return;
   }
   hatches(canvas, shape, ink, step, slope);
