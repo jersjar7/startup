@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart' show CustomPainter;
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
+import 'figure_dash.dart' show dashes;
 
 /// Plays back a figure recorded by the pack builder (ADR 0030).
 ///
@@ -132,6 +133,16 @@ void playDrawing(Canvas canvas, Size size, List<Object?> ops) {
           Offset(n(op[1]), n(op[2])),
           Offset(n(op[3]), n(op[4])),
           _paint(op[5], w),
+        );
+      case 'dash':
+        // A whole dashed line, drawn by the figures' own loop.
+        dashes(
+          canvas,
+          Offset(n(op[1]), n(op[2])),
+          Offset(n(op[3]), n(op[4])),
+          _paint(op[7], w),
+          n(op[5]),
+          n(op[6]),
         );
       case 'rect':
         canvas.drawRect(_rect(op, 1, w), _paint(op[5], w));

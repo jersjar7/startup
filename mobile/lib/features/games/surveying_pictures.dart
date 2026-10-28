@@ -25,6 +25,7 @@ import 'mechanics_pictures.dart' show ConceptPicture, ConceptPair;
 import 'profile_figures.dart';
 import 'survey_figures.dart';
 import 'traverse_figures.dart';
+import '../packs/drawing/figure_dash.dart' show drawDashes;
 
 // ---------------------------------------------------------------------------
 // Bearings
@@ -647,14 +648,14 @@ class _PairPainter extends CustomPainter {
       ..color = AppColors.ink3
       ..strokeWidth = 1;
     const step = 7.0;
-    final from = Offset(left, bottom);
-    final to = spot(1, 1);
-    final span = (to - from).distance;
-    for (var d = 0.0; d < span; d += step * 2) {
-      final a = from + (to - from) / span * d;
-      final b = from + (to - from) / span * math.min(d + step, span);
-      canvas.drawLine(a, b, dash);
-    }
+    drawDashes(
+      canvas,
+      Offset(left, bottom),
+      spot(1, 1),
+      dash,
+      on: step,
+      every: step * 2,
+    );
 
     canvas.drawCircle(right_, 5.5, Paint()..color = AppColors.forest);
     text('(340, 880)', right_ + const Offset(10, -6), color: AppColors.forest);

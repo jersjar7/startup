@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../packs/drawing/figure_dash.dart';
 import 'figure_ink.dart';
 
 /// The pieces of a circular curve that a road alignment is made of.
@@ -269,20 +270,14 @@ class AlignPainter extends CustomPainter {
     final centre = f.crest + Offset(0, f.r);
     final chordMid = Offset((f.pc.dx + f.pt.dx) / 2, (f.pc.dy + f.pt.dy) / 2);
 
-    void dashed(Offset a, Offset b, Color color, double w) {
-      final run = b - a;
-      if (run.distance < 1) return;
-      final unit = run / run.distance;
-      for (var k = 0.0; k < run.distance; k += 8) {
-        canvas.drawLine(
-          a + unit * k,
-          a + unit * math.min(k + 4, run.distance),
-          Paint()
-            ..color = color
-            ..strokeWidth = w,
-        );
-      }
-    }
+    void dashed(Offset a, Offset b, Color color, double w) => drawDashes(
+      canvas,
+      a,
+      b,
+      Paint()
+        ..color = color
+        ..strokeWidth = w,
+    );
 
     // The two tangents, running in from off the sheet through the PI, and
     // the back tangent carried on past it so the turn can be marked.

@@ -70,6 +70,18 @@ What is kept:
   (`{"n": [count, width, count, ...]}`). Without it, a dashed line made
   every few pixels of width a separate drawing: one trench game was 200 KB
   to download, and is 5 KB with it.
+- **A whole dashed line** (`["dash", ax, ay, bx, by, on, every, paint]`),
+  added 2026-10-28 with Surveying. A run still kept every dash of a line
+  along a slope whose run follows the width: each dash end then lies on a
+  curve in the width, and the last dash is cut short somewhere different
+  at every width, so Road or Grade Line took 1.8 MB to download and Where
+  It Flattens Out 6.7 MB. A figure that draws its dashes through
+  `drawDashes` (`lib/features/packs/drawing/figure_dash.dart`) is recorded
+  as the line's two ends, and the player runs the figure's own loop on
+  them: 7.7 KB and 15 KB. On a phone's real canvas `drawDashes` is the
+  same loop the figures had, so the built-in drawings did not change by a
+  pixel (every Surveying drawing and sheet picture compared before and
+  after).
 - **Bands** (`{"bands": [[from width, steps], ...]}`) for a drawing that
   really changes at some width.
 - **Concept sheet pictures**: one drawing, two side by side, or a column of
