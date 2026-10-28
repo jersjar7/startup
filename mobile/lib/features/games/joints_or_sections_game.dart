@@ -56,7 +56,7 @@ class RouteRound {
 }
 
 /// The lesson's own parallel chord truss.
-const _truss = Truss(
+const routeTruss = Truss(
   joints: [
     Joint('A', Offset(0, 0)),
     Joint('B', Offset(4, 0)),
@@ -260,7 +260,7 @@ class _JointsOrSectionsGameState extends State<JointsOrSectionsGame> {
                 major: 90,
                 child: CustomPaint(
                   painter: SectionPointsPainter(
-                    truss: _truss,
+                    truss: routeTruss,
                     target: r.target,
                   ),
                   child: const SizedBox.expand(),

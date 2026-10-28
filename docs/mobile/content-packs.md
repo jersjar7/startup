@@ -288,6 +288,51 @@ and one way to tap:
   layer runs the width of the section. The other way round from
   `"axis": "x"`.
 
+Structural, first half (2026-10-28: determinacy, truss methods, virtual
+work, indeterminate beams, design loads, influence lines) needed nothing
+new. All fourteen games are the one screen the surveying panel games use:
+a drawing in a white panel, a formula under it, plain answer rows. Where
+Do You Take Moments lights the point as it is picked, so its panel holds a
+drawing per pick (`perPick`). Its figures now draw through the path and
+text shims; two private names became public for the adapters (the truss
+in Joints or Sections, and how many load rows sets the panel's height in
+Which One Controls). Every built-in Structural screen hashed the same
+before and after. The fourteen games are 3.5 to 17 KB to download, about
+7 KB on average.
+
+One builder fix came with it: **a bend on a width looked at.** How Much
+Comes Off draws two hatched squares that grow with the width until, at
+exactly 300 wide, the height stops them. The builder placed that bend
+where the lines either side of it meet, 299.99998, because the hatching
+starts from a path's bounds, which the engine keeps in single precision,
+so neither line is exact. On a 320 phone every hatch line lands on a
+whole pixel, and the hundred-thousandth of a pixel was enough to move
+thousands of them a shade or two. Where a width looked at sits within a
+hundredth of a pixel of the meeting and, taken with its own value as the
+corner, fits every value closer, it is the corner instead. Keeping the
+figure closer (`closer`) also matched, but cost 1.6 MB.
+
+Structural, second half (2026-10-28: Where Do You Park It, the
+reinforced concrete beams and columns, the steel beams, columns and
+tension members) needed nothing new on the phone or in the builder. All
+fourteen share one screen: the problem, then either a drawing in a
+bordered panel with a formula under it, or once answered a cream box of
+two formulas, then plain answer rows. That is the plain blocks plus one
+`box` node (`mobile/test/packs/structural_b.dart`). Three files now draw
+through the shims: the steel figures (the column's buckled bows are
+quadratic curves, and traced they cost Which Axis Wins Now 800 KB to
+download, 3.6 KB kept as moves), the reinforced concrete figures (a
+traced square to clip the hatch to came back with corners a float32 hair
+off, a different one at nearly every width) and the Structural sheet
+pictures (their own labels were a plain text painter, which cannot be
+recorded). The two column cage sheets are kept closer (`closer`): their
+hatch, fitted to a section whose edges sit on float32 bounds, drew three
+lines a few shades off across a pair's width at the plain tolerance,
+about 600 pixels, over ADR 0031's share. Every
+round drawing of the fourteen games and every picture on all 28
+Structural sheets hashed the same before and after, at eight widths, day
+and night.
+
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is
 out, a new kind of block is a new game type (or a new version of this one),

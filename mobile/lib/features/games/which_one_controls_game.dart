@@ -146,6 +146,10 @@ const controlRounds = <ControlRound>[
   ),
 ];
 
+/// How many service loads the figure will draw, which decides how tall the
+/// panel has to be.
+int loadRows(Bundle b) => 2 + (b.snow > 0 ? 1 : 0) + (b.roofLive > 0 ? 1 : 0);
+
 class _WhichOneControlsGameState extends State<WhichOneControlsGame> {
   late final BoardSession _session = BoardSession(
     gameId: 'which-one-controls',
@@ -167,11 +171,6 @@ class _WhichOneControlsGameState extends State<WhichOneControlsGame> {
   }
 
   ControlRound get _round => controlRounds[_session.round];
-
-  /// How many service loads the figure will draw, which decides how tall the
-  /// panel has to be.
-  static int _rows(Bundle b) =>
-      2 + (b.snow > 0 ? 1 : 0) + (b.roofLive > 0 ? 1 : 0);
 
   @override
   Widget build(BuildContext context) {
@@ -231,8 +230,8 @@ class _WhichOneControlsGameState extends State<WhichOneControlsGame> {
           const SizedBox(height: 12),
           Container(
             height: answered
-                ? 90.0 + 20 * (_rows(r.bundle) + 3)
-                : 40.0 + 20 * _rows(r.bundle),
+                ? 90.0 + 20 * (loadRows(r.bundle) + 3)
+                : 40.0 + 20 * loadRows(r.bundle),
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(12),
