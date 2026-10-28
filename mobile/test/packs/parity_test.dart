@@ -24,7 +24,6 @@ import 'package:mobile/features/packs/drawing/drawing_painter.dart';
 import 'package:mobile/features/packs/pack_model.dart';
 
 import '../support/fonts.dart';
-import 'builder.dart' show buildGames;
 import 'moved.dart';
 
 /// Checks 1 to 4 of the migration plan (docs/mobile/
@@ -53,28 +52,26 @@ const _game = String.fromEnvironment('PARITY_GAME');
 final _chapter = _only.isEmpty ? movedGames : movedByChapter[_only]!;
 final _games = _game.isEmpty ? _chapter : {_game: _chapter[_game]!};
 
-late Map<String, Object?> _pack;
+/// Each game's pack data, built the first time one of its runs needs it,
+/// and sent through JSON the way a downloaded pack arrives. Built game by
+/// game rather than all at the start: every moved game at once outgrew the
+/// test runner's twelve minutes for setting up.
+final _built = <String, Map<String, Object?>>{};
+
+Map<String, Object?> _packGame(String id) => _built.putIfAbsent(
+  id,
+  () => (jsonDecode(jsonEncode(_games[id]!())) as Map).cast<String, Object?>(),
+);
 
 void main() {
-  setUpAll(() async {
-    await loadBrandFonts();
-    // Built here rather than read from build/packs/, and sent through JSON
-    // the way a downloaded pack arrives.
-    final games = await buildGames(
-      _games,
-      () => Future<void>.delayed(Duration.zero),
-    );
-    _pack = jsonDecode(jsonEncode({'games': games})) as Map<String, Object?>;
-  });
+  setUpAll(loadBrandFonts);
 
   for (final id in _games.keys) {
     for (final dark in [false, true]) {
       for (final phone in _phones) {
         final name = '$id ${dark ? 'night' : 'day'} ${phone.toInt()}';
         testWidgets(name, (tester) async {
-          final game = PackGame(
-            ((_pack['games']! as Map)[id]! as Map).cast<String, Object?>(),
-          );
+          final game = PackGame(_packGame(id));
           final before = await _play(
             tester,
             gameScreenFor(id),
