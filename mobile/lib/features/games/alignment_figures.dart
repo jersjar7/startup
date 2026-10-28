@@ -184,7 +184,7 @@ class AlignPainter extends CustomPainter {
   /// A point on one of the two curves, part way round: 0 is [bend], the
   /// outer one; 1 is the second curve tucked inside it.
   static Offset curveSpot(Size size, Bend2 bend, Bend2 other, int which) {
-    final (centre, r, half) = _arcOf(size, bend, other, which);
+    final (centre, r, half) = arcOf(size, bend, other, which);
     return centre + Offset(math.sin(half * 0.3) * r, -math.cos(half * 0.3) * r);
   }
 
@@ -194,7 +194,7 @@ class AlignPainter extends CustomPainter {
     int? best;
     var near = 24.0;
     for (final which in [0, 1]) {
-      final (centre, r, half) = _arcOf(size, bend, other, which);
+      final (centre, r, half) = arcOf(size, bend, other, which);
       final d = tap - centre;
       // Angle from straight up, which is where both arcs are centred.
       final angle = math.atan2(d.dx, -d.dy);
@@ -215,7 +215,10 @@ class AlignPainter extends CustomPainter {
     return best;
   }
 
-  static (Offset, double, double) _arcOf(
+  /// One of the two curves as its center, its radius and half the angle it
+  /// turns through: 0 is [bend], 1 the curve tucked inside it. Public so a
+  /// content pack can record the curves as the places a tap picks them.
+  static (Offset, double, double) arcOf(
     Size size,
     Bend2 bend,
     Bend2 other,
