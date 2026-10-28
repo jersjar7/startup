@@ -792,8 +792,52 @@ List<(double, double)> _corners(
     if (_fits(w, v, moved, keep[c - 1], keep[c + 1], tol)) {
       corners[c] = moved[c];
     }
+    // Where the lines meet can still be a hair off a bend that falls on a
+    // width looked at (How Much Comes Off's squares stop growing at exactly
+    // 300 wide, and the meeting came out at 299.99998: its hatching, every
+    // line on a whole pixel at a 320 phone, drew thousands of pixels a
+    // shade or two out). A width looked at near the meeting, with its own
+    // value, is the corner instead when every value then fits closer.
+    // (Never exactly: the figure's hatching starts from the bounds of a
+    // path, which the engine keeps in single precision.)
+    var best = _worst(w, v, corners, keep[c - 1], keep[c + 1]);
+    for (var i = from + 1; i < to; i++) {
+      if ((w[i] - wx).abs() > 0.01 || best < _exact) continue;
+      final at = [...corners]..[c] = (w[i], v[i]);
+      final worst = _worst(w, v, at, keep[c - 1], keep[c + 1]);
+      if (worst < best && worst <= tol) {
+        best = worst;
+        corners[c] = at[c];
+      }
+    }
   }
   return corners;
+}
+
+/// Near enough to a straight piece to be on it.
+const _exact = 1e-9;
+
+/// The furthest any value from index [from] to [to] sits from the joins
+/// of [corners].
+double _worst(
+  List<double> w,
+  List<double> v,
+  List<(double, double)> corners,
+  int from,
+  int to,
+) {
+  var worst = 0.0;
+  for (var i = from; i <= to; i++) {
+    var j = 0;
+    while (j + 2 < corners.length && w[i] > corners[j + 1].$1) {
+      j++;
+    }
+    final (w0, v0) = corners[j];
+    final (w1, v1) = corners[j + 1];
+    final off = (v0 + (v1 - v0) * (w[i] - w0) / (w1 - w0) - v[i]).abs();
+    if (off > worst) worst = off;
+  }
+  return worst;
 }
 
 /// Whether the joins of [corners] stay within [tol] of every value from
