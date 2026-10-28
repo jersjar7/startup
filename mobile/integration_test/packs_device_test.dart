@@ -124,12 +124,15 @@ void main() {
       final rounds = game.rounds;
       for (var i = 0; i < rounds.length; i++) {
         await _answerRight(tester, game.type, rounds[i]);
-        // A game may name its button (`lock`, as Grade Sense's "Lock the
+        // A run of moves ends on its last move, with nothing to lock in. A
+        // game may name its button (`lock`, as Grade Sense's "Lock the
         // order").
-        await _tap(
-          tester,
-          find.text((game.json['lock'] as String?) ?? 'Lock it in'),
-        );
+        if (rounds[i]['steps'] == null) {
+          await _tap(
+            tester,
+            find.text((game.json['lock'] as String?) ?? 'Lock it in'),
+          );
+        }
         await _tap(
           tester,
           find.text(i == rounds.length - 1 ? 'See how you did' : 'Next'),
@@ -197,6 +200,25 @@ Future<void> _answerRight(
       final answer = round['answer']! as int;
       final blocks = ((round['screen'] as List?) ?? const [])
           .cast<Map<String, Object?>>();
+      // Every move of a run, in turn (Run the Loop).
+      if (round['steps'] case final List steps) {
+        for (final step in steps.cast<Map<String, Object?>>()) {
+          await _tap(tester, _option(blocks, options, step['answer']! as int));
+        }
+        return;
+      }
+      // A pick moved with buttons from where it starts (Stretch It to Fit).
+      if (round['start'] case final int start) {
+        for (var now = start; now != answer; now += answer > now ? 1 : -1) {
+          await _tap(
+            tester,
+            find.byIcon(
+              answer > now ? Icons.add_rounded : Icons.remove_rounded,
+            ),
+          );
+        }
+        return;
+      }
       final panels = blocks.where((b) => b['panels'] != null).firstOrNull;
       final tap = _tapIn(blocks);
       final hits = (tap?['hits'] as List?)?.cast<int>() ?? const <int>[];

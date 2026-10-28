@@ -281,7 +281,63 @@ Future<_Run> _playing(
     final i = _roundOnScreen(tester, game);
     final k = seen[i] = (seen[i] ?? -1) + 1;
     final r = game.rounds[i];
+    // A round played as a run of moves has no lock-in: try k plays k right
+    // moves and then a wrong one, each try a different wrong one, and the
+    // last try plays every move right.
+    if (r['steps'] case final List steps) {
+      final options = (r['options']! as List).cast<String>();
+      final moves = [for (final s in steps) (s as Map)['answer']! as int];
+      final right = math.min(k, moves.length);
+      for (var s = 0; s < right; s++) {
+        await _tapOn(tester, _option(r, options, moves[s]));
+        await tester.pump();
+        if (s < moves.length - 1) await shot('r$i try $k move $s');
+      }
+      if (k < moves.length) {
+        final wrong = [
+          for (var o = 0; o < options.length; o++)
+            if (o != moves[k]) o,
+        ];
+        await _tapOn(tester, _option(r, options, wrong[k % wrong.length]));
+      }
+      await shot('r$i try $k answered');
+      if (find.text('Next').evaluate().isNotEmpty) {
+        await _tapOn(tester, find.text('Next'));
+        await tester.pump();
+      }
+      continue;
+    }
     switch (game.type) {
+      case 'pick-several' when r['order'] == 'fill':
+        // Rows filled in turn: the first try fills two, empties the first
+        // and fills on with whatever comes next; the second fills every
+        // row right but the last; then every row right.
+        final options = (r['options']! as List).cast<String>();
+        final answer = (r['answer']! as List).cast<int>();
+        final need = r['need']! as int;
+        Future<void> fill(int o) async {
+          await _tapOn(tester, _option(r, options, o));
+          await tester.pump();
+        }
+        if (k == 0) {
+          await fill(0);
+          await fill(1);
+          await shot('r$i try $k two filled');
+          await _tapOn(tester, find.byKey(const ValueKey('slot-0')));
+          await tester.pump();
+          await shot('r$i try $k emptied');
+          for (var o = 2; o < need + 1; o++) {
+            await fill(o % options.length);
+          }
+        } else {
+          for (var row = 0; row < need; row++) {
+            await fill(
+              k == 1 && row == need - 1
+                  ? (answer[row] + 1) % options.length
+                  : answer[row],
+            );
+          }
+        }
       case 'pick-several':
         // Everything that does not stand alone, then what stands alone
         // (or one answer), then exactly the right ones; a tap and an
@@ -375,6 +431,20 @@ Future<_Run> _playing(
                 everyWrong.last,
               ];
         final pick = k < wrong.length ? wrong[k] : answer;
+        // A pick moved up and down with buttons from where it starts.
+        if (r['start'] case final int start) {
+          for (var now = start; now != pick; now += pick > now ? 1 : -1) {
+            await _tapOn(
+              tester,
+              find.byIcon(
+                pick > now ? Icons.add_rounded : Icons.remove_rounded,
+              ),
+            );
+            await tester.pump();
+            if ((now - start).abs() == 1) await shot('r$i try $k stepped');
+          }
+          break;
+        }
         final drawn = _panelCount(r);
         final tap = _tapBlock(r);
         final hits = (tap?['hits'] as List?)?.cast<int>() ?? const <int>[];
@@ -594,13 +664,18 @@ int _roundOnScreen(WidgetTester tester, PackGame game) {
           .every((w) => find.text(w).evaluate().isNotEmpty))
         i,
   ];
-  if (matching.length == 1) return matching.single;
-  // Rounds with the same words (two of Discriminant Gate's differ only in
-  // their drawing): the board says which round it is on.
+  if (matching.isEmpty) throw StateError('No round on screen');
+  // Rounds told apart only by a formula or a drawing (two of Discriminant
+  // Gate's differ only in their drawing): the round the board is on, which
+  // both games number the same.
   if (matching.length > 1) {
-    return tester.widget<BoardShell>(find.byType(BoardShell)).session.round;
+    final shell = find.byType(BoardShell);
+    if (shell.evaluate().isNotEmpty) {
+      final at = tester.widget<BoardShell>(shell.first).session.round;
+      if (matching.contains(at)) return at;
+    }
   }
-  throw StateError('No round on screen');
+  return matching.first;
 }
 
 /// Answer [i] when it is a bare tap area around something (`plain`, no
@@ -719,6 +794,8 @@ Finder _option(Map<String, Object?> round, List<String> options, int i) {
   final screen = ((round['screen'] as List?) ?? const [])
       .cast<Map<String, Object?>>();
   if (_plainAnswer(screen, i) case final found?) return found;
+  // An answer keyed as the built-in game keys its own (a spreadsheet cell).
+  if (_keyOf(screen, i) case final String key) return find.byKey(ValueKey(key));
   final tiles = _tileAnswers(screen);
   final at = tiles.indexWhere((t) => t.$1 == i);
   if (at >= 0) {
@@ -763,6 +840,22 @@ List<(int, double)> _tileAnswers(List<Map<String, Object?>> blocks) => [
     ],
   ],
 ];
+
+/// The key answer [i] carries on a screen of nodes, if it has one.
+String? _keyOf(List<Map<String, Object?>> blocks, int i) {
+  for (final b in blocks) {
+    if (b['k'] == 'answer' && b['i'] == i && b['key'] is String) {
+      return b['key']! as String;
+    }
+    if (b['k'] == null) continue;
+    final inner = <Map<String, Object?>>[
+      if (b['child'] case final Map<String, Object?> c) c,
+      if (b['c'] case final List c) ...c.whereType<Map<String, Object?>>(),
+    ];
+    if (_keyOf(inner, i) case final String key) return key;
+  }
+  return null;
+}
 
 /// The tiles on screen, in order: the only buttons on their round with
 /// those corners.

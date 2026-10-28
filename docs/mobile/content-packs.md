@@ -655,6 +655,88 @@ at exactly 60 could differ); Slide to the Flat Spot rounds the finger to
 the nearest whole number, which on a tap exactly halfway between two
 picks the lower in the pack and the upper in the game.
 
+The two halves were built side by side and taught the renderer some of
+the same things under different names (a fade, a wrap, a slot tapped
+empty, a value by how the round ended or whether an answer is picked).
+They were joined on the first half's names, so each is one node or one
+value; the second half's node helpers in `nodes.dart` write those names.
+
+Mathematics, second half (2026-10-28: integrals, l'Hopital's rule,
+vectors, the dot and cross products, spreadsheets, programming and
+numerical methods) were among the first games built, each laid out its
+own way, so every screen is written as screen nodes
+(`mobile/test/packs/mathematics_b.dart`). Four of the 24 play in ways no
+earlier game did, and the renderer learned each:
+
+- **A run of moves** (`steps` on a round). Run the Loop is played move
+  by move: the right move goes on to the next step, the last right move
+  finishes the round, and any wrong one ends it there. Each step has its
+  right move (`answer`) and its own why for every wrong one (`why`, one
+  per answer, used as the feedback). There is no Lock it in: the button
+  reads the game's `button` words and stays off. A value may follow the
+  step (`{"step": [one per step]}`), and the buttons show the right move
+  for the step the round stopped at and the wrong one taken.
+  `{"open", "won", "lost"}` follows how the round ended, for
+  "THE LIMIT IS" shown only after a finished loop.
+- **A pick worked with buttons** (`start` on a round, and a `step` node).
+  Stretch It to Fit's multiplier starts at one and is moved by a minus
+  and a plus button, kept to the answers there are. `start` is what is
+  picked before anything is touched (so Lock it in is on from the
+  start), and a `step` node is a button that moves the pick by `by`. The
+  arrow is a layer of its own over the grid, one recorded per multiplier
+  (a `draw` node may hold `layers`, each a value that may be nothing).
+- **Rows filled in turn** (`"order": "fill"`, several picks). Fill the
+  Trace drops each tapped value into the first empty row, the same value
+  as often as it is tapped, and a filled row is emptied by tapping it
+  (a `slot` node, keyed `slot-k` as the built-in rows are). Lock it
+  in waits for every row, and the round is right when each row holds its
+  own value. `{"fill": k, ...}` follows how row k stands: the next to
+  fill, filled, empty, or once answered right or wrong.
+- **One mark of 169, pinned** (`pin` layers on a `tapdraw`, and `"axis":
+  "box"`). Land the Resultant is answered by tapping one point of a 13 by
+  13 lattice, the point the tap rounds to. A drawing per pick would be
+  169 drawings a round; instead the ring that marks a point is recorded
+  once, around the origin, and the phone draws it on the picked point
+  (`"at": "pick"`, ember, then red if wrong) and the right one (`"at":
+  "truth"`, forest). `"axis": "box"` measures a tap by the larger of
+  across and up, which with the outer of two equally near points first is
+  exactly rounding to the lattice. Where the Shadow Falls pins the same
+  ring to the marks along its member.
+
+Smaller additions: a `box` may have a least width and height (`minw`,
+`minh`) and a border on its top and left only (`"edge": "topLeft"`, a
+table cell); a `row` may be as narrow as what it holds (`"size": "min"`);
+a formula may be set to the left and left at its own size (`align`,
+`"fit": false`); a heading may set its own line height; the nodes `fade`
+(a child at an opacity, which may follow the round) and `wrap`
+(children in runs), and four icons (the arrows up and down a slope, plus
+and minus). `{"of": i, "on", "off"}` follows whether answer i is picked (Pick u
+greys both rows while "no substitution fits" is). A round's `wrong` may
+name the verdict per set of picks, keyed by the picks in order, comma
+separated (Pick u says which half of the pair went wrong). Picking in a
+group now clears an answer that stands alone, and beside groups an
+answer that stands alone is kept when picked again, as Pick u's "no
+substitution fits" is. An `answer` may carry the `key` the built-in game
+gives the same button (`cell-B2`), so a test can find it in both.
+
+Three app changes came with it, none changing a pixel: the vector, cross
+product, root finding and Mathematics sheet figures draw through the
+path, text and dash shims; the vector figures' ring and arrow are public
+(`VectorPainter.drawMark`, `VectorPainter.drawArrow`) so a pack can
+record each on its own; and Run the Loop's why for a wrong move is a
+public function (`loopSlipWhy`). Every round drawing those figures serve
+and every Mathematics sheet picture hashed the same before and after, at
+eight widths, day and night.
+
+Two built-in answers are a painted box under a bare tap area, not an
+inked button: a spreadsheet cell in Copy It Down and a piece of the
+formula in Which Happens First. Filled from underneath, as a button is,
+their edges landed on part pixels a few shades differently (84 to 340
+pixels a screen); so the pack paints their fill in the box itself and
+leaves the button clear. The 24 games are 2.3 to 43 KB to download, 10 KB
+on average; the largest are Follow the Tangent and Can It Start Here,
+whose curve is redrawn for every pick.
+
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is
 out, a new kind of block is a new game type (or a new version of this one),
