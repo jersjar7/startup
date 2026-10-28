@@ -97,11 +97,18 @@ int _runCount(Object? count) => switch (count) {
 /// edge pixel at the plain tolerance.
 const _moveTol = 1e-5;
 
-/// The tolerance for the numbers inside [op]: tighter for a rotation and
-/// for a move of the canvas.
+/// How close a path's matrix (its `T` move) is kept: its scale multiplies
+/// every point of a shape drawn in world units, so at the plain tolerance
+/// the edge of a Statics cross section landed a row of pixels two shades
+/// out.
+const _matrixTol = 1e-8;
+
+/// The tolerance for the numbers inside [op]: tighter for a rotation, for
+/// a move of the canvas, and for a path's matrix.
 double _tolFor(List<Object?> op, double tol) => switch (op.firstOrNull) {
   'rot' => _angleTol,
   'tr' => _moveTol,
+  'T' => _matrixTol,
   _ => tol,
 };
 
@@ -145,6 +152,7 @@ Object _recorded(
   for (var w = lo; w < hi; w += 25) {
     _refine(at, w, (w + 25).clamp(lo, hi), widths);
   }
+  _seeLoneBands(at, widths);
   final sorted = widths.toList()..sort();
   stats['drawings'] = stats['drawings']! + 1;
   stats['recordings'] = stats['recordings']! + cache.length * 2;
@@ -278,6 +286,37 @@ void _refine(
   if (reshaped ? b - a > 0.25 : !_straight(ta, tm, tb, a, m, b)) {
     _refine(at, a, m, out);
     _refine(at, m, b, out);
+  }
+}
+
+/// Looks again at every shape the search saw at one width only.
+///
+/// The search stops splitting a change of shape at a quarter of a pixel,
+/// so a shape held for less than about that between two others can be
+/// seen at a single width, and a band seen once is kept as constants: the
+/// last dash of Along It or Not's cable, cut short for a third of a pixel
+/// of width around a 320 phone, was played back two hundredths of a pixel
+/// off along the whole cable. Each such band is found end to end and
+/// searched like any other stretch.
+void _seeLoneBands(List<Object?> Function(double) at, Set<double> widths) {
+  final sorted = widths.toList()..sort();
+  final bands = <List<double>>[[]];
+  for (final w in sorted) {
+    if (bands.last.isNotEmpty && !_sameShape(at(bands.last.last), at(w))) {
+      bands.add([]);
+    }
+    bands.last.add(w);
+  }
+  for (var i = 0; i < bands.length; i++) {
+    if (bands[i].length > 1) continue;
+    final w = bands[i].single;
+    final start = i == 0 ? w : _boundary(at, bands[i - 1].last, w);
+    final end = i == bands.length - 1
+        ? w
+        : _boundary(at, w, bands[i + 1].first) - 2 * _pin;
+    if (end - start > 2 * _pin && _sameShape(at(start), at(w))) {
+      _refine(at, start, end, widths);
+    }
   }
 }
 
@@ -726,12 +765,29 @@ List<(double, double)> _corners(
   for (var c = 1; c < keep.length - 1; c++) {
     final k = keep[c];
     if (k < 2 || k + 2 >= w.length) continue;
-    double slope(int i, int j) => (v[j] - v[i]) / (w[j] - w[i]);
-    final b1 = slope(k - 2, k - 1), b2 = slope(k + 1, k + 2);
+    // Each piece's line through two widths well inside it: the widths next
+    // to a bend are looked at a thousandth of a pixel apart, too close to
+    // find where the lines meet, and the widths at the ends of a piece may
+    // already be a hair past a bend (Along It or Not's arrows, bending
+    // where the drawing stops growing with the width, were 0.00004 of a
+    // pixel out on a 390 phone and moved a row of edge pixels six shades).
+    (double, double) line(int from, int to) {
+      final (i, j) = to - from >= 4
+          ? (from + (to - from) ~/ 4, to - (to - from) ~/ 4)
+          : (from, to);
+      final b = (v[j] - v[i]) / (w[j] - w[i]);
+      return (v[i] - b * w[i], b);
+    }
+
+    final from = keep[c - 1] < k - 1 ? keep[c - 1] : k - 2;
+    final to = keep[c + 1] > k + 1 ? keep[c + 1] : k + 2;
+    final (a1, b1) = line(from, k - 1);
+    final (a2, b2) = line(k + 1, to);
     if ((b1 - b2).abs() < 1e-12) continue;
-    final a1 = v[k - 1] - b1 * w[k - 1], a2 = v[k + 1] - b2 * w[k + 1];
     final wx = (a2 - a1) / (b1 - b2);
-    if (!(wx > w[k - 1] && wx < w[k + 1])) continue;
+    // The bend may be a sample or two before the width kept for it: the
+    // values just past it still fit the straight piece before it.
+    if (!(wx > w[from] && wx < w[to])) continue;
     final moved = [...corners]..[c] = (wx, a1 + b1 * wx);
     if (_fits(w, v, moved, keep[c - 1], keep[c + 1], tol)) {
       corners[c] = moved[c];
