@@ -26,8 +26,8 @@ chapter.
 | Surveying | 23 | 251 KB | Which Traverse Closed Better, 28 KB |
 | Mechanics of Materials | 27 | 250 KB | How Far Has It Yielded, 63 KB |
 | Structural | 28 | 159 KB | Where Do You Take Moments, 15 KB |
-| Transportation (phase 0 game) | 1 | 4 KB | Per Million What, 4 KB |
-| **Whole pack, version 13** | **232** | **2.28 MB** | |
+| Transportation | 29 | 271 KB | Crest or Sag, 105 KB |
+| **Whole pack, version 14** | **260** | **2.55 MB** | |
 
 The limits the builder enforces are 250 KB for any one game and 25 KB on
 average. The pack grows by about 10 KB a game (Statics, all drawings, ran
@@ -504,6 +504,35 @@ What else the move needed:
 - Two private names became public for the adapters (the truss in Joints
   or Sections, and the load rows in Which One Controls).
 
+## Transportation (28 games), 2026-10-28
+
+Moved, published in FE Civil pack version 14 (260 games, 2.55 MB to
+download; Transportation is 271 KB of it, counting Per Million What,
+which moved in phase 0). Not switched on. All 29 Transportation games are
+now in the pack.
+
+The adapters are in `mobile/test/packs/transportation_a.dart` (stopping
+sight distance through truck equivalents) and `transportation_b.dart`
+(trip generation through pavement design), written side by side and
+registered together as one chapter. Every game is the standard screen
+Per Million What has had since phase 0, so neither the app nor the
+builder needed anything new.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 168 of 168 runs pass, all 28 games pixel for pixel on every screen, every round played. |
+| Size | 271 KB for the chapter. The two largest, Crest or Sag (105 KB) and How Much Bank (50 KB), draw a car that rides a curve and tilts with the road; every other game is under 21 KB. |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 260 pack games played to the end. |
+| Everything else | 5,236 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What else the move needed:
+
+- The vertical curve, traffic flow, sign, pavement and rigid pavement
+  figures switched to the recordable path and text. Nothing draws
+  differently: the helpers hashed every round drawing and sheet picture
+  that use them before and after (1,264 and 3,152 drawings at eight
+  widths, day and night), all identical.
+
 ## Notes for after (not changed during the move)
 
 1. **Three Dynamics formulas run off a small phone.** On a phone 320
@@ -542,3 +571,11 @@ What else the move needed:
    (93), More, Less or the Same (81), Factored or Service (63), Enough or
    Too Many (47), and about 25 in three steel and concrete games. Fix: as
    note 4.
+
+6. **How Much Bank could be smaller.** Its car turns with the road, and
+   the builder's turned-figure shortcut assumes the run along the road is
+   positive at width zero. Here it is the width minus 46, so the shortcut
+   gives up and the angle is kept bend by bend (50 KB). Flipping the sign
+   for such a run should shrink it a lot; not measured. Test: make the
+   change, rebuild this one game and compare, then rebuild the pack and
+   compare every game whose recording changed.
