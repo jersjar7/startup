@@ -22,12 +22,17 @@ chapter.
 | Ethics | 21 | 84 KB | Who Has to Agree, 16 KB |
 | Fluid Mechanics | 21 | 185 KB | Where It Pushes, 36 KB |
 | Materials | 23 | 141 KB | What This Job Needs, 15 KB |
+| Statics | 23 | 435 KB | Where Do You Cut, 94 KB |
+| Surveying | 23 | 251 KB | Which Traverse Closed Better, 28 KB |
+| Mechanics of Materials | 27 | 250 KB | How Far Has It Yielded, 63 KB |
+| Structural | 28 | 159 KB | Where Do You Take Moments, 15 KB |
 | Transportation (phase 0 game) | 1 | 4 KB | Per Million What, 4 KB |
-| **Whole pack, version 9** | **131** | **1.15 MB** | |
+| **Whole pack, version 13** | **232** | **2.28 MB** | |
 
 The limits the builder enforces are 250 KB for any one game and 25 KB on
-average. The pack grows by about 9 KB a game, so all 375 games should come
-to roughly 3 to 4 MB, about one phone photo.
+average. The pack grows by about 10 KB a game (Statics, all drawings, ran
+to 19 KB a game), so all 375 games should come to roughly 4 MB, about one
+phone photo.
 
 ## Construction (10 games), 2026-10-27
 
@@ -343,6 +348,162 @@ What else the move needed:
 - **Fixed in both versions:** Which One Moves Most said "Which One Biggest
   Most" on its done screen.
 
+## Statics (23 games), 2026-10-28
+
+Moved, published in FE Civil pack version 10 (154 games, 1.60 MB to
+download; Statics is 435 KB of it, the heaviest chapter so far because
+nearly every round is a drawing). Not switched on.
+
+The adapters are in `mobile/test/packs/statics_a.dart` (forces through
+trusses) and `statics_b.dart` (frames through second moments), written
+side by side and registered together as one chapter. The app gained:
+
+- **A drawing answered by the nearest line** (Which Arrow Is That): every
+  tap on the figure picks the line it is closest to, however far.
+- **Ranked picks:** a pick-several round can be answered in order
+  (`"by":"order"`), and `trim` lets a tap on a picked answer take it back
+  along with every pick after it (Rank Them by Stiffness).
+- **A path's matrix kept exactly:** figures that turn a whole path onto
+  the screen (`Path.transform`) are recorded with that move, its numbers
+  kept a hundred million times closer than a pixel.
+- **Kept closer:** a figure can ask the builder to keep its numbers to a
+  ten millionth of a pixel, and the builder now searches lone bands again
+  and places bends from inside a width. See content-packs.md.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 138 of 138 runs pass, all 23 games pixel for pixel on every screen, every round played. |
+| Size | 435 KB for the chapter; every game under 100 KB, the largest Where Do You Cut (94 KB) and Which Side Is Tight (88 KB). |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 154 pack games played to the end. |
+| Everything else | 4,494 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What else the move needed:
+
+- The Statics figures (forces, moments, trusses, frames, sections, the
+  belt drum) switched to the recordable path and text. Several large
+  figures are now painted a piece at a time, so a pack keeps one drawing
+  per piece instead of one per combination; the answer glyphs are shared.
+  Before and after screenshots of every built-in Statics game, first round
+  and concept sheet, day and night, at all three widths: 276 compared,
+  none differ.
+- **One built-in change, within the noise bar:** the derrick cable dashes
+  in Along It or Not are now laid out slightly differently, at most 31
+  shades on a few edge pixels (ADR 0031 allows 32). Nothing a student
+  could see.
+
+## Surveying (23 games), 2026-10-28
+
+Moved, published in FE Civil pack version 11 (177 games, 1.86 MB to
+download; Surveying is 251 KB of it). Not switched on.
+
+The adapters are in `mobile/test/packs/surveying_a.dart` (bearings
+through areas) and `surveying_b.dart` (earthwork through vertical
+curves), written side by side and registered together as one chapter.
+The app gained:
+
+- **Dashed lines kept as their two ends.** A dashed line is recorded as
+  one step and dashed on the phone with the same loop the game uses.
+  Before this, the dashed slopes made Road or Grade Line 1.8 MB and Where
+  It Flattens Out 6.7 MB; now they are 8 KB and 15 KB.
+- **An arc to tap** (Which Curve Is Sharper): the nearer of two curves
+  within 24 pixels, measured to the arc itself.
+- **The first mark in reach** (`"first": true`): five Surveying games
+  check their marks in order and take the first within reach, not the
+  nearest, and the pack now does the same.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 138 of 138 runs pass, all 23 games pixel for pixel on every screen, every round played. |
+| Size | 251 KB for the chapter; every game under 30 KB, the largest Which Traverse Closed Better. |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 177 pack games played to the end. The first run stopped at Which Curve Is Sharper because the simulator script did not yet tap an arc; it now taps halfway round it. |
+| Everything else | 4,655 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What else the move needed:
+
+- The bearing, leveling, area, earthwork, coordinate, profile and
+  alignment figures and the Surveying concept pictures switched to the
+  recordable path and text. Nothing draws differently: each helper
+  compared every built-in Surveying screen before and after (184
+  screenshots and 3,256 drawing hashes), all identical.
+- The Surveying sheets stacked two pictures in a small widget of their
+  own; it is now a function that returns a plain column, and the builder
+  can also read any such widget by what it builds.
+
+## Mechanics of Materials (27 games), 2026-10-28
+
+Moved, published in FE Civil pack version 12 (204 games, 2.12 MB to
+download; Mechanics of Materials is 250 KB of it). Not switched on.
+
+The adapters are in `mobile/test/packs/mechanics_a.dart` (axial through
+beam sections) and `mechanics_b.dart` (deflection through columns),
+written side by side and registered together as one chapter. The app
+gained:
+
+- **Combined paths kept as moves** (`Path.combine`): Which Area Twists It
+  shades a tube's metal as one circle minus another, which could only be
+  traced before, turning circles into polygons.
+- **Dashes along a path:** the same game dashes the middle of the tube
+  wall; the phone runs the loop the game already ran.
+- **A tap measured up and down only** (`"axis": "y"`), for Which Fiber Is
+  Worst, which picks the nearest layer by height.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 162 of 162 runs pass, all 27 games pixel for pixel on every screen, every round played. |
+| Size | 250 KB for the chapter; every game under 64 KB, the largest How Far Has It Yielded. |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 204 pack games played to the end. |
+| Everything else | 4,844 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What else the move needed:
+
+- The axial, torsion, diagram, stress, deflection, composite, Mohr and
+  column figures and the Mechanics concept pictures switched to the
+  recordable path and text. Nothing draws differently: each helper hashed
+  every built-in screen of its games before and after (4,044 and 3,756
+  hashes), all identical.
+- Square Bar's painter in Which J Is It became public so it can be
+  recorded.
+
+## Structural (28 games), 2026-10-28
+
+Moved, published in FE Civil pack version 13 (232 games, 2.28 MB to
+download; Structural is 159 KB of it). Not switched on.
+
+The adapters are in `mobile/test/packs/structural_a.dart` (determinacy
+through influence lines) and `structural_b.dart` (Where Do You Park It,
+reinforced concrete and steel), written side by side and registered
+together as one chapter. Every game is a screen the pack could already
+show, so the app gained nothing new; the builder gained one fix:
+
+- **A bend on a width looked at.** How Much Comes Off draws hatched
+  squares that stop growing at exactly 300 wide. The builder placed that
+  bend where the lines either side meet, 299.99998, and on a 320 phone
+  that moved thousands of hatch pixels a shade or two. When a width the
+  builder sampled sits within a hundredth of a pixel of the meeting and
+  fits every value closer, it is now the corner. This recorded 17 games
+  already in the pack slightly differently; each was compared again and
+  all match to the pixel.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 168 of 168 runs pass, all 28 games pixel for pixel on every screen, every round played. |
+| Size | 159 KB for the chapter; every game under 16 KB, the largest Where Do You Take Moments. |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 232 pack games played to the end. |
+| Everything else | 5,040 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What else the move needed:
+
+- The determinacy, truss, virtual work, redundant, load, influence, steel
+  and reinforced concrete figures and the Structural concept pictures
+  switched to the recordable path and text. Nothing draws differently:
+  the helpers hashed every built-in Structural screen before and after
+  (7,608 screens, and 2,896 drawings at eight widths), all identical.
+- Traced, the steel column's bowed lines would have made Which Axis Wins
+  Now 819 KB; kept as moves it is 4 KB. Two column cage sheets are kept
+  closer, about 4 KB each, so their hatching matches to the pixel.
+- Two private names became public for the adapters (the truss in Joints
+  or Sections, and the load rows in Which One Controls).
+
 ## Notes for after (not changed during the move)
 
 1. **Three Dynamics formulas run off a small phone.** On a phone 320
@@ -366,3 +527,18 @@ What else the move needed:
    the answer "One changes the odds of the other" wraps to two lines and
    overflows its button by 18 pixels, in the built-in game as much as in the
    pack. Fix: let the button grow with its words.
+
+4. **Mechanics of Materials formulas run off the screen.** In the
+   built-in games as much as in the pack: What Comes Out (58 and 215
+   pixels at 320, still 105 at 430), Can You Get There (15 at every
+   width) and Is R the Worst (15 at 320). Fix: let a long formula wrap or
+   scale down.
+
+5. **Structural formulas run off the screen.** In the built-in games as
+   much as in the pack, at 320 pixels wide: Which Line Is It and Which
+   One Controls (287, still 177 at 430), What the Table Gives You (239),
+   Where Do You Park It (235), The Count Says Yes (197, still 87 at 430),
+   Z or S (190 and 176), Both Factors or One (125), Which Axis Wins Now
+   (93), More, Less or the Same (81), Factored or Service (63), Enough or
+   Too Many (47), and about 25 in three steel and concrete games. Fix: as
+   note 4.
