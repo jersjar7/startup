@@ -3,12 +3,12 @@
   "title": "FE Civil",
   "format": 1,
   "latest": {
-    "version": 14,
-    "file": "fe-civil-v14-27fb072a7ab8.json",
-    "sha256": "27fb072a7ab812f323effe2501ee7b4f10b79f2d149e5bdbce1f24d90ccf7c6e",
-    "bytes": 42316001,
-    "gzipBytes": 2546733,
-    "published": "2026-10-28T11:35:33.958Z",
+    "version": 15,
+    "file": "fe-civil-v15-013b2fd8d1d5.json",
+    "sha256": "013b2fd8d1d5aa7ecaf4af4cc16e70849aff4934de12f0b636485e908984f3a6",
+    "bytes": 45220544,
+    "gzipBytes": 2798544,
+    "published": "2026-10-28T15:36:42.743Z",
     "lessons": {
       "statistics/central-tendency-dispersion": "1.2.0",
       "statistics/linear-regression-correlation": "1.2.0",
@@ -77,6 +77,17 @@
       "surveying/coordinate-geometry": "1.2.0",
       "surveying/horizontal-curves": "1.2.0",
       "surveying/vertical-curves": "1.2.0",
+      "water-resources/open-channel-flow": "1.2.0",
+      "water-resources/energy-critical-flow": "1.2.0",
+      "water-resources/pipe-systems-weirs": "1.2.0",
+      "water-resources/pumps-water-distribution": "1.2.0",
+      "water-resources/rainfall-runoff": "1.2.0",
+      "water-resources/hydrograph-watershed": "1.2.0",
+      "water-resources/groundwater-wells": "1.2.0",
+      "water-resources/water-quality": "1.2.0",
+      "water-resources/water-treatment": "1.2.0",
+      "water-resources/drinking-water-treatment": "1.2.0",
+      "water-resources/water-quality-standards": "1.2.0",
       "structural/determinacy-stability": "1.2.0",
       "structural/truss-analysis-methods": "1.2.0",
       "structural/deflection-virtual-work": "1.2.0",
@@ -192,6 +203,12 @@
       "file": "fe-civil-v14-27fb072a7ab8.json",
       "sha256": "27fb072a7ab812f323effe2501ee7b4f10b79f2d149e5bdbce1f24d90ccf7c6e",
       "published": "2026-10-28T11:35:33.958Z"
+    },
+    {
+      "version": 15,
+      "file": "fe-civil-v15-013b2fd8d1d5.json",
+      "sha256": "013b2fd8d1d5aa7ecaf4af4cc16e70849aff4934de12f0b636485e908984f3a6",
+      "published": "2026-10-28T15:36:42.743Z"
     }
   ]
 }
