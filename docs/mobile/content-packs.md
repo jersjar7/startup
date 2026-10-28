@@ -82,6 +82,12 @@ What is kept:
   same loop the figures had, so the built-in drawings did not change by a
   pixel (every Surveying drawing and sheet picture compared before and
   after).
+- **Soil grains** (`["grains", left, top, right, bottom, porosity, seed,
+  fill, edge]`), added 2026-10-28 with Water Resources: a block packed
+  with grains by the figure's own seeded loop (`drawGrains`,
+  `lib/features/packs/drawing/figure_grains.dart`), recorded as the block
+  once and filled by the player the same way. See the Water Resources
+  notes below.
 - **Bands** (`{"bands": [[from width, steps], ...]}`) for a drawing that
   really changes at some width.
 - **Concept sheet pictures**: one drawing, two side by side, or a column of
@@ -444,6 +450,40 @@ the hatch step, six of the sixteen here); every one passed parity again,
 and the only screens still differing (Which Rate's sheet, one to seven
 pixels) differ the same with the old builder. The sixteen games are 4.3
 to 30 KB to download, 8.6 KB on average.
+
+Water Resources, second half (2026-10-28: storage routing, groundwater
+and wells, BOD, clarifiers and activated sludge, chlorine, filters, the
+drinking water standards) needed one new recorded step. All sixteen games
+are one screen: the problem, a drawing in a white panel, mostly a formula
+under it, then the answers as plain rows
+(`mobile/test/packs/water_b.dart`). Which Well Formula's two answers are
+the formulas themselves, so they are `answer` nodes holding a formula
+rather than the plain rows. What was found:
+
+- **Soil grains** (`["grains", left, top, right, bottom, porosity, seed,
+  fill, edge]`). Which Speed Is That packs a block of aquifer with grains:
+  circles placed by a seeded random walk until they cover the share of
+  the block that is not void. A wider block takes more grains, so the
+  recording changed every couple of pixels of width, and the game came
+  to 44 MB to download. A figure that draws grains through `drawGrains`
+  (`lib/features/packs/drawing/figure_grains.dart`) is recorded as the
+  block and its porosity once, and the player runs the figure's own loop
+  on them, as `drawDashes` does for a dashed line: 3.6 KB. On a phone's
+  real canvas `drawGrains` is the same loop the figure had.
+- **Traced curves.** The aquifer cone, the BOD curve and the plant loops
+  were plain paths, traced at every width: Which Well Formula came to
+  130 KB and the BOD games took a quarter of an hour each to record. The
+  aquifer, BOD, clarifier and chlorine figures now draw through the path
+  shim (Which Well Formula 16 KB).
+- **Sheet labels with Flutter's own text painter.** The Water Resources
+  sheet pictures write their labels with a plain `TextPainter`, which
+  the recorder cannot read (What Moves the Ratio's sheet stopped the
+  build). The sheet pictures now draw through the text and path shims.
+
+Every round drawing of the sixteen games and every Water Resources sheet
+picture (both halves of the chapter) hashed the same before and after, at
+eight widths, day and night. The sixteen games are 3.6 to 20 KB to
+download, about 8.5 KB on average.
 
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is
