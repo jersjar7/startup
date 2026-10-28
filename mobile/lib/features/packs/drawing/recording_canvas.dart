@@ -138,6 +138,24 @@ class RecordingCanvas implements ui.Canvas {
     _paint(paint),
   ]);
 
+  /// Called by the figures' soil grains (figure_grains.dart): the block
+  /// and its porosity once, which the player fills grain by grain as the
+  /// figure did.
+  void recordGrains(
+    ui.Rect block,
+    double porosity,
+    int seed,
+    ui.Paint fill,
+    ui.Paint edge,
+  ) => ops.add([
+    'grains',
+    ..._rect(block),
+    porosity,
+    seed,
+    _paint(fill),
+    _paint(edge),
+  ]);
+
   @override
   void drawRect(ui.Rect rect, ui.Paint paint) =>
       ops.add(['rect', ..._rect(rect), _paint(paint)]);
