@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path;
+
+import '../packs/drawing/figure_path.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -392,7 +394,7 @@ class _ShiftButton extends StatelessWidget {
               SizedBox(
                 width: 30,
                 height: 32,
-                child: CustomPaint(painter: _ShiftGlyph(option, ink)),
+                child: CustomPaint(painter: ShiftGlyph(option, ink)),
               ),
               const SizedBox(height: 6),
               Text(
@@ -411,8 +413,8 @@ class _ShiftButton extends StatelessWidget {
   }
 }
 
-class _ShiftGlyph extends CustomPainter {
-  const _ShiftGlyph(this.option, this.colour);
+class ShiftGlyph extends CustomPainter {
+  const ShiftGlyph(this.option, this.colour);
 
   final Shift option;
   final Color colour;
@@ -455,6 +457,6 @@ class _ShiftGlyph extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_ShiftGlyph old) =>
+  bool shouldRepaint(ShiftGlyph old) =>
       old.option != option || old.colour != colour;
 }

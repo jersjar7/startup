@@ -254,36 +254,53 @@ class TrussPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Offset at(Offset w) => toScreen(truss, w, size, cuts: cuts);
-
-    if (truss.wall != null) _wall(canvas, size, at);
-
+    paintBack(canvas, size);
     for (var m = 0; m < truss.members.length; m++) {
-      final (a, b) = truss.members[m];
-      final picked = mode == TrussMode.members && chosen.contains(m);
-      final isTruth = mode == TrussMode.members && locked && truths.contains(m);
-      final wrong = mode == TrussMode.members && locked && picked && !isTruth;
-      final lit = mode != TrussMode.members && m == spotlight;
-
-      final Color colour;
-      if (isTruth) {
-        colour = AppColors.forest;
-      } else if (wrong) {
-        colour = AppColors.error;
-      } else if (picked || lit) {
-        colour = AppColors.ember;
-      } else {
-        colour = AppColors.ink2;
-      }
-      canvas.drawLine(
-        at(truss.joints[a].at),
-        at(truss.joints[b].at),
-        Paint()
-          ..color = colour
-          ..strokeWidth = (picked || lit || isTruth || wrong) ? 5 : 3
-          ..strokeCap = StrokeCap.round,
-      );
+      paintMember(canvas, size, m);
     }
+    paintFront(canvas, size);
+  }
+
+  /// The wall a truss is built off, if it has one, under everything else.
+  void paintBack(Canvas canvas, Size size) {
+    Offset at(Offset w) => toScreen(truss, w, size, cuts: cuts);
+    if (truss.wall != null) _wall(canvas, size, at);
+  }
+
+  /// One member. Drawn one at a time so a recorded figure can keep each
+  /// member apart.
+  void paintMember(Canvas canvas, Size size, int m) {
+    Offset at(Offset w) => toScreen(truss, w, size, cuts: cuts);
+    final (a, b) = truss.members[m];
+    final picked = mode == TrussMode.members && chosen.contains(m);
+    final isTruth = mode == TrussMode.members && locked && truths.contains(m);
+    final wrong = mode == TrussMode.members && locked && picked && !isTruth;
+    final lit = mode != TrussMode.members && m == spotlight;
+
+    final Color colour;
+    if (isTruth) {
+      colour = AppColors.forest;
+    } else if (wrong) {
+      colour = AppColors.error;
+    } else if (picked || lit) {
+      colour = AppColors.ember;
+    } else {
+      colour = AppColors.ink2;
+    }
+    canvas.drawLine(
+      at(truss.joints[a].at),
+      at(truss.joints[b].at),
+      Paint()
+        ..color = colour
+        ..strokeWidth = (picked || lit || isTruth || wrong) ? 5 : 3
+        ..strokeCap = StrokeCap.round,
+    );
+  }
+
+  /// The cuts, the joints, the supports, the loads and every label, over
+  /// the members.
+  void paintFront(Canvas canvas, Size size) {
+    Offset at(Offset w) => toScreen(truss, w, size, cuts: cuts);
 
     for (final cut in cuts.indexed) {
       final (i, c) = cut;

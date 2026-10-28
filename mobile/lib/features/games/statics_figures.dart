@@ -572,7 +572,15 @@ class MomentPainter extends CustomPainter {
     // leaving the panel is deliberate and the bounds check stays
     // honest.
     canvas.clipRect(Offset.zero & size);
+    paintBody(canvas, size);
+    for (var i = 0; i < scene.forces.length; i++) {
+      paintForce(canvas, size, i);
+    }
+    paintMarks(canvas, size);
+  }
 
+  /// The body and its pivot, under everything else.
+  void paintBody(Canvas canvas, Size size) {
     Offset at(Offset w) => scene.toScreen(w, size);
 
     for (final member in scene.members) {
@@ -600,56 +608,65 @@ class MomentPainter extends CustomPainter {
       ..close();
     canvas.drawPath(tri, Paint()..color = AppColors.charcoal);
     canvas.drawCircle(p, 3.5, Paint()..color = AppColors.cream);
+  }
+
+  /// One force: its line of action, its arrow and its label. Drawn one at
+  /// a time so a recorded figure can keep each force apart.
+  void paintForce(Canvas canvas, Size size, int i) {
+    Offset at(Offset w) => scene.toScreen(w, size);
 
     // Roughly where the body is, for deciding which side of a force its
     // label should sit on.
-    var bodyCenter = p;
+    var bodyCenter = at(scene.pivot);
     for (final member in scene.members) {
       for (final pt in member) {
         bodyCenter = (bodyCenter + at(pt)) / 2;
       }
     }
 
-    for (final (i, f) in scene.forces.indexed) {
-      final picked = mode == SceneMode.forces && chosen.contains(i);
-      final isTruth = mode == SceneMode.forces && truths.contains(i);
-      final color = mode == SceneMode.forces
-          ? _color(picked: picked, isTruth: isTruth)
-          : AppColors.ember;
-      final origin = at(f.at);
-      final len = f.dir.distance;
-      final unit = Offset(f.dir.dx / len, -f.dir.dy / len);
+    final f = scene.forces[i];
+    final picked = mode == SceneMode.forces && chosen.contains(i);
+    final isTruth = mode == SceneMode.forces && truths.contains(i);
+    final color = mode == SceneMode.forces
+        ? _color(picked: picked, isTruth: isTruth)
+        : AppColors.ember;
+    final origin = at(f.at);
+    final len = f.dir.distance;
+    final unit = Offset(f.dir.dx / len, -f.dir.dy / len);
 
-      if (f.lineOfAction) {
-        _dash(
-          canvas,
-          origin - unit * 400,
-          origin + unit * 400,
-          AppColors.ink3.withValues(alpha: 0.7),
-        );
-      }
-      _arrow(
+    if (f.lineOfAction) {
+      _dash(
         canvas,
-        origin,
-        origin + unit * 52,
-        color,
-        heavy: picked || (locked && isTruth),
-      );
-      // Beside the head rather than past it. A force pointing straight down
-      // its own member used to write its label on the member. Cleared by half
-      // its own width so it never sits on the arrow or its line of action.
-      final side = Offset(-unit.dy, unit.dx);
-      final away = origin - bodyCenter;
-      final sign = side.dx * away.dx + side.dy * away.dy >= 0 ? 1.0 : -1.0;
-      final tag = _label(f.label, color);
-      _put(
-        canvas,
-        tag,
-        origin + unit * 48 + side * (tag.width / 2 + 10) * sign,
-        size,
+        origin - unit * 400,
+        origin + unit * 400,
+        AppColors.ink3.withValues(alpha: 0.7),
       );
     }
+    _arrow(
+      canvas,
+      origin,
+      origin + unit * 52,
+      color,
+      heavy: picked || (locked && isTruth),
+    );
+    // Beside the head rather than past it. A force pointing straight down
+    // its own member used to write its label on the member. Cleared by half
+    // its own width so it never sits on the arrow or its line of action.
+    final side = Offset(-unit.dy, unit.dx);
+    final away = origin - bodyCenter;
+    final sign = side.dx * away.dx + side.dy * away.dy >= 0 ? 1.0 : -1.0;
+    final tag = _label(f.label, color);
+    _put(
+      canvas,
+      tag,
+      origin + unit * 48 + side * (tag.width / 2 + 10) * sign,
+      size,
+    );
+  }
 
+  /// The dimension lines, over everything else.
+  void paintMarks(Canvas canvas, Size size) {
+    Offset at(Offset w) => scene.toScreen(w, size);
     final placed = scene.placedMarks(size);
 
     for (final (i, m) in scene.marks.indexed) {

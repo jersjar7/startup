@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path;
+
+import '../packs/drawing/figure_path.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -414,7 +416,7 @@ class _WorkButton extends StatelessWidget {
                 width: 46,
                 height: 30,
                 child: CustomPaint(
-                  painter: _WorkingGlyph(option),
+                  painter: WorkingGlyph(option),
                   child: const SizedBox.expand(),
                 ),
               ),
@@ -450,8 +452,8 @@ class _WorkButton extends StatelessWidget {
 
 /// A short bar with arrows saying what is being done to it: pulled out of both
 /// ends, pushed into both ends, or left alone.
-class _WorkingGlyph extends CustomPainter {
-  const _WorkingGlyph(this.option);
+class WorkingGlyph extends CustomPainter {
+  const WorkingGlyph(this.option);
 
   final Working option;
 
@@ -502,5 +504,5 @@ class _WorkingGlyph extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_WorkingGlyph old) => old.option != option;
+  bool shouldRepaint(WorkingGlyph old) => old.option != option;
 }
