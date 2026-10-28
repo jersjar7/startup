@@ -438,8 +438,9 @@ Future<_Run> _playing(
                 everyWrong.last,
               ];
         final pick = k < wrong.length ? wrong[k] : answer;
-        // A pick moved up and down with buttons from where it starts.
-        if (r['start'] case final int start) {
+        // A pick moved up and down with buttons from where it starts (not
+        // one dragged on a drawing, as Slide to the Flat Spot's marker is).
+        if (r['start'] case final int start when tapped == null) {
           for (var now = start; now != pick; now += pick > now ? 1 : -1) {
             await _tapOn(
               tester,
