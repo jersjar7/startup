@@ -323,8 +323,9 @@ extension on _ScreenBlocks {
   /// circles, rectangles, lines or arcs, one per mark, and `hits` says
   /// which answer each mark stands for: a tap inside a rectangle picks it
   /// (the last of overlapping ones), otherwise the nearest circle within
-  /// its radius, by distance or, with `axis: "x"`, across only, the nearest
-  /// line however far (the first of lines as near), or the nearest arc
+  /// its radius, by distance or, with `axis: "x"`, across only, or with
+  /// `axis: "y"`, up and down only (Which Fiber Is Worst's layers run the
+  /// width of the section), the nearest line however far (the first of lines as near), or the nearest arc
   /// within its paint's stroke width of it (Which Curve Is Sharper's two
   /// curves). With `first`, the first circle within its radius wins rather
   /// than the nearest, as games that check their points in order do.
@@ -343,9 +344,7 @@ extension on _ScreenBlocks {
     final done = answered ? 1 : 0;
     String one() {
       if (n['by'] == 'order') {
-        final marks = [
-          for (final p in picks.whereType<int>()) hits.indexOf(p),
-        ];
+        final marks = [for (final p in picks.whereType<int>()) hits.indexOf(p)];
         return '${marks.isEmpty ? '-' : marks.join(',')}|$done';
       }
       final mark = picked.length == 1 ? hits.indexOf(picked.single) : -1;
@@ -389,6 +388,7 @@ extension on _ScreenBlocks {
 
   static int? _hitOf(Map<String, Object?> n, Size size, Offset tap) {
     final acrossOnly = n['axis'] == 'x';
+    final upOnly = n['axis'] == 'y';
     final first = n['first'] == true;
     int? best;
     var bestGap = double.infinity;
@@ -447,6 +447,8 @@ extension on _ScreenBlocks {
       final centre = Offset(at(1), at(2));
       final gap = acrossOnly
           ? (centre.dx - tap.dx).abs()
+          : upOnly
+          ? (centre.dy - tap.dy).abs()
           : (centre - tap).distance;
       if (first) {
         if (best == null && gap < at(3)) {
