@@ -307,6 +307,10 @@ Future<_Run> _playing(
           1 when r['groups'] is List => [
             for (final g in r['groups']! as List) (g as List).last as int,
           ],
+          // A ranking that takes back every pick after the one tapped
+          // again is emptied by its first, then given all of them in
+          // reverse, so a full wrong order is locked in too.
+          1 when r['trim'] == true => [rest.first, ...rest.reversed],
           // A round that needs a set number gets that many, from the end,
           // so it can be locked in.
           1 when r['need'] is int =>

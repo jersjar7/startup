@@ -56,7 +56,28 @@ final stats = <String, int>{
 
 /// How far a played-back number may sit from the painter's own: a ten
 /// thousandth of a pixel, which no phone can show.
-const _tol = 1e-4;
+const plainTolerance = 1e-4;
+
+/// The tolerance of the drawing being recorded: [plainTolerance], unless
+/// [record] or [closer] asked for closer.
+double _tol = plainTolerance;
+
+/// Runs [body] with every drawing it records kept to [tolerance] instead
+/// of [plainTolerance].
+///
+/// For a figure whose numbers land a pixel's edge sampling on the other
+/// side at the plain tolerance across far more of the screen than ADR 0031
+/// allows: Which Distance Counts runs a dashed line of action down the
+/// middle of a slanted strut, and every dash of it drew a few shades off.
+T closer<T>(double tolerance, T Function() body) {
+  final was = _tol;
+  _tol = tolerance;
+  try {
+    return body();
+  } finally {
+    _tol = was;
+  }
+}
 
 /// The same for an angle. A turn moves a point by the angle times its
 /// distance from the pivot, and a figure is up to a thousand pixels across,
@@ -76,11 +97,18 @@ int _runCount(Object? count) => switch (count) {
 /// edge pixel at the plain tolerance.
 const _moveTol = 1e-5;
 
-/// The tolerance for the numbers inside [op]: tighter for a rotation and
-/// for a move of the canvas.
+/// How close a path's matrix (its `T` move) is kept: its scale multiplies
+/// every point of a shape drawn in world units, so at the plain tolerance
+/// the edge of a Statics cross section landed a row of pixels two shades
+/// out.
+const _matrixTol = 1e-8;
+
+/// The tolerance for the numbers inside [op]: tighter for a rotation, for
+/// a move of the canvas, and for a path's matrix.
 double _tolFor(List<Object?> op, double tol) => switch (op.firstOrNull) {
   'rot' => _angleTol,
   'tr' => _moveTol,
+  'T' => _matrixTol,
   _ => tol,
 };
 
@@ -88,8 +116,24 @@ Object record(
   Draw draw,
   double height, {
   (double, double) range = gameRange,
+  double? tolerance,
   required String what,
 }) {
+  final was = _tol;
+  _tol = tolerance ?? _tol;
+  try {
+    return _recorded(draw, height, range, what);
+  } finally {
+    _tol = was;
+  }
+}
+
+Object _recorded(
+  Draw draw,
+  double height,
+  (double, double) range,
+  String what,
+) {
   final cache = <double, List<Object?>>{};
   List<Object?> at(double w) => cache.putIfAbsent(
     w,
@@ -108,6 +152,7 @@ Object record(
   for (var w = lo; w < hi; w += 25) {
     _refine(at, w, (w + 25).clamp(lo, hi), widths);
   }
+  _seeLoneBands(at, widths);
   final sorted = widths.toList()..sort();
   stats['drawings'] = stats['drawings']! + 1;
   stats['recordings'] = stats['recordings']! + cache.length * 2;
@@ -150,10 +195,14 @@ Object _fromWidths(List<Object?> Function(double) at, List<double> sorted) {
         _banded((w) => at(w).sublist(0, head), sorted, count: false),
       _banded(slice(head, tail), sorted, count: false),
       if (tail > 0)
-        _banded((w) {
-          final l = at(w);
-          return l.sublist(l.length - tail);
-        }, sorted, count: false),
+        _banded(
+          (w) {
+            final l = at(w);
+            return l.sublist(l.length - tail);
+          },
+          sorted,
+          count: false,
+        ),
     ],
   };
   return jsonEncode(parts).length < jsonEncode(whole).length ? parts : whole;
@@ -240,6 +289,37 @@ void _refine(
   }
 }
 
+/// Looks again at every shape the search saw at one width only.
+///
+/// The search stops splitting a change of shape at a quarter of a pixel,
+/// so a shape held for less than about that between two others can be
+/// seen at a single width, and a band seen once is kept as constants: the
+/// last dash of Along It or Not's cable, cut short for a third of a pixel
+/// of width around a 320 phone, was played back two hundredths of a pixel
+/// off along the whole cable. Each such band is found end to end and
+/// searched like any other stretch.
+void _seeLoneBands(List<Object?> Function(double) at, Set<double> widths) {
+  final sorted = widths.toList()..sort();
+  final bands = <List<double>>[[]];
+  for (final w in sorted) {
+    if (bands.last.isNotEmpty && !_sameShape(at(bands.last.last), at(w))) {
+      bands.add([]);
+    }
+    bands.last.add(w);
+  }
+  for (var i = 0; i < bands.length; i++) {
+    if (bands[i].length > 1) continue;
+    final w = bands[i].single;
+    final start = i == 0 ? w : _boundary(at, bands[i - 1].last, w);
+    final end = i == bands.length - 1
+        ? w
+        : _boundary(at, w, bands[i + 1].first) - 2 * _pin;
+    if (end - start > 2 * _pin && _sameShape(at(start), at(w))) {
+      _refine(at, start, end, widths);
+    }
+  }
+}
+
 /// A number that jumps between two widths is never straight, however close
 /// they are: a label that fits on one line from some width on, its patch
 /// twice as tall below it. Between the two widths around the jump it plays
@@ -291,8 +371,9 @@ bool _straight(
   double wa,
   double wm,
   double wb, [
-  double tol = _tol,
+  double? closer,
 ]) {
+  final tol = closer ?? _tol;
   if (a is num) {
     final predicted = a + ((b! as num) - a) * (wm - wa) / (wb - wa);
     return (predicted - (m! as num)).abs() <= tol;
@@ -438,10 +519,17 @@ Object? _mergeWidths(
   void Function() bent, {
   required List<Object?> Function(double) at,
   required List<Object> path,
-  double tol = _tol,
+  double? closer,
 }) {
-  Object? merge(List<Object?> sub, Object key, [double t = _tol]) =>
-      _mergeWidths(sub, widths, bent, at: at, path: [...path, key], tol: t);
+  final tol = closer ?? _tol;
+  Object? merge(List<Object?> sub, Object key, [double? t]) => _mergeWidths(
+    sub,
+    widths,
+    bent,
+    at: at,
+    path: [...path, key],
+    closer: t ?? _tol,
+  );
   final first = trees.first;
   if (first is Map && first.length == 1 && first.containsKey('n')) {
     return _count(trees, widths, at, path);
@@ -649,8 +737,9 @@ List<double>? _slopeAngle(List<double> w, List<double> v) {
 List<(double, double)> _corners(
   List<double> w,
   List<double> v, [
-  double tol = _tol,
+  double? closer,
 ]) {
+  final tol = closer ?? _tol;
   final keep = <int>[0];
   var start = 0;
   for (var end = 2; end < w.length; end++) {
@@ -676,12 +765,29 @@ List<(double, double)> _corners(
   for (var c = 1; c < keep.length - 1; c++) {
     final k = keep[c];
     if (k < 2 || k + 2 >= w.length) continue;
-    double slope(int i, int j) => (v[j] - v[i]) / (w[j] - w[i]);
-    final b1 = slope(k - 2, k - 1), b2 = slope(k + 1, k + 2);
+    // Each piece's line through two widths well inside it: the widths next
+    // to a bend are looked at a thousandth of a pixel apart, too close to
+    // find where the lines meet, and the widths at the ends of a piece may
+    // already be a hair past a bend (Along It or Not's arrows, bending
+    // where the drawing stops growing with the width, were 0.00004 of a
+    // pixel out on a 390 phone and moved a row of edge pixels six shades).
+    (double, double) line(int from, int to) {
+      final (i, j) = to - from >= 4
+          ? (from + (to - from) ~/ 4, to - (to - from) ~/ 4)
+          : (from, to);
+      final b = (v[j] - v[i]) / (w[j] - w[i]);
+      return (v[i] - b * w[i], b);
+    }
+
+    final from = keep[c - 1] < k - 1 ? keep[c - 1] : k - 2;
+    final to = keep[c + 1] > k + 1 ? keep[c + 1] : k + 2;
+    final (a1, b1) = line(from, k - 1);
+    final (a2, b2) = line(k + 1, to);
     if ((b1 - b2).abs() < 1e-12) continue;
-    final a1 = v[k - 1] - b1 * w[k - 1], a2 = v[k + 1] - b2 * w[k + 1];
     final wx = (a2 - a1) / (b1 - b2);
-    if (!(wx > w[k - 1] && wx < w[k + 1])) continue;
+    // The bend may be a sample or two before the width kept for it: the
+    // values just past it still fit the straight piece before it.
+    if (!(wx > w[from] && wx < w[to])) continue;
     final moved = [...corners]..[c] = (wx, a1 + b1 * wx);
     if (_fits(w, v, moved, keep[c - 1], keep[c + 1], tol)) {
       corners[c] = moved[c];

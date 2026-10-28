@@ -364,7 +364,7 @@ class _SitButton extends StatelessWidget {
               SizedBox(
                 width: 46,
                 height: 34,
-                child: CustomPaint(painter: _SitGlyph(option, ink)),
+                child: CustomPaint(painter: SitGlyph(option, ink)),
               ),
               const SizedBox(height: 7),
               Text(
@@ -385,8 +385,8 @@ class _SitButton extends StatelessWidget {
 }
 
 /// A dashed line with the centroid mark where this answer would put it.
-class _SitGlyph extends CustomPainter {
-  const _SitGlyph(this.option, this.colour);
+class SitGlyph extends CustomPainter {
+  const SitGlyph(this.option, this.colour);
 
   final Sit option;
   final Color colour;
@@ -425,6 +425,6 @@ class _SitGlyph extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_SitGlyph old) =>
+  bool shouldRepaint(SitGlyph old) =>
       old.option != option || old.colour != colour;
 }

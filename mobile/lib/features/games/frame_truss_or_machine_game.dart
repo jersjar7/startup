@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path;
+
+import '../packs/drawing/figure_path.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -453,7 +455,7 @@ class _KindButton extends StatelessWidget {
               SizedBox(
                 width: 48,
                 height: 32,
-                child: CustomPaint(painter: _KindGlyph(option, ink)),
+                child: CustomPaint(painter: KindGlyph(option, ink)),
               ),
               const SizedBox(height: 6),
               Text(
@@ -480,8 +482,8 @@ class _KindButton extends StatelessWidget {
 
 /// A lattice, a portal and a crossed pair, so the three names can be told
 /// apart without reading them.
-class _KindGlyph extends CustomPainter {
-  const _KindGlyph(this.option, this.colour);
+class KindGlyph extends CustomPainter {
+  const KindGlyph(this.option, this.colour);
 
   final Kind option;
   final Color colour;
@@ -537,6 +539,6 @@ class _KindGlyph extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_KindGlyph old) =>
+  bool shouldRepaint(KindGlyph old) =>
       old.option != option || old.colour != colour;
 }

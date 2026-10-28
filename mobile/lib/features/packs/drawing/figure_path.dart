@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 /// The path the figures use: Flutter's own, plus a note of how it was
@@ -189,6 +190,24 @@ extension type Path._(ui.Path _path) implements ui.Path {
       r.blRadiusY,
     ]);
     _path.addRRect(r);
+  }
+
+  /// A copy of this path moved by [matrix4], a 4 by 4 matrix in column
+  /// order. Its moves are this path's with the matrix after them (`T`), so
+  /// played back it is moved exactly as it was drawn: Statics draws every
+  /// cross section in world units, y up, and moves it onto the screen.
+  Path transform(Float64List matrix4) => Path._(_moved(_path, matrix4));
+
+  static ui.Path _moved(ui.Path source, Float64List matrix4) {
+    final p = source.transform(matrix4);
+    final moves = _moves[source];
+    if (recordPaths && moves != null) {
+      _moves[p] = [
+        ...moves,
+        ['T', ...matrix4],
+      ];
+    }
+    return p;
   }
 
   void close() {

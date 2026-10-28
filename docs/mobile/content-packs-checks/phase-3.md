@@ -22,12 +22,14 @@ chapter.
 | Ethics | 21 | 84 KB | Who Has to Agree, 16 KB |
 | Fluid Mechanics | 21 | 185 KB | Where It Pushes, 36 KB |
 | Materials | 23 | 141 KB | What This Job Needs, 15 KB |
+| Statics | 23 | 435 KB | Where Do You Cut, 94 KB |
 | Transportation (phase 0 game) | 1 | 4 KB | Per Million What, 4 KB |
-| **Whole pack, version 9** | **131** | **1.15 MB** | |
+| **Whole pack, version 10** | **154** | **1.60 MB** | |
 
 The limits the builder enforces are 250 KB for any one game and 25 KB on
-average. The pack grows by about 9 KB a game, so all 375 games should come
-to roughly 3 to 4 MB, about one phone photo.
+average. The pack grows by about 10 KB a game (Statics, all drawings, ran
+to 19 KB a game), so all 375 games should come to roughly 4 MB, about one
+phone photo.
 
 ## Construction (10 games), 2026-10-27
 
@@ -342,6 +344,49 @@ What else the move needed:
   the built-in game.
 - **Fixed in both versions:** Which One Moves Most said "Which One Biggest
   Most" on its done screen.
+
+## Statics (23 games), 2026-10-28
+
+Moved, published in FE Civil pack version 10 (154 games, 1.60 MB to
+download; Statics is 435 KB of it, the heaviest chapter so far because
+nearly every round is a drawing). Not switched on.
+
+The adapters are in `mobile/test/packs/statics_a.dart` (forces through
+trusses) and `statics_b.dart` (frames through second moments), written
+side by side and registered together as one chapter. The app gained:
+
+- **A drawing answered by the nearest line** (Which Arrow Is That): every
+  tap on the figure picks the line it is closest to, however far.
+- **Ranked picks:** a pick-several round can be answered in order
+  (`"by":"order"`), and `trim` lets a tap on a picked answer take it back
+  along with every pick after it (Rank Them by Stiffness).
+- **A path's matrix kept exactly:** figures that turn a whole path onto
+  the screen (`Path.transform`) are recorded with that move, its numbers
+  kept a hundred million times closer than a pixel.
+- **Kept closer:** a figure can ask the builder to keep its numbers to a
+  ten millionth of a pixel, and the builder now searches lone bands again
+  and places bends from inside a width. See content-packs.md.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 138 of 138 runs pass, all 23 games pixel for pixel on every screen, every round played. |
+| Size | 435 KB for the chapter; every game under 100 KB, the largest Where Do You Cut (94 KB) and Which Side Is Tight (88 KB). |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 154 pack games played to the end. |
+| Everything else | 4,494 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What else the move needed:
+
+- The Statics figures (forces, moments, trusses, frames, sections, the
+  belt drum) switched to the recordable path and text. Several large
+  figures are now painted a piece at a time, so a pack keeps one drawing
+  per piece instead of one per combination; the answer glyphs are shared.
+  Before and after screenshots of every built-in Statics game, first round
+  and concept sheet, day and night, at all three widths: 276 compared,
+  none differ.
+- **One built-in change, within the noise bar:** the derrick cable dashes
+  in Along It or Not are now laid out slightly differently, at most 31
+  shades on a few edge pixels (ADR 0031 allows 32). Nothing a student
+  could see.
 
 ## Notes for after (not changed during the move)
 

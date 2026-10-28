@@ -84,6 +84,12 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
       }
       return;
     }
+    // A ranking that takes a pick back takes back every pick after it too
+    // (`"trim": true`), as Rank Them by Stiffness does.
+    if (r['trim'] == true && _picks.contains(i)) {
+      _picks.removeRange(_picks.indexOf(i), _picks.length);
+      return;
+    }
     // Answers in a group ("yes" and "no" to one question) are one choice:
     // picking one replaces the other, and picking it again keeps it.
     for (final group in (r['groups'] as List?) ?? const []) {

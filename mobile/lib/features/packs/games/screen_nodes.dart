@@ -32,7 +32,10 @@ part of 'pick_one_game.dart';
 ///   `minor` (18) and heavier ones every `major` (90).
 /// - `answer`: answer `i`, tapped anywhere on its `child`, with `radius`
 ///   and `fill`. Inside it, a value may follow the answer's state.
-/// - `tapdraw`: a drawing answered by tapping on it (see [_tapDraw]).
+/// - `tapdraw`: a drawing answered by tapping on it (see [_tapDraw]): by
+///   area, by the nearest mark, or by the nearest line (Which Arrow Is
+///   That's three arrows, where every tap picks one); drawn as one drawing
+///   per pick, a layer per mark, or one per order of picks.
 /// - `icon`: one of the few icons the games draw, by name in `v` (only
 ///   `check` so far), with `size` and `color`.
 ///
@@ -317,21 +320,31 @@ extension on _ScreenBlocks {
   };
 
   /// A drawing `h` high answered by tapping on it. Targets are recorded
-  /// circles or rectangles, one per mark, and `hits` says which answer
-  /// each mark stands for: a tap inside a rectangle picks it (the last of
-  /// overlapping ones), otherwise the nearest circle within its radius, by
-  /// distance or, with `axis: "x"`, across only.
+  /// circles, rectangles or lines, one per mark, and `hits` says which
+  /// answer each mark stands for: a tap inside a rectangle picks it (the
+  /// last of overlapping ones), otherwise the nearest circle within its
+  /// radius, by distance or, with `axis: "x"`, across only, or the nearest
+  /// line however far (the first of lines as near).
   ///
   /// The drawing is `d`, keyed `"<pick or ->|<0 or 1 for answered>"` for a
   /// round of one pick, or `layers`, drawn in order: each either the same
   /// always (`d`) or for one mark (`mark`, keyed `"<0 or 1 for picked>|<0
   /// or 1 for answered>"`), so a drawing of several picks needs no
-  /// drawing per combination.
+  /// drawing per combination. With `"by": "order"` the drawing follows
+  /// every pick in the order made, keyed `"<marks picked, comma separated,
+  /// or ->|<0 or 1 for answered>"`, for a ranking whose drawing numbers
+  /// each pick (Rank Them by Stiffness).
   Widget _tapDraw(Map<String, Object?> n) {
     final hits = (n['hits']! as List).cast<int>();
     final h = (n['h']! as num).toDouble();
     final done = answered ? 1 : 0;
     String one() {
+      if (n['by'] == 'order') {
+        final marks = [
+          for (final p in picks.whereType<int>()) hits.indexOf(p),
+        ];
+        return '${marks.isEmpty ? '-' : marks.join(',')}|$done';
+      }
       final mark = picked.length == 1 ? hits.indexOf(picked.single) : -1;
       return '${mark < 0 ? '-' : mark}|$done';
     }
@@ -386,6 +399,16 @@ extension on _ScreenBlocks {
         if (Rect.fromLTRB(at(1), at(2), at(3), at(4)).contains(tap)) best = i;
         continue;
       }
+      if (op[0] == 'line') {
+        // The nearest line, however far: every tap picks one.
+        final gap = _toSegment(tap, Offset(at(1), at(2)), Offset(at(3), at(4)));
+        if (gap < bestGap) {
+          bestGap = gap;
+          best = i;
+          reach = double.infinity;
+        }
+        continue;
+      }
       final centre = Offset(at(1), at(2));
       final gap = acrossOnly
           ? (centre.dx - tap.dx).abs()
@@ -398,6 +421,18 @@ extension on _ScreenBlocks {
     }
     if (reach != null && bestGap > reach) return null;
     return best;
+  }
+
+  /// How far [p] is from the segment from [a] to [b].
+  static double _toSegment(Offset p, Offset a, Offset b) {
+    final run = b - a;
+    final len2 = run.dx * run.dx + run.dy * run.dy;
+    if (len2 < 0.001) return (p - a).distance;
+    final t = (((p - a).dx * run.dx + (p - a).dy * run.dy) / len2).clamp(
+      0.0,
+      1.0,
+    );
+    return (p - (a + run * t)).distance;
   }
 }
 

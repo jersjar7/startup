@@ -1,6 +1,8 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path;
+
+import '../packs/drawing/figure_path.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -352,7 +354,7 @@ class _GripButton extends StatelessWidget {
               SizedBox(
                 width: 52,
                 height: 36,
-                child: CustomPaint(painter: _GripGlyph(option)),
+                child: CustomPaint(painter: GripGlyph(option)),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -386,8 +388,8 @@ class _GripButton extends StatelessWidget {
 
 /// A block on a floor with the friction arrow drawn at the length this answer
 /// means, so the three choices can be told apart without reading them.
-class _GripGlyph extends CustomPainter {
-  const _GripGlyph(this.option);
+class GripGlyph extends CustomPainter {
+  const GripGlyph(this.option);
 
   final Grip option;
 
@@ -436,5 +438,5 @@ class _GripGlyph extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_GripGlyph old) => old.option != option;
+  bool shouldRepaint(GripGlyph old) => old.option != option;
 }

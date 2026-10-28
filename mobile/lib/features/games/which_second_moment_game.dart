@@ -366,7 +366,7 @@ class _NeedsButton extends StatelessWidget {
               SizedBox(
                 width: 38,
                 height: 34,
-                child: CustomPaint(painter: _NeedsGlyph(option, ink)),
+                child: CustomPaint(painter: NeedsGlyph(option, ink)),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -399,8 +399,8 @@ class _NeedsButton extends StatelessWidget {
 }
 
 /// A little section with the axis this answer means marked on it.
-class _NeedsGlyph extends CustomPainter {
-  const _NeedsGlyph(this.option, this.colour);
+class NeedsGlyph extends CustomPainter {
+  const NeedsGlyph(this.option, this.colour);
 
   final Needs option;
   final Color colour;
@@ -445,6 +445,6 @@ class _NeedsGlyph extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_NeedsGlyph old) =>
+  bool shouldRepaint(NeedsGlyph old) =>
       old.option != option || old.colour != colour;
 }
