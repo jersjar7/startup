@@ -91,7 +91,9 @@ chapter** (pack format 2), and **every chapter is always on the phone.**
   a format 1 pack keeps it until the new app replaces it.
 - Opening the first game of a chapter can wait briefly while the chapter is
   read; the app shows its plain background meanwhile. On the Mac that is
-  CHAPTERMS for the largest chapter; on a phone, unverified (same test as
+  about 0.12 s for the largest chapter, Statics (read 0.01 s, parse 0.06 s,
+  check its hash 0.05 s; three runs, 2026-10-28), against about 1 s to read
+  the whole pack at launch before. On a phone, unverified (same test as
   above).
 - The pack builder is unchanged: it still writes one pack, and the
   publisher splits it. Every check (parity, the pack audit, the simulator,
