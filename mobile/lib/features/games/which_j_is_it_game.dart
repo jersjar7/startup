@@ -1,6 +1,8 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide TextPainter;
+
+import '../packs/drawing/figure_text.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -272,7 +274,7 @@ class _WhichJIsItGameState extends State<WhichJIsItGame> {
                 child: CustomPaint(
                   painter: r.circular
                       ? ShaftPainter(shaft: r.shaft, markC: answered)
-                      : const _SquareBarPainter(),
+                      : const SquareBarPainter(),
                   child: const SizedBox.expand(),
                 ),
               ),
@@ -312,8 +314,8 @@ class _WhichJIsItGameState extends State<WhichJIsItGame> {
 
 /// A square bar in section, for the round where none of the round-shaft
 /// formulas applies.
-class _SquareBarPainter extends CustomPainter {
-  const _SquareBarPainter();
+class SquareBarPainter extends CustomPainter {
+  const SquareBarPainter();
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -342,7 +344,7 @@ class _SquareBarPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_SquareBarPainter old) => false;
+  bool shouldRepaint(SquareBarPainter old) => false;
 }
 
 class _JButton extends StatelessWidget {

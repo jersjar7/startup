@@ -7,7 +7,7 @@ import 'package:flutter/rendering.dart' show CustomPainter;
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
-import 'figure_dash.dart' show dashes;
+import 'figure_dash.dart' show dashes, pathDashes;
 
 /// Plays back a figure recorded by the pack builder (ADR 0030).
 ///
@@ -143,6 +143,15 @@ void playDrawing(Canvas canvas, Size size, List<Object?> ops) {
           _paint(op[7], w),
           n(op[5]),
           n(op[6]),
+        );
+      case 'pdash':
+        // A whole dashed outline, cut into dashes by the figures' own loop.
+        pathDashes(
+          canvas,
+          _path(op[1] as int, op[2] as List<Object?>, w),
+          _paint(op[5], w),
+          n(op[3]),
+          n(op[4]),
         );
       case 'rect':
         canvas.drawRect(_rect(op, 1, w), _paint(op[5], w));
@@ -346,6 +355,13 @@ Path buildPath(int fillType, List<Object?> cmds, double w) {
         );
       case 'Z':
         path.close();
+      case 'X':
+        // Two paths combined, each rebuilt from its own moves.
+        path = Path.combine(
+          PathOperation.values[c[1]! as int],
+          buildPath(c[2]! as int, c[3]! as List<Object?>, w),
+          buildPath(c[4]! as int, c[5]! as List<Object?>, w),
+        )..fillType = PathFillType.values[fillType];
       case 'T':
         // Everything so far moved by a 4 by 4 matrix, in column order.
         path = path.transform(

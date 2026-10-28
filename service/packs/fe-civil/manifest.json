@@ -3,12 +3,12 @@
   "title": "FE Civil",
   "format": 1,
   "latest": {
-    "version": 11,
-    "file": "fe-civil-v11-649a80181e8e.json",
-    "sha256": "649a80181e8ecc16757463a0b0f33575c93a8f2ef988c30d4da8f13dc9256801",
-    "bytes": 32212159,
-    "gzipBytes": 1858594,
-    "published": "2026-10-28T08:28:15.207Z",
+    "version": 12,
+    "file": "fe-civil-v12-5740e9b006ba.json",
+    "sha256": "5740e9b006ba39d0452b9801fb5882c90c2901089c4f2c9039b7f3faa211c4be",
+    "bytes": 37054518,
+    "gzipBytes": 2117999,
+    "published": "2026-10-28T09:20:53.188Z",
     "lessons": {
       "statistics/central-tendency-dispersion": "1.2.0",
       "statistics/linear-regression-correlation": "1.2.0",
@@ -42,6 +42,15 @@
       "dynamics/work-energy-power": "1.2.0",
       "dynamics/impulse-and-momentum": "1.2.0",
       "dynamics/vibrations-natural-frequency": "1.2.0",
+      "mechanics-materials/axial-stress-strain-deformation": "1.2.0",
+      "mechanics-materials/torsion": "1.2.0",
+      "mechanics-materials/stress-strain-diagrams": "1.2.0",
+      "mechanics-materials/shear-moment-diagrams": "1.2.0",
+      "mechanics-materials/bending-shear-stresses": "1.2.0",
+      "mechanics-materials/beam-deflections": "1.2.0",
+      "mechanics-materials/transformed-sections-plastic": "1.2.0",
+      "mechanics-materials/combined-stresses-mohrs-circle": "1.2.0",
+      "mechanics-materials/column-buckling": "1.2.0",
       "materials/stress-strain-material-behavior": "1.2.0",
       "materials/hardness-impact-fatigue": "1.2.0",
       "materials/thermal-processing-phase-diagrams": "1.2.0",
@@ -144,6 +153,12 @@
       "file": "fe-civil-v11-649a80181e8e.json",
       "sha256": "649a80181e8ecc16757463a0b0f33575c93a8f2ef988c30d4da8f13dc9256801",
       "published": "2026-10-28T08:28:15.207Z"
+    },
+    {
+      "version": 12,
+      "file": "fe-civil-v12-5740e9b006ba.json",
+      "sha256": "5740e9b006ba39d0452b9801fb5882c90c2901089c4f2c9039b7f3faa211c4be",
+      "published": "2026-10-28T09:20:53.188Z"
     }
   ]
 }

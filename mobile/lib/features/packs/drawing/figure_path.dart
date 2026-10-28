@@ -198,6 +198,31 @@ extension type Path._(ui.Path _path) implements ui.Path {
   /// cross section in world units, y up, and moves it onto the screen.
   Path transform(Float64List matrix4) => Path._(_moved(_path, matrix4));
 
+  /// Two paths combined by [operation], as [ui.Path.combine] does. Its
+  /// moves are one step holding both paths' moves (`X`), so played back
+  /// the same two paths are combined the same way: Which Area Twists It
+  /// shades a tube's metal as its outside less its bore.
+  static Path combine(ui.PathOperation operation, ui.Path a, ui.Path b) =>
+      Path._(_combined(operation, a, b));
+
+  static ui.Path _combined(ui.PathOperation operation, ui.Path a, ui.Path b) {
+    final p = ui.Path.combine(operation, a, b);
+    final first = _moves[a], second = _moves[b];
+    if (recordPaths && first != null && second != null) {
+      _moves[p] = [
+        [
+          'X',
+          operation.index,
+          a.fillType.index,
+          [...first],
+          b.fillType.index,
+          [...second],
+        ],
+      ];
+    }
+    return p;
+  }
+
   static ui.Path _moved(ui.Path source, Float64List matrix4) {
     final p = source.transform(matrix4);
     final moves = _moves[source];

@@ -24,8 +24,9 @@ chapter.
 | Materials | 23 | 141 KB | What This Job Needs, 15 KB |
 | Statics | 23 | 435 KB | Where Do You Cut, 94 KB |
 | Surveying | 23 | 251 KB | Which Traverse Closed Better, 28 KB |
+| Mechanics of Materials | 27 | 250 KB | How Far Has It Yielded, 63 KB |
 | Transportation (phase 0 game) | 1 | 4 KB | Per Million What, 4 KB |
-| **Whole pack, version 11** | **177** | **1.86 MB** | |
+| **Whole pack, version 12** | **204** | **2.12 MB** | |
 
 The limits the builder enforces are 250 KB for any one game and 25 KB on
 average. The pack grows by about 10 KB a game (Statics, all drawings, ran
@@ -427,6 +428,41 @@ What else the move needed:
   own; it is now a function that returns a plain column, and the builder
   can also read any such widget by what it builds.
 
+## Mechanics of Materials (27 games), 2026-10-28
+
+Moved, published in FE Civil pack version 12 (204 games, 2.12 MB to
+download; Mechanics of Materials is 250 KB of it). Not switched on.
+
+The adapters are in `mobile/test/packs/mechanics_a.dart` (axial through
+beam sections) and `mechanics_b.dart` (deflection through columns),
+written side by side and registered together as one chapter. The app
+gained:
+
+- **Combined paths kept as moves** (`Path.combine`): Which Area Twists It
+  shades a tube's metal as one circle minus another, which could only be
+  traced before, turning circles into polygons.
+- **Dashes along a path:** the same game dashes the middle of the tube
+  wall; the phone runs the loop the game already ran.
+- **A tap measured up and down only** (`"axis": "y"`), for Which Fiber Is
+  Worst, which picks the nearest layer by height.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 162 of 162 runs pass, all 27 games pixel for pixel on every screen, every round played. |
+| Size | 250 KB for the chapter; every game under 64 KB, the largest How Far Has It Yielded. |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 204 pack games played to the end. |
+| Everything else | 4,844 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What else the move needed:
+
+- The axial, torsion, diagram, stress, deflection, composite, Mohr and
+  column figures and the Mechanics concept pictures switched to the
+  recordable path and text. Nothing draws differently: each helper hashed
+  every built-in screen of its games before and after (4,044 and 3,756
+  hashes), all identical.
+- Square Bar's painter in Which J Is It became public so it can be
+  recorded.
+
 ## Notes for after (not changed during the move)
 
 1. **Three Dynamics formulas run off a small phone.** On a phone 320
@@ -450,3 +486,9 @@ What else the move needed:
    the answer "One changes the odds of the other" wraps to two lines and
    overflows its button by 18 pixels, in the built-in game as much as in the
    pack. Fix: let the button grow with its words.
+
+4. **Mechanics of Materials formulas run off the screen.** In the
+   built-in games as much as in the pack: What Comes Out (58 and 215
+   pixels at 320, still 105 at 430), Can You Get There (15 at every
+   width) and Is R the Worst (15 at 320). Fix: let a long formula wrap or
+   scale down.

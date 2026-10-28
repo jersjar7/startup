@@ -1,6 +1,10 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path, TextPainter;
+
+import '../packs/drawing/figure_dash.dart';
+import '../packs/drawing/figure_path.dart';
+import '../packs/drawing/figure_text.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -373,11 +377,7 @@ class TubePainter extends CustomPainter {
       ..color = AppColors.ink3
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2;
-    for (final m in path.computeMetrics()) {
-      for (var d = 0.0; d < m.length; d += 8) {
-        canvas.drawPath(m.extractPath(d, math.min(d + 4, m.length)), paint);
-      }
-    }
+    drawPathDashes(canvas, path, paint);
   }
 
   @override
