@@ -421,12 +421,7 @@ Future<_Run> _playing(
         final marked = (tapped?['hits'] as List?)?.cast<int>() ?? const [];
         final everyWrong = [
           for (var o = 0; o < options.length; o++)
-            // An answer with no mark on this round's drawing and nothing
-            // else on screen to tap cannot be picked (What the Water
-            // Touches has no dry wall in a channel with no freeboard).
-            if (o != answer &&
-                (tapped == null || marked.contains(o) || _onScreen(r, o)))
-              o,
+            if (o != answer && _canPick(r, o, tapped, marked)) o,
         ];
         // A round with a table of answers tries its first, middle and
         // last wrong ones, not all twenty.
@@ -775,6 +770,26 @@ Map<String, Object?>? _answerNode(Map<String, Object?> round, int i) {
 /// Whether a round's slots are tapped to take a pick back (`slot` nodes).
 bool _hasSlotNodes(Map<String, Object?> round) =>
     jsonEncode(round['screen']).contains('"k":"slot"');
+
+/// Whether answer [o] of round [r] can be picked at all. An answer with no
+/// mark on the round's drawing and nothing else on screen to tap cannot
+/// (What the Water Touches has no dry wall in a channel with no
+/// freeboard), nor one with no answer node on a screen whose answers are
+/// nodes (Which Happens First's operators sit in the formula untapped).
+bool _canPick(
+  Map<String, Object?> r,
+  int o,
+  Map<String, Object?>? tapped,
+  List<int> marked,
+) {
+  if (marked.contains(o)) return true;
+  if (tapped != null) return _onScreen(r, o);
+  final answer = r['answer'];
+  if (answer is int && _answerNode(r, answer) != null) {
+    return _answerNode(r, o) != null;
+  }
+  return true;
+}
 
 /// Whether answer [i] of [round] can be found on screen to tap.
 bool _onScreen(Map<String, Object?> round, int i) {

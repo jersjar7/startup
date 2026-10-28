@@ -1819,15 +1819,12 @@ Map<String, Object?> happensFirst() {
     rounds: [
       for (final r in precedenceRounds)
         () {
-          // Only the pieces that get worked out are answers; the operators
-          // between them sit in the formula with nothing to tap.
-          final pieces = [
-            for (final (i, p) in r.pieces.indexed)
-              if (!glue(p)) i,
-          ];
+          // The answers are the formula's pieces, numbered as the game
+          // numbers them; the operators between them sit in the formula
+          // with nothing to tap.
           return _round(
-            options: [for (final i in pieces) r.pieces[i]],
-            answer: pieces.indexOf(r.answer),
+            options: r.pieces,
+            answer: r.answer,
             why: r.why,
             source: r.source,
             screen: [
@@ -1861,7 +1858,7 @@ Map<String, Object?> happensFirst() {
                       )
                     else
                       _button(
-                        pieces.indexOf(i),
+                        i,
                         w: null,
                         minW: 54,
                         minH: 54,
