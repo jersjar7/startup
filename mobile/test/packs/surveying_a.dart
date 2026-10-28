@@ -59,7 +59,8 @@ Node askDonePanel(Draw Function(bool answered) paint, double h, String what) =>
 /// A drawing in the panel answered by tapping within [within] of a mark.
 /// The games hit-test the whole panel, border and all, so each mark is
 /// placed as the game places it on the outer size and moved in by the
-/// border.
+/// border. Like the games, it takes the first mark in reach, not the
+/// nearest.
 Node tapPanel({
   required double h,
   required int marks,
@@ -74,8 +75,8 @@ Node tapPanel({
   radius: 12,
   border: 'line',
   child: clip(
-    grid(
-      tapDrawing(
+    grid({
+      ...tapDrawing(
         h: h - 2,
         hits: [for (var i = 0; i < marks; i++) i],
         draw: draw,
@@ -91,7 +92,8 @@ Node tapPanel({
         },
         what: what,
       ),
-    ),
+      'first': true,
+    }),
     11,
   ),
 );

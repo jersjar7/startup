@@ -255,8 +255,9 @@ changed one sheet helper:
   paint's stroke width. The game's curves are found by `AlignPainter.arcOf`,
   made public for it.
 - **The first mark, not the nearest** (`"first": true`). Where Does That
-  Pair Land and Where It Flattens Out check their points in order and take
-  the first within 26 pixels, not the nearest. The two differ only where
+  Pair Land, Where It Flattens Out, Find It on the Plan, Which Length Is
+  Which and Which Course Takes the Most check their marks in order and
+  take the first in reach (25 or 26 pixels), not the nearest. The two differ only where
   two points sit closer than twice the reach, so the pack says which rule
   the game uses rather than leave it to chance.
 - **Stacked sheet pictures.** The Surveying sheets' stacking widget is
