@@ -143,15 +143,24 @@ Node math(String v, num size, {Object? color}) => {
   'color': ?color,
 };
 
-Node answer(int i, Node child, {num radius = 12, Object? fill, String? key}) =>
-    {
-      'k': 'answer',
-      'i': i,
-      'key': ?key,
-      'child': child,
-      if (radius != 12) 'radius': radius,
-      'fill': ?fill,
-    };
+/// Answer [i], tapped anywhere on [child]: inked, or with [plain] a bare
+/// tap area (no ink, no fill) as games on a bare tap handler are.
+Node answer(
+  int i,
+  Node child, {
+  num radius = 12,
+  Object? fill,
+  String? key,
+  bool plain = false,
+}) => {
+  'k': 'answer',
+  'i': i,
+  if (plain) 'plain': true,
+  'key': ?key,
+  'child': child,
+  if (radius != 12) 'radius': radius,
+  'fill': ?fill,
+};
 
 /// A value that follows the state of the answer it sits in.
 Map<String, Object?> tone(

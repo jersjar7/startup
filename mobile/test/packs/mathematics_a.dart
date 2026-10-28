@@ -2814,6 +2814,9 @@ Map<String, Object?> slideToFlat() {
                     what: 'slide-to-flat round $n spots',
                   ),
                   'axis': 'x',
+                  // The game rounds a finger exactly halfway up, to the
+                  // later spot (every round starts at zero).
+                  'tie': 'last',
                   'drag': true,
                   'hits': [for (var i = 0; i < xs.length; i++) i],
                   'h': h,

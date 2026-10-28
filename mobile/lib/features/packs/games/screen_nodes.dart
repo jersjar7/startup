@@ -301,9 +301,11 @@ extension on _ScreenBlocks {
         final i = n['i']! as int;
         final off = onPick == null || _value(n['off'], i) == true;
         if (n['plain'] == true) {
-          // Tapped with no ink, as games built on a bare tap handler are.
+          // Tapped with no ink, as games built on a bare tap handler are
+          // (a spreadsheet cell, a piece of a formula), keyed as an inked
+          // answer is.
           return GestureDetector(
-            key: ValueKey('answer-$i'),
+            key: ValueKey(n['key'] as String? ?? 'answer-$i'),
             onTap: off ? null : () => onPick!(i),
             child: _node(n['child']! as Map<String, Object?>, i),
           );
@@ -489,7 +491,8 @@ extension on _ScreenBlocks {
   /// the Side), or the nearest arc
   /// within its paint's stroke width of it (Which Curve Is Sharper's two
   /// curves). With `first`, the first circle within its radius wins rather
-  /// than the nearest, as games that check their points in order do.
+  /// than the nearest, as games that check their points in order do, and
+  /// with `"tie": "last"` the later of two circles as near.
   ///
   /// The drawing is `d`, keyed `"<pick or ->|<0 or 1 for answered>"` for a
   /// round of one pick, or `layers`, drawn in order: each either the same
@@ -639,6 +642,9 @@ extension on _ScreenBlocks {
     // lattice point a tap rounds to, as Land the Resultant's grid does.
     final square = n['axis'] == 'box';
     final first = n['first'] == true;
+    // With `"tie": "last"` the later of two circles as near wins, as a game
+    // that rounds a half up does (Slide to the Flat Spot).
+    final lastTie = n['tie'] == 'last';
     int? best;
     var bestGap = double.infinity;
     double? reach;
@@ -724,7 +730,7 @@ extension on _ScreenBlocks {
         }
         continue;
       }
-      if (gap < bestGap) {
+      if (gap < bestGap || (lastTie && gap == bestGap)) {
         bestGap = gap;
         best = i;
         reach = at(3);

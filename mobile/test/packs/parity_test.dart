@@ -793,9 +793,9 @@ final _panels = find.byWidgetPredicate(
 Finder _option(Map<String, Object?> round, List<String> options, int i) {
   final screen = ((round['screen'] as List?) ?? const [])
       .cast<Map<String, Object?>>();
-  if (_plainAnswer(screen, i) case final found?) return found;
   // An answer keyed as the built-in game keys its own (a spreadsheet cell).
   if (_keyOf(screen, i) case final String key) return find.byKey(ValueKey(key));
+  if (_plainAnswer(screen, i) case final found?) return found;
   final tiles = _tileAnswers(screen);
   final at = tiles.indexWhere((t) => t.$1 == i);
   if (at >= 0) {

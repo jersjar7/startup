@@ -651,9 +651,13 @@ ones: each round's curve is 241 points, drawn before and after.
 Built-in flaws copied as they are: Discriminant Gate has two rounds with
 the same words; Tap the Side takes a side within 60 pixels exactly as the
 game does (`< 60` in the game, the same reach in the pack, so only a tap
-at exactly 60 could differ); Slide to the Flat Spot rounds the finger to
-the nearest whole number, which on a tap exactly halfway between two
-picks the lower in the pack and the upper in the game.
+at exactly 60 could differ). Slide to the Flat Spot rounds the finger to
+the nearest whole number, a half up; a `tapdraw` took the first of two
+circles as near, so it now takes the later with `"tie": "last"`, and a
+tap exactly halfway picks the same spot in both. The second half's
+spreadsheet cells and formula pieces are bare tap areas with no ripple
+(`plain` answers, which may now carry their own `key`), as the built-in
+games' are.
 
 The two halves were built side by side and taught the renderer some of
 the same things under different names (a fade, a wrap, a slot tapped

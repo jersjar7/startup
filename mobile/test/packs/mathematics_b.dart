@@ -230,8 +230,9 @@ Node _button(
       c: c,
     ),
     radius: radius,
-    fill: painted ? 'clear' : of((l) => l.$1),
+    fill: painted ? null : of((l) => l.$1),
     key: key,
+    plain: painted,
   );
 }
 
@@ -1784,8 +1785,9 @@ Map<String, Object?> copyItDown() {
                   child: t(sheetValues[name] ?? '', font: 'mono', size: 13),
                 ),
                 radius: 0,
-                fill: 'clear',
                 key: 'cell-$name',
+                // A bare tap area, as the built-in cell is: no ripple.
+                plain: true,
               );
             }),
             gap(10),

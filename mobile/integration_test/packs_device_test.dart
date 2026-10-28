@@ -383,8 +383,10 @@ Finder _option(
   bool keep = false,
 }) {
   // An answer tapped with no ink (`plain`) has no button: found by the
-  // key the pack gives it.
-  if (_isPlain(blocks, i)) return find.byKey(ValueKey('answer-$i'));
+  // key the pack gives it, its own or `answer-i`.
+  if (_plainKey(blocks, i) case final String key) {
+    return find.byKey(ValueKey(key));
+  }
   final tiles = _tileAnswers(blocks);
   final at = tiles.indexWhere((t) => t.$1 == i);
   if (at >= 0) {
@@ -433,16 +435,22 @@ List<(int, double)> _tileAnswers(List<Map<String, Object?>> blocks) => [
   ],
 ];
 
-/// Whether answer [i] is a plain answer node somewhere in [nodes].
-bool _isPlain(List<Map<String, Object?>> nodes, int i) => nodes.any(
-  (b) =>
-      (b['k'] == 'answer' && b['plain'] == true && b['i'] == i) ||
-      (b['k'] != null &&
-          _isPlain([
-            if (b['child'] case final Map<String, Object?> c) c,
-            if (b['c'] case final List c) ...c.cast<Map<String, Object?>>(),
-          ], i)),
-);
+/// The key of answer [i] when it is a plain answer node somewhere in
+/// [nodes], or null.
+String? _plainKey(List<Map<String, Object?>> nodes, int i) {
+  for (final b in nodes) {
+    if (b['k'] == 'answer' && b['plain'] == true && b['i'] == i) {
+      return b['key'] as String? ?? 'answer-$i';
+    }
+    if (b['k'] == null) continue;
+    final inner = [
+      if (b['child'] case final Map<String, Object?> c) c,
+      if (b['c'] case final List c) ...c.cast<Map<String, Object?>>(),
+    ];
+    if (_plainKey(inner, i) case final String key) return key;
+  }
+  return null;
+}
 
 /// A round's drawing answered by tapping: a tap block, or a tapdraw node
 /// anywhere in its screen.
