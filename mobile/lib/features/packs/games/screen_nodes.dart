@@ -6,8 +6,8 @@ part of 'pick_one_game.dart';
 /// Every node is a map with its kind in `k`:
 ///
 /// - `box`: a container. `pad` [left, top, right, bottom], `w` (or
-///   `"max"` for the full width), `h`,
-///   `fill`, `border` (a color, or false), `stroke`, `radius`, `align`
+///   `"max"` for the full width), `h`, at least `minw` wide and `minh`
+///   high and at most `maxw` wide, `fill`, `border` (a color, or false), `stroke`, `radius`, `align`
 ///   (`center`, `left`, `right`), `clip`, `edge` (`top` for a border on
 ///   the top side only), and a `child` or `c` (children, laid out as a
 ///   column with `cross`).
@@ -38,8 +38,14 @@ part of 'pick_one_game.dart';
 ///   area, by the nearest mark, or by the nearest line (Which Arrow Is
 ///   That's three arrows, where every tap picks one); drawn as one drawing
 ///   per pick, a layer per mark, or one per order of picks.
-/// - `icon`: one of the few icons the games draw, by name in `v` (only
-///   `check` so far), with `size` and `color`.
+/// - `icon`: one of the few icons the games draw, by name in `v` (`check`,
+///   `close`, `northEast`, `southEast`, `add`, `remove`), with `size` and
+///   `color`.
+/// - `fade`: its `child` at opacity `o`.
+/// - `wrap`: children `c` in runs, `spacing` apart and `run` between
+///   runs, with `align` and `cross` (`center`).
+/// - `step`: a button that moves the pick by `by` (Stretch It to Fit).
+/// - `slot`: slot `s` (or row of a fill), tapped to empty it once filled.
 ///
 /// Any value may follow the round: `{"ask": a, "done": b}` (before and
 /// after the answer); `{"idle", "picked", "right", "wrong"}` (the state of
@@ -50,7 +56,12 @@ part of 'pick_one_game.dart';
 /// "none": v}` (which place the answer it sits in, or answer `of`, was
 /// picked in). A node's `child`, or any of its `c`, may be such a value,
 /// and may come out as nothing. Colors are token names, with
-/// `/alpha` for a see-through one, or `clear`.
+/// `/alpha` for a see-through one, or `clear`. Also `{"on", "off", "of":
+/// i}` (whether answer i, or the answer it sits in, is picked), `{"picks":
+/// {"0,2": v}, "else": v, "sorted": true}` (what is picked, in order or
+/// sorted), `{"step": [one per step]}` (a run of moves), `{"open", "won",
+/// "lost"}` (how the round ended) and `{"fill": k, "next", "full",
+/// "empty", "right", "wrong"}` (how row k of a fill stands).
 extension on _ScreenBlocks {
   Widget _node(Map<String, Object?> n, [int? answer]) {
     Object? v(String key) => _value(n[key], answer);
