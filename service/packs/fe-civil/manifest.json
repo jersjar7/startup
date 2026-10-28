@@ -3,13 +3,29 @@
   "title": "FE Civil",
   "format": 1,
   "latest": {
-    "version": 16,
-    "file": "fe-civil-v16-144e05565c66.json",
-    "sha256": "144e05565c66466209580e28aec7053b34b9a7ad85eff5d36eec4c77905d59b4",
-    "bytes": 49137479,
-    "gzipBytes": 3036229,
-    "published": "2026-10-28T16:34:12.498Z",
+    "version": 17,
+    "file": "fe-civil-v17-1103351820d7.json",
+    "sha256": "1103351820d717b78dd09fa6739a18f26b46590211126249cca53c93de5c4561",
+    "bytes": 55406226,
+    "gzipBytes": 3403601,
+    "published": "2026-10-28T17:12:46.792Z",
     "lessons": {
+      "mathematics/straight-lines-quadratics": "1.2.0",
+      "mathematics/logarithms": "1.2.0",
+      "mathematics/right-triangle-trig": "1.2.0",
+      "mathematics/law-of-sines-cosines": "1.2.0",
+      "mathematics/unit-circle-trig-identities": "1.2.0",
+      "mathematics/circles-conics": "1.2.0",
+      "mathematics/derivatives-rules": "1.2.0",
+      "mathematics/applications-derivatives": "1.2.0",
+      "mathematics/integral-calculus": "1.2.0",
+      "mathematics/lhopitals-rule": "1.2.0",
+      "mathematics/vector-basics-unit-vectors": "1.2.0",
+      "mathematics/dot-product-angle": "1.2.0",
+      "mathematics/cross-product-applications": "1.2.0",
+      "mathematics/spreadsheet-computations": "1.2.0",
+      "mathematics/structured-programming": "1.2.0",
+      "mathematics/numerical-methods": "1.2.0",
       "statistics/central-tendency-dispersion": "1.2.0",
       "statistics/linear-regression-correlation": "1.2.0",
       "statistics/probability-distributions": "1.2.0",
@@ -227,6 +243,12 @@
       "file": "fe-civil-v16-144e05565c66.json",
       "sha256": "144e05565c66466209580e28aec7053b34b9a7ad85eff5d36eec4c77905d59b4",
       "published": "2026-10-28T16:34:12.498Z"
+    },
+    {
+      "version": 17,
+      "file": "fe-civil-v17-1103351820d7.json",
+      "sha256": "1103351820d717b78dd09fa6739a18f26b46590211126249cca53c93de5c4561",
+      "published": "2026-10-28T17:12:46.792Z"
     }
   ]
 }
