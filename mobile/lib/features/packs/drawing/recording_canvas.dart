@@ -6,6 +6,7 @@ import 'package:flutter/painting.dart' as painting;
 import 'package:flutter/rendering.dart' show Matrix4;
 
 import 'drawing_painter.dart' show buildPath;
+import 'figure_hatch.dart' show recordHatches;
 import 'figure_path.dart' show pathMoves;
 
 /// A canvas that writes down what a figure draws instead of drawing it.
@@ -107,6 +108,19 @@ class RecordingCanvas implements ui.Canvas {
     double every,
     ui.Paint paint,
   ) => ops.add(['dash', a.dx, a.dy, b.dx, b.dy, on, every, _paint(paint)]);
+
+  /// Called by the figures' hatching (figure_hatch.dart) while
+  /// [recordHatches] is on: the shape once, which the player hatches with
+  /// the figure's own loop.
+  void recordHatch(ui.Path shape, ui.Paint ink, double step, double slope) =>
+      ops.add([
+        'hatch',
+        shape.fillType.index,
+        _moves(shape),
+        step,
+        slope,
+        _paint(ink),
+      ]);
 
   /// Called by the figures' dashed outlines (figure_dash.dart): the path
   /// once, which the player cuts into dashes as the figure did.
