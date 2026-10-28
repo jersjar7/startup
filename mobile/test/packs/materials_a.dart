@@ -366,7 +366,7 @@ Map<String, Object?> whichCracksFirst() => pickScreen(
 Map<String, Object?> whichOneMovesMost() => pickScreen(
   id: 'which-one-moves-most',
   chapter: 'materials',
-  title: 'Which One Biggest Most',
+  title: 'Which One Moves Most',
   closing:
       'Three things multiply: what it is made of, how long it is, and '
       'how much the temperature changes. Aluminum moves about twice as '
