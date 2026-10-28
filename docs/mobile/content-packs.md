@@ -184,7 +184,7 @@ any layout made of them can be described without changing the app:
 | `math` | A formula set inline in a row or column, the way a block's centred formula is set on its own line (added with Fluid Mechanics, for the two numbers under Which One to Match). |
 | `answer` | An answer, tapped anywhere on what it holds. |
 | `icon` | One of the few icons the games draw (only the check of a tick box so far, added with Ethics). |
-| `tapdraw` | A drawing answered by tapping on it: by area, by the nearest mark, by the nearest mark measured across only, by the nearest line however far (added with Statics, for Which Arrow Is That, where every tap on the triangle picks the arrow it is closest to), or by the nearest arc within reach (added with Surveying, for Which Curve Is Sharper's two curves). With `first`, the first mark within reach wins rather than the nearest. With several picks it is drawn in layers, one per mark, so no drawing is kept for every combination of picks. |
+| `tapdraw` | A drawing answered by tapping on it: by area, by the nearest mark, by the nearest mark measured across only (or up and down only, added with Mechanics of Materials), by the nearest line however far (added with Statics, for Which Arrow Is That, where every tap on the triangle picks the arrow it is closest to), or by the nearest arc within reach (added with Surveying, for Which Curve Is Sharper's two curves). With `first`, the first mark within reach wins rather than the nearest. With several picks it is drawn in layers, one per mark, so no drawing is kept for every combination of picks. |
 
 Any value in a node may follow the round instead of being fixed: before and
 after the answer; the state of the answer it sits in (idle, picked, right,
@@ -264,6 +264,29 @@ changed one sheet helper:
   now a function that returns the plain column it built, so the builder
   reads it directly; the pictures drew the same to the pixel before and
   after.
+
+Mechanics of Materials (2026-10-28) added two things a recording keeps
+and one way to tap:
+
+- **Two paths combined** (`["X", operation, movesA, movesB]`, a path
+  move). Which Area Twists It shades a tube's metal as its outside less
+  its bore (`Path.combine`). A combined path could only be traced, which
+  turns a circle into a polygon. The path shim now has its own
+  `Path.combine`, which notes both paths' moves, and the player rebuilds
+  the two paths and combines them the same way. On a phone it is
+  Flutter's `Path.combine`, nothing else.
+- **A dashed outline** (`["pdash", fill, moves, on, every, paint]`). The
+  same game dashes the middle of the tube's wall, a circle or a square,
+  by cutting the path into pieces along its length. Each piece of a
+  circle is a curve that could only be traced, a different one at every
+  width. A figure that dashes an outline through `drawPathDashes`
+  (`figure_dash.dart`) is recorded as the path once, and the player runs
+  the figure's own loop on it, as `drawDashes` does for a straight line.
+- **Up and down only** (`"axis": "y"` on a `tapdraw`). Which Fiber Is
+  Worst marks five layers across a beam's section and takes the layer
+  nearest the tap measured up and down only, within 26 pixels, since a
+  layer runs the width of the section. The other way round from
+  `"axis": "x"`.
 
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is
