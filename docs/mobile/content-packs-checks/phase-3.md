@@ -28,7 +28,8 @@ chapter.
 | Structural | 28 | 159 KB | Where Do You Take Moments, 15 KB |
 | Transportation | 29 | 271 KB | Crest or Sag, 105 KB |
 | Water Resources | 32 | 248 KB | What Moves the Critical Depth, 29 KB |
-| **Whole pack, version 15** | **292** | **2.80 MB** | |
+| Geotechnical | 35 | 234 KB | How Long Does It Take, 53 KB |
+| **Whole pack, version 16** | **327** | **3.04 MB** | |
 
 The limits the builder enforces are 250 KB for any one game and 25 KB on
 average. The pack grows by about 10 KB a game (Statics, all drawings, ran
@@ -536,8 +537,20 @@ What else the move needed:
 
 ## Water Resources (32 games), 2026-10-28
 
-Moved, published in FE Civil pack version 15 (292 games, 2.80 MB to
-download; Water Resources is 248 KB of it). Not switched on.
+Moved, published in FE Civil pack version 16 together with Geotechnical
+(see below; Water Resources is 248 KB of it). Version 15 carried it
+first, and the full phone suite then caught two things, so it was fixed
+and published again rather than merged:
+
+- **What the Water Touches numbered its answers its own way.** The game's
+  answers are the six pieces a boundary can have; the pack listed only
+  the pieces a channel draws, so on a channel with no freeboard (round 4)
+  the answer was a different number from the game's, which the pack
+  audit test caught. The pack now keeps all six, as the game does.
+- **A shape's bounds tested inline** (`figure_ink.dart`), which the
+  figures check forbids because of an old bug with paths that only
+  move; it now reads the bounds first, as the figures' own hatching
+  loop does. Nothing records differently.
 
 The adapters are in `mobile/test/packs/water_a.dart` (open channels
 through hydrology) and `water_b.dart` (routing, groundwater and
@@ -567,8 +580,8 @@ differently; each was compared again and all match to the pixel.
 |---|---|
 | 1 to 4, as above | 192 of 192 runs pass, all 32 games pixel for pixel on every screen, every round played. |
 | Size | 248 KB for the chapter; every game under 30 KB, the largest What Moves the Critical Depth. |
-| On the iPhone simulator (iPhone 17 Pro) | SIMRESULT |
-| Everything else | SUITERESULT |
+| On the iPhone simulator (iPhone 17 Pro) | As for Geotechnical, below. |
+| Everything else | As for Geotechnical, below. |
 
 What else the move needed:
 
@@ -580,6 +593,46 @@ What else the move needed:
   before and after (5,007 and 3,760 hashes), all identical. The figures'
   hatching loop moved into a shared function unchanged, so every other
   hatched figure in the app draws exactly as before.
+
+## Geotechnical (35 games), 2026-10-28
+
+Moved, published in FE Civil pack version 16 with Water Resources (327
+games, 3.04 MB to download; Geotechnical is 234 KB of it). Not switched
+on.
+
+The adapters are in `mobile/test/packs/geotech_a.dart` (phase relations
+through the infinite slope) and `geotech_b.dart` (slope stability
+through deep foundations), written side by side and registered together
+as one chapter. Every game is the panel screen (the problem, a drawing
+in a white panel, a formula under it in some, plain answer rows), so
+neither the phone nor the builder needed anything new. Two things in the
+figures did:
+
+- **Sheet labels set with a plain text painter.** The Geotechnical sheet
+  pictures laid out their own labels, which the recorder cannot read;
+  they now use the text and path shims, as the Structural sheet pictures
+  do.
+- **A traced curve that never finished.** Wetter Is Not Denser's Proctor
+  curve is 61 short lines; traced, the builder found different corners at
+  nearly every width and had not finished one round after half an hour.
+  Through the path shim it is its 61 moves and records in under two
+  seconds. The classification, effective stress, consolidation, seepage,
+  slope, earth pressure, wall, compaction and pile figures all draw their
+  paths through the shim now.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 210 of 210 runs pass, all 35 games pixel for pixel on every screen, every round played. |
+| Size | 234 KB for the chapter; 3.3 to 53 KB a game. How Long Does It Take is the large one: about 280 small arrowheads on its drainage arrows, kept path by path. Well under the ceiling, so left. |
+| On the iPhone simulator (iPhone 17 Pro) | SIMRESULT |
+| Everything else | SUITERESULT |
+
+What else the move needed:
+
+- Nothing draws differently: the helpers hashed every round drawing of
+  the 35 games, of the three other games that share the slope figures,
+  and every Geotechnical sheet picture before and after (4,400 and 3,806
+  images), all identical.
 
 ## Notes for after (not changed during the move)
 
@@ -631,3 +684,8 @@ What else the move needed:
 7. **Water Resources formulas run off a small phone.** In the built-in
    games as much as in the pack, at 320 pixels wide: Double the Drawdown
    (34) and What Do You Feed (43). Fix: as note 4.
+
+8. **Geotechnical formulas run off a small phone.** In the built-in games
+   as much as in the pack: Which Fork First (78 pixels at 320 wide, 8 at
+   390), Above or Below the Line (53 at 320), Drained or Not (101 at 320,
+   31 at 390) and Which Term Drops Out (27 at 320). Fix: as note 4.
