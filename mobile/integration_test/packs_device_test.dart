@@ -269,6 +269,9 @@ Future<void> _tapMark(
             Rect.fromLTRB(n(1), n(2), n(3), n(4)),
             n(5) + n(6) / 2,
           ),
+          // A line's middle: its ends can be shared with the next line
+          // along (the corners of a channel's boundary).
+          'line' => Offset((n(1) + n(3)) / 2, (n(2) + n(4)) / 2),
           _ => Offset(n(1), n(2)),
         },
   );

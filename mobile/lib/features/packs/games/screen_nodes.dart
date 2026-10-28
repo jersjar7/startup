@@ -325,7 +325,9 @@ extension on _ScreenBlocks {
   /// (the last of overlapping ones), otherwise the nearest circle within
   /// its radius, by distance or, with `axis: "x"`, across only, or with
   /// `axis: "y"`, up and down only (Which Fiber Is Worst's layers run the
-  /// width of the section), the nearest line however far (the first of lines as near), or the nearest arc
+  /// width of the section), the nearest line (the first of lines as near)
+  /// however far, or within its paint's stroke width when it has one (What
+  /// the Water Touches's pieces of a channel's boundary), or the nearest arc
   /// within its paint's stroke width of it (Which Curve Is Sharper's two
   /// curves). With `first`, the first circle within its radius wins rather
   /// than the nearest, as games that check their points in order do.
@@ -435,12 +437,16 @@ extension on _ScreenBlocks {
         continue;
       }
       if (op[0] == 'line') {
-        // The nearest line, however far: every tap picks one.
+        // The nearest line: within its stroke width when it has one,
+        // otherwise however far, so every tap picks one.
         final gap = _toSegment(tap, Offset(at(1), at(2)), Offset(at(3), at(4)));
         if (gap < bestGap) {
           bestGap = gap;
           best = i;
-          reach = double.infinity;
+          final width = (op[5] as Map?)?['w'];
+          reach = width == null
+              ? double.infinity
+              : drawingNumber(width, size.width);
         }
         continue;
       }

@@ -378,6 +378,17 @@ Future<_Run> _playing(
                   Rect.fromLTRB(n(l), n(t), n(r), n(b)),
                   n(from) + n(sweep) / 2,
                 )
+              // A line's middle: its ends can be shared with the next
+              // line along (the corners of a channel's boundary).
+              else if (step case [
+                'line',
+                final x1,
+                final y1,
+                final x2,
+                final y2,
+                ...,
+              ])
+                Offset((n(x1) + n(x2)) / 2, (n(y1) + n(y2)) / 2)
               else if (step case [_, final x, final y, ...])
                 Offset(n(x), n(y)),
           ];
@@ -485,6 +496,7 @@ Future<void> _tapMark(
             Rect.fromLTRB(n(1), n(2), n(3), n(4)),
             n(5) + n(6) / 2,
           ),
+          'line' => Offset((n(1) + n(3)) / 2, (n(2) + n(4)) / 2),
           _ => Offset(n(1), n(2)),
         },
   );
@@ -492,8 +504,7 @@ Future<void> _tapMark(
 
 /// The point halfway round an arc drawn in [oval], at [angle].
 Offset _arcMiddle(Rect oval, double angle) =>
-    oval.center +
-    Offset(math.cos(angle), math.sin(angle)) * (oval.width / 2);
+    oval.center + Offset(math.cos(angle), math.sin(angle)) * (oval.width / 2);
 
 Future<void> _tapOn(WidgetTester tester, Finder finder) async {
   // A long round builds its answers only once they are scrolled near.
