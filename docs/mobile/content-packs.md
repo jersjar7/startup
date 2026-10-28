@@ -312,6 +312,27 @@ hundredth of a pixel of the meeting and, taken with its own value as the
 corner, fits every value closer, it is the corner instead. Keeping the
 figure closer (`closer`) also matched, but cost 1.6 MB.
 
+Structural, second half (2026-10-28: Where Do You Park It, the
+reinforced concrete beams and columns, the steel beams, columns and
+tension members) needed nothing new on the phone or in the builder. All
+fourteen share one screen: the problem, then either a drawing in a
+bordered panel with a formula under it, or once answered a cream box of
+two formulas, then plain answer rows. That is the plain blocks plus one
+`box` node (`mobile/test/packs/structural_b.dart`). Three files now draw
+through the shims: the steel figures (the column's buckled bows are
+quadratic curves, and traced they cost Which Axis Wins Now 800 KB to
+download, 3.6 KB kept as moves), the reinforced concrete figures (a
+traced square to clip the hatch to came back with corners a float32 hair
+off, a different one at nearly every width) and the Structural sheet
+pictures (their own labels were a plain text painter, which cannot be
+recorded). The two column cage sheets are kept closer (`closer`): their
+hatch, fitted to a section whose edges sit on float32 bounds, drew three
+lines a few shades off across a pair's width at the plain tolerance,
+about 600 pixels, over ADR 0031's share. Every
+round drawing of the fourteen games and every picture on all 28
+Structural sheets hashed the same before and after, at eight widths, day
+and night.
+
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is
 out, a new kind of block is a new game type (or a new version of this one),
