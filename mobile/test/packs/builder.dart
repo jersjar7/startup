@@ -987,6 +987,13 @@ Map<String, Object?> pictureJson(Widget w, String name) {
       ],
     };
   }
+  // A sheet's own widget that only lays pictures out (Surveying stacks two
+  // full width pictures with one): whatever it builds. Its build reads
+  // nothing from where it sits, so it is built here on its own.
+  if (w is StatelessWidget) {
+    // ignore: invalid_use_of_protected_member
+    return pictureJson(w.build(StatelessElement(w)), name);
+  }
   throw UnsupportedError('$name: picture layout ${w.runtimeType}');
 }
 
