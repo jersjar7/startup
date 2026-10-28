@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -355,13 +356,28 @@ Future<_Run> _playing(
           await tester.pumpAndSettle();
           final origin = tester.getTopLeft(figure);
           final size = tester.getSize(figure);
-          // A mark is a circle's centre, or the middle of a tap area.
+          // A mark is a circle's centre, the middle of a tap area, or the
+          // middle of an arc.
           double n(Object? v) => drawingNumber(v, size.width);
           final areas = <Rect>[];
           final marks = [
             for (final step in drawingSteps(ops(tap['targets']), size.width))
               if (step case ['rect', final l, final t, final r, final b, ...])
                 (areas..add(Rect.fromLTRB(n(l), n(t), n(r), n(b)))).last.center
+              else if (step case [
+                'arc',
+                final l,
+                final t,
+                final r,
+                final b,
+                final from,
+                final sweep,
+                ...,
+              ])
+                _arcMiddle(
+                  Rect.fromLTRB(n(l), n(t), n(r), n(b)),
+                  n(from) + n(sweep) / 2,
+                )
               else if (step case [_, final x, final y, ...])
                 Offset(n(x), n(y)),
           ];
@@ -463,11 +479,21 @@ Future<void> _tapMark(
   double n(int k) => drawingNumber(step[k], size.width);
   await tester.tapAt(
     tester.getTopLeft(figure) +
-        (step[0] == 'rect'
-            ? Rect.fromLTRB(n(1), n(2), n(3), n(4)).center
-            : Offset(n(1), n(2))),
+        switch (step[0]) {
+          'rect' => Rect.fromLTRB(n(1), n(2), n(3), n(4)).center,
+          'arc' => _arcMiddle(
+            Rect.fromLTRB(n(1), n(2), n(3), n(4)),
+            n(5) + n(6) / 2,
+          ),
+          _ => Offset(n(1), n(2)),
+        },
   );
 }
+
+/// The point halfway round an arc drawn in [oval], at [angle].
+Offset _arcMiddle(Rect oval, double angle) =>
+    oval.center +
+    Offset(math.cos(angle), math.sin(angle)) * (oval.width / 2);
 
 Future<void> _tapOn(WidgetTester tester, Finder finder) async {
   // A long round builds its answers only once they are scrolled near.

@@ -8,7 +8,10 @@
 
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path, TextPainter;
+
+import '../packs/drawing/figure_path.dart';
+import '../packs/drawing/figure_text.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
@@ -22,6 +25,7 @@ import 'mechanics_pictures.dart' show ConceptPicture, ConceptPair;
 import 'profile_figures.dart';
 import 'survey_figures.dart';
 import 'traverse_figures.dart';
+import '../packs/drawing/figure_dash.dart' show drawDashes;
 
 // ---------------------------------------------------------------------------
 // Bearings
@@ -182,9 +186,9 @@ const _wander = Strip(offsets: [8, 14, 19, 22, 20, 15, 9], step: 10);
 // Two drawings the painters label along their own bottom edge, so they are
 // stacked at full width rather than set side by side: at half width the
 // painter's own labels land on each other.
-Widget methodPicture() => const _Stacked(
-  top: ParcelPainter(parcel: _parcel, order: [0, 1, 2, 3]),
-  bottom: OffsetsPainter(strip: _wander),
+Widget methodPicture() => _stacked(
+  top: const ParcelPainter(parcel: _parcel, order: [0, 1, 2, 3]),
+  bottom: const OffsetsPainter(strip: _wander),
   topCaption: 'straight sides and known corners: use the coordinates',
   bottomCaption: 'a boundary that wanders: measure offsets off a baseline',
 );
@@ -250,9 +254,9 @@ Widget endAreaPicture() => const ConceptPicture(
   height: 220,
 );
 
-Widget stationsPicture() => const _Stacked(
-  top: HaulPainter(haul: _hump, locked: true),
-  bottom: HaulPainter(haul: _hump, skipMiddle: true, locked: true),
+Widget stationsPicture() => _stacked(
+  top: const HaulPainter(haul: _hump, locked: true),
+  bottom: const HaulPainter(haul: _hump, skipMiddle: true, locked: true),
   topCaption: 'every pair of stations worked and added: the real hill',
   bottomCaption:
       'the two ends only. both are zero, so the whole hill is booked as no '
@@ -327,13 +331,13 @@ Widget arctanPicture() => const ConceptPair(
 
 // The two pieces the lesson says get mixed up, each marked on its own copy
 // of the same curve: the painter marks one at a time.
-Widget roadCurvePicture() => const _Stacked(
-  top: AlignPainter(
+Widget roadCurvePicture() => _stacked(
+  top: const AlignPainter(
     bend: Bend2(radius: 600, turn: 60),
     answer: Bit.tangent,
     locked: true,
   ),
-  bottom: AlignPainter(
+  bottom: const AlignPainter(
     bend: Bend2(radius: 600, turn: 60),
     answer: Bit.arc,
     locked: true,
@@ -381,32 +385,21 @@ Widget highPointPicture() => const ConceptPicture(
 // ---------------------------------------------------------------------------
 // Two drawings one above the other, each at full width
 
-class _Stacked extends StatelessWidget {
-  const _Stacked({
-    required this.top,
-    required this.bottom,
-    required this.topCaption,
-    required this.bottomCaption,
-    this.height = 155,
-  });
-
-  final CustomPainter top;
-  final CustomPainter bottom;
-  final String topCaption;
-  final String bottomCaption;
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ConceptPicture(painter: top, caption: topCaption, height: height),
-        const SizedBox(height: 14),
-        ConceptPicture(painter: bottom, caption: bottomCaption, height: height),
-      ],
-    );
-  }
-}
+// A plain column rather than a widget of its own, so the content pack's
+// builder can read the two pictures in it.
+Widget _stacked({
+  required CustomPainter top,
+  required CustomPainter bottom,
+  required String topCaption,
+  required String bottomCaption,
+  double height = 155,
+}) => Column(
+  children: [
+    ConceptPicture(painter: top, caption: topCaption, height: height),
+    const SizedBox(height: 14),
+    ConceptPicture(painter: bottom, caption: bottomCaption, height: height),
+  ],
+);
 
 // ---------------------------------------------------------------------------
 // The painters that exist only for a sheet
@@ -655,14 +648,14 @@ class _PairPainter extends CustomPainter {
       ..color = AppColors.ink3
       ..strokeWidth = 1;
     const step = 7.0;
-    final from = Offset(left, bottom);
-    final to = spot(1, 1);
-    final span = (to - from).distance;
-    for (var d = 0.0; d < span; d += step * 2) {
-      final a = from + (to - from) / span * d;
-      final b = from + (to - from) / span * math.min(d + step, span);
-      canvas.drawLine(a, b, dash);
-    }
+    drawDashes(
+      canvas,
+      Offset(left, bottom),
+      spot(1, 1),
+      dash,
+      on: step,
+      every: step * 2,
+    );
 
     canvas.drawCircle(right_, 5.5, Paint()..color = AppColors.forest);
     text('(340, 880)', right_ + const Offset(10, -6), color: AppColors.forest);

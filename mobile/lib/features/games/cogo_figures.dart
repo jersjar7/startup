@@ -1,9 +1,12 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide TextPainter;
+
+import '../packs/drawing/figure_text.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../packs/drawing/figure_dash.dart';
 import 'figure_ink.dart';
 
 /// A point held as coordinates, the way every modern survey holds one.
@@ -249,20 +252,14 @@ class CogoPainter extends CustomPainter {
     // inverse computation solves.
     if (showDeltas) {
       final corner = Offset(to.dx, from.dy);
-      void dashed(Offset a, Offset b, Color color) {
-        final run = b - a;
-        if (run.distance < 1) return;
-        final unit = run / run.distance;
-        for (var k = 0.0; k < run.distance; k += 8) {
-          canvas.drawLine(
-            a + unit * k,
-            a + unit * math.min(k + 4, run.distance),
-            Paint()
-              ..color = color
-              ..strokeWidth = 1.6,
-          );
-        }
-      }
+      void dashed(Offset a, Offset b, Color color) => drawDashes(
+        canvas,
+        a,
+        b,
+        Paint()
+          ..color = color
+          ..strokeWidth = 1.6,
+      );
 
       dashed(from, corner, AppColors.forest);
       dashed(corner, to, AppColors.info);

@@ -98,6 +98,16 @@ class RecordingCanvas implements ui.Canvas {
   void drawLine(ui.Offset p1, ui.Offset p2, ui.Paint paint) =>
       ops.add(['line', p1.dx, p1.dy, p2.dx, p2.dy, _paint(paint)]);
 
+  /// Called by the figures' dashed lines (figure_dash.dart): one step for
+  /// the whole line, which the player draws dash by dash as the figure did.
+  void recordDashes(
+    ui.Offset a,
+    ui.Offset b,
+    double on,
+    double every,
+    ui.Paint paint,
+  ) => ops.add(['dash', a.dx, a.dy, b.dx, b.dy, on, every, _paint(paint)]);
+
   @override
   void drawRect(ui.Rect rect, ui.Paint paint) =>
       ops.add(['rect', ..._rect(rect), _paint(paint)]);

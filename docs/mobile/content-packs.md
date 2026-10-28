@@ -70,6 +70,18 @@ What is kept:
   (`{"n": [count, width, count, ...]}`). Without it, a dashed line made
   every few pixels of width a separate drawing: one trench game was 200 KB
   to download, and is 5 KB with it.
+- **A whole dashed line** (`["dash", ax, ay, bx, by, on, every, paint]`),
+  added 2026-10-28 with Surveying. A run still kept every dash of a line
+  along a slope whose run follows the width: each dash end then lies on a
+  curve in the width, and the last dash is cut short somewhere different
+  at every width, so Road or Grade Line took 1.8 MB to download and Where
+  It Flattens Out 6.7 MB. A figure that draws its dashes through
+  `drawDashes` (`lib/features/packs/drawing/figure_dash.dart`) is recorded
+  as the line's two ends, and the player runs the figure's own loop on
+  them: 7.7 KB and 15 KB. On a phone's real canvas `drawDashes` is the
+  same loop the figures had, so the built-in drawings did not change by a
+  pixel (every Surveying drawing and sheet picture compared before and
+  after).
 - **Bands** (`{"bands": [[from width, steps], ...]}`) for a drawing that
   really changes at some width.
 - **Concept sheet pictures**: one drawing, two side by side, or a column of
@@ -172,7 +184,7 @@ any layout made of them can be described without changing the app:
 | `math` | A formula set inline in a row or column, the way a block's centred formula is set on its own line (added with Fluid Mechanics, for the two numbers under Which One to Match). |
 | `answer` | An answer, tapped anywhere on what it holds. |
 | `icon` | One of the few icons the games draw (only the check of a tick box so far, added with Ethics). |
-| `tapdraw` | A drawing answered by tapping on it: by area, by the nearest mark, by the nearest mark measured across only, or by the nearest line however far (added with Statics, for Which Arrow Is That, where every tap on the triangle picks the arrow it is closest to). With several picks it is drawn in layers, one per mark, so no drawing is kept for every combination of picks. |
+| `tapdraw` | A drawing answered by tapping on it: by area, by the nearest mark, by the nearest mark measured across only, by the nearest line however far (added with Statics, for Which Arrow Is That, where every tap on the triangle picks the arrow it is closest to), or by the nearest arc within reach (added with Surveying, for Which Curve Is Sharper's two curves). With `first`, the first mark within reach wins rather than the nearest. With several picks it is drawn in layers, one per mark, so no drawing is kept for every combination of picks. |
 
 Any value in a node may follow the round instead of being fixed: before and
 after the answer; the state of the answer it sits in (idle, picked, right,
@@ -223,6 +235,35 @@ not the ones beside the bend.
 A concept sheet's picture may now be a **row** of pictures side by side,
 any number with the same gap between (Which Way Does It Point's three tails),
 besides one picture, a pair, or a column of those.
+
+Surveying (2026-10-28) lays some sheet pictures out with a small widget of
+its own (two full width pictures stacked, for drawings whose labels collide
+at half width). The builder reads any such widget by what it builds, so it
+arrives in the pack as the plain column it is; nothing new on the phone.
+The Surveying figures (bearings, leveling, areas) draw their paths through
+the recording path shim, as the Statics figures do, so a recorded curve is
+rebuilt move for move rather than traced.
+
+Surveying also added two ways to tap a drawing and
+changed one sheet helper:
+
+- **An arc to tap.** Which Curve Is Sharper is answered by tapping one of
+  two curves fitted into the same corner: the nearer curve within 24 pixels
+  of the tap, measured to the arc itself, or to the end of the arc on the
+  tap's side once the tap is past it. A `tapdraw` target may now be an arc,
+  recorded as the game draws its curve (`drawArc`), with the reach as the
+  paint's stroke width. The game's curves are found by `AlignPainter.arcOf`,
+  made public for it.
+- **The first mark, not the nearest** (`"first": true`). Where Does That
+  Pair Land, Where It Flattens Out, Find It on the Plan, Which Length Is
+  Which and Which Course Takes the Most check their marks in order and
+  take the first in reach (25 or 26 pixels), not the nearest. The two differ only where
+  two points sit closer than twice the reach, so the pack says which rule
+  the game uses rather than leave it to chance.
+- **Stacked sheet pictures.** The Surveying sheets' stacking widget is
+  now a function that returns the plain column it built, so the builder
+  reads it directly; the pictures drew the same to the pixel before and
+  after.
 
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is

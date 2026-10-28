@@ -171,7 +171,9 @@ describe('the packs we publish', () => {
         expect(JSON.parse(text).version).toBe(v.version);
       }
       expect(m.versions.at(-1)).toMatchObject({ version: m.latest.version, file: m.latest.file, sha256: m.latest.sha256 });
-    });
+      // Every version is read and hashed, and they add up as chapters move
+      // (FE Civil is past 100 MB), so this gets more than the default 5 seconds.
+    }, 60_000);
 
     it(`${exam}: the latest version is sound and matches its manifest`, () => {
       const pack = JSON.parse(fs.readFileSync(path.join(PACKS_DIR, exam, m.latest.file), 'utf8'));

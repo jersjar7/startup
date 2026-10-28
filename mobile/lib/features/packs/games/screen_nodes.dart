@@ -320,11 +320,14 @@ extension on _ScreenBlocks {
   };
 
   /// A drawing `h` high answered by tapping on it. Targets are recorded
-  /// circles, rectangles or lines, one per mark, and `hits` says which
-  /// answer each mark stands for: a tap inside a rectangle picks it (the
-  /// last of overlapping ones), otherwise the nearest circle within its
-  /// radius, by distance or, with `axis: "x"`, across only, or the nearest
-  /// line however far (the first of lines as near).
+  /// circles, rectangles, lines or arcs, one per mark, and `hits` says
+  /// which answer each mark stands for: a tap inside a rectangle picks it
+  /// (the last of overlapping ones), otherwise the nearest circle within
+  /// its radius, by distance or, with `axis: "x"`, across only, the nearest
+  /// line however far (the first of lines as near), or the nearest arc
+  /// within its paint's stroke width of it (Which Curve Is Sharper's two
+  /// curves). With `first`, the first circle within its radius wins rather
+  /// than the nearest, as games that check their points in order do.
   ///
   /// The drawing is `d`, keyed `"<pick or ->|<0 or 1 for answered>"` for a
   /// round of one pick, or `layers`, drawn in order: each either the same
@@ -386,6 +389,7 @@ extension on _ScreenBlocks {
 
   static int? _hitOf(Map<String, Object?> n, Size size, Offset tap) {
     final acrossOnly = n['axis'] == 'x';
+    final first = n['first'] == true;
     int? best;
     var bestGap = double.infinity;
     double? reach;
@@ -397,6 +401,37 @@ extension on _ScreenBlocks {
       double at(int k) => drawingNumber(op[k], size.width);
       if (op[0] == 'rect') {
         if (Rect.fromLTRB(at(1), at(2), at(3), at(4)).contains(tap)) best = i;
+        continue;
+      }
+      if (op[0] == 'arc') {
+        // How far the tap is from the arc: from its circle while the tap
+        // lies within the arc's sweep, otherwise from the end on the tap's
+        // side of the arc's middle.
+        final rect = Rect.fromLTRB(at(1), at(2), at(3), at(4));
+        final start = at(5), sweep = at(6);
+        final mid = start + sweep / 2;
+        final d = tap - rect.center;
+        var turn = math.atan2(d.dy, d.dx) - mid;
+        while (turn > math.pi) {
+          turn -= 2 * math.pi;
+        }
+        while (turn <= -math.pi) {
+          turn += 2 * math.pi;
+        }
+        final r = rect.width / 2;
+        final double gap;
+        if (turn.abs() <= sweep.abs() / 2) {
+          gap = (d.distance - r).abs();
+        } else {
+          final end = mid + (turn < 0 ? -1 : 1) * sweep.abs() / 2;
+          gap = (tap - (rect.center + Offset(math.cos(end), math.sin(end)) * r))
+              .distance;
+        }
+        if (gap < bestGap) {
+          bestGap = gap;
+          best = i;
+          reach = drawingNumber((op[8]! as Map)['w'], size.width);
+        }
         continue;
       }
       if (op[0] == 'line') {
@@ -413,6 +448,14 @@ extension on _ScreenBlocks {
       final gap = acrossOnly
           ? (centre.dx - tap.dx).abs()
           : (centre - tap).distance;
+      if (first) {
+        if (best == null && gap < at(3)) {
+          bestGap = gap;
+          best = i;
+          reach = at(3);
+        }
+        continue;
+      }
       if (gap < bestGap) {
         bestGap = gap;
         best = i;

@@ -1,8 +1,11 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path;
+
+import '../packs/drawing/figure_path.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../packs/drawing/figure_dash.dart';
 import 'figure_ink.dart';
 
 /// A vertical curve: a parabola laid between two grades.
@@ -130,20 +133,14 @@ class RoadProfilePainter extends CustomPainter {
     final pvi = Offset(xOf(size, vert, vert.length / 2), up(vert.pviElevation));
 
     // The two tangents, dashed: they are a construction, not the road.
-    void dashed(Offset a, Offset b, Color color, double w) {
-      final run = b - a;
-      if (run.distance < 1) return;
-      final unit = run / run.distance;
-      for (var k = 0.0; k < run.distance; k += 8) {
-        canvas.drawLine(
-          a + unit * k,
-          a + unit * math.min(k + 4, run.distance),
-          Paint()
-            ..color = color
-            ..strokeWidth = w,
-        );
-      }
-    }
+    void dashed(Offset a, Offset b, Color color, double w) => drawDashes(
+      canvas,
+      a,
+      b,
+      Paint()
+        ..color = color
+        ..strokeWidth = w,
+    );
 
     dashed(pvc, pvi, AppColors.ink3, 1.4);
     dashed(pvi, pvt, AppColors.ink3, 1.4);
