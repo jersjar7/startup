@@ -4,7 +4,6 @@ import 'package:flutter/material.dart' hide Path, TextPainter;
 
 import '../packs/drawing/figure_path.dart';
 import '../packs/drawing/figure_text.dart';
-
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
