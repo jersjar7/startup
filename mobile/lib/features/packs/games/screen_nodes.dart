@@ -32,7 +32,8 @@ part of 'pick_one_game.dart';
 /// - `grid`: the engineering grid behind its `child`, with lines every
 ///   `minor` (18) and heavier ones every `major` (90).
 /// - `answer`: answer `i`, tapped anywhere on its `child`, with `radius`
-///   and `fill`. Inside it, a value may follow the answer's state.
+///   and `fill`, and a `key` when the built-in game keys its own. Inside
+///   it, a value may follow the answer's state.
 /// - `tapdraw`: a drawing answered by tapping on it (see [_tapDraw]): by
 ///   area, by the nearest mark, or by the nearest line (Which Arrow Is
 ///   That's three arrows, where every tap picks one); drawn as one drawing
@@ -105,6 +106,17 @@ extension on _ScreenBlocks {
                       width: d('stroke') ?? 1,
                     ),
                   )
+                : n['edge'] == 'topLeft'
+                ? Border(
+                    top: BorderSide(
+                      color: _color(border)!,
+                      width: d('stroke') ?? 1,
+                    ),
+                    left: BorderSide(
+                      color: _color(border)!,
+                      width: d('stroke') ?? 1,
+                    ),
+                  )
                 : Border.all(color: _color(border)!, width: d('stroke') ?? 1),
           ),
           child: kidsList == null
@@ -116,6 +128,9 @@ extension on _ScreenBlocks {
         );
       case 'row':
         return Row(
+          mainAxisSize: n['size'] == 'min'
+              ? MainAxisSize.min
+              : MainAxisSize.max,
           mainAxisAlignment: _main(v('main')),
           crossAxisAlignment: _cross(v('cross') ?? 'center'),
           children: kids(),
@@ -198,6 +213,19 @@ extension on _ScreenBlocks {
           align: _align(v('align')) as Alignment?,
           fit: n['fit'] != false,
         );
+      case 'step':
+        // A button that moves the pick up or down by `by`, as Stretch It to
+        // Fit's multiplier is worked with a thumb.
+        final radius = BorderRadius.circular(d('radius') ?? 12);
+        return Material(
+          color: _color(v('fill')) ?? Colors.transparent,
+          borderRadius: radius,
+          child: InkWell(
+            borderRadius: radius,
+            onTap: onStep == null ? null : () => onStep!(n['by']! as int),
+            child: child(),
+          ),
+        );
       case 'math':
         return MathText(
           v('v')! as String,
@@ -222,14 +250,27 @@ extension on _ScreenBlocks {
       case 'fade':
         return Opacity(opacity: d('o')!, child: child());
       case 'slot':
-        // A filled slot, tapped to take its pick back.
+        // A filled slot, tapped to take its pick back (Fill the Trace's
+        // rows).
         final k = n['s']! as int;
         final filled = k < picks.length && picks[k] != null;
         return GestureDetector(
+          key: ValueKey('slot-$k'),
           onTap: onClear == null || !filled ? null : () => onClear!(k),
           child: child(),
         );
       case 'draw':
+        // One drawing, or `layers` drawn one over the other (each may
+        // follow the round, and come out as nothing).
+        if (n['layers'] case final List layers) {
+          return CustomPaint(
+            painter: _LayersPainter([
+              for (final l in layers)
+                if (_value(l, answer) case final Object drawn) (drawn, null),
+            ]),
+            child: const SizedBox.expand(),
+          );
+        }
         return CustomPaint(
           painter: DrawingPainter(ops(v('d'))),
           child: const SizedBox.expand(),
@@ -259,8 +300,9 @@ extension on _ScreenBlocks {
         final radius = BorderRadius.circular(d('radius') ?? 12);
         return Material(
           // Kept as the same answer when something appears above it once
-          // answered, as the built-in games' keyed buttons are.
-          key: ValueKey('answer-$i'),
+          // answered, as the built-in games' keyed buttons are. A `key`
+          // names it as the built-in game names its own (`cell-B2`).
+          key: ValueKey(n['key'] as String? ?? 'answer-$i'),
           color: _color(_value(n['fill'], i)) ?? Colors.transparent,
           borderRadius: radius,
           child: InkWell(
@@ -278,6 +320,10 @@ extension on _ScreenBlocks {
           switch (v('v')) {
             'check' => Icons.check_rounded,
             'close' => Icons.close_rounded,
+            'northEast' => Icons.north_east_rounded,
+            'southEast' => Icons.south_east_rounded,
+            'add' => Icons.add_rounded,
+            'remove' => Icons.remove_rounded,
             final other => throw FormatException('Unknown icon $other'),
           },
           size: d('size'),
@@ -317,6 +363,22 @@ extension on _ScreenBlocks {
     if (raw.containsKey('on')) {
       final i = (raw['of'] as int?) ?? answer!;
       return picked.contains(i) ? raw['on'] : raw['off'];
+    }
+    if (raw['step'] case final List each) return each[at];
+    if (raw['fill'] case final int k) {
+      final at = k < picks.length ? picks[k] : null;
+      if (answered) {
+        return at == this.answer[k] ? raw['right'] : raw['wrong'];
+      }
+      var next = 0;
+      while (next < picks.length && picks[next] != null) {
+        next++;
+      }
+      return k == next
+          ? raw['next']
+          : at != null
+          ? raw['full']
+          : raw['empty'];
     }
     if (raw['slot'] case final int k) {
       final at = k < picks.length ? picks[k] : null;
@@ -474,28 +536,29 @@ extension on _ScreenBlocks {
                   ? DrawingPainter(ops((n['d']! as Map)[one()]))
                   : _LayersPainter([
                       for (final l in layers.cast<Map<String, Object?>>())
-                        switch (l['mark']) {
-                          final int m =>
-                            (l['d']!
-                                as Map)['${picked.contains(hits[m]) ? 1 : 0}|$done'],
-                          // One drawing for whichever mark is picked, moved
-                          // onto it (`moved`): Place the Center's dot, on
-                          // any of 169 points.
-                          _ when l['moved'] == true =>
-                            picked.length != 1 || !hits.contains(picked.single)
-                                ? null
-                                : (
-                                    _value(l['d'], null),
-                                    _markAt(
-                                      n,
-                                      size,
-                                      hits.indexOf(picked.single),
-                                    ),
-                                  ),
-                          // The same for every pick, or following the
-                          // round (before and after the answer).
-                          _ => _value(l['d'], null),
-                        },
+                        if (l['pin'] case final Map pin)
+                          ?_pin(n, pin, l['at'], size, hits)
+                        // One drawing for whichever mark is picked, moved
+                        // onto it (`moved`): Place the Center's dot, on any
+                        // of 169 points.
+                        else if (l['moved'] == true)
+                          ?(picked.length != 1 || !hits.contains(picked.single)
+                              ? null
+                              : (
+                                  _value(l['d'], null),
+                                  _markAt(n, size, hits.indexOf(picked.single)),
+                                ))
+                        else
+                          switch (l['mark']) {
+                            final int m => (
+                              (l['d']!
+                                  as Map)['${picked.contains(hits[m]) ? 1 : 0}|$done'],
+                              null,
+                            ),
+                            // The same for every pick, or following the
+                            // round (before and after the answer).
+                            _ => (_value(l['d'], null), null),
+                          },
                     ]),
               child: const SizedBox.expand(),
             ),
@@ -516,9 +579,54 @@ extension on _ScreenBlocks {
         : Offset(at(1), at(2));
   }
 
+  /// A pin layer: one drawing, recorded around the origin, drawn at the
+  /// middle of a mark (Land the Resultant's ring on the point tapped, out
+  /// of 169). `at: "pick"` draws it on the picked mark, as `ask` before the
+  /// answer and `right` or `wrong` after it; `at: "truth"` on the right
+  /// answer's mark once answered, as `done`. A state with no drawing draws
+  /// nothing.
+  (Object?, Offset?)? _pin(
+    Map<String, Object?> n,
+    Map pin,
+    Object? at,
+    Size size,
+    List<int> hits,
+  ) {
+    final int answer;
+    final String state;
+    if (at == 'truth') {
+      if (!answered) return null;
+      answer = truth.single;
+      state = 'done';
+    } else {
+      if (picked.length != 1) return null;
+      answer = picked.single;
+      state = !answered
+          ? 'ask'
+          : truth.contains(answer)
+          ? 'right'
+          : 'wrong';
+    }
+    final drawing = pin[state];
+    final mark = hits.indexOf(answer);
+    if (drawing == null || mark < 0) return null;
+    final op =
+        drawingSteps(ops(n['targets']), size.width)[mark]! as List<Object?>;
+    return (
+      drawing,
+      Offset(
+        drawingNumber(op[1], size.width),
+        drawingNumber(op[2], size.width),
+      ),
+    );
+  }
+
   static int? _hitOf(Map<String, Object?> n, Size size, Offset tap) {
     final acrossOnly = n['axis'] == 'x';
     final upOnly = n['axis'] == 'y';
+    // Measured as the larger of across and up, so the mark taken is the
+    // lattice point a tap rounds to, as Land the Resultant's grid does.
+    final square = n['axis'] == 'box';
     final first = n['first'] == true;
     int? best;
     var bestGap = double.infinity;
@@ -594,6 +702,8 @@ extension on _ScreenBlocks {
           ? (centre.dx - tap.dx).abs()
           : upOnly
           ? (centre.dy - tap.dy).abs()
+          : square
+          ? math.max((centre.dx - tap.dx).abs(), (centre.dy - tap.dy).abs())
           : (centre - tap).distance;
       if (first) {
         if (best == null && gap < at(3)) {
@@ -626,27 +736,26 @@ extension on _ScreenBlocks {
   }
 }
 
-/// Recorded drawings painted one over the other, in order: each a drawing,
-/// or a drawing and the point its origin is moved to.
+/// Recorded drawings painted one over the other, in order, each where it
+/// is pinned or moved (a mark's middle) or where it was recorded.
 class _LayersPainter extends CustomPainter {
   _LayersPainter(this.layers);
 
-  final List<Object?> layers;
+  final List<(Object?, Offset?)> layers;
 
   @override
   void paint(Canvas canvas, Size size) {
-    for (final l in layers) {
+    for (final (l, at) in layers) {
       if (l == null) continue;
-      if (l case (final Object? drawing, final Offset at)) {
-        if (drawing == null) continue;
-        canvas
-          ..save()
-          ..translate(at.dx, at.dy);
-        DrawingPainter(ops(drawing)).paint(canvas, size);
-        canvas.restore();
-      } else {
+      if (at == null) {
         DrawingPainter(ops(l)).paint(canvas, size);
+        continue;
       }
+      canvas
+        ..save()
+        ..translate(at.dx, at.dy);
+      DrawingPainter(ops(l)).paint(canvas, size);
+      canvas.restore();
     }
   }
 

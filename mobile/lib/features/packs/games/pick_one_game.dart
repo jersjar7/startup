@@ -52,7 +52,8 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
 
   /// What is picked now: the picks, or before the first one, the answer a
   /// round starts on (`start`, as Slide to the Flat Spot's marker stands
-  /// somewhere before it is moved).
+  /// somewhere before it is moved, and Stretch It to Fit's multiplier
+  /// starts at one).
   List<int?> get _now => _picks.isEmpty && _round['start'] is int
       ? [_round['start']! as int]
       : _picks;
@@ -62,6 +63,14 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
   /// Whether anything has been tapped this round (`touched`: a round that
   /// can be locked in once touched, even with everything tapped off again).
   bool _touched = false;
+
+  /// For a round played as a run of moves (`steps`): how far in the student
+  /// has got, and the wrong move that ended it, if one did.
+  int _at = 0;
+  int? _slip;
+
+  List<Map<String, Object?>>? get _steps =>
+      (_round['steps'] as List?)?.cast<Map<String, Object?>>();
 
   bool get _several => _game.type == 'pick-several';
 
@@ -73,7 +82,24 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
     final other => throw FormatException('Not an answer: $other'),
   };
 
-  void _pick(int i) => setState(() {
+  void _pick(int i) {
+    if (_steps case final steps?) {
+      // A move: the right one goes on to the next step, or finishes the
+      // round on the last; any other ends the round there (Run the Loop).
+      if (i != steps[_at]['answer']) {
+        setState(() => _slip = i);
+        _session.submit(ok: false, context: context);
+      } else if (_at == steps.length - 1) {
+        _session.submit(ok: true, context: context);
+      } else {
+        setState(() => _at++);
+      }
+      return;
+    }
+    setState(() => _choose(i));
+  }
+
+  void _choose(int i) {
     final r = _round;
     _touched = true;
     if (!_several) {
@@ -83,6 +109,18 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
       return;
     }
     final most = r['most'] as int?;
+    if (r['order'] == 'fill') {
+      // Each tap fills the first empty slot, the same answer as often as
+      // it is tapped; a slot is emptied by tapping the slot (Fill the
+      // Trace's rows).
+      final need = r['need']! as int;
+      while (_picks.length < need) {
+        _picks.add(null);
+      }
+      final hole = _picks.indexOf(null);
+      if (hole >= 0) _picks[hole] = i;
+      return;
+    }
     if (r['order'] == 'slots') {
       // Tapping a picked answer empties its slot; anything else fills the
       // first empty slot, if there is one. With `keep` a picked answer
@@ -111,7 +149,12 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
     for (final group in (r['groups'] as List?) ?? const []) {
       final members = (group as List).cast<int>();
       if (!members.contains(i)) continue;
-      _picks.removeWhere((p) => p != i && members.contains(p));
+      // Picking in a group clears an answer that stands alone, as Pick u
+      // clears "no substitution fits" once a u or a du is set.
+      final alone = ((r['alone'] as List?) ?? const []).cast<int>();
+      _picks.removeWhere(
+        (p) => (p != i && members.contains(p)) || alone.contains(p),
+      );
       if (!_picks.contains(i)) _picks.add(i);
       return;
     }
@@ -121,7 +164,9 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
     // the table" does).
     final alone = ((r['alone'] as List?) ?? const []).cast<int>();
     if (alone.contains(i)) {
-      final had = _picks.contains(i);
+      // Beside groups it is one more choice, and picking it again keeps
+      // it (Pick u's "no substitution fits").
+      final had = _picks.contains(i) && r['groups'] == null;
       _picks.clear();
       if (!had || r['stay'] == true) _picks.add(i);
     } else if (_picks.contains(i)) {
@@ -131,6 +176,16 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
         ..removeWhere(alone.contains)
         ..add(i);
     }
+  }
+
+  /// Moves the pick by [by], kept to the answers there are (a `step`
+  /// button).
+  void _step(int by) => setState(() {
+    final now = _now.single!;
+    final count = (_round['options']! as List).length;
+    _picks
+      ..clear()
+      ..add((now + by).clamp(0, count - 1));
   });
 
   /// Empties slot [k], for a round whose slots are tapped to take a pick
@@ -140,23 +195,30 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
   });
 
   /// Whether the picks can be locked in: anything picked, or exactly as
-  /// many as the round needs; at any time for a round that may be locked
-  /// in with nothing picked (`any`), or once touched (`touched`).
+  /// many as the round needs (or an answer that stands alone), or every
+  /// slot of a fill filled; at any time for a round that may be locked in
+  /// with nothing picked (`any`), or once touched (`touched`).
   bool get _ready {
     final r = _round;
     if (r['any'] == true) return true;
     if (r['touched'] == true) return _touched;
+    final need = r['need'] as int?;
+    if (r['order'] == 'fill') {
+      return _picks.length == need && !_picks.contains(null);
+    }
     // Slots may hold one answer twice, so they are counted one by one.
     final count = r['order'] == 'slots'
         ? _now.whereType<int>().length
         : _picked.length;
-    final need = r['need'] as int?;
+    final alone = ((r['alone'] as List?) ?? const []).cast<int>();
+    if (need != null && _picked.any(alone.contains)) return true;
     return need == null ? count > 0 : count == need;
   }
 
   bool get _right {
     final picks = _now;
-    if (_round['order'] == 'slots' || _round['order'] == 'list') {
+    final order = _round['order'];
+    if (order == 'slots' || order == 'list' || order == 'fill') {
       // Any of the orders the round accepts (`also`, besides the answer).
       return [
         _answer,
@@ -165,9 +227,8 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
       ].any(
         (answer) =>
             picks.length == answer.length &&
-            [
-              for (var k = 0; k < answer.length; k++) picks[k] == answer[k],
-            ].every((same) => same),
+            [for (var k = 0; k < answer.length; k++) picks[k] == answer[k]]
+                .every((same) => same),
       );
     }
     final answer = _answer;
@@ -200,31 +261,41 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
     final options = (r['options']! as List).cast<String>();
     final truth = _answer.toSet();
 
+    final steps = _steps;
     return BoardShell(
       session: _session,
       brief: _game.brief,
       buttonLabel: answered
           ? _session.advanceLabel
+          : steps != null
+          ? _game.text('button')
           : (_game.json['lock'] as String?) ?? 'Lock it in',
       onButton: answered
           ? () {
               setState(() {
                 _picks.clear();
                 _touched = false;
+                _at = 0;
+                _slip = null;
               });
               _session.next();
             }
-          : (!_ready
+          : (!_ready || steps != null
                 ? null
                 : () => _session.submit(ok: _right, context: context)),
       child: r['screen'] != null
           ? _ScreenBlocks(
               blocks: (r['screen']! as List).cast<Map<String, Object?>>(),
               answered: answered,
+              // A run of moves shows no pick: once over, the right move for
+              // the step it stopped at, and the wrong one taken, if any.
+              picks: steps != null ? [?_slip] : _now,
+              truth: steps != null ? {steps[_at]['answer']! as int} : truth,
+              answer: _answer,
+              at: _at,
               correct: _session.correct,
-              picks: _now,
-              truth: truth,
               onPick: answered ? null : _pick,
+              onStep: answered ? null : _step,
               onClear: answered ? null : _clear,
               choice: (i) => r['notes'] is List
                   ? LiabilityRow(
@@ -249,7 +320,11 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
                   ? BoardFeedback(
                       correct: _session.correct!,
                       title: _verdict(r),
-                      body: r['why']! as String,
+                      // A run of moves explains the wrong move by the step
+                      // it was made at (`why` on the step, one per answer).
+                      body: steps != null && !_session.correct!
+                          ? (steps[_at]['why']! as List)[_slip!]! as String
+                          : r['why']! as String,
                     )
                   : null,
               verdict: answered ? _verdict(r) : '',
@@ -267,6 +342,11 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
     if (_session.correct!) return r['right'] as String? ?? _game.text('right');
     return switch (r['wrong']) {
       final List each => each[_picked.single]! as String,
+      // One per set of picks, keyed by the picks in order, comma separated
+      // (Pick u names which half of the pair went wrong).
+      final Map each =>
+        (each[(_picked.toList()..sort()).join(',')] ?? _game.text('wrong'))
+            as String,
       _ => _game.text('wrong'),
     };
   }
@@ -381,8 +461,11 @@ class _ScreenBlocks extends StatelessWidget {
     required this.correct,
     required this.picks,
     required this.truth,
+    this.answer = const [],
+    this.at = 0,
     required this.onPick,
     required this.onClear,
+    this.onStep,
     required this.choice,
     required this.options,
     required this.feedback,
@@ -408,7 +491,17 @@ class _ScreenBlocks extends StatelessWidget {
   final List<int?> picks;
   Set<int> get picked => picks.whereType<int>().toSet();
   final Set<int> truth;
+
+  /// The right answers in order, for a value that follows a slot (`fill`).
+  final List<int> answer;
+
+  /// Which step a run of moves is at (`steps`).
+  final int at;
   final void Function(int)? onPick;
+
+  /// Moves the pick up or down (a `step` node).
+  final void Function(int by)? onStep;
+
   final Widget Function(int) choice;
   final int options;
   final Widget? feedback;
