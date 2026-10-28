@@ -227,8 +227,9 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
       ].any(
         (answer) =>
             picks.length == answer.length &&
-            [for (var k = 0; k < answer.length; k++) picks[k] == answer[k]]
-                .every((same) => same),
+            [
+              for (var k = 0; k < answer.length; k++) picks[k] == answer[k],
+            ].every((same) => same),
       );
     }
     final answer = _answer;
