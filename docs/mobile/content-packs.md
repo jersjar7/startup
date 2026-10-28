@@ -485,6 +485,40 @@ picture (both halves of the chapter) hashed the same before and after, at
 eight widths, day and night. The sixteen games are 3.6 to 20 KB to
 download, about 8.5 KB on average.
 
+Geotechnical, first half (2026-10-28: phase relations, classification,
+effective stress, consolidation, shear strength, seepage and the infinite
+slope) needed nothing new on the phone or in the builder. All eighteen
+games are the Structural screen: the problem, a drawing in a white panel,
+a formula centred under it, and the answers as plain rows
+(`mobile/test/packs/geotech_a.dart`). Over What shows its formula only
+once answered, since the formula is the answer; the gaps around it stay
+either way, so it is a `math` block with `when: done`. One thing was
+found:
+
+- **Sheet labels written with a plain text painter.** The Geotechnical
+  sheet pictures (`geotechnical_pictures.dart`) build their own labels
+  with Flutter's `TextPainter` and hand them to `inkLabel`, which the
+  recorder cannot read (the build stops on "text drawn with a plain
+  TextPainter" at the first sheet, When Does It Simplify's scale and
+  ruler). The file now uses the text and path shims. Five figure files
+  (classification, effective stress, consolidation, seepage, slope) also
+  draw their paths through the path shim, so a rectangle to hatch or a
+  grading curve is kept move for move rather than traced.
+
+Every round drawing of the eighteen games, of the two other games that
+share the slope figures (After the Rain, What Holds the Wedge) and every
+picture on all 35 Geotechnical sheets hashed the same before and after,
+at eight widths, day and night (4,400 images). The eighteen games are 3.3
+to 53 KB to download, about 9.6 KB on average. How Long Does It Take is
+the large one (53 KB): its drainage arrows, one every 26 pixels across
+the clay, each end in an arrowhead drawn as its own small path, and the
+pack keeps those paths one by one (about 280 of them in a round's
+drawing, across its bands). Well under the ceiling, so it was left.
+Three built-in games set a formula wider than a small phone, and the
+pack copies them exactly (to fix after the move): Which Fork First (78
+pixels over at 320, 8 at 390), Above or Below the Line (53 at 320) and
+Drained or Not (101 at 320, 31 at 390).
+
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is
 out, a new kind of block is a new game type (or a new version of this one),
