@@ -24,6 +24,7 @@ import 'package:mobile/features/packs/drawing/drawing_painter.dart';
 import 'package:mobile/features/packs/pack_model.dart';
 
 import '../support/fonts.dart';
+import 'builder.dart' show buildGames;
 import 'moved.dart';
 
 /// Checks 1 to 4 of the migration plan (docs/mobile/
@@ -45,7 +46,12 @@ const _phones = [320.0, 390.0, 430.0];
 /// `flutter test test/packs/parity_test.dart --dart-define=PARITY=construction`.
 const _only = String.fromEnvironment('PARITY');
 
-final _games = _only.isEmpty ? movedGames : movedByChapter[_only]!;
+/// One game only, to check a fix:
+/// `--dart-define=PARITY=fluid-mechanics --dart-define=PARITY_GAME=which-drags-more`.
+const _game = String.fromEnvironment('PARITY_GAME');
+
+final _chapter = _only.isEmpty ? movedGames : movedByChapter[_only]!;
+final _games = _game.isEmpty ? _chapter : {_game: _chapter[_game]!};
 
 late Map<String, Object?> _pack;
 
@@ -54,16 +60,11 @@ void main() {
     await loadBrandFonts();
     // Built here rather than read from build/packs/, and sent through JSON
     // the way a downloaded pack arrives.
-    _pack =
-        jsonDecode(
-              jsonEncode({
-                'games': {
-                  for (final MapEntry(:key, :value) in _games.entries)
-                    key: value(),
-                },
-              }),
-            )
-            as Map<String, Object?>;
+    final games = await buildGames(
+      _games,
+      () => Future<void>.delayed(Duration.zero),
+    );
+    _pack = jsonDecode(jsonEncode({'games': games})) as Map<String, Object?>;
   });
 
   for (final id in _games.keys) {

@@ -22,9 +22,7 @@ void main() {
   setUpAll(loadBrandFonts);
 
   testWidgets('build the FE Civil pack', (tester) async {
-    final games = {
-      for (final MapEntry(:key, :value) in movedGames.entries) key: value(),
-    };
+    final games = await buildGames(movedGames, tester.idle);
     final pack = {
       'format': packFormat,
       'exam': 'fe-civil',
