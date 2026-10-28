@@ -333,9 +333,16 @@ Future<_Run> _playing(
       case 'pick-one':
         final options = (r['options']! as List).cast<String>();
         final answer = r['answer']! as int;
+        final tapped = _tapBlock(r);
+        final marked = (tapped?['hits'] as List?)?.cast<int>() ?? const [];
         final everyWrong = [
           for (var o = 0; o < options.length; o++)
-            if (o != answer) o,
+            // An answer with no mark on this round's drawing and nothing
+            // else on screen to tap cannot be picked (What the Water
+            // Touches has no dry wall in a channel with no freeboard).
+            if (o != answer &&
+                (tapped == null || marked.contains(o) || _onScreen(r, o)))
+              o,
         ];
         // A round with a table of answers tries its first, middle and
         // last wrong ones, not all twenty.
@@ -378,6 +385,17 @@ Future<_Run> _playing(
                   Rect.fromLTRB(n(l), n(t), n(r), n(b)),
                   n(from) + n(sweep) / 2,
                 )
+              // A line's middle: its ends can be shared with the next
+              // line along (the corners of a channel's boundary).
+              else if (step case [
+                'line',
+                final x1,
+                final y1,
+                final x2,
+                final y2,
+                ...,
+              ])
+                Offset((n(x1) + n(x2)) / 2, (n(y1) + n(y2)) / 2)
               else if (step case [_, final x, final y, ...])
                 Offset(n(x), n(y)),
           ];
@@ -485,6 +503,7 @@ Future<void> _tapMark(
             Rect.fromLTRB(n(1), n(2), n(3), n(4)),
             n(5) + n(6) / 2,
           ),
+          'line' => Offset((n(1) + n(3)) / 2, (n(2) + n(4)) / 2),
           _ => Offset(n(1), n(2)),
         },
   );
@@ -492,8 +511,7 @@ Future<void> _tapMark(
 
 /// The point halfway round an arc drawn in [oval], at [angle].
 Offset _arcMiddle(Rect oval, double angle) =>
-    oval.center +
-    Offset(math.cos(angle), math.sin(angle)) * (oval.width / 2);
+    oval.center + Offset(math.cos(angle), math.sin(angle)) * (oval.width / 2);
 
 Future<void> _tapOn(WidgetTester tester, Finder finder) async {
   // A long round builds its answers only once they are scrolled near.
@@ -517,6 +535,16 @@ int _roundOnScreen(PackGame game) {
     if (words.every((w) => find.text(w).evaluate().isNotEmpty)) return i;
   }
   throw StateError('No round on screen');
+}
+
+/// Whether answer [i] of [round] can be found on screen to tap.
+bool _onScreen(Map<String, Object?> round, int i) {
+  try {
+    final options = (round['options']! as List).cast<String>();
+    return _option(round, options, i).evaluate().isNotEmpty;
+  } on Object {
+    return false;
+  }
 }
 
 /// A round's tap-the-mark drawing, if it has one.

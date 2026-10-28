@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
 import 'figure_dash.dart' show dashes, pathDashes;
+import 'figure_grains.dart' show grains;
+import 'figure_hatch.dart' show hatches;
 
 /// Plays back a figure recorded by the pack builder (ADR 0030).
 ///
@@ -152,6 +154,25 @@ void playDrawing(Canvas canvas, Size size, List<Object?> ops) {
           _paint(op[5], w),
           n(op[3]),
           n(op[4]),
+        );
+      case 'hatch':
+        // A whole hatched shape, hatched by the figures' own loop.
+        hatches(
+          canvas,
+          _path(op[1] as int, op[2] as List<Object?>, w),
+          _paint(op[5], w),
+          n(op[3]),
+          n(op[4]),
+        );
+      case 'grains':
+        // Soil grains packed into a block, by the figures' own loop.
+        grains(
+          canvas,
+          _rect(op, 1, w),
+          n(op[5]),
+          (op[6]! as num).toInt(),
+          _paint(op[7], w),
+          _paint(op[8], w),
         );
       case 'rect':
         canvas.drawRect(_rect(op, 1, w), _paint(op[5], w));

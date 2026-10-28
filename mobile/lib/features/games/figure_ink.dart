@@ -4,7 +4,9 @@ import 'package:flutter/material.dart' hide TextPainter;
 import 'package:flutter/painting.dart' as painting show TextPainter;
 import 'package:flutter/rendering.dart' hide TextPainter;
 
+import '../packs/drawing/figure_hatch.dart';
 import '../packs/drawing/figure_text.dart';
+import '../packs/drawing/recording_canvas.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -68,23 +70,18 @@ void hatchIn(
   Color? color,
   double slope = 1,
 }) {
-  final bounds = shape.getBounds();
-  if (bounds.isEmpty) return;
-  canvas
-    ..save()
-    ..clipPath(shape);
   final ink = Paint()
     ..color = (color ?? AppColors.ink3).withValues(alpha: 0.75)
     ..strokeWidth = 0.9;
-  final span = bounds.width + bounds.height;
-  for (var d = -bounds.height; d < span; d += step) {
-    canvas.drawLine(
-      Offset(bounds.left + d, bounds.top),
-      Offset(bounds.left + d - slope * bounds.height, bounds.bottom),
-      ink,
-    );
+  if (recordHatches && canvas is RecordingCanvas) {
+    // A shape with no area hatches nothing (see [hatches]), so nothing is
+    // recorded for it.
+    final bounds = shape.getBounds();
+    if (bounds.isEmpty) return;
+    canvas.recordHatch(shape, ink, step, slope);
+    return;
   }
-  canvas.restore();
+  hatches(canvas, shape, ink, step, slope);
 }
 
 /// Ground, or any fixed surface a thing sits on: the line itself with the

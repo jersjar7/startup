@@ -4,6 +4,8 @@ import 'dynamics.dart' as dynamics;
 import 'economics.dart' as economics;
 import 'ethics.dart' as ethics;
 import 'fluids.dart' as fluids;
+import 'geotech_a.dart' as geotech_a;
+import 'geotech_b.dart' as geotech_b;
 import 'materials_a.dart' as materials_a;
 import 'materials_b.dart' as materials_b;
 import 'mechanics_a.dart' as mechanics_a;
@@ -17,6 +19,8 @@ import 'surveying_a.dart' as surveying_a;
 import 'surveying_b.dart' as surveying_b;
 import 'transportation_a.dart' as transportation_a;
 import 'transportation_b.dart' as transportation_b;
+import 'water_a.dart' as water_a;
+import 'water_b.dart' as water_b;
 
 /// Every game moved into the FE Civil pack so far, by chapter, each as the
 /// adapter that turns the built-in game into pack data. The pack builder
@@ -43,6 +47,8 @@ final movedByChapter = <String, Map<String, Map<String, Object?> Function()>>{
     ...transportation_a.adapters,
     ...transportation_b.adapters,
   },
+  'water-resources': {...water_a.adapters, ...water_b.adapters},
+  'geotechnical': {...geotech_a.adapters, ...geotech_b.adapters},
 };
 
 /// Every moved game, by id.

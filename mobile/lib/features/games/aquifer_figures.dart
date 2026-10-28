@@ -1,7 +1,9 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path;
 
+import '../packs/drawing/figure_grains.dart';
+import '../packs/drawing/figure_path.dart';
 import '../../core/theme/app_colors.dart';
 import 'figure_ink.dart';
 
@@ -60,28 +62,16 @@ class SoilPainter extends CustomPainter {
     // The block, filled with water and then packed with grains.
     final block = Rect.fromLTRB(left, top, right, bottom);
     canvas.drawRect(block, waterFill);
-    final seed = math.Random(7);
-    final want = (1 - seep.porosity) * (right - left) * (bottom - top);
-    var covered = 0.0;
-    var guard = 0;
-    while (covered < want && guard++ < 600) {
-      final r = 4.0 + seed.nextDouble() * 7;
-      final c = Offset(
-        left + r + seed.nextDouble() * (right - left - 2 * r),
-        top + r + seed.nextDouble() * (bottom - top - 2 * r),
-      );
-      canvas
-        ..drawCircle(c, r, Paint()..color = AppColors.cream)
-        ..drawCircle(
-          c,
-          r,
-          Paint()
-            ..color = AppColors.ink3
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1,
-        );
-      covered += math.pi * r * r * 0.72;
-    }
+    drawGrains(
+      canvas,
+      block,
+      seep.porosity,
+      Paint()..color = AppColors.cream,
+      Paint()
+        ..color = AppColors.ink3
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1,
+    );
     canvas.drawRect(
       block,
       Paint()

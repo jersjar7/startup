@@ -82,6 +82,12 @@ What is kept:
   same loop the figures had, so the built-in drawings did not change by a
   pixel (every Surveying drawing and sheet picture compared before and
   after).
+- **Soil grains** (`["grains", left, top, right, bottom, porosity, seed,
+  fill, edge]`), added 2026-10-28 with Water Resources: a block packed
+  with grains by the figure's own seeded loop (`drawGrains`,
+  `lib/features/packs/drawing/figure_grains.dart`), recorded as the block
+  once and filled by the player the same way. See the Water Resources
+  notes below.
 - **Bands** (`{"bands": [[from width, steps], ...]}`) for a drawing that
   really changes at some width.
 - **Concept sheet pictures**: one drawing, two side by side, or a column of
@@ -184,7 +190,7 @@ any layout made of them can be described without changing the app:
 | `math` | A formula set inline in a row or column, the way a block's centred formula is set on its own line (added with Fluid Mechanics, for the two numbers under Which One to Match). |
 | `answer` | An answer, tapped anywhere on what it holds. |
 | `icon` | One of the few icons the games draw (only the check of a tick box so far, added with Ethics). |
-| `tapdraw` | A drawing answered by tapping on it: by area, by the nearest mark, by the nearest mark measured across only (or up and down only, added with Mechanics of Materials), by the nearest line however far (added with Statics, for Which Arrow Is That, where every tap on the triangle picks the arrow it is closest to), or by the nearest arc within reach (added with Surveying, for Which Curve Is Sharper's two curves). With `first`, the first mark within reach wins rather than the nearest. With several picks it is drawn in layers, one per mark, so no drawing is kept for every combination of picks. |
+| `tapdraw` | A drawing answered by tapping on it: by area, by the nearest mark, by the nearest mark measured across only (or up and down only, added with Mechanics of Materials), by the nearest line however far (added with Statics, for Which Arrow Is That, where every tap on the triangle picks the arrow it is closest to) or within a reach of its own (added with Water Resources, for What the Water Touches), or by the nearest arc within reach (added with Surveying, for Which Curve Is Sharper's two curves). With `first`, the first mark within reach wins rather than the nearest. With several picks it is drawn in layers, one per mark, so no drawing is kept for every combination of picks. |
 
 Any value in a node may follow the round instead of being fixed: before and
 after the answer; the state of the answer it sits in (idle, picked, right,
@@ -375,6 +381,182 @@ problem, a drawing in a white panel, the answers as plain rows
 Every round drawing of the fourteen games and every Transportation sheet
 picture hashed the same before and after, at eight widths, day and night.
 The fourteen games are 3.9 to 8 KB to download, 5 KB on average.
+
+Water Resources, first half (2026-10-28: open channels and Manning's,
+specific energy and the jump, weirs and Hazen-Williams, pumps, the
+rational method and curve numbers, unit hydrographs and the time of
+concentration; `mobile/test/packs/water_a.dart`). Fourteen of the
+sixteen games are the panel screen: the problem, one drawing (or two,
+each bordered forest once it wins) in the white panel, a formula, the
+plain answer rows. Which Formula Fits This Weir's answers are the
+formulas themselves, answer nodes holding a `math`. What the Water
+Touches is answered on the drawing, and needed two things:
+
+- **A line with a reach.** The game measures a tap to each piece of the
+  channel's boundary (the bed, each wall up to the water, the surface,
+  each dry wall above it) and takes the nearest within 22 pixels. A
+  `tapdraw` line target was the nearest line however far, which Which
+  Arrow Is That needs; it now keeps that reach when its paint has a
+  stroke width (`Paint()..strokeWidth = 22`), and stays however far
+  without one, so Which Arrow Is That records and plays as before (its
+  parity passed again, unchanged). The pieces share their corners, so
+  the parity check and the simulator script now tap a line at its middle
+  rather than its first end; a tap at a shared corner picked the piece
+  before it.
+- **Six answers, whatever the channel.** The game's answers are the six
+  pieces a boundary can have (the bed, each wet wall, the surface, each
+  dry wall), and a channel with no freeboard has no dry wall to tap. The
+  pack keeps all six as the answers and maps each drawn piece to its
+  own (`hits`), so the answer is the same number as the game's; it first
+  listed only the pieces drawn, which numbered the answers differently
+  on such a channel (the pack audit caught it). The parity check skips a
+  wrong answer that has no mark and nothing else on screen to tap.
+- **Layers.** `SectionPainter` paints in three public pieces now
+  (`paintSection`, `paintPiece`, `paintNotes`), called in the same order
+  as before. The pack keeps the section and its words once a round and
+  each piece for picked and answered, rather than the whole section once
+  per piece.
+- **A hatched shape** (`["hatch", fill, moves, step, slope, paint]`).
+  The figures hatch a channel's lining and a weir's plate with
+  `hatchIn` (`figure_ink.dart`), which starts every line from the bounds
+  of the path, numbers the engine keeps in single precision. Recorded
+  line by line, each end was that single precision number plus a double
+  one, which no straight line in the width lands on exactly; a hundred
+  thousandth of a pixel moved the V-notch plate's hatching two shades on
+  hundreds of pixels at a 390 phone, and keeping it closer (a ten
+  millionth) took Which One Runs Faster to 5.5 MB. While
+  `recordHatches` is on (`figure_hatch.dart`), a hatch is recorded as the
+  shape once and the player runs the figure's own loop on it, taking the
+  bounds from the same path, as `drawPathDashes` does for a dashed
+  outline. It is off unless a game asks: the Water Resources adapters
+  turn it on (`_hatched` in `water_a.dart`), so every game recorded
+  before records the same. On a phone `hatchIn` runs the same loop it
+  always did, moved into `hatches`.
+
+The figures' files now draw through the shims: the channel, flow, weir,
+main and hydrograph figures through the path shim (the weir plate is a
+rectangle less its notch, `Path.combine`), and the Water Resources sheet
+pictures through both, since the sheets' own painters (the two rulers,
+the row of notches, the peak bars) wrote their labels with a plain
+`TextPainter`. Nothing is kept closer than plain.
+
+One builder fix: a bend moved to where its two pieces' lines meet was
+then checked against the next bend while that one still sat on its width
+looked at, a hair up the piece after it, so a width looked at just
+before the meeting seemed to fit closer and was kept instead. What the
+Water Touches' wide swale stops growing at exactly 342 and the bend was
+kept at 341.9998, every height of the section and its dimension line
+0.00003 of a pixel off from there to 870 (554 pixels four shades out on a
+430 phone). Every bend now moves to its meeting first, and only then is
+a width looked at near the meeting tried in its place.
+Every round drawing of the sixteen games, every Water Resources sheet
+picture (the sheets of all 32 games, both halves of the chapter) and
+Filling or Emptying's pond, which shares the hydrograph figures, hashed the same
+before and after, at eight widths, day and night.
+The fix changed the recording of 31 games in other chapters (and, with
+the hatch step, six of the sixteen here); every one passed parity again,
+and the only screens still differing (Which Rate's sheet, one to seven
+pixels) differ the same with the old builder. The sixteen games are 4.3
+to 30 KB to download, 8.6 KB on average.
+
+Water Resources, second half (2026-10-28: storage routing, groundwater
+and wells, BOD, clarifiers and activated sludge, chlorine, filters, the
+drinking water standards) needed one new recorded step. All sixteen games
+are one screen: the problem, a drawing in a white panel, mostly a formula
+under it, then the answers as plain rows
+(`mobile/test/packs/water_b.dart`). Which Well Formula's two answers are
+the formulas themselves, so they are `answer` nodes holding a formula
+rather than the plain rows. What was found:
+
+- **Soil grains** (`["grains", left, top, right, bottom, porosity, seed,
+  fill, edge]`). Which Speed Is That packs a block of aquifer with grains:
+  circles placed by a seeded random walk until they cover the share of
+  the block that is not void. A wider block takes more grains, so the
+  recording changed every couple of pixels of width, and the game came
+  to 44 MB to download. A figure that draws grains through `drawGrains`
+  (`lib/features/packs/drawing/figure_grains.dart`) is recorded as the
+  block and its porosity once, and the player runs the figure's own loop
+  on them, as `drawDashes` does for a dashed line: 3.6 KB. On a phone's
+  real canvas `drawGrains` is the same loop the figure had.
+- **Traced curves.** The aquifer cone, the BOD curve and the plant loops
+  were plain paths, traced at every width: Which Well Formula came to
+  130 KB and the BOD games took a quarter of an hour each to record. The
+  aquifer, BOD, clarifier and chlorine figures now draw through the path
+  shim (Which Well Formula 16 KB).
+- **Sheet labels with Flutter's own text painter.** The Water Resources
+  sheet pictures write their labels with a plain `TextPainter`, which
+  the recorder cannot read (What Moves the Ratio's sheet stopped the
+  build). The sheet pictures now draw through the text and path shims.
+
+Every round drawing of the sixteen games and every Water Resources sheet
+picture (both halves of the chapter) hashed the same before and after, at
+eight widths, day and night. The sixteen games are 3.6 to 20 KB to
+download, about 8.5 KB on average.
+
+Geotechnical, first half (2026-10-28: phase relations, classification,
+effective stress, consolidation, shear strength, seepage and the infinite
+slope) needed nothing new on the phone or in the builder. All eighteen
+games are the Structural screen: the problem, a drawing in a white panel,
+a formula centred under it, and the answers as plain rows
+(`mobile/test/packs/geotech_a.dart`). Over What shows its formula only
+once answered, since the formula is the answer; the gaps around it stay
+either way, so it is a `math` block with `when: done`. One thing was
+found:
+
+- **Sheet labels written with a plain text painter.** The Geotechnical
+  sheet pictures (`geotechnical_pictures.dart`) build their own labels
+  with Flutter's `TextPainter` and hand them to `inkLabel`, which the
+  recorder cannot read (the build stops on "text drawn with a plain
+  TextPainter" at the first sheet, When Does It Simplify's scale and
+  ruler). The file now uses the text and path shims. Five figure files
+  (classification, effective stress, consolidation, seepage, slope) also
+  draw their paths through the path shim, so a rectangle to hatch or a
+  grading curve is kept move for move rather than traced.
+
+Every round drawing of the eighteen games, of the two other games that
+share the slope figures (After the Rain, What Holds the Wedge) and every
+picture on all 35 Geotechnical sheets hashed the same before and after,
+at eight widths, day and night (4,400 images). The eighteen games are 3.3
+to 53 KB to download, about 9.6 KB on average. How Long Does It Take is
+the large one (53 KB): its drainage arrows, one every 26 pixels across
+the clay, each end in an arrowhead drawn as its own small path, and the
+pack keeps those paths one by one (about 280 of them in a round's
+drawing, across its bands). Well under the ceiling, so it was left.
+Three built-in games set a formula wider than a small phone, and the
+pack copies them exactly (to fix after the move): Which Fork First (78
+pixels over at 320, 8 at 390), Above or Below the Line (53 at 320) and
+Drained or Not (101 at 320, 31 at 390).
+
+Geotechnical, second half (2026-10-28: slope stability, bearing
+capacity, lateral earth pressure, retaining walls, compaction and
+stabilization, deep foundations) needed nothing new on the phone or in
+the builder. All seventeen games are one screen: the problem, a drawing
+in a white panel, in eight of them a formula centred under it (three
+show it only once answered, `"when": "done"`), then plain answer rows
+(`mobile/test/packs/geotech_b.dart`). Two things were found:
+
+- **A traced curve that never finishes.** Wetter Is Not Denser draws its
+  Proctor curve as a path of 61 short lines. Traced, the walk along the
+  path finds a different set of corners at nearly every width, so the
+  builder split the drawing into a band per width and had not finished
+  one round after half an hour. Through the path shim the same curve is
+  its 61 moves, and the round records in under two seconds. The slope,
+  earth pressure, wall stability, compaction and pile figures now all
+  draw through the path shim (the bearing figures build no paths).
+- **Sheet labels set with a plain text painter.** The Geotechnical sheet
+  pictures lay out their own labels (`_text`, then `inkLabel`), which
+  the recorder cannot read. That file now uses the text and path shims,
+  as the Structural sheet pictures do.
+
+Every round drawing of the seventeen games and of Steeper Than Its
+Friction (which shares the slope figures), and every one of the 35
+Geotechnical sheet pictures, hashed the same before and after, at eight
+widths for the rounds and five for the sheets, day and night (3,806
+images). The seventeen games are 3.6 to 7.2 KB to download, 5.2 KB on
+average. All 102 parity screens matched to the pixel. Which Term Drops
+Out's bearing capacity formula runs 27 pixels past the edge on a 320
+phone in the built-in game; the pack copies that exactly, and it is
+noted to fix after the chapter passes.
 
 This is still game type `pick-one` at 1.2.0: no app that reads packs has
 shipped, so the type could grow before its first release. Once 1.2.0 is

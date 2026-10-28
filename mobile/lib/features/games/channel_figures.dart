@@ -1,7 +1,8 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path;
 
+import '../packs/drawing/figure_path.dart';
 import '../../core/theme/app_colors.dart';
 import 'figure_ink.dart';
 
@@ -263,6 +264,17 @@ class SectionPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    paintSection(canvas, size);
+    for (final (part, _, _) in segmentsOf(size, channel)) {
+      paintPiece(canvas, size, part);
+    }
+    paintNotes(canvas, size);
+  }
+
+  /// The section itself, under the counted boundary. The pieces and the
+  /// notes are painted on their own so a pack can keep the section once
+  /// rather than once for every piece that can be picked.
+  void paintSection(Canvas canvas, Size size) {
     final (sx, sy) = scaleOf(size, channel, other: alongside);
     final o = originOf(size, channel, other: alongside);
 
@@ -271,10 +283,13 @@ class SectionPainter extends CustomPainter {
     } else {
       _paintOpen(canvas, size, sx, sy, o);
     }
+  }
 
-    // The counted boundary, laid over the section in ember so it reads as
-    // somebody's working rather than as part of the drawing.
+  /// One piece of the counted boundary, laid over the section in ember so
+  /// it reads as somebody's working rather than as part of the drawing.
+  void paintPiece(Canvas canvas, Size size, Edge piece) {
     for (final (part, a, b) in segmentsOf(size, channel)) {
+      if (part != piece) continue;
       final tracedHere = traced.contains(part);
       final Color? tone;
       if (locked && answer == part) {
@@ -298,7 +313,12 @@ class SectionPainter extends CustomPainter {
           ..strokeCap = StrokeCap.round,
       );
     }
+  }
 
+  /// The dimensions and the words, over everything else.
+  void paintNotes(Canvas canvas, Size size) {
+    final (sx, sy) = scaleOf(size, channel, other: alongside);
+    final o = originOf(size, channel, other: alongside);
     if (showDimensions) _dimension(canvas, size, sx, sy, o);
     final stretch = stretchOf(size, channel, other: alongside);
     if (stretch > 1.2) {
