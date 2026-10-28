@@ -6,6 +6,29 @@ the plan's order. A chapter is moved when its games are in a published pack
 and pass checks 1 to 5; it is switched on for students only after check 6
 (the owner plays it on his phone).
 
+## Download size
+
+What a student's phone downloads, compressed as the server sends it. Each
+chapter is measured on its own; the whole pack compresses as one file, so
+it comes to a little more than the chapters added up. Updated with each
+chapter.
+
+| Chapter | Games | Download | Largest game |
+|---|---|---|---|
+| Construction | 10 | 37 KB | Five Feet and Twenty, 6 KB |
+| Dynamics | 17 | 266 KB | Does the Mass Matter, 82 KB |
+| Economics | 19 | 146 KB | Which Rate, 72 KB |
+| Statistics | 19 | 259 KB | Shade the Tail, 103 KB |
+| Ethics | 21 | 84 KB | Who Has to Agree, 16 KB |
+| Fluid Mechanics | 21 | 185 KB | Where It Pushes, 36 KB |
+| Materials (phase 0 game) | 1 | 5 KB | Tap the Voids, 5 KB |
+| Transportation (phase 0 game) | 1 | 4 KB | Per Million What, 4 KB |
+| **Whole pack, version 8** | **109** | **1.01 MB** | |
+
+The limits the builder enforces are 250 KB for any one game and 25 KB on
+average. The pack grows by about 9 KB a game, so all 375 games should come
+to roughly 3 to 4 MB, about one phone photo.
+
 ## Construction (10 games), 2026-10-27
 
 Moved, published in FE Civil pack version 2. Not switched on.
@@ -236,6 +259,52 @@ What else the move needed:
   the built-in Who Has to Agree, tapping "No consent makes this
   acceptable" a second time keeps it picked; in the pack it unpicks it,
   like every other row.
+
+## Fluid Mechanics (21 games), 2026-10-27
+
+Moved, published in FE Civil pack version 8 (109 games, 1.01 MB to
+download; Fluid Mechanics is 185 KB of it). Not switched on.
+
+Every Fluid Mechanics game lays its round out as its own screen, written
+with screen nodes and blocks in `mobile/test/packs/fluids.dart`. Answers
+that are drawings, drawings tapped by area or near a mark, and drawings
+that show their answer once it is in were all already possible. The app
+gained three small, general things:
+
+- **A formula node** (`math`), for a formula inside a row: Which One to
+  Match sets the Reynolds and Froude numbers side by side under its rig.
+- **Grid spacing** on the grid node, for the finer grid inside answer
+  panels (How Fast the Jet, Which One Drags More, Which Target Takes More).
+- **Even spacing** for a row's children.
+
+The figures switched to the recordable path and text, and the path shim
+gained `Path.from` (a copy keeps the moves of the path it copies), which
+the pipe, meter and fluid figures use.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 126 of 126 runs pass, all 21 games pixel for pixel on every screen, every round played. |
+| Size | 185 KB for the chapter; every game under 40 KB, the largest Where It Pushes (36 KB). |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 109 pack games played to the end. |
+| Everything else | 4,179 phone tests (the full drawing comparison of every moved game among them) and 961 website and server tests. |
+
+What the move found in the builder, both fixed for every chapter (see
+[content-packs.md](../content-packs.md)):
+
+- **Memory.** The first Fluid Mechanics build passed four gigabytes and
+  crawled for over three hours before it was caught: every label asks
+  google_fonts for its style and leaves a small job for the event loop,
+  and the builder never let the loop turn. Each recording now runs those
+  jobs before returning, and a chapter builds in about ten minutes under
+  half a gigabyte.
+- **A label exactly as wide as its room.** "heavy oil, 0.4 Pa s" in Which
+  One Drags More fits its panel on a 320 phone with nothing to spare; a
+  hair narrower and it wraps. The builder played the gap between the two
+  widths it had looked at as a slope, and drew the label's patch two
+  pixels tall. It now also records the roundest width inside such a gap.
+
+The device test now names each game as it plays it. A full run is about
+23 minutes, and silent, it was once taken for stuck and stopped.
 
 ## Notes for after (not changed during the move)
 
