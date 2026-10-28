@@ -2,8 +2,8 @@
 
 Plan for carrying out [ADR 0030](../adr/0030-content-packs-and-game-types.md).
 Written 2026-10-26. Status: phases 0 to 2 done (2026-10-26 and 27); phase 3 under way,
-Construction, Dynamics, Economics, Statistics, Ethics, Fluid Mechanics, Materials, Statics, Surveying, Mechanics of Materials, Structural, Transportation, Water Resources and Geotechnical moved but not switched on
-(2026-10-27); records in
+Construction, Dynamics, Economics, Statistics, Ethics, Fluid Mechanics, Materials, Statics, Surveying, Mechanics of Materials, Structural, Transportation, Water Resources, Geotechnical and Mathematics moved (all 15 chapters, all 375 games, in pack
+version 18) but not switched on (2026-10-27 and 28); records in
 `content-packs-checks/`, and how packs work as built in
 [content-packs.md](content-packs.md).
 

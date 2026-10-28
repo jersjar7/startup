@@ -124,7 +124,15 @@ void main() {
       final rounds = game.rounds;
       for (var i = 0; i < rounds.length; i++) {
         await _answerRight(tester, game.type, rounds[i]);
-        await _tap(tester, find.text('Lock it in'));
+        // A run of moves ends on its last move, with nothing to lock in. A
+        // game may name its button (`lock`, as Grade Sense's "Lock the
+        // order").
+        if (rounds[i]['steps'] == null) {
+          await _tap(
+            tester,
+            find.text((game.json['lock'] as String?) ?? 'Lock it in'),
+          );
+        }
         await _tap(
           tester,
           find.text(i == rounds.length - 1 ? 'See how you did' : 'Next'),
@@ -192,10 +200,34 @@ Future<void> _answerRight(
       final answer = round['answer']! as int;
       final blocks = ((round['screen'] as List?) ?? const [])
           .cast<Map<String, Object?>>();
+      // Every move of a run, in turn (Run the Loop).
+      if (round['steps'] case final List steps) {
+        for (final step in steps.cast<Map<String, Object?>>()) {
+          await _tap(tester, _option(blocks, options, step['answer']! as int));
+        }
+        return;
+      }
+      // A pick moved with buttons from where it starts (Stretch It to Fit;
+      // not one dragged on a drawing, as Slide to the Flat Spot's marker is).
+      if (round['start'] case final int start when _tapIn(blocks) == null) {
+        for (var now = start; now != answer; now += answer > now ? 1 : -1) {
+          await _tap(
+            tester,
+            find.byIcon(
+              answer > now ? Icons.add_rounded : Icons.remove_rounded,
+            ),
+          );
+        }
+        return;
+      }
       final panels = blocks.where((b) => b['panels'] != null).firstOrNull;
       final tap = _tapIn(blocks);
       final hits = (tap?['hits'] as List?)?.cast<int>() ?? const <int>[];
-      if (hits.contains(answer)) {
+      if (hits.contains(answer) && tap!['drag'] == true) {
+        // A marker dragged along (Slide to the Flat Spot): from where it
+        // starts to the answer.
+        await _dragMark(tester, tap, round['start']! as int, answer);
+      } else if (hits.contains(answer)) {
         await _tapMark(tester, tap!, answer);
       } else if (panels != null &&
           answer < (panels['panels']! as List).length) {
@@ -223,7 +255,12 @@ Future<void> _answerRight(
         if (hits.contains(i)) {
           await _tapMark(tester, tap!, i);
         } else {
-          await _tap(tester, _option(blocks, options, i));
+          // Answers that go dim once placed in a slot (`keep`) still hold
+          // their place among the buttons.
+          await _tap(
+            tester,
+            _option(blocks, options, i, keep: round['keep'] == true),
+          );
         }
       }
     case 'order':
@@ -246,7 +283,8 @@ Future<void> _answerRight(
 }
 
 /// Taps the mark on a drawing that stands for answer [answer]: a
-/// circle's centre, the middle of a tap area, or halfway round an arc.
+/// circle's centre, the middle of a tap area, halfway round an arc, or
+/// halfway along a side taken only within its stroke.
 Future<void> _tapMark(
   WidgetTester tester,
   Map<String, Object?> tap,
@@ -256,26 +294,54 @@ Future<void> _tapMark(
   await tester.ensureVisible(figure);
   await tester.pumpAndSettle();
   final size = tester.getSize(figure);
-  final hits = (tap['hits']! as List).cast<int>();
-  final step =
-      drawingSteps(tap['targets']!, size.width)[hits.indexOf(answer)]!
-          as List<Object?>;
-  double n(int k) => drawingNumber(step[k], size.width);
   await tester.tapAt(
-    tester.getTopLeft(figure) +
-        switch (step[0]) {
-          'rect' => Rect.fromLTRB(n(1), n(2), n(3), n(4)).center,
-          'arc' => _arcMiddle(
-            Rect.fromLTRB(n(1), n(2), n(3), n(4)),
-            n(5) + n(6) / 2,
-          ),
-          // A line's middle: its ends can be shared with the next line
-          // along (the corners of a channel's boundary).
-          'line' => Offset((n(1) + n(3)) / 2, (n(2) + n(4)) / 2),
-          _ => Offset(n(1), n(2)),
-        },
+    tester.getTopLeft(figure) + _markOf(tap, answer, size.width),
   );
   await _settle(tester);
+}
+
+/// Drags the marker on a drawing from mark [from] to the mark for answer
+/// [answer], across only.
+Future<void> _dragMark(
+  WidgetTester tester,
+  Map<String, Object?> tap,
+  int from,
+  int answer,
+) async {
+  final figure = _tapFigure(tester, tap);
+  await tester.ensureVisible(figure);
+  await tester.pumpAndSettle();
+  final width = tester.getSize(figure).width;
+  final start = _markOf(tap, from, width);
+  final end = _markOf(tap, answer, width);
+  await tester.dragFrom(
+    tester.getTopLeft(figure) + start,
+    Offset(end.dx - start.dx, 0),
+  );
+  await _settle(tester);
+}
+
+/// Where answer [answer]'s mark sits on a drawing [width] wide.
+Offset _markOf(Map<String, Object?> tap, int answer, double width) {
+  final hits = (tap['hits']! as List).cast<int>();
+  final step =
+      drawingSteps(tap['targets']!, width)[hits.indexOf(answer)]!
+          as List<Object?>;
+  double n(int k) => drawingNumber(step[k], width);
+  return switch (step[0]) {
+    'rect' => Rect.fromLTRB(n(1), n(2), n(3), n(4)).center,
+    'arc' => _arcMiddle(Rect.fromLTRB(n(1), n(2), n(3), n(4)), n(5) + n(6) / 2),
+    'path' => buildPath(
+      step[1]! as int,
+      (step[2]! as List).cast(),
+      width,
+    ).getBounds().center,
+    'line' when tap['reach'] == 'stroke' => Offset(
+      (n(1) + n(3)) / 2,
+      (n(2) + n(4)) / 2,
+    ),
+    _ => Offset(n(1), n(2)),
+  };
 }
 
 /// The point halfway round an arc drawn in [oval], at [angle].
@@ -286,6 +352,19 @@ Offset _arcMiddle(Rect oval, double angle) =>
 /// drawing. Found this way because the built-in games build it in
 /// different ways (a stack of tap areas, or one tap handler).
 Finder _tapFigure(WidgetTester tester, Map<String, Object?> tap) {
+  if (tap['h'] == 'w') {
+    // As tall as it is wide, on white rather than the grid (Place the
+    // Center): the first square drawing the width of the round.
+    final paints = find.byType(CustomPaint, skipOffstage: false);
+    final all = paints.evaluate().toList();
+    for (var i = 0; i < all.length; i++) {
+      final size = all[i].size;
+      if (size != null && size.width >= 200 && size.width == size.height) {
+        return paints.at(i);
+      }
+    }
+    throw StateError('No square drawing on screen');
+  }
   final h = (tap['h']! as num).toDouble();
   final grids = find.byType(EngineeringGrid, skipOffstage: false);
   final all = grids.evaluate().toList();
@@ -298,7 +377,17 @@ Finder _tapFigure(WidgetTester tester, Map<String, Object?> tap) {
 /// Answer [i] on screen. A tile is found by its place (its words may be a
 /// formula); anything else by its words on its button, not where the
 /// problem quotes them, two answers sometimes sharing their words.
-Finder _option(List<Map<String, Object?>> blocks, List<String> options, int i) {
+Finder _option(
+  List<Map<String, Object?>> blocks,
+  List<String> options,
+  int i, {
+  bool keep = false,
+}) {
+  // An answer tapped with no ink (`plain`) has no button: found by the
+  // key the pack gives it, its own or `answer-i`.
+  if (_plainKey(blocks, i) case final String key) {
+    return find.byKey(ValueKey(key));
+  }
   final tiles = _tileAnswers(blocks);
   final at = tiles.indexWhere((t) => t.$1 == i);
   if (at >= 0) {
@@ -308,7 +397,7 @@ Finder _option(List<Map<String, Object?>> blocks, List<String> options, int i) {
           (w) =>
               w is InkWell &&
               radii.any((r) => w.borderRadius == BorderRadius.circular(r)) &&
-              w.onTap != null,
+              (keep || w.onTap != null),
         )
         .at(at);
   }
@@ -337,7 +426,7 @@ List<(int, double)> _tileAnswers(List<Map<String, Object?>> blocks) => [
     if (b['box'] case final List inner)
       ..._tileAnswers(inner.cast<Map<String, Object?>>()),
     // A round written as screen nodes: its answer nodes, anywhere.
-    if (b['k'] == 'answer')
+    if (b['k'] == 'answer' && b['plain'] != true)
       (b['i']! as int, ((b['radius'] as num?) ?? 12).toDouble()),
     if (b['k'] != null) ...[
       if (b['child'] case final Map<String, Object?> c) ..._tileAnswers([c]),
@@ -346,6 +435,23 @@ List<(int, double)> _tileAnswers(List<Map<String, Object?>> blocks) => [
     ],
   ],
 ];
+
+/// The key of answer [i] when it is a plain answer node somewhere in
+/// [nodes], or null.
+String? _plainKey(List<Map<String, Object?>> nodes, int i) {
+  for (final b in nodes) {
+    if (b['k'] == 'answer' && b['plain'] == true && b['i'] == i) {
+      return b['key'] as String? ?? 'answer-$i';
+    }
+    if (b['k'] == null) continue;
+    final inner = [
+      if (b['child'] case final Map<String, Object?> c) c,
+      if (b['c'] case final List c) ...c.cast<Map<String, Object?>>(),
+    ];
+    if (_plainKey(inner, i) case final String key) return key;
+  }
+  return null;
+}
 
 /// A round's drawing answered by tapping: a tap block, or a tapdraw node
 /// anywhere in its screen.

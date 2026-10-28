@@ -1,7 +1,11 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide TextPainter, Path;
 
+import '../packs/drawing/figure_corner.dart';
+import '../packs/drawing/figure_path.dart';
+
+import '../packs/drawing/figure_text.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -216,30 +220,33 @@ class TrianglePainter extends CustomPainter {
 
   void _angleArc(Canvas canvas, TriangleGeometry g) {
     final at = g.marked;
-    final toSquare = (g.square - at) / (g.square - at).distance;
-    final toOther = (g.other - at) / (g.other - at).distance;
-    final start = math.atan2(toSquare.dy, toSquare.dx);
-    final end = math.atan2(toOther.dy, toOther.dx);
-    var sweep = end - start;
-    if (sweep > math.pi) sweep -= 2 * math.pi;
-    if (sweep < -math.pi) sweep += 2 * math.pi;
-
-    canvas.drawArc(
-      Rect.fromCircle(center: at, radius: 26),
-      start,
-      sweep,
-      false,
-      Paint()
+    // The two sides' directions scaled to unit length, the short way round
+    // (figure_corner.dart, so a recorded arc keeps its corner, not angles).
+    drawCornerArc(
+      canvas,
+      at,
+      g.square,
+      g.other,
+      radius: 26,
+      unit: true,
+      paint: Paint()
         ..color = AppColors.ember
         ..strokeWidth = 2.5
         ..style = PaintingStyle.stroke,
     );
 
-    final bisect = (toSquare + toOther) / 2;
-    final at2 = at + bisect / bisect.distance * 40;
+    // 40 out along the line halving the angle.
     // Mono, not the heading face: DM Sans carries no Greek at all, so the
     // theta was drawing as a missing-glyph box on every round.
-    _text(canvas, angleLabel, at2, AppColors.ember, 15, bold: true, mono: true);
+    _text(
+      canvas,
+      angleLabel,
+      Spot.halving(at, g.square, g.other, 40),
+      AppColors.ember,
+      15,
+      bold: true,
+      mono: true,
+    );
   }
 
   /// Labels sit ALONGSIDE their side, turned to its angle, never across it. A
@@ -305,9 +312,10 @@ class TrianglePainter extends CustomPainter {
     }
 
     canvas.save();
-    canvas.translate(mid.dx + normal.dx * 17, mid.dy + normal.dy * 17);
-    canvas.rotate(angle);
-    _text(canvas, text, Offset.zero, color, size);
+    // 17 off the middle on the side away from the centre, turned unless
+    // the label is upright (figure_corner.dart).
+    turnBeside(canvas, a, b, away: center, by: 17, turned: angle != 0);
+    _text(canvas, text, const Spot(Offset.zero), color, size);
     canvas.restore();
   }
 
@@ -326,7 +334,7 @@ class TrianglePainter extends CustomPainter {
   void _text(
     Canvas canvas,
     String text,
-    Offset at,
+    Spot at,
     Color color,
     double size, {
     bool bold = false,
@@ -349,7 +357,7 @@ class TrianglePainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    tp.paint(canvas, at - Offset(tp.width / 2, tp.height / 2));
+    tp.paintCentred(canvas, at);
   }
 
   @override

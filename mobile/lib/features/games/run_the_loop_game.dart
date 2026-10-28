@@ -154,6 +154,36 @@ const loopRounds = <LoopRound>[
   ),
 ];
 
+/// Why the move they made was the wrong one, said in terms of this rule
+/// rather than in terms of being wrong.
+String loopSlipWhy(LoopMove want, LoopMove got) {
+  if (want == LoopMove.notApplicable) {
+    return 'Putting the value in gave a number over zero. That is not one '
+        'of the two forms the rule accepts, so there is nothing here to '
+        'differentiate.';
+  }
+  switch (got) {
+    case LoopMove.differentiate when want == LoopMove.substitute:
+      return 'Check the form first. Differentiating before you know what '
+          'you are looking at is exactly how this rule gets used where it '
+          'does not apply.';
+    case LoopMove.differentiate when want == LoopMove.readOff:
+      return 'There is nothing indeterminate left. Applying the rule to a '
+          'form that already has a value changes the value, and the answer '
+          'comes out wrong.';
+    case LoopMove.substitute when want == LoopMove.differentiate:
+      return 'The value is already in, and what came out was indeterminate. '
+          'That is the signal to differentiate the top and the bottom.';
+    case LoopMove.readOff:
+      return 'Not yet. What is on the board is a form, not a value.';
+    case LoopMove.notApplicable:
+      return 'The rule does apply here: what came out of the substitution '
+          'is one of the two indeterminate forms.';
+    case _:
+      return 'Not the move this step calls for.';
+  }
+}
+
 class _RunTheLoopGameState extends State<RunTheLoopGame> {
   late final BoardSession _session = BoardSession(
     gameId: 'run-the-loop',
@@ -191,36 +221,6 @@ class _RunTheLoopGameState extends State<RunTheLoopGame> {
       return;
     }
     setState(() => _at++);
-  }
-
-  /// Why the move they made was the wrong one, said in terms of this rule
-  /// rather than in terms of being wrong.
-  String _slipWhy(LoopMove want, LoopMove got) {
-    if (want == LoopMove.notApplicable) {
-      return 'Putting the value in gave a number over zero. That is not one '
-          'of the two forms the rule accepts, so there is nothing here to '
-          'differentiate.';
-    }
-    switch (got) {
-      case LoopMove.differentiate when want == LoopMove.substitute:
-        return 'Check the form first. Differentiating before you know what '
-            'you are looking at is exactly how this rule gets used where it '
-            'does not apply.';
-      case LoopMove.differentiate when want == LoopMove.readOff:
-        return 'There is nothing indeterminate left. Applying the rule to a '
-            'form that already has a value changes the value, and the answer '
-            'comes out wrong.';
-      case LoopMove.substitute when want == LoopMove.differentiate:
-        return 'The value is already in, and what came out was indeterminate. '
-            'That is the signal to differentiate the top and the bottom.';
-      case LoopMove.readOff:
-        return 'Not yet. What is on the board is a form, not a value.';
-      case LoopMove.notApplicable:
-        return 'The rule does apply here: what came out of the substitution '
-            'is one of the two indeterminate forms.';
-      case _:
-        return 'Not the move this step calls for.';
-    }
   }
 
   @override
@@ -318,7 +318,7 @@ class _RunTheLoopGameState extends State<RunTheLoopGame> {
             BoardFeedback(
               correct: correct,
               title: correct ? 'LOOP FINISHED' : 'NOT THAT MOVE',
-              body: correct ? r.why : _slipWhy(step.move, _slip!),
+              body: correct ? r.why : loopSlipWhy(step.move, _slip!),
             ),
           ],
         ],

@@ -18,8 +18,12 @@ Node box({
   String? cross,
   String? edge,
   String? when,
+  num? minW,
+  num? minH,
 }) => {
   'k': 'box',
+  'minw': ?minW,
+  'minh': ?minH,
   'child': ?child,
   'c': ?c,
   'pad': ?pad,
@@ -36,9 +40,16 @@ Node box({
   'when': ?when,
 };
 
-Node row(List<Node> c, {String? main, String? cross, String? when}) => {
+Node row(
+  List<Node> c, {
+  String? main,
+  String? cross,
+  String? when,
+  bool min = false,
+}) => {
   'k': 'row',
   'c': c,
+  if (min) 'size': 'min',
   'main': ?main,
   'cross': ?cross,
   'when': ?when,
@@ -98,12 +109,15 @@ Node t(
   'when': ?when,
 };
 
-Node tex(Object v, num size, {String? when}) => {
-  'k': 'tex',
-  'v': v,
-  'size': size,
-  'when': ?when,
-};
+Node tex(Object v, num size, {String? when, String? align, bool fit = true}) =>
+    {
+      'k': 'tex',
+      'v': v,
+      'size': size,
+      'align': ?align,
+      if (!fit) 'fit': false,
+      'when': ?when,
+    };
 
 Node draw(Object d) => {'k': 'draw', 'd': d};
 
@@ -129,9 +143,20 @@ Node math(String v, num size, {Object? color}) => {
   'color': ?color,
 };
 
-Node answer(int i, Node child, {num radius = 12, Object? fill}) => {
+/// Answer [i], tapped anywhere on [child]: inked, or with [plain] a bare
+/// tap area (no ink, no fill) as games on a bare tap handler are.
+Node answer(
+  int i,
+  Node child, {
+  num radius = 12,
+  Object? fill,
+  String? key,
+  bool plain = false,
+}) => {
   'k': 'answer',
   'i': i,
+  if (plain) 'plain': true,
+  'key': ?key,
   'child': child,
   if (radius != 12) 'radius': radius,
   'fill': ?fill,
@@ -215,4 +240,63 @@ Node icon(String name, {num? size, Object? color}) => {
   'v': name,
   'size': ?size,
   'color': ?color,
+};
+
+/// Its child at [v] opacity (a value that may follow the round).
+Node fade(Object v, Node child) => {'k': 'fade', 'o': v, 'child': child};
+
+/// Children laid out in runs, [space] apart and [run] between runs.
+Node wrap(List<Node> c, {num space = 0, num run = 0, bool center = false}) => {
+  'k': 'wrap',
+  'c': c,
+  if (space != 0) 'spacing': space,
+  if (run != 0) 'run': run,
+  if (center) 'align': 'center',
+  if (center) 'cross': 'center',
+};
+
+/// A button that moves the pick by [by] (see the pack's `step` node).
+Node stepper(int by, Node child, {Object? fill, num radius = 12}) => {
+  'k': 'step',
+  'by': by,
+  'child': child,
+  'fill': ?fill,
+  if (radius != 12) 'radius': radius,
+};
+
+/// Slot [k], tapped to empty it once filled.
+Node unslot(int k, Node child) => {'k': 'slot', 's': k, 'child': child};
+
+/// A value by whether answer [i] is picked.
+Map<String, Object?> has(int i, Object? yes, Object? no) => {
+  'of': i,
+  'on': yes,
+  'off': no,
+};
+
+/// A value per step of a run of moves.
+Map<String, Object?> perStep(List<Object?> each) => {'step': each};
+
+/// A value while the round is open, and once answered right or wrong.
+Map<String, Object?> outcome(Object? open, Object? right, Object? wrong) => {
+  'open': open,
+  'won': right,
+  'lost': wrong,
+};
+
+/// A value by how slot [k] of a fill stands.
+Map<String, Object?> fillState(
+  int k, {
+  required Object? right,
+  required Object? wrong,
+  required Object? next,
+  required Object? full,
+  required Object? empty,
+}) => {
+  'fill': k,
+  'right': right,
+  'wrong': wrong,
+  'next': next,
+  'full': full,
+  'empty': empty,
 };

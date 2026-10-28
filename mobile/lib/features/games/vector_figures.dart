@@ -1,7 +1,10 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Path, TextPainter;
 
+import '../packs/drawing/figure_dash.dart';
+import '../packs/drawing/figure_path.dart';
+import '../packs/drawing/figure_text.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import 'grid_figures.dart';
@@ -209,7 +212,7 @@ class VectorPainter extends CustomPainter {
     }
 
     for (final a in arrows) {
-      _arrow(canvas, g, a);
+      drawArrow(canvas, g, a);
     }
 
     final arc = between;
@@ -248,18 +251,8 @@ class VectorPainter extends CustomPainter {
     }
 
     if (rule != null) {
-      void tick(int i, Color color) {
-        final at = g.at(rule.unit.x * i, rule.unit.y * i);
-        canvas.drawCircle(at, 7, Paint()..color = color);
-        canvas.drawCircle(
-          at,
-          13,
-          Paint()
-            ..color = color.withValues(alpha: 0.35)
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 2,
-        );
-      }
+      void tick(int i, Color color) =>
+          drawMark(canvas, g.at(rule.unit.x * i, rule.unit.y * i), color);
 
       if (rulerPick != null && (!revealed || rulerPick != rulerTruth)) {
         tick(rulerPick!, revealed ? AppColors.error : AppColors.ember);
@@ -269,18 +262,8 @@ class VectorPainter extends CustomPainter {
       }
     }
 
-    void mark((int, int) at, Color color) {
-      final p = g.toScreen(at.$1, at.$2);
-      canvas.drawCircle(p, 7, Paint()..color = color);
-      canvas.drawCircle(
-        p,
-        13,
-        Paint()
-          ..color = color.withValues(alpha: 0.35)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2,
-      );
-    }
+    void mark((int, int) at, Color color) =>
+        drawMark(canvas, g.toScreen(at.$1, at.$2), color);
 
     if (picked != null && (!revealed || picked != truth)) {
       mark(picked!, revealed ? AppColors.error : AppColors.ember);
@@ -288,16 +271,26 @@ class VectorPainter extends CustomPainter {
     if (revealed && truth != null) mark(truth!, AppColors.forest);
   }
 
+  /// The ring a picked point or mark wears: a dot with a pale ring round
+  /// it, centred on [at]. Public so a pack can draw it once and pin it to
+  /// whichever mark is picked.
+  static void drawMark(Canvas canvas, Offset at, Color color) {
+    canvas.drawCircle(at, 7, Paint()..color = color);
+    canvas.drawCircle(
+      at,
+      13,
+      Paint()
+        ..color = color.withValues(alpha: 0.35)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
+  }
+
   void _dashed(Canvas canvas, Offset a, Offset b) {
     final paint = Paint()
       ..color = AppColors.ink3.withValues(alpha: 0.55)
       ..strokeWidth = 1.2;
-    final total = (b - a).distance;
-    if (total < 1) return;
-    final unit = (b - a) / total;
-    for (var t = 0.0; t < total; t += 11) {
-      canvas.drawLine(a + unit * t, a + unit * math.min(t + 6, total), paint);
-    }
+    drawDashes(canvas, a, b, paint, on: 6, every: 11);
   }
 
   void _tick(Canvas canvas, String text, Offset at) {
@@ -311,7 +304,9 @@ class VectorPainter extends CustomPainter {
     tp.paint(canvas, at - Offset(tp.width / 2, tp.height / 2));
   }
 
-  void _arrow(Canvas canvas, GridGeometry g, Arrow a) {
+  /// One arrow with its head and label, on the grid [g]. Public so a pack
+  /// can draw an arrow that changes on its own over a drawing that does not.
+  static void drawArrow(Canvas canvas, GridGeometry g, Arrow a) {
     final from = g.at(a.from.x, a.from.y);
     final to = g.at(a.to.x, a.to.y);
     if ((to - from).distance < 0.5) return;

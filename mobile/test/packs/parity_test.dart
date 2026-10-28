@@ -17,10 +17,12 @@ import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/features/auth/auth_controller.dart';
 import 'package:mobile/features/games/asphalt_figures.dart';
+import 'package:mobile/features/games/board.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/guest_log.dart';
 import 'package:mobile/features/games/tap_the_voids_game.dart';
 import 'package:mobile/features/shared/widgets/engineering_grid.dart';
+import 'package:mobile/features/shared/widgets/math_text.dart';
 import 'package:mobile/features/packs/drawing/drawing_painter.dart';
 import 'package:mobile/features/packs/pack_model.dart';
 
@@ -46,12 +48,14 @@ const _phones = [320.0, 390.0, 430.0];
 /// `flutter test test/packs/parity_test.dart --dart-define=PARITY=construction`.
 const _only = String.fromEnvironment('PARITY');
 
-/// One game only, to check a fix:
+/// One game only, or a few separated by commas, to check a fix:
 /// `--dart-define=PARITY=fluid-mechanics --dart-define=PARITY_GAME=which-drags-more`.
 const _game = String.fromEnvironment('PARITY_GAME');
 
 final _chapter = _only.isEmpty ? movedGames : movedByChapter[_only]!;
-final _games = _game.isEmpty ? _chapter : {_game: _chapter[_game]!};
+final _games = _game.isEmpty
+    ? _chapter
+    : {for (final g in _game.split(',')) g: _chapter[g]!};
 
 /// Each game's pack data, built the first time one of its runs needs it,
 /// and sent through JSON the way a downloaded pack arrives. Built game by
@@ -274,10 +278,66 @@ Future<_Run> _playing(
       await _tapOn(tester, find.text('See how you did'));
       break;
     }
-    final i = _roundOnScreen(game);
+    final i = _roundOnScreen(tester, game);
     final k = seen[i] = (seen[i] ?? -1) + 1;
     final r = game.rounds[i];
+    // A round played as a run of moves has no lock-in: try k plays k right
+    // moves and then a wrong one, each try a different wrong one, and the
+    // last try plays every move right.
+    if (r['steps'] case final List steps) {
+      final options = (r['options']! as List).cast<String>();
+      final moves = [for (final s in steps) (s as Map)['answer']! as int];
+      final right = math.min(k, moves.length);
+      for (var s = 0; s < right; s++) {
+        await _tapOn(tester, _option(r, options, moves[s]));
+        await tester.pump();
+        if (s < moves.length - 1) await shot('r$i try $k move $s');
+      }
+      if (k < moves.length) {
+        final wrong = [
+          for (var o = 0; o < options.length; o++)
+            if (o != moves[k]) o,
+        ];
+        await _tapOn(tester, _option(r, options, wrong[k % wrong.length]));
+      }
+      await shot('r$i try $k answered');
+      if (find.text('Next').evaluate().isNotEmpty) {
+        await _tapOn(tester, find.text('Next'));
+        await tester.pump();
+      }
+      continue;
+    }
     switch (game.type) {
+      case 'pick-several' when r['order'] == 'fill':
+        // Rows filled in turn: the first try fills two, empties the first
+        // and fills on with whatever comes next; the second fills every
+        // row right but the last; then every row right.
+        final options = (r['options']! as List).cast<String>();
+        final answer = (r['answer']! as List).cast<int>();
+        final need = r['need']! as int;
+        Future<void> fill(int o) async {
+          await _tapOn(tester, _option(r, options, o));
+          await tester.pump();
+        }
+        if (k == 0) {
+          await fill(0);
+          await fill(1);
+          await shot('r$i try $k two filled');
+          await _tapOn(tester, find.byKey(const ValueKey('slot-0')));
+          await tester.pump();
+          await shot('r$i try $k emptied');
+          for (var o = 2; o < need + 1; o++) {
+            await fill(o % options.length);
+          }
+        } else {
+          for (var row = 0; row < need; row++) {
+            await fill(
+              k == 1 && row == need - 1
+                  ? (answer[row] + 1) % options.length
+                  : answer[row],
+            );
+          }
+        }
       case 'pick-several':
         // Everything that does not stand alone, then what stands alone
         // (or one answer), then exactly the right ones; a tap and an
@@ -316,6 +376,14 @@ Future<_Run> _playing(
           // so it can be locked in.
           1 when r['need'] is int =>
             rest.reversed.take(r['need']! as int).toList(),
+          // One that keeps what stands alone when it is tapped again gets
+          // that second tap too.
+          1 when r['stay'] == true && alone.isNotEmpty => [
+            alone.first,
+            rest.first,
+            alone.first,
+            alone.first,
+          ],
           1 =>
             alone.isEmpty
                 ? [rest.last]
@@ -330,6 +398,22 @@ Future<_Run> _playing(
           }
           await tester.pump();
         }
+        // Slots tapped to take their pick back (Build the Identity, Balance
+        // Both Sides): the first slot is emptied and filled again on the
+        // first try. It shows what the first pick shows, above the answers.
+        if (k == 0 && r['order'] == 'slots' && _hasSlotNodes(r)) {
+          final first = switch (_heldBy(_answerNode(r, taps.first))) {
+            ('tex', final String latex) => find.byWidgetPredicate(
+              (w) => w is MathBlock && w.latex == latex,
+            ),
+            ('t', final String words) => find.text(words),
+            final other => throw StateError('No slot showing $other'),
+          }.first;
+          await _tapOn(tester, first);
+          await shot('r$i slot emptied');
+          await _tapOn(tester, _option(r, options, taps.first));
+          await tester.pump();
+        }
       case 'pick-one':
         final options = (r['options']! as List).cast<String>();
         final answer = r['answer']! as int;
@@ -337,12 +421,7 @@ Future<_Run> _playing(
         final marked = (tapped?['hits'] as List?)?.cast<int>() ?? const [];
         final everyWrong = [
           for (var o = 0; o < options.length; o++)
-            // An answer with no mark on this round's drawing and nothing
-            // else on screen to tap cannot be picked (What the Water
-            // Touches has no dry wall in a channel with no freeboard).
-            if (o != answer &&
-                (tapped == null || marked.contains(o) || _onScreen(r, o)))
-              o,
+            if (o != answer && _canPick(r, o, tapped, marked)) o,
         ];
         // A round with a table of answers tries its first, middle and
         // last wrong ones, not all twenty.
@@ -354,6 +433,21 @@ Future<_Run> _playing(
                 everyWrong.last,
               ];
         final pick = k < wrong.length ? wrong[k] : answer;
+        // A pick moved up and down with buttons from where it starts (not
+        // one dragged on a drawing, as Slide to the Flat Spot's marker is).
+        if (r['start'] case final int start when tapped == null) {
+          for (var now = start; now != pick; now += pick > now ? 1 : -1) {
+            await _tapOn(
+              tester,
+              find.byIcon(
+                pick > now ? Icons.add_rounded : Icons.remove_rounded,
+              ),
+            );
+            await tester.pump();
+            if ((now - start).abs() == 1) await shot('r$i try $k stepped');
+          }
+          break;
+        }
         final drawn = _panelCount(r);
         final tap = _tapBlock(r);
         final hits = (tap?['hits'] as List?)?.cast<int>() ?? const <int>[];
@@ -385,17 +479,26 @@ Future<_Run> _playing(
                   Rect.fromLTRB(n(l), n(t), n(r), n(b)),
                   n(from) + n(sweep) / 2,
                 )
-              // A line's middle: its ends can be shared with the next
-              // line along (the corners of a channel's boundary).
               else if (step case [
                 'line',
-                final x1,
-                final y1,
+                final x,
+                final y,
                 final x2,
                 final y2,
                 ...,
+              ] when tap['reach'] == 'stroke')
+                // A side taken within its stroke (Tap the Side): its middle,
+                // since an end is shared with the next side.
+                Offset((n(x) + n(x2)) / 2, (n(y) + n(y2)) / 2)
+              else if (step case [
+                'path',
+                final int fill,
+                final List moves,
+                ...,
               ])
-                Offset((n(x1) + n(x2)) / 2, (n(y1) + n(y2)) / 2)
+                // An area of any shape (Quadrant Signs): the middle of its
+                // bounds.
+                buildPath(fill, moves.cast(), size.width).getBounds().center
               else if (step case [_, final x, final y, ...])
                 Offset(n(x), n(y)),
           ];
@@ -411,6 +514,21 @@ Future<_Run> _playing(
             await shot('r$i empty tap');
           }
           await tester.tapAt(origin + marks[hits.indexOf(pick)]);
+          // A figure that is dragged across too (Slide to the Flat Spot) is
+          // dragged on the first try from the mark picked to the far end,
+          // then tapped back.
+          if (k == 0 && tap['drag'] == true) {
+            final from = marks[hits.indexOf(pick)];
+            final far =
+                (marks.last - from).distance > (marks.first - from).distance
+                ? marks.last
+                : marks.first;
+            await tester.pump();
+            await tester.dragFrom(origin + from, Offset(far.dx - from.dx, 0));
+            await tester.pump();
+            await shot('r$i dragged');
+            await tester.tapAt(origin + from);
+          }
         } else if (pick < drawn) {
           // A drawing answer has no words to find: tap it by its place.
           await _tapOn(tester, _panels.at(pick));
@@ -460,7 +578,12 @@ Future<_Run> _playing(
         }
     }
     await shot('r$i try $k picked');
-    await _tapOn(tester, find.text('Lock it in'));
+    // The game's own words on the button (Perpendicular Flip's "Confirm
+    // this line"), or the usual ones.
+    await _tapOn(
+      tester,
+      find.text((game.json['lock'] as String?) ?? 'Lock it in'),
+    );
     await shot('r$i try $k answered');
     // The last round's button finishes instead; the top of the loop takes it.
     if (find.text('Next').evaluate().isNotEmpty) {
@@ -503,7 +626,15 @@ Future<void> _tapMark(
             Rect.fromLTRB(n(1), n(2), n(3), n(4)),
             n(5) + n(6) / 2,
           ),
-          'line' => Offset((n(1) + n(3)) / 2, (n(2) + n(4)) / 2),
+          'path' => buildPath(
+            step[1]! as int,
+            (step[2]! as List).cast(),
+            size.width,
+          ).getBounds().center,
+          'line' when tap['reach'] == 'stroke' => Offset(
+            (n(1) + n(3)) / 2,
+            (n(2) + n(4)) / 2,
+          ),
           _ => Offset(n(1), n(2)),
         },
   );
@@ -527,14 +658,137 @@ Future<void> _tapOn(WidgetTester tester, Finder finder) async {
   await tester.tap(finder);
 }
 
-int _roundOnScreen(PackGame game) {
-  for (final (i, r) in game.rounds.indexed) {
-    final words = r['screen'] == null
-        ? [(r['asked'] ?? r['scenario'])! as String]
-        : _words((r['screen']! as List).cast<Map<String, Object?>>());
-    if (words.every((w) => find.text(w).evaluate().isNotEmpty)) return i;
+int _roundOnScreen(WidgetTester tester, PackGame game) {
+  final matching = [
+    for (final (i, r) in game.rounds.indexed)
+      if ((r['screen'] == null
+              ? [(r['asked'] ?? r['scenario'])! as String]
+              : _words((r['screen']! as List).cast<Map<String, Object?>>()))
+          .every((w) => find.text(w).evaluate().isNotEmpty))
+        i,
+  ];
+  if (matching.isEmpty) throw StateError('No round on screen');
+  // Rounds told apart only by a formula or a drawing (two of Discriminant
+  // Gate's differ only in their drawing): the round the board is on, which
+  // both games number the same.
+  if (matching.length > 1) {
+    final shell = find.byType(BoardShell);
+    if (shell.evaluate().isNotEmpty) {
+      final at = tester.widget<BoardShell>(shell.first).session.round;
+      if (matching.contains(at)) return at;
+    }
   }
-  throw StateError('No round on screen');
+  return matching.first;
+}
+
+/// Answer [i] when it is a bare tap area around something (`plain`, no
+/// ink to find it by), or null: found by what it holds, a formula, words,
+/// or a drawing on the grid that tall, counting the bare answers before it
+/// that hold the same.
+Finder? _plainAnswer(List<Map<String, Object?>> screen, int i) {
+  final plain = <Map<String, Object?>>[];
+  void walk(Object? n) {
+    if (n is List) {
+      n.forEach(walk);
+    } else if (n is Map) {
+      if (n['k'] == 'answer' && n['plain'] == true) {
+        plain.add(n.cast<String, Object?>());
+      } else {
+        n.values.forEach(walk);
+      }
+    }
+  }
+
+  walk(screen);
+  final at = plain.indexWhere((a) => a['i'] == i);
+  if (at < 0) return null;
+  final key = _heldBy(plain[at]['child']);
+  final same = plain.take(at).where((a) => _heldBy(a['child']) == key).length;
+  final finder = switch (key) {
+    ('tex', final String latex) => find.byWidgetPredicate(
+      (w) => w is MathBlock && w.latex == latex,
+    ),
+    ('t', final String words) => find.text(words),
+    ('grid', final num h) => () {
+      final grids = find.byType(EngineeringGrid, skipOffstage: false);
+      final all = grids.evaluate().toList();
+      final tall = [
+        for (var g = 0; g < all.length; g++)
+          if ((all[g].size?.height ?? 0) == h) g,
+      ];
+      return grids.at(tall[same]);
+    }(),
+    _ => throw StateError('Nothing to find answer $i by: $key'),
+  };
+  return key.$1 == 'grid' ? finder : finder.at(same);
+}
+
+/// What a bare answer holds that can be found on screen: the first
+/// formula, words, or box holding the grid, as it looks while idle.
+(String, Object?) _heldBy(Object? n) {
+  if (n is Map) {
+    if (n['k'] == 'tex' || n['k'] == 't') {
+      final v = n['v'];
+      final words = v is Map ? (v['idle'] ?? v['ask'] ?? v.values.first) : v;
+      return (n['k']! as String, words);
+    }
+    if (n['k'] == 'box' && n['h'] is num && jsonEncode(n).contains('"grid"')) {
+      return ('grid', n['h']);
+    }
+    for (final v in n.values) {
+      final found = _heldBy(v);
+      if (found.$1 != '') return found;
+    }
+  } else if (n is List) {
+    for (final v in n) {
+      final found = _heldBy(v);
+      if (found.$1 != '') return found;
+    }
+  }
+  return ('', null);
+}
+
+/// The answer node for answer [i] of a round written as nodes.
+Map<String, Object?>? _answerNode(Map<String, Object?> round, int i) {
+  Map<String, Object?>? walk(Object? n) {
+    if (n is List) {
+      for (final c in n) {
+        if (walk(c) case final found?) return found;
+      }
+    } else if (n is Map) {
+      if (n['k'] == 'answer' && n['i'] == i) return n.cast();
+      for (final c in n.values) {
+        if (walk(c) case final found?) return found;
+      }
+    }
+    return null;
+  }
+
+  return walk(round['screen']);
+}
+
+/// Whether a round's slots are tapped to take a pick back (`slot` nodes).
+bool _hasSlotNodes(Map<String, Object?> round) =>
+    jsonEncode(round['screen']).contains('"k":"slot"');
+
+/// Whether answer [o] of round [r] can be picked at all. An answer with no
+/// mark on the round's drawing and nothing else on screen to tap cannot
+/// (What the Water Touches has no dry wall in a channel with no
+/// freeboard), nor one with no answer node on a screen whose answers are
+/// nodes (Which Happens First's operators sit in the formula untapped).
+bool _canPick(
+  Map<String, Object?> r,
+  int o,
+  Map<String, Object?>? tapped,
+  List<int> marked,
+) {
+  if (marked.contains(o)) return true;
+  if (tapped != null) return _onScreen(r, o);
+  final answer = r['answer'];
+  if (answer is int && _answerNode(r, answer) != null) {
+    return _answerNode(r, o) != null;
+  }
+  return true;
 }
 
 /// Whether answer [i] of [round] can be found on screen to tap.
@@ -570,9 +824,12 @@ final _panels = find.byWidgetPredicate(
 /// Answer [i] of a round, on screen. A tile is found by its place (its
 /// words may be a formula), anything else by its words.
 Finder _option(Map<String, Object?> round, List<String> options, int i) {
-  final tiles = _tileAnswers(
-    ((round['screen'] as List?) ?? const []).cast<Map<String, Object?>>(),
-  );
+  final screen = ((round['screen'] as List?) ?? const [])
+      .cast<Map<String, Object?>>();
+  // An answer keyed as the built-in game keys its own (a spreadsheet cell).
+  if (_keyOf(screen, i) case final String key) return find.byKey(ValueKey(key));
+  if (_plainAnswer(screen, i) case final found?) return found;
+  final tiles = _tileAnswers(screen);
   final at = tiles.indexWhere((t) => t.$1 == i);
   if (at >= 0) {
     final radius = tiles[at].$2;
@@ -580,7 +837,8 @@ Finder _option(Map<String, Object?> round, List<String> options, int i) {
     // tap area in the built-in game: found by its words, the topmost.
     if (radius == 0) return find.text(options[i]).first;
     final same = tiles.take(at).where((t) => t.$2 == radius).length;
-    return _tiles({radius}).at(same);
+    // Answers that go dim once placed (`keep`) still hold their place.
+    return _tiles({radius}, all: round['keep'] == true).at(same);
   }
   // Two answers can share their words (told apart by a note).
   final twins = options.take(i).where((o) => o == options[i]);
@@ -606,7 +864,7 @@ List<(int, double)> _tileAnswers(List<Map<String, Object?>> blocks) => [
     if (b['box'] case final List inner)
       ..._tileAnswers(inner.cast<Map<String, Object?>>()),
     // A round written as screen nodes: its answer nodes, anywhere.
-    if (b['k'] == 'answer')
+    if (b['k'] == 'answer' && b['plain'] != true)
       (b['i']! as int, ((b['radius'] as num?) ?? 12).toDouble()),
     if (b['k'] != null) ...[
       if (b['child'] case final Map<String, Object?> c) ..._tileAnswers([c]),
@@ -616,13 +874,29 @@ List<(int, double)> _tileAnswers(List<Map<String, Object?>> blocks) => [
   ],
 ];
 
+/// The key answer [i] carries on a screen of nodes, if it has one.
+String? _keyOf(List<Map<String, Object?>> blocks, int i) {
+  for (final b in blocks) {
+    if (b['k'] == 'answer' && b['i'] == i && b['key'] is String) {
+      return b['key']! as String;
+    }
+    if (b['k'] == null) continue;
+    final inner = <Map<String, Object?>>[
+      if (b['child'] case final Map<String, Object?> c) c,
+      if (b['c'] case final List c) ...c.whereType<Map<String, Object?>>(),
+    ];
+    if (_keyOf(inner, i) case final String key) return key;
+  }
+  return null;
+}
+
 /// The tiles on screen, in order: the only buttons on their round with
 /// those corners.
-Finder _tiles(Set<double> radii) => find.byWidgetPredicate(
+Finder _tiles(Set<double> radii, {bool all = false}) => find.byWidgetPredicate(
   (w) =>
       w is InkWell &&
       radii.any((r) => w.borderRadius == BorderRadius.circular(r)) &&
-      w.onTap != null,
+      (all || w.onTap != null),
 );
 
 /// The words a screen of blocks always shows, so its round can be told
@@ -657,6 +931,19 @@ Finder _answer(String words) =>
 /// drawing. Found this way because the built-in games build it in
 /// different ways (a stack of tap areas, or one tap handler).
 Finder _tapFigure(WidgetTester tester, Map<String, Object?> tap) {
+  if (tap['h'] == 'w') {
+    // As tall as it is wide, on white rather than the grid (Place the
+    // Center): the first square drawing the width of the round.
+    final paints = find.byType(CustomPaint, skipOffstage: false);
+    final all = paints.evaluate().toList();
+    for (var i = 0; i < all.length; i++) {
+      final size = all[i].size;
+      if (size != null && size.width >= 200 && size.width == size.height) {
+        return paints.at(i);
+      }
+    }
+    throw StateError('No square drawing on screen');
+  }
   final h = (tap['h']! as num).toDouble();
   final grids = find.byType(EngineeringGrid, skipOffstage: false);
   final all = grids.evaluate().toList();

@@ -17,6 +17,7 @@ import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/features/auth/auth_controller.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/per_million_what_game.dart';
+import 'package:mobile/features/games/perpendicular_flip_game.dart';
 import 'package:mobile/features/packs/games/pick_one_game.dart';
 import 'package:mobile/features/packs/pack_store.dart';
 import 'package:mobile/features/packs/update_needed_screen.dart';
@@ -235,10 +236,18 @@ void main() {
         playScreenFor('per-million-what', store: store, on: true),
         isA<UpdateNeededScreen>(),
       );
-      // A game the pack does not hold still plays as it always has.
+      // A game the pack does not hold still plays as it always has. Every
+      // game is in the pack now, so a later version leaves one out.
+      final json = jsonDecode(_asVersion(store.pack!.version + 1)) as Map;
+      (json['games']! as Map).remove('perpendicular-flip');
+      for (final lesson in (json['lessons']! as Map).values) {
+        ((lesson as Map)['games']! as List).remove('perpendicular-flip');
+      }
+      await tester.runAsync(() => store.refresh(_Server(jsonEncode(json))));
+      expect(store.game('perpendicular-flip'), isNull);
       expect(
         playScreenFor('perpendicular-flip', store: store, on: true),
-        isNot(isA<UpdateNeededScreen>()),
+        isA<PerpendicularFlipGame>(),
       );
     });
   });

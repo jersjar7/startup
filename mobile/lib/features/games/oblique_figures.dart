@@ -1,7 +1,11 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide TextPainter, Path;
 
+import '../packs/drawing/figure_corner.dart';
+import '../packs/drawing/figure_path.dart';
+
+import '../packs/drawing/figure_text.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -147,29 +151,25 @@ class ObliqueTrianglePainter extends CustomPainter {
     if (text.characters.length <= 2) angle = 0;
 
     canvas.save();
-    canvas.translate(mid.dx + normal.dx * 17, mid.dy + normal.dy * 17);
-    canvas.rotate(angle);
-    _text(canvas, text, Offset.zero, color, 13);
+    // 17 off the middle on the side away from the centre, turned unless
+    // the label is upright (figure_corner.dart).
+    turnBeside(canvas, p, q, away: center, by: 17, turned: angle != 0);
+    _text(canvas, text, const Spot(Offset.zero), color, 13);
     canvas.restore();
   }
 
   void _angleArc(Canvas canvas, ObliqueGeometry g, String name, Color color) {
     final at = g.vertex(name);
     final others = ['A', 'B', 'C'].where((n) => n != name).toList();
-    final u1 = (g.vertex(others[0]) - at);
-    final u2 = (g.vertex(others[1]) - at);
-    final start = math.atan2(u1.dy, u1.dx);
-    final end = math.atan2(u2.dy, u2.dx);
-    var sweep = end - start;
-    if (sweep > math.pi) sweep -= 2 * math.pi;
-    if (sweep < -math.pi) sweep += 2 * math.pi;
-
-    canvas.drawArc(
-      Rect.fromCircle(center: at, radius: 24),
-      start,
-      sweep,
-      false,
-      Paint()
+    // From the side toward the first other corner to the side toward the
+    // second, the short way round (figure_corner.dart).
+    drawCornerArc(
+      canvas,
+      at,
+      g.vertex(others[0]),
+      g.vertex(others[1]),
+      radius: 24,
+      paint: Paint()
         ..color = color
         ..strokeWidth = 2.5
         ..style = PaintingStyle.stroke,
@@ -186,10 +186,11 @@ class ObliqueTrianglePainter extends CustomPainter {
     final at = g.vertex(name);
     final center = (g.a + g.b + g.c) / 3;
     final away = at - center;
-    _text(canvas, text, at + away / away.distance * 20, color, 13.5);
+    // 20 out from the corner, away from the centre.
+    _text(canvas, text, Spot.pushed(at, away, 20), color, 13.5);
   }
 
-  void _text(Canvas canvas, String text, Offset at, Color color, double size) {
+  void _text(Canvas canvas, String text, Spot at, Color color, double size) {
     final tp = TextPainter(
       text: TextSpan(
         text: text,
@@ -201,7 +202,7 @@ class ObliqueTrianglePainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    tp.paint(canvas, at - Offset(tp.width / 2, tp.height / 2));
+    tp.paintCentred(canvas, at);
   }
 
   @override

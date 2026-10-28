@@ -7,9 +7,11 @@ import 'package:flutter/rendering.dart' show CustomPainter;
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
+import 'figure_corner.dart' show besideTurn, cornerArc, halving, pushedFrom;
 import 'figure_dash.dart' show dashes, pathDashes;
 import 'figure_grains.dart' show grains;
 import 'figure_hatch.dart' show hatches;
+import 'figure_parabola.dart' show parabola;
 
 /// Plays back a figure recorded by the pack builder (ADR 0030).
 ///
@@ -174,6 +176,39 @@ void playDrawing(Canvas canvas, Size size, List<Object?> ops) {
           _paint(op[7], w),
           _paint(op[8], w),
         );
+      case 'para':
+        // A whole parabola, drawn by the figures' own loop.
+        parabola(
+          canvas,
+          n(op[1]),
+          Offset(n(op[2]), n(op[3])),
+          n(op[4]),
+          n(op[5]),
+          n(op[6]) > 0,
+          n(op[7]),
+          _paint(op[8], w),
+        );
+      case 'beside':
+        // A side label's move and turn, found as the figure found it.
+        besideTurn(
+          canvas,
+          Offset(n(op[1]), n(op[2])),
+          Offset(n(op[3]), n(op[4])),
+          Offset(n(op[5]), n(op[6])),
+          n(op[7]),
+          n(op[8]) > 0,
+        );
+      case 'carc':
+        // An angle's arc round its corner, found as the figure found it.
+        cornerArc(
+          canvas,
+          Offset(n(op[1]), n(op[2])),
+          Offset(n(op[3]), n(op[4])),
+          Offset(n(op[5]), n(op[6])),
+          n(op[7]),
+          n(op[8]) > 0,
+          _paint(op[9], w),
+        );
       case 'rect':
         canvas.drawRect(_rect(op, 1, w), _paint(op[5], w));
       case 'rrect':
@@ -217,6 +252,21 @@ void playDrawing(Canvas canvas, Size size, List<Object?> ops) {
         canvas.drawPaint(_paint(op[1], w));
       case 'text':
         _text(canvas, op, w);
+      case 'ptext':
+        // A label centred on a spot found by a direction.
+        final spot = (op[4]! as List).cast<Object?>();
+        Offset at(int k) => Offset(n(spot[k]), n(spot[k + 1]));
+        final centre = switch (spot.first) {
+          'push' => pushedFrom(at(1), at(3), n(spot[5])),
+          'half' => halving(at(1), at(3), at(5), n(spot[7])),
+          final other => throw UnsupportedError('Unknown spot $other'),
+        };
+        _text(
+          canvas,
+          ['text', op[1], op[2], op[3], null, null, op[7]],
+          w,
+          at: centre - Offset(n(op[5]), n(op[6])),
+        );
       default:
         throw UnsupportedError('Unknown drawing step ${op[0]}');
     }
@@ -410,7 +460,7 @@ Paint _paint(Object? raw, double w) {
   return paint;
 }
 
-void _text(Canvas canvas, List<Object?> op, double w) {
+void _text(Canvas canvas, List<Object?> op, double w, {Offset? at}) {
   final opts = op[6] as Map;
   final max = op[3];
   final painter =
@@ -427,7 +477,10 @@ void _text(Canvas canvas, List<Object?> op, double w) {
         maxWidth: max == null ? double.infinity : drawingNumber(max, w),
       );
   painter
-    ..paint(canvas, Offset(drawingNumber(op[4], w), drawingNumber(op[5], w)))
+    ..paint(
+      canvas,
+      at ?? Offset(drawingNumber(op[4], w), drawingNumber(op[5], w)),
+    )
     ..dispose();
 }
 
