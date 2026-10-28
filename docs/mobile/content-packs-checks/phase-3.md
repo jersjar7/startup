@@ -27,7 +27,8 @@ chapter.
 | Mechanics of Materials | 27 | 250 KB | How Far Has It Yielded, 63 KB |
 | Structural | 28 | 159 KB | Where Do You Take Moments, 15 KB |
 | Transportation | 29 | 271 KB | Crest or Sag, 105 KB |
-| **Whole pack, version 14** | **260** | **2.55 MB** | |
+| Water Resources | 32 | 248 KB | What Moves the Critical Depth, 29 KB |
+| **Whole pack, version 15** | **292** | **2.80 MB** | |
 
 The limits the builder enforces are 250 KB for any one game and 25 KB on
 average. The pack grows by about 10 KB a game (Statics, all drawings, ran
@@ -533,6 +534,53 @@ What else the move needed:
   that use them before and after (1,264 and 3,152 drawings at eight
   widths, day and night), all identical.
 
+## Water Resources (32 games), 2026-10-28
+
+Moved, published in FE Civil pack version 15 (292 games, 2.80 MB to
+download; Water Resources is 248 KB of it). Not switched on.
+
+The adapters are in `mobile/test/packs/water_a.dart` (open channels
+through hydrology) and `water_b.dart` (routing, groundwater and
+treatment), written side by side and registered together as one chapter.
+The app gained:
+
+- **Soil grains as one step** (`grains`): Which Speed Is That packs an
+  aquifer block with grains, more of them the wider it is. Kept grain by
+  grain the game was 44.6 MB; kept as the block and its porosity, filled
+  on the phone by the game's own loop, it is 3.6 KB.
+- **A hatched shape as one step** (`hatch`): the phone hatches the shape
+  with the figures' own loop. Hatching kept line by line could not land
+  exactly where the app draws it (Which Formula Fits This Weir), and
+  keeping it closer instead made a game 5.5 MB. Only these games use it,
+  so every earlier game records as before.
+- **A line to tap within its own reach** (What the Water Touches takes
+  the nearest piece within 22 pixels), and the test scripts tap a line at
+  its middle.
+
+The builder gained one fix: every bend is first moved to where its two
+pieces meet, before a nearby sampled width is tried in its place (What
+the Water Touches bends at exactly 342 wide, which had been kept at
+341.9998). This recorded 31 games in earlier chapters slightly
+differently; each was compared again and all match to the pixel.
+
+| Check | Result |
+|---|---|
+| 1 to 4, as above | 192 of 192 runs pass, all 32 games pixel for pixel on every screen, every round played. |
+| Size | 248 KB for the chapter; every game under 30 KB, the largest What Moves the Critical Depth. |
+| On the iPhone simulator (iPhone 17 Pro) | SIMRESULT |
+| Everything else | SUITERESULT |
+
+What else the move needed:
+
+- The channel, flow, weir, main, hydrograph, aquifer, BOD, clarifier and
+  chlorine figures and the Water Resources concept pictures switched to
+  the recordable path and text. The channel section is painted in three
+  parts so the pack can layer its pieces. Nothing draws differently: the
+  helpers hashed every built-in Water Resources drawing and sheet picture
+  before and after (5,007 and 3,760 hashes), all identical. The figures'
+  hatching loop moved into a shared function unchanged, so every other
+  hatched figure in the app draws exactly as before.
+
 ## Notes for after (not changed during the move)
 
 1. **Three Dynamics formulas run off a small phone.** On a phone 320
@@ -579,3 +627,7 @@ What else the move needed:
    for such a run should shrink it a lot; not measured. Test: make the
    change, rebuild this one game and compare, then rebuild the pack and
    compare every game whose recording changed.
+
+7. **Water Resources formulas run off a small phone.** In the built-in
+   games as much as in the pack, at 320 pixels wide: Double the Drawdown
+   (34) and What Do You Feed (43). Fix: as note 4.
