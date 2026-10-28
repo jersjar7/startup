@@ -5,6 +5,7 @@ import 'economics.dart' as economics;
 import 'ethics.dart' as ethics;
 import 'fluids.dart' as fluids;
 import 'geotech_a.dart' as geotech_a;
+import 'geotech_b.dart' as geotech_b;
 import 'materials_a.dart' as materials_a;
 import 'materials_b.dart' as materials_b;
 import 'mechanics_a.dart' as mechanics_a;
@@ -47,7 +48,7 @@ final movedByChapter = <String, Map<String, Map<String, Object?> Function()>>{
     ...transportation_b.adapters,
   },
   'water-resources': {...water_a.adapters, ...water_b.adapters},
-  'geotechnical': geotech_a.adapters,
+  'geotechnical': {...geotech_a.adapters, ...geotech_b.adapters},
 };
 
 /// Every moved game, by id.
