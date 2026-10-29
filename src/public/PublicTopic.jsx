@@ -6,6 +6,9 @@ import { useSeo } from '../seo/useSeo';
 import { getTopic, allTopics } from './content';
 import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
 import { getChapterProblemCount } from '../data/problemPool';
+import { getChapterPracticeProblems } from '../data/chapter-practice/index';
+
+const getChapterPracticeCount = (id) => getChapterPracticeProblems(id).length;
 import { AppArrow } from '../components/brand/AppArrow';
 import { ChapterCoin } from '../components/brand/ChapterCoin';
 import { CaretRight } from '@phosphor-icons/react';
@@ -104,7 +107,7 @@ export function PublicTopic() {
           {topic.context && <p className="pub-lede">{topic.context}</p>}
           <div className="pub-cta-row">
             <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Practice {topic.name} free <AppArrow /></Link>
-            <Link className="pub-btn pub-btn-ghost" to="/fe-civil-exam-guide">Full exam guide</Link>
+            <Link className="pub-btn pub-btn-ghost" to={`/fe-civil/${topic.id}/practice-problems`}>Free practice problems</Link>
           </div>
         </div>
         {Icon && <div className="pub-hero-icon" aria-hidden="true"><Icon size={48} weight="duotone" /></div>}
@@ -167,6 +170,9 @@ export function PublicTopic() {
               ))}
             </div>
           </RaccoonPeek>
+          <p className="pub-note">
+            <Link to={`/fe-civil/${topic.id}/practice-problems`}>Try {getChapterPracticeCount(topic.id)} more {topic.name} practice problems</Link> and check your answers on the page, no account needed.
+          </p>
           <p className="pub-note">
             2 of <strong>{PROBLEM_COUNT_LABEL}</strong> problems across all 15 chapters. The full bank, lessons, mastery
             tracking, and timed exam simulation live inside the app.

@@ -209,3 +209,31 @@
   .pub-ch-icon .coin { --coin-d: 30px !important; }
   .pub-ch-caret { display: none; }
 }
+
+/* Practice problems page: answer buttons, verdict, worked steps */
+.pub-practice-figure { max-width: 520px; margin: 4px 0 16px; }
+.pub-practice-figure svg { max-width: 100%; height: auto; }
+.pub-choices { list-style: none; padding: 0; margin: 0 0 14px; display: grid; gap: 8px; }
+.pub-choice {
+  width: 100%; display: flex; align-items: flex-start; gap: 12px; text-align: left;
+  background: var(--cream); border: 1.5px solid var(--cream-dark); border-radius: 10px;
+  padding: 11px 14px; font: inherit; color: var(--charcoal); cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.pub-choice:hover:not(:disabled) { border-color: var(--ember); }
+.pub-choice:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
+.pub-choice:disabled { cursor: default; }
+.pub-choice-letter { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.85rem; color: var(--gray-500); padding-top: 2px; min-width: 1ch; }
+.pub-choice-text { flex: 1 1 auto; min-width: 0; overflow-x: auto; }
+.pub-choice.is-right { border-color: var(--forest); background: var(--forest-bg); }
+.pub-choice.is-right .pub-choice-letter { color: var(--forest); }
+.pub-choice.is-wrong { border-color: var(--error); background: var(--error-bg); }
+.pub-choice.is-wrong .pub-choice-letter { color: var(--error); }
+.pub-choice.is-dim { opacity: 0.6; }
+.pub-verdict { display: flex; align-items: center; gap: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.95rem; margin: 0 0 12px; }
+.pub-verdict.is-right { color: var(--forest); }
+.pub-verdict.is-wrong { color: var(--error); }
+.pub-steps { list-style: decimal; margin: 12px 0 0; padding-left: 1.3rem; display: grid; gap: 10px; font-size: 0.95rem; color: #4a4a4a; }
+.pub-step-math { overflow-x: auto; margin-top: 4px; }
+.pub-practice-ref { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--gray-500); }
+.pub-tally { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--gray-500); margin-top: 20px; }

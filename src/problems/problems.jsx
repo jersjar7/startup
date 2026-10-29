@@ -536,7 +536,7 @@ export function Problems({ userName, onLogout, reviewMode = false, displayName }
                     <li key={i}>
                       <MathText text={step.text} />
                       {step.latex && (
-                        <div className="step-formula"><MathText text={`$$${step.latex}$$`} /></div>
+                        <div className="step-formula"><MathText text={`$${step.latex}$`} /></div>
                       )}
                     </li>
                   ))}

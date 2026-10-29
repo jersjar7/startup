@@ -62,6 +62,8 @@ const ROUTES = [
   // A real student who passed: the page people link to when they share it.
   '/stories/mitch',
   ...TOPICS.map(([id]) => `/fe-civil/${id}`),
+  // Free practice problems per chapter, checked on the page with no account.
+  ...TOPICS.map(([id]) => `/fe-civil/${id}/practice-problems`),
 ];
 
 function writeFile(rel, contents) {
@@ -76,11 +78,13 @@ const page = await browser.newPage();
 
 try {
   for (const route of ROUTES) {
-    await page.goto(BASE + route, { waitUntil: 'networkidle' });
-    await page.waitForSelector('[data-seo-ready="1"]', { timeout: 20000 });
+    // Generous limits: a busy machine (a long test run alongside) once made
+    // a 500 KB practice page miss the old 20-30 s ones and stop the build.
+    await page.goto(BASE + route, { waitUntil: 'networkidle', timeout: 120000 });
+    await page.waitForSelector('[data-seo-ready="1"]', { timeout: 90000 });
     // `main h1`, not `main.pub h1`: the public guides are .pub, /delete-account
     // is a legal-card page. Every prerendered page has one main with one h1.
-    await page.waitForSelector('main h1', { timeout: 20000 });
+    await page.waitForSelector('main h1', { timeout: 90000 });
     const html = '<!DOCTYPE html>\n' + (await page.evaluate(() => document.documentElement.outerHTML));
     writeFile(path.join(route, 'index.html'), html);
     const bytes = Buffer.byteLength(html);
@@ -97,6 +101,7 @@ const urls = [
   { loc: `${SITE}/fe-civil-exam-guide`, priority: '0.9', freq: 'weekly' },
   { loc: `${SITE}/exam-simulation`, priority: '0.9', freq: 'weekly' },
   ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}`, priority: '0.8', freq: 'monthly' })),
+  ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}/practice-problems`, priority: '0.8', freq: 'monthly' })),
   { loc: `${SITE}/about`, priority: '0.5', freq: 'yearly' },
   { loc: `${SITE}/stories/mitch`, priority: '0.5', freq: 'yearly' },
   { loc: `${SITE}/contact`, priority: '0.4', freq: 'yearly' },
@@ -139,7 +144,7 @@ const llms = `# FE for Raccoons
 
 ## FE Civil exam guides
 - [FE Civil Exam Guide](${SITE}/fe-civil-exam-guide): format, all 15 topics, how to prepare.
-${TOPICS.map(([id, name]) => `- [${name}](${SITE}/fe-civil/${id}): what NCEES tests, key formulas, sample problems, common mistakes.`).join('\n')}
+${TOPICS.map(([id, name]) => `- [${name}](${SITE}/fe-civil/${id}): what NCEES tests, key formulas, sample problems, common mistakes. [Free practice problems](${SITE}/fe-civil/${id}/practice-problems) with worked solutions.`).join('\n')}
 
 ## About
 - Audience: engineering students and EITs preparing for the FE Civil exam (the first step toward the PE license).
