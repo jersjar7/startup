@@ -49,3 +49,13 @@ describe('free practice problems page', () => {
     expect(plainText('$400$ N$\\cdot$m')).toBe('400 N·m');
   });
 });
+
+describe('worked steps', () => {
+  it('draws each step formula with no stray dollar signs', () => {
+    mount('/fe-civil/surveying/practice-problems');
+    const card = screen.getAllByRole('article')[0];
+    const steps = card.querySelectorAll('.pub-step-math');
+    expect(steps.length).toBeGreaterThan(0);
+    for (const s of steps) expect(s.textContent).not.toMatch(/\$/);
+  });
+});

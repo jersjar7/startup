@@ -80,7 +80,7 @@ function PracticeProblem({ p, n, onAnswer }) {
             {p.steps.map((s, i) => (
               <li key={i}>
                 <MathText text={s.text} />
-                {s.latex && <div className="pub-step-math"><MathText text={`$$${s.latex}$$`} /></div>}
+                {s.latex && <div className="pub-step-math"><MathText text={`$${s.latex}$`} /></div>}
               </li>
             ))}
           </ol>

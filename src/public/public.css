@@ -233,7 +233,7 @@
 .pub-verdict { display: flex; align-items: center; gap: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.95rem; margin: 0 0 12px; }
 .pub-verdict.is-right { color: var(--forest); }
 .pub-verdict.is-wrong { color: var(--error); }
-.pub-steps { margin: 12px 0 0; padding-left: 1.3rem; display: grid; gap: 10px; font-size: 0.95rem; color: #4a4a4a; }
+.pub-steps { list-style: decimal; margin: 12px 0 0; padding-left: 1.3rem; display: grid; gap: 10px; font-size: 0.95rem; color: #4a4a4a; }
 .pub-step-math { overflow-x: auto; margin-top: 4px; }
 .pub-practice-ref { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--gray-500); }
 .pub-tally { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--gray-500); margin-top: 20px; }
