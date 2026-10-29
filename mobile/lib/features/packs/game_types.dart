@@ -13,7 +13,8 @@ library;
 
 /// The pack layout this app reads. Raised only when an older app could no
 /// longer make sense of a pack at all; a new game type never raises it.
-const packFormat = 1;
+/// Format 2 (ADR 0033) publishes an index and one file per chapter.
+const packFormat = 2;
 
 /// The first release that reads packs. Every game type is at least this.
 const firstPackApp = '1.2.0';

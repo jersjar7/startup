@@ -1,8 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/features/games/game_audit.dart';
+
+import 'published.dart';
 
 /// Check 5 of the migration plan: the item checks (the game audit, see
 /// gate_test.dart) hold for the pack's copy of every game. The audit reads
@@ -13,17 +14,7 @@ import 'package:mobile/features/games/game_audit.dart';
 /// Reads the latest pack the server publishes, which is what students get.
 
 void main() {
-  final dir = Directory('../service/packs/fe-civil');
-  final manifest =
-      jsonDecode(File('${dir.path}/manifest.json').readAsStringSync())
-          as Map<String, Object?>;
-  final pack =
-      jsonDecode(
-            File(
-              '${dir.path}/${(manifest['latest']! as Map)['file']}',
-            ).readAsStringSync(),
-          )
-          as Map<String, Object?>;
+  final pack = latestPublished(Directory('../service/packs/fe-civil'));
   final games = (pack['games']! as Map).cast<String, Map<String, Object?>>();
   final lessons = (pack['lessons']! as Map).cast<String, Map>();
   final audits = {for (final a in auditAllGames()) a.gameId: a};

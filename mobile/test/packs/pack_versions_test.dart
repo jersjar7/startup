@@ -5,6 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/features/packs/game_types.dart';
 import 'package:mobile/features/packs/pack_model.dart';
 
+import 'published.dart';
+
 /// The guard from ADR 0030, section 5: every lesson in every published pack
 /// names the oldest app that can play it, and that must be exactly the
 /// newest version among its games' types. Too new and students are told to
@@ -62,9 +64,7 @@ void main() {
     });
 
     test('$name: every lesson names exactly the app it needs', () {
-      final pack =
-          jsonDecode(File('${dir.path}/${latest['file']}').readAsStringSync())
-              as Map<String, Object?>;
+      final pack = latestPublished(dir);
       final games = pack['games']! as Map<String, Object?>;
       final lessons = pack['lessons']! as Map<String, Object?>;
       final listed = latest['lessons']! as Map<String, Object?>;

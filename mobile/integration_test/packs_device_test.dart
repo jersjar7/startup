@@ -18,6 +18,7 @@ import 'package:mobile/features/auth/auth_controller.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/packs/drawing/drawing_painter.dart';
 import 'package:mobile/features/shared/widgets/engineering_grid.dart';
+import 'package:mobile/features/packs/game_types.dart';
 import 'package:mobile/features/packs/pack_store.dart';
 import 'package:mobile/features/packs/update_needed_screen.dart';
 
@@ -62,27 +63,39 @@ void main() {
     if (dir.existsSync()) dir.deleteSync(recursive: true);
   });
 
-  testWidgets('the pack inside the app opens with no download', (tester) async {
+  testWidgets('the pack inside the app opens with no download, every '
+      'chapter of it', (tester) async {
     final store = PackStore();
     await store.load();
     expect(store.pack!.exam, 'fe-civil');
-    expect(store.pack!.games.length, greaterThanOrEqualTo(3));
+    expect(store.pack!.gameIds.length, greaterThanOrEqualTo(3));
+    for (final id in store.pack!.gameIds) {
+      expect((await store.open(id))?.id, id);
+    }
   });
 
   testWidgets('the live server\'s pack matches, and a newer one would be '
       'saved to the phone', (tester) async {
     final api = ApiClient();
     final manifest = await api.get('/packs/fe-civil') as Map<String, Object?>;
-    expect(manifest['format'], 1);
+    final store = PackStore();
+    await store.load();
+    final inside = store.pack!.version;
+
+    // A server still on the one-file layout (format 1, before ADR 0033) is
+    // left alone: the phone keeps its own pack and asks for nothing more.
+    if (manifest['format'] != packFormat) {
+      expect(manifest['format'], 1);
+      expect(await store.refresh(api), isFalse);
+      expect(store.pack!.version, inside);
+      return;
+    }
     final text = await api.getText('/packs/fe-civil/${manifest['file']}');
-    final live = LoadedPack.parse(text);
+    final live = LoadedPack.parse(text, read: (_) async => '');
     expect(live.sha256, manifest['sha256']);
 
     // Refresh against the live server: a newer version than the one inside
     // the app is downloaded, anything else leaves the app's own alone.
-    final store = PackStore();
-    await store.load();
-    final inside = store.pack!.version;
     final newest = manifest['version']! as int;
     final updated = await store.refresh(api);
     expect(updated, newest > inside);
@@ -97,11 +110,11 @@ void main() {
     final auth = AuthController(api: ApiClient(), storage: AppStorage());
     await auth.startGuest();
 
-    for (final id in store.pack!.games.keys) {
+    for (final id in store.pack!.gameIds) {
       // One line a game, so a run that takes half an hour shows it is moving.
       debugPrint('playing $id');
       GameProgress.instance.reset(id);
-      final game = store.game(id)!;
+      final game = (await store.open(id))!;
       await tester.pumpWidget(
         ChangeNotifierProvider<AuthController>.value(
           value: auth,
