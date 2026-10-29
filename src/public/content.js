@@ -135,3 +135,19 @@ export const EXAM_FACTS = {
   reference: 'NCEES FE Reference Handbook (searchable PDF provided on-screen)',
   body: 'NCEES',
 };
+
+// Checked against ncees.org (FE exam page, exams page, Examinee Guide) on
+// 2026-10-29. Re-check when NCEES updates pass rates (each January and July).
+export const CHECKED_ON = { iso: '2026-10-29', label: 'October 29, 2026' };
+
+// First-time takers from ABET-accredited programs, within 12 months of graduating.
+export const FE_PASS_RATE = { rate: 66, takers: '6,247', period: 'January to June 2026' };
+
+// The FE appointment from the Examinee Guide format table, in minutes.
+export const EXAM_DAY = [
+  { id: 'nda', kind: 'admin', name: 'Nondisclosure agreement', label: '2 min', minutes: 2 },
+  { id: 'tutorial', kind: 'admin', name: 'Tutorial', label: '8 min', minutes: 8 },
+  { id: 'half1', kind: 'exam', name: 'First half', label: 'about 2 h 40 min', minutes: 160 },
+  { id: 'break', kind: 'break', name: 'Scheduled break', label: '25 min', minutes: 25 },
+  { id: 'half2', kind: 'exam', name: 'Second half', label: 'about 2 h 40 min', minutes: 160 },
+];
