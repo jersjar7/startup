@@ -800,12 +800,13 @@ it publishes nothing. Otherwise it splits the pack by chapter and writes:
   index: every lesson with its games and `minApp`, and every chapter's file
   with its sha256 and size.
 - `service/packs/<exam>/manifest.json`, pointing at the new version and
-  listing every version ever published.
+  listing every version still served.
 
 Every name carries the first 12 characters of its content's sha256, and
 nothing is written over an existing file. Versions 1 to 18 of FE Civil
-predate the split (format 1: the whole pack in one file) and stay published
-as they are.
+predated the split (format 1: the whole pack in one file); no phone could
+need them, so they were retired from the server (ADR 0034). A retired
+version's number is never reused.
 
 Then copy the version into the app, so a phone with no signal has all of
 it from the first open:

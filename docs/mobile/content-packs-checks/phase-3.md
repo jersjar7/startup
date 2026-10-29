@@ -731,7 +731,7 @@ What each chapter costs to download, compressed as the server sends it:
 | **All of it, for a phone holding nothing** | **3.41 MB** |
 
 Versions 1 to 18 stay as they were, one file each, and the server still
-serves them. A phone already holding version 19 downloads a later version's
+serves them (retired from the server on 2026-10-29, ADR 0034). A phone already holding version 19 downloads a later version's
 changed chapters only, usually one.
 
 | Check | Result |

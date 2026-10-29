@@ -217,9 +217,12 @@ describe('the packs we publish', () => {
   for (const [exam, m] of Object.entries(manifests)) {
     const read = (file) => fs.readFileSync(path.join(PACKS_DIR, exam, file), 'utf8');
 
-    it(`${exam}: every version is still there, unchanged`, () => {
+    it(`${exam}: every version still served is there, unchanged`, () => {
       expect(m.exam).toBe(exam);
-      expect(m.versions.map((v) => v.version)).toEqual(m.versions.map((_, i) => i + 1));
+      // Old versions no phone can need are retired (ADR 0034), so the list
+      // may start after 1, but it runs without a gap up to the latest.
+      const first = m.versions[0].version;
+      expect(m.versions.map((v) => v.version)).toEqual(m.versions.map((_, i) => first + i));
       for (const v of m.versions) {
         const text = read(v.file);
         expect(sha256(text), v.file).toBe(v.sha256);
@@ -234,8 +237,8 @@ describe('the packs we publish', () => {
         }
       }
       expect(m.versions.at(-1)).toMatchObject({ version: m.latest.version, file: m.latest.file, sha256: m.latest.sha256 });
-      // Every version is read and hashed, and the format 1 ones are big
-      // (FE Civil's are past 400 MB), so this gets more than the default 5 seconds.
+      // Every version is read and hashed, about 60 MB for FE Civil, so this
+      // gets more than the default 5 seconds.
     }, 120_000);
 
     it(`${exam}: the latest version is sound and matches its manifest`, () => {
