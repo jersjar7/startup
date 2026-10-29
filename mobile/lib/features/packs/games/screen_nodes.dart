@@ -138,14 +138,19 @@ extension on _ScreenBlocks {
                 ),
         );
       case 'row':
-        return Row(
+        final even = n['even'] == true;
+        final row = Row(
           mainAxisSize: n['size'] == 'min'
               ? MainAxisSize.min
               : MainAxisSize.max,
           mainAxisAlignment: _main(v('main')),
-          crossAxisAlignment: _cross(v('cross') ?? 'center'),
+          crossAxisAlignment: even
+              ? CrossAxisAlignment.stretch
+              : _cross(v('cross') ?? 'center'),
           children: kids(),
         );
+        // Answers side by side that stay one height when one grows.
+        return even ? IntrinsicHeight(child: row) : row;
       case 'col':
         return Column(
           mainAxisAlignment: _main(v('main')),

@@ -258,8 +258,8 @@ Map<String, Object?> howDoTheySit() {
                     main: 'center',
                     cross: 'start',
                   ),
-                  h: 58,
-                  pad: [14, 0, 14, 0],
+                  minH: 58,
+                  pad: [14, 8, 14, 8],
                   align: 'left',
                 ),
             ]),
@@ -1340,15 +1340,21 @@ Map<String, Object?> mindTheOrder() {
                   pad: [10, 12, 10, 12],
                   fill: 'creamDark',
                   radius: 12,
-                  child: row([
-                    tex(r'\text{Var}(X) =', 15),
-                    gapW(8),
-                    slotBox(0, values),
-                    gapW(8),
-                    t('−', size: 17),
-                    gapW(8),
-                    slotBox(1, values),
-                  ], main: 'center'),
+                  child: wrap(
+                    [
+                      tex(r'\text{Var}(X) =', 15),
+                      row([
+                        slotBox(0, values),
+                        gapW(8),
+                        t('−', size: 17),
+                        gapW(8),
+                        slotBox(1, values),
+                      ], min: true),
+                    ],
+                    space: 8,
+                    run: 8,
+                    center: true,
+                  ),
                 ),
                 gap(14),
                 ...stacked([
@@ -1686,7 +1692,7 @@ Map<String, Object?> whichReadout() {
           (
             options: [
               // As shown: the bar over x is drawn, not typed.
-            for (final (name, _) in readoutLines) name.replaceAll(macron, ''),
+              for (final (name, _) in readoutLines) name.replaceAll(macron, ''),
               'It is not on this screen',
             ],
             notes: null,

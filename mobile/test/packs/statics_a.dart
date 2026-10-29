@@ -66,6 +66,7 @@ Node toned(
   int i, {
   Object? w = 'max',
   num? h,
+  num? minH,
   List<num>? pad,
   String? align,
   Node? child,
@@ -76,6 +77,7 @@ Node toned(
   box(
     w: w,
     h: h,
+    minH: minH,
     pad: pad,
     align: align,
     radius: 12,
@@ -119,10 +121,13 @@ Node glyphButton(
   required String title,
   required String note,
   required String what,
+  bool grow = false,
 }) => toned(
   i,
-  h: h,
-  pad: const [14, 0, 14, 0],
+  // [grow]: at least [h] tall, taller when the note wraps.
+  h: grow ? null : h,
+  minH: grow ? h : null,
+  pad: grow ? const [14, 8, 14, 8] : const [14, 0, 14, 0],
   child: row([
     box(
       w: gw,
@@ -979,6 +984,7 @@ Map<String, Object?> isItAboutToMove() => pickScreen(
                 glyphButton(
                   o.index,
                   h: 64,
+                  grow: true,
                   gw: 52,
                   gh: 36,
                   glyph: GripGlyph(o).paint,

@@ -309,8 +309,9 @@ class _PullButton extends StatelessWidget {
         onTap: onTap,
         child: Container(
           width: double.infinity,
-          height: 64,
-          padding: const EdgeInsets.only(left: 6, right: 14),
+          // Grows when an answer wraps on a small phone.
+          constraints: const BoxConstraints(minHeight: 64),
+          padding: const EdgeInsets.fromLTRB(6, 8, 14, 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(

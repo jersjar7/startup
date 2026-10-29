@@ -46,10 +46,12 @@ Node row(
   String? cross,
   String? when,
   bool min = false,
+  bool even = false,
 }) => {
   'k': 'row',
   'c': c,
   if (min) 'size': 'min',
+  if (even) 'even': true,
   'main': ?main,
   'cross': ?cross,
   'when': ?when,
@@ -204,6 +206,7 @@ Node tinted(
   Node child, {
   num radius = 12,
   num? h,
+  num? minH,
   List<num>? pad,
   String? align,
   Object? w = 'max',
@@ -212,6 +215,7 @@ Node tinted(
   box(
     w: w,
     h: h,
+    minH: minH,
     pad: pad,
     align: align,
     radius: radius,
@@ -223,10 +227,11 @@ Node tinted(
   fill: tone('white', 'emberBg', 'forestBg', 'errorBg'),
 );
 
-/// Answers side by side, each taking an equal share, [space] apart.
-Node answerRow(List<Node> answers, {num space = 8}) => row([
+/// Answers side by side, each taking an equal share, [space] apart. With
+/// [even], all as tall as the tallest.
+Node answerRow(List<Node> answers, {num space = 8, bool even = false}) => row([
   for (final (i, a) in answers.indexed) ...[if (i > 0) gapW(space), flex(a)],
-]);
+], even: even);
 
 /// A drawing on the grid, clipped to the games' 16 pixel corner.
 Node pictured(Object d, num h, {num radius = 16, String? when}) => clip(

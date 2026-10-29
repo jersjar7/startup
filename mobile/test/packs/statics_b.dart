@@ -3,8 +3,7 @@ import 'dart:math' as maths;
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/games/above_or_below_game.dart'
     show sitRounds, SitGlyph;
-import 'package:mobile/features/games/along_it_or_not_game.dart'
-    show pinRounds;
+import 'package:mobile/features/games/along_it_or_not_game.dart' show pinRounds;
 import 'package:mobile/features/games/does_it_multiply_game.dart'
     show leverRounds;
 import 'package:mobile/features/games/frame_figures.dart'
@@ -71,7 +70,8 @@ Node noteButton(
   required double glyphW,
   required double glyphH,
   required double space,
-  required double h,
+  double? h,
+  double? minH,
   required List<num> pad,
   required String title,
   required String note,
@@ -93,6 +93,7 @@ Node noteButton(
     ),
   ]),
   h: h,
+  minH: minH,
   pad: pad,
 );
 
@@ -193,8 +194,8 @@ Map<String, Object?> alongItOrNot() => pickScreen(
                 main: 'center',
                 cross: 'start',
               ),
-              h: 58,
-              pad: const [14, 0, 14, 0],
+              minH: 58,
+              pad: const [14, 8, 14, 8],
               align: 'left',
             ),
             ...feedback(),
@@ -272,8 +273,8 @@ Map<String, Object?> doesItMultiply() {
                   glyphW: 62,
                   glyphH: 34,
                   space: 8,
-                  h: 64,
-                  pad: const [6, 0, 14, 0],
+                  minH: 64,
+                  pad: const [6, 8, 14, 8],
                   title: titles[p]!,
                   note: notes[p]!,
                 ),
@@ -356,10 +357,10 @@ Map<String, Object?> frameTrussOrMachine() {
                       align: 'center',
                     ),
                   ], main: 'center'),
-                  h: 112,
-                  pad: const [6, 0, 6, 0],
+                  minH: 112,
+                  pad: const [6, 8, 6, 8],
                 ),
-            ]),
+            ], even: true),
             ...feedback(),
           ],
         ),
@@ -410,10 +411,7 @@ Map<String, Object?> aboveOrBelowMiddle() {
             pictured(
               askDone(
                 record(
-                  ProfilePainter(
-                    profile: r.profile,
-                    showMiddle: true,
-                  ).paint,
+                  ProfilePainter(profile: r.profile, showMiddle: true).paint,
                   250,
                   what: 'above-or-below-middle round $i',
                 ),
@@ -677,11 +675,7 @@ Map<String, Object?> rankByStiffness() => withRounds(
         ),
     ],
   ),
-  (i) => {
-    'need': rankRounds[i].shapes.length,
-    'order': 'list',
-    'trim': true,
-  },
+  (i) => {'need': rankRounds[i].shapes.length, 'order': 'list', 'trim': true},
 );
 
 Map<String, Object?> moveItRight() {
@@ -756,8 +750,8 @@ Map<String, Object?> moveItRight() {
                   glyphW: 44,
                   glyphH: 36,
                   space: 12,
-                  h: 64,
-                  pad: const [12, 0, 12, 0],
+                  minH: 64,
+                  pad: const [12, 8, 12, 8],
                   title: titles[m]!,
                   note: notes[m]!,
                 ),
@@ -888,8 +882,11 @@ Map<String, Object?> whichSecondMoment() {
                   what: 'which-second-moment round $i',
                 ),
                 record(
-                  JobPainter(profile: r.profile, job: r.job, showAxis: true)
-                      .paint,
+                  JobPainter(
+                    profile: r.profile,
+                    job: r.job,
+                    showAxis: true,
+                  ).paint,
                   250,
                   what: 'which-second-moment round $i answered',
                 ),
