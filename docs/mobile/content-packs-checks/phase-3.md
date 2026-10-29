@@ -741,7 +741,45 @@ changed chapters only, usually one.
 | On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 375 games played to the end, each chapter read from the app's copy (81 minutes). |
 | Full phone suite | 6,043 pass in 3 hours 34 minutes. One failed: the version check's test helper put the chapters back together with the wrong map type. Fixed before the merge, and that test and the pack audit then passed (380 of 380). |
 
+## Small phones, version 20, 2026-10-29
+
+Nothing runs off a phone 320 pixels wide any more, in the built-in games or
+the pack. The parity check had listed 51 games with something wider than a
+320 phone, but it draws with a stand-in font wider than the real one. With
+the real formula fonts, 10 overflowed: 3 formulas (What Comes Out by 31
+pixels, Add Up the Losses 15, Too Big or Too Small 9) and 7 games' answers.
+
+- **Formulas** (one change, in the app's own formula widget, so no pack
+  change): a formula that fits is drawn whole exactly as before, pixel for
+  pixel (checked on the unchanged screens of the worst games). One wider
+  than the line breaks where a textbook would, after an equals, plus,
+  minus, times or comparison outside any braces, and between the words of
+  a sentence set in `\text{}`. Each sign keeps its spacing at the end of a
+  line, the lines are centred under one another, and a piece still too
+  wide alone shrinks to fit.
+- **Answer buttons** in Along It or Not, Does It Multiply, Frame, Truss or
+  Machine, How Do They Sit, Is It About to Move and Move It Right have a
+  minimum height instead of a fixed one, so a wrapped note makes the button
+  taller. Frame, Truss or Machine's three side by side stay one height (a
+  `row` with `"even": true`). At 390 wide, three of them grow a few pixels
+  where the longest note had been touching the edge.
+- **Mind the Order**: the two boxes of "Var(X) = [ ] - [ ]" go under the
+  label when the line does not fit.
+
+Version 20 changes only Statics and Statistics (the button games): a phone
+holding version 19 downloads 448 + 271 KB, about 0.7 MB.
+
+| Check | Result |
+|---|---|
+| Real fonts, 320 wide, the 10 games | No overflow. |
+| Pack against built-in, the 51 games listed, day and night, 320, 390 and 430 wide | 306 of 306 runs pass. |
+| Everyday phone tests | 3,798 pass; three games' reference pictures updated for the taller buttons. |
+| Pack store, versions and audit | 409 pass. |
+| Website and server tests | 963 pass. |
+
 ## Notes for after (not changed during the move)
+
+Notes 1, 3, 4, 5, 7 and 8 were fixed in version 20 (see "Small phones" above).
 
 1. **Three Dynamics formulas run off a small phone.** On a phone 320
    pixels wide, a formula overflows the screen in What Is Missing (by 9
