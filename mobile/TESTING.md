@@ -50,3 +50,24 @@ Framing and collisions still need looking at, one figure at a time and blown
 up — reading the contact sheets at three across is the wrong scale for it.
 
 `docs/mobile/figures.md` has the rules and the review pass.
+
+## Running the tests
+
+```
+cd mobile
+flutter test --timeout 10m        # everyday run, a few minutes
+```
+
+Two pack checks are slow, so `dart_test.yaml` skips them in the everyday
+run. Run them by naming the file with `--run-skipped`:
+
+| Check | When to run it | Command | Time |
+|---|---|---|---|
+| Pack against built-in games, pixel for pixel | A chapter's games change: that chapter only | `flutter test --run-skipped test/packs/parity_test.dart --dart-define=PARITY=<chapter>` | about 20 minutes |
+| The same, every chapter | The shared drawing code changes (`lib/features/packs/`, the recording shims, or figures several chapters use) | `flutter test --run-skipped --timeout 60m test/packs/parity_test.dart` | about 3.5 hours |
+| Build the pack | Before publishing a new pack version, and before any parity run (parity reads the built pack) | `flutter test --run-skipped test/packs/build_pack_test.dart` | about 35 minutes |
+
+One game alone: add `--dart-define=PARITY_GAME=<game id>` to the chapter
+command. The iPhone simulator run of every pack game
+(`integration_test/packs_device_test.dart`, about 80 minutes) follows the
+same rule as the full comparison.

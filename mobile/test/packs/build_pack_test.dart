@@ -1,3 +1,6 @@
+@Tags(['pack-build'])
+library;
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -13,7 +16,7 @@ import 'builder.dart';
 /// rounds, drawings and concept sheet, written to build/packs/fe-civil.json.
 /// Run before parity_test.dart; publish it with
 ///
-///   flutter test test/packs/build_pack_test.dart
+///   flutter test --run-skipped test/packs/build_pack_test.dart
 ///   node scripts/publish-pack.mjs mobile/build/packs/fe-civil.json
 ///
 /// The publisher gives the pack its version; the builder only says, for
