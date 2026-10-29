@@ -783,7 +783,7 @@ stores). If the next release ends up numbered differently, change
 ## Publishing
 
 ```sh
-cd mobile && flutter test test/packs/build_pack_test.dart && cd ..
+cd mobile && flutter test --run-skipped test/packs/build_pack_test.dart && cd ..
 node scripts/publish-pack.mjs mobile/build/packs/fe-civil.json
 ```
 

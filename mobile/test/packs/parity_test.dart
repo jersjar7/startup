@@ -1,3 +1,6 @@
+@Tags(['parity'])
+library;
+
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
@@ -45,7 +48,7 @@ import 'moved.dart';
 const _phones = [320.0, 390.0, 430.0];
 
 /// One chapter only, to keep a run short:
-/// `flutter test test/packs/parity_test.dart --dart-define=PARITY=construction`.
+/// `flutter test --run-skipped test/packs/parity_test.dart --dart-define=PARITY=construction`.
 const _only = String.fromEnvironment('PARITY');
 
 /// One game only, or a few separated by commas, to check a fix:

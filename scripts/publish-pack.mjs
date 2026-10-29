@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Publishes a built content pack to service/packs/<exam>/ (ADR 0030).
 //
-//   cd mobile && flutter test test/packs/build_pack_test.dart && cd ..
+//   cd mobile && flutter test --run-skipped test/packs/build_pack_test.dart && cd ..
 //   node scripts/publish-pack.mjs mobile/build/packs/fe-civil.json
 //
 // Gives the pack the next version, splits it into one file per chapter and

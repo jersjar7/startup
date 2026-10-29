@@ -1,0 +1,10 @@
+# The two slow pack checks are skipped in an everyday `flutter test`. Run
+# them by naming the file with --run-skipped (see TESTING.md).
+tags:
+  # Compares every packed game with the built-in one, pixel for pixel,
+  # about 3.5 hours for all 375 games.
+  parity:
+    skip: "Slow: run with --run-skipped when a game or the drawing code changes"
+  # Rebuilds the FE Civil pack, about 35 minutes.
+  pack-build:
+    skip: "Slow: run with --run-skipped to build a pack to publish"
