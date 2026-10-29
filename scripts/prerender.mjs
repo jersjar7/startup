@@ -78,11 +78,13 @@ const page = await browser.newPage();
 
 try {
   for (const route of ROUTES) {
-    await page.goto(BASE + route, { waitUntil: 'networkidle' });
-    await page.waitForSelector('[data-seo-ready="1"]', { timeout: 20000 });
+    // Generous limits: a busy machine (a long test run alongside) once made
+    // a 500 KB practice page miss the old 20-30 s ones and stop the build.
+    await page.goto(BASE + route, { waitUntil: 'networkidle', timeout: 120000 });
+    await page.waitForSelector('[data-seo-ready="1"]', { timeout: 90000 });
     // `main h1`, not `main.pub h1`: the public guides are .pub, /delete-account
     // is a legal-card page. Every prerendered page has one main with one h1.
-    await page.waitForSelector('main h1', { timeout: 20000 });
+    await page.waitForSelector('main h1', { timeout: 90000 });
     const html = '<!DOCTYPE html>\n' + (await page.evaluate(() => document.documentElement.outerHTML));
     writeFile(path.join(route, 'index.html'), html);
     const bytes = Buffer.byteLength(html);
