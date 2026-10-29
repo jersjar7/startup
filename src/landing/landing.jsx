@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import {
   Lightning,
@@ -263,19 +263,22 @@ export function Landing({ userName }) {
           <div className="chapters-list">
             {chapters.map((ch) => {
               return (
-                <div key={ch.num} className="ch-row">
+                // Each row opens that chapter's public study guide. These are
+                // the only links from the home page to the guides, which is how
+                // Google judges they matter enough to list.
+                <Link key={ch.num} className="ch-row" to={`/fe-civil/${ch.id}`}>
                   <span className="ch-num">{String(ch.num).padStart(2, '0')}</span>
                   <ChapterCoin chapterId={ch.id} accent={ch.accent} className="ch-icon" />
                   <span className="ch-name">{ch.name}</span>
                   <span className={`ch-badge ch-badge--${ch.accent}`} title={ch.qsShared ? `Shared with ${ch.qsShared}: one area on the exam` : undefined}>{ch.qs} Qs</span>
-                </div>
+                </Link>
               );
             })}
           </div>
 
           <div className="chapters-total">
             <Exam weight="bold" size={20} />
-            <span>110 questions total, and we cover every single one.</span>
+            <span>110 questions total, and we cover every single one. <Link className="chapters-guide" to="/fe-civil-exam-guide">Read the FE Civil exam guide</Link></span>
           </div>
         </div>
       </section>
@@ -569,7 +572,7 @@ export function Landing({ userName }) {
       <section className="s-cta">
         <div className="s-cta__inner">
           <h2 className="s-cta__heading">Ready to pass the FE?</h2>
-          <p className="s-cta__sub">Free to start. No credit card. Just problems and explanations.</p>
+          <p className="s-cta__sub">Completely free. No credit card. Just problems and explanations.</p>
           <button className="hero-cta" onClick={() => navigate('/login')}>
             Create Free Account
             <AppArrow />

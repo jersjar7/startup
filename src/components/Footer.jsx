@@ -5,6 +5,8 @@ export function Footer() {
   return (
     <footer>
       <div className="footer-legal">
+        <Link to="/fe-civil-exam-guide">FE Civil exam guide</Link>
+        <span className="footer-divider">|</span>
         <Link to="/about">About</Link>
         <span className="footer-divider">|</span>
         <Link to="/contact">Contact us</Link>
