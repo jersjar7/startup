@@ -77,8 +77,10 @@ function pageOf(path) {
   return '(signed-in app)';
 }
 
-// Crawlers that run JavaScript would otherwise count as visitors.
-const BOT = /bot|crawl|spider|slurp|headless|lighthouse|preview|facebookexternalhit|embedly|python|curl|wget/i;
+// Crawlers that run JavaScript would otherwise count as visitors. Google's
+// own page checkers (Search Console's live test, ads and feed fetchers) do
+// not say "bot": on 2026-10-29 each "Request indexing" counted as two visits.
+const BOT = /bot|crawl|spider|slurp|headless|lighthouse|preview|facebookexternalhit|embedly|python|curl|wget|inspectiontool|google-|adsbot|mediapartners|apis-google|feedfetcher|pagespeed|gtmetrix|pingdom|uptime/i;
 const isBot = (userAgent) => !userAgent || BOT.test(userAgent);
 
 // Day in UTC, matching how the report buckets signups by createdAt.

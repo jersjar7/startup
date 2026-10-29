@@ -57,6 +57,9 @@ describe('isBot', () => {
     expect(isBot('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)')).toBe(true);
     expect(isBot('Mozilla/5.0 HeadlessChrome/120.0')).toBe(true);
     expect(isBot(undefined)).toBe(true);
+    expect(isBot('Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36 (compatible; Google-InspectionTool/1.0;)')).toBe(true);
+    expect(isBot('Mozilla/5.0 (Linux; Android 10) Chrome/120.0 Mobile Safari/537.36 Chrome-Lighthouse')).toBe(true);
+    expect(isBot('Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36 GSA/15.0')).toBe(false);
     expect(isBot(CHROME)).toBe(false);
   });
 });
