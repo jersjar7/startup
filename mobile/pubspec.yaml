@@ -86,7 +86,7 @@ flutter:
     # The FE Civil content pack as published (ADR 0030), so a new student
     # studies straight away, offline, before any download (migration plan,
     # rule 3). test/packs/pack_store_test.dart checks it is a published one.
-    - assets/packs/
+    - assets/packs/fe-civil/
     # The website's wordmark, shown at launch so the app reads as the same
     # platform (owner's call, 2026-10-01). The same file the iOS launch
     # screen uses, so the two cannot drift apart.

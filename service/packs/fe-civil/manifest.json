@@ -1,14 +1,15 @@
 {
   "exam": "fe-civil",
   "title": "FE Civil",
-  "format": 1,
+  "format": 2,
   "latest": {
-    "version": 18,
-    "file": "fe-civil-v18-b01f7a503489.json",
-    "sha256": "b01f7a5034899e1d15318a4b26db2e73ed6e1c44558e7bfe69ba2eb5481a2f14",
-    "bytes": 55406274,
-    "gzipBytes": 3403621,
-    "published": "2026-10-28T17:56:43.232Z",
+    "version": 19,
+    "format": 2,
+    "file": "fe-civil-v19-3eb75c855e6e.json",
+    "sha256": "3eb75c855e6eca1fd84370b2e3271bb182414d7180a90655a9bb39d18890a297",
+    "bytes": 55409578,
+    "gzipBytes": 3408134,
+    "published": "2026-10-28T22:58:46.170Z",
     "lessons": {
       "mathematics/straight-lines-quadratics": "1.2.0",
       "mathematics/logarithms": "1.2.0",
@@ -145,6 +146,83 @@
       "construction/project-forecasting": "1.2.0",
       "construction/delivery-methods": "1.2.0",
       "construction/construction-safety": "1.2.0"
+    },
+    "chapters": {
+      "mathematics": {
+        "file": "fe-civil.mathematics.04843cf53728.json",
+        "sha256": "04843cf53728fec2672dd86177b8a1484e2292fecab82cb6ac21251d16f7ab7c",
+        "gzipBytes": 367162
+      },
+      "statistics": {
+        "file": "fe-civil.statistics.a86db65831f3.json",
+        "sha256": "a86db65831f3fe10cbdead3421dc38b0bd80016ce3136235daedfce74f147715",
+        "gzipBytes": 270497
+      },
+      "ethics": {
+        "file": "fe-civil.ethics.c28789dfeeab.json",
+        "sha256": "c28789dfeeabc8afc46b58503a9091adab09f715de16cec4a249a9e64a26cb80",
+        "gzipBytes": 84927
+      },
+      "economics": {
+        "file": "fe-civil.economics.1e606dc174f2.json",
+        "sha256": "1e606dc174f288ad33fbdde1e5880b6d4c27d5cf917d1e642d21e7d183315c05",
+        "gzipBytes": 145403
+      },
+      "statics": {
+        "file": "fe-civil.statics.2c48de274272.json",
+        "sha256": "2c48de274272eb25ccd18fad608d15cc103c4b320f594e521ad61908d879c6d1",
+        "gzipBytes": 447845
+      },
+      "dynamics": {
+        "file": "fe-civil.dynamics.9fd37f4f63ab.json",
+        "sha256": "9fd37f4f63aba427d905287d5bbda3f3cca530f4a448110359bea0619c324967",
+        "gzipBytes": 266796
+      },
+      "mechanics-materials": {
+        "file": "fe-civil.mechanics-materials.3ab701a7cb14.json",
+        "sha256": "3ab701a7cb14ef00d80caa0692eb9c752735514d5b150f6e6a75279e242ffa87",
+        "gzipBytes": 258421
+      },
+      "materials": {
+        "file": "fe-civil.materials.3d2903217715.json",
+        "sha256": "3d2903217715cac9b7dbaa8f3e37ce2a7554ba93ebdd81d36369bd99737bb83a",
+        "gzipBytes": 147053
+      },
+      "fluid-mechanics": {
+        "file": "fe-civil.fluid-mechanics.836d6ef1571e.json",
+        "sha256": "836d6ef1571ed47659c4381e8e8ddc04aa460a875f1591d437e7a24c3d53e6a7",
+        "gzipBytes": 192559
+      },
+      "surveying": {
+        "file": "fe-civil.surveying.a2b8b881ae3e.json",
+        "sha256": "a2b8b881ae3e9698cc3c94e011ccd1a36a6a156b1087c15d60bb291269427937",
+        "gzipBytes": 258732
+      },
+      "water-resources": {
+        "file": "fe-civil.water-resources.42716a6bf22a.json",
+        "sha256": "42716a6bf22af8fa695bb3d4e773d4050c6b9044c12a3943ca286e9a691f05dd",
+        "gzipBytes": 252801
+      },
+      "structural": {
+        "file": "fe-civil.structural.eb1b18a02b8b.json",
+        "sha256": "eb1b18a02b8b76fb5d1e040b583ff025afe4699c9ac0662e2c4a9694c965b5dc",
+        "gzipBytes": 162942
+      },
+      "geotechnical": {
+        "file": "fe-civil.geotechnical.5d373dc6ecef.json",
+        "sha256": "5d373dc6ecef17c80ed0d06b2af1cd64ec445ed3cd55db90edddc9d0979126eb",
+        "gzipBytes": 237411
+      },
+      "transportation": {
+        "file": "fe-civil.transportation.29544e36b8af.json",
+        "sha256": "29544e36b8af2d4ed28dfb50b8c1748be10680e394cb4ced1b809b3f644a96ee",
+        "gzipBytes": 271520
+      },
+      "construction": {
+        "file": "fe-civil.construction.3f1270c5d47d.json",
+        "sha256": "3f1270c5d47de5dd66aff96a52b1a19c2d82a22abe392e0e9d493269fac35dcd",
+        "gzipBytes": 38057
+      }
     }
   },
   "versions": [
@@ -255,6 +333,13 @@
       "file": "fe-civil-v18-b01f7a503489.json",
       "sha256": "b01f7a5034899e1d15318a4b26db2e73ed6e1c44558e7bfe69ba2eb5481a2f14",
       "published": "2026-10-28T17:56:43.232Z"
+    },
+    {
+      "version": 19,
+      "format": 2,
+      "file": "fe-civil-v19-3eb75c855e6e.json",
+      "sha256": "3eb75c855e6eca1fd84370b2e3271bb182414d7180a90655a9bb39d18890a297",
+      "published": "2026-10-28T22:58:46.170Z"
     }
   ]
 }

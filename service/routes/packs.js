@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { PACKS_DIR, FILE, loadManifests } = require('../packs.js');
+const { PACKS_DIR, FILE, CHAPTER_FILE, loadManifests, publishedFiles } = require('../packs.js');
 
 // Content packs for the phone (ADR 0030). Public, like /content: packs are
 // study material a guest may use (ADR 0026). Read once at startup; a newly
@@ -8,11 +8,13 @@ const { PACKS_DIR, FILE, loadManifests } = require('../packs.js');
 //
 // GET /api/packs                 every exam with a pack, and its latest version
 // GET /api/packs/:exam           that exam's latest version, file and lessons
-// GET /api/packs/:exam/:file     one published version, cached forever
+// GET /api/packs/:exam/:file     one published version or chapter file, cached forever
 
 function packsRouter(dir = PACKS_DIR) {
   const router = express.Router();
   const manifests = loadManifests(dir);
+  // Every file each exam's manifest makes public, worked out once.
+  const served = Object.fromEntries(Object.entries(manifests).map(([exam, m]) => [exam, publishedFiles(m, dir)]));
 
   // The phone asks often and must see a new version promptly, so it always
   // revalidates; an unchanged manifest costs a 304.
@@ -45,8 +47,9 @@ function packsRouter(dir = PACKS_DIR) {
   router.get('/:exam/:file', (req, res) => {
     const m = manifests[req.params.exam];
     const name = req.params.file;
-    // Only files the manifest lists, so nothing else in the folder is reachable.
-    if (!m || !FILE.test(name) || !m.versions.some((v) => v.file === name)) {
+    // Only files the manifest lists, or a listed version's index names, so
+    // nothing else in the folder is reachable.
+    if (!m || !(FILE.test(name) || CHAPTER_FILE.test(name)) || !served[m.exam].has(name)) {
       res.status(404).send({ msg: 'No such pack' });
       return;
     }

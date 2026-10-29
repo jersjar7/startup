@@ -13,13 +13,18 @@ record has what the app does with a pack:
 
 ## What a pack is
 
-One exam's study material for the phone, as one JSON file: its lessons, and
-every game in them with its rounds, recorded drawings and concept sheet. No
-code. The app plays it with game types it already has.
+One exam's study material for the phone: its lessons, and every game in
+them with its rounds, recorded drawings and concept sheet. No code. The app
+plays it with game types it already has.
+
+The builder writes it as one JSON file. The publisher splits it into a small
+index and one file per chapter (format 2,
+[ADR 0033](../adr/0033-a-pack-is-published-as-one-file-per-chapter.md));
+see [Publishing](#publishing). As the builder writes it:
 
 ```json
 {
-  "format": 1,
+  "format": 2,
   "exam": "fe-civil",
   "title": "FE Civil",
   "version": 1,
@@ -32,8 +37,9 @@ code. The app plays it with game types it already has.
 }
 ```
 
-- **format.** The layout of the file itself. Raised only if an older app
-  could no longer make sense of a pack at all. A new game type never raises
+- **format.** The layout of the files. Raised only if an older app
+  could no longer make sense of a pack at all; format 2 split it by
+  chapter. A new game type never raises
   it; that is what `minApp` is for.
 - **version.** Given by the publisher, 1, 2, 3 and so on. Never reused.
 - **lessons.** Keyed `chapter/lesson`, the same ids as the app's catalog and
@@ -784,13 +790,35 @@ node scripts/publish-pack.mjs mobile/build/packs/fe-civil.json
 The publisher checks the pack (every game in exactly one lesson, chapters
 agree, versions well formed), and refuses it with the problems listed in
 plain words if anything is off. If nothing changed since the latest version
-it publishes nothing. Otherwise it writes:
+it publishes nothing. Otherwise it splits the pack by chapter and writes:
 
-- `service/packs/<exam>/<exam>-v<version>-<hash>.json`, the new version.
-  The name carries the first 12 characters of the content's sha256. It is
-  written so that it can never overwrite an existing file.
+- `service/packs/<exam>/<exam>.<chapter>.<hash>.json`, one chapter's games,
+  for each chapter that changed. Named by its content and holding nothing
+  about the version, so a chapter left alone keeps its file and the next
+  version points at it again.
+- `service/packs/<exam>/<exam>-v<version>-<hash>.json`, the new version's
+  index: every lesson with its games and `minApp`, and every chapter's file
+  with its sha256 and size.
 - `service/packs/<exam>/manifest.json`, pointing at the new version and
   listing every version ever published.
+
+Every name carries the first 12 characters of its content's sha256, and
+nothing is written over an existing file. Versions 1 to 18 of FE Civil
+predate the split (format 1: the whole pack in one file) and stay published
+as they are.
+
+Then copy the version into the app, so a phone with no signal has all of
+it from the first open:
+
+```sh
+rm -r mobile/assets/packs/fe-civil && mkdir mobile/assets/packs/fe-civil
+cp service/packs/fe-civil/<index of the new version> mobile/assets/packs/fe-civil/index.json
+# and each chapter file that index names, under the same name
+```
+
+`mobile/test/packs/pack_store_test.dart` checks that the copy is a
+published version byte for byte, with every chapter it names and nothing
+else.
 
 The build also stops if any game is over 250 KB to download, gzipped, or
 the pack is over 25 KB a game on average (`maxGame`, `maxAverage` in
@@ -799,13 +827,14 @@ and the average about 11 KB). The ceilings only ever stop the build: a game
 over them is fixed by storing the same drawing better, never by loosening a
 tolerance or drawing less, so a pack cannot lose quality to fit.
 
-Commit both, then deploy the service. The server reads packs when it starts.
+Commit the new files, the manifest and the app's copy, then deploy the
+service. The server reads packs when it starts.
 
 **A published version is never edited or deleted.** A phone may be halfway
 through downloading it, or hold it offline. A fix is a new version.
 `service/packs.test.js` checks every published file against the hash in its
-name and fails if one changed, went missing, or if a file appears that the
-manifest does not list.
+name and fails if one changed, went missing, or if a file appears that no
+listed version uses.
 
 ## The server
 
@@ -815,24 +844,23 @@ All public, like `/api/content`: packs are study material a guest may use
 | Request | Answer | Cached |
 |---|---|---|
 | `GET /api/packs` | Every exam with a pack: exam, title, format, latest version, download size | Always rechecked |
-| `GET /api/packs/:exam` | The latest version: file name, sha256, size, size to download, and every lesson's `minApp` | Always rechecked (an unchanged answer costs a 304) |
-| `GET /api/packs/:exam/:file` | One published version | Forever |
+| `GET /api/packs/:exam` | The latest version: its index's name and sha256, size, size to download from nothing, every lesson's `minApp` and every chapter's file | Always rechecked (an unchanged answer costs a 304) |
+| `GET /api/packs/:exam/:file` | One published index or chapter file | Forever |
 
 The phone can tell from the second answer alone whether anything is new and
-which lessons it is too old for, without downloading the pack. In phase 2
-it will fetch the file, check it against the sha256, and only then swap it
-in.
-The server sends only files the manifest lists; anything else in the folder
-is a 404.
+which lessons it is too old for, without downloading the pack. When a newer
+version is out it fetches the index, then each chapter file it does not
+already hold, checks every one against its sha256, and only then switches
+to the new version. It reads a chapter from its own storage the first time
+one of its games is opened; nothing is fetched then.
+The server sends only the files listed versions use; anything else in the
+folder is a 404.
 
 ## Open for later phases
 
-- **Size in git.** Each version is kept as a file in the repository. The
-  phase 0 pack is 208 KB (13 KB to download). The whole of FE Civil is
-  estimated at about 26 MB per version before compression, so by phase 3
-  old versions should move out of git (to storage on the server, or
-  compressed files), keeping enough for phones still holding them.
-- **Pack contents.** Today's pack holds only the three phase 0 games, in
-  three lessons that still have their other games built in. It grows
-  chapter by chapter in phase 3.
+- **Size in git.** Settled by the split (ADR 0033): a version adds only
+  its changed chapters, 0.6 to 7.3 MB each. The 18 format 1 versions
+  (433 MB) stay, as every published version does.
+- **Pack contents.** Since version 18 (2026-10-28) the pack holds every
+  game, all 375 across the 15 chapters (phase 3).
 - **Choosing an exam** stays out of scope until a second pack exists.

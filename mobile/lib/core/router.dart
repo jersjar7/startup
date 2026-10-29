@@ -9,6 +9,7 @@ import '../features/auth/verify_link_screen.dart';
 import '../features/auth/verify_screen.dart';
 import '../features/profile/outcome_link_screen.dart';
 import '../features/profile/pass_card_screen.dart';
+import '../features/packs/pack_game_loader.dart';
 import '../features/packs/pack_store.dart';
 import '../features/packs/update_needed_screen.dart';
 import '../features/games/above_or_below_game.dart';
@@ -416,14 +417,21 @@ Page<void> _fade(GoRouterState state, Widget child) =>
 /// Only the gate's own landings (splash, welcome, home) fade.
 /// The screen a student gets for a game id. With packs on (ADR 0030), a
 /// game the pack holds plays from the pack, or asks for an app update when
-/// its lesson needs a newer app; everything else is the built-in game.
+/// its lesson needs a newer app; everything else is the built-in game. The
+/// first game opened in a chapter reads that chapter from the phone first
+/// (ADR 0033).
 Widget playScreenFor(String? id, {PackStore? store, bool on = packsOn}) {
   if (on && id != null) {
     final packs = store ?? PackStore.instance;
-    final game = packs.game(id);
-    if (game != null) {
+    if (packs.has(id)) {
       if (!packs.canPlay(id)) return const UpdateNeededScreen();
-      return game.screen() ?? const UpdateNeededScreen();
+      final game = packs.game(id);
+      if (game != null) return game.screen() ?? const UpdateNeededScreen();
+      return PackGameLoader(
+        id: id,
+        store: packs,
+        fallback: () => gameScreenFor(id),
+      );
     }
   }
   return gameScreenFor(id);

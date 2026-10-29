@@ -31,6 +31,7 @@ chapter.
 | Geotechnical | 35 | 234 KB | How Long Does It Take, 53 KB |
 | Mathematics | 48 | 351 KB | Follow the Tangent, 40 KB |
 | **Whole pack, version 18 (all of FE Civil)** | **375** | **3.40 MB** | |
+| **Whole pack, version 19, one file per chapter** | **375** | **3.41 MB** | |
 
 The limits the builder enforces are 250 KB for any one game and 25 KB on
 average. The pack grows by about 10 KB a game (Statics, all drawings, ran
@@ -697,6 +698,49 @@ What else the move needed:
   helpers hashed every built-in Mathematics drawing and sheet picture
   before and after, all identical.
 
+## One file per chapter, version 19, 2026-10-28
+
+Decided in ADR 0033 and approved by the owner. Version 19 carries the same
+375 games as version 18 (checked game by game: none differs, lessons the
+same), now published as a small index (18 KB) and one file per chapter.
+Every chapter is inside the app, so nothing is downloaded when a chapter
+opens. At launch the phone reads only the index; a chapter is read from
+the phone the first time one of its games opens (Statics, the largest,
+takes about 0.12 seconds on the Mac). A newer version downloads only the
+chapters that changed.
+
+What each chapter costs to download, compressed as the server sends it:
+
+| Chapter | Download |
+|---|---|
+| Statics | 448 KB |
+| Mathematics | 367 KB |
+| Transportation | 272 KB |
+| Statistics | 270 KB |
+| Dynamics | 267 KB |
+| Surveying | 259 KB |
+| Mechanics of Materials | 258 KB |
+| Water Resources | 253 KB |
+| Geotechnical | 237 KB |
+| Fluid Mechanics | 193 KB |
+| Structural | 163 KB |
+| Materials | 147 KB |
+| Economics | 145 KB |
+| Ethics | 85 KB |
+| Construction | 38 KB |
+| **All of it, for a phone holding nothing** | **3.41 MB** |
+
+Versions 1 to 18 stay as they were, one file each, and the server still
+serves them. A phone already holding version 19 downloads a later version's
+changed chapters only, usually one.
+
+| Check | Result |
+|---|---|
+| Website and server tests | 963 pass, among them every published version and every chapter file checked against its hash. |
+| Pack store tests | 29 pass: nothing read until a game opens, only changed chapters downloaded, a bad hash or damaged file falls back, a round in progress keeps its version. |
+| On the iPhone simulator (iPhone 17 Pro) | 4 of 4: every round of all 375 games played to the end, each chapter read from the app's copy (81 minutes). |
+| Full phone suite | 6,043 pass in 3 hours 34 minutes. One failed: the version check's test helper put the chapters back together with the wrong map type. Fixed before the merge, and that test and the pack audit then passed (380 of 380). |
+
 ## Notes for after (not changed during the move)
 
 1. **Three Dynamics formulas run off a small phone.** On a phone 320
@@ -714,7 +758,9 @@ What else the move needed:
    all 375 games would be about 50 MB on the phone, which is too much to
    read at launch. Before Mathematics at the latest: one file per chapter,
    loaded when the chapter is opened, and drawings that share most of their
-   steps between states stored once.
+   steps between states stored once. Done for the first half in version
+   19 (see "One file per chapter" above); drawings are not yet shared
+   between states.
 
 3. **How Do They Sit runs off a small phone.** On a phone 320 pixels wide,
    the answer "One changes the odds of the other" wraps to two lines and

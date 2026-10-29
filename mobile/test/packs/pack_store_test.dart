@@ -19,6 +19,7 @@ import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/per_million_what_game.dart';
 import 'package:mobile/features/games/perpendicular_flip_game.dart';
 import 'package:mobile/features/packs/games/pick_one_game.dart';
+import 'package:mobile/features/packs/pack_game_loader.dart';
 import 'package:mobile/features/packs/pack_store.dart';
 import 'package:mobile/features/packs/update_needed_screen.dart';
 
@@ -34,29 +35,66 @@ Map<String, Object?> _manifest() =>
     jsonDecode(File('${_published.path}/manifest.json').readAsStringSync())
         as Map<String, Object?>;
 
-String _publishedText() => File(
-  '${_published.path}/${(_manifest()['latest']! as Map)['file']}',
-).readAsStringSync();
+String _publishedFile(String name) =>
+    File('${_published.path}/$name').readAsStringSync();
 
-/// The published pack, as a later version: same games, new number.
-String _asVersion(int version, {String? title}) {
-  final json = jsonDecode(_publishedText()) as Map<String, Object?>;
-  json['version'] = version;
-  if (title != null) {
-    ((json['games']! as Map)['per-million-what']! as Map)['title'] = title;
-  }
-  return jsonEncode(json);
-}
+String _publishedText() =>
+    _publishedFile((_manifest()['latest']! as Map)['file']! as String);
 
 String _sha(String text) => sha256.convert(utf8.encode(text)).toString();
 
+/// A version as a server holds it: its index, and the chapter files it adds.
+typedef _Version = ({String index, Map<String, String> files});
+
+/// The published pack as a later version: same games, new number. [title]
+/// renames Per Million What and [drop] leaves a game out, each giving that
+/// game's chapter a new file, as the publisher would.
+_Version _asVersion(int version, {String? title, String? drop}) {
+  final index = jsonDecode(_publishedText()) as Map<String, Object?>;
+  index['version'] = version;
+  final files = <String, String>{};
+  final chapters = index['chapters']! as Map<String, Object?>;
+  void edit(String id, void Function(Map<String, Object?> games) change) {
+    final lessons = index['lessons']! as Map<String, Object?>;
+    final lesson = lessons.keys.firstWhere(
+      (l) => ((lessons[l]! as Map)['games']! as List).contains(id),
+    );
+    final chapter = lesson.split('/').first;
+    final entry = chapters[chapter]! as Map<String, Object?>;
+    final json = jsonDecode(_publishedFile(entry['file']! as String)) as Map;
+    change((json['games']! as Map).cast<String, Object?>());
+    if (id == drop) ((lessons[lesson]! as Map)['games']! as List).remove(id);
+    final text = jsonEncode(json);
+    final hash = _sha(text);
+    final name = 'fe-civil.$chapter.${hash.substring(0, 12)}.json';
+    chapters[chapter] = {
+      'file': name,
+      'sha256': hash,
+      'bytes': utf8.encode(text).length,
+    };
+    files[name] = text;
+  }
+
+  if (title != null) {
+    edit(
+      'per-million-what',
+      (g) => (g['per-million-what']! as Map)['title'] = title,
+    );
+  }
+  if (drop != null) edit(drop, (g) => g.remove(drop));
+  return (index: jsonEncode(index), files: files);
+}
+
 /// A server with one exam on it. [online] false is a phone with no signal.
 class _Server extends ApiClient {
-  _Server(this.text, {this.format = 1, String? sha})
-    : version = (jsonDecode(text) as Map)['version'] as int,
-      sha = sha ?? _sha(text);
+  _Server(_Version v, {this.format = 2, String? sha})
+    : text = v.index,
+      files = v.files,
+      version = (jsonDecode(v.index) as Map)['version'] as int,
+      sha = sha ?? _sha(v.index);
 
   final String text;
+  final Map<String, String> files;
   final int version;
   final int format;
   final String sha;
@@ -88,7 +126,9 @@ class _Server extends ApiClient {
   @override
   Future<String> getText(String path) async {
     _check(path);
-    return text;
+    final name = path.split('/').last;
+    if (name == file) return text;
+    return files[name] ?? _publishedFile(name);
   }
 
   @override
@@ -109,48 +149,91 @@ void main() {
   tearDown(() => home.deleteSync(recursive: true));
 
   group('the pack inside the app', () {
-    test('is a version the server published, byte for byte', () {
-      final bundled = File('assets/packs/fe-civil.json').readAsStringSync();
+    test('is a version the server published, byte for byte, with every '
+        'chapter it names and nothing else', () {
+      final bundled = Directory('assets/packs/fe-civil');
+      final index = File('${bundled.path}/index.json').readAsStringSync();
       final versions = [
         for (final v in _manifest()['versions']! as List) (v as Map)['sha256'],
       ];
-      expect(versions, contains(_sha(bundled)));
+      expect(versions, contains(_sha(index)));
+      final chapters = (jsonDecode(index) as Map)['chapters'] as Map;
+      for (final c in chapters.values) {
+        final text = File('${bundled.path}/${c['file']}').readAsStringSync();
+        expect(_sha(text), c['sha256'], reason: '${c['file']}');
+      }
+      expect(bundled.listSync().map((f) => f.uri.pathSegments.last).toSet(), {
+        'index.json',
+        for (final c in chapters.values) c['file'],
+      });
     });
 
-    testWidgets('loads with no network at all', (tester) async {
+    testWidgets('loads with no network at all, reading no chapter until a '
+        'game is opened', (tester) async {
       await tester.runAsync(store.load);
       expect(store.pack!.exam, 'fe-civil');
-      expect(store.game('per-million-what'), isNotNull);
       expect(store.pack!.label, startsWith('fe-civil@'));
+      expect(store.has('per-million-what'), isTrue);
+      expect(store.game('per-million-what'), isNull);
+      final game = await tester.runAsync(() => store.open('per-million-what'));
+      expect(game!.title, 'Per Million What');
+      expect(store.game('per-million-what'), same(game));
+    });
+
+    testWidgets('every game in every chapter opens', (tester) async {
+      await tester.runAsync(store.load);
+      for (final id in store.pack!.gameIds) {
+        final game = await tester.runAsync(() => store.open(id));
+        expect(game?.id, id);
+      }
     });
   });
 
   group('updating', () {
-    testWidgets('a newer version downloads, is checked, and is used from '
-        'then on, even after a restart', (tester) async {
+    testWidgets('a newer version downloads only the chapters that changed, '
+        'is checked, and is used from then on, even after a restart', (
+      tester,
+    ) async {
       await tester.runAsync(store.load);
       final was = store.pack!.version;
-      final server = _Server(_asVersion(was + 1, title: 'Per Million What 2'));
+      final v = _asVersion(was + 1, title: 'Per Million What 2');
+      final server = _Server(v);
 
       expect(await tester.runAsync(() => store.refresh(server)), isTrue);
+      expect(server.asked, [
+        '/packs/fe-civil',
+        '/packs/fe-civil/${server.file}',
+        for (final name in v.files.keys) '/packs/fe-civil/$name',
+      ]);
+      expect(v.files, hasLength(1));
       expect(store.pack!.version, was + 1);
-      expect(store.game('per-million-what')!.title, 'Per Million What 2');
+      final game = await tester.runAsync(() => store.open('per-million-what'));
+      expect(game!.title, 'Per Million What 2');
+      // A chapter that did not change is still read from inside the app.
+      expect(
+        await tester.runAsync(() => store.open('perpendicular-flip')),
+        isNotNull,
+      );
 
       final again = PackStore(folder: () async => home);
       await tester.runAsync(again.load);
       expect(again.pack!.version, was + 1);
+      final reopened = await tester.runAsync(
+        () => again.open('per-million-what'),
+      );
+      expect(reopened!.title, 'Per Million What 2');
     });
 
     testWidgets('nothing is downloaded when the version is not newer', (
       tester,
     ) async {
       await tester.runAsync(store.load);
-      final server = _Server(_publishedText());
+      final server = _Server((index: _publishedText(), files: {}));
       expect(await tester.runAsync(() => store.refresh(server)), isFalse);
       expect(server.asked, ['/packs/fe-civil']);
     });
 
-    testWidgets('a file that does not match its hash is thrown away', (
+    testWidgets('an index that does not match its hash is thrown away', (
       tester,
     ) async {
       await tester.runAsync(store.load);
@@ -160,10 +243,24 @@ void main() {
       expect(store.pack!.version, was);
     });
 
+    testWidgets('a chapter that does not match its hash keeps the old '
+        'version', (tester) async {
+      await tester.runAsync(store.load);
+      final was = store.pack!.version;
+      final v = _asVersion(was + 1, title: 'Renamed');
+      final name = v.files.keys.single;
+      v.files[name] = v.files[name]!.replaceFirst('Renamed', 'Tampered');
+      expect(await tester.runAsync(() => store.refresh(_Server(v))), isFalse);
+      expect(store.pack!.version, was);
+      final again = PackStore(folder: () async => home);
+      await tester.runAsync(again.load);
+      expect(again.pack!.version, was);
+    });
+
     testWidgets('a layout this app cannot read is left alone', (tester) async {
       await tester.runAsync(store.load);
       final was = store.pack!.version;
-      final server = _Server(_asVersion(was + 1), format: 2);
+      final server = _Server(_asVersion(was + 1), format: 1);
       expect(await tester.runAsync(() => store.refresh(server)), isFalse);
       expect(server.asked, ['/packs/fe-civil']);
       expect(store.pack!.version, was);
@@ -173,7 +270,10 @@ void main() {
       await tester.runAsync(store.load);
       final server = _Server(_asVersion(99))..online = false;
       expect(await tester.runAsync(() => store.refresh(server)), isFalse);
-      expect(store.game('per-million-what'), isNotNull);
+      expect(
+        await tester.runAsync(() => store.open('per-million-what')),
+        isNotNull,
+      );
     });
 
     testWidgets('a download damaged on disk is ignored at the next start', (
@@ -186,25 +286,46 @@ void main() {
       final saved = dir.listSync().whereType<File>().firstWhere(
         (f) => f.path.contains('-v${was + 1}-'),
       );
-      saved.writeAsStringSync(_asVersion(was + 1, title: 'Tampered'));
+      saved.writeAsStringSync(_asVersion(was + 1, title: 'Tampered').index);
 
       final again = PackStore(folder: () async => home);
       await tester.runAsync(again.load);
       expect(again.pack!.version, was);
     });
 
+    testWidgets('a chapter damaged on disk is not played; the game falls '
+        'back to the one built into the app', (tester) async {
+      await tester.runAsync(store.load);
+      final was = store.pack!.version;
+      final v = _asVersion(was + 1, title: 'Renamed');
+      await tester.runAsync(() => store.refresh(_Server(v)));
+      File(
+        '${home.path}/packs/fe-civil/${v.files.keys.single}',
+      ).writeAsStringSync('{}');
+
+      final again = PackStore(folder: () async => home);
+      await tester.runAsync(again.load);
+      expect(
+        await tester.runAsync(() => again.open('per-million-what')),
+        isNull,
+      );
+    });
+
     testWidgets('a round in progress keeps the version it opened with', (
       tester,
     ) async {
       await tester.runAsync(store.load);
-      final playing = store.game('per-million-what')!;
+      final playing = (await tester.runAsync(
+        () => store.open('per-million-what'),
+      ))!;
       await tester.runAsync(
         () => store.refresh(
           _Server(_asVersion(store.pack!.version + 1, title: 'Renamed')),
         ),
       );
       expect(playing.title, 'Per Million What');
-      expect(store.game('per-million-what')!.title, 'Renamed');
+      final next = await tester.runAsync(() => store.open('per-million-what'));
+      expect(next!.title, 'Renamed');
     });
   });
 
@@ -220,8 +341,19 @@ void main() {
       );
     });
 
-    testWidgets('switched on, the pack plays it', (tester) async {
+    testWidgets('switched on, the pack plays it, reading its chapter the '
+        'first time', (tester) async {
       await tester.runAsync(store.load);
+      final first = playScreenFor('per-million-what', store: store, on: true);
+      expect(first, isA<PackGameLoader>());
+      // The chapter is read on the real clock (a test's clock never
+      // finishes a file read); the loader waits on that same read.
+      final reading = tester.runAsync(() => store.open('per-million-what'));
+      await tester.pumpWidget(MaterialApp(theme: AppTheme.light, home: first));
+      expect(find.byType(PackPickOneGame), findsNothing);
+      await reading;
+      await tester.pump();
+      expect(find.byType(PackPickOneGame), findsOneWidget);
       expect(
         playScreenFor('per-million-what', store: store, on: true),
         isA<PackPickOneGame>(),
@@ -238,13 +370,9 @@ void main() {
       );
       // A game the pack does not hold still plays as it always has. Every
       // game is in the pack now, so a later version leaves one out.
-      final json = jsonDecode(_asVersion(store.pack!.version + 1)) as Map;
-      (json['games']! as Map).remove('perpendicular-flip');
-      for (final lesson in (json['lessons']! as Map).values) {
-        ((lesson as Map)['games']! as List).remove('perpendicular-flip');
-      }
-      await tester.runAsync(() => store.refresh(_Server(jsonEncode(json))));
-      expect(store.game('perpendicular-flip'), isNull);
+      final v = _asVersion(store.pack!.version + 1, drop: 'perpendicular-flip');
+      expect(await tester.runAsync(() => store.refresh(_Server(v))), isTrue);
+      expect(store.has('perpendicular-flip'), isFalse);
       expect(
         playScreenFor('perpendicular-flip', store: store, on: true),
         isA<PerpendicularFlipGame>(),
@@ -336,7 +464,8 @@ void main() {
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
       await tester.runAsync(store.load);
-      final server = _Server(_publishedText());
+      await tester.runAsync(() => store.open('per-million-what'));
+      final server = _Server((index: _publishedText(), files: {}));
       final auth = AuthController(api: server, storage: AppStorage())
         ..status = AuthStatus.authenticated;
       await tester.pumpWidget(
