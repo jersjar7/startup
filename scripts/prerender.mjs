@@ -59,6 +59,8 @@ const ROUTES = [
   // being readable by anybody who looks, crawlers included.
   '/about',
   '/contact',
+  // A real student who passed: the page people link to when they share it.
+  '/stories/mitch',
   ...TOPICS.map(([id]) => `/fe-civil/${id}`),
 ];
 
@@ -96,15 +98,18 @@ const urls = [
   { loc: `${SITE}/exam-simulation`, priority: '0.9', freq: 'weekly' },
   ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}`, priority: '0.8', freq: 'monthly' })),
   { loc: `${SITE}/about`, priority: '0.5', freq: 'yearly' },
+  { loc: `${SITE}/stories/mitch`, priority: '0.5', freq: 'yearly' },
   { loc: `${SITE}/contact`, priority: '0.4', freq: 'yearly' },
-  { loc: `${SITE}/login`, priority: '0.4', freq: 'monthly' },
-  { loc: `${SITE}/delete-account`, priority: '0.3', freq: 'yearly' },
   { loc: `${SITE}/privacy`, priority: '0.3', freq: 'yearly' },
   { loc: `${SITE}/terms`, priority: '0.3', freq: 'yearly' },
 ];
+// /login and /delete-account stay reachable but are not offered to search:
+// neither answers anything a student searches for. lastmod is the build date,
+// so a rebuilt page tells Google it changed.
+const lastmod = new Date().toISOString().slice(0, 10);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `  <url>\n    <loc>${u.loc}</loc>\n    <changefreq>${u.freq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`).join('\n')}
+${urls.map((u) => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${u.freq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`).join('\n')}
 </urlset>
 `;
 writeFile('sitemap.xml', sitemap);

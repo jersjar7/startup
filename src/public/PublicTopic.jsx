@@ -5,6 +5,7 @@ import { NotFound } from '../components/NotFound';
 import { useSeo } from '../seo/useSeo';
 import { getTopic, allTopics } from './content';
 import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
+import { getChapterProblemCount } from '../data/problemPool';
 import { AppArrow } from '../components/brand/AppArrow';
 import { ChapterCoin } from '../components/brand/ChapterCoin';
 import { CaretRight } from '@phosphor-icons/react';
@@ -21,8 +22,11 @@ export function PublicTopic() {
 
   const Icon = topic.icon;
   const url = `${SITE}/fe-civil/${topic.id}`;
-  const title = `FE Civil ${topic.name}: Free Practice Problems & Study Guide | FE for Raccoons`;
-  const description = `Free FE Civil ${topic.name} study guide: what NCEES tests (${topic.questionRange} questions), key formulas with FE Reference Handbook pages, sample problems with plain-English explanations, and common mistakes to avoid.`;
+  // Lead with what searchers type ("practice problems") and a real number:
+  // these pages were shown in the top five and rarely clicked (2026-10-29).
+  const problemCount = getChapterProblemCount(topic.id);
+  const title = `FE Civil ${topic.name} Practice Problems (${problemCount} Free) | FE for Raccoons`;
+  const description = `${problemCount} free FE Civil ${topic.name} practice problems with step-by-step solutions and FE Reference Handbook pages. What NCEES tests (${topic.questionRange} questions), key formulas, and the mistakes that cost points.`;
 
   // Per-topic FAQ built from real topic data, targets long-tail "how many /
   // is it hard / free practice" queries and the People-Also-Ask boxes.

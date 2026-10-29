@@ -100,6 +100,9 @@ export function ExamGuide() {
           <li><span>Reference</span><strong>{EXAM_FACTS.reference}</strong></li>
           <li><span>Governing body</span><strong>{EXAM_FACTS.body}</strong></li>
         </ul>
+        <p className="pub-section-lede">
+          Want to hear it from someone who just took it? <Link to="/stories/mitch">Read how Mitch passed the FE Civil on the first try</Link>.
+        </p>
       </section>
 
       {/* All 15 topics: chapter rows */}
