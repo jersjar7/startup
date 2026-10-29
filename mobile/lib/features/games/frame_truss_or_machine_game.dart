@@ -347,24 +347,28 @@ class _FrameTrussOrMachineGameState extends State<FrameTrussOrMachineGame> {
             ),
           ),
           const SizedBox(height: 14),
-          Row(
-            children: [
-              for (final option in Kind.values) ...[
-                if (option != Kind.values.first) const SizedBox(width: 8),
-                Expanded(
-                  child: _KindButton(
-                    key: ValueKey('kind-${option.name}'),
-                    option: option,
-                    selected: _picked == option,
-                    locked: answered,
-                    isTruth: option == r.answer,
-                    onTap: answered
-                        ? null
-                        : () => setState(() => _picked = option),
+          // One height for all three, the tallest's, when a note wraps.
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                for (final option in Kind.values) ...[
+                  if (option != Kind.values.first) const SizedBox(width: 8),
+                  Expanded(
+                    child: _KindButton(
+                      key: ValueKey('kind-${option.name}'),
+                      option: option,
+                      selected: _picked == option,
+                      locked: answered,
+                      isTruth: option == r.answer,
+                      onTap: answered
+                          ? null
+                          : () => setState(() => _picked = option),
+                    ),
                   ),
-                ),
+                ],
               ],
-            ],
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 16),
@@ -440,8 +444,9 @@ class _KindButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         onTap: onTap,
         child: Container(
-          height: 112,
-          padding: const EdgeInsets.symmetric(horizontal: 6),
+          // Grows when a note wraps on a small phone.
+          constraints: const BoxConstraints(minHeight: 112),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(

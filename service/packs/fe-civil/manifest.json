@@ -3,13 +3,13 @@
   "title": "FE Civil",
   "format": 2,
   "latest": {
-    "version": 19,
+    "version": 20,
     "format": 2,
-    "file": "fe-civil-v19-3eb75c855e6e.json",
-    "sha256": "3eb75c855e6eca1fd84370b2e3271bb182414d7180a90655a9bb39d18890a297",
-    "bytes": 55409578,
-    "gzipBytes": 3408134,
-    "published": "2026-10-28T22:58:46.170Z",
+    "file": "fe-civil-v20-f6e6ca37ba19.json",
+    "sha256": "f6e6ca37ba19f8c03f9da39f2e7fb56aa0f9e5e7fcee975d7acc65e58f6cf22e",
+    "bytes": 55410250,
+    "gzipBytes": 3408234,
+    "published": "2026-10-29T15:51:55.319Z",
     "lessons": {
       "mathematics/straight-lines-quadratics": "1.2.0",
       "mathematics/logarithms": "1.2.0",
@@ -154,9 +154,9 @@
         "gzipBytes": 367162
       },
       "statistics": {
-        "file": "fe-civil.statistics.a86db65831f3.json",
-        "sha256": "a86db65831f3fe10cbdead3421dc38b0bd80016ce3136235daedfce74f147715",
-        "gzipBytes": 270497
+        "file": "fe-civil.statistics.d4aa3ebbd886.json",
+        "sha256": "d4aa3ebbd886b82f2d3aa4ed80a7132698d32c09cfe7591b2b99969ac75274ee",
+        "gzipBytes": 270539
       },
       "ethics": {
         "file": "fe-civil.ethics.c28789dfeeab.json",
@@ -169,9 +169,9 @@
         "gzipBytes": 145403
       },
       "statics": {
-        "file": "fe-civil.statics.2c48de274272.json",
-        "sha256": "2c48de274272eb25ccd18fad608d15cc103c4b320f594e521ad61908d879c6d1",
-        "gzipBytes": 447845
+        "file": "fe-civil.statics.4e468bd53ddb.json",
+        "sha256": "4e468bd53ddbbf1dc1b13100703406c9e9e664ee89f402ea6731f91d7d522393",
+        "gzipBytes": 447900
       },
       "dynamics": {
         "file": "fe-civil.dynamics.9fd37f4f63ab.json",
@@ -340,6 +340,13 @@
       "file": "fe-civil-v19-3eb75c855e6e.json",
       "sha256": "3eb75c855e6eca1fd84370b2e3271bb182414d7180a90655a9bb39d18890a297",
       "published": "2026-10-28T22:58:46.170Z"
+    },
+    {
+      "version": 20,
+      "format": 2,
+      "file": "fe-civil-v20-f6e6ca37ba19.json",
+      "sha256": "f6e6ca37ba19f8c03f9da39f2e7fb56aa0f9e5e7fcee975d7acc65e58f6cf22e",
+      "published": "2026-10-29T15:51:55.319Z"
     }
   ]
 }

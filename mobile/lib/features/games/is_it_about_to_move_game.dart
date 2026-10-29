@@ -340,8 +340,9 @@ class _GripButton extends StatelessWidget {
         onTap: onTap,
         child: Container(
           width: double.infinity,
-          height: 64,
-          padding: const EdgeInsets.symmetric(horizontal: 14),
+          // Grows when an answer wraps on a small phone.
+          constraints: const BoxConstraints(minHeight: 64),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(

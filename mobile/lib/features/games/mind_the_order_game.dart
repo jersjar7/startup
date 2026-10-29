@@ -282,27 +282,39 @@ class _MindTheOrderGameState extends State<MindTheOrderGame> {
               color: AppColors.creamDark,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            // The two boxes go under the label on a phone too narrow for
+            // one line.
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 8,
+              runSpacing: 8,
               children: [
                 const MathBlock(r'\text{Var}(X) =', fontSize: 15),
-                const SizedBox(width: 8),
-                _Slot(
-                  value: _slots.isNotEmpty
-                      ? _write(_valueOf(r, r.totals[_slots[0]]))
-                      : null,
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    '−',
-                    style: TextStyle(fontSize: 17, color: AppColors.charcoal),
-                  ),
-                ),
-                _Slot(
-                  value: _slots.length > 1
-                      ? _write(_valueOf(r, r.totals[_slots[1]]))
-                      : null,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _Slot(
+                      value: _slots.isNotEmpty
+                          ? _write(_valueOf(r, r.totals[_slots[0]]))
+                          : null,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        '−',
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: AppColors.charcoal,
+                        ),
+                      ),
+                    ),
+                    _Slot(
+                      value: _slots.length > 1
+                          ? _write(_valueOf(r, r.totals[_slots[1]]))
+                          : null,
+                    ),
+                  ],
                 ),
               ],
             ),

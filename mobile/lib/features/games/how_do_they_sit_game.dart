@@ -362,9 +362,10 @@ class _LinkButton extends StatelessWidget {
         onTap: onTap,
         child: Container(
           width: double.infinity,
-          height: 58,
+          // Grows when an answer wraps on a small phone.
+          constraints: const BoxConstraints(minHeight: 58),
           alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(

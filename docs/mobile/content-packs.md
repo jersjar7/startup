@@ -189,7 +189,7 @@ any layout made of them can be described without changing the app:
 | Node (`k`) | What it is |
 |---|---|
 | `box` | A container: padding, width (or the full width), height, fill, border (all round, or the top only), corner, alignment, clipping, and one child or a column of children. |
-| `row`, `col` | Children side by side or stacked, with their alignment (spaced evenly too). |
+| `row`, `col` | Children side by side or stacked, with their alignment (spaced evenly too). A `row` with `"even": true` keeps its children one height, the tallest's, as answer buttons side by side do when one's words wrap. |
 | `gap`, `flex`, `center` | Empty space; a child taking a share of the row (or up to a share); a child centred. |
 | `t`, `tex`, `rule` | Words in one of the app's faces (body, mono, code, overline, heading), a formula, a divider. |
 | `draw`, `grid`, `clip` | A recorded drawing, the engineering grid behind it (its own spacing if a game uses a finer one), a rounded corner. |
