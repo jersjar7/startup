@@ -168,6 +168,7 @@ apiRouter.use('/exam', require('./routes/exam.js'));
 apiRouter.use('/admin', require('./routes/admin.js'));
 apiRouter.use('/email', require('./routes/email.js'));
 apiRouter.use('/track', require('./routes/track.js'));
+apiRouter.use('/visit', require('./routes/visit.js')());
 apiRouter.use('/feedback', require('./routes/feedback.js'));
 apiRouter.use('/account', require('./routes/account.js'));
 

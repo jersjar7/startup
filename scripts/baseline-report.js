@@ -34,6 +34,7 @@ if (!HOST || !USER || !PASS) {
 // The one list the server uses, so the report and the product can never
 // disagree about which accounts are ours.
 const { EXCLUDED_EMAILS: EXCLUDED } = require('../service/internalAccounts.js');
+const { hostOf, groupReferrer, visitRates } = require('../service/visits.js');
 
 // Plus-addressed aliases of an excluded account are excluded too, so
 // admin+test1@oqupa.com and every future admin+whatever@ test signup is kept
@@ -265,37 +266,7 @@ async function main() {
   //   referrer    - captured automatically for any EXTERNAL referrer
   //   source      - the dashboard survey, which ~90% of users skip
   // Referrer is by far the widest of the three. Prefer utm > referrer > survey.
-  const REFERRER_GROUPS = [
-    [/(^|\.)google\.[a-z.]+$|googlequicksearchbox/, 'organic search: Google'],
-    [/(^|\.)bing\.com$/, 'organic search: Bing'],
-    [/search\.yahoo\.com$/, 'organic search: Yahoo'],
-    [/duckduckgo\.com$/, 'organic search: DuckDuckGo'],
-    [/chatgpt\.com$|openai\.com$/, 'AI assistant: ChatGPT'],
-    [/copilot\.(microsoft\.)?com$/, 'AI assistant: Copilot'],
-    [/perplexity\.ai$/, 'AI assistant: Perplexity'],
-    [/claude\.ai$/, 'AI assistant: Claude'],
-    [/linkedin/, 'LinkedIn'],
-    [/reddit/, 'Reddit'],
-    [/tiktok/, 'TikTok'],
-    [/instagram/, 'Instagram'],
-    [/youtube|youtu\.be/, 'YouTube'],
-  ];
-
-  const hostOf = (raw) => {
-    if (!raw) return null;
-    if (raw.startsWith('android-app://')) return raw.replace('android-app://', '').replace(/\/$/, '');
-    try {
-      return new URL(raw).hostname.replace(/^www\./, '');
-    } catch {
-      return raw;
-    }
-  };
-  const groupReferrer = (raw) => {
-    const h = hostOf(raw);
-    if (!h) return null;
-    for (const [re, label] of REFERRER_GROUPS) if (re.test(h)) return label;
-    return `other: ${h}`;
-  };
+  // Shared with the server's visit counter, so signups and visits group alike.
 
   const acqCounts = {}; // survey answers only, kept for continuity
   const channelCounts = {}; // best-available channel per user
@@ -328,6 +299,21 @@ async function main() {
     channelCounts[channel] = (channelCounts[channel] || 0) + 1;
   });
   const acqAnswered = Object.values(acqCounts).reduce((a, b) => a + b, 0);
+
+  // ---- Visits ------------------------------------------------------------
+  // The first-party counter (service/visits.js). Counting began with its
+  // deploy, so rates run from the first counted day; signups before it have
+  // no visitors to compare against.
+  const visitRows = await db.collection('visitCounts').find({}).toArray();
+  const countingSince = visitRows.reduce((min, r) => (!min || r.day < min ? r.day : min), null);
+  const since28 = ago(27).toISOString().slice(0, 10);
+  const visits = countingSince
+    ? {
+        countingSince,
+        last28: visitRates(visitRows, allUsers, since28 > countingSince ? since28 : countingSince),
+        sinceStart: visitRates(visitRows, allUsers, countingSince),
+      }
+    : { countingSince: null };
 
   const sortDesc = (o) => Object.fromEntries(Object.entries(o).sort((a, b) => b[1] - a[1]));
 
@@ -428,6 +414,7 @@ async function main() {
       referrerHosts: sortDesc(referrerHosts),
       landingPaths: sortDesc(landingPaths),
     },
+    visits,
   };
 
   await client.close();
@@ -551,6 +538,20 @@ async function main() {
   Object.entries(r.acquisition.referrerHosts).forEach(([k, v]) => row(`    ${k}`, v));
   L('  Landing page on first touch:');
   Object.entries(r.acquisition.landingPaths).forEach(([k, v]) => row(`    ${k}`, v));
+
+  L('\nVISITS TO SIGNUPS  (first-party counter)');
+  if (!r.visits.countingSince) {
+    L('  No visits counted yet.');
+  } else {
+    row('Counting since', r.visits.countingSince);
+    const table = (title, rowsOut) => {
+      L(`  ${title}`);
+      L(`    ${''.padEnd(34)} ${'visits'.padStart(7)} ${'new'.padStart(6)} ${'signups'.padStart(8)} ${'rate'.padStart(7)}`);
+      rowsOut.forEach((t) => L(`    ${t.key.slice(0, 34).padEnd(34)} ${String(t.visits).padStart(7)} ${String(t.newVisitors).padStart(6)} ${String(t.signups).padStart(8)} ${(t.rate == null ? '-' : `${t.rate}%`).padStart(7)}`));
+    };
+    table('By channel, last 28 days (rate = signups per new visitor):', r.visits.last28.byChannel);
+    table('By landing page, last 28 days (tagged or referred visits only):', r.visits.last28.byPage);
+  }
   L('');
 }
 

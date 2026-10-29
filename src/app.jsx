@@ -122,6 +122,32 @@ export default function App() {
     } catch { /* ignore */ }
   }, []);
 
+  // Count the visit: one call per browser session, from the page it started
+  // on. The server keeps daily totals per page and channel only (see
+  // service/visits.js). No cookie, and nothing that identifies the visitor.
+  React.useEffect(() => {
+    try {
+      if (navigator.webdriver || sessionStorage.getItem('fe4r_visit')) return;
+      // The owner's own browsers, marked the same way Plausible's were.
+      if (localStorage.getItem('plausible_ignore') === 'true') return;
+      sessionStorage.setItem('fe4r_visit', '1');
+      const returning = localStorage.getItem('fe4r_seen') === '1';
+      localStorage.setItem('fe4r_seen', '1');
+      const ref = document.referrer || '';
+      fetch('/api/visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        keepalive: true,
+        body: JSON.stringify({
+          path: window.location.pathname,
+          referrer: ref && !ref.includes(window.location.host) ? ref : undefined,
+          utmSource: new URLSearchParams(window.location.search).get('utm_source') || undefined,
+          returning,
+        }),
+      }).catch(() => {});
+    } catch { /* ignore */ }
+  }, []);
+
   // Login/register now return verified status + profile, so set it all
   // synchronously: no second /me round-trip, no verification-banner flash.
   function onLogin(data) {

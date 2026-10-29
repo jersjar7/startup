@@ -777,6 +777,31 @@ holding version 19 downloads 448 + 271 KB, about 0.7 MB.
 | Pack store, versions and audit | 409 pass. |
 | Website and server tests | 963 pass. |
 
+## Reading the pack on a real phone, 2026-10-29
+
+ADR 0033 left one number open: how long a phone takes to read a chapter
+the first time one of its games opens. Measured on an iPhone 14 Pro Max
+(iOS 27), a profile build of version 20 inside the app, three runs, a
+fresh pack each run:
+
+| What | First run | Runs 2 and 3 |
+|---|---|---|
+| The index, at launch | 30 ms | under 1 ms |
+| Mathematics (largest to read) | 156 ms | 132 ms |
+| Statics | 150 ms | 142 to 144 ms |
+| Surveying | 129 ms | 115 to 118 ms |
+| Mechanics of Materials, Fluid Mechanics | 103 to 106 ms | 93 to 103 ms |
+| The other ten | 11 to 92 ms | 12 to 94 ms |
+
+So the slowest first open is about a sixth of a second, once per chapter
+per launch, and launch itself waits only for the index. A mid-range Android
+phone is slower; by how much is **unverified** (test: the same timing build
+on one).
+
+The build was signed for this run under its own name
+(`com.fe4raccoons.mobile.timing`), so it installed beside the store app
+instead of over it, and was removed after.
+
 ## Notes for after (not changed during the move)
 
 Notes 1, 3, 4, 5, 7 and 8 were fixed in version 20 (see "Small phones" above).
