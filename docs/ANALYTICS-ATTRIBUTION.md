@@ -5,7 +5,9 @@ wrong conclusions, which has already happened once.
 
 | | Layer | Source of truth |
 |---|---|---|
-| **Plausible** | pre-signup: visitors, traffic sources, landing pages | plausible.io dashboard + weekly email |
+| **Visit counter** | pre-signup: visitors per page and channel, and the signup rate of each | MongoDB `visitCounts`, via `scripts/baseline-report.js` |
+| **Google Search Console** | before the click: which searches show the site, its rank, clicks | search.google.com/search-console |
+| **Plausible** | history only: lapsed about 2026-08-28, its data deleted 2026-10-24 | none |
 | **`acquisition` on the user doc** | post-signup: which channel produced an account | MongoDB, via `scripts/baseline-report.js` |
 
 The scorecard needs both: 50 signups from 500 visitors and 50 from 5,000 are
@@ -13,7 +15,40 @@ completely different situations, and a signup-only view shows both as "50".
 
 ---
 
-## Plausible
+## Visit counter
+
+Built 2026-10-29 to replace Plausible after its trial lapsed. Free, first
+party, and it stores nothing about the visitor.
+
+- **What the browser sends** (`src/app.jsx`): one `POST /api/visit` per
+  browser session, from the page the session started on, with the external
+  referrer, the `utm_source` tag, and whether this browser has been here
+  before (`localStorage.fe4r_seen`). Skipped for automated browsers
+  (`navigator.webdriver`, which also keeps the prerender build out) and for
+  any browser with `localStorage.plausible_ignore = "true"` (the owner's).
+- **What the server keeps** (`service/visits.js`, `service/routes/visit.js`):
+  one counter document per day (UTC), page and channel, with `visits` and
+  `newVisitors`. No cookie, IP, user agent, or account. Crawler user agents
+  are dropped. Pages behind sign-in are one row, `(signed-in app)`.
+- **Channels** use the same grouping as signup attribution (one list,
+  `REFERRER_GROUPS` in `service/visits.js`, which the report imports), so a
+  visitor and the signup they become land in the same row.
+- **Reading it:** the VISITS TO SIGNUPS section at the end of
+  `node --env-file=service/.env scripts/baseline-report.js`. Rate = signups
+  per new visitor, last 28 days, by channel and by landing page.
+
+**Caveat on the page table:** the browser only keeps a landing page for a
+tagged or referred visit (`fe4r_acq`), so direct visits are left out of the
+page table on both sides. The channel table includes them.
+
+Counting started with its deploy; there is no visitor history before it.
+
+---
+
+## Plausible (lapsed)
+
+Kept for history. The script tag below is still in `index.html` but the
+account lapsed about 2026-08-28.
 
 Installed as a script tag in `index.html` `<head>`, deliberately **not** in the
 JS bundle, so it is present in the head of every prerendered public page too
