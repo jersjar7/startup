@@ -18,14 +18,18 @@ const CHAPTER_IDS = [
 ];
 
 const POOL = new Map();
+const PER_CHAPTER = {};
+let current = null;
 
 function add(problem) {
   if (problem && problem.id && !POOL.has(problem.id)) {
     POOL.set(problem.id, problem);
+    PER_CHAPTER[current] = (PER_CHAPTER[current] || 0) + 1;
   }
 }
 
 for (const chapterId of CHAPTER_IDS) {
+  current = chapterId;
   // Lesson practice: LESSONS[chapter] -> subtopics -> lessons -> problems
   for (const subtopic of LESSONS[chapterId] || []) {
     for (const lesson of subtopic.lessons || []) {
@@ -50,4 +54,9 @@ export function getProblemById(id) {
 /** Total number of uniquely-id'd problems across all pools. */
 export function getProblemPoolSize() {
   return POOL.size;
+}
+
+/** Uniquely-id'd problems in one chapter, counted where each was first found. */
+export function getChapterProblemCount(chapterId) {
+  return PER_CHAPTER[chapterId] || 0;
 }
