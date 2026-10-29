@@ -62,6 +62,8 @@ const ROUTES = [
   // A real student who passed: the page people link to when they share it.
   '/stories/mitch',
   ...TOPICS.map(([id]) => `/fe-civil/${id}`),
+  // Free practice problems per chapter, checked on the page with no account.
+  ...TOPICS.map(([id]) => `/fe-civil/${id}/practice-problems`),
 ];
 
 function writeFile(rel, contents) {
@@ -97,6 +99,7 @@ const urls = [
   { loc: `${SITE}/fe-civil-exam-guide`, priority: '0.9', freq: 'weekly' },
   { loc: `${SITE}/exam-simulation`, priority: '0.9', freq: 'weekly' },
   ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}`, priority: '0.8', freq: 'monthly' })),
+  ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}/practice-problems`, priority: '0.8', freq: 'monthly' })),
   { loc: `${SITE}/about`, priority: '0.5', freq: 'yearly' },
   { loc: `${SITE}/stories/mitch`, priority: '0.5', freq: 'yearly' },
   { loc: `${SITE}/contact`, priority: '0.4', freq: 'yearly' },
@@ -139,7 +142,7 @@ const llms = `# FE for Raccoons
 
 ## FE Civil exam guides
 - [FE Civil Exam Guide](${SITE}/fe-civil-exam-guide): format, all 15 topics, how to prepare.
-${TOPICS.map(([id, name]) => `- [${name}](${SITE}/fe-civil/${id}): what NCEES tests, key formulas, sample problems, common mistakes.`).join('\n')}
+${TOPICS.map(([id, name]) => `- [${name}](${SITE}/fe-civil/${id}): what NCEES tests, key formulas, sample problems, common mistakes. [Free practice problems](${SITE}/fe-civil/${id}/practice-problems) with worked solutions.`).join('\n')}
 
 ## About
 - Audience: engineering students and EITs preparing for the FE Civil exam (the first step toward the PE license).
