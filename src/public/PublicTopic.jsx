@@ -3,9 +3,11 @@ import { Link, useParams } from 'react-router-dom';
 import { MathText } from '../components/MathText';
 import { NotFound } from '../components/NotFound';
 import { useSeo } from '../seo/useSeo';
-import { getTopic } from './content';
+import { getTopic, allTopics } from './content';
 import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
 import { AppArrow } from '../components/brand/AppArrow';
+import { ChapterCoin } from '../components/brand/ChapterCoin';
+import { CaretRight } from '@phosphor-icons/react';
 import { RaccoonPeek } from '../components/brand/RaccoonPeek';
 import './public.css';
 
@@ -191,6 +193,24 @@ export function PublicTopic() {
               <summary>{f.q}</summary>
               <p>{f.a}</p>
             </details>
+          ))}
+        </div>
+      </section>
+
+      {/* The other 14 guides. Without these a guide is reached only from the
+          exam guide, and Google left most of them out of search as a result. */}
+      <section className="pub-section pub-panel">
+        <span className="pub-label"><span className="pub-label-dash" />Other chapters</span>
+        <h2>The rest of the FE Civil exam</h2>
+        <div className="pub-ch-list">
+          {allTopics().filter((t) => t.id !== topic.id).map((t) => (
+            <Link key={t.id} to={`/fe-civil/${t.id}`} className={`pub-ch-row pub-accent-${t.accent}`}>
+              <span className="pub-ch-num">{String(t.num).padStart(2, '0')}</span>
+              <span className="pub-ch-icon"><ChapterCoin chapterId={t.id} accent={t.accent} /></span>
+              <span className="pub-ch-name">FE Civil {t.name}</span>
+              <span className="pub-ch-badge">{t.questionRange} Qs</span>
+              <CaretRight size={16} className="pub-ch-caret" />
+            </Link>
           ))}
         </div>
       </section>
