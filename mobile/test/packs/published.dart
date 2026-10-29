@@ -12,7 +12,7 @@ Map<String, Object?> latestPublished(Directory dir) {
   final pack = read((manifest['latest']! as Map)['file']! as String);
   return {
     ...pack,
-    'games': {
+    'games': <String, Object?>{
       for (final c in (pack['chapters']! as Map).values)
         ...(read((c as Map)['file']! as String)['games']! as Map),
     },
