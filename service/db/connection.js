@@ -31,6 +31,9 @@ const deletionLogCollection = db.collection('deletionLog');
 // Verification emails that failed to send, to try again. Holds the intent
 // only, never the email. See service/emailRetry.js.
 const emailRetriesCollection = db.collection('emailRetries');
+// Daily visit totals per page and channel, never a row per visitor. See
+// service/visits.js.
+const visitCountsCollection = db.collection('visitCounts');
 
 // Test connection and create indexes on startup
 // Unit tests import route modules that pull this in; they never touch the
@@ -73,6 +76,7 @@ if (!process.env.VITEST) (async function testConnection() {
     await dailyPuzzlesCollection.createIndex({ number: 1 }, { unique: true });
     await dailyResultsCollection.createIndex({ number: 1, email: 1 }, { unique: true });
     await dailyResultsCollection.createIndex({ email: 1, number: -1 });
+    await visitCountsCollection.createIndex({ day: 1 });
   } catch (ex) {
     console.log(`Unable to connect to database because ${ex.message}`);
     process.exit(1);
@@ -87,6 +91,7 @@ async function ping() {
 module.exports = {
   deletionLogCollection,
   emailRetriesCollection,
+  visitCountsCollection,
   client,
   db,
   ping,
