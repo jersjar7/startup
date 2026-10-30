@@ -21,6 +21,16 @@ function loadBank() {
 // Tests pass their own bank.
 function setBank(b) { bank = b; }
 
+// An abandoned try counts only if it was genuinely sat: the exam simulation's
+// rule (ADR 0001, MIN_GRADED_FRACTION in routes/exam.js). Below it the try is
+// retired quietly, so opening a test to look at it never records a score.
+const MIN_GRADED_FRACTION = 0.1;
+function genuinelySat(questions, answers) {
+  const ids = new Set(questions.map((q) => q.id));
+  const answered = Object.entries(sanitizeAnswers(answers)).filter(([k, v]) => ids.has(k) && v).length;
+  return answered >= Math.ceil(questions.length * MIN_GRADED_FRACTION);
+}
+
 const SECONDS_PER_QUESTION = 3 * 60; // the real exam's pace: 110 questions in 5h20m is about 2.9 min
 
 // The questions a version asks, in bank order. The first `length` questions
@@ -37,25 +47,58 @@ function timeLimitSeconds(count) {
   return count * SECONDS_PER_QUESTION;
 }
 
+// Choice order. Each try shows the choices in its own order, like practice and
+// the exam simulation, so a repeat try cannot be answered from memory of a
+// letter and the bank's lean toward B and C (written 2026-10-30: 69/95/95/69
+// over A-D) does not reach the student. The order is derived from the try and
+// the question, not stored: a refresh, going back to a question, and the
+// review all show the same order. Choice ids never change, so grading does
+// not depend on it.
+function seededRandom(seed) {
+  let h = 2166136261; // FNV-1a, then mulberry32
+  for (let i = 0; i < seed.length; i++) { h ^= seed.charCodeAt(i); h = Math.imul(h, 16777619); }
+  let a = h >>> 0;
+  return () => {
+    a = (a + 0x6D2B79F5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// Positions 0..n-1 in this try's order for this question.
+function choiceOrder(q, attemptId) {
+  const order = q.choices.map((_, i) => i);
+  if (!attemptId) return order;
+  const random = seededRandom(`${attemptId}:${q.id}`);
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return order;
+}
+
 // What the browser may see while the test runs: no key, no notes, no solution.
-function publicQuestion(q) {
+function publicQuestion(q, attemptId) {
   return {
     id: q.id,
     topic: q.topic,
     statement: q.statement,
-    choices: q.choices.map((c) => ({ id: c.id, text: c.text })),
+    choices: choiceOrder(q, attemptId).map((i) => ({ id: q.choices[i].id, text: q.choices[i].text })),
     diagram: q.diagram || null,
   };
 }
 
-// Everything, for the review after submit.
-function reviewQuestion(q, chosen) {
+// Everything, for the review after submit, in the order the student saw.
+function reviewQuestion(q, chosen, attemptId) {
+  const notes = q.choiceNotes || [];
   return {
-    ...publicQuestion(q),
+    ...publicQuestion(q, attemptId),
     chosen: chosen || null,
     correctAnswerId: q.correctAnswerId,
     correct: chosen === q.correctAnswerId,
-    choiceNotes: q.choiceNotes || [],
+    choiceNotes: choiceOrder(q, attemptId).map((i) => notes[i] || ''),
     eli5: q.eli5 || '',
     steps: q.steps || [],
     traps: q.traps || [],
@@ -111,7 +154,7 @@ function nextVersion(versions) {
 }
 
 module.exports = {
-  nextVersion,
+  nextVersion, genuinelySat, MIN_GRADED_FRACTION, choiceOrder,
   loadBank, setBank, testQuestions, timeLimitSeconds, publicQuestion, reviewQuestion,
   grade, autosave, submission, SECONDS_PER_QUESTION,
 };

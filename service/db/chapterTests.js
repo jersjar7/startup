@@ -37,6 +37,15 @@ async function submitChapterTestAttempt(id, email, answers, result) {
   return r.modifiedCount === 1;
 }
 
+// An abandoned try too short to count (CT.genuinelySat): closed with no
+// result, so it never shows as a score and never counts as a try.
+async function retireChapterTestAttempt(id, email) {
+  await chapterTestAttemptsCollection.updateOne(
+    { _id: byId(id), email, submittedAt: null },
+    { $set: { submittedAt: new Date(), retired: true } },
+  );
+}
+
 async function listChapterTestAttempts(email, chapterId) {
   return chapterTestAttemptsCollection
     .find({ email, chapterId }, { projection: { answers: 0, questionIds: 0 } })
@@ -47,5 +56,5 @@ async function listChapterTestAttempts(email, chapterId) {
 
 module.exports = {
   insertChapterTestAttempt, getChapterTestAttempt, getOpenChapterTestAttempt,
-  saveChapterTestAnswers, submitChapterTestAttempt, listChapterTestAttempts,
+  saveChapterTestAnswers, submitChapterTestAttempt, retireChapterTestAttempt, listChapterTestAttempts,
 };
