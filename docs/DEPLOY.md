@@ -164,6 +164,23 @@ curl -s "https://fe4raccoons.com$INDEX" | grep -c "<a unique string from your ch
 curl -s https://fe4raccoons.com/api/<route>
 ```
 
+## Restarts no longer show errors (Caddy holds requests)
+
+Since 2026-10-29, `/etc/caddy/Caddyfile` (same file as `~/Caddyfile`, not in
+this repo; backup at `~/Caddyfile.bak-20261029`) proxies with
+`lb_try_duration 15s`. While pm2 restarts the app (about 2 s, it runs as a
+single fork-mode process), Caddy keeps retrying the connection instead of
+returning 502, so visitors see a slower page, not an error. Measured: 60 of 60
+requests succeeded across a `pm2 reload`, slowest 0.9 s. Only failed
+connections are retried for POST/PATCH, so nothing is sent twice.
+
+Still keep the exam-simulation gate: the restart drops WebSocket connections,
+and a 6-hour paid exam is not where to test new code.
+
+True zero-downtime (two app processes, restart one at a time) needs more than
+the 909 MB of RAM the box has, and the email scheduler (`mailer-jobs.js`) and
+`nightly.js` run inside the app, so a second process would run them twice.
+
 ## After a deploy that adds or changes public pages: ping IndexNow
 
 ```bash
