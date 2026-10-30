@@ -37,3 +37,4 @@ mobile-analysis/
 mobile/ios/fastlane/report.xml
 mobile/ios/fastlane/README.md
 mobile/ios/fastlane/test_output/
+ct-e2e-shots/

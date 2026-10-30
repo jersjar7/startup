@@ -54,7 +54,7 @@ router.get('/:chapterId', verifyAuth, async (req, res) => {
     const mine = attempts.filter((t) => t.version === version);
     return {
       version,
-      tries: mine.filter((t) => t.submittedAt).length,
+      tries: mine.filter((t) => t.result).length, // retired tries never count
       lastStartedAt: mine[0] ? mine[0].startedAt : null,
       open: mine.some(isOpen),
     };
@@ -86,7 +86,8 @@ router.post('/:chapterId/:version/start', verifyAuth, async (req, res) => {
   const email = req.user.email;
   let attempt = await DB.getOpenChapterTestAttempt(email, chapterId, version);
   if (attempt && Date.now() > deadlineOf(attempt) + GRACE_MS) {
-    await finish(attempt, email, {});
+    if (CT.genuinelySat(questionsOf(attempt), attempt.answers)) await finish(attempt, email, {});
+    else await DB.retireChapterTestAttempt(attempt._id, email);
     attempt = null;
   }
   if (!attempt) {
@@ -102,7 +103,7 @@ router.post('/:chapterId/:version/start', verifyAuth, async (req, res) => {
     deadline: deadlineOf(attempt),
     limitSeconds: attempt.limitSeconds,
     answers: attempt.answers || {},
-    questions: questionsOf(attempt).map(CT.publicQuestion),
+    questions: questionsOf(attempt).map((q) => CT.publicQuestion(q, String(attempt._id))),
   });
 });
 
@@ -129,6 +130,7 @@ router.get('/attempts/:id', verifyAuth, async (req, res) => {
   const attempt = await DB.getChapterTestAttempt(req.params.id, req.user.email);
   if (!attempt) return res.status(404).send({ msg: 'Test not found.' });
   if (!attempt.submittedAt) return res.status(409).send({ msg: 'This test is still in progress.' });
+  if (!attempt.result) return res.status(404).send({ msg: 'This try was closed without a score.' });
   const answers = attempt.answers || {};
   res.send({
     ...summary(attempt),
@@ -136,7 +138,7 @@ router.get('/attempts/:id', verifyAuth, async (req, res) => {
     topics: attempt.result.topics,
     late: !!attempt.result.late,
     seconds: Math.round((new Date(attempt.submittedAt) - new Date(attempt.startedAt)) / 1000),
-    questions: questionsOf(attempt).map((q) => CT.reviewQuestion(q, answers[q.id])),
+    questions: questionsOf(attempt).map((q) => CT.reviewQuestion(q, answers[q.id], String(attempt._id))),
   });
 });
 

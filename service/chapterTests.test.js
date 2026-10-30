@@ -82,3 +82,45 @@ describe('which set comes next', () => {
     expect(CT.nextVersion([v('A', 0), v('B', 3, '2026-10-05', true)])).toBe('B');
   });
 });
+
+describe('an abandoned try', () => {
+  const qs = Array.from({ length: 15 }, (_, i) => q('q' + i, 'c1'));
+  it('counts only if at least a tenth of it was answered (ADR 0001)', () => {
+    expect(CT.genuinelySat(qs, {})).toBe(false);
+    expect(CT.genuinelySat(qs, { q0: 'c1' })).toBe(false);          // 1 of 15: a look, not a sitting
+    expect(CT.genuinelySat(qs, { q0: 'c1', q1: null })).toBe(false); // a cleared answer is no answer
+    expect(CT.genuinelySat(qs, { q0: 'c1', q1: 'c2' })).toBe(true);  // 2 of 15
+  });
+  it('ignores answers to questions the try did not ask', () => {
+    expect(CT.genuinelySat(qs, { zzz: 'c1', yyy: 'c2' })).toBe(false);
+  });
+});
+
+describe('choice order', () => {
+  const bank = Object.values(bankFile.tests).flatMap((t) => [...t.A, ...t.B]);
+  it('is the same every time for one try (refresh, going back, review)', () => {
+    const x = bank[0];
+    expect(CT.publicQuestion(x, 'try1').choices).toEqual(CT.publicQuestion(x, 'try1').choices);
+    expect(CT.reviewQuestion(x, null, 'try1').choices).toEqual(CT.publicQuestion(x, 'try1').choices);
+  });
+  it('keeps each note with its own choice', () => {
+    const x = bank[0];
+    const r = CT.reviewQuestion(x, null, 'try1');
+    r.choices.forEach((c, i) => {
+      expect(r.choiceNotes[i]).toBe(x.choiceNotes[x.choices.findIndex((o) => o.id === c.id)]);
+    });
+  });
+  it('differs between tries', () => {
+    const differs = bank.slice(0, 20).filter((x) =>
+      CT.publicQuestion(x, 'try1').choices.map((c) => c.id).join() !== CT.publicQuestion(x, 'try2').choices.map((c) => c.id).join());
+    expect(differs.length).toBeGreaterThan(12);
+  });
+  it('spreads the correct answer evenly over A-D across many tries', () => {
+    const pos = [0, 0, 0, 0];
+    for (let t = 0; t < 40; t++) {
+      for (const x of bank) pos[CT.publicQuestion(x, `t${t}`).choices.findIndex((c) => c.id === x.correctAnswerId)]++;
+    }
+    const total = pos.reduce((a, b) => a + b);
+    pos.forEach((n) => expect(Math.abs(n / total - 0.25)).toBeLessThan(0.01));
+  });
+});

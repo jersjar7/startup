@@ -1,12 +1,134 @@
-# Chapter tests: the question bank
+# Chapter tests
 
 A chapter test is a timed, exam-style test of one chapter, with answers shown
 only at the end, that a professor can assign and a student can retake. It was
 asked for by Prof. Alam (UWF) on 2026-10-28, who teaches chapter by chapter.
 It sits next to chapter practice, it does not replace it.
 
-This document is the brief for writing the bank. Everyone who writes, solves or
-reviews a question follows it.
+Live since 2026-10-30. Both question sets are free, with no limit on tries
+(the reasoning, and what was rejected, is in ADR 0035).
+
+The first half of this document is how the feature works and how to test it.
+The second half, from "Why a new bank", is the brief for writing the bank:
+everyone who writes, solves or reviews a question follows it.
+
+## What a student sees
+
+**Chapter page** (`/study/:chapterId`, `src/study/ChapterFinish.jsx`). Under
+the subtopics, two options side by side as equals:
+
+- **Practice the chapter**: one problem at a time, answer after each. Shows
+  "n of N problems".
+- **Test yourself, timed**: "15 questions in 45 minutes, like the FE. Answers
+  at the end." Shows "Not taken yet", "In progress", or "Best 73% · 2 tries".
+
+The owner chose this layout on 2026-10-30 over a separate test card, and over
+a list with one "next step" button under it (he found the button repeated the
+rows above it). Practice teaches, the test measures; they are two products,
+so neither is styled as the main one.
+
+**Rules page** (`/test/:chapterId`, `src/chapterTest/ChapterTest.jsx`, intro
+phase). Questions, time, best score, the rules, one button (Start the test,
+Continue the test, or Take the test again), and **Your tries**: every finished
+try with its date, score and a "See answers" link. That list is the only way
+back to an old result, so it must stay.
+
+The retake line says only what is true for this student:
+
+| Situation | Line |
+|---|---|
+| never taken | Take it again later and your next try has all new questions. |
+| next set never handed in | This try has all new questions. |
+| both sets already seen | You have seen both question sets. This try repeats the one you saw longest ago. |
+| a try is open | Your answers so far are saved. The clock kept running while you were away. |
+
+**The test** (same page, test phase). The exam simulation's screen: clock,
+question, figure, four choices, flag, question grid, Hand in. 3 minutes per
+question. Tapping the chosen answer again clears it. Answers autosave (and are
+kept in the browser too); flags are kept in the browser. Hand in asks to
+confirm and says how many questions have no answer. At 0:00 the test hands
+itself in. During the test the site header and footer are hidden.
+
+**Result** (`/test/result/:attemptId`, `src/chapterTest/ChapterTestResult.jsx`).
+Score with a one-line reading of it, a bar per topic, "Take it again with new
+questions" (or just "Take it again" when no unseen set is left), a line
+pointing to the exam simulation, then every question with the student's
+answer, the right one, a note on every choice, the idea in plain words, the
+worked solution and the handbook page. "Missed" filters to wrong answers.
+
+## Question sets, never shown as versions
+
+Each chapter has two sets, A and B, that share no question. Students never see
+or pick a letter: the server picks with `nextVersion` in
+`service/chapterTests.js`:
+
+1. a try still open: that one;
+2. otherwise the set handed in fewer times;
+3. a tie: the set taken longest ago; A first.
+
+So try 1 is A, try 2 is all new (B), try 3 repeats A, try 4 B. `nextIsNew` in
+`GET /api/chapter-tests/:chapterId` says whether the next try is a set this
+student has never handed in, and the pages use it so they never promise new
+questions that are not new.
+
+**Choice order changes every try.** Practice and the exam simulation already
+shuffle choices; a test that did not would let a repeat try be answered from
+memory of a letter, and it would pass on the bank's lean toward B and C (as
+written: 69/95/95/69 correct answers over A-D). The order comes from the try
+id and the question id (`choiceOrder`), so it is the same after a refresh, on
+going back to a question, and in the review, and it is never stored. Choice
+ids do not change, so grading does not depend on order. The cost: 273 of the
+328 questions list numbers smallest to largest, as the FE does, and the
+shuffle gives that up. Nothing in the bank refers to a choice by letter (no
+"both A and B", no "all of the above"); keep it that way, a letter reference
+would point at the wrong choice.
+
+## How the server keeps it fair
+
+Code: `service/chapterTests.js` (rules), `service/routes/chapterTests.js`
+(`/api/chapter-tests`), `service/db/chapterTests.js` (collection
+`chapterTestAttempts`). The bank is `service/chapter-tests.json`, written by
+`scripts/gen-content.mjs`; it is never in `content.json` (the app download)
+and never in the website bundle.
+
+- **No answer before hand in.** While a try is open the browser gets
+  `publicQuestion`: statement, choices, figure. No key, no notes, no solution.
+  The review (`GET /attempts/:id`) is refused with 409 while the try is open.
+- **Answers merge like the exam simulation's** (ADR 0002): autosave may clear
+  an answer, hand in can only add one. Answers to questions the try did not
+  ask are dropped.
+- **A try stores its question ids**, so a later change to the bank cannot
+  change what a past try asked.
+- **The clock is the server's.** Deadline = start + 3 min per question. Hand
+  in is accepted up to 2 minutes late (slow network on the last second) and
+  marked `late` after that.
+- **A try opened and left is not a score** (ADR 0001, same rule as the exam).
+  When a student comes back after the deadline, the old try is graded from
+  what was saved only if at least a tenth of it was answered (rounded up: 1 of
+  6, 2 of 15). Below that it is retired (`retired: true`, no result): it never
+  shows in Your tries and never counts as a try. This matters most for a
+  professor looking at the test before assigning it.
+- **Only your own tries.** Every query is by the signed-in email; anyone
+  else's try is 404.
+- **Account deletion** clears `chapterTestAttempts`, and an email change moves
+  them (`service/db/accountDeletion.js`, `accountEmail.js`).
+
+## Testing
+
+- `npx vitest run service/chapterTests.test.js`: the bank (both sets, long
+  enough, no shared ids, not in `content.json`), what the browser may see,
+  grading, the answer merge, which set comes next, the genuinely-sat rule,
+  and choice order (stable in a try, notes stay with their choice, different
+  between tries, the correct answer even over A-D).
+- `node --env-file=service/.env scripts/ct-e2e.mjs` walks a whole test as a
+  student in a real browser, about 50 checks: before, during (change, clear,
+  flag, refresh, leave and come back), hand in, review, back button, a second
+  and third try, the clock running out, a try opened and left, a try worked
+  on and left, and the security edges. It uses the QA account and deletes its
+  tries before and after, so it runs against production. Set `SITE` to try a
+  local copy first. Run it before shipping any change to chapter tests.
+
+## The question bank
 
 ## Why a new bank
 
@@ -20,8 +142,9 @@ test is handed in.
 
 ## Size
 
-Two versions per chapter, A and B, that share no question, so a retake is new
-questions at the same level. Each test is as long as the chapter's share of
+Two sets per chapter, A and B, that share no question, so a retake is new
+questions at the same level (students never see the letters; see "Question
+sets, never shown as versions"). Each test is as long as the chapter's share of
 the real exam, at the top of its NCEES range (src/data/chapters.js):
 
 | Chapter | Per test | | Chapter | Per test |
@@ -161,7 +284,31 @@ questions-only file for a blind solver, and the key for the reviewer.
 
 ## How the bank was made
 
-Written 2026-10-30 by a pipeline of agents, one chain per chapter version:
-writer, then a blind solver, then a reviewer (answers, handbook pages, near
-copies, every figure looked at), then a fixer that applies the review or drops
-the question. The whole bank then passes `ct-check all`.
+Written overnight 2026-10-29 to 10-30 by a pipeline of agents, one chain per
+chapter set, in this order:
+
+1. **Writer**, following this brief, two spare questions per set.
+2. **Blind solver**, given the questions without the key. Any question where
+   its answer differed from the key went to review flagged.
+3. **Reviewer**: the answer, the handbook page, near copies of existing
+   problems, and every figure looked at as an image (orientation, scale,
+   standard symbols, labels placed where they belong).
+4. **Fixer**: applied the review or dropped the question.
+5. **Blind recheck** of the fixed set, then `ct-check all`.
+
+Outcome: 388 questions written (328 used, 60 spares), 222 figures. Reviewers
+raised 155 issues, 70 of them in figures; all were applied. Blind re-solves
+found no wrong key. `ct-check all` passes with one accepted warning:
+transportation-a-04 looks like lesson problem trans-hc-q3, but asks for the
+speed rather than the superelevation. The owner looked at a sample sheet of
+figures on 2026-10-30 before the tests were built.
+
+The NCEES practice exam was used only to match how questions are pitched
+(length, difficulty, what is given); nothing was copied or paraphrased from it.
+
+The bank lives in `src/data/chapter-tests/` and is imported only by
+`scripts/gen-content.mjs`, so no question, key or solution is in the website
+bundle (checked 2026-10-30 against the built bundle). The figures in
+`src/components/diagrams/chapter-tests/` ARE in the bundle, because the browser
+draws them; a figure therefore must show only what the question gives, never
+the answer.
