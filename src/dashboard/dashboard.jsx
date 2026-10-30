@@ -487,6 +487,10 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             challenge={challenge}
           />
 
+          {/* The phone app, right under the road, for people who have never
+              synced from it. */}
+          <AppNudge syncState={syncState} />
+
           {/* The raccoon sits on the road, so these come after it. */}
           {/* Account setup: logistics, kept out of the left prep panel */}
           <SetupTodo
@@ -505,9 +509,6 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             );
           })()}
 
-
-          {/* The phone app, for people who have never synced from it. */}
-          <AppNudge syncState={syncState} />
 
           <LiveFeed today={today} presence={events} viewerName={displayName || ''} />
 

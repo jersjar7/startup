@@ -3,17 +3,18 @@
    ember, forest), so the page reads as the website showing its sister. */
 .pub.ap { max-width: 1100px; }
 
-/* A plain phone: charcoal bezel, rounded screen, the warm card shadow. */
-.ap-phone {
-  margin: 0;
+/* A plain phone: charcoal bezel, rounded screen, the warm card shadow.
+   Sized in cqw (the figure's own width) so a small phone on a narrow screen
+   keeps the same proportions as a big one: the screen radius is the bezel
+   radius minus the bezel, so the two curves stay parallel. */
+.ap-phone { margin: 0; width: 100%; max-width: 260px; container-type: inline-size; }
+.ap-phone-body {
   background: var(--charcoal);
-  padding: 7px;
-  border-radius: 34px;
+  padding: 2.8cqw;
+  border-radius: 13cqw;
   box-shadow: 0 2px 6px rgba(44,44,44,0.10), 0 18px 40px rgba(44,44,44,0.16);
-  width: 100%;
-  max-width: 260px;
 }
-.ap-phone img { display: block; width: 100%; height: auto; border-radius: 27px; }
+.ap-phone img { display: block; width: 100%; height: auto; border-radius: 10.2cqw; }
 
 /* ── Hero: words on the left, two phones overlapping on the right ── */
 .ap-hero {

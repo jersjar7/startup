@@ -12,19 +12,22 @@ const SITE = 'https://fe4raccoons.com';
 
 // A real screen from the app, in a plain phone frame. The images are the
 // app's own store captures (mobile/test/goldens/appstore), exported to
-// public/app/ at two widths.
+// public/app/ at two widths. The figure is a size container so the bezel and
+// the screen corners scale with the phone and stay concentric at every size.
 function Phone({ name, alt, className = '' }) {
   return (
     <figure className={`ap-phone ${className}`}>
-      <img
-        src={`/app/${name}-360.webp`}
-        srcSet={`/app/${name}-360.webp 360w, /app/${name}-720.webp 720w`}
-        sizes="(max-width: 600px) 60vw, 280px"
-        width="360"
-        height="782"
-        loading="lazy"
-        alt={alt}
-      />
+      <div className="ap-phone-body">
+        <img
+          src={`/app/${name}-360.webp`}
+          srcSet={`/app/${name}-360.webp 360w, /app/${name}-720.webp 720w`}
+          sizes="(max-width: 600px) 60vw, 280px"
+          width="360"
+          height="782"
+          loading="lazy"
+          alt={alt}
+        />
+      </div>
     </figure>
   );
 }
