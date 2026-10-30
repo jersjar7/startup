@@ -14,7 +14,7 @@ export function MitchStory() {
   const url = `${SITE}/stories/mitch`;
   const title = 'How Mitch passed the FE Civil on the first try | FE for Raccoons';
   const description =
-    'Mitch ran a full, timed exam simulation before test day, then passed the FE Civil exam on the first try. Watch Mitch's story and run the same simulation before your exam.';
+    "Mitch ran a full, timed exam simulation before test day, then passed the FE Civil exam on the first try. Watch Mitch's story and run the same simulation before your exam.";
 
   const jsonLd = {
     '@context': 'https://schema.org',
