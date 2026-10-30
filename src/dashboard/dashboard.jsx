@@ -33,6 +33,7 @@ import { RoadToFe } from './RoadToFe';
 import { LiveFeed } from './LiveFeed';
 import { Boards } from './Boards';
 import { BadgeShelf } from './BadgeShelf';
+import { AppNudge } from './AppNudge';
 
 export function Dashboard({ userName, onLogout, displayName, firstName, examDate, emailVerified }) {
   const navigate = useNavigate();
@@ -504,6 +505,9 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             );
           })()}
 
+
+          {/* The phone app, for people who have never synced from it. */}
+          <AppNudge syncState={syncState} />
 
           <LiveFeed today={today} presence={events} viewerName={displayName || ''} />
 

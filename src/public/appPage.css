@@ -1,0 +1,103 @@
+/* The phone app page. The app's real screens carry the app's own colours;
+   everything around them stays in the website's palette (cream, charcoal,
+   ember, forest), so the page reads as the website showing its sister. */
+.pub.ap { max-width: 1100px; }
+
+/* A plain phone: charcoal bezel, rounded screen, the warm card shadow. */
+.ap-phone {
+  margin: 0;
+  background: var(--charcoal);
+  padding: 7px;
+  border-radius: 34px;
+  box-shadow: 0 2px 6px rgba(44,44,44,0.10), 0 18px 40px rgba(44,44,44,0.16);
+  width: 100%;
+  max-width: 260px;
+}
+.ap-phone img { display: block; width: 100%; height: auto; border-radius: 27px; }
+
+/* ── Hero: words on the left, two phones overlapping on the right ── */
+.ap-hero {
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; align-items: center;
+  background: none; border: none; padding: 24px 0 72px;
+}
+.ap-hero h1 { font-size: clamp(2.2rem, 4.6vw, 3.2rem); letter-spacing: -0.035em; line-height: 1.06; }
+.ap-get { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 32px; }
+.pub .ap-soon { margin: 0; font-size: 0.9rem; color: var(--gray-500); }
+.ap-end .ap-soon { margin-top: 16px; }
+.ap-play { text-decoration: none; }
+
+.ap-hero-phones { position: relative; height: 560px; }
+.ap-hero-phones .ap-phone { position: absolute; width: 250px; }
+.ap-phone--back { right: 0; top: 0; transform: rotate(4deg); }
+.ap-phone--front { left: 8%; top: 48px; transform: rotate(-3deg); }
+
+/* ── Sections ── */
+.ap-section { margin-bottom: 96px; }
+.ap-section > h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); letter-spacing: -0.03em; }
+
+/* How a round works: a real sequence, so the steps are numbered. */
+.ap-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+.ap-step .ap-phone { max-width: 230px; margin-bottom: 28px; }
+.ap-step-n {
+  display: block; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.85rem;
+  color: var(--ember); margin-bottom: 6px;
+}
+.pub .ap-step h3 { font-size: 1.2rem; margin-bottom: 8px; }
+.pub .ap-step p { color: #4a4a4a; font-size: 0.97rem; max-width: 34ch; }
+
+/* The two borrowed ideas: phone(s) and words side by side, alternating. */
+.ap-idea {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 56px; align-items: center;
+  background: #fff; border-radius: 24px; padding: 48px 56px; margin-bottom: 32px;
+  box-shadow: 0 1px 3px rgba(44,44,44,0.04), 0 4px 16px rgba(44,44,44,0.06);
+}
+.ap-idea--flip { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
+.ap-idea--flip .ap-idea-phones { order: 2; }
+.ap-idea-phones { display: flex; justify-content: center; gap: 20px; }
+.ap-idea-phones--pair .ap-phone { max-width: 220px; }
+.ap-idea-phones--pair .ap-phone:last-child { margin-top: 48px; }
+.pub .ap-idea h3 { font-size: 1.45rem; letter-spacing: -0.025em; margin-bottom: 14px; }
+.pub .ap-idea p { color: #4a4a4a; max-width: 52ch; }
+.pub .ap-note { font-size: 0.82rem; color: var(--gray-500); margin: 0; }
+
+/* Phone and desk: two columns of what lives where, with the mastery screen. */
+.ap-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 220px; gap: 40px; align-items: start; }
+.ap-split-col { border-top: 4px solid var(--ember); padding-top: 20px; }
+.ap-split-col--desk { border-top-color: var(--forest); }
+.pub .ap-split-col h3 { font-size: 1.15rem; margin-bottom: 12px; }
+.ap-split-col ul { margin: 0; padding-left: 1.1rem; list-style: disc; display: grid; gap: 10px; color: #4a4a4a; }
+.ap-split-phone .ap-phone { max-width: 220px; }
+.pub .ap-shared { margin: 40px 0 0; max-width: 70ch; color: #4a4a4a; }
+.ap-shared strong { color: var(--charcoal); font-family: 'DM Sans', sans-serif; font-weight: 600; }
+
+/* Closing ask */
+.ap-end {
+  background: #fff; border-radius: 24px; border-top: 4px solid var(--ember); padding: 48px 56px;
+  box-shadow: 0 1px 3px rgba(44,44,44,0.04), 0 8px 28px rgba(44,44,44,0.07);
+}
+.pub .ap-end h2 { margin: 0; font-size: clamp(1.5rem, 3vw, 2rem); letter-spacing: -0.03em; }
+.ap-end .ap-get { margin-top: 24px; }
+
+@media (max-width: 900px) {
+  .ap-hero { grid-template-columns: 1fr; gap: 32px; padding-bottom: 48px; }
+  .ap-hero-phones { height: 470px; max-width: 420px; }
+  .ap-hero-phones .ap-phone { width: 210px; }
+  .ap-steps { grid-template-columns: 1fr; gap: 48px; }
+  .ap-step { display: grid; grid-template-columns: 150px minmax(0, 1fr); column-gap: 24px; align-items: start; }
+  .ap-step .ap-phone { grid-row: span 3; margin: 0; }
+  .ap-idea, .ap-idea--flip { grid-template-columns: 1fr; gap: 32px; padding: 32px 28px; }
+  .ap-idea--flip .ap-idea-phones { order: 0; }
+  .ap-split { grid-template-columns: 1fr 1fr; }
+  .ap-split-phone { display: none; }
+}
+@media (max-width: 600px) {
+  .ap-hero-phones { height: 400px; }
+  .ap-hero-phones .ap-phone { width: 175px; }
+  .ap-phone--front { left: 0; }
+  .ap-step { grid-template-columns: 110px minmax(0, 1fr); column-gap: 18px; }
+  .ap-idea-phones--pair .ap-phone { max-width: 46%; }
+  .ap-idea-phones .ap-phone { max-width: 210px; }
+  .ap-split { grid-template-columns: 1fr; gap: 28px; }
+  .ap-end { padding: 32px 24px; }
+  .ap-play { height: 54px; padding-left: 20px; font-size: 0.95rem; }
+}

@@ -561,6 +561,23 @@ a.ch-row:focus-visible {
   aspect-ratio: 1920 / 665;
   margin: clamp(1.5rem, 4vh, 2.5rem) auto 0;
 }
+/* Same round button as the rest of the site: a pill ending in the arrow disc. */
+.s-app__get { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 1.75rem; }
+.s-app__play {
+  --btn-bg: var(--ember);
+  display: inline-flex; align-items: center; gap: 12px; height: 56px; padding: 0 8px 0 22px;
+  border-radius: 999px; background: var(--btn-bg); color: #fff; text-decoration: none;
+  font-family: var(--font-heading); font-weight: 600; font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(44,44,44,0.10), 0 12px 28px rgba(44,44,44,0.14);
+}
+.s-app__play:hover { --btn-bg: #d4582c; }
+.s-app__play:focus-visible, .s-app__more:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }
+.s-app__more {
+  font-family: var(--font-heading); font-weight: 600; color: var(--charcoal);
+  text-decoration: underline; text-decoration-color: rgba(232,104,58,0.5); text-underline-offset: 4px;
+}
+.s-app__more:hover { color: var(--ember); }
+.s-app__soon { margin: 0.9rem 0 0; font-size: 0.9rem; color: var(--gray-500); }
 @media (max-width: 600px) {
   /* Let the phones run off both sides rather than shrink to a strip. */
   .s-app__art { width: 170%; max-width: none; margin-left: -35%; }
