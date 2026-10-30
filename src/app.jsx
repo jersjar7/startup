@@ -42,6 +42,8 @@ const ExamSimulation = React.lazy(() => import('./public/ExamSimulation').then(m
 const PublicTopic = React.lazy(() => import('./public/PublicTopic').then(m => ({ default: m.PublicTopic })));
 const FormulaFinder = React.lazy(() => import('./public/FormulaFinder').then(m => ({ default: m.FormulaFinder })));
 const PublicPractice = React.lazy(() => import('./public/PublicPractice').then(m => ({ default: m.PublicPractice })));
+const ChapterTest = React.lazy(() => import('./chapterTest/ChapterTest').then(m => ({ default: m.ChapterTest })));
+const ChapterTestResult = React.lazy(() => import('./chapterTest/ChapterTestResult').then(m => ({ default: m.ChapterTestResult })));
 const AppPage = React.lazy(() => import('./public/AppPage').then(m => ({ default: m.AppPage })));
 const MitchStory = React.lazy(() => import('./stories/MitchStory').then(m => ({ default: m.MitchStory })));
 
@@ -229,7 +231,8 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
   const isDiagnostic = pathname.startsWith('/diagnostic');
   const isQuickstart = pathname.startsWith('/quickstart');
   const isDashboard = pathname === '/dashboard';
-  const isExamSession = pathname === '/exam/session' || pathname === '/exam/preview';
+  const isExamSession = pathname === '/exam/session' || pathname === '/exam/preview'
+    || (pathname.startsWith('/test/') && !pathname.startsWith('/test/result/'));
 
   return (
     <div className="body">
@@ -268,6 +271,8 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
             <Route path="/diagnostic/results/:attemptNumber" element={<DiagnosticResults userName={userName} />} />
             <Route path="/diagnostic/review/:attemptNumber" element={<DiagnosticReview userName={userName} />} />
             <Route path="/exam" element={<ExamGate userName={userName} />} />
+            <Route path="/test/:chapterId" element={<ChapterTest userName={userName} />} />
+            <Route path="/test/result/:attemptId" element={<ChapterTestResult userName={userName} />} />
             <Route path="/exam/session" element={<ExamSession userName={userName} />} />
           <Route path="/exam/preview" element={<ExamSession userName={userName} preview />} />
             <Route path="/exam/results/:attemptId" element={<ExamResults userName={userName} />} />

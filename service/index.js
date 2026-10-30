@@ -171,6 +171,7 @@ apiRouter.use('/quickstart', require('./routes/quickstart.js'));
 apiRouter.use('/progress', require('./routes/progress.js'));
 apiRouter.use('/checkout', require('./routes/checkout.js'));
 apiRouter.use('/exam', require('./routes/exam.js'));
+apiRouter.use('/chapter-tests', require('./routes/chapterTests.js'));
 apiRouter.use('/admin', require('./routes/admin.js'));
 apiRouter.use('/email', require('./routes/email.js'));
 apiRouter.use('/track', require('./routes/track.js'));

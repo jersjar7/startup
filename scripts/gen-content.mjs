@@ -22,6 +22,7 @@ const entry = `
   import { LESSONS } from ${p('src/data/lessons/index.js')};
   import { getExamBankForChapter } from ${p('src/data/exam-bank/index.js')};
   import { getChapterPracticeProblems } from ${p('src/data/chapter-practice/index.js')};
+  import { CHAPTER_TESTS, TEST_LENGTH } from ${p('src/data/chapter-tests/index.js')};
 
   // 1) Chapter -> subtopic -> lesson STRUCTURE (names only; powers the nav).
   const chapters = CHAPTERS.map((c) => {
@@ -92,6 +93,7 @@ const entry = `
   }
 
   export const content = { chapters, lessons, problemsById, problemIndex };
+  export const chapterTests = { tests: CHAPTER_TESTS, length: TEST_LENGTH };
 `;
 
 const out = join(mkdtempSync(join(tmpdir(), 'gc-')), 'c.cjs');
@@ -104,7 +106,7 @@ await build({
   logLevel: 'silent',
 });
 delete require.cache[out];
-const { content } = require(out);
+const { content, chapterTests } = require(out);
 
 // Give every problem figure a stable id (hash of component + props) and collect
 // the unique figures, so gen-figures.mjs can render each to SVG and the app can
@@ -164,9 +166,18 @@ content.figures = figures;
 const dest = join(root, 'service/content.json');
 writeFileSync(dest, JSON.stringify(content));
 
+// The chapter test bank goes to its own file, read only by the server. It must
+// never reach content.json, which the phone app downloads whole, because it
+// holds the answers. See docs/CHAPTER-TESTS.md.
+writeFileSync(join(root, 'service/chapter-tests.json'), JSON.stringify(chapterTests));
+
 const probs = Object.keys(content.problemsById).length;
 const lessons = Object.keys(content.lessons).length;
 const figs = Object.keys(content.figures).length;
 const pools = Object.values(content.problemIndex).reduce((a, e) => { a[e.pool] = (a[e.pool] || 0) + 1; return a; }, {});
 console.log(`[gen-content] ${content.chapters.length} chapters · ${lessons} lessons · ${probs} problems · ${figs} figures -> service/content.json`);
+{
+  const n = Object.values(chapterTests.tests).reduce((s, v) => s + v.A.length + v.B.length, 0);
+  console.log(`[gen-content] chapter tests: ${n} questions -> service/chapter-tests.json`);
+}
 console.log(`[gen-content] problemIndex: ${Object.keys(content.problemIndex).length} (lesson ${pools.lesson || 0} · practice ${pools.practice || 0} · exam ${pools.exam || 0})`);

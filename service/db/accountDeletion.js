@@ -12,6 +12,7 @@ const {
   paperFlagsCollection,
   gameFeedbackCollection,
   dailyResultsCollection,
+  chapterTestAttemptsCollection,
   deletionLogCollection,
 } = require('./connection');
 const { deletionRecord } = require('../deletionRecord.js');
@@ -54,6 +55,7 @@ async function deleteAllUserData(email, userId, { reason = 'user' } = {}) {
     paperFlagsCollection.deleteMany({ email }),
     gameFeedbackCollection.deleteMany({ email }),
     dailyResultsCollection.deleteMany({ email }),
+    chapterTestAttemptsCollection.deleteMany({ email }),
     ...(userId ? [
       purchasesCollection.deleteMany({ userId }),
       examAttemptsCollection.deleteMany({ userId }),

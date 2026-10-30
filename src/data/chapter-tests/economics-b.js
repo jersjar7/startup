@@ -1,0 +1,417 @@
+// Chapter test bank: economics, version B. See docs/CHAPTER-TESTS.md.
+
+const PROBLEMS = [
+  {
+    id: 'ct-economics-b-01',
+    chapterId: 'economics',
+    version: 'B',
+    topic: 'Time value of money',
+    type: 'computational',
+    difficulty: 'easy',
+    statement:
+      'A water district can set aside 180,000 dollars of rate revenue every year to repay a loan for a new elevated storage tank. If the loan is repaid in 20 equal end-of-year payments at 6% interest, the largest amount the district can borrow today (dollars) is most nearly:',
+    choices: [
+      { id: 'c1', text: '2,065,000' },
+      { id: 'c2', text: '3,000,000' },
+      { id: 'c3', text: '3,600,000' },
+      { id: 'c4', text: '6,621,000' },
+    ],
+    correctAnswerId: 'c1',
+    choiceNotes: [
+      'Correct: the loan is the present worth of the 20 payments, $180{,}000 \\times (P/A, 6\\%, 20) = 180{,}000 \\times 11.4699$.',
+      'Treats the payments as lasting forever ($A/i = 180{,}000/0.06$), a capitalized cost, but they stop after 20 years.',
+      'Adds up the 20 payments with no interest, $180{,}000 \\times 20$.',
+      'Uses $(F/A, 6\\%, 20) = 36.7856$, the value of the payments at year 20, not today.',
+    ],
+    eli5:
+      'Whatever the district borrows today has to be paid back, with interest, by those 20 yearly checks. So the most it can borrow is what those 20 future checks are worth today. Money far in the future is worth less now, so 20 checks of 180,000 dollars are worth only about 11.5 checks today, a bit over 2 million dollars.',
+    hint: 'The amount borrowed is the present worth of the payments the district can afford.',
+    steps: [
+      { text: 'The loan principal is the present worth of the uniform series of payments:', latex: 'P = A\\,(P/A, i, n)' },
+      { text: 'From the 6% table, $(P/A, 6\\%, 20) = 11.4699$.', latex: null },
+      { text: 'Multiply:', latex: 'P = 180{,}000 \\times 11.4699 = 2{,}064{,}600 \\text{ dollars} \\approx 2{,}065{,}000' },
+    ],
+    handbookPage: 'p. 229',
+    handbookFormula: '(P/A, i\\%, n) = \\frac{(1+i)^n - 1}{i(1+i)^n}',
+    traps: [
+      'Multiplying the payment by 20 and ignoring interest.',
+      'Using the perpetuity formula $A/i$ for a series that ends.',
+      'Picking the $F/A$ column of the table instead of $P/A$.',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-economics-b-02',
+    chapterId: 'economics',
+    version: 'B',
+    topic: 'Time value of money',
+    type: 'computational',
+    difficulty: 'medium',
+    statement:
+      'After a county road is resurfaced, its maintenance cost is expected to be 3,000 dollars in year 1 and to rise by 1,500 dollars every year after that, through year 10, as shown. At i = 6%, the equivalent uniform annual maintenance cost over the 10 years (dollars per year) is most nearly:',
+    choices: [
+      { id: 'c1', text: '6,030' },
+      { id: 'c2', text: '9,030' },
+      { id: 'c3', text: '9,750' },
+      { id: 'c4', text: '10,530' },
+    ],
+    correctAnswerId: 'c2',
+    choiceNotes: [
+      'Converts only the gradient, $1{,}500 \\times (A/G, 6\\%, 10)$, and forgets to add the 3,000 dollar base that is paid every year.',
+      'Correct: $3{,}000 + 1{,}500 \\times (A/G, 6\\%, 10) = 3{,}000 + 1{,}500 \\times 4.0220$.',
+      'The plain average of 3,000 and 16,500 with no interest; at 6% the early, smaller costs weigh more, so the true equivalent is lower.',
+      'Starts the gradient in year 1, taking the base as $3{,}000 + 1{,}500 = 4{,}500$: $4{,}500 + 1{,}500 \\times (A/G, 6\\%, 10) = 10{,}530$; the handbook gradient is zero in year 1, so the base is the year 1 cost of 3,000 dollars.',
+    ],
+    eli5:
+      'The cost grows every year like a staircase: a flat floor of 3,000 dollars plus a step that gets 1,500 dollars taller each year. The flat floor is already a yearly amount. The steps get turned into an equal yearly amount with the A/G factor, then you add the two together. Because money later is worth less today, the answer comes out under the simple average.',
+    hint: 'Split the series into a uniform base of 3,000 dollars plus a gradient of 1,500 dollars per year, and convert the gradient with $A/G$.',
+    steps: [
+      { text: 'A gradient series starts at zero in year 1, then $G$ in year 2, $2G$ in year 3, and so on. So the cash flow is a base $A_1 = 3{,}000$ every year plus a gradient $G = 1{,}500$.', latex: null },
+      { text: 'Gradient to uniform series factor at 6%, 10 years:', latex: '(A/G, 6\\%, 10) = \\frac{1}{0.06} - \\frac{10}{(1.06)^{10} - 1} = 16.6667 - 12.6447 = 4.0220' },
+      { text: 'Equivalent uniform annual cost:', latex: 'A = 3{,}000 + 1{,}500 \\times 4.0220 = 3{,}000 + 6{,}033 = 9{,}033 \\text{ dollars/yr}' },
+    ],
+    handbookPage: 'p. 229',
+    handbookFormula: '(A/G, i\\%, n) = \\frac{1}{i} - \\frac{n}{(1+i)^n - 1}',
+    traps: [
+      'Forgetting the base amount: $A/G$ converts only the growing part.',
+      'Starting the gradient in year 1; the handbook gradient is zero in year 1.',
+      'Averaging the costs without interest.',
+    ],
+    diagram: { component: 'CtEconomicsBPavementGradient', props: { base: 3000, gradient: 1500, years: 10, rate: 6 } },
+  },
+  {
+    id: 'ct-economics-b-03',
+    chapterId: 'economics',
+    version: 'B',
+    topic: 'Time value of money',
+    type: 'computational',
+    difficulty: 'hard',
+    statement:
+      'A paving contractor is buying a vibratory roller listed at 105,000 dollars. The dealer offers either a cash price of 95,000 dollars today, or the full 105,000 dollars at 0% interest, paid in 24 equal end-of-month payments. The contractor can earn 12% per year compounded monthly on its money. In present-worth terms, which option costs less, and by about how much?',
+    choices: [
+      { id: 'c1', text: 'Financing, by about 2,060 dollars' },
+      { id: 'c2', text: 'Financing, by about 6,270 dollars' },
+      { id: 'c3', text: 'Cash, by about 10,000 dollars' },
+      { id: 'c4', text: 'Financing, by about 12,300 dollars' },
+    ],
+    correctAnswerId: 'c1',
+    choiceNotes: [
+      'Correct: payments of $105{,}000/24 = 4{,}375$ dollars a month are worth $4{,}375 \\times (P/A, 1\\%, 24) = 92{,}940$ today, which is 2,060 dollars below the cash price.',
+      'Treats the plan as two yearly payments of 52,500 dollars at 12% a year, $52{,}500 \\times (P/A, 12\\%, 2) = 88{,}730$; the payments are monthly.',
+      'Compares 105,000 with 95,000 without discounting; a 0% loan still lets the contractor keep its money earning 1% a month.',
+      'Discounts all 105,000 dollars as one payment at month 24, $105{,}000 \\times (P/F, 1\\%, 24) = 82{,}690$; most of the money is paid much sooner.',
+    ],
+    eli5:
+      'Paying later is worth something, because the contractor can keep its cash earning 1% a month until each payment is due. So turn each of the 24 monthly payments into what it is worth today and add them up. That total, about 92,900 dollars, is a little less than the 95,000 dollar cash price, so the 0% plan wins, but only by about 2,000 dollars.',
+    hint: 'Work in months: $i = 12\\%/12 = 1\\%$ per month, $n = 24$. Compare the present worth of the payments with the cash price.',
+    steps: [
+      { text: 'Monthly rate and number of periods:', latex: 'i = \\frac{r}{m} = \\frac{0.12}{12} = 0.01, \\quad n = 24' },
+      { text: 'Monthly payment on the financing plan:', latex: 'A = \\frac{105{,}000}{24} = 4{,}375 \\text{ dollars}' },
+      { text: 'Present worth of the payments, with $(P/A, 1\\%, 24) = 21.2434$:', latex: 'P = 4{,}375 \\times 21.2434 = 92{,}940 \\text{ dollars}' },
+      { text: 'Compare with the cash price:', latex: '95{,}000 - 92{,}940 = 2{,}060 \\text{ dollars in favor of financing}' },
+    ],
+    handbookPage: 'p. 229',
+    handbookFormula: '(P/A, i\\%, n) = \\frac{(1+i)^n - 1}{i(1+i)^n}',
+    traps: [
+      'Mixing a yearly rate with monthly payments: the rate and the periods must match.',
+      'Thinking a 0% loan has no value, or that the larger sticker price must cost more.',
+      'Lumping all the payments at the end of the loan.',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-economics-b-04',
+    chapterId: 'economics',
+    version: 'B',
+    topic: 'Time value of money',
+    type: 'computational',
+    difficulty: 'medium',
+    statement:
+      'A county leases land for a construction debris landfill. The lease runs 10 years and costs 60,000 dollars per year, paid at the start of each year, so the first payment is due at signing. At i = 8%, the present worth of the 10 lease payments (dollars) is most nearly:',
+    choices: [
+      { id: 'c1', text: '374,800' },
+      { id: 'c2', text: '402,600' },
+      { id: 'c3', text: '434,800' },
+      { id: 'c4', text: '462,600' },
+    ],
+    correctAnswerId: 'c3',
+    choiceNotes: [
+      'Discounts only the 9 later payments, $60{,}000 \\times (P/A, 8\\%, 9)$, and leaves out the payment made at signing.',
+      'Treats the payments as end-of-year, $60{,}000 \\times (P/A, 8\\%, 10)$; each payment is really one year earlier.',
+      'Correct: $60{,}000 + 60{,}000 \\times (P/A, 8\\%, 9) = 60{,}000 \\times (1 + 6.2469)$.',
+      'Adds a payment at signing to the 10 end-of-year payments, which counts 11 payments.',
+    ],
+    eli5:
+      'Ten payments, but the first one is paid right now, so it is worth its full 60,000 dollars. The other nine come at the start of years 2 to 10, which is the same as the end of years 1 to 9. Discount those nine like a normal series and add the one paid today.',
+    hint: 'Draw the payments on a time line: one at year 0 and nine at years 1 through 9.',
+    steps: [
+      { text: 'Payments at the start of years 1 to 10 fall at times 0, 1, 2, ..., 9.', latex: null },
+      { text: 'The one at time 0 needs no discounting; the other nine are an ordinary series with $n = 9$:', latex: 'P = 60{,}000 + 60{,}000\\,(P/A, 8\\%, 9)' },
+      { text: 'From the 8% table, $(P/A, 8\\%, 9) = 6.2469$:', latex: 'P = 60{,}000 \\times (1 + 6.2469) = 434{,}800 \\text{ dollars}' },
+      { text: 'Check: the end-of-year value moved one year earlier gives the same result, $60{,}000 \\times 6.7101 \\times 1.08 = 434{,}800$.', latex: null },
+    ],
+    handbookPage: 'p. 229',
+    handbookFormula: '(P/A, i\\%, n) = \\frac{(1+i)^n - 1}{i(1+i)^n}',
+    traps: [
+      'The tabulated $P/A$ factor assumes end-of-period payments; beginning-of-year payments need an adjustment.',
+      'Dropping the payment at signing, or counting 11 payments instead of 10.',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-economics-b-05',
+    chapterId: 'economics',
+    version: 'B',
+    topic: 'Cost',
+    type: 'conceptual',
+    difficulty: 'easy',
+    statement:
+      'Three years ago a contractor bought an aggregate crusher for 400,000 dollars. Its book value today is 220,000 dollars, and a used-equipment dealer offers 150,000 dollars for it now. The contractor is deciding whether to keep the crusher for five more years or replace it with a new one. In this replacement study, the first cost to assign to keeping the old crusher (dollars) is most nearly:',
+    choices: [
+      { id: 'c1', text: '70,000' },
+      { id: 'c2', text: '150,000' },
+      { id: 'c3', text: '220,000' },
+      { id: 'c4', text: '400,000' },
+    ],
+    correctAnswerId: 'c2',
+    choiceNotes: [
+      'This is the loss on paper if the crusher is sold ($220{,}000 - 150{,}000$); that loss is already sunk and does not change with the decision.',
+      'Correct: keeping the crusher means giving up the 150,000 dollars the dealer would pay today, so its present market value is its first cost.',
+      'Book value is an accounting figure from depreciation, not money anyone would actually pay or receive.',
+      'The original price is a sunk cost: it was spent three years ago whichever choice is made now.',
+    ],
+    eli5:
+      'Money already spent is gone no matter what you decide next, so it should not steer the choice. What keeping the crusher really costs you today is the cash you turn down by not selling it: 150,000 dollars. That is the number to use.',
+    hint: 'Ask what cash actually changes hands today depending on the choice.',
+    steps: [
+      { text: 'The 400,000 dollar purchase price is a sunk cost: it was paid in the past and is the same whether the crusher is kept or replaced.', latex: null },
+      { text: 'Book value (220,000 dollars) comes from depreciation records and is not a cash flow.', latex: null },
+      { text: 'Keeping the crusher means not taking the dealer offer, so the opportunity cost of keeping it is its market value today:', latex: 'P_{\\text{keep}} = \\text{market value} = 150{,}000 \\text{ dollars}' },
+    ],
+    handbookPage: null,
+    handbookFormula: 'P_{\\text{defender}} = \\text{current market value (sunk costs ignored)}',
+    traps: [
+      'Using the original price or the book value of the old equipment.',
+      'Adding the loss on sale to the cost of the new machine.',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-economics-b-06',
+    chapterId: 'economics',
+    version: 'B',
+    topic: 'Analyses',
+    type: 'computational',
+    difficulty: 'easy',
+    statement:
+      'A wastewater treatment plant installs a solar array for 420,000 dollars and receives a one-time utility rebate of 60,000 dollars at installation. The array lowers the plant electric bill by 52,000 dollars per year and costs 4,000 dollars per year to clean and maintain. Neglecting interest, the payback period (years) is most nearly:',
+    choices: [
+      { id: 'c1', text: '6.9' },
+      { id: 'c2', text: '7.5' },
+      { id: 'c3', text: '8.8' },
+      { id: 'c4', text: '10.3' },
+    ],
+    correctAnswerId: 'c2',
+    choiceNotes: [
+      'Uses the gross savings, $360{,}000/52{,}000$, and forgets the 4,000 dollar yearly upkeep.',
+      'Correct: net cost $420{,}000 - 60{,}000 = 360{,}000$ divided by net savings $52{,}000 - 4{,}000 = 48{,}000$ per year.',
+      'Leaves out the rebate, $420{,}000/48{,}000$.',
+      'Discounts the savings at an interest rate (a discounted payback at 6%); the question says to neglect interest.',
+    ],
+    eli5:
+      'Payback is how many years of savings it takes to earn back what you paid. The plant really paid 360,000 dollars after the rebate, and it really saves 48,000 dollars a year after paying for upkeep. 360,000 divided by 48,000 is 7.5 years.',
+    hint: 'Use the net first cost and the net yearly saving.',
+    steps: [
+      { text: 'Net first cost:', latex: '420{,}000 - 60{,}000 = 360{,}000 \\text{ dollars}' },
+      { text: 'Net annual saving:', latex: '52{,}000 - 4{,}000 = 48{,}000 \\text{ dollars/yr}' },
+      { text: 'Simple payback period:', latex: 'n_{pb} = \\frac{360{,}000}{48{,}000} = 7.5 \\text{ years}' },
+    ],
+    handbookPage: 'p. 230',
+    handbookFormula: '\\text{Payback} = \\frac{\\text{net first cost}}{\\text{net annual benefit}}',
+    traps: [
+      'Forgetting the rebate or the yearly maintenance.',
+      'Applying interest when the question says to neglect it.',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-economics-b-07',
+    chapterId: 'economics',
+    version: 'B',
+    topic: 'Analyses',
+    type: 'computational',
+    difficulty: 'medium',
+    statement:
+      'A city is choosing among three flood walls for a riverfront district, or building none. The table gives each wall\'s first cost, its annual operation and maintenance (O&M) cost, and the expected annual flood damage that would remain with it in place. Each wall lasts 40 years with no salvage value, and i = 6%. Using incremental benefit-cost analysis, with the benefit taken as the reduction in expected annual damage, the city should build:',
+    choices: [
+      { id: 'c1', text: 'No wall' },
+      { id: 'c2', text: 'The low wall' },
+      { id: 'c3', text: 'The medium wall' },
+      { id: 'c4', text: 'The high wall' },
+    ],
+    correctAnswerId: 'c3',
+    choiceNotes: [
+      'Comes from dividing an annual benefit by a first cost (for example 220,000 / 2,000,000); first costs must be turned into annual costs with $A/P$ before comparing.',
+      'The low wall has the highest overall B/C (1.44), but the extra money for the medium wall still returns more than it costs (incremental B/C = 1.11).',
+      'Correct: medium over low has incremental B/C = 1.11 > 1, and high over medium only 0.39 < 1.',
+      'Every wall has B/C > 1 on its own, but the step from medium to high buys 40,000 dollars a year of benefit for 103,100 dollars a year of cost.',
+    ],
+    eli5:
+      'Each bigger wall costs more and saves more. The question is whether each extra step is worth paying for. Going from nothing to the low wall is clearly worth it. Going from low to medium still pays for itself, a bit more than a dollar back for each dollar. Going from medium to high gives back only about 40 cents per dollar, so stop at the medium wall.',
+    hint: 'Turn first costs into annual costs with $(A/P, 6\\%, 40) = 0.0665$, then rank by cost and compare each wall with the last one that was justified.',
+    steps: [
+      { text: 'Annual cost of each wall, $C = P(A/P, 6\\%, 40) + \\text{O\\&M}$, with $A/P = 0.0665$: low 133,000 + 20,000 = 153,000; medium 212,800 + 30,000 = 242,800; high 305,900 + 40,000 = 345,900 dollars/yr.', latex: null },
+      { text: 'Annual benefit (damage avoided compared with no wall, 400,000): low 220,000; medium 320,000; high 360,000 dollars/yr.', latex: null },
+      { text: 'Low versus no wall:', latex: '\\frac{220{,}000}{153{,}000} = 1.44 > 1 \\;\\Rightarrow\\; \\text{low is justified}' },
+      { text: 'Medium versus low:', latex: '\\frac{\\Delta B}{\\Delta C} = \\frac{320{,}000 - 220{,}000}{242{,}800 - 153{,}000} = \\frac{100{,}000}{89{,}800} = 1.11 > 1 \\;\\Rightarrow\\; \\text{medium}' },
+      { text: 'High versus medium:', latex: '\\frac{\\Delta B}{\\Delta C} = \\frac{40{,}000}{103{,}100} = 0.39 < 1 \\;\\Rightarrow\\; \\text{keep medium}' },
+    ],
+    handbookPage: 'p. 231',
+    handbookFormula: 'B/C \\ge 1 \\text{ (applied to each increment)}',
+    traps: [
+      'Choosing the alternative with the highest overall B/C ratio instead of comparing increments.',
+      'Choosing the most protection just because its own B/C is above 1.',
+      'Comparing annual benefits with first costs without annualizing.',
+    ],
+    diagram: {
+      component: 'CtEconomicsBFloodWalls',
+      props: {
+        noneDamage: 400000,
+        walls: [
+          { name: 'Low wall', first: 2000000, om: 20000, damage: 180000 },
+          { name: 'Medium wall', first: 3200000, om: 30000, damage: 80000 },
+          { name: 'High wall', first: 4600000, om: 40000, damage: 40000 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'ct-economics-b-08',
+    chapterId: 'economics',
+    version: 'B',
+    topic: 'Uncertainty',
+    type: 'computational',
+    difficulty: 'medium',
+    statement:
+      'A contractor building a bridge pier during one high-water season must choose a cofferdam. An 8 ft cofferdam costs 60,000 dollars and a 12 ft cofferdam costs 95,000 dollars. The table gives the chance of each peak river stage during the season and the damage and cleanup cost if each cofferdam is overtopped. The contractor picks the cofferdam with the lower expected total cost (construction plus expected loss). That expected total cost (dollars) is most nearly:',
+    choices: [
+      { id: 'c1', text: '40,000' },
+      { id: 'c2', text: '90,000' },
+      { id: 'c3', text: '95,000' },
+      { id: 'c4', text: '100,000' },
+    ],
+    correctAnswerId: 'c4',
+    choiceNotes: [
+      'The expected loss of the 8 ft cofferdam alone, $0.20 \\times 200{,}000$; the 60,000 dollar construction cost is left out.',
+      'Counts only the middle flood for the 8 ft cofferdam, $60{,}000 + 0.15(200{,}000)$; the highest flood overtops it too.',
+      'Treats the 12 ft cofferdam as risk free and uses only its construction cost; it still has a 5% chance of a 250,000 dollar loss, which brings it to 107,500.',
+      'Correct: 8 ft is $60{,}000 + (0.15 + 0.05)(200{,}000) = 100{,}000$; 12 ft is $95{,}000 + 0.05(250{,}000) = 107{,}500$; the 8 ft cofferdam is better at 100,000.',
+    ],
+    eli5:
+      'Each cofferdam has a price tag plus a chance of a costly flood. Multiply each loss by how likely it is and add it to the price. The short one usually floods only in a bad season (1 chance in 5), so its total is 100,000 dollars. The tall one rarely floods but costs more to build, so its total is 107,500 dollars. The short one wins, at 100,000 dollars.',
+    hint: 'Expected value: add each outcome times its probability. Remember the 8 ft cofferdam is overtopped by any stage above 8 ft.',
+    steps: [
+      { text: '8 ft cofferdam: overtopped by both higher stages.', latex: 'E[C_8] = 60{,}000 + 0.15(200{,}000) + 0.05(200{,}000) = 100{,}000 \\text{ dollars}' },
+      { text: '12 ft cofferdam: overtopped only above 12 ft.', latex: 'E[C_{12}] = 95{,}000 + 0.05(250{,}000) = 107{,}500 \\text{ dollars}' },
+      { text: 'The 8 ft cofferdam has the lower expected total cost:', latex: '100{,}000 < 107{,}500 \\;\\Rightarrow\\; E[C] = 100{,}000 \\text{ dollars}' },
+    ],
+    handbookPage: 'p. 231',
+    handbookFormula: 'EV = (C_1)(p_1) + (C_2)(p_2) + \\cdots',
+    traps: [
+      'Forgetting that a lower cofferdam is also overtopped by every higher stage.',
+      'Comparing only losses, or only construction costs, instead of the total.',
+      'Treating the taller cofferdam as if it could never be overtopped.',
+    ],
+    diagram: {
+      component: 'CtEconomicsBCofferdam',
+      props: {
+        lowFt: 8,
+        highFt: 12,
+        outcomes: [
+          { p: 0.80, low: 0, high: 0 },
+          { p: 0.15, low: 200000, high: 0 },
+          { p: 0.05, low: 200000, high: 250000 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'ct-economics-b-09',
+    chapterId: 'economics',
+    version: 'B',
+    topic: 'Analyses',
+    type: 'computational',
+    difficulty: 'medium',
+    statement:
+      'Contaminated soil from a site cleanup can go to either of two licensed landfills. The near landfill is 12 miles away and charges a tipping fee of 45 dollars per ton. The far landfill is 40 miles away and charges 28 dollars per ton, but using it needs a one-time access permit and haul road repair costing 36,000 dollars. Hauling costs 0.35 dollars per ton per mile of one-way distance. The quantity of soil (tons) above which the far landfill is cheaper is most nearly:',
+    choices: [
+      { id: 'c1', text: '1,340' },
+      { id: 'c2', text: '2,120' },
+      { id: 'c3', text: '5,000' },
+      { id: 'c4', text: '12,000' },
+    ],
+    correctAnswerId: 'c3',
+    choiceNotes: [
+      'Adds the haul difference to the fee difference ($17 + 9.80 = 26.80$ per ton) instead of subtracting it; the longer haul works against the far site.',
+      'Uses only the difference in tipping fees (17 dollars per ton) and ignores hauling.',
+      'Correct: near costs $45 + 12(0.35) = 49.20$ per ton, far costs $28 + 40(0.35) = 42.00$ per ton, and $36{,}000/7.20 = 5{,}000$ tons.',
+      'Charges hauling only to the far site ($45 - 42 = 3$ per ton), forgetting the 12 mile haul to the near site.',
+    ],
+    eli5:
+      'The far landfill charges less per ton even after the longer drive, saving 7.20 dollars on every ton. But it needs a 36,000 dollar setup first. You need enough tons for those 7.20 dollar savings to add up to 36,000 dollars, which happens at 5,000 tons.',
+    hint: 'Write total cost = fixed cost + (cost per ton) x tons for each site and set them equal.',
+    steps: [
+      { text: 'Cost per ton at each site (fee plus haul):', latex: 'c_{near} = 45 + 12(0.35) = 49.20, \\quad c_{far} = 28 + 40(0.35) = 42.00 \\text{ dollars/ton}' },
+      { text: 'Set the total costs equal:', latex: '49.20\\,Q = 36{,}000 + 42.00\\,Q' },
+      { text: 'Solve:', latex: 'Q = \\frac{36{,}000}{49.20 - 42.00} = \\frac{36{,}000}{7.20} = 5{,}000 \\text{ tons}' },
+      { text: 'Above 5,000 tons the far landfill is cheaper; below it the near one is.', latex: null },
+    ],
+    handbookPage: 'p. 230',
+    handbookFormula: 'FC_1 + v_1 Q = FC_2 + v_2 Q',
+    traps: [
+      'Leaving out the haul cost for one of the sites.',
+      'Getting the sign of the haul difference wrong.',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-economics-b-10',
+    chapterId: 'economics',
+    version: 'B',
+    topic: 'Time value of money',
+    type: 'computational',
+    difficulty: 'hard',
+    statement:
+      'A water district builds an access road to a remote reservoir for 900,000 dollars. The road will be kept in service indefinitely. Routine maintenance costs 15,000 dollars per year, and the road must be resurfaced for 180,000 dollars every 10 years, the first time at year 10. At i = 6%, the capitalized cost of the road (dollars) is most nearly:',
+    choices: [
+      { id: 'c1', text: '1,150,000' },
+      { id: 'c2', text: '1,251,000' },
+      { id: 'c3', text: '1,378,000' },
+      { id: 'c4', text: '1,450,000' },
+    ],
+    correctAnswerId: 'c3',
+    choiceNotes: [
+      'Capitalizes the first cost and the routine maintenance but leaves out the resurfacing.',
+      'Counts only the first resurfacing, $180{,}000 \\times (P/F, 6\\%, 10)$, instead of one every 10 years forever.',
+      'Correct: $900{,}000 + 15{,}000/0.06 + 180{,}000(A/F, 6\\%, 10)/0.06 = 900{,}000 + 250{,}000 + 227{,}700$.',
+      'Spreads the resurfacing as 18,000 dollars a year with no interest; the money can earn interest for 10 years before each resurfacing, so $A/F$ gives less.',
+    ],
+    eli5:
+      'Capitalized cost is how much money you would need today to build the road and keep it going forever. Part of the pile pays to build it. Part sits in the bank and its interest pays the yearly maintenance. The last part is a savings fund: put a little in each year so that every 10 years there is enough for a new surface. Add the three parts.',
+    hint: 'Turn the repeating 10-year cost into an equal yearly amount with $A/F$, then capitalize every yearly amount with $A/i$.',
+    steps: [
+      { text: 'Yearly equivalent of a 180,000 dollar cost at the end of every 10-year cycle, with $(A/F, 6\\%, 10) = 0.0759$:', latex: 'A_R = 180{,}000 \\times 0.0759 = 13{,}662 \\text{ dollars/yr}' },
+      { text: 'Capitalize each perpetual yearly amount, $P = A/i$:', latex: '\\frac{15{,}000}{0.06} = 250{,}000, \\qquad \\frac{13{,}662}{0.06} = 227{,}700' },
+      { text: 'Add the first cost:', latex: 'CC = 900{,}000 + 250{,}000 + 227{,}700 = 1{,}377{,}700 \\approx 1{,}378{,}000 \\text{ dollars}' },
+    ],
+    handbookPage: 'p. 230',
+    handbookFormula: '\\text{Capitalized cost} = P + \\frac{A}{i}',
+    traps: [
+      'Using $A/P$ for a cost that first occurs at the end of the cycle; that is $A/F$.',
+      'Discounting only the first resurfacing instead of the endless series.',
+    ],
+    diagram: null,
+  },
+];
+
+export default PROBLEMS;

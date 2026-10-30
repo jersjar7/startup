@@ -102,7 +102,10 @@ import { CashFlowIRR } from './CashFlowIRR';
 import { LeverMachine } from './LeverMachine';
 import { CoordinateInverse } from './CoordinateInverse';
 
+import { CT_DIAGRAMS } from './chapter-tests';
+
 export const DIAGRAM_REGISTRY = {
+  ...CT_DIAGRAMS,
   RightTriangle,
   ForceAtAngle,
   CableGeometry,
