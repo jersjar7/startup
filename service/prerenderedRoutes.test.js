@@ -14,7 +14,9 @@ function routesFromPrerenderScript() {
   expect(routesLine, 'could not find `const ROUTES = [...]` in scripts/prerender.mjs').toBeTruthy();
 
   // Literal paths, e.g. '/fe-civil-exam-guide'
-  const literals = [...routesLine[1].matchAll(/'(\/[^']*)'/g)].map((m) => m[1]);
+  // '/' is left out: the home page has its own route in index.js (it is
+  // written to home/index.html), and the pattern must never match it.
+  const literals = [...routesLine[1].matchAll(/'(\/[^']*)'/g)].map((m) => m[1]).filter((r) => r !== '/');
 
   // The topic pages are spread in as `...TOPICS.map(([id]) => `/fe-civil/${id}`)`,
   // so take the ids from the TOPICS list the same file builds.
