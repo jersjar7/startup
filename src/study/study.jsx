@@ -19,6 +19,7 @@ import { CHAPTER_DETAILS } from '../data/chapters/index';
 import { LESSONS } from '../data/lessons/index';
 import { getChapterPracticeCount } from '../data/chapter-practice/index';
 import { LoadingState } from '../components/LoadingState';
+import { ChapterTestCard } from '../chapterTest/ChapterTestCard';
 import './study.css';
 
 /* ── KaTeX block renderer ── */
@@ -389,6 +390,8 @@ export function Study({ userName, onLogout, displayName }) {
               </div>
             );
           })()}
+
+          <ChapterTestCard chapterId={topicId} />
         </div>
 
         {/* ── RIGHT: Sidebar ── */}

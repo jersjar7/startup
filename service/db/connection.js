@@ -23,6 +23,8 @@ const sessionsCollection = db.collection('sessions');
 // account per day.
 const dailyPuzzlesCollection = db.collection('dailyPuzzles');
 const dailyResultsCollection = db.collection('dailyResults');
+// Chapter tests (see ../chapterTests.js): one document per try.
+const chapterTestAttemptsCollection = db.collection('chapterTestAttempts');
 // Daily/monthly email send counters (keyed 'day:YYYY-MM-DD' / 'month:YYYY-MM'),
 // so the mailer can stay under Resend's free 100/day + 3000/month caps.
 const mailMetaCollection = db.collection('mailMeta');
@@ -76,6 +78,7 @@ if (!process.env.VITEST) (async function testConnection() {
     await dailyPuzzlesCollection.createIndex({ number: 1 }, { unique: true });
     await dailyResultsCollection.createIndex({ number: 1, email: 1 }, { unique: true });
     await dailyResultsCollection.createIndex({ email: 1, number: -1 });
+    await chapterTestAttemptsCollection.createIndex({ email: 1, chapterId: 1, startedAt: -1 });
     await visitCountsCollection.createIndex({ day: 1 });
   } catch (ex) {
     console.log(`Unable to connect to database because ${ex.message}`);
@@ -112,4 +115,5 @@ module.exports = {
   mailMetaCollection,
   dailyPuzzlesCollection,
   dailyResultsCollection,
+  chapterTestAttemptsCollection,
 };

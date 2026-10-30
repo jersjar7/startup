@@ -15,6 +15,7 @@ const paperFlags = require('./db/paperFlags');
 const feedback = require('./db/feedback');
 const sessions = require('./db/sessions');
 const daily = require('./db/daily');
+const chapterTests = require('./db/chapterTests');
 
 module.exports = {
   ...syncEvents,
@@ -22,6 +23,7 @@ module.exports = {
   ...feedback,
   ...sessions,
   ...daily,
+  ...chapterTests,
   ping,
   ...users,
   ...topics,

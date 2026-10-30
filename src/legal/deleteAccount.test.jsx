@@ -95,6 +95,8 @@ describe('what the page promises matches what the code erases', () => {
       'gameFeedback', 'purchases', 'examAttempts', 'user',
       // The Daily's results (ADR 0021); the page's app line covers them.
       'dailyResults',
+      // Chapter tests; the page's results line covers them.
+      'chapterTestAttempts',
     ]));
   });
 
