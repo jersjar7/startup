@@ -128,9 +128,15 @@ app.use('/assets', express.static('public/assets', { maxAge: '1y', immutable: tr
 app.use(express.static('public', { maxAge: '10m', index: false }));
 
 // Serve index.html with no-cache so browsers always get the latest version
+// "/" gets the prerendered landing (public/home/index.html) so crawlers and AI
+// assistants read the real home page, not an empty shell. Falls back to the
+// shell if the build did not produce it.
 app.get('/', (_req, res) => {
   res.set('Cache-Control', 'no-cache');
-  res.sendFile('index.html', { root: 'public' });
+  const home = path.resolve('public', 'home', 'index.html');
+  fs.access(home, fs.constants.F_OK, (err) => {
+    res.sendFile(err ? path.resolve('public', 'index.html') : home);
+  });
 });
 
 // API routes
@@ -182,8 +188,13 @@ app.use(function (err, req, res, next) {
 });
 
 // SPA fallback: no-cache so the browser always gets the current entry point
+// Every page served from here is the empty app shell (login, dashboard, any
+// mistyped URL), all with the same title and no content. Search engines
+// flagged them as duplicate, thin pages, so keep them out of the index. Public
+// pages never reach this: they are prerendered and served above.
 app.use((_req, res) => {
   res.set('Cache-Control', 'no-cache');
+  res.set('X-Robots-Tag', 'noindex');
   res.sendFile('index.html', { root: 'public' });
 });
 

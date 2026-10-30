@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { useSeo } from '../seo/useSeo';
 import {
   Lightning,
   BookOpenText,
@@ -81,7 +81,30 @@ const sampleProblem = {
 
 export function Landing({ userName }) {
   const navigate = useNavigate();
-  useDocumentTitle('Free FE Civil Exam Prep');
+  // The home page is prerendered too (scripts/prerender.mjs), so this head
+  // and the JSON-LD are what search engines and AI assistants read about us.
+  useSeo({
+    title: 'FE for Raccoons: Free FE Civil Exam Prep',
+    description: `Free FE Civil exam prep with ${PROBLEM_COUNT_LABEL} practice problems, ELI5 explanations, and handbook references. 15 chapters covering every NCEES topic.`,
+    canonical: 'https://fe4raccoons.com/',
+    jsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'FE for Raccoons',
+        url: 'https://fe4raccoons.com/',
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'EducationalOrganization',
+        name: 'FE for Raccoons',
+        url: 'https://fe4raccoons.com/',
+        logo: 'https://fe4raccoons.com/logo.svg',
+        description: `Completely free study platform for the NCEES FE Civil exam: lessons and ${PROBLEM_COUNT_LABEL} practice problems across all 15 exam topics. An optional timed exam simulation is the only paid item.`,
+        founder: { '@type': 'Person', name: 'Jerson Garcia' },
+      },
+    ],
+  });
   const [openPanel, setOpenPanel] = React.useState(null);
 
   React.useEffect(() => {

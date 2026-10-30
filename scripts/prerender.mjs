@@ -47,6 +47,10 @@ const TOPICS = [
 // and the fetcher behind that field does not run JavaScript. An SPA shell
 // there reads as a page with no deletion instructions on it.
 const ROUTES = [
+  // The home page. Written to dist/home/index.html, because dist/index.html
+  // is the app shell every other route falls back to; the server sends this
+  // copy for "/" only.
+  '/',
   '/fe-civil-exam-guide',
   '/exam-simulation',
   '/delete-account',
@@ -86,9 +90,10 @@ try {
     await page.waitForSelector('[data-seo-ready="1"]', { timeout: 90000 });
     // `main h1`, not `main.pub h1`: the public guides are .pub, /delete-account
     // is a legal-card page. Every prerendered page has one main with one h1.
-    await page.waitForSelector('main h1', { timeout: 90000 });
+    // The home page is the landing, which has its h1 in the hero instead.
+    await page.waitForSelector(route === '/' ? 'h1.hero-title' : 'main h1', { timeout: 90000 });
     const html = '<!DOCTYPE html>\n' + (await page.evaluate(() => document.documentElement.outerHTML));
-    writeFile(path.join(route, 'index.html'), html);
+    writeFile(route === '/' ? 'home/index.html' : path.join(route, 'index.html'), html);
     const bytes = Buffer.byteLength(html);
     console.log(`  prerendered ${route}  (${(bytes / 1024).toFixed(0)} KB)`);
   }
