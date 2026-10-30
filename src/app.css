@@ -169,11 +169,16 @@ footer {
 
 .footer-legal {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.35rem 0.5rem;
   margin-bottom: 0.5rem;
 }
+
+/* Seven links do not fit a phone's width on one line; wrap them and keep
+   each link's words together. */
+.footer-legal a { white-space: nowrap; }
 
 .footer-legal a {
   color: var(--gray-400);
@@ -317,7 +322,10 @@ input:focus {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  text-decoration: none;
+  border-radius: 6px;
 }
+.nav-brand:focus-visible { outline: 2px solid var(--ember); outline-offset: 4px; }
 
 .nav-brand svg {
   flex-shrink: 0;
