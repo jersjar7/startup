@@ -9,15 +9,15 @@ import { ArrowMarkerDefs, Label } from '../../primitives';
  */
 export function CtEconomicsADeferredSavings({ amount = 12000, first = 3, last = 10, rate = 6 }) {
   const W = 440;
-  const x0 = 46;
-  const step = (W - x0 - 34) / last;
+  const x0 = 30;
+  const step = (W - x0 - 56) / last;
   const X = (k) => x0 + k * step;
   const axisY = 104;
   const up = 62;
   const fmt = (v) => v.toLocaleString('en-US');
 
   return (
-    <svg viewBox={`0 0 ${W} 148`} xmlns="http://www.w3.org/2000/svg"
+    <svg viewBox={`0 0 ${W} 128`} xmlns="http://www.w3.org/2000/svg"
       role="img" aria-label={`Cash flow: ${fmt(amount)} dollars per year in years ${first} to ${last}, i = ${rate}%`}
       style={{ width: '100%', height: 'auto' }}>
       <ArrowMarkerDefs id="ctEconADefArrow" color="var(--charcoal)" size={7} />
@@ -31,7 +31,7 @@ export function CtEconomicsADeferredSavings({ amount = 12000, first = 3, last = 
           <Label x={X(k)} y={axisY + 16} fontSize={11} color="var(--gray-500)">{k}</Label>
         </g>
       ))}
-      <Label x={X(last) + 14} y={axisY + 34} fontSize={11} color="var(--gray-500)" italic anchor="end">years</Label>
+      <Label x={X(last) + 14} y={axisY + 16} fontSize={11} color="var(--gray-500)" italic anchor="start">years</Label>
 
       {/* Savings arrows (inflows, up) */}
       {Array.from({ length: last - first + 1 }, (_, j) => {

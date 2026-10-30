@@ -290,7 +290,7 @@ const PROBLEMS = [
     correctAnswerId: 'c3',
     choiceNotes: [
       'Charges the bid cost twice: once on the Bid branch and again on both the Win and Lose outcomes.',
-      'Averages the three profits without their probabilities, $(200{,}000 + 80{,}000 - 60{,}000)/3$.',
+      'Averages the three profits without their probabilities, $(200{,}000 + 80{,}000 - 60{,}000)/3 = 73{,}333$, then applies the 0.30 chance and the bid cost: $0.30(73{,}333) - 15{,}000 = 7{,}000$.',
       'Correct: $0.30(112{,}000) - 15{,}000 = 18{,}600$.',
       'Leaves out the 15,000 dollar bid cost.',
     ],
@@ -352,7 +352,7 @@ const PROBLEMS = [
       { text: 'Metal pipe, annual cost:', latex: '42{,}000\\,(A/P,\\,6\\%,\\,25) + 2{,}000 = 42{,}000(0.0782) + 2{,}000 = 5{,}284' },
       { text: 'Concrete pipe, annual cost:', latex: '68{,}000\\,(A/P,\\,6\\%,\\,50) + 400 = 68{,}000(0.0634) + 400 = 4{,}711' },
       { text: 'Concrete is lower by $5{,}284 - 4{,}711 = 573$ dollars per year.', latex: null },
-      { text: 'Present worth over each pipe’s own life (metal 67,567 against concrete 74,305) favours metal only because it covers 25 years of service against 50.', latex: null },
+      { text: 'Present worth over each pipe’s own life (metal 67,567 against concrete 74,305) favors metal only because it covers 25 years of service against 50.', latex: null },
     ],
     handbookPage: 'p. 229',
     handbookFormula: 'EUAC = P\\,(A/P,\\,i,\\,n) + \\text{annual cost}',
@@ -383,7 +383,7 @@ const PROBLEMS = [
       'Correct: costs discounted to year 0, with the salvage value subtracted.',
       'Leaves out the salvage value.',
       'Adds the salvage value as if it were another cost.',
-      'Adds the cash flows with no discounting.',
+      'Adds the cash flows with no discounting: $1{,}200{,}000 + 2(300{,}000) + 30(20{,}000) - 150{,}000$.',
     ],
     eli5:
       'Bring every future cost back to today with the 4% rate, add them to the first cost, then take off what the deck is still worth at year 30, because that money comes back. Future amounts shrink a lot when brought back, so the total is far below the plain sum.',

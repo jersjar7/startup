@@ -40,7 +40,11 @@ export function CtDynamicsAHoistDrum({ radius = 0.25, inertia = 12, mass = 50 })
 
       {/* Drum inertia label */}
       <Label x={cx + R + 22} y={cy - 22} color="var(--charcoal)" fontSize={12} anchor="start">drum</Label>
-      <Label x={cx + R + 22} y={cy - 6} color="var(--charcoal)" fontSize={12} anchor="start">{`I = ${inertia} kg·m²`}</Label>
+      <text x={cx + R + 22} y={cy - 2} fill="var(--charcoal)" fontFamily="var(--font-body)" fontSize={12} textAnchor="start">
+        <tspan fontFamily="'Times New Roman', 'KaTeX_Main', serif" fontStyle="italic" fontSize={14}>I</tspan>
+        <tspan fontSize={9} dy={3}>O</tspan>
+        <tspan dy={-3}>{` = ${inertia} kg·m²`}</tspan>
+      </text>
       <Label x={cx + R + 22} y={cy + 10} color="var(--gray-500)" fontSize={11} anchor="start">about the axle</Label>
 
       {/* Rope and load */}

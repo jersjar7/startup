@@ -73,14 +73,6 @@ export function CtStatisticsAScatter({
       role="img" aria-label={`Scatter plot of ${yLabel} against ${xLabel}`}
       style={{ width: '100%', height: 'auto' }}>
 
-      {/* Light grid at the ticks */}
-      {xt.slice(1).map((v) => (
-        <line key={`gx${v}`} x1={X(v)} y1={T} x2={X(v)} y2={B} stroke="var(--gray-400)" strokeWidth={0.5} strokeDasharray="2,3" />
-      ))}
-      {yt.slice(1).map((v) => (
-        <line key={`gy${v}`} x1={L} y1={Yp(v)} x2={R} y2={Yp(v)} stroke="var(--gray-400)" strokeWidth={0.5} strokeDasharray="2,3" />
-      ))}
-
       {/* Axes */}
       <line x1={L} y1={B} x2={R} y2={B} stroke="var(--charcoal)" strokeWidth={1.5} />
       <line x1={L} y1={B} x2={L} y2={T} stroke="var(--charcoal)" strokeWidth={1.5} />

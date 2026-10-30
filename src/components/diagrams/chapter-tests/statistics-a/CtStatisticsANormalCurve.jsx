@@ -27,8 +27,8 @@ export function CtStatisticsANormalCurve({
   const zMax = 3.3;
   const left = 14;
   const right = W - 14;
-  const top = 34;
-  const baseY = 170;
+  const top = 20;
+  const baseY = 156;
   const peakH = baseY - top - 6;
   const X = (z) => left + ((z - zMin) / (zMax - zMin)) * (right - left);
   const Y = (z) => baseY - Math.exp(-0.5 * z * z) * peakH;
@@ -49,7 +49,7 @@ export function CtStatisticsANormalCurve({
   };
 
   const limits = [lower, upper].filter(Boolean);
-  const H = axisLabel ? 222 : 200;
+  const H = axisLabel ? baseY + 54 : baseY + 30;
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} xmlns="http://www.w3.org/2000/svg"

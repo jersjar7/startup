@@ -15,12 +15,12 @@ export function CtEconomicsADeckLifeCycle({
   const x0 = 30;
   const step = (W - x0 - 40) / life;
   const X = (k) => x0 + k * step;
-  const axisY = 70;
+  const axisY = 96;
   const fmt = (v) => v.toLocaleString('en-US');
   const down = { first: 112, overlay: 66, annual: 18 };
 
   return (
-    <svg viewBox={`0 0 ${W} 226`} xmlns="http://www.w3.org/2000/svg"
+    <svg viewBox={`0 0 ${W} ${axisY + 144}`} xmlns="http://www.w3.org/2000/svg"
       role="img" aria-label="Bridge deck life-cycle cash flows over 30 years"
       style={{ width: '100%', height: 'auto' }}>
       <ArrowMarkerDefs id="ctEconADeckArrow" color="var(--charcoal)" size={6} />
@@ -35,7 +35,7 @@ export function CtEconomicsADeckLifeCycle({
       {Array.from({ length: life / 5 }, (_, j) => j * 5).map((k) => (
         <Label key={k} x={X(k)} y={axisY - 14} fontSize={11} color="var(--gray-500)">{k}</Label>
       ))}
-      <Label x={X(life) + 8} y={axisY - 14} fontSize={11} color="var(--gray-500)" anchor="start">{life}</Label>
+      <Label x={X(life)} y={axisY - 14} fontSize={11} color="var(--gray-500)">{life}</Label>
       <Label x={X(life / 2) + 3 * step} y={axisY - 34} fontSize={11} color="var(--gray-500)" italic>years</Label>
 
       {/* Annual maintenance, every year 1..life */}
@@ -58,10 +58,16 @@ export function CtEconomicsADeckLifeCycle({
         </g>
       ))}
 
+      {/* Maintenance at overlay years, offset right so it is not hidden */}
+      {overlayYears.map((k) => (
+        <line key={`m${k}`} x1={X(k) + 4} y1={axisY + 1} x2={X(k) + 4} y2={axisY + down.annual}
+          stroke="var(--charcoal)" strokeWidth={1.2} markerEnd="url(#ctEconADeckArrow)" />
+      ))}
+
       {/* Salvage */}
-      <line x1={X(life)} y1={axisY - 1} x2={X(life)} y2={axisY - 46}
+      <line x1={X(life)} y1={axisY - 26} x2={X(life)} y2={axisY - 70}
         stroke="var(--forest)" strokeWidth={2.2} markerEnd="url(#ctEconADeckArrowF)" />
-      <Label x={X(life)} y={axisY - 58} fontSize={12} color="var(--charcoal)">{fmt(salvage)}</Label>
+      <Label x={X(life)} y={axisY - 82} fontSize={12} color="var(--charcoal)">{fmt(salvage)}</Label>
 
       {/* Maintenance and legend lines */}
       <Label x={X(life)} y={axisY + 32} fontSize={11} color="var(--gray-500)" anchor="end">{fmt(annual)} per year</Label>

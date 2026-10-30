@@ -3,7 +3,7 @@ import { Label } from '../../primitives';
 
 /**
  * Crate on a rough level deck tied over an edge pulley to a hanging bucket.
- * Shows: both masses, the kinetic friction coefficient under the crate.
+ * Shows: both masses, the kinetic friction coefficient on the deck beside the crate.
  * Does NOT show: tension, acceleration or force arrows.
  */
 export function CtDynamicsACrateAndBucket({ crateMass = 25, bucketMass = 15, mu = 0.2 }) {
@@ -38,8 +38,8 @@ export function CtDynamicsACrateAndBucket({ crateMass = 25, bucketMass = 15, mu 
         fill="var(--cream-dark)" stroke="var(--charcoal)" strokeWidth={2} />
       <Label x={crate.x + crate.w / 2} y={deckY - crate.h / 2 - 8} color="var(--charcoal)" fontSize={13} bold>A</Label>
       <Label x={crate.x + crate.w / 2} y={deckY - crate.h / 2 + 10} color="var(--charcoal)" fontSize={12}>{`${crateMass} kg`}</Label>
-      <text x={crate.x + crate.w / 2} y={deckY + 26} fill="var(--gray-500)" fontFamily="var(--font-body)"
-        fontSize={12} fontStyle="italic" textAnchor="middle">
+      <text x={crate.x + crate.w + 12} y={deckY - 8} fill="var(--gray-500)" fontFamily="var(--font-body)"
+        fontSize={12} fontStyle="italic" textAnchor="start">
         {'μ'}<tspan fontSize={9} dy={3}>k</tspan><tspan dy={-3}>{` = ${mu.toFixed(2)}`}</tspan>
       </text>
 

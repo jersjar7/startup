@@ -382,7 +382,7 @@ const PROBLEMS = [
     choiceNotes: [
       'Adds the individual percents retained instead of the cumulative percents.',
       'Correct: cumulative percents retained are 0, 3, 15, 32, 54, 78 and 94; their sum is 276, and 276/100 = 2.76.',
-      'Sums the cumulative percents passing instead of retained.',
+      'Sums the cumulative percents passing on the No. 4 through No. 100 sieves (97 + 85 + 68 + 46 + 22 + 6 = 324) instead of the cumulative percents retained.',
       'Includes the pan (100%) in the sum; the pan is not one of the standard sieves.',
     ],
     eli5: 'Count how much sand gets stopped by each sieve, adding up as you go from coarse to fine. Add those running totals as percents and divide by 100. A bigger number means a coarser sand.',
