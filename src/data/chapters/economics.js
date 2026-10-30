@@ -12,10 +12,10 @@ export default {
     { latex: 'F = P(1+i)^n', label: 'Future Worth (Single Payment)', page: 'p. 229' },
     { latex: 'P = F(1+i)^{-n}', label: 'Present Worth (Single Payment)', page: 'p. 229' },
     { latex: 'A = P\\frac{i(1+i)^n}{(1+i)^n - 1}', label: 'Capital Recovery', page: 'p. 229' },
-    { latex: 'B/C \\geq 1', label: 'Benefit-Cost Ratio', page: 'p. 230' },
+    { latex: 'B/C \\geq 1', label: 'Benefit-Cost Ratio', page: 'p. 231' },
     { latex: 'D_j = \\frac{\\text{Cost} - \\text{Salvage}}{n}', label: 'Straight-Line Depreciation', page: 'p. 230' },
     { latex: 'd = i + f + (i \\times f)', label: 'Inflation-Adjusted Interest Rate', page: 'p. 230' },
-    { latex: 'PW_{benefits} - PW_{costs} = 0', label: 'Internal Rate of Return (IRR)', page: 'p. 229' },
+    { latex: 'PW_{benefits} - PW_{costs} = 0', label: 'Internal Rate of Return (IRR)', page: 'p. 230' },
   ],
   traps: [
     'Forgetting to draw the cash flow diagram, since most errors come from misplacing payments in time.',
