@@ -25,11 +25,27 @@ function ProblemDiagram({ diagram }) {
 }
 
 const localKey = (id) => `fe4r-ct-${id}`;
+const flagKey = (id) => `fe4r-ct-flags-${id}`;
+function readFlags(id) {
+  try { return JSON.parse(localStorage.getItem(flagKey(id)) || '[]'); } catch { return []; }
+}
 function readLocal(id) {
   try { return JSON.parse(localStorage.getItem(localKey(id)) || '{}'); } catch { return {}; }
 }
 function writeLocal(id, answers) {
   try { localStorage.setItem(localKey(id), JSON.stringify(answers)); } catch { /* ignore */ }
+}
+
+// The retake rule, said only as far as it is true for this student.
+function retakeLine(info) {
+  if (info.openId) return 'Your answers so far are saved. The clock kept running while you were away.';
+  if (!info.tries) return 'Take it again later and your next try has all new questions.';
+  if (info.nextIsNew) return 'This try has all new questions.';
+  return 'You have seen both question sets. This try repeats the one you saw longest ago.';
+}
+
+function formatDate(d) {
+  return new Date(d).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
 export function ChapterTest({ userName }) {
@@ -42,7 +58,7 @@ export function ChapterTest({ userName }) {
   const [info, setInfo] = React.useState(null);
   const [test, setTest] = React.useState(null);
   const [answers, setAnswers] = React.useState({});
-  const [flagged, setFlagged] = React.useState(() => new Set());
+  const [flagged, setFlagged] = React.useState(() => new Set()); // question ids
   const [index, setIndex] = React.useState(0);
   const [now, setNow] = React.useState(Date.now());
   const [confirming, setConfirming] = React.useState(false);
@@ -66,6 +82,7 @@ export function ChapterTest({ userName }) {
       if (!r.ok) throw new Error();
       const d = await r.json();
       setAnswers({ ...d.answers, ...readLocal(d.attemptId) });
+      setFlagged(new Set(readFlags(d.attemptId)));
       setTest(d);
       setIndex(0);
       setPhase('TEST');
@@ -81,6 +98,11 @@ export function ChapterTest({ userName }) {
     const t = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(t);
   }, [phase]);
+
+  React.useEffect(() => {
+    if (!test) return;
+    try { localStorage.setItem(flagKey(test.attemptId), JSON.stringify([...flagged])); } catch { /* ignore */ }
+  }, [flagged, test]);
 
   // Autosave a moment after each change.
   React.useEffect(() => {
@@ -103,7 +125,10 @@ export function ChapterTest({ userName }) {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ answers: answersRef.current }),
       });
       if (!r.ok) throw new Error();
-      try { localStorage.removeItem(localKey(test.attemptId)); } catch { /* ignore */ }
+      try {
+        localStorage.removeItem(localKey(test.attemptId));
+        localStorage.removeItem(flagKey(test.attemptId));
+      } catch { /* ignore */ }
       navigate(`/test/result/${test.attemptId}`, { replace: true });
     } catch {
       setError('Could not hand in the test. Your answers are saved on this device; try again.');
@@ -147,12 +172,27 @@ export function ChapterTest({ userName }) {
             <li>Keep the FE Reference Handbook and your calculator at hand, as on exam day.</li>
             <li>No answers until you hand it in. Then every question comes with its full solution.</li>
             <li>Your answers save as you go. When the clock runs out, the test is handed in for you.</li>
-            <li>Take it again later and your next try has all new questions.</li>
+            <li>{retakeLine(info)}</li>
           </ul>
           <button className="ct-start" onClick={start}>
             {info.openId ? 'Continue the test' : info.tries ? 'Take the test again' : 'Start the test'}
             <AppArrow />
           </button>
+          {info.history.length > 0 && (
+            <div className="ct-history">
+              <h2 className="ct-history-title">Your tries</h2>
+              <ul className="ct-history-list">
+                {info.history.map((t, i) => (
+                  <li key={t.id}>
+                    <span className="ct-history-try">Try {info.history.length - i}</span>
+                    <span className="ct-history-date">{formatDate(t.submittedAt)}</span>
+                    <span className="ct-history-score">{t.percent}%</span>
+                    <button className="ct-link" onClick={() => navigate(`/test/result/${t.id}`)}>See answers</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </section>
       </main>
     );
@@ -163,7 +203,8 @@ export function ChapterTest({ userName }) {
   const answeredCount = test.questions.filter((x) => answers[x.id]).length;
   const unanswered = test.questions.length - answeredCount;
   const choose = (cid) => setAnswers((a) => ({ ...a, [q.id]: a[q.id] === cid ? null : cid }));
-  const toggleFlag = () => setFlagged((s) => { const n = new Set(s); if (n.has(index)) n.delete(index); else n.add(index); return n; });
+  const isFlagged = flagged.has(q.id);
+  const toggleFlag = () => setFlagged((s) => { const n = new Set(s); if (n.has(q.id)) n.delete(q.id); else n.add(q.id); return n; });
 
   return (
     <main className="ex-main ct-test">
@@ -188,12 +229,12 @@ export function ChapterTest({ userName }) {
                 <span className="ex-chapter-tag">{q.topic}</span>
               </div>
               <button
-                className={`dx-flag-btn ${flagged.has(index) ? 'dx-flag-btn--active' : ''}`}
+                className={`dx-flag-btn ${isFlagged ? 'dx-flag-btn--active' : ''}`}
                 onClick={toggleFlag}
                 title="Flag for review"
                 aria-label="Flag for review"
               >
-                <Flag size={16} weight={flagged.has(index) ? 'fill' : 'bold'} />
+                <Flag size={16} weight={isFlagged ? 'fill' : 'bold'} />
               </button>
             </div>
             <div className="dx-statement"><MathText text={q.statement} /></div>
@@ -234,7 +275,7 @@ export function ChapterTest({ userName }) {
             {test.questions.map((x, i) => {
               let cls = 'dx-grid-cell';
               if (i === index) cls += ' dx-grid-cell--current';
-              else if (flagged.has(i)) cls += ' dx-grid-cell--flagged';
+              else if (flagged.has(x.id)) cls += ' dx-grid-cell--flagged';
               else if (answers[x.id]) cls += ' dx-grid-cell--answered';
               return <button key={x.id} className={cls} onClick={() => setIndex(i)}>{i + 1}</button>;
             })}
