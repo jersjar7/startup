@@ -39,26 +39,36 @@ async function finish(attempt, email, incoming) {
   await DB.submitChapterTestAttempt(attempt._id, email, answers, { ...result, late });
 }
 
-// What a chapter offers and this student's past tries.
+// What a chapter offers and this student's past tries, across both sets. The
+// set itself stays out of sight: the next try is picked by CT.nextVersion.
 router.get('/:chapterId', verifyAuth, async (req, res) => {
   const { chapterId } = req.params;
   const a = CT.testQuestions(chapterId, 'A');
   if (!a) return res.status(404).send({ msg: 'No chapter test for that chapter.' });
   const attempts = await DB.listChapterTestAttempts(req.user.email, chapterId);
-  const versions = ['A', 'B'].map((version) => {
+  const isOpen = (t) => !t.submittedAt && Date.now() < deadlineOf(t) + GRACE_MS;
+  const done = attempts.filter((t) => t.submittedAt && t.result);
+  const open = attempts.find(isOpen);
+  const best = done.reduce((m, t) => (m && m.result.percent >= t.result.percent ? m : t), null);
+  const next = CT.nextVersion(['A', 'B'].map((version) => {
     const mine = attempts.filter((t) => t.version === version);
-    const done = mine.filter((t) => t.submittedAt && t.result);
-    const open = mine.find((t) => !t.submittedAt && Date.now() < deadlineOf(t) + GRACE_MS);
-    const best = done.reduce((m, t) => (m && m.result.percent >= t.result.percent ? m : t), null);
     return {
       version,
-      tries: done.length,
-      best: best ? summary(best) : null,
-      last: done[0] ? summary(done[0]) : null,
-      openId: open ? String(open._id) : null,
+      tries: mine.filter((t) => t.submittedAt).length,
+      lastStartedAt: mine[0] ? mine[0].startedAt : null,
+      open: mine.some(isOpen),
     };
+  }));
+  res.send({
+    chapterId,
+    length: a.length,
+    limitSeconds: CT.timeLimitSeconds(a.length),
+    tries: done.length,
+    best: best ? summary(best) : null,
+    last: done[0] ? summary(done[0]) : null,
+    openId: open ? String(open._id) : null,
+    next,
   });
-  res.send({ chapterId, length: a.length, limitSeconds: CT.timeLimitSeconds(a.length), versions });
 });
 
 // Start (or carry on with) a try. A try left open past its time is graded on

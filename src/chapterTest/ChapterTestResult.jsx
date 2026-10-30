@@ -39,9 +39,9 @@ function ProblemDiagram({ diagram }) {
 // pass on the FE; NCEES does not publish a cut score, so the copy never
 // promises one.
 function verdict(percent) {
-  if (percent >= 80) return 'Exam-ready on this chapter. Keep it warm with the other version.';
+  if (percent >= 80) return 'Exam-ready on this chapter. Take it again later to keep it warm.';
   if (percent >= 70) return 'Around passing pace. The topics below show where the rest of the points are.';
-  if (percent >= 50) return 'Getting there. Work the topics you missed, then take the other version.';
+  if (percent >= 50) return 'Getting there. Work the topics you missed, then take it again.';
   return 'A starting point. Go back to the lessons for the topics below, then try again.';
 }
 
@@ -144,7 +144,6 @@ export function ChapterTestResult({ userName }) {
   }
   if (!result || !chapter) return <LoadingState />;
 
-  const other = result.version === 'A' ? 'B' : 'A';
   const missed = result.questions.filter((q) => !q.correct).length;
   const shown = result.questions
     .map((q, i) => ({ q, n: i + 1 }))
@@ -158,7 +157,7 @@ export function ChapterTestResult({ userName }) {
 
       <section className="ct-score">
         <div className="ct-score-head">
-          <p className="ct-overline">Chapter {chapter.num} test · version {result.version}</p>
+          <p className="ct-overline">Chapter {chapter.num} test</p>
           <h1 className="ct-score-title">{chapter.name}</h1>
           <p className="ct-score-verdict">{verdict(result.percent)}</p>
         </div>
@@ -187,12 +186,12 @@ export function ChapterTestResult({ userName }) {
       </section>
 
       <div className="ct-actions">
-        <button className="ct-start" onClick={() => navigate(`/test/${chapter.id}/${other}`)}>
-          Take version {other}
+        <button className="ct-start" onClick={() => navigate(`/test/${chapter.id}`)}>
+          Take it again with new questions
           <AppArrow />
         </button>
-        <button className="btn-secondary" onClick={() => navigate(`/test/${chapter.id}/${result.version}`)}>
-          Retake version {result.version}
+        <button className="ct-link" onClick={() => navigate(`/study/${chapter.id}`)}>
+          Back to {chapter.name}
         </button>
       </div>
 

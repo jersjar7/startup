@@ -1,5 +1,7 @@
 // Chapter tests: a timed test of one chapter, answers shown only at the end.
-// Two versions per chapter (A and B), both free. See docs/CHAPTER-TESTS.md.
+// Two question sets per chapter (A and B), both free. Students never pick one:
+// nextVersion() gives them the set they have seen least, so a second try is
+// all new questions. See docs/CHAPTER-TESTS.md.
 //
 // The bank lives in service/chapter-tests.json, written by
 // scripts/gen-content.mjs from src/data/chapter-tests. It is never part of
@@ -95,7 +97,21 @@ function submission(questions, stored, incoming) {
   return mergeSubmission(stored, onlyFor(questions, incoming));
 }
 
+// Which set a student gets next: the open one if a try is under way, else the
+// set taken fewer times, else the one taken longest ago. A comes first.
+// `versions` is [{ version, tries, lastStartedAt, open }].
+function nextVersion(versions) {
+  const open = versions.find((v) => v.open);
+  if (open) return open.version;
+  const sorted = [...versions].sort((x, y) =>
+    x.tries - y.tries
+    || (new Date(x.lastStartedAt || 0) - new Date(y.lastStartedAt || 0))
+    || x.version.localeCompare(y.version));
+  return sorted[0].version;
+}
+
 module.exports = {
+  nextVersion,
   loadBank, setBank, testQuestions, timeLimitSeconds, publicQuestion, reviewQuestion,
   grade, autosave, submission, SECONDS_PER_QUESTION,
 };

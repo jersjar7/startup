@@ -65,3 +65,20 @@ describe('answers', () => {
     expect(CT.autosave(qs, {}, { zzz: 'c1', a: 'c3' })).toEqual({ a: 'c3' });
   });
 });
+
+describe('which set comes next', () => {
+  const v = (version, tries, lastStartedAt = null, open = false) => ({ version, tries, lastStartedAt, open });
+  it('starts with A', () => {
+    expect(CT.nextVersion([v('A', 0), v('B', 0)])).toBe('A');
+  });
+  it('gives all new questions on the second try', () => {
+    expect(CT.nextVersion([v('A', 1, '2026-10-01'), v('B', 0)])).toBe('B');
+  });
+  it('then goes back to the set seen longest ago', () => {
+    expect(CT.nextVersion([v('A', 1, '2026-10-01'), v('B', 1, '2026-10-05')])).toBe('A');
+    expect(CT.nextVersion([v('A', 2, '2026-10-09'), v('B', 1, '2026-10-05')])).toBe('B');
+  });
+  it('carries on with a try that is still open', () => {
+    expect(CT.nextVersion([v('A', 0), v('B', 3, '2026-10-05', true)])).toBe('B');
+  });
+});

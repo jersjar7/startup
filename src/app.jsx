@@ -271,7 +271,7 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
             <Route path="/diagnostic/results/:attemptNumber" element={<DiagnosticResults userName={userName} />} />
             <Route path="/diagnostic/review/:attemptNumber" element={<DiagnosticReview userName={userName} />} />
             <Route path="/exam" element={<ExamGate userName={userName} />} />
-            <Route path="/test/:chapterId/:version" element={<ChapterTest userName={userName} />} />
+            <Route path="/test/:chapterId" element={<ChapterTest userName={userName} />} />
             <Route path="/test/result/:attemptId" element={<ChapterTestResult userName={userName} />} />
             <Route path="/exam/session" element={<ExamSession userName={userName} />} />
           <Route path="/exam/preview" element={<ExamSession userName={userName} preview />} />

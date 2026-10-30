@@ -33,7 +33,7 @@ function writeLocal(id, answers) {
 }
 
 export function ChapterTest({ userName }) {
-  const { chapterId, version } = useParams();
+  const { chapterId } = useParams();
   const navigate = useNavigate();
   const chapter = CHAPTERS.find((c) => c.id === chapterId);
   useDocumentTitle(chapter ? `${chapter.name} chapter test` : 'Chapter test');
@@ -61,7 +61,8 @@ export function ChapterTest({ userName }) {
   const start = async () => {
     setPhase('LOADING');
     try {
-      const r = await fetch(`/api/chapter-tests/${chapterId}/${version}/start`, { method: 'POST' });
+      // The server picks the question set (CT.nextVersion); the student never sees it.
+      const r = await fetch(`/api/chapter-tests/${chapterId}/${info.next}/start`, { method: 'POST' });
       if (!r.ok) throw new Error();
       const d = await r.json();
       setAnswers({ ...d.answers, ...readLocal(d.attemptId) });
@@ -127,7 +128,6 @@ export function ChapterTest({ userName }) {
   }
 
   if (phase === 'INTRO') {
-    const v = info.versions.find((x) => x.version === version);
     const minutes = Math.round(info.limitSeconds / 60);
     return (
       <main className="ct-main">
@@ -135,21 +135,22 @@ export function ChapterTest({ userName }) {
           <ArrowLeft size={16} weight="bold" /> {chapter.name}
         </button>
         <section className="ct-intro">
-          <p className="ct-overline">Chapter {chapter.num} test · version {version}</p>
+          <p className="ct-overline">Chapter {chapter.num} test</p>
           <h1 className="ct-intro-title">{chapter.name}</h1>
           <dl className="ct-facts">
             <div><dt>Questions</dt><dd>{info.length}</dd></div>
             <div><dt>Time</dt><dd>{minutes} min</dd></div>
-            <div><dt>Your best</dt><dd>{v && v.best ? `${v.best.percent}%` : 'Not taken'}</dd></div>
+            <div><dt>Your best</dt><dd>{info.best ? `${info.best.percent}%` : 'Not taken'}</dd></div>
           </dl>
           <ul className="ct-rules">
             <li>As many questions as this chapter can have on the FE, at the exam's pace: 3 minutes a question.</li>
             <li>Keep the FE Reference Handbook and your calculator at hand, as on exam day.</li>
             <li>No answers until you hand it in. Then every question comes with its full solution.</li>
             <li>Your answers save as you go. When the clock runs out, the test is handed in for you.</li>
+            <li>Take it again later and your next try has all new questions.</li>
           </ul>
           <button className="ct-start" onClick={start}>
-            {v && v.openId ? 'Continue the test' : 'Start the test'}
+            {info.openId ? 'Continue the test' : info.tries ? 'Take the test again' : 'Start the test'}
             <AppArrow />
           </button>
         </section>
