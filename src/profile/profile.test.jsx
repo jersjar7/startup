@@ -236,3 +236,15 @@ describe('Profile, already graduated', () => {
     expect(JSON.parse(schoolCalls(fetchFn)[0][1].body)).toMatchObject({ graduated: true, graduationYear: null });
   });
 });
+
+describe('Profile delete account', () => {
+  it('stays folded until asked for, and folds away again on cancel', async () => {
+    mountProfile();
+    const open = await screen.findByRole('button', { name: /^delete account$/i });
+    expect(screen.queryByLabelText(/type delete to confirm/i)).toBeNull();
+    fireEvent.click(open);
+    expect(screen.getByLabelText(/type delete to confirm/i)).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /^cancel$/i }));
+    expect(screen.queryByLabelText(/type delete to confirm/i)).toBeNull();
+  });
+});

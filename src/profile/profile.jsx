@@ -100,6 +100,7 @@ export function Profile({ userName, onLogout }) {
   // Purchase status
   const [purchaseStatus, setPurchaseStatus] = React.useState(null);
 
+  const [deleteOpen, setDeleteOpen] = React.useState(false);
   const [delPassword, setDelPassword] = React.useState('');
   const [delConfirm, setDelConfirm] = React.useState('');
   const [delError, setDelError] = React.useState('');
@@ -327,318 +328,326 @@ export function Profile({ userName, onLogout }) {
         </button>
       </div>
 
-      <div className="profile-layout">
-        {/* Who you are at a glance. First on a phone, a side column on a
-            desk, so the forms get the width and this stays in view. */}
-        <aside className="profile-aside">
-          <section className="profile-card profile-summary">
-            <p className="profile-over">You</p>
-            <p className="profile-name">{savedName || previewName}</p>
-            {schoolLine && <p className="profile-school">{schoolLine}</p>}
-
-            <dl className="profile-stats">
-              <div><dt>Total XP</dt><dd>{userData.totalXp?.toLocaleString() || 0}</dd></div>
-              <div><dt>Days studied</dt><dd>{userData.currentStreak || 0}</dd></div>
-              <div><dt>Badges</dt><dd>{userData.badges?.length || 0}</dd></div>
-            </dl>
-
-            <div className="profile-summary-row">
-              <p className="profile-over">FE exam</p>
+      {/* Who you are at a glance, read left to right like a line of a
+          record: identity, then the numbers. */}
+      <section className="profile-strip" aria-label="Summary">
+        <div className="profile-strip-who">
+          <p className="profile-name">{savedName || previewName}</p>
+          {schoolLine && <p className="profile-school">{schoolLine}</p>}
+        </div>
+        <dl className="profile-stats">
+          <div><dt>Total XP</dt><dd>{userData.totalXp?.toLocaleString() || 0}</dd></div>
+          <div><dt>Days studied</dt><dd>{userData.currentStreak || 0}</dd></div>
+          <div><dt>Badges</dt><dd>{userData.badges?.length || 0}</dd></div>
+          <div>
+            <dt>FE exam</dt>
+            <dd className="profile-stat-text">
               {examLong ? (
-                <p className="profile-summary-value">
+                <>
                   {examLong}
                   {examDays !== null && examDays >= 0 && (
                     <span className="profile-mono">{examDays === 0 ? 'today' : `${examDays} ${examDays === 1 ? 'day' : 'days'} left`}</span>
                   )}
-                </p>
+                </>
               ) : (
-                <p className="profile-summary-value profile-muted">No date yet. Add it in your details.</p>
+                <span className="profile-muted">Not set</span>
               )}
-            </div>
-
-            <div className="profile-summary-row">
-              <p className="profile-over">Exam Simulation</p>
+            </dd>
+          </div>
+          <div>
+            <dt>Exam Simulation</dt>
+            <dd className="profile-stat-text">
               {purchaseStatus?.purchased ? (
-                <p className="profile-summary-value">
+                <>
                   <span className="verified-badge"><CheckCircle size={16} weight="bold" /> Purchased</span>
                   {purchaseStatus.purchaseDate && (
                     <span className="profile-mono">
                       {new Date(purchaseStatus.purchaseDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                     </span>
                   )}
-                </p>
+                </>
               ) : (
-                <p className="profile-summary-value">
-                  <Link to="/exam" className="profile-text-link">Not purchased (${priceForEmail(userName)})</Link>
-                </p>
+                <Link to="/exam" className="profile-text-link">Not purchased (${priceForEmail(userName)})</Link>
               )}
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      {/* The pass card, for good once a pass is recorded, so nobody has to
+          find the email again (ADR 0023). */}
+      {userData?.passCard && (
+        <section className="profile-card profile-pass">
+          <div>
+            <h2 className="profile-section-title">Your pass card</h2>
+            <p className="profile-hint">You passed the FE. Your card is here whenever you want it.</p>
+          </div>
+          <Link to="/pass-card/me" className="profile-cta">Get my card <AppArrow size={16} /></Link>
+        </section>
+      )}
+
+      <div className="profile-columns">
+        {/* Your details: name (for Live Activity) + school + exam date. School
+            is editable here and not only at sign-up: people transfer, and the
+            one-time prompt is deliberately never shown twice. */}
+        <section className="profile-card">
+          <h2 className="profile-section-title">Your details</h2>
+          {detError && <p className="error-banner" role="alert">{detError}</p>}
+          {detSuccess && <p className="success-banner" role="status">{detSuccess}</p>}
+          <form onSubmit={handleSaveDetails} className="profile-grid">
+            <div className="details-field">
+              <label className="profile-input-label" htmlFor="first-name">First name</label>
+              <input id="first-name" type="text" autoComplete="given-name" maxLength={40}
+                placeholder="Maria" value={detFirst} onChange={(e) => setDetFirst(e.target.value)} />
             </div>
-          </section>
-
-          {/* The pass card, for good once a pass is recorded, so nobody has to
-              find the email again (ADR 0023). */}
-          {userData?.passCard && (
-            <section className="profile-card">
-              <h2 className="profile-section-title">Your pass card</h2>
-              <p className="profile-hint">You passed the FE. Your card is here whenever you want it.</p>
-              <Link to="/pass-card/me" className="profile-cta">Get my card <AppArrow size={16} /></Link>
-            </section>
-          )}
-        </aside>
-
-        <div className="profile-forms">
-          {/* Your details: name (for Live Activity) + school + exam date. School
-              is editable here and not only at sign-up: people transfer, and the
-              one-time prompt is deliberately never shown twice. */}
-          <section className="profile-card">
-            <h2 className="profile-section-title">Your details</h2>
-            {detError && <p className="error-banner" role="alert">{detError}</p>}
-            {detSuccess && <p className="success-banner" role="status">{detSuccess}</p>}
-            <form onSubmit={handleSaveDetails} className="profile-grid">
-              <div className="details-field">
-                <label className="profile-input-label" htmlFor="first-name">First name</label>
-                <input id="first-name" type="text" autoComplete="given-name" maxLength={40}
-                  placeholder="Maria" value={detFirst} onChange={(e) => setDetFirst(e.target.value)} />
-              </div>
-              <div className="details-field">
-                <label className="profile-input-label" htmlFor="last-name">Last name</label>
-                <input id="last-name" type="text" autoComplete="family-name" maxLength={40}
-                  placeholder="Gomez" value={detLast} onChange={(e) => setDetLast(e.target.value)} />
-              </div>
-              <p className="details-hint profile-span">
-                Shown as <strong>{previewName}</strong> in Live Activity. Other students never see your email.
-              </p>
-
-              <div className="details-field">
-                <label className="profile-input-label" htmlFor="school-name">School</label>
-                <input id="school-name" type="text" autoComplete="organization" maxLength={120}
-                  placeholder="University of West Florida" value={detSchool}
-                  onChange={(e) => setDetSchool(e.target.value)} />
-              </div>
-              <div className="details-field">
-                <label className="profile-input-label" htmlFor="grad-year">
-                  {detGraduated ? 'Year you graduated (optional)' : 'Graduation year'}
-                </label>
-                {/* Bounded to the same five-year window the sign-up prompt offers,
-                    for the same reason the exam date is bounded: the two surfaces
-                    must not be able to store values the other cannot show. */}
-                <input id="grad-year" type="number" inputMode="numeric" step={1}
-                  min={detGraduated ? GRADUATED_YEARS[GRADUATED_YEARS.length - 1] : GRAD_YEARS[0]}
-                  max={detGraduated ? GRADUATED_YEARS[0] : GRAD_YEARS[GRAD_YEARS.length - 1]}
-                  placeholder={String(detGraduated ? GRADUATED_YEARS[3] : GRAD_YEARS[0])} value={detGradYear}
-                  onChange={(e) => setDetGradYear(e.target.value)} />
-              </div>
-              <div className="profile-span">
-                <label className="profile-check">
-                  <input type="checkbox" checked={detGraduated}
-                    onChange={(e) => { setDetGraduated(e.target.checked); setDetGradYear(''); }} />
-                  I have already graduated
-                </label>
-                <p className="details-hint">
-                  Tells us which programs our students come from, so we know whose
-                  syllabus to follow.
-                </p>
-              </div>
-
-              <div className="details-field">
-                <label className="profile-input-label" htmlFor="exam-date">FE exam date</label>
-                {/* Bounded so the picker cannot offer a date the server will reject.
-                    An unbounded input is how two users saved 2028 dates. */}
-                <input
-                  id="exam-date"
-                  type="date"
-                  value={detExam}
-                  min={EXAM_DATE_BOUNDS.min}
-                  max={EXAM_DATE_BOUNDS.max}
-                  onChange={(e) => setDetExam(e.target.value)}
-                />
-              </div>
-              <p className="details-hint profile-beside">
-                We count down to exam day on your dashboard. Rescheduled? Update it here, or clear it.
-              </p>
-
-              <div className="profile-span">
-                <button type="submit" className="profile-cta" disabled={detSubmitting}>
-                  {detSubmitting ? 'Saving...' : 'Save details'} <AppArrow size={16} />
-                </button>
-              </div>
-            </form>
-          </section>
-
-          {/* Account info: sign-in email, its status, and the password. */}
-          <section className="profile-card">
-            <h2 className="profile-section-title">Account</h2>
-            <div className="profile-field">
-              <span className="profile-label">Email</span>
-              <span className="profile-value">
-                {userData.email}
-                <button
-                  type="button"
-                  className="profile-link-btn"
-                  onClick={() => { setEmailOpen((v) => !v); setEmailError(''); setEmailSuccess(''); }}
-                >
-                  {emailOpen ? 'Cancel' : 'Change'}
-                </button>
-              </span>
+            <div className="details-field">
+              <label className="profile-input-label" htmlFor="last-name">Last name</label>
+              <input id="last-name" type="text" autoComplete="family-name" maxLength={40}
+                placeholder="Gomez" value={detLast} onChange={(e) => setDetLast(e.target.value)} />
             </div>
-            {emailSuccess && <p className="success-banner" role="status">{emailSuccess}</p>}
-            {emailOpen && (
-              <form className="profile-email-form" onSubmit={handleChangeEmail}>
-                {emailError && <p className="error-banner" role="alert">{emailError}</p>}
-                <label className="profile-label" htmlFor="new-email">New email</label>
-                <input
-                  id="new-email"
-                  type="email"
-                  autoComplete="email"
-                  value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                  disabled={emailBusy}
-                />
-                <label className="profile-label" htmlFor="email-pw">Your password</label>
-                <input
-                  id="email-pw"
-                  type="password"
-                  autoComplete="current-password"
-                  value={emailPw}
-                  onChange={(e) => setEmailPw(e.target.value)}
-                  disabled={emailBusy}
-                />
-                {/* Said before they submit, because it is the consequence people
-                    do not expect: the new address starts unverified. */}
-                <p className="profile-hint">
-                  We will send a verification link to the new address. Your account
-                  stays signed in.
-                </p>
-                <button type="submit" className="profile-cta profile-cta--small" disabled={emailBusy}>
-                  {emailBusy ? 'Saving' : 'Change email'}
-                </button>
-              </form>
-            )}
-            <div className="profile-field">
-              <span className="profile-label">Email status</span>
-              <span className="profile-value">
-                {emailVerified ? (
-                  <span className="verified-badge"><ShieldCheck size={16} weight="bold" /> Verified</span>
-                ) : (
-                  <span className="unverified-badge"><WarningCircle size={16} weight="bold" /> Unverified</span>
-                )}
-              </span>
-            </div>
-            {joinedDate && (
-              <div className="profile-field">
-                <span className="profile-label">Joined</span>
-                <span className="profile-value">{joinedDate}</span>
-              </div>
-            )}
-
-            <h3 className="profile-sub-title">Change password</h3>
-            {pwError && <p className="error-banner" role="alert">{pwError}</p>}
-            {pwSuccess && <p className="success-banner" role="status">{pwSuccess}</p>}
-            <form onSubmit={handleChangePassword} className="profile-grid">
-              <div className="profile-span profile-half">
-                <label className="profile-input-label" htmlFor="current-pw">Current password</label>
-                <div className="password-field">
-                  <input
-                    id="current-pw"
-                    type={showCurrentPw ? 'text' : 'password'}
-                    autoComplete="current-password"
-                    value={currentPw}
-                    onChange={(e) => setCurrentPw(e.target.value)}
-                    required
-                  />
-                  <button type="button" className="password-toggle" onClick={() => setShowCurrentPw(!showCurrentPw)} aria-label={showCurrentPw ? 'Hide password' : 'Show password'}>
-                    {showCurrentPw ? <EyeSlash size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-              </div>
-              <div className="details-field">
-                <label className="profile-input-label" htmlFor="new-pw">New password</label>
-                <div className="password-field">
-                  <input
-                    id="new-pw"
-                    type={showNewPw ? 'text' : 'password'}
-                    placeholder="8+ characters"
-                    autoComplete="new-password"
-                    value={newPw}
-                    onChange={(e) => setNewPw(e.target.value)}
-                    required
-                  />
-                  <button type="button" className="password-toggle" onClick={() => setShowNewPw(!showNewPw)} aria-label={showNewPw ? 'Hide password' : 'Show password'}>
-                    {showNewPw ? <EyeSlash size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-              </div>
-              <div className="details-field">
-                <label className="profile-input-label" htmlFor="confirm-pw">Confirm new password</label>
-                <div className="password-field">
-                  <input
-                    id="confirm-pw"
-                    type={showConfirmPw ? 'text' : 'password'}
-                    placeholder="Repeat new password"
-                    autoComplete="new-password"
-                    value={confirmPw}
-                    onChange={(e) => setConfirmPw(e.target.value)}
-                    required
-                  />
-                  <button type="button" className="password-toggle" onClick={() => setShowConfirmPw(!showConfirmPw)} aria-label={showConfirmPw ? 'Hide password' : 'Show password'}>
-                    {showConfirmPw ? <EyeSlash size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-              </div>
-              <div className="profile-span">
-                <button type="submit" className="profile-cta profile-cta--quiet" disabled={pwSubmitting || !(currentPw && newPw && confirmPw)}>
-                  {pwSubmitting ? 'Changing...' : 'Change password'}
-                </button>
-              </div>
-            </form>
-          </section>
-
-          {/* Danger zone */}
-          <section className="profile-card danger-zone">
-            <h2 className="profile-section-title danger-title">
-              <Trash size={20} weight="bold" /> Delete account
-            </h2>
-            <p className="danger-description">
-              This permanently deletes your account and all associated data. This action cannot be undone.
+            <p className="details-hint profile-span">
+              Shown as <strong>{previewName}</strong> in Live Activity. Other students never see your email.
             </p>
-            {delError && <p className="error-banner" role="alert">{delError}</p>}
-            <form onSubmit={handleDeleteAccount} className="profile-grid">
-              <div className="details-field">
-                <label className="profile-input-label" htmlFor="del-pw">Password</label>
+
+            <div className="details-field">
+              <label className="profile-input-label" htmlFor="school-name">School</label>
+              <input id="school-name" type="text" autoComplete="organization" maxLength={120}
+                placeholder="University of West Florida" value={detSchool}
+                onChange={(e) => setDetSchool(e.target.value)} />
+            </div>
+            <div className="details-field">
+              <label className="profile-input-label" htmlFor="grad-year">
+                {detGraduated ? 'Year you graduated (optional)' : 'Graduation year'}
+              </label>
+              {/* Bounded to the same five-year window the sign-up prompt offers,
+                  for the same reason the exam date is bounded: the two surfaces
+                  must not be able to store values the other cannot show. */}
+              <input id="grad-year" type="number" inputMode="numeric" step={1}
+                min={detGraduated ? GRADUATED_YEARS[GRADUATED_YEARS.length - 1] : GRAD_YEARS[0]}
+                max={detGraduated ? GRADUATED_YEARS[0] : GRAD_YEARS[GRAD_YEARS.length - 1]}
+                placeholder={String(detGraduated ? GRADUATED_YEARS[3] : GRAD_YEARS[0])} value={detGradYear}
+                onChange={(e) => setDetGradYear(e.target.value)} />
+            </div>
+            <div className="profile-span">
+              <label className="profile-check">
+                <input type="checkbox" checked={detGraduated}
+                  onChange={(e) => { setDetGraduated(e.target.checked); setDetGradYear(''); }} />
+                I have already graduated
+              </label>
+              <p className="details-hint">
+                Tells us which programs our students come from, so we know whose
+                syllabus to follow.
+              </p>
+            </div>
+
+            <div className="details-field">
+              <label className="profile-input-label" htmlFor="exam-date">FE exam date</label>
+              {/* Bounded so the picker cannot offer a date the server will reject.
+                  An unbounded input is how two users saved 2028 dates. */}
+              <input
+                id="exam-date"
+                type="date"
+                value={detExam}
+                min={EXAM_DATE_BOUNDS.min}
+                max={EXAM_DATE_BOUNDS.max}
+                onChange={(e) => setDetExam(e.target.value)}
+              />
+            </div>
+            <p className="details-hint profile-beside">
+              We count down to exam day on your dashboard. Rescheduled? Update it here, or clear it.
+            </p>
+
+            <div className="profile-span">
+              <button type="submit" className="profile-cta" disabled={detSubmitting}>
+                {detSubmitting ? 'Saving...' : 'Save details'} <AppArrow size={16} />
+              </button>
+            </div>
+          </form>
+        </section>
+
+        {/* Account info: sign-in email, its status, and the password. */}
+        <section className="profile-card">
+          <h2 className="profile-section-title">Account</h2>
+          <div className="profile-field">
+            <span className="profile-label">Email</span>
+            <span className="profile-value">
+              {userData.email}
+              <button
+                type="button"
+                className="profile-link-btn"
+                onClick={() => { setEmailOpen((v) => !v); setEmailError(''); setEmailSuccess(''); }}
+              >
+                {emailOpen ? 'Cancel' : 'Change'}
+              </button>
+            </span>
+          </div>
+          {emailSuccess && <p className="success-banner" role="status">{emailSuccess}</p>}
+          {emailOpen && (
+            <form className="profile-email-form" onSubmit={handleChangeEmail}>
+              {emailError && <p className="error-banner" role="alert">{emailError}</p>}
+              <label className="profile-label" htmlFor="new-email">New email</label>
+              <input
+                id="new-email"
+                type="email"
+                autoComplete="email"
+                value={newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
+                disabled={emailBusy}
+              />
+              <label className="profile-label" htmlFor="email-pw">Your password</label>
+              <input
+                id="email-pw"
+                type="password"
+                autoComplete="current-password"
+                value={emailPw}
+                onChange={(e) => setEmailPw(e.target.value)}
+                disabled={emailBusy}
+              />
+              {/* Said before they submit, because it is the consequence people
+                  do not expect: the new address starts unverified. */}
+              <p className="profile-hint">
+                We will send a verification link to the new address. Your account
+                stays signed in.
+              </p>
+              <button type="submit" className="profile-cta profile-cta--small" disabled={emailBusy}>
+                {emailBusy ? 'Saving' : 'Change email'}
+              </button>
+            </form>
+          )}
+          <div className="profile-field">
+            <span className="profile-label">Email status</span>
+            <span className="profile-value">
+              {emailVerified ? (
+                <span className="verified-badge"><ShieldCheck size={16} weight="bold" /> Verified</span>
+              ) : (
+                <span className="unverified-badge"><WarningCircle size={16} weight="bold" /> Unverified</span>
+              )}
+            </span>
+          </div>
+          {joinedDate && (
+            <div className="profile-field">
+              <span className="profile-label">Joined</span>
+              <span className="profile-value">{joinedDate}</span>
+            </div>
+          )}
+
+          <h3 className="profile-sub-title">Change password</h3>
+          {pwError && <p className="error-banner" role="alert">{pwError}</p>}
+          {pwSuccess && <p className="success-banner" role="status">{pwSuccess}</p>}
+          <form onSubmit={handleChangePassword} className="profile-grid">
+            <div className="profile-span">
+              <label className="profile-input-label" htmlFor="current-pw">Current password</label>
+              <div className="password-field">
                 <input
-                  id="del-pw"
-                  type="password"
+                  id="current-pw"
+                  type={showCurrentPw ? 'text' : 'password'}
                   autoComplete="current-password"
-                  value={delPassword}
-                  onChange={(e) => setDelPassword(e.target.value)}
+                  value={currentPw}
+                  onChange={(e) => setCurrentPw(e.target.value)}
                   required
                 />
-              </div>
-              <div className="details-field">
-                <label className="profile-input-label" htmlFor="del-confirm">Type DELETE to confirm</label>
-                <input
-                  id="del-confirm"
-                  type="text"
-                  placeholder="DELETE"
-                  autoComplete="off"
-                  value={delConfirm}
-                  onChange={(e) => setDelConfirm(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="profile-span">
-                <button
-                  type="submit"
-                  className="btn-danger"
-                  disabled={delSubmitting || delConfirm !== 'DELETE' || !delPassword}
-                >
-                  {delSubmitting ? 'Deleting...' : 'Permanently delete account'}
+                <button type="button" className="password-toggle" onClick={() => setShowCurrentPw(!showCurrentPw)} aria-label={showCurrentPw ? 'Hide password' : 'Show password'}>
+                  {showCurrentPw ? <EyeSlash size={18} /> : <Eye size={18} />}
                 </button>
               </div>
-            </form>
-          </section>
-        </div>
+            </div>
+            <div className="details-field">
+              <label className="profile-input-label" htmlFor="new-pw">New password</label>
+              <div className="password-field">
+                <input
+                  id="new-pw"
+                  type={showNewPw ? 'text' : 'password'}
+                  placeholder="8+ characters"
+                  autoComplete="new-password"
+                  value={newPw}
+                  onChange={(e) => setNewPw(e.target.value)}
+                  required
+                />
+                <button type="button" className="password-toggle" onClick={() => setShowNewPw(!showNewPw)} aria-label={showNewPw ? 'Hide password' : 'Show password'}>
+                  {showNewPw ? <EyeSlash size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+            <div className="details-field">
+              <label className="profile-input-label" htmlFor="confirm-pw">Confirm new password</label>
+              <div className="password-field">
+                <input
+                  id="confirm-pw"
+                  type={showConfirmPw ? 'text' : 'password'}
+                  placeholder="Repeat new password"
+                  autoComplete="new-password"
+                  value={confirmPw}
+                  onChange={(e) => setConfirmPw(e.target.value)}
+                  required
+                />
+                <button type="button" className="password-toggle" onClick={() => setShowConfirmPw(!showConfirmPw)} aria-label={showConfirmPw ? 'Hide password' : 'Show password'}>
+                  {showConfirmPw ? <EyeSlash size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+            <div className="profile-span">
+              <button type="submit" className="profile-cta profile-cta--quiet" disabled={pwSubmitting || !(currentPw && newPw && confirmPw)}>
+                {pwSubmitting ? 'Changing...' : 'Change password'}
+              </button>
+            </div>
+          </form>
+        </section>
       </div>
+
+      {/* Used once if ever, and destructive, so it stays folded away until
+          asked for instead of taking a card's worth of the page. */}
+      {!deleteOpen ? (
+        <button type="button" className="profile-delete-open" onClick={() => setDeleteOpen(true)}>
+          <Trash size={16} weight="bold" /> Delete account
+        </button>
+      ) : (
+        <section className="profile-card danger-zone">
+          <h2 className="profile-section-title danger-title">
+            <Trash size={20} weight="bold" /> Delete account
+          </h2>
+          <p className="danger-description">
+            This permanently deletes your account and all associated data. This action cannot be undone.
+          </p>
+          {delError && <p className="error-banner" role="alert">{delError}</p>}
+          <form onSubmit={handleDeleteAccount} className="profile-grid">
+            <div className="details-field">
+              <label className="profile-input-label" htmlFor="del-pw">Password</label>
+              <input
+                id="del-pw"
+                type="password"
+                autoComplete="current-password"
+                value={delPassword}
+                onChange={(e) => setDelPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="details-field">
+              <label className="profile-input-label" htmlFor="del-confirm">Type DELETE to confirm</label>
+              <input
+                id="del-confirm"
+                type="text"
+                placeholder="DELETE"
+                autoComplete="off"
+                value={delConfirm}
+                onChange={(e) => setDelConfirm(e.target.value)}
+                required
+              />
+            </div>
+            <div className="profile-span profile-actions">
+              <button
+                type="submit"
+                className="btn-danger"
+                disabled={delSubmitting || delConfirm !== 'DELETE' || !delPassword}
+              >
+                {delSubmitting ? 'Deleting...' : 'Permanently delete account'}
+              </button>
+              <button type="button" className="profile-link-btn profile-cancel" onClick={() => { setDeleteOpen(false); setDelPassword(''); setDelConfirm(''); setDelError(''); }}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </section>
+      )}
     </main>
   );
 }
