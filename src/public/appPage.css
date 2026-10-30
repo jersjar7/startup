@@ -14,7 +14,33 @@
   border-radius: 13cqw;
   box-shadow: 0 2px 6px rgba(44,44,44,0.10), 0 18px 40px rgba(44,44,44,0.16);
 }
-.ap-phone img { display: block; width: 100%; height: auto; border-radius: 10.2cqw; }
+.ap-phone-body { position: relative; }
+.ap-screen { position: relative; border-radius: 10.2cqw; overflow: hidden; }
+.ap-phone img { display: block; width: 100%; height: auto; }
+
+/* Status bar: time, the island, signal, wifi and battery, in charcoal over
+   the light top of every capture. */
+.ap-status {
+  position: absolute; top: 0; left: 0; right: 0; height: 13cqw;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 8cqw 0 10cqw; color: var(--charcoal); pointer-events: none;
+}
+.ap-time { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 4.6cqw; letter-spacing: -0.02em; }
+.ap-island {
+  position: absolute; left: 50%; top: 3.6cqw; transform: translateX(-50%);
+  width: 30cqw; height: 8.6cqw; border-radius: 999px; background: #111;
+}
+.ap-icons { width: 17cqw; height: auto; fill: currentColor; }
+
+/* Side buttons: action and volume on the left, power on the right. */
+.ap-phone-body::before, .ap-phone-body::after {
+  content: ''; position: absolute; width: 1.1cqw; background: var(--charcoal); border-radius: 1cqw;
+}
+.ap-phone-body::before {
+  left: -0.9cqw; top: 22cqw; height: 9cqw;
+  box-shadow: 0 15cqw 0 0 var(--charcoal), 0 30cqw 0 0 var(--charcoal);
+}
+.ap-phone-body::after { right: -0.9cqw; top: 36cqw; height: 22cqw; }
 
 /* ── Hero: words on the left, two phones overlapping on the right ── */
 .ap-hero {

@@ -14,19 +14,37 @@ const SITE = 'https://fe4raccoons.com';
 // app's own store captures (mobile/test/goldens/appstore), exported to
 // public/app/ at two widths. The figure is a size container so the bezel and
 // the screen corners scale with the phone and stay concentric at every size.
+// The status bar, island and side buttons are drawn on top: the captures
+// start below the status bar, so their top strip is empty.
 function Phone({ name, alt, className = '' }) {
   return (
     <figure className={`ap-phone ${className}`}>
       <div className="ap-phone-body">
-        <img
-          src={`/app/${name}-360.webp`}
-          srcSet={`/app/${name}-360.webp 360w, /app/${name}-720.webp 720w`}
-          sizes="(max-width: 600px) 60vw, 280px"
-          width="360"
-          height="782"
-          loading="lazy"
-          alt={alt}
-        />
+        <div className="ap-screen">
+          <div className="ap-status" aria-hidden="true">
+            <span className="ap-time">9:41</span>
+            <span className="ap-island" />
+            <svg className="ap-icons" viewBox="0 0 64 14">
+              <rect x="0" y="9" width="3" height="5" rx="1" />
+              <rect x="5" y="6.5" width="3" height="7.5" rx="1" />
+              <rect x="10" y="4" width="3" height="10" rx="1" />
+              <rect x="15" y="1" width="3" height="13" rx="1" />
+              <path d="M29.5 3.5a10.5 10.5 0 0 1 8 3.6l-1.5 1.5a8.4 8.4 0 0 0-13 0l-1.5-1.5a10.5 10.5 0 0 1 8-3.6zm0 4.2a6.2 6.2 0 0 1 4.9 2.3l-1.6 1.6a4 4 0 0 0-6.6 0L24.6 10a6.2 6.2 0 0 1 4.9-2.3zm0 4.1a2 2 0 0 1 1.7.9l-1.7 1.7-1.7-1.7a2 2 0 0 1 1.7-.9z" />
+              <rect x="42" y="2" width="19" height="10" rx="3" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.45" />
+              <rect x="44" y="4" width="13" height="6" rx="1.5" />
+              <rect x="62" y="5" width="1.6" height="4" rx="0.8" opacity="0.45" />
+            </svg>
+          </div>
+          <img
+            src={`/app/${name}-360.webp`}
+            srcSet={`/app/${name}-360.webp 360w, /app/${name}-720.webp 720w`}
+            sizes="(max-width: 600px) 60vw, 280px"
+            width="360"
+            height="782"
+            loading="lazy"
+            alt={alt}
+          />
+        </div>
       </div>
     </figure>
   );
