@@ -98,6 +98,11 @@
 .eg-calcs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
 .eg-calcs li { padding: 4px 28px 4px 0; }
 .eg-calcs li + li { padding-left: 28px; border-left: 1px solid var(--gray-200); }
+.eg-calc-photo { margin: 0 0 22px; height: 240px; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; }
+.eg-calc-photo img { height: 210px; width: auto; filter: drop-shadow(0 10px 14px rgba(44,44,44,0.16)); }
+.eg-calc-photo figcaption { font-size: 0.78rem; color: var(--gray-500); margin-top: 10px; }
+.pub .eg-credit { font-size: 0.78rem; color: var(--gray-500); margin: 14px 0 0; max-width: 72ch; }
+.eg-credit a { color: var(--gray-500); }
 .pub .eg-calcs .eg-models { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 4px 0 10px; }
 .eg-models span { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 1.3rem; letter-spacing: -0.02em; color: var(--charcoal); white-space: nowrap; }
 .pub .eg-calcs p { margin: 0; color: #4a4a4a; font-size: 0.97rem; }
@@ -189,7 +194,10 @@
   .eg-split { gap: 32px; }
   .eg-pass { gap: 28px; }
   .eg-calcs { grid-template-columns: 1fr; }
-  .eg-calcs li, .eg-calcs li + li { padding: 16px 0; border-left: none; border-top: 1px solid var(--gray-200); }
+  .eg-calcs li, .eg-calcs li + li { padding: 20px 0; border-left: none; border-top: 1px solid var(--gray-200); display: grid; grid-template-columns: 96px minmax(0, 1fr); column-gap: 20px; }
+  .eg-calcs li > :not(.eg-calc-photo) { grid-column: 2; }
+  .eg-calc-photo { grid-row: 1 / span 3; height: auto; margin: 0; }
+  .eg-calc-photo img { height: 160px; }
   .eg-panel { padding: 32px 20px; border-radius: 16px; }
   .eg-bar-row { grid-template-columns: minmax(0, 1fr) auto; gap: 8px 16px; }
   .eg-bar-track { grid-column: 1 / -1; grid-row: 2; }
