@@ -8,6 +8,9 @@ import { RaccoonPeek } from '../components/brand/RaccoonPeek';
 import { ChapterCoin } from '../components/brand/ChapterCoin';
 import './public.css';
 import './examGuide.css';
+import casioPhoto from '../assets/calculators/casio.webp';
+import hpPhoto from '../assets/calculators/hp.webp';
+import tiPhoto from '../assets/calculators/ti.webp';
 
 const SITE = 'https://fe4raccoons.com';
 
@@ -32,10 +35,24 @@ const COSTS = [
   { item: 'Reference handbook', note: 'The FE Reference Handbook is on screen during the exam. Download a copy from your MyNCEES account.', amount: '$0' },
 ];
 
+// Photos from Wikimedia Commons, backgrounds removed. Their licenses need the
+// credit shown under the section.
 const CALCULATORS = [
-  { brand: 'Casio', models: ['fx-115', 'fx-991'], rule: 'Any model with one of these in its name, fx-9910 models included.' },
-  { brand: 'Hewlett Packard', models: ['HP 33s', 'HP 35s'], rule: 'These two models and no other HP.' },
-  { brand: 'Texas Instruments', models: ['TI-30X', 'TI-36X'], rule: 'Any model with one of these in its name.' },
+  {
+    brand: 'Casio', models: ['fx-115', 'fx-991'], rule: 'Any model with one of these in its name, fx-9910 models included.',
+    photo: casioPhoto, shown: 'Casio fx-991EX',
+    credit: { by: 'Mortymore', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0', source: 'https://commons.wikimedia.org/wiki/File:Fx-991EX.jpg' },
+  },
+  {
+    brand: 'Hewlett Packard', models: ['HP 33s', 'HP 35s'], rule: 'These two models and no other HP.',
+    photo: hpPhoto, shown: 'HP 35s',
+    credit: { by: 'Syum90', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0', source: 'https://commons.wikimedia.org/wiki/File:HP_35S.JPG' },
+  },
+  {
+    brand: 'Texas Instruments', models: ['TI-30X', 'TI-36X'], rule: 'Any model with one of these in its name.',
+    photo: tiPhoto, shown: 'TI-36X Pro',
+    credit: { by: 'KAP03', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0', source: 'https://commons.wikimedia.org/wiki/File:TI-36X_Pro.png' },
+  },
 ];
 
 const PLAN = [
@@ -310,6 +327,10 @@ export function ExamGuide() {
             <ul className="eg-calcs">
               {CALCULATORS.map((c) => (
                 <li key={c.brand}>
+                  <figure className="eg-calc-photo">
+                    <img src={c.photo} alt={`${c.shown} calculator, front view`} width="116" height="240" loading="lazy" decoding="async" />
+                    <figcaption>{c.shown}</figcaption>
+                  </figure>
                   <h3>{c.brand}</h3>
                   <p className="eg-models">{c.models.map((m) => <span key={m}>{m}</span>)}</p>
                   <p>{c.rule}</p>
@@ -317,6 +338,15 @@ export function ExamGuide() {
               ))}
             </ul>
             <p className="eg-note">Practice with the calculator you will bring. Knowing its keys by heart saves minutes, and the exam has no minutes to spare.</p>
+            <p className="eg-credit">
+              Photos from Wikimedia Commons, backgrounds removed:{' '}
+              {CALCULATORS.map((c, i) => (
+                <React.Fragment key={c.brand}>
+                  {i > 0 && ', '}
+                  <a href={c.credit.source} rel="noopener">{c.shown}</a> by {c.credit.by} (<a href={c.credit.licenseUrl} rel="noopener license">{c.credit.license}</a>)
+                </React.Fragment>
+              ))}.
+            </p>
           </section>
 
           <section id="pass-rate" className="eg-section">
