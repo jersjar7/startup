@@ -1,6 +1,18 @@
 import React from 'react';
 import { ArrowMarkerDefs, PinSupport, RollerSupport, Label } from '../../primitives';
 
+/** Ground line with short hatch strokes under a support. */
+function Ground({ x, y }) {
+  return (
+    <g>
+      <line x1={x - 13} y1={y} x2={x + 13} y2={y} stroke="var(--charcoal)" strokeWidth={2} />
+      {[0, 1, 2, 3, 4].map((i) => (
+        <line key={i} x1={x - 8 + i * 5} y1={y} x2={x - 13 + i * 5} y2={y + 5} stroke="var(--charcoal)" strokeWidth={1.2} />
+      ))}
+    </g>
+  );
+}
+
 /**
  * Four-panel Howe truss with vertical end posts. Diagonals rise toward
  * mid-span. Single load P at top joint G.
@@ -44,7 +56,9 @@ export function CtStaticsBHoweTruss({ panel = 15, height = 12, unit = 'ft', load
       <Label x={J.G[0] - 12} y={J.G[1] - 12} color="var(--charcoal)" bold>G</Label>
 
       <PinSupport x={J.A[0]} y={J.A[1] + 3} />
+      <Ground x={J.A[0]} y={J.A[1] + 19} />
       <RollerSupport x={J.E[0]} y={J.E[1] + 3} />
+      <Ground x={J.E[0]} y={J.E[1] + 29} />
 
       {/* Load at G */}
       <line x1={J.G[0]} y1={yt - 44} x2={J.G[0]} y2={yt - 5} stroke="var(--ember)" strokeWidth={2.4} markerEnd="url(#ctStBHoweArrow)" />

@@ -253,8 +253,8 @@ const PROBLEMS = [
     choiceNotes: [
       'Correct: the middle panel is a rectangle of four pinned bars with no diagonal, so it can rack into a parallelogram. The extra diagonal in the first panel does not help; it only makes that panel redundant.',
       'This is what the count alone says (m + r = 13 + 3 = 16 = 2j). The count is necessary but not sufficient; the bars must also be arranged to make triangles.',
-      'Sees the extra diagonal in the first panel as one redundant but misses that the middle panel has nothing to stop it from racking.',
-      'Treats the roller as a pin (r = 4) and also counts the extra diagonal: two "redundants" that hide a mechanism.',
+      'Counts the roller as a pin (r = 4), so m + r - 2j = 1, and misses that the middle panel has nothing to stop it from racking.',
+      'Counts the roller as a pin (r = 4) and then adds the visibly extra diagonal in the first panel as one more redundant on top of the count, so that bar is counted twice. The middle panel still racks.',
     ],
     eli5: 'A truss is stiff because triangles cannot change shape. The middle panel is a rectangle, and a rectangle of pinned bars folds into a parallelogram with a push. Putting a second diagonal in the first panel makes the bar count come out right, but that extra bar is in the wrong place: it stiffens a panel that was already stiff and does nothing for the floppy one.',
     hint: 'Do the count, then look at each panel: is every panel made of triangles?',
@@ -397,7 +397,7 @@ const PROBLEMS = [
     topic: 'Loads, load combinations and load paths',
     type: 'computational',
     difficulty: 'easy',
-    statement: 'In the framing plan shown, the floor slab spans between the beams. The dead load is 70 psf (slab and framing) and the live load is 100 psf. Ignoring live load reduction and using the governing LRFD load combination, the factored maximum moment in interior beam B1 (kip-ft) is most nearly:',
+    statement: 'In the framing plan shown, the floor slab spans between the beams, and each beam is simply supported on the girders. The dead load is 70 psf (slab and framing) and the live load is 100 psf. Ignoring live load reduction and using the governing LRFD load combination, the factored maximum moment in interior beam B1 (kip-ft) is most nearly:',
     choices: [
       { id: 'c1', text: '56.4' },
       { id: 'c2', text: '70.3' },
@@ -437,7 +437,7 @@ const PROBLEMS = [
     topic: 'Design of steel components (members and connections)',
     type: 'conceptual',
     difficulty: 'medium',
-    statement: 'A floor beam of $F_y = 50 \\text{ ksi}$ steel has its top flange welded to the metal deck, so it is fully braced and its plastic moment can develop. The factored moment is $M_u = 380 \\text{ kip-ft}$. Using the Handbook\'s W-shape selection table by $Z_x$, the lightest adequate W-shape is:',
+    statement: 'A floor beam of $F_y = 50 \\text{ ksi}$ steel has its top flange welded to the metal deck, so it is fully braced and lateral-torsional buckling does not govern. The factored moment is $M_u = 380 \\text{ kip-ft}$. Using the Handbook\'s W-shape selection table by $Z_x$, the lightest adequate W-shape is:',
     choices: [
       { id: 'c1', text: 'W21x48' },
       { id: 'c2', text: 'W16x50' },
@@ -447,14 +447,14 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     choiceNotes: [
       'Correct: the W21x48 has a design strength of 398 kip-ft, more than 380, and no lighter shape in the table reaches 380.',
-      'Sizes the beam from M_u = F_y Z_x with no resistance factor (Z_x = 91.2 in.^3 needed). Its design strength is only 345 kip-ft.',
+      'Drops the resistance factor (Z_x >= 380(12)/50 = 91.2 in.^3) and takes the first row that meets it reading up the table, W16x50 (Z_x = 92.0 in.^3). Its design strength is only 345 kip-ft.',
       'Its design strength, 379 kip-ft, is the closest value in the table but is just below 380, so it is not adequate.',
       'Adequate (383 kip-ft) and the first shape above 380 when reading up the table, but at 61 lb/ft it is heavier than the W21x48.',
     ],
     eli5: 'The table lists beams in order of strength, not weight. The first beam strong enough is not always the lightest one: deeper beams get their strength from depth instead of steel, so a deeper, lighter beam a few rows further up can do the job for less weight. Check every strong-enough shape near the top of the list and pick the lightest.',
     hint: 'Read the design-strength column (phi_b M_px), keep every shape with at least 380 kip-ft, then compare weights.',
     steps: [
-      { text: 'Requirement: design flexural strength at least the factored moment (fully braced, so L_b is not a concern).', latex: '\\phi_b M_{px} \\ge M_u = 380 \\text{ kip-ft}' },
+      { text: 'Requirement: the design flexural strength, read from the table\'s phi_b M_px column, is at least the factored moment (fully braced, so L_b is not a concern).', latex: '\\phi_b M_{px} \\ge M_u = 380 \\text{ kip-ft}' },
       { text: 'Shapes near the cut-off in the table: W18x50 = 379 (fails), W14x61 = 383, W16x57 = 394, W21x48 = 398 (all pass).', latex: '\\phi_b M_{px}(\\text{W21x48}) = 398 \\ge 380' },
       { text: 'Lighter shapes all fall short: W21x44 = 358, W18x46 = 340, W16x45 = 309 kip-ft. The lightest passing shape is the W21x48.', latex: '\\text{Use W21x48 (48 lb/ft)}' },
     ],

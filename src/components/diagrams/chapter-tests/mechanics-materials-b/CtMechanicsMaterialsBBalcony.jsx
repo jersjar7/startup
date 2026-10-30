@@ -10,7 +10,7 @@ export function CtMechanicsMaterialsBBalcony({ L = 8, w = 0.5, P = 2 }) {
   const by = 112;
   const top = 76;
   const n = 9;
-  const uEnd = xT - 14;
+  const uEnd = xT;
   const sp = (uEnd - (x0 + 4)) / (n - 1);
 
   return (
@@ -24,14 +24,14 @@ export function CtMechanicsMaterialsBBalcony({ L = 8, w = 0.5, P = 2 }) {
       </defs>
       <FixedSupport x={x0} y={by - 30} height={60} side="left" />
       <rect x={x0} y={by - 4} width={len} height={8} fill="var(--charcoal)" />
-      {/* Uniform load, ending just inside the free end so it stays apart from the tip load */}
+      {/* Uniform load over the full length, out to the free end */}
       <line x1={x0} y1={top} x2={uEnd} y2={top} stroke="var(--ember)" strokeWidth={1.5} />
       {Array.from({ length: n }, (_, i) => (
         <line key={i} x1={x0 + 4 + i * sp} y1={top} x2={x0 + 4 + i * sp} y2={by - 6} stroke="var(--ember)" strokeWidth={1.5} markerEnd="url(#ctMmBBalcHead)" />
       ))}
       <Label x={x0 + len / 2} y={top - 12} bold color="var(--ember)">{`${w} kip/ft`}</Label>
-      {/* Tip load */}
-      <line x1={xT} y1={top - 52} x2={xT} y2={by - 6} stroke="var(--ember)" strokeWidth={2.5} markerEnd="url(#ctMmBBalcHead)" />
+      {/* Tip load: a heavier arrow that lands on the uniform-load line */}
+      <line x1={xT} y1={top - 52} x2={xT} y2={top - 4} stroke="var(--ember)" strokeWidth={2.5} markerEnd="url(#ctMmBBalcHead)" />
       <Label x={xT + 9} y={top - 44} anchor="start" bold color="var(--ember)">{`${P} kips`}</Label>
       {/* Length */}
       <line x1={xT} y1={by + 8} x2={xT} y2={by + 42} stroke="var(--gray-400)" strokeWidth={1} />

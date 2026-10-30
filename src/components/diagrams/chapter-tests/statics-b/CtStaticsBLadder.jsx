@@ -18,8 +18,8 @@ export function CtStaticsBLadder({ length = 20, base = 12, weight = 40, worker =
   const u = { x: (B.x - A.x) / Lp, y: (B.y - A.y) / Lp };
   const n = { x: u.y, y: -u.x }; // upper-left side normal
   const at = (f) => ({ x: A.x + u.x * Lp * f, y: A.y + u.y * Lp * f });
-  const M = at(0.6);
-  const K = at(0.36);
+  const M = at(0.5);
+  const K = at(0.28);
   const gray = 'var(--gray-500)';
   const off = (p, o) => ({ x: p.x + n.x * o, y: p.y + n.y * o });
   const lL = off(at(0.74), 16);

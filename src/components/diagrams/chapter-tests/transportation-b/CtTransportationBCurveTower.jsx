@@ -73,15 +73,16 @@ export function CtTransportationBCurveTower({ angle = 38, minE = 85 }) {
         fill="none" stroke="var(--charcoal)" strokeWidth={1.2} />
       <Label x={PI.x + ra + 8} y={PI.y} color="var(--charcoal)" fontSize={12} anchor="start">{`I = ${angle}°`}</Label>
 
-      {/* Tower at the PI (lattice tower footprint) */}
-      <rect x={PI.x - 6} y={PI.y - 6} width={12} height={12} fill="#fff" stroke="var(--charcoal)" strokeWidth={1.5} />
-      <line x1={PI.x - 6} y1={PI.y - 6} x2={PI.x + 6} y2={PI.y + 6} stroke="var(--charcoal)" strokeWidth={1.2} />
-      <line x1={PI.x + 6} y1={PI.y - 6} x2={PI.x - 6} y2={PI.y + 6} stroke="var(--charcoal)" strokeWidth={1.2} />
+      {/* Tower at the PI (lattice tower footprint), kept small so the clearance shows */}
+      <rect x={PI.x - 4} y={PI.y - 4} width={8} height={8} fill="var(--white, #fff)" stroke="var(--charcoal)" strokeWidth={1.3} />
+      <line x1={PI.x - 4} y1={PI.y - 4} x2={PI.x + 4} y2={PI.y + 4} stroke="var(--charcoal)" strokeWidth={1} />
+      <line x1={PI.x + 4} y1={PI.y - 4} x2={PI.x - 4} y2={PI.y + 4} stroke="var(--charcoal)" strokeWidth={1} />
       <Label x={PI.x} y={PI.y - 20} color="var(--charcoal)" fontSize={12} bold>PI</Label>
       <Label x={PI.x - 16} y={PI.y - 20} color="var(--charcoal)" fontSize={12} anchor="end">tower</Label>
 
       {/* Required clearance from the tower to the curve: the external distance */}
-      <line x1={mid.x} y1={PI.y + 6} x2={mid.x} y2={mid.y} stroke="var(--ember)" strokeWidth={1.4} />
+      <line x1={mid.x} y1={PI.y + 4} x2={mid.x} y2={mid.y} stroke="var(--ember)" strokeWidth={1.4} />
+      <line x1={mid.x - 6} y1={PI.y + 4} x2={mid.x + 6} y2={PI.y + 4} stroke="var(--ember)" strokeWidth={1.4} />
       <line x1={mid.x - 6} y1={mid.y} x2={mid.x + 6} y2={mid.y} stroke="var(--ember)" strokeWidth={1.4} />
       <Label x={mid.x} y={mid.y + 16} color="var(--ember)" fontSize={12} bold>{`E ≥ ${minE} ft`}</Label>
     </svg>

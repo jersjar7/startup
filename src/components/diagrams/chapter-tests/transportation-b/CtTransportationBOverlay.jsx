@@ -53,7 +53,7 @@ export function CtTransportationBOverlay({
       style={{ width: '100%', height: 'auto' }}>
 
       {/* Overlay */}
-      <rect x={stackL} y={top} width={stackW} height={ovH} fill="#fff" stroke="var(--ember)" strokeWidth={1.6} strokeDasharray="6,3" />
+      <rect x={stackL} y={top} width={stackW} height={ovH} fill="var(--white, #fff)" stroke="var(--ember)" strokeWidth={1.6} strokeDasharray="6,3" />
       <Label x={stackL + stackW / 2} y={top + ovH / 2} color="var(--ember)" fontSize={11}>{overlay.name}</Label>
       {dim(top, top + ovH, 'D₁ = ?', 'var(--ember)', true)}
       <Label x={stackR + 12} y={top + ovH / 2} color="var(--charcoal)" fontSize={12} anchor="start">{`a₁ = ${overlay.a.toFixed(2)}`}</Label>

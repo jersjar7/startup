@@ -392,7 +392,7 @@ const PROBLEMS = [
       'Uses only the change in momentum flux, $\\rho Q(v_2 - v_1)$, and leaves out the pressure force at the flange.',
       'Correct: $p_1 = 123.4\\ \\text{kPa}$ from Bernoulli, $p_1 A_1 = 969\\ \\text{N}$, and the water pushes the nozzle downstream with $969 - 267 = 702\\ \\text{N}$.',
       'Uses only the pressure force at the flange, $p_1 A_1$, and forgets that part of it goes into speeding up the water.',
-      'Adds the momentum term to the pressure force instead of subtracting it. The water accelerates downstream, so the nozzle must push it forward less than the pressure does.',
+      'Adds the momentum term to the pressure force instead of subtracting it. The net forward force on the water is only $\\rho Q(v_2 - v_1) = 267\\ \\text{N}$, so the nozzle holds it back with $969 - 267 = 702\\ \\text{N}$, not $969 + 267$.',
     ],
     eli5: 'The water arrives at the flange under pressure and leaves the tip much faster at zero pressure. The pressure at the flange pushes the water and the nozzle forward. Some of that push is used up speeding the water up; the rest shoves the nozzle off the pipe, and the bolts hold it back.',
     hint: 'Find $p_1$ from Bernoulli between the flange and the jet. Then apply impulse-momentum to the water inside the nozzle: $p_1 A_1 - F = \\rho Q(v_2 - v_1)$.',

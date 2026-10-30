@@ -39,7 +39,7 @@ export function CtFluidMechanicsBVenturi({ d1 = 8, d2 = 6, p1 = 38.0, p2 = 35.5 
       {gauge(g2, cy - r2, p2)}
 
       <Dim x1={34} y1={cy - r1} x2={34} y2={cy + r1} label={`${d1} in.`} lx={42} ly={cy - 16} anchor="start" />
-      <Dim x1={g2} y1={cy - r2} x2={g2} y2={cy + r2} label={`${d2} in.`} lx={g2 + 7} ly={cy + 14} anchor="start" />
+      <Dim x1={g2 + 18} y1={cy - r2} x2={g2 + 18} y2={cy + r2} label={`${d2} in.`} lx={g2 + 25} ly={cy + 14} anchor="start" />
       <Arrow x1={350} y1={cy} x2={396} y2={cy} color="var(--info)" width={2.2} />
       <T x={373} y={cy - 14} color="var(--info)">flow</T>
     </svg>

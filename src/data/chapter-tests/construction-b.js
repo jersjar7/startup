@@ -204,7 +204,7 @@ const PROBLEMS = [
       'While a new subdivision street is being graded, a temporary roadside ditch on a 3% grade carries concentrated runoff. Which measure is most appropriate inside the ditch to slow the flow and trap sediment?',
     choices: [
       { id: 'c1', text: 'A silt fence installed across the ditch bottom' },
-      { id: 'c2', text: 'Rock check dams spaced so each crest is level with the toe of the next dam upstream' },
+      { id: 'c2', text: 'Rock check dams placed across the ditch at intervals along its length' },
       { id: 'c3', text: 'Loose straw mulch spread along the ditch bottom' },
       { id: 'c4', text: 'A temporary sediment basin at the upstream end of the ditch' },
     ],

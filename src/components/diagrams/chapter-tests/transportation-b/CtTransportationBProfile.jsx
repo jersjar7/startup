@@ -120,7 +120,7 @@ export function CtTransportationBProfile({
       <line x1={pvt.x} y1={pvt.y} x2={X(xs[1])} y2={Y(zT(xs[1]))} stroke="var(--charcoal)" strokeWidth={2.4} />
 
       {[pvc, pvi, pvt].map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r={3.5} fill={i === 1 ? '#fff' : 'var(--charcoal)'} stroke="var(--charcoal)" strokeWidth={1.5} />
+        <circle key={i} cx={p.x} cy={p.y} r={3.5} fill={i === 1 ? 'var(--white, #fff)' : 'var(--charcoal)'} stroke="var(--charcoal)" strokeWidth={1.5} />
       ))}
 
       {/* Point labels, away from the curve */}
@@ -157,10 +157,10 @@ export function CtTransportationBProfile({
       )}
 
       {/* Curve length under the datum */}
-      <line x1={pvc.x} y1={datumY + 14} x2={pvt.x} y2={datumY + 14} stroke="var(--gray-500)" strokeWidth={1} />
+      <line x1={pvc.x} y1={datumY + 14} x2={(pvc.x + pvt.x) / 2 - (lText.length * 3.5 + 5)} y2={datumY + 14} stroke="var(--gray-500)" strokeWidth={1} />
+      <line x1={(pvc.x + pvt.x) / 2 + (lText.length * 3.5 + 5)} y1={datumY + 14} x2={pvt.x} y2={datumY + 14} stroke="var(--gray-500)" strokeWidth={1} />
       <line x1={pvc.x} y1={datumY + 8} x2={pvc.x} y2={datumY + 20} stroke="var(--gray-500)" strokeWidth={1} />
       <line x1={pvt.x} y1={datumY + 8} x2={pvt.x} y2={datumY + 20} stroke="var(--gray-500)" strokeWidth={1} />
-      <rect x={(pvc.x + pvt.x) / 2 - (lText.length * 3.5 + 5)} y={datumY + 7} width={lText.length * 7 + 10} height={14} fill="#fff" />
       <Label x={(pvc.x + pvt.x) / 2} y={datumY + 14.5} color="var(--gray-500)" fontSize={12}>{lText}</Label>
       <Label x={right + 6} y={datumY + 33} color="var(--gray-500)" fontSize={11} anchor="end">VERTICAL SCALE EXAGGERATED</Label>
     </svg>

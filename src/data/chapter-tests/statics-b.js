@@ -371,8 +371,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     choiceNotes: [
-      'Correct: centroid 17.0 in above the bottom, then $\\sum (I_c + Ad^2) = 7{,}501 + 3{,}072 + 6{,}342 = 16{,}910\\text{ in}^4$.',
-      'Uses the mid-depth (21.5 in) as the axis; the section is not symmetric, so the centroid is lower, at 17.0 in.',
+      'Correct: centroid 17.0 in above the bottom, then $\\sum (I_c + Ad^2) = 7{,}501 + 3{,}072 + 6{,}342 = 16{,}915 \\approx 16{,}910\\text{ in}^4$.',
+      'Uses the web\'s mid-height, 21.5 in above the bottom, as the axis; the section is not symmetric, so the true centroid is lower, at 17.0 in.',
       'Transfers to the bottom edge of the section instead of the centroidal axis.',
       'Transfers to the top edge of the section instead of the centroidal axis.',
     ],

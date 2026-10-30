@@ -11,7 +11,7 @@ export function CtStructuralBBracketTruss({ reach = 12, rise = 9, load = 20, aTi
   const ox = 30;
   const yA = 52;
   const yB = yA + rise * s;
-  const xC = ox + reach * s;
+  const xC = ox + 14 + reach * s;
   const mk = 'ctStrBBracketArrow';
   const hDimX = xC + 52;
   const W = hDimX + 42;

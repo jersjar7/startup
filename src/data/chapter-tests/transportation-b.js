@@ -145,7 +145,7 @@ const PROBLEMS = [
       'Uses the middle ordinate $M = R[1 - \\cos(I/2)]$, which is measured from the long chord, not from the PI.',
     ],
     eli5:
-      'The tower sits where the two straight road lines would meet. The curve cuts the corner, and the gap between the tower and the middle of the curve is the external distance. A gentler curve (bigger radius) swings closer to that corner, so the gap grows with the radius. Solve for the radius that makes the gap exactly 85 ft: about 1,475 ft. Anything smaller swings too wide and passes too close to the tower.',
+      'The tower sits where the two straight road lines would meet. The curve cuts the corner, and the gap between the tower and the middle of the curve is the external distance. A sharp curve (small radius) hugs the corner and passes close to the tower; a gentle curve (big radius) cuts the corner wider and stays farther away. Solve for the radius that makes the gap exactly 85 ft: about 1,475 ft. Any smaller radius brings the road closer than 85 ft.',
     hint: 'The distance from the PI to the middle of the curve is the external distance $E$.',
     steps: [
       { text: 'The distance from the PI to the curve midpoint is the external distance:', latex: 'E = R\\left[\\frac{1}{\\cos(I/2)} - 1\\right]' },

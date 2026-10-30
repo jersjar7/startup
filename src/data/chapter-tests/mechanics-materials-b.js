@@ -264,7 +264,7 @@ const PROBLEMS = [
     type: 'conceptual',
     difficulty: 'easy',
     statement:
-      'A simply supported rectangular timber floor joist is replaced by one of the same species, the same width and the same span, but twice the depth. The floor load is unchanged; neglect the joist self-weight. The midspan deflection of the new joist, as a fraction of the old one, is most nearly:',
+      'A simply supported rectangular timber formwork beam (strongback) is replaced by one of the same species, the same width and the same span, but twice the depth. The concrete load on it is unchanged; neglect self-weight. The midspan deflection of the new beam, as a fraction of the old one, is:',
     choices: [
       { id: 'c1', text: '$1/8$' },
       { id: 'c2', text: '$1/4$' },
@@ -279,7 +279,7 @@ const PROBLEMS = [
       'Assumes deflection depends only on the load and span, so it does not change.',
     ],
     eli5:
-      'How much a beam sags depends on its moment of inertia, and for a rectangle that grows with the depth cubed. Twice as deep means 2 x 2 x 2 = 8 times stiffer, so it sags one eighth as much. Depth is the cheapest way to make a floor stiffer.',
+      'How much a beam sags depends on its moment of inertia, and for a rectangle that grows with the depth cubed. Twice as deep means 2 x 2 x 2 = 8 times stiffer, so it sags one eighth as much. Depth is the cheapest way to make a beam stiffer.',
     hint: 'Deflection is proportional to 1/(EI), and I for a rectangle is bh^3/12.',
     steps: [
       { text: 'Midspan deflection of a simply supported beam under uniform load.', latex: '\\delta = \\dfrac{5wL^4}{384EI}' },
@@ -302,7 +302,7 @@ const PROBLEMS = [
     type: 'computational',
     difficulty: 'medium',
     statement:
-      'A short square reinforced concrete pier, 16 in. by 16 in., is 12 ft tall and reinforced with eight #9 bars (total steel area $8.00\\ \\text{in}^2$), as shown. Take $E_c = 3{,}600$ ksi and $E_s = 29{,}000$ ksi. Both materials stay elastic and are perfectly bonded. Under an axial load of 500 kips, the shortening of the pier (in.) is most nearly:',
+      'A short square reinforced concrete pier, 16 in. by 16 in., is 12 ft tall and reinforced with eight #9 bars (total steel area $8.00\\ \\text{in}^2$), with the cross section shown. Take $E_c = 3{,}600$ ksi and $E_s = 29{,}000$ ksi. Both materials stay elastic and are perfectly bonded. Under an axial load of 500 kips, the shortening of the pier (in.) is most nearly:',
     choices: [
       { id: 'c1', text: '$0.0053$' },
       { id: 'c2', text: '$0.0097$' },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Arrowhead, T, Dim, Ext, Ground, INK, LOAD, DIM } from './CtStructuralBParts';
+import { Arrowhead, T, Dim, Ext, INK, LOAD, DIM } from './CtStructuralBParts';
 
 /**
  * Round steel tube pole fixed at its base and free at its top, with an axial
@@ -29,15 +29,18 @@ export function CtStructuralBPole({ heightFt = 18, od = 6.0, t = 0.25 }) {
 
       {/* elevation */}
       <rect x={px - halfW} y={topY} width={2 * halfW} height={baseY - topY} fill="#fff" stroke={INK} strokeWidth={2} />
-      <rect x={px - 26} y={baseY} width={52} height={8} fill="var(--gray-100)" stroke={INK} strokeWidth={1.5} />
-      <Ground x1={px - 34} x2={px + 34} y={baseY + 8} />
+      {/* fixed base: the pole runs into a hatched ground block */}
+      <line x1={px - 34} y1={baseY} x2={px + 34} y2={baseY} stroke={INK} strokeWidth={1.8} />
+      {Array.from({ length: 11 }, (_, i) => px - 30 + i * 6.4).map((x) => (
+        <line key={x} x1={x + 4} y1={baseY + 1} x2={x - 4} y2={baseY + 11} stroke={INK} strokeWidth={1} />
+      ))}
       <line x1={px} y1={topY - 46} x2={px} y2={topY - 4} stroke={LOAD} strokeWidth={2.4} markerEnd={`url(#${mk})`} />
       <T x={px + 10} y={topY - 34} anchor="start" color={LOAD} bold>P</T>
       <T x={px + 14} y={baseY - 14} anchor="start" size={11} color={DIM}>fixed base</T>
       <T x={px + 14} y={topY + 10} anchor="start" size={11} color={DIM}>free top</T>
 
       <Ext x1={px - halfW - 4} y1={topY} x2={dimX - 5} y2={topY} />
-      <Ext x1={px - 30} y1={baseY} x2={dimX - 5} y2={baseY} />
+      <Ext x1={px - 42} y1={baseY} x2={dimX - 5} y2={baseY} />
       <Dim x1={dimX} y1={topY} x2={dimX} y2={baseY} label={`${heightFt} ft`} side="left" />
 
       {/* section */}

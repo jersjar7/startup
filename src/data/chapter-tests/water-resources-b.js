@@ -231,7 +231,7 @@ const PROBLEMS = [
     topic: 'Water distribution',
     type: 'computational',
     difficulty: 'medium',
-    statement: 'An elevated tank feeds a fire hydrant through the 10-in. ductile iron main shown ($C = 140$). During a fire flow of 1,000 gpm, the pressure at the hydrant (psi) is most nearly: (Neglect minor losses and velocity head.)',
+    statement: 'An elevated tank feeds a fire hydrant through the 10-in. ductile iron main shown ($C = 140$). Neglect minor losses and velocity head. During a fire flow of 1,000 gpm, the pressure at the hydrant (El. 1,105 ft) (psi) is most nearly:',
     choices: [
       { id: 'c1', text: '38.0' },
       { id: 'c2', text: '41.3' },
@@ -419,7 +419,7 @@ const PROBLEMS = [
     topic: 'Groundwater',
     type: 'computational',
     difficulty: 'easy',
-    statement: 'Two monitoring wells 600 ft apart lie on the same flow line downgradient of a leaking fuel tank. Groundwater elevations in them are 431.8 ft and 428.2 ft. The sand has a hydraulic conductivity of 45 ft/day and an effective porosity of 0.30. A dissolved, nonreactive contaminant passing the upgradient well reaches the downgradient well in about (days):',
+    statement: 'Two monitoring wells 600 ft apart lie on the same flow line downgradient of a leaking fuel tank. Groundwater elevations in them are 431.8 ft and 428.2 ft. The sand has a hydraulic conductivity of 45 ft/day and an effective porosity of 0.30. The travel time (days) for a dissolved, nonreactive contaminant to move from the upgradient well to the downgradient well is most nearly:',
     choices: [
       { id: 'c1', text: '4' },
       { id: 'c2', text: '667' },
@@ -604,7 +604,7 @@ const PROBLEMS = [
     choices: [
       { id: 'c1', text: '37,700' },
       { id: 'c2', text: '46,700' },
-      { id: 'c3', text: '121,000' },
+      { id: 'c3', text: '122,000' },
       { id: 'c4', text: '150,000' },
     ],
     correctAnswerId: 'c1',

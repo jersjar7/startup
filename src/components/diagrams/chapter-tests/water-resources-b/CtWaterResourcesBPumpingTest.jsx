@@ -3,7 +3,7 @@ import { Label } from '../../primitives';
 
 /**
  * Section through a steady pumping test in a confined aquifer. Distances are
- * to scale horizontally; drawdowns are exaggerated vertically.
+ * to scale horizontally; drawdowns are not to scale.
  * Shows: pumping well and two observation wells with their distances, the
  * aquifer thickness, the original and pumping piezometric surfaces, the
  * drawdown in the near well (value) and in the far well (s2, no value).
@@ -19,8 +19,8 @@ export function CtWaterResourcesBPumpingTest({ r1 = 50, r2 = 400, b = 100, s1 = 
   const aqTop = 120;
   const aqBot = 196;
   const baseBot = 208;
-  const a = 12;
-  const R = 1500;
+  const a = 9;
+  const R = 6000;
   const sPx = (x) => a * Math.log(R / Math.max(x - wellX, 4));
   const curve = [];
   for (let x = wellX + 4; x <= 412; x += 4) curve.push(`${x},${piezoY + sPx(x)}`);
@@ -39,7 +39,7 @@ export function CtWaterResourcesBPumpingTest({ r1 = 50, r2 = 400, b = 100, s1 = 
   }
 
   return (
-    <svg viewBox={`0 0 420 ${dimY2 + 22}`} xmlns="http://www.w3.org/2000/svg"
+    <svg viewBox={`0 0 420 ${dimY2 + 34}`} xmlns="http://www.w3.org/2000/svg"
       role="img" aria-label={`Pumping well in a confined aquifer ${b} ft thick, observation wells at ${r1} ft and ${r2} ft, drawdown ${s1} ft at ${r1} ft`}
       style={{ width: '100%', height: 'auto' }}>
       {/* Layers */}
@@ -103,6 +103,7 @@ export function CtWaterResourcesBPumpingTest({ r1 = 50, r2 = 400, b = 100, s1 = 
       {tick(wellX, dimY2)}
       {tick(o2, dimY2)}
       <Label x={(wellX + o2) / 2} y={dimY2 + 10} color="var(--charcoal)" fontSize={12}>{`${r2} ft`}</Label>
+      <Label x={412} y={dimY2 + 26} color="var(--gray-500)" fontSize={11} anchor="end">NOT TO SCALE</Label>
     </svg>
   );
 }

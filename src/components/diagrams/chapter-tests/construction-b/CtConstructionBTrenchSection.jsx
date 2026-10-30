@@ -74,7 +74,7 @@ export function CtConstructionBTrenchSection({
       <line x1={groundR + 4} y1={y0} x2={ox + 6} y2={y0} stroke={dimC} strokeWidth={0.8} />
       <line x1={rx} y1={yB - bd} x2={rx} y2={yB} stroke={dimC} strokeWidth={1} />
       {tick(rx, yB - bd)}{tick(rx, yB)}
-      <text x={rx + 7} y={yB - bd / 2} {...font} fill="var(--charcoal)" textAnchor="start">{`${beddingIn} in.`}</text>
+      <text x={rx + 12} y={yB - bd / 2} {...font} fill="var(--charcoal)" textAnchor="start">{`${beddingIn} in.`}</text>
       <line x1={ox} y1={y0} x2={ox} y2={yB} stroke={dimC} strokeWidth={1} />
       {tick(ox, y0)}{tick(ox, yB)}
       <text x={ox + 8} y={y0 + td / 2} {...font} fill="var(--charcoal)" textAnchor="start">{`${depthFt} ft`}</text>

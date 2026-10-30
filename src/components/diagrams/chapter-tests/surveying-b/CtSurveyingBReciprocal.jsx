@@ -84,7 +84,7 @@ export function CtSurveyingBReciprocal({ elevA = 621.48, a1 = 4.826, b1 = 7.418,
       role="img" aria-label={`Reciprocal leveling across a river: setup 1 near A reads ${a1} on A and ${b1} on B; setup 2 near B reads ${a2} on A and ${b2} on B`}
       style={{ width: '100%', height: 'auto' }}>
       {panel(4, 'Setup 1: level near A', a1, b1, 126)}
-      <line x1={12} y1={sep} x2={W - 12} y2={sep} stroke="var(--gray-300)" strokeWidth={1} />
+      <line x1={12} y1={sep} x2={W - 12} y2={sep} stroke="var(--gray-400)" strokeWidth={1} />
       {panel(top2, 'Setup 2: level near B', a2, b2, 346)}
     </svg>
   );

@@ -387,15 +387,15 @@ const PROBLEMS = [
     difficulty: 'hard',
     statement: 'A 12 ft long steel hanger rod ($E = 29{,}000$ ksi) in a parking garage was overloaded in an accident to point P on its stress-strain curve, shown in the figure, and then the load was removed completely. The permanent elongation of the rod (in.) is most nearly:',
     choices: [
-      { id: 'c1', text: '1.44' },
-      { id: 'c2', text: '0.24' },
+      { id: 'c1', text: '0.24' },
+      { id: 'c2', text: '1.44' },
       { id: 'c3', text: '1.49' },
       { id: 'c4', text: '1.73' },
     ],
     correctAnswerId: 'c3',
     choiceNotes: [
-      'Subtracts the 0.002 offset strain used to define yield instead of the actual elastic recovery $\\sigma_P/E$: $(0.0120 - 0.002)(144) = 1.44$ in.',
       'This is the elastic recovery, $(48/29{,}000)(144)$: the part that springs back, not the part that stays.',
+      'Subtracts the 0.002 offset strain used to define yield instead of the actual elastic recovery $\\sigma_P/E$: $(0.0120 - 0.002)(144) = 1.44$ in.',
       'Correct: unloading follows a line parallel to the elastic slope, so the permanent strain is $0.0120 - 48/29{,}000 = 0.01034$, and $0.01034 \\times 144 = 1.49$ in.',
       'This is the total elongation while loaded at P, $0.0120 \\times 144$. Some of it is recovered when the load comes off.',
     ],
@@ -412,7 +412,7 @@ const PROBLEMS = [
     traps: [
       'Reporting the total elongation under load instead of what remains after unloading.',
       'Subtracting 0.002 (the offset used to define yield) instead of the actual elastic strain $\\sigma/E$.',
-      'Leaving the length in feet (0.124 ft is not 0.12 in.).',
+      'Multiplying the strain by 12 ft gives 0.124, which is in feet. Convert the length to 144 in. first.',
     ],
     diagram: {
       component: 'CtMaterialsBOverloadCurve',

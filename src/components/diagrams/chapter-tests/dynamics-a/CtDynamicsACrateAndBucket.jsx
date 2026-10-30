@@ -13,7 +13,7 @@ export function CtDynamicsACrateAndBucket({ crateMass = 25, bucketMass = 15, mu 
   const crate = { x: 70, w: 78, h: 54 };
   const pr = 13; // pulley radius
   const cordY = deckY - crate.h / 2; // cord leaves the crate at mid-height
-  const pcx = edgeX + 22; // pulley centre
+  const pcx = edgeX + 22; // pulley center
   const pcy = cordY + pr;
   const ropeX = pcx + pr;
   const bucketTop = pcy + 96;

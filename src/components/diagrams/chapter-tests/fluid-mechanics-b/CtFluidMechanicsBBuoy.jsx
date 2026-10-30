@@ -15,9 +15,9 @@ export function CtFluidMechanicsBBuoy({ d = 1.2, h = 2.0, mass = 900, chain = 2.
   const x1 = x0 + bw;
   const top = 44;
   const bot = top + bh;
-  const wl = bot - 0.46 * bh; // sketch waterline
+  const wl = bot - 0.62 * bh; // sketch waterline
   const cx = (x0 + x1) / 2;
-  const H = bot + 74;
+  const H = bot + 90;
   return (
     <svg viewBox={`0 0 ${W} ${H}`} xmlns="http://www.w3.org/2000/svg" role="img"
       aria-label={`Cylindrical buoy ${d} m in diameter and ${h} m tall, mass ${mass} kg, chain pull ${chain} kN, floating in seawater`}
@@ -36,6 +36,8 @@ export function CtFluidMechanicsBBuoy({ d = 1.2, h = 2.0, mass = 900, chain = 2.
 
       <T x={W - 60} y={wl + 34} color="var(--info)">seawater</T>
       <T x={W - 60} y={wl + 50} color="var(--info)">{`ρ = ${rho.toLocaleString('en-US')} kg/m³`}</T>
+
+      <T x={cx} y={H - 4} color="var(--gray-500)" size={11}>waterline not to scale</T>
 
       {/* size */}
       <Ext x1={x0} y1={top - 3} x2={x0} y2={top - 24} />

@@ -1,6 +1,18 @@
 import React from 'react';
 import { ArrowMarkerDefs, PinSupport, RollerSupport, Label } from '../../primitives';
 
+/** Ground line with short hatch strokes under a support. */
+function Ground({ x, y }) {
+  return (
+    <g>
+      <line x1={x - 13} y1={y} x2={x + 13} y2={y} stroke="var(--charcoal)" strokeWidth={2} />
+      {[0, 1, 2, 3, 4].map((i) => (
+        <line key={i} x1={x - 8 + i * 5} y1={y} x2={x - 13 + i * 5} y2={y + 5} stroke="var(--charcoal)" strokeWidth={1.2} />
+      ))}
+    </g>
+  );
+}
+
 /**
  * Three-panel Warren truss (no verticals), top joints centered over the
  * bottom panels. Loads at bottom joints B and C.
@@ -45,7 +57,9 @@ export function CtStaticsBWarrenTruss({ panel = 6, height = 4, loadB = 30, loadC
       <Label x={J.G[0]} y={J.G[1] - 12} color="var(--charcoal)" bold>G</Label>
 
       <PinSupport x={J.A[0]} y={J.A[1] + 3} />
+      <Ground x={J.A[0]} y={J.A[1] + 19} />
       <RollerSupport x={J.D[0]} y={J.D[1] + 3} />
+      <Ground x={J.D[0]} y={J.D[1] + 29} />
 
       {/* Loads hanging below B and C */}
       <line x1={J.B[0]} y1={y0 + 4} x2={J.B[0]} y2={y0 + 50} stroke="var(--ember)" strokeWidth={2.4} markerEnd="url(#ctStBWarArrow)" />

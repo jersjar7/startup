@@ -96,7 +96,7 @@ export function CtTransportationAProfile({
       <line x1={pvt.x} y1={pvt.y} x2={X(xs[1])} y2={Y(yT(xs[1]))} stroke="var(--charcoal)" strokeWidth={2.4} />
 
       {[pvc, pvi, pvt].map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r={3.5} fill={i === 1 ? '#fff' : 'var(--charcoal)'} stroke="var(--charcoal)" strokeWidth={1.5} />
+        <circle key={i} cx={p.x} cy={p.y} r={3.5} fill={i === 1 ? 'var(--white, #fff)' : 'var(--charcoal)'} stroke="var(--charcoal)" strokeWidth={1.5} />
       ))}
 
       {/* Point labels: away from the curve */}
@@ -118,7 +118,7 @@ export function CtTransportationAProfile({
       <line x1={pvc.x} y1={datumY + 14} x2={pvt.x} y2={datumY + 14} stroke="var(--gray-500)" strokeWidth={1} />
       <line x1={pvc.x} y1={datumY + 8} x2={pvc.x} y2={datumY + 20} stroke="var(--gray-500)" strokeWidth={1} />
       <line x1={pvt.x} y1={datumY + 8} x2={pvt.x} y2={datumY + 20} stroke="var(--gray-500)" strokeWidth={1} />
-      <rect x={(pvc.x + pvt.x) / 2 - (lText.length * 3.6 + 6)} y={datumY + 7} width={lText.length * 7.2 + 12} height={14} fill="#fff" />
+      <rect x={(pvc.x + pvt.x) / 2 - (lText.length * 3.6 + 6)} y={datumY + 7} width={lText.length * 7.2 + 12} height={14} fill="var(--white, #fff)" />
       <Label x={(pvc.x + pvt.x) / 2} y={datumY + 14.5} color="var(--gray-500)" fontSize={12}>{lText}</Label>
       <Label x={right + 6} y={datumY + 32} color="var(--gray-500)" fontSize={11} anchor="end">{note}</Label>
     </svg>

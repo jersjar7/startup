@@ -8,8 +8,8 @@ import React from 'react';
  * D60 can be read. Shows the measured curve only, never a coefficient.
  */
 export function CtGeotechnicalBGradation({
-  points = [[0.05, 0], [0.075, 3], [0.1, 10], [0.2, 19], [0.4, 30], [1, 45], [2, 60], [4.75, 74], [10, 90], [20, 100]],
-  dMax = 20,
+  points = [[0.05, 0], [0.075, 3], [0.1, 6], [0.15, 10], [0.2, 17], [0.32, 30], [0.6, 60], [1, 78], [2, 92], [4.75, 98], [10, 100]],
+  dMax = 10,
   dMin = 0.05,
   sieves = [{ d: 4.75, label: 'No. 4' }, { d: 0.075, label: 'No. 200' }],
 }) {

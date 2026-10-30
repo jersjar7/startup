@@ -71,7 +71,7 @@ export function CtTransportationACurvePlan({ radius = 1500, angle = 32, piStatio
 
       {/* Points */}
       {[pc, pi, pt].map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r={3.5} fill={i === 1 ? '#fff' : 'var(--charcoal)'} stroke="var(--charcoal)" strokeWidth={1.5} />
+        <circle key={i} cx={p.x} cy={p.y} r={3.5} fill={i === 1 ? 'var(--white, #fff)' : 'var(--charcoal)'} stroke="var(--charcoal)" strokeWidth={1.5} />
       ))}
       <Label x={pc.x} y={pc.y + 17} color="var(--charcoal)" fontSize={12} bold>PC</Label>
       <Label x={pi.x} y={pi.y + 17} color="var(--charcoal)" fontSize={12} bold>PI</Label>

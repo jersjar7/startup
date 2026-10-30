@@ -26,6 +26,7 @@ export function CtGeotechnicalBInfiniteSlope({
   const HH = bot(x1) + 8;
   const sx = 250; // slice
   const sw = 34;
+  const dx = sx - 14; // vertical dimension line, ends on the surface and the slip plane at this x
   const cb = Math.cos((beta * Math.PI) / 180);
   const sb = Math.sin((beta * Math.PI) / 180);
   // seepage arrows, parallel to the slope, at mid-depth
@@ -74,10 +75,10 @@ export function CtGeotechnicalBInfiniteSlope({
       {/* Slice with vertical depth H */}
       <line x1={sx} y1={surf(sx)} x2={sx} y2={plane(sx)} stroke="var(--charcoal)" strokeWidth={1.2} />
       <line x1={sx + sw} y1={surf(sx + sw)} x2={sx + sw} y2={plane(sx + sw)} stroke="var(--charcoal)" strokeWidth={1.2} />
-      <line x1={sx - 14} y1={surf(sx)} x2={sx - 14} y2={plane(sx)} stroke="var(--gray-500)" strokeWidth={1} />
-      <line x1={sx - 19} y1={surf(sx)} x2={sx - 9} y2={surf(sx)} stroke="var(--gray-500)" strokeWidth={1} />
-      <line x1={sx - 19} y1={plane(sx)} x2={sx - 9} y2={plane(sx)} stroke="var(--gray-500)" strokeWidth={1} />
-      <SubText x={sx - 22} y={(surf(sx) + plane(sx)) / 2 - 16} color="var(--gray-500)" anchor="end">{`H = ${H} ${unit}`}</SubText>
+      <line x1={dx} y1={surf(dx)} x2={dx} y2={plane(dx)} stroke="var(--gray-500)" strokeWidth={1} />
+      <line x1={dx - 5} y1={surf(dx)} x2={dx + 5} y2={surf(dx)} stroke="var(--gray-500)" strokeWidth={1} />
+      <line x1={dx - 5} y1={plane(dx)} x2={dx + 5} y2={plane(dx)} stroke="var(--gray-500)" strokeWidth={1} />
+      <SubText x={dx - 8} y={(surf(dx) + plane(dx)) / 2 + 4} color="var(--gray-500)" anchor="end">{`H = ${H} ${unit}`}</SubText>
 
       {/* Slope angle */}
       <line x1={ax} y1={ay} x2={ax + 70} y2={ay} stroke="var(--gray-500)" strokeWidth={1} strokeDasharray="4,3" />

@@ -59,7 +59,7 @@ export function CtWaterResourcesBHydrantMain({ elWs = 1240, elFloor = 1210, elHy
       <path d={`M ${hX - 8},${gy(hX) - 30} Q ${hX},${gy(hX) - 42} ${hX + 8},${gy(hX) - 30} Z`} fill="var(--charcoal)" />
       <rect x={hX + 6} y={gy(hX) - 22} width={7} height={8} fill="var(--charcoal)" />
       <Label x={hX - 6} y={gy(hX) - 74} color="var(--charcoal)" fontSize={12} bold>hydrant</Label>
-      <Label x={hX - 6} y={gy(hX) - 56} color="var(--charcoal)" fontSize={12}>{`ground El. ${fmt(elHydrant)} ft`}</Label>
+      <Label x={hX - 6} y={gy(hX) - 56} color="var(--charcoal)" fontSize={12}>{`El. ${fmt(elHydrant)} ft`}</Label>
 
       <Label x={14} y={234} color="var(--gray-500)" fontSize={11} anchor="start">NOT TO SCALE</Label>
     </svg>

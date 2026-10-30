@@ -36,7 +36,6 @@ export function CtStaticsBRoofRafter({ rise = 6, run = 12, gravity = '1,200 lb',
       role="img" aria-label={`Rafter at ${rise} in ${run} slope with a vertical ${gravity} load and a ${wind} wind load normal to the roof`}
       style={{ width: '100%', height: 'auto' }}>
       <ArrowMarkerDefs id="ctStBRafterArrow" color="var(--ember)" size={9} />
-      <ArrowMarkerDefs id="ctStBRafterWind" color="var(--info)" size={9} />
 
       <polygon points={pts.map((c) => `${c.x},${c.y}`).join(' ')} fill="var(--gray-100)" stroke="var(--charcoal)" strokeWidth={2} strokeLinejoin="round" />
       <Label x={A.x + 46} y={A.y + 6} color="var(--charcoal)" anchor="start">rafter</Label>
@@ -47,8 +46,8 @@ export function CtStaticsBRoofRafter({ rise = 6, run = 12, gravity = '1,200 lb',
       <Label x={Gt.x - 8} y={Gt.y - 49} color="var(--charcoal)" anchor="end">gravity</Label>
 
       {/* Wind load, normal to the roof */}
-      <line x1={Wtail.x} y1={Wtail.y} x2={Wt.x} y2={Wt.y} stroke="var(--info)" strokeWidth={2.4} markerEnd="url(#ctStBRafterWind)" />
-      <Label x={Wtail.x - 6} y={Wtail.y - 8} color="var(--info)" bold anchor="end">{`wind ${wind}`}</Label>
+      <line x1={Wtail.x} y1={Wtail.y} x2={Wt.x} y2={Wt.y} stroke="var(--ember)" strokeWidth={2.4} markerEnd="url(#ctStBRafterArrow)" />
+      <Label x={Wtail.x - 6} y={Wtail.y - 8} color="var(--ember)" bold anchor="end">{`wind ${wind}`}</Label>
       <Label x={Wtail.x - 6} y={Wtail.y + 7} color="var(--charcoal)" anchor="end">normal to roof</Label>
 
       {/* Slope triangle */}

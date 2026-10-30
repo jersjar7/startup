@@ -75,7 +75,7 @@ export function CtTransportationACrosswalk({ crossLength = 64, crossWidth = 10, 
       <line x1={cwL - 26} y1={top} x2={cwL - 26} y2={bot} stroke="var(--ember)" strokeWidth={1.2} />
       <line x1={cwL - 32} y1={top} x2={cwL - 20} y2={top} stroke="var(--ember)" strokeWidth={1.2} />
       <line x1={cwL - 32} y1={bot} x2={cwL - 20} y2={bot} stroke="var(--ember)" strokeWidth={1.2} />
-      <rect x={cwL - 52} y={(top + bot) / 2 - 9} width={52} height={18} fill="#fff" />
+      <rect x={cwL - 52} y={(top + bot) / 2 - 9} width={52} height={18} fill="var(--white, #fff)" />
       <Label x={cwL - 26} y={(top + bot) / 2} color="var(--ember)" fontSize={12} bold>{`${crossLength} ft`}</Label>
 
       {/* Crosswalk width, above the north curb */}

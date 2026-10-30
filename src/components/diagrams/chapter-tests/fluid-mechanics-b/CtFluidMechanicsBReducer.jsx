@@ -55,7 +55,7 @@ export function CtFluidMechanicsBReducer({ d1 = 12, d2 = 8, dz = 10, p1 = 30, q 
 
       {/* flow */}
       <Arrow x1={a1.x} y1={a1.y} x2={a2.x} y2={a2.y} color="var(--info)" width={2.2} />
-      <T x={ql.x + 6} y={ql.y} anchor="start" color="var(--info)">{`Q = ${q} cfs`}</T>
+      <T x={ql.x + 6} y={ql.y} anchor="start" color="var(--info)">{`Q = ${q} ft³/sec`}</T>
 
       {/* diameters */}
       <T x={l1.x - 6} y={l1.y + 6} anchor="end" color="var(--gray-500)">{`${d1} in.`}</T>
