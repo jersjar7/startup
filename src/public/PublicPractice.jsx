@@ -10,6 +10,7 @@ import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import { AppArrow } from '../components/brand/AppArrow';
 import './public.css';
+import { pageTitle, titleName } from '../seo/pageTitle';
 
 const SITE = 'https://fe4raccoons.com';
 
@@ -98,7 +99,7 @@ export function PublicPractice() {
   const [tally, setTally] = React.useState({ done: 0, right: 0 });
 
   const url = topic ? `${SITE}/fe-civil/${topic.id}/practice-problems` : SITE;
-  const title = topic ? `FE Civil ${topic.name} Practice Problems with Solutions (Free) | FE for Raccoons` : '';
+  const title = topic ? pageTitle(`FE Civil ${titleName(topic)} Practice Problems with Solutions`) : '';
   const description = topic
     ? `${problems.length} free FE Civil ${topic.name} practice problems, exam style, with step-by-step solutions and FE Reference Handbook pages. Check your answers right on the page, no account needed.`
     : '';

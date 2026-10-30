@@ -11,6 +11,7 @@ import './examGuide.css';
 import casioPhoto from '../assets/calculators/casio.webp';
 import hpPhoto from '../assets/calculators/hp.webp';
 import tiPhoto from '../assets/calculators/ti.webp';
+import { pageTitle } from '../seo/pageTitle';
 
 const SITE = 'https://fe4raccoons.com';
 
@@ -211,7 +212,7 @@ export function ExamGuide() {
   const topics = allTopics();
   const active = useActiveSection(SECTION_IDS);
   const url = `${SITE}/fe-civil-exam-guide`;
-  const title = 'FE Civil Exam Guide 2026: Cost, Format, Calculators, Pass Rate & Topics | FE for Raccoons';
+  const title = pageTitle('FE Civil Exam Guide 2026: Cost, Format, Calculators, Pass Rate');
   const description = `Everything about the FE Civil exam in one place: the $225 fee, 110 questions in 5 hours 20 minutes, approved calculators, the ${FE_PASS_RATE.rate}% pass rate, all 15 topics, a 10-week study plan, and FE vs PE.`;
 
   const jsonLd = [

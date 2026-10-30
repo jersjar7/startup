@@ -14,6 +14,7 @@ import { ChapterCoin } from '../components/brand/ChapterCoin';
 import { CaretRight } from '@phosphor-icons/react';
 import { RaccoonPeek } from '../components/brand/RaccoonPeek';
 import './public.css';
+import { pageTitle, titleName } from '../seo/pageTitle';
 
 const SITE = 'https://fe4raccoons.com';
 
@@ -28,7 +29,7 @@ export function PublicTopic() {
   // Lead with what searchers type ("practice problems") and a real number:
   // these pages were shown in the top five and rarely clicked (2026-10-29).
   const problemCount = getChapterProblemCount(topic.id);
-  const title = `FE Civil ${topic.name} Practice Problems (${problemCount} Free) | FE for Raccoons`;
+  const title = pageTitle(`FE Civil ${titleName(topic)} Practice Problems (${problemCount} Free)`);
   const description = `${problemCount} free FE Civil ${topic.name} practice problems with step-by-step solutions and FE Reference Handbook pages. What NCEES tests (${topic.questionRange} questions), key formulas, and the mistakes that cost points.`;
 
   // Per-topic FAQ built from real topic data, targets long-tail "how many /
