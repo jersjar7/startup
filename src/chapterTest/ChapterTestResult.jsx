@@ -123,6 +123,7 @@ export function ChapterTestResult({ userName }) {
   const [result, setResult] = React.useState(null);
   const [failed, setFailed] = React.useState(false);
   const [missedOnly, setMissedOnly] = React.useState(false);
+  const [nextIsNew, setNextIsNew] = React.useState(false);
   const chapter = result && CHAPTERS.find((c) => c.id === result.chapterId);
   useDocumentTitle(chapter ? `${chapter.name} test result` : 'Chapter test result');
 
@@ -130,7 +131,12 @@ export function ChapterTestResult({ userName }) {
     if (!userName) { navigate('/login'); return; }
     fetch(`/api/chapter-tests/attempts/${attemptId}`)
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then(setResult)
+      .then((d) => {
+        setResult(d);
+        // Only promise new questions if the next try really has them.
+        return fetch(`/api/chapter-tests/${d.chapterId}`).then((r) => (r.ok ? r.json() : null));
+      })
+      .then((info) => { if (info) setNextIsNew(!!info.nextIsNew && !info.openId); })
       .catch(() => setFailed(true));
   }, [attemptId, userName, navigate]);
 
@@ -187,7 +193,7 @@ export function ChapterTestResult({ userName }) {
 
       <div className="ct-actions">
         <button className="ct-start" onClick={() => navigate(`/test/${chapter.id}`)}>
-          Take it again with new questions
+          {nextIsNew ? 'Take it again with new questions' : 'Take it again'}
           <AppArrow />
         </button>
         <button className="ct-link" onClick={() => navigate(`/study/${chapter.id}`)}>

@@ -50,7 +50,7 @@ router.get('/:chapterId', verifyAuth, async (req, res) => {
   const done = attempts.filter((t) => t.submittedAt && t.result);
   const open = attempts.find(isOpen);
   const best = done.reduce((m, t) => (m && m.result.percent >= t.result.percent ? m : t), null);
-  const next = CT.nextVersion(['A', 'B'].map((version) => {
+  const sets = ['A', 'B'].map((version) => {
     const mine = attempts.filter((t) => t.version === version);
     return {
       version,
@@ -58,7 +58,11 @@ router.get('/:chapterId', verifyAuth, async (req, res) => {
       lastStartedAt: mine[0] ? mine[0].startedAt : null,
       open: mine.some(isOpen),
     };
-  }));
+  });
+  const next = CT.nextVersion(sets);
+  // Whether the next try is a set this student has never handed in, so the
+  // page only promises "new questions" when that is true.
+  const nextIsNew = sets.find((v) => v.version === next).tries === 0;
   res.send({
     chapterId,
     length: a.length,
@@ -68,6 +72,8 @@ router.get('/:chapterId', verifyAuth, async (req, res) => {
     last: done[0] ? summary(done[0]) : null,
     openId: open ? String(open._id) : null,
     next,
+    nextIsNew,
+    history: done.slice(0, 20).map(summary),
   });
 });
 

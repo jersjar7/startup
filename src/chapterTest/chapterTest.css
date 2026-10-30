@@ -413,3 +413,26 @@
    whole page on a phone. */
 .ct-review .lp-step-math { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
 .ct-review .lp-step-content { min-width: 0; }
+
+/* Past tries on the rules page, each with a way back to its answers. */
+.ct-history { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--gray-100); }
+.ct-history-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--charcoal);
+  margin: 0 0 0.5rem;
+}
+.ct-history-list { list-style: none; margin: 0; padding: 0; }
+.ct-history-list li {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr) 3.5rem auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+.ct-history-try { font-family: var(--font-heading); font-weight: 600; font-size: 0.88rem; color: var(--charcoal); }
+.ct-history-date, .ct-history-score { font-family: var(--font-mono); font-size: 0.8rem; color: var(--gray-500); }
+.ct-history-score { text-align: right; color: var(--charcoal); }
