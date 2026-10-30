@@ -33,6 +33,7 @@ import { RoadToFe } from './RoadToFe';
 import { LiveFeed } from './LiveFeed';
 import { Boards } from './Boards';
 import { BadgeShelf } from './BadgeShelf';
+import { AppNudge } from './AppNudge';
 
 export function Dashboard({ userName, onLogout, displayName, firstName, examDate, emailVerified }) {
   const navigate = useNavigate();
@@ -485,6 +486,10 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             daysStudied={stats.currentStreak}
             challenge={challenge}
           />
+
+          {/* The phone app, right under the road, for people who have never
+              synced from it. */}
+          <AppNudge syncState={syncState} />
 
           {/* The raccoon sits on the road, so these come after it. */}
           {/* Account setup: logistics, kept out of the left prep panel */}

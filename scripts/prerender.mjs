@@ -66,6 +66,8 @@ const ROUTES = [
   '/contact',
   // A real student who passed: the page people link to when they share it.
   '/stories/mitch',
+  // The phone app: what it is and how it fits with the website.
+  '/app',
   // Every topic formula, searchable, with its handbook page and symbols.
   '/fe-civil/formulas',
   ...TOPICS.map(([id]) => `/fe-civil/${id}`),
@@ -121,6 +123,7 @@ const urls = [
   { loc: `${SITE}/fe-civil/formulas`, priority: '0.9', freq: 'monthly' },
   ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}`, priority: '0.8', freq: 'monthly' })),
   ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}/practice-problems`, priority: '0.8', freq: 'monthly' })),
+  { loc: `${SITE}/app`, priority: '0.7', freq: 'monthly' },
   { loc: `${SITE}/about`, priority: '0.5', freq: 'yearly' },
   { loc: `${SITE}/stories/mitch`, priority: '0.5', freq: 'yearly' },
   { loc: `${SITE}/contact`, priority: '0.4', freq: 'yearly' },
@@ -155,6 +158,7 @@ const llms = `# FE for Raccoons
 - Paid (optional): a full-length, timed FE exam simulation, a one-time purchase,
   $${STUDENT_PRICE} for verified students (.edu) or $${STANDARD_PRICE} standard. Everything else stays free.
 - No subscription. The public topic guides are readable without an account.
+- A free Android app (Google Play; iPhone coming soon) with short concept rounds on real engineering drawings, a chapter path and a daily challenge. It complements the website: full problems and mastery stay on the website. [About the app](${SITE}/app).
 
 ## Why students use it
 - The core study experience is genuinely free, while most FE prep costs hundreds of dollars.

@@ -9,6 +9,8 @@ export function Footer() {
         <span className="footer-divider">|</span>
         <Link to="/fe-civil/formulas">Formula finder</Link>
         <span className="footer-divider">|</span>
+        <Link to="/app">The app</Link>
+        <span className="footer-divider">|</span>
         <Link to="/about">About</Link>
         <span className="footer-divider">|</span>
         <Link to="/contact">Contact us</Link>
