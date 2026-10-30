@@ -26,10 +26,14 @@ const VARS = {
   '--cream-dark': '#F5EDE0', '--sunbeam': '#F5B731', '--forest': '#2D7A5F',
   '--error': '#D64045', '--info': '#3B82B8', '--ember-bg': '#FEF0EA',
   '--forest-bg': '#E8F5EE', '--sunbeam-bg': '#FEF7E0',
+  '--gray-50': '#FAFAF8', '--gray-100': '#F0EDE6', '--gray-200': '#E0DDD5', '--gray-300': '#C4C0B7',
+  '--gray-400': '#A09C93', '--gray-500': '#7A766D', '--gray-600': '#5C584F', '--gray-700': '#3D3A33',
   '--font-body': "-apple-system, Helvetica, Arial, sans-serif",
   '--font-mono': "Menlo, monospace",
 };
-const inlineVars = (svg) => svg.replace(/var\((--[a-z-]+)\)/g, (m, name) => VARS[name] ?? m);
+// Digits allowed in the name: --gray-400 and friends draw every dimension line
+// and secondary label, and were silently dropped before 2026-10-30.
+const inlineVars = (svg) => svg.replace(/var\((--[a-z0-9-]+)\)/g, (m, name) => VARS[name] ?? m);
 
 const content = JSON.parse(readFileSync(join(root, 'service/content.json'), 'utf8'));
 const figures = content.figures || {};
