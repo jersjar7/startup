@@ -8,18 +8,18 @@ import './stories.css';
 const SITE = 'https://fe4raccoons.com';
 
 // A single, honest student story: Mitch ran a full timed exam simulation, then
-// passed the Civil FE on his first try. The page hosts his video on-brand (so
+// passed the Civil FE on the first try. The page hosts the video on-brand (so
 // viewers stay in the funnel, no sign-in wall) and points straight at the sim.
 export function MitchStory() {
   const url = `${SITE}/stories/mitch`;
-  const title = 'How Mitch passed the FE Civil on his first try | FE for Raccoons';
+  const title = 'How Mitch passed the FE Civil on the first try | FE for Raccoons';
   const description =
-    'Mitch ran a full, timed exam simulation before test day, then passed the FE Civil exam on his first try. Watch his story and run the same simulation before your exam.';
+    'Mitch ran a full, timed exam simulation before test day, then passed the FE Civil exam on the first try. Watch Mitch's story and run the same simulation before your exam.';
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'VideoObject',
-    name: 'How Mitch passed the FE Civil on his first try',
+    name: 'How Mitch passed the FE Civil on the first try',
     description,
     thumbnailUrl: `${SITE}/stories/mitch-poster.jpg`,
     contentUrl: `${SITE}/stories/mitch.mp4`,
@@ -34,11 +34,11 @@ export function MitchStory() {
       <div className="story-inner">
         <p className="story-overline">Student story</p>
         <h1 className="story-h1">
-          He walked into the FE<br />already knowing how it felt.
+          Mitch walked into the FE<br />already knowing how it felt.
         </h1>
         <p className="story-lede">
-          Mitch ran a full, timed exam simulation before test day. Then he
-          passed the FE Civil on his first try. Here it is in his words.
+          Mitch ran a full, timed exam simulation before test day. Then Mitch
+          passed the FE Civil on the first try. Here it is in Mitch's words.
         </p>
 
         <div className="story-video-wrap">
@@ -53,7 +53,7 @@ export function MitchStory() {
             Your browser does not support the video tag.
           </video>
         </div>
-        <p className="story-caption">Mitch, FE Civil, passed on his first attempt.</p>
+        <p className="story-caption">Mitch, FE Civil, passed on the first attempt.</p>
 
         <div className="story-cta-card">
           <p className="story-cta-kicker">Do the same before your exam</p>
