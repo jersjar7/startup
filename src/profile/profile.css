@@ -1,59 +1,178 @@
-/* ===== PROFILE PAGE ===== */
+/* ===== PROFILE PAGE =====
+   Two columns on a desk: the forms take the width on the left, and a summary
+   of who you are (name, school, stats, exam date, purchase) stays in view on
+   the right. One column on a phone, summary first. */
 .profile-main {
-  max-width: 640px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 2rem 1rem 4rem;
 }
 
 .profile-header {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
 }
 
 .profile-header h1 {
-  text-align: center;
-  font-size: 1.25rem;
+  margin-top: 0.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  color: var(--charcoal);
 }
 
-.profile-header .logout-btn {
-  justify-self: end;
+.profile-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 32px;
+  align-items: start;
+}
+
+/* The summary sits in the right column but comes first in the markup, so a
+   phone shows it before the forms. */
+.profile-aside {
+  grid-column: 2;
+  grid-row: 1;
+  position: sticky;
+  top: 96px;
+  display: grid;
+  gap: 16px;
+}
+
+.profile-forms {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  gap: 24px;
 }
 
 /* ===== CARD SECTIONS ===== */
 .profile-card {
   background: white;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  padding: 1.75rem;
-  margin-bottom: 1.25rem;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(44, 44, 44, 0.04), 0 4px 16px rgba(44, 44, 44, 0.06);
+  padding: 2rem;
 }
 
 .profile-section-title {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--charcoal);
   margin-bottom: 1.25rem;
 }
 
-/* ===== ACCOUNT INFO ===== */
+.profile-sub-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--charcoal);
+  margin: 2.25rem 0 1rem;
+}
+
+/* ===== SUMMARY (right column) ===== */
+/* overlines: JetBrains Mono, type alone */
+.profile-over {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin: 0 0 0.3rem;
+}
+
+.profile-summary { padding: 1.5rem; }
+
+.profile-name {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--charcoal);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.profile-school {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--gray-500);
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 1.5rem 0 0;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--gray-100);
+  border-bottom: 1px solid var(--gray-100);
+}
+.profile-stats div { display: flex; flex-direction: column-reverse; gap: 0.2rem; }
+.profile-stats dd {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--charcoal);
+}
+.profile-stats dt {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+.profile-summary-row { margin-top: 1.25rem; }
+
+.profile-summary-value {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.profile-mono {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--gray-500);
+}
+
+.profile-muted { font-family: var(--font-body); font-size: 0.875rem; font-weight: 400; color: var(--gray-500); }
+
+.profile-text-link {
+  color: var(--ember);
+  font-weight: 600;
+  text-decoration: none;
+}
+.profile-text-link:hover { text-decoration: underline; }
+
+/* ===== ACCOUNT ROWS ===== */
 .profile-field {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.625rem 0;
+  padding: 0.75rem 0;
   border-bottom: 1px solid var(--gray-100);
-}
-
-.profile-field:last-child {
-  border-bottom: none;
 }
 
 .profile-label {
@@ -90,38 +209,23 @@
   font-size: 0.85rem;
 }
 
-/* ===== STATS GRID ===== */
-.stats-grid {
+/* ===== FORMS ===== */
+/* Two fields to a row; .profile-span takes the whole row and .profile-half
+   one field's width on a row of its own. */
+.profile-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.25rem;
+  align-items: start;
 }
+.profile-span { grid-column: 1 / -1; }
+.profile-half { max-width: calc(50% - 0.625rem); }
+.details-field { min-width: 0; }
 
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-  text-align: center;
-}
+/* A hint that belongs to the field beside it sits level with that field's
+   input, not under the label. */
+.profile-beside { align-self: end; margin: 0 0 0.75rem; }
 
-.stat-value {
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--charcoal);
-  letter-spacing: -0.02em;
-}
-
-.stat-label {
-  font-size: 0.75rem;
-  color: var(--gray-500);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-/* ===== FORM INPUTS ===== */
 .profile-input-label {
   display: block;
   font-family: var(--font-body);
@@ -131,50 +235,87 @@
   margin-bottom: 0.375rem;
 }
 
-.profile-card input {
+.profile-card input:not([type="checkbox"]) {
   width: 100%;
-  padding: 0.625rem 0.875rem;
+  padding: 0.7rem 0.875rem;
   border: 2px solid var(--gray-200);
-  border-radius: var(--radius-md);
+  border-radius: 10px;
   font-family: var(--font-body);
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   color: var(--charcoal);
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   background: white;
 }
-
-.profile-card .password-toggle {
-  height: calc(100% - 1rem);
+.profile-card input:not([type="checkbox"]):focus {
+  outline: none;
+  border-color: var(--ember);
 }
+
+.profile-card .password-toggle { height: 100%; }
 
 .profile-card input::placeholder {
   color: var(--gray-400);
 }
 
-.profile-card .btn-primary {
-  width: 100%;
-  padding: 0.75rem;
+.profile-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--charcoal);
+  cursor: pointer;
+}
+.profile-check input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--ember);
+  cursor: pointer;
 }
 
-/* ===== DETAILS (name + exam date) ===== */
-.details-row {
-  display: flex;
-  gap: 0.75rem;
-}
-.details-field {
-  flex: 1;
-  min-width: 0;
-}
 .details-hint {
-  margin: -0.5rem 0 1rem;
-  font-size: 0.78rem;
+  margin: 0;
+  font-size: 0.8rem;
   line-height: 1.5;
   color: var(--gray-500);
 }
+.profile-grid .details-hint { margin-top: -0.25rem; }
+.profile-check + .details-hint { margin-top: 0.35rem; }
 .details-hint strong { color: var(--charcoal); font-weight: 700; }
-@media (max-width: 480px) {
-  .details-row { flex-direction: column; gap: 0; }
+
+/* Main buttons are fully round and end in the arrow disc (brand). */
+.profile-cta {
+  --btn-bg: var(--ember);
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 52px;
+  padding: 5px 6px 5px 22px;
+  background: var(--btn-bg);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(44, 44, 44, 0.10), 0 8px 20px rgba(44, 44, 44, 0.12);
+  transition: transform 0.2s ease, background 0.2s ease;
 }
+.profile-cta:hover:not(:disabled) { --btn-bg: #d4582c; transform: translateY(-1px); }
+.profile-cta:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }
+.profile-cta:disabled { opacity: 0.45; cursor: not-allowed; }
+.profile-cta--small, .profile-cta--quiet { min-height: 44px; padding: 0 22px; }
+/* Secondary: same shape, no fill, so the page has one loud button. */
+.profile-cta--quiet {
+  background: none;
+  color: var(--charcoal);
+  border: 2px solid var(--charcoal);
+  box-shadow: none;
+}
+.profile-cta--quiet:hover:not(:disabled) { background: var(--cream-dark); }
 
 /* ===== SUCCESS BANNER (profile context) ===== */
 .profile-card .success-banner {
@@ -184,7 +325,7 @@
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
   font-weight: 500;
-  border-radius: var(--radius-sm);
+  border-radius: 6px;
 }
 
 /* ===== DANGER ZONE ===== */
@@ -201,22 +342,23 @@
   color: var(--gray-500);
   line-height: 1.5;
   margin-bottom: 1.25rem;
+  max-width: 60ch;
 }
 
 .btn-danger {
-  width: 100%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem;
+  min-height: 44px;
+  padding: 0 22px;
   background: var(--error);
   color: white;
   font-family: var(--font-heading);
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -232,24 +374,6 @@
   transform: translateY(-1px);
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 640px) {
-  .profile-header {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-    text-align: center;
-  }
-
-  .profile-header .logout-btn {
-    justify-self: center;
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
-  }
-}
-
 /* Changing the email address. Collapsed until asked for, because it is rare
    and it asks for a password, which should not sit on screen by default. */
 .profile-link-btn {
@@ -258,10 +382,10 @@
   border: 0;
   margin-left: 10px;
   padding: 0;
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 600;
   font-size: 0.85rem;
-  color: var(--ember, #E8683A);
+  color: var(--ember);
   cursor: pointer;
   text-decoration: underline;
 }
@@ -269,26 +393,33 @@
 .profile-email-form {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 8px;
   margin: 12px 0 4px;
   padding: 16px;
   border: 1px solid rgba(44, 44, 44, 0.12);
-  border-radius: 12px;
-  background: var(--cream, #FFF9F0);
-}
-
-.profile-email-form input {
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 1rem;
-  padding: 10px 12px;
-  border: 1.5px solid rgba(44, 44, 44, 0.18);
   border-radius: 10px;
-  background: #fff;
+  background: var(--cream);
 }
+.profile-email-form input:not([type="checkbox"]) { max-width: 420px; }
 
 .profile-hint {
   font-size: 0.85rem;
   line-height: 1.5;
-  color: #8C8377;
-  margin: 2px 0 6px;
+  color: var(--gray-500);
+  margin: 2px 0 12px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .profile-layout { grid-template-columns: 1fr; gap: 24px; }
+  .profile-aside, .profile-forms { grid-column: 1; grid-row: auto; }
+  .profile-aside { position: static; }
+}
+
+@media (max-width: 600px) {
+  .profile-card { padding: 1.4rem 1.25rem; }
+  .profile-grid { grid-template-columns: 1fr; }
+  .profile-half { max-width: none; }
+  .profile-beside { margin: -0.5rem 0 0; }
 }
