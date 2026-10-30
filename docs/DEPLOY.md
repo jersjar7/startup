@@ -164,6 +164,17 @@ curl -s "https://fe4raccoons.com$INDEX" | grep -c "<a unique string from your ch
 curl -s https://fe4raccoons.com/api/<route>
 ```
 
+## After a deploy that adds or changes public pages: ping IndexNow
+
+```bash
+node scripts/indexnow.mjs   # expect: IndexNow: 200 or 202 ... for N URLs
+```
+
+It sends every URL in the live sitemap to Bing (which feeds ChatGPT search)
+and the other IndexNow engines. It only works while
+`public/f225972f6305a74deb6830856380c23b.txt` is live; that file proves we own
+the domain, so never delete or rename it.
+
 ## ⚠️ Changing a price — the full surface list
 
 Prices live in two modules and everything else must derive from them:
