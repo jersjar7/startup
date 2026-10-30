@@ -122,6 +122,12 @@ fixes rest on non-obvious invariants. The two most important:
 The server picks the 110 questions (unseen first) and never sends
 `correctAnswerId`; see the doc before letting the browser choose questions again.
 
+## Search & AI visibility — READ BEFORE ADDING A PUBLIC PAGE
+`docs/SEO.md` has the checklist. `npm run build:seo` fails on a title over 70
+characters, a missing description, not exactly one h1, thin text, or a
+duplicate title/description; run it before merging any public-page change.
+After deploying, run `node scripts/indexnow.mjs` (Bing feeds ChatGPT search).
+
 ## Analytics & attribution
 `docs/ANALYTICS-ATTRIBUTION.md`. Plausible measures pre-signup; `user.acquisition`
 measures which channel produced an account. `user.acquisition` has THREE signals

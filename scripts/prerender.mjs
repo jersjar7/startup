@@ -6,6 +6,7 @@ import { preview } from 'vite';
 import pw from 'playwright';
 import fs from 'node:fs';
 import path from 'node:path';
+import { checkPages } from './seoChecks.mjs';
 // Prices come from the display module so /llms.txt cannot quote a figure the
 // checkout will not charge. AI crawlers read this file, so a stale price here is
 // repeated back to users by assistants.
@@ -82,6 +83,7 @@ const server = await preview({ preview: { port: PORT, strictPort: true } });
 const browser = await chromium.launch();
 const page = await browser.newPage();
 
+const rendered = [];
 try {
   for (const route of ROUTES) {
     // Generous limits: a busy machine (a long test run alongside) once made
@@ -94,6 +96,7 @@ try {
     await page.waitForSelector(route === '/' ? 'h1.hero-title' : 'main h1', { timeout: 90000 });
     const html = '<!DOCTYPE html>\n' + (await page.evaluate(() => document.documentElement.outerHTML));
     writeFile(route === '/' ? 'home/index.html' : path.join(route, 'index.html'), html);
+    rendered.push({ route, html });
     const bytes = Buffer.byteLength(html);
     console.log(`  prerendered ${route}  (${(bytes / 1024).toFixed(0)} KB)`);
   }
@@ -101,6 +104,14 @@ try {
   await browser.close();
   await server.httpServer.close();
 }
+
+// ---- SEO checks: fail the build rather than ship a page search engines flag ----
+const problems = checkPages(rendered);
+if (problems.length) {
+  console.error(`\nSEO checks failed on ${problems.length} problem(s):\n  ${problems.join('\n  ')}\n`);
+  process.exit(1);
+}
+console.log(`  SEO checks passed on ${rendered.length} pages`);
 
 // ---- sitemap.xml ----
 const urls = [
