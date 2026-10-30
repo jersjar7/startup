@@ -16,7 +16,7 @@ export default {
     { latex: 'T = R\\tan\\frac{I}{2}', label: 'Horizontal Curve Tangent', page: 'p. 302' },
     { latex: 'D = \\frac{5{,}729.58}{R}', label: 'Degree of Curve', page: 'p. 302' },
     { latex: 'Y = Y_{PVC} + g_1 x + \\frac{g_2 - g_1}{2L}x^2', label: 'Vertical Curve Elevation', page: 'p. 301' },
-    { latex: 'L = \\sqrt{\\Delta E^2 + \\Delta N^2}, \\; Az = \\tan^{-1}\\!\\frac{\\Delta E}{\\Delta N}', label: 'Inverse Computation (distance & azimuth)' },
+    { latex: 'L = \\sqrt{\\Delta E^2 + \\Delta N^2}, \\; Az = \\tan^{-1}\\!\\frac{\\Delta E}{\\Delta N}', label: 'Inverse Computation (distance & azimuth)', page: null, inHandbook: false },
   ],
   traps: [
     'Mixing up backsight and foresight in differential leveling. BS is added, FS is subtracted from the HI.',

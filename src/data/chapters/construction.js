@@ -12,7 +12,7 @@ export default {
     { latex: 'EF = ES + D', label: 'Early Finish', page: 'p. 310' },
     { latex: 'LS = LF - D', label: 'Late Start', page: 'p. 310' },
     { latex: 'TF = LS - ES = LF - EF', label: 'Total Float', page: 'p. 310' },
-    { latex: 'FF = \\min(ES_j) - EF_i', label: 'Free Float', page: 'p. 310' },
+    { latex: 'FF = \\min(ES_j) - EF_i', label: 'Free Float', page: null, inHandbook: false },
     { latex: 'CV = BCWP - ACWP', label: 'Cost Variance', page: 'p. 310' },
     { latex: 'SV = BCWP - BCWS', label: 'Schedule Variance', page: 'p. 310' },
     { latex: 'CPI = \\frac{BCWP}{ACWP}', label: 'Cost Performance Index', page: 'p. 311' },

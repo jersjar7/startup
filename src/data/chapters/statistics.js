@@ -13,7 +13,7 @@ export default {
     { latex: 's = \\sqrt{\\frac{\\sum(x_i - \\bar{x})^2}{n-1}}', label: 'Sample Std Dev', page: 'p. 63' },
     { latex: 'P(X=k) = \\binom{n}{k}p^k(1-p)^{n-k}', label: 'Binomial Distribution', page: 'p. 66' },
     { latex: 'z = \\frac{x - \\mu}{\\sigma}', label: 'Z-Score', page: 'p. 67' },
-    { latex: 'r = \\frac{\\sum(x_i-\\bar{x})(y_i-\\bar{y})}{\\sqrt{\\sum(x_i-\\bar{x})^2\\sum(y_i-\\bar{y})^2}}', label: 'Correlation Coefficient', page: 'p. 69' },
+    { latex: 'r = \\frac{\\sum(x_i-\\bar{x})(y_i-\\bar{y})}{\\sqrt{\\sum(x_i-\\bar{x})^2\\sum(y_i-\\bar{y})^2}}', label: 'Correlation Coefficient', page: 'p. 70' },
   ],
   traps: [
     'Dividing by n instead of (n\u22121) for sample standard deviation. The FE uses the sample formula.',

@@ -10,8 +10,8 @@ export default {
   ],
   formulas: [
     { latex: 'r + m \\geq 2j', label: 'Truss Stability/Determinacy', page: 'p. 271' },
-    { latex: '\\delta = \\sum \\frac{nNL}{AE}, \\quad \\delta = \\int \\frac{mM}{EI}\\,dx', label: 'Deflection (Unit-Load Method)', page: 'p. 271' },
-    { latex: '\\delta = \\frac{PL^3}{48EI}, \\quad \\frac{5wL^4}{384EI}, \\quad \\frac{PL^3}{3EI}', label: 'Standard Beam Deflections', page: 'p. 271' },
+    { latex: '\\delta = \\sum \\frac{nNL}{AE}, \\quad \\delta = \\int \\frac{mM}{EI}\\,dx', label: 'Deflection (Unit-Load Method)', page: 'pp. 268–269' },
+    { latex: '\\delta = \\frac{PL^3}{48EI}, \\quad \\frac{5wL^4}{384EI}, \\quad \\frac{PL^3}{3EI}', label: 'Standard Beam Deflections', page: 'pp. 139–140' },
     { latex: 'R_{\\text{prop}} = \\frac{3wL}{8}, \\quad M_{FE} = \\frac{wL^2}{12}', label: 'Propped Cantilever / Fixed-End Moment', page: 'p. 271' },
     { latex: '1.2D + 1.6L', label: 'LRFD Basic Combination', page: 'p. 272' },
     { latex: 'M_n = A_s f_y (d - a/2)', label: 'RC Beam Moment Capacity', page: 'p. 275' },
@@ -19,7 +19,7 @@ export default {
     { latex: 'V_c = 2\\lambda\\sqrt{f_c\'} \\cdot b_w \\cdot d', label: 'Concrete Shear Capacity', page: 'p. 276' },
     { latex: '\\phi P_{n(\\max)} = 0.80\\phi[0.85 f_c\'(A_g - A_{st}) + f_y A_{st}]', label: 'RC Column Max Capacity', page: 'p. 278' },
     { latex: 'M_p = F_y Z_x', label: 'Steel Plastic Moment', page: 'p. 281' },
-    { latex: '\\phi_c P_n = \\phi_c F_{cr} A_g', label: 'Steel Column Strength', page: 'p. 288' },
+    { latex: '\\phi_c P_n = \\phi_c F_{cr} A_g', label: 'Steel Column Strength', page: 'p. 281' },
     { latex: 'P_n = F_y A_g \\text{ (yield)}, \\quad P_n = F_u A_e \\text{ (rupture)}', label: 'Steel Tension Members', page: 'p. 283' },
   ],
   traps: [

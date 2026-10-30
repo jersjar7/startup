@@ -61,6 +61,8 @@ const ROUTES = [
   '/contact',
   // A real student who passed: the page people link to when they share it.
   '/stories/mitch',
+  // Every topic formula, searchable, with its handbook page and symbols.
+  '/fe-civil/formulas',
   ...TOPICS.map(([id]) => `/fe-civil/${id}`),
   // Free practice problems per chapter, checked on the page with no account.
   ...TOPICS.map(([id]) => `/fe-civil/${id}/practice-problems`),
@@ -100,6 +102,7 @@ const urls = [
   { loc: `${SITE}/`, priority: '1.0', freq: 'weekly' },
   { loc: `${SITE}/fe-civil-exam-guide`, priority: '0.9', freq: 'weekly' },
   { loc: `${SITE}/exam-simulation`, priority: '0.9', freq: 'weekly' },
+  { loc: `${SITE}/fe-civil/formulas`, priority: '0.9', freq: 'monthly' },
   ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}`, priority: '0.8', freq: 'monthly' })),
   ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}/practice-problems`, priority: '0.8', freq: 'monthly' })),
   { loc: `${SITE}/about`, priority: '0.5', freq: 'yearly' },
@@ -143,7 +146,8 @@ const llms = `# FE for Raccoons
 - Every problem includes a step-by-step, plain-English explanation and an FE Reference Handbook page reference.
 
 ## FE Civil exam guides
-- [FE Civil Exam Guide](${SITE}/fe-civil-exam-guide): format, all 15 topics, how to prepare.
+- [FE Civil Exam Guide](${SITE}/fe-civil-exam-guide): cost, format, calculators, pass rate, all 15 topics, how to prepare.
+- [FE Civil formula finder](${SITE}/fe-civil/formulas): every key formula with its FE Reference Handbook page, what each symbol means, and when to use it.
 ${TOPICS.map(([id, name]) => `- [${name}](${SITE}/fe-civil/${id}): what NCEES tests, key formulas, sample problems, common mistakes. [Free practice problems](${SITE}/fe-civil/${id}/practice-problems) with worked solutions.`).join('\n')}
 
 ## About

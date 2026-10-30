@@ -24,7 +24,7 @@ export default {
     { latex: 'CT = C \\times t_{10}', label: 'Disinfection CT', page: 'p. 346' },
     { latex: '\\dot W = \\gamma Q H / \\eta', label: 'Pump Power Equation', page: 'p. 191' },
     { latex: 'NPSH_A = H_{pa} + H_s - \\sum h_L - H_{vp}', label: 'NPSH Available', page: 'p. 191' },
-    { latex: '\\text{Hardness as CaCO}_3 = \\sum C_i \\tfrac{50}{EW_i}', label: 'Total Hardness as CaCO₃' },
+    { latex: '\\text{Hardness as CaCO}_3 = \\sum C_i \\tfrac{50}{EW_i}', label: 'Total Hardness as CaCO₃', page: null, inHandbook: false },
   ],
   traps: [
     'Manning\'s n is a roughness coefficient. In US Customary, multiply by 1.486 (K factor).',

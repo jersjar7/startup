@@ -137,6 +137,7 @@ export function PublicTopic() {
         <section className="pub-section pub-panel">
           <span className="pub-label"><span className="pub-label-dash" />Reference</span>
           <h2>Key {topic.name} formulas</h2>
+          <p className="pub-section-lede">What every symbol means, and when to use each one: <Link to={`/fe-civil/formulas?ch=${topic.id}`}>{topic.name} formulas in the formula finder</Link>.</p>
           <ul className="pub-formulas">
             {topic.formulas.map((f, i) => (
               <li key={i}>
@@ -144,6 +145,7 @@ export function PublicTopic() {
                 <span className="pub-formula-meta">
                   <span className="pub-formula-label">{f.label}</span>
                   {f.page && <span className="pub-formula-page">FE Handbook {f.page}</span>}
+                  {f.inHandbook === false && <span className="pub-formula-page">Not in the handbook</span>}
                 </span>
               </li>
             ))}

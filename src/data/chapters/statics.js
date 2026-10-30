@@ -14,7 +14,7 @@ export default {
     { latex: 'I_x = \\bar{I}_x + Ad^2', label: 'Parallel Axis Theorem', page: 'p. 95' },
     { latex: 'F \\leq \\mu_s N', label: 'Static Friction', page: 'p. 96' },
     { latex: 'M = r \\times F', label: 'Moment of a Force', page: 'p. 94' },
-    { latex: 'F_{out} = F_{in}\\,\\frac{a_{in}}{a_{out}}', label: 'Lever / Machine (mechanical advantage)' },
+    { latex: 'F_{out} = F_{in}\\,\\frac{a_{in}}{a_{out}}', label: 'Lever / Machine (mechanical advantage)', page: null, inHandbook: false },
   ],
   traps: [
     'Incorrect free body diagram: forgetting a reaction force or including an internal force on the wrong side of the cut.',
