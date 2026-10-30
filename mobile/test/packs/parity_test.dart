@@ -72,7 +72,12 @@ Map<String, Object?> _packGame(String id) => _built.putIfAbsent(
 );
 
 void main() {
-  setUpAll(loadBrandFonts);
+  // The real formula fonts, not the test's stand-in, which draws wider and
+  // once listed 51 games as running off a small phone when 10 did.
+  setUpAll(() async {
+    await loadBrandFonts();
+    await loadMathFonts();
+  });
 
   for (final id in _games.keys) {
     for (final dark in [false, true]) {
