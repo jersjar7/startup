@@ -370,6 +370,7 @@ export function ExamGuide() {
               <p className="eg-intro">
                 NCEES gives each topic a range of questions. The solid bar is the fewest you will see and the pale part runs to the most,
                 so longer bars deserve more of your time. Each name opens a free study guide, and each practice link opens worked problems.
+                The <Link to="/fe-civil/formulas">formula finder</Link> lists every key formula with its handbook page.
               </p>
               <TopicBars topics={topics} />
             </section>

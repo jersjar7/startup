@@ -1,0 +1,96 @@
+/* FE Civil formula finder. A reference you search, so the search box leads
+   and every entry reads like a handbook line: the formula on the left, its
+   symbols spelled out on the right. */
+.pub.ff { max-width: 1100px; }
+
+/* A <header>, so undo the site-wide header bar rule. */
+.ff-hero { display: block; padding: 16px 0 48px; max-width: 760px; background: none; border-bottom: none; }
+.ff-hero h1 { font-size: clamp(2.1rem, 4.4vw, 3rem); letter-spacing: -0.035em; line-height: 1.06; }
+
+.ff-search {
+  display: flex; align-items: center; gap: 14px; margin-top: 32px;
+  background: #fff; border: 2px solid var(--charcoal); border-radius: 16px; padding: 0 12px 0 20px; height: 68px;
+  box-shadow: 0 1px 3px rgba(44,44,44,0.04), 0 8px 24px rgba(44,44,44,0.08);
+}
+.ff-search:focus-within { border-color: var(--ember); box-shadow: 0 0 0 4px var(--ember-bg), 0 8px 24px rgba(44,44,44,0.08); }
+.ff-search svg { color: var(--charcoal); flex-shrink: 0; }
+.ff-search input {
+  flex: 1 1 auto; min-width: 0; border: none; outline: none; background: none;
+  font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 1.25rem; color: var(--charcoal);
+}
+.ff-search input::placeholder { color: var(--gray-400); }
+.ff-search input::-webkit-search-cancel-button { display: none; }
+.ff-clear { border: none; background: var(--cream-dark); color: var(--charcoal); width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; cursor: pointer; }
+.ff-clear:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
+.pub .ff-try { margin: 14px 0 0; font-size: 0.9rem; color: var(--gray-500); }
+.ff-try button {
+  border: none; background: none; padding: 0; font: inherit; color: var(--ember); cursor: pointer;
+  text-decoration: underline; text-decoration-color: rgba(232,104,58,0.35); text-underline-offset: 3px;
+}
+.ff-try button:hover { text-decoration-color: var(--ember); }
+.ff-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Body: chapter filter rail + results */
+.ff-body { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; margin-bottom: 80px; align-items: start; }
+.ff-rail { position: sticky; top: 96px; display: grid; gap: 2px; }
+.ff-rail button {
+  display: flex; justify-content: space-between; gap: 12px; align-items: baseline; text-align: left;
+  border: none; background: none; padding: 7px 12px; border-radius: 10px; cursor: pointer;
+  font: inherit; font-size: 0.9rem; color: #4a4a4a;
+}
+.ff-rail button:hover:not(:disabled) { background: var(--cream-dark); }
+.ff-rail button.is-on { background: var(--charcoal); color: var(--cream); }
+.ff-rail button:disabled { color: var(--gray-400); cursor: default; }
+.ff-rail button:focus-visible { outline: 2px solid var(--ember); outline-offset: 1px; }
+.ff-n { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; opacity: 0.75; }
+
+.ff-results { min-width: 0; }
+.pub .ff-count { font-size: 0.9rem; color: var(--gray-500); margin: 6px 0 20px; }
+.pub .ff-note { font-size: 0.9rem; color: #4a4a4a; margin: -8px 0 20px; max-width: 64ch; }
+.ff-note strong { color: var(--ember); font-weight: 600; }
+.ff-empty { background: #fff; border-radius: 16px; padding: 28px; }
+
+.ff-group {
+  background: #fff; border-radius: 16px; padding: 8px 32px 12px; margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(44,44,44,0.04), 0 4px 16px rgba(44,44,44,0.06);
+}
+.ff-group-head { display: flex; align-items: center; gap: 12px; padding: 20px 0 12px; flex-wrap: wrap; }
+.ff-group-head .coin { --coin-d: 30px !important; }
+.pub .ff-group-head h2 { font-size: 1.3rem; margin: 0; letter-spacing: -0.02em; }
+.ff-group-links { margin-left: auto; display: flex; gap: 18px; }
+.ff-group-links a { font-size: 0.85rem; font-weight: 500; color: var(--ember); text-decoration: none; }
+.ff-group-links a:hover { text-decoration: underline; }
+
+.ff-entry { padding: 22px 0 24px; border-top: 1px solid var(--gray-200); scroll-margin-top: 96px; }
+.ff-entry:target { background: linear-gradient(to right, var(--sunbeam-bg), transparent 70%); margin: 0 -32px; padding-left: 32px; padding-right: 32px; }
+.ff-entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 14px; }
+.pub .ff-entry h3 { font-size: 1.05rem; margin: 0; }
+.ff-entry h3 a { color: var(--charcoal); text-decoration: none; }
+.ff-entry h3 a:hover { color: var(--ember); }
+.ff-page { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--gray-500); white-space: nowrap; }
+.ff-memorize { color: var(--ember); }
+.ff-entry-body { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px; align-items: start; }
+.ff-math { font-size: 1.2rem; overflow-x: auto; padding: 6px 0; }
+.pub .ff-use { margin: 0 0 12px; color: #4a4a4a; font-size: 0.95rem; }
+.ff-symbols { margin: 0; display: grid; gap: 7px; }
+.ff-symbols > div { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.ff-symbols dt { text-align: right; overflow-x: auto; }
+.ff-symbols dd { margin: 0; font-size: 0.9rem; color: #4a4a4a; line-height: 1.5; }
+.ff-units { display: inline-block; margin-left: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--gray-500); }
+.pub .ff-trap { margin: 14px 0 0; font-size: 0.9rem; color: #4a4a4a; padding-left: 12px; border-left: 3px solid var(--sunbeam); }
+.ff-trap strong { font-family: 'DM Sans', sans-serif; font-weight: 600; color: var(--charcoal); }
+
+@media (max-width: 900px) {
+  .ff-body { grid-template-columns: 1fr; gap: 20px; }
+  .ff-rail { position: static; display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+  .ff-rail button { flex: 0 0 auto; background: #fff; white-space: nowrap; }
+  .ff-entry-body { grid-template-columns: 1fr; gap: 14px; }
+}
+@media (max-width: 600px) {
+  .ff-search { height: 58px; padding-left: 16px; }
+  .ff-search input { font-size: 1.05rem; }
+  .ff-group { padding: 4px 18px 8px; }
+  .ff-entry:target { margin: 0 -18px; padding-left: 18px; padding-right: 18px; }
+  .ff-group-links { margin-left: 0; width: 100%; }
+  .ff-symbols > div { grid-template-columns: 3.5rem minmax(0, 1fr); }
+}

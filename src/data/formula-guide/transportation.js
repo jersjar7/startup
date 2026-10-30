@@ -1,0 +1,118 @@
+// Plain-language guide to the formulas on the FE Civil Transportation Engineering page,
+// in the same order as chapters/transportation.js. Symbols checked against the FE
+// Reference Handbook 10.5.
+export default [
+  {
+    label: 'Stopping Sight Distance',
+    aliases: ['ssd', 'stopping sight distance', 'braking distance', 'reaction time', 'perception reaction'],
+    use: 'Distance a driver needs to see ahead to perceive a hazard, react, and brake to a stop on a grade.',
+    symbols: [
+      { tex: 'SSD', means: 'stopping sight distance, reaction distance plus braking distance', units: 'ft' },
+      { tex: 'V', means: 'design speed', units: 'mph' },
+      { tex: 't', means: 'driver perception-reaction time, 2.5 s for AASHTO design', units: 'sec' },
+      { tex: 'a', means: 'deceleration rate, 11.2 ft/s² for AASHTO design', units: 'ft/s²' },
+      { tex: 'G', means: 'grade as a decimal (percent grade divided by 100), plus for uphill and minus for downhill', units: 'unitless' },
+    ],
+    trap: 'G is a decimal, so a 3% downgrade is −0.03, and a downgrade makes the braking distance longer, not shorter.',
+  },
+  {
+    label: 'Crest Vertical Curve (S ≤ L)',
+    aliases: ['crest vertical curve', 'curve length', 'sight distance on crest', 'k value', 'vertical curve'],
+    use: 'Minimum length of a crest vertical curve that provides sight distance S, when the sight distance fits within the curve.',
+    symbols: [
+      { tex: 'L', means: 'length of the vertical curve, measured horizontally', units: 'ft' },
+      { tex: 'A', means: 'algebraic difference in grades, g2 minus g1, as an absolute value in percent', units: 'percent (use 4 for 4%, not 0.04)' },
+      { tex: 'S', means: 'sight distance to provide, usually the stopping sight distance', units: 'ft' },
+    ],
+    trap: 'The 2,158 assumes h1 = 3.5 ft and h2 = 2.0 ft and S ≤ L; if your answer comes out shorter than S, redo it with the S > L equation.',
+  },
+  {
+    label: 'Horizontal Curve Radius',
+    aliases: ['degree of curve', 'curve radius', 'horizontal curve', 'arc definition', '5729.58'],
+    use: 'Convert between degree of curve (arc definition) and radius for a horizontal curve.',
+    symbols: [
+      { tex: 'R', means: 'radius of the curve', units: 'ft' },
+      { tex: 'D', means: 'degree of curve, the central angle that subtends a 100 ft arc', units: 'degrees' },
+    ],
+    trap: 'D must be in decimal degrees, so convert minutes first (4°30′ is 4.5°).',
+  },
+  {
+    label: 'Yellow Signal Interval',
+    aliases: ['yellow interval', 'yellow time', 'change interval', 'signal timing', 'clearance interval'],
+    use: 'Length of the yellow change interval at a signalized intersection.',
+    symbols: [
+      { tex: 'y', means: 'yellow interval, rounded to the nearest 0.1 s', units: 'sec' },
+      { tex: 't', means: 'driver perception-reaction time, typically 1.0 s', units: 'sec' },
+      { tex: 'v', means: 'vehicle approach speed', units: 'ft/s' },
+      { tex: 'a', means: 'deceleration rate, typically 10 ft/s²', units: 'ft/s²' },
+      { tex: 'G', means: 'grade as a decimal (percent grade divided by 100), plus for uphill', units: 'unitless' },
+    ],
+    trap: 'v is in ft/s here, not mph; multiply mph by 1.47 first.',
+  },
+  {
+    label: 'Maximum Flow (Greenshields)',
+    aliases: ['greenshields', 'capacity', 'jam density', 'free flow speed', 'maximum flow'],
+    use: 'Maximum flow (capacity) of a traffic stream under the Greenshields linear speed-density model.',
+    symbols: [
+      { tex: 'V_m', means: 'maximum flow (capacity)', units: 'veh/hr/ln' },
+      { tex: 'D_j', means: 'jam density, density when traffic is stopped', units: 'veh/mi/ln' },
+      { tex: 'S_f', means: 'free-flow speed, speed at near-zero density', units: 'mph' },
+    ],
+    trap: 'Maximum flow happens at half the jam density and half the free-flow speed, not at either extreme.',
+  },
+  {
+    label: 'Demand Flow Rate',
+    aliases: ['flow rate', 'peak hour factor', 'phf', 'heavy vehicle factor', 'passenger car equivalents'],
+    use: 'Convert an hourly volume into a peak 15-minute flow rate per lane in passenger cars, for freeway level of service.',
+    symbols: [
+      { tex: 'v_p', means: 'demand flow rate under equivalent base conditions', units: 'pc/h/ln' },
+      { tex: 'V', means: 'hourly demand volume in the analysis direction', units: 'veh/h' },
+      { tex: 'PHF', means: 'peak hour factor, hourly volume divided by four times the peak 15-min volume', units: 'unitless (at most 1.0)' },
+      { tex: 'N', means: 'number of lanes in the analysis direction', units: 'unitless' },
+      { tex: 'f_{HV}', means: 'heavy-vehicle adjustment factor, 1 / [1 + PT(ET − 1)]', units: 'unitless (at most 1.0)' },
+    ],
+    trap: 'Use the lanes in one direction only, and remember fHV is below 1, so it increases the flow rate.',
+  },
+  {
+    label: 'AASHTO Structural Number',
+    aliases: ['structural number', 'sn', 'flexible pavement', 'layer coefficient', 'pavement design'],
+    use: 'Structural capacity of a flexible pavement from the thickness, strength and drainage of each layer.',
+    symbols: [
+      { tex: 'SN', means: 'structural number of the whole pavement', units: 'unitless (index)' },
+      { tex: 'a_1', means: 'layer coefficient of the surface course (asphalt)', units: 'per inch' },
+      { tex: 'D_1', means: 'thickness of the surface course', units: 'in.' },
+      { tex: 'a_2', means: 'layer coefficient of the base course', units: 'per inch' },
+      { tex: 'D_2', means: 'thickness of the base course', units: 'in.' },
+      { tex: 'm_2', means: 'drainage coefficient of the base course, 1.0 unless given', units: 'unitless' },
+      { tex: 'a_3', means: 'layer coefficient of the subbase course', units: 'per inch' },
+      { tex: 'D_3', means: 'thickness of the subbase course', units: 'in.' },
+      { tex: 'm_3', means: 'drainage coefficient of the subbase course, 1.0 unless given', units: 'unitless' },
+    ],
+    trap: 'Thicknesses must be in inches, and the surface layer has no drainage coefficient.',
+  },
+  {
+    label: 'Average End Area Volume',
+    aliases: ['average end area', 'earthwork volume', 'cut and fill', 'cross section', 'earthwork'],
+    use: 'Earthwork volume between two cross sections a known distance apart.',
+    symbols: [
+      { tex: 'V', means: 'volume of cut or fill between the two sections', units: 'ft³ (divide by 27 for yd³) or m³' },
+      { tex: 'L', means: 'distance between the two cross sections', units: 'ft or m' },
+      { tex: 'A_1', means: 'area of the first cross section', units: 'ft² or m²' },
+      { tex: 'A_2', means: 'area of the second cross section', units: 'ft² or m²' },
+    ],
+    trap: 'Earthwork is usually asked in cubic yards, so divide cubic feet by 27, not by 9 or 3.',
+  },
+  {
+    label: 'Gravity Model (Trip Distribution)',
+    aliases: ['gravity model', 'trip distribution', 'friction factor', 'travel demand', 'trips between zones'],
+    use: 'Split the trips produced in one zone among the destination zones in proportion to attractions and travel impedance.',
+    symbols: [
+      { tex: 'T_{ij}', means: 'number of trips produced in zone i and attracted to zone j', units: 'trips' },
+      { tex: 'P_i', means: 'total trips produced in zone i', units: 'trips' },
+      { tex: 'A_j', means: 'trips attracted to zone j', units: 'trips' },
+      { tex: 'F_{ij}', means: 'friction factor, which gets smaller as the travel time between i and j grows', units: 'unitless' },
+      { tex: 'K_{ij}', means: 'socioeconomic adjustment factor for travel between i and j, 1.0 unless given', units: 'unitless' },
+    ],
+    trap: 'The denominator sums over every destination zone j, including the one you are solving for.',
+  },
+];
