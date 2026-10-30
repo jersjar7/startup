@@ -9,6 +9,7 @@ import { getExamWeight } from '../data/exam-bank/index';
 import { AppArrow } from '../components/brand/AppArrow';
 import { RaccoonPeek } from '../components/brand/RaccoonPeek';
 import './public.css';
+import { pageTitle } from '../seo/pageTitle';
 
 const SITE = 'https://fe4raccoons.com';
 
@@ -63,7 +64,7 @@ const FAQ = [
 export function ExamSimulation() {
   const topics = allTopics();
   const url = `${SITE}/exam-simulation`;
-  const title = 'FE Civil Exam Simulation: Full 110-Question Timed Practice Exam | FE for Raccoons';
+  const title = pageTitle('FE Civil Practice Exam: Full 110-Question Timed Simulation');
   const description = `A full-length, timed FE Civil practice exam: 110 questions matched to the NCEES topic distribution, ${SIM_DURATION}, with a chapter-by-chapter score report. $${STANDARD_PRICE}, or $${STUDENT_PRICE} for students. Everything else on the platform is free.`;
 
   const jsonLd = [
