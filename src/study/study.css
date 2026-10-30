@@ -326,48 +326,54 @@
 }
 
 /* ── Practice All ── */
-.st-finish-row {
-  border-bottom: 1px solid var(--gray-100);
-}
-.st-finish-row .st-num { display: flex; align-items: center; color: var(--ember); }
-.st-finish-text { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
-.st-finish-text small {
-  font-size: 0.75rem;
-  color: var(--gray-400);
-  line-height: 1.4;
-}
-
-/* The one main button under the list: whichever step comes next. */
-.study-next {
-  --btn-bg: var(--ember);
-  display: inline-flex;
-  align-items: center;
+/* The chapter's two ways to work: practice and the timed test, as equals. */
+.study-ways {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
   margin-top: 1.5rem;
-  min-height: 58px;
-  padding: 6px 8px 6px 24px;
-  background: var(--btn-bg);
-  color: white;
-  border: none;
-  border-radius: 999px;
-  font-family: var(--font-heading);
-  font-size: 0.95rem;
-  font-weight: 600;
+}
+.study-way {
+  --btn-bg: white;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "icon  icon"
+    "title title"
+    "line  line"
+    "meta  arrow";
+  align-items: center;
+  row-gap: 0.35rem;
+  padding: 1.25rem 1.25rem 1rem;
+  background: white;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
   text-align: left;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(44, 44, 44, 0.10), 0 12px 28px rgba(44, 44, 44, 0.14);
-  transition: all 0.2s ease;
+  color: var(--ember);
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
-.study-next:hover { --btn-bg: var(--ember-light, #F07D52); transform: translateY(-1px); }
-.study-next-text { display: flex; flex-direction: column; }
-.study-next-text small {
+.study-way:hover { transform: translateY(-2px); border-color: var(--ember); }
+.study-way-icon { grid-area: icon; display: flex; color: var(--ember); margin-bottom: 0.25rem; }
+.study-way-title {
+  grid-area: title;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--charcoal);
+}
+.study-way-line { grid-area: line; font-size: 0.85rem; line-height: 1.5; color: var(--gray-500); }
+.study-way-meta {
+  grid-area: meta;
+  margin-top: 0.5rem;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  opacity: 0.85;
+  font-size: 0.75rem;
+  color: var(--gray-400);
 }
+.study-way-meta--done { color: var(--forest); }
+.study-way .app-arrow { grid-area: arrow; width: 34px; height: 34px; margin-top: 0.5rem; }
 
 
 /* ═══════════════════════════════════════
@@ -640,10 +646,7 @@
     font-size: 0.82rem;
   }
 
-  .study-next {
-    width: 100%;
-    justify-content: space-between;
-  }
+  .study-ways { grid-template-columns: 1fr; }
 
   .sidebar-section {
     min-width: 100%;

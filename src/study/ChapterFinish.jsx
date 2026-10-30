@@ -1,30 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lightning, Timer, CaretRight } from '@phosphor-icons/react';
+import { Lightning, Timer } from '@phosphor-icons/react';
 import { AppArrow } from '../components/brand/AppArrow';
 
-// The end of a chapter's list: chapter practice, then the chapter test, each
-// a row in the same list as the subtopics, and ONE main button naming the
-// step that comes next. The test row hides itself if the chapter has no test
-// or the request fails.
-
-// Practice is "far enough along" for the test to become the suggested step
-// once most of it has been answered correctly.
-const READY_FOR_TEST = 0.7;
-
-function nextStep(practice, problemCount, test) {
-  if (test && test.openId) return 'test-continue';
-  const ratio = practice && practice.total ? practice.correct / practice.total : 0;
-  if (test && (problemCount === 0 || ratio >= READY_FOR_TEST)) return test.tries ? 'test-again' : 'test';
-  return problemCount > 0 ? 'practice' : null;
-}
-
-const NEXT_LABEL = {
-  practice: 'Practice all problems',
-  test: 'Take the chapter test',
-  'test-again': 'Take the chapter test again',
-  'test-continue': 'Continue the chapter test',
-};
+// Under the subtopics: the chapter's two ways to work on it, side by side as
+// equals. Practice teaches (answer after each problem); the test measures
+// (timed, answers at the end). The test option hides itself if the chapter
+// has no test or the request fails.
 
 export function ChapterFinish({ chapterId, practice, problemCount }) {
   const navigate = useNavigate();
@@ -40,59 +22,41 @@ export function ChapterFinish({ chapterId, practice, problemCount }) {
   }, [chapterId]);
 
   const practiceDone = practice && practice.total > 0 && practice.correct >= practice.total;
-  const step = nextStep(practice, problemCount, test);
-  const goPractice = () => navigate(`/problems/${chapterId}`);
-  const goTest = () => navigate(`/test/${chapterId}`);
   const minutes = test ? Math.round(test.limitSeconds / 60) : 0;
 
   let testMeta = '';
   if (test) {
     if (test.openId) testMeta = 'In progress';
-    else if (test.best) testMeta = `Best ${test.best.percent}%`;
-    else testMeta = `${test.length} questions · ${minutes} min`;
+    else if (test.best) testMeta = `Best ${test.best.percent}% · ${test.tries} ${test.tries === 1 ? 'try' : 'tries'}`;
+    else testMeta = 'Not taken yet';
   }
 
-  return (
-    <>
-      <div className="st-list st-finish">
-        {problemCount > 0 && (
-          <button className="st-row-btn st-finish-row" onClick={goPractice}>
-            <span className="st-num"><Lightning size={16} weight="bold" /></span>
-            <span className="st-finish-text">
-              <span className="st-name">Chapter practice</span>
-              <small>
-                {practiceDone
-                  // "Weighted by your weak spots" is not true when there are
-                  // none left, so stop claiming it.
-                  ? 'Every problem answered correctly. Run it again any time.'
-                  : 'All subtopics mixed, weighted to your weak spots'}
-              </small>
-            </span>
-            <span className={`st-row-meta ${practiceDone ? 'st-row-meta--done' : ''}`}>
-              {practice && practice.total > 0 ? `${practice.correct} of ${practice.total} problems` : `${problemCount} problems`}
-            </span>
-            <span className="st-toggle"><CaretRight size={16} weight="bold" /></span>
-          </button>
-        )}
-        {test && (
-          <button className="st-row-btn st-finish-row" onClick={goTest}>
-            <span className="st-num"><Timer size={16} weight="bold" /></span>
-            <span className="st-finish-text">
-              <span className="st-name">Chapter test</span>
-              <small>Timed like the FE. Take it again for all new questions.</small>
-            </span>
-            <span className="st-row-meta">{testMeta}</span>
-            <span className="st-toggle"><CaretRight size={16} weight="bold" /></span>
-          </button>
-        )}
-      </div>
+  if (problemCount === 0 && !test) return null;
 
-      {step && (
-        <button className="study-next" onClick={step === 'practice' ? goPractice : goTest}>
-          <span className="study-next-text"><small>Next step</small>{NEXT_LABEL[step]}</span>
-          <AppArrow size={18} />
+  return (
+    <div className="study-ways">
+      {problemCount > 0 && (
+        <button className="study-way" onClick={() => navigate(`/problems/${chapterId}`)}>
+          <span className="study-way-icon"><Lightning size={20} weight="bold" /></span>
+          <span className="study-way-title">Practice the chapter</span>
+          <span className="study-way-line">One problem at a time. See the answer after each one.</span>
+          <span className={`study-way-meta ${practiceDone ? 'study-way-meta--done' : ''}`}>
+            {practice && practice.total > 0 ? `${practice.correct} of ${practice.total} problems` : `${problemCount} problems`}
+          </span>
+          <AppArrow size={16} />
         </button>
       )}
-    </>
+      {test && (
+        <button className="study-way" onClick={() => navigate(`/test/${chapterId}`)}>
+          <span className="study-way-icon"><Timer size={20} weight="bold" /></span>
+          <span className="study-way-title">Test yourself, timed</span>
+          <span className="study-way-line">
+            {test.length} questions in {minutes} minutes, like the FE. Answers at the end.
+          </span>
+          <span className="study-way-meta">{testMeta}</span>
+          <AppArrow size={16} />
+        </button>
+      )}
+    </div>
   );
 }
