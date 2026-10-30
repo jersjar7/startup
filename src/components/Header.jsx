@@ -12,9 +12,11 @@ export function Header({ userName }) {
   const isAdmin = (userName || '').toLowerCase() === ADMIN_EMAIL;
   return (
     <header>
-      <div className="nav-brand">
+      {/* Home: "/" is the landing page for visitors and sends anyone signed
+          in on to their dashboard, so one link is right for both. */}
+      <Link to="/" className="nav-brand" aria-label="FE for Raccoons home">
         <Logo height={52} />
-      </div>
+      </Link>
       {userName && (
         <div className="header-actions">
           {/* Permanent, ungated route to the paid product. The dashboard card
