@@ -279,7 +279,10 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
           </Routes>
         </Suspense>
 
-        {!isLanding && !isLesson && !isDiagnostic && !isQuickstart && !isExamSession && <Footer />}
+        {/* The landing keeps its own header but shares the footer: it is the
+            page crawlers and AI assistants read most, and the footer is how
+            they reach the guides, the formula finder and the legal pages. */}
+        {!isLesson && !isDiagnostic && !isQuickstart && !isExamSession && <Footer />}
       </ErrorBoundary>
     </div>
   );
