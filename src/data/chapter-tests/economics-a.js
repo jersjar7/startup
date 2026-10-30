@@ -1,5 +1,410 @@
 // Chapter test bank: economics, version A. See docs/CHAPTER-TESTS.md.
 
-const PROBLEMS = [];
+const PROBLEMS = [
+  {
+    id: 'ct-economics-a-01',
+    chapterId: 'economics',
+    version: 'A',
+    topic: 'Time value of money',
+    type: 'computational',
+    difficulty: 'easy',
+    statement:
+      'A contractor finances new equipment at a nominal rate of 9% per year, compounded monthly. The effective annual interest rate (%) is most nearly:',
+    choices: [
+      { id: 'c1', text: '0.75' },
+      { id: 'c2', text: '9.00' },
+      { id: 'c3', text: '9.31' },
+      { id: 'c4', text: '9.38' },
+    ],
+    correctAnswerId: 'c4',
+    choiceNotes: [
+      'This is the monthly rate, $r/m = 0.09/12$, not an annual rate.',
+      'This is the nominal rate itself; it ignores interest earned on interest within the year.',
+      'Uses quarterly compounding ($m = 4$) instead of monthly.',
+      'Correct: $(1 + 0.0075)^{12} - 1 = 0.0938$.',
+    ],
+    eli5:
+      'The lender charges 0.75% every month, and each month the interest is added to what you owe, so next month you pay interest on the interest too. Stack twelve months of that and the true yearly rate comes out a bit above 9%, at about 9.38%.',
+    hint: 'Use the non-annual compounding formula with $m = 12$.',
+    steps: [
+      { text: 'Monthly rate: $r/m = 0.09/12 = 0.0075$.', latex: null },
+      { text: 'Compound it over the 12 months of a year:', latex: 'i_e = \\left(1 + \\frac{r}{m}\\right)^m - 1 = (1.0075)^{12} - 1' },
+      { text: 'Evaluate:', latex: '(1.0075)^{12} = 1.0938 \\;\\Rightarrow\\; i_e = 0.0938 = 9.38\\%' },
+    ],
+    handbookPage: 'p. 230',
+    handbookFormula: 'i_e = \\left(1 + \\frac{r}{m}\\right)^m - 1',
+    traps: [
+      'Reporting the nominal 9% as if it were the effective rate.',
+      'Using the number of quarters or the monthly rate in place of $m = 12$.',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-economics-a-02',
+    chapterId: 'economics',
+    version: 'A',
+    topic: 'Time value of money',
+    type: 'computational',
+    difficulty: 'medium',
+    statement:
+      'Relining a sewer interceptor is expected to cut treatment costs by the amounts shown; there are no savings in years 1 and 2 while the lined reaches are tied in. At the interest rate shown, the present worth of the savings at year 0 (dollars) is most nearly:',
+    choices: [
+      { id: 'c1', text: '56,200' },
+      { id: 'c2', text: '62,600' },
+      { id: 'c3', text: '66,300' },
+      { id: 'c4', text: '74,500' },
+    ],
+    correctAnswerId: 'c3',
+    choiceNotes: [
+      'Takes $(P/A, 10) - (P/A, 3)$, which removes three years of savings instead of the two empty years.',
+      'Brings the series back from year 3 instead of year 2; $(P/A)$ already lands one year before the first payment.',
+      'Correct: $12{,}000 (P/A, 6\\%, 8)(P/F, 6\\%, 2) = 66{,}300$.',
+      'Treats the eight savings as if they started in year 1, ignoring the two-year delay.',
+    ],
+    eli5:
+      'Eight equal savings start at the end of year 3. The present worth factor $(P/A)$ turns them into one lump at year 2, one year before the first saving. That lump is then pulled back two more years to today with $(P/F)$.',
+    hint: 'A uniform series moved with $(P/A)$ lands one period before its first payment.',
+    steps: [
+      { text: 'Savings: $A = 12{,}000$ dollars at the end of years 3 through 10, which is $n = 8$ payments, $i = 6\\%$.', latex: null },
+      { text: 'Value of the series at year 2 (one year before the first payment):', latex: 'P_2 = 12{,}000\\,(P/A,\\,6\\%,\\,8) = 12{,}000(6.2098) = 74{,}518' },
+      { text: 'Move that value back 2 years to year 0:', latex: 'P_0 = 74{,}518\\,(P/F,\\,6\\%,\\,2) = 74{,}518(0.8900) = 66{,}321' },
+      { text: 'Check: $12{,}000[(P/A,6\\%,10) - (P/A,6\\%,2)] = 12{,}000(7.3601 - 1.8334) = 66{,}320$.', latex: null },
+    ],
+    handbookPage: 'p. 229',
+    handbookFormula: 'P = A\\,(P/A,\\,i,\\,n)\\,(P/F,\\,i,\\,k)',
+    traps: [
+      'Discounting the series from year 3 instead of year 2.',
+      'Forgetting the deferral and using $(P/A)$ alone.',
+    ],
+    diagram: { component: 'CtEconomicsADeferredSavings', props: { amount: 12000, first: 3, last: 10, rate: 6 } },
+  },
+  {
+    id: 'ct-economics-a-03',
+    chapterId: 'economics',
+    version: 'A',
+    topic: 'Time value of money',
+    type: 'computational',
+    difficulty: 'hard',
+    statement:
+      'A contractor finances a 180,000 dollar excavator with a 5-year loan at 6% nominal annual interest compounded monthly, repaid in equal end-of-month payments. Immediately after the 24th payment, the remaining loan balance (dollars) is most nearly:',
+    choices: [
+      { id: 'c1', text: '78,500' },
+      { id: 'c2', text: '96,500' },
+      { id: 'c3', text: '108,000' },
+      { id: 'c4', text: '114,400' },
+    ],
+    correctAnswerId: 'c4',
+    choiceNotes: [
+      'Discounts only 24 payments; the balance is the present worth of the 36 payments still to be made, not the 24 already made.',
+      'Subtracts the 24 payments from the loan with no interest, as if every dollar paid went to principal.',
+      'Assumes equal principal reductions (2/5 of the loan repaid after 2 of 5 years); early payments are mostly interest.',
+      'Correct: the balance is the present worth of the 36 remaining payments, $3{,}480(P/A, 0.5\\%, 36) = 114{,}400$.',
+    ],
+    eli5:
+      'Each monthly payment is about 3,480 dollars. After 24 payments, 36 are left. What you still owe is simply what those 36 future payments are worth today at 0.5% a month. Early payments are mostly interest, so the balance drops more slowly than a straight line would suggest.',
+    hint: 'Work in months at 0.5% per month. The balance owed equals the present worth of the payments that remain.',
+    steps: [
+      { text: 'Monthly rate and number of payments: $i = 0.06/12 = 0.005$, $n = 60$.', latex: null },
+      { text: 'Monthly payment:', latex: 'A = 180{,}000\\,(A/P,\\,0.5\\%,\\,60) = 180{,}000(0.019333) = 3{,}480' },
+      { text: 'After 24 payments, 36 remain. Their present worth is the balance:', latex: '(P/A,\\,0.5\\%,\\,36) = \\frac{(1.005)^{36} - 1}{0.005(1.005)^{36}} = \\frac{0.19668}{0.0059834} = 32.871' },
+      { text: 'Remaining balance:', latex: 'B_{24} = 3{,}480(32.871) = 114{,}390 \\approx 114{,}400' },
+      { text: 'Check (future worth method): $180{,}000(1.005)^{24} - 3{,}480(F/A, 0.5\\%, 24) = 202{,}896 - 3{,}480(25.432) = 114{,}390$.', latex: null },
+    ],
+    handbookPage: 'p. 229',
+    handbookFormula: 'A = P\\frac{i(1+i)^n}{(1+i)^n - 1}, \\quad P = A\\frac{(1+i)^n - 1}{i(1+i)^n}',
+    traps: [
+      'Using the annual rate and years instead of 0.5% per month and months.',
+      'Discounting the payments already made instead of the ones still owed.',
+      'Assuming the principal falls in a straight line.',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-economics-a-04',
+    chapterId: 'economics',
+    version: 'A',
+    topic: 'Time value of money',
+    type: 'computational',
+    difficulty: 'easy',
+    statement:
+      'A water district will need 400,000 dollars in 12 years to recoat the inside of a steel storage tank. It will make equal end-of-year deposits into a fund that earns 4% per year. The annual deposit (dollars) is most nearly:',
+    choices: [
+      { id: 'c1', text: '23,700' },
+      { id: 'c2', text: '26,600' },
+      { id: 'c3', text: '33,300' },
+      { id: 'c4', text: '42,600' },
+    ],
+    correctAnswerId: 'c2',
+    choiceNotes: [
+      'Reads $(A/F)$ from the 6% table instead of the 4% table.',
+      'Correct: $400{,}000(A/F, 4\\%, 12) = 400{,}000(0.0666) = 26{,}600$.',
+      'Divides 400,000 by 12 and ignores the interest the fund earns.',
+      'Uses the capital recovery factor $(A/P)$, which treats the 400,000 as a present amount.',
+    ],
+    eli5:
+      'You want a pile of money in the future, and each deposit earns 4% while it waits. Because the fund does part of the saving for you, each yearly deposit can be less than 400,000 divided by 12. The sinking fund factor $(A/F)$ gives the exact amount.',
+    hint: 'A future target from equal annual deposits is the sinking fund factor.',
+    steps: [
+      { text: 'Given $F = 400{,}000$ dollars, $i = 4\\%$, $n = 12$. Find $A$.', latex: null },
+      { text: 'Sinking fund factor:', latex: '(A/F,\\,4\\%,\\,12) = \\frac{0.04}{(1.04)^{12} - 1} = \\frac{0.04}{0.60103} = 0.0666' },
+      { text: 'Annual deposit:', latex: 'A = 400{,}000(0.0666) = 26{,}600' },
+    ],
+    handbookPage: 'p. 229',
+    handbookFormula: 'A = F\\frac{i}{(1+i)^n - 1}',
+    traps: [
+      'Using $(A/P)$ when the given amount is in the future.',
+      'Ignoring interest and dividing by the number of years.',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-economics-a-05',
+    chapterId: 'economics',
+    version: 'A',
+    topic: 'Time value of money',
+    type: 'computational',
+    difficulty: 'medium',
+    statement:
+      'A water utility spends 50,000 dollars on automated pressure management that cuts leakage losses by 8,000 dollars per year for 10 years, with no salvage value. The rate of return on the investment (%) is most nearly:',
+    choices: [
+      { id: 'c1', text: '6.0' },
+      { id: 'c2', text: '8.4' },
+      { id: 'c3', text: '9.6' },
+      { id: 'c4', text: '16.0' },
+    ],
+    correctAnswerId: 'c3',
+    choiceNotes: [
+      'Spreads the undiscounted net gain over the life: $(80{,}000 - 50{,}000)/10/50{,}000$; this ignores the time value of money.',
+      'Interpolates in the wrong direction between the 8% and 10% factors.',
+      'Correct: $(P/A, i, 10) = 50{,}000/8{,}000 = 6.25$, which falls between 8% (6.7101) and 10% (6.1446) at about 9.6%.',
+      'Divides the annual saving by the cost, $8{,}000/50{,}000$, which would only be the return if the savings lasted forever.',
+    ],
+    eli5:
+      'The rate of return is the interest rate at which the 10 yearly savings, brought back to today, exactly pay for the 50,000 spent. That needs a $(P/A)$ factor of 6.25. The 8% table gives 6.71 (too big) and the 10% table gives 6.14 (a bit small), so the answer sits close to 10%, at about 9.6%.',
+    hint: 'Set the present worth of the savings equal to the cost and solve for the factor $(P/A, i, 10)$.',
+    steps: [
+      { text: 'Rate of return makes present worth zero:', latex: '50{,}000 = 8{,}000\\,(P/A,\\,i,\\,10) \\;\\Rightarrow\\; (P/A,\\,i,\\,10) = 6.25' },
+      { text: 'From the tables: $(P/A, 8\\%, 10) = 6.7101$ and $(P/A, 10\\%, 10) = 6.1446$.', latex: null },
+      { text: 'Interpolate:', latex: 'i = 8\\% + 2\\% \\times \\frac{6.7101 - 6.25}{6.7101 - 6.1446} = 8\\% + 1.63\\% = 9.6\\%' },
+      { text: 'Check: $8{,}000(P/A, 9.6\\%, 10) = 8{,}000(6.251) = 50{,}010$, essentially the 50,000 cost.', latex: null },
+    ],
+    handbookPage: 'p. 230',
+    handbookFormula: 'PW = -P + A\\,(P/A,\\,i^*,\\,n) = 0',
+    traps: [
+      'Dividing the annual saving by the first cost, which assumes a perpetual series.',
+      'Interpolating from the wrong end: the factor falls as the rate rises.',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-economics-a-06',
+    chapterId: 'economics',
+    version: 'A',
+    topic: 'Cost',
+    type: 'computational',
+    difficulty: 'easy',
+    statement:
+      'A ready-mix concrete plant has fixed costs of 60,000 dollars per month and a variable cost of 52 dollars per cubic yard. It is producing 4,000 yd³ per month, well below capacity, when a contractor offers a one-time order for an extra 500 yd³. The lowest price (dollars per cubic yard) the plant can accept for this order without reducing its monthly profit is most nearly:',
+    choices: [
+      { id: 'c1', text: '15' },
+      { id: 'c2', text: '52' },
+      { id: 'c3', text: '65' },
+      { id: 'c4', text: '67' },
+    ],
+    correctAnswerId: 'c2',
+    choiceNotes: [
+      'This is the fixed cost per cubic yard at 4,000 yd³, which does not change with the extra order.',
+      'Correct: the fixed costs are paid either way, so the incremental cost of each extra cubic yard is the variable cost, 52 dollars.',
+      'Average total cost at 4,500 yd³: $60{,}000/4{,}500 + 52$; this charges the order a share of costs it does not cause.',
+      'Average total cost at the current 4,000 yd³: $60{,}000/4{,}000 + 52$.',
+    ],
+    eli5:
+      'The plant pays its 60,000 dollars of fixed costs whether or not it takes the order. The only new money it spends is 52 dollars for each extra cubic yard. Any price above 52 adds profit, so 52 is the floor.',
+    hint: 'Ask which costs change because of the extra order.',
+    steps: [
+      { text: 'Fixed costs (60,000 dollars per month) do not change with the extra 500 yd³ because the plant has spare capacity.', latex: null },
+      { text: 'Incremental cost of the order:', latex: '\\Delta C = 52 \\times 500 = 26{,}000 \\text{ dollars}' },
+      { text: 'Break-even price for the order:', latex: '\\frac{26{,}000}{500} = 52 \\text{ dollars per yd}^3' },
+    ],
+    handbookPage: null,
+    handbookFormula: '\\text{Incremental cost} = \\Delta(\\text{total cost}) = \\text{variable cost} \\times \\Delta Q',
+    traps: [
+      'Pricing the order at average total cost, which double charges the fixed costs already covered.',
+      'Treating the fixed cost per unit as if it were the cost of the extra output.',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-economics-a-07',
+    chapterId: 'economics',
+    version: 'A',
+    topic: 'Analyses',
+    type: 'computational',
+    difficulty: 'medium',
+    statement:
+      'A contractor needs a dewatering pump for 5 years. An electric unit costs 18,000 dollars and 4.00 dollars per operating hour; a diesel unit costs 9,000 dollars and 7.50 dollars per operating hour. Neither has salvage value, and i = 8%. The annual operating time (hr/yr) above which the electric pump is cheaper is most nearly:',
+    choices: [
+      { id: 'c1', text: '514' },
+      { id: 'c2', text: '644' },
+      { id: 'c3', text: '1,290' },
+      { id: 'c4', text: '2,570' },
+    ],
+    correctAnswerId: 'c2',
+    choiceNotes: [
+      'Spreads the extra 9,000 dollars over 5 years with no interest (1,800 dollars per year).',
+      'Correct: $9{,}000(A/P, 8\\%, 5)/3.50 = 2{,}255/3.50 = 644$ hours per year.',
+      'Uses the whole 18,000 dollar first cost of the electric pump instead of the 9,000 dollar difference.',
+      'Divides the extra first cost by the hourly saving, which is a total of hours over the life, not hours per year.',
+    ],
+    eli5:
+      'The electric pump costs 9,000 dollars more up front, which is like paying about 2,255 dollars a year for 5 years once interest is counted. It saves 3.50 dollars every hour it runs. Run it more than about 644 hours a year and the savings beat the extra yearly cost.',
+    hint: 'Put the extra first cost on an annual basis with $(A/P)$, then divide by the hourly saving.',
+    steps: [
+      { text: 'Extra first cost of the electric pump: $18{,}000 - 9{,}000 = 9{,}000$ dollars. Annualize it:', latex: '9{,}000\\,(A/P,\\,8\\%,\\,5) = 9{,}000(0.2505) = 2{,}255 \\text{ dollars/yr}' },
+      { text: 'Hourly saving of the electric pump: $7.50 - 4.00 = 3.50$ dollars per hour.', latex: null },
+      { text: 'Set the annual costs equal and solve for hours $h$:', latex: '2{,}255 = 3.50\\,h \\;\\Rightarrow\\; h = 644 \\text{ hr/yr}' },
+    ],
+    handbookPage: 'p. 230',
+    handbookFormula: 'C_1(A/P,\\,i,\\,n) + c_1 h = C_2(A/P,\\,i,\\,n) + c_2 h',
+    traps: [
+      'Ignoring interest on the extra investment.',
+      'Annualizing one pump’s full first cost instead of the difference.',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-economics-a-08',
+    chapterId: 'economics',
+    version: 'A',
+    topic: 'Uncertainty',
+    type: 'computational',
+    difficulty: 'medium',
+    statement:
+      'A contractor is deciding whether to bid on a highway resurfacing contract. Preparing the bid costs 15,000 dollars whether or not it wins. The decision tree shows the chance of winning and the possible profit on the job if it is won (the profit does not include the bid cost). The expected value of bidding (dollars) is most nearly:',
+    choices: [
+      { id: 'c1', text: '3,600' },
+      { id: 'c2', text: '7,000' },
+      { id: 'c3', text: '18,600' },
+      { id: 'c4', text: '33,600' },
+    ],
+    correctAnswerId: 'c3',
+    choiceNotes: [
+      'Charges the bid cost twice: once on the Bid branch and again on both the Win and Lose outcomes.',
+      'Averages the three profits without their probabilities, $(200{,}000 + 80{,}000 - 60{,}000)/3$.',
+      'Correct: $0.30(112{,}000) - 15{,}000 = 18{,}600$.',
+      'Leaves out the 15,000 dollar bid cost.',
+    ],
+    eli5:
+      'If the job is won, the profit averages $0.5(200{,}000) + 0.3(80{,}000) + 0.2(-60{,}000) = 112{,}000$ dollars. The job is won only 30% of the time, which is worth 33,600 dollars on average. The 15,000 dollars for the bid is spent every time, so bidding is worth about 18,600 dollars, better than the 0 for not bidding.',
+    hint: 'Roll the tree back from the right: average each chance node, then subtract the cost on the branch.',
+    steps: [
+      { text: 'Expected profit if the job is won:', latex: 'EV_{win} = 0.50(200{,}000) + 0.30(80{,}000) + 0.20(-60{,}000) = 112{,}000' },
+      { text: 'Expected value at the win or lose node:', latex: '0.30(112{,}000) + 0.70(0) = 33{,}600' },
+      { text: 'Subtract the bid cost on the Bid branch:', latex: 'EV_{bid} = 33{,}600 - 15{,}000 = 18{,}600 \\text{ dollars}' },
+      { text: 'Not bidding is worth 0, so bidding is the better choice.', latex: null },
+    ],
+    handbookPage: 'p. 231',
+    handbookFormula: 'EV = (C_1)(p_1) + (C_2)(p_2) + \\cdots',
+    traps: [
+      'Treating the negative profit as positive.',
+      'Charging the bid cost more than once.',
+      'Forgetting to weight by the 0.30 chance of winning.',
+    ],
+    diagram: {
+      component: 'CtEconomicsABidDecisionTree',
+      props: {
+        bidCost: 15000,
+        pWin: 0.3,
+        outcomes: [
+          { p: 0.5, value: 200000 },
+          { p: 0.3, value: 80000 },
+          { p: 0.2, value: -60000 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'ct-economics-a-09',
+    chapterId: 'economics',
+    version: 'A',
+    topic: 'Analyses',
+    type: 'computational',
+    difficulty: 'hard',
+    statement:
+      'Two pipes are considered for a culvert under a county road that will be needed indefinitely, at i = 6%. Corrugated metal: first cost 42,000 dollars, maintenance 2,000 dollars per year, life 25 years. Reinforced concrete: first cost 68,000 dollars, maintenance 400 dollars per year, life 50 years. Neither has salvage value. Which conclusion is correct?',
+    choices: [
+      { id: 'c1', text: 'Concrete, because its equivalent annual cost is about 570 dollars lower' },
+      { id: 'c2', text: 'Concrete, because its equivalent annual cost is about 2,100 dollars lower' },
+      { id: 'c3', text: 'Metal, because its equivalent annual capital cost is about 1,000 dollars lower' },
+      { id: 'c4', text: 'Metal, because its present worth over its own life is about 6,700 dollars lower' },
+    ],
+    correctAnswerId: 'c1',
+    choiceNotes: [
+      'Correct: annual cost is 5,284 dollars for metal and 4,711 dollars for concrete, a difference of about 570 dollars per year.',
+      'Annualizes the first costs with the sinking fund factor $(A/F)$ instead of capital recovery $(A/P)$.',
+      'Compares only the annualized first costs and leaves out the maintenance.',
+      'Compares present worths over unequal lives (25 years against 50), which is not a fair comparison.',
+    ],
+    eli5:
+      'The pipes last different lengths of time, so comparing their totals over their own lives is unfair: the metal pipe would have to be bought twice to match the concrete one. Turning each into a cost per year solves that. Metal costs about 5,280 dollars a year and concrete about 4,710, so concrete wins by about 570 dollars a year.',
+    hint: 'With unequal lives and a need that goes on, compare equivalent annual costs.',
+    steps: [
+      { text: 'Metal pipe, annual cost:', latex: '42{,}000\\,(A/P,\\,6\\%,\\,25) + 2{,}000 = 42{,}000(0.0782) + 2{,}000 = 5{,}284' },
+      { text: 'Concrete pipe, annual cost:', latex: '68{,}000\\,(A/P,\\,6\\%,\\,50) + 400 = 68{,}000(0.0634) + 400 = 4{,}711' },
+      { text: 'Concrete is lower by $5{,}284 - 4{,}711 = 573$ dollars per year.', latex: null },
+      { text: 'Present worth over each pipe’s own life (metal 67,567 against concrete 74,305) favours metal only because it covers 25 years of service against 50.', latex: null },
+    ],
+    handbookPage: 'p. 229',
+    handbookFormula: 'EUAC = P\\,(A/P,\\,i,\\,n) + \\text{annual cost}',
+    traps: [
+      'Comparing present worths of alternatives with different lives.',
+      'Using $(A/F)$ to annualize a first cost.',
+      'Leaving maintenance out of the comparison.',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-economics-a-10',
+    chapterId: 'economics',
+    version: 'A',
+    topic: 'Analyses',
+    type: 'computational',
+    difficulty: 'medium',
+    statement:
+      'The life-cycle cash flows for a new bridge deck are shown: the first cost, two overlays, annual maintenance every year, and a salvage value at the end of the 30-year analysis period. At i = 4%, the present worth of the life-cycle cost (dollars) is most nearly:',
+    choices: [
+      { id: 'c1', text: '1,839,000' },
+      { id: 'c2', text: '1,885,000' },
+      { id: 'c3', text: '1,932,000' },
+      { id: 'c4', text: '2,250,000' },
+    ],
+    correctAnswerId: 'c1',
+    choiceNotes: [
+      'Correct: costs discounted to year 0, with the salvage value subtracted.',
+      'Leaves out the salvage value.',
+      'Adds the salvage value as if it were another cost.',
+      'Adds the cash flows with no discounting.',
+    ],
+    eli5:
+      'Bring every future cost back to today with the 4% rate, add them to the first cost, then take off what the deck is still worth at year 30, because that money comes back. Future amounts shrink a lot when brought back, so the total is far below the plain sum.',
+    hint: 'Discount each overlay with $(P/F)$, the maintenance with $(P/A)$, and subtract the discounted salvage.',
+    steps: [
+      { text: 'Overlays:', latex: '300{,}000[(P/F,4\\%,10) + (P/F,4\\%,20)] = 300{,}000(0.6756 + 0.4564) = 339{,}600' },
+      { text: 'Maintenance:', latex: '20{,}000\\,(P/A,\\,4\\%,\\,30) = 20{,}000(17.2920) = 345{,}840' },
+      { text: 'Salvage (a return, so it reduces cost):', latex: '150{,}000\\,(P/F,\\,4\\%,\\,30) = 150{,}000(0.3083) = 46{,}245' },
+      { text: 'Present worth of cost:', latex: 'PW = 1{,}200{,}000 + 339{,}600 + 345{,}840 - 46{,}245 = 1{,}839{,}195 \\approx 1{,}839{,}000' },
+    ],
+    handbookPage: 'p. 229',
+    handbookFormula: 'PW = P_0 + \\sum F_k(P/F,\\,i,\\,k) + A(P/A,\\,i,\\,n) - S(P/F,\\,i,\\,n)',
+    traps: [
+      'Adding the salvage value as a cost.',
+      'Forgetting that maintenance continues in the overlay years.',
+    ],
+    diagram: {
+      component: 'CtEconomicsADeckLifeCycle',
+      props: { first: 1200000, overlay: 300000, overlayYears: [10, 20], annual: 20000, salvage: 150000, life: 30, rate: 4 },
+    },
+  },
+];
 
 export default PROBLEMS;

@@ -1,5 +1,320 @@
 // Chapter test bank: ethics, version A. See docs/CHAPTER-TESTS.md.
 
-const PROBLEMS = [];
+const PROBLEMS = [
+  {
+    id: 'ct-ethics-a-01',
+    chapterId: 'ethics',
+    version: 'A',
+    topic: 'Codes of ethics',
+    type: 'conceptual',
+    difficulty: 'easy',
+    statement:
+      'A geotechnical engineer is finishing the subsurface report for a four-story office building. Eleven of the twelve borings found stiff clay, but boring B-7 hit a pocket of soft organic silt 9 ft thick near one corner. The developer asks the engineer to leave the B-7 log out of the report because the lender might delay financing, and promises that the footings near B-7 will "be handled in the field." What should the engineer do?',
+    choices: [
+      { id: 'c1', text: 'Leave the B-7 log out, since the engineer believes the soft pocket can be designed around later' },
+      { id: 'c2', text: 'Include the B-7 log and its effect on the foundation recommendations in the report' },
+      { id: 'c3', text: 'Leave B-7 out of the report but send its log to the developer in a separate confidential letter' },
+      { id: 'c4', text: 'Refuse to finish the report and file a complaint against the developer with the state board' },
+    ],
+    correctAnswerId: 'c2',
+    choiceNotes: [
+      'Lets the engineer\'s own optimism replace the data. A report must include all relevant and pertinent information, and a soft pocket under a footing is exactly that.',
+      'Correct: Rule A.4 requires all relevant and pertinent information, presented objectively and truthfully, in every professional document. The B-7 log and what it means for the footings belong in the report.',
+      'Misreads the confidentiality rule (B.4). Confidentiality limits telling outsiders without consent; it never allows a professional report to leave out a finding that changes the design.',
+      'Over-corrects. Asking for an omission is not yet a violation by anyone, and the engineer can simply issue a complete report. Quitting abandons the work without fixing the record.',
+    ],
+    eli5:
+      'A soil report is the record everyone else designs from. If one hole in the ground found mushy soil, that hole has to be in the report, even when the client would rather nobody saw it. The engineer writes it in, explains what it means for the footings nearby, and lets the facts speak.',
+    hint: 'Which rule covers what must go into a professional document?',
+    steps: [
+      { text: 'Name the request: the client wants a boring that shows weak soil left out of a professional report.', latex: null },
+      { text: 'Rule A.4: licensees shall include all relevant and pertinent information in an objective and truthful manner within all professional documents, statements and testimony.', latex: null },
+      { text: 'A 9 ft pocket of soft organic silt near a footing changes bearing and settlement, so it is relevant and pertinent. Leaving it out, or moving it to a side letter, makes the report untruthful by omission.', latex: null },
+      { text: 'The engineer issues the complete report with B-7 and the recommendations that follow from it (for example deeper footings or removal of the silt in that corner).', latex: null },
+    ],
+    handbookPage: 'p. 4',
+    handbookFormula: '\\text{A.4: include all relevant and pertinent information, objectively and truthfully, in all professional documents}',
+    traps: [
+      'Thinking the engineer may drop data that the engineer personally believes can be handled later',
+      'Treating confidentiality to the client as permission to leave findings out of a report',
+      'Jumping to a board complaint when the engineer can comply simply by writing a complete report',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-ethics-a-02',
+    chapterId: 'ethics',
+    version: 'A',
+    topic: 'Codes of ethics',
+    type: 'conceptual',
+    difficulty: 'medium',
+    statement:
+      'A consulting engineer is paid by a county to provide construction observation on a culvert replacement under a county road. Midway through the job, the contractor asks the engineer\'s firm to design, for a fee, the temporary sheet-pile shoring for the culvert excavation. Under the NCEES Model Rules, the engineer\'s firm may take the shoring work only if:',
+    choices: [
+      { id: 'c1', text: 'the shoring is written up as a separate contract, since it is a different scope from observation' },
+      { id: 'c2', text: 'the county project manager is told about it verbally before the shoring design begins' },
+      { id: 'c3', text: 'never; a firm observing for an owner may not be paid by that owner\'s contractor' },
+      { id: 'c4', text: 'the arrangement is fully disclosed and agreed to in writing by the county and the contractor' },
+    ],
+    correctAnswerId: 'c4',
+    choiceNotes: [
+      'A separate contract does not change the fact that the firm would be paid by two parties on the same project, which is what the rule is about.',
+      'Disclosure alone is not enough. The rule asks for full disclosure and written agreement by all interested parties.',
+      'Over-corrects. Rule B.7 does not ban the arrangement outright; it allows it when everyone affected knows and agrees in writing.',
+      'Correct: Rule B.7 bars compensation from more than one party for services on the same project unless the circumstances are fully disclosed and agreed to in writing by all interested parties.',
+    ],
+    eli5:
+      'The engineer is the county\'s eyes on the job. If the contractor also pays the engineer, the county might wonder whose side the engineer is on when the shoring is checked. The rule does not say never; it says everyone who could be hurt must know about it and sign off in writing first.',
+    hint: 'Look for the rule about being paid by more than one party on the same project.',
+    steps: [
+      { text: 'Identify the parties: the county pays for observation; the contractor would pay for shoring design. Both payments relate to the same culvert project.', latex: null },
+      { text: 'Rule B.7: licensees shall not accept compensation from more than one party for services on the same project unless the circumstances are fully disclosed and agreed to in writing by all interested parties.', latex: null },
+      { text: 'Rule B.6 points the same way: the engineer must disclose a potential conflict that could influence, or appear to influence, the observation work.', latex: null },
+      { text: 'So the work is allowed only with full disclosure and written agreement by the county and the contractor.', latex: null },
+    ],
+    handbookPage: 'p. 5',
+    handbookFormula: '\\text{B.7: compensation from more than one party on one project only if fully disclosed and agreed in writing by all}',
+    traps: [
+      'Believing a separate contract or a separate scope removes the conflict',
+      'Stopping at verbal disclosure when the rule asks for written agreement',
+      'Reading B.7 as an absolute ban',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-ethics-a-03',
+    chapterId: 'ethics',
+    version: 'A',
+    topic: 'Professional liability',
+    type: 'conceptual',
+    difficulty: 'medium',
+    statement:
+      'A PE is retained as an expert witness by the attorney for homeowners whose basements flooded. The PE\'s first calculation shows the city\'s storm sewer was undersized for its 10-year design storm. A second calculation shows the actual storm exceeded the 100-year event, so even a correctly sized sewer would have surcharged. The attorney asks the PE to leave the second calculation out of the expert report and the deposition. What should the PE do?',
+    choices: [
+      { id: 'c1', text: 'Present both calculations and explain what each one shows about the cause of the flooding' },
+      { id: 'c2', text: 'Leave the second calculation out, because an expert is retained to support the hiring party\'s case' },
+      { id: 'c3', text: 'Leave the second calculation out of the report, but answer truthfully if asked about it in deposition' },
+      { id: 'c4', text: 'Withdraw from the case at once and report the attorney to the state bar before doing anything else' },
+    ],
+    correctAnswerId: 'c1',
+    choiceNotes: [
+      'Correct: Rule A.4 covers testimony too. An expert must give all relevant and pertinent information objectively and truthfully, including findings that weaken the hiring party\'s case.',
+      'Confuses the attorney\'s role (an advocate) with the expert\'s role (an objective professional). Loyalty to the client never outranks truthful testimony.',
+      'A half-measure. A report that knowingly leaves out a pertinent calculation is already incomplete; waiting to be asked does not cure it.',
+      'Over-corrects. The PE can simply refuse to omit the work and testify fully; withdrawal is an option only if the attorney insists, and reporting the attorney is not the first step.',
+    ],
+    eli5:
+      'An expert witness is hired for knowledge, not for loyalty. If two calculations both bear on why the basements flooded, the expert shows both, even if one hurts the side that pays the bill. Hiding the bad one is the same as not telling the truth.',
+    hint: 'Rule A.4 lists three things that must be complete and truthful: documents, statements and one more.',
+    steps: [
+      { text: 'The second calculation bears directly on causation: if the storm exceeded the 100-year event, the undersizing may not have caused the flooding.', latex: null },
+      { text: 'Rule A.4: licensees shall include all relevant and pertinent information in an objective and truthful manner within all professional documents, statements and testimony.', latex: null },
+      { text: 'Rule A.5 adds that a professional opinion must rest on adequate knowledge of the facts and a competent evaluation, which a one-sided analysis is not.', latex: null },
+      { text: 'The PE keeps both calculations in the report and explains them in deposition. If the attorney will not accept that, the PE may decline to continue, but never testifies with the omission.', latex: null },
+    ],
+    handbookPage: 'p. 4',
+    handbookFormula: '\\text{A.4: all relevant and pertinent information, objectively and truthfully, in documents, statements and testimony}',
+    traps: [
+      'Treating an expert witness as an advocate for the side that hired them',
+      'Thinking a truthful answer only when asked makes an incomplete report acceptable',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-ethics-a-04',
+    chapterId: 'ethics',
+    version: 'A',
+    topic: 'Professional liability',
+    type: 'conceptual',
+    difficulty: 'hard',
+    statement:
+      'A water district\'s contract with an engineering firm requires signed drawings for a booster pump station by March 1; the contract has no liquidated damages clause. The firm delivers on May 15. Independent reviewers agree the drawings are complete and meet the standard of care, with no errors. The 10-week slip pushes construction into a costlier season. If the district seeks to recover its added costs, which legal basis best fits its claim?',
+    choices: [
+      { id: 'c1', text: 'Strict liability, because the firm\'s drawings are a product delivered to the district' },
+      { id: 'c2', text: 'Professional negligence, because the late drawings caused the district a measurable loss' },
+      { id: 'c3', text: 'Breach of contract, because the firm failed to perform a promised term of the agreement' },
+      { id: 'c4', text: 'No claim exists, because the contract does not set a dollar amount for late delivery' },
+    ],
+    correctAnswerId: 'c3',
+    choiceNotes: [
+      'Strict liability applies to defective products and abnormally dangerous activities, not to professional services, and nothing here is defective.',
+      'Negligence needs a breach of the standard of care. The drawings met that standard; a loss alone does not make the work negligent.',
+      'Correct: the firm promised delivery by March 1 and did not deliver. Failing to perform a contract term is a breach of contract, and the district may seek the actual damages it can prove.',
+      'Without a liquidated damages clause the owner simply has to prove its actual losses; the absence of a preset amount does not erase the claim.',
+    ],
+    eli5:
+      'There are two different ways to let a client down. Negligence means the work was done worse than a careful engineer would do it. Breach of contract means you did not do what you promised. Here the drawings were good but late, so the problem is the broken promise about the date.',
+    hint: 'Was the quality of the work deficient, or was a promise in the agreement not kept?',
+    steps: [
+      { text: 'Professional negligence needs duty, breach of the standard of care, causation and damages. The reviewers found the drawings met the standard of care, so there is no breach of that duty.', latex: null },
+      { text: 'A contract claim needs a promise in the agreement that was not performed. The contract required delivery by March 1, and delivery came May 15.', latex: null },
+      { text: 'With no liquidated damages clause, the district must prove its actual added costs, but the claim exists.', latex: null },
+      { text: 'Strict liability is for defective products and ultrahazardous activities, not design services. The best fit is breach of contract.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: '\\text{Negligence: duty, breach of standard of care, causation, damages; Contract: promised term not performed}',
+    traps: [
+      'Calling any loss caused by an engineer negligence, even when the work met the standard of care',
+      'Assuming no liquidated damages clause means no recovery for delay',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-ethics-a-05',
+    chapterId: 'ethics',
+    version: 'A',
+    topic: 'Licensure',
+    type: 'conceptual',
+    difficulty: 'medium',
+    statement:
+      'A PE licensed by examination in one state applies for licensure by comity in a neighboring state. While the application is under review, the neighboring state\'s board administrator issues her a contingent license, and she begins designing a small bridge there. Four months later the board decides she does not meet its requirements for comity. Under the NCEES Model Law, what is the status of her contingent license?',
+    choices: [
+      { id: 'c1', text: 'It stays in effect for one year so that work already under way can be finished' },
+      { id: 'c2', text: 'It is revoked immediately and automatically on notice, and no license is issued' },
+      { id: 'c3', text: 'It becomes an engineer intern certificate until she passes that state\'s PE exam' },
+      { id: 'c4', text: 'It is no longer needed, since her home-state license lets her practice there by comity' },
+    ],
+    correctAnswerId: 'c2',
+    choiceNotes: [
+      'There is no grace period. A contingent license lasts only until the board takes final action.',
+      'Correct: the Model Law exemption clause says a contingent license runs from issuance until the board acts; if she does not qualify, it is immediately and automatically revoked upon notice and no license is issued.',
+      'Invents a conversion. Intern certification comes from education plus the FE exam, not from a failed comity application.',
+      'Comity is a license granted by the new state\'s board, not an automatic right. She must comply with the licensing laws of each jurisdiction where she practices (Rule A.10).',
+    ],
+    eli5:
+      'A contingent license is a temporary pass the new state gives you while it checks your paperwork. If the board decides you do not qualify, the pass ends right away, and you must stop practicing there.',
+    hint: 'Look at the Model Law exemption clause for what a contingent license is and when it ends.',
+    steps: [
+      { text: 'Licensure by comity: a board may license an engineer from another jurisdiction without re-examination if her credentials meet its standard (Model Law 130.10 B.2.b).', latex: null },
+      { text: 'Model Law 170.20 B: a contingent license may be issued to a comity applicant who appears to qualify, and it is in effect only until the board takes final action.', latex: null },
+      { text: 'If the board finds she does not meet the requirements, the contingent license is immediately and automatically revoked upon notice to her, and no license is issued.', latex: null },
+      { text: 'From that notice on she may not practice engineering in that state; continuing the bridge design there would be unlicensed practice.', latex: null },
+    ],
+    handbookPage: 'p. 11',
+    handbookFormula: '\\text{170.20 B: contingent license ends at final action; if denied, revoked immediately and automatically on notice}',
+    traps: [
+      'Assuming a temporary license carries a grace period to finish projects',
+      'Treating comity as automatic reciprocity rather than a license the new board must grant',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-ethics-a-06',
+    chapterId: 'ethics',
+    version: 'A',
+    topic: 'Licensure',
+    type: 'conceptual',
+    difficulty: 'medium',
+    statement:
+      'A PE holds licenses in State M and State N. The State M board opens an investigation into negligence on a retaining wall that failed, and to end the investigation she voluntarily surrenders her State M license. No hearing is held and no finding is made. She keeps practicing in State N, whose law follows the NCEES Model Law. May the State N board take disciplinary action against her?',
+    choices: [
+      { id: 'c1', text: 'No, because a voluntary surrender is not a finding of guilt by any board' },
+      { id: 'c2', text: 'No, because a board may act only on conduct that occurred inside its own state' },
+      { id: 'c3', text: 'Only if the wall failure also leads to a criminal conviction for the engineer' },
+      { id: 'c4', text: 'Yes, because surrendering a license elsewhere to avoid discipline is itself grounds' },
+    ],
+    correctAnswerId: 'c4',
+    choiceNotes: [
+      'The Model Law closes this loophole on purpose: a surrender made to avoid discipline counts as discipline by another jurisdiction.',
+      'Discipline by another jurisdiction is listed as a ground, so out-of-state conduct can be acted on when a ground is substantially equivalent (negligence is one in both).',
+      'Criminal conviction is a separate ground. Negligence and discipline elsewhere are grounds on their own, with no conviction needed.',
+      'Correct: Model Law 150.10 A.5 lists discipline by another jurisdiction, including voluntary surrender of a license to avoid disciplinary action, as grounds when at least one ground is the same or substantially equivalent. Negligence is (A.2).',
+    ],
+    eli5:
+      'Giving up your license in one state to make an investigation go away does not wipe the slate clean. The other state treats that surrender as if you had been disciplined, as long as the reason (here, negligence) would also be a reason in its own law.',
+    hint: 'Read the list of grounds for disciplinary action and look for discipline in another jurisdiction.',
+    steps: [
+      { text: 'Model Law 150.10 A lists the grounds on which a board may suspend, revoke, fine or reprimand.', latex: null },
+      { text: 'Ground A.5: discipline by another jurisdiction, including voluntary surrender of a license in order to avoid disciplinary action, if at least one ground is the same or substantially equivalent.', latex: null },
+      { text: 'The State M investigation was for negligence, which is ground A.2 in the Model Law, so the equivalence test is met.', latex: null },
+      { text: 'State N may discipline her even though State M never held a hearing or made a finding.', latex: null },
+    ],
+    handbookPage: 'p. 9',
+    handbookFormula: '\\text{150.10 A.5: discipline elsewhere, including surrender to avoid discipline, is grounds}',
+    traps: [
+      'Believing a surrender with no finding leaves no record other boards can act on',
+      'Thinking a board can only act on conduct inside its own borders',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-ethics-a-07',
+    chapterId: 'ethics',
+    version: 'A',
+    topic: 'Contracts and contract law',
+    type: 'computational',
+    difficulty: 'easy',
+    statement:
+      'A paving contract for a school parking lot says the contractor will pay the owner 1,500 dollars for each calendar day that substantial completion runs past the contract date, an amount both parties agreed at signing was a reasonable estimate of the owner\'s delay costs. The contractor finishes 12 calendar days late with no excusable delays. The owner\'s actual delay costs turn out to be about 9,000 dollars. How much may the owner recover for the delay?',
+    choices: [
+      { id: 'c1', text: '0 dollars, since a fixed daily charge is an unenforceable penalty' },
+      { id: 'c2', text: '9,000 dollars, since recovery is limited to the actual delay costs' },
+      { id: 'c3', text: '18,000 dollars, the agreed daily amount for the 12 late days' },
+      { id: 'c4', text: '27,000 dollars, the agreed daily amount plus the actual costs' },
+    ],
+    correctAnswerId: 'c3',
+    choiceNotes: [
+      'Confuses liquidated damages with a penalty. A per-day amount that was a reasonable estimate when signed is enforceable.',
+      'Liquidated damages replace proof of actual loss; the agreed amount applies even if real costs turn out lower.',
+      'Correct: 1,500 dollars per day times 12 days is 18,000 dollars of liquidated damages, owed without proving actual loss.',
+      'Double counts. Liquidated damages stand in for actual delay damages; the owner does not collect both.',
+    ],
+    eli5:
+      'Before work starts, both sides agree on a price for each late day so nobody has to argue later about what the delay really cost. The contractor was 12 days late, so it pays 12 times the agreed daily amount, whether the real cost ended up a bit higher or lower.',
+    hint: 'Liquidated damages are a pre-agreed amount that takes the place of proving actual losses.',
+    steps: [
+      { text: 'The clause sets a daily amount that was a reasonable pre-estimate of loss when signed, so it is a liquidated damages clause, not a penalty.', latex: null },
+      { text: 'Multiply the daily amount by the days of unexcused delay.', latex: 'LD = 1{,}500 \\times 12 = 18{,}000\\ \\text{dollars}' },
+      { text: 'Liquidated damages replace actual delay damages, so the owner neither has to prove the 9,000 dollars nor adds it on top.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: '\\text{Liquidated damages} = \\text{daily rate} \\times \\text{days of unexcused delay}',
+    traps: [
+      'Calling every daily charge a penalty',
+      'Capping recovery at actual losses, or adding actual losses on top of liquidated damages',
+    ],
+    diagram: null,
+  },
+  {
+    id: 'ct-ethics-a-08',
+    chapterId: 'ethics',
+    version: 'A',
+    topic: 'Contracts and contract law',
+    type: 'conceptual',
+    difficulty: 'hard',
+    statement:
+      'A county is building a public library. The general contractor, who posted the bonds required by state law for public works, has not paid its electrical subcontractor 64,000 dollars for completed and accepted work, and the general contractor is still working on the job. The county has paid the general contractor in full for that work. What is the electrical subcontractor\'s most appropriate remedy?',
+    choices: [
+      { id: 'c1', text: 'File a claim against the general contractor\'s payment bond' },
+      { id: 'c2', text: 'File a mechanic\'s lien against the county library property' },
+      { id: 'c3', text: 'File a claim against the general contractor\'s performance bond' },
+      { id: 'c4', text: 'Ask the county to pay it from the retainage it is holding on the project' },
+    ],
+    correctAnswerId: 'c1',
+    choiceNotes: [
+      'Correct: on public works, mechanic\'s liens generally cannot attach to public property, so state law (and the federal Miller Act) requires a payment bond that guarantees payment to subcontractors and suppliers.',
+      'A mechanic\'s lien protects unpaid workers on private property; public property generally cannot be liened, which is why public projects require payment bonds.',
+      'The performance bond protects the owner by guaranteeing the work is completed; it is not the subcontractor\'s security for payment.',
+      'Retainage belongs to the general contractor\'s contract with the county; the county has no contract with the subcontractor and is not obliged to pay it directly.',
+    ],
+    eli5:
+      'On a private job an unpaid sub can put a claim on the land itself. You cannot do that to a county building, so the law makes the general contractor buy a payment bond, an insurance-like promise that subs and suppliers get paid. The sub goes to that bond.',
+    hint: 'Which security exists on public projects precisely because liens cannot be placed on public land?',
+    steps: [
+      { text: 'A mechanic\'s lien places a claim on the improved property to secure payment, but public property generally cannot be liened.', latex: null },
+      { text: 'That is why public works laws (the Miller Act federally, "little Miller Acts" in the states) require the general contractor to post a payment bond.', latex: null },
+      { text: 'A payment bond guarantees payment to subcontractors and suppliers; a performance bond guarantees the owner that the work will be completed.', latex: null },
+      { text: 'The unpaid electrical subcontractor files a claim against the payment bond.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: '\\text{Payment bond: pays subs and suppliers; Performance bond: completes the work for the owner}',
+    traps: [
+      'Reaching for a mechanic\'s lien on a public building',
+      'Mixing up the payment bond and the performance bond',
+      'Expecting the owner to pay a subcontractor it has no contract with',
+    ],
+    diagram: null,
+  },
+];
 
 export default PROBLEMS;
