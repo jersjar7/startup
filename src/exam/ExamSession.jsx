@@ -19,6 +19,7 @@ import '../diagnostic/diagnostic.css';
 import './exam.css';
 import { localDate } from '../data/localDate';
 import { restoreAnswers } from './restoreAnswers';
+import { shouldRetrySave } from './retrySave';
 
 const TIME_LIMIT = 5 * 3600 + 20 * 60; // 5h 20min in seconds
 const BREAK_AFTER_QUESTION = 55; // Halfway through, like the real FE exam
@@ -155,11 +156,14 @@ export function ExamSession({ userName, preview = false }) {
         navigator.sendBeacon('/api/exam/answers-beacon', new Blob([body], { type: 'application/json' }));
         return;
       }
-      await fetch('/api/exam/answers', {
+      const res = await fetch('/api/exam/answers', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body,
       });
+      // fetch only throws when nothing came back. A server that answered
+      // "Failed to save progress" left the answers unsaved too.
+      if (shouldRetrySave(res.status)) dirtyRef.current = true;
     } catch {
       dirtyRef.current = true; // retry on the next tick rather than losing it
     }

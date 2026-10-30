@@ -108,6 +108,10 @@ customer's work, which is the failure this whole area exists to prevent.
 Client durability is two-layered: a localStorage mirror written synchronously on
 every change (covers the gap before the next flush, and offline) plus the
 debounced server flush. The server merges, so neither layer can blank the other.
+A flush the server answers with an error is retried on the next tick, not only
+one that never got through: `fetch` does not throw on a 5xx, so until
+2026-10-29 a "Failed to save progress" reply counted as saved
+(`src/exam/retrySave.js` decides which statuses retry).
 
 ---
 
