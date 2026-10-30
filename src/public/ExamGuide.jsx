@@ -181,7 +181,7 @@ function useActiveSection(ids) {
     const io = new IntersectionObserver((entries) => {
       const seen = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
       if (seen[0]) setActive(seen[0].target.id);
-    }, { rootMargin: '-20% 0px -70% 0px' });
+    }, { rootMargin: '-8% 0px -80% 0px' });
     ids.forEach((id) => { const el = document.getElementById(id); if (el) io.observe(el); });
     return () => io.disconnect();
   }, [ids]);
