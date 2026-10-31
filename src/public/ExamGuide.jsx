@@ -416,7 +416,7 @@ export function ExamGuide() {
             </div>
             <p className="eg-pe-next">
               We are working on prep for the PE exam too.{' '}
-              <Link to="/pe-exam-prep">Try three sample PE problems</Link>
+              <Link to="/pe-exam-prep">Join the PE waiting list</Link>
             </p>
           </section>
 

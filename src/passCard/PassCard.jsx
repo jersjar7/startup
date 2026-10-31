@@ -249,11 +249,11 @@ export default function PassCard() {
           <section className="pc-pe" aria-labelledby="pc-pe-title">
             <h2 id="pc-pe-title">The PE exam is next</h2>
             <p>
-              We are working on high quality, affordable prep material for the PE exam. Join the
-              waitlist and we will let you know when it is ready.
+              We are building high quality, affordable material to pass the PE, the same way we built
+              your FE prep. Join the waiting list and be the first to know when it is ready.
             </p>
             <Link className="pc-btn" to="/pe-exam-prep?utm_source=passcard&utm_medium=email">
-              Join the waitlist
+              Join the waiting list
             </Link>
           </section>
           )}
