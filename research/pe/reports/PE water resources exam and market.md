@@ -1,5 +1,14 @@
 # PE water resources opens a narrow, real lane
 
+> **Correction, 2026-10-31.** This report says no affordable, computer-based
+> WRE practice exam exists. That is wrong. PEwise (launched February 2026)
+> sells two 80-question exams in a timed simulator plus a video course for
+> $149 for 90 days; CastorPrep sells 80-question mock exams in a $29 a month
+> plan; Civil Engineering Academy sells a simulator for $99.96. Sources: the
+> sellers' own pages and CastorPrep's comparison page, read 2026-10-31. See
+> `research_notes/PE water resources exam and market/correction_2026-10-31.md`.
+> The product proposal was revised to match.
+
 The PE Civil: Water Resources and Environmental (WRE) exam is now a single 80-question, depth-only, closed-book computer exam that anyone can book year-round for $400, and it is the largest and fastest-growing of the five PE Civil exams, with about **5,700 attempts in the fiscal year ending September 2025 and roughly 6,600 in the latest twelve months**. Jerson can register with NCEES and sit it as soon as he is ready, because Washington stopped requiring board approval on August 1, 2026, but the license itself waits on experience and lands around **mid 2029** in both Washington and Oregon. Prep is a $2M to $10M a year niche for WRE alone, mostly paid by employers through caps of $1,000 to $1,500, and it is split between $950 to $3,800 courses and $36 to $165 static practice exams, with almost nothing in between. That empty middle, plus an April 2027 change that grows the WRE reference list from two documents to seven and forces every vendor to update, is a genuine opening for an FE for Raccoons style product: a free, handbook-referenced problem bank with a cheap, realistic timed simulation. The honest catch is size and cost. At FE-style prices the ceiling is tens of thousands of dollars a year, not hundreds, and PE-level problems are far more expensive to author than FE problems. The product is worth building only as a focused simulation-first wedge, priced above the FE sim, timed to April 2027, and written alongside Jerson's own preparation.
 
 ## An 80-question depth exam where a quarter is not water

@@ -10,8 +10,10 @@ Build it, but narrowly, and in two steps that each earn the next:
 
 1. **Now:** a free waitlist page and free WRE worked problems. Search takes
    months to warm up, and these teach us whether the demand shows up.
-2. **About April 2027, only if the waitlist fills:** one paid product, an
-   80-question timed WRE practice exam that copies the real computer format.
+2. **About April 2027, only if the waitlist fills:** decide the paid piece
+   then. A $99 practice exam on its own no longer stands (see "The gap"); it
+   has to beat PEwise at $149 with a course included, so price near $49 or
+   offer something they do not.
 
 Jerson studying for this exact exam now is the content engine and the story.
 
@@ -22,15 +24,21 @@ Jerson studying for this exact exam now is the content engine and the story.
 - **Repeat takers:** about 1,400 a year, and only half pass. They are the most
   motivated buyers there are.
 - **Who pays:** employers usually do, up to caps of about $1,000 to $1,500. A
-  $99 product slips under every cap, and an engineer can expense it without
+  product under $150 slips under every cap, and an engineer can expense it without
   asking anyone.
-- **The gap:**
-  - Full courses cost $950 to $3,800.
-  - Single practice exams cost $36 to $165, and they are mostly PDFs or books.
-  - A realistic timed computer exam is only sold inside $695+ bundles.
-  - Nothing in between is affordable, honest, computer-based and
-    handbook-referenced. That is exactly what FE for Raccoons already does for
-    the FE.
+- **The gap (corrected 2026-10-31):** the first version said no affordable
+  computer-based WRE practice exam existed. That was wrong. A second pass
+  through search results and the sellers' own pages found:
+  - PEwise: $149 for 90 days buys two 80-question exams in a timed simulator,
+    plus a full video course. It launched in February 2026.
+  - CastorPrep: $29 a month for 2,000+ problems and 80-question mock exams.
+  - Civil Engineering Academy: a simulator for $99.96.
+  - School of PE question bank: $139 for a month.
+  - NCEES's own practice exam: $59.95 (PDF).
+  So a $99 single exam would cost more than a competitor's two exams plus a
+  course. The cheap computer exam is not an open gap any more. What is still
+  open: being completely free at the core, which is FE for Raccoons' whole
+  position, and reaching FE passers who already use the site.
 - **The timing:** the topic outline stays the same until at least 2029, so
   work done now does not go stale. Only the supplied codes change in April 2027.
 
@@ -74,7 +82,9 @@ Jerson studying for this exact exam now is the content engine and the story.
 - **Coverage:** follows the April 2027 spec and its seven supplied documents.
 - **Results by topic:** scored per topic on the same 12 areas as NCEES's own
   failure report, weakest first. The FE simulation does this already.
-- **Price:** $99 (the report's range was $99 to $149). The receipt carries a
+- **Price:** not $99 as first written. Competitors sell two exams plus a
+  course for $149, or monthly access for $29. Decide in March 2027 from the
+  waitlist; $49 is the starting point. The receipt carries a
   company-name field so it can be expensed.
 - **Code:** reuse the FE simulation's engine, which already has the
   server-picked questions, answers saved by question, and submit that only adds.
@@ -106,6 +116,9 @@ Jerson studying for this exact exam now is the content engine and the story.
 - **Copyright:** the NCEES handbook and the supplied codes are copyrighted. We
   point to sections and never copy them, the same rule as the NCEES FE practice
   exam.
-- **Unseen candidate voice:** Reddit could not be read in this research, so
-  recent first-hand feedback is missing. Jerson's own study notes will fill
-  that gap better than forum posts.
+- **Candidate voice:** Chrome cannot open Reddit, but Google's result pages
+  show its WRE threads (read 2026-10-31). What they say: about 3 months and
+  200 to 300 hours is the common study load; several people passed using only
+  the NCEES practice exam and a book; School of PE is the most named course;
+  people compare the 2024 and 2026 NCEES practice exams. Full threads stayed
+  unread.
