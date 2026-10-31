@@ -12,12 +12,12 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 export async function liveCounts() {
   const entry = `
-    import { getProblemPoolSize } from ${JSON.stringify(join(root, 'src/data/problemPool.js'))};
     import { LESSONS } from ${JSON.stringify(join(root, 'src/data/lessons/index.js'))};
+    import { PROBLEM_COUNT } from ${JSON.stringify(join(root, 'src/data/contentStats.js'))};
     import { CHAPTERS } from ${JSON.stringify(join(root, 'src/data/chapters.js'))};
     let lessons = 0;
     for (const ch of Object.values(LESSONS)) for (const st of ch) lessons += (st.lessons || []).length;
-    export const counts = { problems: getProblemPoolSize(), lessons, chapters: CHAPTERS.length };
+    export const counts = { problems: PROBLEM_COUNT, lessons, chapters: CHAPTERS.length };
   `;
   const out = join(mkdtempSync(join(tmpdir(), 'cc-')), 'c.cjs');
   await build({ stdin: { contents: entry, resolveDir: root, loader: 'js' }, bundle: true, format: 'cjs', platform: 'node', outfile: out, logLevel: 'silent' });

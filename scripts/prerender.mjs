@@ -18,7 +18,7 @@ const BASE = `http://localhost:${PORT}`;
 const SITE = 'https://fe4raccoons.com';
 
 // Live content counts (written by scripts/gen-stats.mjs earlier in build:seo).
-let STATS = { problemsLabel: '1,126', chapters: 15 };
+let STATS = { problemsLabel: '1,454', chapters: 15 };
 try { STATS = { ...STATS, ...JSON.parse(fs.readFileSync(new URL('../content-stats.json', import.meta.url), 'utf8')) }; } catch { /* keep fallback */ }
 
 const TOPICS = [

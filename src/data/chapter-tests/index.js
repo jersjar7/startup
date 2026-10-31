@@ -50,21 +50,6 @@ export const CHAPTER_TESTS = {
   'construction': { A: constructionA, B: constructionB },
 };
 
-// Questions per test: the top of the chapter's NCEES range (src/data/chapters.js).
-export const TEST_LENGTH = {
-  'mathematics': 12,
-  'statistics': 12,
-  'ethics': 6,
-  'economics': 8,
-  'statics': 12,
-  'dynamics': 6,
-  'mechanics-materials': 11,
-  'materials': 8,
-  'fluid-mechanics': 9,
-  'surveying': 9,
-  'water-resources': 15,
-  'structural': 15,
-  'geotechnical': 15,
-  'transportation': 14,
-  'construction': 12,
-};
+// Questions per test live in ./lengths so the site can count them without
+// loading a single question.
+export { TEST_LENGTH } from './lengths';

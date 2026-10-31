@@ -210,7 +210,7 @@ content from it yet. Sources, best first:
 5. **Website screens.** `scripts/verify-ui.mjs` screenshots signed-in pages
    using the QA account (credentials in gitignored `secrets/qa-login.json`).
    Never use a real user's account or data in a post.
-6. **The question bank itself.** 1,126 problems with worked solutions and
+6. **The question bank itself.** 1,454 problems with worked solutions and
    about 280 real engineering diagrams: lessons in `src/data/lessons/`, exam
    bank in `src/data/exam-bank/`, chapter practice in
    `src/data/chapter-practice/`, diagrams in `src/components/diagrams/`.
@@ -233,7 +233,7 @@ Fresh ideas the owner has not seen yet, all from the app:
 
 | Claim | Current value | How to verify |
 |---|---|---|
-| Problems | 1,126 (405 lesson + 473 exam bank + 248 chapter practice) | `getProblemPoolSize()` in `src/data/` |
+| Problems | 1,454 (405 lesson + 473 exam bank + 248 chapter practice + 328 chapter test) | `PROBLEM_COUNT` in `src/data/contentStats.js` |
 | Topics / subtopics / lessons | 15 / 51 / 135 | `src/data/chapters` and `src/data/lessons/` |
 | Exam simulation | 110 questions, 5 h 20 min, break after Q55, NCEES 2020 weights | `service/examWeights.js`, `service/routes/exam.js` |
 | Sim repeats | A student's first two simulations share no question | `service/examQuestions.js` |

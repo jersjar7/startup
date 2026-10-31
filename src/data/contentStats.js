@@ -5,6 +5,7 @@
 import { getProblemPoolSize } from './problemPool';
 import { LESSONS } from './lessons/index';
 import { CHAPTERS } from './chapters';
+import { TEST_LENGTH, TEST_VERSIONS } from './chapter-tests/lengths';
 
 function countLessons() {
   let n = 0;
@@ -14,9 +15,17 @@ function countLessons() {
   return n;
 }
 
-export const PROBLEM_COUNT = getProblemPoolSize();
+// Chapter test questions a student can be served: every set of every chapter.
+// The bank holds a few spares past each test's length; those are not counted.
+export function countChapterTestQuestions() {
+  return Object.values(TEST_LENGTH).reduce((n, len) => n + len * TEST_VERSIONS.length, 0);
+}
+
+// Practice, lesson and exam problems plus the chapter tests: every problem a
+// student can reach on the platform.
+export const PROBLEM_COUNT = getProblemPoolSize() + countChapterTestQuestions();
 export const LESSON_COUNT = countLessons();
 export const CHAPTER_COUNT = CHAPTERS.length;
 
-// "1,126": the canonical, comma-formatted label used throughout the copy.
+// "1,454": the canonical, comma-formatted label used throughout the copy.
 export const PROBLEM_COUNT_LABEL = PROBLEM_COUNT.toLocaleString('en-US');
