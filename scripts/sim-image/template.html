@@ -3,14 +3,16 @@
 <head>
 <meta charset="utf-8">
 <!-- Source of the exam simulation product pictures (public/exam-sim-*.png),
-     rendered by scripts/gen-sim-image.mjs. Every object is a real capture:
-     two question pages from the exam screen (the free preview, same screen and
-     bank as the paid sitting) and the score-by-chapter section of the results
-     screen. No overall score, no pass badge, no price: Google shows the price
-     beside the picture, and a sample score alone reads as a promise. -->
+     rendered by scripts/gen-sim-image.mjs. The two question pages are real
+     captures of the exam screen (the free preview: same screen and bank as the
+     paid sitting). The books are the topics as the results screen sorts them,
+     weakest first, with that one pulled out; 36% is the weakest score in the
+     example report on /exam-simulation. No overall score, no pass badge, no
+     price: Google shows the price beside the picture, and a sample score
+     alone reads as a promise. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600;9..40,700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600;9..40,700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
 <style>
   :root {
     --cream: #FFF9F0;
@@ -72,22 +74,68 @@
     background: rgba(255,249,240,0.28);
   }
 
-  .report {
-    position: absolute;
-    background: #fff;
-    border-radius: 18px;
-    padding: 30px 32px 26px;
-    border-top: 5px solid var(--ember);
-    box-shadow: 0 2px 4px rgba(44,44,44,0.12), 0 6px 14px rgba(44,44,44,0.08), 0 36px 80px rgba(44,44,44,0.20);
+  /* The topics as a stack of books, the weakest pulled half out. Spines are
+     shaded like a rounded cover: light on the top edge, dark on the bottom. */
+  .stack { position: absolute; }
+  .book {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: var(--bh);
+    width: calc(var(--w) * 1%);
+    margin: calc(var(--bh) * -0.05) 0 0 calc(var(--x) * 1px);
+    padding: 0 0 0 calc(var(--bh) * 0.45);
+    border-radius: 7px 11px 11px 7px;
+    transform: rotate(calc(var(--r) * 1deg));
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: var(--bf);
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0) 30%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.16)), var(--c);
+    color: var(--t);
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.22), inset 0 -3px 0 rgba(0,0,0,0.12),
+      0 2px 3px rgba(44,44,44,0.20), 0 12px 26px rgba(44,44,44,0.12);
   }
-  .report img.shot { display: block; width: 100%; }
+  /* Binding bands near the spine's end. */
+  .book::before, .book::after {
+    content: '';
+    position: absolute;
+    top: 22%;
+    bottom: 22%;
+    width: 4px;
+    border-radius: 2px;
+    background: var(--band);
+  }
+  .book::before { right: calc(var(--bh) * 0.62); }
+  .book::after { right: calc(var(--bh) * 0.42); }
+  .book .pct {
+    margin-left: auto;
+    margin-right: calc(var(--bh) * 1.05);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 0;
+    font-size: calc(var(--bf) * 1.25);
+  }
+  .book.pulled {
+    z-index: 2;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.22), inset 0 -3px 0 rgba(0,0,0,0.12),
+      0 3px 5px rgba(44,44,44,0.24), 0 22px 44px rgba(44,44,44,0.22);
+  }
+  .ch { --c: #2C2C2C; --t: #FFF9F0; --band: rgba(255,249,240,0.30); }
+  .em { --c: #E8683A; --t: #FFFFFF; --band: rgba(255,255,255,0.45); }
+  .fo { --c: #2D7A5F; --t: #FFFFFF; --band: rgba(255,255,255,0.38); }
+  .cr { --c: #FFFDF8; --t: #2C2C2C; --band: rgba(44,44,44,0.22); }
+  .sa { --c: #EADFCB; --t: #2C2C2C; --band: rgba(44,44,44,0.22); }
+
   /* The raccoon peeks over the report's top edge: flat bottom of its face on
      the edge, nose over the card. */
   .peek {
     position: absolute;
     top: 0;
     width: 230px;
-    transform: translate(-50%, -100%) translateY(34px);
+    z-index: 3;
+    transform: translate(-50%, -100%) translateY(var(--peek-dip, 30px));
     filter: drop-shadow(0 0 0.6px rgba(44,44,44,0.55)) drop-shadow(0 -2px 6px rgba(44,44,44,0.10));
   }
 
@@ -98,8 +146,8 @@
   .square .lead { font-size: 24px; }
   .square .p1 { left: 690px; top: 60px; width: 460px; transform: rotate(6deg); }
   .square .p2 { left: 650px; top: 290px; width: 490px; transform: rotate(-3.5deg); }
-  .square .report { left: 60px; top: 690px; width: 820px; transform: rotate(-1.6deg); }
-  .square .peek { left: 74%; }
+  .square .stack { left: 70px; top: 672px; width: 700px; --bh: 64px; --bf: 22px; }
+  .square .peek { left: 52%; }
 
   /* ---- 4:3, 1200 x 900 ---- */
   body.four { --w: 1200px; --h: 900px; }
@@ -108,18 +156,18 @@
   .four .lead { font-size: 22px; }
   .four .p1 { left: 700px; top: 40px; width: 420px; transform: rotate(6deg); }
   .four .p2 { left: 640px; top: 220px; width: 450px; transform: rotate(-3.5deg); }
-  .four .report { left: 64px; top: 520px; width: 700px; transform: rotate(-1.6deg); }
-  .four .peek { left: 76%; width: 210px; }
+  .four .stack { left: 64px; top: 492px; width: 600px; --bh: 54px; --bf: 19px; }
+  .four .peek { left: 53%; width: 200px; }
 
   /* ---- 16:9, 1600 x 900 ---- */
   body.wide { --w: 1600px; --h: 900px; }
-  .wide .words { left: 96px; top: 150px; width: 600px; }
+  .wide .words { left: 96px; top: 230px; width: 600px; }
   .wide h1 { font-size: 76px; }
   .wide .lead { font-size: 25px; }
   .wide .p1 { left: 1110px; top: 40px; width: 430px; transform: rotate(7deg); }
   .wide .p2 { left: 1010px; top: 150px; width: 460px; transform: rotate(-3deg); }
-  .wide .report { left: 700px; top: 470px; width: 700px; transform: rotate(-1.6deg); }
-  .wide .peek { left: 24%; width: 210px; }
+  .wide .stack { left: 700px; top: 470px; width: 620px; --bh: 56px; --bf: 19px; }
+  .wide .peek { left: 53%; width: 200px; }
 </style>
 </head>
 <body class="square">
@@ -132,9 +180,15 @@
   <div class="page back p1"><img src="q-pavement.png" alt=""></div>
   <div class="page p2"><img src="q-beam.png" alt=""></div>
 
-  <div class="report">
+  <div class="stack">
     <img class="peek" src="raccoon-peek.png" alt="">
-    <img class="shot" src="score-by-chapter.png" alt="">
+    <div class="book cr" style="--w:84;--x:18;--r:-1.2">Structural</div>
+    <div class="book em pulled" style="--w:90;--x:96;--r:1.2">Geotechnical<span class="pct">36%</span></div>
+    <div class="book ch" style="--w:90;--x:0;--r:-0.6">Fluid Mechanics</div>
+    <div class="book fo" style="--w:86;--x:26;--r:0.8">Water Resources</div>
+    <div class="book sa" style="--w:94;--x:6;--r:-0.4">Transportation</div>
+    <div class="book ch" style="--w:88;--x:30;--r:0.5">Mechanics of Materials</div>
+    <div class="book cr" style="--w:96;--x:0;--r:-0.3">Statics</div>
   </div>
 
   <script>
