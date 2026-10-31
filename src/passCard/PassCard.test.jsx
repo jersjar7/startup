@@ -107,7 +107,7 @@ describe('somebody whose account already has a name (ADR 0023)', () => {
   it('sends them to the PE waitlist, marked as coming from the card', async () => {
     mountAt();
     await userEvent.click(await screen.findByRole('button', { name: /draw my card/i }));
-    const link = await screen.findByRole('link', { name: /join the waitlist/i });
+    const link = await screen.findByRole('link', { name: /join the waiting list/i });
     expect(link.getAttribute('href')).toBe('/pe-exam-prep?utm_source=passcard&utm_medium=email');
   });
 });
