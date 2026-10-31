@@ -115,14 +115,16 @@
   .cr { --c: #FFFDF8; --t: #2C2C2C; --band: rgba(44,44,44,0.22); }
   .sa { --c: #EADFCB; --t: #2C2C2C; --band: rgba(44,44,44,0.22); }
 
-  /* The raccoon peeks over the report's top edge: flat bottom of its face on
-     the edge, nose over the card. */
+  /* The raccoon peeks over the top book, inside it so it tilts with the
+     spine: flat bottom of its face on the edge, nose over the book. */
   .peek {
     position: absolute;
     top: 0;
     width: 230px;
     z-index: 3;
-    transform: translate(-50%, -100%) translateY(var(--peek-dip, 30px));
+    /* The face's flat bottom ends 16.5% above the image's bottom; only the nose
+       hangs below it. Seat the face exactly on the edge. */
+    transform: translate(-50%, -83.5%);
     filter: drop-shadow(0 0 0.6px rgba(44,44,44,0.55)) drop-shadow(0 -2px 6px rgba(44,44,44,0.10));
   }
 
@@ -134,7 +136,7 @@
   .square .p1 { left: 690px; top: 60px; width: 460px; transform: rotate(6deg); }
   .square .p2 { left: 650px; top: 290px; width: 490px; transform: rotate(-3.5deg); }
   .square .stack { left: 70px; top: 672px; width: 700px; --bh: 64px; --bf: 22px; }
-  .square .peek { left: 52%; }
+  .square .peek { left: 62%; }
 
   /* ---- 4:3, 1200 x 900 ---- */
   body.four { --w: 1200px; --h: 900px; }
@@ -143,8 +145,8 @@
   .four .lead { font-size: 22px; }
   .four .p1 { left: 700px; top: 40px; width: 420px; transform: rotate(6deg); }
   .four .p2 { left: 640px; top: 220px; width: 450px; transform: rotate(-3.5deg); }
-  .four .stack { left: 64px; top: 492px; width: 600px; --bh: 54px; --bf: 19px; }
-  .four .peek { left: 53%; width: 200px; }
+  .four .stack { left: 64px; top: 510px; width: 600px; --bh: 54px; --bf: 19px; }
+  .four .peek { left: 63%; width: 200px; }
 
   /* ---- 16:9, 1600 x 900 ---- */
   body.wide { --w: 1600px; --h: 900px; }
@@ -154,7 +156,7 @@
   .wide .p1 { left: 1110px; top: 40px; width: 430px; transform: rotate(7deg); }
   .wide .p2 { left: 1010px; top: 150px; width: 460px; transform: rotate(-3deg); }
   .wide .stack { left: 700px; top: 470px; width: 620px; --bh: 56px; --bf: 19px; }
-  .wide .peek { left: 53%; width: 200px; }
+  .wide .peek { left: 63%; width: 200px; }
 </style>
 </head>
 <body class="square">
@@ -168,8 +170,7 @@
   <div class="page p2"><img src="q-beam.png" alt=""></div>
 
   <div class="stack">
-    <img class="peek" src="raccoon-peek.png" alt="">
-    <div class="book em" style="--w:84;--x:18;--r:-1.2">Structural</div>
+    <div class="book em" style="--w:84;--x:18;--r:-1.2"><img class="peek" src="raccoon-peek.png" alt="">Structural</div>
     <div class="book cr" style="--w:90;--x:4;--r:0.9">Geotechnical</div>
     <div class="book ch" style="--w:90;--x:0;--r:-0.6">Fluid Mechanics</div>
     <div class="book fo" style="--w:86;--x:26;--r:0.8">Water Resources</div>
