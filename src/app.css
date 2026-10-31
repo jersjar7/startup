@@ -63,6 +63,22 @@
   box-sizing: border-box;
 }
 
+/* iPhone Safari gives a native date field its own minimum width, so it ran
+   past the right edge of the profile card. Dropping the native look lets it
+   take the width it is given; the value is then centered, so put it back left,
+   and keep the height when the field is empty. */
+input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 2.9rem;
+}
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+}
+
 .body {
   font-family: var(--font-body);
   background-color: var(--cream);
