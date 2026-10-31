@@ -14,6 +14,8 @@ const { sendStudentCodeEmail } = require('../email.js');
 const router = express.Router();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Tests replace the Stripe lookups on this instance; nothing else touches it.
+router.stripe = stripe;
 
 const STUDENT_CODE_TTL_MS = 15 * 60 * 1000; // 15 minutes
 const STUDENT_CODE_MAX_ATTEMPTS = 5;
@@ -187,7 +189,7 @@ router.get('/status', verifyAuth, async (req, res) => {
   // This handles the case where the webhook hasn't fired yet (e.g., local dev)
   if (!purchased && req.query.session_id) {
     try {
-      const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
+      const session = await router.stripe.checkout.sessions.retrieve(req.query.session_id);
       // Same guard as the webhook: 'paid' alone is not enough, because a
       // test-mode session also reports 'paid'. This self-heal path is the one
       // that actually granted a real student free access during the incident.
@@ -195,6 +197,10 @@ router.get('/status', verifyAuth, async (req, res) => {
         console.error(
           `[checkout/status] REFUSING grant: session livemode=${session.livemode} but server key is ${describeMode()}. session=${session.id}`,
         );
+      } else if (await DB.getPurchaseBySessionId(session.id)) {
+        // Already recorded, so it was refunded or disputed: hasPurchased() is
+        // false but the session still says 'paid'. Re-recording it here would
+        // hand a refunded buyer the product back from their old return link.
       } else if (session.payment_status === 'paid' && session.client_reference_id === userId) {
         // Same frozen timing the webhook records, so a webhook miss does not
         // silently drop the field on that purchase.

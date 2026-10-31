@@ -5,10 +5,13 @@ const { tierForCents } = require('../pricing.js');
 const { examTimingFromMetadata } = require('../profile.js');
 const { isModeMismatch, describeMode } = require('../stripeMode.js');
 const { sendSaleAlertEmail } = require('../email.js');
+const { readReversal, planReversal } = require('../stripeReversals.js');
 
 const router = express.Router();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Tests replace the Stripe lookups on this instance; nothing else touches it.
+router.stripe = stripe;
 
 // POST /api/webhook/stripe — Stripe webhook handler
 // Note: This route must use express.raw() body parser, not express.json()
@@ -26,6 +29,23 @@ router.post('/stripe', async (req, res) => {
   } catch (err) {
     console.error(`Webhook signature verification failed: ${err.message}`);
     return res.status(400).send({ msg: `Webhook Error: ${err.message}` });
+  }
+
+  // Refunds and disputes. See stripeReversals.js for the rules.
+  const reversal = readReversal(event);
+  if (reversal) {
+    if (isModeMismatch(event)) {
+      return res.status(200).send({ received: true, ignored: 'livemode-mismatch' });
+    }
+    try {
+      const outcome = await handleReversal(reversal);
+      console.log(`[webhook] ${event.type} (${reversal.kind}) pi=${reversal.paymentIntent}: ${outcome}`);
+    } catch (err) {
+      // A 500 makes Stripe deliver the event again later.
+      console.error(`[webhook] ${event.type} failed, Stripe will retry: ${err.message}`);
+      return res.status(500).send({ msg: 'Reversal not recorded' });
+    }
+    return res.status(200).send({ received: true });
   }
 
   if (event.type === 'checkout.session.completed') {
@@ -92,5 +112,25 @@ router.post('/stripe', async (req, res) => {
 
   res.status(200).send({ received: true });
 });
+
+// Purchases are stored by Checkout session; the charge only names its payment
+// intent, so ask Stripe which session it came from.
+async function handleReversal(reversal) {
+  if (reversal.kind === 'partial-refund') return 'partial refund, access kept';
+  if (!reversal.paymentIntent) return 'no payment intent, nothing to match';
+
+  const sessions = await router.stripe.checkout.sessions.list({ payment_intent: reversal.paymentIntent, limit: 1 });
+  const session = sessions.data[0];
+  if (!session) return 'not a checkout payment, ignored';
+
+  const purchase = await DB.getPurchaseBySessionId(session.id);
+  if (!purchase) return `no purchase for session ${session.id}`;
+
+  const plan = planReversal(reversal, purchase);
+  if (!plan) return `purchase already '${purchase.status}', nothing to change`;
+
+  const wrote = await DB.applyPurchaseReversal(purchase, plan);
+  return wrote ? `purchase ${session.id} updated from '${purchase.status}'` : 'changed meanwhile, nothing written';
+}
 
 module.exports = router;

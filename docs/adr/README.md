@@ -67,6 +67,7 @@ that supersedes it, so the history of thinking stays readable.
 | [0033](0033-a-pack-is-published-as-one-file-per-chapter.md) | A pack is published as one file per chapter, every chapter always on the phone | 2026-10-28 | Accepted |
 | [0034](0034-retire-pack-versions-no-phone-can-need.md) | Retire pack versions no phone can need | 2026-10-29 | Accepted |
 | [0035](0035-chapter-tests-free-with-hidden-sets.md) | Chapter tests are free, and students never see which question set they get | 2026-10-30 | Accepted |
+| [0036](0036-refunds-and-disputes-from-stripe.md) | Stripe tells us about refunds and disputes, and access follows | 2026-10-30 | Accepted |
 
 Records 0002–0005 were written on 2026-08-04, backfilled from commit messages.
 The **Date** column is when the decision was made, not when it was written up.
