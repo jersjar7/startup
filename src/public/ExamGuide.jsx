@@ -415,8 +415,8 @@ export function ExamGuide() {
               </table>
             </div>
             <p className="eg-pe-next">
-              Planning the Water Resources and Environmental PE? We are building prep for it.{' '}
-              <Link to="/pe-civil-water-resources">Try three sample PE problems</Link>
+              We are working on prep for the PE exam too.{' '}
+              <Link to="/pe-exam-prep">Try three sample PE problems</Link>
             </p>
           </section>
 

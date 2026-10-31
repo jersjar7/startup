@@ -1,33 +1,79 @@
-/* PE Civil Water Resources waitlist (/pe-civil-water-resources). Built on the
+/* The PE waitlist (/pe-exam-prep). Built on the
    exam guide's hero and sections; the problem viewer is its own piece, shaped
    like a small exam screen: a dark tab bar, a question counter, then the
    worked solution once an answer is checked. */
 
-/* The form */
-.pe-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-top: 24px; }
-.pe-field { display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; font-weight: 500; color: var(--charcoal); }
-.pe-field input, .pe-field select {
-  font: 400 1rem 'Inter', sans-serif; padding: 13px 16px; min-width: 230px;
+/* Hero: words and the form on the left, a real problem on the right */
+.pe-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 56px; align-items: start; padding: 24px 0 80px; }
+.pe-hero h1 { font-size: clamp(2.2rem, 4.4vw, 3.2rem); letter-spacing: -0.035em; line-height: 1.05; max-width: 13ch; margin-top: 12px; }
+.pe-hero .pub-lede { max-width: 36ch; }
+
+/* The form: email and exam side by side, the button under them */
+.pe-form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 28px; max-width: 520px; }
+.pe-form input, .pe-form select {
+  font: 400 1rem 'Inter', sans-serif; padding: 14px 16px; min-width: 0; width: 100%; box-sizing: border-box;
   border: 1.5px solid #E2D8C8; border-radius: 10px; background: #fff; color: var(--charcoal);
 }
-.pe-field input:focus-visible, .pe-field select:focus-visible { outline: 2px solid var(--ember); outline-offset: 1px; }
-.pe-form .pub-btn { border: 0; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.pe-form input:focus-visible, .pe-form select:focus-visible { outline: 2px solid var(--ember); outline-offset: 1px; }
+.pe-form .pub-btn { grid-column: 1 / -1; justify-self: start; border: 0; cursor: pointer; font-family: 'DM Sans', sans-serif; }
 .pe-form .pub-btn:disabled { opacity: 0.7; cursor: default; }
+.pe-form-dark { margin: 0 auto; grid-template-columns: 1fr 1fr auto; max-width: 720px; }
+.pe-form-dark .pub-btn { grid-column: auto; }
 .pe-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
-.pub .pe-error { flex-basis: 100%; margin: 4px 0 0; color: var(--error); font-size: 0.9rem; }
-.pub .pe-done {
-  margin: 24px 0 0; padding: 14px 18px; border-radius: 10px; max-width: 60ch;
-  background: var(--forest-bg); color: #1f5a45;
-}
-.pe-form-dark { justify-content: center; }
-.pe-form-dark .pe-field span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.pub .pe-error { grid-column: 1 / -1; margin: 4px 0 0; color: var(--error); font-size: 0.9rem; }
+.pe-done { margin: 24px 0 0; padding: 16px 18px; border-radius: 10px; max-width: 520px; background: var(--forest-bg); color: #1f5a45; text-align: left; }
+.pub .pe-done p { margin: 0; }
 .pub-final-cta .pe-done { margin: 0 auto; }
 .pub-final-cta a { color: var(--sunbeam); }
+.pe-when { margin-top: 12px; display: grid; gap: 8px; font-size: 0.92rem; }
+.pe-when div { display: flex; gap: 8px; flex-wrap: wrap; }
+.pe-when select { font: 400 0.95rem 'Inter', sans-serif; padding: 9px 12px; border: 1.5px solid #CFE3D8; border-radius: 10px; background: #fff; color: var(--charcoal); }
+.pe-when button { font: 600 0.92rem 'DM Sans', sans-serif; padding: 9px 18px; border: 0; border-radius: 999px; background: var(--forest); color: #fff; cursor: pointer; }
+.pe-when button:disabled { opacity: 0.5; cursor: default; }
+.pub .pe-when-done { margin: 10px 0 0; font-weight: 600; }
 
-/* What we are building */
-.pe-build { list-style: none; padding: 0; margin: 24px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.pub .pe-build h3 { font-size: 1.1rem; margin-bottom: 8px; }
-.pub .pe-build p { color: #4a4a4a; margin: 0; }
+/* The first problem, tilted a little like a sheet on a desk */
+.pe-try { background: #fff; border-radius: 24px; overflow: hidden; transform: rotate(0.6deg); box-shadow: 0 1px 3px rgba(44,44,44,0.05), 0 18px 48px rgba(44,44,44,0.12); }
+.pe-try-head {
+  display: flex; justify-content: space-between; padding: 14px 28px; background: var(--charcoal); border-bottom: 3px solid var(--ember);
+  font: 600 0.75rem 'JetBrains Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sunbeam);
+}
+.pe-try-head span:last-child { color: #cfc8bd; }
+.pv-compact .pv-panel { grid-template-columns: 1fr; gap: 16px; padding: 24px 28px 28px; }
+.pub .pv-compact .pv-stem { font-size: 0.98rem; margin-bottom: 8px; }
+.pv-compact .pv-fig { max-width: 380px; margin: 0 auto; }
+.pv-compact .pv-choices { grid-template-columns: 1fr 1fr; }
+.pv-compact .pv-sol { padding: 24px 28px 28px; }
+.pv-compact .pv-sol-grid { grid-template-columns: 1fr; gap: 24px; }
+
+/* The PE exams as a stack of books */
+.pe-stack { padding-top: 70px; --bh: 46px; }
+.pe-book {
+  position: relative; display: flex; align-items: center; height: var(--bh);
+  width: calc(var(--w) * 1%); margin: -2px 0 0 calc(var(--x) * 1px); padding-left: 20px; box-sizing: border-box;
+  border-radius: 6px 10px 10px 6px; transform: rotate(calc(var(--r) * 1deg));
+  font: 700 0.82rem 'DM Sans', sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
+  background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0) 30%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.16)), var(--c);
+  color: var(--t);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.22), inset 0 -3px 0 rgba(0,0,0,0.12), 0 2px 3px rgba(44,44,44,0.18), 0 10px 22px rgba(44,44,44,0.10);
+}
+.pe-book::before, .pe-book::after { content: ''; position: absolute; top: 24%; bottom: 24%; width: 4px; border-radius: 2px; background: var(--band); }
+.pe-book::before { right: 28px; }
+.pe-book::after { right: 18px; }
+.pe-book.ch { --c: var(--charcoal); --t: var(--cream); --band: rgba(255,249,240,0.3); }
+.pe-book.em { --c: var(--ember); --t: #fff; --band: rgba(255,255,255,0.45); }
+.pe-book.cr { --c: #FFFDF8; --t: var(--charcoal); --band: rgba(44,44,44,0.22); }
+.pe-book.sa { --c: #EADFCB; --t: var(--charcoal); --band: rgba(44,44,44,0.22); }
+/* The face's flat bottom ends 16.5% above the image's bottom; seat it on the spine. */
+.pe-peek { position: absolute; top: 0; left: 66%; width: 150px; transform: translate(-50%, -83.5%); filter: drop-shadow(0 0 0.6px rgba(44,44,44,0.55)); }
+.pub .pe-ask { margin: 28px 0 0; padding-left: 14px; border-left: 3px solid var(--ember); font-weight: 500; }
+.pe-yours { display: none; }
+
+/* What we are building, beside the stack */
+.pe-build { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 64px; align-items: center; }
+.pe-build-list { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 22px; }
+.pub .pe-build-list h3 { font-size: 1.1rem; margin-bottom: 4px; }
+.pub .pe-build-list p { margin: 0; color: #4a4a4a; }
 
 .pub .pe-founder p { font-size: 1.1rem; line-height: 1.7; max-width: 680px; }
 .pub .pe-founder .pe-sign { font-size: 1rem; font-weight: 600; }
@@ -40,6 +86,7 @@
   color: #cfc8bd; border-right: 1px solid #3d3d3d;
 }
 .pv-tab:last-child { border-right: 0; }
+.pv-tabs-2 { grid-template-columns: repeat(2, 1fr); }
 .pv-tab:focus-visible { outline: 2px solid var(--sunbeam); outline-offset: -4px; }
 .pv-tab.on { background: #3a3a3a; color: #fff; box-shadow: inset 0 -3px 0 var(--sunbeam); }
 .pv-tab-topic { font: 600 0.7rem 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; color: var(--sunbeam); }
@@ -88,13 +135,17 @@
 .pub .pv-hb, .pub .pv-pace { font-size: 0.9rem; color: var(--gray-500); margin: 20px 0 0; }
 
 @media (max-width: 860px) {
-  .eg.pe .eg-hero { grid-template-columns: 1fr; gap: 32px; }
+  .pe-hero, .pe-build { grid-template-columns: 1fr; gap: 36px; }
+  .pe-try { transform: none; }
+  .pe-yours { display: block; margin: -8px 0 72px; }
+  .pe-yours .pe-stack { padding-top: 64px; }
+  .pe-stack-wide, .pe-ask-wide { display: none; }
 }
 @media (max-width: 760px) {
-  .pe-build { grid-template-columns: 1fr; }
-  .pe-field, .pe-form .pub-btn { width: 100%; }
-  .pe-field input, .pe-field select { min-width: 0; width: 100%; box-sizing: border-box; }
-  .pe-form .pub-btn { justify-content: center; }
+  .pe-form, .pe-form-dark { grid-template-columns: 1fr; }
+  .pe-form .pub-btn { justify-self: stretch; justify-content: center; }
+  .pv-compact .pv-choices { grid-template-columns: 1fr; }
+  .pv-compact .pv-panel, .pv-compact .pv-sol { padding: 20px; }
   .pv-tab { padding: 12px 10px; }
   .pv-tab-topic, .pv-tab-fmt { display: none; }
   .pv-tab-name { font-size: 0.85rem; }

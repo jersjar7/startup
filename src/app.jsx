@@ -254,7 +254,7 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/delete-account" element={<DeleteAccount />} />
             <Route path="/fe-civil-exam-guide" element={<ExamGuide />} />
-            <Route path="/pe-civil-water-resources" element={<PeWaitlist />} />
+            <Route path="/pe-exam-prep" element={<PeWaitlist />} />
             <Route path="/exam-simulation" element={<ExamSimulation />} />
             <Route path="/fe-civil/formulas" element={<FormulaFinder />} />
             <Route path="/fe-civil/:topicId" element={<PublicTopic />} />

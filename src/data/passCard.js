@@ -73,15 +73,57 @@ export const CARD = {
   name: { size: 37, y: 252, nudge: -2 },
   footnote: { size: 17, y: 283, text: 'Prepared with FE for Raccoons' },
 
-  // Right column: the index of what the exam covers.
-  // top was 72, which left only 16px of baseline between the heading above it
-  // and the first chapter, so the two read as one block. 104 gives the heading
-  // room to be a heading (owner, 2026-10-06).
-  index: { x: 700, top: 104, rowHeight: 25.6, numberGap: 36, rule: 'rgba(44,44,44,0.10)' },
+  // A warm ember light in the top right corner, so the card is not flat
+  // (owner, 2026-10-31). An ellipse centred at (cx, cy) with radii (rx, ry),
+  // all as fractions of the card, fading from `ink` to clear.
+  glow: { cx: 0.92, cy: 0.10, rx: 0.50, ry: 0.60, ink: 'rgba(232,104,58,0.18)' },
 
-  // The title block, read the way a drawing sheet is read.
-  titleBlock: { fromBottom: 78, ruleWidth: 2.5, cellPitch: 232, labelY: 18, valueY: 41 },
+  // Right column: the fifteen chapters as a stack of books (owner, 2026-10-31,
+  // from the exam simulation picture), chapter 15 on top with the raccoon
+  // peeking over it, chapter 1 at the bottom. Replaced a plain list.
+  // `x`/`top`/`width` place the stack; each book has a share of the width
+  // (`w`, percent), a nudge right (`dx`), a tilt (`tilt`, degrees) and a
+  // cover. Books overlap the one above by `overlap` of their height.
+  stack: {
+    x: 640, top: 94, width: 510, bookHeight: 30, overlap: 0.04, radius: 6,
+    padLeft: 16, numberGap: 26, bandsFromRight: [22, 14], bandWidth: 3, bandInset: 0.24,
+    caption: { x: 640, y: 579 },
+    peek: { width: 118, along: 0.70, seat: 0.835 },
+  },
+
+  // The title block, read the way a drawing sheet is read. It runs under the
+  // left column only; the stack takes the right.
+  titleBlock: { fromBottom: 78, ruleWidth: 2.5, ruleEnd: 580, cellPitch: 180, labelY: 18, valueY: 41 },
 };
+
+/// Book covers, from the brand: charcoal, cream, sand, and ember for the top
+/// book only. `band` is the two binding lines near the spine's end.
+export const BOOK_COVERS = {
+  charcoal: { fill: '#2C2C2C', text: '#FFF9F0', band: 'rgba(255,249,240,0.30)' },
+  cream: { fill: '#FFFDF8', text: '#2C2C2C', band: 'rgba(44,44,44,0.22)' },
+  sand: { fill: '#EADFCB', text: '#2C2C2C', band: 'rgba(44,44,44,0.22)' },
+  ember: { fill: '#E8683A', text: '#FFFFFF', band: 'rgba(255,255,255,0.45)' },
+};
+
+/// One entry per chapter, in chapter order (index 0 is chapter 1, drawn at the
+/// bottom). Hand-placed so the stack looks stacked by a person, not a machine.
+export const BOOKS = [
+  { w: 86, dx: 22, tilt: -1.1, cover: 'charcoal' },
+  { w: 92, dx: 6, tilt: 0.8, cover: 'cream' },
+  { w: 88, dx: 14, tilt: -0.5, cover: 'sand' },
+  { w: 95, dx: 0, tilt: 0.4, cover: 'charcoal' },
+  { w: 84, dx: 28, tilt: -0.9, cover: 'cream' },
+  { w: 90, dx: 10, tilt: 0.6, cover: 'sand' },
+  { w: 93, dx: 4, tilt: -0.3, cover: 'charcoal' },
+  { w: 87, dx: 18, tilt: 0.7, cover: 'cream' },
+  { w: 96, dx: 0, tilt: -0.4, cover: 'sand' },
+  { w: 85, dx: 24, tilt: 0.9, cover: 'charcoal' },
+  { w: 91, dx: 8, tilt: -0.6, cover: 'cream' },
+  { w: 89, dx: 16, tilt: 0.3, cover: 'sand' },
+  { w: 94, dx: 2, tilt: -0.7, cover: 'charcoal' },
+  { w: 88, dx: 12, tilt: 0.5, cover: 'cream' },
+  { w: 97, dx: 0, tilt: -0.2, cover: 'ember' },
+];
 
 // Ember is the only accent. Two accents on one surface is out, and this surface
 // is small.

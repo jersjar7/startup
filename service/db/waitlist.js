@@ -1,21 +1,19 @@
 const { waitlistCollection } = require('./connection');
 
-// The PE waitlist (see ../waitlist.js). One row per address and exam.
+// The PE waitlist (see ../waitlist.js). One row per address.
 
 /**
  * Adds a signup. A new row keeps its source and unsubscribe token for good;
- * joining again only updates when they plan to sit it, and turns their
- * emails back on. Returns { isNew }.
+ * joining again updates which exam and when (an answer left blank keeps the
+ * earlier one), and turns their emails back on. Returns { isNew }.
  */
 async function joinWaitlist(entry, unsubToken) {
   const { email, exam, when, ...source } = entry;
   const set = { updatedAt: new Date(), optedOut: false };
-  if (when) set.when = when;
-  const r = await waitlistCollection.updateOne(
-    { email, exam },
-    { $set: set, $setOnInsert: { email, exam, ...source, ...(when ? {} : { when: null }), unsubToken, createdAt: new Date() } },
-    { upsert: true },
-  );
+  const onInsert = { email, ...source, unsubToken, createdAt: new Date() };
+  if (exam) set.exam = exam; else onInsert.exam = null;
+  if (when) set.when = when; else onInsert.when = null;
+  const r = await waitlistCollection.updateOne({ email }, { $set: set, $setOnInsert: onInsert }, { upsert: true });
   return { isNew: r.upsertedCount > 0 };
 }
 

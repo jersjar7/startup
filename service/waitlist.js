@@ -1,14 +1,27 @@
-// The PE waitlist, from the public page /pe-civil-water-resources (owner
-// 2026-10-31). Nothing is built for the PE yet: the list is how we learn
-// whether to build it, so every signup keeps where it came from. The go
-// signal written in research/pe/product-proposal.md is 150 signups by
-// 2027-03-31.
+// The PE waitlist, from the public page /pe-exam-prep (owner 2026-10-31).
+// Nothing is built for the PE yet: the list is how we learn whether to build
+// it and which exam to build first, so every signup says which PE they plan
+// to take and keeps where it came from. The page does not say which exam we
+// are building first, on purpose (owner, 2026-10-31). The go signal written
+// in research/pe/product-proposal.md is 150 signups by 2027-03-31.
 //
-// One row per address and exam. Joining twice keeps the first row and its
-// source, and only updates when they plan to sit it.
+// One row per address. Joining again keeps the first row and its source, and
+// updates which exam and when.
 const { channelOf } = require('./visits.js');
 
-const EXAMS = new Set(['pe-civil-wre']);
+// Answers to "Which PE exam?", in the order the page lists them. PE Civil
+// first, by depth, since our students sit the FE Civil.
+const EXAMS = {
+  'pe-civil-construction': 'PE Civil: Construction',
+  'pe-civil-geotechnical': 'PE Civil: Geotechnical',
+  'pe-civil-structural': 'PE Civil: Structural',
+  'pe-civil-transportation': 'PE Civil: Transportation',
+  'pe-civil-wre': 'PE Civil: Water Resources and Environmental',
+  'pe-environmental': 'PE Environmental',
+  'se-structural': 'SE Structural',
+  'pe-other': 'Another PE exam',
+  'not-sure': 'Not sure yet',
+};
 
 // Answers to "When are you taking it?", in the order the page lists them.
 const WHEN = {
@@ -19,6 +32,8 @@ const WHEN = {
 };
 
 // Which of the page's two forms it came from.
+const has = (o, k) => typeof k === 'string' && Object.prototype.hasOwnProperty.call(o, k);
+
 const PLACES = new Set(['top', 'bottom']);
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -36,8 +51,8 @@ function validateWaitlist(body) {
   if (!EMAIL_RE.test(email) || email.length > 200) {
     return { ok: false, msg: 'That email address does not look right.' };
   }
-  const exam = EXAMS.has(body.exam) ? body.exam : 'pe-civil-wre';
-  const when = Object.prototype.hasOwnProperty.call(WHEN, body.when) ? body.when : null;
+  const exam = has(EXAMS, body.exam) ? body.exam : null;
+  const when = has(WHEN, body.when) ? body.when : null;
   const referrer = typeof body.referrer === 'string' ? body.referrer.slice(0, 300) : undefined;
   const utmSource = tag(body.utmSource);
   return {
@@ -62,17 +77,19 @@ function validateWaitlist(body) {
  */
 function summarize(rows, now = new Date()) {
   const weekAgo = new Date(now.getTime() - 7 * 864e5);
-  const out = { total: rows.length, subscribed: 0, lastWeek: 0, withFeAccount: 0, byChannel: {}, byWhen: {} };
+  const out = { total: rows.length, subscribed: 0, lastWeek: 0, withFeAccount: 0, byExam: {}, byChannel: {}, byWhen: {} };
   for (const r of rows) {
     if (!r.optedOut) out.subscribed++;
     if (r.createdAt && new Date(r.createdAt) >= weekAgo) out.lastWeek++;
     if (r.hasFeAccount) out.withFeAccount++;
     const ch = r.channel || 'direct';
     out.byChannel[ch] = (out.byChannel[ch] || 0) + 1;
+    const x = EXAMS[r.exam] || 'Not answered';
+    out.byExam[x] = (out.byExam[x] || 0) + 1;
     const w = WHEN[r.when] || 'Not answered';
     out.byWhen[w] = (out.byWhen[w] || 0) + 1;
   }
   return out;
 }
 
-module.exports = { validateWaitlist, summarize, WHEN };
+module.exports = { validateWaitlist, summarize, EXAMS, WHEN };

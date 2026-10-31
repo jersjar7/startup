@@ -12,6 +12,16 @@ function mount() {
 afterEach(() => vi.restoreAllMocks());
 
 describe('PE sample problems', () => {
+  it('never says which PE exam we are building first', () => {
+    mount();
+    // The exam's name may appear only among the others: in the dropdowns and on
+    // the book stack.
+    const words = document.body.textContent
+      .replaceAll('PE Civil: Water Resources and Environmental', '')
+      .replaceAll('PE Civil: Water Resources', '');
+    expect(words).not.toMatch(/Water Resources/);
+  });
+
   it('uses the three question formats of the computer-based exam', () => {
     expect(PE_PROBLEMS.map((p) => p.kind)).toEqual(['one', 'number', 'many']);
   });
@@ -39,28 +49,37 @@ describe('PE sample problems', () => {
     expect(within(panel).getByText('Worked solution')).toBeTruthy();
   });
 
-  it('switches problems with the tabs', () => {
+  it('puts the first problem up top and switches the other two with tabs', () => {
     mount();
-    expect(document.getElementById('pv-normal-depth').hidden).toBe(true);
-    fireEvent.click(screen.getByRole('tab', { name: /Normal depth/ }));
+    const hero = document.querySelector('.pe-hero');
+    expect(hero.querySelector('#pv-runoff')).not.toBeNull();
     expect(document.getElementById('pv-normal-depth').hidden).toBe(false);
-    expect(document.getElementById('pv-runoff').hidden).toBe(true);
-    expect(screen.getByText('Question 2 of 3')).toBeTruthy();
+    expect(document.getElementById('pv-clarifier').hidden).toBe(true);
+    fireEvent.click(screen.getByRole('tab', { name: /Clarifier design check/ }));
+    expect(document.getElementById('pv-clarifier').hidden).toBe(false);
+    expect(document.getElementById('pv-normal-depth').hidden).toBe(true);
+    expect(screen.getByText('Question 3 of 3')).toBeTruthy();
   });
 });
 
 describe('PE waitlist form', () => {
-  it('sends the address, the timing and where the form is, then confirms', async () => {
+  it('sends the address, the exam and where the form is, then asks when, once', async () => {
     const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue({ ok: true, json: async () => ({ ok: true }) });
     mount();
     const form = document.querySelector('.pe-form');
     fireEvent.change(within(form).getByLabelText('Email'), { target: { value: 'pat@firm.com' } });
-    fireEvent.change(within(form).getByLabelText('When are you taking it?'), { target: { value: '2027-04-to-12' } });
+    fireEvent.change(within(form).getByLabelText('Which PE exam?'), { target: { value: 'pe-civil-geotechnical' } });
     fireEvent.submit(form);
     await waitFor(() => expect(screen.getByText(/You are on the list/)).toBeTruthy());
     const [url, opts] = fetchMock.mock.calls[0];
     expect(url).toBe('/api/waitlist');
-    expect(JSON.parse(opts.body)).toMatchObject({ email: 'pat@firm.com', when: '2027-04-to-12', place: 'top', exam: 'pe-civil-wre' });
+    expect(JSON.parse(opts.body)).toMatchObject({ email: 'pat@firm.com', place: 'top', exam: 'pe-civil-geotechnical' });
+    expect(JSON.parse(opts.body).when).toBeUndefined();
+
+    fireEvent.change(screen.getByLabelText(/when are you taking it/i), { target: { value: '2027-04-to-12' } });
+    fireEvent.submit(document.querySelector('.pe-when'));
+    await waitFor(() => expect(screen.getByText('Saved. Thank you.')).toBeTruthy());
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body)).toMatchObject({ email: 'pat@firm.com', exam: 'pe-civil-geotechnical', when: '2027-04-to-12' });
   });
 
   it('shows the server message when the address is turned away', async () => {
