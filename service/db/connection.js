@@ -36,6 +36,8 @@ const emailRetriesCollection = db.collection('emailRetries');
 // Daily visit totals per page and channel, never a row per visitor. See
 // service/visits.js.
 const visitCountsCollection = db.collection('visitCounts');
+// The PE waitlist, one row per address and exam. See service/waitlist.js.
+const waitlistCollection = db.collection('waitlist');
 
 // Test connection and create indexes on startup
 // Unit tests import route modules that pull this in; they never touch the
@@ -80,6 +82,8 @@ if (!process.env.VITEST) (async function testConnection() {
     await dailyResultsCollection.createIndex({ email: 1, number: -1 });
     await chapterTestAttemptsCollection.createIndex({ email: 1, chapterId: 1, startedAt: -1 });
     await visitCountsCollection.createIndex({ day: 1 });
+    await waitlistCollection.createIndex({ email: 1, exam: 1 }, { unique: true });
+    await waitlistCollection.createIndex({ unsubToken: 1 }, { unique: true });
   } catch (ex) {
     console.log(`Unable to connect to database because ${ex.message}`);
     process.exit(1);
@@ -95,6 +99,7 @@ module.exports = {
   deletionLogCollection,
   emailRetriesCollection,
   visitCountsCollection,
+  waitlistCollection,
   client,
   db,
   ping,

@@ -217,3 +217,7 @@
   .eg-rail a { transition: none; }
 }
 .eg-note a, .eg-intro a { color: var(--ember); font-weight: 500; }
+
+/* One line under FE vs PE, to the PE Water Resources waitlist */
+.pub .eg-pe-next { margin: 20px 0 0; color: #4a4a4a; }
+.pub .eg-pe-next a { color: var(--ember); font-weight: 600; }
