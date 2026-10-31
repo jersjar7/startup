@@ -12,8 +12,12 @@ function mockFetch(impl) {
   return fn;
 }
 
+// The body of the last save. Typing a name also starts a school search after a
+// short wait, and on a busy machine that search can land after the save, so the
+// save is found by its address rather than taken as the last call.
 function lastBody(fn) {
-  return JSON.parse(fn.mock.calls.at(-1)[1].body);
+  const saves = fn.mock.calls.filter(([url]) => url === '/api/user/school');
+  return JSON.parse(saves.at(-1)[1].body);
 }
 
 describe('gradYearOptions', () => {
