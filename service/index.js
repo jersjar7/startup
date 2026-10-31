@@ -177,6 +177,7 @@ apiRouter.use('/email', require('./routes/email.js'));
 apiRouter.use('/track', require('./routes/track.js'));
 apiRouter.use('/visit', require('./routes/visit.js')());
 apiRouter.use('/feedback', require('./routes/feedback.js'));
+apiRouter.use('/waitlist', require('./routes/waitlist.js'));
 apiRouter.use('/account', require('./routes/account.js'));
 
 // Clean click-tracking redirects used in the plain-text founder emails.

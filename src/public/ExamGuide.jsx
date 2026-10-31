@@ -414,6 +414,10 @@ export function ExamGuide() {
                 </tbody>
               </table>
             </div>
+            <p className="eg-pe-next">
+              Planning the Water Resources and Environmental PE? We are building prep for it.{' '}
+              <Link to="/pe-civil-water-resources">Try three sample PE problems</Link>
+            </p>
           </section>
 
           <section id="results" className="eg-section">

@@ -53,6 +53,8 @@ const ROUTES = [
   // copy for "/" only.
   '/',
   '/fe-civil-exam-guide',
+  // The PE Civil Water Resources waitlist, with three sample problems.
+  '/pe-civil-water-resources',
   '/exam-simulation',
   '/delete-account',
   // /privacy and /terms for the same reason: Play fetches the privacy policy
@@ -119,6 +121,7 @@ console.log(`  SEO checks passed on ${rendered.length} pages`);
 const urls = [
   { loc: `${SITE}/`, priority: '1.0', freq: 'weekly' },
   { loc: `${SITE}/fe-civil-exam-guide`, priority: '0.9', freq: 'weekly' },
+  { loc: `${SITE}/pe-civil-water-resources`, priority: '0.6', freq: 'monthly' },
   { loc: `${SITE}/exam-simulation`, priority: '0.9', freq: 'weekly' },
   { loc: `${SITE}/fe-civil/formulas`, priority: '0.9', freq: 'monthly' },
   ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}`, priority: '0.8', freq: 'monthly' })),
@@ -169,6 +172,9 @@ const llms = `# FE for Raccoons
 - [FE Civil Exam Guide](${SITE}/fe-civil-exam-guide): cost, format, calculators, pass rate, all 15 topics, how to prepare.
 - [FE Civil formula finder](${SITE}/fe-civil/formulas): every key formula with its FE Reference Handbook page, what each symbol means, and when to use it.
 ${TOPICS.map(([id, name]) => `- [${name}](${SITE}/fe-civil/${id}): what NCEES tests, key formulas, sample problems, common mistakes. [Free practice problems](${SITE}/fe-civil/${id}/practice-problems) with worked solutions.`).join('\n')}
+
+## In development
+- [PE Civil Water Resources prep](${SITE}/pe-civil-water-resources): being built now. Three sample problems in the real exam formats, with worked solutions, and a waitlist.
 
 ## About
 - Audience: engineering students and EITs preparing for the FE Civil exam (the first step toward the PE license).

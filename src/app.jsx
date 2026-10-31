@@ -39,6 +39,7 @@ const Profile = React.lazy(() => import('./profile/profile').then(m => ({ defaul
 const Admin = React.lazy(() => import('./admin/admin').then(m => ({ default: m.Admin })));
 const ExamGuide = React.lazy(() => import('./public/ExamGuide').then(m => ({ default: m.ExamGuide })));
 const ExamSimulation = React.lazy(() => import('./public/ExamSimulation').then(m => ({ default: m.ExamSimulation })));
+const PeWaitlist = React.lazy(() => import('./public/PeWaitlist').then(m => ({ default: m.PeWaitlist })));
 const PublicTopic = React.lazy(() => import('./public/PublicTopic').then(m => ({ default: m.PublicTopic })));
 const FormulaFinder = React.lazy(() => import('./public/FormulaFinder').then(m => ({ default: m.FormulaFinder })));
 const PublicPractice = React.lazy(() => import('./public/PublicPractice').then(m => ({ default: m.PublicPractice })));
@@ -253,6 +254,7 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/delete-account" element={<DeleteAccount />} />
             <Route path="/fe-civil-exam-guide" element={<ExamGuide />} />
+            <Route path="/pe-civil-water-resources" element={<PeWaitlist />} />
             <Route path="/exam-simulation" element={<ExamSimulation />} />
             <Route path="/fe-civil/formulas" element={<FormulaFinder />} />
             <Route path="/fe-civil/:topicId" element={<PublicTopic />} />
