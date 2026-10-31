@@ -16,6 +16,7 @@ const feedback = require('./db/feedback');
 const sessions = require('./db/sessions');
 const daily = require('./db/daily');
 const chapterTests = require('./db/chapterTests');
+const waitlist = require('./db/waitlist');
 
 module.exports = {
   ...syncEvents,
@@ -24,6 +25,7 @@ module.exports = {
   ...sessions,
   ...daily,
   ...chapterTests,
+  ...waitlist,
   ping,
   ...users,
   ...topics,

@@ -774,6 +774,28 @@ async function sendContactAlertEmail({ email, name = null, message, source = 'we
   });
 }
 
+// Sent once, when an address joins the PE waitlist (see waitlist.js). It is
+// the only email they get until there is something to open, plus the
+// monthly study note the page promises, so it carries the unsubscribe link
+// from the start.
+async function sendWaitlistEmail(toEmail, { unsubUrl } = {}) {
+  return sendEmail({
+    to: toEmail,
+    subject: 'You are on the PE prep list',
+    headers: lifecycleHeaders(unsubUrl),
+    html: emailLayout({
+      preheader: 'One email when it opens, and a short study note each month.',
+      heading: 'You are on the list.',
+      unsubUrl,
+      inner:
+        para('Thanks for joining. We are working on high quality, affordable prep for the PE exam, made for engineers who study around a full-time job: worked problems for every exam topic, short practice on your phone, and full timed practice exams.') +
+        para('We will write once when the first part opens, and send a short study note each month until then.') +
+        para(`If you know someone sitting the FE Civil first, our FE practice at <a href="${appUrl}" style="color:${C.ember};">fe4raccoons.com</a> is completely free.`) +
+        signatureBlock('Thanks,'),
+    }),
+  });
+}
+
 function getEmailConfig() {
   return { from: fromEmail, usingTestSender, appUrl };
 }
@@ -785,6 +807,7 @@ module.exports = {
   sendSaleAlertEmail,
   sendFeedbackAlertEmail,
   sendContactAlertEmail,
+  sendWaitlistEmail,
   sendPasswordResetEmail,
   sendVerificationEmail,
   sendVerifyReminderEmail,

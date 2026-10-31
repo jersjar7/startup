@@ -8,7 +8,7 @@ import PassCard from './PassCard.jsx';
 // The page somebody lands on from the outcome email, usually on a phone,
 // usually within a minute of finding out they passed. What is guarded here is
 // the order it asks things in and what it refuses to do: the card is never
-// drawn with an invented name, the PE question never comes before the card, and
+// drawn with an invented name, the PE invitation never comes before the card, and
 // a link that has no card behind it says so instead of implying one exists.
 
 const PASSED_NAMED = {
@@ -40,7 +40,9 @@ beforeEach(() => {
   HTMLCanvasElement.prototype.getContext = vi.fn(() => ({
     save: vi.fn(), restore: vi.fn(), scale: vi.fn(), clearRect: vi.fn(), fillRect: vi.fn(),
     beginPath: vi.fn(), moveTo: vi.fn(), lineTo: vi.fn(), stroke: vi.fn(), fill: vi.fn(),
-    arcTo: vi.fn(), roundRect: vi.fn(), fillText: vi.fn(),
+    arcTo: vi.fn(), roundRect: vi.fn(), fillText: vi.fn(), translate: vi.fn(), rotate: vi.fn(),
+    drawImage: vi.fn(), createRadialGradient: () => ({ addColorStop: vi.fn() }),
+    createLinearGradient: () => ({ addColorStop: vi.fn() }),
     measureText: () => ({ width: 7 }),
     fillStyle: '', strokeStyle: '', lineWidth: 1, textAlign: '', textBaseline: '', font: '',
   }));
@@ -91,23 +93,22 @@ describe('somebody whose account already has a name (ADR 0023)', () => {
         .toMatch(/Sam Reyes, EIT/));
   });
 
-  it('asks about the PE only after the card is theirs', async () => {
+  it('shows the way to the PE waitlist only after the card is theirs', async () => {
     mountAt();
+    expect(screen.queryByText(/the PE exam is next/i)).toBeNull();
     await userEvent.click(await screen.findByRole('button', { name: /draw my card/i }));
     await screen.findByRole('button', { name: /download the image/i });
-    const pe = screen.getByText(/the exam after this one/i);
+    const pe = screen.getByText(/the PE exam is next/i);
     const download = screen.getByRole('button', { name: /download the image/i });
     // The celebration is not a toll gate for a research question.
     expect(download.compareDocumentPosition(pe) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
-  it('takes a PE answer and does not ask twice', async () => {
+  it('sends them to the PE waitlist, marked as coming from the card', async () => {
     mountAt();
     await userEvent.click(await screen.findByRole('button', { name: /draw my card/i }));
-    await screen.findByRole('button', { name: /download the image/i });
-    await userEvent.click(screen.getByRole('button', { name: /yes, tell me/i }));
-    await waitFor(() => expect(screen.getByText(/we will let you know/i)).toBeTruthy());
-    expect(screen.queryByRole('button', { name: /yes, tell me/i })).toBeNull();
+    const link = await screen.findByRole('link', { name: /join the waitlist/i });
+    expect(link.getAttribute('href')).toBe('/pe-exam-prep?utm_source=passcard&utm_medium=email');
   });
 });
 
@@ -165,8 +166,8 @@ describe('signed in, from the profile', () => {
     expect((await screen.findByLabelText(/your full name/i)).value).toBe('Sammy');
     await userEvent.click(screen.getByRole('button', { name: /draw my card/i }));
     expect(await screen.findByRole('button', { name: /download the image/i })).toBeTruthy();
-    // The PE question belongs to the email's moment, not a return visit.
-    expect(screen.queryByText(/the exam after this one/i)).toBeNull();
+    // The PE invitation belongs to the email's moment, not a return visit.
+    expect(screen.queryByText(/the PE exam is next/i)).toBeNull();
   });
 
   it('asks them to log in when they are not', async () => {

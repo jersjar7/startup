@@ -3,6 +3,7 @@ import {
   PASS_CARD_CHAPTERS,
   TOTAL_QUESTIONS,
   CARD,
+  BOOKS,
   passCardData,
   passCardFilename,
 } from './passCard.js';
@@ -86,10 +87,18 @@ describe('geometry both renderers share', () => {
     expect(CARD.width * CARD.exportScale).toBe(2400);
   });
 
-  it('leaves the fifteen rows inside the title block', () => {
-    const lastRow = CARD.index.top + 14 * CARD.index.rowHeight;
-    const titleRule = CARD.height - CARD.titleBlock.fromBottom;
-    expect(lastRow).toBeLessThan(titleRule);
+  it('stacks one book per chapter, above its caption and clear of the left column', () => {
+    const S = CARD.stack;
+    expect(BOOKS).toHaveLength(PASS_CARD_CHAPTERS.length);
+    const bottom = S.top + (BOOKS.length - 1) * S.bookHeight * (1 - S.overlap) + S.bookHeight;
+    expect(bottom).toBeLessThan(S.caption.y - 20);
+    expect(S.x).toBeGreaterThan(CARD.titleBlock.ruleEnd);
+    for (const b of BOOKS) expect(S.x + b.dx + S.width * b.w / 100).toBeLessThanOrEqual(CARD.width - 40);
+  });
+
+  it('keeps ember for the top book alone, where the raccoon sits', () => {
+    expect(BOOKS.map((b) => b.cover).filter((c) => c === 'ember')).toEqual(['ember']);
+    expect(BOOKS.at(-1).cover).toBe('ember');
   });
 });
 

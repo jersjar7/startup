@@ -13,6 +13,10 @@ function recordingCanvas(width = CARD.width, height = CARD.height) {
     save: vi.fn(), restore: vi.fn(), scale: vi.fn(), clearRect: vi.fn(),
     fillRect: vi.fn(), beginPath: vi.fn(), moveTo: vi.fn(), lineTo: vi.fn(),
     stroke: vi.fn(), fill: vi.fn(), arcTo: vi.fn(), roundRect: vi.fn(),
+    translate: vi.fn(), rotate: vi.fn(), drawImage: vi.fn(),
+    createRadialGradient: () => ({ addColorStop: vi.fn() }),
+    createLinearGradient: () => ({ addColorStop: vi.fn() }),
+    globalAlpha: 1, shadowColor: '', shadowBlur: 0, shadowOffsetY: 0,
     measureText: () => ({ width: 7 }),
     fillText: (t, x, y) => calls.text.push({ t: String(t), x, y }),
     set font(v) { calls.fonts.push(v); },
@@ -40,11 +44,12 @@ describe('what reaches the canvas', () => {
     expect(all).toContain('FE4RACCOONS');
   });
 
-  it('lists all fifteen chapters, numbered', () => {
+  it('puts all fifteen chapters on the books, numbered', () => {
     const { canvas, calls } = recordingCanvas();
     drawPassCard(canvas, data);
     const all = drawn(calls);
-    for (const name of data.chapters) expect(all).toContain(name);
+    // Spines are set in capitals.
+    for (const name of data.chapters) expect(all).toContain(name.toUpperCase());
     expect(all).toContain('01');
     expect(all).toContain('15');
   });
@@ -58,6 +63,16 @@ describe('what reaches the canvas', () => {
       .filter((t) => /^\d+-\d+$/.test(t));
     expect(stray).toEqual([]);
     expect(drawn(calls)).toContain('110 QUESTIONS');
+  });
+
+  it('seats the raccoon on the top book when its image is ready, and draws without it', () => {
+    const { canvas } = recordingCanvas();
+    const ctx = canvas.getContext();
+    drawPassCard(canvas, data, { peek: { width: 288, height: 133 } });
+    expect(ctx.drawImage).toHaveBeenCalledTimes(1);
+    const bare = recordingCanvas();
+    drawPassCard(bare.canvas, data);
+    expect(bare.canvas.getContext().drawImage).not.toHaveBeenCalled();
   });
 });
 

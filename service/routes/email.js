@@ -262,4 +262,27 @@ router.get('/exam-attempt/:token', async (req, res) => {
   );
 });
 
+// GET /api/email/waitlist-unsubscribe/:token: one tap off the PE waitlist
+// emails (see ../waitlist.js). POST for Gmail's one-click header. The row and
+// its source stay, so the signup still counts toward the go signal.
+async function leaveWaitlist(token) {
+  try {
+    return await require('../database.js').leaveWaitlist(token);
+  } catch (e) {
+    console.error('[email/waitlist-unsubscribe] failed:', e.message);
+    return false;
+  }
+}
+router.get('/waitlist-unsubscribe/:token', async (req, res) => {
+  const ok = await leaveWaitlist(req.params.token);
+  res.status(ok ? 200 : 404).type('html').send(page({
+    ok,
+    msg: ok ? 'You will not get any more PE waitlist emails. Your FE for Raccoons account emails, if you have one, are not affected.' : undefined,
+  }));
+});
+router.post('/waitlist-unsubscribe/:token', async (req, res) => {
+  await leaveWaitlist(req.params.token);
+  res.status(200).end();
+});
+
 module.exports = router;

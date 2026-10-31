@@ -24,6 +24,18 @@ router.get('/metrics', verifyAuth, requireAdmin, async (req, res) => {
   res.send(computeFunnelMetrics(counts));
 });
 
+// GET /api/admin/waitlist: PE waitlist totals by source and exam timing.
+// Counts only, never addresses.
+router.get('/waitlist', verifyAuth, requireAdmin, async (req, res) => {
+  try {
+    const { summarize } = require('../waitlist.js');
+    res.send(summarize(await DB.listWaitlistForSummary()));
+  } catch (e) {
+    console.error('[admin] waitlist failed:', e.message);
+    res.status(500).send({ msg: 'Failed to load the waitlist' });
+  }
+});
+
 // GET /api/admin/timeseries?days=30 — daily time-series + KPI snapshot.
 router.get('/timeseries', verifyAuth, requireAdmin, async (req, res) => {
   try {
