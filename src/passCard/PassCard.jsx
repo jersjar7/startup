@@ -1,17 +1,19 @@
 import React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { passCardData, passCardFilename, CARD } from '../data/passCard.js';
-import { drawPassCard, renderPassCard, passCardBlob } from '../components/passCard/drawPassCard.js';
+import { drawPassCard, renderPassCard, passCardBlob, loadPeek } from '../components/passCard/drawPassCard.js';
 import './passCard.css';
 
 // The reward for passing, reached from the email in one tap with no sign in,
 // or from the website's profile at /pass-card/me once signed in.
 //
-// Three states, in the order somebody meets them: the name question, the card,
-// and the PE question once the card is theirs. The PE question comes last on
-// purpose. It is research, and a celebration is not a toll gate for research.
+// Two states, in the order somebody meets them: the name question, then the
+// card. Under the card's buttons sits "The PE exam is next", the way to the PE
+// waitlist (owner, 2026-10-31). It used to be a yes/no question at the very
+// bottom that went nowhere; it moved up because most people never scroll that
+// far, and it comes after the card, never before it.
 //
 // The name question is always asked, filled in with the card's own name when
 // a card was made before, else with what we call them (ADR 0023): a casual
@@ -28,10 +30,12 @@ function CardPreview({ data }) {
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas || !data) return;
-    const paint = () => drawPassCard(canvas, data);
+    let peek = null;
+    const paint = () => drawPassCard(canvas, data, { peek });
     paint();
     let live = true;
     document.fonts?.ready?.then(() => { if (live) paint(); }).catch(() => {});
+    loadPeek().then((img) => { if (live && img) { peek = img; paint(); } });
     return () => { live = false; };
   }, [data]);
 
@@ -60,7 +64,6 @@ export default function PassCard() {
   const [name, setName] = useState('');
   const [saving, setSaving] = useState(false);
   const [problem, setProblem] = useState(null);
-  const [pe, setPe] = useState(null);
 
   // Apple's Smart App Banner, so an iPhone with the app is one tap from
   // making the card there (ADR 0023). Safari ignores it without the app's
@@ -156,19 +159,6 @@ export default function PassCard() {
     }
   }, [data]);
 
-  const answerPe = useCallback(async (wants) => {
-    setPe(wants);
-    // Never blocks and never reports failure: they have their card, and a
-    // research answer that did not save is our problem, not theirs.
-    try {
-      await fetch(`/api/email/pass-card/${encodeURIComponent(token)}/pe`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ wants }),
-      });
-    } catch { /* nothing to say */ }
-  }, [token]);
-
   if (state === 'loading') {
     return <Shell><p className="pc-quiet">Getting your card.</p></Shell>;
   }
@@ -254,20 +244,18 @@ export default function PassCard() {
             can come back for it whenever you want.
           </p>
 
-          {mine ? null : pe === null ? (
-            <div className="pc-ask">
-              <p className="pc-ask-q">
-                The PE is the exam after this one. Want us to tell you when we build prep for it?
-              </p>
-              <div className="pc-actions">
-                <button className="pc-btn" type="button" onClick={() => answerPe(true)}>Yes, tell me</button>
-                <button className="pc-btn pc-btn--ghost" type="button" onClick={() => answerPe(false)}>No thanks</button>
-              </div>
-            </div>
-          ) : (
-            <div className="pc-ask">
-              <p className="pc-ask-q">{pe ? 'We will let you know.' : 'Noted. We will not bring it up again.'}</p>
-            </div>
+          {/* From the email only: the passing moment, not every return visit. */}
+          {!mine && (
+          <section className="pc-pe" aria-labelledby="pc-pe-title">
+            <h2 id="pc-pe-title">The PE exam is next</h2>
+            <p>
+              We are working on high quality, affordable prep material for the PE exam. Join the
+              waitlist and we will let you know when it is ready.
+            </p>
+            <Link className="pc-btn" to="/pe-exam-prep?utm_source=passcard&utm_medium=email">
+              Join the waitlist
+            </Link>
+          </section>
           )}
         </>
       )}

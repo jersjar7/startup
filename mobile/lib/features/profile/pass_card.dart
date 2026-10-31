@@ -1,6 +1,8 @@
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -57,10 +59,117 @@ const passCardHeight = 627.0;
 const passCardExportScale = 2.0;
 const _pad = 52.0;
 
-const _paper = Color(0xFFFDFCF8); // the pass card is an image, light in both modes
+const _paper = Color(
+  0xFFFDFCF8,
+); // the pass card is an image, light in both modes
 const _gridFine = Color(0x0E2C2C2C); // rgba(44,44,44,0.055)
 const _gridBold = Color(0x1A2C2C2C); // rgba(44,44,44,0.10)
 const _mute = Color(0xFFA8A196);
+const _soft = Color(0xFF6B6358); // CARD_INK.soft
+
+/// A warm ember light in the top right corner, so the card is not flat
+/// (owner, 2026-10-31). An ellipse centred at (cx, cy) with radii (rx, ry), all
+/// as fractions of the card, fading from the ink to clear. CARD.glow.
+const _glowCx = 0.92;
+const _glowCy = 0.10;
+const _glowRx = 0.50;
+const _glowRy = 0.60;
+const _glowInk = Color(0x2EE8683A); // rgba(232,104,58,0.18)
+const _glowClear = Color(0x00E8683A);
+
+/// The right column: the fifteen chapters as a stack of books (owner,
+/// 2026-10-31), chapter 15 on top with the raccoon peeking over it, chapter 1
+/// at the bottom. Replaced a plain list. CARD.stack.
+abstract final class PassCardStack {
+  static const x = 640.0;
+  static const top = 94.0;
+  static const width = 510.0;
+  static const bookHeight = 30.0;
+  static const overlap = 0.04;
+  static const radius = 6.0;
+  static const padLeft = 16.0;
+  static const numberGap = 26.0;
+  static const bandsFromRight = [22.0, 14.0];
+  static const bandWidth = 3.0;
+  static const bandInset = 0.24;
+  static const captionX = 640.0;
+  static const captionY = 579.0;
+  static const peekWidth = 118.0;
+  static const peekAlong = 0.70;
+  static const peekSeat = 0.835;
+
+  /// The vertical distance from one book's top to the next one's.
+  static const step = bookHeight * (1 - overlap);
+}
+
+/// The title block, read the way a drawing sheet is read. It runs under the
+/// left column only; the stack takes the right. CARD.titleBlock.
+const passCardTitleFromBottom = 78.0;
+const passCardTitleRuleEnd = 580.0;
+const _titleRuleWidth = 2.5;
+const _titleCellPitch = 180.0;
+const _titleLabelY = 18.0;
+const _titleValueY = 41.0;
+
+/// A book cover. [band] is the two binding lines near the spine's end.
+class PassCardCover {
+  const PassCardCover(this.fill, this.text, this.band);
+  final Color fill;
+  final Color text;
+  final Color band;
+}
+
+/// BOOK_COVERS: charcoal, cream, sand, and ember for the top book only.
+const _charcoalCover = PassCardCover(
+  Color(0xFF2C2C2C),
+  Color(0xFFFFF9F0),
+  Color(0x4DFFF9F0), // rgba(255,249,240,0.30)
+);
+const _creamCover = PassCardCover(
+  Color(0xFFFFFDF8),
+  Color(0xFF2C2C2C),
+  Color(0x382C2C2C), // rgba(44,44,44,0.22)
+);
+const _sandCover = PassCardCover(
+  Color(0xFFEADFCB),
+  Color(0xFF2C2C2C),
+  Color(0x382C2C2C), // rgba(44,44,44,0.22)
+);
+const _emberCover = PassCardCover(
+  Color(0xFFE8683A),
+  Color(0xFFFFFFFF),
+  Color(0x73FFFFFF), // rgba(255,255,255,0.45)
+);
+
+/// One book: its share of the stack's width ([w], percent), a nudge right
+/// ([dx]), a tilt in degrees and a cover.
+class PassCardBook {
+  const PassCardBook(this.w, this.dx, this.tilt, this.cover);
+  final double w;
+  final double dx;
+  final double tilt;
+  final PassCardCover cover;
+}
+
+/// BOOKS: one per chapter, in chapter order (index 0 is chapter 1, drawn at
+/// the bottom). Hand-placed so the stack looks stacked by a person.
+const passCardBooks = <PassCardBook>[
+  PassCardBook(86, 22, -1.1, _charcoalCover),
+  PassCardBook(92, 6, 0.8, _creamCover),
+  PassCardBook(88, 14, -0.5, _sandCover),
+  PassCardBook(95, 0, 0.4, _charcoalCover),
+  PassCardBook(84, 28, -0.9, _creamCover),
+  PassCardBook(90, 10, 0.6, _sandCover),
+  PassCardBook(93, 4, -0.3, _charcoalCover),
+  PassCardBook(87, 18, 0.7, _creamCover),
+  PassCardBook(96, 0, -0.4, _sandCover),
+  PassCardBook(85, 24, 0.9, _charcoalCover),
+  PassCardBook(91, 8, -0.6, _creamCover),
+  PassCardBook(89, 16, 0.3, _sandCover),
+  PassCardBook(94, 2, -0.7, _charcoalCover),
+  PassCardBook(88, 12, 0.5, _creamCover),
+  PassCardBook(97, 0, -0.2, _emberCover),
+];
 
 /// What the card says. The only two things that vary.
 class PassCardData {
@@ -111,20 +220,27 @@ const _months = [
 ];
 
 class PassCardPainter extends CustomPainter {
-  const PassCardPainter(this.data);
+  const PassCardPainter(this.data, {this.peek});
 
   final PassCardData data;
+
+  /// The raccoon, seated on the top book. Without it the stack is drawn
+  /// alone, as the web does when the image fails to load.
+  final ui.Image? peek;
 
   @override
   void paint(Canvas canvas, Size size) {
     // Scale the design to whatever the canvas is, exactly as the web renderer
     // does, so the preview and the saved image are the same drawing.
+    final scale = size.width / passCardWidth;
     canvas.save();
-    canvas.scale(size.width / passCardWidth);
+    canvas.scale(scale);
 
     _engineeringPaper(canvas);
+    _glow(canvas);
     _claim(canvas);
-    _index(canvas);
+    _bookStack(canvas, scale);
+    _caption(canvas);
     _titleBlock(canvas);
 
     canvas.restore();
@@ -190,66 +306,159 @@ class PassCardPainter extends CustomPainter {
     );
   }
 
-  void _index(Canvas canvas) {
-    const cx = 700.0;
-    // Was 72, which left only 16px of baseline between the heading and the
-    // first chapter so the two read as one block (owner, 2026-10-06).
-    const top = 104.0;
-    const rowHeight = 25.6;
-    const numberGap = 36.0;
-
-    _text(
-      canvas,
-      'ALL FIFTEEN CHAPTERS. $passCardTotalQuestions QUESTIONS.',
-      const Offset(cx, _pad + 16),
-      AppTheme.mono(
-        size: 13,
-        weight: FontWeight.w600,
-        color: AppColors.ink2,
-      ).copyWith(letterSpacing: 2.2),
+  void _glow(Canvas canvas) {
+    const w = passCardWidth;
+    const h = passCardHeight;
+    const r = _glowRx * w;
+    canvas.save();
+    canvas.translate(_glowCx * w, _glowCy * h);
+    canvas.scale(1, _glowRy * h / r);
+    canvas.drawRect(
+      const Rect.fromLTRB(-r, -r, r, r),
+      Paint()
+        ..shader = ui.Gradient.radial(Offset.zero, r, const [
+          _glowInk,
+          _glowClear,
+        ]),
     );
+    canvas.restore();
+  }
 
-    final rule = Paint()
-      ..color = _gridBold
-      ..strokeWidth = 1;
+  /// The fifteen chapters as a stack of books, chapter 15 on top. Each book is
+  /// drawn in its own tilted frame; lower books are drawn later so they sit
+  /// over the edge of the one above, as a real stack would.
+  ///
+  /// [scale] is the design-to-pixel scale. Canvas 2D does not transform shadow
+  /// offsets or blur, so on the web they are in output pixels at every size;
+  /// dividing by the scale keeps this shadow the same as that one.
+  void _bookStack(Canvas canvas, double scale) {
+    const h = PassCardStack.bookHeight;
+    final n = passCardChapters.length;
+    for (var k = 0; k < n; k++) {
+      final i = n - 1 - k; // chapter index, top book first
+      final b = passCardBooks[i];
+      final c = b.cover;
+      final w = PassCardStack.width * b.w / 100;
+      final x = PassCardStack.x + b.dx;
+      final y = PassCardStack.top + k * PassCardStack.step;
 
-    for (var i = 0; i < passCardChapters.length; i++) {
-      final y = top + i * rowHeight;
-      _text(
+      canvas.save();
+      canvas.translate(x + w / 2, y + h / 2);
+      canvas.rotate(b.tilt * math.pi / 180);
+      canvas.translate(-w / 2, -h / 2);
+
+      final cover = RRect.fromRectAndRadius(
+        Rect.fromLTWH(0, 0, w, h),
+        const Radius.circular(PassCardStack.radius),
+      );
+
+      // Cover, with a soft shadow under it (shadowBlur 10, offset 3).
+      canvas.drawRRect(
+        cover.shift(Offset(0, 3 / scale)),
+        Paint()
+          ..color =
+              const Color(0x292C2C2C) // rgba(44,44,44,0.16)
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, 5 / scale),
+      );
+      canvas.drawRRect(cover, Paint()..color = c.fill);
+
+      // Rounded spine: light along the top edge, dark along the bottom.
+      canvas.drawRRect(
+        cover,
+        Paint()
+          ..shader = ui.Gradient.linear(
+            Offset.zero,
+            const Offset(0, h),
+            const [
+              Color(0x29FFFFFF),
+              Color(0x00FFFFFF),
+              Color(0x00000000),
+              Color(0x29000000),
+            ],
+            const [0, 0.3, 0.7, 1],
+          ),
+      );
+
+      final band = Paint()..color = c.band;
+      for (final fromRight in PassCardStack.bandsFromRight) {
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromLTWH(
+              w - fromRight,
+              h * PassCardStack.bandInset,
+              PassCardStack.bandWidth,
+              h * (1 - 2 * PassCardStack.bandInset),
+            ),
+            const Radius.circular(1.5),
+          ),
+          band,
+        );
+      }
+
+      _textMiddle(
         canvas,
         '${i + 1}'.padLeft(2, '0'),
-        Offset(cx, y),
+        const Offset(PassCardStack.padLeft, h / 2 + 1),
         AppTheme.mono(
-          size: 13,
-          weight: FontWeight.w600,
-          color: AppColors.ember,
+          size: 10.5,
+          weight: FontWeight.w700,
+          color: c.text.withValues(alpha: 0.6),
         ),
       );
-      _text(
+      _textMiddle(
         canvas,
-        passCardChapters[i],
-        Offset(cx + numberGap, y),
-        AppTheme.body(
-          size: 17,
-          color: AppColors.charcoal,
-        ).copyWith(fontWeight: FontWeight.w500),
+        passCardChapters[i].toUpperCase(),
+        const Offset(
+          PassCardStack.padLeft + PassCardStack.numberGap,
+          h / 2 + 1,
+        ),
+        AppTheme.display(
+          size: 12.5,
+          weight: FontWeight.w700,
+        ).copyWith(color: c.text, letterSpacing: 1.25),
       );
-      canvas.drawLine(
-        Offset(cx, y + 8.5),
-        const Offset(passCardWidth - _pad, 0).translate(0, y + 8.5),
-        rule,
-      );
+
+      final img = peek;
+      if (k == 0 && img != null && img.width > 0) {
+        const pw = PassCardStack.peekWidth;
+        final ph = pw * img.height / img.width;
+        canvas.drawImageRect(
+          img,
+          Rect.fromLTWH(0, 0, img.width.toDouble(), img.height.toDouble()),
+          Rect.fromLTWH(
+            w * PassCardStack.peekAlong - pw / 2,
+            -ph * PassCardStack.peekSeat,
+            pw,
+            ph,
+          ),
+          Paint()..filterQuality = FilterQuality.high,
+        );
+      }
+      canvas.restore();
     }
   }
 
+  void _caption(Canvas canvas) {
+    _text(
+      canvas,
+      'ALL FIFTEEN CHAPTERS. $passCardTotalQuestions QUESTIONS.',
+      const Offset(PassCardStack.captionX, PassCardStack.captionY),
+      AppTheme.mono(
+        size: 12,
+        weight: FontWeight.w600,
+        color: _soft,
+      ).copyWith(letterSpacing: 2),
+    );
+  }
+
   void _titleBlock(Canvas canvas) {
-    const ty = passCardHeight - 78;
+    const ty = passCardHeight - passCardTitleFromBottom;
     canvas.drawLine(
       const Offset(_pad, ty),
-      const Offset(passCardWidth - _pad, ty),
+      const Offset(passCardTitleRuleEnd, ty),
       Paint()
         ..color = AppColors.charcoal
-        ..strokeWidth = 2.5,
+        ..strokeWidth = _titleRuleWidth,
     );
 
     var x = _pad;
@@ -261,7 +470,7 @@ class PassCardPainter extends CustomPainter {
       _text(
         canvas,
         cell.$1,
-        Offset(x, ty + 18),
+        Offset(x, ty + _titleLabelY),
         AppTheme.mono(
           size: 11,
           weight: FontWeight.w500,
@@ -271,19 +480,19 @@ class PassCardPainter extends CustomPainter {
       _text(
         canvas,
         cell.$2,
-        Offset(x, ty + 41),
+        Offset(x, ty + _titleValueY),
         AppTheme.display(
           size: 17,
           weight: FontWeight.w600,
         ).copyWith(color: AppColors.charcoal),
       );
-      x += 232;
+      x += _titleCellPitch;
     }
 
     _text(
       canvas,
       'FE4RACCOONS',
-      const Offset(passCardWidth - _pad, ty + 41),
+      const Offset(passCardWidth - _pad, ty + _titleValueY),
       AppTheme.display(
         size: 23,
         weight: FontWeight.w700,
@@ -313,9 +522,32 @@ class PassCardPainter extends CustomPainter {
     tp.paint(canvas, Offset(at.dx + dx, at.dy - ascent));
   }
 
+  /// Draws [text] with its vertical middle at [at], which is what canvas
+  /// fillText does on the web with textBaseline 'middle': halfway between the
+  /// font's ascent and descent. Any line height on [style] is dropped, so the
+  /// box measured is the font's own.
+  void _textMiddle(Canvas canvas, String text, Offset at, TextStyle style) {
+    final natural = TextStyle(
+      fontFamily: style.fontFamily,
+      fontFamilyFallback: style.fontFamilyFallback,
+      fontSize: style.fontSize,
+      fontWeight: style.fontWeight,
+      fontStyle: style.fontStyle,
+      color: style.color,
+      letterSpacing: style.letterSpacing,
+    );
+    final tp = TextPainter(
+      text: TextSpan(text: text, style: natural),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    tp.paint(canvas, Offset(at.dx, at.dy - tp.height / 2));
+  }
+
   @override
   bool shouldRepaint(PassCardPainter old) =>
-      old.data.name != data.name || old.data.when != data.when;
+      old.data.name != data.name ||
+      old.data.when != data.when ||
+      old.peek != peek;
 }
 
 /// Wait for the brand faces before drawing anything that is kept.
@@ -346,6 +578,23 @@ Future<void> passCardFontsReady() async {
   }
 }
 
+/// The raccoon that peeks over the top book, decoded once. Resolves to null if
+/// it cannot load, as the web's loadPeek does: the card is still theirs
+/// without it.
+Future<ui.Image?>? _peekLoad;
+Future<ui.Image?> loadPassCardPeek() {
+  return _peekLoad ??= () async {
+    try {
+      final bytes = await rootBundle.load('assets/brand/raccoon_peek.png');
+      final codec = await ui.instantiateImageCodec(bytes.buffer.asUint8List());
+      final frame = await codec.getNextFrame();
+      return frame.image;
+    } catch (_) {
+      return null;
+    }
+  }();
+}
+
 /// The card as a PNG, at export size.
 ///
 /// Drawn straight onto a picture recorder rather than captured from the widget
@@ -354,11 +603,13 @@ Future<void> passCardFontsReady() async {
 /// the 2400px the social networks want.
 Future<ui.Image> renderPassCard(PassCardData data) async {
   await passCardFontsReady();
+  final peek = await loadPassCardPeek();
   const scale = passCardExportScale;
   final recorder = ui.PictureRecorder();
   final canvas = Canvas(recorder);
   PassCardPainter(
     data,
+    peek: peek,
   ).paint(canvas, const Size(passCardWidth * scale, passCardHeight * scale));
   return recorder.endRecording().toImage(
     (passCardWidth * scale).round(),
@@ -381,12 +632,16 @@ class PassCardView extends StatefulWidget {
 
 class _PassCardViewState extends State<PassCardView> {
   bool _fontsReady = false;
+  ui.Image? _peek;
 
   @override
   void initState() {
     super.initState();
     passCardFontsReady().then((_) {
       if (mounted) setState(() => _fontsReady = true);
+    });
+    loadPassCardPeek().then((img) {
+      if (mounted && img != null) setState(() => _peek = img);
     });
   }
 
@@ -398,7 +653,7 @@ class _PassCardViewState extends State<PassCardView> {
         // The key makes the repaint unmissable rather than relying on the
         // painter's own shouldRepaint, which compares data and not fonts.
         key: ValueKey(_fontsReady),
-        painter: PassCardPainter(widget.data),
+        painter: PassCardPainter(widget.data, peek: _peek),
       ),
     );
   }

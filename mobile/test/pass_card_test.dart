@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -15,6 +17,9 @@ import 'support/fonts.dart';
 /// The golden is also the parity check against the web renderer. The two are
 /// separate implementations of one design, and a change to either that is not a
 /// change to both shows up here.
+
+/// The caption must sit inside the card's bottom padding.
+const _bottomPad = 40.0;
 
 void main() {
   setUpAll(loadBrandFonts);
@@ -80,22 +85,35 @@ void main() {
       expect(passCardWidth * passCardExportScale, 2400);
     });
 
-    test('the fifteen rows finish above the title block', () {
-      const lastRow = 72.0 + 14 * 25.6;
-      const titleRule = passCardHeight - 78;
-      expect(lastRow, lessThan(titleRule));
+    test('one book per chapter', () {
+      expect(passCardBooks, hasLength(passCardChapters.length));
+    });
+
+    test('the stack finishes above the title block', () {
+      const bottomBook =
+          PassCardStack.top +
+          14 * PassCardStack.step +
+          PassCardStack.bookHeight;
+      const titleRule = passCardHeight - passCardTitleFromBottom;
+      expect(bottomBook, lessThan(titleRule));
+    });
+
+    test('the title rule stops short of the stack and its caption', () {
+      expect(passCardTitleRuleEnd, lessThan(PassCardStack.x));
+      expect(passCardTitleRuleEnd, lessThan(PassCardStack.captionX));
+      expect(PassCardStack.captionY, lessThan(passCardHeight - _bottomPad));
     });
   });
 
   group('drawn', () {
-    Widget host(PassCardData data) => MaterialApp(
+    Widget host(PassCardData data, ui.Image? peek) => MaterialApp(
       theme: AppTheme.light,
       debugShowCheckedModeBanner: false,
       home: Center(
         child: SizedBox(
           width: passCardWidth,
           height: passCardHeight,
-          child: CustomPaint(painter: PassCardPainter(data)),
+          child: CustomPaint(painter: PassCardPainter(data, peek: peek)),
         ),
       ),
     );
@@ -104,6 +122,8 @@ void main() {
       t.view.physicalSize = const Size(passCardWidth, passCardHeight);
       t.view.devicePixelRatio = 1.0;
       addTearDown(t.view.reset);
+      final peek = await t.runAsync(loadPassCardPeek);
+      expect(peek, isNotNull, reason: 'the raccoon asset must load');
       await t.pumpWidget(
         host(
           PassCardData.from(
@@ -111,6 +131,7 @@ void main() {
             lastName: 'Garcia',
             answeredAt: DateTime(2026, 10, 20),
           ),
+          peek,
         ),
       );
       await t.pumpAndSettle();
@@ -126,8 +147,9 @@ void main() {
       t.view.physicalSize = const Size(passCardWidth, passCardHeight);
       t.view.devicePixelRatio = 1.0;
       addTearDown(t.view.reset);
+      final peek = await t.runAsync(loadPassCardPeek);
       await t.pumpWidget(
-        host(PassCardData.from(answeredAt: DateTime(2026, 10, 20))),
+        host(PassCardData.from(answeredAt: DateTime(2026, 10, 20)), peek),
       );
       await t.pumpAndSettle();
       await expectLater(
@@ -137,9 +159,9 @@ void main() {
     });
 
     testWidgets('renders at export size without throwing', (t) async {
-      final image = await renderPassCard(
-        PassCardData.from(firstName: 'Jerson'),
-      );
+      final image = (await t.runAsync(
+        () => renderPassCard(PassCardData.from(firstName: 'Jerson')),
+      ))!;
       expect(image.width, 2400);
       expect(image.height, 1254);
       image.dispose();

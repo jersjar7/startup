@@ -4,6 +4,7 @@ import { useSeo } from '../seo/useSeo';
 import { pageTitle } from '../seo/pageTitle';
 import { AppArrow } from '../components/brand/AppArrow';
 import { PE_PROBLEMS, isRight } from './peProblems';
+import peekUrl from '../assets/brand/raccoon-peek.png';
 import './public.css';
 import './examGuide.css';
 import './peWaitlist.css';
@@ -14,15 +15,12 @@ export const PE_PATH = '/pe-exam-prep';
 // The PE waitlist (owner 2026-10-31). Nothing is built for the PE yet; the
 // list decides whether it is, and the "Which PE exam?" answers decide which
 // one comes first. The page never says which exam we are building first
-// (owner, 2026-10-31). Facts below were checked against ncees.org on
-// 2026-10-31 (research/pe on branch pe-research).
-const EXAM_SHORT = [
-  ['Questions', '80'],
-  ['Exam time', '8 hours'],
-  ['Fee', '$400 per attempt'],
-  ['Where', 'Pearson VUE, year-round'],
-  ['Depths', '5 to choose from'],
-];
+// (owner, 2026-10-31).
+//
+// Layout (mock v3, owner 2026-10-31): a real problem is the hero, because the
+// problems are the taste of what we are building and most visitors never
+// scroll. The form asks only for email and exam; when they plan to sit it is
+// asked after they join.
 
 // Same keys as service/waitlist.js.
 export const EXAM_OPTIONS = [
@@ -45,7 +43,7 @@ export const WHEN_OPTIONS = [
 ];
 
 const BUILDING = [
-  ['Worked problems for every exam topic', 'Exam-depth problems like the three above. Every solution shows each step, points to the handbook section, and explains each wrong answer.'],
+  ['Worked problems for every exam topic', 'Exam-depth problems like the ones above. Every solution shows each step, points to the handbook section, and explains each wrong answer.'],
   ['Practice that fits a commute', 'Ten-minute sets on the FE for Raccoons phone app: which method, which equation, which trap. The long calculations wait for your desk.'],
   ['Full timed practice exams', 'The real number of questions, the real clock, scored by topic.'],
 ];
@@ -68,10 +66,43 @@ function attribution() {
   return out;
 }
 
-function WaitlistForm({ place, askWhen = false, dark = false }) {
+function post(body) {
+  return fetch('/api/waitlist', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+}
+
+// After joining: one optional question, when they plan to sit it. Joining
+// again with the same address only updates the row, so this is the same call.
+function WhenQuestion({ email, exam, place }) {
+  const [when, setWhen] = React.useState('');
+  const [saved, setSaved] = React.useState(false);
+  async function save(e) {
+    e.preventDefault();
+    if (!when) return;
+    try { await post({ email, exam, when, place }); } catch { /* it is optional */ }
+    setSaved(true);
+  }
+  if (saved) return <p className="pe-when-done">Saved. Thank you.</p>;
+  return (
+    <form className="pe-when" onSubmit={save}>
+      <label htmlFor={`pe-when-${place}`}>One more, if you like: when are you taking it?</label>
+      <div>
+        <select id={`pe-when-${place}`} value={when} onChange={(e) => setWhen(e.target.value)}>
+          <option value="" disabled>Choose one</option>
+          {WHEN_OPTIONS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+        </select>
+        <button type="submit" disabled={!when}>Save</button>
+      </div>
+    </form>
+  );
+}
+
+function WaitlistForm({ place, dark = false }) {
   const [email, setEmail] = React.useState('');
   const [exam, setExam] = React.useState('');
-  const [when, setWhen] = React.useState('not-booked');
   const [website, setWebsite] = React.useState('');
   const [state, setState] = React.useState({ status: 'idle', msg: '' });
 
@@ -79,11 +110,7 @@ function WaitlistForm({ place, askWhen = false, dark = false }) {
     e.preventDefault();
     setState({ status: 'sending', msg: '' });
     try {
-      const r = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, exam, when: askWhen ? when : undefined, place, website, ...attribution() }),
-      });
+      const r = await post({ email, exam, place, website, ...attribution() });
       const body = await r.json().catch(() => ({}));
       if (!r.ok) return setState({ status: 'error', msg: body.msg || 'That did not go through. Try again in a minute.' });
       setState({ status: 'done', msg: '' });
@@ -94,33 +121,20 @@ function WaitlistForm({ place, askWhen = false, dark = false }) {
 
   if (state.status === 'done') {
     return (
-      <p className="pe-done" role="status">
-        <strong>You are on the list.</strong> We sent a confirmation to {email.trim()}.
-      </p>
+      <div className="pe-done" role="status">
+        <p><strong>You are on the list.</strong> We sent a confirmation to {email.trim()}.</p>
+        <WhenQuestion email={email.trim()} exam={exam} place={place} />
+      </div>
     );
   }
 
   return (
     <form className={`pe-form${dark ? ' pe-form-dark' : ''}`} onSubmit={submit}>
-      <label className="pe-field">
-        <span>Email</span>
-        <input type="email" required autoComplete="email" placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} />
-      </label>
-      <label className="pe-field">
-        <span>Which PE exam?</span>
-        <select required value={exam} onChange={(e) => setExam(e.target.value)}>
-          <option value="" disabled>{dark ? 'Which PE exam?' : 'Choose one'}</option>
-          {EXAM_OPTIONS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
-        </select>
-      </label>
-      {askWhen && (
-        <label className="pe-field">
-          <span>When are you taking it?</span>
-          <select value={when} onChange={(e) => setWhen(e.target.value)}>
-            {WHEN_OPTIONS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
-          </select>
-        </label>
-      )}
+      <input type="email" required autoComplete="email" placeholder="Your email" aria-label="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <select required aria-label="Which PE exam?" value={exam} onChange={(e) => setExam(e.target.value)}>
+        <option value="" disabled>Which PE exam?</option>
+        {EXAM_OPTIONS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+      </select>
       {/* Hidden from people; a bot that fills it is thanked and dropped. */}
       <input className="pe-hp" type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" value={website} onChange={(e) => setWebsite(e.target.value)} />
       <button className="pub-btn pub-btn-primary" type="submit" disabled={state.status === 'sending'}>
@@ -191,7 +205,7 @@ function Figure({ name }) {
   );
 }
 
-function ProblemPanel({ p, hidden }) {
+function ProblemPanel({ p, hidden = false, compact = false }) {
   const [picked, setPicked] = React.useState([]);
   const [typed, setTyped] = React.useState('');
   const [checked, setChecked] = React.useState(false);
@@ -214,7 +228,8 @@ function ProblemPanel({ p, hidden }) {
   }
 
   return (
-    <div role="tabpanel" id={`pv-${p.id}`} aria-labelledby={`pv-tab-${p.id}`} hidden={hidden}>
+    <div id={`pv-${p.id}`} hidden={hidden} className={compact ? 'pv-compact' : undefined}
+      {...(compact ? {} : { role: 'tabpanel', 'aria-labelledby': `pv-tab-${p.id}` })}>
       <div className="pv-panel">
         <div>
           <p className="pv-stem">{p.stem}</p>
@@ -276,12 +291,24 @@ function ProblemPanel({ p, hidden }) {
   );
 }
 
+// The first problem, as the hero: try it before anything else.
+function TryOne() {
+  return (
+    <div className="pe-try">
+      <div className="pe-try-head"><span>Try one now</span><span>About 6 min</span></div>
+      <ProblemPanel p={PE_PROBLEMS[0]} compact />
+    </div>
+  );
+}
+
+// The other two, in the exam's other two question formats.
 function ProblemViewer() {
+  const rest = PE_PROBLEMS.slice(1);
   const [on, setOn] = React.useState(0);
   return (
     <div className="pv">
-      <div className="pv-tabs" role="tablist" aria-label="Sample problems">
-        {PE_PROBLEMS.map((p, i) => (
+      <div className="pv-tabs pv-tabs-2" role="tablist" aria-label="Sample problems">
+        {rest.map((p, i) => (
           <button key={p.id} id={`pv-tab-${p.id}`} type="button" role="tab" aria-selected={on === i} aria-controls={`pv-${p.id}`}
             className={`pv-tab${on === i ? ' on' : ''}`} onClick={() => setOn(i)}>
             <span className="pv-tab-topic">{p.topic}</span>
@@ -290,11 +317,39 @@ function ProblemViewer() {
           </button>
         ))}
       </div>
-      <div className="pv-head"><span>Question {on + 1} of {PE_PROBLEMS.length}</span><span>About 6 min</span></div>
-      {PE_PROBLEMS.map((p, i) => <ProblemPanel key={p.id} p={p} hidden={on !== i} />)}
+      <div className="pv-head"><span>Question {on + 2} of {PE_PROBLEMS.length}</span><span>About 6 min</span></div>
+      {rest.map((p, i) => <ProblemPanel key={p.id} p={p} hidden={on !== i} />)}
     </div>
   );
 }
+
+// The PE exams as a stack of books, the raccoon on top of "Yours?", the same
+// picture as the pass card. Hand-placed, top book first. Water Resources sits
+// in the middle on purpose: nothing here hints at which exam comes first.
+const SHELF = [
+  ['ch', 'PE Civil: Structural', 88, 14, -0.3],
+  ['sa', 'PE Civil: Construction', 95, 2, 0.4],
+  ['ch', 'PE Environmental', 86, 18, -0.6],
+  ['cr', 'PE Civil: Water Resources', 92, 6, 0.7],
+  ['sa', 'SE Structural', 84, 24, -0.4],
+  ['ch', 'PE Civil: Geotechnical', 94, 0, 0.6],
+  ['cr', 'PE Civil: Transportation', 90, 10, -0.8],
+].reverse();
+
+function BookStack({ className = '' }) {
+  return (
+    <div className={`pe-stack ${className}`} aria-hidden="true">
+      <div className="pe-book em" style={{ '--w': 80, '--x': 30, '--r': -1.1 }}>
+        <img className="pe-peek" src={peekUrl} alt="" />Yours?
+      </div>
+      {SHELF.map(([c, t, w, x, r]) => (
+        <div key={t} className={`pe-book ${c}`} style={{ '--w': w, '--x': x, '--r': r }}>{t}</div>
+      ))}
+    </div>
+  );
+}
+
+const ASK = 'Tell us which PE is yours when you join. The answers decide what we build first.';
 
 export function PeWaitlist() {
   const url = `${SITE}${PE_PATH}`;
@@ -317,51 +372,57 @@ export function PeWaitlist() {
 
   return (
     <main className="pub eg pe">
-      <header className="eg-hero">
-        <div className="eg-hero-text">
-          <span className="pub-label">PE exam prep</span>
-          <h1>PE exam prep for engineers with a full-time job</h1>
+      <header className="pe-hero">
+        <div className="pe-hero-text">
+          <h1>PE exam prep for engineers with a full&#8209;time job</h1>
           <p className="pub-lede">
-            We are working on high quality, affordable prep material for the PE exam: ten-minute practice on your
-            phone, worked problems that point to the reference handbook, and full timed practice exams. Tell us which
-            PE you are taking and we will let you know when it is ready.
+            We are working on high quality, affordable prep material for the PE exam. Try a real-format problem,
+            then join the list.
           </p>
-          <WaitlistForm place="top" askWhen />
+          <WaitlistForm place="top" />
           <p className="eg-checked">One email when it opens, and a short study note each month. Unsubscribe in one tap.</p>
         </div>
-        <aside className="eg-short" aria-label="The PE Civil exam in short">
-          <h2>The PE Civil exam in short</h2>
-          <dl>
-            {EXAM_SHORT.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
-          </dl>
-        </aside>
+        <TryOne />
       </header>
 
-      <section className="eg-section">
-        <h2>Three real-format PE problems</h2>
-        <p className="eg-intro">Three PE Civil problems with the depth and the question types of the computer-based exam: multi-step, handbook lookups, and a figure to read. No account needed.</p>
-        <ProblemViewer />
+      {/* On a phone the stack comes right after the first problem. */}
+      <section className="pe-yours">
+        <BookStack />
+        <p className="pe-ask">{ASK}</p>
       </section>
 
       <section className="eg-section">
-        <h2>What we are building</h2>
-        <ul className="pe-build">
-          {BUILDING.map(([h, p]) => <li key={h}><h3>{h}</h3><p>{p}</p></li>)}
-        </ul>
+        <h2>Two more, in the other exam formats</h2>
+        <p className="eg-intro">
+          The computer-based PE also asks you to type a number or pick every answer that applies. Each one comes with
+          a worked solution and the reasons the wrong answers are tempting.
+        </p>
+        <ProblemViewer />
+      </section>
+
+      <section className="eg-section pe-build">
+        <BookStack className="pe-stack-wide" />
+        <div>
+          <h2>What we are building</h2>
+          <ul className="pe-build-list">
+            {BUILDING.map(([h, p]) => <li key={h}><h3>{h}</h3><p>{p}</p></li>)}
+          </ul>
+          <p className="pe-ask pe-ask-wide">{ASK}</p>
+        </div>
       </section>
 
       <section className="eg-section pe-founder">
         <h2>Why we are building it</h2>
         <p>
-          I passed the FE Civil in 2025 and I am sitting the PE in March 2027, while working full time
-          as a drainage engineer. Finding the hours is the hard part, so that is what we are building for. Everything
-          here gets tested on my own study first.
+          I passed the FE Civil in 2025 and I am sitting the PE in March 2027, while working full time as a drainage
+          engineer. Finding the hours is the hard part, so that is what we are building for. Everything here gets
+          tested on my own study first.
         </p>
         <p className="pe-sign">Jerson Garcia, founder of FE for Raccoons</p>
       </section>
 
       <section className="pub-final-cta">
-        <h2>Hear first when it opens</h2>
+        <h2>Hear first when it is ready</h2>
         <p>
           Join the list and tell us which PE you are taking. Our <Link to="/">FE Civil practice</Link> stays completely free.
         </p>

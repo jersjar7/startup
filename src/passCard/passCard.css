@@ -125,19 +125,31 @@
 
 .pc-btn--ghost { background: transparent; color: var(--ember, #E8683A); }
 
-.pc-ask {
-  margin-top: 30px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(44, 44, 44, 0.09);
+.pc-pe {
+  margin-top: 28px;
+  padding: 28px;
+  border-radius: 16px;
+  background: var(--charcoal, #2C2C2C);
+  border-top: 4px solid var(--ember, #E8683A);
+  color: var(--cream, #FFF9F0);
 }
-.pc-ask-q {
+.pc-pe h2 {
   font-family: 'DM Sans', system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 17px;
-  line-height: 1.4;
-  color: var(--charcoal, #2C2C2C);
-  margin: 0;
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--cream, #FFF9F0);
+  margin: 0 0 10px;
 }
+.pc-pe p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #E2DACD;
+  margin: 0 0 20px;
+  max-width: 56ch;
+}
+.pc-pe .pc-btn { display: inline-flex; text-decoration: none; }
 
 .pc-problem {
   margin: 18px 0 0;
