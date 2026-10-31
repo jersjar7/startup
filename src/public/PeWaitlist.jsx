@@ -9,18 +9,32 @@ import './examGuide.css';
 import './peWaitlist.css';
 
 const SITE = 'https://fe4raccoons.com';
-export const PE_PATH = '/pe-civil-water-resources';
+export const PE_PATH = '/pe-exam-prep';
 
-// The waitlist for PE Civil Water Resources prep (owner 2026-10-31). Nothing
-// is built for the PE yet; the list decides whether it is. Facts below were
-// checked against ncees.org on 2026-10-31 (research/pe on branch pe-research).
+// The PE waitlist (owner 2026-10-31). Nothing is built for the PE yet; the
+// list decides whether it is, and the "Which PE exam?" answers decide which
+// one comes first. The page never says which exam we are building first
+// (owner, 2026-10-31). Facts below were checked against ncees.org on
+// 2026-10-31 (research/pe on branch pe-research).
 const EXAM_SHORT = [
   ['Questions', '80'],
   ['Exam time', '8 hours'],
   ['Fee', '$400 per attempt'],
   ['Where', 'Pearson VUE, year-round'],
-  ['Pass rate', '71% first time'],
-  ['Changes', 'April 2027: 7 supplied codes'],
+  ['Depths', '5 to choose from'],
+];
+
+// Same keys as service/waitlist.js.
+export const EXAM_OPTIONS = [
+  ['pe-civil-construction', 'PE Civil: Construction'],
+  ['pe-civil-geotechnical', 'PE Civil: Geotechnical'],
+  ['pe-civil-structural', 'PE Civil: Structural'],
+  ['pe-civil-transportation', 'PE Civil: Transportation'],
+  ['pe-civil-wre', 'PE Civil: Water Resources and Environmental'],
+  ['pe-environmental', 'PE Environmental'],
+  ['se-structural', 'SE Structural'],
+  ['pe-other', 'Another PE exam'],
+  ['not-sure', 'Not sure yet'],
 ];
 
 export const WHEN_OPTIONS = [
@@ -31,9 +45,9 @@ export const WHEN_OPTIONS = [
 ];
 
 const BUILDING = [
-  ['Worked problems for all 12 exam topics', 'Exam-depth problems like the three above. Every solution shows each step, points to the handbook section, and explains each wrong answer.'],
+  ['Worked problems for every exam topic', 'Exam-depth problems like the three above. Every solution shows each step, points to the handbook section, and explains each wrong answer.'],
   ['Practice that fits a commute', 'Ten-minute sets on the FE for Raccoons phone app: which method, which equation, which trap. The long calculations wait for your desk.'],
-  ['A full timed practice exam', '80 questions, the real clock, scored by topic.'],
+  ['Full timed practice exams', 'The real number of questions, the real clock, scored by topic.'],
 ];
 
 // Where the signup came from: a tagged link on this visit first, then the
@@ -56,6 +70,7 @@ function attribution() {
 
 function WaitlistForm({ place, askWhen = false, dark = false }) {
   const [email, setEmail] = React.useState('');
+  const [exam, setExam] = React.useState('');
   const [when, setWhen] = React.useState('not-booked');
   const [website, setWebsite] = React.useState('');
   const [state, setState] = React.useState({ status: 'idle', msg: '' });
@@ -67,7 +82,7 @@ function WaitlistForm({ place, askWhen = false, dark = false }) {
       const r = await fetch('/api/waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, exam: 'pe-civil-wre', when: askWhen ? when : undefined, place, website, ...attribution() }),
+        body: JSON.stringify({ email, exam, when: askWhen ? when : undefined, place, website, ...attribution() }),
       });
       const body = await r.json().catch(() => ({}));
       if (!r.ok) return setState({ status: 'error', msg: body.msg || 'That did not go through. Try again in a minute.' });
@@ -90,6 +105,13 @@ function WaitlistForm({ place, askWhen = false, dark = false }) {
       <label className="pe-field">
         <span>Email</span>
         <input type="email" required autoComplete="email" placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+      </label>
+      <label className="pe-field">
+        <span>Which PE exam?</span>
+        <select required value={exam} onChange={(e) => setExam(e.target.value)}>
+          <option value="" disabled>{dark ? 'Which PE exam?' : 'Choose one'}</option>
+          {EXAM_OPTIONS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+        </select>
       </label>
       {askWhen && (
         <label className="pe-field">
@@ -276,8 +298,8 @@ function ProblemViewer() {
 
 export function PeWaitlist() {
   const url = `${SITE}${PE_PATH}`;
-  const title = pageTitle('PE Civil Water Resources Prep and Practice Problems');
-  const description = 'PE Civil Water Resources and Environmental prep for engineers with a full-time job. Try three exam-format problems with worked solutions, and join the list for when it opens.';
+  const title = pageTitle('PE Exam Prep and Sample PE Civil Problems');
+  const description = 'PE exam prep for engineers with a full-time job, in the works. Try three PE Civil problems in the real exam formats with worked solutions, and join the list for when it opens.';
   useSeo({
     title,
     description,
@@ -285,11 +307,11 @@ export function PeWaitlist() {
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
-      name: 'PE Civil Water Resources prep',
+      name: 'PE exam prep',
       description,
       url,
       publisher: { '@type': 'Organization', name: 'FE for Raccoons', url: SITE },
-      about: { '@type': 'Thing', name: 'PE Civil: Water Resources and Environmental exam' },
+      about: { '@type': 'Thing', name: 'Principles and Practice of Engineering (PE) exam' },
     },
   });
 
@@ -297,17 +319,18 @@ export function PeWaitlist() {
     <main className="pub eg pe">
       <header className="eg-hero">
         <div className="eg-hero-text">
-          <span className="pub-label">PE Civil: Water Resources and Environmental</span>
-          <h1>PE Water Resources prep for engineers with a full-time job</h1>
+          <span className="pub-label">PE exam prep</span>
+          <h1>PE exam prep for engineers with a full-time job</h1>
           <p className="pub-lede">
-            Ten-minute practice on your phone, worked problems that point to the PE Civil Reference Handbook, and a
-            full timed practice exam. We are building it now. Join the list and we will write when the first part opens.
+            We are working on high quality, affordable prep material for the PE exam: ten-minute practice on your
+            phone, worked problems that point to the reference handbook, and full timed practice exams. Tell us which
+            PE you are taking and we will let you know when it is ready.
           </p>
           <WaitlistForm place="top" askWhen />
           <p className="eg-checked">One email when it opens, and a short study note each month. Unsubscribe in one tap.</p>
         </div>
-        <aside className="eg-short" aria-label="The exam in short">
-          <h2>The exam in short</h2>
+        <aside className="eg-short" aria-label="The PE Civil exam in short">
+          <h2>The PE Civil exam in short</h2>
           <dl>
             {EXAM_SHORT.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
           </dl>
@@ -316,7 +339,7 @@ export function PeWaitlist() {
 
       <section className="eg-section">
         <h2>Three real-format PE problems</h2>
-        <p className="eg-intro">The same depth and the same question types as the computer-based exam: multi-step, handbook lookups, and a figure to read. No account needed.</p>
+        <p className="eg-intro">Three PE Civil problems with the depth and the question types of the computer-based exam: multi-step, handbook lookups, and a figure to read. No account needed.</p>
         <ProblemViewer />
       </section>
 
@@ -330,7 +353,7 @@ export function PeWaitlist() {
       <section className="eg-section pe-founder">
         <h2>Why we are building it</h2>
         <p>
-          I passed the FE Civil in 2025 and I am sitting the Water Resources PE in March 2027, while working full time
+          I passed the FE Civil in 2025 and I am sitting the PE in March 2027, while working full time
           as a drainage engineer. Finding the hours is the hard part, so that is what we are building for. Everything
           here gets tested on my own study first.
         </p>
@@ -340,7 +363,7 @@ export function PeWaitlist() {
       <section className="pub-final-cta">
         <h2>Hear first when it opens</h2>
         <p>
-          Join the list for PE Civil Water Resources. Our <Link to="/">FE Civil practice</Link> stays completely free.
+          Join the list and tell us which PE you are taking. Our <Link to="/">FE Civil practice</Link> stays completely free.
         </p>
         <WaitlistForm place="bottom" dark />
       </section>

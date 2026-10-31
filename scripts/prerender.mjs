@@ -53,8 +53,8 @@ const ROUTES = [
   // copy for "/" only.
   '/',
   '/fe-civil-exam-guide',
-  // The PE Civil Water Resources waitlist, with three sample problems.
-  '/pe-civil-water-resources',
+  // The PE waitlist, with three sample problems.
+  '/pe-exam-prep',
   '/exam-simulation',
   '/delete-account',
   // /privacy and /terms for the same reason: Play fetches the privacy policy
@@ -121,7 +121,7 @@ console.log(`  SEO checks passed on ${rendered.length} pages`);
 const urls = [
   { loc: `${SITE}/`, priority: '1.0', freq: 'weekly' },
   { loc: `${SITE}/fe-civil-exam-guide`, priority: '0.9', freq: 'weekly' },
-  { loc: `${SITE}/pe-civil-water-resources`, priority: '0.6', freq: 'monthly' },
+  { loc: `${SITE}/pe-exam-prep`, priority: '0.6', freq: 'monthly' },
   { loc: `${SITE}/exam-simulation`, priority: '0.9', freq: 'weekly' },
   { loc: `${SITE}/fe-civil/formulas`, priority: '0.9', freq: 'monthly' },
   ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}`, priority: '0.8', freq: 'monthly' })),
@@ -174,7 +174,7 @@ const llms = `# FE for Raccoons
 ${TOPICS.map(([id, name]) => `- [${name}](${SITE}/fe-civil/${id}): what NCEES tests, key formulas, sample problems, common mistakes. [Free practice problems](${SITE}/fe-civil/${id}/practice-problems) with worked solutions.`).join('\n')}
 
 ## In development
-- [PE Civil Water Resources prep](${SITE}/pe-civil-water-resources): being built now. Three sample problems in the real exam formats, with worked solutions, and a waitlist.
+- [PE exam prep](${SITE}/pe-exam-prep): being built now. Three sample PE Civil problems in the real exam formats, with worked solutions, and a waitlist that asks which PE exam you are taking.
 
 ## About
 - Audience: engineering students and EITs preparing for the FE Civil exam (the first step toward the PE license).

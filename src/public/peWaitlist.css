@@ -1,4 +1,4 @@
-/* PE Civil Water Resources waitlist (/pe-civil-water-resources). Built on the
+/* The PE waitlist (/pe-exam-prep). Built on the
    exam guide's hero and sections; the problem viewer is its own piece, shaped
    like a small exam screen: a dark tab bar, a question counter, then the
    worked solution once an answer is checked. */
@@ -19,6 +19,10 @@
   margin: 24px 0 0; padding: 14px 18px; border-radius: 10px; max-width: 60ch;
   background: var(--forest-bg); color: #1f5a45;
 }
+/* The top form: two even columns, email beside the exam, timing beside the button. */
+.pe-form:not(.pe-form-dark) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 620px; }
+.pe-form:not(.pe-form-dark) .pe-field input, .pe-form:not(.pe-form-dark) .pe-field select { min-width: 0; width: 100%; box-sizing: border-box; }
+.pe-form:not(.pe-form-dark) .pub-btn { justify-self: start; }
 .pe-form-dark { justify-content: center; }
 .pe-form-dark .pe-field span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 .pub-final-cta .pe-done { margin: 0 auto; }
@@ -92,6 +96,8 @@
 }
 @media (max-width: 760px) {
   .pe-build { grid-template-columns: 1fr; }
+  .pe-form:not(.pe-form-dark) { grid-template-columns: 1fr; }
+  .pe-form:not(.pe-form-dark) .pub-btn { justify-self: stretch; }
   .pe-field, .pe-form .pub-btn { width: 100%; }
   .pe-field input, .pe-field select { min-width: 0; width: 100%; box-sizing: border-box; }
   .pe-form .pub-btn { justify-content: center; }

@@ -16,8 +16,9 @@ beforeEach(() => {
   Object.assign(DB, {
     getUser: async (e) => (e === 'fe@student.edu' ? { email: e } : null),
     joinWaitlist: async (entry, unsubToken) => {
-      const found = rows.find((r) => r.email === entry.email && r.exam === entry.exam);
+      const found = rows.find((r) => r.email === entry.email);
       if (found) {
+        if (entry.exam) found.exam = entry.exam;
         if (entry.when) found.when = entry.when;
         return { isNew: false };
       }
@@ -38,19 +39,19 @@ function app() {
 describe('POST /api/waitlist', () => {
   it('stores a new signup with its source and sends one confirmation', async () => {
     const r = await request(app()).post('/api/waitlist')
-      .send({ email: 'Pat@Firm.com', when: '2027-04-to-12', place: 'top', utmSource: 'linkedin' });
+      .send({ email: 'Pat@Firm.com', exam: 'pe-civil-wre', when: '2027-04-to-12', place: 'top', utmSource: 'linkedin' });
     expect(r.status).toBe(200);
-    expect(rows[0]).toMatchObject({ email: 'pat@firm.com', when: '2027-04-to-12', channel: 'utm: linkedin', hasFeAccount: false });
+    expect(rows[0]).toMatchObject({ email: 'pat@firm.com', exam: 'pe-civil-wre', when: '2027-04-to-12', channel: 'utm: linkedin', hasFeAccount: false });
     expect(mailed).toHaveLength(1);
     expect(mailed[0].unsubUrl).toContain(`/api/email/waitlist-unsubscribe/${rows[0].unsubToken}`);
   });
 
   it('joining again answers the same and sends nothing', async () => {
     await request(app()).post('/api/waitlist').send({ email: 'pat@firm.com' });
-    const again = await request(app()).post('/api/waitlist').send({ email: 'pat@firm.com', when: '2028-plus' });
+    const again = await request(app()).post('/api/waitlist').send({ email: 'pat@firm.com', exam: 'pe-civil-transportation', when: '2028-plus' });
     expect(again.status).toBe(200);
     expect(rows).toHaveLength(1);
-    expect(rows[0].when).toBe('2028-plus');
+    expect(rows[0]).toMatchObject({ exam: 'pe-civil-transportation', when: '2028-plus' });
     expect(mailed).toHaveLength(1);
   });
 

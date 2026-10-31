@@ -12,6 +12,12 @@ function mount() {
 afterEach(() => vi.restoreAllMocks());
 
 describe('PE sample problems', () => {
+  it('never says which PE exam we are building first', () => {
+    mount();
+    const words = document.body.textContent.replaceAll('PE Civil: Water Resources and Environmental', '');
+    expect(words).not.toMatch(/Water Resources/);
+  });
+
   it('uses the three question formats of the computer-based exam', () => {
     expect(PE_PROBLEMS.map((p) => p.kind)).toEqual(['one', 'number', 'many']);
   });
@@ -55,12 +61,13 @@ describe('PE waitlist form', () => {
     mount();
     const form = document.querySelector('.pe-form');
     fireEvent.change(within(form).getByLabelText('Email'), { target: { value: 'pat@firm.com' } });
+    fireEvent.change(within(form).getByLabelText('Which PE exam?'), { target: { value: 'pe-civil-geotechnical' } });
     fireEvent.change(within(form).getByLabelText('When are you taking it?'), { target: { value: '2027-04-to-12' } });
     fireEvent.submit(form);
     await waitFor(() => expect(screen.getByText(/You are on the list/)).toBeTruthy());
     const [url, opts] = fetchMock.mock.calls[0];
     expect(url).toBe('/api/waitlist');
-    expect(JSON.parse(opts.body)).toMatchObject({ email: 'pat@firm.com', when: '2027-04-to-12', place: 'top', exam: 'pe-civil-wre' });
+    expect(JSON.parse(opts.body)).toMatchObject({ email: 'pat@firm.com', when: '2027-04-to-12', place: 'top', exam: 'pe-civil-geotechnical' });
   });
 
   it('shows the server message when the address is turned away', async () => {
