@@ -66,8 +66,14 @@ export function ThermalBar({
             stroke="var(--ember)" strokeWidth={1.5} />
           <line x1={rightWallX - 1} y1={midY - 10} x2={rightWallX - 1} y2={midY - 2}
             stroke="var(--ember)" strokeWidth={1.5} />
-          <Label x={(barEndX + rightWallX) / 2} y={midY - 20}
-            fontSize={9} color="var(--ember)" bold>
+          {/* The gap is narrower than its label, so the label sits above the
+              wall top and a leader drops into the gap; inside the wall's
+              height it ran over the wall line. */}
+          <line x1={(barEndX + rightWallX) / 2} y1={midY - 10}
+            x2={(barEndX + rightWallX) / 2} y2={midY - wallH / 2 - 4}
+            stroke="var(--ember)" strokeWidth={1} />
+          <Label x={(barEndX + rightWallX) / 2} y={midY - wallH / 2 - 8}
+            fontSize={10} color="var(--ember)" bold>
             {gap} {gapUnit}
           </Label>
         </g>
