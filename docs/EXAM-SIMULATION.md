@@ -151,9 +151,8 @@ verification. None still destroy customer work.
    being completed). Only the submit that wins it logs the session, the exam
    event and the XP; a repeat, concurrent or later, gets the stored result
    back instead of an error. `service/examSubmitOnce.test.js`.
-4. **Disputes never revoke `examSimAccess`.** Refunds now have a supported
-   path (`service/scripts/refundPurchase.js`, see
-   `docs/adr/0011-a-refund-revokes-the-product.md`), but it is manual: nothing
-   listens for Stripe's `charge.refunded`, so a refund issued in the Stripe
-   dashboard alone still leaves the customer with the product and the money in
-   the revenue totals.
+4. **Refunds and disputes never revoked `examSimAccess`.** FIXED 2026-10-30:
+   the webhook listens for `charge.refunded` and `charge.dispute.*` and moves
+   the purchase to `refunded` or `disputed` (a won dispute restores it; a
+   partial refund changes nothing). The checkout return link no longer
+   re-grants a refunded purchase. `service/stripeReversals.test.js`, ADR 0036.
