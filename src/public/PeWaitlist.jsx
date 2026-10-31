@@ -4,6 +4,7 @@ import { useSeo } from '../seo/useSeo';
 import { pageTitle } from '../seo/pageTitle';
 import { AppArrow } from '../components/brand/AppArrow';
 import { PE_PROBLEMS, isRight } from './peProblems';
+import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
 import peekUrl from '../assets/brand/raccoon-peek.png';
 import './public.css';
 import './examGuide.css';
@@ -17,10 +18,10 @@ export const PE_PATH = '/pe-exam-prep';
 // one comes first. The page never says which exam we are building first
 // (owner, 2026-10-31).
 //
-// Layout (mock v3, owner 2026-10-31): a real problem is the hero, because the
-// problems are the taste of what we are building and most visitors never
-// scroll. The form asks only for email and exam; when they plan to sit it is
-// asked after they join.
+// Layout (owner 2026-10-31): joining is the first thing on the page and asks
+// only for an email. Which PE and when come after they join, optional. The
+// sample problems sit lower down as proof of what they signed up for, never
+// as work to do before joining.
 
 // Same keys as service/waitlist.js.
 export const EXAM_OPTIONS = [
@@ -43,7 +44,7 @@ export const WHEN_OPTIONS = [
 ];
 
 const BUILDING = [
-  ['Worked problems for every exam topic', 'Exam-depth problems like the ones above. Every solution shows each step, points to the handbook section, and explains each wrong answer.'],
+  ['Worked problems for every exam topic', 'Exam-depth problems like the ones below. Every solution shows each step, points to the handbook section, and explains each wrong answer.'],
   ['Practice that fits a commute', 'Ten-minute sets on the FE for Raccoons phone app: which method, which equation, which trap. The long calculations wait for your desk.'],
   ['Full timed practice exams', 'The real number of questions, the real clock, scored by topic.'],
 ];
@@ -74,27 +75,32 @@ function post(body) {
   });
 }
 
-// After joining: one optional question, when they plan to sit it. Joining
-// again with the same address only updates the row, so this is the same call.
-function WhenQuestion({ email, exam, place }) {
+// After joining: which PE and when, both optional. Joining again with the
+// same address only updates the row, so this is the same call.
+function AfterJoin({ email, place }) {
+  const [exam, setExam] = React.useState('');
   const [when, setWhen] = React.useState('');
   const [saved, setSaved] = React.useState(false);
   async function save(e) {
     e.preventDefault();
-    if (!when) return;
+    if (!exam && !when) return;
     try { await post({ email, exam, when, place }); } catch { /* it is optional */ }
     setSaved(true);
   }
-  if (saved) return <p className="pe-when-done">Saved. Thank you.</p>;
+  if (saved) return <p className="pe-when-done">Saved. Thank you, this tells us what to build first.</p>;
   return (
     <form className="pe-when" onSubmit={save}>
-      <label htmlFor={`pe-when-${place}`}>One more, if you like: when are you taking it?</label>
+      <p>Which PE are you taking? The answers decide which exam we build first.</p>
       <div>
-        <select id={`pe-when-${place}`} value={when} onChange={(e) => setWhen(e.target.value)}>
-          <option value="" disabled>Choose one</option>
+        <select aria-label="Which PE exam?" value={exam} onChange={(e) => setExam(e.target.value)}>
+          <option value="" disabled>Which PE exam?</option>
+          {EXAM_OPTIONS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+        </select>
+        <select aria-label="When are you taking it?" value={when} onChange={(e) => setWhen(e.target.value)}>
+          <option value="" disabled>When?</option>
           {WHEN_OPTIONS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
         </select>
-        <button type="submit" disabled={!when}>Save</button>
+        <button type="submit" disabled={!exam && !when}>Save</button>
       </div>
     </form>
   );
@@ -102,7 +108,6 @@ function WhenQuestion({ email, exam, place }) {
 
 function WaitlistForm({ place, dark = false }) {
   const [email, setEmail] = React.useState('');
-  const [exam, setExam] = React.useState('');
   const [website, setWebsite] = React.useState('');
   const [state, setState] = React.useState({ status: 'idle', msg: '' });
 
@@ -110,7 +115,7 @@ function WaitlistForm({ place, dark = false }) {
     e.preventDefault();
     setState({ status: 'sending', msg: '' });
     try {
-      const r = await post({ email, exam, place, website, ...attribution() });
+      const r = await post({ email, place, website, ...attribution() });
       const body = await r.json().catch(() => ({}));
       if (!r.ok) return setState({ status: 'error', msg: body.msg || 'That did not go through. Try again in a minute.' });
       setState({ status: 'done', msg: '' });
@@ -122,8 +127,8 @@ function WaitlistForm({ place, dark = false }) {
   if (state.status === 'done') {
     return (
       <div className="pe-done" role="status">
-        <p><strong>You are on the list.</strong> We sent a confirmation to {email.trim()}.</p>
-        <WhenQuestion email={email.trim()} exam={exam} place={place} />
+        <p><strong>You are on the waiting list.</strong> We sent a confirmation to {email.trim()}.</p>
+        <AfterJoin email={email.trim()} place={place} />
       </div>
     );
   }
@@ -131,14 +136,10 @@ function WaitlistForm({ place, dark = false }) {
   return (
     <form className={`pe-form${dark ? ' pe-form-dark' : ''}`} onSubmit={submit}>
       <input type="email" required autoComplete="email" placeholder="Your email" aria-label="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <select required aria-label="Which PE exam?" value={exam} onChange={(e) => setExam(e.target.value)}>
-        <option value="" disabled>Which PE exam?</option>
-        {EXAM_OPTIONS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
-      </select>
       {/* Hidden from people; a bot that fills it is thanked and dropped. */}
       <input className="pe-hp" type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" value={website} onChange={(e) => setWebsite(e.target.value)} />
       <button className="pub-btn pub-btn-primary" type="submit" disabled={state.status === 'sending'}>
-        {state.status === 'sending' ? 'Joining' : 'Join the list'} <AppArrow />
+        {state.status === 'sending' ? 'Joining' : 'Join the waiting list'} <AppArrow />
       </button>
       {state.status === 'error' && <p className="pe-error" role="alert">{state.msg}</p>}
     </form>
@@ -205,7 +206,7 @@ function Figure({ name }) {
   );
 }
 
-function ProblemPanel({ p, hidden = false, compact = false }) {
+function ProblemPanel({ p, hidden = false }) {
   const [picked, setPicked] = React.useState([]);
   const [typed, setTyped] = React.useState('');
   const [checked, setChecked] = React.useState(false);
@@ -228,8 +229,7 @@ function ProblemPanel({ p, hidden = false, compact = false }) {
   }
 
   return (
-    <div id={`pv-${p.id}`} hidden={hidden} className={compact ? 'pv-compact' : undefined}
-      {...(compact ? {} : { role: 'tabpanel', 'aria-labelledby': `pv-tab-${p.id}` })}>
+    <div id={`pv-${p.id}`} hidden={hidden} role="tabpanel" aria-labelledby={`pv-tab-${p.id}`}>
       <div className="pv-panel">
         <div>
           <p className="pv-stem">{p.stem}</p>
@@ -291,24 +291,13 @@ function ProblemPanel({ p, hidden = false, compact = false }) {
   );
 }
 
-// The first problem, as the hero: try it before anything else.
-function TryOne() {
-  return (
-    <div className="pe-try">
-      <div className="pe-try-head"><span>Try one now</span><span>About 6 min</span></div>
-      <ProblemPanel p={PE_PROBLEMS[0]} compact />
-    </div>
-  );
-}
-
-// The other two, in the exam's other two question formats.
+// The three sample problems, one per question format the exam uses.
 function ProblemViewer() {
-  const rest = PE_PROBLEMS.slice(1);
-  const [on, setOn] = React.useState(0);
+    const [on, setOn] = React.useState(0);
   return (
     <div className="pv">
-      <div className="pv-tabs pv-tabs-2" role="tablist" aria-label="Sample problems">
-        {rest.map((p, i) => (
+      <div className="pv-tabs" role="tablist" aria-label="Sample problems">
+        {PE_PROBLEMS.map((p, i) => (
           <button key={p.id} id={`pv-tab-${p.id}`} type="button" role="tab" aria-selected={on === i} aria-controls={`pv-${p.id}`}
             className={`pv-tab${on === i ? ' on' : ''}`} onClick={() => setOn(i)}>
             <span className="pv-tab-topic">{p.topic}</span>
@@ -317,8 +306,8 @@ function ProblemViewer() {
           </button>
         ))}
       </div>
-      <div className="pv-head"><span>Question {on + 2} of {PE_PROBLEMS.length}</span><span>About 6 min</span></div>
-      {rest.map((p, i) => <ProblemPanel key={p.id} p={p} hidden={on !== i} />)}
+      <div className="pv-head"><span>Question {on + 1} of {PE_PROBLEMS.length}</span><span>About 6 min</span></div>
+      {PE_PROBLEMS.map((p, i) => <ProblemPanel key={p.id} p={p} hidden={on !== i} />)}
     </div>
   );
 }
@@ -349,12 +338,11 @@ function BookStack({ className = '' }) {
   );
 }
 
-const ASK = 'Tell us which PE is yours when you join. The answers decide what we build first.';
 
 export function PeWaitlist() {
   const url = `${SITE}${PE_PATH}`;
-  const title = pageTitle('PE Exam Prep and Sample PE Civil Problems');
-  const description = 'PE exam prep for engineers with a full-time job, in the works. Try three PE Civil problems in the real exam formats with worked solutions, and join the list for when it opens.';
+  const title = pageTitle('PE Exam Prep Waiting List and Sample PE Problems');
+  const description = 'PE exam prep for engineers with a full-time job, in the works. Join the waiting list to hear first when it opens, and see three sample PE Civil problems with worked solutions.';
   useSeo({
     title,
     description,
@@ -374,41 +362,32 @@ export function PeWaitlist() {
     <main className="pub eg pe">
       <header className="pe-hero">
         <div className="pe-hero-text">
-          <h1>PE exam prep for engineers with a full&#8209;time job</h1>
+          <h1>Be the first to know when our PE prep is ready</h1>
           <p className="pub-lede">
-            We are working on high quality, affordable prep material for the PE exam. Try a real-format problem,
-            then join the list.
+            We built {PROBLEM_COUNT_LABEL} FE Civil problems and kept our FE Civil practice completely free. Now we are
+            building high quality, affordable material to pass the PE, made for engineers with a full&#8209;time job.
+            Join the waiting list and you hear the day it opens.
           </p>
           <WaitlistForm place="top" />
-          <p className="eg-checked">One email when it opens, and a short study note each month. Unsubscribe in one tap.</p>
+          <p className="eg-checked">Just your email. One message the day it opens, nothing else.</p>
         </div>
-        <TryOne />
+        <BookStack className="pe-hero-stack" />
       </header>
 
-      {/* On a phone the stack comes right after the first problem. */}
-      <section className="pe-yours">
-        <BookStack />
-        <p className="pe-ask">{ASK}</p>
+      <section className="eg-section pe-build">
+        <h2>What we are building</h2>
+        <ul className="pe-build-list">
+          {BUILDING.map(([h, p]) => <li key={h}><h3>{h}</h3><p>{p}</p></li>)}
+        </ul>
       </section>
 
       <section className="eg-section">
-        <h2>Two more, in the other exam formats</h2>
+        <h2>What our PE problems look like</h2>
         <p className="eg-intro">
-          The computer-based PE also asks you to type a number or pick every answer that applies. Each one comes with
-          a worked solution and the reasons the wrong answers are tempting.
+          Three samples, one in each format the computer-based exam uses. Every one comes with a worked solution, the
+          handbook section, and why each wrong answer is tempting.
         </p>
         <ProblemViewer />
-      </section>
-
-      <section className="eg-section pe-build">
-        <BookStack className="pe-stack-wide" />
-        <div>
-          <h2>What we are building</h2>
-          <ul className="pe-build-list">
-            {BUILDING.map(([h, p]) => <li key={h}><h3>{h}</h3><p>{p}</p></li>)}
-          </ul>
-          <p className="pe-ask pe-ask-wide">{ASK}</p>
-        </div>
       </section>
 
       <section className="eg-section pe-founder">
@@ -422,9 +401,9 @@ export function PeWaitlist() {
       </section>
 
       <section className="pub-final-cta">
-        <h2>Hear first when it is ready</h2>
+        <h2>Do not start the PE from scratch</h2>
         <p>
-          Join the list and tell us which PE you are taking. Our <Link to="/">FE Civil practice</Link> stays completely free.
+          Join the waiting list and hear first when it opens. Our <Link to="/">FE Civil practice</Link> stays completely free.
         </p>
         <WaitlistForm place="bottom" dark />
       </section>

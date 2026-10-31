@@ -174,7 +174,7 @@ const llms = `# FE for Raccoons
 ${TOPICS.map(([id, name]) => `- [${name}](${SITE}/fe-civil/${id}): what NCEES tests, key formulas, sample problems, common mistakes. [Free practice problems](${SITE}/fe-civil/${id}/practice-problems) with worked solutions.`).join('\n')}
 
 ## In development
-- [PE exam prep](${SITE}/pe-exam-prep): being built now. Three sample PE Civil problems in the real exam formats, with worked solutions, and a waitlist that asks which PE exam you are taking.
+- [PE exam prep](${SITE}/pe-exam-prep): being built now. A waiting list to hear first when it opens, and three sample PE Civil problems in the real exam formats with worked solutions.
 
 ## About
 - Audience: engineering students and EITs preparing for the FE Civil exam (the first step toward the PE license).
