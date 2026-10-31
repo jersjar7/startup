@@ -73,6 +73,8 @@ export function ExamSimulation() {
       '@type': 'Product',
       name: 'FE Civil Exam Simulation',
       description,
+      // Google drops a Product from price results without an image.
+      image: `${SITE}/exam-score-report.png`,
       brand: { '@type': 'Brand', name: 'FE for Raccoons' },
       url,
       offers: [
