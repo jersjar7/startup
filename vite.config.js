@@ -9,7 +9,7 @@ function contentStatsHtml() {
   return {
     name: 'fe4-content-stats-html',
     transformIndexHtml(html) {
-      let s = { problemsLabel: '1,126', chapters: 15 };
+      let s = { problemsLabel: '1,454', chapters: 15 };
       try { s = { ...s, ...JSON.parse(readFileSync(new URL('./content-stats.json', import.meta.url), 'utf8')) }; } catch { /* keep fallback */ }
       return html
         .replaceAll('%FE4_PROBLEMS%', s.problemsLabel)
