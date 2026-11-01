@@ -87,6 +87,13 @@ describe('GET /api/league', () => {
     expect(r.body.zones).toEqual({ promote: 1, demote: 0 });
   });
 
+  it('names the leagues above and below, and none past either end', async () => {
+    const r = await request(app()).get('/api/league').set(as('me@x.com'));
+    expect(r.body).toMatchObject({ nextTier: 'gold', nextTierName: 'Gold', prevTier: 'bronze', prevTierName: 'Bronze' });
+    const fresh = await request(app()).get('/api/league').set(as('new@x.com'));
+    expect(fresh.body).toMatchObject({ nextTierName: 'Bronze', prevTier: null, prevTierName: null });
+  });
+
   it('says when the week ends', async () => {
     const r = await request(app()).get('/api/league').set(as('me@x.com'));
     expect(new Date(r.body.weekEndsAt).getTime()).toBeGreaterThan(Date.now());
@@ -104,9 +111,9 @@ describe('GET /api/league', () => {
   });
 
   it('shows last week\'s result until it has been seen', async () => {
-    standings['me@x.com'].lastResult = { weekId: '2026-W44', tier: 'bronze', place: 2, size: 15, moved: 'up', newTier: 'silver', seen: false };
+    standings['me@x.com'].lastResult = { weekId: '2026-W44', tier: 'bronze', place: 2, size: 15, xp: 1180, moved: 'up', newTier: 'silver', seen: false };
     const first = await request(app()).get('/api/league').set(as('me@x.com'));
-    expect(first.body.lastResult).toMatchObject({ place: 2, moved: 'up', tierName: 'Bronze', newTierName: 'Silver' });
+    expect(first.body.lastResult).toMatchObject({ place: 2, xp: 1180, moved: 'up', tierName: 'Bronze', newTierName: 'Silver' });
     await request(app()).post('/api/league/seen').set(as('me@x.com'));
     const again = await request(app()).get('/api/league').set(as('me@x.com'));
     expect(again.body.lastResult).toBeNull();

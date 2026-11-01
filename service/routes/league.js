@@ -3,7 +3,7 @@ const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { leaderName } = require('./leaderboard.js');
 const { promotesIn, rankedMembers, moveSince } = require('../leagues/league.js');
-const { LEAGUE, STARTING_TIER, TIER_IDS, tierName } = require('../leagues/config.js');
+const { LEAGUE, STARTING_TIER, TIER_IDS, tierName, stepTier } = require('../leagues/config.js');
 const { currentWeekId, weekEndsAt } = require('../leagues/week.js');
 
 // The student's weekly league (ADR 0037): their tier, their group this week,
@@ -35,6 +35,19 @@ function resultView(r) {
     moved: r.moved,
     newTier: r.newTier,
     newTierName: tierName(r.newTier),
+    xp: r.xp || 0,
+  };
+}
+
+/** The leagues above and below, or null at either end. */
+function neighbours(tier) {
+  const up = stepTier(tier, 1);
+  const down = stepTier(tier, -1);
+  return {
+    nextTier: up === tier ? null : up,
+    nextTierName: up === tier ? null : tierName(up),
+    prevTier: down === tier ? null : down,
+    prevTierName: down === tier ? null : tierName(down),
   };
 }
 
@@ -74,6 +87,7 @@ router.get('/', verifyAuth, async (req, res) => {
     res.send({
       tier,
       tierName: tierName(tier),
+      ...neighbours(tier),
       weekId,
       weekEndsAt: weekEndsAt(now).toISOString(),
       joined,
