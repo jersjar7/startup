@@ -86,33 +86,33 @@ describe('what a week means for each tier', () => {
   const ranked = (n) => emails(n).map((email, i) => ({ email, xp: 1000 - i, place: i + 1 }));
 
   it('moves the top five up and the bottom three down', () => {
-    const r = resultsFor('concrete', ranked(15), '2026-W45');
+    const r = resultsFor('silver', ranked(15), '2026-W45');
     expect(r.filter((x) => x.moved === 'up').map((x) => x.place)).toEqual([1, 2, 3, 4, 5]);
     expect(r.filter((x) => x.moved === 'down').map((x) => x.place)).toEqual([13, 14, 15]);
-    expect(r[0].newTier).toBe('steel');
-    expect(r[14].newTier).toBe('masonry');
-    expect(r[7]).toMatchObject({ moved: 'stayed', newTier: 'concrete' });
+    expect(r[0].newTier).toBe('gold');
+    expect(r[14].newTier).toBe('bronze');
+    expect(r[7]).toMatchObject({ moved: 'stayed', newTier: 'silver' });
   });
 
   it('never sends anyone down from a group under eight', () => {
-    const r = resultsFor('concrete', ranked(LEAGUE.minGroupForDemotion - 1), '2026-W45');
+    const r = resultsFor('silver', ranked(LEAGUE.minGroupForDemotion - 1), '2026-W45');
     expect(r.some((x) => x.moved === 'down')).toBe(false);
   });
 
-  it('has nowhere up from Titanium and nowhere down from Timber', () => {
-    expect(resultsFor('titanium', ranked(15), 'w').some((x) => x.moved === 'up')).toBe(false);
-    expect(resultsFor('timber', ranked(15), 'w').some((x) => x.moved === 'down')).toBe(false);
+  it('has nowhere up from Platinum and nowhere down from Copper', () => {
+    expect(resultsFor('platinum', ranked(15), 'w').some((x) => x.moved === 'up')).toBe(false);
+    expect(resultsFor('copper', ranked(15), 'w').some((x) => x.moved === 'down')).toBe(false);
   });
 
   it('a small group moves up only its top third', () => {
-    expect(resultsFor('timber', ranked(3), 'w').filter((x) => x.moved === 'up').map((x) => x.place)).toEqual([1]);
-    expect(resultsFor('timber', ranked(7), 'w').filter((x) => x.moved === 'up')).toHaveLength(2);
-    expect(resultsFor('timber', ranked(8), 'w').filter((x) => x.moved === 'up')).toHaveLength(LEAGUE.promote);
+    expect(resultsFor('copper', ranked(3), 'w').filter((x) => x.moved === 'up').map((x) => x.place)).toEqual([1]);
+    expect(resultsFor('copper', ranked(7), 'w').filter((x) => x.moved === 'up')).toHaveLength(2);
+    expect(resultsFor('copper', ranked(8), 'w').filter((x) => x.moved === 'up')).toHaveLength(LEAGUE.promote);
   });
 
   it('a group of one or two moves nobody up', () => {
-    expect(resultsFor('timber', ranked(1), 'w').some((x) => x.moved === 'up')).toBe(false);
-    expect(resultsFor('timber', ranked(2), 'w').some((x) => x.moved === 'up')).toBe(false);
+    expect(resultsFor('copper', ranked(1), 'w').some((x) => x.moved === 'up')).toBe(false);
+    expect(resultsFor('copper', ranked(2), 'w').some((x) => x.moved === 'up')).toBe(false);
   });
 });
 
@@ -122,10 +122,10 @@ describe('joining a league', () => {
     expect(groups).toHaveLength(0);
   });
 
-  it('puts a new student in Timber', async () => {
+  it('puts a new student in Copper', async () => {
     await placeIfEarning('a@school.edu', 20, NOW);
-    expect(groups[0]).toMatchObject({ weekId: '2026-W45', tier: 'timber', groupNo: 1, members: ['a@school.edu'] });
-    expect(standings.get('a@school.edu')).toMatchObject({ tier: 'timber', weekId: '2026-W45' });
+    expect(groups[0]).toMatchObject({ weekId: '2026-W45', tier: 'copper', groupNo: 1, members: ['a@school.edu'] });
+    expect(standings.get('a@school.edu')).toMatchObject({ tier: 'copper', weekId: '2026-W45' });
   });
 
   it('places a student once a week, however often they earn XP', async () => {
@@ -141,9 +141,9 @@ describe('joining a league', () => {
   });
 
   it('joins their own tier', async () => {
-    standings.set('pro@school.edu', { email: 'pro@school.edu', tier: 'steel', history: [] });
+    standings.set('pro@school.edu', { email: 'pro@school.edu', tier: 'gold', history: [] });
     await placeIfEarning('pro@school.edu', 10, NOW);
-    expect(groups[0].tier).toBe('steel');
+    expect(groups[0].tier).toBe('gold');
   });
 
   it('never places internal or test accounts', async () => {
@@ -165,7 +165,7 @@ describe('closing the week', () => {
   // A log with one practice session worth `xp` on a day of 2026-W45.
   const logFor = (xp, ts = 1) => [{ kind: 'session', source: 'web', localDate: '2026-11-04', ts, data: { xp } }];
 
-  async function fill(n, tier = 'concrete') {
+  async function fill(n, tier = 'silver') {
     const list = emails(n);
     for (const e of list) {
       standings.set(e, { email: e, tier, history: [] });
@@ -185,10 +185,10 @@ describe('closing the week', () => {
     const xpOf = Object.fromEntries(list.map((e, i) => [e, 100 * (i + 1)])); // s15 earned most
     const s = await closeEndedWeeks(NEXT_SUNDAY, { loadEvents: async (e) => logFor(xpOf[e]) });
     expect(s).toMatchObject({ groups: 1, students: 15, up: 5, down: 3 });
-    expect(standings.get('s15@school.edu')).toMatchObject({ tier: 'steel' });
+    expect(standings.get('s15@school.edu')).toMatchObject({ tier: 'gold' });
     expect(standings.get('s15@school.edu').lastResult).toMatchObject({ place: 1, moved: 'up', seen: false });
-    expect(standings.get('s1@school.edu')).toMatchObject({ tier: 'masonry' });
-    expect(standings.get('s8@school.edu')).toMatchObject({ tier: 'concrete' });
+    expect(standings.get('s1@school.edu')).toMatchObject({ tier: 'bronze' });
+    expect(standings.get('s8@school.edu')).toMatchObject({ tier: 'silver' });
   });
 
   it('running twice changes nothing the second time', async () => {
@@ -220,13 +220,13 @@ describe('the admin line', () => {
   const { summarizeWeeks } = require('./leagues/league.js');
   it('counts groups and students per tier, and last week\'s moves', () => {
     const s = summarizeWeeks(
-      [{ tier: 'timber', members: ['a', 'b'] }, { tier: 'timber', members: ['c'] }, { tier: 'steel', members: ['d'] }],
-      [{ tier: 'concrete', closedAt: new Date(), results: [{ moved: 'up' }, { moved: 'down' }, { moved: 'stayed' }] }],
+      [{ tier: 'copper', members: ['a', 'b'] }, { tier: 'copper', members: ['c'] }, { tier: 'gold', members: ['d'] }],
+      [{ tier: 'silver', closedAt: new Date(), results: [{ moved: 'up' }, { moved: 'down' }, { moved: 'stayed' }] }],
     );
     expect(s.thisWeek).toMatchObject({ placed: 4, groups: 3 });
-    expect(s.thisWeek.tiers.timber).toMatchObject({ groups: 2, students: 3 });
+    expect(s.thisWeek.tiers.copper).toMatchObject({ groups: 2, students: 3 });
     expect(s.lastWeek).toMatchObject({ closed: 1 });
-    expect(s.lastWeek.moves.concrete).toEqual({ up: 1, down: 1, stayed: 1 });
+    expect(s.lastWeek.moves.silver).toEqual({ up: 1, down: 1, stayed: 1 });
     expect(JSON.stringify(s)).not.toMatch(/"a"|"b"/);
   });
 });

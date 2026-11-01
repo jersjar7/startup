@@ -13,12 +13,12 @@ const WEEK = currentWeekId();
 
 beforeEach(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {});
-  group = { _id: 'g1', weekId: WEEK, tier: 'concrete', members: ['me@x.com', 'ana@x.com', 'shy@x.com', 'top@x.com'] };
+  group = { _id: 'g1', weekId: WEEK, tier: 'silver', members: ['me@x.com', 'ana@x.com', 'shy@x.com', 'top@x.com'] };
   standings = {
-    'me@x.com': { email: 'me@x.com', tier: 'concrete', weekId: WEEK, groupId: 'g1', hidden: false },
-    'ana@x.com': { email: 'ana@x.com', tier: 'concrete', weekId: WEEK, groupId: 'g1' },
-    'shy@x.com': { email: 'shy@x.com', tier: 'concrete', weekId: WEEK, groupId: 'g1', hidden: true },
-    'top@x.com': { email: 'top@x.com', tier: 'concrete', weekId: WEEK, groupId: 'g1' },
+    'me@x.com': { email: 'me@x.com', tier: 'silver', weekId: WEEK, groupId: 'g1', hidden: false },
+    'ana@x.com': { email: 'ana@x.com', tier: 'silver', weekId: WEEK, groupId: 'g1' },
+    'shy@x.com': { email: 'shy@x.com', tier: 'silver', weekId: WEEK, groupId: 'g1', hidden: true },
+    'top@x.com': { email: 'top@x.com', tier: 'silver', weekId: WEEK, groupId: 'g1' },
   };
   const info = {
     'me@x.com': { email: 'me@x.com', firstName: 'Maria', lastName: 'Gomez', weeklyXp: 300 },
@@ -35,7 +35,7 @@ beforeEach(() => {
     getLeagueMemberInfo: async (emails) => emails.map((e) => info[e]),
     getLeagueStandings: async (emails) => emails.map((e) => standings[e]).filter(Boolean),
     markLeagueResultSeen: async (e) => { if (standings[e]?.lastResult) standings[e].lastResult.seen = true; },
-    setLeagueHidden: async (e, hidden) => { standings[e] = { ...(standings[e] || { email: e, tier: 'timber' }), hidden }; },
+    setLeagueHidden: async (e, hidden) => { standings[e] = { ...(standings[e] || { email: e, tier: 'copper' }), hidden }; },
   });
 });
 
@@ -52,7 +52,7 @@ describe('GET /api/league', () => {
   it('shows the group ranked by this week\'s XP, with me marked', async () => {
     const r = await request(app()).get('/api/league').set(as('me@x.com'));
     expect(r.status).toBe(200);
-    expect(r.body).toMatchObject({ tier: 'concrete', tierName: 'Concrete', weekId: WEEK, joined: true });
+    expect(r.body).toMatchObject({ tier: 'silver', tierName: 'Silver', weekId: WEEK, joined: true });
     expect(r.body.rows.map((x) => [x.place, x.name, x.xp, x.isMe])).toEqual([
       [1, 'Tom', 900, false],
       [2, 'A student', 500, false],
@@ -82,20 +82,20 @@ describe('GET /api/league', () => {
   });
 
   it('before the first XP of the week: their tier, no rows', async () => {
-    standings['me@x.com'] = { email: 'me@x.com', tier: 'steel', weekId: '2020-W01', groupId: 'old' };
+    standings['me@x.com'] = { email: 'me@x.com', tier: 'gold', weekId: '2020-W01', groupId: 'old' };
     const r = await request(app()).get('/api/league').set(as('me@x.com'));
-    expect(r.body).toMatchObject({ tier: 'steel', tierName: 'Steel', joined: false, rows: [] });
+    expect(r.body).toMatchObject({ tier: 'gold', tierName: 'Gold', joined: false, rows: [] });
   });
 
-  it('a brand new student is in Timber', async () => {
+  it('a brand new student is in Copper', async () => {
     const r = await request(app()).get('/api/league').set(as('new@x.com'));
-    expect(r.body).toMatchObject({ tier: 'timber', joined: false, lastResult: null });
+    expect(r.body).toMatchObject({ tier: 'copper', joined: false, lastResult: null });
   });
 
   it('shows last week\'s result until it has been seen', async () => {
-    standings['me@x.com'].lastResult = { weekId: '2026-W44', tier: 'masonry', place: 2, size: 15, moved: 'up', newTier: 'concrete', seen: false };
+    standings['me@x.com'].lastResult = { weekId: '2026-W44', tier: 'bronze', place: 2, size: 15, moved: 'up', newTier: 'silver', seen: false };
     const first = await request(app()).get('/api/league').set(as('me@x.com'));
-    expect(first.body.lastResult).toMatchObject({ place: 2, moved: 'up', tierName: 'Masonry', newTierName: 'Concrete' });
+    expect(first.body.lastResult).toMatchObject({ place: 2, moved: 'up', tierName: 'Bronze', newTierName: 'Silver' });
     await request(app()).post('/api/league/seen').set(as('me@x.com'));
     const again = await request(app()).get('/api/league').set(as('me@x.com'));
     expect(again.body.lastResult).toBeNull();

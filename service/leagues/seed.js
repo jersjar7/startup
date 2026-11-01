@@ -1,8 +1,8 @@
 // The first league week's starting tiers (ADR 0037, decision 5): regular
-// students should not spend a month climbing out of Timber. Everyone who
+// students should not spend a month climbing out of Copper. Everyone who
 // earned XP in the four weeks before leagues start is ranked by that XP and
 // split into five equal bands, one per tier. Nobody else is seeded; a
-// student with no recent XP starts in Timber like a new one.
+// student with no recent XP starts in Copper like a new one.
 const { TIER_IDS } = require('./config.js');
 
 /**

@@ -9,11 +9,11 @@ const num = (v, fallback) => {
 
 /** Weakest to strongest. A student's tier is one of these ids. */
 const TIERS = [
-  { id: 'timber', name: 'Timber' },
-  { id: 'masonry', name: 'Masonry' },
-  { id: 'concrete', name: 'Concrete' },
-  { id: 'steel', name: 'Steel' },
-  { id: 'titanium', name: 'Titanium' },
+  { id: 'copper', name: 'Copper' },
+  { id: 'bronze', name: 'Bronze' },
+  { id: 'silver', name: 'Silver' },
+  { id: 'gold', name: 'Gold' },
+  { id: 'platinum', name: 'Platinum' },
 ];
 
 const LEAGUE = {

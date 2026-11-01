@@ -7,19 +7,19 @@ const { leagueStandingCollection } = require('./db/connection.js');
 // The weekly digest's league sentence (ADR 0037).
 
 describe('the league line', () => {
-  const base = { place: 2, size: 15, tierName: 'Masonry', newTierName: 'Concrete' };
+  const base = { place: 2, size: 15, tierName: 'Bronze', newTierName: 'Silver' };
 
   it('says when they moved up', () => {
-    expect(leagueLine({ ...base, moved: 'up' })).toBe('You finished 2nd of 15 in your Masonry league and moved up to Concrete.');
+    expect(leagueLine({ ...base, moved: 'up' })).toBe('You finished 2nd of 15 in your Bronze league and moved up to Silver.');
   });
 
   it('says where they are after moving down, without scolding', () => {
-    expect(leagueLine({ ...base, place: 13, moved: 'down', tierName: 'Concrete', newTierName: 'Masonry' }))
-      .toBe('You finished 13th of 15 in your Concrete league. This week you are in Masonry.');
+    expect(leagueLine({ ...base, place: 13, moved: 'down', tierName: 'Silver', newTierName: 'Bronze' }))
+      .toBe('You finished 13th of 15 in your Silver league. This week you are in Bronze.');
   });
 
   it('says they stay', () => {
-    expect(leagueLine({ ...base, place: 11, moved: 'stayed' })).toBe('You finished 11th of 15 in your Masonry league and stay in Masonry this week.');
+    expect(leagueLine({ ...base, place: 11, moved: 'stayed' })).toBe('You finished 11th of 15 in your Bronze league and stay in Bronze this week.');
   });
 
   it('is left out when they were not in a league', () => {
@@ -37,16 +37,16 @@ describe('last week\'s result for the digest', () => {
   it('finds the week that just ended', async () => {
     leagueStandingCollection.findOne = async () => ({
       history: [
-        { weekId: '2026-W44', tier: 'timber', newTier: 'masonry', place: 3, size: 15, moved: 'up' },
-        { weekId: '2026-W45', tier: 'masonry', newTier: 'masonry', place: 7, size: 15, moved: 'stayed' },
+        { weekId: '2026-W44', tier: 'copper', newTier: 'bronze', place: 3, size: 15, moved: 'up' },
+        { weekId: '2026-W45', tier: 'bronze', newTier: 'bronze', place: 7, size: 15, moved: 'stayed' },
       ],
     });
     const r = await lastWeekLeagueResult('a@x.com', new Date('2026-11-09T15:00:00Z')); // Monday of W46
-    expect(r).toMatchObject({ weekId: '2026-W45', place: 7, tierName: 'Masonry', newTierName: 'Masonry' });
+    expect(r).toMatchObject({ weekId: '2026-W45', place: 7, tierName: 'Bronze', newTierName: 'Bronze' });
   });
 
   it('is null when they sat last week out', async () => {
-    leagueStandingCollection.findOne = async () => ({ history: [{ weekId: '2026-W40', tier: 'timber', newTier: 'timber' }] });
+    leagueStandingCollection.findOne = async () => ({ history: [{ weekId: '2026-W40', tier: 'copper', newTier: 'copper' }] });
     expect(await lastWeekLeagueResult('a@x.com', new Date('2026-11-09T15:00:00Z'))).toBeNull();
   });
 });
