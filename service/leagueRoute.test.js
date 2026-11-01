@@ -1,0 +1,121 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+const express = require('express');
+const request = require('supertest');
+const DB = require('./database.js');
+const { currentWeekId } = require('./leagues/week.js');
+
+// GET /api/league and its two writes, against an in-memory store. This is
+// the contract the website and the phone app both read (ADR 0037).
+
+let standings;
+let group;
+const WEEK = currentWeekId();
+
+beforeEach(() => {
+  vi.spyOn(console, 'error').mockImplementation(() => {});
+  group = { _id: 'g1', weekId: WEEK, tier: 'concrete', members: ['me@x.com', 'ana@x.com', 'shy@x.com', 'top@x.com'] };
+  standings = {
+    'me@x.com': { email: 'me@x.com', tier: 'concrete', weekId: WEEK, groupId: 'g1', hidden: false },
+    'ana@x.com': { email: 'ana@x.com', tier: 'concrete', weekId: WEEK, groupId: 'g1' },
+    'shy@x.com': { email: 'shy@x.com', tier: 'concrete', weekId: WEEK, groupId: 'g1', hidden: true },
+    'top@x.com': { email: 'top@x.com', tier: 'concrete', weekId: WEEK, groupId: 'g1' },
+  };
+  const info = {
+    'me@x.com': { email: 'me@x.com', firstName: 'Maria', lastName: 'Gomez', weeklyXp: 300 },
+    'ana@x.com': { email: 'ana@x.com', weeklyXp: 120 },
+    'shy@x.com': { email: 'shy@x.com', firstName: 'Sam', lastName: 'Lee', weeklyXp: 500 },
+    'top@x.com': { email: 'top@x.com', firstName: 'Tom', weeklyXp: 900 },
+  };
+  Object.assign(DB, {
+    getSessionByToken: async (token) => ({ email: token, lastSeen: new Date() }),
+    getUser: async (e) => ({ email: e }),
+    touchSession: async () => {},
+    getLeagueStanding: async (e) => standings[e] || null,
+    getLeagueGroup: async (id) => (id === 'g1' ? group : null),
+    getLeagueMemberInfo: async (emails) => emails.map((e) => info[e]),
+    getLeagueStandings: async (emails) => emails.map((e) => standings[e]).filter(Boolean),
+    markLeagueResultSeen: async (e) => { if (standings[e]?.lastResult) standings[e].lastResult.seen = true; },
+    setLeagueHidden: async (e, hidden) => { standings[e] = { ...(standings[e] || { email: e, tier: 'timber' }), hidden }; },
+  });
+});
+
+function app() {
+  const a = express();
+  a.use(express.json());
+  a.use(require('cookie-parser')());
+  a.use('/api/league', require('./routes/league.js'));
+  return a;
+}
+const as = (e) => ({ Authorization: `Bearer ${e}` });
+
+describe('GET /api/league', () => {
+  it('shows the group ranked by this week\'s XP, with me marked', async () => {
+    const r = await request(app()).get('/api/league').set(as('me@x.com'));
+    expect(r.status).toBe(200);
+    expect(r.body).toMatchObject({ tier: 'concrete', tierName: 'Concrete', weekId: WEEK, joined: true });
+    expect(r.body.rows.map((x) => [x.place, x.name, x.xp, x.isMe])).toEqual([
+      [1, 'Tom', 900, false],
+      [2, 'A student', 500, false],
+      [3, 'Maria G.', 300, true],
+      [4, 'ana***', 120, false],
+    ]);
+  });
+
+  it('never shows anyone\'s email, only the masked start', async () => {
+    const r = await request(app()).get('/api/league').set(as('me@x.com'));
+    expect(JSON.stringify(r.body)).not.toContain('@x.com');
+  });
+
+  it('a hidden student still sees their own name', async () => {
+    const r = await request(app()).get('/api/league').set(as('shy@x.com'));
+    expect(r.body.rows.find((x) => x.isMe).name).toBe('Sam L.');
+  });
+
+  it('a small group moves the whole group up but sends nobody down', async () => {
+    const r = await request(app()).get('/api/league').set(as('me@x.com'));
+    expect(r.body.zones).toEqual({ promote: 4, demote: 0 });
+  });
+
+  it('says when the week ends', async () => {
+    const r = await request(app()).get('/api/league').set(as('me@x.com'));
+    expect(new Date(r.body.weekEndsAt).getTime()).toBeGreaterThan(Date.now());
+  });
+
+  it('before the first XP of the week: their tier, no rows', async () => {
+    standings['me@x.com'] = { email: 'me@x.com', tier: 'steel', weekId: '2020-W01', groupId: 'old' };
+    const r = await request(app()).get('/api/league').set(as('me@x.com'));
+    expect(r.body).toMatchObject({ tier: 'steel', tierName: 'Steel', joined: false, rows: [] });
+  });
+
+  it('a brand new student is in Timber', async () => {
+    const r = await request(app()).get('/api/league').set(as('new@x.com'));
+    expect(r.body).toMatchObject({ tier: 'timber', joined: false, lastResult: null });
+  });
+
+  it('shows last week\'s result until it has been seen', async () => {
+    standings['me@x.com'].lastResult = { weekId: '2026-W44', tier: 'masonry', place: 2, size: 15, moved: 'up', newTier: 'concrete', seen: false };
+    const first = await request(app()).get('/api/league').set(as('me@x.com'));
+    expect(first.body.lastResult).toMatchObject({ place: 2, moved: 'up', tierName: 'Masonry', newTierName: 'Concrete' });
+    await request(app()).post('/api/league/seen').set(as('me@x.com'));
+    const again = await request(app()).get('/api/league').set(as('me@x.com'));
+    expect(again.body.lastResult).toBeNull();
+  });
+
+  it('needs a signed-in student', async () => {
+    const r = await request(app()).get('/api/league');
+    expect(r.status).toBe(401);
+  });
+});
+
+describe('POST /api/league/hidden', () => {
+  it('saves the switch', async () => {
+    const r = await request(app()).post('/api/league/hidden').set(as('me@x.com')).send({ hidden: true });
+    expect(r.body).toEqual({ ok: true, hidden: true });
+    expect(standings['me@x.com'].hidden).toBe(true);
+  });
+
+  it('refuses anything but true or false', async () => {
+    const r = await request(app()).post('/api/league/hidden').set(as('me@x.com')).send({ hidden: 'yes' });
+    expect(r.status).toBe(400);
+  });
+});

@@ -163,6 +163,7 @@ apiRouter.use('/content', require('./routes/content.js'));
 apiRouter.use('/packs', require('./routes/packs.js')());
 apiRouter.use('/sync', require('./routes/sync.js'));
 apiRouter.use('/leaderboard', require('./routes/leaderboard.js'));
+apiRouter.use('/league', require('./routes/league.js'));
 apiRouter.use('/daily', require('./routes/daily.js'));
 apiRouter.use('/challenge', require('./routes/challenge.js'));
 apiRouter.use('/community', require('./routes/community.js'));
