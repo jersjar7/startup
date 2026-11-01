@@ -11,6 +11,10 @@ import { RaccoonPeek } from '../components/brand/RaccoonPeek';
 import './public.css';
 import { pageTitle } from '../seo/pageTitle';
 
+// Buying needs an account: a visitor without one lands on signup and goes on
+// to checkout after it; someone logged in skips straight to checkout.
+const BUY_LINK = { to: '/login?mode=create', state: { mode: 'create', returnTo: '/exam' } };
+
 const SITE = 'https://fe4raccoons.com';
 
 // OUR simulation's timing, which is not the same as EXAM_FACTS.durationLabel,
@@ -132,10 +136,10 @@ export function ExamSimulation() {
             <Link className="pub-btn pub-btn-primary" to="/exam/preview">
               Try 10 questions free <AppArrow />
             </Link>
-            <Link className="pub-btn pub-btn-ghost" to="/exam">See the full simulation</Link>
+            <Link className="pub-btn pub-btn-ghost" {...BUY_LINK}>Buy the full simulation, ${STANDARD_PRICE}</Link>
           </div>
         </div>
-        <div className="pub-hero-icon pub-hero-icon--bare"><Timer size={44} weight="duotone" /></div>
+        <div className="pub-hero-icon"><Timer size={44} weight="duotone" /></div>
       </header>
 
       <section className="pub-section">
@@ -310,10 +314,10 @@ export function ExamSimulation() {
           your access is extended free.
         </p>
         <div className="pub-cta-row">
-          <Link className="pub-btn pub-btn-primary" to="/exam/preview">
-            Try 10 questions free <AppArrow />
+          <Link className="pub-btn pub-btn-primary" {...BUY_LINK}>
+            Buy the full simulation, ${STANDARD_PRICE} <AppArrow />
           </Link>
-          <Link className="pub-btn pub-btn-ghost" to="/exam">See the full simulation</Link>
+          <Link className="pub-btn pub-btn-ghost" to="/exam/preview">Try 10 questions free</Link>
         </div>
         <p className="pub-note">
           The preview uses the same interface and the same clock. No account

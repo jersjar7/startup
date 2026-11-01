@@ -5,6 +5,7 @@ import { SignIn, UserPlus, PaperPlaneTilt, ArrowLeft, Eye, EyeSlash } from '@pho
 import { SourcePrompt } from '../dashboard/SourcePrompt';
 import { SchoolPrompt } from '../dashboard/SchoolPrompt';
 import { examDateBounds } from '../data/examDateBounds';
+import { PROBLEM_COUNT_LABEL, LESSON_COUNT, CHAPTER_COUNT } from '../data/contentStats';
 import './index.css';
 
 export function Login({ userName, onLogin }) {
@@ -26,7 +27,12 @@ export function Login({ userName, onLogin }) {
   const [firstName, setFirstName] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
   // One form, one mode at a time, returning users never parse signup chrome.
-  const [mode, setMode] = React.useState('login'); // 'login' | 'create'
+  // Every "Create your free account" button on the site opens create mode
+  // directly, by router state or ?mode=create; anything else opens log in.
+  const [mode, setMode] = React.useState(() =>
+    location.state?.mode === 'create' || new URLSearchParams(location.search).get('mode') === 'create'
+      ? 'create'
+      : 'login'); // 'login' | 'create'
   // Set once registration succeeds: swaps the form for the one attribution
   // question, then routes on. See handleRegister.
   const [justRegistered, setJustRegistered] = React.useState(false);
@@ -221,20 +227,26 @@ export function Login({ userName, onLogin }) {
               <SourcePrompt
                 className="is-standalone"
                 dismissible={false}
-                onClose={() => setOnboardStep('school')}
+                // Buyers sent from /exam skip the school question and go
+                // straight on to checkout after the date.
+                onClose={() => setOnboardStep(dest.startsWith('/exam') ? 'examDate' : 'school')}
               />
             </>
           ) : onboardStep === 'school' ? (
             <>
-              <p className="login-subtitle">Two more and you&rsquo;re done.</p>
-              {/* Not dismissible for the same reason as the question above it:
-                  this screen exists to ask. The prompt carries its own
-                  "Not a student" out, so nobody is stuck here. */}
+              <p className="login-subtitle">Two optional questions.</p>
+              {/* No X: the screen exists to ask. "Not a student" and Skip
+                  below are the ways past it. */}
               <SchoolPrompt
                 className="is-standalone"
                 dismissible={false}
                 onClose={() => setOnboardStep('examDate')}
               />
+              <p style={{ marginTop: '0.75rem' }}>
+                <button type="button" className="forgot-link" onClick={() => setOnboardStep('examDate')}>
+                  Skip
+                </button>
+              </p>
             </>
           ) : (
             <>
@@ -277,8 +289,20 @@ export function Login({ userName, onLogin }) {
   return (
     <main className="login-main">
       <div className="login-form-container">
-        <h2>Welcome to FE&nbsp;for&nbsp;Raccoons</h2>
-        <p className="login-subtitle">Log in or create a free account.</p>
+        {mode === 'create' ? (
+          <>
+            <h2>Create your free account</h2>
+            <p className="login-subtitle">
+              All {CHAPTER_COUNT} chapters, {LESSON_COUNT} lessons and {PROBLEM_COUNT_LABEL} FE Civil problems with worked
+              solutions. Completely free.
+            </p>
+          </>
+        ) : (
+          <>
+            <h2>Welcome to FE&nbsp;for&nbsp;Raccoons</h2>
+            <p className="login-subtitle">Log in or create a free account.</p>
+          </>
+        )}
         {sessionExpired && (
           <p role="status" style={{ background: 'var(--sunbeam-bg)', color: 'var(--charcoal)', padding: '0.6rem 0.8rem', borderRadius: '8px', fontSize: '0.85rem', marginBottom: '0.75rem' }}>
             Your session expired. Please sign in again.
@@ -371,7 +395,7 @@ export function Login({ userName, onLogin }) {
             ) : (
               <button type="button" className="btn--primary" disabled={submitting || !(email && password)} onClick={handleRegister}>
                 <UserPlus weight="bold" size={18} />
-                {submitting ? 'Please wait...' : 'Create account'}
+                {submitting ? 'Please wait...' : 'Create your free account'}
               </button>
             )}
           </div>
@@ -379,7 +403,7 @@ export function Login({ userName, onLogin }) {
             {mode === 'login' ? (
               <>New here?{' '}
                 <button type="button" className="forgot-link" onClick={() => { setMode('create'); setError(''); }}>
-                  Create a free account
+                  Create your free account
                 </button>
               </>
             ) : (

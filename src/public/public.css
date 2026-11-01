@@ -49,10 +49,9 @@
 }
 .pub-hero-text { flex: 1 1 auto; min-width: 0; }
 .pub-hero-text h1 { margin-bottom: 16px; }
-.pub-hero-icon { flex-shrink: 0; color: var(--pub-accent); display: grid; place-items: center;
-  width: 96px; height: 96px; border-radius: 20px; background: var(--pub-accent-bg); }
-/* Modifier, not a change to the base: the guide hero still uses the tinted tile. */
-.pub-hero-icon--bare { background: none; }
+/* Icons stand alone, never on a tinted tile (brand rule). */
+.pub-hero-icon { flex-shrink: 0; color: var(--pub-accent); display: grid; place-items: center; width: 96px; height: 96px; }
+.pub-hero-coin { flex-shrink: 0; }
 .pub-lede { font-size: 1.15rem; color: #4a4a4a; max-width: 60ch; margin: 0; }
 
 .pub-cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
@@ -119,7 +118,7 @@
 .pub-eli5 summary::before { content: '＋ '; font-weight: 700; }
 .pub-eli5[open] summary::before { content: '－ '; }
 .pub-eli5 p { margin: 10px 0 0; font-size: 0.95rem; color: #4a4a4a; }
-.pub-note { font-size: 0.92rem; color: var(--gray-500); margin-top: 18px; }
+.pub .pub-note { font-size: 0.92rem; color: var(--gray-500); margin-top: 18px; }
 
 /* Common mistakes: accent-marked rows */
 .pub-traps { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
@@ -199,6 +198,7 @@
 
 @media (max-width: 720px) {
   .pub-hero { flex-direction: column; align-items: flex-start; padding: 32px 24px; }
+  .pub-hero-coin, .pub-hero-icon { display: none; }
 }
 @media (max-width: 600px) {
   .pub { padding: 24px 16px 56px; }

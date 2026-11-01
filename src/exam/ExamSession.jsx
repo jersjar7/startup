@@ -636,7 +636,7 @@ export function ExamSession({ userName, preview = false }) {
               exam day, with <strong>unlimited retakes</strong> and a money-back guarantee.
             </p>
             <button className="btn-primary" onClick={() => navigate('/exam')}>
-              Unlock the full exam for ${priceForEmail(userName)}
+              Buy the full 110-question simulation for ${priceForEmail(userName)}
               <ArrowRight size={16} weight="bold" />
             </button>
             <button className="btn-secondary" onClick={() => window.location.reload()}>

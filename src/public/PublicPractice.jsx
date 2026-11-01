@@ -6,7 +6,7 @@ import { NotFound } from '../components/NotFound';
 import { useSeo } from '../seo/useSeo';
 import { getTopic } from './content';
 import { getChapterPracticeProblems } from '../data/chapter-practice/index';
-import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
+import { PROBLEM_COUNT, PROBLEM_COUNT_LABEL } from '../data/contentStats';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import { AppArrow } from '../components/brand/AppArrow';
 import './public.css';
@@ -186,9 +186,9 @@ export function PublicPractice() {
       </section>
 
       <section className="pub-final-cta">
-        <h2>Keep going</h2>
-        <p>These are {problems.length} of {PROBLEM_COUNT_LABEL} problems across all 15 FE Civil chapters, with lessons and progress that remembers what you missed. Completely free.</p>
-        <Link className="pub-btn pub-btn-primary" to="/login">Create a free account <AppArrow /></Link>
+        <h2>{(PROBLEM_COUNT - problems.length).toLocaleString('en-US')} more problems like these, completely free</h2>
+        <p>These are {problems.length} of {PROBLEM_COUNT_LABEL} problems across all 15 FE Civil chapters, with lessons and progress that remembers what you missed.</p>
+        <Link className="pub-btn pub-btn-primary" to="/login?mode=create" state={{ mode: 'create' }}>Create your free account <AppArrow /></Link>
       </section>
     </main>
   );

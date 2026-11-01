@@ -21,7 +21,7 @@ describe('free practice problems page', () => {
     const count = getChapterPracticeProblems('statics').length;
     expect(screen.getByRole('heading', { level: 1, name: 'FE Civil Statics practice problems' })).toBeInTheDocument();
     expect(screen.getAllByRole('article')).toHaveLength(count);
-    expect(screen.getByRole('link', { name: 'Create a free account' })).toHaveAttribute('href', '/login');
+    expect(screen.getByRole('link', { name: /Create your free account/ })).toHaveAttribute('href', '/login?mode=create');
   });
 
   it('marks the pick, opens the worked solution, and keeps score', () => {

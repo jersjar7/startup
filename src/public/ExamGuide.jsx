@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSeo } from '../seo/useSeo';
 import { allTopics, EXAM_FACTS, EXAM_DAY, FE_PASS_RATE, CHECKED_ON } from './content';
-import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
+import { PROBLEM_COUNT_LABEL, LESSON_COUNT, CHAPTER_COUNT } from '../data/contentStats';
 import { AppArrow } from '../components/brand/AppArrow';
 import { RaccoonPeek } from '../components/brand/RaccoonPeek';
 import { ChapterCoin } from '../components/brand/ChapterCoin';
@@ -253,7 +253,7 @@ export function ExamGuide() {
             Then a 10-week plan to get ready. Every fact is checked against NCEES.
           </p>
           <div className="pub-cta-row">
-            <Link className="pub-btn pub-btn-primary" to="/login">Start practicing free <AppArrow /></Link>
+            <Link className="pub-btn pub-btn-primary" to="/login?mode=create" state={{ mode: 'create' }}>Create your free account <AppArrow /></Link>
           </div>
           <p className="eg-checked">Checked against ncees.org on {CHECKED_ON.label}.</p>
         </div>
@@ -455,8 +455,8 @@ export function ExamGuide() {
 
       <section className="pub-final-cta">
         <h2>Start with one chapter today</h2>
-        <p>Free FE Civil practice across all 15 topics: bite-sized lessons, {PROBLEM_COUNT_LABEL} problems with worked solutions, and progress that remembers what you missed. Completely free.</p>
-        <Link className="pub-btn pub-btn-primary" to="/login">Create a free account <AppArrow /></Link>
+        <p>{PROBLEM_COUNT_LABEL} FE Civil problems with worked solutions and {LESSON_COUNT} lessons across all {CHAPTER_COUNT} topics, with progress that remembers what you missed. Completely free.</p>
+        <Link className="pub-btn pub-btn-primary" to="/login?mode=create" state={{ mode: 'create' }}>Create your free account <AppArrow /></Link>
       </section>
     </main>
   );
