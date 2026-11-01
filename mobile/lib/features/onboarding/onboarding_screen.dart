@@ -381,7 +381,7 @@ class _Together extends StatelessWidget {
               title: 'Learn it',
               lines: [
                 '135 lessons with full solutions',
-                '1,126 exam-style problems',
+                '1,454 exam-style problems',
                 'The 6-hour exam simulation',
                 'Your mastery, chapter by chapter',
               ],
