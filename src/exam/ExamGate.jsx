@@ -311,21 +311,21 @@ export function ExamGate({ userName }) {
                 </div>
               </div>
               <div className="exam-gate-feature">
-                <ClockCountdown weight="bold" size={20} className="egf-icon egf-icon--ember" />
+                <ClockCountdown weight="bold" size={20} className="egf-icon egf-icon--sunbeam" />
                 <div>
                   <span className="egf-label">5 hours 20 minutes</span>
                   <span className="egf-desc">Same time limit as the real exam</span>
                 </div>
               </div>
               <div className="exam-gate-feature">
-                <ChartBar weight="bold" size={20} className="egf-icon egf-icon--ember" />
+                <ChartBar weight="bold" size={20} className="egf-icon egf-icon--forest" />
                 <div>
                   <span className="egf-label">Per-chapter score breakdown</span>
                   <span className="egf-desc">See exactly where you're strong and where to focus</span>
                 </div>
               </div>
               <div className="exam-gate-feature">
-                <MagnifyingGlass weight="bold" size={20} className="egf-icon egf-icon--ember" />
+                <MagnifyingGlass weight="bold" size={20} className="egf-icon egf-icon--sunbeam" />
                 <div>
                   <span className="egf-label">Review every answer</span>
                   <span className="egf-desc">Afterward, see every question you got right and wrong, each with a step-by-step explanation</span>
