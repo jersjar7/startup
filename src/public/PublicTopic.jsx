@@ -24,7 +24,6 @@ export function PublicTopic() {
 
   if (!topic) return <NotFound />;
 
-  const Icon = topic.icon;
   const url = `${SITE}/fe-civil/${topic.id}`;
   // Lead with what searchers type ("practice problems") and a real number:
   // these pages were shown in the top five and rarely clicked (2026-10-29).
@@ -115,7 +114,8 @@ export function PublicTopic() {
             <Link className="pub-btn pub-btn-ghost" to={`/fe-civil/${topic.id}/practice-problems`}>Free practice problems</Link>
           </div>
         </div>
-        {Icon && <div className="pub-hero-icon" aria-hidden="true"><Icon size={48} weight="duotone" /></div>}
+        {/* The chapter's own coin, not an icon on a tinted tile (brand rule). */}
+        <span className="pub-hero-coin" aria-hidden="true"><ChapterCoin chapterId={topic.id} accent={topic.accent} size={96} /></span>
       </header>
 
       {/* What the FE tests, numbered rows */}
