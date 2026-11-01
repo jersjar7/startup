@@ -322,11 +322,8 @@ class _LeagueMoveCardState extends State<LeagueMoveCard>
                 top: LeagueArt.wordsTop * k,
                 child: AnimatedBuilder(
                   animation: _words,
-                  builder: (context, _) => _Words(
-                    result: widget.result,
-                    t: _words.value,
-                    scale: k,
-                  ),
+                  builder: (context, _) =>
+                      _Words(result: widget.result, t: _words.value, scale: k),
                 ),
               ),
             ],

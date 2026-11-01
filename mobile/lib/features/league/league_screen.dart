@@ -17,7 +17,7 @@ import 'league_model.dart';
 /// number with its unit, then the detail on cream), with the rows drawn as
 /// 12-lesson-sheet draws its rows.
 class LeagueScreen extends StatefulWidget {
-  const LeagueScreen({super.key, this.initial, this.live = true});
+  const LeagueScreen({super.key, this.initial, this.live = true, this.scroll});
 
   /// What Profile already read, so the page opens full.
   final LeagueView? initial;
@@ -25,6 +25,9 @@ class LeagueScreen extends StatefulWidget {
   /// False shows [initial] as it is, without asking the server (the gallery
   /// and the tests).
   final bool live;
+
+  /// For the gallery's recording, which scrolls the board by itself.
+  final ScrollController? scroll;
 
   @override
   State<LeagueScreen> createState() => _LeagueScreenState();
@@ -54,6 +57,7 @@ class _LeagueScreenState extends State<LeagueScreen> {
         child: v == null
             ? const Center(child: CircularProgressIndicator())
             : ListView(
+                controller: widget.scroll,
                 padding: EdgeInsets.fromLTRB(
                   24,
                   8,

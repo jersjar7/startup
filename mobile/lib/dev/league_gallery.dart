@@ -14,6 +14,10 @@ import '../features/profile/profile_views.dart';
 ///   flutter run -t lib/dev/league_gallery.dart --dart-define=MOVE=stay
 ///   flutter run -t lib/dev/league_gallery.dart --dart-define=SCREEN=profile
 ///   flutter run -t lib/dev/league_gallery.dart --dart-define=SCREEN=league
+///   flutter run -t lib/dev/league_gallery.dart --dart-define=SCREEN=reel
+///
+/// The reel plays everything in turn with no taps, for recording: up, down,
+/// stay, then Profile opening the league page and scrolling it.
 ///
 /// The moment plays again each time its button is tapped; Profile opens the
 /// league page from its fourth figure.
@@ -25,7 +29,9 @@ Future<void> main() async {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: screen == 'profile'
+      home: screen == 'reel'
+          ? const _Reel()
+          : screen == 'profile'
           ? const _Profile()
           : screen == 'league'
           ? LeagueScreen(initial: sampleLeague, live: false)
@@ -146,6 +152,73 @@ class _Profile extends StatelessWidget {
           onExam: () {},
         ),
       ),
+    ),
+  );
+}
+
+/// Everything in turn, untouched, so a screen recording can be cut into one
+/// clip per moment. Each beat starts from a plain fog screen so the cuts are
+/// clean.
+class _Reel extends StatefulWidget {
+  const _Reel();
+
+  @override
+  State<_Reel> createState() => _ReelState();
+}
+
+class _ReelState extends State<_Reel> {
+  final _nav = GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _run();
+  }
+
+  Future<void> _wait(int ms) =>
+      Future<void>.delayed(Duration(milliseconds: ms));
+
+  Route<void> _fade(Widget page) => PageRouteBuilder<void>(
+    transitionDuration: const Duration(milliseconds: 220),
+    pageBuilder: (_, _, _) => page,
+    transitionsBuilder: (_, a, _, child) =>
+        FadeTransition(opacity: a, child: child),
+  );
+
+  Future<void> _run() async {
+    await _wait(3000);
+    for (final m in ['up', 'down', 'stay']) {
+      final nav = _nav.currentState!;
+      nav.push(_fade(LeagueMomentScreen(result: sampleResult(m))));
+      await _wait(5200);
+      nav.pop();
+      await _wait(1500);
+    }
+    final nav = _nav.currentState!;
+    nav.push(_fade(const _Profile()));
+    await _wait(2200);
+    final scroll = ScrollController();
+    nav.push(
+      MaterialPageRoute<void>(
+        builder: (_) =>
+            LeagueScreen(initial: sampleLeague, live: false, scroll: scroll),
+      ),
+    );
+    await _wait(2200);
+    if (scroll.hasClients) {
+      await scroll.animateTo(
+        scroll.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 4200),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => Navigator(
+    key: _nav,
+    onGenerateRoute: (_) => MaterialPageRoute<void>(
+      builder: (_) => const Scaffold(backgroundColor: AppColors.fog),
     ),
   );
 }

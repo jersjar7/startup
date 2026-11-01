@@ -74,7 +74,7 @@ class ProfileFirst extends StatelessWidget {
   final WebsiteFacts? website;
 
   /// This week's league, once the student has joined it: the fourth figure
-  /// (owner, 2026-11-01, "four in Profile"; ADR 0038).
+  /// (owner, 2026-11-01, "four in Profile"; ADR 0037).
   final LeagueView? league;
   final VoidCallback? onLeague;
 
@@ -169,7 +169,7 @@ class ProfileUnderway extends StatelessWidget {
     this.onLeague,
   });
 
-  /// This week's league, once joined: the fourth figure (ADR 0038).
+  /// This week's league, once joined: the fourth figure (ADR 0037).
   final LeagueView? league;
   final VoidCallback? onLeague;
 

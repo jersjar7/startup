@@ -142,8 +142,5 @@ void paintLeagueCoin(Canvas canvas, Offset c, double r, LeagueMetal metal) {
     ),
     textDirection: TextDirection.ltr,
   )..layout();
-  letter.paint(
-    canvas,
-    c - Offset(letter.width / 2, letter.height / 2),
-  );
+  letter.paint(canvas, c - Offset(letter.width / 2, letter.height / 2));
 }
