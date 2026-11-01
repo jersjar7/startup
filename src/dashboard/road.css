@@ -144,6 +144,9 @@
 .dash-sidebar .diag-card { margin-bottom: 0; }
 
 /* The weekly league (ADR 0037, 0038), drawn like a chart */
+.lg-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; margin: 0.1rem 0 0.9rem; }
+.lg-title { margin: 0; font-family: var(--font-heading); font-size: 1.6rem; font-weight: 800; letter-spacing: -0.035em; line-height: 1; color: var(--charcoal); }
+.lg-ends { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-500); white-space: nowrap; }
 .lg-list { list-style: none; margin: 0; padding: 0; }
 .lg-row { display: grid; grid-template-columns: 2rem 34px minmax(0, 1fr); gap: 0.75rem; align-items: center; padding: 0.45rem 0.5rem; margin: 0 -0.5rem; border-radius: 10px; }
 .lg-row.is-you { background: var(--ember-bg); }

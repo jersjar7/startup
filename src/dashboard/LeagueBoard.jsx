@@ -23,7 +23,7 @@ export function LeagueBoard({ league }) {
   if (!league.joined) {
     return (
       <section className="board-card league-card" aria-label={`${league.tierName} league`}>
-        <p className="feed-over"><span>{league.tierName} league</span><b>Ends Saturday</b></p>
+        <div className="lg-head"><h3 className="lg-title">{league.tierName} league</h3><span className="lg-ends">Ends Saturday</span></div>
         <p className="league-join">Earn XP this week to join your {league.tierName} league.</p>
         <p className="board-foot">You are matched with up to 14 students studying this week.</p>
       </section>
@@ -32,7 +32,7 @@ export function LeagueBoard({ league }) {
 
   return (
     <section className="board-card league-card" aria-label={`${league.tierName} league`}>
-      <p className="feed-over"><span>{league.tierName} league</span><b>Ends Saturday</b></p>
+      <div className="lg-head"><h3 className="lg-title">{league.tierName} league</h3><span className="lg-ends">Ends Saturday</span></div>
       <ol className="lg-list">
         {rows.map((e, i) => (
           <React.Fragment key={e.place}>
