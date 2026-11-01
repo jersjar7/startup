@@ -110,6 +110,8 @@ Our learning model rules out penalties and pay-to-win for an adult audience.
    - **Bottom 3 move down** one tier (none below Timber).
    - A group with fewer than 8 people has no demotion zone, so a thin late
      group never punishes anyone.
+   - A group with fewer than 8 people moves up only its top third, rounded
+     down (added 2026-11-01), so a late group of two is not a free promotion.
    - A student with 0 XP that week is not in any group and **keeps their
      tier**. **Recommend no penalty for missing a week**: students take breaks
      before and after the exam, and punishing that goes against our no-penalty

@@ -71,9 +71,9 @@ describe('GET /api/league', () => {
     expect(r.body.rows.find((x) => x.isMe).name).toBe('Sam L.');
   });
 
-  it('a small group moves the whole group up but sends nobody down', async () => {
+  it('a small group moves up its top third and sends nobody down', async () => {
     const r = await request(app()).get('/api/league').set(as('me@x.com'));
-    expect(r.body.zones).toEqual({ promote: 4, demote: 0 });
+    expect(r.body.zones).toEqual({ promote: 1, demote: 0 });
   });
 
   it('says when the week ends', async () => {

@@ -2,7 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { leaderName } = require('./leaderboard.js');
-const { rankGroup } = require('../leagues/league.js');
+const { rankGroup, promotesIn } = require('../leagues/league.js');
 const { LEAGUE, STARTING_TIER, TIER_IDS, tierName } = require('../leagues/config.js');
 const { currentWeekId, weekEndsAt } = require('../leagues/week.js');
 
@@ -19,7 +19,7 @@ function zonesFor(tier, size) {
   const top = tier === TIER_IDS[TIER_IDS.length - 1];
   const bottom = tier === TIER_IDS[0];
   return {
-    promote: top ? 0 : Math.min(LEAGUE.promote, size),
+    promote: top ? 0 : promotesIn(size),
     demote: bottom || size < LEAGUE.minGroupForDemotion ? 0 : LEAGUE.demote,
   };
 }

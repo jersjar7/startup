@@ -26,14 +26,21 @@ function rankGroup(rows) {
 /**
  * What a ranked group means for each member's tier. A group under the
  * minimum size has no move-down zone, so a thin group never sends anyone
- * down; the top tier has nowhere up and the bottom nowhere down.
+ * down, and it moves up only its top third (rounded down), so finishing in a
+ * late group of two is not a free promotion. The top tier has nowhere up and
+ * the bottom nowhere down.
  */
+function promotesIn(size, cfg = LEAGUE) {
+  return size >= cfg.minGroupForDemotion ? cfg.promote : Math.min(cfg.promote, Math.floor(size / 3));
+}
+
 function resultsFor(tier, ranked, weekId, cfg = LEAGUE) {
   const size = ranked.length;
   const demotes = size >= cfg.minGroupForDemotion;
+  const promotes = promotesIn(size, cfg);
   return ranked.map((r) => {
     let moved = 'stayed';
-    if (r.place <= cfg.promote && stepTier(tier, 1) !== tier) moved = 'up';
+    if (r.place <= promotes && stepTier(tier, 1) !== tier) moved = 'up';
     else if (demotes && r.place > size - cfg.demote && stepTier(tier, -1) !== tier) moved = 'down';
     const newTier = moved === 'up' ? stepTier(tier, 1) : moved === 'down' ? stepTier(tier, -1) : tier;
     return { email: r.email, weekId, tier, place: r.place, size, xp: r.xp, moved, newTier };
@@ -137,4 +144,5 @@ function summarizeWeeks(thisWeekGroups, lastWeekGroups) {
   };
 }
 
-module.exports = { rankGroup, resultsFor, placeIfEarning, weekXpFromLog, closeEndedWeeks, summarizeWeeks };
+module.exports = {
+  promotesIn, rankGroup, resultsFor, placeIfEarning, weekXpFromLog, closeEndedWeeks, summarizeWeeks };

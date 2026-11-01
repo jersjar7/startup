@@ -104,8 +104,15 @@ describe('what a week means for each tier', () => {
     expect(resultsFor('timber', ranked(15), 'w').some((x) => x.moved === 'down')).toBe(false);
   });
 
-  it('a group of three all move up', () => {
-    expect(resultsFor('timber', ranked(3), 'w').every((x) => x.moved === 'up')).toBe(true);
+  it('a small group moves up only its top third', () => {
+    expect(resultsFor('timber', ranked(3), 'w').filter((x) => x.moved === 'up').map((x) => x.place)).toEqual([1]);
+    expect(resultsFor('timber', ranked(7), 'w').filter((x) => x.moved === 'up')).toHaveLength(2);
+    expect(resultsFor('timber', ranked(8), 'w').filter((x) => x.moved === 'up')).toHaveLength(LEAGUE.promote);
+  });
+
+  it('a group of one or two moves nobody up', () => {
+    expect(resultsFor('timber', ranked(1), 'w').some((x) => x.moved === 'up')).toBe(false);
+    expect(resultsFor('timber', ranked(2), 'w').some((x) => x.moved === 'up')).toBe(false);
   });
 });
 
