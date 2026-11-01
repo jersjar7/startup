@@ -230,3 +230,32 @@ describe('the admin line', () => {
     expect(JSON.stringify(s)).not.toMatch(/"a"|"b"/);
   });
 });
+
+describe('who moved since yesterday', () => {
+  const { moveSince, snapshotPlaces } = require('./leagues/league.js');
+  const snap = { day: '2026-11-03', places: { a: 3, b: 1, c: 2 } };
+
+  it('compares the place now with the day\'s snapshot', () => {
+    expect(moveSince(snap, 'a', 1)).toBe('up');
+    expect(moveSince(snap, 'b', 2)).toBe('down');
+    expect(moveSince(snap, 'c', 2)).toBeNull();
+  });
+
+  it('calls anyone not in it new, and everyone in a group without one', () => {
+    expect(moveSince(snap, 'd', 4)).toBe('new');
+    expect(moveSince(undefined, 'a', 1)).toBe('new');
+  });
+
+  it('records each group\'s places once a day, ranked like the board', async () => {
+    const writes = [];
+    DB.listLeagueGroupsToSnapshot = async (weekId, day) => {
+      expect(weekId).toBe('2026-W45');
+      expect(day).toBe('2026-11-04');
+      return [{ _id: 'g1', members: ['a', 'b', 'c'] }];
+    };
+    DB.getLeagueMemberInfo = async (members) => members.map((email, i) => ({ email, weeklyXp: [50, 300, 120][i] }));
+    DB.setLeagueGroupSnapshot = async (id, day, places) => { writes.push({ id, day, places }); return true; };
+    expect(await snapshotPlaces(NOW)).toBe(1);
+    expect(writes).toEqual([{ id: 'g1', day: '2026-11-04', places: { b: 1, c: 2, a: 3 } }]);
+  });
+});

@@ -13,7 +13,8 @@ const WEEK = currentWeekId();
 
 beforeEach(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {});
-  group = { _id: 'g1', weekId: WEEK, tier: 'silver', members: ['me@x.com', 'ana@x.com', 'shy@x.com', 'top@x.com'] };
+  group = { _id: 'g1', weekId: WEEK, tier: 'silver', members: ['me@x.com', 'ana@x.com', 'shy@x.com', 'top@x.com'],
+    snapshot: { day: '2026-11-01', places: { 'top@x.com': 1, 'me@x.com': 2, 'shy@x.com': 3 } } };
   standings = {
     'me@x.com': { email: 'me@x.com', tier: 'silver', weekId: WEEK, groupId: 'g1', hidden: false },
     'ana@x.com': { email: 'ana@x.com', tier: 'silver', weekId: WEEK, groupId: 'g1' },
@@ -21,7 +22,7 @@ beforeEach(() => {
     'top@x.com': { email: 'top@x.com', tier: 'silver', weekId: WEEK, groupId: 'g1' },
   };
   const info = {
-    'me@x.com': { email: 'me@x.com', firstName: 'Maria', lastName: 'Gomez', weeklyXp: 300 },
+    'me@x.com': { email: 'me@x.com', firstName: 'Maria', lastName: 'Gomez', weeklyXp: 300, days: 4 },
     'ana@x.com': { email: 'ana@x.com', weeklyXp: 120 },
     'shy@x.com': { email: 'shy@x.com', firstName: 'Sam', lastName: 'Lee', weeklyXp: 500 },
     'top@x.com': { email: 'top@x.com', firstName: 'Tom', weeklyXp: 900 },
@@ -58,6 +59,16 @@ describe('GET /api/league', () => {
       [2, 'A student', 500, false],
       [3, 'Maria G.', 300, true],
       [4, 'ana***', 120, false],
+    ]);
+  });
+
+  it('says who moved since the day\'s snapshot, and how many days each studied', async () => {
+    const r = await request(app()).get('/api/league').set(as('me@x.com'));
+    expect(r.body.rows.map((x) => [x.name, x.move, x.days])).toEqual([
+      ['Tom', null, 0],
+      ['A student', 'up', 0],
+      ['Maria G.', 'down', 4],
+      ['ana***', 'new', 0],
     ]);
   });
 

@@ -123,6 +123,48 @@ async function closeEndedWeeks(now = new Date(), { loadEvents } = {}) {
 }
 
 /**
+ * A group as its board shows it now: members ranked by this week's XP, each
+ * with their name fields and the days they studied this week. The board and
+ * the daily place snapshot both rank this way, so their places agree.
+ */
+async function rankedMembers(group, weekId) {
+  const info = await DB.getLeagueMemberInfo(group.members || [], weekId);
+  return rankGroup(info.map((m, i) => ({ ...m, xp: m.weeklyXp || 0, joinIndex: i })));
+}
+
+/**
+ * How a member's place changed since the day's snapshot: 'up', 'down', null
+ * for the same place, or 'new' for someone who joined since (or a group too
+ * new to have one).
+ */
+function moveSince(snapshot, email, place) {
+  const before = snapshot?.places?.[email];
+  if (!Number.isInteger(before)) return 'new';
+  if (place < before) return 'up';
+  if (place > before) return 'down';
+  return null;
+}
+
+/**
+ * Records each open group's places once per Eastern day, so the board can
+ * show who moved since yesterday. Safe to run often: a group that already has
+ * today's snapshot is skipped, and the write itself only lands once.
+ */
+async function snapshotPlaces(now = new Date()) {
+  const { dayIn } = require('./week.js');
+  const weekId = currentWeekId(now);
+  const day = dayIn(now);
+  const groups = await DB.listLeagueGroupsToSnapshot(weekId, day);
+  let taken = 0;
+  for (const g of groups) {
+    const ranked = await rankedMembers(g, weekId);
+    const places = Object.fromEntries(ranked.map((m) => [m.email, m.place]));
+    if (await DB.setLeagueGroupSnapshot(g._id, day, places)) taken++;
+  }
+  return taken;
+}
+
+/**
  * The admin line: this week's groups per tier, and last week's moves per
  * tier. Counts only, never addresses.
  */
@@ -145,4 +187,5 @@ function summarizeWeeks(thisWeekGroups, lastWeekGroups) {
 }
 
 module.exports = {
-  promotesIn, rankGroup, resultsFor, placeIfEarning, weekXpFromLog, closeEndedWeeks, summarizeWeeks };
+  promotesIn, rankGroup, resultsFor, placeIfEarning, weekXpFromLog, closeEndedWeeks, summarizeWeeks,
+  rankedMembers, moveSince, snapshotPlaces };

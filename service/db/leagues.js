@@ -3,7 +3,7 @@ const { leagueGroupsCollection, leagueStandingCollection, userCollection, userSt
 // Weekly leagues (ADR 0037). Two collections:
 //   leagueGroups    one per group per week: { weekId, tier, groupNo, members
 //                   (emails, in the order they joined), createdAt, closedAt,
-//                   results }
+//                   results, snapshot: { day, places: { email: place } } }
 //   leagueStanding  one per student: { email, tier, hidden, weekId, groupId,
 //                   placingWeek, history: [{ weekId, tier, place, size, xp,
 //                   moved, newTier }], lastResult }
@@ -87,15 +87,31 @@ async function listOpenLeagueGroupsBefore(weekId) {
   return leagueGroupsCollection.find({ weekId: { $lt: weekId }, closedAt: null }).sort({ weekId: 1, tier: 1, groupNo: 1 }).toArray();
 }
 
-/** Names and this week's XP for a group's members. */
+/** Names, this week's XP, and the days studied this week, for a group's members. */
 async function getLeagueMemberInfo(emails, weekId) {
+  const { weekIdFor } = require('../leagues/week.js');
   const [users, stats] = await Promise.all([
     userCollection.find({ email: { $in: emails } }, { projection: { _id: 0, email: 1, firstName: 1, lastName: 1 } }).toArray(),
-    userStatsCollection.find({ email: { $in: emails } }, { projection: { _id: 0, email: 1, weekId: 1, weeklyXp: 1 } }).toArray(),
+    userStatsCollection.find({ email: { $in: emails } }, { projection: { _id: 0, email: 1, weekId: 1, weeklyXp: 1, studyDays: 1 } }).toArray(),
   ]);
   const byEmail = new Map(users.map((u) => [u.email, u]));
-  const xp = new Map(stats.map((s) => [s.email, s.weekId === weekId ? (s.weeklyXp || 0) : 0]));
-  return emails.map((email) => ({ ...(byEmail.get(email) || { email }), weeklyXp: xp.get(email) || 0 }));
+  const byStats = new Map(stats.map((s) => [s.email, s]));
+  return emails.map((email) => {
+    const s = byStats.get(email) || {};
+    const days = (s.studyDays || []).filter((d) => weekIdFor(d) === weekId).length;
+    return { ...(byEmail.get(email) || { email }), weeklyXp: s.weekId === weekId ? (s.weeklyXp || 0) : 0, days };
+  });
+}
+
+/** This week's open groups without a place snapshot for this day. */
+async function listLeagueGroupsToSnapshot(weekId, day) {
+  return leagueGroupsCollection.find({ weekId, closedAt: null, 'snapshot.day': { $ne: day } }).toArray();
+}
+
+/** A group's places at the start of a day, written once per day. */
+async function setLeagueGroupSnapshot(groupId, day, places) {
+  const r = await leagueGroupsCollection.updateOne({ _id: groupId, 'snapshot.day': { $ne: day } }, { $set: { snapshot: { day, places } } });
+  return r.modifiedCount > 0;
 }
 
 /**
@@ -152,6 +168,8 @@ async function listLeagueGroupsForWeek(weekId) {
 }
 
 module.exports = {
+  listLeagueGroupsToSnapshot,
+  setLeagueGroupSnapshot,
   getLeagueStanding,
   getLeagueStandings,
   claimLeaguePlacement,

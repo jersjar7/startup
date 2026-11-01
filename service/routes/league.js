@@ -2,7 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { leaderName } = require('./leaderboard.js');
-const { rankGroup, promotesIn } = require('../leagues/league.js');
+const { promotesIn, rankedMembers, moveSince } = require('../leagues/league.js');
 const { LEAGUE, STARTING_TIER, TIER_IDS, tierName } = require('../leagues/config.js');
 const { currentWeekId, weekEndsAt } = require('../leagues/week.js');
 
@@ -53,18 +53,19 @@ router.get('/', verifyAuth, async (req, res) => {
       const group = await DB.getLeagueGroup(standing.groupId);
       const members = group?.members || [];
       size = members.length;
-      const [info, standings] = await Promise.all([
-        DB.getLeagueMemberInfo(members, weekId),
+      const [ranked, standings] = await Promise.all([
+        rankedMembers(group || { members }, weekId),
         DB.getLeagueStandings(members),
       ]);
       const hidden = new Set(standings.filter((s) => s.hidden).map((s) => s.email));
-      const ranked = rankGroup(info.map((m, i) => ({ ...m, xp: m.weeklyXp || 0, joinIndex: i })));
       rows = ranked.map((m) => {
         const isMe = m.email === email;
         return {
           place: m.place,
           name: hidden.has(m.email) && !isMe ? HIDDEN_NAME : leaderName(m),
           xp: m.xp,
+          days: m.days || 0, // days studied this week
+          move: moveSince(group?.snapshot, m.email, m.place), // since the day's snapshot
           isMe,
         };
       });
