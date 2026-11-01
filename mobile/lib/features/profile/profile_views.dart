@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../games/game_catalog.dart';
+import '../league/league_coin.dart';
+import '../league/league_model.dart';
 import '../shared/widgets/kit.dart';
 import '../shared/widgets/raccoon_peek.dart';
 import '../study/chapter_bands.dart' show cardNameFor;
@@ -62,12 +64,19 @@ class ProfileFirst extends StatelessWidget {
     this.onDays,
     this.passCard = false,
     this.onPassCard,
+    this.league,
+    this.onLeague,
   });
 
   final Widget top;
   final String name;
   final ExamFacts exam;
   final WebsiteFacts? website;
+
+  /// This week's league, once the student has joined it: the fourth figure
+  /// (owner, 2026-11-01, "four in Profile"; ADR 0037).
+  final LeagueView? league;
+  final VoidCallback? onLeague;
 
   /// A pass is on record (it can be, from the website, before the app has
   /// been used at all). The card takes the exam's place for good.
@@ -111,6 +120,7 @@ class ProfileFirst extends StatelessWidget {
             line: 'Studied on the website',
             onTap: onDays,
           ),
+          if (_shows(league)) _LeagueFact(view: league!, onTap: onLeague),
           _Fact(
             big: '${web.mastery}%',
             unit: 'mastery',
@@ -155,7 +165,13 @@ class ProfileUnderway extends StatelessWidget {
     this.passCard = false,
     this.onPassCard,
     this.allDone = false,
+    this.league,
+    this.onLeague,
   });
+
+  /// This week's league, once joined: the fourth figure (ADR 0037).
+  final LeagueView? league;
+  final VoidCallback? onLeague;
 
   final Widget top;
   final String name;
@@ -204,6 +220,7 @@ class ProfileUnderway extends StatelessWidget {
             line: 'In $lessonName',
             bar: roundsInLesson == 0 ? 0 : roundsCleared / roundsInLesson,
           ),
+        if (_shows(league)) _LeagueFact(view: league!, onTap: onLeague),
         _Fact(
           big: '$daysStudied',
           unit: daysStudied == 1 ? 'day studied' : 'days studied',
@@ -284,6 +301,38 @@ String underwayHeadline({
 String _named(String name, String rest) => name.isEmpty
     ? '${rest[0].toUpperCase()}${rest.substring(1)}'
     : '$name, $rest';
+
+/// The league line shows once the student is on this week's board; before
+/// their first XP of the week there is no place to show.
+bool _shows(LeagueView? v) => v != null && v.joined && v.me != null;
+
+/// "4th in Silver", the coin beside it, and the week under it.
+class _LeagueFact extends StatelessWidget {
+  const _LeagueFact({required this.view, this.onTap});
+
+  final LeagueView view;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final me = view.me!;
+    return Semantics(
+      button: onTap != null,
+      label:
+          '${ordinal(me.place)} in the ${view.metal.label} league, '
+          'of ${view.rows.length} this week',
+      child: ExcludeSemantics(
+        child: _Fact(
+          big: ordinal(me.place),
+          unit: 'in ${view.metal.label}',
+          trailing: LeagueCoin(metal: view.metal, size: 26),
+          line: 'Of ${view.rows.length} this week, ends Saturday',
+          onTap: onTap,
+        ),
+      ),
+    );
+  }
+}
 
 /// The pass card, once a pass is recorded: for good, so nobody has to find
 /// the email again (ADR 0023).
@@ -455,11 +504,15 @@ class _Fact extends StatelessWidget {
     required this.line,
     this.bar,
     this.onTap,
+    this.trailing,
   });
 
   final String big;
   final String unit;
   final String line;
+
+  /// Something small after the unit (the league's coin).
+  final Widget? trailing;
 
   /// A thin bar under the line, 0 to 1, for something under way.
   final double? bar;
@@ -479,8 +532,21 @@ class _Fact extends StatelessWidget {
               style: AppTheme.display(size: 52, height: 0.9, tracking: -0.06),
             ),
             const SizedBox(width: 8),
-            Text(
-              unit,
+            Text.rich(
+              TextSpan(
+                text: unit,
+                children: [
+                  // The coin rides the unit's line, centred on its letters.
+                  if (trailing != null)
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: trailing,
+                      ),
+                    ),
+                ],
+              ),
               style: AppTheme.display(
                 size: 20,
                 weight: FontWeight.w700,
