@@ -11,7 +11,7 @@ const POLL_MS = 60000;
 const TINTS = ['var(--ember-bg)', 'var(--forest-bg)', 'var(--sunbeam-bg)', 'var(--cream-dark)'];
 const chapterOf = (id) => CHAPTERS.find((c) => c.id === id);
 
-function tintFor(name) {
+export function tintFor(name) {
   let h = 0;
   for (const c of String(name)) h = (h * 31 + c.charCodeAt(0)) >>> 0;
   return TINTS[h % TINTS.length];

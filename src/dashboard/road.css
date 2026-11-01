@@ -109,7 +109,7 @@
 .dash-share a:hover { text-decoration: underline; }
 
 /* ── The boards ── */
-.dash-boards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.dash-boards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; align-items: start; }
 .board-card { padding: 1.1rem 1.3rem; }
 .board-list { list-style: none; margin: 0; padding: 0; }
 .board-row { display: grid; grid-template-columns: 2.2rem minmax(4rem, 7rem) 1fr 3.6rem; gap: 0.6rem; align-items: center; padding: 0.3rem 0; font-size: 0.85rem; color: var(--charcoal); }
@@ -143,13 +143,28 @@
 /* In the dashboard column the gap between cards does the spacing. */
 .dash-sidebar .diag-card { margin-bottom: 0; }
 
-/* The weekly league (ADR 0037). Zone lines are a rule with a word on it. */
-.league-line { display: flex; align-items: center; gap: 0.35rem; margin: 0.25rem 0; font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
-.league-line::after { content: ''; flex: 1; height: 1px; }
-.league-line--up { color: var(--forest); }
-.league-line--up::after { background: rgba(45, 122, 95, 0.35); }
-.league-line--down { color: var(--gray-500); }
-.league-line--down::after { background: #E2D8C8; }
+/* The weekly league (ADR 0037, 0038), drawn like a chart */
+.lg-list { list-style: none; margin: 0; padding: 0; }
+.lg-row { display: grid; grid-template-columns: 2rem 34px minmax(0, 1fr); gap: 0.75rem; align-items: center; padding: 0.45rem 0.5rem; margin: 0 -0.5rem; border-radius: 10px; }
+.lg-row.is-you { background: var(--ember-bg); }
+.lg-row.is-you .feed-avatar { color: var(--cream); }
+.lg-place { display: grid; justify-items: center; gap: 1px; }
+.lg-place b { font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; color: var(--charcoal); line-height: 1.1; }
+.lg-move { display: block; height: 14px; }
+.lg-move--up { color: var(--forest); }
+.lg-move--down { color: var(--error); }
+.lg-new { font-family: var(--font-mono); font-size: 0.56rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--info); line-height: 14px; }
+.lg-who { display: grid; min-width: 0; }
+.lg-who b { font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600; color: var(--charcoal); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lg-who span { font-size: 0.8rem; color: var(--gray-500); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lg-line { display: flex; align-items: center; gap: 0.4rem; margin: 0.45rem 0; font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.lg-line::after { content: ''; flex: 1; height: 2px; border-radius: 2px; }
+.lg-line--up { color: var(--forest); }
+.lg-line--up::after { background: rgba(45, 122, 95, 0.35); }
+.lg-line--stay { color: var(--gray-500); }
+.lg-line--stay::after { background: #E2D8C8; }
+.lg-line--down { color: var(--error); }
+.lg-line--down::after { background: rgba(214, 64, 69, 0.3); }
 .league-join { margin: 0.2rem 0 0; font-size: 0.9rem; color: var(--charcoal); line-height: 1.5; }
 
 /* Last week's result, once, after the week closes */

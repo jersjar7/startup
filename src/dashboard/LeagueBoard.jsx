@@ -1,12 +1,20 @@
 import React from 'react';
-import { ArrowUp, ArrowDown } from '@phosphor-icons/react';
+import { ArrowUp, ArrowDown, CaretUp, CaretDown } from '@phosphor-icons/react';
+import { initials } from './road';
+import { tintFor } from './LiveFeed';
 
-// The weekly league (ADR 0037, docs/leagues-spec.md): the student's group of
-// up to 15, everyone in it studying this week. A line under the move-up places
-// and one above the move-down places, type alone, no pills.
+// The weekly league (ADR 0037, 0038), drawn like a chart: place with how it
+// moved since yesterday, the student, their week. Where the move-up and
+// move-down places start, a line names the league on the other side.
+function Move({ move }) {
+  if (move === 'up') return <CaretUp weight="bold" size={14} className="lg-move lg-move--up" aria-label="Up since yesterday" />;
+  if (move === 'down') return <CaretDown weight="bold" size={14} className="lg-move lg-move--down" aria-label="Down since yesterday" />;
+  if (move === 'new') return <span className="lg-new">New</span>;
+  return <span className="lg-move" aria-hidden="true" />;
+}
+
 export function LeagueBoard({ league }) {
   const rows = league.rows || [];
-  const max = Math.max(1, rows[0]?.xp || 0);
   const { promote, demote } = league.zones || {};
   const downFrom = demote ? rows.length - demote : rows.length;
   const up = league.nextTierName;
@@ -25,24 +33,31 @@ export function LeagueBoard({ league }) {
   return (
     <section className="board-card league-card" aria-label={`${league.tierName} league`}>
       <p className="feed-over"><span>{league.tierName} league</span><b>Ends Saturday</b></p>
-      <ol className="board-list">
+      <ol className="lg-list">
         {rows.map((e, i) => (
           <React.Fragment key={e.place}>
-            {demote > 0 && i === downFrom && <li className="league-line league-line--down" aria-hidden="true"><ArrowDown weight="bold" size={11} /><span>Move down</span></li>}
-            <li className={`board-row${e.isMe ? ' is-you' : ''}`}>
-              <span className="board-rank">#{e.place}</span>
-              <span className="board-name">{e.isMe ? 'You' : e.name}</span>
-              <span className="board-bar" aria-hidden="true"><i style={{ width: `${Math.max(2, (e.xp / max) * 100)}%` }} /></span>
-              <span className="board-xp">{e.xp.toLocaleString('en-US')}</span>
-            </li>
-            {promote > 0 && up && i === promote - 1 && i < rows.length - 1 && (
-              <li className="league-line league-line--up" aria-hidden="true"><ArrowUp weight="bold" size={11} /><span>Move up</span></li>
+            {promote > 0 && up && i === 0 && (
+              <li className="lg-line lg-line--up"><ArrowUp weight="bold" size={12} /><span>Moving up to {up}</span></li>
             )}
+            {promote > 0 && up && i === promote && (
+              <li className="lg-line lg-line--stay"><span>Staying in {league.tierName}</span></li>
+            )}
+            {demote > 0 && down && i === downFrom && (
+              <li className="lg-line lg-line--down"><ArrowDown weight="bold" size={12} /><span>Moving down to {down}</span></li>
+            )}
+            <li className={`lg-row${e.isMe ? ' is-you' : ''}`}>
+              <span className="lg-place"><b>{e.place}</b><Move move={e.move} /></span>
+              <span className="feed-avatar" style={{ background: e.isMe ? 'var(--charcoal)' : tintFor(e.name) }} aria-hidden="true">{initials(e.name)}</span>
+              <span className="lg-who">
+                <b>{e.isMe ? 'You' : e.name}</b>
+                <span>{e.xp.toLocaleString('en-US')} XP{e.days ? ` · ${e.days} ${e.days === 1 ? 'day' : 'days'} this week` : ''}</span>
+              </span>
+            </li>
           </React.Fragment>
         ))}
       </ol>
       <p className="board-foot">
-        {[up && promote ? `Top ${promote} move up to ${up}.` : 'The top league.', down && demote && rows.length >= 8 ? `Bottom ${demote} move down to ${down}.` : ''].filter(Boolean).join(' ')}
+        {[up && promote ? `Top ${promote} move up to ${up}.` : 'The top league.', down && demote ? `Bottom ${demote} move down to ${down}.` : ''].filter(Boolean).join(' ')}
       </p>
     </section>
   );

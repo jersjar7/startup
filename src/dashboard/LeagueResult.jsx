@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppArrow } from '../components/brand/AppArrow';
 
-const LADDER = ['Titanium', 'Steel', 'Concrete', 'Masonry', 'Timber'];
+const LADDER = ['Platinum', 'Gold', 'Silver', 'Bronze', 'Copper'];
 const ORDINAL = (n) => `${n}${[, 'st', 'nd', 'rd'][n % 100 >> 3 ^ 1 && n % 10] || 'th'}`;
 
 // Last week's league result, shown once on the first visit after the week
@@ -14,7 +14,7 @@ export function LeagueResult({ result, onClose }) {
       : `You stay in ${toName}`;
   const line = `${ORDINAL(place)} of ${of} in ${fromName} last week, with ${xp.toLocaleString('en-US')} XP.`;
   const next = moved === 'down' ? 'One good week brings you back.'
-    : toName === 'Titanium' ? 'The top league. Stay in it.'
+    : toName === 'Platinum' ? 'The top league. Stay in it.'
       : 'A new week starts now, and everyone is back at zero.';
   return (
     <div className="league-result-overlay" role="dialog" aria-modal="true" aria-label={title}>
