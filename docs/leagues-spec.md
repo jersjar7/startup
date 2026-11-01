@@ -1,7 +1,14 @@
 # Weekly leagues: spec
 
-Status: approved 2026-11-01 (ADR 0037). Decisions marked
-**Recommend** were all approved by the owner.
+Status: approved 2026-11-01 (ADR 0037), with the names, the board, the
+fourth Profile figure and the XP rules updated the same day (ADR 0038).
+Decisions marked **Recommend** were all approved by the owner.
+
+**League and group.** A *league* is a level (Copper to Platinum). Each week
+the students in a league who have earned XP are split into *groups* of up to
+15, and a student's board shows their group. Nobody is left out: with 110
+active students each league has one or two groups, and a busy league simply
+opens more.
 
 ## Why
 
@@ -87,8 +94,9 @@ Our learning model rules out penalties and pay-to-win for an adult audience.
 
 ### The rules
 
-1. **Tiers.** **Recommend five**, named after construction materials, weakest
-   to strongest: **Timber, Masonry, Concrete, Steel, Titanium.** Five, not ten,
+1. **Leagues.** Five, named after metals, weakest to strongest: **Copper,
+   Bronze, Silver, Gold, Platinum** (ADR 0038; ADR 0037 first named them after
+   construction materials). Each has a coin in its metal. Five, not ten,
    because with about 110 students a week ten tiers would leave most of them
    empty. We can add tiers later, as Duolingo did.
 2. **Group size.** **Recommend 15.** With about 110 students that is about
@@ -104,10 +112,12 @@ Our learning model rules out penalties and pay-to-win for an adult audience.
    Saturday.)
 5. **Score.** The same weekly XP the board uses now: desk problems, reviews,
    tests, the simulation, and phone practice under its daily cap. No new
-   points.
+   points. Two rules added before launch (ADR 0038): a problem earns XP only
+   the first time it is answered on a day, and the server, not the browser,
+   decides whether a desk answer was right.
 6. **Moving.** At the end of the week:
-   - **Top 5 move up** one tier (none above Titanium).
-   - **Bottom 3 move down** one tier (none below Timber).
+   - **Top 5 move up** one league (none above Platinum).
+   - **Bottom 3 move down** one league (none below Copper).
    - A group with fewer than 8 people has no demotion zone, so a thin late
      group never punishes anyone.
    - A group with fewer than 8 people moves up only its top third, rounded
@@ -119,7 +129,8 @@ Our learning model rules out penalties and pay-to-win for an adult audience.
 7. **Ties.** Equal XP: whoever reached it first ranks higher.
 8. **First week.** **Recommend seeding** everyone's starting tier from their
    XP over the last four weeks, so regular students do not spend a month
-   climbing out of Timber. New students start in Timber.
+   climbing out of Copper. New students start in Copper. The split is by
+   fifths of the students active in those four weeks.
 9. **All-time board stays** as it is. The league replaces only the weekly
    board.
 10. **Names.** Same rule as now: "Maria G." when a name is set, masked email
@@ -129,21 +140,27 @@ Our learning model rules out penalties and pay-to-win for an adult audience.
 
 ### What students see
 
-**Website dashboard.** The "This week" board becomes the league card:
+**Website dashboard.** The "This week" board becomes the league card, drawn
+like a music chart:
 
-- Header: tier name and "Ends Saturday".
-- The 15 rows, the student's own row highlighted, a line under row 5 marking
-  the move-up zone and a line above the last 3 marking the move-down zone.
+- Header: the league's coin and name, large, and "Ends Saturday".
+- Each row: the place, with a green up caret, a red down caret, or "New" for
+  how it moved since the start of the day; an initials avatar; the name; and
+  "1,840 XP · 6 days this week". The student's own row is highlighted.
+- Lines name the leagues at the zones: "Moving up to Gold" above the top 5,
+  "Staying in Silver" below them, "Moving down to Bronze" above the last 3.
+- The all-time board beside it shows the top 15.
 - The road card's line changes from "Not on this week's board yet" to, for
-  example, "4th in Concrete this week". Before the first XP of the week:
-  "Earn XP this week to join your Concrete league."
+  example, "4th in Silver this week". Before the first XP of the week:
+  "Earn XP this week to join your Silver league."
 - **Sunday results.** The first visit after the week ends shows the result
-  once: moved up, stayed, or moved down, with a short line in our voice. A
-  move up gets a shareable image, like the pass card.
+  once: moved up, stayed, or moved down, with a short line in our voice. The
+  student's coin travels the ladder of five coins from last week's league to
+  the new one (about 1.2 seconds; reduced motion shows the end state).
 
-**Phone app.** The app has no leaderboard screen today. **Recommend** a league
-row on the Profile tab, showing the tier and the student's place, that opens a
-sheet with the 15 rows. It must follow `mobile/design/DESIGN.md` (no stacked
+**Phone app.** The app has no leaderboard screen today. The Profile gains a
+fourth figure, the student's place in their league ("4th in Silver"), which
+opens the league page with the group's rows (ADR 0038). It must follow `mobile/design/DESIGN.md` (no stacked
 web-style list); the design is mocked first, as with every screen. The app
 reads the same API as the website.
 
@@ -173,10 +190,15 @@ tournament. Both are worth testing once leagues are running.
   after midnight Eastern. It ranks each group by weekly XP, writes results,
   and updates each student's tier. It must be safe to run twice; the nightly
   re-derive must not undo it.
-- **API.** `GET /api/league` returns the student's tier, the week's end time,
-  their group's rows (place, name, XP, is-me), the zone sizes, and last
-  week's result if not yet seen. `POST /api/league/seen` marks the result
-  shown. The current `GET /api/leaderboard` stays for the all-time board and
+- **API.** `GET /api/league` returns the student's league and the ones above
+  and below, the week's end time, their group's rows (place, name, XP, days
+  studied this week, move since the day's snapshot, is-me), the zone sizes,
+  whether they are hidden, and last week's result if not yet seen. It answers
+  404 while leagues are switched off. `POST /api/league/seen` marks the result
+  shown; `POST /api/league/hidden` saves the switch.
+- **Moves.** Once each Eastern day the league job records every open group's
+  places. A row is "up" or "down" against that snapshot, and "new" for anyone
+  who joined since. The current `GET /api/leaderboard` stays for the all-time board and
   older app versions.
 - **Admin.** The admin dashboard gains a weekly line: students placed,
   groups, and per tier how many moved.
@@ -214,7 +236,8 @@ Compare four weeks before with four weeks after:
 
 ## Decisions for the owner
 
-1. Five tiers named Timber, Masonry, Concrete, Steel, Titanium.
+1. Five tiers named Timber, Masonry, Concrete, Steel, Titanium. (Renamed
+   Copper, Bronze, Silver, Gold, Platinum by ADR 0038.)
 2. Groups of 15; top 5 up, bottom 3 down.
 3. One week for everyone, Sunday to Saturday, US Eastern.
 4. No penalty for a missed week.
@@ -222,3 +245,4 @@ Compare four weeks before with four weeks after:
 6. A "Hide me from leagues" switch.
 7. Keep the all-time board; leagues replace only the weekly board.
 8. Phone app gets a league row on Profile, designed and mocked before building.
+   (Built as a fourth Profile figure, ADR 0038.)
