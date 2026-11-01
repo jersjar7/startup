@@ -230,6 +230,20 @@ class PassCardPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // The card is an image people post, so it is always the light design, even
+    // when the phone is in dark mode (owner, 2026-11-01). Every themed token it
+    // uses resolves while painting, so pin the palette to day for the length
+    // of this paint and put it back after.
+    final wasDark = AppPalette.dark;
+    AppPalette.dark = false;
+    try {
+      _paintCard(canvas, size);
+    } finally {
+      AppPalette.dark = wasDark;
+    }
+  }
+
+  void _paintCard(Canvas canvas, Size size) {
     // Scale the design to whatever the canvas is, exactly as the web renderer
     // does, so the preview and the saved image are the same drawing.
     final scale = size.width / passCardWidth;

@@ -211,6 +211,20 @@ export function ExamGate({ userName }) {
               <span className="exam-gate-period">one-time &middot; no subscription</span>
             </div>
 
+            {error && <div className="exam-error" role="alert">{error}</div>}
+
+            <button
+              className="btn-primary exam-buy-btn"
+              onClick={handleBuyNow}
+              disabled={checkoutLoading}
+            >
+              {checkoutLoading ? 'Redirecting to checkout...' : `Buy the Exam Simulation for $${studentApplies ? studentPrice : standardPrice}`}
+            </button>
+
+            <p className="exam-gate-guarantee">
+              14-day money-back guarantee, and if you don't pass, we'll extend your access free.
+            </p>
+
             {studentApplies ? (
               <p className="exam-gate-student-note">
                 <CheckCircle weight="fill" size={15} />
@@ -281,20 +295,6 @@ export function ExamGate({ userName }) {
                 )}
               </div>
             )}
-
-            {error && <div className="exam-error" role="alert">{error}</div>}
-
-            <button
-              className="btn-primary exam-buy-btn"
-              onClick={handleBuyNow}
-              disabled={checkoutLoading}
-            >
-              {checkoutLoading ? 'Redirecting to checkout...' : `Buy the Exam Simulation for $${studentApplies ? studentPrice : standardPrice}`}
-            </button>
-
-            <p className="exam-gate-guarantee">
-              14-day money-back guarantee, and if you don't pass, we'll extend your access free.
-            </p>
 
             <button className="exam-gate-preview-btn" onClick={() => navigate('/exam/preview')}>
               Try 10 questions free first

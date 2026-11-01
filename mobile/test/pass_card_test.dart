@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/features/profile/pass_card.dart';
 
@@ -155,6 +156,33 @@ void main() {
       await expectLater(
         find.byType(CustomPaint).last,
         matchesGoldenFile('goldens/pass-card/nameless.png'),
+      );
+    });
+
+    // The card is posted to other platforms, so it is the light design even
+    // when the phone is in dark mode. Same golden as the named card.
+    testWidgets('dark mode draws the same light card', (t) async {
+      t.view.physicalSize = const Size(passCardWidth, passCardHeight);
+      t.view.devicePixelRatio = 1.0;
+      addTearDown(t.view.reset);
+      AppPalette.dark = true;
+      addTearDown(() => AppPalette.dark = false);
+      final peek = await t.runAsync(loadPassCardPeek);
+      await t.pumpWidget(
+        host(
+          PassCardData.from(
+            firstName: 'Jerson',
+            lastName: 'Garcia',
+            answeredAt: DateTime(2026, 10, 20),
+          ),
+          peek,
+        ),
+      );
+      await t.pumpAndSettle();
+      expect(AppPalette.dark, isTrue, reason: 'the painter puts the mode back');
+      await expectLater(
+        find.byType(CustomPaint).last,
+        matchesGoldenFile('goldens/pass-card/named.png'),
       );
     });
 

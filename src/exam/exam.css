@@ -202,7 +202,7 @@
 
 /* ── Student .edu verification flow ── */
 .exam-student-verify {
-  margin-top: 0.85rem;
+  margin-top: 1.5rem;
   text-align: left;
 }
 .exam-student-verify label {
@@ -399,8 +399,10 @@
 
 .exam-buy-btn {
   width: 100%;
-  padding: 0.85rem;
+  margin-top: 1.5rem;
+  padding: 0.85rem 1rem;
   font-size: 1rem;
+  white-space: nowrap;
 }
 
 
@@ -1027,5 +1029,15 @@
 
   .er-chapter-row {
     grid-template-columns: 1fr 70px 40px;
+  }
+}
+
+/* On a phone the .edu box gets the whole width, so its hint is never cut off */
+@media (max-width: 480px) {
+  .exam-student-row {
+    flex-direction: column;
+  }
+  .exam-buy-btn {
+    font-size: 0.95rem;
   }
 }
