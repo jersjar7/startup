@@ -6,7 +6,7 @@ import { LeagueBoard } from './LeagueBoard';
 // (docs/dashboard.md). A bar per student shows the gaps between them, not
 // just the order; the viewer is the one ember row.
 function Board({ title, note, entries, xpKey, empty }) {
-  const rows = boardRows(entries, 10);
+  const rows = boardRows(entries, 15);
   const max = Math.max(1, ...(entries || []).slice(0, 1).map((e) => e[xpKey] || 0));
   const onIt = (entries || []).some((e) => e.isCurrentUser);
   return (
@@ -37,7 +37,7 @@ export function Boards({ weekly, allTime, league }) {
   return (
     <div className="dash-boards">
       {league ? <LeagueBoard league={league} /> : <Board title="This week" note="Ends Saturday" entries={weekly} xpKey="weeklyXp" empty="Finish a session to start this week's board." />}
-      <Board title="All time" note={`Top ${Math.min(30, (allTime || []).length) || 30}`} entries={allTime} xpKey="totalXp" empty="Earn XP to climb the all-time board." />
+      <Board title="All time" note="Top 15" entries={allTime} xpKey="totalXp" empty="Earn XP to climb the all-time board." />
     </div>
   );
 }
