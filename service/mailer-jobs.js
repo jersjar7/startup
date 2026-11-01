@@ -22,6 +22,9 @@ const { weightedMastery } = require('./examWeights.js');
 const { canSendLifecycle, counts: budgetCounts, DAILY_CAP, MONTHLY_CAP } = require('./sendBudget.js');
 const { digestActiveSince, inDigestAudience, audienceNote, DIGEST_ACTIVE_DAYS } = require('./digestAudience.js');
 const { outcomePriorityActive } = require('./outcomePriority.js');
+const { getLeagueStanding } = require('./db/leagues.js');
+const { previousWeekId } = require('./leagues/week.js');
+const { tierName } = require('./leagues/config.js');
 const {
   queueVerificationRetry, dueVerificationRetries, clearVerificationRetry,
 } = require('./db/emailRetries.js');
@@ -58,6 +61,15 @@ async function ensureUnsubToken(user) {
   const token = generateToken();
   await userCollection.updateOne({ email: user.email }, { $set: { unsubToken: token } });
   return token;
+}
+
+// The league week that ended before `now`, as the digest line needs it
+// (ADR 0037). Null when the student was not in a league that week.
+async function lastWeekLeagueResult(email, now = new Date()) {
+  const standing = await getLeagueStanding(email);
+  const weekId = previousWeekId(now);
+  const r = (standing?.history || []).find((h) => h.weekId === weekId);
+  return r ? { ...r, tierName: tierName(r.tier), newTierName: tierName(r.newTier) } : null;
 }
 
 // Weekly numbers for the digest + the user's weakest chapter for the focus line.
@@ -359,7 +371,16 @@ async function sendWeeklyDigests(now) {
       } catch (e) {
         console.error('[lifecycle] purchase check failed for', u.email, e.message);
       }
+      // Last week's league result, if they were in one. A failed lookup
+      // only drops the line.
+      let league = null;
+      try {
+        league = await lastWeekLeagueResult(u.email, now);
+      } catch (e) {
+        console.error('[lifecycle] league lookup failed for', u.email, e.message);
+      }
       await sendWeeklyDigestEmail(u.email, {
+        league,
         active,
         weeklyXp: s.weeklyXp,
         streak: s.streak,
@@ -605,4 +626,4 @@ function startScheduler() {
   console.log(`[lifecycle] scheduler started: morning ${SEND_HOUR}:00, pitch ${PITCH_HOUR}:00 ${TZ}`);
 }
 
-module.exports = { runLifecycleEmails, startScheduler, weeklyStatsFor };
+module.exports = { runLifecycleEmails, startScheduler, weeklyStatsFor, lastWeekLeagueResult };

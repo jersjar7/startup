@@ -423,10 +423,27 @@ async function sendVerifyReminderEmail(toEmail, rawToken) {
   });
 }
 
+const ordinal = (n) => {
+  const t = n % 100;
+  if (t >= 11 && t <= 13) return `${n}th`;
+  return `${n}${({ 1: 'st', 2: 'nd', 3: 'rd' })[n % 10] || 'th'}`;
+};
+
+// Last week's league result, one sentence (ADR 0037). Null when the student
+// was not in a league last week.
+function leagueLine(r) {
+  if (!r) return null;
+  const where = `You finished ${ordinal(r.place)} of ${r.size} in your ${r.tierName} league`;
+  if (r.moved === 'up') return `${where} and moved up to ${r.newTierName}.`;
+  if (r.moved === 'down') return `${where}. This week you are in ${r.newTierName}.`;
+  return `${where} and stay in ${r.tierName} this week.`;
+}
+
 // Weekly recap (Sunday morning). Active users get the upbeat version; inactive
 // users get a gentle restart so they don't just see a wall of zeros.
 async function sendWeeklyDigestEmail(toEmail, d = {}) {
-  const { active, weeklyXp = 0, streak = 0, problems = 0, masteryTo = null, focusChapter = null, unsubUrl, simPitch = false } = d;
+  const { active, weeklyXp = 0, streak = 0, problems = 0, masteryTo = null, focusChapter = null, unsubUrl, simPitch = false, league = null } = d;
+  const leagueText = leagueLine(league);
   let subject; let heading; let inner; let preheader;
   if (active) {
     subject = `Your week: ${weeklyXp} XP, ${streak} days studied`;
@@ -439,6 +456,7 @@ async function sendWeeklyDigestEmail(toEmail, d = {}) {
         `<strong>${streak}</strong> day${streak === 1 ? '' : 's'} studied`,
         masteryTo != null ? `Overall mastery: <strong>${masteryTo}%</strong>` : null,
       ]) +
+      (leagueText ? para(leagueText) : '') +
       (focusChapter ? para(`<strong>Focus next week:</strong> ${focusChapter}, your weakest area right now.`) : '') +
       button('Continue studying', `${appUrl}/dashboard`);
   } else {
@@ -447,6 +465,7 @@ async function sendWeeklyDigestEmail(toEmail, d = {}) {
     heading = 'Your FE goal is still here';
     inner =
       para(`No study time logged this week, and that's okay. Five minutes today restarts the momentum.${focusChapter ? ` Your weakest area right now is <strong>${focusChapter}</strong>.` : ''}`) +
+      (leagueText ? para(leagueText) : '') +
       button('Study 5 questions', `${appUrl}/dashboard`);
   }
   inner += signatureBlock('Rooting for you,');
@@ -819,4 +838,5 @@ module.exports = {
   sendSimFollowupEmail,
   sendSimPitchFollowupEmail,
   getEmailConfig,
+  leagueLine,
 };
