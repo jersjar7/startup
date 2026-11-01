@@ -12,6 +12,7 @@ import 'features/daily/daily_repository.dart';
 import 'features/games/game_progress.dart';
 import 'features/games/lesson_node_rive.dart';
 import 'features/profile/badge_art.dart';
+import 'features/league/league_moment.dart';
 import 'features/packs/pack_store.dart';
 import 'features/profile/badges.dart';
 
@@ -48,5 +49,6 @@ Future<void> main() async {
   // nodes paint themselves and nothing else notices.
   unawaited(LessonNodeArt.warmUp());
   unawaited(BadgeArt.warmUp());
+  unawaited(LeagueArt.warmUp());
   runApp(const FeRaccoonsApp());
 }

@@ -1,0 +1,12 @@
+# The league results moment (ADR 0037): last week's coin turns into this
+# week's. Generated, then built with the Rive CLI:
+#   python3 rive/league/gen.py
+#   rive rive/league --once
+# writes ../../assets/rive/league.riv, which the app bundles.
+name: league
+main: LeagueMove
+output:
+  dir: ../../assets/rive
+logs:
+  file: build/rive.log
+  problems: build/problems.log
