@@ -229,14 +229,14 @@ export default function PassCard() {
           <p className="pc-body">Post it, print it, or keep it. It is yours either way.</p>
           <CardPreview data={data} />
           <div className="pc-actions">
-            <button className="pc-btn" type="button" onClick={download}>Download the image</button>
+            <button className="pc-btn" type="button" onClick={download}>Download your card</button>
             <a
               className="pc-btn pc-btn--ghost"
               href="https://www.linkedin.com/feed/"
               target="_blank"
               rel="noreferrer noopener"
             >
-              Open LinkedIn
+              Post it on LinkedIn
             </a>
           </div>
           <p className="pc-quiet">

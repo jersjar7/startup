@@ -30,7 +30,7 @@ import './landing.css';
 import './hero-svg.css';
 import { STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
 
-import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
+import { PROBLEM_COUNT_LABEL, LESSON_COUNT, CHAPTER_COUNT } from '../data/contentStats';
 // Cache-buster for the explainer video. The file has a STABLE name, so browsers
 // that already have it will not refetch on their own, it was served
 // `immutable` for a year until 2026-08-09, and a cached response keeps the
@@ -131,11 +131,12 @@ export function Landing({ userName }) {
             <span className="hero-title-emphasis">Everything.</span>
           </h1>
           <p className="hero-subtitle">
-            First attempt or a retake? You don't need to relearn everything.
-            You need targeted practice on exactly what the exam tests.
+            {PROBLEM_COUNT_LABEL} FE Civil problems with worked solutions, {LESSON_COUNT} lessons across all{' '}
+            {CHAPTER_COUNT} chapters, and the Handbook page for every formula. We built it for you, and it is
+            completely free.
           </p>
-          <button className="hero-cta" onClick={() => navigate('/login')}>
-            Get started
+          <button className="hero-cta" onClick={() => navigate('/login', { state: { mode: 'create' } })}>
+            Create your free account
             <AppArrow />
           </button>
           <p className="hero-login-row">
@@ -143,10 +144,7 @@ export function Landing({ userName }) {
             <button className="hero-login-link" onClick={() => navigate('/login')}>Log in</button>
           </p>
           <p className="hero-price">
-            <strong>The whole platform is free</strong>: every lesson, {PROBLEM_COUNT_LABEL} practice problems,
-            the diagnostic, and spaced repetition. No trial, no credit card. The one optional
-            extra is the Exam Pass, a full timed 110-question exam simulation:
-            ${STUDENT_PRICE} for students, ${STANDARD_PRICE} standard.
+            <strong>Completely free.</strong> No trial, no credit card.
           </p>
         </div>
 
@@ -555,8 +553,8 @@ export function Landing({ userName }) {
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> Review queue & progress</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> No time limits or expiry</li>
               </ul>
-              <button className="pricing-btn pricing-btn--free" onClick={() => navigate('/login')}>
-                Get started free
+              <button className="pricing-btn pricing-btn--free" onClick={() => navigate('/login', { state: { mode: 'create' } })}>
+                Create your free account
                 <AppArrow />
               </button>
             </div>
@@ -578,8 +576,8 @@ export function Landing({ userName }) {
                 <li><CheckCircle weight="bold" size={16} className="pricing-check pricing-check--ember" /> Unlimited retakes</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check pricing-check--ember" /> ${STUDENT_PRICE} with a .edu student email</li>
               </ul>
-              <button className="pricing-btn pricing-btn--paid" onClick={() => navigate('/login', { state: { returnTo: '/exam' } })}>
-                Get Exam Simulation
+              <button className="pricing-btn pricing-btn--paid" onClick={() => navigate('/login', { state: { returnTo: '/exam', mode: 'create' } })}>
+                Buy the Exam Simulation
                 <AppArrow />
               </button>
             </div>
@@ -594,10 +592,10 @@ export function Landing({ userName }) {
       {/* ══════ FINAL CTA ══════ */}
       <section className="s-cta">
         <div className="s-cta__inner">
-          <h2 className="s-cta__heading">Ready to pass the FE?</h2>
-          <p className="s-cta__sub">Completely free. No credit card. Just problems and explanations.</p>
-          <button className="hero-cta" onClick={() => navigate('/login')}>
-            Create Free Account
+          <h2 className="s-cta__heading">Your FE prep, completely free</h2>
+          <p className="s-cta__sub">{PROBLEM_COUNT_LABEL} problems with worked solutions across all {CHAPTER_COUNT} chapters. No credit card.</p>
+          <button className="hero-cta" onClick={() => navigate('/login', { state: { mode: 'create' } })}>
+            Create your free account
             <AppArrow />
           </button>
         </div>

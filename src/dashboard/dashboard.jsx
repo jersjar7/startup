@@ -22,7 +22,7 @@ function weightClass(weight) {
   if (weight >= 7) return 'sunbeam';
   return 'muted';
 }
-import { PROBLEM_COUNT } from '../data/contentStats';
+import { PROBLEM_COUNT_LABEL, LESSON_COUNT } from '../data/contentStats';
 import { LoadingState } from '../components/LoadingState';
 import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
 import { ScoringModal } from './ScoringModal';
@@ -519,11 +519,11 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           <Boards weekly={leaderboard.entries} allTime={leaderboard.allTime} />
           <BadgeShelf allBadges={stats.allBadges} earnedIds={earnedBadgeIds} totalXp={stats.totalXp} streak={stats.currentStreak} />
           <p className="dash-share">
-            Know someone taking the FE? A post on{' '}
+            A post on{' '}
             <a href="https://www.reddit.com/r/FE_Exam/" target="_blank" rel="noopener noreferrer">r/FE_Exam</a>
             {' '}or{' '}
-            <a href={`https://x.com/intent/tweet?text=Studying%20for%20the%20FE%20Civil%20exam%3F%20FE%20for%20Raccoons%20is%20free%3A%20lessons%2C%20${PROBLEM_COUNT}%20problems%2C%20a%20diagnostic.%20fe4raccoons.com`} target="_blank" rel="noopener noreferrer">X</a>
-            {' '}helps the next student find us.
+            <a href={`https://x.com/intent/tweet?text=${encodeURIComponent(`FE for Raccoons is completely free for FE Civil: ${LESSON_COUNT} lessons and ${PROBLEM_COUNT_LABEL} problems with worked solutions. fe4raccoons.com`)}`} target="_blank" rel="noopener noreferrer">X</a>
+            {' '}helps the next student find us. We will keep it completely free.
           </p>
         </div>
       </div>

@@ -216,7 +216,7 @@ export function FormulaFinder() {
       <section className="pub-final-cta">
         <h2>Knowing the formula is half of it</h2>
         <p>The other half is spotting which one a problem wants. Practice that on worked FE Civil problems across all 15 topics. Completely free.</p>
-        <Link className="pub-btn pub-btn-primary" to="/login">Start practicing free <AppArrow /></Link>
+        <Link className="pub-btn pub-btn-primary" to="/login?mode=create" state={{ mode: 'create' }}>Create your free account <AppArrow /></Link>
       </section>
     </main>
   );

@@ -29,11 +29,11 @@ async function register() {
     </MemoryRouter>,
   );
 
-  fireEvent.click(screen.getByRole('button', { name: /create a free account/i }));
+  fireEvent.click(screen.getByRole('button', { name: /create your free account/i }));
   fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'raccoon@uwf.edu' } });
   fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'Password1' } });
   fireEvent.click(screen.getByRole('checkbox'));
-  fireEvent.click(screen.getByRole('button', { name: /create account/i }));
+  fireEvent.click(screen.getByRole('button', { name: /create your free account/i }));
 
   await screen.findByText(SOURCE_Q);
   return fetchFn;
@@ -108,6 +108,32 @@ describe('registration onboarding', () => {
     await screen.findByText(SCHOOL_Q);
     await waitFor(() => expect(screen.queryByLabelText('Dismiss')).toBeNull());
   });
+
+  it('lets anyone skip the school question', async () => {
+    await register();
+    fireEvent.click(screen.getByRole('button', { name: 'Reddit' }));
+    await screen.findByText(SCHOOL_Q);
+    expect(screen.getByText('Two optional questions.')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
+    await screen.findByText(EXAM_Q);
+  });
+
+  it('skips the school question for someone on the way to buy the simulation', async () => {
+    vi.stubGlobal('fetch', routeFetch());
+    render(
+      <MemoryRouter initialEntries={[{ pathname: '/login', state: { mode: 'create', returnTo: '/exam' } }]}>
+        <Login userName={null} onLogin={vi.fn()} />
+      </MemoryRouter>,
+    );
+    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'raccoon@uwf.edu' } });
+    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'Password1' } });
+    fireEvent.click(screen.getByRole('checkbox'));
+    fireEvent.click(screen.getByRole('button', { name: /create your free account/i }));
+    await screen.findByText(SOURCE_Q);
+    fireEvent.click(screen.getByRole('button', { name: 'Reddit' }));
+    await screen.findByText(EXAM_Q);
+    expect(screen.queryByText(SCHOOL_Q)).toBeNull();
+  });
 });
 
 // What to call them, asked once and optional (ADR 0023).
@@ -125,7 +151,7 @@ describe('the name at sign-up', () => {
         <Login userName={null} onLogin={vi.fn()} />
       </MemoryRouter>,
     );
-    fireEvent.click(screen.getByRole('button', { name: /create a free account/i }));
+    fireEvent.click(screen.getByRole('button', { name: /create your free account/i }));
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'raccoon@uwf.edu' } });
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'Password1' } });
     fireEvent.click(screen.getByRole('checkbox'));
@@ -137,14 +163,14 @@ describe('the name at sign-up', () => {
   it('sends the first name with the new account', async () => {
     const fetchFn = openCreate();
     fireEvent.change(screen.getByLabelText(/what should we call you/i), { target: { value: ' Maria ' } });
-    fireEvent.click(screen.getByRole('button', { name: /create account/i }));
+    fireEvent.click(screen.getByRole('button', { name: /create your free account/i }));
     await screen.findByText(SOURCE_Q);
     expect(sent(fetchFn).firstName).toBe('Maria');
   });
 
   it('is optional', async () => {
     const fetchFn = openCreate();
-    fireEvent.click(screen.getByRole('button', { name: /create account/i }));
+    fireEvent.click(screen.getByRole('button', { name: /create your free account/i }));
     await screen.findByText(SOURCE_Q);
     expect(sent(fetchFn)).not.toHaveProperty('firstName');
   });
@@ -157,5 +183,39 @@ describe('the name at sign-up', () => {
       </MemoryRouter>,
     );
     expect(screen.queryByLabelText(/what should we call you/i)).toBeNull();
+  });
+});
+
+describe('opening straight into create mode', () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('opens the create form from a signup link, with the counts', () => {
+    render(
+      <MemoryRouter initialEntries={[{ pathname: '/login', state: { mode: 'create' } }]}>
+        <Login userName={null} onLogin={vi.fn()} />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole('heading', { name: 'Create your free account' })).toBeTruthy();
+    expect(screen.getByText(/FE Civil problems with worked/)).toBeTruthy();
+    expect(screen.getByRole('button', { name: /create your free account/i })).toBeTruthy();
+  });
+
+  it('also takes ?mode=create, for links clicked before the page loads', () => {
+    render(
+      <MemoryRouter initialEntries={['/login?mode=create']}>
+        <Login userName={null} onLogin={vi.fn()} />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole('heading', { name: 'Create your free account' })).toBeTruthy();
+  });
+
+  it('opens log in otherwise', () => {
+    render(
+      <MemoryRouter initialEntries={['/login']}>
+        <Login userName={null} onLogin={vi.fn()} />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole('button', { name: /log in/i })).toBeTruthy();
+    expect(screen.queryByRole('heading', { name: 'Create your free account' })).toBeNull();
   });
 });

@@ -58,7 +58,7 @@ export function ExamSimCard() {
       >
         <Exam size={18} weight="bold" className="exam-sim-inline-icon" />
         <span className="exam-sim-inline-text">
-          Ready to test yourself? Take the full 110-question exam simulation.
+          Take the full timed 110-question exam simulation.
         </span>
         <ArrowRight size={14} weight="bold" className="exam-sim-inline-arrow" />
       </button>

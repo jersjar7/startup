@@ -144,7 +144,7 @@ export function SimPitchBanner({ examDate, problemsAnswered = 0, variant = 'full
       </div>
       <div className="sim-pitch-actions">
         <button type="button" className="sim-pitch-cta" onClick={handleCta}>
-          See the simulation
+          See the full 110-question simulation
         </button>
         <button type="button" className="sim-pitch-later" onClick={handleSnooze}>
           Maybe later
