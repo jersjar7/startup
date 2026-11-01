@@ -367,7 +367,10 @@ export function Profile({ userName, onLogout }) {
                   )}
                 </>
               ) : (
-                <Link to="/exam" className="profile-text-link">Not purchased (${priceForEmail(userName)})</Link>
+                <>
+                  <span className="profile-muted">Not yet</span>
+                  <Link to="/exam" className="profile-stat-link">Get it for ${priceForEmail(userName)}</Link>
+                </>
               )}
             </dd>
           </div>

@@ -330,6 +330,11 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     setDiagnosticStatus(prev => ({ ...prev, diagnosticSkipped: true }));
   }
 
+  // Never started the quick start and never skipped it: lead with it.
+  const firstPitch = !(quickstart?.sampledCount > 0)
+    && !diagnosticStatus?.diagnosticCompleted
+    && !diagnosticStatus?.diagnosticSkipped;
+
   if (loading) {
     return <LoadingState />;
   }
@@ -355,7 +360,15 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       {/* ── Chapters first, from the top (2026-10-26 redesign, docs/dashboard.md):
           the list on the left, the road to the FE on the right, the boards
           under the list. ── */}
-      <div className="dash-grid">
+      {/* A student who has not mapped anything yet sees the quick start first:
+          above the chapters on a phone, at the top of the right column on a
+          desktop. Once they start or skip it, it goes back to the column. */}
+      <div className={firstPitch ? 'dash-grid dash-grid--pitch' : 'dash-grid'}>
+        {firstPitch && (
+          <div className="dash-pitch">
+            <DiagnosticCard diagnosticStatus={diagnosticStatus} quickstart={quickstart} onSkip={handleDiagnosticSkip} />
+          </div>
+        )}
 
         {/* ── LEFT: 15 Chapters ── */}
         <section className="dash-chapters">
@@ -378,7 +391,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                   No reviews due
                 </span>
               ) : null}
-              {(() => {
+              {/* The quick start card already leads the page for a first-timer */}
+              {!firstPitch && (() => {
                 const qsTotal = CHAPTERS.length;
                 const qsCount = quickstart?.sampledCount || 0;
                 const label = qsCount === 0
@@ -504,7 +518,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           {(() => {
             const qsCount = quickstart?.sampledCount || 0;
             const inProgressOrDone = qsCount > 0 && !diagnosticStatus?.diagnosticCompleted;
-            return inProgressOrDone ? null : (
+            return inProgressOrDone || firstPitch ? null : (
               <DiagnosticCard diagnosticStatus={diagnosticStatus} quickstart={quickstart} onSkip={handleDiagnosticSkip} />
             );
           })()}

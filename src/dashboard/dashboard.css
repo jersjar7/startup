@@ -180,6 +180,17 @@
   align-items: start;
   margin-bottom: 0;
 }
+/* A first-time student: the quick start tops the right column */
+.dash-grid--pitch {
+  grid-template-areas:
+    "chapters pitch"
+    "chapters rail"
+    "boards   rail";
+  grid-template-rows: auto auto 1fr;
+}
+/* Room above the road card for the raccoon that peeks over it */
+.dash-pitch { grid-area: pitch; margin-bottom: 2.5rem; }
+.dash-pitch .diag-card { margin-bottom: 0; }
 .dash-chapters { grid-area: chapters; }
 .dash-sidebar { grid-area: rail; }
 .dash-under { grid-area: boards; display: grid; gap: 0.9rem; }
@@ -950,6 +961,9 @@
     grid-template-rows: auto;
     row-gap: 1.5rem;
   }
+  /* On a phone it comes before the chapters */
+  .dash-grid--pitch { grid-template-areas: "pitch" "chapters" "rail" "boards"; }
+  .dash-pitch { margin-bottom: 0; }
   .dash-sidebar { padding-top: 1.5rem; }
 }
 
