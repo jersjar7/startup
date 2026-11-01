@@ -115,4 +115,26 @@ async function closeEndedWeeks(now = new Date(), { loadEvents } = {}) {
   return summary;
 }
 
-module.exports = { rankGroup, resultsFor, placeIfEarning, weekXpFromLog, closeEndedWeeks };
+/**
+ * The admin line: this week's groups per tier, and last week's moves per
+ * tier. Counts only, never addresses.
+ */
+function summarizeWeeks(thisWeekGroups, lastWeekGroups) {
+  const { TIER_IDS } = require('./config.js');
+  const tiers = Object.fromEntries(TIER_IDS.map((t) => [t, { groups: 0, students: 0, up: 0, down: 0, stayed: 0 }]));
+  let placed = 0;
+  for (const g of thisWeekGroups) {
+    if (!tiers[g.tier]) continue;
+    tiers[g.tier].groups++;
+    tiers[g.tier].students += g.members.length;
+    placed += g.members.length;
+  }
+  const last = Object.fromEntries(TIER_IDS.map((t) => [t, { up: 0, down: 0, stayed: 0 }]));
+  for (const g of lastWeekGroups) for (const r of g.results || []) if (last[g.tier]) last[g.tier][r.moved]++;
+  return {
+    thisWeek: { placed, groups: thisWeekGroups.length, tiers },
+    lastWeek: { closed: lastWeekGroups.filter((g) => g.closedAt).length, moves: last },
+  };
+}
+
+module.exports = { rankGroup, resultsFor, placeIfEarning, weekXpFromLog, closeEndedWeeks, summarizeWeeks };

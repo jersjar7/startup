@@ -208,3 +208,18 @@ describe('closing the week', () => {
     expect(standings.get('s1@school.edu').history).toHaveLength(1);
   });
 });
+
+describe('the admin line', () => {
+  const { summarizeWeeks } = require('./leagues/league.js');
+  it('counts groups and students per tier, and last week\'s moves', () => {
+    const s = summarizeWeeks(
+      [{ tier: 'timber', members: ['a', 'b'] }, { tier: 'timber', members: ['c'] }, { tier: 'steel', members: ['d'] }],
+      [{ tier: 'concrete', closedAt: new Date(), results: [{ moved: 'up' }, { moved: 'down' }, { moved: 'stayed' }] }],
+    );
+    expect(s.thisWeek).toMatchObject({ placed: 4, groups: 3 });
+    expect(s.thisWeek.tiers.timber).toMatchObject({ groups: 2, students: 3 });
+    expect(s.lastWeek).toMatchObject({ closed: 1 });
+    expect(s.lastWeek.moves.concrete).toEqual({ up: 1, down: 1, stayed: 1 });
+    expect(JSON.stringify(s)).not.toMatch(/"a"|"b"/);
+  });
+});

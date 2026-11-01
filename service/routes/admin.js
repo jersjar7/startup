@@ -36,6 +36,24 @@ router.get('/waitlist', verifyAuth, requireAdmin, async (req, res) => {
   }
 });
 
+// GET /api/admin/leagues: this week's groups per tier and last week's moves
+// (ADR 0037). Counts only, never addresses.
+router.get('/leagues', verifyAuth, requireAdmin, async (req, res) => {
+  try {
+    const { summarizeWeeks } = require('../leagues/league.js');
+    const { currentWeekId, previousWeekId } = require('../leagues/week.js');
+    const now = new Date();
+    const [thisWeek, lastWeek] = await Promise.all([
+      DB.listLeagueGroupsForWeek(currentWeekId(now)),
+      DB.listLeagueGroupsForWeek(previousWeekId(now)),
+    ]);
+    res.send({ weekId: currentWeekId(now), ...summarizeWeeks(thisWeek, lastWeek) });
+  } catch (e) {
+    console.error('[admin] leagues failed:', e.message);
+    res.status(500).send({ msg: 'Failed to load leagues' });
+  }
+});
+
 // GET /api/admin/timeseries?days=30 — daily time-series + KPI snapshot.
 router.get('/timeseries', verifyAuth, requireAdmin, async (req, res) => {
   try {
