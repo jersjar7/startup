@@ -110,6 +110,8 @@
 }
 
 .egf-icon--ember { color: var(--ember); }
+.egf-icon--sunbeam { color: var(--sunbeam); }
+.egf-icon--forest { color: var(--forest); }
 
 .egf-label {
   display: block;
