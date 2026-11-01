@@ -118,6 +118,25 @@ abstract final class AppColors {
   static const butterCoin = Color(0xFFF9D28A);
   static const forestCoin = Color(0xFF2D7A5F);
 
+  /// The league coins (ADR 0037; approved 2026-11-01), face, rim and the
+  /// engraving, matching the website's coins. Objects, like the badge
+  /// coins, so the same in both modes. The only place these metals are used.
+  static const copperFace = Color(0xFFD9895A);
+  static const copperRim = Color(0xFF94502C);
+  static const copperInk = Color(0xFF8A4622);
+  static const bronzeFace = Color(0xFFC49A5C);
+  static const bronzeRim = Color(0xFF7D5B2C);
+  static const bronzeInk = Color(0xFF6F4F22);
+  static const silverFace = Color(0xFFD8DADC);
+  static const silverRim = Color(0xFF8E949A);
+  static const silverInk = Color(0xFF6B7177);
+  static const goldFace = Color(0xFFF2C64B);
+  static const goldRim = Color(0xFFA97F1C);
+  static const goldInk = Color(0xFF8C6812);
+  static const platinumFace = Color(0xFFE9EFF3);
+  static const platinumRim = Color(0xFF7E95A3);
+  static const platinumInk = Color(0xFF536C7B);
+
   // The identity accent: hot ground, warnings, the mastery figure
   static const ember = ThemedColor(0xFFE8683A, 0xFFF27A4C);
 
