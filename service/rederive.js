@@ -72,6 +72,10 @@ async function rederiveAccount(email, { sessionContext = null, extra = {} } = {}
   };
   await DB.replaceUserStats(email, stats);
   await DB.replaceProblemHistory(email, d.history);
+  // The first XP of the week puts the student in a league group. Placement
+  // never touches a tier and never throws, so this can neither undo a week's
+  // result nor cost anyone their progress (ADR 0037).
+  await require('./leagues/league.js').placeIfEarning(email, weeklyXp);
 
   return { ...d, weeklyXp, longestStreak, badges, newBadgeIds, stats };
 }

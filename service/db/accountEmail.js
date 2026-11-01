@@ -11,11 +11,13 @@ const {
   gameFeedbackCollection,
   dailyResultsCollection,
   chapterTestAttemptsCollection,
+  leagueStandingCollection,
+  leagueGroupsCollection,
 } = require('./connection');
 
 // Moving an account to a new email address.
 //
-// The address is the KEY in eleven collections, not just a field on the user, so
+// The address is the KEY in a dozen collections, not just a field on the user, so
 // a rename that misses one orphans that part of somebody's history: their
 // stats, their problem log, their sessions, their diagnostic, their flags.
 // This list is the same one deleteAllUserData walks, for the same reason, and
@@ -34,6 +36,7 @@ const EMAIL_KEYED = [
   ['gameFeedback', gameFeedbackCollection],
   ['dailyResults', dailyResultsCollection],
   ['chapterTestAttempts', chapterTestAttemptsCollection],
+  ['leagueStanding', leagueStandingCollection],
 ];
 
 /// Move every row keyed by [from] onto [to], then the user document itself.
@@ -55,6 +58,14 @@ async function changeAccountEmail(from, to, update) {
     const res = await collection.updateMany({ email: from }, { $set: { email: to } });
     moved[name] = res.modifiedCount;
   }
+  // League groups hold the address inside their member list and results.
+  const groups = await leagueGroupsCollection.updateMany({ members: from }, { $set: { 'members.$': to } });
+  await leagueGroupsCollection.updateMany(
+    { 'results.email': from },
+    { $set: { 'results.$[r].email': to } },
+    { arrayFilters: [{ 'r.email': from }] },
+  );
+  moved.leagueGroups = groups.modifiedCount;
   const res = await userCollection.updateOne({ email: from }, { $set: update });
   moved.user = res.modifiedCount;
   return moved;

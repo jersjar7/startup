@@ -14,6 +14,8 @@ const {
   dailyResultsCollection,
   chapterTestAttemptsCollection,
   deletionLogCollection,
+  leagueStandingCollection,
+  leagueGroupsCollection,
 } = require('./connection');
 const { deletionRecord } = require('../deletionRecord.js');
 
@@ -56,6 +58,9 @@ async function deleteAllUserData(email, userId, { reason = 'user' } = {}) {
     gameFeedbackCollection.deleteMany({ email }),
     dailyResultsCollection.deleteMany({ email }),
     chapterTestAttemptsCollection.deleteMany({ email }),
+    // Leagues: the standing, and the address inside every group it joined.
+    leagueStandingCollection.deleteMany({ email }),
+    leagueGroupsCollection.updateMany({ members: email }, { $pull: { members: email, results: { email } } }),
     ...(userId ? [
       purchasesCollection.deleteMany({ userId }),
       examAttemptsCollection.deleteMany({ userId }),
