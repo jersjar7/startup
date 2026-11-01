@@ -1,7 +1,7 @@
 # Weekly leagues: spec
 
-Status: proposal, 2026-11-01. Nothing here is built. Decisions marked
-**Recommend** are waiting for the owner.
+Status: approved 2026-11-01 (ADR 0037). Decisions marked
+**Recommend** were all approved by the owner.
 
 ## Why
 
