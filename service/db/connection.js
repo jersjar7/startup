@@ -38,6 +38,10 @@ const emailRetriesCollection = db.collection('emailRetries');
 const visitCountsCollection = db.collection('visitCounts');
 // The PE waitlist, one row per address. See service/waitlist.js.
 const waitlistCollection = db.collection('waitlist');
+// Weekly leagues (ADR 0037, ./leagues.js): one group per tier per week, and
+// one standing per student holding their tier.
+const leagueGroupsCollection = db.collection('leagueGroups');
+const leagueStandingCollection = db.collection('leagueStanding');
 
 // Test connection and create indexes on startup
 // Unit tests import route modules that pull this in; they never touch the
@@ -84,6 +88,11 @@ if (!process.env.VITEST) (async function testConnection() {
     await visitCountsCollection.createIndex({ day: 1 });
     await waitlistCollection.createIndex({ email: 1 }, { unique: true });
     await waitlistCollection.createIndex({ unsubToken: 1 }, { unique: true });
+    // Two students opening the same new group collide here and one retries.
+    await leagueGroupsCollection.createIndex({ weekId: 1, tier: 1, groupNo: 1 }, { unique: true });
+    await leagueGroupsCollection.createIndex({ weekId: 1, members: 1 });
+    await leagueGroupsCollection.createIndex({ closedAt: 1, weekId: 1 });
+    await leagueStandingCollection.createIndex({ email: 1 }, { unique: true });
   } catch (ex) {
     console.log(`Unable to connect to database because ${ex.message}`);
     process.exit(1);
@@ -100,6 +109,8 @@ module.exports = {
   emailRetriesCollection,
   visitCountsCollection,
   waitlistCollection,
+  leagueGroupsCollection,
+  leagueStandingCollection,
   client,
   db,
   ping,

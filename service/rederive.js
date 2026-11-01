@@ -15,14 +15,9 @@ const DB = require('./database.js');
 const { deriveAccount } = require('./derive.js');
 const { evaluateBadges } = require('./badges.js');
 
-/** The leaderboard's week id for a YYYY-MM-DD day, the same reckoning as getWeekId(). */
-function weekIdFor(day) {
-  const d = new Date(`${day}T12:00:00`);
-  const jan1 = new Date(d.getFullYear(), 0, 1);
-  const days = Math.floor((d - jan1) / 86400000);
-  const week = Math.ceil((days + jan1.getDay() + 1) / 7);
-  return `${d.getFullYear()}-W${String(week).padStart(2, '0')}`;
-}
+// The week's id for a YYYY-MM-DD day, and today's day, both by the Eastern
+// calendar the leagues run on (ADR 0037). getWeekId() uses the same reckoning.
+const { weekIdFor, dayIn } = require('./leagues/week.js');
 
 async function allEvents(email) {
   const out = [];
@@ -48,7 +43,7 @@ async function rederiveAccount(email, { sessionContext = null, extra = {} } = {}
   const prior = existing || {};
   const d = deriveAccount({ events });
 
-  const thisWeek = weekIdFor(new Date().toLocaleDateString('en-CA'));
+  const thisWeek = weekIdFor(dayIn(new Date()));
   let weeklyXp = 0;
   for (const [day, xp] of Object.entries(d.xpByDay)) if (weekIdFor(day) === thisWeek) weeklyXp += xp;
 
@@ -77,6 +72,10 @@ async function rederiveAccount(email, { sessionContext = null, extra = {} } = {}
   };
   await DB.replaceUserStats(email, stats);
   await DB.replaceProblemHistory(email, d.history);
+  // The first XP of the week puts the student in a league group. Placement
+  // never touches a tier and never throws, so this can neither undo a week's
+  // result nor cost anyone their progress (ADR 0037).
+  await require('./leagues/league.js').placeIfEarning(email, weeklyXp);
 
   return { ...d, weeklyXp, longestStreak, badges, newBadgeIds, stats };
 }

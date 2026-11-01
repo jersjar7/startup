@@ -2,6 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { sanitizeName, displayName } = require('../profile.js');
+const { currentWeekId } = require('../leagues/week.js');
 
 const router = express.Router();
 
@@ -13,13 +14,9 @@ function leaderName(entry) {
     : `${String(entry.email || '').substring(0, 3)}***`;
 }
 
-// Get current week ID (YYYY-Wnn)
-function getWeekId() {
-  const now = new Date();
-  const jan1 = new Date(now.getFullYear(), 0, 1);
-  const days = Math.floor((now - jan1) / 86400000);
-  const week = Math.ceil((days + jan1.getDay() + 1) / 7);
-  return `${now.getFullYear()}-W${String(week).padStart(2, '0')}`;
+// This week's id (YYYY-Wnn): Sunday to Saturday, US Eastern (ADR 0037).
+function getWeekId(now = new Date()) {
+  return currentWeekId(now);
 }
 
 // Get weekly leaderboard

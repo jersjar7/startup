@@ -97,6 +97,8 @@ describe('what the page promises matches what the code erases', () => {
       'dailyResults',
       // Chapter tests; the page's results line covers them.
       'chapterTestAttempts',
+      // Weekly leagues (ADR 0037); the page's XP line covers them.
+      'leagueStanding',
     ]));
   });
 
