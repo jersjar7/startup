@@ -133,6 +133,36 @@ export function Profile({ userName, onLogout }) {
     }).finally(() => setLoading(false));
   }, [userName, navigate]);
 
+  // "Hide me from leagues". Null while loading or when leagues are off, so the
+  // switch is never shown with a guess.
+  const [leagueHidden, setLeagueHidden] = React.useState(null);
+  const [leagueSaving, setLeagueSaving] = React.useState(false);
+  React.useEffect(() => {
+    if (!userName) return;
+    fetch('/api/league')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => setLeagueHidden(data ? !!data.hidden : null))
+      .catch(() => setLeagueHidden(null));
+  }, [userName]);
+
+  async function saveLeagueHidden(hidden) {
+    const before = leagueHidden;
+    setLeagueHidden(hidden);
+    setLeagueSaving(true);
+    try {
+      const res = await fetch('/api/league/hidden', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hidden }),
+      });
+      if (!res.ok) throw new Error();
+    } catch {
+      setLeagueHidden(before); // not saved: show what is really stored
+    } finally {
+      setLeagueSaving(false);
+    }
+  }
+
   function handleLogout() {
     onLogout();
     navigate('/login');
@@ -467,6 +497,21 @@ export function Profile({ userName, onLogout }) {
             </div>
           </form>
         </section>
+
+        {/* Leagues (ADR 0037): a hidden student still competes, shown to others as "A student". */}
+        {leagueHidden !== null && (
+          <section className="profile-card">
+            <h2 className="profile-section-title">Leagues</h2>
+            <label className="profile-check">
+              <input type="checkbox" checked={leagueHidden} disabled={leagueSaving}
+                onChange={(e) => saveLeagueHidden(e.target.checked)} />
+              Hide me from leagues
+            </label>
+            <p className="details-hint">
+              You still compete each week. Others see you as A student, and you still see your own name.
+            </p>
+          </section>
+        )}
 
         {/* Account info: sign-in email, its status, and the password. */}
         <section className="profile-card">

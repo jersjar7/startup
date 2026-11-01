@@ -248,3 +248,44 @@ describe('Profile delete account', () => {
     expect(screen.queryByLabelText(/type delete to confirm/i)).toBeNull();
   });
 });
+
+describe('Profile league switch', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  const league = (body, ok = true) => (url) => (url === '/api/league'
+    ? Promise.resolve({ ok, json: () => Promise.resolve(body) })
+    : null);
+
+  it('shows what is stored and saves a change', async () => {
+    const fetchFn = mountProfile({ onFetch: league({ hidden: false }) });
+    const box = await screen.findByLabelText(/hide me from leagues/i);
+    expect(box.checked).toBe(false);
+    fireEvent.click(box);
+    await waitFor(() => expect(fetchFn.mock.calls.some(([u]) => u === '/api/league/hidden')).toBe(true));
+    const [, opts] = fetchFn.mock.calls.find(([u]) => u === '/api/league/hidden');
+    expect(JSON.parse(opts.body)).toEqual({ hidden: true });
+    expect(box.checked).toBe(true);
+  });
+
+  it('goes back to what is stored when the save fails', async () => {
+    mountProfile({
+      onFetch: (url) => (url === '/api/league/hidden'
+        ? Promise.resolve({ ok: false, json: () => Promise.resolve({}) })
+        : league({ hidden: true })(url)),
+    });
+    const box = await screen.findByLabelText(/hide me from leagues/i);
+    expect(box.checked).toBe(true);
+    fireEvent.click(box);
+    await waitFor(() => expect(box.disabled).toBe(false));
+    expect(box.checked).toBe(true);
+  });
+
+  it('is not shown while leagues are off', async () => {
+    mountProfile({ onFetch: league({}, false) });
+    await screen.findByLabelText(/i have already graduated/i);
+    expect(screen.queryByLabelText(/hide me from leagues/i)).toBeNull();
+  });
+});

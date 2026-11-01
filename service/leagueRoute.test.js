@@ -119,6 +119,13 @@ describe('GET /api/league', () => {
     expect(again.body.lastResult).toBeNull();
   });
 
+  it('is not found while leagues are switched off', async () => {
+    process.env.LEAGUES_DISABLED = '1';
+    const r = await request(app()).get('/api/league').set(as('me@x.com'));
+    delete process.env.LEAGUES_DISABLED;
+    expect(r.status).toBe(404);
+  });
+
   it('needs a signed-in student', async () => {
     const r = await request(app()).get('/api/league');
     expect(r.status).toBe(401);

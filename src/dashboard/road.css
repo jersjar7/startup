@@ -175,9 +175,13 @@
 .league-result { width: min(420px, 100%); box-sizing: border-box; background: #fff; border-radius: 24px; padding: 2rem 1.75rem 1.75rem; box-shadow: 0 1px 3px rgba(44,44,44,0.04), 0 12px 40px rgba(44,44,44,0.16); }
 .league-ladder { list-style: none; margin: 0 0 1.5rem; padding: 0; position: relative; display: grid; gap: 0.5rem; }
 .league-ladder::before { content: ''; position: absolute; left: 15px; top: 0.6rem; bottom: 0.6rem; width: 2px; background: #E2D8C8; }
-.league-ladder li { position: relative; display: flex; align-items: center; gap: 0.7rem; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-400); line-height: 1.2; }
+.league-ladder li[data-tier] { position: relative; display: flex; align-items: center; gap: 0.7rem; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-400); line-height: 1.2; }
 .league-ladder li .lcoin { margin: 0 calc((32px - var(--lcoin-d)) / 2); }
-.league-ladder li:not(.is-now):not(.is-was) .lcoin { opacity: 0.5; }
+.league-ladder li[data-tier]:not(.is-now):not(.is-was) .lcoin { opacity: 0.5; }
+/* The travelling coin (LeagueResult.jsx): parked over the line, seen only
+   while it moves; without motion the new league's own coin is the end state. */
+.league-ladder-track { position: absolute; left: 0; top: 0; width: 32px; height: 0; }
+.league-ladder-track > span { display: block; opacity: 0; will-change: transform; }
 .league-ladder li.is-was { color: var(--gray-600); }
 .league-ladder li.is-now { color: var(--charcoal); font-size: 0.85rem; }
 .league-result-title { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; color: var(--charcoal); margin: 0 0 0.6rem; }

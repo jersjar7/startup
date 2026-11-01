@@ -332,8 +332,21 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     setDiagnosticStatus(prev => ({ ...prev, diagnosticSkipped: true }));
   }
 
-  const league = leagueMock();
+  // The weekly league (ADR 0037). Null while loading, when leagues are off, or
+  // on any failure: the dashboard then shows the plain weekly board.
+  const [league, setLeague] = React.useState(() => leagueMock());
   const [resultSeen, setResultSeen] = React.useState(false);
+  React.useEffect(() => {
+    if (league?.mock) return;
+    fetch('/api/league')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => setLeague(data))
+      .catch(() => setLeague(null));
+  }, []); // once per visit
+  function closeLeagueResult() {
+    setResultSeen(true);
+    if (!league?.mock) fetch('/api/league/seen', { method: 'POST' }).catch(() => {});
+  }
 
   // Never started the quick start and never skipped it: lead with it.
   const firstPitch = !(quickstart?.sampledCount > 0)
@@ -572,8 +585,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         </div>
       )}
       {/* Last week's league result, once, and never on top of another prompt */}
-      {league?.lastResult && !resultSeen && ((!showSource && !showSchool) || league.forceResult) && (
-        <LeagueResult result={league.lastResult} onClose={() => setResultSeen(true)} />
+      {league?.lastResult && !resultSeen && ((!showSource && !showSchool) || league.mock) && (
+        <LeagueResult result={league.lastResult} onClose={closeLeagueResult} />
       )}
       <ScoringModal open={scoringOpen} onClose={() => setScoringOpen(false)} />
     </main>

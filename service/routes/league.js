@@ -52,6 +52,8 @@ function neighbours(tier) {
 }
 
 router.get('/', verifyAuth, async (req, res) => {
+  // Switched off: the website and the app fall back to the weekly board.
+  if (process.env.LEAGUES_DISABLED === '1') return res.status(404).send({ msg: 'Leagues are off' });
   try {
     const email = req.user.email;
     const now = new Date();
