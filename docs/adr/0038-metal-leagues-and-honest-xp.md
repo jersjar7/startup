@@ -40,8 +40,9 @@ The owner approved these on 2026-11-01:
 3. **XP once per problem per day.** A desk answer earns XP only the first
    time that problem is answered on the student's day. A repeat that day is
    still recorded and still counts for review and mastery; it earns nothing.
-   Session and review bonuses are unchanged. Not retroactive: XP already
-   earned stays.
+   The session and review bonuses are paid only when the session earned
+   something, so a session made only of repeats earns nothing (owner,
+   2026-11-01). Not retroactive: XP already earned stays.
 4. **The server grades desk answers.** The website sends the choice picked;
    the server compares it with its own copy of the bank (`service/grading.js`,
    `service/content.json`). A problem the server does not hold earns nothing.
@@ -56,7 +57,7 @@ group's places, and how many days each student studied this week.
 ## Consequences
 
 - An all-time total built from repeats stays as it is; from now on a day of
-  repeats earns a session bonus and nothing per answer.
+  repeats earns nothing.
 - The live "+10" on the website practice screen is a guess the summary
   corrects; a repeat shows +10 live and 0 in the summary.
 - `src/data/serverGrading.test.js` fails if the server's copy of the bank is
@@ -65,7 +66,5 @@ group's places, and how many days each student studied this week.
 - Phone sync events still carry the phone's own grade. They stay capped at 60
   XP a day, which bounds what a forged phone event could be worth.
 - The second student's week is not acted on.
-- The session and review bonuses still pay for a session made only of
-  repeats, so finishing many short repeat sessions still earns 15 to 25 XP
-  each. Paying the bonus only when a session earned something is the next
-  step if league boards show it being used.
+- A session of repeats still shows its summary, with 0 XP and the repeats
+  counted, so the student sees why.

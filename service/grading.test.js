@@ -61,6 +61,11 @@ describe('XP for a session', () => {
     expect(xp).toMatchObject({ correct: 10, total: 25, repeats: 1 });
   });
 
+  it('pays no finishing bonus for a session made only of repeats', () => {
+    const xp = scoreAnswers(g([{ problemId: 'p1', choiceId: 'b' }, { problemId: 'p2', choiceId: 'a' }]), new Set(['p1', 'p2']), 25);
+    expect(xp).toEqual({ correct: 0, incorrect: 0, bonus: 0, total: 0, repeats: 2 });
+  });
+
   it('pays an old build\'s "right" only the attempt XP', () => {
     const xp = scoreAnswers(g([{ problemId: 'p1', isCorrect: true }]), new Set(), 0);
     expect(xp.total).toBe(5);

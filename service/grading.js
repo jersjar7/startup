@@ -44,7 +44,8 @@ function gradeAnswers(answers, content = defaultContent()) {
 /**
  * The session's XP, answer by answer. `answeredToday` holds the problems
  * already answered at the desk on this day; a problem asked twice in one
- * session also counts once.
+ * session also counts once. The finishing bonus is paid only when an
+ * answer earned something, so a session of repeats earns nothing (ADR 0038).
  */
 function scoreAnswers(graded, answeredToday = new Set(), bonus = XP.sessionBonus) {
   const seen = new Set(answeredToday);
@@ -59,7 +60,8 @@ function scoreAnswers(graded, answeredToday = new Set(), bonus = XP.sessionBonus
     if (a.isCorrect) correct += xp;
     else incorrect += xp;
   }
-  return { correct, incorrect, bonus, total: correct + incorrect + bonus, repeats };
+  const paid = correct + incorrect > 0 ? bonus : 0;
+  return { correct, incorrect, bonus: paid, total: correct + incorrect + paid, repeats };
 }
 
 module.exports = { validAnswer, gradeAnswers, scoreAnswers };

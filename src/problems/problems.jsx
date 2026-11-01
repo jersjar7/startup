@@ -355,6 +355,12 @@ export function Problems({ userName, onLogout, reviewMode = false, displayName }
               <span>{bonusLabel}</span>
               <span>+{bonusValue} XP</span>
             </div>
+            {summary.xpEarned.repeats > 0 && (
+              <div className="xp-row">
+                <span>Already answered today ({summary.xpEarned.repeats})</span>
+                <span>+0 XP</span>
+              </div>
+            )}
             <div className="xp-row xp-total">
               <span>Total</span>
               <span>+{summary.xpEarned.total} XP</span>
