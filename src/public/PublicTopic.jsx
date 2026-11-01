@@ -4,7 +4,7 @@ import { MathText } from '../components/MathText';
 import { NotFound } from '../components/NotFound';
 import { useSeo } from '../seo/useSeo';
 import { getTopic, allTopics } from './content';
-import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
+import { PROBLEM_COUNT_LABEL, LESSON_COUNT, CHAPTER_COUNT } from '../data/contentStats';
 import { getChapterProblemCount } from '../data/problemPool';
 import { getChapterPracticeProblems } from '../data/chapter-practice/index';
 
@@ -92,6 +92,10 @@ export function PublicTopic() {
 
   const num2 = (n) => String(n).padStart(2, '0');
 
+  // A visitor without an account lands on signup and comes back to this
+  // chapter after it; someone logged in skips straight to the chapter.
+  const signupState = { mode: 'create', returnTo: `/study/${topic.id}` };
+
   return (
     <main className={`pub pub-accent-${topic.accent}`}>
       <nav className="pub-breadcrumb" aria-label="Breadcrumb">
@@ -107,7 +111,7 @@ export function PublicTopic() {
           <h1>FE Civil {topic.name}</h1>
           {topic.context && <p className="pub-lede">{topic.context}</p>}
           <div className="pub-cta-row">
-            <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Practice {topic.name} free <AppArrow /></Link>
+            <Link className="pub-btn pub-btn-primary" to="/login?mode=create" state={signupState}>Create your free account <AppArrow /></Link>
             <Link className="pub-btn pub-btn-ghost" to={`/fe-civil/${topic.id}/practice-problems`}>Free practice problems</Link>
           </div>
         </div>
@@ -230,9 +234,12 @@ export function PublicTopic() {
 
       {/* Final CTA */}
       <section className="pub-final-cta">
-        <h2>Study {topic.name} the smart way</h2>
-        <p>Bite-sized lessons, one-problem-at-a-time practice with instant feedback, and progress that adds up every day you study, built for the FE Civil exam.</p>
-        <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Start practicing {topic.name} <AppArrow /></Link>
+        <h2>{topic.name} is one of {CHAPTER_COUNT} chapters, all completely free</h2>
+        <p>
+          {LESSON_COUNT} lessons and {PROBLEM_COUNT_LABEL} FE Civil problems with worked solutions and the Handbook
+          page for each. We built this for you, and it stays completely free.
+        </p>
+        <Link className="pub-btn pub-btn-primary" to="/login?mode=create" state={signupState}>Create your free account <AppArrow /></Link>
       </section>
     </main>
   );

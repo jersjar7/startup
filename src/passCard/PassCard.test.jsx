@@ -66,7 +66,7 @@ describe('somebody whose account already has a name (ADR 0023)', () => {
     const field = await screen.findByLabelText(/your full name/i);
     expect(field.value).toBe('Sammy');
     // Nothing they could keep until the name is confirmed.
-    expect(screen.queryByRole('button', { name: /download the image/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /download your card/i })).toBeNull();
   });
 
   it('lets them print a different name, and saves it as the card\'s own', async () => {
@@ -75,7 +75,7 @@ describe('somebody whose account already has a name (ADR 0023)', () => {
     await userEvent.clear(field);
     await userEvent.type(field, 'Samantha Reyes');
     await userEvent.click(screen.getByRole('button', { name: /draw my card/i }));
-    expect(await screen.findByRole('button', { name: /download the image/i })).toBeTruthy();
+    expect(await screen.findByRole('button', { name: /download your card/i })).toBeTruthy();
     const [url, opts] = global.fetch.mock.calls.find(([, o]) => o?.method === 'POST');
     expect(url).toBe('/api/email/pass-card/abc123/name');
     expect(JSON.parse(opts.body)).toEqual({ name: 'Samantha Reyes' });
@@ -97,9 +97,9 @@ describe('somebody whose account already has a name (ADR 0023)', () => {
     mountAt();
     expect(screen.queryByText(/the PE exam is next/i)).toBeNull();
     await userEvent.click(await screen.findByRole('button', { name: /draw my card/i }));
-    await screen.findByRole('button', { name: /download the image/i });
+    await screen.findByRole('button', { name: /download your card/i });
     const pe = screen.getByText(/the PE exam is next/i);
-    const download = screen.getByRole('button', { name: /download the image/i });
+    const download = screen.getByRole('button', { name: /download your card/i });
     // The celebration is not a toll gate for a research question.
     expect(download.compareDocumentPosition(pe) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
@@ -131,7 +131,7 @@ describe('somebody with no name on the account, which is most people', () => {
   it('asks for a name before drawing anything they could keep', async () => {
     mountAt();
     expect((await screen.findByLabelText(/your full name/i)).value).toBe('');
-    expect(screen.queryByRole('button', { name: /download the image/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /download your card/i })).toBeNull();
   });
 
   it('will not submit an empty name', async () => {
@@ -145,7 +145,7 @@ describe('somebody with no name on the account, which is most people', () => {
     const field = await screen.findByLabelText(/your full name/i);
     await userEvent.type(field, 'Jerson Garcia');
     await userEvent.click(screen.getByRole('button', { name: /draw my card/i }));
-    expect(await screen.findByRole('button', { name: /download the image/i })).toBeTruthy();
+    expect(await screen.findByRole('button', { name: /download your card/i })).toBeTruthy();
   });
 
   it('says we add the EIT, so nobody types it themselves', async () => {
@@ -165,7 +165,7 @@ describe('signed in, from the profile', () => {
     mountAt('me');
     expect((await screen.findByLabelText(/your full name/i)).value).toBe('Sammy');
     await userEvent.click(screen.getByRole('button', { name: /draw my card/i }));
-    expect(await screen.findByRole('button', { name: /download the image/i })).toBeTruthy();
+    expect(await screen.findByRole('button', { name: /download your card/i })).toBeTruthy();
     // The PE invitation belongs to the email's moment, not a return visit.
     expect(screen.queryByText(/the PE exam is next/i)).toBeNull();
   });

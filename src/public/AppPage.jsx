@@ -213,7 +213,7 @@ export function AppPage() {
         <h2 id="ap-end">Try a round on your next break</h2>
         <div className="ap-get">
           <PlayButton />
-          <Link className="pub-btn pub-btn-ghost" to="/login">Or start on the website</Link>
+          <Link className="pub-btn pub-btn-ghost" to="/login?mode=create" state={{ mode: 'create' }}>Or create your free account on the website</Link>
         </div>
         <p className="ap-soon">iPhone: coming soon to the App Store.</p>
       </section>

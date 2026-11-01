@@ -205,6 +205,102 @@ export function ExamGate({ userName }) {
               The closest thing to sitting for the real FE Civil exam.
             </p>
 
+            {/* Price and the buy button first, what you get under them */}
+            <div className="exam-gate-price">
+              <span className="exam-gate-amount">${studentApplies ? studentPrice : standardPrice}</span>
+              <span className="exam-gate-period">one-time &middot; no subscription</span>
+            </div>
+
+            {studentApplies ? (
+              <p className="exam-gate-student-note">
+                <CheckCircle weight="fill" size={15} />
+                {' '}Student price applied{pricing?.verifiedStudentEmail ? ` (verified ${pricing.verifiedStudentEmail})` : ''}.
+              </p>
+            ) : (
+              <div className="exam-student-verify">
+                {studentStep === 'unavailable' ? (
+                  <p className="exam-student-unavailable">
+                    {studentMsg || 'Student verification is being set up. Please check back soon.'}
+                  </p>
+                ) : studentStep === 'code' ? (
+                  <>
+                    <label htmlFor="student-code">
+                      Enter the 6-digit code sent to <strong>{eduEmail.trim().toLowerCase()}</strong>:
+                    </label>
+                    <div className="exam-student-row">
+                      <input
+                        id="student-code"
+                        className="exam-code-input"
+                        inputMode="numeric"
+                        autoComplete="one-time-code"
+                        maxLength={6}
+                        placeholder="123456"
+                        value={code}
+                        onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
+                      />
+                      <button
+                        type="button"
+                        className="btn-secondary exam-student-btn"
+                        onClick={handleVerifyCode}
+                        disabled={studentBusy || code.trim().length !== 6}
+                      >
+                        {studentBusy ? 'Verifying…' : 'Verify'}
+                      </button>
+                    </div>
+                    <button type="button" className="exam-link-btn"
+                      onClick={() => { setStudentStep('idle'); setCode(''); setStudentMsg(''); }}>
+                      Use a different email
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <label htmlFor="student-email">
+                      Students pay ${studentPrice}. Enter your <strong>.edu</strong> email and we will send you a 6-digit code.
+                    </label>
+                    <div className="exam-student-row">
+                      <input
+                        id="student-email"
+                        type="email"
+                        placeholder="you@university.edu"
+                        value={eduEmail}
+                        onChange={(e) => setEduEmail(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className="btn-secondary exam-student-btn"
+                        onClick={handleSendCode}
+                        disabled={studentBusy || !isEduInput}
+                      >
+                        {studentBusy ? 'Sending…' : 'Send my code'}
+                      </button>
+                    </div>
+                  </>
+                )}
+                {studentMsg && studentStep !== 'unavailable' && (
+                  <p className="exam-student-msg" role="alert">{studentMsg}</p>
+                )}
+              </div>
+            )}
+
+            {error && <div className="exam-error" role="alert">{error}</div>}
+
+            <button
+              className="btn-primary exam-buy-btn"
+              onClick={handleBuyNow}
+              disabled={checkoutLoading}
+            >
+              {checkoutLoading ? 'Redirecting to checkout...' : `Buy the Exam Simulation for $${studentApplies ? studentPrice : standardPrice}`}
+            </button>
+
+            <p className="exam-gate-guarantee">
+              14-day money-back guarantee, and if you don't pass, we'll extend your access free.
+            </p>
+
+            <button className="exam-gate-preview-btn" onClick={() => navigate('/exam/preview')}>
+              Try 10 questions free first
+            </button>
+
+
             {/* What you get */}
             <div className="exam-gate-features">
               <div className="exam-gate-feature">
@@ -262,101 +358,6 @@ export function ExamGate({ userName }) {
               </div>
             </div>
 
-            {/* Price + CTA */}
-            <div className="exam-gate-price">
-              <span className="exam-gate-amount">${studentApplies ? studentPrice : standardPrice}</span>
-              <span className="exam-gate-period">one-time &middot; no subscription</span>
-            </div>
-
-            {studentApplies ? (
-              <p className="exam-gate-student-note">
-                <CheckCircle weight="fill" size={15} />
-                {' '}Student price applied{pricing?.verifiedStudentEmail ? ` (verified ${pricing.verifiedStudentEmail})` : ''}.
-              </p>
-            ) : (
-              <div className="exam-student-verify">
-                {studentStep === 'unavailable' ? (
-                  <p className="exam-student-unavailable">
-                    {studentMsg || 'Student verification is being set up. Please check back soon.'}
-                  </p>
-                ) : studentStep === 'code' ? (
-                  <>
-                    <label htmlFor="student-code">
-                      Enter the 6-digit code sent to <strong>{eduEmail.trim().toLowerCase()}</strong>:
-                    </label>
-                    <div className="exam-student-row">
-                      <input
-                        id="student-code"
-                        className="exam-code-input"
-                        inputMode="numeric"
-                        autoComplete="one-time-code"
-                        maxLength={6}
-                        placeholder="123456"
-                        value={code}
-                        onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-                      />
-                      <button
-                        type="button"
-                        className="btn-secondary exam-student-btn"
-                        onClick={handleVerifyCode}
-                        disabled={studentBusy || code.trim().length !== 6}
-                      >
-                        {studentBusy ? 'Verifying…' : 'Verify'}
-                      </button>
-                    </div>
-                    <button type="button" className="exam-link-btn"
-                      onClick={() => { setStudentStep('idle'); setCode(''); setStudentMsg(''); }}>
-                      Use a different email
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <label htmlFor="student-email">
-                      Student? Verify your <strong>.edu</strong> email to pay just ${studentPrice}:
-                    </label>
-                    <div className="exam-student-row">
-                      <input
-                        id="student-email"
-                        type="email"
-                        placeholder="you@university.edu"
-                        value={eduEmail}
-                        onChange={(e) => setEduEmail(e.target.value)}
-                      />
-                      <button
-                        type="button"
-                        className="btn-secondary exam-student-btn"
-                        onClick={handleSendCode}
-                        disabled={studentBusy || !isEduInput}
-                      >
-                        {studentBusy ? 'Sending…' : 'Send code'}
-                      </button>
-                    </div>
-                    <p className="exam-student-hint">We'll email a 6-digit code to confirm you're a student.</p>
-                  </>
-                )}
-                {studentMsg && studentStep !== 'unavailable' && (
-                  <p className="exam-student-msg" role="alert">{studentMsg}</p>
-                )}
-              </div>
-            )}
-
-            {error && <div className="exam-error" role="alert">{error}</div>}
-
-            <button
-              className="btn-primary exam-buy-btn"
-              onClick={handleBuyNow}
-              disabled={checkoutLoading}
-            >
-              {checkoutLoading ? 'Redirecting to checkout...' : 'Get Exam Simulation'}
-            </button>
-
-            <p className="exam-gate-guarantee">
-              14-day money-back guarantee, and if you don't pass, we'll extend your access free.
-            </p>
-
-            <button className="exam-gate-preview-btn" onClick={() => navigate('/exam/preview')}>
-              Not sure? Try a free 10-question preview first →
-            </button>
           </div>
         </div>
       </main>
