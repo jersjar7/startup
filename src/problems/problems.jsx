@@ -174,7 +174,7 @@ export function Problems({ userName, onLogout, reviewMode = false, displayName }
   const handleNext = () => {
     const problem = problems[currentIndex];
     const isCorrect = selectedChoice === problem.correctChoiceId;
-    const answer = { problemId: problem.id, isCorrect };
+    const answer = { problemId: problem.id, choiceId: selectedChoice, isCorrect };
     if (reviewMode && problem.topicId) answer.topicId = problem.topicId;
     const updatedAnswers = [...answers, answer];
     setAnswers(updatedAnswers);

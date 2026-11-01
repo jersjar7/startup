@@ -37,10 +37,21 @@ const diagnosticXp = (attempted, correct) =>
 
 const examXp = (correct) => XP.examAttempt + correct * XP.examCorrect;
 
+// One desk answer's XP (ADR 0038). A problem earns XP only the first time it
+// is answered on a day; a repeat that day is still recorded and still counts
+// for review, it just earns nothing. An answer the server could not grade (an
+// old build that sends only right or wrong) earns the attempt XP, never the
+// correct XP, so a forged "right" is worth no more than a try. A problem the
+// server does not hold earns nothing.
+const deskAnswerXp = ({ isCorrect, graded, known, repeat }) => {
+  if (!known || repeat) return 0;
+  return graded && isCorrect ? XP.problemCorrect : XP.problemIncorrect;
+};
+
 // Phone XP for a day's grade tallies, BEFORE the daily cap is applied.
 const phoneXp = (counts = {}) =>
   (counts.gotIt || 0) * XP.phone.gotIt +
   (counts.fuzzy || 0) * XP.phone.fuzzy +
   (counts.forgot || 0) * XP.phone.forgot;
 
-module.exports = { XP, sessionXp, reviewXp, diagnosticXp, examXp, phoneXp };
+module.exports = { XP, sessionXp, reviewXp, diagnosticXp, examXp, phoneXp, deskAnswerXp };

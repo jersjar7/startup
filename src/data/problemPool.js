@@ -51,6 +51,11 @@ export function getProblemById(id) {
   return POOL.get(id) || null;
 }
 
+/** Every uniquely-id'd problem across all pools. */
+export function getAllProblems() {
+  return [...POOL.values()];
+}
+
 /** Total number of uniquely-id'd problems across all pools. */
 export function getProblemPoolSize() {
   return POOL.size;

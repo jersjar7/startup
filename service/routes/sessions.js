@@ -3,7 +3,8 @@ const { verifyAuth } = require('../middleware/auth.js');
 const uuid = require('uuid');
 const DB = require('../database.js');
 const { calculateEarnedMastery, computeStudyMastery, composeMastery } = require('../mastery.js');
-const { XP, sessionXp } = require('../xp.js');
+const { XP } = require('../xp.js');
+const { validAnswer, gradeAnswers, scoreAnswers } = require('../grading.js');
 const { rederiveAccount } = require('../rederive.js');
 const { dayFor } = require('../studyDays.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
@@ -47,25 +48,24 @@ router.post('/', verifyAuth, async (req, res) => {
   if (!answers || !Array.isArray(answers) || answers.length === 0 || answers.length > 20) {
     return res.status(400).send({ msg: 'answers must be an array of 1-20 items' });
   }
-  for (const a of answers) {
-    if (typeof a.problemId !== 'string' || typeof a.isCorrect !== 'boolean') {
-      return res.status(400).send({ msg: 'Each answer must have problemId (string) and isCorrect (boolean)' });
-    }
+  if (!answers.every(validAnswer)) {
+    return res.status(400).send({ msg: 'Each answer must have problemId (string) and choiceId (string)' });
   }
 
-  // Calculate XP
-  const correctCount = answers.filter((a) => a.isCorrect).length;
-  const incorrectCount = answers.length - correctCount;
-  const xpCorrect = correctCount * XP.problemCorrect;
-  const xpIncorrect = incorrectCount * XP.problemIncorrect;
-  const xpSessionBonus = XP.sessionBonus;
-  const xpTotal = sessionXp(correctCount, incorrectCount);
+  // Graded here, never by the browser, and a problem earns XP once a day
+  // (ADR 0038). Read what was answered today BEFORE this session's answers
+  // are written.
+  const email = req.user.email;
+  const today = dayFor(req.body); // the student's day (studyDays.js)
+  const graded = gradeAnswers(answers);
+  const xp = scoreAnswers(graded, await DB.getDeskAnsweredOn(email, today), XP.sessionBonus);
+  const correctCount = graded.filter((a) => a.isCorrect).length;
+  const incorrectCount = graded.length - correctCount;
+  const xpTotal = xp.total;
 
   // The log is the record (ADR 0018, step 3): append the answers and the
   // session, then derive everything the surfaces read from the whole log.
-  const email = req.user.email;
-  const today = dayFor(req.body); // the student's day (studyDays.js)
-  await emitWebEvents(email, answers, () => topicId, today);
+  await emitWebEvents(email, graded, () => topicId, today);
   await DB.appendEvent(email, {
     kind: 'session', chapterId: topicId, localDate: today,
     data: { type: 'practice', topicId, correct: correctCount, total: answers.length, xp: xpTotal, durationSeconds: req.body.durationSeconds ?? null },
@@ -78,7 +78,7 @@ router.post('/', verifyAuth, async (req, res) => {
   await DB.logSession(email, {
     topicId,
     type: 'practice',
-    answers,
+    answers: graded,
     xpEarned: xpTotal,
     streak: streakResult.currentStreak,
     durationSeconds: req.body.durationSeconds,
@@ -90,10 +90,11 @@ router.post('/', verifyAuth, async (req, res) => {
       correct: correctCount,
       incorrect: incorrectCount,
       xpEarned: {
-        correct: xpCorrect,
-        incorrect: xpIncorrect,
-        sessionBonus: xpSessionBonus,
+        correct: xp.correct,
+        incorrect: xp.incorrect,
+        sessionBonus: xp.bonus,
         total: xpTotal,
+        repeats: xp.repeats, // answered earlier today, so no XP this time
       },
       streak: {
         current: streakResult.currentStreak,

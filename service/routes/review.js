@@ -3,7 +3,8 @@ const { verifyAuth } = require('../middleware/auth.js');
 const uuid = require('uuid');
 const DB = require('../database.js');
 const { calculateEarnedMastery, computeStudyMastery, composeMastery } = require('../mastery.js');
-const { XP, reviewXp } = require('../xp.js');
+const { XP } = require('../xp.js');
+const { validAnswer, gradeAnswers, scoreAnswers } = require('../grading.js');
 const { rederiveAccount } = require('../rederive.js');
 const { dayFor } = require('../studyDays.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
@@ -124,8 +125,8 @@ router.post('/', verifyAuth, async (req, res) => {
     return res.status(400).send({ msg: 'answers must be an array of 1-20 items' });
   }
   for (const a of answers) {
-    if (typeof a.problemId !== 'string' || typeof a.isCorrect !== 'boolean') {
-      return res.status(400).send({ msg: 'Each answer must have problemId (string) and isCorrect (boolean)' });
+    if (!validAnswer(a)) {
+      return res.status(400).send({ msg: 'Each answer must have problemId (string) and choiceId (string)' });
     }
     if (a.topicId && (typeof a.topicId !== 'string' || !/^[a-z0-9-]+$/.test(a.topicId))) {
       return res.status(400).send({ msg: 'Invalid topicId in answer' });
@@ -134,18 +135,18 @@ router.post('/', verifyAuth, async (req, res) => {
 
   const email = req.user.email;
 
-  // Calculate XP
-  const correctCount = answers.filter((a) => a.isCorrect).length;
-  const incorrectCount = answers.length - correctCount;
-  const xpCorrect = correctCount * XP.problemCorrect;
-  const xpIncorrect = incorrectCount * XP.problemIncorrect;
-  const xpReviewBonus = XP.reviewBonus;
-  const xpTotal = reviewXp(correctCount, incorrectCount);
+  // Graded here, never by the browser, and a problem earns XP once a day
+  // (ADR 0038). Read what was answered today BEFORE these answers are written.
+  const today = dayFor(req.body); // the student's day (studyDays.js)
+  const graded = gradeAnswers(answers);
+  const xp = scoreAnswers(graded, await DB.getDeskAnsweredOn(email, today), XP.reviewBonus);
+  const correctCount = graded.filter((a) => a.isCorrect).length;
+  const incorrectCount = graded.length - correctCount;
+  const xpTotal = xp.total;
 
   // The log is the record (ADR 0018, step 3).
-  const today = dayFor(req.body); // the student's day (studyDays.js)
-  const topicsInReview = new Set(answers.map((a) => a.topicId).filter(Boolean));
-  await emitWebEvents(email, answers, (a) => a.topicId, today);
+  const topicsInReview = new Set(graded.map((a) => a.topicId).filter(Boolean));
+  await emitWebEvents(email, graded, (a) => a.topicId, today);
   await DB.appendEvent(email, {
     kind: 'session', chapterId: null, localDate: today,
     data: { type: 'review', topicIds: [...topicsInReview], correct: correctCount, total: answers.length, xp: xpTotal, durationSeconds: req.body.durationSeconds ?? null },
@@ -158,7 +159,7 @@ router.post('/', verifyAuth, async (req, res) => {
   await DB.logSession(email, {
     topicId: [...topicsInReview].join(','),
     type: 'review',
-    answers,
+    answers: graded,
     xpEarned: xpTotal,
     streak: streakResult.currentStreak,
     durationSeconds: req.body.durationSeconds,
@@ -170,10 +171,11 @@ router.post('/', verifyAuth, async (req, res) => {
       correct: correctCount,
       incorrect: incorrectCount,
       xpEarned: {
-        correct: xpCorrect,
-        incorrect: xpIncorrect,
-        reviewBonus: xpReviewBonus,
+        correct: xp.correct,
+        incorrect: xp.incorrect,
+        reviewBonus: xp.bonus,
         total: xpTotal,
+        repeats: xp.repeats, // answered earlier today, so no XP this time
       },
       streak: {
         current: streakResult.currentStreak,

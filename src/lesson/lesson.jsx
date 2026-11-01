@@ -188,6 +188,7 @@ export function LessonPage({ userName, displayName }) {
 
     const sessionAnswers = answers.map((a) => ({
       problemId: a.problemId,
+      choiceId: a.choiceId,
       isCorrect: a.correct,
     }));
 

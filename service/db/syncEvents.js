@@ -157,10 +157,16 @@ async function getPhoneGradeCounts(email, localDate) {
   return counts;
 }
 
+/** The problems answered at the desk on a local day: a repeat that day earns no XP (ADR 0038). */
+async function getDeskAnsweredOn(email, localDate) {
+  const ids = await reviewEventsCollection.distinct('itemId', { email, localDate, source: 'web', kind: { $in: [null, 'answer'] } });
+  return new Set(ids.map((id) => String(id || '').split(':')[0]).filter(Boolean));
+}
+
 /** One server-written event of any kind (a session, a diagnostic, an exam ...). */
 async function appendEvent(email, { kind, chapterId = null, localDate, ts = Date.now(), data = {}, source = 'web' }) {
   const { randomUUID } = require('node:crypto');
   return insertReviewEvents(email, [{ eventId: randomUUID(), kind, chapterId, source, ts, localDate, data }]);
 }
 
-module.exports = { appendEvent, insertReviewEvents, getReviewEventsSince, getPhoneActivity, getPhoneGradeCounts, getPhoneEventsForChapter, getChapterAnswersBetween, getAnswersSince, emailsStudiedOn, emailsActiveSince };
+module.exports = { appendEvent, getDeskAnsweredOn, insertReviewEvents, getReviewEventsSince, getPhoneActivity, getPhoneGradeCounts, getPhoneEventsForChapter, getChapterAnswersBetween, getAnswersSince, emailsStudiedOn, emailsActiveSince };
