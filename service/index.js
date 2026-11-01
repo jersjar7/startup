@@ -212,3 +212,4 @@ peerProxy(httpServer);
 // Lifecycle email scheduler (welcome / weekly digest / win-back).
 require('./mailer-jobs.js').startScheduler();
 require('./nightly.js').startNightlyRederive();
+require('./leagueJobs.js').startLeagueJobs();

@@ -46,7 +46,7 @@ function resultsFor(tier, ranked, weekId, cfg = LEAGUE) {
  * progress, so the caller only ever sees a logged error.
  */
 async function placeIfEarning(email, weeklyXp, now = new Date()) {
-  if (!(weeklyXp > 0) || isExcluded(email)) return null;
+  if (!(weeklyXp > 0) || isExcluded(email) || process.env.LEAGUES_DISABLED === '1') return null;
   const weekId = currentWeekId(now);
   try {
     const standing = await DB.claimLeaguePlacement(email, weekId, STARTING_TIER);
