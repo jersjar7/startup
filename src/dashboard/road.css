@@ -142,3 +142,28 @@
 
 /* In the dashboard column the gap between cards does the spacing. */
 .dash-sidebar .diag-card { margin-bottom: 0; }
+
+/* The weekly league (ADR 0037). Zone lines are a rule with a word on it. */
+.league-line { display: flex; align-items: center; gap: 0.35rem; margin: 0.25rem 0; font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.league-line::after { content: ''; flex: 1; height: 1px; }
+.league-line--up { color: var(--forest); }
+.league-line--up::after { background: rgba(45, 122, 95, 0.35); }
+.league-line--down { color: var(--gray-500); }
+.league-line--down::after { background: #E2D8C8; }
+.league-join { margin: 0.2rem 0 0; font-size: 0.9rem; color: var(--charcoal); line-height: 1.5; }
+
+/* Last week's result, once, after the week closes */
+.league-result-overlay { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 1rem; background: rgba(44, 44, 44, 0.45); }
+.league-result { width: min(420px, 100%); box-sizing: border-box; background: #fff; border-radius: 24px; padding: 2rem 1.75rem 1.75rem; box-shadow: 0 1px 3px rgba(44,44,44,0.04), 0 12px 40px rgba(44,44,44,0.16); }
+.league-ladder { list-style: none; margin: 0 0 1.5rem; padding: 0 0 0 1.4rem; position: relative; display: grid; gap: 0.55rem; }
+.league-ladder::before { content: ''; position: absolute; left: 5px; top: 0.45rem; bottom: 0.45rem; width: 2px; background: #E2D8C8; }
+.league-ladder li { position: relative; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-400); line-height: 1.2; }
+.league-ladder li::before { content: ''; position: absolute; left: calc(-1.4rem + 1px); top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: #fff; border: 2px solid #E2D8C8; box-sizing: border-box; }
+.league-ladder li.is-was { color: var(--gray-600); }
+.league-ladder li.is-was::before { border-color: var(--gray-500); }
+.league-ladder li.is-now { color: var(--charcoal); font-size: 0.85rem; }
+.league-ladder li.is-now::before { width: 14px; height: 14px; margin-top: -7px; left: calc(-1.4rem - 1px); background: var(--ember); border-color: var(--ember); }
+.league-result-title { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; color: var(--charcoal); margin: 0 0 0.6rem; }
+.league-result-line { text-wrap: pretty; margin: 0 0 0.35rem; font-size: 0.95rem; line-height: 1.55; color: var(--gray-600); }
+.league-result-cta { --btn-bg: var(--ember); margin-top: 1.25rem; display: inline-flex; align-items: center; gap: 1rem; min-height: 52px; padding: 5px 6px 5px 22px; background: var(--btn-bg); color: #fff; border: 0; border-radius: 999px; font-family: var(--font-heading); font-weight: 600; font-size: 1rem; cursor: pointer; }
+.league-result-cta:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }

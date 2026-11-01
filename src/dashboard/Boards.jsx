@@ -1,5 +1,6 @@
 import React from 'react';
 import { boardRows } from './road';
+import { LeagueBoard } from './LeagueBoard';
 
 // This week's and the all-time boards side by side under the chapters
 // (docs/dashboard.md). A bar per student shows the gaps between them, not
@@ -32,10 +33,10 @@ function Board({ title, note, entries, xpKey, empty }) {
   );
 }
 
-export function Boards({ weekly, allTime }) {
+export function Boards({ weekly, allTime, league }) {
   return (
     <div className="dash-boards">
-      <Board title="This week" note="Ends Saturday" entries={weekly} xpKey="weeklyXp" empty="Finish a session to start this week's board." />
+      {league ? <LeagueBoard league={league} /> : <Board title="This week" note="Ends Saturday" entries={weekly} xpKey="weeklyXp" empty="Finish a session to start this week's board." />}
       <Board title="All time" note={`Top ${Math.min(30, (allTime || []).length) || 30}`} entries={allTime} xpKey="totalXp" empty="Earn XP to climb the all-time board." />
     </div>
   );

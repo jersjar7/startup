@@ -16,7 +16,7 @@ import './road.css';
 // the month's challenge, the timed simulation, the exam.
 export function RoadToFe({
   today, examDate, examDays, readiness, masteryColor, onScoring,
-  reviewDue, phoneToday, syncState, focusTop, weekly, totalXp, daysStudied, challenge,
+  reviewDue, phoneToday, syncState, focusTop, weekly, totalXp, daysStudied, challenge, league,
 }) {
   const navigate = useNavigate();
   const [challengeMeta, setChallengeMeta] = React.useState(null);
@@ -66,7 +66,9 @@ export function RoadToFe({
   const body = (s) => {
     switch (s.key) {
       case 'today': return <TodayStop reviewDue={reviewDue} phoneToday={phoneToday} syncState={syncState} focusTop={focusTop} navigate={navigate} />;
-      case 'week': return <WeekStop weekly={weekly} totalXp={totalXp} daysStudied={daysStudied} />;
+      case 'week': return league
+        ? <LeagueStop league={league} totalXp={totalXp} daysStudied={daysStudied} />
+        : <WeekStop weekly={weekly} totalXp={totalXp} daysStudied={daysStudied} />;
       case 'challenge': return <ChallengeStop progress={challenge} meta={challengeMeta} navigate={navigate} />;
       case 'sim': return sim ? <SimStop sim={sim} navigate={navigate} /> : null;
       case 'exam': return (
@@ -176,6 +178,41 @@ function WeekStop({ weekly, totalXp, daysStudied }) {
       )}
       <p className="road-mono">
         {[pass || (me ? '' : 'Earn XP this week to join it.'), `${daysStudied} ${daysStudied === 1 ? 'day' : 'days'} studied`, `${totalXp} XP`].filter(Boolean).join(' · ')}
+      </p>
+    </>
+  );
+}
+
+const ORDINAL = (n) => `${n}${[, 'st', 'nd', 'rd'][n % 100 >> 3 ^ 1 && n % 10] || 'th'}`;
+
+// The week's stop when leagues are on: the place in the group, the bars of the
+// whole group, and the gap to the next place or to the move-up line.
+function LeagueStop({ league, totalXp, daysStudied }) {
+  const rows = league.rows || [];
+  const me = rows.find((e) => e.isMe);
+  const max = Math.max(1, rows[0]?.xp || 0);
+  let line = `Earn XP this week to join your ${league.tierName} league.`;
+  if (me) {
+    const above = rows[me.place - 2];
+    const promote = league.zones?.promote || 0;
+    if (me.place === 1) line = 'You lead your league.';
+    else if (me.place > promote && promote && league.nextTierName) {
+      const edge = rows[promote - 1];
+      line = `${edge.xp - me.xp + 1} XP to the move-up places.`;
+    } else line = `${above.xp - me.xp + 1} XP to pass ${above.name}${above.name.endsWith('.') ? '' : '.'}`;
+  }
+  return (
+    <>
+      <div className="road-title">{me ? `${ORDINAL(me.place)} in ${league.tierName} this week` : `${league.tierName} league`}</div>
+      {rows.length > 0 && (
+        <div className="road-bars" aria-hidden="true">
+          {rows.slice(0, 15).map((e) => (
+            <span key={e.place} className={e.isMe ? 'is-you' : ''} style={{ height: `${Math.max(8, (e.xp / max) * 100)}%` }} />
+          ))}
+        </div>
+      )}
+      <p className="road-mono">
+        {[line, `${daysStudied} ${daysStudied === 1 ? 'day' : 'days'} studied`, `${totalXp} XP`].join(' · ')}
       </p>
     </>
   );

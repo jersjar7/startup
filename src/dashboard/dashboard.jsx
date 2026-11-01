@@ -27,6 +27,8 @@ import { LoadingState } from '../components/LoadingState';
 import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
 import { ScoringModal } from './ScoringModal';
 import { SetupTodo } from './SetupTodo';
+import { leagueMock } from './leagueMock';
+import { LeagueResult } from './LeagueResult';
 import './dashboard.css';
 import { givenName } from '../data/names.js';
 import { RoadToFe } from './RoadToFe';
@@ -330,6 +332,9 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     setDiagnosticStatus(prev => ({ ...prev, diagnosticSkipped: true }));
   }
 
+  const league = leagueMock();
+  const [resultSeen, setResultSeen] = React.useState(false);
+
   // Never started the quick start and never skipped it: lead with it.
   const firstPitch = !(quickstart?.sampledCount > 0)
     && !diagnosticStatus?.diagnosticCompleted
@@ -496,6 +501,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             syncState={syncState}
             focusTop={focusIds.size ? focusAreas[0].ch : null}
             weekly={leaderboard.entries}
+            league={league}
             totalXp={stats.totalXp}
             daysStudied={stats.currentStreak}
             challenge={challenge}
@@ -530,7 +536,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
 
         {/* ── Under the chapters: both boards, the badges, the share line ── */}
         <div className="dash-under">
-          <Boards weekly={leaderboard.entries} allTime={leaderboard.allTime} />
+          <Boards weekly={leaderboard.entries} allTime={leaderboard.allTime} league={league} />
           <BadgeShelf allBadges={stats.allBadges} earnedIds={earnedBadgeIds} totalXp={stats.totalXp} streak={stats.currentStreak} />
           <p className="dash-share">
             A post on{' '}
@@ -564,6 +570,10 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             initialName={knownSchool}
           />
         </div>
+      )}
+      {/* Last week's league result, once, and never on top of another prompt */}
+      {league?.lastResult && !resultSeen && ((!showSource && !showSchool) || league.forceResult) && (
+        <LeagueResult result={league.lastResult} onClose={() => setResultSeen(true)} />
       )}
       <ScoringModal open={scoringOpen} onClose={() => setScoringOpen(false)} />
     </main>
