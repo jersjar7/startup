@@ -289,6 +289,14 @@ void main() {
       expect(find.text('4th'), findsOneWidget);
       expect(find.textContaining('in Silver', findRichText: true), findsOneWidget);
       expect(find.text('Of 15 this week, ends Saturday'), findsOneWidget);
+      // The raccoon is an image; decode it before the picture, or the
+      // picture depends on how fast the asset loaded.
+      await tester.runAsync(() async {
+        for (final e in find.byType(Image).evaluate()) {
+          await precacheImage((e.widget as Image).image, e);
+        }
+      });
+      await tester.pump();
       await expectLater(
         find.byType(Scaffold),
         matchesGoldenFile('goldens/league/profile.png'),
