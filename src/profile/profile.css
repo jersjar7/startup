@@ -155,12 +155,8 @@
 
 .profile-muted { font-family: var(--font-body); font-size: 0.875rem; font-weight: 400; color: var(--gray-500); }
 
-.profile-text-link {
-  color: var(--ember);
-  font-weight: 600;
-  text-decoration: none;
-}
-.profile-text-link:hover { text-decoration: underline; }
+.profile-stat-link { font-size: 0.82rem; font-weight: 600; color: var(--ember); text-decoration: none; }
+.profile-stat-link:hover { text-decoration: underline; }
 
 /* ===== ACCOUNT ROWS ===== */
 .profile-field {
