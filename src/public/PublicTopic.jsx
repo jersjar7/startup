@@ -18,9 +18,36 @@ import { pageTitle, titleName } from '../seo/pageTitle';
 
 const SITE = 'https://fe4raccoons.com';
 
+// A formula row too wide for its column (a long equation on a phone) shrinks
+// its type just enough to fit, down to 70%, instead of breaking or hiding
+// the end of the equation off the edge.
+function useFitFormulas(listRef, key) {
+  React.useLayoutEffect(() => {
+    const list = listRef.current;
+    if (!list) return undefined;
+    const fit = () => {
+      list.querySelectorAll('.pub-formula-math').forEach((el) => {
+        el.style.fontSize = '';
+        const base = parseFloat(getComputedStyle(el).fontSize);
+        if (el.scrollWidth > el.clientWidth + 1) {
+          const scale = Math.max(0.7, el.clientWidth / el.scrollWidth);
+          el.style.fontSize = `${Math.floor(base * scale * 10) / 10}px`;
+        }
+      });
+    };
+    fit();
+    // KaTeX fonts can arrive after the first paint and change widths.
+    document.fonts?.ready?.then(fit);
+    window.addEventListener('resize', fit);
+    return () => window.removeEventListener('resize', fit);
+  }, [listRef, key]);
+}
+
 export function PublicTopic() {
   const { topicId } = useParams();
   const topic = getTopic(topicId);
+  const formulaList = React.useRef(null);
+  useFitFormulas(formulaList, topicId);
 
   if (!topic) return <NotFound />;
 
@@ -143,10 +170,15 @@ export function PublicTopic() {
           <span className="pub-label"><span className="pub-label-dash" />Reference</span>
           <h2>Key {topic.name} formulas</h2>
           <p className="pub-section-lede">What every symbol means, and when to use each one: <Link to={`/fe-civil/formulas?ch=${topic.id}`}>{topic.name} formulas in the formula finder</Link>.</p>
-          <ul className="pub-formulas">
+          <ul className="pub-formulas" ref={formulaList}>
             {topic.formulas.map((f, i) => (
               <li key={i}>
-                <span className="pub-formula-math"><MathText text={`$${f.latex}$`} /></span>
+                <span className="pub-formula-math">
+                  {/* Separate equations in one row wrap between each other, never mid-equation. */}
+                  {f.latex.split(/,\s*\\q?quad\s*/).map((part, j, all) => (
+                    <span key={j} className="pub-formula-part"><MathText text={`$${part}${j < all.length - 1 ? ',' : ''}$`} /></span>
+                  ))}
+                </span>
                 <span className="pub-formula-meta">
                   <span className="pub-formula-label">{f.label}</span>
                   {f.page && <span className="pub-formula-page">FE Handbook {f.page}</span>}

@@ -102,7 +102,12 @@
   padding: 16px 0; border-top: 1px solid var(--gray-200);
 }
 .pub-formulas li:first-child { border-top: none; }
-.pub-formula-math { font-size: 1.18rem; flex: 1 1 auto; }
+.pub-formula-math { font-size: 1.18rem; flex: 1 1 auto; min-width: 0; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+/* An equation never breaks across lines. Separate equations in one row wrap
+   between each other; a single equation too long for a phone scrolls in its row. */
+.pub-formula-math { display: flex; flex-wrap: wrap; align-items: center; column-gap: 20px; row-gap: 6px; }
+.pub-formula-part { white-space: nowrap; }
+.pub-formula-math .katex { white-space: nowrap; }
 .pub-formula-meta { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
 .pub-formula-label { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9rem; }
 .pub-formula-page { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--gray-500); margin-top: 2px; }
@@ -208,6 +213,10 @@
   .pub-ch-row { grid-template-columns: 28px 30px 1fr auto; gap: 10px; }
   .pub-ch-icon .coin { --coin-d: 30px !important; }
   .pub-ch-caret { display: none; }
+  /* On a phone every row stacks the same way: formula, then name and page. */
+  .pub-formulas li { flex-direction: column; align-items: stretch; gap: 8px; }
+  .pub-formula-math { width: 100%; font-size: 1.05rem; }
+  .pub-formula-meta { align-items: flex-start; text-align: left; }
 }
 
 /* Practice problems page: answer buttons, verdict, worked steps */
