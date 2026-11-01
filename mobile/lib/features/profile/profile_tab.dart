@@ -29,6 +29,9 @@ import 'pass_card_screen.dart';
 import 'profile_views.dart';
 import '../study/chapter_bands.dart' show cardNameFor;
 import '../home/home_shell.dart';
+import '../league/league_model.dart';
+import '../league/league_moment.dart';
+import '../league/league_screen.dart';
 
 /// Tab 1 — Profile, the tab the app opens on: a greeting, the next-concept
 /// hero tile, exam day and days studied, the mastery row. Account actions
@@ -90,6 +93,7 @@ class _ProfileTabState extends State<ProfileTab> {
     }
     final repo = ContentRepository(auth.api);
     _mastery = repo.mastery();
+    _loadLeague(auth);
     // Anyone who signed up before the tour existed, or who tapped past it,
     // has never been told how the phone and the website relate. Show it
     // once, here, where they land (owner's call, 2026-10-04). It is also in
@@ -160,6 +164,28 @@ class _ProfileTabState extends State<ProfileTab> {
     });
   }
 
+  /// This week's league, for the fourth figure; and last week's result, the
+  /// first time Profile opens after the week closed (ADR 0037). A guest has
+  /// no account, so no league. A server without leagues leaves the line out.
+  Future<void> _loadLeague(AuthController auth) async {
+    if (auth.isGuest || auth.user == null) return;
+    final v = await LeagueStore.refresh(auth.api);
+    final result = v?.lastResult;
+    if (result == null || !mounted || !auth.onboardingSeen) return;
+    final route = ModalRoute.of(context);
+    if (route != null && !route.isCurrent) return;
+    // Marked seen as it shows, so a second open never repeats it.
+    final seen = LeagueStore.markSeen(auth.api);
+    await showLeagueMoment(context, result, onSeeLeague: _openLeague);
+    await seen;
+  }
+
+  void _openLeague() => Navigator.of(context).push(
+    MaterialPageRoute<void>(
+      builder: (_) => LeagueScreen(initial: LeagueStore.view.value),
+    ),
+  );
+
   Future<void> _openTour() => Navigator.of(context).push(
     MaterialPageRoute<void>(
       builder: (_) => const OnboardingScreen(replay: true),
@@ -181,7 +207,7 @@ class _ProfileTabState extends State<ProfileTab> {
     final askOutcome = !_outcomeDone && shouldAskOutcome(user, appClock());
 
     return ListenableBuilder(
-      listenable: GameProgress.instance,
+      listenable: Listenable.merge([GameProgress.instance, LeagueStore.view]),
       builder: (context, _) {
         final progress = GameProgress.instance;
         final top = Row(
@@ -227,6 +253,8 @@ class _ProfileTabState extends State<ProfileTab> {
                 onDays: () => _openDays(streak),
                 passCard: passCard,
                 onPassCard: _openPassCard,
+                league: auth.isGuest ? null : LeagueStore.view.value,
+                onLeague: _openLeague,
               );
             } else {
               final resume = resumeTarget(progress);
@@ -274,6 +302,8 @@ class _ProfileTabState extends State<ProfileTab> {
                 onExam: () => _openExam(examIso),
                 onMastery: () => _openMastery(snap.data ?? const {}),
                 onPassCard: _openPassCard,
+                league: auth.isGuest ? null : LeagueStore.view.value,
+                onLeague: _openLeague,
               );
             }
 
@@ -728,6 +758,7 @@ class AccountSheet extends StatelessWidget {
                 notifications: notifications!,
                 examIso: user['examDate'] as String?,
               ),
+            if (!auth.isGuest) LeagueHiddenRow(auth: auth),
             const SizedBox(height: 18),
             SheetButton(
               label: 'Open the website',

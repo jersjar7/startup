@@ -10,6 +10,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/theme/theme_mode.dart';
 import '../auth/auth_controller.dart';
+import '../league/league_model.dart';
 import '../shared/widgets/kit.dart';
 import 'about_story.dart';
 import 'contact_page.dart';
@@ -359,6 +360,57 @@ class _RemindersRowState extends State<RemindersRow> {
         onChanged: _on == null || _busy ? null : _toggle,
         activeTrackColor: AppColors.spring,
       ),
+    );
+  }
+}
+
+/// "Hide me from leagues" (ADR 0037): the student still competes, and the
+/// others see "A student" in their place. Shown only when the server has
+/// leagues, which [LeagueStore] knows once Profile has asked.
+class LeagueHiddenRow extends StatefulWidget {
+  const LeagueHiddenRow({super.key, required this.auth});
+
+  final AuthController auth;
+
+  @override
+  State<LeagueHiddenRow> createState() => _LeagueHiddenRowState();
+}
+
+class _LeagueHiddenRowState extends State<LeagueHiddenRow> {
+  bool _busy = false;
+
+  Future<void> _toggle(bool want) async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    try {
+      await LeagueStore.setHidden(widget.auth.api, want);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+          const SnackBar(content: Text("Couldn't save that. Try again.")),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<LeagueView?>(
+      valueListenable: LeagueStore.view,
+      builder: (context, view, _) {
+        if (view == null) return const SizedBox.shrink();
+        return SheetRow(
+          label: 'Hide me from leagues',
+          value: view.hidden ? 'On' : 'Off',
+          trailing: Switch.adaptive(
+            value: view.hidden,
+            onChanged: _busy ? null : _toggle,
+            activeTrackColor: AppColors.spring,
+          ),
+        );
+      },
     );
   }
 }
