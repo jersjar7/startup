@@ -1,0 +1,51 @@
+/* League coin (LeagueCoin.jsx): the chapter coin's face-on-rim build in five
+   metals. Face, rim, and the engraving (ring and letter). */
+.lcoin {
+  --lcoin-d: 34px;
+  --lcoin-lift: calc(var(--lcoin-d) * 0.09);
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: var(--lcoin-d);
+  height: calc(var(--lcoin-d) + var(--lcoin-lift));
+  vertical-align: middle;
+}
+.lcoin--copper   { --lc-face: #D9895A; --lc-rim: #94502C; --lc-ink: #8A4622; }
+.lcoin--bronze   { --lc-face: #C49A5C; --lc-rim: #7D5B2C; --lc-ink: #6F4F22; }
+.lcoin--silver   { --lc-face: #D8DADC; --lc-rim: #8E949A; --lc-ink: #6B7177; }
+.lcoin--gold     { --lc-face: #F2C64B; --lc-rim: #A97F1C; --lc-ink: #8C6812; }
+.lcoin--platinum { --lc-face: #E9EFF3; --lc-rim: #7E95A3; --lc-ink: #536C7B; }
+
+.lcoin-rim, .lcoin-face {
+  position: absolute;
+  left: 0;
+  width: var(--lcoin-d);
+  height: var(--lcoin-d);
+  border-radius: 50%;
+}
+.lcoin-rim { top: var(--lcoin-lift); background: var(--lc-rim); }
+.lcoin-face {
+  top: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 34% 22%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(44, 44, 44, 0) 50%, rgba(44, 44, 44, 0.12)),
+    var(--lc-face);
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.6);
+}
+.lcoin-ring {
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  border: max(1px, calc(var(--lcoin-d) * 0.035)) solid color-mix(in srgb, var(--lc-ink) 45%, transparent);
+}
+.lcoin-face b {
+  position: relative;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: calc(var(--lcoin-d) * 0.42);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--lc-ink);
+}

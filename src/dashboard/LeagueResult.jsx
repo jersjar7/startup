@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppArrow } from '../components/brand/AppArrow';
+import { LeagueCoin } from '../components/brand/LeagueCoin';
 
 const LADDER = ['Platinum', 'Gold', 'Silver', 'Bronze', 'Copper'];
 const ORDINAL = (n) => `${n}${[, 'st', 'nd', 'rd'][n % 100 >> 3 ^ 1 && n % 10] || 'th'}`;
@@ -21,7 +22,9 @@ export function LeagueResult({ result, onClose }) {
       <div className="league-result">
         <ol className="league-ladder" aria-hidden="true">
           {LADDER.map((t) => (
-            <li key={t} className={t === toName ? 'is-now' : t === fromName && moved !== 'stay' ? 'is-was' : ''}>{t}</li>
+            <li key={t} className={t === toName ? 'is-now' : t === fromName && moved !== 'stay' ? 'is-was' : ''}>
+              <LeagueCoin tier={t.toLowerCase()} size={t === toName ? 32 : 20} />{t}
+            </li>
           ))}
         </ol>
         <h2 className="league-result-title">{title}</h2>

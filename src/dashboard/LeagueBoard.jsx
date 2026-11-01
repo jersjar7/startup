@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowUp, ArrowDown, CaretUp, CaretDown } from '@phosphor-icons/react';
 import { initials } from './road';
 import { tintFor } from './LiveFeed';
+import { LeagueCoin } from '../components/brand/LeagueCoin';
 
 // The weekly league (ADR 0037, 0038), drawn like a chart: place with how it
 // moved since yesterday, the student, their week. Where the move-up and
@@ -23,7 +24,7 @@ export function LeagueBoard({ league }) {
   if (!league.joined) {
     return (
       <section className="board-card league-card" aria-label={`${league.tierName} league`}>
-        <div className="lg-head"><h3 className="lg-title">{league.tierName} league</h3><span className="lg-ends">Ends Saturday</span></div>
+        <div className="lg-head"><h3 className="lg-title"><LeagueCoin tier={league.tier} size={34} />{league.tierName} league</h3><span className="lg-ends">Ends Saturday</span></div>
         <p className="league-join">Earn XP this week to join your {league.tierName} league.</p>
         <p className="board-foot">You are matched with up to 14 students studying this week.</p>
       </section>
@@ -32,7 +33,7 @@ export function LeagueBoard({ league }) {
 
   return (
     <section className="board-card league-card" aria-label={`${league.tierName} league`}>
-      <div className="lg-head"><h3 className="lg-title">{league.tierName} league</h3><span className="lg-ends">Ends Saturday</span></div>
+      <div className="lg-head"><h3 className="lg-title"><LeagueCoin tier={league.tier} size={34} />{league.tierName} league</h3><span className="lg-ends">Ends Saturday</span></div>
       <ol className="lg-list">
         {rows.map((e, i) => (
           <React.Fragment key={e.place}>

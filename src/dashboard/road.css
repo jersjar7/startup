@@ -144,8 +144,8 @@
 .dash-sidebar .diag-card { margin-bottom: 0; }
 
 /* The weekly league (ADR 0037, 0038), drawn like a chart */
-.lg-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; margin: 0.1rem 0 0.9rem; }
-.lg-title { margin: 0; font-family: var(--font-heading); font-size: 1.6rem; font-weight: 800; letter-spacing: -0.035em; line-height: 1; color: var(--charcoal); }
+.lg-head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin: 0.1rem 0 0.9rem; }
+.lg-title { display: flex; align-items: center; gap: 0.6rem; margin: 0; font-family: var(--font-heading); font-size: 1.6rem; font-weight: 800; letter-spacing: -0.035em; line-height: 1; color: var(--charcoal); }
 .lg-ends { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-500); white-space: nowrap; }
 .lg-list { list-style: none; margin: 0; padding: 0; }
 .lg-row { display: grid; grid-template-columns: 2rem 34px minmax(0, 1fr); gap: 0.75rem; align-items: center; padding: 0.45rem 0.5rem; margin: 0 -0.5rem; border-radius: 10px; }
@@ -173,14 +173,13 @@
 /* Last week's result, once, after the week closes */
 .league-result-overlay { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 1rem; background: rgba(44, 44, 44, 0.45); }
 .league-result { width: min(420px, 100%); box-sizing: border-box; background: #fff; border-radius: 24px; padding: 2rem 1.75rem 1.75rem; box-shadow: 0 1px 3px rgba(44,44,44,0.04), 0 12px 40px rgba(44,44,44,0.16); }
-.league-ladder { list-style: none; margin: 0 0 1.5rem; padding: 0 0 0 1.4rem; position: relative; display: grid; gap: 0.55rem; }
-.league-ladder::before { content: ''; position: absolute; left: 5px; top: 0.45rem; bottom: 0.45rem; width: 2px; background: #E2D8C8; }
-.league-ladder li { position: relative; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-400); line-height: 1.2; }
-.league-ladder li::before { content: ''; position: absolute; left: calc(-1.4rem + 1px); top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: #fff; border: 2px solid #E2D8C8; box-sizing: border-box; }
+.league-ladder { list-style: none; margin: 0 0 1.5rem; padding: 0; position: relative; display: grid; gap: 0.5rem; }
+.league-ladder::before { content: ''; position: absolute; left: 15px; top: 0.6rem; bottom: 0.6rem; width: 2px; background: #E2D8C8; }
+.league-ladder li { position: relative; display: flex; align-items: center; gap: 0.7rem; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-400); line-height: 1.2; }
+.league-ladder li .lcoin { margin: 0 calc((32px - var(--lcoin-d)) / 2); }
+.league-ladder li:not(.is-now):not(.is-was) .lcoin { opacity: 0.5; }
 .league-ladder li.is-was { color: var(--gray-600); }
-.league-ladder li.is-was::before { border-color: var(--gray-500); }
 .league-ladder li.is-now { color: var(--charcoal); font-size: 0.85rem; }
-.league-ladder li.is-now::before { width: 14px; height: 14px; margin-top: -7px; left: calc(-1.4rem - 1px); background: var(--ember); border-color: var(--ember); }
 .league-result-title { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; color: var(--charcoal); margin: 0 0 0.6rem; }
 .league-result-line { text-wrap: pretty; margin: 0 0 0.35rem; font-size: 0.95rem; line-height: 1.55; color: var(--gray-600); }
 .league-result-cta { --btn-bg: var(--ember); margin-top: 1.25rem; display: inline-flex; align-items: center; gap: 1rem; min-height: 52px; padding: 5px 6px 5px 22px; background: var(--btn-bg); color: #fff; border: 0; border-radius: 999px; font-family: var(--font-heading); font-weight: 600; font-size: 1rem; cursor: pointer; }
