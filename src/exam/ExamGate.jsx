@@ -211,6 +211,20 @@ export function ExamGate({ userName }) {
               <span className="exam-gate-period">one-time &middot; no subscription</span>
             </div>
 
+            {error && <div className="exam-error" role="alert">{error}</div>}
+
+            <button
+              className="btn-primary exam-buy-btn"
+              onClick={handleBuyNow}
+              disabled={checkoutLoading}
+            >
+              {checkoutLoading ? 'Redirecting to checkout...' : `Buy the Exam Simulation for $${studentApplies ? studentPrice : standardPrice}`}
+            </button>
+
+            <p className="exam-gate-guarantee">
+              14-day money-back guarantee, and if you don't pass, we'll extend your access free.
+            </p>
+
             {studentApplies ? (
               <p className="exam-gate-student-note">
                 <CheckCircle weight="fill" size={15} />
@@ -282,20 +296,6 @@ export function ExamGate({ userName }) {
               </div>
             )}
 
-            {error && <div className="exam-error" role="alert">{error}</div>}
-
-            <button
-              className="btn-primary exam-buy-btn"
-              onClick={handleBuyNow}
-              disabled={checkoutLoading}
-            >
-              {checkoutLoading ? 'Redirecting to checkout...' : `Buy the Exam Simulation for $${studentApplies ? studentPrice : standardPrice}`}
-            </button>
-
-            <p className="exam-gate-guarantee">
-              14-day money-back guarantee, and if you don't pass, we'll extend your access free.
-            </p>
-
             <button className="exam-gate-preview-btn" onClick={() => navigate('/exam/preview')}>
               Try 10 questions free first
             </button>
@@ -311,21 +311,21 @@ export function ExamGate({ userName }) {
                 </div>
               </div>
               <div className="exam-gate-feature">
-                <ClockCountdown weight="bold" size={20} className="egf-icon egf-icon--sunbeam" />
+                <ClockCountdown weight="bold" size={20} className="egf-icon egf-icon--ember" />
                 <div>
                   <span className="egf-label">5 hours 20 minutes</span>
                   <span className="egf-desc">Same time limit as the real exam</span>
                 </div>
               </div>
               <div className="exam-gate-feature">
-                <ChartBar weight="bold" size={20} className="egf-icon egf-icon--forest" />
+                <ChartBar weight="bold" size={20} className="egf-icon egf-icon--ember" />
                 <div>
                   <span className="egf-label">Per-chapter score breakdown</span>
                   <span className="egf-desc">See exactly where you're strong and where to focus</span>
                 </div>
               </div>
               <div className="exam-gate-feature">
-                <MagnifyingGlass weight="bold" size={20} className="egf-icon egf-icon--sunbeam" />
+                <MagnifyingGlass weight="bold" size={20} className="egf-icon egf-icon--ember" />
                 <div>
                   <span className="egf-label">Review every answer</span>
                   <span className="egf-desc">Afterward, see every question you got right and wrong, each with a step-by-step explanation</span>
