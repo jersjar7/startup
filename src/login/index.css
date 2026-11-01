@@ -18,8 +18,10 @@
 
 .login-form-container h2 {
   text-align: center;
+  text-wrap: balance;
   margin-bottom: 0.5rem;
   font-size: 1.75rem;
+  line-height: 1.15;
   font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--charcoal);
@@ -27,6 +29,7 @@
 
 .login-subtitle {
   text-align: center;
+  text-wrap: balance;
   color: var(--gray-500);
   font-size: 0.95rem;
   line-height: 1.5;
@@ -46,7 +49,10 @@
   font-size: 0.75rem;
   color: var(--gray-500);
   line-height: 1.5;
-  margin-top: 0.4rem;
+  /* Fields keep 1.25rem below them; a hint pulls up under its own field and
+     takes that gap below itself, so it never reads as the next field's. */
+  margin-top: -0.85rem;
+  margin-bottom: 1.25rem;
 }
 
 .login-form-container input {
