@@ -55,10 +55,8 @@
 
 .hero-title-emphasis {
   display: block;
-  font-size: 0.6em;
   font-style: italic;
   color: var(--ember);
-  margin-top: 0.25rem;
 }
 
 .hero-subtitle {

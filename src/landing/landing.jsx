@@ -127,16 +127,16 @@ export function Landing({ userName }) {
             FE Civil Exam Prep
           </span>
           <h1 className="hero-title">
-            Everything you need to walk into the FE ready.
-            <span className="hero-title-emphasis">Everything.</span>
+            Join the community of
+            <span className="hero-title-emphasis">future civil engineers.</span>
           </h1>
           <p className="hero-subtitle">
-            {PROBLEM_COUNT_LABEL} FE Civil problems with worked solutions, {LESSON_COUNT} lessons across all{' '}
-            {CHAPTER_COUNT} chapters, and the Handbook page for every formula. We built it for you, and it is
-            completely free.
+            Start with the FE Civil: {PROBLEM_COUNT_LABEL} problems with worked solutions, {LESSON_COUNT} lessons
+            across all {CHAPTER_COUNT} chapters, and the Handbook page for every formula. PE prep comes next. We
+            built it for you, and it is completely free.
           </p>
           <button className="hero-cta" onClick={() => navigate('/login', { state: { mode: 'create' } })}>
-            Create your free account
+            Join the community
             <AppArrow />
           </button>
           <p className="hero-login-row">
