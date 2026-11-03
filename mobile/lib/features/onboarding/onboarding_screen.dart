@@ -12,6 +12,7 @@ import '../home/home_shell.dart';
 import '../shared/widgets/kit.dart';
 import '../shared/widgets/legal_line.dart';
 import '../shared/widgets/raccoon_peek.dart';
+import '../shared/widgets/split_page.dart';
 
 /// The first-run tour: how the app and the website split the work, what a
 /// lesson in the app is, and what the app honestly is not. Then sign up.
@@ -100,28 +101,30 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       color: _grounds[_page],
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: PageView(
-          controller: _pc,
-          onPageChanged: (i) => setState(() => _page = i),
-          children: [
-            _Together(
-              onBack: _leave,
-              onSkip: () => _go('/welcome'),
-              onNext: () => _to(1),
-            ),
-            _Games(
-              onBack: () => _to(0),
-              onSkip: () => _go('/welcome'),
-              onNext: () => _to(2),
-            ),
-            _Honest(
-              replay: widget.replay,
-              onBack: () => _to(1),
-              onCreate: () => _go('/create'),
-              onSignIn: () => _go('/signin'),
-              onTry: _tryFirst,
-            ),
-          ],
+        body: TabletCap(
+          child: PageView(
+            controller: _pc,
+            onPageChanged: (i) => setState(() => _page = i),
+            children: [
+              _Together(
+                onBack: _leave,
+                onSkip: () => _go('/welcome'),
+                onNext: () => _to(1),
+              ),
+              _Games(
+                onBack: () => _to(0),
+                onSkip: () => _go('/welcome'),
+                onNext: () => _to(2),
+              ),
+              _Honest(
+                replay: widget.replay,
+                onBack: () => _to(1),
+                onCreate: () => _go('/create'),
+                onSignIn: () => _go('/signin'),
+                onTry: _tryFirst,
+              ),
+            ],
+          ),
         ),
       ),
     );

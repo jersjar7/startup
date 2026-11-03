@@ -8,6 +8,7 @@ import '../auth/auth_controller.dart';
 import '../home/home_shell.dart';
 import '../shared/widgets/kit.dart';
 import '../study/chapter_marks.dart';
+import '../shared/widgets/split_page.dart';
 
 /// The root of the signed-out app: the only screen a signed-out student
 /// lands on, from a first launch or a sign-out. Two ways forward and no
@@ -23,56 +24,58 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.fog,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 4, 24, 34),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 8),
-              Text(
-                'FE FOR RACCOONS',
-                style: AppTheme.eyebrow(color: AppColors.ink2),
-              ),
-              const Expanded(child: WelcomeCards()),
-              Text(
-                'The FE Civil,\none concept at a time.',
-                style: AppTheme.display(size: 44),
-              ),
-              const SizedBox(height: 22),
-              PillButton(
-                label: "Let's go",
-                // The tour runs before this screen now, so there is only one
-                // road from here.
-                onTap: () => context.push('/create'),
-              ),
-              const SizedBox(height: 10),
-              // The same third way in as the tour's last screen, for anyone
-              // who skipped the tour (Apple 5.1.1(v)).
-              SheetButton(
-                label: 'Try a round first',
-                filled: false,
-                onTap: () async {
-                  await context.read<AuthController>().startGuest();
-                  HomeShell.select(HomeTab.study);
-                  if (context.mounted) context.go('/home');
-                },
-              ),
-              const SizedBox(height: 6),
-              Center(
-                child: TextButton(
-                  onPressed: () => context.push('/signin'),
-                  child: Text(
-                    'I already have an account',
-                    style: AppTheme.body(
-                      size: 15,
-                      weight: FontWeight.w500,
-                      color: AppColors.ink2,
+      body: TabletCap(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 4, 24, 34),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 8),
+                Text(
+                  'FE FOR RACCOONS',
+                  style: AppTheme.eyebrow(color: AppColors.ink2),
+                ),
+                const Expanded(child: WelcomeCards()),
+                Text(
+                  'The FE Civil,\none concept at a time.',
+                  style: AppTheme.display(size: 44),
+                ),
+                const SizedBox(height: 22),
+                PillButton(
+                  label: "Let's go",
+                  // The tour runs before this screen now, so there is only one
+                  // road from here.
+                  onTap: () => context.push('/create'),
+                ),
+                const SizedBox(height: 10),
+                // The same third way in as the tour's last screen, for anyone
+                // who skipped the tour (Apple 5.1.1(v)).
+                SheetButton(
+                  label: 'Try a round first',
+                  filled: false,
+                  onTap: () async {
+                    await context.read<AuthController>().startGuest();
+                    HomeShell.select(HomeTab.study);
+                    if (context.mounted) context.go('/home');
+                  },
+                ),
+                const SizedBox(height: 6),
+                Center(
+                  child: TextButton(
+                    onPressed: () => context.push('/signin'),
+                    child: Text(
+                      'I already have an account',
+                      style: AppTheme.body(
+                        size: 15,
+                        weight: FontWeight.w500,
+                        color: AppColors.ink2,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

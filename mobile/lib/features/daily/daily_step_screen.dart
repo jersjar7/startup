@@ -9,6 +9,7 @@ import '../shared/widgets/kit.dart';
 import '../study/chapter_marks.dart';
 import 'daily_run.dart';
 import 'daily_widgets.dart';
+import '../shared/widgets/split_page.dart';
 
 /// Before each of the Daily's games: which game is next, from which chapter,
 /// its concept one tap away, and one button to play it.
@@ -39,142 +40,150 @@ class DailyStepScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.fog,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                children: [
-                  RoundIconButton(
-                    icon: Icons.close_rounded,
-                    label: 'Close',
-                    onTap: () =>
-                        context.canPop() ? context.pop() : context.go('/home'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 26),
-              Row(
-                children: [
-                  Text('TODAY\'S DAILY', style: AppTheme.eyebrow()),
-                  const Spacer(),
-                  Text(
-                    'CONCEPT ${at + 1} OF $count',
-                    style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              DailyBars.ofRun(run),
-              if (done != null && doneDef != null) ...[
+      body: TabletCap(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    RoundIconButton(
+                      icon: Icons.close_rounded,
+                      label: 'Close',
+                      onTap: () => context.canPop()
+                          ? context.pop()
+                          : context.go('/home'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 26),
+                Row(
+                  children: [
+                    Text('TODAY\'S DAILY', style: AppTheme.eyebrow()),
+                    const Spacer(),
+                    Text(
+                      'CONCEPT ${at + 1} OF $count',
+                      style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 12),
-                Text(
-                  '${doneDef.name}: ${run.firstTryIn(done)} of '
-                  '${puzzle.games[done].rounds} on the first try.',
-                  style: AppTheme.body(size: 14, color: AppColors.mutedOnLight),
+                DailyBars.ofRun(run),
+                if (done != null && doneDef != null) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    '${doneDef.name}: ${run.firstTryIn(done)} of '
+                    '${puzzle.games[done].rounds} on the first try.',
+                    style: AppTheme.body(
+                      size: 14,
+                      color: AppColors.mutedOnLight,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 22),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(26),
+                    decoration: BoxDecoration(
+                      color: AppColors.cream,
+                      borderRadius: BorderRadius.circular(36),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          (chapter?.name ?? '').toUpperCase(),
+                          style: AppTheme.eyebrow(
+                            color: AppColors.mutedOnLight,
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Container(
+                              width: 140,
+                              height: 140,
+                              decoration: const BoxDecoration(
+                                color: AppColors.springField,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: ChapterMark(
+                                  chapterId: game.chapterId,
+                                  color: AppColors.charcoal,
+                                  size: 84,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // The concept as the website names it, over the
+                        // round's own name (owner, 2026-10-17).
+                        if (lessonForGame(game.gameId) case final lesson?) ...[
+                          Text(
+                            lesson.name,
+                            style: AppTheme.display(
+                              size: 17,
+                              weight: FontWeight.w700,
+                              height: 1.2,
+                              tracking: -0.02,
+                              color: AppColors.mutedOnLight,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                        ],
+                        Text(
+                          def?.name ?? game.gameId,
+                          style: AppTheme.display(size: 36),
+                        ),
+                        if (def != null) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            def.blurb,
+                            style: AppTheme.body(
+                              size: 15,
+                              color: AppColors.mutedOnLight,
+                            ),
+                          ),
+                        ],
+                        // A link in the card, not a second button: the concept
+                        // belongs to the game, and Play stays the one action
+                        // (owner, 2026-10-16).
+                        if (brief != null) ...[
+                          const SizedBox(height: 6),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Transform.translate(
+                              offset: const Offset(6, 0),
+                              child: TextAction(
+                                label: 'Read the concept first',
+                                onTap: () => showConcept(
+                                  context,
+                                  brief,
+                                  back: 'Back to the Daily',
+                                  gameId: game.gameId,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                PillButton(
+                  label: at == 0 && done == null
+                      ? 'Play'
+                      : 'Play concept ${at + 1}',
+                  onTap: () {
+                    run.arm();
+                    context.pushReplacement('/games/play/${game.gameId}');
+                  },
                 ),
               ],
-              const SizedBox(height: 22),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(26),
-                  decoration: BoxDecoration(
-                    color: AppColors.cream,
-                    borderRadius: BorderRadius.circular(36),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        (chapter?.name ?? '').toUpperCase(),
-                        style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Container(
-                            width: 140,
-                            height: 140,
-                            decoration: const BoxDecoration(
-                              color: AppColors.springField,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: ChapterMark(
-                                chapterId: game.chapterId,
-                                color: AppColors.charcoal,
-                                size: 84,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      // The concept as the website names it, over the
-                      // round's own name (owner, 2026-10-17).
-                      if (lessonForGame(game.gameId) case final lesson?) ...[
-                        Text(
-                          lesson.name,
-                          style: AppTheme.display(
-                            size: 17,
-                            weight: FontWeight.w700,
-                            height: 1.2,
-                            tracking: -0.02,
-                            color: AppColors.mutedOnLight,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                      ],
-                      Text(
-                        def?.name ?? game.gameId,
-                        style: AppTheme.display(size: 36),
-                      ),
-                      if (def != null) ...[
-                        const SizedBox(height: 8),
-                        Text(
-                          def.blurb,
-                          style: AppTheme.body(
-                            size: 15,
-                            color: AppColors.mutedOnLight,
-                          ),
-                        ),
-                      ],
-                      // A link in the card, not a second button: the concept
-                      // belongs to the game, and Play stays the one action
-                      // (owner, 2026-10-16).
-                      if (brief != null) ...[
-                        const SizedBox(height: 6),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Transform.translate(
-                            offset: const Offset(6, 0),
-                            child: TextAction(
-                              label: 'Read the concept first',
-                              onTap: () => showConcept(
-                                context,
-                                brief,
-                                back: 'Back to the Daily',
-                                gameId: game.gameId,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              PillButton(
-                label: at == 0 && done == null
-                    ? 'Play'
-                    : 'Play concept ${at + 1}',
-                onTap: () {
-                  run.arm();
-                  context.pushReplacement('/games/play/${game.gameId}');
-                },
-              ),
-            ],
+            ),
           ),
         ),
       ),

@@ -17,6 +17,7 @@ import 'daily_run.dart';
 import 'daily_share.dart';
 import 'daily_widgets.dart';
 import '../../core/device_word.dart';
+import '../shared/widgets/split_page.dart';
 
 /// The end of the Daily: the same done screen the games use (reference 13c),
 /// with the score as the hero, the rounds as bars, the time and the streak.
@@ -108,7 +109,8 @@ class _DailyDoneScreenState extends State<DailyDoneScreen> {
       final n = _mine.rounds[g].where((r) => !r).length;
       if (n == 0) continue;
       missed += n;
-      final chapter = chapterMaps[puzzle.games[g].chapterId]?.name ?? 'a chapter';
+      final chapter =
+          chapterMaps[puzzle.games[g].chapterId]?.name ?? 'a chapter';
       parts.add('${n < words.length ? words[n] : '$n'} in $chapter');
     }
     final list = parts.length <= 1
@@ -135,129 +137,134 @@ class _DailyDoneScreenState extends State<DailyDoneScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.fog,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                children: [
-                  RoundIconButton(
-                    icon: Icons.close_rounded,
-                    label: 'Close',
-                    onTap: _close,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 22),
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: AppColors.springField,
-                  borderRadius: BorderRadius.circular(36),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      body: TabletCap(
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        Text('TODAY\'S DAILY', style: AppTheme.eyebrow()),
-                        const Spacer(),
-                        Text('DONE', style: AppTheme.eyebrow()),
-                      ],
-                    ),
-                    const SizedBox(height: 26),
-                    Text.rich(
-                      TextSpan(
-                        text: '${_mine.score}',
-                        style: AppTheme.display(
-                          size: 112,
-                          height: 0.8,
-                          tracking: -0.07,
-                        ),
-                        children: [
-                          const TextSpan(text: ' '),
-                          TextSpan(
-                            text: 'of ${_mine.total}',
-                            style: AppTheme.display(
-                              size: 28,
-                              weight: FontWeight.w700,
-                              height: 0.8,
-                              tracking: -0.03,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 22),
-                    DailyBars(rows: _mine.rounds, missed: AppColors.cream),
-                    const SizedBox(height: 18),
-                    Text(
-                      _line(puzzle),
-                      style: AppTheme.body(size: 15, weight: FontWeight.w500),
+                    RoundIconButton(
+                      icon: Icons.close_rounded,
+                      label: 'Close',
+                      onTap: _close,
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: _Half(
-                      color: AppColors.cream,
-                      eyebrow: 'TIME',
-                      value: clockOf(_mine.ms),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _Half(
-                      color: AppColors.butter,
-                      eyebrow: 'STREAK',
-                      value: streak == null ? '' : '${streak.current}',
-                      unit: streak == null
-                          ? ''
-                          : streak.current == 1
-                          ? 'day'
-                          : 'days',
-                    ),
-                  ),
-                ],
-              ),
-              if (_kept) ...[
-                const SizedBox(height: 14),
+                const SizedBox(height: 22),
                 Container(
-                  padding: const EdgeInsets.all(18),
+                  padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: AppColors.peach,
-                    borderRadius: BorderRadius.circular(24),
+                    color: AppColors.springField,
+                    borderRadius: BorderRadius.circular(36),
                   ),
-                  child: Text(
-                    'No signal right now. Your score is saved on '
-                    '${thisDevice(context)} and goes up the next time you open the Daily.',
-                    style: AppTheme.body(size: 14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text('TODAY\'S DAILY', style: AppTheme.eyebrow()),
+                          const Spacer(),
+                          Text('DONE', style: AppTheme.eyebrow()),
+                        ],
+                      ),
+                      const SizedBox(height: 26),
+                      Text.rich(
+                        TextSpan(
+                          text: '${_mine.score}',
+                          style: AppTheme.display(
+                            size: 112,
+                            height: 0.8,
+                            tracking: -0.07,
+                          ),
+                          children: [
+                            const TextSpan(text: ' '),
+                            TextSpan(
+                              text: 'of ${_mine.total}',
+                              style: AppTheme.display(
+                                size: 28,
+                                weight: FontWeight.w700,
+                                height: 0.8,
+                                tracking: -0.03,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 22),
+                      DailyBars(rows: _mine.rounds, missed: AppColors.cream),
+                      const SizedBox(height: 18),
+                      Text(
+                        _line(puzzle),
+                        style: AppTheme.body(size: 15, weight: FontWeight.w500),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-              const SizedBox(height: 30),
-              Row(
-                children: [
-                  TextAction(
-                    label: 'Share',
-                    onTap: () =>
-                        showDailyShare(context, date: puzzle.date, mine: _mine),
-                  ),
-                  const SizedBox(width: 18),
-                  Expanded(
-                    child: PillButton(
-                      label: _sending ? 'Sending' : 'How others did',
-                      onTap: _sending ? null : _close,
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _Half(
+                        color: AppColors.cream,
+                        eyebrow: 'TIME',
+                        value: clockOf(_mine.ms),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: _Half(
+                        color: AppColors.butter,
+                        eyebrow: 'STREAK',
+                        value: streak == null ? '' : '${streak.current}',
+                        unit: streak == null
+                            ? ''
+                            : streak.current == 1
+                            ? 'day'
+                            : 'days',
+                      ),
+                    ),
+                  ],
+                ),
+                if (_kept) ...[
+                  const SizedBox(height: 14),
+                  Container(
+                    padding: const EdgeInsets.all(18),
+                    decoration: BoxDecoration(
+                      color: AppColors.peach,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: Text(
+                      'No signal right now. Your score is saved on '
+                      '${thisDevice(context)} and goes up the next time you open the Daily.',
+                      style: AppTheme.body(size: 14),
                     ),
                   ),
                 ],
-              ),
-            ],
+                const SizedBox(height: 30),
+                Row(
+                  children: [
+                    TextAction(
+                      label: 'Share',
+                      onTap: () => showDailyShare(
+                        context,
+                        date: puzzle.date,
+                        mine: _mine,
+                      ),
+                    ),
+                    const SizedBox(width: 18),
+                    Expanded(
+                      child: PillButton(
+                        label: _sending ? 'Sending' : 'How others did',
+                        onTap: _sending ? null : _close,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

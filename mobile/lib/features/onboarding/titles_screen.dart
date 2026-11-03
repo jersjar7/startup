@@ -8,6 +8,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
 import '../shared/widgets/engineering_grid.dart';
+import '../shared/widgets/split_page.dart';
 
 /// The opening titles, between the splash and the first page of the tour.
 ///
@@ -97,100 +98,105 @@ class _TitlesScreenState extends State<TitlesScreen>
 
     return Scaffold(
       backgroundColor: AppColors.fog,
-      body: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: _leave,
-        child: EngineeringGrid(
-          minor: 18,
-          major: 90,
-          child: AnimatedBuilder(
-            animation: _c,
-            builder: (context, _) {
-              const landing = Curves.easeOutBack;
-              final drop = _beat(200, 760, landing);
-              final mark = _beat(1350, 860, landing);
-              final tail = _beat(2600, 860, landing);
-              final lift = _beat(4150, 520, Curves.easeInCubic);
-              final bloom = _beat(_bloomAt, _bloomFor, Curves.easeInOutCubic);
+      body: TabletCap(
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: _leave,
+          child: EngineeringGrid(
+            minor: 18,
+            major: 90,
+            child: AnimatedBuilder(
+              animation: _c,
+              builder: (context, _) {
+                const landing = Curves.easeOutBack;
+                final drop = _beat(200, 760, landing);
+                final mark = _beat(1350, 860, landing);
+                final tail = _beat(2600, 860, landing);
+                final lift = _beat(4150, 520, Curves.easeInCubic);
+                final bloom = _beat(_bloomAt, _bloomFor, Curves.easeInOutCubic);
 
-              // The disc is centred, so it only covers the screen once its
-              // diameter passes the full diagonal. A little over, so the
-              // corners are filled rather than just touched.
-              final reach =
-                  math.sqrt(
-                    size.width * size.width + size.height * size.height,
-                  ) *
-                  1.06;
+                // The disc is centred, so it only covers the screen once its
+                // diameter passes the full diagonal. A little over, so the
+                // corners are filled rather than just touched.
+                final reach =
+                    math.sqrt(
+                      size.width * size.width + size.height * size.height,
+                    ) *
+                    1.06;
 
-              return Stack(
-                fit: StackFit.expand,
-                children: [
-                  Opacity(
-                    opacity: 1 - lift,
-                    child: Transform.scale(
-                      scale: 1 - lift * 0.4,
-                      child: Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Transform.translate(
-                              offset: Offset(0, above * (1 - drop)),
-                              child: Text(
-                                'Welcome to',
-                                textAlign: TextAlign.center,
-                                style: AppTheme.display(size: 42, height: 1.0),
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            Transform.translate(
-                              offset: Offset(aside * (1 - mark), 0),
-                              child: Image.asset(
-                                TitlesScreen._sticker,
-                                width: TitlesScreen._stickerWidth,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            Transform.translate(
-                              offset: Offset(-aside * (1 - tail), 0),
-                              child: Text(
-                                'the mobile app',
-                                textAlign: TextAlign.center,
-                                style: AppTheme.display(
-                                  size: 42,
-                                  height: 1.0,
-                                  color: AppColors.ember,
+                return Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Opacity(
+                      opacity: 1 - lift,
+                      child: Transform.scale(
+                        scale: 1 - lift * 0.4,
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Transform.translate(
+                                offset: Offset(0, above * (1 - drop)),
+                                child: Text(
+                                  'Welcome to',
+                                  textAlign: TextAlign.center,
+                                  style: AppTheme.display(
+                                    size: 42,
+                                    height: 1.0,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  if (bloom > 0)
-                    Center(
-                      // Without this the stack's own constraints clamp the
-                      // disc to the screen box, so it stopped growing the
-                      // moment it touched an edge and never closed over the
-                      // corners (owner, 2026-10-05).
-                      child: OverflowBox(
-                        maxWidth: double.infinity,
-                        maxHeight: double.infinity,
-                        child: Container(
-                          key: const ValueKey('bloom'),
-                          width: reach * bloom,
-                          height: reach * bloom,
-                          decoration: const BoxDecoration(
-                            color: AppColors.ember,
-                            shape: BoxShape.circle,
+                              const SizedBox(height: 12),
+                              Transform.translate(
+                                offset: Offset(aside * (1 - mark), 0),
+                                child: Image.asset(
+                                  TitlesScreen._sticker,
+                                  width: TitlesScreen._stickerWidth,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Transform.translate(
+                                offset: Offset(-aside * (1 - tail), 0),
+                                child: Text(
+                                  'the mobile app',
+                                  textAlign: TextAlign.center,
+                                  style: AppTheme.display(
+                                    size: 42,
+                                    height: 1.0,
+                                    color: AppColors.ember,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                ],
-              );
-            },
+                    if (bloom > 0)
+                      Center(
+                        // Without this the stack's own constraints clamp the
+                        // disc to the screen box, so it stopped growing the
+                        // moment it touched an edge and never closed over the
+                        // corners (owner, 2026-10-05).
+                        child: OverflowBox(
+                          maxWidth: double.infinity,
+                          maxHeight: double.infinity,
+                          child: Container(
+                            key: const ValueKey('bloom'),
+                            width: reach * bloom,
+                            height: reach * bloom,
+                            decoration: const BoxDecoration(
+                              color: AppColors.ember,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),

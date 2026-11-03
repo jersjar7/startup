@@ -10,6 +10,7 @@ import '../shared/widgets/kit.dart';
 import 'auth_controller.dart';
 import 'email_hint.dart';
 import 'verify_screen.dart' show FadedCards, Sheet;
+import '../shared/widgets/split_page.dart';
 
 /// Reset your password: one oversized field, then the check-your-email
 /// sheet (`mobile/design/reference-screens/03b-forgot`).
@@ -63,7 +64,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.fog,
-      body: _sent ? _confirmation() : _form(),
+      body: TabletCap(child: _sent ? _confirmation() : _form()),
     );
   }
 
