@@ -4,7 +4,9 @@ import '../../core/theme/app_colors.dart';
 import '../home/home_shell.dart' show BesideRail;
 import '../../core/theme/app_theme.dart';
 import '../games/game_catalog.dart';
+import '../../core/theme/tablet.dart';
 import '../shared/widgets/kit.dart';
+import '../shared/widgets/split_page.dart';
 import '../games/chapter_map_screen.dart';
 import '../study/chapter_marks.dart';
 import '../study/content_repository.dart';
@@ -25,107 +27,120 @@ class MasteryScreen extends StatelessWidget {
     final totals = totalsOf(mastery);
     final overall = weightedMastery(totals);
 
+    if (AppTablet.of(context) == SizeClass.expanded) {
+      // T17: the total and where effort pays on the left, every chapter on
+      // the right.
+      return Scaffold(
+        backgroundColor: AppColors.fog,
+        body: SplitPage(
+          leftWidth: 480,
+          left: _lead(context, overall),
+          right: _every(columns: 3),
+          rightTopPad: 64,
+        ),
+      );
+    }
     return Scaffold(
       backgroundColor: AppColors.fog,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  RoundIconButton(
-                    icon: Icons.chevron_left_rounded,
-                    label: 'Back',
-                    onTap: () => Navigator.of(context).maybePop(),
-                  ),
-                  const Spacer(),
-                  Text(
-                    'TOTAL CONCEPT MASTERY',
-                    style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 22),
-              Text.rich(
-                TextSpan(
-                  text: '$overall',
-                  style: AppTheme.display(
-                    size: 124,
-                    height: 0.82,
-                    tracking: -0.07,
-                    color: AppColors.ember,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: '%',
-                      style: AppTheme.display(
-                        size: 56,
-                        height: 0.82,
-                        tracking: -0.04,
-                        color: AppColors.ember,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'Of the concepts the FE Civil tests, weighted by how many '
-                'questions each chapter gets. Earned at the desk on the '
-                'website. What you do in this app does not count toward it. '
-                'Not a probability of passing.',
-                style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
-              ),
-              const SizedBox(height: 22),
-              Text(
-                'WHERE EFFORT PAYS',
-                style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
-              ),
-              const SizedBox(height: 10),
-              PriorityField(
-                mastery: mastery,
-                onOpen: (chapter) => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        BesideRail(child: ChapterMapScreen(chapter: chapter)),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 22),
-              Text(
-                'EVERY CHAPTER',
-                style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
-              ),
-              const SizedBox(height: 10),
-              // A fixed height, not a fixed ratio: on a 320 wide phone a ratio
-              // makes the tile shorter exactly where the chapter names need
-              // three lines, and the tile overflows.
-              GridView(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
-                  mainAxisExtent: 206,
-                ),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  for (final chapter in chapterMaps.values)
-                    _ChapterTile(
-                      chapter: chapter,
-                      mastery: mastery[chapter.id],
-                    ),
-                ],
-              ),
-            ],
+      body: MediumColumn(
+        child: SafeArea(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [..._lead(context, overall), ..._every(columns: 2)],
+            ),
           ),
         ),
       ),
     );
   }
+
+  List<Widget> _lead(BuildContext context, int overall) => [
+    Row(
+      children: [
+        RoundIconButton(
+          icon: Icons.chevron_left_rounded,
+          label: 'Back',
+          onTap: () => Navigator.of(context).maybePop(),
+        ),
+        const Spacer(),
+        Text(
+          'TOTAL CONCEPT MASTERY',
+          style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+        ),
+      ],
+    ),
+    const SizedBox(height: 22),
+    Text.rich(
+      TextSpan(
+        text: '$overall',
+        style: AppTheme.display(
+          size: 124,
+          height: 0.82,
+          tracking: -0.07,
+          color: AppColors.ember,
+        ),
+        children: [
+          TextSpan(
+            text: '%',
+            style: AppTheme.display(
+              size: 56,
+              height: 0.82,
+              tracking: -0.04,
+              color: AppColors.ember,
+            ),
+          ),
+        ],
+      ),
+    ),
+    const SizedBox(height: 12),
+    Text(
+      'Of the concepts the FE Civil tests, weighted by how many '
+      'questions each chapter gets. Earned at the desk on the '
+      'website. What you do in this app does not count toward it. '
+      'Not a probability of passing.',
+      style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
+    ),
+    const SizedBox(height: 22),
+    Text(
+      'WHERE EFFORT PAYS',
+      style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+    ),
+    const SizedBox(height: 10),
+    PriorityField(
+      mastery: mastery,
+      onOpen: (chapter) => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => BesideRail(child: ChapterMapScreen(chapter: chapter)),
+        ),
+      ),
+    ),
+  ];
+
+  List<Widget> _every({required int columns}) => [
+    const SizedBox(height: 22),
+    Text(
+      'EVERY CHAPTER',
+      style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+    ),
+    const SizedBox(height: 10),
+    GridView(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: columns,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        mainAxisExtent: 206,
+      ),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        for (final chapter in chapterMaps.values)
+          _ChapterTile(chapter: chapter, mastery: mastery[chapter.id]),
+      ],
+    ),
+  ];
 }
 
 class _ChapterTile extends StatelessWidget {

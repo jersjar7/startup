@@ -5,6 +5,10 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:mobile/features/home/home_shell.dart' show BesideRail;
 import 'package:mobile/features/league/league_model.dart';
 import 'package:mobile/features/league/league_screen.dart';
+import 'package:mobile/features/profile/exam_date_screen.dart';
+import 'package:mobile/features/study/content_repository.dart';
+import 'package:mobile/features/profile/mastery_screen.dart';
+import 'package:mobile/features/profile/study_days_screen.dart';
 import 'package:mobile/features/study/study_tab.dart' show appClock;
 
 import '../support/fonts.dart';
@@ -22,7 +26,9 @@ LeagueView _league() => LeagueView.fromJson({
     for (var i = 0; i < 15; i++)
       {
         'place': i + 1,
-        'name': i == 2 ? 'Jerson G.' : 'Student ${String.fromCharCode(65 + i)}.',
+        'name': i == 2
+            ? 'Jerson G.'
+            : 'Student ${String.fromCharCode(65 + i)}.',
         'xp': 1840 - i * 110,
         'isMe': i == 2,
       },
@@ -82,4 +88,55 @@ void main() {
       );
     });
   });
+
+  /// Each page in landscape, portrait and the night landscape.
+  void page(String name, Widget Function() build) {
+    group(name, () {
+      for (final (o, size) in [
+        ('landscape', landscape),
+        ('portrait', portrait),
+      ]) {
+        testWidgets(o, (tester) async {
+          await shoot(tester, build(), '$name-$o', size: size);
+          await drain(tester);
+        });
+      }
+      testWidgets('night', (tester) async {
+        night();
+        await shoot(tester, build(), '$name-landscape-night');
+        await drain(tester);
+      });
+    });
+  }
+
+  page('mastery', () => const MasteryScreen(mastery: _mastery));
+  page(
+    'days-studied',
+    () => const StudyDaysScreen(
+      count: 27,
+      days: [
+        '2026-10-02',
+        '2026-10-05',
+        '2026-10-06',
+        '2026-10-07',
+        '2026-10-12',
+        '2026-10-13',
+        '2026-10-20',
+        '2026-10-21',
+        '2026-10-22',
+        '2026-10-27',
+        '2026-11-01',
+        '2026-11-02',
+        '2026-11-03',
+      ],
+    ),
+  );
+  page('exam-date', () => const ExamDateScreen(initial: '2027-01-15'));
 }
+
+const _mastery = <String, ChapterMastery>{
+  'mathematics': ChapterMastery(total: 62, desk: 62),
+  'statics': ChapterMastery(total: 48, desk: 48),
+  'ethics': ChapterMastery(total: 84, desk: 84),
+  'geotechnical': ChapterMastery(total: 4, desk: 4),
+};
