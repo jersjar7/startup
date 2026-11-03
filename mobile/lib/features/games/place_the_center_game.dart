@@ -178,39 +178,41 @@ class _PlaceTheCenterGameState extends State<PlaceTheCenterGame> {
             child: Center(child: MathBlock(r.equation, fontSize: 21)),
           ),
           const SizedBox(height: 14),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, box.maxWidth);
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: SizedBox(
-                  width: size.width,
-                  height: size.height,
-                  child: ColoredBox(
-                    color: AppColors.white,
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTapUp: answered
-                          ? null
-                          : (details) {
-                              final hit = GridGeometry(
-                                size,
-                              ).nearest(details.localPosition);
-                              if (hit != null) setState(() => _picked = hit);
-                            },
-                      child: CustomPaint(
-                        painter: GridPainter(
-                          picked: _picked,
-                          truth: r.center,
-                          revealed: answered,
-                          radius: r.radius,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, box.maxWidth);
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: SizedBox(
+                    width: size.width,
+                    height: size.height,
+                    child: ColoredBox(
+                      color: AppColors.white,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTapUp: answered
+                            ? null
+                            : (details) {
+                                final hit = GridGeometry(
+                                  size,
+                                ).nearest(details.localPosition);
+                                if (hit != null) setState(() => _picked = hit);
+                              },
+                        child: CustomPaint(
+                          painter: GridPainter(
+                            picked: _picked,
+                            truth: r.center,
+                            revealed: answered,
+                            radius: r.radius,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

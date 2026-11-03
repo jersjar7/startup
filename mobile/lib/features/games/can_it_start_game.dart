@@ -212,23 +212,25 @@ class _CanItStartGameState extends State<CanItStartGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 280,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: RootPainter(
-                    poly: r.poly,
-                    x0: r.from,
-                    x1: r.to,
-                    brackets: r.brackets,
-                    pickedBracket: _picked,
-                    truthBracket: answered ? truth : null,
-                    revealed: answered,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 280,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: RootPainter(
+                      poly: r.poly,
+                      x0: r.from,
+                      x1: r.to,
+                      brackets: r.brackets,
+                      pickedBracket: _picked,
+                      truthBracket: answered ? truth : null,
+                      revealed: answered,
+                    ),
                   ),
                 ),
               ),

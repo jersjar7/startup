@@ -218,41 +218,43 @@ class _WalkTheCircleGameState extends State<WalkTheCircleGame> {
             ),
           ],
           const SizedBox(height: 14),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 300);
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: SizedBox(
-                  width: size.width,
-                  height: size.height,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTapUp: answered
-                        ? null
-                        : (details) {
-                            final hit = CircleGeometry(
-                              size,
-                            ).angleNearest(details.localPosition, r.choices);
-                            if (hit != null) setState(() => _picked = hit);
-                          },
-                    child: EngineeringGrid(
-                      minor: 20,
-                      major: 100,
-                      child: CustomPaint(
-                        painter: UnitCirclePainter(
-                          choices: r.choices,
-                          picked: _picked,
-                          truth: r.answer,
-                          revealed: answered,
-                          showRayTo: answered ? r.answer : _picked,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 300);
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: SizedBox(
+                    width: size.width,
+                    height: size.height,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTapUp: answered
+                          ? null
+                          : (details) {
+                              final hit = CircleGeometry(
+                                size,
+                              ).angleNearest(details.localPosition, r.choices);
+                              if (hit != null) setState(() => _picked = hit);
+                            },
+                      child: EngineeringGrid(
+                        minor: 20,
+                        major: 100,
+                        child: CustomPaint(
+                          painter: UnitCirclePainter(
+                            choices: r.choices,
+                            picked: _picked,
+                            truth: r.answer,
+                            revealed: answered,
+                            showRayTo: answered ? r.answer : _picked,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

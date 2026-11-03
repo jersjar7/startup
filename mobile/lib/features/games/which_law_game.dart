@@ -238,19 +238,21 @@ class _WhichLawGameState extends State<WhichLawGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 220,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: ObliqueTrianglePainter(
-                    knownSides: r.knownSides,
-                    knownAngles: r.knownAngles,
-                    wanted: r.wanted,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 220,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: ObliqueTrianglePainter(
+                      knownSides: r.knownSides,
+                      knownAngles: r.knownAngles,
+                      wanted: r.wanted,
+                    ),
                   ),
                 ),
               ),

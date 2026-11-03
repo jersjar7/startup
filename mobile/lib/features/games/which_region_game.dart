@@ -316,15 +316,17 @@ class _RegionCard extends StatelessWidget {
           ),
           child: Column(
             children: [
-              SizedBox(
-                height: 82,
-                width: double.infinity,
-                child: CustomPaint(
-                  painter: RegionPainter(
-                    u: u,
-                    v: v,
-                    region: region,
-                    color: shade,
+              BoardFigure(
+                child: SizedBox(
+                  height: 82,
+                  width: double.infinity,
+                  child: CustomPaint(
+                    painter: RegionPainter(
+                      u: u,
+                      v: v,
+                      region: region,
+                      color: shade,
+                    ),
                   ),
                 ),
               ),

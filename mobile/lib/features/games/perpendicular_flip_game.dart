@@ -238,7 +238,7 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
             ),
           ),
           const SizedBox(height: 16),
-          _canvas(r),
+          BoardFigure(child: _canvas(r)),
           const SizedBox(height: 14),
           _readout(r),
           const SizedBox(height: 16),

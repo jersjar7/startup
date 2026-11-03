@@ -174,38 +174,40 @@ class _QuadrantSignsGameState extends State<QuadrantSignsGame> {
             ),
           ],
           const SizedBox(height: 14),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 290);
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: SizedBox(
-                  width: size.width,
-                  height: size.height,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTapUp: answered
-                        ? null
-                        : (details) {
-                            final hit = CircleGeometry(
-                              size,
-                            ).quadrantAt(details.localPosition);
-                            if (hit != null) setState(() => _picked = hit);
-                          },
-                    child: EngineeringGrid(
-                      minor: 20,
-                      major: 100,
-                      child: CustomPaint(
-                        painter: UnitCirclePainter(
-                          quadrantLabels: true,
-                          highlightQuadrant: answered ? r.answer : _picked,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 290);
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: SizedBox(
+                    width: size.width,
+                    height: size.height,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTapUp: answered
+                          ? null
+                          : (details) {
+                              final hit = CircleGeometry(
+                                size,
+                              ).quadrantAt(details.localPosition);
+                              if (hit != null) setState(() => _picked = hit);
+                            },
+                      child: EngineeringGrid(
+                        minor: 20,
+                        major: 100,
+                        child: CustomPaint(
+                          painter: UnitCirclePainter(
+                            quadrantLabels: true,
+                            highlightQuadrant: answered ? r.answer : _picked,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

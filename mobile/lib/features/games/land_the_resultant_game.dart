@@ -210,40 +210,42 @@ class _LandTheResultantGameState extends State<LandTheResultantGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 300,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: LayoutBuilder(
-                  builder: (context, box) {
-                    final size = Size(box.maxWidth, box.maxHeight);
-                    return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTapDown: (d) => _tap(d.localPosition, size),
-                      child: CustomPaint(
-                        painter: VectorPainter(
-                          span: _span,
-                          lattice: true,
-                          picked: _picked,
-                          truth: answered ? r.answer : null,
-                          revealed: answered,
-                          arrows: [
-                            if (answered) ...r.chain,
-                            for (var i = 0; i < r.parts.length; i++)
-                              Arrow(
-                                r.parts[i],
-                                color: colors[i % colors.length],
-                                label: r.labels[i],
-                              ),
-                          ],
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 300,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: LayoutBuilder(
+                    builder: (context, box) {
+                      final size = Size(box.maxWidth, box.maxHeight);
+                      return GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTapDown: (d) => _tap(d.localPosition, size),
+                        child: CustomPaint(
+                          painter: VectorPainter(
+                            span: _span,
+                            lattice: true,
+                            picked: _picked,
+                            truth: answered ? r.answer : null,
+                            revealed: answered,
+                            arrows: [
+                              if (answered) ...r.chain,
+                              for (var i = 0; i < r.parts.length; i++)
+                                Arrow(
+                                  r.parts[i],
+                                  color: colors[i % colors.length],
+                                  label: r.labels[i],
+                                ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

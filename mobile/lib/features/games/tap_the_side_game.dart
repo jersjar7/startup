@@ -166,46 +166,48 @@ class _TapTheSideGameState extends State<TapTheSideGame> {
             style: TextStyle(fontSize: 13, color: AppColors.ink2),
           ),
           const SizedBox(height: 14),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 260);
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: SizedBox(
-                  width: size.width,
-                  height: size.height,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTapUp: answered
-                        ? null
-                        : (details) {
-                            final hit = TriangleGeometry(
-                              size,
-                              angleAtTop: r.angleAtTop,
-                              mirror: r.mirror,
-                            ).hitTest(details.localPosition, tolerance: 60);
-                            if (hit != null) setState(() => _tapped = hit);
-                          },
-                    child: EngineeringGrid(
-                      minor: 18,
-                      major: 90,
-                      child: CustomPaint(
-                        painter: TrianglePainter(
-                          angleAtTop: r.angleAtTop,
-                          mirror: r.mirror,
-                          highlight: answered ? r.ask : _tapped,
-                          highlightColor: !answered
-                              ? AppColors.ember
-                              : (_session.correct!
-                                    ? AppColors.forest
-                                    : AppColors.error),
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 260);
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: SizedBox(
+                    width: size.width,
+                    height: size.height,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTapUp: answered
+                          ? null
+                          : (details) {
+                              final hit = TriangleGeometry(
+                                size,
+                                angleAtTop: r.angleAtTop,
+                                mirror: r.mirror,
+                              ).hitTest(details.localPosition, tolerance: 60);
+                              if (hit != null) setState(() => _tapped = hit);
+                            },
+                      child: EngineeringGrid(
+                        minor: 18,
+                        major: 90,
+                        child: CustomPaint(
+                          painter: TrianglePainter(
+                            angleAtTop: r.angleAtTop,
+                            mirror: r.mirror,
+                            highlight: answered ? r.ask : _tapped,
+                            highlightColor: !answered
+                                ? AppColors.ember
+                                : (_session.correct!
+                                      ? AppColors.forest
+                                      : AppColors.error),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           // Nothing is written about the pick. The question names the side it
           // wants, so any readout naming what you touched hands over the

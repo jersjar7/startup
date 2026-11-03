@@ -226,35 +226,45 @@ class _ShadowFallsGameState extends State<ShadowFallsGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 320,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: LayoutBuilder(
-                  builder: (context, box) {
-                    final size = Size(box.maxWidth, box.maxHeight);
-                    return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTapDown: (d) => _tap(d.localPosition, size, r),
-                      child: CustomPaint(
-                        painter: VectorPainter(
-                          span: _span,
-                          ruler: RulerLine(unit: r.unit, from: _from, to: _to),
-                          rulerPick: _picked,
-                          rulerTruth: answered ? r.answer : null,
-                          revealed: answered,
-                          drop: answered ? r.force : null,
-                          arrows: [
-                            Arrow(r.force, color: AppColors.ember, label: 'F'),
-                          ],
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 320,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: LayoutBuilder(
+                    builder: (context, box) {
+                      final size = Size(box.maxWidth, box.maxHeight);
+                      return GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTapDown: (d) => _tap(d.localPosition, size, r),
+                        child: CustomPaint(
+                          painter: VectorPainter(
+                            span: _span,
+                            ruler: RulerLine(
+                              unit: r.unit,
+                              from: _from,
+                              to: _to,
+                            ),
+                            rulerPick: _picked,
+                            rulerTruth: answered ? r.answer : null,
+                            revealed: answered,
+                            drop: answered ? r.force : null,
+                            arrows: [
+                              Arrow(
+                                r.force,
+                                color: AppColors.ember,
+                                label: 'F',
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

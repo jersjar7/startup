@@ -176,20 +176,22 @@ class _ResolveItGameState extends State<ResolveItGame> {
             ),
           ),
           const SizedBox(height: 14),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 210,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: ForcePainter(
-                    degrees: r.degrees,
-                    fromVertical: r.fromVertical,
-                    highlightHorizontal: r.wantHorizontal,
-                    magnitude: 'F',
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 210,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: ForcePainter(
+                      degrees: r.degrees,
+                      fromVertical: r.fromVertical,
+                      highlightHorizontal: r.wantHorizontal,
+                      magnitude: 'F',
+                    ),
                   ),
                 ),
               ),

@@ -232,7 +232,7 @@ class _DiscriminantGateGameState extends State<DiscriminantGateGame> {
 
   List<Widget> _countBody() {
     return [
-      _CurveCard(para: _gate.curves.first, height: 200),
+      BoardFigure(child: _CurveCard(para: _gate.curves.first, height: 200)),
       const SizedBox(height: 16),
       for (var i = 2; i >= 0; i--) ...[
         _OptionButton(

@@ -245,37 +245,39 @@ class _SlideToFlatGameState extends State<SlideToFlatGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 240,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: LayoutBuilder(
-                  builder: (context, box) {
-                    final size = Size(box.maxWidth, box.maxHeight);
-                    return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTapDown: (d) => _dragTo(d.localPosition, size, r),
-                      onHorizontalDragUpdate: (d) =>
-                          _dragTo(d.localPosition, size, r),
-                      child: CustomPaint(
-                        painter: CurvePainter(
-                          poly: r.poly,
-                          x0: r.x0,
-                          x1: r.x1,
-                          yLo: yLo,
-                          yHi: yHi,
-                          markerX: marker.toDouble(),
-                          showTangent: true,
-                          reveal: answered ? r.answer.toDouble() : null,
-                          revealIsRight: true,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 240,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: LayoutBuilder(
+                    builder: (context, box) {
+                      final size = Size(box.maxWidth, box.maxHeight);
+                      return GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTapDown: (d) => _dragTo(d.localPosition, size, r),
+                        onHorizontalDragUpdate: (d) =>
+                            _dragTo(d.localPosition, size, r),
+                        child: CustomPaint(
+                          painter: CurvePainter(
+                            poly: r.poly,
+                            x0: r.x0,
+                            x1: r.x1,
+                            yLo: yLo,
+                            yHi: yHi,
+                            markerX: marker.toDouble(),
+                            showTangent: true,
+                            reveal: answered ? r.answer.toDouble() : null,
+                            revealIsRight: true,
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

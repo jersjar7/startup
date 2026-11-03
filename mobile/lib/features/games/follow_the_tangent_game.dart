@@ -246,24 +246,26 @@ class _FollowTheTangentGameState extends State<FollowTheTangentGame> {
             ),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 260,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: RootPainter(
-                    poly: r.poly,
-                    x0: r.from,
-                    x1: r.to,
-                    tangentAt: r.start,
-                    candidates: r.candidates,
-                    picked: _picked,
-                    truth: answered ? r.answer : null,
-                    revealed: answered,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 260,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: RootPainter(
+                      poly: r.poly,
+                      x0: r.from,
+                      x1: r.to,
+                      tangentAt: r.start,
+                      candidates: r.candidates,
+                      picked: _picked,
+                      truth: answered ? r.answer : null,
+                      revealed: answered,
+                    ),
                   ),
                 ),
               ),

@@ -210,30 +210,32 @@ class _WhichWayTurnsGameState extends State<WhichWayTurnsGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 280,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: VectorPainter(
-                    span: 6,
-                    between: (r.first, r.second),
-                    arrows: [
-                      Arrow(
-                        r.first,
-                        color: AppColors.ember,
-                        label: r.firstLabel,
-                      ),
-                      Arrow(
-                        r.second,
-                        color: AppColors.forest,
-                        label: r.secondLabel,
-                      ),
-                    ],
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 280,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: VectorPainter(
+                      span: 6,
+                      between: (r.first, r.second),
+                      arrows: [
+                        Arrow(
+                          r.first,
+                          color: AppColors.ember,
+                          label: r.firstLabel,
+                        ),
+                        Arrow(
+                          r.second,
+                          color: AppColors.forest,
+                          label: r.secondLabel,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

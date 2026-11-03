@@ -229,35 +229,37 @@ class _StretchItGameState extends State<StretchItGame> {
             child: MathBlock(r.shown, fontSize: 17),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 270,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: VectorPainter(
-                    span: _span,
-                    guide: r.direction,
-                    arrows: [
-                      Arrow(
-                        r.direction,
-                        color: AppColors.ink3,
-                        faint: true,
-                        label: 'given',
-                      ),
-                      if (_k != 0)
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 270,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: VectorPainter(
+                      span: _span,
+                      guide: r.direction,
+                      arrows: [
                         Arrow(
-                          scaled,
-                          color: answered
-                              ? (_session.correct!
-                                    ? AppColors.forest
-                                    : AppColors.error)
-                              : AppColors.ember,
+                          r.direction,
+                          color: AppColors.ink3,
+                          faint: true,
+                          label: 'given',
                         ),
-                    ],
+                        if (_k != 0)
+                          Arrow(
+                            scaled,
+                            color: answered
+                                ? (_session.correct!
+                                      ? AppColors.forest
+                                      : AppColors.error)
+                                : AppColors.ember,
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               ),

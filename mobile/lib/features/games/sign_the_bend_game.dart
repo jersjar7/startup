@@ -243,24 +243,26 @@ class _SignTheBendGameState extends State<SignTheBendGame> {
             child: MathBlock(r.subject, fontSize: 16),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 210,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: CurvePainter(
-                    poly: r.poly,
-                    x0: r.x0,
-                    x1: r.x1,
-                    yLo: yLo,
-                    yHi: yHi,
-                    cuts: r.cuts,
-                    reveal: answered ? r.inflection : null,
-                    revealIsRight: true,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 210,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: CurvePainter(
+                      poly: r.poly,
+                      x0: r.x0,
+                      x1: r.x1,
+                      yLo: yLo,
+                      yHi: yHi,
+                      cuts: r.cuts,
+                      reveal: answered ? r.inflection : null,
+                      revealIsRight: true,
+                    ),
                   ),
                 ),
               ),
