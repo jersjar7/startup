@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/handbook.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/kit.dart';
@@ -5812,7 +5813,7 @@ const addBrief = BriefSection(
       'sag is proportional to load while the beam is elastic',
     ),
   ],
-  handbook: 'Handbook pp. 136 and 140 to 141',
+  handbook: 'Handbook pp. 136, 140-141',
 );
 
 const transformBrief = BriefSection(
@@ -5946,7 +5947,7 @@ const plasticBrief = BriefSection(
       'how much more the beam carries after first yield',
     ),
   ],
-  handbook: 'Handbook pp. 136 and 287',
+  handbook: 'Handbook pp. 136, 287',
 );
 
 const circleBrief = BriefSection(
@@ -6469,7 +6470,7 @@ const spinInertiaBrief = BriefSection(
       'add the weight times how far the axis moved, squared, always starting from the middle',
     ),
   ],
-  handbook: 'Handbook pp. 112 and 115 to 116',
+  handbook: 'Handbook pp. 112, 115-116',
 );
 
 const weightBrief = BriefSection(
@@ -6610,7 +6611,7 @@ const twoEquationsBrief = BriefSection(
       'the force, times how far its line misses the middle by',
     ),
   ],
-  handbook: 'Handbook pp. 106 and 110',
+  handbook: 'Handbook pp. 106, 110',
 );
 
 const ledgerBrief = BriefSection(
@@ -6957,7 +6958,7 @@ const underneathBrief = BriefSection(
       'the natural log of one plus the engineering strain',
     ),
   ],
-  handbook: 'Handbook pp. 119 and 122',
+  handbook: 'Handbook pp. 119, 122',
 );
 
 const trueStressBrief = BriefSection(
@@ -7008,7 +7009,7 @@ const trueStressBrief = BriefSection(
       'the bar keeps its volume, so its area shrinks by that same factor',
     ),
   ],
-  handbook: 'Handbook pp. 119 and 122',
+  handbook: 'Handbook pp. 119, 122',
 );
 
 const crackBrief = BriefSection(
@@ -17301,7 +17302,7 @@ class ConceptView extends StatelessWidget {
           Text(
             handbook == null
                 ? 'THE CONCEPT'
-                : 'THE CONCEPT · ${handbook.toUpperCase()}',
+                : 'THE CONCEPT · ${handbookLabel(handbook).toUpperCase()}',
             style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
           ),
           // The lesson as the website names it, so the sheet says which

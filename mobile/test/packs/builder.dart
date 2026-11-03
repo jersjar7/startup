@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/widgets.dart';
 
+import 'package:mobile/core/handbook.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/lesson_brief.dart';
@@ -904,7 +905,7 @@ Map<String, Object?> briefJson(BriefSection b, String name) {
       'formulas': [
         for (final (a, c) in b.formulas) [a, c],
       ],
-    'handbook': ?b.handbook,
+    'handbook': ?b.handbook == null ? null : handbookLabel(b.handbook!),
     if (b.steps.isNotEmpty)
       'steps': [
         for (final (a, c) in b.steps) [a, c],
