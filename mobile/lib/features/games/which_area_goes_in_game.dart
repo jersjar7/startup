@@ -315,11 +315,13 @@ class _WhichAreaGoesInGameState extends State<WhichAreaGoesInGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Section(
-            gauge: r.gauge,
-            picked: _picked,
-            locked: answered,
-            onPick: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _Section(
+              gauge: r.gauge,
+              picked: _picked,
+              locked: answered,
+              onPick: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

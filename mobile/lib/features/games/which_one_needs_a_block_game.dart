@@ -250,11 +250,13 @@ class _WhichOneNeedsABlockGameState extends State<WhichOneNeedsABlockGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Plan(
-            trunk: r.trunk,
-            picked: _picked,
-            locked: answered,
-            onPick: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _Plan(
+              trunk: r.trunk,
+              picked: _picked,
+              locked: answered,
+              onPick: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

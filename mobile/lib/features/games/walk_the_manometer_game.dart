@@ -221,15 +221,17 @@ class _WalkTheManometerGameState extends State<WalkTheManometerGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 250,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: UTubePainter(tube: r.tube, from: r.from, to: r.to),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 250,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: UTubePainter(tube: r.tube, from: r.from, to: r.to),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),

@@ -207,11 +207,13 @@ class _WhereTheBlockGoesGameState extends State<WhereTheBlockGoesGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Corner(
-            elbow: r.elbow,
-            picked: _picked,
-            locked: answered,
-            onPick: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _Corner(
+              elbow: r.elbow,
+              picked: _picked,
+              locked: answered,
+              onPick: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           const SizedBox(height: 10),
           Center(

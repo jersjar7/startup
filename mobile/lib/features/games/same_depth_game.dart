@@ -242,44 +242,47 @@ class _SameDepthGameState extends State<SameDepthGame> {
             ),
           ),
           const SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 230);
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: answered
-                    ? null
-                    : (details) {
-                        final hit = PotPainter.at(
-                          size,
-                          r.both,
-                          details.localPosition,
-                        );
-                        if (hit == null) return;
-                        setState(
-                          () => _picked = hit == 0 ? Harder.left : Harder.right,
-                        );
-                      },
-                child: EngineeringGrid(
-                  minor: 18,
-                  major: 90,
-                  child: SizedBox(
-                    width: size.width,
-                    height: size.height,
-                    child: CustomPaint(
-                      painter: PotPainter(
-                        pots: r.both,
-                        deepest: r.deepest,
-                        picked: _index(_picked),
-                        answer: answered ? _index(r.answer) : null,
-                        locked: answered,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 230);
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: answered
+                      ? null
+                      : (details) {
+                          final hit = PotPainter.at(
+                            size,
+                            r.both,
+                            details.localPosition,
+                          );
+                          if (hit == null) return;
+                          setState(
+                            () =>
+                                _picked = hit == 0 ? Harder.left : Harder.right,
+                          );
+                        },
+                  child: EngineeringGrid(
+                    minor: 18,
+                    major: 90,
+                    child: SizedBox(
+                      width: size.width,
+                      height: size.height,
+                      child: CustomPaint(
+                        painter: PotPainter(
+                          pots: r.both,
+                          deepest: r.deepest,
+                          picked: _index(_picked),
+                          answer: answered ? _index(r.answer) : null,
+                          locked: answered,
+                        ),
+                        child: const SizedBox.expand(),
                       ),
-                      child: const SizedBox.expand(),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           const SizedBox(height: 10),
           Center(

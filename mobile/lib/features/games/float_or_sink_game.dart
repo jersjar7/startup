@@ -222,15 +222,17 @@ class _FloatOrSinkGameState extends State<FloatOrSinkGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 210,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: LumpPainter(lump: r.lump, showForces: answered),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 210,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: LumpPainter(lump: r.lump, showForces: answered),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),

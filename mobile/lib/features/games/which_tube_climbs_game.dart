@@ -248,44 +248,47 @@ class _WhichTubeClimbsGameState extends State<WhichTubeClimbsGame> {
             ),
           ),
           const SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 240);
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: answered
-                    ? null
-                    : (details) {
-                        final hit = CapillaryPainter.at(
-                          size,
-                          r.both,
-                          details.localPosition,
-                        );
-                        if (hit == null) return;
-                        setState(
-                          () => _picked = hit == 0 ? Climbs.left : Climbs.right,
-                        );
-                      },
-                child: EngineeringGrid(
-                  minor: 18,
-                  major: 90,
-                  child: SizedBox(
-                    width: size.width,
-                    height: size.height,
-                    child: CustomPaint(
-                      painter: CapillaryPainter(
-                        straws: r.both,
-                        picked: _index(_picked),
-                        answer: answered ? _index(r.answer) : null,
-                        locked: answered,
-                        showLevels: answered,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 240);
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: answered
+                      ? null
+                      : (details) {
+                          final hit = CapillaryPainter.at(
+                            size,
+                            r.both,
+                            details.localPosition,
+                          );
+                          if (hit == null) return;
+                          setState(
+                            () =>
+                                _picked = hit == 0 ? Climbs.left : Climbs.right,
+                          );
+                        },
+                  child: EngineeringGrid(
+                    minor: 18,
+                    major: 90,
+                    child: SizedBox(
+                      width: size.width,
+                      height: size.height,
+                      child: CustomPaint(
+                        painter: CapillaryPainter(
+                          straws: r.both,
+                          picked: _index(_picked),
+                          answer: answered ? _index(r.answer) : null,
+                          locked: answered,
+                          showLevels: answered,
+                        ),
+                        child: const SizedBox.expand(),
                       ),
-                      child: const SizedBox.expand(),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           const SizedBox(height: 8),
           Text(
