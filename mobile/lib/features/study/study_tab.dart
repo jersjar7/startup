@@ -1,16 +1,19 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/tablet.dart';
 import '../auth/auth_controller.dart';
 import '../games/chapter_map_screen.dart';
 import '../games/game_catalog.dart';
 import '../games/game_progress.dart';
 import '../shared/widgets/kit.dart';
 import '../guest/guest_tabs.dart' show SignInChip;
+import 'chapter_bands.dart' show cardNameFor;
 import 'chapter_grid.dart';
 import 'chapter_marks.dart';
 import '../../core/device_word.dart';
@@ -38,12 +41,30 @@ class _StudyTabState extends State<StudyTab> {
   static final List<ChapterMap> _chapters = chapterMaps.values.toList()
     ..sort((a, b) => a.number.compareTo(b.number));
 
-  late final PageController _pager;
+  late PageController _pager;
   late int _page;
 
   /// Which of the two views is up. Kept for the life of the tab, so a
   /// student who prefers the grid finds it there when they come back.
   bool _grid = false;
+
+  // On a tablet (ADR 0039). Each survives a rotation: they live here, above
+  // the layout, and the layouts only arrange them.
+
+  /// The tablet layouts' pager. A separate controller, so moving between the
+  /// phone's layout and a tablet's never attaches one controller twice.
+  PageController? _tabletPager;
+
+  /// The lesson open in place of the chapter tile, and its chapter.
+  (ChapterMap, LessonNode)? _lesson;
+
+  /// The lesson Continue brought into view and ringed.
+  String? _ringed;
+
+  /// The chapter picked in the grid, whose path shows beside it.
+  ChapterMap? _gridPick;
+
+  final _pathKey = GlobalKey<ChapterPathPaneState>(debugLabel: 'study-path');
 
   @override
   void initState() {
@@ -59,10 +80,66 @@ class _StudyTabState extends State<StudyTab> {
   @override
   void dispose() {
     _pager.dispose();
+    _tabletPager?.dispose();
     super.dispose();
   }
 
-  void _toggle() => setState(() => _grid = !_grid);
+  void _toggle() => setState(() {
+    _grid = !_grid;
+    _lesson = null;
+    _ringed = null;
+    _gridPick = _chapters[_page];
+  });
+
+  /// The phone's and the tablet's pagers are separate; whichever is about to
+  /// be shown starts on the page the student is on.
+  PageController _pagerFor({required bool tablet}) {
+    if (!tablet) {
+      if (!_pager.hasClients && _pager.initialPage != _page) {
+        _pager.dispose();
+        _pager = PageController(initialPage: _page);
+      }
+      return _pager;
+    }
+    final t = _tabletPager;
+    if (t == null || (!t.hasClients && t.initialPage != _page)) {
+      t?.dispose();
+      _tabletPager = PageController(initialPage: _page);
+    }
+    return _tabletPager!;
+  }
+
+  /// The chapter whose path is in the second pane.
+  ChapterMap get _pathChapter =>
+      _grid ? (_gridPick ?? _chapters[_page]) : _chapters[_page];
+
+  /// On a tablet the pill behaves as on the phone (owner, 2026-11-03): the
+  /// map is already the second pane, so it scrolls the path to the lesson
+  /// in flight and rings its node. Tapping the node opens the lesson.
+  void _continue(ChapterMap chapter) {
+    final next = GameProgress.instance.nextLessonIn(chapter);
+    setState(() {
+      _lesson = null;
+      _ringed = next?.id;
+    });
+    if (next != null) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _pathKey.currentState?.scrollToLesson(next.id),
+      );
+    }
+  }
+
+  void _openLesson(ChapterMap chapter, LessonNode lesson) => setState(() {
+    _lesson = (chapter, lesson);
+    _ringed = null;
+  });
+
+  Future<void> _play(String gameId) async {
+    await context.push('/games/play/$gameId');
+    if (!mounted) return;
+    _pathKey.currentState?.refresh();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +155,18 @@ class _StudyTabState extends State<StudyTab> {
       builder: (context, _) {
         final progress = GameProgress.instance;
         final current = resumeTarget(progress)?.$1.id;
+
+        final size = AppTablet.of(context);
+        if (size.isTablet) {
+          return _tabletLayout(
+            context,
+            expanded: size == SizeClass.expanded,
+            progress: progress,
+            current: current,
+            days: days,
+            guest: guest,
+          );
+        }
 
         return SafeArea(
           child: Padding(
@@ -104,7 +193,7 @@ class _StudyTabState extends State<StudyTab> {
                 else ...[
                   Expanded(
                     child: PageView.builder(
-                      controller: _pager,
+                      controller: _pagerFor(tablet: false),
                       onPageChanged: (i) => setState(() => _page = i),
                       itemCount: _chapters.length,
                       itemBuilder: (context, i) => _ChapterTile(
@@ -150,6 +239,179 @@ class _StudyTabState extends State<StudyTab> {
           ),
         );
       },
+    );
+  }
+
+  Widget _tabletLayout(
+    BuildContext context, {
+    required bool expanded,
+    required GameProgress progress,
+    required String? current,
+    required int? days,
+    required bool guest,
+  }) {
+    final topLine = _TopLine(
+      days: days,
+      grid: _grid,
+      onToggle: _toggle,
+      guest: guest,
+    );
+    final pathChapter = _pathChapter;
+    final path = ChapterPathPane(
+      key: _pathKey,
+      chapter: pathChapter,
+      heading: _grid,
+      ringed: _lesson?.$2.id ?? _ringed,
+      onOpenLesson: (lesson) => _openLesson(pathChapter, lesson),
+    );
+    final lesson = _lesson;
+    Widget lessonPane({required bool band}) => LessonPane(
+      chapter: lesson!.$1,
+      lesson: lesson.$2,
+      band: band,
+      onPlay: _play,
+      onClose: () => setState(() => _lesson = null),
+    );
+    final dots = _Dots(count: _chapters.length, page: _page, onTap: _toggle);
+    final guestLine = guest
+        ? Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(
+              'Rounds you finish are kept on ${thisDevice(context)}. Create '
+              'an account to keep them on the website too.',
+              style: AppTheme.body(size: 14, color: AppColors.mutedOnLight),
+            ),
+          )
+        : const SizedBox.shrink();
+    void pick(ChapterMap chapter) => setState(() {
+      _gridPick = chapter;
+      _lesson = null;
+      _ringed = null;
+    });
+
+    if (expanded) {
+      // The chapter beside its path (TABLET.md, "Study tab").
+      final Widget left;
+      if (lesson != null) {
+        left = lessonPane(band: false);
+      } else if (_grid) {
+        left = ChapterGrid(
+          chapters: _chapters,
+          progress: progress,
+          currentChapterId: current,
+          selectedChapterId: pathChapter.id,
+          onOpen: pick,
+        );
+      } else {
+        left = PageView.builder(
+          controller: _pagerFor(tablet: true),
+          onPageChanged: (i) => setState(() {
+            _page = i;
+            _ringed = null;
+          }),
+          itemCount: _chapters.length,
+          itemBuilder: (context, i) => _ChapterTile(
+            chapter: _chapters[i],
+            progress: progress,
+            isCurrent: _chapters[i].id == current,
+            onOpen: () => _continue(_chapters[i]),
+          ),
+        );
+      }
+      return SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppTablet.paneX,
+            AppTablet.spaceTop,
+            AppTablet.paneX,
+            0,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                width: AppTablet.paneLeading,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    topLine,
+                    const SizedBox(height: 16),
+                    Expanded(child: left),
+                    if (lesson == null && !_grid) dots,
+                    if (lesson == null) guestLine,
+                    const SizedBox(height: AppTablet.spaceTop),
+                  ],
+                ),
+              ),
+              const SizedBox(width: AppTablet.paneGap * 1.5),
+              Expanded(child: path),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Medium: the same pair, stacked. The chapter as a band across the top,
+    // its live path below (TABLET.md, "Medium (portrait)").
+    final Widget top;
+    if (lesson != null) {
+      top = lessonPane(band: true);
+    } else if (_grid) {
+      top = ChapterGrid(
+        chapters: _chapters,
+        progress: progress,
+        currentChapterId: current,
+        selectedChapterId: pathChapter.id,
+        onOpen: pick,
+        columns: 5,
+        shrinkWrap: true,
+      );
+    } else {
+      top = Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            height: 280,
+            child: PageView.builder(
+              controller: _pagerFor(tablet: true),
+              onPageChanged: (i) => setState(() {
+                _page = i;
+                _ringed = null;
+              }),
+              itemCount: _chapters.length,
+              itemBuilder: (context, i) => _ChapterBand(
+                chapter: _chapters[i],
+                progress: progress,
+                isCurrent: _chapters[i].id == current,
+                onOpen: () => _continue(_chapters[i]),
+              ),
+            ),
+          ),
+          dots,
+          guestLine,
+        ],
+      );
+    }
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(
+          AppTablet.paneX,
+          AppTablet.spaceTop,
+          AppTablet.paneX,
+          0,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            topLine,
+            const SizedBox(height: 16),
+            top,
+            const SizedBox(height: 16),
+            Expanded(child: path),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -497,6 +759,99 @@ class _Dots extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// The chapter tile laid across a portrait tablet (TABLET.md, "Medium"):
+/// the mark in a 200 circle on the left; the eyebrows, the name at 48, the
+/// mono line and the pill on the right. The same object as [_ChapterTile],
+/// turned on its side, with the path under it.
+class _ChapterBand extends StatelessWidget {
+  const _ChapterBand({
+    required this.chapter,
+    required this.progress,
+    required this.isCurrent,
+    required this.onOpen,
+  });
+
+  final ChapterMap chapter;
+  final GameProgress progress;
+  final bool isCurrent;
+  final VoidCallback onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    final facts = ChapterFacts.of(chapter, progress);
+    final Color circle;
+    final Color mark;
+    if (isCurrent) {
+      circle = AppColors.springField;
+      mark = AppColors.charcoal;
+    } else if (facts.cleared) {
+      circle = AppColors.charcoal;
+      mark = AppColors.springOnDark;
+    } else {
+      circle = AppColors.creamDark;
+      mark = AppColors.charcoal;
+    }
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: AppColors.cream,
+        borderRadius: BorderRadius.circular(48),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 200,
+            height: 200,
+            decoration: BoxDecoration(color: circle, shape: BoxShape.circle),
+            child: Center(
+              child: ChapterMark(chapterId: chapter.id, color: mark, size: 120),
+            ),
+          ),
+          const SizedBox(width: 24),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'CHAPTER ${chapter.number}',
+                        style: AppTheme.eyebrow(),
+                      ),
+                    ),
+                    Text(
+                      examWeight(chapter).toUpperCase(),
+                      style: AppTheme.eyebrow(color: AppColors.ink2),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  cardNameFor(chapter),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.display(size: 48),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  facts.caption,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.mono(size: 13, color: AppColors.ink2),
+                ),
+                const SizedBox(height: 16),
+                PillButton(label: facts.button, onTap: onOpen),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
