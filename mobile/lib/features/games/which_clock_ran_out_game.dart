@@ -198,25 +198,27 @@ class _WhichClockRanOutGameState extends State<WhichClockRanOutGame> {
             style: AppTheme.mono(size: 10.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 190,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: TwoClocksPainter(
-                    from: 2006,
-                    to: 2030,
-                    completion: r.completion,
-                    discovery: r.discovery,
-                    filed: r.filed,
-                    reposeYears: ClockRound.reposeYears,
-                    limitationYears: ClockRound.limitationYears,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 190,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: TwoClocksPainter(
+                      from: 2006,
+                      to: 2030,
+                      completion: r.completion,
+                      discovery: r.discovery,
+                      filed: r.filed,
+                      reposeYears: ClockRound.reposeYears,
+                      limitationYears: ClockRound.limitationYears,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

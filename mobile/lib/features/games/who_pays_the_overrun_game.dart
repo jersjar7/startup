@@ -228,22 +228,24 @@ class _WhoPaysTheOverrunGameState extends State<WhoPaysTheOverrunGame> {
             ),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 120,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: CostBarPainter(
-                    priced: r.priced,
-                    actual: r.actual,
-                    pricedLabel: r.pricedLabel,
-                    revealed: answered && !_session.correct!,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 120,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: CostBarPainter(
+                      priced: r.priced,
+                      actual: r.actual,
+                      pricedLabel: r.pricedLabel,
+                      revealed: answered && !_session.correct!,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

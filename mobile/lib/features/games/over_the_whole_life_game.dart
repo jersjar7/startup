@@ -227,20 +227,22 @@ class _OverTheWholeLifeGameState extends State<OverTheWholeLifeGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 130,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: StagesPainter(
-                    options: r.options,
-                    revealed: answered,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 130,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: StagesPainter(
+                      options: r.options,
+                      revealed: answered,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),
