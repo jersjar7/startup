@@ -293,13 +293,13 @@ ${answered ? `<path d="M${x1} ${y0} L${x1} ${y1}" stroke="${C.ember}" stroke-wid
 <text x="${x1 + 12 * s}" y="${(y0 + y1) / 2}" font-family="DM Sans" font-weight="700" font-size="${14 * s}" fill="${C.ember}">${answered ? 'opp' : '?'}</text>
 </svg></div>`;
 };
-const ratioButtons = (state, w) => {
+const ratioButtons = (state, w, h = 68) => {
   // state: null | 'chosen' | 'answered'
   const one = (label) => {
     let border = C.line, fill = C.white, bw = 1;
     if (state === 'chosen' && label === 'tan') { border = C.ember; fill = C.emberBg; bw = 2; }
     if (state === 'answered' && label === 'tan') { border = C.forest; fill = C.forestBg; bw = 2; }
-    return `<span role="button" style="flex:1;display:flex;align-items:center;justify-content:center;height:68px;border-radius:14px;box-sizing:border-box;border:${bw}px solid ${border};background:${fill};font-family:${F.display};font-weight:700;font-size:20px;">${label}</span>`;
+    return `<span role="button" style="flex:1;display:flex;align-items:center;justify-content:center;height:${h}px;border-radius:${h > 80 ? 20 : 14}px;box-sizing:border-box;border:${bw}px solid ${border};background:${fill};font-family:${F.display};font-weight:700;font-size:${h > 80 ? 26 : 20}px;">${label}</span>`;
   };
   return `<div style="display:flex;gap:10px;width:${w}px;">${one('sin')}${one('cos')}${one('tan')}</div>`;
 };
@@ -368,13 +368,26 @@ ${pathPane(CX + 400 + TB.space.paneGap + 8, TOP + 12, L.W - (CX + 400 + TB.space
 out['T01-study-landscape'] = studyL();
 out['T01n-study-landscape-night'] = studyL(true);
 
-// ── T01p Study, portrait: one chapter, its neighbours peeking ──
+// ── T01p Study, portrait: the same pairing as landscape, stacked ──
+// The chapter as a band (mark beside the words), its live path below.
+const PW = P.W - CX - 40; // content width beside the rail, portrait
+const chapterBand = ({ w, id = 'mathematics', num = 1, weight = '8 to 12 with Stats', name = 'Mathematics', caption = '3 of 16 lessons · next: Right Triangle Trigonometry', button = 'Continue', selected = false }) => `
+<div style="width:${w}px;box-sizing:border-box;padding:26px 26px 26px 26px;border-radius:36px;background:${C.cream};display:flex;gap:26px;align-items:stretch;">
+<span style="flex-shrink:0;display:flex;align-items:center;justify-content:center;width:200px;height:200px;border-radius:50%;background:${C.springField};color:${C.charcoal};align-self:center;">${mark(id, 'currentColor', 120, 1.5)}</span>
+<div style="flex-grow:1;display:flex;flex-direction:column;gap:10px;">
+<div style="display:flex;justify-content:space-between;">${eyebrow('Chapter ' + num)}${eyebrow(weight, C.muted)}</div>
+${headline(name, 48)}
+<div style="font-family:${F.mono};font-size:14px;line-height:1.45;color:${C.muted};">${caption}</div>
+<div style="flex-grow:1;min-height:12px;"></div>
+${pill(button)}
+</div>
+</div>`;
 out['T01p-study-portrait'] = page('Study, portrait', P.W, P.H, C.fog, `
 ${rail('study', P.H)}
-${abs(CX, TOP + 12, P.W - CX - 40, 48, `<div style="display:flex;align-items:center;justify-content:space-between;height:48px;">${eyebrow('73 days to the exam', C.muted)}${roundIcon('All chapters', ico.grid)}</div>`)}
-${abs(CX, TOP + 92, null, null, chapterTile({ w: 560, h: 980, disc: 340, glyphSize: 200, nameSize: 68 }))}
-${abs(CX + 560 + 20, TOP + 92 + 50, 300, 880, `<div style="width:300px;height:880px;box-sizing:border-box;padding:30px 28px;border-radius:36px;background:${C.cream};opacity:0.9;display:flex;flex-direction:column;">${eyebrow('Chapter 2')}<div style="flex-grow:1;display:flex;align-items:center;"><span style="display:flex;align-items:center;justify-content:center;width:240px;height:240px;border-radius:50%;background:${C.creamDark};">${mark('statistics', C.charcoal, 150, 1.5)}</span></div></div>`)}
-${abs(CX, TOP + 1104, 560, 12, `<div style="display:flex;justify-content:center;">${dots(15, 0)}</div>`)}
+${abs(CX, TOP + 12, PW, 48, `<div style="display:flex;align-items:center;justify-content:space-between;height:48px;">${eyebrow('73 days to the exam', C.muted)}${roundIcon('All chapters', ico.grid)}</div>`)}
+${abs(CX, TOP + 76, null, null, chapterBand({ w: PW }))}
+${abs(CX, TOP + 76 + 300, PW, 12, `<div style="display:flex;justify-content:center;">${dots(15, 0)}</div>`)}
+${pathPane(CX, TOP + 412, PW, P.H - TOP - 412, mathNodes, '3 of 16 cleared', { top: 64, node: 92, step: 128, amp: 150, labelW: 230 })}
 `);
 
 // ── T02 Chapter map, landscape: every chapter beside the one you picked ──
@@ -386,13 +399,13 @@ ${abs(CX + 400 + 32, TOP + 12, 560, null, `<div style="display:flex;flex-directi
 ${pathPane(CX + 400 + 32, TOP + 112, L.W - (CX + 400 + 32) - 24, L.H - TOP - 112, staticsNodes, '1 of 7 cleared', { top: 64, step: 124, node: 84, amp: 100 })}
 `);
 
-// ── T02p Chapter map, portrait: the path, pushed beside the rail ──
-const mathPortrait = path({ width: P.W - CX - 40, top: 0, nodes: mathNodes, node: 100, step: 150, amp: 150, labelW: 230 });
-out['T02p-chapter-map-portrait'] = page('Chapter map, portrait', P.W, P.H, C.fog, `
+// ── T02p All chapters, portrait: the grid on top, the picked chapter's path below ──
+out['T02p-chapter-map-portrait'] = page('All chapters, portrait', P.W, P.H, C.fog, `
 ${rail('study', P.H)}
-${abs(CX, TOP + 12, P.W - CX - 40, null, `<div style="display:flex;align-items:center;justify-content:space-between;">${roundIcon('Back', ico.back)}${eyebrow('Chapter 1', C.muted)}</div>`)}
-${abs(CX, TOP + 92, P.W - CX - 40, null, `<div style="display:flex;flex-direction:column;gap:22px;">${headline('Mathematics &amp; Computational Tools', 56)}<div>${chip('3 of 16 cleared')}</div></div>`)}
-${abs(CX, TOP + 300, P.W - CX - 40, P.H - TOP - 300, mathPortrait.html, 'overflow:hidden;')}
+${abs(CX, TOP + 12, PW, 48, `<div style="display:flex;align-items:center;justify-content:space-between;height:48px;">${eyebrow('73 days to the exam', C.muted)}${roundIcon('One chapter', ico.single)}</div>`)}
+${abs(CX, TOP + 76, null, null, gridTiles(5, (PW - 40) / 5, 112, { selected: 'statics' }))}
+${abs(CX, TOP + 76 + 3 * 112 + 20 + 34, PW, null, `<div style="display:flex;flex-direction:column;gap:12px;">${eyebrow('Chapter 5 · 4 to 6 on the exam', C.muted)}${headline('Statics', 44)}</div>`)}
+${pathPane(CX, TOP + 576, PW, P.H - TOP - 576, staticsNodes, '1 of 7 cleared', { top: 64, step: 124, node: 88, amp: 150, labelW: 230 })}
 `);
 
 // ── T03 Lesson sheet, landscape: the lesson takes the chapter's pane ──
@@ -423,35 +436,42 @@ ${abs(CX, TOP + 76, null, null, lessonPane(400, 670))}
 ${pathPane(CX + 400 + TB.space.paneGap + 8, TOP + 12, L.W - (CX + 400 + TB.space.paneGap + 8) - 24, L.H - TOP - 12, mathNodes, '3 of 16 cleared', { highlight: 'Right Triangle Trigonometry' })}
 `);
 
-// ── T03p Lesson sheet, portrait: a bottom sheet, capped and centred ──
-out['T03p-lesson-sheet-portrait'] = page('Lesson sheet, portrait', P.W, P.H, C.fog, `
+// ── T03p Lesson, portrait: the lesson takes the band's place, the path stays ──
+const gameCol = ([n, b, st]) => `
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;box-sizing:border-box;padding:18px 16px 16px 18px;border-radius:24px;background:${st === 'next' ? C.spring : C.creamDark};color:${st === 'next' ? C.onAccent : C.charcoal};">
+<span style="font-family:${F.display};font-weight:700;font-size:18px;letter-spacing:-0.02em;">${n}</span>
+<span style="flex-grow:1;font-size:14px;line-height:1.4;color:${st === 'next' ? C.onAccent : C.muted};">${b}</span>
+<span style="align-self:flex-end;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:24px;background:${C.charcoal};color:${st === 'next' ? C.spring : C.onCharcoal};">${st === 'done' ? ico.check() : ico.play}</span>
+</div>`;
+out['T03p-lesson-sheet-portrait'] = page('Lesson, portrait', P.W, P.H, C.fog, `
 ${rail('study', P.H)}
-${abs(CX, TOP + 12, P.W - CX - 40, null, `<div style="display:flex;align-items:center;justify-content:space-between;">${roundIcon('Back', ico.back)}${eyebrow('Chapter 1', C.muted)}</div>`)}
-${abs(CX, TOP + 92, P.W - CX - 40, null, `<div style="display:flex;flex-direction:column;gap:22px;">${headline('Mathematics &amp; Computational Tools', 56)}<div>${chip('3 of 16 cleared')}</div></div>`)}
-${abs(CX, TOP + 300, P.W - CX - 40, P.H - TOP - 300, mathPortrait.html, 'overflow:hidden;')}
-${abs(0, 0, P.W, P.H, '', `background:${C.scrim};z-index:6;`)}
-${abs(RAIL + (P.W - RAIL - TB.pane.sheetMax) / 2, P.H - 540, TB.pane.sheetMax, 540, `
-<div style="height:540px;box-sizing:border-box;padding:12px 32px 40px;border-radius:40px 40px 0 0;background:${C.sheet};display:flex;flex-direction:column;gap:22px;">
-<div style="align-self:center;width:44px;height:5px;border-radius:3px;background:${C.charcoal};opacity:0.25;"></div>
-<div style="display:flex;flex-direction:column;gap:10px;">${eyebrow('Lesson 3 · 1 of 3 done', C.muted)}${headline('Right Triangle Trigonometry', 44)}</div>
-<div style="display:flex;flex-direction:column;gap:10px;">${RTT_GAMES.map((g) => gameRow(g)).join('')}</div>
+${abs(CX, TOP + 12, PW, 48, `<div style="display:flex;align-items:center;justify-content:space-between;height:48px;">${eyebrow('73 days to the exam', C.muted)}${roundIcon('All chapters', ico.grid)}</div>`)}
+${abs(CX, TOP + 76, PW, null, `
+<div style="box-sizing:border-box;padding:26px 24px 24px;border-radius:36px;background:${C.cream};display:flex;flex-direction:column;gap:20px;">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+<div style="display:flex;flex-direction:column;gap:10px;">${eyebrow('Lesson 3 · 1 of 3 done', C.muted)}${headline('Right Triangle Trigonometry', 40)}</div>
+${creamButton('Back to the chapter', ico.close, { size: 48 }).replace(`background:${C.cream}`, `background:${C.creamDark}`)}
+</div>
+<div style="display:flex;gap:10px;height:190px;">${RTT_GAMES.map(gameCol).join('')}</div>
 ${outlinePill('Read the concept first')}
-</div>`, 'z-index:7;')}
+</div>`)}
+${pathPane(CX, TOP + 500, PW, P.H - TOP - 500, mathNodes, '3 of 16 cleared', { top: 64, node: 92, step: 128, amp: 150, labelW: 230, highlight: 'Right Triangle Trigonometry' })}
 `);
 
 // ── T04 Round, landscape: the drawing beside the answer ──
-const FIG_L = { w: 640, h: 560 };
+const FIG_L = { w: 640, h: L.H - TOP - 96 - 36 }; // full height, bottom edge shared with the pill
 const roundL = ({ answered = false }) => page(`Round${answered ? ', answered' : ''}, landscape`, L.W, L.H, C.fog, `
 ${abs(40, TOP + 8, 1100, 48, roundHeader(1100, { done: answered ? 2 : 1, count: '2 / 8', bookDot: !answered, pipsW: 560 }))}
 ${abs(40, TOP + 96, null, null, triangle(FIG_L.w, FIG_L.h, 1.5, { answered }))}
 ${abs(720, TOP + 96, 420, L.H - TOP - 96 - 36, `
 <div style="height:100%;display:flex;flex-direction:column;">
+<div style="flex-grow:1;"></div>
 <div style="display:flex;flex-direction:column;gap:10px;">${eyebrow('Which ratio connects them', C.ember)}
 <div style="font-size:20px;line-height:1.5;color:${C.charcoal};">${ROUND_CONTEXT}</div></div>
+<div style="height:24px;"></div>
+${ratioButtons(answered ? 'answered' : 'chosen', 420, answered ? 72 : 112)}
+${answered ? `<div style="height:16px;"></div>${feedbackPanel(420)}<div style="height:12px;"></div><div style="display:flex;justify-content:center;">${tanRule(24)}</div>` : ''}
 <div style="height:28px;"></div>
-${ratioButtons(answered ? 'answered' : 'chosen', 420)}
-${answered ? `<div style="height:18px;"></div>${feedbackPanel(420)}<div style="height:14px;"></div><div style="display:flex;justify-content:center;">${tanRule(24)}</div>` : ''}
-<div style="flex-grow:1;"></div>
 <div style="display:flex;align-items:center;gap:12px;justify-content:flex-end;">${creamButton('Something unclear?', ico.flag, { size: 48 })}${pill(answered ? 'Next' : 'Lock it in', { width: 360 })}</div>
 </div>`)}
 `);
@@ -598,27 +618,33 @@ const carryOn = (w) => `
 </div>`;
 out['T09-profile-landscape'] = page('Profile, landscape', L.W, L.H, C.fog, `
 ${rail('profile', L.H)}
-${abs(CX, TOP + 16, L.W - CX - 40, 52, `<div style="display:flex;align-items:center;justify-content:space-between;height:52px;">${eyebrow('Friday, Sep 18', C.muted)}${avatar}</div>`)}
+${abs(CX, TOP + 16, L.W - CX - 40, 52, `<div style="display:flex;align-items:center;justify-content:space-between;height:52px;">${eyebrow('Tuesday, Nov 3', C.muted)}${avatar}</div>`)}
 ${abs(CX, TOP + 104, 460, null, headline('Welcome back, Jerson.', 96))}
 ${abs(CX, L.H - 36 - 168, 440, null, carryOn(440))}
 ${abs(CX + 440 + 72, TOP + 116, L.W - (CX + 440 + 72) - 40, null, `<div style="display:flex;flex-direction:column;gap:46px;">
 <div style="display:flex;flex-direction:column;gap:14px;">${fact('20', 'rounds left', 'In Law of Sines &amp; Law of Cosines')}${progressBar(460, 0.05)}</div>
 ${fact('6', 'days studied', 'Across the app and the website')}
-${fact('73', 'days to the exam', 'Monday, November 30')}
+${fact('73', 'days to the exam', 'Friday, January 15')}
 ${fact('3rd', 'in Silver', 'Of 15 this week, ends Saturday', coin())}
 </div>`)}
 `);
 
-// ── T09p Profile, portrait ──
+// ── T09p Profile, portrait: the fact Carry on acts on leads, the others in a row ──
+const stackFact = (big, unit, line, trailing = '') => `
+<div style="display:flex;flex-direction:column;gap:10px;">
+<div style="display:flex;align-items:center;gap:10px;"><span style="font-family:${F.display};font-weight:800;font-size:76px;line-height:0.82;letter-spacing:-0.06em;">${big}</span>${trailing}</div>
+<div style="font-family:${F.display};font-weight:700;font-size:21px;letter-spacing:-0.03em;">${unit}</div>
+<div style="font-size:15px;line-height:1.4;color:${C.muted};">${line}</div>
+</div>`;
 out['T09p-profile-portrait'] = page('Profile, portrait', P.W, P.H, C.fog, `
 ${rail('profile', P.H)}
-${abs(CX, TOP + 16, P.W - CX - 48, 52, `<div style="display:flex;align-items:center;justify-content:space-between;height:52px;">${eyebrow('Friday, Sep 18', C.muted)}${avatar}</div>`)}
-${abs(CX, TOP + 104, 560, null, headline('Welcome back, Jerson.', 76))}
-${abs(CX, TOP + 440, P.W - CX - 48, null, `<div style="display:grid;grid-template-columns:1fr 1fr;column-gap:40px;row-gap:120px;">
-<div style="display:flex;flex-direction:column;gap:16px;">${fact('20', 'rounds left', 'In Law of Sines &amp; Law of Cosines', '', 90)}${progressBar(270, 0.05)}</div>
-${fact('6', 'days studied', 'Across the app and the website', '', 90)}
-${fact('73', 'days to the exam', 'Monday, November 30', '', 90)}
-${fact('3rd', 'in Silver', 'Of 15 this week, ends Saturday', coin(), 90)}
+${abs(CX, TOP + 16, P.W - CX - 48, 52, `<div style="display:flex;align-items:center;justify-content:space-between;height:52px;">${eyebrow('Tuesday, Nov 3', C.muted)}${avatar}</div>`)}
+${abs(CX, TOP + 104, 600, null, headline('Welcome back, Jerson.', 92))}
+${abs(CX, TOP + 410, PW, null, `<div style="display:flex;flex-direction:column;gap:16px;">${fact('20', 'rounds left', 'In Law of Sines &amp; Law of Cosines', '', 150)}${progressBar(PW - 8, 0.05)}</div>`)}
+${abs(CX, TOP + 700, PW, null, `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;column-gap:32px;">
+${stackFact('6', 'days studied', 'Across the app and the website')}
+${stackFact('73', 'days to the exam', 'Friday, January 15')}
+${stackFact('3rd', 'in Silver', 'Of 15 this week, ends Saturday', coin(34))}
 </div>`)}
 ${abs(P.W - 48 - TB.size.pillMax, P.H - 40 - 168, null, null, carryOn(TB.size.pillMax))}
 `);
