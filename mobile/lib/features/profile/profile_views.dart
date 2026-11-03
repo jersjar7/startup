@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/tablet.dart';
 import '../games/game_catalog.dart';
 import '../league/league_coin.dart';
 import '../league/league_model.dart';
@@ -409,6 +410,9 @@ class _Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = AppTablet.of(context);
+    if (size == SizeClass.expanded) return _expanded(context);
+    if (size == SizeClass.medium) return _medium(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -429,71 +433,228 @@ class _Page extends StatelessWidget {
           // above it, however tall the facts run.
           const SizedBox(height: RaccoonPeek.height + 12),
           const Spacer(),
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              // Brand green, not charcoal: the raccoon's nose is charcoal and
-              // vanished into a charcoal pill (owner, 2026-10-16).
-              PillButton(
-                label: action,
-                onTap: onAction,
-                fill: AppColors.forest,
-              ),
-              const Positioned(
-                left: 26,
-                top: -RaccoonPeek.baseline,
-                child: IgnorePointer(child: RaccoonPeek()),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (underLead != null) ...[
-                Flexible(
-                  child: Text(
-                    underLead!,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTheme.mono(
-                      size: 12,
-                      color: AppColors.mutedOnLight,
-                    ),
-                  ),
-                ),
-                Text(
-                  ' · ',
-                  style: AppTheme.mono(size: 12, color: AppColors.mutedOnLight),
-                ),
-              ],
-              // Never trimmed while there is a lead to give way; trimmed
-              // itself only when it is the whole line.
-              if (underLead != null)
-                Text(
-                  under,
-                  maxLines: 1,
-                  style: AppTheme.mono(size: 12, color: AppColors.mutedOnLight),
-                )
-              else
-                Flexible(
-                  child: Text(
-                    under,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTheme.mono(
-                      size: 12,
-                      color: AppColors.mutedOnLight,
-                    ),
-                  ),
-                ),
-            ],
-          ),
+          ..._pill(),
           const SizedBox(height: 18),
         ],
       ),
     );
   }
+
+  /// The pill with the raccoon on it, and the mono line under it.
+  List<Widget> _pill() => [
+    Stack(
+      clipBehavior: Clip.none,
+      children: [
+        // Brand green, not charcoal: the raccoon's nose is charcoal and
+        // vanished into a charcoal pill (owner, 2026-10-16).
+        PillButton(label: action, onTap: onAction, fill: AppColors.forest),
+        const Positioned(
+          left: 26,
+          top: -RaccoonPeek.baseline,
+          child: IgnorePointer(child: RaccoonPeek()),
+        ),
+      ],
+    ),
+    const SizedBox(height: 10),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (underLead != null) ...[
+          Flexible(
+            child: Text(
+              underLead!,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTheme.mono(size: 12, color: AppColors.mutedOnLight),
+            ),
+          ),
+          Text(
+            ' · ',
+            style: AppTheme.mono(size: 12, color: AppColors.mutedOnLight),
+          ),
+        ],
+        // Never trimmed while there is a lead to give way; trimmed
+        // itself only when it is the whole line.
+        if (underLead != null)
+          Text(
+            under,
+            maxLines: 1,
+            style: AppTheme.mono(size: 12, color: AppColors.mutedOnLight),
+          )
+        else
+          Flexible(
+            child: Text(
+              under,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTheme.mono(size: 12, color: AppColors.mutedOnLight),
+            ),
+          ),
+      ],
+    ),
+  ];
+
+  /// The pill capped at the tablet's pill width (TABLET.md section 7).
+  Widget _cappedPill() => ConstrainedBox(
+    constraints: const BoxConstraints(maxWidth: AppTablet.pillMax),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: _pill(),
+    ),
+  );
+
+  /// T09: the headline and the pill on the left, the facts on the right.
+  Widget _expanded(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppTablet.paneX,
+        AppTablet.spaceTop,
+        AppTablet.paneX + 8,
+        0,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          top,
+          const SizedBox(height: 40),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        headline,
+                        style: AppTheme.display(
+                          size: 96,
+                          height: 0.94,
+                          tracking: -0.05,
+                        ),
+                      ),
+                      const SizedBox(height: RaccoonPeek.height + 32),
+                      const Spacer(),
+                      _cappedPill(),
+                      const SizedBox(height: AppTablet.spaceTop),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 64),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: AppTablet.paneX),
+                    child: _FactLook(
+                      look: FactLookData.tablet,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          for (var i = 0; i < facts.length; i++) ...[
+                            if (i > 0) const SizedBox(height: 46),
+                            facts[i],
+                          ],
+                          const SizedBox(height: AppTablet.spaceTop),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// T09p: the fact Carry on acts on leads, the other three in a row under
+  /// it, Carry on bottom right.
+  Widget _medium(BuildContext context) {
+    final rest = facts.skip(1).toList();
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppTablet.paneX,
+        AppTablet.spaceTop,
+        AppTablet.paneX + 8,
+        0,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          top,
+          const SizedBox(height: 40),
+          Text(
+            headline,
+            style: AppTheme.display(size: 92, height: 0.94, tracking: -0.05),
+          ),
+          const SizedBox(height: 46),
+          const Spacer(),
+          if (facts.isNotEmpty)
+            _FactLook(look: FactLookData.lead, child: facts.first),
+          if (rest.isNotEmpty) ...[
+            const SizedBox(height: 56),
+            _FactLook(
+              look: FactLookData.row,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (var i = 0; i < rest.length; i++) ...[
+                    if (i > 0) const SizedBox(width: AppTablet.paneGap),
+                    Expanded(child: rest[i]),
+                  ],
+                ],
+              ),
+            ),
+          ],
+          const SizedBox(height: RaccoonPeek.height + 32),
+          const Spacer(),
+          Align(alignment: Alignment.centerRight, child: _cappedPill()),
+          const SizedBox(height: AppTablet.spaceTop),
+        ],
+      ),
+    );
+  }
+}
+
+/// How big a fact is drawn. The phone's sizes unless a tablet layout says
+/// otherwise (TABLET.md section 7, "tile number").
+class FactLookData {
+  const FactLookData({
+    required this.big,
+    required this.unit,
+    required this.lineSize,
+    this.unitUnder = false,
+  });
+
+  final double big;
+  final double unit;
+  final double lineSize;
+
+  /// The unit on its own line under the figure (the row of three, T09p).
+  final bool unitUnder;
+
+  static const phone = FactLookData(big: 52, unit: 20, lineSize: 15);
+  static const tablet = FactLookData(big: 84, unit: 28, lineSize: 17);
+  static const lead = FactLookData(big: 150, unit: 40, lineSize: 17);
+  static const row = FactLookData(
+    big: 76,
+    unit: 24,
+    lineSize: 17,
+    unitUnder: true,
+  );
+}
+
+class _FactLook extends InheritedWidget {
+  const _FactLook({required this.look, required super.child});
+
+  final FactLookData look;
+
+  static FactLookData of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_FactLook>()?.look ??
+      FactLookData.phone;
+
+  @override
+  bool updateShouldNotify(_FactLook old) => old.look != look;
 }
 
 /// A big number with its unit on the baseline, and one line of words.
@@ -520,54 +681,86 @@ class _Fact extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final look = _FactLook.of(context);
+    final unitText = Text.rich(
+      TextSpan(
+        text: unit,
+        children: [
+          // The coin rides the unit's line, centred on its letters.
+          if (trailing != null && !look.unitUnder)
+            WidgetSpan(
+              alignment: PlaceholderAlignment.middle,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: trailing,
+              ),
+            ),
+        ],
+      ),
+      style: AppTheme.display(
+        size: look.unit,
+        weight: FontWeight.w700,
+        tracking: -0.02,
+      ),
+    );
+    final chevron = onTap == null
+        ? null
+        : const Icon(
+            Icons.chevron_right_rounded,
+            color: AppColors.mutedOnLight,
+          );
+    final figure = Text(
+      big,
+      style: AppTheme.display(size: look.big, height: 0.9, tracking: -0.06),
+    );
     final body = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          children: [
-            Text(
-              big,
-              style: AppTheme.display(size: 52, height: 0.9, tracking: -0.06),
-            ),
-            const SizedBox(width: 8),
-            Text.rich(
-              TextSpan(
-                text: unit,
-                children: [
-                  // The coin rides the unit's line, centred on its letters.
-                  if (trailing != null)
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: trailing,
-                      ),
-                    ),
-                ],
-              ),
-              style: AppTheme.display(
-                size: 20,
-                weight: FontWeight.w700,
-                tracking: -0.02,
-              ),
-            ),
-            if (onTap != null) ...[
-              const Spacer(),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: AppColors.mutedOnLight,
-              ),
+        if (look.unitUnder) ...[
+          Row(
+            children: [
+              figure,
+              if (trailing != null) ...[
+                const SizedBox(width: 12),
+                SizedBox.square(
+                  dimension: look.unit * 1.5,
+                  child: FittedBox(child: trailing),
+                ),
+              ],
+              if (chevron != null) ...[const Spacer(), chevron],
             ],
-          ],
-        ),
-        const SizedBox(height: 4),
+          ),
+          const SizedBox(height: 8),
+          unitText,
+        ] else
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              figure,
+              SizedBox(width: look == FactLookData.phone ? 8 : 14),
+              if (look == FactLookData.phone)
+                unitText
+              else
+                Expanded(child: unitText),
+              if (chevron != null) ...[
+                if (look == FactLookData.phone) const Spacer(),
+                chevron,
+              ],
+            ],
+          ),
+        SizedBox(height: look == FactLookData.phone ? 4 : 10),
         Text(
           line,
-          style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
+          style: AppTheme.body(
+            size: look.lineSize,
+            color: AppColors.mutedOnLight,
+          ),
         ),
-        if (bar != null) ...[const SizedBox(height: 10), _Bar(fraction: bar!)],
+        if (bar != null) ...[
+          SizedBox(height: look == FactLookData.phone ? 10 : 18),
+          _Bar(fraction: bar!),
+        ],
       ],
     );
     if (onTap == null) return body;
