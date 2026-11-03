@@ -88,6 +88,10 @@ void main() {
     testWidgets('tapping a concept opens its sheet and comes back', (
       tester,
     ) async {
+      // A phone window: on a tablet the concept opens as a full page.
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
       final g = _firstGame('statics');
       _clear(g);
       await tester.pumpWidget(app());

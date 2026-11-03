@@ -164,29 +164,6 @@ class _WhichRatioGameState extends State<WhichRatioGame> {
     return BoardShell(
       session: _session,
       brief: ratiosBrief,
-      figure: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: SizedBox(
-          height: 210,
-          width: double.infinity,
-          child: EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: CustomPaint(
-              painter: TrianglePainter(
-                angleAtTop: r.angleAtTop,
-                mirror: r.mirror,
-                known: r.known,
-                wanted: r.wanted,
-                highlight: answered ? r.wanted : null,
-                highlightColor: _session.correct == true
-                    ? AppColors.forest
-                    : AppColors.error,
-              ),
-            ),
-          ),
-        ),
-      ),
       buttonLabel: answered ? _session.advanceLabel : 'Lock it in',
       onButton: answered
           ? () {
@@ -218,7 +195,33 @@ class _WhichRatioGameState extends State<WhichRatioGame> {
             ),
           ),
           const SizedBox(height: 14),
-          const BoardFigureSlot(),
+          // The triangle lays itself out from its box (T04).
+          BoardFigure(
+            fills: true,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 210,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: TrianglePainter(
+                      angleAtTop: r.angleAtTop,
+                      mirror: r.mirror,
+                      known: r.known,
+                      wanted: r.wanted,
+                      highlight: answered ? r.wanted : null,
+                      highlightColor: _session.correct == true
+                          ? AppColors.forest
+                          : AppColors.error,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
           const SizedBox(height: 16),
           Row(
             children: [

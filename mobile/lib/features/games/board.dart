@@ -245,7 +245,15 @@ class BoardShell extends StatefulWidget {
     required this.onButton,
     this.brief,
     this.figure,
+    this.figureFills = false,
   });
+
+  /// Whether the drawing may take any box it is given, as a painter that
+  /// lays itself out from its size does. Off, the drawing keeps the height
+  /// it was designed at and grows evenly in both directions (TABLET.md
+  /// section 5: the box grows keeping the painter's aspect ratio); a
+  /// recorded pack drawing must stay this way.
+  final bool figureFills;
 
   final BoardSession session;
 
@@ -293,10 +301,19 @@ class _BoardShellState extends State<BoardShell> {
   final _bodyKey = GlobalKey(debugLabel: 'board-body');
   final _figureKey = GlobalKey(debugLabel: 'board-figure');
 
+  /// Where a [BoardFigure] inside the game's body is drawn when the drawing
+  /// sits beside the column: the left pane, followed through a link.
+  final _paneLink = LayerLink();
+  final _paneSize = ValueNotifier<Size?>(null);
+
+  /// How many [BoardFigure]s the game's body holds right now.
+  final _markers = ValueNotifier<int>(0);
+
   @override
   void initState() {
     super.initState();
     widget.session.addListener(_onSession);
+    _markers.addListener(_onMarkers);
     _load();
     if (widget.session.isDaily) {
       DailyRun.instance.startClock();
@@ -316,8 +333,15 @@ class _BoardShellState extends State<BoardShell> {
     }
   }
 
+  void _onMarkers() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
+    _markers.removeListener(_onMarkers);
+    _markers.dispose();
+    _paneSize.dispose();
     widget.session.removeListener(_onSession);
     if (_life != null) {
       _life!.dispose();
@@ -496,10 +520,27 @@ class _BoardShellState extends State<BoardShell> {
   /// that tells its [BoardFigureSlot] whether to draw the figure there.
   Widget _body(_FigureMode mode) => _BoardFigureScope(
     figure: widget.figure,
+    fills: widget.figureFills,
     figureKey: _figureKey,
     mode: mode,
+    link: _paneLink,
+    paneSize: _paneSize,
+    markers: _markers,
     child: KeyedSubtree(key: _bodyKey, child: widget.child),
   );
+
+  /// The left pane a [BoardFigure] is drawn into, through [_paneLink].
+  Widget _paneTarget(Size size) {
+    if (_paneSize.value != size) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _paneSize.value = size;
+      });
+    }
+    return CompositedTransformTarget(
+      link: _paneLink,
+      child: SizedBox.fromSize(size: size),
+    );
+  }
 
   Widget _topBar({required bool tablet}) {
     final session = widget.session;
@@ -572,7 +613,7 @@ class _BoardShellState extends State<BoardShell> {
   Widget _tablet(BuildContext context, {required double roundWidth}) {
     final session = widget.session;
     final beside =
-        widget.figure != null &&
+        (widget.figure != null || _markers.value > 0) &&
         AppTablet.classFor(roundWidth) == SizeClass.expanded &&
         !AppTablet.isShort(context);
     final Widget body;
@@ -589,11 +630,28 @@ class _BoardShellState extends State<BoardShell> {
           children: [
             Expanded(
               child: LayoutBuilder(
-                builder: (context, box) => _ScaledFigure(
-                  width: box.maxWidth,
-                  height: box.maxHeight,
-                  child: KeyedSubtree(key: _figureKey, child: widget.figure!),
-                ),
+                builder: (context, box) => widget.figure == null
+                    ? _paneTarget(box.biggest)
+                    : widget.figureFills
+                    ? _ScaledFigure(
+                        width: box.maxWidth,
+                        height: box.maxHeight,
+                        child: KeyedSubtree(
+                          key: _figureKey,
+                          child: widget.figure!,
+                        ),
+                      )
+                    : Align(
+                        alignment: Alignment.topCenter,
+                        child: _EvenFigure(
+                          width: box.maxWidth,
+                          maxHeight: box.maxHeight,
+                          child: KeyedSubtree(
+                            key: _figureKey,
+                            child: widget.figure!,
+                          ),
+                        ),
+                      ),
               ),
             ),
             const SizedBox(width: 32),
@@ -1140,7 +1198,6 @@ bool _isGuest(BuildContext context) {
   }
 }
 
-
 enum _FigureMode {
   /// The phone: the figure exactly where the game put its slot.
   inline,
@@ -1157,9 +1214,17 @@ class _BoardFigureScope extends InheritedWidget {
     required this.figure,
     required this.figureKey,
     required this.mode,
+    required this.fills,
+    required this.link,
+    required this.paneSize,
+    required this.markers,
     required super.child,
   });
 
+  final LayerLink link;
+  final ValueNotifier<Size?> paneSize;
+  final ValueNotifier<int> markers;
+  final bool fills;
   final Widget? figure;
   final GlobalKey figureKey;
   final _FigureMode mode;
@@ -1198,16 +1263,19 @@ class BoardFigureSlot extends StatelessWidget {
     return switch (scope.mode) {
       _FigureMode.inline => keyed,
       _FigureMode.hidden => const SizedBox.shrink(),
+      _FigureMode.scaled when !scope.fills => LayoutBuilder(
+        builder: (context, box) => _EvenFigure(
+          width: box.maxWidth,
+          maxHeight: _columnHeight,
+          child: keyed,
+        ),
+      ),
       _FigureMode.scaled => LayoutBuilder(
         builder: (context, box) => _ScaledFigure(
           width: box.maxWidth,
           // As tall as the window allows with the question and the answers
           // still in view under it.
-          height: [
-            box.maxWidth * 0.77,
-            _columnHeight,
-            MediaQuery.sizeOf(context).height - 420,
-          ].reduce((a, b) => a < b ? a : b).clamp(180.0, _columnHeight),
+          height: _columnFigureHeight(context, box.maxWidth),
           child: keyed,
         ),
       ),
@@ -1241,5 +1309,168 @@ class _ScaledFigure extends StatelessWidget {
         child: SizedBox(width: width / s, height: height / s, child: child),
       ),
     );
+  }
+}
+
+/// The height a filling drawing gets in a tablet's single column: as tall
+/// as the window allows with the question and the answers still in view
+/// under it, up to about 560 (TABLET.md, "Medium (portrait)").
+double _columnFigureHeight(BuildContext context, double width) => [
+  width * 0.77,
+  560.0,
+  MediaQuery.sizeOf(context).height - 420,
+].reduce((a, b) => a < b ? a : b).clamp(180.0, 560.0);
+
+/// A drawing that keeps the height it was designed at: laid out at the box
+/// width over its figure scale, then drawn larger evenly, no taller than
+/// [maxHeight].
+class _EvenFigure extends StatelessWidget {
+  const _EvenFigure({
+    required this.width,
+    required this.maxHeight,
+    required this.child,
+  });
+
+  final double width;
+  final double maxHeight;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final s = AppTablet.figureScale(width);
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: width, maxHeight: maxHeight),
+      child: SizedBox(
+        width: width,
+        child: FittedBox(
+          fit: BoxFit.contain,
+          alignment: Alignment.topCenter,
+          child: SizedBox(width: width / s, child: child),
+        ),
+      ),
+    );
+  }
+}
+
+/// The game's drawing, marked where it sits in the game's column (ADR 0039).
+///
+/// This is how a game moves to the figure slot: wrap the drawing, change
+/// nothing else. On a phone it is drawn exactly where it is, as before. In
+/// a tablet's single column it is drawn larger. In a wide window it is drawn
+/// in the pane beside the answer column, and its place in the column is
+/// empty. Outside a board (a contact sheet, a concept picture) it is the
+/// drawing alone.
+///
+/// [fills] is for a painter that lays itself out from any box it is given;
+/// off, the drawing keeps the height it was designed at and grows evenly.
+class BoardFigure extends StatefulWidget {
+  const BoardFigure({super.key, required this.child, this.fills = false});
+
+  final Widget child;
+  final bool fills;
+
+  @override
+  State<BoardFigure> createState() => _BoardFigureState();
+}
+
+class _BoardFigureState extends State<BoardFigure> {
+  final _key = GlobalKey(debugLabel: 'board-figure-marker');
+  final _portal = OverlayPortalController();
+  ValueNotifier<int>? _counted;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final markers = context
+        .dependOnInheritedWidgetOfExactType<_BoardFigureScope>()
+        ?.markers;
+    if (markers != _counted) {
+      final old = _counted;
+      _counted = markers;
+      // Counted after the frame: the board lays itself out again with the
+      // drawing beside the column.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        try {
+          if (old != null) old.value -= 1;
+          if (markers != null && _counted == markers) markers.value += 1;
+        } catch (_) {
+          // The board went before the frame ended.
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    final markers = _counted;
+    _counted = null;
+    if (markers != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        try {
+          markers.value -= 1;
+        } catch (_) {
+          // The board went with it.
+        }
+      });
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final scope = context
+        .dependOnInheritedWidgetOfExactType<_BoardFigureScope>();
+    final keyed = KeyedSubtree(key: _key, child: widget.child);
+    if (scope == null) return keyed;
+    switch (scope.mode) {
+      case _FigureMode.inline:
+        return keyed;
+      case _FigureMode.scaled:
+        return LayoutBuilder(
+          builder: (context, box) => widget.fills
+              ? _ScaledFigure(
+                  width: box.maxWidth,
+                  height: _columnFigureHeight(context, box.maxWidth),
+                  child: keyed,
+                )
+              : _EvenFigure(width: box.maxWidth, maxHeight: 560, child: keyed),
+        );
+      case _FigureMode.hidden:
+        if (!_portal.isShowing) _portal.show();
+        return OverlayPortal(
+          controller: _portal,
+          overlayChildBuilder: (context) => ValueListenableBuilder<Size?>(
+            valueListenable: scope.paneSize,
+            builder: (context, size, _) {
+              if (size == null) return const SizedBox.shrink();
+              return CompositedTransformFollower(
+                link: scope.link,
+                showWhenUnlinked: false,
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox.fromSize(
+                    size: size,
+                    child: widget.fills
+                        ? _ScaledFigure(
+                            width: size.width,
+                            height: size.height,
+                            child: keyed,
+                          )
+                        : Align(
+                            alignment: Alignment.topCenter,
+                            child: _EvenFigure(
+                              width: size.width,
+                              maxHeight: size.height,
+                              child: keyed,
+                            ),
+                          ),
+                  ),
+                ),
+              );
+            },
+          ),
+          child: const SizedBox.shrink(),
+        );
+    }
   }
 }
