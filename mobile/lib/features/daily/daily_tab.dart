@@ -9,6 +9,7 @@ import '../../core/theme/app_theme.dart';
 import '../games/board.dart';
 import '../games/game_catalog.dart';
 import '../games/game_progress.dart';
+import '../../core/theme/tablet.dart';
 import '../shared/widgets/kit.dart';
 import '../study/chapter_marks.dart';
 import '../study/study_tab.dart' show appClock;
@@ -222,36 +223,38 @@ class _DailyTabState extends State<DailyTab> {
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.fromLTRB(
-                16,
-                22,
-                16,
+                _side(context),
+                _top(context),
+                _side(context),
                 30 + MediaQuery.paddingOf(context).bottom,
               ),
-              child: puzzle == null
-                  ? _Waiting(
-                      failed: _failed,
-                      refused: _refused,
-                      loading: _loading,
-                      onRetry: _load,
-                    )
-                  : puzzle.mine == null
-                  ? _Today(
-                      puzzle: puzzle,
-                      playable: _playable(puzzle),
-                      run: DailyRun.instance.isFor(puzzle.number)
-                          ? DailyRun.instance
-                          : null,
-                      onPlay: () => _play(puzzle),
-                      onYesterday: onYesterday,
-                    )
-                  : _Results(
-                      puzzle: puzzle,
-                      results: _results,
-                      failed: _resultsFailed,
-                      board: _board,
-                      onBoard: (i) => setState(() => _board = i),
-                      onYesterday: onYesterday,
-                    ),
+              child: _MediumCap(
+                child: puzzle == null
+                    ? _Waiting(
+                        failed: _failed,
+                        refused: _refused,
+                        loading: _loading,
+                        onRetry: _load,
+                      )
+                    : puzzle.mine == null
+                    ? _Today(
+                        puzzle: puzzle,
+                        playable: _playable(puzzle),
+                        run: DailyRun.instance.isFor(puzzle.number)
+                            ? DailyRun.instance
+                            : null,
+                        onPlay: () => _play(puzzle),
+                        onYesterday: onYesterday,
+                      )
+                    : _Results(
+                        puzzle: puzzle,
+                        results: _results,
+                        failed: _resultsFailed,
+                        board: _board,
+                        onBoard: (i) => setState(() => _board = i),
+                        onYesterday: onYesterday,
+                      ),
+              ),
             ),
           ),
         ),
@@ -273,8 +276,10 @@ class _Heading extends StatelessWidget {
     required this.eyebrow,
     required this.headline,
     required this.onYesterday,
+    this.size = 44,
   });
 
+  final double size;
   final String eyebrow;
   final String headline;
   final VoidCallback? onYesterday;
@@ -294,7 +299,7 @@ class _Heading extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        Text(headline, style: AppTheme.display(size: 44)),
+        Text(headline, style: AppTheme.display(size: size)),
       ],
     );
     if (onYesterday == null) return column;
@@ -463,6 +468,9 @@ class _Today extends StatelessWidget {
         ? 'Pick up concept ${run!.gameIndex + 1} of ${puzzle.games.length}'
         : 'Play today\'s';
 
+    if (AppTablet.of(context) == SizeClass.expanded) {
+      return _expanded(context, minutes, going, label);
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -551,6 +559,100 @@ class _Today extends StatelessWidget {
       ],
     );
   }
+
+  /// T08: the date, the headline and the count on the left with the streak
+  /// at its foot; the three games and the pill on the cream hero, right.
+  Widget _expanded(
+    BuildContext context,
+    int minutes,
+    bool going,
+    String label,
+  ) {
+    return _TwoColumns(
+      left: [
+        _Heading(
+          eyebrow: _dayLine(puzzle.date).toUpperCase(),
+          headline: 'Today\'s Daily',
+          onYesterday: null,
+          size: 64,
+        ),
+        const SizedBox(height: 32),
+        Text(
+          '${puzzle.games.length}',
+          style: AppTheme.display(size: 200, height: 0.82, tracking: -0.07),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          'concepts, about $minutes min',
+          style: AppTheme.display(
+            size: 26,
+            weight: FontWeight.w700,
+            tracking: -0.02,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          'Play, then see how you did against everyone else today.',
+          style: AppTablet.bodyTablet(color: AppColors.mutedOnLight),
+        ),
+        const SizedBox(height: 32),
+        if (guest)
+          const _GuestWhy()
+        else
+          StreakTile(
+            current: puzzle.streak.current,
+            playedToday: puzzle.streak.playedToday,
+          ),
+      ],
+      right: [
+        if (onYesterday != null)
+          Align(
+            alignment: Alignment.centerRight,
+            child: _YesterdayLink(onTap: onYesterday!),
+          ),
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(28),
+          decoration: BoxDecoration(
+            color: AppColors.cream,
+            borderRadius: BorderRadius.circular(36),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text('SAME FOR EVERYONE', style: AppTheme.eyebrow()),
+              const SizedBox(height: 18),
+              for (var i = 0; i < puzzle.games.length; i++) ...[
+                if (i > 0) const SizedBox(height: 10),
+                _GameRow(
+                  game: puzzle.games[i],
+                  done: going && i < run!.gameIndex,
+                ),
+              ],
+              const SizedBox(height: 24),
+              Align(
+                alignment: Alignment.centerRight,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: AppTablet.pillMax,
+                  ),
+                  child: guest
+                      ? const _GuestPlay()
+                      : playable
+                      ? PillButton(label: label, onTap: onPlay)
+                      : Text(
+                          'Today\'s Daily has a concept this version of the '
+                          'app does not have yet. Update the app to play it.',
+                          style: AppTablet.bodyTablet(),
+                        ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 // ───────────────────────────── a guest's Daily ─────────────────────
@@ -604,20 +706,22 @@ class _GuestDailyTabState extends State<GuestDailyTab> {
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.fromLTRB(
-              16,
-              22,
-              16,
+              _side(context),
+              _top(context),
+              _side(context),
               30 + MediaQuery.paddingOf(context).bottom,
             ),
-            child: puzzle != null
-                ? _Today(
-                    puzzle: puzzle,
-                    playable: false,
-                    run: null,
-                    onPlay: () {},
-                    guest: true,
-                  )
-                : _GuestNoPreview(loading: _loading),
+            child: _MediumCap(
+              child: puzzle != null
+                  ? _Today(
+                      puzzle: puzzle,
+                      playable: false,
+                      run: null,
+                      onPlay: () {},
+                      guest: true,
+                    )
+                  : _GuestNoPreview(loading: _loading),
+            ),
           ),
         ),
       ),
@@ -862,94 +966,170 @@ class _Results extends StatelessWidget {
       headline = 'You beat ${me?.beat ?? 0}% today';
     }
 
+    final wide = AppTablet.of(context) == SizeClass.expanded;
+    final children = <Widget>[
+      _Heading(
+        eyebrow: showing == null
+            ? 'TODAY\'S DAILY'
+            : 'TODAY\'S DAILY · ${showing.players} PLAYED',
+        headline: headline,
+        onYesterday: wide ? null : onYesterday,
+        size: wide ? 64 : 44,
+      ),
+      if (school != null) ...[
+        const SizedBox(height: 18),
+        DailyBoardChips(school: school, board: board, onBoard: onBoard),
+      ],
+      const SizedBox(height: 12),
+      if (showing != null) ...[
+        DailyStandings(board: showing, total: mine.total, mine: mine.score),
+      ] else
+        Container(
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
+            color: AppColors.cream,
+            borderRadius: BorderRadius.circular(32),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DailyBars(rows: mine.rounds, missed: AppColors.peach),
+              const SizedBox(height: 14),
+              Text(
+                failed
+                    ? 'How everyone did shows once you are back online.'
+                    : 'Your score goes up the next time you have a signal.',
+                style: AppTheme.body(size: 14, color: AppColors.mutedOnLight),
+              ),
+            ],
+          ),
+        ),
+      if (school != null && !school.open) ...[
+        const SizedBox(height: 4),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: Text(
+            '${school.name}\'s board opens once ${school.needs} students '
+            'from it play the same day. ${school.players} so far today.',
+            style: AppTheme.body(size: 13, color: AppColors.mutedOnLight),
+          ),
+        ),
+      ],
+      const SizedBox(height: 18),
+      StreakTile(current: puzzle.streak.current, playedToday: true),
+    ];
+    final concepts = <Widget>[
+      const SizedBox(height: 22),
+      // Replays are plain practice: opened like any game from Study, never
+      // armed for the Daily, so the first try stays the one on the board
+      // (owner, 2026-10-16).
+      Text('TODAY\'S CONCEPTS', style: AppTheme.eyebrow()),
+      const SizedBox(height: 6),
+      Text(
+        'Play them again as practice. Your first try is the one that counts.',
+        style: AppTheme.body(size: 14, color: AppColors.mutedOnLight),
+      ),
+      const SizedBox(height: 12),
+      for (var i = 0; i < puzzle.games.length; i++) ...[
+        if (i > 0) const SizedBox(height: 8),
+        _GameRow(
+          game: puzzle.games[i],
+          done: false,
+          onAgain: () {
+            final id = puzzle.games[i].gameId;
+            BoardSession.playFresh(id);
+            context.push('/games/play/$id');
+          },
+        ),
+      ],
+      const SizedBox(height: 14),
+      Row(
+        children: [
+          TextAction(
+            label: 'Share your result',
+            onTap: () => showDailyShare(context, date: puzzle.date, mine: mine),
+          ),
+          const Spacer(),
+          Text(
+            'NEXT ONE AT MIDNIGHT',
+            style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+          ),
+        ],
+      ),
+    ];
+    if (wide) {
+      // T08b: where the student stands on the left; yesterday's score, the
+      // concepts to replay and sharing on the right.
+      return _TwoColumns(
+        left: children,
+        right: [
+          if (onYesterday != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: _YesterdayLink(onTap: onYesterday!),
+            ),
+          ...concepts.skip(1),
+        ],
+      );
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [...children, ...concepts],
+    );
+  }
+}
+
+/// The Daily's side inset: the phone's 16, the pane inset on a tablet.
+double _side(BuildContext context) =>
+    AppTablet.isTablet(context) ? AppTablet.paneX : 16;
+
+double _top(BuildContext context) =>
+    AppTablet.isTablet(context) ? AppTablet.spaceTop + 22 : 22;
+
+/// A medium window keeps the phone's Daily, held to the hero's 640.
+class _MediumCap extends StatelessWidget {
+  const _MediumCap({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (AppTablet.of(context) != SizeClass.medium) return child;
+    return Align(
+      alignment: Alignment.topLeft,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: AppTablet.paneSheetMax),
+        child: child,
+      ),
+    );
+  }
+}
+
+/// The two columns of an expanded Daily: the leading pane at 400, the rest.
+class _TwoColumns extends StatelessWidget {
+  const _TwoColumns({required this.left, required this.right});
+
+  final List<Widget> left;
+  final List<Widget> right;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _Heading(
-          eyebrow: showing == null
-              ? 'TODAY\'S DAILY'
-              : 'TODAY\'S DAILY · ${showing.players} PLAYED',
-          headline: headline,
-          onYesterday: onYesterday,
+        SizedBox(
+          width: AppTablet.paneLeading,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: left,
+          ),
         ),
-        if (school != null) ...[
-          const SizedBox(height: 18),
-          DailyBoardChips(school: school, board: board, onBoard: onBoard),
-        ],
-        const SizedBox(height: 12),
-        if (showing != null) ...[
-          DailyStandings(board: showing, total: mine.total, mine: mine.score),
-        ] else
-          Container(
-            padding: const EdgeInsets.all(22),
-            decoration: BoxDecoration(
-              color: AppColors.cream,
-              borderRadius: BorderRadius.circular(32),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DailyBars(rows: mine.rounds, missed: AppColors.peach),
-                const SizedBox(height: 14),
-                Text(
-                  failed
-                      ? 'How everyone did shows once you are back online.'
-                      : 'Your score goes up the next time you have a signal.',
-                  style: AppTheme.body(size: 14, color: AppColors.mutedOnLight),
-                ),
-              ],
-            ),
+        const SizedBox(width: AppTablet.paneGap * 3),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: right,
           ),
-        if (school != null && !school.open) ...[
-          const SizedBox(height: 4),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: Text(
-              '${school.name}\'s board opens once ${school.needs} students '
-              'from it play the same day. ${school.players} so far today.',
-              style: AppTheme.body(size: 13, color: AppColors.mutedOnLight),
-            ),
-          ),
-        ],
-        const SizedBox(height: 18),
-        StreakTile(current: puzzle.streak.current, playedToday: true),
-        const SizedBox(height: 22),
-        // Replays are plain practice: opened like any game from Study, never
-        // armed for the Daily, so the first try stays the one on the board
-        // (owner, 2026-10-16).
-        Text('TODAY\'S CONCEPTS', style: AppTheme.eyebrow()),
-        const SizedBox(height: 6),
-        Text(
-          'Play them again as practice. Your first try is the one that counts.',
-          style: AppTheme.body(size: 14, color: AppColors.mutedOnLight),
-        ),
-        const SizedBox(height: 12),
-        for (var i = 0; i < puzzle.games.length; i++) ...[
-          if (i > 0) const SizedBox(height: 8),
-          _GameRow(
-            game: puzzle.games[i],
-            done: false,
-            onAgain: () {
-              final id = puzzle.games[i].gameId;
-              BoardSession.playFresh(id);
-              context.push('/games/play/$id');
-            },
-          ),
-        ],
-        const SizedBox(height: 14),
-        Row(
-          children: [
-            TextAction(
-              label: 'Share your result',
-              onTap: () =>
-                  showDailyShare(context, date: puzzle.date, mine: mine),
-            ),
-            const Spacer(),
-            Text(
-              'NEXT ONE AT MIDNIGHT',
-              style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
-            ),
-          ],
         ),
       ],
     );

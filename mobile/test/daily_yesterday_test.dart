@@ -397,4 +397,94 @@ void main() {
       );
     });
   });
+
+  // TABLET.md "The Daily" (T08, T08b, T21c, T25c): two columns in a wide
+  // window, the phone's Daily at the hero's width in a narrow one.
+  group('on a tablet', () {
+    void window(WidgetTester tester, Size size) {
+      tester.view.physicalSize = size;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+    }
+
+    Future<void> shoot(WidgetTester tester, String name) => expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/tablet/$name.png'),
+    );
+
+    for (final (o, size) in [
+      ('landscape', const Size(1180, 820)),
+      ('portrait', const Size(820, 1180)),
+    ]) {
+      testWidgets('before playing ($o)', (tester) async {
+        window(tester, size);
+        await tester.pumpWidget(
+          _app(const DailyTab(), _FakeRepo(_puzzle(), yesterday: _yesterday())),
+        );
+        await _settle(tester);
+        expect(tester.takeException(), isNull);
+        expect(_link, findsOneWidget);
+        await shoot(tester, 'daily-$o');
+      });
+
+      testWidgets('after playing ($o)', (tester) async {
+        window(tester, size);
+        await tester.pumpWidget(
+          _app(
+            const DailyTab(),
+            _FakeRepo(
+              _puzzle(mine: _mine, streak: 6),
+              board: _today(),
+              yesterday: _yesterday(),
+            ),
+          ),
+        );
+        await _settle(tester);
+        expect(tester.takeException(), isNull);
+        expect(find.text('You beat 75% today'), findsOneWidget);
+        await shoot(tester, 'daily-results-$o');
+      });
+
+      testWidgets('yesterday\'s board ($o)', (tester) async {
+        window(tester, size);
+        await tester.pumpWidget(
+          _app(
+            DailyYesterdayScreen(date: '2026-10-27', results: _yesterday()),
+            _FakeRepo(_puzzle()),
+          ),
+        );
+        await _settle(tester);
+        expect(tester.takeException(), isNull);
+        await shoot(tester, 'daily-yesterday-$o');
+      });
+
+      testWidgets('a guest ($o)', (tester) async {
+        window(tester, size);
+        await tester.pumpWidget(
+          _app(const GuestDailyTab(), _FakeRepo(_puzzle())),
+        );
+        await _settle(tester);
+        expect(tester.takeException(), isNull);
+        expect(find.text('Sign up to play'), findsOneWidget);
+        await shoot(tester, 'daily-guest-$o');
+      });
+    }
+
+    testWidgets('at night', (tester) async {
+      window(tester, const Size(1180, 820));
+      AppPalette.dark = true;
+      await tester.pumpWidget(
+        _app(
+          const DailyTab(),
+          _FakeRepo(
+            _puzzle(mine: _mine, streak: 6),
+            board: _today(),
+            yesterday: _yesterday(),
+          ),
+        ),
+      );
+      await _settle(tester);
+      await shoot(tester, 'daily-results-landscape-night');
+    });
+  });
 }

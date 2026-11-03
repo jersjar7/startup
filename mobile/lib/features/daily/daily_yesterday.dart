@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/tablet.dart';
 import '../shared/widgets/kit.dart';
+import '../shared/widgets/split_page.dart';
 import 'daily_board.dart';
 import 'daily_calendar.dart';
 import 'daily_models.dart';
@@ -39,6 +41,58 @@ class _DailyYesterdayScreenState extends State<DailyYesterdayScreen> {
     final me = showing.me ?? results.everyone.me;
     final total = results.everyone.me?.total ?? me?.total ?? 0;
 
+    if (AppTablet.of(context) == SizeClass.expanded) {
+      // T21c: the place and the spread on the left, the board's rows right.
+      return Material(
+        color: AppColors.butter,
+        child: SplitPage(
+          left: [
+            RoundIconButton(
+              icon: Icons.chevron_left_rounded,
+              label: 'Back',
+              onTap: () => Navigator.of(context).maybePop(),
+            ),
+            const SizedBox(height: 40),
+            Text(
+              '${dailyDayLine(widget.date)} · final · '
+                      '${showing.players} played'
+                  .toUpperCase(),
+              style: AppTheme.eyebrow(),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              me == null
+                  ? 'Yesterday\'s board'
+                  : '${ordinal(me.rank)} of ${showing.players} yesterday',
+              style: AppTablet.headlineXL(),
+            ),
+            if (school != null) ...[
+              const SizedBox(height: 18),
+              DailyBoardChips(
+                school: school,
+                board: _board,
+                onBoard: (i) => setState(() => _board = i),
+              ),
+            ],
+            const SizedBox(height: 24),
+            DailySpread(board: showing, total: total, mine: me?.score ?? -1),
+          ],
+          rightTopPad: 88,
+          right: [
+            for (final p in boardRows(showing)) ...[
+              DailyPlaceRow(
+                rank: p.rank,
+                name: p.isYou ? 'You' : p.name,
+                score: p.score,
+                ms: p.ms,
+                you: p.isYou,
+              ),
+              const SizedBox(height: 6),
+            ],
+          ],
+        ),
+      );
+    }
     return Material(
       color: AppColors.butter,
       child: SafeArea(
