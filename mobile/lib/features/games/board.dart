@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/tablet.dart';
 import '../auth/auth_controller.dart';
 import '../../core/storage/app_storage.dart';
 import '../shared/widgets/kit.dart';
@@ -243,10 +244,21 @@ class BoardShell extends StatefulWidget {
     required this.buttonLabel,
     required this.onButton,
     this.brief,
+    this.figure,
   });
 
   final BoardSession session;
+
+  /// The game's body: its question, its answers and its feedback. A game
+  /// that passes [figure] marks where its drawing goes on a phone with a
+  /// [BoardFigureSlot] inside this.
   final Widget child;
+
+  /// The game's drawing, handed over separately so a wide window can put it
+  /// beside the answers (TABLET.md, "A round"; ADR 0039). On a phone it is
+  /// drawn exactly where the game's [BoardFigureSlot] sits, as before. A game
+  /// without one keeps its single column on every window.
+  final Widget? figure;
   final String buttonLabel;
   final VoidCallback? onButton;
 
@@ -270,6 +282,16 @@ class _BoardShellState extends State<BoardShell> {
   /// The Daily's clock runs only while one of its games is on screen and the
   /// app is in front.
   AppLifecycleListener? _life;
+
+  /// The concept sheet beside (or over) the round on a tablet. Opened only
+  /// from the book, closed by the student; it stays open across rounds if
+  /// they leave it open (TABLET.md, "The concept sheet beside a round").
+  bool _conceptOpen = false;
+
+  /// The game's body and drawing move between layouts on a rotation and
+  /// keep their state while they do (TABLET.md section 9).
+  final _bodyKey = GlobalKey(debugLabel: 'board-body');
+  final _figureKey = GlobalKey(debugLabel: 'board-figure');
 
   @override
   void initState() {
@@ -329,6 +351,12 @@ class _BoardShellState extends State<BoardShell> {
       _storage.setBookDotSeen();
       setState(() => _bookDot = false);
     }
+    // A tablet window keeps the concept in the board's own state, so a
+    // rotation never closes it; the book is a toggle there.
+    if (AppTablet.isTablet(context)) {
+      setState(() => _conceptOpen = !_conceptOpen);
+      return;
+    }
     showConcept(
       context,
       widget.brief!,
@@ -372,6 +400,287 @@ class _BoardShellState extends State<BoardShell> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    final sizeClass = AppTablet.classFor(size.width);
+    if (!sizeClass.isTablet) {
+      // The phone, exactly. A concept left open on a tablet that became a
+      // phone window turns into the phone's sheet over the round, still
+      // open (TABLET.md section 9, rule 4).
+      if (!_conceptOpen || widget.brief == null) return _phone(context);
+      return Stack(
+        children: [
+          _phone(context),
+          _scrim(),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: size.height * 0.92,
+            child: _conceptSheet(
+              const BorderRadius.vertical(top: Radius.circular(40)),
+            ),
+          ),
+        ],
+      );
+    }
+    final open = _conceptOpen && widget.brief != null;
+    final docked = open && size.width >= AppTablet.conceptBeside;
+    final roundWidth = docked
+        ? size.width - AppTablet.paneConceptSheet
+        : size.width;
+    final round = _tablet(context, roundWidth: roundWidth);
+    if (docked) {
+      return ColoredBox(
+        color: AppColors.fog,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(child: round),
+            SizedBox(
+              width: AppTablet.paneConceptSheet,
+              child: _conceptSheet(
+                const BorderRadius.horizontal(left: Radius.circular(40)),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    return Stack(
+      children: [
+        round,
+        if (open) ...[
+          _scrim(),
+          Positioned(
+            top: 0,
+            right: 0,
+            bottom: 0,
+            width: AppTablet.paneConceptSheet,
+            child: _conceptSheet(
+              const BorderRadius.horizontal(left: Radius.circular(40)),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _scrim() => Positioned.fill(
+    child: GestureDetector(
+      onTap: () => setState(() => _conceptOpen = false),
+      child: const ColoredBox(color: AppColors.scrim),
+    ),
+  );
+
+  /// The concept as a pane: the phone's sheet, unchanged inside, with its
+  /// own close button instead of a second pill on the window.
+  Widget _conceptSheet(BorderRadius radius) => Material(
+    color: AppColors.sheet,
+    borderRadius: radius,
+    clipBehavior: Clip.antiAlias,
+    child: SafeArea(
+      left: false,
+      bottom: false,
+      child: ConceptView(
+        key: const ValueKey('concept-beside'),
+        section: widget.brief!,
+        gameId: widget.session.gameId,
+        chapterId: widget.session.chapterId,
+        pack: widget.session.pack,
+        onClose: () => setState(() => _conceptOpen = false),
+      ),
+    ),
+  );
+
+  /// The game's body, under one key in every layout, with the figure scope
+  /// that tells its [BoardFigureSlot] whether to draw the figure there.
+  Widget _body(_FigureMode mode) => _BoardFigureScope(
+    figure: widget.figure,
+    figureKey: _figureKey,
+    mode: mode,
+    child: KeyedSubtree(key: _bodyKey, child: widget.child),
+  );
+
+  Widget _topBar({required bool tablet}) {
+    final session = widget.session;
+    return Padding(
+      padding: tablet
+          ? const EdgeInsets.fromLTRB(
+              AppTablet.screenX - 14,
+              AppTablet.spaceTop - 8,
+              AppTablet.screenX - 14,
+              8,
+            )
+          : const EdgeInsets.fromLTRB(24, 8, 24, 8),
+      child: Row(
+        children: [
+          RoundIconButton(
+            icon: Icons.close_rounded,
+            label: 'Close',
+            onTap: () => context.canPop() ? context.pop() : context.go('/home'),
+          ),
+          const SizedBox(width: 12),
+          // Eight capsules stretched over a thousand points read as a
+          // loading bar, not as rounds: capped at 560 on a tablet.
+          Flexible(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: AppTablet.pipsMax),
+              child: Pips(count: session.total, filled: session.clearedCount),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Text(
+            '${session.clearedCount}/${session.total}',
+            style: AppTheme.eyebrow(),
+          ),
+          const Spacer(),
+          if (widget.brief != null) ...[
+            const SizedBox(width: 12),
+            CueButton(
+              icon: Icons.menu_book_outlined,
+              label: widget.brief!.title,
+              dot: _bookDot,
+              pressed: _conceptOpen,
+              onTap: _openBook,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _flagAndPill() => Row(
+    children: [
+      CueButton(
+        icon: Icons.outlined_flag_rounded,
+        label: 'Something unclear?',
+        dot: _flagDot,
+        size: 44,
+        onTap: _openFlag,
+      ),
+      const SizedBox(width: 12),
+      Expanded(
+        child: PillButton(label: widget.buttonLabel, onTap: widget.onButton),
+      ),
+    ],
+  );
+
+  /// A round on a tablet window (TABLET.md, "A round"). With a figure and
+  /// the room: the drawing on the left at full height, the answer column on
+  /// the right pinned to its edges. Otherwise one column: the content width
+  /// on medium, capped at 640 and set left on expanded.
+  Widget _tablet(BuildContext context, {required double roundWidth}) {
+    final session = widget.session;
+    final beside =
+        widget.figure != null &&
+        AppTablet.classFor(roundWidth) == SizeClass.expanded &&
+        !AppTablet.isShort(context);
+    final Widget body;
+    if (beside) {
+      body = Padding(
+        padding: const EdgeInsets.fromLTRB(
+          AppTablet.screenX - 14,
+          16,
+          AppTablet.screenX - 14,
+          34,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: LayoutBuilder(
+                builder: (context, box) => _ScaledFigure(
+                  width: box.maxWidth,
+                  height: box.maxHeight,
+                  child: KeyedSubtree(key: _figureKey, child: widget.figure!),
+                ),
+              ),
+            ),
+            const SizedBox(width: 32),
+            SizedBox(
+              width: AppTablet.roundAnswerColumn,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // The question, the answers and, once answered, the
+                  // feedback start level with the drawing's top edge...
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: _body(_FigureMode.hidden),
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  // ...and the flag and the pill sit level with its bottom.
+                  _flagAndPill(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      final expanded = AppTablet.classFor(roundWidth) == SizeClass.expanded;
+      body = Align(
+        alignment: Alignment.topLeft,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: expanded
+                ? AppTablet.roundColumnMax + 2 * AppTablet.screenX
+                : double.infinity,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppTablet.screenX - 14,
+              6,
+              AppTablet.screenX - 14,
+              34,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: _body(_FigureMode.scaled),
+                  ),
+                ),
+                const SizedBox(height: 18),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxWidth: AppTablet.pillMax + 56,
+                    ),
+                    child: _flagAndPill(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    return Scaffold(
+      backgroundColor: AppColors.fog,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _topBar(tablet: true),
+            if (session.isDaily)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppTablet.screenX - 24,
+                ),
+                child: _DailyLine(game: session.dailyGame!),
+              ),
+            Expanded(child: body),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _phone(BuildContext context) {
     final session = widget.session;
     return Scaffold(
       backgroundColor: AppColors.fog,
@@ -419,7 +728,7 @@ class _BoardShellState extends State<BoardShell> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    widget.child,
+                    _body(_FigureMode.inline),
                     const SizedBox(height: 18),
                     // The flag, right above the pill on the right: about this
                     // round, not about the frame (owner's placement).
@@ -481,6 +790,7 @@ class CueButton extends StatelessWidget {
     required this.onTap,
     this.dot = false,
     this.size = 48,
+    this.pressed = false,
   });
 
   final IconData icon;
@@ -488,6 +798,9 @@ class CueButton extends StatelessWidget {
   final VoidCallback onTap;
   final bool dot;
   final double size;
+
+  /// Charcoal while what it opens is open, so it reads as a toggle.
+  final bool pressed;
 
   @override
   Widget build(BuildContext context) {
@@ -499,8 +812,8 @@ class CueButton extends StatelessWidget {
           label: label,
           onTap: onTap,
           size: size,
-          fill: AppColors.cream,
-          iconColor: AppColors.charcoal,
+          fill: pressed ? AppColors.charcoal : AppColors.cream,
+          iconColor: pressed ? AppColors.cream : AppColors.charcoal,
         ),
         if (dot)
           Positioned(
@@ -824,5 +1137,109 @@ bool _isGuest(BuildContext context) {
     return context.read<AuthController>().isGuest;
   } catch (_) {
     return false;
+  }
+}
+
+
+enum _FigureMode {
+  /// The phone: the figure exactly where the game put its slot.
+  inline,
+
+  /// One column on a tablet: the figure where the slot is, drawn larger.
+  scaled,
+
+  /// The figure is beside the column; the slot is empty.
+  hidden,
+}
+
+class _BoardFigureScope extends InheritedWidget {
+  const _BoardFigureScope({
+    required this.figure,
+    required this.figureKey,
+    required this.mode,
+    required super.child,
+  });
+
+  final Widget? figure;
+  final GlobalKey figureKey;
+  final _FigureMode mode;
+
+  @override
+  bool updateShouldNotify(_BoardFigureScope old) =>
+      old.figure != figure || old.mode != mode;
+}
+
+/// Where a game's drawing sits in its column (ADR 0039). A game that hands
+/// its drawing to [BoardShell.figure] puts this where the drawing used to
+/// be: on a phone the drawing is drawn right here, exactly as before; in a
+/// wide window it is drawn beside the column instead and this is empty.
+class BoardFigureSlot extends StatelessWidget {
+  const BoardFigureSlot({super.key});
+
+  /// True when the game's body is drawn in a tablet round, where a game may
+  /// set its question at 20 and its choices taller (TABLET.md section 7).
+  static bool onTablet(BuildContext context) {
+    final scope = context
+        .dependOnInheritedWidgetOfExactType<_BoardFigureScope>();
+    return scope != null && scope.mode != _FigureMode.inline;
+  }
+
+  /// The height a drawing gets in a tablet's single column (TABLET.md: "the
+  /// drawing gets the extra height, about 560").
+  static const double _columnHeight = 560;
+
+  @override
+  Widget build(BuildContext context) {
+    final scope = context
+        .dependOnInheritedWidgetOfExactType<_BoardFigureScope>();
+    final figure = scope?.figure;
+    if (scope == null || figure == null) return const SizedBox.shrink();
+    final keyed = KeyedSubtree(key: scope.figureKey, child: figure);
+    return switch (scope.mode) {
+      _FigureMode.inline => keyed,
+      _FigureMode.hidden => const SizedBox.shrink(),
+      _FigureMode.scaled => LayoutBuilder(
+        builder: (context, box) => _ScaledFigure(
+          width: box.maxWidth,
+          // As tall as the window allows with the question and the answers
+          // still in view under it.
+          height: [
+            box.maxWidth * 0.77,
+            _columnHeight,
+            MediaQuery.sizeOf(context).height - 420,
+          ].reduce((a, b) => a < b ? a : b).clamp(180.0, _columnHeight),
+          child: keyed,
+        ),
+      ),
+    };
+  }
+}
+
+/// A drawing made larger and clearer, not padded (TABLET.md section 5). The
+/// drawing is laid out at the box over its figure scale `s` and drawn `s`
+/// times larger, so the box grows first and strokes, labels, the grid and
+/// the hit areas grow with it, up to 1.6 times the phone's.
+class _ScaledFigure extends StatelessWidget {
+  const _ScaledFigure({
+    required this.width,
+    required this.height,
+    required this.child,
+  });
+
+  final double width;
+  final double height;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final s = AppTablet.figureScale(width);
+    return SizedBox(
+      width: width,
+      height: height,
+      child: FittedBox(
+        fit: BoxFit.fill,
+        child: SizedBox(width: width / s, height: height / s, child: child),
+      ),
+    );
   }
 }
