@@ -331,17 +331,19 @@ class _FrameTrussOrMachineGameState extends State<FrameTrussOrMachineGame> {
             ),
           ),
           const SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 250,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: FramePainter(rig: r.rig),
-                  child: const SizedBox.expand(),
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 250,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: FramePainter(rig: r.rig),
+                    child: const SizedBox.expand(),
+                  ),
                 ),
               ),
             ),

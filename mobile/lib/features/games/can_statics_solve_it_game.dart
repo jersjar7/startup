@@ -275,22 +275,24 @@ class _CanStaticsSolveItGameState extends State<CanStaticsSolveItGame> {
             ),
           ),
           const SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 190,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: BeamPainter(
-                    span: r.span,
-                    supports: r.supports,
-                    loads: r.loads,
-                    couples: r.couples,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 190,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: BeamPainter(
+                      span: r.span,
+                      supports: r.supports,
+                      loads: r.loads,
+                      couples: r.couples,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

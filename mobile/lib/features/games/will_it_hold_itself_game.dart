@@ -206,17 +206,19 @@ class _WillItHoldItselfGameState extends State<WillItHoldItselfGame> {
             ),
           ),
           const SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 240,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: ScrewPainter(screw: r.screw, showWinner: answered),
-                  child: const SizedBox.expand(),
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 240,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: ScrewPainter(screw: r.screw, showWinner: answered),
+                    child: const SizedBox.expand(),
+                  ),
                 ),
               ),
             ),

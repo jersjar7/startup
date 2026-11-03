@@ -266,11 +266,13 @@ class _WhichArrowIsThatGameState extends State<WhichArrowIsThatGame> {
             style: AppTheme.mono(size: 11, color: AppColors.ink3),
           ),
           const SizedBox(height: 10),
-          _Figure(
-            round: r,
-            picked: _picked,
-            locked: answered,
-            onTap: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _Figure(
+              round: r,
+              picked: _picked,
+              locked: answered,
+              onTap: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 16),

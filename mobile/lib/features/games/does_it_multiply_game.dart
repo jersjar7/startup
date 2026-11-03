@@ -205,17 +205,19 @@ class _DoesItMultiplyGameState extends State<DoesItMultiplyGame> {
             ),
           ),
           const SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 230,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: LeverPainter(lever: r.lever),
-                  child: const SizedBox.expand(),
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 230,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: LeverPainter(lever: r.lever),
+                    child: const SizedBox.expand(),
+                  ),
                 ),
               ),
             ),

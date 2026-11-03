@@ -301,17 +301,19 @@ class _WhichDistanceCountsGameState extends State<WhichDistanceCountsGame> {
             ),
           ),
           const SizedBox(height: 10),
-          _Figure(
-            scene: r.scene,
-            picked: _none ? null : _picked,
-            locked: answered,
-            truth: r.answer ?? -1,
-            onTap: answered
-                ? null
-                : (i) => setState(() {
-                    _none = false;
-                    _picked = i;
-                  }),
+          BoardFigure(
+            child: _Figure(
+              scene: r.scene,
+              picked: _none ? null : _picked,
+              locked: answered,
+              truth: r.answer ?? -1,
+              onTap: answered
+                  ? null
+                  : (i) => setState(() {
+                      _none = false;
+                      _picked = i;
+                    }),
+            ),
           ),
           const SizedBox(height: 8),
           _NoArmRow(

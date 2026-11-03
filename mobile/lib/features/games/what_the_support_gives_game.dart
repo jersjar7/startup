@@ -284,22 +284,24 @@ class _WhatTheSupportGivesGameState extends State<WhatTheSupportGivesGame> {
             ),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 150,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: BeamPainter(
-                    span: 4,
-                    supports: [
-                      Support(Offset(r.at, 0), r.kind, slope: r.slope),
-                    ],
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 150,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: BeamPainter(
+                      span: 4,
+                      supports: [
+                        Support(Offset(r.at, 0), r.kind, slope: r.slope),
+                      ],
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

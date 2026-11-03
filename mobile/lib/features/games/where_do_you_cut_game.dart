@@ -317,11 +317,13 @@ class _WhereDoYouCutGameState extends State<WhereDoYouCutGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ember),
           ),
           const SizedBox(height: 10),
-          _CutBoard(
-            round: r,
-            picked: _picked,
-            locked: answered,
-            onTap: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _CutBoard(
+              round: r,
+              picked: _picked,
+              locked: answered,
+              onTap: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 16),

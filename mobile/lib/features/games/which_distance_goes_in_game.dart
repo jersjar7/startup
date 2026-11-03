@@ -285,11 +285,13 @@ class _WhichDistanceGoesInGameState extends State<WhichDistanceGoesInGame> {
             ),
           ),
           const SizedBox(height: 10),
-          _Split(
-            round: r,
-            picked: _picked,
-            locked: answered,
-            onTap: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _Split(
+              round: r,
+              picked: _picked,
+              locked: answered,
+              onTap: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 10),

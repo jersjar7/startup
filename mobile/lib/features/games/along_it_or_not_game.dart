@@ -320,11 +320,13 @@ class _AlongItOrNotGameState extends State<AlongItOrNotGame> {
             ),
           ),
           const SizedBox(height: 10),
-          _Frame(
-            round: r,
-            picked: _picked,
-            locked: answered,
-            onTap: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _Frame(
+              round: r,
+              picked: _picked,
+              locked: answered,
+              onTap: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           const SizedBox(height: 8),
           _CannotTellRow(

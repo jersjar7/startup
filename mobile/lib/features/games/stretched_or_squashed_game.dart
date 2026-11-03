@@ -297,21 +297,23 @@ class _StretchedOrSquashedGameState extends State<StretchedOrSquashedGame> {
             ),
           ),
           const SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 220,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: TrussPainter(
-                    truss: r.truss,
-                    mode: TrussMode.oneMember,
-                    spotlight: r.member,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 220,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: TrussPainter(
+                      truss: r.truss,
+                      mode: TrussMode.oneMember,
+                      spotlight: r.member,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

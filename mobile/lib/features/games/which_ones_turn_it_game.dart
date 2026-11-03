@@ -295,17 +295,19 @@ class _WhichOnesTurnItGameState extends State<WhichOnesTurnItGame> {
             style: AppTheme.mono(size: 11, color: AppColors.ink3),
           ),
           const SizedBox(height: 10),
-          _Figure(
-            scene: r.scene,
-            picked: _none ? const <int>{} : _picked,
-            locked: answered,
-            truths: truth,
-            onTap: answered
-                ? null
-                : (i) => setState(() {
-                    _none = false;
-                    if (!_picked.add(i)) _picked.remove(i);
-                  }),
+          BoardFigure(
+            child: _Figure(
+              scene: r.scene,
+              picked: _none ? const <int>{} : _picked,
+              locked: answered,
+              truths: truth,
+              onTap: answered
+                  ? null
+                  : (i) => setState(() {
+                      _none = false;
+                      if (!_picked.add(i)) _picked.remove(i);
+                    }),
+            ),
           ),
           const SizedBox(height: 8),
           _NoneRow(

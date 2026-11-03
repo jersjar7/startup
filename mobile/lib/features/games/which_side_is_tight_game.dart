@@ -245,11 +245,13 @@ class _WhichSideIsTightGameState extends State<WhichSideIsTightGame> {
             ),
           ),
           const SizedBox(height: 10),
-          _Drum(
-            round: r,
-            picked: _picked,
-            locked: answered,
-            onTap: answered ? null : (e) => setState(() => _picked = e),
+          BoardFigure(
+            child: _Drum(
+              round: r,
+              picked: _picked,
+              locked: answered,
+              onTap: answered ? null : (e) => setState(() => _picked = e),
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 16),

@@ -285,17 +285,19 @@ class _WhichCarryNothingGameState extends State<WhichCarryNothingGame> {
             ),
           ),
           const SizedBox(height: 10),
-          _TrussBoard(
-            truss: r.truss,
-            picked: _none ? const <int>{} : _picked,
-            truths: truth,
-            locked: answered,
-            onTap: answered
-                ? null
-                : (m) => setState(() {
-                    _none = false;
-                    if (!_picked.add(m)) _picked.remove(m);
-                  }),
+          BoardFigure(
+            child: _TrussBoard(
+              truss: r.truss,
+              picked: _none ? const <int>{} : _picked,
+              truths: truth,
+              locked: answered,
+              onTap: answered
+                  ? null
+                  : (m) => setState(() {
+                      _none = false;
+                      if (!_picked.add(m)) _picked.remove(m);
+                    }),
+            ),
           ),
           const SizedBox(height: 8),
           _NoneRow(

@@ -263,11 +263,13 @@ class _WhichBarelyMattersGameState extends State<WhichBarelyMattersGame> {
             ),
           ),
           const SizedBox(height: 10),
-          _Pieces(
-            round: r,
-            picked: _picked,
-            locked: answered,
-            onTap: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _Pieces(
+              round: r,
+              picked: _picked,
+              locked: answered,
+              onTap: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 16),

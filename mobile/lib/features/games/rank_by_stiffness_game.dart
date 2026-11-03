@@ -271,11 +271,13 @@ class _RankByStiffnessGameState extends State<RankByStiffnessGame> {
             ),
           ),
           const SizedBox(height: 10),
-          _LineUp(
-            round: r,
-            order: _order,
-            locked: answered,
-            onTap: answered ? null : _tap,
+          BoardFigure(
+            child: _LineUp(
+              round: r,
+              order: _order,
+              locked: answered,
+              onTap: answered ? null : _tap,
+            ),
           ),
           const SizedBox(height: 8),
           Text(

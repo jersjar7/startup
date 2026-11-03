@@ -241,22 +241,24 @@ class _IsItAboutToMoveGameState extends State<IsItAboutToMoveGame> {
             ),
           ),
           const SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 210,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: BlockPainter(
-                    rig: r.rig,
-                    showPush: r.push > 0,
-                    pushLabel: r.pushLabel,
-                    grip: answered ? r.answer : null,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 210,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: BlockPainter(
+                      rig: r.rig,
+                      showPush: r.push > 0,
+                      pushLabel: r.pushLabel,
+                      grip: answered ? r.answer : null,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

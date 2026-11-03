@@ -231,11 +231,13 @@ class _TapItsCentroidGameState extends State<TapItsCentroidGame> {
             ),
           ),
           const SizedBox(height: 10),
-          _Shape(
-            round: r,
-            picked: _picked,
-            locked: answered,
-            onTap: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _Shape(
+              round: r,
+              picked: _picked,
+              locked: answered,
+              onTap: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 16),
