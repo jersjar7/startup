@@ -230,27 +230,29 @@ class _DrainedOrNotGameState extends State<DrainedOrNotGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 200,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: EnvelopePainter(
-                    failure: r.failure,
-                    // The shape of the envelope IS the answer here, so it
-                    // stays off the drawing until the round is over.
-                    reveal: answered,
-                    answered: answered,
+          BoardFigure(
+            child: Container(
+              height: 200,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: EnvelopePainter(
+                      failure: r.failure,
+                      // The shape of the envelope IS the answer here, so it
+                      // stays off the drawing until the round is over.
+                      reveal: answered,
+                      answered: answered,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

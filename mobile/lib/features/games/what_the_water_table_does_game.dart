@@ -286,28 +286,30 @@ class _WhatTheWaterTableDoesGameState extends State<WhatTheWaterTableDoesGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 232,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  // Before the answer the profile is the one being changed
-                  // FROM; afterward it is the one it became, so the move is
-                  // shown rather than described.
-                  painter: DepositPainter(
-                    deposit: answered ? r.after : r.before,
-                    at: r.at,
-                    answered: answered,
+          BoardFigure(
+            child: Container(
+              height: 232,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    // Before the answer the profile is the one being changed
+                    // FROM; afterward it is the one it became, so the move is
+                    // shown rather than described.
+                    painter: DepositPainter(
+                      deposit: answered ? r.after : r.before,
+                      at: r.at,
+                      answered: answered,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),
