@@ -165,8 +165,10 @@ ${item('Daily', sun(false), sun(true), active === 'daily', dailyDot)}
 
 // ── the chapter path, drawn into a pane ──
 // nodes: {name, sub, state: 'done'|'now'|'todo', frac?, section?}
-const path = ({ width, top, nodes, node = 92, step = 136, amp = 110, highlight = null, labelW = 210, center = 0.42 }) => {
-  const cx0 = Math.round(width * center);
+const path = ({ width, top, nodes, node = 92, step = 136, amp = 110, highlight = null, labelW = 210 }) => {
+  // The node column is centred in its pane (TABLET.md, "The path"): the
+  // zigzag's middle line is the pane's middle line; labels hang off the nodes.
+  const cx0 = Math.round(width / 2);
   let y = top;
   const placed = [];
   const sections = [];
@@ -465,13 +467,12 @@ ${abs(40, TOP + 8, 1100, 48, roundHeader(1100, { done: answered ? 2 : 1, count: 
 ${abs(40, TOP + 96, null, null, triangle(FIG_L.w, FIG_L.h, 1.5, { answered }))}
 ${abs(720, TOP + 96, 420, L.H - TOP - 96 - 36, `
 <div style="height:100%;display:flex;flex-direction:column;">
-<div style="flex-grow:1;"></div>
 <div style="display:flex;flex-direction:column;gap:10px;">${eyebrow('Which ratio connects them', C.ember)}
 <div style="font-size:20px;line-height:1.5;color:${C.charcoal};">${ROUND_CONTEXT}</div></div>
 <div style="height:24px;"></div>
-${ratioButtons(answered ? 'answered' : 'chosen', 420, answered ? 72 : 112)}
+${ratioButtons(answered ? 'answered' : 'chosen', 420, 88)}
 ${answered ? `<div style="height:16px;"></div>${feedbackPanel(420)}<div style="height:12px;"></div><div style="display:flex;justify-content:center;">${tanRule(24)}</div>` : ''}
-<div style="height:28px;"></div>
+<div style="flex-grow:1;"></div>
 <div style="display:flex;align-items:center;gap:12px;justify-content:flex-end;">${creamButton('Something unclear?', ico.flag, { size: 48 })}${pill(answered ? 'Next' : 'Lock it in', { width: 360 })}</div>
 </div>`)}
 `);
