@@ -203,40 +203,42 @@ class _WhichArmGameState extends State<WhichArmGame> {
             ),
           ),
           const SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 255);
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: answered
-                    ? null
-                    : (details) {
-                        final hit = TiePainter.nearest(
-                          size,
-                          r.tie,
-                          details.localPosition,
-                        );
-                        if (hit != null) setState(() => _picked = hit);
-                      },
-                child: EngineeringGrid(
-                  minor: 18,
-                  major: 90,
-                  child: SizedBox(
-                    width: size.width,
-                    height: size.height,
-                    child: CustomPaint(
-                      painter: TiePainter(
-                        tie: r.tie,
-                        picked: _picked,
-                        answer: r.answer,
-                        locked: answered,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 255);
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: answered
+                      ? null
+                      : (details) {
+                          final hit = TiePainter.nearest(
+                            size,
+                            r.tie,
+                            details.localPosition,
+                          );
+                          if (hit != null) setState(() => _picked = hit);
+                        },
+                  child: EngineeringGrid(
+                    minor: 18,
+                    major: 90,
+                    child: SizedBox(
+                      width: size.width,
+                      height: size.height,
+                      child: CustomPaint(
+                        painter: TiePainter(
+                          tie: r.tie,
+                          picked: _picked,
+                          answer: r.answer,
+                          locked: answered,
+                        ),
+                        child: const SizedBox.expand(),
                       ),
-                      child: const SizedBox.expand(),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           const SizedBox(height: 8),
           Text(

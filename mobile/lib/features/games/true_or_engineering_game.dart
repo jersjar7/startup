@@ -280,49 +280,51 @@ class _TrueOrEngineeringGameState extends State<TrueOrEngineeringGame> {
             ),
           ),
           const SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 230);
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: answered
-                    ? null
-                    : (details) {
-                        final hit = BothPainter.nearest(
-                          r.specimen,
-                          frame,
-                          size,
-                          details.localPosition,
-                        );
-                        if (hit == null) return;
-                        setState(
-                          () => _picked = hit == BothPainter.truth
-                              ? Reading.real
-                              : Reading.machine,
-                        );
-                      },
-                child: EngineeringGrid(
-                  minor: 18,
-                  major: 90,
-                  child: SizedBox(
-                    width: size.width,
-                    height: size.height,
-                    child: CustomPaint(
-                      painter: BothPainter(
-                        specimen: r.specimen,
-                        frame: frame,
-                        glow: _glowOf(r, answered),
-                        wrong: _wrongOf(r, answered),
-                        named: answered,
-                        waistLine: r.waistLine,
-                        elasticBand: r.elasticBand,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 230);
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: answered
+                      ? null
+                      : (details) {
+                          final hit = BothPainter.nearest(
+                            r.specimen,
+                            frame,
+                            size,
+                            details.localPosition,
+                          );
+                          if (hit == null) return;
+                          setState(
+                            () => _picked = hit == BothPainter.truth
+                                ? Reading.real
+                                : Reading.machine,
+                          );
+                        },
+                  child: EngineeringGrid(
+                    minor: 18,
+                    major: 90,
+                    child: SizedBox(
+                      width: size.width,
+                      height: size.height,
+                      child: CustomPaint(
+                        painter: BothPainter(
+                          specimen: r.specimen,
+                          frame: frame,
+                          glow: _glowOf(r, answered),
+                          wrong: _wrongOf(r, answered),
+                          named: answered,
+                          waistLine: r.waistLine,
+                          elasticBand: r.elasticBand,
+                        ),
+                        child: const SizedBox.expand(),
                       ),
-                      child: const SizedBox.expand(),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           const SizedBox(height: 8),
           Text(

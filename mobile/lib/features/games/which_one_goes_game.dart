@@ -221,42 +221,44 @@ class _WhichOneGoesGameState extends State<WhichOneGoesGame> {
             ),
           ),
           const SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 200);
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: answered
-                    ? null
-                    : (details) {
-                        final hit = CouplePainter.at(
-                          size,
-                          details.localPosition,
-                        );
-                        if (hit == null) return;
-                        setState(
-                          () => _picked = hit == 0 ? Eaten.left : Eaten.right,
-                        );
-                      },
-                child: EngineeringGrid(
-                  minor: 18,
-                  major: 90,
-                  child: SizedBox(
-                    width: size.width,
-                    height: size.height,
-                    child: CustomPaint(
-                      painter: CouplePainter(
-                        couple: r.couple,
-                        picked: _index(_picked),
-                        answer: answered ? _index(r.answer) : null,
-                        locked: answered,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 200);
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: answered
+                      ? null
+                      : (details) {
+                          final hit = CouplePainter.at(
+                            size,
+                            details.localPosition,
+                          );
+                          if (hit == null) return;
+                          setState(
+                            () => _picked = hit == 0 ? Eaten.left : Eaten.right,
+                          );
+                        },
+                  child: EngineeringGrid(
+                    minor: 18,
+                    major: 90,
+                    child: SizedBox(
+                      width: size.width,
+                      height: size.height,
+                      child: CustomPaint(
+                        painter: CouplePainter(
+                          couple: r.couple,
+                          picked: _index(_picked),
+                          answer: answered ? _index(r.answer) : null,
+                          locked: answered,
+                        ),
+                        child: const SizedBox.expand(),
                       ),
-                      child: const SizedBox.expand(),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           const SizedBox(height: 12),
           for (final option in Eaten.values) ...[

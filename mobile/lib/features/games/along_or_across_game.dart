@@ -276,15 +276,17 @@ class _AlongOrAcrossGameState extends State<AlongOrAcrossGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 210,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: BlendPainter(blend: r.blend, lay: r.lay),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 210,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: BlendPainter(blend: r.blend, lay: r.lay),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),

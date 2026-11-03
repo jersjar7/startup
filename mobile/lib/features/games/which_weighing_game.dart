@@ -275,15 +275,17 @@ class _WhichWeighingGameState extends State<WhichWeighingGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 190,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: SamplePainter(sample: r.sample),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 190,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: SamplePainter(sample: r.sample),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),

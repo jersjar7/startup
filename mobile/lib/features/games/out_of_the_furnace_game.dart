@@ -323,15 +323,17 @@ class _OutOfTheFurnaceGameState extends State<OutOfTheFurnaceGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 200,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: CoolPainter(cool: r.cool),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 200,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: CoolPainter(cool: r.cool),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),

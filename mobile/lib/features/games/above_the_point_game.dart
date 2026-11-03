@@ -224,15 +224,17 @@ class _AboveThePointGameState extends State<AboveThePointGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 210,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: DryingPainter(move: r.move),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 210,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: DryingPainter(move: r.move),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),

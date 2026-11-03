@@ -241,21 +241,23 @@ class _WhatThisJobNeedsGameState extends State<WhatThisJobNeedsGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 240,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: MixPainter(
-                  marks: r.mixes,
-                  target: r.needs,
-                  picked: _picked,
-                  answer: answered ? r.answer : null,
-                  locked: answered,
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 240,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: MixPainter(
+                    marks: r.mixes,
+                    target: r.needs,
+                    picked: _picked,
+                    answer: answered ? r.answer : null,
+                    locked: answered,
+                  ),
+                  child: const SizedBox.expand(),
                 ),
-                child: const SizedBox.expand(),
               ),
             ),
           ),

@@ -252,15 +252,17 @@ class _EdgeOrInsideGameState extends State<EdgeOrInsideGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 180,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: PlatePainter(plate: r.plate),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 180,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: PlatePainter(plate: r.plate),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),

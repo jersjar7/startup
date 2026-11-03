@@ -252,46 +252,48 @@ class _CoarseOrFineGameState extends State<CoarseOrFineGame> {
             ),
           ),
           const SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 240);
-              final gradings = [r.left, r.right];
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: answered
-                    ? null
-                    : (details) {
-                        final hit = GradingPainter.nearest(
-                          size,
-                          gradings,
-                          details.localPosition,
-                        );
-                        if (hit == null) return;
-                        setState(
-                          () => _picked = hit == 0
-                              ? Coarser.first
-                              : Coarser.second,
-                        );
-                      },
-                child: EngineeringGrid(
-                  minor: 18,
-                  major: 90,
-                  child: SizedBox(
-                    width: size.width,
-                    height: size.height,
-                    child: CustomPaint(
-                      painter: GradingPainter(
-                        gradings: gradings,
-                        picked: _index(_picked),
-                        answer: answered ? _index(r.answer) : null,
-                        locked: answered,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 240);
+                final gradings = [r.left, r.right];
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: answered
+                      ? null
+                      : (details) {
+                          final hit = GradingPainter.nearest(
+                            size,
+                            gradings,
+                            details.localPosition,
+                          );
+                          if (hit == null) return;
+                          setState(
+                            () => _picked = hit == 0
+                                ? Coarser.first
+                                : Coarser.second,
+                          );
+                        },
+                  child: EngineeringGrid(
+                    minor: 18,
+                    major: 90,
+                    child: SizedBox(
+                      width: size.width,
+                      height: size.height,
+                      child: CustomPaint(
+                        painter: GradingPainter(
+                          gradings: gradings,
+                          picked: _index(_picked),
+                          answer: answered ? _index(r.answer) : null,
+                          locked: answered,
+                        ),
+                        child: const SizedBox.expand(),
                       ),
-                      child: const SizedBox.expand(),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           const SizedBox(height: 8),
           Text(

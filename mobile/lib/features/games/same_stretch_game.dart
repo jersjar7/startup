@@ -246,22 +246,24 @@ class _SameStretchGameState extends State<SameStretchGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 220,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: BlendPainter(
-                  blend: r.blend,
-                  lay: r.lay,
-                  picked: _index(_picked),
-                  answer: answered ? _index(r.answer) : null,
-                  locked: answered,
-                  stretched: answered,
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 220,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: BlendPainter(
+                    blend: r.blend,
+                    lay: r.lay,
+                    picked: _index(_picked),
+                    answer: answered ? _index(r.answer) : null,
+                    locked: answered,
+                    stretched: answered,
+                  ),
+                  child: const SizedBox.expand(),
                 ),
-                child: const SizedBox.expand(),
               ),
             ),
           ),

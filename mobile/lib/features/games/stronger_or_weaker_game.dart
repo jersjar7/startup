@@ -239,24 +239,26 @@ class _StrongerOrWeakerGameState extends State<StrongerOrWeakerGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 240,
-              width: double.infinity,
-              child: CustomPaint(
-                // The mix is put on the chart only once the answer is in.
-                // Before that the chart is the reference it would be on the
-                // wall, not a place to read the answer off.
-                painter: MixPainter(
-                  marks: answered ? [r.before, r.after] : const [],
-                  picked: null,
-                  answer: answered ? 1 : null,
-                  locked: answered,
-                  showMarks: answered,
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 240,
+                width: double.infinity,
+                child: CustomPaint(
+                  // The mix is put on the chart only once the answer is in.
+                  // Before that the chart is the reference it would be on the
+                  // wall, not a place to read the answer off.
+                  painter: MixPainter(
+                    marks: answered ? [r.before, r.after] : const [],
+                    picked: null,
+                    answer: answered ? 1 : null,
+                    locked: answered,
+                    showMarks: answered,
+                  ),
+                  child: const SizedBox.expand(),
                 ),
-                child: const SizedBox.expand(),
               ),
             ),
           ),
