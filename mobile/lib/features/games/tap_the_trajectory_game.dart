@@ -222,48 +222,50 @@ class _TapTheTrajectoryGameState extends State<TapTheTrajectoryGame> {
             ),
           ),
           const SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 220);
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: answered
-                    ? null
-                    : (details) {
-                        final hit = FlightPainter.nearest(
-                          r.flight,
-                          size,
-                          Moment.values,
-                          details.localPosition,
-                        );
-                        if (hit != null) {
-                          setState(() {
-                            _picked = hit;
-                            _pickedNone = false;
-                          });
-                        }
-                      },
-                child: EngineeringGrid(
-                  minor: 18,
-                  major: 90,
-                  child: SizedBox(
-                    width: size.width,
-                    height: size.height,
-                    child: CustomPaint(
-                      painter: FlightPainter(
-                        flight: r.flight,
-                        moments: Moment.values,
-                        picked: _pickedNone ? null : _picked,
-                        truth: answered && !r.everywhere ? r.answer : null,
-                        locked: answered,
-                        showVelocities: answered,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 220);
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: answered
+                      ? null
+                      : (details) {
+                          final hit = FlightPainter.nearest(
+                            r.flight,
+                            size,
+                            Moment.values,
+                            details.localPosition,
+                          );
+                          if (hit != null) {
+                            setState(() {
+                              _picked = hit;
+                              _pickedNone = false;
+                            });
+                          }
+                        },
+                  child: EngineeringGrid(
+                    minor: 18,
+                    major: 90,
+                    child: SizedBox(
+                      width: size.width,
+                      height: size.height,
+                      child: CustomPaint(
+                        painter: FlightPainter(
+                          flight: r.flight,
+                          moments: Moment.values,
+                          picked: _pickedNone ? null : _picked,
+                          truth: answered && !r.everywhere ? r.answer : null,
+                          locked: answered,
+                          showVelocities: answered,
+                        ),
+                        child: const SizedBox.expand(),
                       ),
-                      child: const SizedBox.expand(),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           const SizedBox(height: 6),
           Text(

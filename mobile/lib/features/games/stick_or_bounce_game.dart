@@ -223,14 +223,16 @@ class _StickOrBounceGameState extends State<StickOrBounceGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: answered ? 150 : 90,
-              child: CustomPaint(
-                painter: CrashPainter(crash: r.crash, showAfter: answered),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: answered ? 150 : 90,
+                child: CustomPaint(
+                  painter: CrashPainter(crash: r.crash, showAfter: answered),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),

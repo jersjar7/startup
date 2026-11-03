@@ -249,47 +249,49 @@ class _SameSpinDifferentSpeedGameState
             ),
           ),
           const SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, r.arm ? 150 : 230);
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: answered
-                    ? null
-                    : (details) {
-                        final hit = SpinnerPainter.nearest(
-                          r.spinner,
-                          size,
-                          details.localPosition,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, r.arm ? 150 : 230);
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: answered
+                      ? null
+                      : (details) {
+                          final hit = SpinnerPainter.nearest(
+                            r.spinner,
+                            size,
+                            details.localPosition,
+                            arm: r.arm,
+                          );
+                          if (hit != null) {
+                            setState(() {
+                              _picked = hit;
+                              _pickedNone = false;
+                            });
+                          }
+                        },
+                  child: EngineeringGrid(
+                    minor: 18,
+                    major: 90,
+                    child: SizedBox(
+                      width: size.width,
+                      height: size.height,
+                      child: CustomPaint(
+                        painter: SpinnerPainter(
+                          spinner: r.spinner,
+                          picked: _pickedNone ? null : _picked,
+                          truth: answered && !r.everywhere ? r.answer : null,
+                          locked: answered,
                           arm: r.arm,
-                        );
-                        if (hit != null) {
-                          setState(() {
-                            _picked = hit;
-                            _pickedNone = false;
-                          });
-                        }
-                      },
-                child: EngineeringGrid(
-                  minor: 18,
-                  major: 90,
-                  child: SizedBox(
-                    width: size.width,
-                    height: size.height,
-                    child: CustomPaint(
-                      painter: SpinnerPainter(
-                        spinner: r.spinner,
-                        picked: _pickedNone ? null : _picked,
-                        truth: answered && !r.everywhere ? r.answer : null,
-                        locked: answered,
-                        arm: r.arm,
+                        ),
+                        child: const SizedBox.expand(),
                       ),
-                      child: const SizedBox.expand(),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           const SizedBox(height: 8),
           Center(

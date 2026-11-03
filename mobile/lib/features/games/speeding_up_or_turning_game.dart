@@ -238,42 +238,44 @@ class _SpeedingUpOrTurningGameState extends State<SpeedingUpOrTurningGame> {
             ),
           ),
           const SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 210);
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: answered
-                    ? null
-                    : (details) {
-                        final hit = BendPainter.nearest(
-                          r.bend,
-                          size,
-                          r.shown,
-                          details.localPosition,
-                        );
-                        if (hit != null) setState(() => _picked = hit);
-                      },
-                child: EngineeringGrid(
-                  minor: 18,
-                  major: 90,
-                  child: SizedBox(
-                    width: size.width,
-                    height: size.height,
-                    child: CustomPaint(
-                      painter: BendPainter(
-                        bend: r.bend,
-                        show: r.shown,
-                        picked: _picked,
-                        truth: answered ? r.answer : null,
-                        locked: answered,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 210);
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: answered
+                      ? null
+                      : (details) {
+                          final hit = BendPainter.nearest(
+                            r.bend,
+                            size,
+                            r.shown,
+                            details.localPosition,
+                          );
+                          if (hit != null) setState(() => _picked = hit);
+                        },
+                  child: EngineeringGrid(
+                    minor: 18,
+                    major: 90,
+                    child: SizedBox(
+                      width: size.width,
+                      height: size.height,
+                      child: CustomPaint(
+                        painter: BendPainter(
+                          bend: r.bend,
+                          show: r.shown,
+                          picked: _picked,
+                          truth: answered ? r.answer : null,
+                          locked: answered,
+                        ),
+                        child: const SizedBox.expand(),
                       ),
-                      child: const SizedBox.expand(),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           const SizedBox(height: 10),
           Center(

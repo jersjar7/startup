@@ -217,42 +217,44 @@ class _WhichPieceDrivesItGameState extends State<WhichPieceDrivesItGame> {
             ),
           ),
           const SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 230);
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: answered
-                    ? null
-                    : (details) {
-                        final hit = SlopePainter2.nearest(
-                          r.slope,
-                          size,
-                          r.arrows,
-                          details.localPosition,
-                        );
-                        if (hit != null) setState(() => _picked = hit);
-                      },
-                child: EngineeringGrid(
-                  minor: 18,
-                  major: 90,
-                  child: SizedBox(
-                    width: size.width,
-                    height: size.height,
-                    child: CustomPaint(
-                      painter: SlopePainter2(
-                        slope: r.slope,
-                        arrows: r.arrows,
-                        picked: _picked,
-                        truth: answered ? r.answer : null,
-                        locked: answered,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 230);
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: answered
+                      ? null
+                      : (details) {
+                          final hit = SlopePainter2.nearest(
+                            r.slope,
+                            size,
+                            r.arrows,
+                            details.localPosition,
+                          );
+                          if (hit != null) setState(() => _picked = hit);
+                        },
+                  child: EngineeringGrid(
+                    minor: 18,
+                    major: 90,
+                    child: SizedBox(
+                      width: size.width,
+                      height: size.height,
+                      child: CustomPaint(
+                        painter: SlopePainter2(
+                          slope: r.slope,
+                          arrows: r.arrows,
+                          picked: _picked,
+                          truth: answered ? r.answer : null,
+                          locked: answered,
+                        ),
+                        child: const SizedBox.expand(),
                       ),
-                      child: const SizedBox.expand(),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           if (_picked != null && !answered) ...[
             const SizedBox(height: 6),

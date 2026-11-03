@@ -242,14 +242,16 @@ class _WhenItRunsAwayGameState extends State<WhenItRunsAwayGame> {
             ),
           ),
           const SizedBox(height: 12),
-          SizedBox(
-            height: 130,
-            child: CustomPaint(
-              painter: TunePainter(
-                naturalHz: r.naturalHz,
-                forcingHz: answered ? r.forcingHz : null,
+          BoardFigure(
+            child: SizedBox(
+              height: 130,
+              child: CustomPaint(
+                painter: TunePainter(
+                  naturalHz: r.naturalHz,
+                  forcingHz: answered ? r.forcingHz : null,
+                ),
+                child: const SizedBox.expand(),
               ),
-              child: const SizedBox.expand(),
             ),
           ),
           const SizedBox(height: 4),

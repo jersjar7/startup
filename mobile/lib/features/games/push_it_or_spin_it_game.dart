@@ -216,14 +216,16 @@ class _PushItOrSpinItGameState extends State<PushItOrSpinItGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 180,
-              child: CustomPaint(
-                painter: PushPainter(pushed: r.pushed),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 180,
+                child: CustomPaint(
+                  painter: PushPainter(pushed: r.pushed),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),

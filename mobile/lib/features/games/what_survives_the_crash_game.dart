@@ -219,14 +219,16 @@ class _WhatSurvivesTheCrashGameState extends State<WhatSurvivesTheCrashGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 150,
-              child: CustomPaint(
-                painter: CrashPainter(crash: r.crash, showAfter: true),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 150,
+                child: CustomPaint(
+                  painter: CrashPainter(crash: r.crash, showAfter: true),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),
