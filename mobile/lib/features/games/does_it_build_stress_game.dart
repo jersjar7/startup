@@ -233,17 +233,19 @@ class _DoesItBuildStressGameState extends State<DoesItBuildStressGame> {
             ),
           ),
           const SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 190,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: RodPainter(rod: r.rod, showOutcome: answered),
-                  child: const SizedBox.expand(),
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 190,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: RodPainter(rod: r.rod, showOutcome: answered),
+                    child: const SizedBox.expand(),
+                  ),
                 ),
               ),
             ),

@@ -266,19 +266,21 @@ class _WhichJIsItGameState extends State<WhichJIsItGame> {
             ),
           ),
           const SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 175,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: r.circular
-                      ? ShaftPainter(shaft: r.shaft, markC: answered)
-                      : const SquareBarPainter(),
-                  child: const SizedBox.expand(),
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 175,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: r.circular
+                        ? ShaftPainter(shaft: r.shaft, markC: answered)
+                        : const SquareBarPainter(),
+                    child: const SizedBox.expand(),
+                  ),
                 ),
               ),
             ),

@@ -302,14 +302,16 @@ class _FixTheBounceGameState extends State<FixTheBounceGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 118,
-              child: CustomPaint(
-                painter: SagPainter(entry: r.entry, span: r.span),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 118,
+                child: CustomPaint(
+                  painter: SagPainter(entry: r.entry, span: r.span),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),

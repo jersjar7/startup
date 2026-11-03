@@ -254,18 +254,20 @@ class _SameStrainGameState extends State<SameStrainGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 16,
-            major: 80,
-            child: SizedBox(
-              height: 150,
-              child: CustomPaint(
-                painter: MadePainter(
-                  slices: r.beam.slices,
-                  join: r.join,
-                  label: 'the join is marked',
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 16,
+              major: 80,
+              child: SizedBox(
+                height: 150,
+                child: CustomPaint(
+                  painter: MadePainter(
+                    slices: r.beam.slices,
+                    join: r.join,
+                    label: 'the join is marked',
+                  ),
+                  child: const SizedBox.expand(),
                 ),
-                child: const SizedBox.expand(),
               ),
             ),
           ),

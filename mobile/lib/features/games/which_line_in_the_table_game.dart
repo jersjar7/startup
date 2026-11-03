@@ -265,18 +265,20 @@ class _WhichLineInTheTableGameState extends State<WhichLineInTheTableGame> {
           ),
           if (answered && r.shows != null) ...[
             const SizedBox(height: 4),
-            EngineeringGrid(
-              minor: 18,
-              major: 90,
-              child: SizedBox(
-                height: 110,
-                child: CustomPaint(
-                  painter: SagPainter(
-                    entry: r.shows!,
-                    span: r.beam.span,
-                    at: r.at,
+            BoardFigure(
+              child: EngineeringGrid(
+                minor: 18,
+                major: 90,
+                child: SizedBox(
+                  height: 110,
+                  child: CustomPaint(
+                    painter: SagPainter(
+                      entry: r.shows!,
+                      span: r.beam.span,
+                      at: r.at,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

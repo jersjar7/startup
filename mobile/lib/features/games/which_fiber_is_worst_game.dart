@@ -279,45 +279,47 @@ class _WhichFiberIsWorstGameState extends State<WhichFiberIsWorstGame> {
             ),
           ),
           const SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 230);
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: answered
-                    ? null
-                    : (details) {
-                        final hit = LayerPainter.nearest(
-                          r.section,
-                          size,
-                          r.layers,
-                          details.localPosition,
-                        );
-                        if (hit != null) setState(() => _picked = hit);
-                      },
-                child: EngineeringGrid(
-                  minor: 18,
-                  major: 90,
-                  child: SizedBox(
-                    width: size.width,
-                    height: size.height,
-                    child: CustomPaint(
-                      painter: LayerPainter(
-                        profile: r.section,
-                        layers: r.layers,
-                        picked: _picked,
-                        truth: answered ? r.answer : -1,
-                        locked: answered,
-                        show: answered ? r.wanted.shows : null,
-                        moment: r.moment,
-                        shear: FiberRound.shear,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 230);
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: answered
+                      ? null
+                      : (details) {
+                          final hit = LayerPainter.nearest(
+                            r.section,
+                            size,
+                            r.layers,
+                            details.localPosition,
+                          );
+                          if (hit != null) setState(() => _picked = hit);
+                        },
+                  child: EngineeringGrid(
+                    minor: 18,
+                    major: 90,
+                    child: SizedBox(
+                      width: size.width,
+                      height: size.height,
+                      child: CustomPaint(
+                        painter: LayerPainter(
+                          profile: r.section,
+                          layers: r.layers,
+                          picked: _picked,
+                          truth: answered ? r.answer : -1,
+                          locked: answered,
+                          show: answered ? r.wanted.shows : null,
+                          moment: r.moment,
+                          shear: FiberRound.shear,
+                        ),
+                        child: const SizedBox.expand(),
                       ),
-                      child: const SizedBox.expand(),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           if (_picked != null && !answered) ...[
             const SizedBox(height: 8),

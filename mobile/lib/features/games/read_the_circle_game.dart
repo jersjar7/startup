@@ -216,17 +216,19 @@ class _ReadTheCircleGameState extends State<ReadTheCircleGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 130,
-              child: CustomPaint(
-                painter: ElementPainter(
-                  stress: r.stress,
-                  label: 'the point, and what it feels',
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 130,
+                child: CustomPaint(
+                  painter: ElementPainter(
+                    stress: r.stress,
+                    label: 'the point, and what it feels',
+                  ),
+                  child: const SizedBox.expand(),
                 ),
-                child: const SizedBox.expand(),
               ),
             ),
           ),

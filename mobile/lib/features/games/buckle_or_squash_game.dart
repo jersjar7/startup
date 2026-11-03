@@ -234,14 +234,16 @@ class _BuckleOrSquashGameState extends State<BuckleOrSquashGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 190,
-              child: CustomPaint(
-                painter: ColumnCurvePainter(post: r.post),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 190,
+                child: CustomPaint(
+                  painter: ColumnCurvePainter(post: r.post),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),

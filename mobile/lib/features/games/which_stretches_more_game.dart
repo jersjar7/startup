@@ -241,11 +241,13 @@ class _WhichStretchesMoreGameState extends State<WhichStretchesMoreGame> {
             ),
           ),
           const SizedBox(height: 10),
-          _Pair(
-            round: r,
-            picked: _picked,
-            locked: answered,
-            onTap: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _Pair(
+              round: r,
+              picked: _picked,
+              locked: answered,
+              onTap: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           const SizedBox(height: 8),
           _SameRow(

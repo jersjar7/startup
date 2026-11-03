@@ -235,29 +235,31 @@ class _WhichWayDoesItFoldGameState extends State<WhichWayDoesItFoldGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 200,
-              child: CustomPaint(
-                painter: AxisPainter(
-                  profile: r.section,
-                  highlight: _picked == About.horizontal
-                      ? true
-                      : _picked == About.vertical
-                      ? false
-                      : null,
-                  locked: answered,
-                  truth: answered
-                      ? (r.answer == About.horizontal
-                            ? true
-                            : r.answer == About.vertical
-                            ? false
-                            : null)
-                      : null,
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 200,
+                child: CustomPaint(
+                  painter: AxisPainter(
+                    profile: r.section,
+                    highlight: _picked == About.horizontal
+                        ? true
+                        : _picked == About.vertical
+                        ? false
+                        : null,
+                    locked: answered,
+                    truth: answered
+                        ? (r.answer == About.horizontal
+                              ? true
+                              : r.answer == About.vertical
+                              ? false
+                              : null)
+                        : null,
+                  ),
+                  child: const SizedBox.expand(),
                 ),
-                child: const SizedBox.expand(),
               ),
             ),
           ),

@@ -293,14 +293,16 @@ class _WhichCircleIsItGameState extends State<WhichCircleIsItGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 128,
-              child: CustomPaint(
-                painter: ElementPainter(stress: r.stress),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 128,
+                child: CustomPaint(
+                  painter: ElementPainter(stress: r.stress),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),

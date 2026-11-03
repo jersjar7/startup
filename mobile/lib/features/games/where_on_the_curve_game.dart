@@ -248,46 +248,50 @@ class _WhereOnTheCurveGameState extends State<WhereOnTheCurveGame> {
             ),
           ),
           const SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, box) {
-              final size = Size(box.maxWidth, 210);
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: answered
-                    ? null
-                    : (details) {
-                        final hit = TensilePainter.nearest(
-                          r.specimen,
-                          frame,
-                          size,
-                          details.localPosition,
-                          Mark.values,
-                          within: 30,
-                        );
-                        if (hit != null) setState(() => _picked = hit);
-                      },
-                child: EngineeringGrid(
-                  minor: 18,
-                  major: 90,
-                  child: SizedBox(
-                    width: size.width,
-                    height: size.height,
-                    child: CustomPaint(
-                      painter: TensilePainter(
-                        specimen: r.specimen,
-                        frame: frame,
-                        labelled: answered ? [r.answer] : const [],
-                        dotted: answered
-                            ? const []
-                            : (_picked == null ? const [] : [_picked!]),
-                        wrong: answered && _picked != r.answer ? _picked : null,
+          BoardFigure(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final size = Size(box.maxWidth, 210);
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: answered
+                      ? null
+                      : (details) {
+                          final hit = TensilePainter.nearest(
+                            r.specimen,
+                            frame,
+                            size,
+                            details.localPosition,
+                            Mark.values,
+                            within: 30,
+                          );
+                          if (hit != null) setState(() => _picked = hit);
+                        },
+                  child: EngineeringGrid(
+                    minor: 18,
+                    major: 90,
+                    child: SizedBox(
+                      width: size.width,
+                      height: size.height,
+                      child: CustomPaint(
+                        painter: TensilePainter(
+                          specimen: r.specimen,
+                          frame: frame,
+                          labelled: answered ? [r.answer] : const [],
+                          dotted: answered
+                              ? const []
+                              : (_picked == null ? const [] : [_picked!]),
+                          wrong: answered && _picked != r.answer
+                              ? _picked
+                              : null,
+                        ),
+                        child: const SizedBox.expand(),
                       ),
-                      child: const SizedBox.expand(),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           const SizedBox(height: 8),
           Text(

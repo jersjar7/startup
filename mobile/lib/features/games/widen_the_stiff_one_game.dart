@@ -307,14 +307,19 @@ class _WidenTheStiffOneGameState extends State<WidenTheStiffOneGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 16,
-            major: 80,
-            child: SizedBox(
-              height: 132,
-              child: CustomPaint(
-                painter: MadePainter(slices: r.beam.slices, label: 'the beam'),
-                child: const SizedBox.expand(),
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 16,
+              major: 80,
+              child: SizedBox(
+                height: 132,
+                child: CustomPaint(
+                  painter: MadePainter(
+                    slices: r.beam.slices,
+                    label: 'the beam',
+                  ),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),

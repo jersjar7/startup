@@ -345,18 +345,20 @@ class _StiffStrongOrStretchyGameState extends State<StiffStrongOrStretchyGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 200,
-              child: CustomPaint(
-                painter: PairPainter(
-                  left: r.first,
-                  right: r.second,
-                  frame: frame,
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 200,
+                child: CustomPaint(
+                  painter: PairPainter(
+                    left: r.first,
+                    right: r.second,
+                    frame: frame,
+                  ),
+                  child: const SizedBox.expand(),
                 ),
-                child: const SizedBox.expand(),
               ),
             ),
           ),

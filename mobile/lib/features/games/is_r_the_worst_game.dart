@@ -236,19 +236,21 @@ class _IsRTheWorstGameState extends State<IsRTheWorstGame> {
             ),
           ),
           const SizedBox(height: 12),
-          EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(
-              height: 160,
-              child: CustomPaint(
-                painter: MohrPainter(
-                  stress: r.stress,
-                  span: window,
-                  spots: const [Spot.s1, Spot.s2],
-                  locked: false,
+          BoardFigure(
+            child: EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(
+                height: 160,
+                child: CustomPaint(
+                  painter: MohrPainter(
+                    stress: r.stress,
+                    span: window,
+                    spots: const [Spot.s1, Spot.s2],
+                    locked: false,
+                  ),
+                  child: const SizedBox.expand(),
                 ),
-                child: const SizedBox.expand(),
               ),
             ),
           ),
