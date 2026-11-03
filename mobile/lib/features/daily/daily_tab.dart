@@ -20,6 +20,7 @@ import 'daily_run.dart';
 import 'daily_share.dart';
 import 'daily_widgets.dart';
 import 'daily_yesterday.dart';
+import '../../core/device_word.dart';
 
 /// Tab 3, the Daily: three whole games from three chapters, the same for
 /// every student today, played once (owner's call, 2026-10-15).
@@ -399,9 +400,11 @@ class _Waiting extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       refused
-                          ? 'Check the date on your phone, then try again in '
+                          ? 'Check the date on your ${deviceNounOf(context)}, '
+                                'then try again in '
                                 'a minute.'
-                          : 'Once they are on the phone they play without a '
+                          : 'Once they are on the ${deviceNounOf(context)} '
+                                'they play without a '
                                 'signal. Try again when you have one.',
                       style: AppTheme.body(
                         size: 15,

@@ -16,6 +16,7 @@ import 'daily_repository.dart';
 import 'daily_run.dart';
 import 'daily_share.dart';
 import 'daily_widgets.dart';
+import '../../core/device_word.dart';
 
 /// The end of the Daily: the same done screen the games use (reference 13c),
 /// with the score as the hero, the rounds as bars, the time and the streak.
@@ -233,8 +234,8 @@ class _DailyDoneScreenState extends State<DailyDoneScreen> {
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: Text(
-                    'No signal right now. Your score is saved on this phone '
-                    'and goes up the next time you open the Daily.',
+                    'No signal right now. Your score is saved on '
+                    '${thisDevice(context)} and goes up the next time you open the Daily.',
                     style: AppTheme.body(size: 14),
                   ),
                 ),

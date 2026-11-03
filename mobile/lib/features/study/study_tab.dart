@@ -13,6 +13,7 @@ import '../shared/widgets/kit.dart';
 import '../guest/guest_tabs.dart' show SignInChip;
 import 'chapter_grid.dart';
 import 'chapter_marks.dart';
+import '../../core/device_word.dart';
 
 /// Tab 2 — Study: one chapter on the screen, one button.
 ///
@@ -127,7 +128,8 @@ class _StudyTabState extends State<StudyTab> {
                                 horizontal: 12,
                               ),
                               child: Text(
-                                'Rounds you finish are kept on this phone. '
+                                'Rounds you finish are kept on '
+                                '${thisDevice(context)}. '
                                 'Create an account to keep them on the '
                                 'website too.',
                                 textAlign: TextAlign.center,

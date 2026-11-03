@@ -8,6 +8,7 @@ import '../games/lesson_brief.dart';
 import '../shared/widgets/kit.dart';
 import '../study/chapter_bands.dart' show cardNameFor;
 import '../study/chapter_marks.dart';
+import '../../core/device_word.dart';
 
 /// One concept held: a game finished on this phone, and where it sits.
 @immutable
@@ -117,7 +118,8 @@ class ConceptsPage extends StatelessWidget {
               held.isEmpty
                   ? 'None yet. Clear all the rounds on one concept and it '
                         'lands here.'
-                  : 'Each one finished here on the phone, every round cleared. '
+                  : 'Each one finished here on the ${deviceNounOf(context)}, '
+                        'every round cleared. '
                         'The website counts its own practice.',
               style: AppTheme.body(size: 16, color: AppColors.mutedOnLight),
             ),

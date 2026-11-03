@@ -13,6 +13,7 @@ import '../profile/profile_tab.dart' show AccountMoreButton, VersionLine;
 import '../shared/widgets/kit.dart';
 import '../study/study_tab.dart' show appClock;
 import 'account_needed.dart';
+import '../../core/device_word.dart';
 
 // Using the app without an account (Apple guideline 5.1.1(v), rejected
 // 2026-10-20; docs/adr/0026-guest-mode.md). Study is open as it is. These are
@@ -55,11 +56,12 @@ class SignInChip extends StatelessWidget {
 /// How a guest's rounds are counted: "1 round", "4 rounds".
 String roundsWord(int n) => n == 1 ? 'round' : 'rounds';
 
-/// What an account adds, in the order a student would care.
-const accountAdds = [
+/// What an account adds, in the order a student would care. [device] is
+/// how the app names the device it is on ([thisDevice]).
+List<String> accountAdds([String device = 'this phone']) => [
   'Your mastery across all 15 chapters',
   'The Daily, your streak and badges',
-  'Lessons and practice on fe4raccoons.com, in sync with this phone',
+  'Lessons and practice on fe4raccoons.com, in sync with $device',
   'Your exam date and countdown',
 ];
 
@@ -135,7 +137,8 @@ class GuestProfileTab extends StatelessWidget {
                       ),
                       const SizedBox(height: 18),
                       Text(
-                        'Your progress lives on this phone for now.',
+                        'Your progress lives on ${thisDevice(context)} '
+                        'for now.',
                         style: AppTheme.display(
                           size: 40,
                           height: 0.98,
@@ -168,7 +171,7 @@ class GuestProfileTab extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Finished on this phone',
+                        'Finished on ${thisDevice(context)}',
                         style: AppTheme.body(
                           size: 15,
                           color: AppColors.mutedOnLight,
@@ -184,7 +187,7 @@ class GuestProfileTab extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      for (final line in accountAdds)
+                      for (final line in accountAdds(thisDevice(context)))
                         Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: Row(
@@ -360,7 +363,8 @@ class GuestAccountSheet extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '$rounds ${roundsWord(rounds)} on this phone',
+                        '$rounds ${roundsWord(rounds)} on '
+                        '${thisDevice(context)}',
                         style: AppTheme.mono(size: 12, color: AppColors.ink2),
                       ),
                     ],

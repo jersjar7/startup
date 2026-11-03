@@ -196,7 +196,7 @@ void main() {
       find.text('Your progress lives on this phone for now.'),
       findsOneWidget,
     );
-    for (final line in accountAdds) {
+    for (final line in accountAdds()) {
       expect(find.text(line), findsOneWidget);
     }
     await tester.tap(find.byType(GuestAvatar).first);

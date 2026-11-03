@@ -14,6 +14,7 @@ import '../league/league_model.dart';
 import '../shared/widgets/kit.dart';
 import 'about_story.dart';
 import 'contact_page.dart';
+import '../../core/device_word.dart';
 
 /// The two rows the account sheet grew, and the editors behind them.
 ///
@@ -338,9 +339,10 @@ class _RemindersRowState extends State<RemindersRow> {
       if (mounted) setState(() => _on = granted);
       if (!granted && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text(
-              'Reminders are off for this app in your phone settings.',
+              'Reminders are off for this app in your '
+              '${deviceNounOf(context)} settings.',
             ),
           ),
         );
@@ -442,7 +444,7 @@ class AppearanceRow extends StatelessWidget {
                 button: true,
                 selected: c == choice,
                 label: c == AppearanceChoice.automatic
-                    ? 'Automatic, as the phone is set'
+                    ? 'Automatic, as the ${deviceNounOf(context)} is set'
                     : _labels[c],
                 child: ExcludeSemantics(
                   child: StripChip(
