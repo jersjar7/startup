@@ -2989,8 +2989,9 @@ const competenceBrief = BriefSection(
     ),
     (
       'Gate two: your charge',
-      'To seal a drawing it must have been made under your direct control '
-          'and personal supervision. Reading someone else\'s numbers carefully '
+      'To seal a drawing it must have been made under your responsible '
+          'charge: you could change, reject or approve it while it was done, '
+          'and you answer for it. Reading someone else\'s numbers carefully '
           'afterwards is not that.',
     ),
     (
@@ -3014,7 +3015,7 @@ const competenceBrief = BriefSection(
     (
       'B.2',
       r'\text{seal} = \text{your field} + \text{your responsible charge}',
-      'a seal needs your field and your own direct control, both',
+      'a seal needs your field and your own responsible charge, both',
     ),
     (
       'B.3',
@@ -3183,7 +3184,8 @@ const exemptionBrief = BriefSection(
     ),
     (
       'What responsible charge means',
-      'Direct control and personal supervision, while the work happens. '
+      'Full knowledge of and control over the work while it happens: you '
+          'can change, reject or approve it, and you take full responsibility. '
           'Being told about it afterwards is not it. Working in the same firm as '
           'a licensed engineer who is not directing you is not it either.',
     ),
@@ -3201,8 +3203,8 @@ const exemptionBrief = BriefSection(
     ),
     (
       'Responsible charge',
-      r'\text{direct control and personal supervision}',
-      'the engineer is directing the work as it is done, not hearing about it later',
+      r'\text{full knowledge of and control over work}',
+      'the engineer controls the work as it is done, not hearing about it later',
     ),
   ],
   handbook: 'Handbook p. 13, Model Law 170.20 C',

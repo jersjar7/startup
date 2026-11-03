@@ -227,7 +227,7 @@ const PROBLEMS = [
     steps: [
       { text: 'Rule B.3: licensees may accept assignments and assume responsibility for coordination of an entire project if each technical segment is signed and sealed by the licensee responsible for preparing it.', latex: null },
       { text: 'Rule B.2: licensees shall not seal documents in which they lack competence, nor documents not prepared under their responsible charge.', latex: null },
-      { text: 'The structural and electrical sheets were prepared by other licensees at other firms, so they were not under her responsible charge (direct control and personal supervision).', latex: null },
+      { text: 'The structural and electrical sheets were prepared by other licensees at other firms, so they were not under her responsible charge (full professional knowledge of and control over the work).', latex: null },
       { text: 'She coordinates and seals the civil sheets; the structural PE and electrical PE seal their own segments.', latex: null },
     ],
     handbookPage: 'p. 5',

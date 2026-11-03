@@ -78,7 +78,7 @@ Widget proportionPicture() => const ConceptPicture(
 Widget competencePicture() => const ConceptPicture(
   painter: _TwoGatesPainter(),
   caption:
-      'a seal needs both gates open at once: your field, and your own direct control',
+      'a seal needs both gates open at once: your field, and your responsible charge',
   height: 180,
 );
 
@@ -927,7 +927,7 @@ class _ChargePainter extends CustomPainter {
       up,
     );
     final a = _text(
-      'direct control\nfinal decisions',
+      'control of work\nfinal decisions',
       size: 9.5,
       color: AppColors.forest,
     );

@@ -17,7 +17,7 @@ export default {
     {
       type: 'callout',
       variant: 'exam',
-      body: '"Responsible charge" is a term the exam loves. It means direct control and personal supervision. If you didn\'t prepare the work or directly supervise the person who did, you can\'t seal it, even if you reviewed it and it looks fine.',
+      body: '"Responsible charge" is a term the exam loves. It means full professional knowledge of and control over the work: authority to change, reject or approve it while it is done, and full responsibility for it. If you didn\'t prepare the work or direct the person who did, you can\'t seal it, even if you reviewed it and it looks fine.',
     },
     { type: 'heading', body: 'Confidentiality and Conflicts of Interest' },
     {

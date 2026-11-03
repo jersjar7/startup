@@ -3,13 +3,13 @@
   "title": "FE Civil",
   "format": 2,
   "latest": {
-    "version": 23,
+    "version": 24,
     "format": 2,
-    "file": "fe-civil-v23-1616c51e4b48.json",
-    "sha256": "1616c51e4b48c35e9ae0980bd3c859acd3ab1a63f8597d972a9dab0ffb8e638a",
-    "bytes": 55422849,
-    "gzipBytes": 3413512,
-    "published": "2026-11-03T17:35:23.370Z",
+    "file": "fe-civil-v24-beb5ecbff76c.json",
+    "sha256": "beb5ecbff76c845a84924080f88198daf70abea7b1e858491781dd0df1676703",
+    "bytes": 55422985,
+    "gzipBytes": 3413587,
+    "published": "2026-11-03T20:21:47.166Z",
     "lessons": {
       "mathematics/straight-lines-quadratics": "1.2.0",
       "mathematics/logarithms": "1.2.0",
@@ -159,9 +159,9 @@
         "gzipBytes": 271044
       },
       "ethics": {
-        "file": "fe-civil.ethics.56fa7cb0ad12.json",
-        "sha256": "56fa7cb0ad1220dbd9ac8cd8673e97b077af1fa9ec29c99a17fcdef4cacd22ae",
-        "gzipBytes": 85006
+        "file": "fe-civil.ethics.f238a07b2fcb.json",
+        "sha256": "f238a07b2fcb49523e93a4b2b4c8a8999c6458fca52699a9ab7bd627c405caf5",
+        "gzipBytes": 85080
       },
       "economics": {
         "file": "fe-civil.economics.d093f48f2c0b.json",
@@ -260,6 +260,13 @@
       "file": "fe-civil-v23-1616c51e4b48.json",
       "sha256": "1616c51e4b48c35e9ae0980bd3c859acd3ab1a63f8597d972a9dab0ffb8e638a",
       "published": "2026-11-03T17:35:23.370Z"
+    },
+    {
+      "version": 24,
+      "format": 2,
+      "file": "fe-civil-v24-beb5ecbff76c.json",
+      "sha256": "beb5ecbff76c845a84924080f88198daf70abea7b1e858491781dd0df1676703",
+      "published": "2026-11-03T20:21:47.166Z"
     }
   ]
 }

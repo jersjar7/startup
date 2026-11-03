@@ -72,7 +72,7 @@ const sealRounds = <SealRound>[
     answer: Seal.no,
     rule: 'B.2',
     why:
-        'Responsible charge means direct control and personal supervision, not '
+        'Responsible charge means control over the work while it is done, not '
         'a careful read. Reviewing work you did not direct is worth doing and '
         'it is not what a seal certifies.',
     source: 'eth-oec-q1',
@@ -101,9 +101,9 @@ const sealRounds = <SealRound>[
     rule: 'B.2',
     why:
         'Both halves are satisfied. It is your field and it was prepared under '
-        'your responsible charge, which is what direct control and personal '
-        'supervision mean. A drafter working to your direction does not put '
-        'the work out of your reach.',
+        'your responsible charge: you directed it, could change or reject it, '
+        'and you answer for it. A drafter working to your direction does not '
+        'put the work out of your reach.',
     source: 'eth-oec-q1',
   ),
   SealRound(

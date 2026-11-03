@@ -36,7 +36,7 @@ export default {
     { type: 'heading', body: 'Responsible Charge' },
     {
       type: 'text',
-      body: '"Responsible charge" means direct control and personal supervision of engineering work. This is the standard for who can sign and seal documents. If you didn\'t personally prepare the work or directly supervise the person who did, you can\'t put your seal on it, even if you reviewed it thoroughly after the fact.',
+      body: '"Responsible charge" means full professional knowledge of and control over engineering work. You have the authority to review, change, reject or approve the work while it is developed, you know the project\'s scope and limits, you can answer questions about its engineering decisions, and you accept full responsibility for it. This is the standard for who can sign and seal documents. If you didn\'t prepare the work or direct it as it was done, you can\'t put your seal on it, even if you reviewed it thoroughly after the fact.',
     },
     { type: 'heading', body: 'Other Key Definitions' },
     {

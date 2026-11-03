@@ -250,8 +250,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'Rule B.2 is very specific: you cannot sign or seal documents that were not prepared under your responsible charge. "Responsible charge" means direct control and personal supervision during the work, not just a final review after the fact. The structural engineer was not involved in the design process at all. Even a thorough after-the-fact review does not satisfy the responsible charge requirement. The "seal after a thorough review" option is wrong because review is not supervision. The "the principal has authority to assign sealing" option is wrong because the principal cannot override the Model Rules. The "seal but add a note that the EIT prepared it" option is wrong because disclosing who prepared the work does not change the fact that the signer lacked responsible charge.',
-    hint: 'What does "responsible charge" require: a final review, or direct control and personal supervision during the work?',
+    eli5: 'Rule B.2 is very specific: you cannot sign or seal documents that were not prepared under your responsible charge. "Responsible charge" means full professional knowledge of and control over the work: the authority to review, change, reject or approve it while it is being developed, and full responsibility for it. A final review after the fact is not that. The structural engineer was not involved in the design process at all. Even a thorough after-the-fact review does not satisfy the responsible charge requirement. The "seal after a thorough review" option is wrong because a review after the work is done is not control over the work. The "the principal has authority to assign sealing" option is wrong because the principal cannot override the Model Rules. The "seal but add a note that the EIT prepared it" option is wrong because disclosing who prepared the work does not change the fact that the signer lacked responsible charge.',
+    hint: 'What does "responsible charge" require: a final review, or control over the work while it is being developed?',
     steps: [
       {
         text: 'Identify the issue: the structural engineer is asked to seal work that was prepared without their involvement or supervision.',
@@ -262,7 +262,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: '"Responsible charge" means direct control and personal supervision. A post-completion review, no matter how thorough, does not satisfy this requirement.',
+        text: '"Responsible charge" means full professional knowledge of and control over the work, with authority to change, reject or approve it throughout its development. A post-completion review, no matter how thorough, does not satisfy this requirement.',
         latex: null
       },
       {
@@ -274,7 +274,7 @@ const PROBLEMS = [
     handbookFormula: '\\text{B.2: Shall not sign or seal documents not prepared under the licensee\'s responsible charge.}',
     videoUrl: null,
     traps: [
-      'Equating a thorough after-the-fact review with responsible charge, when the supervision must occur during the work, not after',
+      'Equating a thorough after-the-fact review with responsible charge, when control must be exercised throughout the development of the work, not after',
       'Assuming the firm principal can override sealing requirements through managerial authority'
     ],
     diagram: null,
@@ -798,7 +798,7 @@ const PROBLEMS = [
     correctAnswerId: 'c3',
     difficulty: 'medium',
     eli5: 'This scenario has two separate violations stacked on each other. First, the State A engineer is performing engineering services for a project in State B without holding a State B license, which is practicing without a license in that jurisdiction (Rule A.10 requires compliance with the laws of every jurisdiction where you practice). Second, the State B PE is being asked to seal documents they did not prepare under their responsible charge, because they would just be reviewing someone else\'s completed work, which violates B.2. The "State B PE exercises responsible charge by reviewing and sealing" choice is wrong because a review is not responsible charge. The "State A license authorizes nationwide practice" choice is wrong because PE licensure is jurisdiction-specific, not nationwide. The "temporary practice permit" choice might be possible in some states, but the question asks about the described arrangement, which involves neither a temporary permit nor responsible charge.',
-    hint: 'Consider two separate issues: the State A engineer practicing in State B, and the State B PE sealing work not prepared under their supervision.',
+    hint: 'Consider two separate issues: the State A engineer practicing in State B, and the State B PE sealing work not prepared under their responsible charge.',
     steps: [
       {
         text: 'Apply Rule A.10: licensees shall comply with the licensing laws of all jurisdictions where they practice. The State A engineer is offering engineering services in State B without a State B license.',
@@ -822,7 +822,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Assuming that a license in one state authorizes practice in another, when PE licensure is jurisdiction-specific',
-      'Believing that a local PE reviewing and sealing the work cures the responsible charge problem, but review is not supervision'
+      'Believing that a local PE reviewing and sealing the work cures the responsible charge problem, but a review is not control over the work'
     ],
     diagram: null,
     lessonId: 'licensure-path-disciplinary-action',
