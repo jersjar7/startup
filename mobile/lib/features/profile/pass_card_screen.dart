@@ -9,6 +9,8 @@ import '../../core/network/api_exception.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
+import '../../core/theme/tablet.dart';
+import '../shared/widgets/split_page.dart';
 import '../shared/widgets/kit.dart';
 import 'pass_card.dart';
 
@@ -165,58 +167,108 @@ class _PassCardScreenState extends State<PassCardScreen> {
   @override
   Widget build(BuildContext context) {
     final ready = _step == _Step.ready;
+    if (ready && AppTablet.of(context) == SizeClass.expanded) {
+      // T24b: the card large on the left, the words and the actions beside it.
+      return Scaffold(
+        backgroundColor: AppColors.springField,
+        body: SplitPage(
+          leftWidth: 580,
+          left: [
+            RoundIconButton(
+              icon: Icons.close_rounded,
+              label: 'Close',
+              onTap: _close,
+            ),
+            const SizedBox(height: 40),
+            PassCardView(data: _data),
+          ],
+          rightTopPad: 88,
+          right: [
+            Text('It is yours.', style: AppTablet.headlineXL()),
+            const SizedBox(height: 18),
+            Text(
+              'Post it, print it, or keep it. It stays on your profile, so '
+              'you can come back for it any time.',
+              style: AppTablet.bodyTablet(),
+            ),
+            if (_error != null) ...[
+              const SizedBox(height: 14),
+              Text(
+                _error!,
+                style: AppTheme.body(size: 14, color: AppColors.error),
+              ),
+            ],
+          ],
+          rightFoot: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              PillButton(label: 'Save or share', onTap: _busy ? null : _share),
+              const SizedBox(height: 10),
+              Center(
+                child: TextAction(
+                  label: 'Change the name',
+                  onTap: () => setState(() => _step = _Step.naming),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Scaffold(
       backgroundColor: ready ? AppColors.springField : AppColors.fog,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                children: [
-                  RoundIconButton(
-                    icon: Icons.close_rounded,
-                    label: 'Close',
-                    onTap: _close,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 26),
-              ...switch (_step) {
-                _Step.loading => [
-                  Text('One moment.', style: AppTheme.display()),
-                ],
-                _Step.gone => [
-                  Text('No card here.', style: AppTheme.display()),
-                  const SizedBox(height: 14),
-                  Text(
-                    'This link does not have a card behind it. If you passed '
-                    'and told us so, your card is on your profile.',
-                    style: AppTheme.body(size: 16),
-                  ),
-                ],
-                _Step.failed => [
-                  Text('That did not load.', style: AppTheme.display()),
-                  const SizedBox(height: 14),
-                  Text(
-                    'Check your signal and try again.',
-                    style: AppTheme.body(size: 16),
-                  ),
-                  const SizedBox(height: 24),
-                  PillButton(label: 'Try again', onTap: _load),
-                ],
-                _Step.naming => _naming(),
-                _Step.ready => _ready(),
-              },
-              if (_error != null) ...[
-                const SizedBox(height: 14),
-                Text(
-                  _error!,
-                  style: AppTheme.body(size: 14, color: AppColors.error),
+        child: TabletCap(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    RoundIconButton(
+                      icon: Icons.close_rounded,
+                      label: 'Close',
+                      onTap: _close,
+                    ),
+                  ],
                 ),
+                const SizedBox(height: 26),
+                ...switch (_step) {
+                  _Step.loading => [
+                    Text('One moment.', style: AppTheme.display()),
+                  ],
+                  _Step.gone => [
+                    Text('No card here.', style: AppTheme.display()),
+                    const SizedBox(height: 14),
+                    Text(
+                      'This link does not have a card behind it. If you passed '
+                      'and told us so, your card is on your profile.',
+                      style: AppTheme.body(size: 16),
+                    ),
+                  ],
+                  _Step.failed => [
+                    Text('That did not load.', style: AppTheme.display()),
+                    const SizedBox(height: 14),
+                    Text(
+                      'Check your signal and try again.',
+                      style: AppTheme.body(size: 16),
+                    ),
+                    const SizedBox(height: 24),
+                    PillButton(label: 'Try again', onTap: _load),
+                  ],
+                  _Step.naming => _naming(),
+                  _Step.ready => _ready(),
+                },
+                if (_error != null) ...[
+                  const SizedBox(height: 14),
+                  Text(
+                    _error!,
+                    style: AppTheme.body(size: 14, color: AppColors.error),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),

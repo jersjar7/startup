@@ -136,3 +136,28 @@ class MediumColumn extends StatelessWidget {
     );
   }
 }
+
+/// On any tablet window, the phone's column held to [maxWidth] and centred
+/// in the window: one message and one action, phone-like on purpose
+/// (TABLET.md, "Every other screen").
+class TabletCap extends StatelessWidget {
+  const TabletCap({
+    super.key,
+    required this.child,
+    this.maxWidth = AppTablet.paneSheetMax,
+  });
+
+  final Widget child;
+  final double maxWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!AppTablet.isTablet(context)) return child;
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        child: child,
+      ),
+    );
+  }
+}

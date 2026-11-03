@@ -22,6 +22,7 @@ import 'package:mobile/features/home/home_shell.dart';
 import 'package:mobile/features/profile/account_extras.dart';
 import 'package:mobile/features/profile/exam_outcome_card.dart';
 import 'package:mobile/features/profile/outcome_link_screen.dart';
+import 'package:mobile/features/profile/pass_card.dart';
 import 'package:mobile/features/profile/pass_card_screen.dart';
 import 'package:mobile/features/profile/profile_tab.dart';
 import 'package:mobile/features/profile/profile_views.dart';
@@ -398,6 +399,24 @@ void main() {
       await _settle(tester);
       expect(server.posts['/auth/card-name'], {'name': 'Samantha Reyes'});
       expect(find.text('Save or share'), findsOneWidget);
+    });
+
+    testWidgets('on a tablet the card sits beside its words (T24b)', (
+      tester,
+    ) async {
+      server.me = {'email': 's@x.com', 'firstName': 'Sammy', 'passCard': _card};
+      await _pump(tester, const PassCardScreen(), size: const Size(1180, 820));
+      await tester.tap(find.text('Make my card'));
+      await _settle(tester);
+      expect(find.text('It is yours.'), findsOneWidget);
+      expect(
+        tester.getCenter(find.text('Save or share')).dx,
+        greaterThan(tester.getCenter(find.byType(PassCardView)).dx),
+      );
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('goldens/tablet/pass-card-landscape.png'),
+      );
     });
 
     testWidgets('from the email\'s link it reads and saves by the token, '

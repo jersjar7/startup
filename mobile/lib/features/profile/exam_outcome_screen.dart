@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../auth/auth_controller.dart';
+import '../shared/widgets/split_page.dart';
 import 'exam_outcome_card.dart';
 
 /// Where the outcome notification lands.
@@ -36,15 +37,17 @@ class ExamOutcomeScreen extends StatelessWidget {
       backgroundColor: AppColors.butter,
       body: SafeArea(
         child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),
-            child: ExamOutcomeCard(
-              auth: auth,
-              dismissible: false,
-              via: 'notification',
-              mastery: mastery,
-              onSetExamDate: onSetExamDate,
-              onDone: () => Navigator.of(context).maybePop(),
+          child: TabletCap(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),
+              child: ExamOutcomeCard(
+                auth: auth,
+                dismissible: false,
+                via: 'notification',
+                mastery: mastery,
+                onSetExamDate: onSetExamDate,
+                onDone: () => Navigator.of(context).maybePop(),
+              ),
             ),
           ),
         ),
