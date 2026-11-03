@@ -454,7 +454,7 @@ const PROBLEMS = [
         latex: 'I = 28.125 \\times 10^6 - 6.655 \\times 10^6 = 21.5 \\times 10^6\\,\\text{mm}^4',
       },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 98',
     handbookFormula: 'I_x = \\frac{b_o h_o^3 - b_i h_i^3}{12}',
     videoUrl: null,
     traps: [
@@ -495,7 +495,7 @@ const PROBLEMS = [
         latex: 'I = \\bar{I} + A d^2 = 4.91 \\times 10^6 + 19.63 \\times 10^6 = 24.5 \\times 10^6\\,\\text{mm}^4',
       },
     ],
-    handbookPage: 'pp. 98–100',
+    handbookPage: 'p. 95',
     handbookFormula: 'I = \\bar{I} + Ad^2',
     videoUrl: null,
     traps: [

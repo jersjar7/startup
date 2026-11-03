@@ -51,7 +51,7 @@ const PROBLEMS = [
       { text: 'Quadratic formula:', latex: 't = \\frac{30 \\pm \\sqrt{30^2 - 4(4.905)(25)}}{2(4.905)} = \\frac{30 \\pm \\sqrt{409.5}}{9.81}' },
       { text: 'The two roots are $t = 1.00\\,\\text{s}$ (up) and $t = 5.12\\,\\text{s}$ (down). Take the downward pass:', latex: 't = \\frac{30 + 20.24}{9.81} = 5.12\\,\\text{s}' },
     ],
-    handbookPage: 'p. 104',
+    handbookPage: 'p. 105',
     handbookFormula: 'y = -\\tfrac{1}{2}g t^2 + v_0 t + y_0',
     videoUrl: null,
     traps: [
@@ -111,7 +111,7 @@ const PROBLEMS = [
       { text: 'Tangent distance equals the radius:', latex: 'd = R = 0.10\\,\\text{m}' },
       { text: 'Parallel-axis theorem:', latex: 'I = I_c + md^2 = 0.024 + 6(0.10^2) = 0.024 + 0.060 = 0.084\\,\\text{kg}{\\cdot}\\text{m}^2' },
     ],
-    handbookPage: 'p. 109',
+    handbookPage: 'p. 111',
     handbookFormula: 'I = I_c + md^2',
     videoUrl: null,
     traps: [

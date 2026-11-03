@@ -20,7 +20,7 @@ const PROBLEMS = [
       { text: 'Substitute the diameters:', latex: '\\%RA = \\left(1 - \\frac{9.5^2}{12.8^2}\\right)\\times 100 = (1 - 0.551)\\times 100' },
       { text: 'Result:', latex: '\\%RA = 44.9\\%' },
     ],
-    handbookPage: 'p. 121',
+    handbookPage: 'p. 129',
     handbookFormula: '\\%RA = \\left(1 - \\frac{A_f}{A_0}\\right)\\times 100',
     videoUrl: null,
     traps: [
@@ -50,7 +50,7 @@ const PROBLEMS = [
       { text: 'Substitute the engineering strain:', latex: '\\varepsilon_T = \\ln(1 + 0.25) = \\ln(1.25)' },
       { text: 'Result:', latex: '\\varepsilon_T = 0.223' },
     ],
-    handbookPage: 'p. 121',
+    handbookPage: 'p. 118',
     handbookFormula: '\\varepsilon_T = \\ln(1 + \\varepsilon)',
     videoUrl: null,
     traps: [
@@ -79,7 +79,7 @@ const PROBLEMS = [
       { text: 'Stress ratio definition:', latex: 'R = \\frac{\\sigma_{\\min}}{\\sigma_{\\max}}' },
       { text: 'Substitute, keeping the negative sign on the compressive minimum:', latex: 'R = \\frac{-60}{180} = -0.33' },
     ],
-    handbookPage: 'p. 122',
+    handbookPage: 'p. 121',
     handbookFormula: 'R = \\frac{\\sigma_{\\min}}{\\sigma_{\\max}}',
     videoUrl: null,
     traps: [

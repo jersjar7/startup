@@ -135,7 +135,7 @@ const PROBLEMS = [
       { text: 'Middle ordinate:', latex: 'M = R\\left[1 - \\cos\\!\\left(\\frac{I}{2}\\right)\\right] = 1{,}000\\left[1 - \\cos(20\\degree)\\right]' },
       { text: 'Evaluate:', latex: 'M = 1{,}000(1 - 0.9397) = 60.3 \\text{ ft}' },
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 303',
     handbookFormula: 'M = R\\left[1 - \\cos\\!\\left(\\frac{I}{2}\\right)\\right]',
     videoUrl: null,
     traps: [
@@ -342,7 +342,7 @@ const PROBLEMS = [
       { text: 'That band is LOS C.', latex: null },
       { text: 'Segment 2: $40$ pc/mi/ln is in the $> 35$ to $45$ band, which is LOS E.', latex: null },
     ],
-    handbookPage: 'pp. 305–306',
+    handbookPage: 'p. 305',
     handbookFormula: 'D = \\frac{v_p}{S}',
     videoUrl: null,
     traps: [

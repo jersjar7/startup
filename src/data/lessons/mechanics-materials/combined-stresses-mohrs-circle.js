@@ -99,7 +99,7 @@ export default {
         { text: 'Principal stresses:', latex: '\\sigma_1 = 130 \\text{ MPa}, \\quad \\sigma_2 = 30 \\text{ MPa}, \\quad \\sigma_3 = 0 \\text{ (plane stress)}' },
         { text: 'Both \u03C3\u2081 and \u03C3\u2082 are positive, so absolute max shear includes \u03C3\u2083 = 0:', latex: '\\tau_{abs\\,max} = \\frac{\\sigma_1 - \\sigma_3}{2} = \\frac{130 - 0}{2} = 65 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 132',
+      handbookPage: 'p. 133',
       handbookFormula: '\\tau_{abs\\,max} = \\frac{\\sigma_1 - \\sigma_3}{2}',
       videoUrl: null,
       traps: [

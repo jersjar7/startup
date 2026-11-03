@@ -38,7 +38,7 @@ export default {
         { "text": "Set up the determinant:", "latex": "\\hat{i}(0 \\cdot 0 - 0 \\cdot 1) - \\hat{j}(1 \\cdot 0 - 0 \\cdot 0) + \\hat{k}(1 \\cdot 1 - 0 \\cdot 0)" },
         { "text": "Simplify:", "latex": "\\hat{i}(0) - \\hat{j}(0) + \\hat{k}(1) = 1\\hat{k}" }
       ],
-      "handbookPage": "p. 94",
+      "handbookPage": "p. 60",
       "handbookFormula": "\\vec{A} \\times \\vec{B} = \\begin{vmatrix} \\hat{i} & \\hat{j} & \\hat{k} \\\\ A_x & A_y & A_z \\\\ B_x & B_y & B_z \\end{vmatrix}",
       "videoUrl": null,
       "traps": [
@@ -95,7 +95,7 @@ export default {
         { "text": "Parallelogram area:", "latex": "|\\vec{u} \\times \\vec{v}| = 12 \\text{ m}^2" },
         { "text": "Triangle area:", "latex": "\\frac{12}{2} = 6 \\text{ m}^2" }
       ],
-      "handbookPage": "p. 94",
+      "handbookPage": "p. 60",
       "handbookFormula": "|\\vec{A} \\times \\vec{B}| = |\\vec{A}||\\vec{B}|\\sin\\theta",
       "videoUrl": null,
       "traps": [

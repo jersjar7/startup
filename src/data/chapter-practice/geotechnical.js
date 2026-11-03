@@ -111,7 +111,7 @@ const PROBLEMS = [
       { text: 'Coefficient of concavity:', latex: 'C_c = \\frac{(D_{30})^2}{D_{10} \\times D_{60}} = \\frac{5.76}{3.20} = 1.80' },
       { text: '$C_c = 1.80$ in the 1–3 range. Classification: **GW** (well-graded gravel).', latex: null },
     ],
-    handbookPage: 'p. 267',
+    handbookPage: 'p. 260',
     handbookFormula: 'C_u = \\frac{D_{60}}{D_{10}}, \\quad C_c = \\frac{(D_{30})^2}{D_{10} \\times D_{60}}',
     videoUrl: null,
     traps: [

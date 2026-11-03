@@ -133,7 +133,7 @@ const PROBLEMS = [
         latex: '\\mu = 5 \\times 10^{-4} \\times 900 = 0.45\\,\\text{Pa}\\cdot\\text{s}'
       }
     ],
-    handbookPage: 'p. 176',
+    handbookPage: 'p. 177',
     handbookFormula: '\\nu = \\frac{\\mu}{\\rho}',
     videoUrl: null,
     traps: [
@@ -184,7 +184,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 176',
+    handbookPage: 'p. 177',
     handbookFormula: '\\nu = \\frac{\\mu}{\\rho}',
     videoUrl: null,
     traps: [
@@ -662,7 +662,7 @@ const PROBLEMS = [
         latex: 'v_2 = 3 \\times \\left(\\frac{200}{100}\\right)^2 = 3 \\times 4 = 12\\,\\text{m/s}'
       }
     ],
-    handbookPage: 'p. 176',
+    handbookPage: 'p. 180',
     handbookFormula: 'A_1 V_1 = A_2 V_2',
     videoUrl: null,
     traps: [
@@ -713,7 +713,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 176',
+    handbookPage: 'p. 180',
     handbookFormula: 'P_1 + \\frac{1}{2}\\rho v_1^2 + \\rho g z_1 = P_2 + \\frac{1}{2}\\rho v_2^2 + \\rho g z_2',
     videoUrl: null,
     traps: ['Thinking higher velocity means higher pressure (the opposite is true)'],
@@ -859,7 +859,7 @@ const PROBLEMS = [
         latex: 'f = \\frac{64}{Re} = \\frac{64}{88.9} = 0.72'
       }
     ],
-    handbookPage: 'p. 181',
+    handbookPage: 'p. 200',
     handbookFormula: 'f = \\frac{64}{Re} \\quad (\\text{laminar})',
     videoUrl: null,
     traps: [

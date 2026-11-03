@@ -92,7 +92,7 @@ export default {
         { text: 'Apply capillary rise formula with $\\cos 0\\degree = 1$:', latex: 'h = \\frac{4\\sigma \\cos \\beta}{\\gamma d} = \\frac{4(0.0728)(1)}{9{,}789 \\times 0.0015}' },
         { text: 'Compute:', latex: 'h = \\frac{0.2912}{14.684} = 0.01983 \\text{ m} \\approx 19.8 \\text{ mm}' },
       ],
-      handbookPage: 'p. 176',
+      handbookPage: 'p. 177',
       handbookFormula: 'h = \\frac{4\\sigma \\cos \\beta}{\\gamma d}',
       videoUrl: null,
       traps: [

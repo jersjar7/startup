@@ -93,7 +93,7 @@ export default {
         { text: 'The specimen dimensions are not needed: E and \u03BD are given directly.', latex: null },
         { text: 'Shear modulus:', latex: 'G = \\frac{E}{2(1+\\nu)} = \\frac{200}{2(1+0.30)} = \\frac{200}{2.60} = 76.9 \\text{ GPa}' },
       ],
-      handbookPage: 'p. 130',
+      handbookPage: 'p. 129',
       handbookFormula: 'G = \\frac{E}{2(1+\\nu)}',
       videoUrl: null,
       traps: [

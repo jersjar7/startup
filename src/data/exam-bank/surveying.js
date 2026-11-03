@@ -38,7 +38,7 @@ const PROBLEMS = [
         latex: '\\Delta N = d \\cos\\theta = 200 \\cos 45\\degree = 200 \\times 0.7071 = 141.4\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 309',
     handbookFormula: '\\text{Latitude} = d \\cos\\theta',
     videoUrl: null,
     traps: ['Using sine instead of cosine for latitude', 'Confusing bearing angle with azimuth'],
@@ -86,7 +86,7 @@ const PROBLEMS = [
         latex: '\\text{Azimuth} = 180\\degree + 30\\degree = 210\\degree'
       }
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 309',
     handbookFormula: null,
     videoUrl: null,
     traps: ['Subtracting instead of adding for the SW quadrant', 'Confusing the quadrant directions'],
@@ -134,7 +134,7 @@ const PROBLEMS = [
         latex: 'VD = -38.44 \\text{ ft}'
       }
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 309',
     handbookFormula: 'VD = SD \\sin\\alpha',
     videoUrl: null,
     traps: [
@@ -193,7 +193,7 @@ const PROBLEMS = [
         latex: '\\theta_6 = 720 - 590 = 130\\degree'
       }
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 42',
     handbookFormula: '\\Sigma \\text{interior angles} = (n-2) \\times 180\\degree',
     videoUrl: null,
     traps: [
@@ -455,7 +455,7 @@ const PROBLEMS = [
         latex: '\\text{Dep} = +286.7 \\text{ m}'
       }
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 309',
     handbookFormula: '\\text{Dep} = L \\sin\\theta',
     videoUrl: null,
     traps: [
@@ -502,7 +502,7 @@ const PROBLEMS = [
         latex: 'E = \\sqrt{0.0144 + 0.0081} = \\sqrt{0.0225} = 0.15 \\text{ m}'
       }
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 309',
     handbookFormula: '\\text{Linear error} = \\sqrt{E_L^2 + E_D^2}',
     videoUrl: null,
     traps: [
@@ -549,7 +549,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 309',
     handbookFormula: '\\text{Precision} = \\frac{\\text{Linear error}}{\\Sigma L}',
     videoUrl: null,
     traps: [
@@ -600,7 +600,7 @@ const PROBLEMS = [
         latex: '\\text{Dep}_{\\text{adj}} = 210.50 + 0.03 = 210.53 \\text{ m}'
       }
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 309',
     handbookFormula: '\\text{Corr}_{\\text{Dep}} = -E_D \\times \\frac{L_i}{\\Sigma L}',
     videoUrl: null,
     traps: [
@@ -651,7 +651,7 @@ const PROBLEMS = [
         latex: 'A = \\frac{|48|}{2} = 24 \\text{ sq units}'
       }
     ],
-    handbookPage: 'p. 280',
+    handbookPage: 'p. 310',
     handbookFormula: 'A = \\frac{1}{2}|\\sum(x_i y_{i+1} - x_{i+1} y_i)|',
     videoUrl: null,
     traps: ['Forgetting to divide by 2, which gives double the actual area', 'Reversing the cross product order'],
@@ -720,7 +720,7 @@ const PROBLEMS = [
         latex: 'A = 25 \\times 41 = 1{,}025 \\text{ m}^2'
       }
     ],
-    handbookPage: 'p. 280',
+    handbookPage: 'p. 310',
     handbookFormula: 'A = w\\left(\\frac{h_1 + h_n}{2} + h_2 + h_3 + \\cdots + h_{n-1}\\right)',
     videoUrl: null,
     traps: [
@@ -789,7 +789,7 @@ const PROBLEMS = [
         latex: 'A = \\frac{10}{3} \\times 60 = 200 \\text{ m}^2'
       }
     ],
-    handbookPage: 'p. 280',
+    handbookPage: 'p. 310',
     handbookFormula: 'A = \\frac{w}{3}(h_1 + 4h_2 + 2h_3 + 4h_4 + \\cdots + h_n)',
     videoUrl: null,
     traps: [
@@ -853,7 +853,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 280',
+    handbookPage: 'p. 310',
     handbookFormula: null,
     videoUrl: null,
     traps: [

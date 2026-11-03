@@ -42,7 +42,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 271',
     handbookFormula: 'm + r = 2j \\quad \\text{(determinate)}',
     videoUrl: null,
     traps: ['Confusing the truss formula (m+r=2j) with the beam/frame formula (3m+r=3j+c)'],
@@ -97,7 +97,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 271',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -151,7 +151,7 @@ const PROBLEMS = [
         latex: '20 - 20 = 0 \\quad \\text{(statically determinate)}'
       }
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 271',
     handbookFormula: '3m + r = 3j + c \\implies \\text{Statically determinate}',
     videoUrl: null,
     traps: [
@@ -215,7 +215,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 271',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -1087,7 +1087,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 275',
     handbookFormula: '\\varepsilon_t \\leq 0.002 \\implies \\phi = 0.65 \\text{ (tied)}',
     videoUrl: null,
     traps: [
@@ -1725,7 +1725,7 @@ const PROBLEMS = [
         latex: 'A_e = U \\cdot A_n \\quad (\\text{reduced by shear lag})'
       }
     ],
-    handbookPage: 'p. 282',
+    handbookPage: 'p. 283',
     handbookFormula: 'A_e = U \\cdot A_n',
     videoUrl: null,
     traps: [

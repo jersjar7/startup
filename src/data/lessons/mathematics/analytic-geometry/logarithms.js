@@ -113,7 +113,7 @@ export default {
           "latex": "x = 3.5"
         }
       ],
-      "handbookPage": "p. 36",
+      "handbookPage": "p. 37",
       "handbookFormula": "\\log_b b^n = n",
       "videoUrl": null,
       "traps": [

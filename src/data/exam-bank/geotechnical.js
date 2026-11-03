@@ -78,7 +78,7 @@ const PROBLEMS = [
         latex: 'Se = \\omega G_s \\implies (1)e = \\omega G_s \\implies e = \\omega G_s'
       }
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 260',
     handbookFormula: 'Se = \\omega G_s',
     videoUrl: null,
     traps: [
@@ -1666,7 +1666,7 @@ const PROBLEMS = [
       { text: 'Apply Darcy velocity:', latex: 'v = k\\,i = (5\\times10^{-4})(0.4)' },
       { text: 'Compute:', latex: 'v = 2.0\\times10^{-4}\\text{ cm/s}' },
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 291',
     handbookFormula: 'v = ki',
     videoUrl: null,
     traps: [

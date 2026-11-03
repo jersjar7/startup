@@ -42,7 +42,7 @@ const PROBLEMS = [
         latex: '\\delta = \\frac{200{,}000{,}000}{100{,}000{,}000} = 2.0\\,\\text{mm}'
       }
     ],
-    handbookPage: 'p. 129',
+    handbookPage: 'p. 130',
     handbookFormula: '\\delta = \\frac{PL}{AE}',
     videoUrl: null,
     traps: ['Unit mismatch between kN/m and mm/MPa', 'Forgetting to convert length to mm'],
@@ -140,7 +140,7 @@ const PROBLEMS = [
         latex: '\\delta_{total} = 0.375 + 0.803 = 1.18\\,\\text{mm}'
       }
     ],
-    handbookPage: 'p. 129',
+    handbookPage: 'p. 130',
     handbookFormula: '\\delta_{total} = \\sum \\frac{P_i L_i}{A_i E_i}',
     videoUrl: null,
     traps: ['Only computing one segment and forgetting the other', 'Using the same $E$ for both materials'],
@@ -203,7 +203,7 @@ const PROBLEMS = [
         latex: '\\sigma = E \\cdot \\frac{\\delta_{restrained}}{L} = 70{,}000 \\times \\frac{0.72}{800} = 63.0\\,\\text{MPa}'
       }
     ],
-    handbookPage: 'p. 129',
+    handbookPage: 'p. 130',
     handbookFormula: '\\delta_t = \\alpha L (T - T_0)',
     videoUrl: null,
     traps: [
@@ -313,7 +313,7 @@ const PROBLEMS = [
         latex: 'T = \\frac{P}{\\omega} = \\frac{15{,}000}{31.42} = 477 \\text{ N}{\\cdot}\\text{m}'
       }
     ],
-    handbookPage: 'p. 133',
+    handbookPage: 'p. 366',
     handbookFormula: 'T = \\frac{P}{\\omega}',
     videoUrl: null,
     traps: [
@@ -470,7 +470,7 @@ const PROBLEMS = [
         latex: 'E = \\frac{\\sigma}{\\varepsilon} = \\frac{342.3}{0.00342} \\approx 100{,}000\\,\\text{MPa} = 100\\,\\text{GPa}'
       }
     ],
-    handbookPage: 'p. 129',
+    handbookPage: 'p. 130',
     handbookFormula: 'E = \\frac{\\sigma}{\\varepsilon}',
     videoUrl: null,
     traps: [
@@ -513,7 +513,7 @@ const PROBLEMS = [
         latex: 'G = \\frac{E}{2(1+\\nu)} = \\frac{110}{2(1+0.34)} = \\frac{110}{2.68} = 41.0\\,\\text{GPa}'
       }
     ],
-    handbookPage: 'p. 130',
+    handbookPage: 'p. 129',
     handbookFormula: 'G = \\frac{E}{2(1+\\nu)}',
     videoUrl: null,
     traps: [
@@ -701,7 +701,7 @@ const PROBLEMS = [
         latex: 'V_{max} = R = 30 \\text{ kN}'
       }
     ],
-    handbookPage: 'p. 140',
+    handbookPage: 'p. 139',
     handbookFormula: 'V_{max} = \\frac{wL}{2}',
     videoUrl: null,
     traps: [
@@ -1063,7 +1063,7 @@ const PROBLEMS = [
         latex: '\\delta = \\frac{5wL^4}{384EI} = \\frac{5 \\times 10 \\times (5{,}000)^4}{384 \\times 200{,}000 \\times 40 \\times 10^6} = 10.2 \\text{ mm}'
       }
     ],
-    handbookPage: 'p. 140',
+    handbookPage: 'p. 139',
     handbookFormula: '\\delta_{max} = \\frac{5wL^4}{384EI}',
     videoUrl: null,
     traps: [
@@ -1110,7 +1110,7 @@ const PROBLEMS = [
         latex: '\\delta = \\frac{PL^3}{3EI} = \\frac{10{,}000 \\times (2{,}000)^3}{3 \\times 200{,}000 \\times 25 \\times 10^6} = 5.33 \\text{ mm}'
       }
     ],
-    handbookPage: 'p. 141',
+    handbookPage: 'p. 140',
     handbookFormula: '\\delta_{max} = \\frac{PL^3}{3EI}',
     videoUrl: null,
     traps: [
@@ -1161,7 +1161,7 @@ const PROBLEMS = [
         latex: '\\delta_{total} = 1.67 + 1.67 = 3.33 \\text{ mm}'
       }
     ],
-    handbookPage: 'p. 140',
+    handbookPage: 'p. 139',
     handbookFormula: '\\delta = \\frac{PL^3}{48EI} + \\frac{5wL^4}{384EI}',
     videoUrl: null,
     traps: [
@@ -1219,7 +1219,7 @@ const PROBLEMS = [
         latex: '\\frac{\\delta_{2L}}{\\delta_L} = \\frac{(2L)^4}{L^4} = 2^4 = 16'
       }
     ],
-    handbookPage: 'p. 140',
+    handbookPage: 'p. 139',
     handbookFormula: '\\delta_{max} = \\frac{5wL^4}{384EI}',
     videoUrl: null,
     traps: [

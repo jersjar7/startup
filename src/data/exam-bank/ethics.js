@@ -156,7 +156,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 4, Model Rules §240.15 A.5',
+    handbookPage: 'p. 5, Model Rules §240.15 A.5',
     handbookFormula: '\\text{A.5: Express professional opinions publicly only when founded on adequate knowledge and competent evaluation.}',
     videoUrl: null,
     traps: [
@@ -541,7 +541,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 4',
+    handbookPage: 'p. 6',
     handbookFormula: null,
     videoUrl: null,
     traps: ['Confusing engineering-adjacent activities with the legal definition of practice'],

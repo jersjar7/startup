@@ -52,7 +52,7 @@ export default {
     {
       type: 'callout',
       variant: 'exam',
-      body: 'The handbook (p. 96) gives the belt friction formula with $F_1$ as the force in the direction of impending motion. If the problem describes a pulley or capstan, identify the tight and slack sides before plugging in.',
+      body: 'The handbook (p. 97) gives the belt friction formula with $F_1$ as the force in the direction of impending motion. If the problem describes a pulley or capstan, identify the tight and slack sides before plugging in.',
     },
   ],
   illustration: null,
@@ -130,7 +130,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 96, Belt Friction',
+      handbookPage: 'p. 97, Belt Friction',
       handbookFormula: 'F_1 = F_2\\, e^{\\mu\\theta}',
       videoUrl: null,
       traps: [

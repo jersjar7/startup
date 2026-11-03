@@ -246,7 +246,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 122',
+    handbookPage: 'p. 125',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -344,7 +344,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 122',
+    handbookPage: 'p. 121',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -395,7 +395,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 122',
+    handbookPage: 'p. 121',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -1060,7 +1060,7 @@ const PROBLEMS = [
         latex: 'E_c = 44.6\\,\\text{GPa}'
       }
     ],
-    handbookPage: 'p. 120',
+    handbookPage: 'p. 123',
     handbookFormula: 'E_c = V_f E_f + V_m E_m',
     videoUrl: null,
     traps: [
@@ -1111,7 +1111,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 120',
+    handbookPage: 'p. 123',
     handbookFormula: null,
     videoUrl: null,
     traps: ['Thinking composites are isotropic, when they are anisotropic (direction-dependent)'],

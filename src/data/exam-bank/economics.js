@@ -96,7 +96,7 @@ const PROBLEMS = [
         latex: 'A = 200{,}000 \\times 0.18744 = 37{,}490'
       }
     ],
-    handbookPage: 'p. 229, Capital Recovery; p. 236, Factor Table i = 10%',
+    handbookPage: 'p. 229, Capital Recovery; p. 235, Factor Table i = 10%',
     handbookFormula: 'A = P \\cdot \\frac{i(1+i)^n}{(1+i)^n - 1}',
     videoUrl: null,
     traps: [
@@ -442,7 +442,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 229, Capital Recovery (A/P) + Sinking Fund (A/F); p. 236, Factor Table i = 10%',
+    handbookPage: 'p. 229, Capital Recovery (A/P) + Sinking Fund (A/F); p. 235, Factor Table i = 10%',
     handbookFormula: 'AW = C_0(A/P,\\, i\\%,\\, n) + A_{\\text{oper}} - S_n(A/F,\\, i\\%,\\, n)',
     videoUrl: null,
     traps: [
@@ -713,7 +713,7 @@ const PROBLEMS = [
         latex: 'B/C = \\frac{2{,}576{,}035}{2{,}000{,}000} = 1.29'
       }
     ],
-    handbookPage: 'p. 229',
+    handbookPage: 'p. 231',
     handbookFormula: 'B/C = \\frac{PW_{\\text{benefits}}}{PW_{\\text{costs}}}',
     videoUrl: null,
     traps: [
@@ -764,7 +764,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 229',
+    handbookPage: 'p. 231',
     handbookFormula: null,
     videoUrl: null,
     traps: ['Thinking any positive B/C means the project is justified, when it must be >= 1.0'],
@@ -816,7 +816,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 229, Benefit-Cost Analysis',
+    handbookPage: 'p. 231, Benefit-Cost Analysis',
     handbookFormula: '\\Delta B/C = \\frac{B_2 - B_1}{C_2 - C_1} \\geq 1',
     videoUrl: null,
     traps: [
@@ -875,7 +875,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 229, Single Payment Present Worth; p. 230, Expected Value',
+    handbookPage: 'p. 229, Single Payment Present Worth; p. 231, Expected Value',
     handbookFormula: 'EV = C_1 \\cdot p_1 + C_2 \\cdot p_2',
     videoUrl: null,
     traps: [
@@ -922,7 +922,7 @@ const PROBLEMS = [
         latex: 'D = \\frac{C - S_n}{n} = \\frac{120{,}000 - 20{,}000}{10} = \\frac{100{,}000}{10} = 10{,}000'
       }
     ],
-    handbookPage: 'p. 231, Depreciation',
+    handbookPage: 'p. 230, Depreciation',
     handbookFormula: 'D_j = \\frac{C - S_n}{n}',
     videoUrl: null,
     traps: [
@@ -973,7 +973,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 231, Taxation',
+    handbookPage: 'p. 230, Taxation',
     handbookFormula: '\\text{Tax} = t \\times (\\text{Revenue} - \\text{Expenses} - D)',
     videoUrl: null,
     traps: [
@@ -1091,7 +1091,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 231, MACRS and Straight-Line Depreciation',
+    handbookPage: 'p. 230, MACRS and Straight-Line Depreciation',
     handbookFormula: 'D_j = d_j \\times C \\quad \\text{(MACRS)} \\qquad D_j = \\frac{C - S_n}{n} \\quad \\text{(SL)}',
     videoUrl: null,
     traps: [

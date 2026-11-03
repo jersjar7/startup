@@ -71,7 +71,7 @@ export default {
         { text: 'The coefficient of determination is $R^2 = r^2$.', latex: null },
         { text: 'Compute:', latex: 'R^2 = (-0.92)^2 = 0.8464 = 84.6\\%' },
       ],
-      handbookPage: 'p. 69',
+      handbookPage: 'p. 70',
       handbookFormula: 'R^2 = r^2',
       videoUrl: null,
       traps: [

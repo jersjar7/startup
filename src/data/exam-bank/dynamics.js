@@ -93,7 +93,7 @@ const PROBLEMS = [
         latex: 'R = v_{0x} \\cdot t = 40\\cos 45\\degree \\times 5.77 = 28.28 \\times 5.77 = 163.1\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 104',
+    handbookPage: 'p. 105',
     handbookFormula: 'x = v_0 \\cos\\theta \\cdot t + x_0',
     videoUrl: null,
     traps: [
@@ -197,7 +197,7 @@ const PROBLEMS = [
         latex: 'x = v_{0x} \\cdot t = 12 \\times 3.03 = 36.3\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 104',
+    handbookPage: 'p. 105',
     handbookFormula: 'x = v_0 \\cos\\theta \\cdot t + x_0',
     videoUrl: null,
     traps: [
@@ -352,7 +352,7 @@ const PROBLEMS = [
         latex: 'I_{end} = I_c + md^2 = 0.96 + 8(0.6^2) = 0.96 + 2.88 = 3.84 \\text{ kg}{\\cdot}\\text{m}^2'
       }
     ],
-    handbookPage: 'p. 109',
+    handbookPage: 'p. 111',
     handbookFormula: 'I = I_c + md^2',
     videoUrl: null,
     traps: [
@@ -403,7 +403,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 109',
+    handbookPage: 'p. 111',
     handbookFormula: 'I = I_c + md^2',
     videoUrl: null,
     traps: [
@@ -449,7 +449,7 @@ const PROBLEMS = [
         latex: 'F = ma = 1500 \\times 3.125 = 4688\\,\\text{N}'
       }
     ],
-    handbookPage: 'p. 101',
+    handbookPage: 'p. 105',
     handbookFormula: 'F = ma',
     videoUrl: null,
     traps: [
@@ -500,7 +500,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 101',
+    handbookPage: 'p. 105',
     handbookFormula: 'F = ma',
     videoUrl: null,
     traps: [

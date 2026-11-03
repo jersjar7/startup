@@ -40,7 +40,7 @@ export default {
         { text: 'Apply $E(X) = \\sum x_k \\cdot P(x_k)$:', latex: 'E(X) = 120{,}000(0.25) + 80{,}000(0.50) + 20{,}000(0.25)' },
         { text: 'Compute each term:', latex: '30{,}000 + 40{,}000 + 5{,}000 = 75{,}000 \\text{ dollars}' },
       ],
-      handbookPage: 'p. 65',
+      handbookPage: 'p. 66',
       handbookFormula: 'E(X) = \\sum_{k=1}^{n} x_k \\cdot P(x_k)',
       videoUrl: null,
       traps: [
@@ -67,7 +67,7 @@ export default {
         { text: 'Compute $E(X^2)$:', latex: '1(0.10) + 4(0.30) + 9(0.40) + 16(0.20) = 0.10 + 1.20 + 3.60 + 3.20 = 8.10' },
         { text: 'Apply the shortcut:', latex: '\\text{Var}(X) = E(X^2) - [E(X)]^2 = 8.10 - (2.70)^2 = 8.10 - 7.29 = 0.81' },
       ],
-      handbookPage: 'p. 65',
+      handbookPage: 'p. 66',
       handbookFormula: '\\text{Var}(X) = E(X^2) - [E(X)]^2',
       videoUrl: null,
       traps: [
@@ -94,7 +94,7 @@ export default {
         { text: 'Compute:', latex: '\\text{Var}(T) = 3^2 + 8^2 = 9 + 64 = 73' },
         { text: 'Take the square root:', latex: '\\sigma_T = \\sqrt{73} = 8.54\\,\\text{kN}' },
       ],
-      handbookPage: 'p. 65',
+      handbookPage: 'p. 66',
       handbookFormula: '\\text{Var}(a_1X_1 + a_2X_2) = a_1^2\\sigma_1^2 + a_2^2\\sigma_2^2',
       videoUrl: null,
       traps: [

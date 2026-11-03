@@ -1007,7 +1007,7 @@ const PROBLEMS = [
         latex: 'V_p = 2000\\,\\text{veh/h/ln}'
       }
     ],
-    handbookPage: 'p. 296',
+    handbookPage: 'p. 305',
     handbookFormula: 'V_p = \\frac{V}{PHF \\times N \\times f_{HV} \\times f_p}',
     videoUrl: null,
     traps: [
@@ -1058,7 +1058,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 296',
+    handbookPage: 'p. 306',
     handbookFormula: null,
     videoUrl: null,
     traps: ['Confusing LOS E (at capacity) with LOS F (breakdown)'],

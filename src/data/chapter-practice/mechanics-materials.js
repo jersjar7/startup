@@ -25,7 +25,7 @@ const PROBLEMS = [
         latex: 'A = \\frac{P}{\\sigma_{allow}} = \\frac{80{,}000}{100} = 800\\,\\text{mm}^2'
       }
     ],
-    handbookPage: 'p. 129',
+    handbookPage: 'p. 130',
     handbookFormula: '\\sigma_{allow} = \\frac{\\sigma_y}{FS}, \\quad A = \\frac{P}{\\sigma_{allow}}',
     videoUrl: null,
     traps: [
@@ -60,7 +60,7 @@ const PROBLEMS = [
         latex: '\\sigma = E\\,\\alpha\\,\\Delta T = 200{,}000 \\times 12 \\times 10^{-6} \\times 40 = 96\\,\\text{MPa}'
       }
     ],
-    handbookPage: 'p. 129',
+    handbookPage: 'p. 130',
     handbookFormula: '\\sigma = E\\,\\alpha\\,\\Delta T',
     videoUrl: null,
     traps: [
@@ -177,7 +177,7 @@ const PROBLEMS = [
         latex: '\\Delta d = \\varepsilon_{lat}\\,d = 0.00066 \\times 25 = 0.0165\\,\\text{mm}'
       }
     ],
-    handbookPage: 'p. 129',
+    handbookPage: 'p. 130',
     handbookFormula: '\\nu = -\\frac{\\varepsilon_{lat}}{\\varepsilon_{axial}}',
     videoUrl: null,
     traps: [
@@ -212,7 +212,7 @@ const PROBLEMS = [
         latex: 'u_r = \\frac{90{,}000}{400{,}000} = 0.225\\,\\text{MPa} = 0.225\\,\\text{MJ/m}^3'
       }
     ],
-    handbookPage: 'p. 129',
+    handbookPage: 'p. 137',
     handbookFormula: 'u_r = \\frac{\\sigma_{pl}^2}{2E}',
     videoUrl: null,
     traps: [
@@ -405,7 +405,7 @@ const PROBLEMS = [
         latex: 'I = \\frac{6.48 \\times 10^{15}}{1.60 \\times 10^8} = 40.5 \\times 10^6\\,\\text{mm}^4'
       }
     ],
-    handbookPage: 'p. 140',
+    handbookPage: 'p. 139',
     handbookFormula: '\\delta = \\frac{PL^3}{48EI}',
     videoUrl: null,
     traps: [
@@ -447,7 +447,7 @@ const PROBLEMS = [
         latex: '\\frac{\\delta_{short}}{\\delta_{long}} = \\left(\\frac{1}{2}\\right)^3 = \\frac{1}{8}'
       }
     ],
-    handbookPage: 'p. 141',
+    handbookPage: 'p. 140',
     handbookFormula: '\\delta = \\frac{PL^3}{3EI}',
     videoUrl: null,
     traps: [

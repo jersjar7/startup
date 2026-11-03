@@ -495,7 +495,7 @@ const PROBLEMS = [
       { text: 'Transverse shear stress at a.', latex: '\\tau = \\dfrac{VQ}{Ib} = \\dfrac{9000(81)}{864(6)} = 140.6\\ \\text{psi}' },
       { text: 'Maximum principal stress (sigma_y = 0).', latex: '\\sigma_1 = \\dfrac{312.5}{2} + \\sqrt{\\left(\\dfrac{312.5}{2}\\right)^2 + 140.6^2} = 156.3 + 210.2 = 366\\ \\text{psi}' },
     ],
-    handbookPage: 'p. 135',
+    handbookPage: 'p. 134-135',
     handbookFormula: '\\sigma_x = -\\dfrac{My}{I},\\quad \\tau_{xy} = \\dfrac{VQ}{Ib}',
     traps: [
       'Using Q for the full half section: that gives the shear stress at the neutral axis, not at point a.',

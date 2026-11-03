@@ -87,7 +87,7 @@ export default {
           "latex": "r^2 = 64 \\quad\\Rightarrow\\quad r = 8"
         }
       ],
-      "handbookPage": "p. 24",
+      "handbookPage": "p. 45",
       "handbookFormula": "(x-h)^2 + (y-k)^2 = r^2",
       "videoUrl": null,
       "traps": [
@@ -139,7 +139,7 @@ export default {
           "latex": "r = \\sqrt{16} = 4"
         }
       ],
-      "handbookPage": "p. 24",
+      "handbookPage": "p. 45",
       "handbookFormula": "(x-h)^2 + (y-k)^2 = r^2",
       "videoUrl": null,
       "traps": [
@@ -187,7 +187,7 @@ export default {
           "latex": "y = -0.004(300)^2 + 2.4(300) - 200 = -360 + 720 - 200 = 160"
         }
       ],
-      "handbookPage": "p. 24",
+      "handbookPage": "p. 36",
       "handbookFormula": "x_{vertex} = -\\frac{b}{2a}",
       "videoUrl": null,
       "traps": [

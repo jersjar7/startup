@@ -646,7 +646,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 97, Statically Determinate Truss',
+    handbookPage: 'p. 271, Statically Determinate Truss',
     handbookFormula: 'm + r = 2j',
     videoUrl: null,
     traps: [
@@ -752,7 +752,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 96, Belt Friction',
+    handbookPage: 'p. 97, Belt Friction',
     handbookFormula: 'F_1 = F_2\\, e^{\\mu\\theta}',
     videoUrl: null,
     traps: [
@@ -1125,7 +1125,7 @@ const PROBLEMS = [
         latex: 'I = \\frac{12{,}800{,}000{,}000}{12} = 1{,}067 \\times 10^6\\,\\text{mm}^4'
       }
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 98',
     handbookFormula: 'I_x = \\frac{bh^3}{12}',
     videoUrl: null,
     traps: [
@@ -1176,7 +1176,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: 'I = \\bar{I} + Ad^2',
     videoUrl: null,
     traps: ['Confusing the transfer term with the centroidal moment itself'],
@@ -1287,7 +1287,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'pp. 94–95',
+    handbookPage: 'p. 95',
     handbookFormula: 'I_x = \\bar{I}_{xc} + Ad^2',
     videoUrl: null,
     traps: [

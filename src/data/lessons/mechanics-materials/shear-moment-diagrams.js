@@ -40,7 +40,7 @@ export default {
         { text: 'By symmetry, each reaction:', latex: 'R_A = R_B = \\frac{18}{2} = 9 \\text{ kN}' },
         { text: 'Max moment at midpoint (where $V = 0$):', latex: 'M_{max} = R_A \\times 3 = 9 \\times 3 = 27.0 \\text{ kN}{\\cdot}\\text{m}' },
       ],
-      handbookPage: 'p. 140',
+      handbookPage: 'p. 139',
       handbookFormula: 'M_{max} = \\frac{PL}{4} \\text{ (midpoint load)}',
       videoUrl: null,
       traps: [
@@ -67,7 +67,7 @@ export default {
         { text: 'Each reaction by symmetry:', latex: 'R = \\frac{40}{2} = 20 \\text{ kN}' },
         { text: 'Max moment at midspan:', latex: 'M_{max} = \\frac{wL^2}{8} = \\frac{5 \\times 8^2}{8} = \\frac{320}{8} = 40.0 \\text{ kN}{\\cdot}\\text{m}' },
       ],
-      handbookPage: 'p. 140',
+      handbookPage: 'p. 139',
       handbookFormula: 'M_{max} = \\frac{wL^2}{8}',
       videoUrl: null,
       traps: [
@@ -96,7 +96,7 @@ export default {
         { text: 'Max moment at the load point (where $V$ changes sign):', latex: 'M_{max} = R_A \\times 4 = 18 \\times 4 = 72.0 \\text{ kN}{\\cdot}\\text{m}' },
         { text: 'Verify from right side:', latex: 'M = R_B \\times 6 = 12 \\times 6 = 72.0 \\text{ kN}{\\cdot}\\text{m} \\checkmark' },
       ],
-      handbookPage: 'p. 140',
+      handbookPage: 'p. 139',
       handbookFormula: 'M_{max} = \\frac{Pab}{L}',
       videoUrl: null,
       traps: [
