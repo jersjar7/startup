@@ -1042,142 +1042,231 @@ class BoardDone extends StatelessWidget {
         ? null
         : GameProgress.instance.clearedIn(lesson);
 
+    final wide = AppTablet.of(context) == SizeClass.expanded;
+    // Every tablet takes the larger type; only landscape splits.
+    final big = AppTablet.isTablet(context);
+    final close = Row(
+      children: [
+        RoundIconButton(
+          icon: Icons.close_rounded,
+          label: 'Close',
+          onTap: () => context.canPop() ? context.pop() : context.go('/home'),
+        ),
+      ],
+    );
+    final hero = Container(
+      height: wide ? null : (big ? 400 : 300),
+      padding: EdgeInsets.all(big ? 32 : 24),
+      decoration: BoxDecoration(
+        color: AppColors.springField,
+        borderRadius: BorderRadius.circular(big ? 40 : 36),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Text('ALL DONE', style: AppTheme.eyebrow()),
+              const Spacer(),
+              const SizedBox(width: 16),
+              Flexible(
+                child: Text(
+                  (game?.name ?? '').toUpperCase(),
+                  maxLines: 2,
+                  textAlign: TextAlign.right,
+                  style: AppTheme.eyebrow(),
+                ),
+              ),
+            ],
+          ),
+          Text.rich(
+            TextSpan(
+              text: '$total',
+              style: AppTheme.display(
+                size: big ? 180 : 120,
+                height: 0.8,
+                tracking: -0.07,
+              ),
+              children: [
+                const TextSpan(text: ' '),
+                TextSpan(
+                  text: 'of $total',
+                  style: AppTheme.display(
+                    size: big ? 36 : 28,
+                    weight: FontWeight.w700,
+                    height: 0.8,
+                    tracking: -0.03,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Text(
+            missed == 0
+                ? 'Every one on the first try.'
+                : '$first on the first try. The $missed you missed '
+                      'came back and you got ${missed == 1 ? 'it' : 'them'}.',
+            style: AppTheme.body(size: big ? 18 : 15, weight: FontWeight.w500),
+          ),
+        ],
+      ),
+    );
+    final halves = Row(
+      children: [
+        Expanded(
+          child: _HalfTile(
+            color: AppColors.cream,
+            eyebrow: 'FIRST TRY',
+            value: '$first',
+            unit: 'of $total',
+            large: big,
+          ),
+        ),
+        SizedBox(width: big ? 12 : 10),
+        Expanded(
+          child: _HalfTile(
+            color: AppColors.butter,
+            eyebrow: 'LESSON',
+            value: '${lessonDone ?? 0}',
+            unit: lesson == null ? '' : 'of ${lesson.builtGames.length} done',
+            large: big,
+          ),
+        ),
+      ],
+    );
+    final words = <Widget>[
+      Text(
+        title,
+        style: big
+            ? AppTheme.display(size: 56, height: 1, tracking: -0.04)
+            : AppTheme.display(size: 22, height: 1.1),
+      ),
+      SizedBox(height: big ? 20 : 8),
+      Text(
+        closing,
+        style: big
+            ? AppTheme.body(
+                size: 19,
+                height: 1.6,
+                color: AppColors.mutedOnLight,
+              )
+            : AppTheme.body(size: 14, color: AppColors.mutedOnLight),
+      ),
+      if (session.syncFailed) ...[
+        const SizedBox(height: 14),
+        Container(
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(
+            color: AppColors.peach,
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Text(
+            'Some of this did not reach your account, so it has not '
+            'counted toward your mastery yet.',
+            style: AppTheme.body(size: 14),
+          ),
+        ),
+      ],
+    ];
+    final done = PillButton(
+      label: 'Done',
+      onTap: () => context.canPop() ? context.pop() : context.go('/home'),
+    );
+
+    if (wide) {
+      // T19b: the count and its two halves fill the left; what it means
+      // and the way out on the right.
+      return Scaffold(
+        backgroundColor: AppColors.fog,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppTablet.screenX - 14,
+              AppTablet.spaceTop - 8,
+              AppTablet.screenX,
+              AppTablet.spaceTop + 8,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  flex: 11,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      close,
+                      const SizedBox(height: 40),
+                      Expanded(child: hero),
+                      const SizedBox(height: 12),
+                      halves,
+                      const SizedBox(height: 48),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: AppTablet.paneGap * 2.5),
+                Expanded(
+                  flex: 10,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SizedBox(height: 48 + 40),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: words,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          TextAction(
+                            label: 'Start over',
+                            onTap: session.restart,
+                          ),
+                          const SizedBox(width: 24),
+                          Expanded(child: done),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppColors.fog,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
+          padding: big
+              ? const EdgeInsets.fromLTRB(
+                  AppTablet.screenX - 14,
+                  AppTablet.spaceTop - 8,
+                  AppTablet.screenX,
+                  AppTablet.screenX,
+                )
+              : const EdgeInsets.fromLTRB(24, 8, 24, 34),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  RoundIconButton(
-                    icon: Icons.close_rounded,
-                    label: 'Close',
-                    onTap: () =>
-                        context.canPop() ? context.pop() : context.go('/home'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              Container(
-                height: 300,
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: AppColors.springField,
-                  borderRadius: BorderRadius.circular(36),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text('ALL DONE', style: AppTheme.eyebrow()),
-                        const Spacer(),
-                        const SizedBox(width: 16),
-                        Flexible(
-                          child: Text(
-                            (game?.name ?? '').toUpperCase(),
-                            maxLines: 2,
-                            textAlign: TextAlign.right,
-                            style: AppTheme.eyebrow(),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text.rich(
-                      TextSpan(
-                        text: '$total',
-                        style: AppTheme.display(
-                          size: 120,
-                          height: 0.8,
-                          tracking: -0.07,
-                        ),
-                        children: [
-                          const TextSpan(text: ' '),
-                          TextSpan(
-                            text: 'of $total',
-                            style: AppTheme.display(
-                              size: 28,
-                              weight: FontWeight.w700,
-                              height: 0.8,
-                              tracking: -0.03,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      missed == 0
-                          ? 'Every one on the first try.'
-                          : '$first on the first try. The $missed you missed '
-                                'came back and you got ${missed == 1 ? 'it' : 'them'}.',
-                      style: AppTheme.body(size: 15, weight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: _HalfTile(
-                      color: AppColors.cream,
-                      eyebrow: 'FIRST TRY',
-                      value: '$first',
-                      unit: 'of $total',
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _HalfTile(
-                      color: AppColors.butter,
-                      eyebrow: 'LESSON',
-                      value: '${lessonDone ?? 0}',
-                      unit: lesson == null
-                          ? ''
-                          : 'of ${lesson.builtGames.length} done',
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 22),
-              Text(title, style: AppTheme.display(size: 22, height: 1.1)),
-              const SizedBox(height: 8),
-              Text(
-                closing,
-                style: AppTheme.body(size: 14, color: AppColors.mutedOnLight),
-              ),
-              if (session.syncFailed) ...[
-                const SizedBox(height: 14),
-                Container(
-                  padding: const EdgeInsets.all(18),
-                  decoration: BoxDecoration(
-                    color: AppColors.peach,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Text(
-                    'Some of this did not reach your account, so it has not '
-                    'counted toward your mastery yet.',
-                    style: AppTheme.body(size: 14),
-                  ),
-                ),
-              ],
-              const SizedBox(height: 26),
+              close,
+              SizedBox(height: big ? 40 : 30),
+              hero,
+              SizedBox(height: big ? 12 : 10),
+              halves,
+              SizedBox(height: big ? 48 : 22),
+              ...words,
+              SizedBox(height: big ? 48 : 26),
               Row(
                 children: [
                   TextAction(label: 'Start over', onTap: session.restart),
                   const SizedBox(width: 14),
-                  Expanded(
-                    child: PillButton(
-                      label: 'Done',
-                      onTap: () => context.canPop()
-                          ? context.pop()
-                          : context.go('/home'),
-                    ),
-                  ),
+                  Expanded(child: done),
                 ],
               ),
             ],
@@ -1203,18 +1292,20 @@ class _HalfTile extends StatelessWidget {
     required this.eyebrow,
     required this.value,
     required this.unit,
+    this.large = false,
   });
 
   final Color color;
   final String eyebrow;
   final String value;
   final String unit;
+  final bool large;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 132,
-      padding: const EdgeInsets.all(18),
+      height: large ? 180 : 132,
+      padding: EdgeInsets.all(large ? 26 : 18),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(32),
@@ -1227,14 +1318,18 @@ class _HalfTile extends StatelessWidget {
           Text.rich(
             TextSpan(
               text: value,
-              style: AppTheme.display(size: 56, height: 0.82, tracking: -0.06),
+              style: AppTheme.display(
+                size: large ? 76 : 56,
+                height: 0.82,
+                tracking: -0.06,
+              ),
               children: [
                 const TextSpan(text: ' '),
                 TextSpan(
                   text: unit,
                   // The parent span's tight tracking would be inherited.
                   style: AppTheme.body(
-                    size: 14,
+                    size: large ? 18 : 14,
                     weight: FontWeight.w600,
                   ).copyWith(letterSpacing: 0),
                 ),

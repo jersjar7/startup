@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/theme/app_theme.dart';
+import 'package:mobile/features/games/board.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/lesson_brief.dart';
 import 'package:mobile/features/games/which_ratio_game.dart';
@@ -142,4 +143,38 @@ void main() {
     await settle(tester);
     await _golden(tester, 'round-with-concept-landscape-night');
   });
+
+  for (final (o, size) in [('landscape', landscape), ('portrait', portrait)]) {
+    testWidgets('the round done, $o (T19b)', (tester) async {
+      setWindow(tester, size);
+      GameProgress.instance.reset('perpendicular-flip');
+      for (var r = 0; r < 8; r++) {
+        GameProgress.instance.markRoundCleared(
+          'perpendicular-flip',
+          r,
+          firstTry: r < 6,
+        );
+      }
+      final session = BoardSession(
+        gameId: 'perpendicular-flip',
+        chapterId: 'mathematics',
+        total: 8,
+        sourceProblemIdOf: (r) => 'math-slq-q$r',
+      );
+      await tester.pumpWidget(
+        _app(
+          BoardDone(
+            session: session,
+            title: 'You can build the perpendicular by hand.',
+            closing:
+                'Knowing the rule is not the same as solving with it. The '
+                'full problems belong at a desk, on paper.',
+          ),
+        ),
+      );
+      await settle(tester);
+      expect(tester.takeException(), isNull);
+      await _golden(tester, 'round-done-$o');
+    });
+  }
 }
