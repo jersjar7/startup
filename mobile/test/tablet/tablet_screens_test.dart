@@ -5,6 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:mobile/features/auth/create_screen.dart';
 import 'package:mobile/features/auth/forgot_screen.dart';
 import 'package:mobile/features/auth/signin_screen.dart';
+import 'package:mobile/features/auth/verify_screen.dart';
 import 'package:mobile/features/onboarding/onboarding_screen.dart';
 import 'package:mobile/features/onboarding/welcome_screen.dart';
 import 'package:mobile/features/packs/update_needed_screen.dart';
@@ -13,9 +14,9 @@ import 'package:mobile/features/study/study_tab.dart' show appClock;
 import '../support/fonts.dart';
 import 'tablet_support.dart';
 
-/// The screens TABLET.md keeps phone-like on a tablet for now: the welcome,
-/// the tour, signing up and in, and the update notice, each the phone's
-/// column held to 640 in the middle of the window.
+/// The signed-out screens and the update notice on a tablet, both ways
+/// round: the welcome (T10), the tour (T13), signing up and in (T12), and
+/// the update notice (T25).
 void main() {
   setUpAll(() async {
     await loadBrandFonts();
@@ -35,6 +36,7 @@ void main() {
     'create': () => const CreateScreen(),
     'sign-in': () => const SignInScreen(),
     'forgot': () => const ForgotScreen(),
+    'check-email': () => const VerifyScreen(),
     'update-needed': () => const UpdateNeededScreen(),
   };
 

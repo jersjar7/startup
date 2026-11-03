@@ -424,7 +424,7 @@ class XLField extends StatelessWidget {
   Widget build(BuildContext context) {
     final line = error != null ? AppColors.error : accent;
     final style = GoogleFonts.dmSans(
-      fontSize: _message ? 24 : 30,
+      fontSize: _message ? 24 : (AppTablet.isTablet(context) ? 40 : 30),
       fontWeight: FontWeight.w600,
       letterSpacing: -0.9,
       color: AppColors.charcoal,
@@ -510,7 +510,7 @@ class XLField extends StatelessWidget {
           Text(
             error ?? caption!,
             style: GoogleFonts.inter(
-              fontSize: 14,
+              fontSize: AppTablet.isTablet(context) ? 16 : 14,
               height: 1.45,
               color: error != null ? AppColors.error : AppColors.ink2,
             ),

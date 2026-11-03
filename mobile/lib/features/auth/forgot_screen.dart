@@ -10,7 +10,8 @@ import '../shared/widgets/kit.dart';
 import 'auth_controller.dart';
 import 'email_hint.dart';
 import 'verify_screen.dart' show FadedCards, Sheet;
-import '../shared/widgets/split_page.dart';
+import '../../core/theme/tablet.dart';
+import 'auth_tablet.dart';
 
 /// Reset your password: one oversized field, then the check-your-email
 /// sheet (`mobile/design/reference-screens/03b-forgot`).
@@ -64,69 +65,80 @@ class _ForgotScreenState extends State<ForgotScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.fog,
-      body: TabletCap(child: _sent ? _confirmation() : _form()),
+      body: _sent ? _confirmation() : _form(),
     );
   }
 
   Widget _form() {
+    final tablet = AppTablet.isTablet(context);
+    final back = Row(
+      children: [
+        RoundIconButton(
+          icon: Icons.chevron_left_rounded,
+          label: 'Back',
+          onTap: () => context.canPop() ? context.pop() : context.go('/signin'),
+        ),
+      ],
+    );
+    final headline = Text.rich(
+      const TextSpan(
+        children: [
+          TextSpan(text: 'Reset your\n'),
+          TextSpan(
+            text: 'password.',
+            style: TextStyle(color: AppColors.forest),
+          ),
+        ],
+      ),
+      style: tablet ? authHeadline() : AppTheme.display(),
+    );
+    final field = XLField(
+      controller: _email,
+      label: 'Email',
+      hint: _hint.head,
+      hintTail: _hint.tail,
+      hintTailEvery: emailHintEvery,
+      keyboardType: TextInputType.emailAddress,
+      autofillHints: const [AutofillHints.email],
+      caption: "We'll email you a reset link.",
+      error: _error,
+      onSubmitted: (_) => _submit(),
+    );
+    final actions = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        TextAction(
+          label: 'Back to log in',
+          onTap: () => context.canPop() ? context.pop() : context.go('/signin'),
+        ),
+        RoundNextButton(
+          onTap: _submit,
+          label: 'Send reset link',
+          loading: _loading,
+        ),
+      ],
+    );
+    if (tablet) {
+      // T12f: the headline left, the field right and high.
+      return AuthTabletBody(
+        top: back,
+        headline: headline,
+        form: [field, const SizedBox(height: 40), actions],
+      );
+    }
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 4, 24, 34),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              children: [
-                RoundIconButton(
-                  icon: Icons.chevron_left_rounded,
-                  label: 'Back',
-                  onTap: () =>
-                      context.canPop() ? context.pop() : context.go('/signin'),
-                ),
-              ],
-            ),
+            back,
             const SizedBox(height: 30),
-            Text.rich(
-              const TextSpan(
-                children: [
-                  TextSpan(text: 'Reset your\n'),
-                  TextSpan(
-                    text: 'password.',
-                    style: TextStyle(color: AppColors.forest),
-                  ),
-                ],
-              ),
-              style: AppTheme.display(),
-            ),
+            headline,
             const SizedBox(height: 30),
-            XLField(
-              controller: _email,
-              label: 'Email',
-              hint: _hint.head,
-              hintTail: _hint.tail,
-              hintTailEvery: emailHintEvery,
-              keyboardType: TextInputType.emailAddress,
-              autofillHints: const [AutofillHints.email],
-              caption: "We'll email you a reset link.",
-              error: _error,
-              onSubmitted: (_) => _submit(),
-            ),
+            field,
             const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextAction(
-                  label: 'Back to log in',
-                  onTap: () =>
-                      context.canPop() ? context.pop() : context.go('/signin'),
-                ),
-                RoundNextButton(
-                  onTap: _submit,
-                  label: 'Send reset link',
-                  loading: _loading,
-                ),
-              ],
-            ),
+            actions,
           ],
         ),
       ),

@@ -8,7 +8,6 @@ import '../../core/theme/app_theme.dart';
 import '../shared/widgets/kit.dart';
 import 'auth_controller.dart';
 import 'verify_screen.dart' show FadedCards, Sheet;
-import '../shared/widgets/split_page.dart';
 
 /// Where the verification email's link lands when it opens the app instead
 /// of the website (a Universal Link on iOS, an App Link on Android; see
@@ -69,74 +68,72 @@ class _VerifyLinkScreenState extends State<VerifyLinkScreen> {
     );
     return Scaffold(
       backgroundColor: AppColors.fog,
-      body: TabletCap(
-        child: Stack(
-          children: [
-            const FadedCards(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: switch (_outcome) {
-                _Outcome.checking => Sheet(
-                  title: 'One moment.',
-                  body: Text(
-                    'Checking your link.',
-                    style: AppTheme.body(size: 16, color: AppColors.ink2),
-                  ),
-                  children: const [
-                    SizedBox(
-                      height: 64,
-                      child: Center(
-                        child: SizedBox(
-                          width: 26,
-                          height: 26,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                            color: AppColors.charcoal,
-                          ),
+      body: Stack(
+        children: [
+          const FadedCards(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: switch (_outcome) {
+              _Outcome.checking => Sheet(
+                title: 'One moment.',
+                body: Text(
+                  'Checking your link.',
+                  style: AppTheme.body(size: 16, color: AppColors.ink2),
+                ),
+                children: const [
+                  SizedBox(
+                    height: 64,
+                    child: Center(
+                      child: SizedBox(
+                        width: 26,
+                        height: 26,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                          color: AppColors.charcoal,
                         ),
                       ),
                     ),
-                  ],
-                ),
-                _Outcome.verified => Sheet(
-                  title: "You're verified.",
-                  body: Text(
-                    signedIn
-                        ? 'Your account is all set.'
-                        : 'Your account is all set. Log in to pick up where you left off.',
-                    style: AppTheme.body(size: 16, color: AppColors.ink2),
                   ),
-                  children: [
-                    SheetButton(
-                      label: signedIn ? 'Into the app' : 'Log in',
-                      onTap: () {
-                        if (signedIn) {
-                          context.go('/home');
-                        } else {
-                          context.go('/welcome');
-                          context.push('/signin');
-                        }
-                      },
-                    ),
-                  ],
+                ],
+              ),
+              _Outcome.verified => Sheet(
+                title: "You're verified.",
+                body: Text(
+                  signedIn
+                      ? 'Your account is all set.'
+                      : 'Your account is all set. Log in to pick up where you left off.',
+                  style: AppTheme.body(size: 16, color: AppColors.ink2),
                 ),
-                _Outcome.failed => Sheet(
-                  title: 'That link did not work.',
-                  body: Text(
-                    _message,
-                    style: AppTheme.body(size: 16, color: AppColors.ink2),
+                children: [
+                  SheetButton(
+                    label: signedIn ? 'Into the app' : 'Log in',
+                    onTap: () {
+                      if (signedIn) {
+                        context.go('/home');
+                      } else {
+                        context.go('/welcome');
+                        context.push('/signin');
+                      }
+                    },
                   ),
-                  children: [
-                    SheetButton(
-                      label: signedIn ? 'Into the app' : 'Back to start',
-                      onTap: () => context.go(signedIn ? '/home' : '/welcome'),
-                    ),
-                  ],
+                ],
+              ),
+              _Outcome.failed => Sheet(
+                title: 'That link did not work.',
+                body: Text(
+                  _message,
+                  style: AppTheme.body(size: 16, color: AppColors.ink2),
                 ),
-              },
-            ),
-          ],
-        ),
+                children: [
+                  SheetButton(
+                    label: signedIn ? 'Into the app' : 'Back to start',
+                    onTap: () => context.go(signedIn ? '/home' : '/welcome'),
+                  ),
+                ],
+              ),
+            },
+          ),
+        ],
       ),
     );
   }

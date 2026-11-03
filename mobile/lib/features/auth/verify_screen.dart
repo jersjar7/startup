@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/network/api_exception.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/tablet.dart';
 import '../shared/widgets/kit.dart';
 import 'auth_controller.dart';
 
@@ -74,6 +75,33 @@ class _VerifyScreenState extends State<VerifyScreen>
   Widget build(BuildContext context) {
     final email =
         context.select<AuthController, String?>((a) => a.email) ?? 'your email';
+    final open = SheetButton(
+      label: 'Open email app',
+      onTap: () => launchUrl(
+        Uri.parse('message://'),
+        mode: LaunchMode.externalApplication,
+      ).catchError((_) => false),
+    );
+    final resend = SheetButton(
+      label: 'Resend link',
+      filled: false,
+      loading: _resending,
+      loadingLabel: 'Sending…',
+      onTap: _resend,
+    );
+    final wrong = TextAction(label: 'Wrong email? Go back', onTap: _wrongEmail);
+    final onward = TextButton(
+      onPressed: () => context.go('/home'),
+      child: Text(
+        'Continue to the app',
+        style: AppTheme.body(
+          size: 14,
+          weight: FontWeight.w600,
+          color: AppColors.forest,
+          height: 1,
+        ),
+      ),
+    );
     return Scaffold(
       backgroundColor: AppColors.fog,
       body: Stack(
@@ -87,7 +115,18 @@ class _VerifyScreenState extends State<VerifyScreen>
                 children: [
                   const SizedBox(width: 48, height: 48),
                   const SizedBox(width: 14),
-                  Expanded(child: StepBar(count: 3, at: 3)),
+                  if (AppTablet.isTablet(context))
+                    const Expanded(
+                      child: Center(
+                        heightFactor: 1,
+                        child: SizedBox(
+                          width: 120,
+                          child: StepBar(count: 3, at: 3),
+                        ),
+                      ),
+                    )
+                  else
+                    Expanded(child: StepBar(count: 3, at: 3)),
                 ],
               ),
             ),
@@ -112,44 +151,31 @@ class _VerifyScreenState extends State<VerifyScreen>
                   ],
                 ),
               ),
-              children: [
-                SheetButton(
-                  label: 'Open email app',
-                  onTap: () => launchUrl(
-                    Uri.parse('message://'),
-                    mode: LaunchMode.externalApplication,
-                  ).catchError((_) => false),
-                ),
-                const SizedBox(height: 10),
-                SheetButton(
-                  label: 'Resend link',
-                  filled: false,
-                  loading: _resending,
-                  loadingLabel: 'Sending…',
-                  onTap: _resend,
-                ),
-                const SizedBox(height: 12),
-                Center(
-                  child: TextAction(
-                    label: 'Wrong email? Go back',
-                    onTap: _wrongEmail,
-                  ),
-                ),
-                Center(
-                  child: TextButton(
-                    onPressed: () => context.go('/home'),
-                    child: Text(
-                      'Continue to the app',
-                      style: AppTheme.body(
-                        size: 14,
-                        weight: FontWeight.w600,
-                        color: AppColors.forest,
-                        height: 1,
+              children: AppTablet.isTablet(context)
+                  // T12g: the two buttons side by side, the two ways out
+                  // on one line under them.
+                  ? [
+                      Row(
+                        children: [
+                          Expanded(child: open),
+                          const SizedBox(width: 12),
+                          Expanded(child: resend),
+                        ],
                       ),
-                    ),
-                  ),
-                ),
-              ],
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [wrong, onward],
+                      ),
+                    ]
+                  : [
+                      open,
+                      const SizedBox(height: 10),
+                      resend,
+                      const SizedBox(height: 12),
+                      Center(child: wrong),
+                      Center(child: onward),
+                    ],
             ),
           ),
         ],
@@ -174,27 +200,38 @@ class Sheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.cream,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+    // A tablet holds the sheet to 640 in the middle (T12g): a small sheet
+    // is phone-like on purpose.
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: AppTablet.isTablet(context)
+            ? AppTablet.paneSheetMax
+            : double.infinity,
       ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Grabber(),
-              const SizedBox(height: 22),
-              Text(title, style: AppTheme.display(size: 38, height: 1)),
-              const SizedBox(height: 8),
-              body,
-              const SizedBox(height: 22),
-              ...children,
-            ],
+      child: Container(
+        decoration: const BoxDecoration(
+          color: AppColors.cream,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+        ),
+        child: SafeArea(
+          top: false,
+          child: Padding(
+            padding: AppTablet.isTablet(context)
+                ? const EdgeInsets.fromLTRB(36, 12, 36, 48)
+                : const EdgeInsets.fromLTRB(24, 12, 24, 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Grabber(),
+                const SizedBox(height: 22),
+                Text(title, style: AppTheme.display(size: 38, height: 1)),
+                const SizedBox(height: 8),
+                body,
+                const SizedBox(height: 22),
+                ...children,
+              ],
+            ),
           ),
         ),
       ),
@@ -220,6 +257,33 @@ class FadedCards extends StatelessWidget {
             ),
           ),
         );
+    if (AppTablet.isTablet(context)) {
+      // T12g: the same two cards, larger, over the middle of the window.
+      return IgnorePointer(
+        child: Align(
+          alignment: const Alignment(0, -0.6),
+          child: SizedBox(
+            width: 680,
+            height: 470,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  child: card(AppColors.springField, 380, 410, -0.11),
+                ),
+                Positioned(
+                  top: 50,
+                  right: 0,
+                  child: card(AppColors.peach, 360, 390, 0.14),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
     return IgnorePointer(
       child: Stack(
         clipBehavior: Clip.none,

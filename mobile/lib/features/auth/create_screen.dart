@@ -11,7 +11,8 @@ import 'auth_controller.dart';
 import 'email_hint.dart';
 import '../profile/account_extras.dart'
     show GraduationPicker, SchoolSuggestions;
-import '../shared/widgets/split_page.dart';
+import '../../core/theme/tablet.dart';
+import 'auth_tablet.dart';
 
 /// Create an account in steps: the email on fog, what to call them on
 /// butter, the password on spring, where they study on peach, then the
@@ -138,6 +139,164 @@ class _CreateScreenState extends State<CreateScreen> {
     final onName = _step == 1;
     final onPassword = _step == 2;
     final onSchool = _step == 3;
+    final tablet = AppTablet.isTablet(context);
+    final wide = AppTablet.of(context) == SizeClass.expanded;
+    final top = Row(
+      children: [
+        RoundIconButton(
+          icon: Icons.chevron_left_rounded,
+          label: 'Back',
+          onTap: onEmail
+              ? () => context.canPop() ? context.pop() : context.go('/welcome')
+              : () => setState(() {
+                  _step -= 1;
+                  _error = null;
+                }),
+        ),
+        const SizedBox(width: 14),
+        Expanded(child: StepBar(count: 5, at: _step + 1)),
+      ],
+    );
+    final headline = Text.rich(
+      onEmail
+          ? const TextSpan(
+              children: [
+                TextSpan(text: 'First,\n'),
+                TextSpan(
+                  text: 'your email.',
+                  style: TextStyle(color: AppColors.forest),
+                ),
+              ],
+            )
+          : onName
+          ? const TextSpan(text: 'What should\nwe call you?')
+          : onPassword
+          ? const TextSpan(text: 'Pick a\npassword.')
+          : TextSpan(
+              text: _graduated
+                  ? 'Where did\nyou study?'
+                  : 'Where do\nyou study?',
+            ),
+      style: tablet ? authHeadline() : AppTheme.display(),
+    );
+    final field = <Widget>[
+      if (onEmail)
+        XLField(
+          key: const ValueKey('email'),
+          controller: _email,
+          label: 'Email',
+          hint: _hint.head,
+          hintTail: _hint.tail,
+          hintTailEvery: emailHintEvery,
+          keyboardType: TextInputType.emailAddress,
+          autofillHints: const [AutofillHints.email],
+          caption: 'Completely free. Your progress follows you to the website.',
+          error: _error,
+          onSubmitted: (_) => _next(),
+        )
+      else if (onName)
+        XLField(
+          key: const ValueKey('name'),
+          controller: _name,
+          label: 'First name',
+          hint: 'Your first name',
+          textCapitalization: TextCapitalization.words,
+          autofocus: true,
+          accent: AppColors.charcoal,
+          autofillHints: const [AutofillHints.givenName],
+          caption:
+              'Shown on the Daily\'s board and in hello. You '
+              'can change it any time.',
+          error: _error,
+          onSubmitted: (_) => _next(),
+        )
+      else if (onSchool)
+        XLField(
+          key: const ValueKey('school'),
+          controller: _school,
+          label: 'School',
+          hint: 'Your university',
+          textCapitalization: TextCapitalization.words,
+          autofocus: true,
+          accent: AppColors.charcoal,
+          caption:
+              'So we can show you how you compare with other '
+              'students at your school.',
+          error: _error,
+          onSubmitted: (_) => _submit(),
+        )
+      else
+        XLField(
+          key: const ValueKey('password'),
+          controller: _password,
+          label: 'Password',
+          hint: '••••••••',
+          obscure: true,
+          autofocus: true,
+          accent: AppColors.charcoal,
+          autofillHints: const [AutofillHints.newPassword],
+          caption:
+              'Eight characters or more. You can reset it by email any time.',
+          error: _error,
+          onSubmitted: (_) => _submit(),
+        ),
+    ];
+    final suggestions = SchoolSuggestions(
+      controller: _school,
+      api: context.read<AuthController>().api,
+    );
+    final picker = GraduationPicker(
+      year: _gradYear,
+      term: _gradTerm,
+      graduated: _graduated,
+      onYear: (y) => setState(() => _gradYear = y),
+      onTerm: (t) => setState(() {
+        _gradTerm = t;
+        if (t != null) _graduated = false;
+      }),
+      onClear: () => setState(() {
+        _gradYear = null;
+        _gradTerm = null;
+        _graduated = !_graduated;
+      }),
+    );
+    final actions = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        if (onName)
+          TextAction(
+            label: 'Skip',
+            onTap: () {
+              _name.clear();
+              _next();
+            },
+          )
+        else if (onSchool)
+          TextAction(
+            label: 'Skip',
+            onTap: () {
+              _school.clear();
+              _gradYear = null;
+              _gradTerm = null;
+              _graduated = false;
+              _submit();
+            },
+          )
+        else if (onEmail)
+          TextAction(
+            label: _emailTaken ? 'Log in with it instead' : 'Log in instead',
+            onTap: () => context.pushReplacement('/signin'),
+          )
+        else
+          const SizedBox.shrink(),
+        RoundNextButton(
+          onTap: onSchool ? _submit : _next,
+          label: onSchool ? 'Create account' : 'Next',
+          loading: _loading,
+        ),
+      ],
+    );
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 320),
       color: onEmail
@@ -149,222 +308,90 @@ class _CreateScreenState extends State<CreateScreen> {
           : AppColors.peach,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: TabletCap(
-          child: SafeArea(
-            // Scrolls when it must: the school list and the keyboard together
-            // are taller than a phone (owner, 2026-10-16). Otherwise it fills
-            // the screen and the legal line sits at the bottom, as before.
-            child: LayoutBuilder(
-              builder: (context, box) => SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: box.maxHeight),
-                  child: IntrinsicHeight(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 4, 24, 34),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Row(
+        body: tablet
+            // T12 to T12d: the headline left, the field right and high.
+            ? AuthTabletBody(
+                top: Row(
+                  children: [
+                    top.children.first,
+                    const SizedBox(width: 14),
+                    SizedBox(
+                      width: 160,
+                      child: StepBar(count: 5, at: _step + 1),
+                    ),
+                  ],
+                ),
+                headline: StepSwitcher(step: _step, child: headline),
+                under: [
+                  if (onSchool && wide) ...[const SizedBox(height: 32), picker],
+                ],
+                form: [
+                  StepSwitcher(
+                    step: _step,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ...field,
+                        if (onSchool) ...[
+                          suggestions,
+                          if (!wide) ...[const SizedBox(height: 24), picker],
+                        ],
+                        const SizedBox(height: 40),
+                        actions,
+                      ],
+                    ),
+                  ),
+                ],
+                foot: onSchool ? const LegalLine() : null,
+              )
+            : SafeArea(
+                // Scrolls when it must: the school list and the keyboard
+                // together are taller than a phone (owner, 2026-10-16).
+                // Otherwise it fills the screen and the legal line sits at
+                // the bottom, as before.
+                child: LayoutBuilder(
+                  builder: (context, box) => SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(minHeight: box.maxHeight),
+                      child: IntrinsicHeight(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(24, 4, 24, 34),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              RoundIconButton(
-                                icon: Icons.chevron_left_rounded,
-                                label: 'Back',
-                                onTap: onEmail
-                                    ? () => context.canPop()
-                                          ? context.pop()
-                                          : context.go('/welcome')
-                                    : () => setState(() {
-                                        _step -= 1;
-                                        _error = null;
-                                      }),
-                              ),
-                              const SizedBox(width: 14),
-                              Expanded(child: StepBar(count: 5, at: _step + 1)),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          StepSwitcher(
-                            step: _step,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Text.rich(
-                                  onEmail
-                                      ? const TextSpan(
-                                          children: [
-                                            TextSpan(text: 'First,\n'),
-                                            TextSpan(
-                                              text: 'your email.',
-                                              style: TextStyle(
-                                                color: AppColors.forest,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : onName
-                                      ? const TextSpan(
-                                          text: 'What should\nwe call you?',
-                                        )
-                                      : onPassword
-                                      ? const TextSpan(
-                                          text: 'Pick a\npassword.',
-                                        )
-                                      : TextSpan(
-                                          text: _graduated
-                                              ? 'Where did\nyou study?'
-                                              : 'Where do\nyou study?',
-                                        ),
-                                  style: AppTheme.display(),
-                                ),
-                                const SizedBox(height: 30),
-                                if (onEmail)
-                                  XLField(
-                                    key: const ValueKey('email'),
-                                    controller: _email,
-                                    label: 'Email',
-                                    hint: _hint.head,
-                                    hintTail: _hint.tail,
-                                    hintTailEvery: emailHintEvery,
-                                    keyboardType: TextInputType.emailAddress,
-                                    autofillHints: const [AutofillHints.email],
-                                    caption:
-                                        'Completely free. Your progress follows you to the website.',
-                                    error: _error,
-                                    onSubmitted: (_) => _next(),
-                                  )
-                                else if (onName)
-                                  XLField(
-                                    key: const ValueKey('name'),
-                                    controller: _name,
-                                    label: 'First name',
-                                    hint: 'Your first name',
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    autofocus: true,
-                                    accent: AppColors.charcoal,
-                                    autofillHints: const [
-                                      AutofillHints.givenName,
-                                    ],
-                                    caption:
-                                        'Shown on the Daily\'s board and in hello. You '
-                                        'can change it any time.',
-                                    error: _error,
-                                    onSubmitted: (_) => _next(),
-                                  )
-                                else if (onSchool)
-                                  XLField(
-                                    key: const ValueKey('school'),
-                                    controller: _school,
-                                    label: 'School',
-                                    hint: 'Your university',
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    autofocus: true,
-                                    accent: AppColors.charcoal,
-                                    caption:
-                                        'So we can show you how you compare with other '
-                                        'students at your school.',
-                                    error: _error,
-                                    onSubmitted: (_) => _submit(),
-                                  )
-                                else
-                                  XLField(
-                                    key: const ValueKey('password'),
-                                    controller: _password,
-                                    label: 'Password',
-                                    hint: '••••••••',
-                                    obscure: true,
-                                    autofocus: true,
-                                    accent: AppColors.charcoal,
-                                    autofillHints: const [
-                                      AutofillHints.newPassword,
-                                    ],
-                                    caption:
-                                        'Eight characters or more. You can reset it by email any time.',
-                                    error: _error,
-                                    onSubmitted: (_) => _submit(),
-                                  ),
-                                if (onSchool) ...[
-                                  // The same list as the account sheet's (owner,
-                                  // 2026-10-16): the sign-up never had it.
-                                  SchoolSuggestions(
-                                    controller: _school,
-                                    api: context.read<AuthController>().api,
-                                  ),
-                                  const SizedBox(height: 24),
-                                  GraduationPicker(
-                                    year: _gradYear,
-                                    term: _gradTerm,
-                                    graduated: _graduated,
-                                    onYear: (y) =>
-                                        setState(() => _gradYear = y),
-                                    onTerm: (t) => setState(() {
-                                      _gradTerm = t;
-                                      if (t != null) _graduated = false;
-                                    }),
-                                    onClear: () => setState(() {
-                                      _gradYear = null;
-                                      _gradTerm = null;
-                                      _graduated = !_graduated;
-                                    }),
-                                  ),
-                                ],
-                                const SizedBox(height: 30),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                              top,
+                              const SizedBox(height: 30),
+                              StepSwitcher(
+                                step: _step,
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   children: [
-                                    if (onName)
-                                      TextAction(
-                                        label: 'Skip',
-                                        onTap: () {
-                                          _name.clear();
-                                          _next();
-                                        },
-                                      )
-                                    else if (onSchool)
-                                      TextAction(
-                                        label: 'Skip',
-                                        onTap: () {
-                                          _school.clear();
-                                          _gradYear = null;
-                                          _gradTerm = null;
-                                          _graduated = false;
-                                          _submit();
-                                        },
-                                      )
-                                    else if (onEmail)
-                                      TextAction(
-                                        label: _emailTaken
-                                            ? 'Log in with it instead'
-                                            : 'Log in instead',
-                                        onTap: () =>
-                                            context.pushReplacement('/signin'),
-                                      )
-                                    else
-                                      const SizedBox.shrink(),
-                                    RoundNextButton(
-                                      onTap: onSchool ? _submit : _next,
-                                      label: onSchool
-                                          ? 'Create account'
-                                          : 'Next',
-                                      loading: _loading,
-                                    ),
+                                    headline,
+                                    const SizedBox(height: 30),
+                                    ...field,
+                                    if (onSchool) ...[
+                                      suggestions,
+                                      const SizedBox(height: 24),
+                                      picker,
+                                    ],
+                                    const SizedBox(height: 30),
+                                    actions,
                                   ],
                                 ),
+                              ),
+                              if (onSchool) ...[
+                                const Spacer(),
+                                const LegalLine(),
                               ],
-                            ),
+                            ],
                           ),
-                          if (onSchool) ...[const Spacer(), const LegalLine()],
-                        ],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
-        ),
       ),
     );
   }
