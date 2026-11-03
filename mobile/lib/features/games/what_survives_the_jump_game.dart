@@ -93,11 +93,12 @@ const wayRounds = <WayRound>[
     surge: Surge(beforeDepth: 0.4, froudeBefore: 3),
     asked: Carried.speed,
     why:
-        'Smaller, from 5.94 meters a second down to 1.57. The same water '
-        'through a deeper section has to slow down in proportion, and it is '
-        'that loss of speed the jump is usually built to achieve: the sheet '
-        'coming off a spillway is fast enough to scour a riverbed, and a '
-        'stilling basin exists to take that away before the water is let go.',
+        'Smaller, from 5.94 meters a second down to 1.58. The same 2.38 square '
+        'meters a second through 1.51 meters of depth has to slow to 2.38 over '
+        '1.51, and it is that loss of speed the jump is usually built to '
+        'achieve: the sheet coming off a spillway is fast enough to scour a '
+        'riverbed, and a stilling basin exists to take that away before the '
+        'water is let go.',
     source: 'wr-ecf-q3',
   ),
   WayRound(

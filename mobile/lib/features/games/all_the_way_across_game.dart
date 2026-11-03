@@ -88,9 +88,10 @@ const clearanceRounds = <ClearanceRound>[
     answer: 3,
     why:
         'Eighty. The vehicle is not out until its BACK bumper passes the far '
-        'curb, and that bumper starts a vehicle length short of the near one. '
-        'Using 60 gives 0.8 seconds instead of 1.1, which is the lesson\'s '
-        'wrong answer and a third of the protection short.',
+        'curb, and that bumper starts a vehicle length short of the near one: '
+        '60 of crossing plus 20 of car. At 73.3 feet a second that is 1.1 '
+        'seconds. Using 60 gives 0.8 instead, which is the lesson\'s wrong '
+        'answer and about a quarter of the protection short.',
     source: 'trans-st-q2',
   ),
   ClearanceRound(
@@ -107,10 +108,11 @@ const clearanceRounds = <ClearanceRound>[
     ],
     answer: 2,
     why:
-        'Feet per second, as everywhere else in this lesson. Dividing 80 ft '
-        'by 50 gives 1.6, which is not seconds and is not anything: it is the '
-        'lesson\'s other printed wrong answer, and it is bigger than the '
-        'right one, so it does not even fail safe in an obvious direction.',
+        'Feet per second, as everywhere else in this lesson: 80 over 73.3 is '
+        '1.1 seconds. Dividing 80 ft by 50 gives 1.6, which is not seconds and '
+        'is not anything: it is the lesson\'s other printed wrong answer. It '
+        'happens to be longer than the right one, so it errs safe, but only by '
+        'luck, and the units are what tell you it is wrong.',
     source: 'trans-st-q2',
   ),
   ClearanceRound(

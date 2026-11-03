@@ -112,11 +112,11 @@ const tableMoveRounds = <ChangeRound>[
     at: 16,
     answer: Moves3.down,
     why:
-        'Down. The pressure at a point is the height of water above it, and '
-        'the top of that column has just been lowered six feet, so the '
-        'pressure falls by six feet of water, around 375 pounds a square '
-        'foot. Nothing about the soil has changed: only where the water '
-        'starts.',
+        'Down. The pressure at a point is the height of water above it times '
+        '62.4 pounds a cubic foot, and the top of that column has just been '
+        'lowered six feet, so the pressure falls by 6 times 62.4, about 375 '
+        'pounds a square foot. Nothing about the soil has changed: only where '
+        'the water starts.',
     source: 'geo-es-q2',
   ),
   ChangeRound(

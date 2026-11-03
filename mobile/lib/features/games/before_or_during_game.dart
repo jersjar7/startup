@@ -74,7 +74,7 @@ const dimRounds = <DimRound>[
     source: 'mat-ssm-q1',
   ),
   DimRound(
-    subject: 'the same bar, now a tenth of a millimeter longer',
+    subject: 'the same bar, now an eighth of a millimeter longer',
     asked:
         'Engineering strain is the stretch divided by a length. Tap the '
         'length it means.',
@@ -89,7 +89,8 @@ const dimRounds = <DimRound>[
     why:
         'The gauge length it started with. Strain is a stretch per unit of '
         'original length, which is why it has no units at all: millimeters '
-        'over millimeters cancel. The same tenth of a millimeter is a large '
+        'over millimeters cancel. Here that is 0.125 millimeters of stretch '
+        'over 50, which is 0.0025. The same eighth of a millimeter is a large '
         'strain in a short coupon and a small one in a long bar, and dividing '
         'is the only thing that tells them apart.',
     source: 'mat-ssm-q2',
@@ -149,9 +150,10 @@ const dimRounds = <DimRound>[
     ),
     answer: Dim.lengthBefore,
     why:
-        'The gauge length. Their strain is fifty times too big, so the '
-        'modulus they get from it comes out fifty times too small: about 1.4 '
-        'gigapascals for a metal that is really 70. A strain is a bare '
+        'The gauge length. The real strain is 0.125 over 50, which is 0.0025, '
+        'so writing down 0.125 is fifty times too big, and any modulus worked '
+        'out from it comes out fifty times too small: a metal that is really '
+        '70 gigapascals would come out at about 1.4. A strain is a bare '
         'number. If what you wrote down has millimeters after it, you have '
         'written down a stretch.',
     source: 'mat-ssm-q2',

@@ -137,9 +137,10 @@ const winsRounds = <WinsRound>[
     qTo: 300,
     at: 250,
     why:
-        'Fifty five dollars a meter saved, times enough meters, pays for a '
-        'plant. The crossing sits near a hundred and ten meters and everything '
-        'past it belongs to the option with the fixed cost.',
+        'Fifty five dollars a meter saved, 95 less 40, pays back the plant\'s '
+        '6,000 a week once 6,000 over 55 meters are poured, which is about a '
+        'hundred and ten. That is the crossing, and everything past it belongs '
+        'to the option with the fixed cost.',
     source: 'econ-ctb-q2',
   ),
 ];

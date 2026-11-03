@@ -54,17 +54,18 @@ const shearRounds = <ShearRound>[
   ShearRound(
     subject: 'the lesson\'s own beam',
     asked:
-        'The concrete in this beam can carry 26 kips of shear on its own and '
-        'the factored shear at the section is 22 kips. What does the section '
-        'need?',
+        'The concrete in this beam can carry 26.3 kips of shear on its own '
+        'and the factored shear at the section is 22 kips. What does the '
+        'section need?',
     check: ShearCheck(concrete: 26.3, demand: 22),
     why:
-        'Stirrups worked out for the difference. The concrete is worth 26 '
+        'Stirrups worked out for the difference. The concrete is worth 26.3 '
         'kips but only three quarters of that may be leaned on, which is 19.7 '
-        'kips, and the demand is past it. The stirrups then carry what is '
-        'left over once the demand has been divided by the same three '
-        'quarters. This is the lesson\'s own problem and the answer is close: '
-        'reading the ladder the wrong way round here costs the whole mark.',
+        'kips, and the 22 kip demand is past it. The stirrups then carry what '
+        'is left once the demand has been divided by the same three quarters: '
+        '22 over 0.75 is 29.3, less the concrete\'s 26.3, about 3 kips. This '
+        'is the lesson\'s own problem and the answer is close: reading the '
+        'ladder the wrong way round here costs the whole mark.',
     source: 'str-rfs-q2',
   ),
   ShearRound(
@@ -74,8 +75,9 @@ const shearRounds = <ShearRound>[
         'kips. Now what?',
     check: ShearCheck(concrete: 26.3, demand: 7),
     why:
-        'Nothing at all. Below HALF of what may be leaned on, which is about '
-        '9.9 kips here, the code asks for no stirrups. Notice that the '
+        'Nothing at all. Below HALF of what may be leaned on, half of 19.7 or '
+        'about 9.9 kips here, the code asks for no stirrups, and 7 is well '
+        'under it. Notice that the '
         'threshold is half of the usable capacity and not half of the '
         'concrete: the resistance factor comes first, then the halving.',
     source: 'str-rfs-q2',
@@ -113,10 +115,12 @@ const shearRounds = <ShearRound>[
         'Can it be stirruped?',
     check: ShearCheck(concrete: 42.5, demand: 200),
     why:
-        'No: the section has to grow. There is a ceiling on what stirrups may '
-        'be asked to carry, four times the concrete\'s own share, and past it '
-        'the concrete between the bars crushes however close together they '
-        'are put. Reaching for a tighter spacing here is the wrong instinct, '
+        'No: the section has to grow. Stirrups may be asked to carry at most '
+        'four times the concrete\'s own share, roughly 170 kips here. The '
+        'demand over the factor is 200 over 0.75, about 267, and after the '
+        'concrete\'s 42 that leaves about 225 for the stirrups. Past the '
+        'ceiling the concrete between the bars crushes however close together '
+        'they are put. Reaching for a tighter spacing here is the wrong instinct, '
         'and it is what the exam is checking with a number this large.',
     source: 'str-rfs-q3',
   ),

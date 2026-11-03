@@ -116,11 +116,12 @@ const jRounds = <JRound>[
     ],
     answer: 1,
     why:
-        'Raise each diameter to the fourth and THEN subtract. Subtracting '
-        'first and raising afterwards gives twenty to the fourth, which is a '
-        'fortieth of the truth and is named as a trap. The reason it works at '
-        'all is that a hole is just a negative area, and its J comes off the '
-        'solid shaft\'s the same way.',
+        'Raise each diameter to the fourth and THEN subtract: 80 to the fourth '
+        'is 40,960,000 and 60 to the fourth is 12,960,000, leaving 28,000,000. '
+        'Subtracting first gives twenty to the fourth, 160,000, which is a '
+        'hundred and seventy fifth of the truth and is named as a trap. The '
+        'reason it works at all is that a hole is just a negative area, and '
+        'its J comes off the solid shaft\'s the same way.',
     source: 'mm-tor-q3',
   ),
   JRound(
@@ -138,9 +139,11 @@ const jRounds = <JRound>[
     answer: 1,
     why:
         'The same expression as the round before, and the first option is the '
-        'trap: pretending the bore is not there. It gives a J about a third '
-        'too big, so the shaft looks able to carry a third more torque than it '
-        'really can, and nothing in the arithmetic afterwards will tell you.',
+        'trap: pretending the bore is not there. It puts in 80 to the fourth, '
+        '40,960,000, where the real figure is 28,000,000, so J comes out '
+        'nearly half again too big and the shaft looks able to carry nearly '
+        'half again the torque it really can. Nothing in the arithmetic '
+        'afterwards will tell you.',
     source: 'mm-tor-q3',
   ),
   JRound(

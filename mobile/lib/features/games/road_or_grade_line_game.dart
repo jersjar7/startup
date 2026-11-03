@@ -69,17 +69,19 @@ const sitsRounds = <SitsRound>[
   SitsRound(
     subject: 'the lesson\'s own curve, at the middle',
     setting:
-        'A crest curve rises at 4 percent and leaves at minus 2. The mark is '
-        'halfway along, directly under the PVI.',
+        'A 600 foot crest curve starts from a PVC at elevation 100, rises at 4 '
+        'percent and leaves at minus 2. The mark is halfway along, directly '
+        'under the PVI.',
     vert: Vert(gradeIn: 4, gradeOut: -2, length: 600),
     station: 300,
     why:
         'Below. This is the pair of questions the lesson asks back to back. '
-        'The grade line produced from the PVC reaches 112 feet here, and that '
-        'is the PVI elevation, because the PVI is where the two straight '
-        'grades meet. The road is at 107.5. The 4.5 feet between them is the '
-        'whole of what the curve does, and on a crest the road is always the '
-        'lower of the two.',
+        'The grade line climbs 4 percent for 300 feet from the PVC at 100, so '
+        'it reaches 112 here, and that is the PVI elevation, because the PVI '
+        'is where the two straight grades meet. The road drops below it by the '
+        'grade change times the length over 8, 0.06 times 600 over 8, which is '
+        '4.5 feet, so it is at 107.5. That 4.5 feet is the whole of what the '
+        'curve does, and on a crest the road is always the lower of the two.',
     source: 'surv-vc-q2',
   ),
   SitsRound(

@@ -123,8 +123,10 @@ const yardRounds = <YardRound>[
     ],
     answer: 1,
     why:
-        'About 901, a shade under the simpler answer. The average of the two '
-        'ends is 250 and the real middle is 240, so the run is slightly '
+        'About 901, a shade under the simpler answer. The formula is the '
+        'length over six, times the first end plus four middles plus the '
+        'last end: 100 over 6 times 1,460 is 24,333 cubic feet, and over 27 '
+        'that is 901 yards. The average of the two ends is 250 and the real middle is 240, so the run is slightly '
         'thinner in the middle than a straight taper would be, and the '
         'prismoidal formula notices.',
     source: 'trans-ew-q2',
@@ -166,7 +168,9 @@ const yardRounds = <YardRound>[
     ],
     answer: 1,
     why:
-        'About 1,753. The 1,852 is the end area answer for the same cut, '
+        'About 1,753: 200 over 6 times 150 plus 4 times 230 plus 350, which '
+        'is 1,420, gives 47,333 cubic feet, and over 27 that is 1,753 yards. '
+        'The 1,852 is the end area answer for the same cut, '
         'which is higher because the real middle, 230, sags well below the '
         'average of the ends, 250. The 47,333 is the volume in cubic feet '
         'with the conversion forgotten.',

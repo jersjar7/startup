@@ -154,10 +154,12 @@ const tubeRounds = <TubeRound>[
     right: Straw(millimeters: 3),
     why:
         'The narrow oil tube, even though oil climbs less readily than water. '
-        'Three times the bore is a third of the climb, and that beats the '
-        'oil\'s weaker pull. When two things in a formula pull opposite ways, '
-        'the only question is which moved further, and here it is the bore by '
-        'a comfortable margin.',
+        'With 0.03 of surface tension against water\'s 0.073, helped only a '
+        'little by being lighter, oil in the same bore climbs a bit under half '
+        'as high. Three times the bore cuts the water\'s climb to a third, and '
+        'a third is less than a half, so the oil stands at about 14 '
+        'millimeters against 10. When two things in a formula pull opposite '
+        'ways, the only question is which moved further.',
     source: 'fm-fp-q3',
   ),
 ];

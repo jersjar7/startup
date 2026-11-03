@@ -158,8 +158,8 @@ const actsRounds = <ActsRound>[
   ActsRound(
     subject: 'a load heavier at one end than the other',
     setting:
-        'Nine meters, carrying one kilonewton per meter at the left and two at '
-        'the right, straight between.',
+        'Nine meters, carrying one kilonewton per meter at the left and five '
+        'at the right, straight between.',
     span: 9,
     load: Spread(0, 9, 1, 5, label: '1 to 5 kN/m'),
     stations: [
@@ -173,10 +173,12 @@ const actsRounds = <ActsRound>[
       Support(Offset(9, 0), Prop.roller),
     ],
     why:
-        'Five and a half meters. Neither a rectangle nor a triangle, so neither '
-        'the middle nor a third: the resultant sits between the two, pulled '
-        'toward the heavy end in proportion. Four and a half is the middle of '
-        'the beam, and this load is not symmetric.',
+        'Five and a half meters. Split the load into a 1 kN/m rectangle, 9 kN '
+        'acting at the middle, 4.5 m, and a triangle rising from 0 to 4 kN/m, '
+        '18 kN acting two thirds of the way along, at 6 m. Together that is 27 '
+        'kN at 9 times 4.5 plus 18 times 6, over 27, which is 5.5 m: pulled '
+        'toward the heavy end. Four and a half is the middle of the beam, and '
+        'this load is not symmetric.',
     source: 'stat-efb-q2',
   ),
   ActsRound(

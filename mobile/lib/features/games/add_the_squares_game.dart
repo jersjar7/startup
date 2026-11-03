@@ -77,9 +77,11 @@ const squaresRounds = <SquaresRound>[
     answer: 1,
     wantsVariance: false,
     why:
-        'Eleven is the two legs laid end to end, and the triangle says plainly '
-        'that the direct route is shorter. Seventy three is the variance, '
-        'which is the number you get one step before the square root.',
+        'Square each spread, add, then take the root: 3 squared is 9, 8 '
+        'squared is 64, together 73, and the root of 73 is 8.54. Eleven is the '
+        'two legs laid end to end, and the triangle says plainly that the '
+        'direct route is shorter. Seventy three is the variance, which is the '
+        'number you get one step before the square root.',
     source: 'stat-ev-q3',
   ),
   SquaresRound(
@@ -163,8 +165,10 @@ const squaresRounds = <SquaresRound>[
     wantsVariance: false,
     why:
         'The coefficient gets squared along with the standard deviation, which '
-        'is the same as saying it doubles the leg before the triangle is drawn. '
-        'Eleven is what you get by forgetting the two entirely.',
+        'is the same as doubling the leg before the triangle is drawn: 2 times '
+        '3 is 6, and the root of 6 squared plus 8 squared, 36 plus 64, is 10. '
+        'Fourteen is 6 and 8 added straight, without squaring. Eleven is 3 and '
+        '8 added straight, which forgets the two and the squaring at once.',
     source: 'stat-ev-q3',
   ),
 ];

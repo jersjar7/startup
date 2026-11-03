@@ -102,10 +102,12 @@ const longerRounds = <LongerRound>[
         'sharper turn than most roads ever ask for.',
     bend: Bend2(radius: 600, turn: 133.6),
     why:
-        'Neither: they are level here, both a little over 1,400 feet. '
-        'Somewhere around 134 degrees the tangent catches the arc and passes '
-        'it. Below that the arc is longer, above it the tangent is, and '
-        'nothing in either formula announces the crossing.',
+        'Neither: they are level here, both just under 1,400 feet. The tangent '
+        'is 600 times the tangent of 66.8 degrees, 1,399.9, and the arc is pi '
+        'times 600 times 133.6 over 180, 1,399.1. Somewhere around 134 degrees '
+        'the tangent catches the arc and passes it. Below that the arc is '
+        'longer, above it the tangent is, and nothing in either formula '
+        'announces the crossing.',
     source: 'surv-hc-q3',
   ),
   LongerRound(
@@ -124,11 +126,13 @@ const longerRounds = <LongerRound>[
     setting: 'A 300 foot radius turning through 165 degrees.',
     bend: Bend2(radius: 300, turn: 165),
     why:
-        'The tangent, and by a long way: 2,214 feet against 864. As the turn '
-        'approaches a full reversal the two tangents become nearly parallel, '
-        'so the point where they would meet runs away toward infinity. The '
-        'arc meanwhile can never exceed half the circumference. This is why '
-        'switchbacks are laid out from the curve rather than from the PI.',
+        'The tangent, and by a long way: 2,279 feet against 864. The tangent '
+        'is 300 times the tangent of 82.5 degrees, 300 x 7.60, and the arc is '
+        'pi times 300 times 165 over 180. As the turn approaches a full '
+        'reversal the two tangents become nearly parallel, so the point where '
+        'they would meet runs away toward infinity. The arc meanwhile can '
+        'never exceed half the circumference. This is why switchbacks are laid '
+        'out from the curve rather than from the PI.',
     source: 'surv-hc-q2',
   ),
 ];

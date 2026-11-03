@@ -103,11 +103,12 @@ const noticeRounds = <NoticeRound>[
     thenTop: 1,
     thenBottom: 3,
     why:
-        'Neither: both go up by the same 5.7 times. A power law only cares '
-        'about the RATIO the head changed by, not where it started, so '
-        'doubling is doubling whether the notch was barely wet or nearly '
-        'full. This is worth seeing once, because it is what lets you answer '
-        'a question like this without knowing any of the actual numbers.',
+        'Neither: both go up by the same 5.7 times. The top head goes from 0.5 '
+        'to 1 and the bottom from 1.5 to 3, so both double, and a V-notch goes '
+        'with the head to the five halves: 2 to the 2.5 is 5.66 either way. A '
+        'power law only cares about the RATIO the head changed by, not where '
+        'it started, which is what lets you answer a question like this '
+        'without knowing any of the actual flows.',
     source: 'wr-psw-q2',
   ),
   NoticeRound(
@@ -150,9 +151,10 @@ const noticeRounds = <NoticeRound>[
     thenBottom: 1.2,
     why:
         'The V-notch, on top this time. A fifth more head is 1.2 to the five '
-        'halves, about 1.58, against 1.2 to the three halves, about 1.31. '
-        'Even on a small change the steeper weir moves half again as far, '
-        'and the answer does not depend on which weir is drawn where.',
+        'halves, about 1.58, against 1.2 to the three halves, about 1.31. That '
+        'is a 58 percent rise against 31, so even on a small change the '
+        'steeper weir moves nearly twice as far, and the answer does not '
+        'depend on which weir is drawn where.',
     source: 'wr-psw-q2',
   ),
   NoticeRound(

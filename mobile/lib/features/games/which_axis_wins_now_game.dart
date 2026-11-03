@@ -71,8 +71,9 @@ const bothAxisRounds = <AxisRound>[
         'midheight against moving the shallow way. Which way does it go now?',
     post: Post(height: 24, rx: 6.0, ry: 2.5, weakBraces: 2),
     why:
-        'Still the shallow way, but only just: 12 feet over 2.5 inches comes '
-        'to 58 against the deep way\'s 24 feet over 6.0, which is 48. '
+        'Still the shallow way, but only just. Put the lengths in inches to '
+        'match the radii: 12 feet is 144 inches, and 144 over 2.5 comes to 58 '
+        'against the deep way\'s 288 inches over 6.0, which is 48. '
         'Halving the free length divides that slenderness by two, so the deep '
         'way takes over only when its radius is less than TWICE the shallow '
         'one. Here it is 2.4 times, so the shallow way survives the brace. '

@@ -76,9 +76,11 @@ const stretchRounds = <StretchRound>[
     opposite: false,
     answer: 2,
     why:
-        'This arrow is already 5 long, so ten times it would be fifty. The '
-        'multiplier is only the magnitude when the direction is unit length, '
-        'and that is the entire reason for dividing by the length first.',
+        'This arrow is already 5 long: the root of 3 squared plus 4 squared '
+        'is the root of 25. Ten times it would be fifty, so the multiplier is '
+        '10 over 5, which is 2. The multiplier is only the magnitude when the '
+        'direction is unit length, and that is the reason for dividing by the '
+        'length first.',
     source: 'math-vbu-q2',
   ),
   StretchRound(

@@ -79,11 +79,13 @@ const twoClockRounds = <ClockRound>[
         'each day in the waste sludge and the effluent. Which is it?',
     answer: Stay.solids,
     why:
-        'The solids time, and this is its definition: what is being held, '
-        'over what is being lost each day. It comes out in days because the '
-        'plant deliberately holds its bacteria far longer than its water. '
-        'Both terms in the denominator count, and dropping the effluent '
-        'solids gives 10.5 days instead of 8.8.',
+        'The solids time, and this is its definition: what is being held, over '
+        'what is being lost each day. It comes out in days because the plant '
+        'deliberately holds its bacteria far longer than its water. In the '
+        'lesson\'s plant that is 1,500 times 3,500 held, over 50 times 10,000 '
+        'wasted plus 5,000 times 20 in the effluent: 5,250,000 over 600,000, '
+        '8.8 days. Both terms count, and dropping the effluent solids gives '
+        '5,250,000 over 500,000, 10.5 days.',
     source: 'wr-wt-q3',
   ),
   ClockRound(

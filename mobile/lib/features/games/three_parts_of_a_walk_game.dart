@@ -125,8 +125,8 @@ const greenRounds = <GreenRound>[
     answer: 1,
     why:
         'Only the last piece. Fifteen people take about four seconds to get '
-        'off the curb and two take well under one, so the green comes down by '
-        'about three seconds. The walk itself and the start-up are untouched: '
+        'off the curb and two take about half a second, so the green comes '
+        'down by about three and a half seconds. The walk itself and the start-up are untouched: '
         'the road is the same width and people start just as slowly.',
     source: 'trans-st-q3',
   ),

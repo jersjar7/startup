@@ -78,10 +78,11 @@ const runRounds = <RunRound>[
       clearances: [1.52],
     ),
     why:
-        'A foresight, and its 2.35 is taken off. Only one instrument ever '
-        'sees this rod, and the run stops here, so the reading is used once '
-        'and subtracted from the height of instrument. Adding it instead is '
-        'the lesson\'s own wrong answer of 100.83.',
+        'A foresight, and its 2.35 is taken off. Only one instrument ever sees '
+        'this rod, and the run stops here, so the reading is used once and '
+        'subtracted from the height of instrument: 101.52 less 2.35 is 99.17. '
+        'Adding it instead gives 103.87, one of the lesson\'s own wrong '
+        'answers.',
     source: 'surv-lev-q1',
   ),
   RunRound(

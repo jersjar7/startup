@@ -54,11 +54,13 @@ const slenderRounds = <SlenderRound>[
         'fifty.',
     post: Post(length: 6000, top: End.pinned, bottom: End.pinned, radius: 40),
     why:
-        'It buckles, and Euler is allowed. The slenderness is a hundred and '
-        'fifty, well to the right of the crossing, and the stress it goes at '
-        'is eighty eight against a yield of two hundred and fifty. The steel '
-        'never gets anywhere near its strength: the column simply bows out of '
-        'the way first.',
+        'It buckles, and Euler is allowed. The slenderness is K L over r, six '
+        'thousand millimeters over forty, a hundred and fifty, well to the '
+        'right of the crossing. Euler\'s stress is pi squared times E over the '
+        'slenderness squared, 9.87 times 200,000 over 22,500, about eighty '
+        'eight, against a yield of two hundred and fifty. The steel never gets '
+        'anywhere near its strength: the column simply bows out of the way '
+        'first.',
     source: 'mm-cb-q3',
   ),
   SlenderRound(
@@ -68,9 +70,10 @@ const slenderRounds = <SlenderRound>[
         'long.',
     post: Post(length: 1500, top: End.pinned, bottom: End.pinned, radius: 40),
     why:
-        'It squashes. A slenderness of thirty seven puts it well to the left '
-        'of the crossing, where Euler\'s hyperbola is up in the clouds: the '
-        'formula would say it buckles at well over a thousand megapascals, and '
+        'It squashes. The slenderness is fifteen hundred over forty, about '
+        'thirty seven, well to the left of the crossing, where Euler\'s '
+        'hyperbola is up in the clouds: pi squared times 200,000 over thirty '
+        'seven and a half squared is about fourteen hundred megapascals, and '
         'the steel gives up at two hundred and fifty long before that. Euler '
         'does not apply, and quoting it here would be nonsense.',
     source: 'mm-cb-q3',

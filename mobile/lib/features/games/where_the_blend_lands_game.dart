@@ -68,9 +68,10 @@ const blendRounds = <BlendRound>[
       Patch(cover: 'grass', acres: 20, coefficient: 0.40),
     ]),
     why:
-        'Nearer the paving, because there is more of it. The weighted '
-        'coefficient is 27 plus 8 over 50, which is 0.70, and the plain '
-        'average of 0.90 and 0.40 would have been 0.65. That gap is the '
+        'Nearer the paving, because there is more of it. Multiply each '
+        'coefficient by its area, 0.90 times 30 is 27 and 0.40 times 20 is 8, '
+        'add them to get 35, and divide by the 50 acres in all: 0.70. The '
+        'plain average of 0.90 and 0.40 would have been 0.65. That gap is the '
         'lesson\'s own trap, and it is worth noting which way it errs: the '
         'unweighted average understates the peak here, so the drain comes out '
         'too small.',

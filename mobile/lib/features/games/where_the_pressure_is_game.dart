@@ -93,9 +93,11 @@ const pressureRounds = <RunRound>[
     why:
         'The narrow one again, and this is the round worth arguing with. '
         'Bernoulli says the three heads add to a constant, so if the velocity '
-        'head goes up the pressure head must come down. In the lesson\'s own '
-        'numbers the pressure falls from 250 to 233 kilopascals as the water '
-        'speeds from 1.5 to 6 m/s. Faster means lower pressure, every time.',
+        'head goes up the pressure head must come down. At the 60 liters a '
+        'second drawn here the water speeds from 1.9 to 7.6 m/s, and the '
+        'pressure falls by half the density times the difference of the speeds '
+        'squared, about 27 kilopascals. Faster means lower pressure, every '
+        'time.',
     source: 'fm-cb-q2',
   ),
   RunRound(

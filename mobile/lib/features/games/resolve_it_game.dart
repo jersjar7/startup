@@ -235,7 +235,9 @@ class _ResolveItGameState extends State<ResolveItGame> {
                         'usual case.'
                   : 'The angle is measured from the horizontal, so the '
                         'horizontal component is the adjacent one and takes the '
-                        'cosine. Cos is cozy with the side touching the angle.',
+                        'cosine. The vertical sits across from the angle, so it '
+                        'takes the sine. Cos is cozy with the side touching the '
+                        'angle.',
             ),
           ],
         ],

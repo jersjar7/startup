@@ -151,12 +151,14 @@ const shapeRounds = <ShapeRound>[
     asked: Diagram.shear,
     options: [Twist.blunt, Twist.other, Twist.none],
     why:
-        'The third. A spread load takes the shear down steadily as you walk '
-        'along, from plus twenty at one support through zero at the middle to '
-        'minus twenty at the other. The first holds it flat, which is what '
-        'you would draw if you forgot the load was there at all between the '
-        'ends. The second curves, and a curve in the SHEAR would need a load '
-        'that changes as it goes.',
+        'The third. Each support takes half the spread load: five kilonewtons '
+        'a meter over eight meters is forty, so twenty at each end. The load '
+        'then takes the shear down steadily as you walk along, from plus '
+        'twenty at one support through zero at the middle to minus twenty at '
+        'the other. The first holds it flat, which is what you would draw if '
+        'you forgot the load was there at all between the ends. The second '
+        'curves, and a curve in the SHEAR would need a load that changes as it '
+        'goes.',
     source: 'mm-smd-q2',
   ),
   ShapeRound(

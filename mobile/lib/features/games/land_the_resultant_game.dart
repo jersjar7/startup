@@ -88,18 +88,20 @@ const resultantRounds = <ResultantRound>[
     parts: [Vec(2, 3), Vec(3, -1)],
     labels: ['A', 'B'],
     why:
-        'The second arrow comes back down while it goes across, so the '
-        'resultant sits lower than either arrow reached on its own.',
+        'Across with across and up with up: two plus three is five, and three '
+        'minus one is two. The second arrow comes back down while it goes '
+        'across, so the resultant ends lower than the first arrow reached.',
     source: 'math-vbu-q3',
   ),
   ResultantRound(
-    ask: 'Both arrows head into the third quadrant. Where do they land?',
+    ask: 'Both arrows head left, one up and one down. Where do they land?',
     parts: [Vec(-3, 2), Vec(-1, -5)],
     labels: ['A', 'B'],
     why:
         'Minus three and minus one is minus four; two and minus five is minus '
-        'three. Every component keeps its sign through the addition, whatever '
-        'quadrant the answer ends up in.',
+        'three, which lands in the third quadrant even though A points up '
+        'into the second. Every component keeps its sign through the '
+        'addition, whatever quadrant each arrow points into.',
     source: 'math-vbu-q3',
   ),
   ResultantRound(

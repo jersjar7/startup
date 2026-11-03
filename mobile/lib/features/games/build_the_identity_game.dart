@@ -114,7 +114,8 @@ const identities = <Identity>[
     ],
     why:
         'Build the shape, do not work it out. The missing cosine comes from '
-        'the Pythagorean identity, and then it is two times sine times '
+        'the Pythagorean identity: cosine squared is 1 less 25/169, which is '
+        '144/169, so the cosine is 12/13. Then it is two times sine times '
         'cosine. Multiplying it through is desk work.',
     source: 'math-uci-q3',
   ),

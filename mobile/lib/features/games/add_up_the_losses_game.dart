@@ -59,16 +59,16 @@ class TallyRound {
 }
 
 /// The lesson's own system, quoted in every round: 3.2 m of friction, two
-/// elbows at 0.9 and a globe valve at 10, with a velocity head of 0.32 m.
+/// elbows at 0.9 and a globe valve at 10, with a velocity head of 0.3185 m.
 const _system =
     'friction 3.2 m, two elbows at C = 0.9, one globe valve at C = 10.0, '
-    'velocity head 0.32 m';
+    'velocity head 0.3185 m';
 
 const tallyRounds = <TallyRound>[
   TallyRound(
     subject: 'the fittings on their own',
     setting: _system,
-    written: r'$h = 11.8 \times 0.32 = 3.76$ m',
+    written: r'$h = 11.8 \times 0.3185 = 3.76$ m',
     options: [
       Wrote.missingFriction,
       Wrote.right,
@@ -77,10 +77,10 @@ const tallyRounds = <TallyRound>[
     ],
     answer: Wrote.missingFriction,
     why:
-        'The coefficients are added correctly, 0.9 twice plus 10, and '
-        'multiplied by the velocity head correctly. What is missing is the '
-        '3.2 meters the pipe itself costs. Total loss is the friction PLUS '
-        'the fittings, and this is the fittings alone: it is the lesson '
+        'The coefficients are added correctly, 0.9 twice plus 10 is 11.8, and '
+        '11.8 times the 0.3185 velocity head is 3.76 meters. What is missing '
+        'is the 3.2 meters the pipe itself costs. Total loss is the friction '
+        'PLUS the fittings, and this is the fittings alone: it is the lesson '
         'problem\'s own named wrong answer.',
     source: 'fm-pfh-q3',
   ),
@@ -96,17 +96,17 @@ const tallyRounds = <TallyRound>[
     ],
     answer: Wrote.missingFittings,
     why:
-        'Only the friction. A globe valve at C = 10 is an enormous loss, '
-        'worth more on its own than the whole hundred meters of pipe in that '
-        'problem, so leaving the fittings out is not a small simplification '
-        'here. Valves and bends are called MINOR losses and frequently are '
-        'not.',
+        'Only the friction. A globe valve at C = 10 is an enormous loss, 10 '
+        'times the 0.3185 velocity head, about 3.2 meters, as much on its own '
+        'as the whole hundred meters of pipe in that problem, so leaving the '
+        'fittings out is not a small simplification here. Valves and bends are '
+        'called MINOR losses and frequently are not.',
     source: 'fm-pfh-q3',
   ),
   TallyRound(
     subject: 'both pieces, added',
     setting: _system,
-    written: r'$h = 3.2 + 11.8 \times 0.32 = 6.96$ m',
+    written: r'$h = 3.2 + 11.8 \times 0.3185 = 6.96$ m',
     options: [
       Wrote.doubled,
       Wrote.right,
@@ -116,15 +116,16 @@ const tallyRounds = <TallyRound>[
     answer: Wrote.right,
     why:
         'That is the total: the pipe friction plus every fitting, each at its '
-        'own coefficient times the same velocity head. Note that one velocity '
-        'head serves all of them, because the water is going the same speed '
-        'through the lot.',
+        'own coefficient times the same velocity head. 11.8 times 0.3185 is '
+        '3.76, and 3.2 plus 3.76 is 6.96 meters. Note that one velocity head '
+        'serves all of them, because the water is going the same speed through '
+        'the lot.',
     source: 'fm-pfh-q3',
   ),
   TallyRound(
     subject: 'one elbow',
     setting: _system,
-    written: r'$h = 3.2 + (0.9 + 10.0) \times 0.32 = 6.69$ m',
+    written: r'$h = 3.2 + (0.9 + 10.0) \times 0.3185 = 6.67$ m',
     options: [
       Wrote.right,
       Wrote.wrongCount,
@@ -161,7 +162,7 @@ const tallyRounds = <TallyRound>[
   TallyRound(
     subject: 'every coefficient doubled',
     setting: _system,
-    written: r'$h = 3.2 + 2(0.9 + 10.0) \times 0.32 = 10.2$ m',
+    written: r'$h = 3.2 + 2(0.9 + 10.0) \times 0.3185 = 10.14$ m',
     options: [
       Wrote.wrongCount,
       Wrote.missingFriction,

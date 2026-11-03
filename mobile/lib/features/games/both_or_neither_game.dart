@@ -64,11 +64,12 @@ const wellGradedRounds = <GradeRound>[
         'millimeters. What is it?',
     soil: Graded(passing200: 4, passing4: 92, d10: 0.15, d30: 0.50, d60: 2.0),
     why:
-        'Poorly graded, and only just: the uniformity comes to 13, well past '
-        'the 6 a sand needs, but the concavity lands at 0.83 and the range it '
-        'has to fall in is 1 to 3. One failure is enough. This is the '
-        'lesson\'s own problem and the reason it says BOTH twice: the big '
-        'uniformity is exactly what tempts people into calling it SW.',
+        'Poorly graded, and only just. The uniformity is D60 over D10, 2.0 '
+        'over 0.15, which is 13, well past the 6 a sand needs. The concavity '
+        'is D30 squared over D10 times D60, 0.25 over 0.30, which is 0.83, and '
+        'the range it has to fall in is 1 to 3. One failure is enough. This is '
+        'the lesson\'s own problem, and the big uniformity is exactly what '
+        'tempts people into calling it SW.',
     source: 'geo-sc-q2',
   ),
   GradeRound(
@@ -92,11 +93,12 @@ const wellGradedRounds = <GradeRound>[
         'What is it?',
     soil: Graded(passing200: 2, passing4: 99, d10: 0.30, d30: 0.38, d60: 0.50),
     why:
-        'Poorly graded, because the sizes are all so nearly the same: the '
-        'uniformity is only 1.7 against the 6 a sand needs. Uniform sand '
-        'looks clean and handles nicely and compacts badly, since there is '
-        'nothing small to fill the space between the grains. Its curve is '
-        'nearly vertical, which is the shape to watch for.',
+        'Poorly graded on both counts. The uniformity is 0.50 over 0.30, only '
+        '1.7 against the 6 a sand needs, and the concavity is 0.38 squared '
+        'over 0.30 times 0.50, which is 0.96, just under the band of 1 to 3. '
+        'Uniform sand looks clean and handles nicely and compacts badly, since '
+        'there is nothing small to fill the space between the grains. Its '
+        'curve is nearly vertical, which is the shape to watch for.',
     source: 'geo-sc-q2',
   ),
   GradeRound(
@@ -120,10 +122,11 @@ const wellGradedRounds = <GradeRound>[
     soil: Graded(passing200: 3, passing4: 45, d10: 0.2, d30: 0.25, d60: 8.0),
     why:
         'Poorly graded, and this is what the concavity is for. The uniformity '
-        'is enormous, 40, because the sample really does span a wide range of '
-        'sizes. But the D30 sits almost on top of the D10, which says the '
-        'middle sizes are missing, and the concavity comes out at about 0.04. '
-        'A gap graded soil looks varied and packs like neither of its halves.',
+        'is 8.0 over 0.2, an enormous 40, because the sample really does span '
+        'a wide range of sizes. But the concavity is 0.25 squared over 0.2 '
+        'times 8.0, which is 0.0625 over 1.6, about 0.04: the D30 sits almost '
+        'on top of the D10, so the middle sizes are missing. A gap graded soil '
+        'looks varied and packs like neither of its halves.',
     source: 'geo-sc-q2',
   ),
   GradeRound(

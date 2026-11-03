@@ -93,13 +93,14 @@ const drainRounds = <DrainRound>[
         'A footing is built on a clean sand. Which set describes the sand '
         'during construction?',
     failure: _sand,
-    answer: Set2.either,
+    answer: Set2.drained,
     why:
-        'Either, because a sand drains as fast as it is loaded: there is no '
-        'undrained condition to speak of. Whatever water needs to move has '
-        'already moved by the time the load is on, so the effective '
-        'parameters apply from the start, and a separate undrained case would '
-        'be describing a moment that never exists.',
+        'The effective set, because a sand drains as fast as it is loaded: '
+        'there is no undrained condition to speak of. Whatever water needs to '
+        'move has already moved by the time the load is on, so the effective '
+        'parameters apply from the start. The undrained set would give this '
+        'sand no friction angle and no cohesion, which is no strength at all, '
+        'so the two are not interchangeable.',
     source: 'geo-ss-q2',
   ),
   DrainRound(

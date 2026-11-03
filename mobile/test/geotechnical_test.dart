@@ -610,7 +610,12 @@ void main() {
         twoTermRounds.map((r) => r.answer).toSet().length,
         greaterThanOrEqualTo(3),
       );
-      expect(drainRounds.map((r) => r.answer).toSet().length, 3);
+      // Either is the misconception, offered every round and never right:
+      // a sand drains as it is loaded, so it takes the effective set.
+      expect(drainRounds.map((r) => r.answer).toSet(), {
+        Set2.drained,
+        Set2.undrained,
+      });
     });
   });
 

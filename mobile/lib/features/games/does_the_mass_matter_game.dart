@@ -149,7 +149,7 @@ const massRounds = <MassRound>[
         'spring gives both blocks the same energy, because it was squeezed the '
         'same amount, and that fixed amount buys more speed in a lighter '
         'block. Nothing cancels: the mass is on one side only. Three rounds '
-        'tied, one favored the heavy one and one the light one, and the '
+        'tied, two favored the heavy one and one the light one, and the '
         'formula told you which every time.',
     source: 'dyn-wep-q1',
   ),

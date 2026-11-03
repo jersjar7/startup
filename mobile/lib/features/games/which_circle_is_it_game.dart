@@ -146,7 +146,7 @@ const madeRounds = <MadeRound>[
     source: 'mm-csm-q2',
   ),
   MadeRound(
-    subject: 'squeezed the same amount both ways',
+    subject: 'pulled the same amount both ways',
     setting:
         'Fifty megapascals of tension on both faces and no shear at all. '
         'Something worth seeing happens here.',
@@ -169,12 +169,14 @@ const madeRounds = <MadeRound>[
     stress: Stress(x: 60, y: 0, xy: 40),
     options: [Built.forgotShear, Built.right, Built.addedUp],
     why:
-        'The second. Its center is at thirty, the average, and its radius is '
-        'fifty, a thirty and a forty combined the way a right triangle '
-        'combines them. The first leaves the shear out and stops at sixty, '
-        'which is the named trap: the largest principal stress is ALWAYS '
-        'further out than the normal stress you started with once there is any '
-        'shear. The third simply adds the numbers up.',
+        'The second. Its center is at thirty, the average of sixty and '
+        'nothing. Its radius takes half the difference of the two normal '
+        'stresses, thirty, and combines it with the forty of shear the way a '
+        'right triangle does: the root of thirty squared plus forty squared is '
+        'fifty. The first leaves the shear out and stops at sixty, which is '
+        'the named trap: the largest principal stress is ALWAYS further out '
+        'than the normal stress you started with once there is any shear. The '
+        'third simply adds the numbers up.',
     source: 'mm-csm-q2',
   ),
   MadeRound(

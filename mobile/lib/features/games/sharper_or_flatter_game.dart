@@ -123,9 +123,9 @@ const curveQuoteRounds = <CurveQuoteRound>[
     answer: 1,
     why:
         'Because it is six and a half miles of radius. A six degree curve is '
-        'a normal rural highway curve of a few hundred feet, and a curve of '
-        'thirty four thousand feet would be indistinguishable from a '
-        'straight. Knowing what a real curve measures catches this kind of '
+        'a normal highway curve of about 955 feet, 5,729.58 over 6, and a '
+        'curve of thirty four thousand feet would be indistinguishable from '
+        'a straight. Knowing what a real curve measures catches this kind of '
         'slip without redoing the sum.',
     source: 'trans-hc-q1',
   ),
@@ -190,7 +190,8 @@ const curveQuoteRounds = <CurveQuoteRound>[
     answer: 1,
     why:
         'The curve length, which is the arc from the start of the curve to '
-        'its end. It is the distance the road covers and the one the '
+        'its end: the radius times the turn in radians, 1,200 times 30 times '
+        'pi over 180, which is 628 feet. It is the distance the road covers and the one the '
         'stationing runs along, and it is a plausible looking wrong answer to '
         'a tangent question precisely because it belongs to the same curve.',
     source: 'trans-hc-q2',

@@ -88,8 +88,10 @@ const rateRounds = <RateRound>[
     answer: Rate.effective,
     why:
         'Compounding twelve times a year earns more than twelve percent, and '
-        'the difference is the whole reason the word effective exists. Handing '
-        'back the quoted twelve is the trap this problem was written for.',
+        'the difference is the whole reason the word effective exists. Split '
+        'the twelve into 1% a month and compound it: 1.01 to the twelfth power '
+        'is 1.1268, so the year earns 12.68%. Handing back the quoted twelve '
+        'is the trap this problem was written for.',
     source: 'econ-eif-q2',
   ),
   RateRound(
@@ -116,8 +118,9 @@ const rateRounds = <RateRound>[
     answer: Rate.effective,
     why:
         'Two compoundings in the year, so a year costs slightly more than the '
-        'six on the certificate. It is also the only one of the three you '
-        'could hold up against an offer that compounds monthly.',
+        'six on the certificate: 3% a half-year, and 1.03 times 1.03 is '
+        '1.0609, which is 6.09% a year. It is also the only one of the three '
+        'you could hold up against an offer that compounds monthly.',
     source: 'econ-eif-q2',
   ),
   RateRound(

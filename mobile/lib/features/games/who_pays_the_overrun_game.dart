@@ -65,8 +65,9 @@ const overrunRounds = <OverrunRound>[
     answer: Payer.contractor,
     why:
         'The price was the whole point of the contract and the owner has cost '
-        'certainty because somebody else took the risk. The eighteen comes out '
-        'of the contractor\'s margin.',
+        'certainty because somebody else took the risk. The scope did not '
+        'change, so the whole overrun from the slow excavation comes out of '
+        'the contractor\'s margin.',
     source: 'eth-con-q2',
   ),
   OverrunRound(

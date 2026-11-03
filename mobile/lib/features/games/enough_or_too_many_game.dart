@@ -108,11 +108,11 @@ const tallyRounds2 = <TallyRound2>[
     ),
     why:
         'More than enough, by two. Nine from the members and five from the '
-        'supports is fourteen against the twelve that three joints worth of '
-        'equilibrium can use. Two degrees indeterminate: equilibrium gets you '
-        'most of the way and two compatibility conditions finish it. Note '
-        'where the five came from, because a fixed support gives THREE and '
-        'counting it as two is the trap.',
+        'supports is fourteen against the twelve that four joints at three '
+        'equations each can use. Two degrees indeterminate: equilibrium gets '
+        'you most of the way and two compatibility conditions finish it. Note '
+        'where the five came from: the pin gives two and the fixed support '
+        'gives THREE, and counting it as two is the trap.',
     source: 'str-ds-q2',
   ),
   TallyRound2(

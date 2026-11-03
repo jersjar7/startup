@@ -143,17 +143,18 @@ const depthRounds = <DepthRound>[
     source: 'fm-hp-q1',
   ),
   DepthRound(
-    subject: 'shallow oil against deep water',
+    subject: 'deep oil against shallow water',
     setting:
         'Three meters of water on the left, against four meters of the same '
-        'lighter oil on the right.',
+        'oil, specific gravity 0.85, on the right.',
     left: Pot(shape: Shape4.straight, depth: 3),
     right: Pot(shape: Shape4.flared, depth: 4, gamma: 8338, liquid: 'oil'),
     why:
-        'The oil, just: four meters of it comes to about 33 kilopascals '
-        'against the water\'s 29. Being lighter per meter is not enough when '
-        'there is a third more of it. Both numbers move here, and as always '
-        'the question is only which moved further.',
+        'The oil, just. Four meters of oil at 0.85 is 0.85 x 9.81 x 4, about '
+        '33 kilopascals, against the water\'s 9.81 x 3, about 29. Being '
+        'lighter per meter is not enough when there is a third more of it. '
+        'Both numbers move here, and as always the question is only which '
+        'moved further.',
     source: 'fm-hp-q2',
   ),
 ];

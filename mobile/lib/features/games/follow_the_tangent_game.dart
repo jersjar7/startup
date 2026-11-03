@@ -74,9 +74,10 @@ const tangentRounds = <TangentRound>[
     candidates: [2, 2.5, 4, 5.5],
     answer: 1,
     why:
-        'The tangent at 4 meets the axis at 2.5, and that is where one '
-        'iteration leaves you. The root is at 2 and you are not there yet; '
-        'one step of Newton gets you closer, not finished.',
+        'One step is x take away f over its slope. At 4, f is 16 less 4, '
+        'which is 12, and the slope 2x is 8, so 4 less 12/8 is 2.5. That is '
+        'where the tangent meets the axis. The root is at 2 and you are not '
+        'there yet; one step of Newton gets you closer, not finished.',
     source: 'math-num-q1',
   ),
   TangentRound(
@@ -88,9 +89,10 @@ const tangentRounds = <TangentRound>[
     candidates: [4, 5, 8, 11],
     answer: 1,
     why:
-        'Forty eight over sixteen is three, taken AWAY from eight. Eleven is '
-        'what adding it gives, and it walks you away from the root instead of '
-        'towards it.',
+        'At 8, f is 64 less 16, which is 48, and the slope 2x is 16. Forty '
+        'eight over sixteen is three, taken AWAY from eight, which leaves 5. '
+        'Eleven is what adding it gives, and it walks you away from the root '
+        'instead of towards it.',
     source: 'math-num-q1',
   ),
   TangentRound(
@@ -117,9 +119,10 @@ const tangentRounds = <TangentRound>[
     candidates: [3, 3.75, 6, 8.25],
     answer: 1,
     why:
-        'Twenty seven over twelve is 2.25, so the tangent lands at 3.75 with '
-        'the root at 3 still ahead. A second iteration from here would land '
-        'much closer, which is what fast convergence looks like.',
+        'At 6, f is 36 less 9, which is 27, and the slope 2x is 12. Twenty '
+        'seven over twelve is 2.25, and 6 less 2.25 puts the tangent at 3.75 '
+        'with the root at 3 still ahead. A second iteration from here would '
+        'land much closer, which is what fast convergence looks like.',
     source: 'math-num-q1',
   ),
   TangentRound(

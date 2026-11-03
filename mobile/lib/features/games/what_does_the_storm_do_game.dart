@@ -122,9 +122,10 @@ const stormRounds = <StormRound>[
         'part of what a unit hydrograph IS, not something to be scaled out of '
         'it. Rain spread over three hours produces a lower, longer, flatter '
         'response than the same total falling in one, and no amount of '
-        'multiplying the one hour curve will produce it. The way across is to '
-        'build the three hour hydrograph, by lagging and adding the one hour '
-        'one.',
+        'multiplying the one hour curve will produce it. To build it, add '
+        'three copies of the one hour curve, each an hour behind the last, '
+        'then divide by three so it stands for one inch again. Only then '
+        'multiply by the 2 inches.',
     source: 'wr-hw-q1',
   ),
   StormRound(

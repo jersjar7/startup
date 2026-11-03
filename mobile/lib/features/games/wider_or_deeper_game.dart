@@ -128,15 +128,16 @@ const fixRounds = <FixRound>[
   FixRound(
     subject: 'why depth does anything at all',
     asked:
-        'Why does burying a footing raise the pressure the soil beneath it '
-        'can take?',
+        'Burying a footing makes the soil beside it part of what holds it up. '
+        'On this same sand, which raises the pressure the soil can take?',
     footing: _sand,
-    answer: Remedy.deeper,
+    answer: Remedy.both,
     why:
-        'Because the soil beside a buried footing has to be lifted and pushed '
-        'out of the way before the footing can punch down: a bearing failure '
-        'is soil moving sideways and then up. The deeper it sits, the more '
-        'soil is in the way, and the depth term is what that is worth.',
+        'Both help, and burying helps more. The soil beside a buried footing '
+        'has to be lifted and pushed out of the way before the footing can '
+        'punch down: a bearing failure is soil moving sideways and then up. '
+        'The deeper it sits, the more soil is in the way, and the depth term '
+        'is what that is worth, here 6,624 against 3,617 from the width.',
     source: 'geo-bc-q2',
   ),
   FixRound(

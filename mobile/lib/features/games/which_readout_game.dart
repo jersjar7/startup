@@ -94,9 +94,9 @@ const readoutRounds = <ReadoutRound>[
     values: ['6', '4183.3', '85.2', '77.8', '25100', '105000000'],
     answer: -1,
     why:
-        'Variance is not on this screen. It is the standard deviation '
-        'squared, so 85.2 squared gives about 7,267. Reaching for Σx² because '
-        'it has a square in it is the trap that line exists to set.',
+        'Variance is not on this screen. It is the standard deviation squared, '
+        'so 85.2 squared gives about 7,259. Reaching for Σx² because it has a '
+        'square in it is the trap that line exists to set.',
     source: 'stat-ctd-q2',
   ),
   ReadoutRound(

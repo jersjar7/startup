@@ -64,11 +64,12 @@ const weirRounds = <WeirRound>[
     subject: 'the lesson\'s own weir',
     weir: Weir(notch: Notch.fullWidth, head: 1.5, crest: 5, channel: 5),
     why:
-        'The plain three halves formula. The crest runs the full width of '
-        'the channel, so the water has no ends to curl around and nothing is '
-        'taken off the length. That is what suppressed means: the end '
-        'contractions are suppressed by the walls. Five feet of crest at a '
-        'foot and a half of head passes 30.6 cubic feet a second.',
+        'The plain three halves formula. The crest runs the full width of the '
+        'channel, so the water has no ends to curl around and nothing is taken '
+        'off the length. That is what suppressed means: the end contractions '
+        'are suppressed by the walls. With the US coefficient of 3.33, five '
+        'feet of crest at a foot and a half of head passes 3.33 times 5 times '
+        '1.5 to the three halves, 1.84, which is 30.6 cubic feet a second.',
     source: 'wr-psw-q1',
   ),
   WeirRound(
@@ -89,9 +90,9 @@ const weirRounds = <WeirRound>[
         'The trimmed formula. The opening does not reach the walls, so the '
         'water curls in around each end and the nappe is narrower than the '
         'crest it poured over. The correction takes a TENTH of the head off '
-        'each end, two tenths in total, which at a foot of head is about two '
-        'and a half percent of a four foot crest. Small, but the exam expects '
-        'you to notice which weir you are looking at.',
+        'each end, two tenths in total, which at a foot of head is 0.2 feet, '
+        'or five percent of a four foot crest. Small, but the exam expects you '
+        'to notice which weir you are looking at.',
     source: 'wr-psw-q1',
   ),
   WeirRound(

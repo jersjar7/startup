@@ -78,8 +78,9 @@ const slopeRounds = <SlopeRound>[
         'The piece pressing into the slope, the weight times the COSINE. The '
         'surface answers it exactly, which is why the block does not sink into '
         'the ramp and why this piece accelerates nothing. Using it in place of '
-        'the other one is the named trap in this problem and it gives eight '
-        'and a half rather than four point nine.',
+        'the other one is the named trap in this problem: divided by the mass, '
+        'the right piece gives g times the sine of thirty, about 4.9 meters a '
+        'second squared, and this one gives g times the cosine, about 8.5.',
     source: 'dyn-fa-q2',
   ),
   SlopeRound(

@@ -79,15 +79,17 @@ const rainRounds = <RainRound>[
   RainRound(
     subject: 'why it halves',
     asked:
-        'Why does seepage cut the factor of safety roughly in half rather '
-        'than by some other amount?',
+        'Seepage cuts a factor of safety roughly in half. Take the 1.85 slope '
+        'in the 34 degree sand once more, soaked: what does that halving leave '
+        'it doing?',
     bank: Bank(slopeAngle: 20, friction: 34, seeping: true),
     why:
-        'Because the factor it brings is the buoyant unit weight over the '
-        'saturated one, and for ordinary soils those are about two to one: '
-        'soil weighs roughly twice what it weighs under water. The full '
-        'weight still drives the slide while only the buoyant part presses '
-        'the grains together, and that is the whole of the halving.',
+        'It slides, at about 0.93, and the halving comes from the unit '
+        'weights. Seepage multiplies the factor of safety by the buoyant unit '
+        'weight over the saturated one, and for ordinary soils that is about a '
+        'half: soil under water weighs roughly half what it weighs saturated. '
+        'The full weight still drives the slide while only the buoyant part '
+        'presses the grains together, and that is the whole of the halving.',
     source: 'geo-slp-q2',
   ),
   RainRound(

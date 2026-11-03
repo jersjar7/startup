@@ -148,9 +148,11 @@ const fatterRounds = <FatterRound>[
     why:
         'The average end area method, by a long way: 30,000 against 20,000. '
         'Both ends are deep, so their average is 300, and the middle is half '
-        'that. Working off the ends alone books a third more dirt than is '
-        'there. A saddle between two cuts is exactly where the prismoidal '
-        'formula earns its keep.',
+        'that. Off the ends, 100 over 2 times (300 + 300) is 30,000; the '
+        'prismoidal formula gives 100 over 6 times (300 + 4 x 150 + 300), '
+        'which is 20,000. Working off the ends alone books half again as much '
+        'dirt as is there. A saddle between two cuts is exactly where the '
+        'prismoidal formula earns its keep.',
     source: 'surv-ev-q2',
   ),
   FatterRound(
@@ -164,10 +166,12 @@ const fatterRounds = <FatterRound>[
       ],
     ),
     why:
-        'The prismoidal formula, 30,000 against 10,000, and the ratio is '
-        'worth noticing. Working end to end here misses the hump entirely, '
-        'because the ends say nothing about it. The middle section is the '
-        'only measurement in the run that knows the dirt is there.',
+        'The prismoidal formula, about 23,333 against 10,000, and the ratio is '
+        'worth noticing. Off the ends, 100 over 2 times (100 + 100) is 10,000, '
+        'which misses the hump entirely, because the ends say nothing about '
+        'it. The prismoidal formula gives 100 over 6 times (100 + 4 x 300 + '
+        '100). The middle section is the only measurement in the run that '
+        'knows the dirt is there.',
     source: 'surv-ev-q2',
   ),
 ];

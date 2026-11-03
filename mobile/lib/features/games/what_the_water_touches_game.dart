@@ -87,11 +87,12 @@ const touchRounds = <TouchRound>[
     traced: [Edge.bed, Edge.leftWet],
     fault: Edge.rightWet,
     why:
-        'The right wall was left out. This is the lesson\'s own trap in its '
-        'most common form: the bed width gets used as the perimeter and the '
-        'walls are forgotten, which here gives 6 feet instead of 8. The rule '
-        'for a rectangle is b plus TWICE the depth, because the water rubs '
-        'against a wall on each side.',
+        'The right wall was left out. Here the bed and one wall were counted, '
+        '4 plus 2, which gives 6 feet instead of 8. The lesson\'s own trap is '
+        'the same mistake gone further: the bed width alone used as the '
+        'perimeter, 4 feet. The rule for a rectangle is b plus TWICE the '
+        'depth, 4 plus 2 times 2, because the water rubs against a wall on '
+        'each side.',
     source: 'wr-ocf-q1',
   ),
   TouchRound(

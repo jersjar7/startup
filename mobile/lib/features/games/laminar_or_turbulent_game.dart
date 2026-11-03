@@ -102,17 +102,18 @@ const reynoldsRounds = <ReynoldsRound>[
     source: 'fm-pfh-q1',
   ),
   ReynoldsRound(
-    subject: 'the same pipe, a tenth of the speed',
+    subject: 'the same pipe, a hundredth of the speed',
     setting:
         'The lesson\'s main again, but throttled right down. The Reynolds '
         'number falls to about 1,990.',
     reynolds: 1990,
     why:
         'Laminar, just. The Reynolds number runs in direct proportion to the '
-        'speed, so cutting the flow by a hundred takes 199,000 to 1,990 and '
-        'crosses both thresholds on the way. That is also the number the '
-        'lesson problem offers as a wrong answer, from putting the diameter '
-        'in as a millimeter.',
+        'speed, so cutting the speed to a hundredth takes 199,000 to 1,990 and '
+        'crosses both thresholds on the way. A tenth of the speed would only '
+        'bring it to 19,900, still turbulent. That 1,990 is also the number '
+        'the lesson problem offers as a wrong answer, from putting the '
+        'diameter in as a millimeter.',
     source: 'fm-pfh-q1',
   ),
   ReynoldsRound(

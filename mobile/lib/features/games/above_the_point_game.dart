@@ -109,11 +109,11 @@ const moistureRounds = <MoveRound2>[
         'settles at 18 percent.',
     move: Drying(from: 28, to: 18),
     why:
-        'It shrinks and stiffens the whole way. Twenty eight percent is a '
-        'hair under the saturation point, which is worth noticing about that '
-        'problem: its answer sits right at the top of the range where drying '
-        'starts to do something. One point higher and this move would have '
-        'begun with nothing happening at all.',
+        'It shrinks and stiffens the whole way. Twenty eight percent is a hair '
+        'under the saturation point of thirty, which is worth noticing about '
+        'that problem: its answer sits right at the top of the range where '
+        'drying starts to do something. Start it a few points higher, above '
+        'thirty, and this move would have begun with nothing happening at all.',
     source: 'mat-wm-q1',
   ),
   MoveRound2(

@@ -158,9 +158,11 @@ const tailRounds = <TailRound>[
     ],
     answer: 1,
     why:
-        'The line sits BELOW the mean, so z is negative, and the answer is '
-        'still the bigger piece. A negative z never means a small answer; it '
-        'means the line is on the left.',
+        'The line sits BELOW the mean, so z is negative: 20 minus 25, over 4, '
+        'is -1.25. More than 20 trucks is everything to the right of it, the '
+        'bigger piece. The curve is symmetric, so the area right of -1.25 '
+        'equals the area left of +1.25, which is F(1.25), 0.8944. A negative z '
+        'never means a small answer; it means the line is on the left.',
     source: 'stat-dist-q3',
   ),
 ];

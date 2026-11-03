@@ -142,10 +142,11 @@ const pairRounds3 = <PairRound3>[
     right: Bouncer(mass: 100, stiffness: 50000),
     why:
         'The lighter machine. Note what had to happen before this could be '
-        'compared at all: the two thousand newtons is a WEIGHT, and it is '
-        'about two hundred and four kilograms of mass. Putting the newtons '
-        'straight into the formula makes the machine five times lighter than '
-        'it is and its frequency more than twice too fast.',
+        'compared at all: the two thousand newtons is a WEIGHT, and dividing '
+        'by g, 2,000 over 9.81, gives about two hundred and four kilograms of '
+        'mass. Putting the newtons straight into the formula makes the machine '
+        'nearly ten times heavier than it is, and because the mass sits under '
+        'a square root, its frequency comes out about three times too slow.',
     source: 'dyn-vib-q2',
   ),
   PairRound3(

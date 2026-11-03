@@ -101,10 +101,12 @@ const rankRounds = <RankRound>[
         'stiffest first.',
     shapes: [_flat, _onEdge, _square],
     why:
-        'On edge, then the square, then flat. Nothing here changed but the '
-        'depth, and depth is CUBED in the formula while width is not, so '
-        'turning the plank on edge multiplies its stiffness sixteen times over '
-        'for exactly the same wood. It is why joists stand on edge.',
+        'On edge, then the square, then flat. Stiffness here is I, the width '
+        'times the depth CUBED over 12, so depth counts far more than width. '
+        'On edge this plank is four times as deep as it is laid flat and a '
+        'quarter as wide: four cubed is 64, a quarter of that is 16, so '
+        'standing it up gives sixteen times the stiffness for exactly the same '
+        'wood. It is why joists stand on edge.',
     source: 'stat-ami-q1',
   ),
   RankRound(

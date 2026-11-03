@@ -123,8 +123,9 @@ const frictionRounds = <FrictionRound>[
     ],
     answer: 2,
     why:
-        'To the near one, four times over: a friction factor of 0.6 against '
-        '0.15. With the attractions equal the friction is the only thing '
+        'To the near one, four times over: 250 times 0.6 is a weight of 150, '
+        'against 250 times 0.15, which is 37.5, so 800 trips against 200. '
+        'With the attractions equal the friction is the only thing '
         'separating them, and it separates them a great deal.',
     source: 'trans-td-q3',
   ),
@@ -164,7 +165,8 @@ const frictionRounds = <FrictionRound>[
     answer: 0,
     why:
         'The far zone gains, because the road made it easier to reach and '
-        'the factor says so. Note what did NOT change: the origin still '
+        'the factor says so: 250 times 0.35 is 87.5 against the near zone\'s '
+        '150, so it now takes about 37 per cent, up from 20. Note what did NOT change: the origin still '
         'produces the same trips. Distribution moves trips around, it does '
         'not create them, which is a distinction worth holding on to when a '
         'project is being argued about.',

@@ -91,10 +91,10 @@ const boxRounds = <PickRound>[
     answer: Metal.aluminum,
     why:
         'Aluminum, and only because all three columns were read. Copper '
-        'conducts nearly twice as well and is three times too heavy. Titanium '
-        'survives anything and barely conducts at all. Steel fails on both '
-        'counts and rusts. Aluminum is the compromise that clears every bar '
-        'rather than winning any of them.',
+        'conducts nearly twice as well, and at 8,933 it is nearly twice the '
+        'weight limit. Titanium survives anything and barely conducts at all. '
+        'Steel fails on both counts and rusts. Aluminum is the compromise that '
+        'clears every bar rather than winning any of them.',
     source: 'mat-cms-q3',
   ),
   PickRound(
@@ -123,10 +123,11 @@ const boxRounds = <PickRound>[
     answer: Metal.titanium,
     why:
         'Titanium, which is the one metal here that is both a poor conductor '
-        'and completely at home in seawater. Steel conducts about as little '
-        'and rusts. Notice that a LOW conductivity was the requirement this '
-        'time: the table does not know what is good, only what each metal is, '
-        'and the job decides which end of a column you want.',
+        'and completely at home in seawater. Steel fails twice: at 83.5 it '
+        'conducts too much for a limit of 50, and it rusts. Notice that a LOW '
+        'conductivity was the requirement this time: the table does not know '
+        'what is good, only what each metal is, and the job decides which end '
+        'of a column you want.',
     source: 'mat-cms-q3',
   ),
   PickRound(
@@ -177,11 +178,12 @@ const boxRounds = <PickRound>[
     needsResistance: true,
     answer: Metal.copper,
     why:
-        'Copper. Every column rules one metal out here: steel conducts well '
-        'enough and rusts, aluminum survives and is too light for this one, '
-        'titanium is heavy enough and hardly conducts. Three requirements, '
-        'three eliminations, one survivor. Work down them in whatever order '
-        'is quickest to check.',
+        'Copper. Every other metal fails at least one column: steel conducts '
+        'well enough and is heavy enough, but rusts; aluminum survives the sea '
+        'but at 2,698 is too light; titanium survives too, but at 4,508 it is '
+        'under the weight bar and at 22 it hardly conducts. Three '
+        'requirements, three eliminations, one survivor. Work down them in '
+        'whatever order is quickest to check.',
     source: 'mat-cms-q3',
   ),
 ];

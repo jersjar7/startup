@@ -167,10 +167,10 @@ const termGoneRounds = <TermRound3>[
     answer: Piece4.none,
     why:
         'None of them: this is the full equation, and the lesson\'s own hard '
-        'problem. All three terms are there and the cohesion one is the '
-        'largest of the three, which is usual in a soil with any cohesion at '
-        'all. Dropping any of them is an error worth several thousand pounds '
-        'a square foot.',
+        'problem. All three terms are there, 7,415 from the cohesion, 2,208 '
+        'from the depth and 1,018 from the width, and the cohesion one is the '
+        'largest, which is usual in a soil with any cohesion at all. Dropping '
+        'even the smallest one costs about a thousand pounds a square foot.',
     source: 'geo-bc-q3',
   ),
   TermRound3(

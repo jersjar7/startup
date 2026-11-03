@@ -87,11 +87,12 @@ const yellowRounds = <YellowRound>[
     ],
     answer: 1,
     why:
-        'Feet per second, 73.3 of them. The deceleration is in feet per '
-        'second squared, so the speed has to match it, and 1.467 is the '
+        'Feet per second, 73.3 of them. The deceleration, 10 feet per second '
+        'squared, is in feet, so the speed has to match it, and 1.467 is the '
         'number that makes the swap: 5,280 feet in a mile over 3,600 seconds '
-        'in an hour. Put 50 in raw and the yellow comes out 3.5 seconds, '
-        'which is the lesson\'s printed trap.',
+        'in an hour. That gives 1 second plus 73.3 over 20, about 4.7. Put 50 '
+        'in raw and it is 1 plus 50 over 20, a yellow of 3.5 seconds, which '
+        'is the lesson\'s printed trap.',
     source: 'trans-st-q1',
   ),
   YellowRound(

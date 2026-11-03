@@ -81,8 +81,9 @@ const lifeRounds = <LifeRound>[
     ],
     why:
         'The same shape as the bridge and a familiar argument on every '
-        'pavement job. Doing it once properly beats doing it cheaply four '
-        'times, and the bar is where that stops being a slogan.',
+        'pavement job. Paying more once to lay it thick beats coming back to '
+        'resurface the thin one twice as often, and the bar is where that '
+        'stops being a slogan.',
     source: 'eth-ips-q2',
   ),
   LifeRound(

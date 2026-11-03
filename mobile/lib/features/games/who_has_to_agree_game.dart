@@ -110,15 +110,17 @@ const consentRounds = <ConsentRound>[
   ConsentRound(
     subject: 'your own firm bidding to a body you sit on',
     arrangement:
-        'You serve on a city advisory board that awards engineering contracts. '
-        'Your firm wants to bid on one of them.',
+        'You are a principal of your firm and serve on a city advisory board '
+        'that awards engineering contracts. Your firm wants to bid on one of '
+        'them.',
     parties: ['The board', 'The city', 'Your firm', noConsent],
     answer: [3],
     rule: 'B.8',
     why:
         'The rule runs both ways: you cannot decide on your firm\'s work, and '
-        'your firm cannot take work from a body you sit on. Disclosure does '
-        'not open that door, and neither does stepping out of the room.',
+        'because a principal of the firm sits on the board, your firm cannot '
+        'take a contract from it at all. Disclosure does not open that door, '
+        'and neither does stepping out of the room.',
     source: 'eth-oec-q2',
   ),
   ConsentRound(

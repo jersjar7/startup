@@ -94,12 +94,14 @@ const worstRounds = <WorstRound>[
         'at where the circle sits against the zero mark.',
     stress: Stress(x: 120, y: 40, xy: 30),
     why:
-        'Half the way from zero up to the right hand end: sixty five, against '
-        'a radius of fifty. Both principal stresses are tension, so the circle '
-        'never reaches zero, and the real spread of principal stresses is from '
-        'zero to a hundred and thirty rather than from thirty to a hundred and '
-        'thirty. Stopping at the radius is the named wrong answer, and it '
-        'understates the shear by thirty percent.',
+        'Half the way from zero up to the right hand end, which is the center '
+        'of 80 plus the radius of 50, a hundred and thirty: sixty five, '
+        'against a radius of fifty. Both principal stresses are tension, so '
+        'the circle never reaches zero, and the real spread of principal '
+        'stresses is from zero to a hundred and thirty rather than from thirty '
+        'to a hundred and thirty. Stopping at the radius is the named wrong '
+        'answer, and it understates the shear by fifteen out of sixty five, '
+        'nearly a quarter.',
     source: 'mm-csm-q3',
   ),
   WorstRound(

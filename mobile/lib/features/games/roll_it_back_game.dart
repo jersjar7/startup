@@ -147,10 +147,11 @@ const treeRounds = <TreeRound>[
       ]),
     ],
     why:
-        'Buy now. The unlabeled branch is the one in five nobody wrote down, '
-        'and it costs four times the parcel. Skip it and waiting looks like a '
-        'nine, count it and the average is 19.4. Probabilities at a circle '
-        'have to add to one.',
+        'Buy now. The unlabeled branch carries whatever is left, 100 less 30 '
+        'less 50 percent, so one time in five, and it costs four times the '
+        'parcel. Skip it and waiting looks like 2.4 plus 5, only 7.4. Count it '
+        'and its 20% of 60 adds 12, so the average is 19.4. Probabilities at a '
+        'circle have to add to one.',
     source: 'econ-bcd-q3',
   ),
   TreeRound(

@@ -112,8 +112,9 @@ const vergeRounds = <VergeRound>[
     why:
         'Nothing at all. There is no tendency to slide, so there is nothing '
         'for friction to resist and it sits at zero. The floor is still '
-        'perfectly capable of two hundred newtons. Capability is not force, '
-        'and the formula gives you the first, not the second.',
+        'perfectly capable of the coefficient times the weight, 0.40 times '
+        '500, two hundred newtons. Capability is not force, and the formula '
+        'gives you the first, not the second.',
     source: 'stat-fri-q1',
   ),
   VergeRound(

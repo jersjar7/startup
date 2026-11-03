@@ -87,10 +87,12 @@ const spinRounds = <SpinRound>[
     answer: 0,
     why:
         'The one on the rim. Speed is the radius times the angular velocity, '
-        'so the further out a point sits the faster it travels: the rim of '
-        'this wheel is doing about fifty six meters a second while the mark '
-        'nearest the middle is under twenty, and they are the same piece of '
-        'steel turning together.',
+        'so the further out a point sits the faster it travels. Turn the rpm '
+        'into radians a second first: 3,600 turns a minute is 60 a second, and '
+        'each turn is two pi radians, so about 377. On a rim 150 millimeters '
+        'out that is 377 times 0.15, about fifty six meters a second, while '
+        'the mark nearest the middle is under twenty, and they are the same '
+        'piece of steel turning together.',
     source: 'dyn-rbk-q2',
   ),
   SpinRound(
@@ -142,10 +144,12 @@ const spinRounds = <SpinRound>[
     arm: true,
     answer: 0,
     why:
-        'The tip, twelve meters out. Two turns a minute sounds gentle and the '
-        'tip is still doing about two and a half meters a second, which is a '
-        'brisk walk with a load hanging off it. The same slow rotation is '
-        'almost nothing at the mast.',
+        'The tip, twelve meters out. Two turns a minute sounds gentle, but '
+        'turn it into radians a second first: two turns is four pi radians, '
+        'over sixty seconds, about 0.21. Times twelve meters, the tip is still '
+        'doing about two and a half meters a second, which is a brisk walk '
+        'with a load hanging off it. The same slow rotation is almost nothing '
+        'at the mast.',
     source: 'dyn-rbk-q2',
   ),
   SpinRound(

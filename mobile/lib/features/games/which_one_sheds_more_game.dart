@@ -91,8 +91,9 @@ const shedRounds = <ShedRound>[
     bottom: Catchment([Patch(cover: 'parkland', acres: 60, coefficient: 0.45)]),
     rain: 3.5,
     why:
-        'Neither: both come to 27 acre-inches an hour. Thirty acres at 0.90 '
-        'and sixty at 0.45 are the same product, and the Rational Method '
+        'Neither: both come to about 94.5 cubic feet a second. Thirty acres at '
+        '0.90 and sixty at 0.45 both give a C times A of 27, and times the '
+        'same 3.5 inches an hour that is 94.5 for each, so the Rational Method '
         'cannot tell them apart. Area and cover trade off exactly, which is '
         'worth seeing once: doubling the ground and halving the coefficient '
         'leaves the peak alone.',
@@ -108,10 +109,13 @@ const shedRounds = <ShedRound>[
     ]),
     rain: 2.5,
     why:
-        'The yard, despite being two and a half times smaller. Nineteen '
-        'against fifteen: the coefficient is the stronger lever here because '
-        'it spans a factor of three while the areas only span two and a half. '
-        'Nothing about a big area makes it the bigger contributor on its own.',
+        'The yard, despite being two and a half times smaller. The rain is the '
+        'same on both, so compare C times A: 0.95 times 20 is 19 against 0.30 '
+        'times 50, 15, which is 47.5 against 37.5 cubic feet a second once the '
+        '2.5 inches an hour goes in. The coefficient is the stronger lever '
+        'here because it spans a factor of three while the areas only span two '
+        'and a half. Nothing about a big area makes it the bigger contributor '
+        'on its own.',
     source: 'wr-rr-q1',
   ),
   ShedRound(
@@ -153,12 +157,13 @@ const shedRounds = <ShedRound>[
     ]),
     rain: 2,
     why:
-        'The pasture, 25 against 14. Enough acres of even a soft cover will '
-        'beat a small hard one, which is the other half of the trade and the '
-        'reason both numbers have to be looked at. Note that the pasture is '
-        'over the 200 acre limit for nothing here, but a catchment much '
-        'larger than this one would need the SCS method instead: the Rational '
-        'Method is for small sites.',
+        'The pasture, 25 against 14: 0.25 times 100 against 0.95 times 15, '
+        'with the same 2 inches an hour on both. Enough acres of even a soft '
+        'cover will beat a small hard one, which is the other half of the '
+        'trade and the reason both numbers have to be looked at. At 100 acres '
+        'the pasture is still under the usual 200 acre limit, but a catchment '
+        'much larger would need the SCS method instead: the Rational Method is '
+        'for small sites.',
     source: 'wr-rr-q1',
   ),
 ];

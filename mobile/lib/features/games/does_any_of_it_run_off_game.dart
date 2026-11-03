@@ -64,10 +64,12 @@ const soakRounds = <SoakRound>[
     soak: Soak(curveNumber: 80, rain: 5),
     why:
         'Most of it: 2.89 inches of the five, which is 58 percent. The '
-        'retention works out at 2.5 inches and the ground takes the first '
-        'fifth of that, half an inch, before anything moves. After a storm '
-        'this size the ground is well past saturated and it is passing most '
-        'of what falls.',
+        'retention is 1000 over the curve number, minus 10: 1000 over 80 is '
+        '12.5, so 2.5 inches. The ground takes the first fifth of that, half '
+        'an inch, before anything moves, and then the runoff is 4.5 squared '
+        'over 5 plus 0.8 times 2.5, 20.25 over 7, which is 2.89. On a storm '
+        'this size the threshold is small beside the rain, so most of what '
+        'falls runs off.',
     source: 'wr-rr-q2',
   ),
   SoakRound(
@@ -103,9 +105,11 @@ const soakRounds = <SoakRound>[
     soak: Soak(curveNumber: 70, rain: 1.5),
     why:
         'Part of it, and not much: 0.08 inches out of an inch and a half, '
-        'about five percent. The threshold here is 0.86 inches, so the storm '
-        'has only just cleared it, and just past the threshold the runoff '
-        'climbs very slowly. This is the shape of the SCS curve worth '
+        'about five percent. The retention is 1000 over 70, minus 10, about '
+        '4.29 inches, so the threshold is a fifth of that, 0.86. The storm '
+        'gets 0.64 past it, and the runoff is 0.64 squared over 1.5 plus 0.8 '
+        'times 4.29, 0.41 over 4.93, about 0.08. Just past the threshold the '
+        'runoff climbs very slowly. This is the shape of the SCS curve worth '
         'remembering: nothing, then a little, then nearly everything.',
     source: 'wr-rr-q2',
   ),
@@ -126,11 +130,12 @@ const soakRounds = <SoakRound>[
     setting: 'Three inches of rain on woods with a curve number of 55.',
     soak: Soak(curveNumber: 55, rain: 3),
     why:
-        'Part of it, and barely any: 0.20 inches of the three. Woodland '
-        'on good soil has a retention over eight inches, so it can take a '
-        'genuinely heavy storm and pass very little. That capacity is why '
-        'clearing a wooded catchment changes the peak downstream far more '
-        'than the acreage cleared would suggest.',
+        'Part of it, and barely any: 0.19 inches of the three. Woodland on '
+        'good soil has a retention over eight inches, 1000 over 55, minus 10, '
+        'is 8.18, so the threshold is 1.64 inches and the runoff is 1.36 '
+        'squared over 3 plus 0.8 times 8.18, 1.86 over 9.55, about 0.19. That '
+        'capacity is why clearing a wooded catchment changes the peak '
+        'downstream far more than the acreage cleared would suggest.',
     source: 'wr-rr-q2',
   ),
 ];

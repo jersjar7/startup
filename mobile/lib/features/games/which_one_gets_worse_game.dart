@@ -156,11 +156,12 @@ final swapRounds = <SwapRound>[
     sectionAfter: _joist,
     loadLabel: '30 kN',
     why:
-        'The shear stress, while the bending stress gets BETTER. A load near '
-        'a support hardly bends the beam at all, P a b over L with a small a, '
-        'but that support now takes nine tenths of it instead of half. This '
-        'is the case the shear formula exists for, and it is why a short '
-        'stubby bracket is checked for shear first.',
+        'The shear stress, while the bending stress gets BETTER. A load near a '
+        'support hardly bends the beam at all, P a b over L with a small a, '
+        'but that support now takes nine tenths of it instead of half: its '
+        'share is the distance to the far support over the span, nine meters '
+        'over ten. This is the case the shear formula exists for, and it is '
+        'why a short stubby bracket is checked for shear first.',
     source: 'mm-bss-q2',
   ),
   SwapRound(

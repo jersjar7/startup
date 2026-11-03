@@ -87,9 +87,11 @@ const underRounds = <UnderRound>[
     answer: 1,
     unit: 'x bar',
     why:
-        'The root of twenty five is five, so the standard error is one and the '
-        'margin is about two. Dividing by twenty five instead gives an interval '
-        'a fifth of a percent wide, which no soil lab has ever reported.',
+        'The root of twenty five is five, so the standard error is 5 over 5, '
+        'one, and the margin is 1.96 times that, about two. Dividing by twenty '
+        'five instead gives a standard error of a fifth of a percent and an '
+        'interval from about 41.6 to 42.4, under one percent wide, which no '
+        'soil lab has ever reported.',
     source: 'stat-ci-q1',
   ),
   UnderRound(

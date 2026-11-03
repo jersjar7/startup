@@ -163,9 +163,10 @@ const phiRounds = <PhiRound>[
     why:
         'About 63. The formula is written for pounds per square inch, so 4 '
         'ksi has to become 4,000 psi before the root is taken, and the root '
-        'of 4,000 is about 63. Taking the root of 4 instead gives 2, and the '
-        'shear capacity comes out roughly a thousand times too small: a '
-        'number so wrong it is easy to catch, if you look at it.',
+        'of 4,000 is about 63. Taking the root of 4 instead gives 2, and 63 '
+        'over 2 is about 32, so the shear capacity comes out roughly thirty '
+        'times too small: a number so wrong it is easy to catch, if you look '
+        'at it.',
     source: 'str-rfs-q2',
   ),
 ];

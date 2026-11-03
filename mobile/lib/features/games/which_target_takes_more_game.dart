@@ -163,11 +163,14 @@ const hitRounds = <HitRound>[
       Hit(face: Face.vane),
     ],
     why:
-        'The scoop, and the fat fast sleeve is still nothing. Sixteen times '
-        'the momentum goes through it and comes out the far side heading the '
-        'same way at the same speed, so it has changed by nothing and the '
-        'sleeve feels nothing. Force is the CHANGE. That is why a straight '
-        'length of water main needs no block, however big the main is.',
+        'The scoop, and the fat fast sleeve is still nothing. Twice the bore '
+        'is four times the area, and twice the speed doubles both how much '
+        'water arrives each second and how fast each kilogram is going, so 4 x '
+        '2 x 2 is sixteen times the momentum. It goes through and comes out '
+        'the far side heading the same way at the same speed, so it has '
+        'changed by nothing and the sleeve feels nothing. Force is the CHANGE. '
+        'That is why a straight length of water main needs no block, however '
+        'big the main is.',
     source: 'fm-me-q1',
   ),
 ];

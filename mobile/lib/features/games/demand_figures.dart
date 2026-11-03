@@ -232,7 +232,7 @@ class GravityPainter extends CustomPainter {
         canvas,
         size,
         '${d.attractions.toStringAsFixed(0)} attractions, friction '
-        '${d.friction.toStringAsFixed(1)}',
+        '${_upTo2(d.friction)}',
         Offset(destX - 100, y + 20),
         AppColors.ink3,
         fontSize: 9.5,
@@ -241,7 +241,7 @@ class GravityPainter extends CustomPainter {
         writeOn(
           canvas,
           size,
-          'weight ${d.weight.toStringAsFixed(0)}, '
+          'weight ${_upTo2(d.weight)}, '
           '${(share * 100).toStringAsFixed(1)} per cent, '
           '${spread.tripsTo(d).toStringAsFixed(0)} trips',
           Offset(destX - 100, y + 34),
@@ -265,7 +265,7 @@ class GravityPainter extends CustomPainter {
     writeOn(
       canvas,
       size,
-      'the weights add to ${spread.total.toStringAsFixed(0)}, and the '
+      'the weights add to ${_upTo2(spread.total)}, and the '
       'shares to one',
       Offset(4, size.height - 16),
       AppColors.charcoal,
@@ -276,4 +276,15 @@ class GravityPainter extends CustomPainter {
   @override
   bool shouldRepaint(GravityPainter old) =>
       old.spread != spread || old.answered != answered;
+}
+
+/// A number with no more decimals than it needs, up to two, so a friction
+/// factor of 0.15 or a weight of 37.5 is printed as it is and not rounded
+/// into a different value.
+String _upTo2(double v) {
+  for (var places = 0; places < 2; places++) {
+    final fixed = v.toStringAsFixed(places);
+    if ((double.parse(fixed) - v).abs() < 1e-9) return fixed;
+  }
+  return v.toStringAsFixed(2);
 }

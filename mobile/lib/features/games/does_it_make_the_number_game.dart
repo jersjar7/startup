@@ -88,8 +88,9 @@ const slabRounds = <SlabRound>[
     why:
         'Only Mix A. Both lab figures clear 4,500, which is exactly the trap: '
         'the cylinders were cured in a laboratory and the slab will not be. '
-        'Mix A keeps about 4,970 and passes. Mix B starts lower and is cured '
-        'worse, so it lands near 3,910 and fails by a long way.',
+        'Fourteen days moist keeps 0.92 of Mix A\'s 5,400, about 4,970, so it '
+        'passes. Mix B starts lower at 4,600 and seven days keeps only 0.85 of '
+        'it, so it lands near 3,910 and fails by a long way.',
     source: 'mat-ccs-q3',
   ),
   SlabRound(
@@ -204,10 +205,11 @@ const slabRounds = <SlabRound>[
     ),
     needs: 4500,
     why:
-        'Only Mix C. Mix D was designed to hit the specification exactly, so '
-        'it has nothing left to pay the curing with and lands around 4,050. '
-        'A mix is chosen ABOVE the number for this reason: the field takes '
-        'its cut whatever the drawings say, and a mix with no margin in it is '
+        'Only Mix C. Mix D was designed to hit the specification exactly, '
+        '4,500 in the lab, so it has nothing left to pay the curing with: ten '
+        'days moist keeps 0.90 of it, and 4,500 times 0.90 is about 4,050. A '
+        'mix is chosen ABOVE the number for this reason: the field takes its '
+        'cut whatever the drawings say, and a mix with no margin in it is '
         'already short before anybody pours it.',
     source: 'mat-ccs-q3',
   ),

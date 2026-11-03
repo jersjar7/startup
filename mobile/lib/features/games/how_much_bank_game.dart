@@ -87,8 +87,9 @@ const tiltRounds = <TiltRound>[
     ],
     answer: 2,
     why:
-        'The remainder, 0.075, which is a superelevation rate of 7.5 per '
-        'cent: about nine inches of drop across a twelve foot lane. The '
+        'The remainder, 0.225 less 0.15, which is 0.075: a superelevation '
+        'rate of 7.5 per cent. Across a twelve foot lane that is 0.9 feet, '
+        'about eleven inches of drop. The '
         'friction is not an extra requirement, it is help already in hand, so '
         'it comes off what the curve asks for.',
     source: 'trans-hc-q3',

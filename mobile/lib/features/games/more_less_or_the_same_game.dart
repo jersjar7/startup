@@ -108,8 +108,9 @@ const compareRounds = <CompareRound>[
     bottomNote: 'a fifth of it',
     answer: Change.less,
     why:
-        'Less, and by a long way: a fifth of the simply supported sag under '
-        'the same load. The walls hold the ends level instead of letting them '
+        'Less, and by a long way. Simply supported, the middle drops '
+        '5wL^4/384EI; built in at both ends it drops only wL^4/384EI, which '
+        'is a fifth of it. The walls hold the ends level instead of letting them '
         'rotate, and a beam that cannot rotate at its ends cannot drop as far '
         'in the middle. This is why continuity is worth having, and why '
         'deflection checks on continuous beams come out comfortable.',

@@ -52,11 +52,11 @@ const shotRounds = <ShotRound>[
     sight: Sight(slope: 250, angle: 8),
     answer: Side3.flat,
     why:
-        'The horizontal one, along the bottom. A plan is a view from '
-        'straight above, so every length on it is the flat one, whatever the '
-        'ground does in between. That is the 247.56 in the lesson, and it is '
-        'shorter than the 250 the instrument read, as the flat side of a '
-        'right triangle always is.',
+        'The horizontal one, along the bottom. A plan is a view from straight '
+        'above, so every length on it is the flat one, whatever the ground '
+        'does in between. Here that is 250 times the cosine of 8 degrees, '
+        'about 247.57 meters, and it is shorter than the 250 the instrument '
+        'read, as the flat side of a right triangle always is.',
     source: 'surv-adb-q2',
   ),
   ShotRound(

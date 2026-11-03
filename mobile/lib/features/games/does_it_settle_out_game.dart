@@ -68,10 +68,12 @@ const captureRounds = <SettleRound>[
     clarifier: Clarifier(flowGpd: 2000000, diameter: 60, depth: 10),
     falling: 6,
     why:
-        'It is caught. The overflow rate works out at 708 gallons a day per '
-        'square foot, which is water rising at about 3.9 feet an hour, and '
-        'grit falling at 6 gets to the floor before the water carries it to '
-        'the weir. Read the overflow rate as a speed and the question answers '
+        'It is caught. The surface is pi times 30 squared, about 2,827 square '
+        'feet, so the overflow rate is 2,000,000 over 2,827, about 707 gallons '
+        'a day per square foot. At 7.48 gallons to the cubic foot that is '
+        'about 94.6 feet a day, or 3.9 feet an hour of rising water, and grit '
+        'falling at 6 gets to the floor before the water carries it to the '
+        'weir. Read the overflow rate as a speed and the question answers '
         'itself.',
     source: 'wr-wt-q1',
   ),
@@ -99,7 +101,7 @@ const captureRounds = <SettleRound>[
     falling: 2,
     why:
         'Still carried out, and this is the round worth remembering. Depth '
-        'does not appear in Q over A: the overflow rate is unchanged at 708, '
+        'does not appear in Q over A: the overflow rate is unchanged at 707, '
         'the water still rises at 3.9 feet an hour, and the same floc still '
         'goes over the weir. What the extra depth bought was detention TIME, '
         'which matters for other reasons and not for this one.',
@@ -113,9 +115,9 @@ const captureRounds = <SettleRound>[
     clarifier: Clarifier(flowGpd: 2000000, diameter: 90, depth: 10),
     falling: 2,
     why:
-        'Caught now. Half again on the diameter is more than twice the '
+        'Caught now. Half again on the diameter is 1.5 squared, 2.25 times the '
         'surface, so the overflow rate falls to 314 and the water rises at '
-        'only 1.7 feet an hour, slower than the floc falls. Surface area is '
+        'only 1.8 feet an hour, slower than the floc falls. Surface area is '
         'what a settling tank is buying, and going wider is the only way to '
         'buy it.',
     source: 'wr-wt-q1',
@@ -143,10 +145,10 @@ const captureRounds = <SettleRound>[
     clarifier: Clarifier(flowGpd: 500000, diameter: 40, depth: 12),
     falling: 1.5,
     why:
-        'Caught, but not by much: 398 gallons a day per square foot is water '
-        'rising at 2.2 feet an hour against a floc that falls... and there is '
-        'the trap. Read the arrows: the floc at 1.5 is SLOWER than the rise '
-        'at 2.2, so it goes over. Secondary clarifiers are sized at 400 to '
+        'Carried out, though it is close: 398 gallons a day per square foot is '
+        'water rising at 2.2 feet an hour, and the floc falls at only 1.5. '
+        'That is the trap: read the arrows, the floc is SLOWER than the rise, '
+        'so it goes over the weir. Secondary clarifiers are sized at 400 to '
         '800 gallons a day per square foot precisely because biological floc '
         'settles so slowly.',
     source: 'wr-wt-q1',

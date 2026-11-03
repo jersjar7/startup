@@ -72,8 +72,9 @@ const flatRounds = <FlatRound>[
     answer: 4,
     why:
         'At the top the tangent is flat, which is what f prime of x equals '
-        'zero means. Here that is -4x + 16 = 0, so x = 4. Halving it to 8 is '
-        'the classic slip: the 2 in front comes down as well.',
+        'zero means. Here that is -4x + 16 = 0, so x = 4. Landing on 8 is '
+        'the classic slip: it comes from -2x + 16 = 0, where the power 2 never '
+        'came down to double the 2 in front.',
     source: 'math-ad-q1',
   ),
   FlatRound(

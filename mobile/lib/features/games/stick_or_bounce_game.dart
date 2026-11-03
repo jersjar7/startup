@@ -136,10 +136,11 @@ const impactRounds = <ImpactRound>[
     crash: Crash(massA: 0.2, massB: 100000, speedA: 5, e: 0.7),
     why:
         'In between. It clearly bounces, so e is not nothing, and it does not '
-        'come back to where it started, so e is not one either: coming back to '
-        'half the height means an e of about zero point seven, since the '
-        'height goes with the square of the speed. A real impact is nearly '
-        'always in this middle country.',
+        'come back to where it started, so e is not one either. Height goes '
+        'with the square of the speed, so half the height means the ball '
+        'leaves the floor at the square root of a half of the speed it arrived '
+        'with, about 0.71 of it. That ratio is e, about zero point seven. A '
+        'real impact is nearly always in this middle country.',
     source: 'dyn-im-q2',
   ),
 ];

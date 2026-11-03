@@ -99,8 +99,9 @@ const lawRounds = <LawRound>[
     wanted: 'a',
     sines: true,
     why:
-        'The third angle follows from the two you have, which gives you a '
-        'complete pair. Law of Sines.',
+        'Take the two angles you have from 180 degrees to get the third. '
+        'That third angle sits opposite the side you know, so now you have '
+        'a complete pair. Law of Sines.',
     source: 'math-lsc-q1',
   ),
   LawRound(

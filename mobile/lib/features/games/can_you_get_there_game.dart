@@ -150,8 +150,9 @@ const roadRounds = <ReachRound>[
     why:
         'Two steps, and neither is hard. The stress over the strain is E, '
         'because that pair is in the elastic range and that is what E means. '
-        'Then E and nu give G. The road exists, it just is not one hop, and '
-        'noticing that before you start is worth more than speed.',
+        'Then E and nu give G, through G equals E over two times one plus nu. '
+        'The road exists, it just is not one hop, and noticing that before you '
+        'start is worth more than speed.',
     source: 'mm-ssd-q1',
   ),
   ReachRound(
@@ -163,9 +164,9 @@ const roadRounds = <ReachRound>[
     why:
         'You cannot get there. G needs E AND Poisson\'s ratio, and nothing '
         'here gives you nu. In practice you would look it up, near 0.3 for '
-        'steel, which gives G at about 0.38 of E, but that is a table, not '
-        'this question. Half of exam speed is knowing quickly that a road '
-        'does not exist.',
+        'steel, and G is E over two times 1.3, about 0.38 of E or roughly 77 '
+        'GPa. But that is a table, not this question. Half of exam speed is '
+        'knowing quickly that a road does not exist.',
     source: 'mm-ssd-q3',
   ),
   ReachRound(

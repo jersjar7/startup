@@ -109,11 +109,13 @@ const ionRounds = <IonRound>[
       Ion(name: 'Magnesium', concentration: 30, equivalentWeight: 12.15),
     ],
     why:
-        'The magnesium, 123 against 50. Dolomite is a calcium magnesium '
-        'carbonate, so water from it carries a good deal of magnesium, and '
-        'the conversion widens the gap that the raw numbers already showed. '
-        'Magnesium hardness is the more troublesome half to remove, which is '
-        'why the split is worth knowing and not just the total.',
+        'The magnesium, 123 against 50. Each ion is multiplied by 50 over its '
+        'equivalent weight: 20 times 50 over 20.0 is 50 for calcium, and 30 '
+        'times 50 over 12.15 is about 123 for magnesium, a total near 173, in '
+        'the hard band. Dolomite is a calcium magnesium carbonate, so water '
+        'from it carries a good deal of magnesium, and the conversion widens '
+        'the gap that the raw numbers already showed. Magnesium hardness is '
+        'the more troublesome half to remove.',
     source: 'wr-wqs-q1',
   ),
   IonRound(

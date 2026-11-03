@@ -82,9 +82,10 @@ const cornerRounds = <CornerRound>[
     why:
         'The arrow pointing at the middle of the bend, four and a half meters '
         'a second squared, more than twice the other one. This is v squared '
-        'over the radius, and the square is why speed matters so much on a '
-        'bend: going half as fast again through the same curve nearly doubles '
-        'it.',
+        'over the radius, thirty squared over two hundred, and the square is '
+        'why speed matters so much on a bend: going half as fast again through '
+        'the same curve multiplies it by one and a half squared, two and a '
+        'quarter times as much.',
     source: 'dyn-pk-q3',
   ),
   CornerRound(

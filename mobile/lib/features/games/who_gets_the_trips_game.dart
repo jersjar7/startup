@@ -63,7 +63,7 @@ const _evenPair = Spread(
 
 /// Three destinations rather than two.
 const _three = Spread(
-  produced: 1200,
+  produced: 1000,
   destinations: [
     Destination(name: 'zone 1', attractions: 200, friction: 0.5),
     Destination(name: 'zone 2', attractions: 300, friction: 0.2),
@@ -161,10 +161,11 @@ const tripShareRounds = <TripShareRound>[
     ],
     answer: 3,
     why:
-        'Both fall. The new zone adds its weight to the denominator, so every '
-        'existing share is divided by a bigger number. The trips produced '
-        'have not changed, so a new destination can only take trips from the '
-        'others.',
+        'Both fall. The new zone adds its weight of 40 to the denominator, so '
+        'the sum goes from 160 to 200 and every existing share is divided by '
+        'a bigger number: zone 1 drops from 62.5 to 50 per cent. The trips '
+        'produced have not changed, so a new destination can only take trips '
+        'from the others.',
     source: 'trans-td-q1',
   ),
   TripShareRound(

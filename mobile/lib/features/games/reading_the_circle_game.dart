@@ -110,12 +110,13 @@ const triaxialRounds = <CircleRound>[
     ],
     answer: 0,
     why:
-        'The sine. With no cohesion the envelope starts at the origin, so the '
-        'line from the origin to the touching point makes a right triangle '
-        'whose hypotenuse is the distance to the center and whose opposite '
-        'side is the radius. Sine is opposite over hypotenuse, which gives 30 '
-        'degrees. Taking the arctangent instead gives 26.6, which the lesson '
-        'offers as a choice for exactly that reason.',
+        'The sine. The center is the average of the two stresses, 4,000, and '
+        'the radius is half their difference, 2,000. With no cohesion the '
+        'envelope starts at the origin, so the line to the touching point '
+        'makes a right triangle whose hypotenuse is the distance to the center '
+        'and whose opposite side is the radius. 2,000 over 4,000 is 0.5, the '
+        'sine of 30 degrees. Taking the arctangent of 0.5 instead gives 26.6, '
+        'which the lesson offers as a choice for exactly that reason.',
     source: 'geo-ss-q2',
   ),
   CircleRound(

@@ -110,9 +110,11 @@ const weightRounds = <WeightRound>[
     value: 2,
     weight: 1,
     why:
-        'Five weekdays against one Saturday, so the weekday figure carries '
-        'five times the weight. Averaging the three numbers evenly would give '
-        'the weekend two sevenths of the week and call it three.',
+        'Five weekdays against one Saturday and one Sunday, so the weekday '
+        'figure carries five times the weight of either weekend day: 5 times '
+        '2.4, plus 3.1, plus 2.9, is 18, over 7 days, about 2.57 MGD. '
+        'Averaging the three numbers evenly gives 2.8, because it hands the '
+        'weekend two of the three shares when it is really two days in seven.',
     source: 'stat-ctd-q3',
   ),
   WeightRound(

@@ -31,7 +31,7 @@ extension LossWords on Loss {
     Loss.same => 'the same loss',
     Loss.twice => 'twice the loss',
     Loss.four => 'four times the loss',
-    Loss.thirtyTwo => 'about thirty times the loss',
+    Loss.thirtyTwo => 'about a thirtieth of the loss',
   };
 }
 
@@ -104,10 +104,11 @@ const lossRounds = <LossRound>[
     answer: Loss.thirtyTwo,
     why:
         'About a thirtieth, which is the answer that matters on a real job. '
-        'Doubling the bore cuts the velocity to a quarter by continuity, and '
-        'the velocity is squared, so that is a sixteenth. The extra diameter '
-        'underneath halves it once more, for a thirty-second. Going up one '
-        'pipe size is the cheapest head you will ever buy.',
+        'Doubling the bore makes the area four times bigger, so by continuity '
+        'the velocity drops to a quarter, and the velocity is squared, so that '
+        'is a sixteenth. The extra diameter underneath halves it once more, '
+        'for a thirty-second. Going up one pipe size is the cheapest head you '
+        'will ever buy.',
     source: 'fm-pfh-q2',
   ),
   LossRound(

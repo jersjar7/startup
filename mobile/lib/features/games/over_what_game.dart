@@ -121,18 +121,19 @@ const overRounds = <RatioRound2>[
   RatioRound2(
     subject: 'which side of the diagram',
     asked:
-        'Three of the four properties so far are ratios of volumes. Which one '
-        'is not?',
+        'Three of the four properties so far are ratios of volumes. The one '
+        'taken from the weights divides by what?',
     soil: Soil(gs: 2.65, water: 0.15, voidRatio: 0.586),
     over: Phase.water,
     under: Phase.solids,
     answer: Under.solids,
     why:
-        'Water content, the odd one out, taken from the weights. This is why '
-        'the master relationship exists at all: Se equals w times Gs is the '
-        'bridge between the volume side and the weight side, and the specific '
-        'gravity is what carries you across. Every phase problem is a walk '
-        'between those two columns.',
+        'Over the solids: it is the water content, the odd one out, the weight '
+        'of the water over the weight of the solids. The void ratio is over '
+        'the solids too, but over their volume. This is why the master '
+        'relationship exists at all: Se equals w times Gs is the bridge '
+        'between the volume side and the weight side, and the specific gravity '
+        'is what carries you across.',
     source: 'geo-pr-q2',
   ),
   RatioRound2(

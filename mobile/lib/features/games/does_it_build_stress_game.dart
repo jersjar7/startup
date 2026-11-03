@@ -56,10 +56,12 @@ const heatRounds = <HeatRound>[
         'It is warmed by fifty degrees.',
     rod: Rod(length: 1000, stuff: Stuff.steel, held: Held.oneEnd, warmBy: 50),
     why:
-        'Nothing at all. It gets about half a millimeter longer and carries no '
-        'stress whatsoever, because nothing stopped it. Heat on its own never '
-        'makes stress. Being PREVENTED from moving is what makes stress, and '
-        'that is worth separating in your head before anything else.',
+        'Nothing at all. Steel grows 11.7 millionths of its length per degree, '
+        'so fifty degrees on this meter of bar is 0.0000117 times 1,000 times '
+        '50, a little over half a millimeter, and it carries no stress '
+        'whatsoever, because nothing stopped it. Heat on its own never makes '
+        'stress. Being PREVENTED from moving is what makes stress, and that is '
+        'worth separating in your head before anything else.',
     source: 'mm-asd-q3',
   ),
   HeatRound(
@@ -126,11 +128,12 @@ const heatRounds = <HeatRound>[
       gap: 0.9,
     ),
     why:
-        'Squeezed. It wants to grow about one point four millimeters, closes '
-        'the nine tenths of a millimeter of gap, meets the wall, and fights '
-        'for the rest. Only the growth AFTER contact becomes stress, so this '
-        'bar is not as badly off as one with no gap at all. The gap is doing '
-        'its job, just not all of it.',
+        'Squeezed. Three times the forty degrees of the round before is three '
+        'times the growth, about one point four millimeters it wants to grow. '
+        'It closes the nine tenths of a millimeter of gap, meets the wall, and '
+        'fights for the other half millimeter. Only the growth AFTER contact '
+        'becomes stress, so this bar is not as badly off as one with no gap at '
+        'all. The gap is doing its job, just not all of it.',
     source: 'mm-asd-q3',
   ),
   HeatRound(

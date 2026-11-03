@@ -198,10 +198,10 @@ const pileRounds = <PileRound>[
     ],
     answer: 2,
     why:
-        'Only the tip part moves, and here the tip is the smaller half, so '
-        'the total goes up by well under a half. That is worth knowing before '
-        'paying for a bigger section: in a friction pile, length buys '
-        'capacity and width buys much less of it.',
+        'Only the tip part moves: 400 becomes 800, so the total goes from '
+        '1,000 to 1,400, up 40 percent rather than doubling. That is worth '
+        'knowing before paying for a bigger section: in a friction pile, '
+        'length buys capacity and width buys much less of it.',
     source: 'geo-dfn-q1',
   ),
 ];

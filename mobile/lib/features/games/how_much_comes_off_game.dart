@@ -118,21 +118,23 @@ const reduceRounds = <ReduceRound>[
     subject: 'a very large bay',
     asked:
         'A column carries one floor over a very large area, and the formula '
-        'comes out at 0.42 of the unreduced live load. What do you use?',
+        'comes out at 0.37 of the unreduced live load. What do you use?',
     left: Tributary(area: 4000, column: true),
     options: [
       'Half the unreduced load: a single floor may go no lower',
-      'The 0.42 the formula gives',
+      'The 0.37 the formula gives',
       'Four tenths of the unreduced load',
       'The unreduced load, since the formula has failed',
     ],
     answer: 0,
     why:
-        'Half. The rule has floors under it: a member carrying ONE floor may '
-        'not be reduced below 0.50 of the unreduced load, and one carrying '
-        'two or more floors may not go below 0.40. Working the bracket out '
-        'and then forgetting to check it against the floor is the commonest '
-        'way to get this question wrong after doing the hard part right.',
+        'Half. The bracket is 0.25 plus 15 over the root of 4 times 4,000, '
+        'which is 0.25 plus 0.12, or 0.37. But the rule has floors under it: '
+        'a member carrying ONE floor may not be reduced below 0.50 of the '
+        'unreduced load, and one carrying two or more floors may not go below '
+        '0.40. Working the bracket out and then forgetting to check it against '
+        'the floor is the commonest way to get this wrong after doing the hard '
+        'part right.',
     source: 'str-lc-q3',
   ),
   ReduceRound(

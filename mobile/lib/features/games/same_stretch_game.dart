@@ -95,11 +95,12 @@ const phaseRounds = <ShareRound>[
     lay: Lay.along,
     answer: Phase2.fiber,
     why:
-        'The fibers, and by the ratio of the moduli: sixty seven times the '
-        'stress in the matrix, because stress is modulus times strain and the '
-        'strain is shared. This is why the lesson\'s hardest problem gets 383 '
-        'megapascals in the fibers when the composite as a whole is only '
-        'carrying a hundred.',
+        'The fibers, and by the ratio of the moduli: 200 over 3, about sixty '
+        'seven times the stress in the matrix, because stress is modulus times '
+        'strain and the strain is shared. That is how the lesson\'s hardest '
+        'problem gets 383 megapascals in the fibers: the composite carries a '
+        'hundred on a modulus of about 52 gigapascals, so the shared strain is '
+        'about 0.0019, and 200 gigapascals times 0.0019 is 383.',
     source: 'mat-com-q3',
   ),
   ShareRound(
@@ -155,9 +156,12 @@ const phaseRounds = <ShareRound>[
     why:
         'The fibers, always. The composite stress is the average of the two '
         'weighted by volume, so the stiff phase sits above it and the soft '
-        'phase below: 383 in the fibers, under 6 in the matrix, and 100 for '
-        'the composite. A fiber stress that comes out BELOW the composite '
-        'stress means the strain and the stress got swapped somewhere.',
+        'phase below. Both share one strain, 100 megapascals over the '
+        'composite\'s 52 gigapascals, about 0.0019. Times 200 that is 383 in '
+        'the fibers, times 3 it is under 6 in the matrix, and a quarter of 383 '
+        'plus three quarters of 6 comes back to 100. A fiber stress BELOW the '
+        'composite stress means the strain and the stress got swapped '
+        'somewhere.',
     source: 'mat-com-q3',
   ),
 ];

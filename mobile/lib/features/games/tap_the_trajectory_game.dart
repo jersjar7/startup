@@ -76,9 +76,11 @@ const arcRounds = <ArcRound>[
     why:
         'The top again, and for the same reason: the across part of the speed '
         'never changes, so the whole speed is smallest when the up and down '
-        'part is nothing. Slowest is not stopped. At the top the ball is still '
-        'traveling across at ten meters a second, which is why it lands a long '
-        'way from where it left.',
+        'part is nothing. Slowest is not stopped. The across part is the '
+        'launch speed times the cosine of sixty degrees, which is a half, so '
+        'this twenty meter a second throw is still traveling across at ten '
+        'meters a second at the top, which is why it lands a long way from '
+        'where it left.',
     source: 'dyn-pk-q2',
   ),
   ArcRound(

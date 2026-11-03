@@ -73,9 +73,12 @@ const sizeRounds = <SizeRound>[
     from: 48,
     answer: 2,
     why:
-        'The formula gives 61.47, and 61 days leaves the margin just above the '
-        'line. You cannot count for half a day, and you cannot round down to a '
-        'number that misses the spec, so it is 62.',
+        'The formula is n equals z times sigma over the margin, squared. Here '
+        'z times sigma is 1.96 times a daily spread of 800 vehicles, 1,568, '
+        'and 1,568 over 200 is 7.84, which squared is 61.47. Sixty one days '
+        'leaves the margin just above the line. You cannot count for part of a '
+        'day, and you cannot round down to a number that misses the spec, so '
+        'it is 62.',
     source: 'stat-ci-q3',
   ),
   SizeRound(
@@ -115,8 +118,11 @@ const sizeRounds = <SizeRound>[
     from: 9,
     answer: 1,
     why:
-        'The formula gives 15.37. Fifteen is not enough and sixteen is, and '
-        'twenty is paying for precision the specification never asked for.',
+        'The formula is n equals z times sigma over the margin, squared. Here '
+        'z times sigma is 1.96 times a spread of 100 psi, 196, and 196 over 50 '
+        'is 3.92, which squared is 15.37. Fifteen is not enough and sixteen '
+        'is, so round up. Twenty is paying for precision the specification '
+        'never asked for.',
     source: 'stat-ci-q3',
   ),
   SizeRound(

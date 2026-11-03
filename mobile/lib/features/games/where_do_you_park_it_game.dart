@@ -125,13 +125,14 @@ const parkRounds = <ParkRound>[
       'At the section, 10 feet along',
       'At midspan, where the beam is weakest',
       'Over the nearer support',
-      'Fifteen feet along, halfway between the section and the far end',
+      'Twenty feet along, halfway between the section and the far end',
     ],
     answer: 0,
     why:
         'At the section. The peak of a moment influence line sits over the '
-        'section it was drawn for, wherever that is, so a question about a '
-        'quarter point is answered at the quarter point. Sliding the load to '
+        'section it was drawn for, wherever that is: here it is 10 times 20 '
+        'over 30, about 6.7, right at 10 feet. So a question about the third '
+        'point is answered at the third point. Sliding the load to '
         'midspan out of habit is the commonest wrong answer here, and it '
         'gives a smaller moment at the place that was actually asked about.',
     source: 'str-il-q2',

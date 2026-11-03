@@ -188,10 +188,12 @@ const layRounds = <LayRound>[
     answer: Mixes.additive,
     why:
         'The additive rule, and notice what the plain average would have '
-        'given: a hundred and one gigapascals, as if the two were half and '
-        'half. They are not, and the volume fractions are doing real work '
-        'here. The real answer is 52. Whenever a composite answer comes out '
-        'near the middle of the two materials, check the fractions.',
+        'given: 200 plus 3 over 2, about a hundred and one gigapascals, as if '
+        'the two were half and half. They are not, and the volume fractions '
+        'are doing real work here. Weight each by its share: 0.25 times 200 is '
+        '50, plus 0.75 times 3 is about 2, so the real answer is 52. Whenever '
+        'a composite answer comes out near the middle of the two materials, '
+        'check the fractions.',
     source: 'mat-com-q1',
   ),
 ];

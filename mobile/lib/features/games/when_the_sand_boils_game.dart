@@ -83,15 +83,15 @@ const boilRounds = <BoilRound>[
           'ratio',
       'Exactly 1.00, as it is for every sand',
       '1.85, which is one plus the void ratio',
-      '0.54, the void ratio over the specific gravity',
+      '0.31, the void ratio over the specific gravity',
     ],
     answer: 0,
     why:
-        'About 0.92. It is close to one, as it nearly always is, but it is '
-        'not one: this sand boils at a gradient a little under unity. The '
-        'lesson offers exactly 1.00 as a choice because the habit of '
-        'assuming it is a fair approximation for a rule of thumb and a wrong '
-        'answer for a question.',
+        'About 0.92: 2.70 less one is 1.70, and one plus 0.85 is 1.85, so 1.70 '
+        'over 1.85 is 0.92. It is close to one, as it nearly always is, but '
+        'this sand boils at a gradient a little under unity. The lesson offers '
+        'exactly 1.00 as a choice because assuming it is a fair rule of thumb '
+        'and a wrong answer for a question.',
     source: 'geo-seep-q2',
   ),
   BoilRound(
@@ -119,8 +119,8 @@ const boilRounds = <BoilRound>[
   BoilRound(
     subject: 'a looser sand',
     asked:
-        'A looser sand, void ratio 1.20 instead of 0.85. What happens to the '
-        'gradient it boils at?',
+        'A looser sand, specific gravity 2.65 and void ratio 1.20 instead of '
+        '0.85. What happens to the gradient it boils at?',
     quick: _looseSand,
     options: [
       'It falls: a looser sand boils more easily',
@@ -130,10 +130,11 @@ const boilRounds = <BoilRound>[
     ],
     answer: 0,
     why:
-        'It falls, to about 0.75. A loose sand has less solid in a given '
-        'volume, so its buoyant weight is smaller and it takes less upward '
-        'drag to carry it. Loose saturated sands are the ones that boil, '
-        'liquefy and run, and their looseness is exactly the reason.',
+        'It falls, to about 0.75: 2.65 less one is 1.65, over one plus 1.20, '
+        'which is 2.20. A loose sand has less solid in a given volume, so its '
+        'buoyant weight is smaller and it takes less upward drag to carry it. '
+        'Loose saturated sands are the ones that boil, liquefy and run, and '
+        'their looseness is exactly the reason.',
     source: 'geo-seep-q2',
   ),
   BoilRound(

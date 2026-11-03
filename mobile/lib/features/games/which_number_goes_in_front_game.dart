@@ -68,10 +68,10 @@ const kayRounds = <KayRound>[
     why:
         'K = 1.486, because the drawing is in feet. That number is not a '
         'physical constant, it is a unit conversion baked into the formula: '
-        'Manning\'s was derived in metric and 1.486 is what a cubic meter per '
-        'second becomes in feet. Leave it out on a US problem and every answer '
-        'comes out a third too small, which is the 19.5 against 28.9 in the '
-        'lesson.',
+        'Manning\'s equation was set up in meters, and 1.486 is the cube root '
+        'of 3.281, the number of feet in a meter. Leave it out on a US problem '
+        'and every answer comes out about a third too small, which is the 19.5 '
+        'against 28.9 in the lesson.',
     source: 'wr-ocf-q1',
   ),
   KayRound(

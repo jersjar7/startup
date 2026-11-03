@@ -92,8 +92,8 @@ const wallHeightRounds = <WallHeightRound>[
         'The half. Exactly twice the right answer, every time, is the '
         'signature of taking the pressure at the base as though it acted all '
         'the way up instead of averaging it. The lesson offers 9,000 as a '
-        'choice for that reason, and 13,500 for leaving out the coefficient '
-        'as well.',
+        'choice for that reason, and 13,500 for keeping the half but leaving '
+        'out the coefficient instead: one half of 120 times 15 squared.',
     source: 'geo-le-q2',
   ),
   WallHeightRound(

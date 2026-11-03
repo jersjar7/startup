@@ -67,11 +67,12 @@ const landRounds = <LandRound>[
       ],
     ),
     why:
-        'P. Easting first, so 1,300 is measured across and 1,400 up. Q is '
-        'the same two numbers swapped, which is the mistake worth watching '
-        'for: it lands on the other side of the diagonal, a hundred feet '
-        'from where the point belongs and in a different direction from '
-        'everything else on the job.',
+        'P. Easting first, so 1,300 is measured across and 1,400 up. Q is the '
+        'same two numbers swapped, which is the mistake worth watching for: it '
+        'lands on the other side of the diagonal, a hundred feet east and a '
+        'hundred feet south of where the point belongs, about 141 feet away in '
+        'a straight line, and in a different direction from everything else on '
+        'the job.',
     source: 'surv-cg-q1',
   ),
   LandRound(
@@ -87,10 +88,11 @@ const landRounds = <LandRound>[
       ],
     ),
     why:
-        'Q, well up the sheet and not far across it. When the two numbers '
-        'are far apart, reading them backwards moves the point three '
-        'thousand feet, which is the sort of error that gets caught. It is '
-        'the pairs that are close together that get through unnoticed.',
+        'Q, well up the sheet and not far across it. When the two numbers are '
+        'far apart, reading them backwards moves the point three thousand feet '
+        'east and three thousand feet south, over four thousand feet in a '
+        'straight line, which is the sort of error that gets caught. It is the '
+        'pairs that are close together that get through unnoticed.',
     source: 'surv-cg-q1',
   ),
   LandRound(
@@ -125,10 +127,11 @@ const landRounds = <LandRound>[
       ],
     ),
     why:
-        'Q, across to the right and level with the corner. P is the swap, '
-        'and it sits a hundred feet away in a completely different '
-        'direction. A hundred feet is small enough to look plausible on a '
-        'plan and large enough to put a building on the neighbor\'s land.',
+        'Q, across to the right and level with the corner. P is the swap, a '
+        'hundred feet west and a hundred feet north of it, about 141 feet away '
+        'in a straight line and in a completely different direction. That is '
+        'small enough to look plausible on a plan and large enough to put a '
+        'building on the neighbor\'s land.',
     source: 'surv-cg-q1',
   ),
   LandRound(
@@ -163,11 +166,11 @@ const landRounds = <LandRound>[
       ],
     ),
     why:
-        'Q. Two hundred feet separates the pair from its swap here, and '
-        'nothing about either number looks wrong. This is why coordinates '
-        'get labeled E and N on every drawing rather than left as a pair of '
-        'numbers in brackets, and why a plotted check is worth the minute it '
-        'takes.',
+        'Q. The swap sits two hundred feet west and two hundred feet north of '
+        'it, about 283 feet away in a straight line, and nothing about either '
+        'number looks wrong. This is why coordinates get labeled E and N on '
+        'every drawing rather than left as a pair of numbers in brackets, and '
+        'why a plotted check is worth the minute it takes.',
     source: 'surv-cg-q1',
   ),
 ];

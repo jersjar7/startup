@@ -195,9 +195,11 @@ const binomialRounds = <BinomialRound>[
       Factor(FactorKind.power, 10, 8),
     ],
     why:
-        'All three terms are still there; two of them are just one. There is '
-        'exactly one way for everything to pass, and no failures to account '
-        'for, which is why this case collapses to p to the n.',
+        'All three terms are still there; two of them are just one. C(8, 8) is '
+        '1, because there is exactly one way for all eight to pass, and 0.10 '
+        'to the 0 is 1, because there are no failures to account for. That '
+        'leaves 0.90 to the 8, about 0.43, which is why this case collapses to '
+        'p to the n.',
     source: 'stat-dist-q2',
   ),
   BinomialRound(

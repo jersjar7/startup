@@ -145,12 +145,13 @@ const drawRounds = <DrawRound>[
       radiusOut: 200,
     ),
     why:
-        'More than twice: about 2.2. The same doubling of the drawdown, '
-        'arrived at the other way round, and now the sum of the heads goes UP '
-        'as well as the difference. A wetter year makes the aquifer thicker '
-        'everywhere, so the same drawdown moves more water. Which end of the '
-        'drawdown changed is the whole of the difference between this round '
-        'and the last one.',
+        'More than twice: about 2.2. The unconfined well runs on the far head '
+        'squared minus the well head squared. Before, 50 squared minus 40 '
+        'squared is 2,500 minus 1,600, 900. After, 60 squared minus 40 squared '
+        'is 3,600 minus 1,600, 2,000, and 2,000 over 900 is 2.2. The drawdown '
+        'doubled and the sum of the heads went UP as well, from 90 to 100. A '
+        'wetter year makes the aquifer thicker everywhere, so the same '
+        'drawdown moves more water.',
     source: 'wr-gw-q2',
   ),
   DrawRound(
@@ -235,12 +236,15 @@ const drawRounds = <DrawRound>[
       radiusOut: 150,
     ),
     why:
-        'Less than twice, but only just: 1.96 rather than 2. When the '
-        'drawdown is small against the saturated thickness, the sum of the '
-        'heads barely moves and the squared form behaves almost like the '
-        'plain one. That is why treating a lightly pumped unconfined aquifer '
-        'as though it were confined is a common approximation and usually a '
-        'harmless one. It stops being harmless when the drawdown gets deep.',
+        'Less than twice, but only just: 1.96 rather than 2. The water stands '
+        '25 meters above the base of the sand out at the edge. Before, 25 '
+        'squared minus 24 squared is 625 minus 576, 49. After, 25 squared '
+        'minus 23 squared is 625 minus 529, 96, and 96 over 49 is 1.96. When '
+        'the drawdown is small against the saturated thickness, the sum of the '
+        'heads barely moves and the squared form behaves almost like the plain '
+        'one, so treating a lightly pumped unconfined aquifer as confined is '
+        'usually harmless. It stops being harmless when the drawdown gets '
+        'deep.',
     source: 'wr-gw-q2',
   ),
 ];

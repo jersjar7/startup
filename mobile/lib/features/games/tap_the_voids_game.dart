@@ -129,12 +129,12 @@ const voidRounds = <VoidRound>[
     puck: _design,
     answer: Piece2.aggregate,
     why:
-        'The stone itself. The bulk gravity times the aggregate share over '
-        'the aggregate gravity is the volume the aggregate occupies, and '
-        'whatever is not stone is VMA. Reporting that subtracted term as the '
-        'answer gives 86 percent, which is the other wrong answer the lesson '
-        'names, and it should look obviously wrong: a compacted mix is not 86 '
-        'percent void.',
+        'The stone itself. The bulk gravity times the aggregate share over the '
+        'aggregate gravity is the volume the aggregate occupies, and whatever '
+        'is not stone is VMA: on this mix, 100 minus 85 leaves 15. In the '
+        'lesson\'s problem that subtracted term comes to 86, and reporting it '
+        'as the answer is the other wrong answer the lesson names. It should '
+        'look obviously wrong: a compacted mix is not 86 percent void.',
     source: 'mat-asp-q3',
   ),
 ];

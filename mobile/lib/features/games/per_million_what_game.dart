@@ -88,11 +88,11 @@ const exposureRounds = <ExposureRound>[
     ],
     answer: 1,
     why:
-        'The whole year of traffic, 2.92 million vehicles. The periods have '
-        'to match: a year of crashes over a year of traffic. Dividing by the '
-        'daily count instead gives 1,500 per million, which is the lesson\'s '
-        'wrong answer and is absurd on its face, since it would mean more '
-        'crashes than vehicles.',
+        'The whole year of traffic, 2.92 million vehicles, and 12 crashes '
+        'over that is about 4.1 per million. The periods have to match: a '
+        'year of crashes over a year of traffic. Dividing by the daily count '
+        'instead gives 1,500 per million, which is the lesson\'s wrong answer '
+        'and is absurd on its face: 365 times the real rate.',
     source: 'trans-tf-q3',
   ),
   ExposureRound(
