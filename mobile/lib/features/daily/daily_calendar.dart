@@ -28,6 +28,13 @@ String dayKey(DateTime d) =>
     '${d.month.toString().padLeft(2, '0')}-'
     '${d.day.toString().padLeft(2, '0')}';
 
+/// 'YYYY-MM-DD' -> the calendar day before it, the same shape. Calendar
+/// arithmetic, so a daylight saving change never skips or repeats a day.
+String dayBefore(String date) {
+  final d = DateTime.tryParse(date);
+  return d == null ? date : dayKey(DateTime(d.year, d.month, d.day - 1));
+}
+
 const _months = [
   'Jan',
   'Feb',
@@ -47,4 +54,21 @@ const _months = [
 String dailyDayLabel(String date) {
   final d = DateTime.tryParse(date);
   return d == null ? '' : '${_months[d.month - 1]} ${d.day}';
+}
+
+const _weekdays = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
+
+/// 'YYYY-MM-DD' -> 'Monday, Nov 2', the date line over a Daily.
+String dailyDayLine(String date) {
+  final d = DateTime.tryParse(date);
+  if (d == null) return '';
+  return '${_weekdays[d.weekday - 1]}, ${_months[d.month - 1]} ${d.day}';
 }

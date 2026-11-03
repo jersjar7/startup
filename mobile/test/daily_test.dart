@@ -124,8 +124,13 @@ class _FakeRepo extends DailyRepository {
   @override
   Future<Map<String, dynamic>?> pending() async => null;
 
+  /// Today's board only: yesterday's has its own tests
+  /// (daily_yesterday_test.dart), so these pictures stay without the link.
   @override
-  Future<DailyResults> results(int number) async => board!;
+  Future<DailyResults> results(int number) async {
+    if (number != puzzle.number) throw StateError('no board');
+    return board!;
+  }
 
   @override
   Future<DailySubmission?> submit({

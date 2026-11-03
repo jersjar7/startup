@@ -12,11 +12,14 @@ import '../games/game_progress.dart';
 import '../shared/widgets/kit.dart';
 import '../study/chapter_marks.dart';
 import '../study/study_tab.dart' show appClock;
+import 'daily_board.dart';
+import 'daily_calendar.dart';
 import 'daily_models.dart';
 import 'daily_repository.dart';
 import 'daily_run.dart';
 import 'daily_share.dart';
 import 'daily_widgets.dart';
+import 'daily_yesterday.dart';
 
 /// Tab 3, the Daily: three whole games from three chapters, the same for
 /// every student today, played once (owner's call, 2026-10-15).
@@ -47,6 +50,11 @@ class _DailyTabState extends State<DailyTab> {
   bool _resultsFailed = false;
   bool _runLoaded = false;
   int _board = 0; // 0 everyone, 1 school
+
+  /// Yesterday's final board, kept only when this student is on it: the
+  /// "Yesterday's score" link shows for nobody else.
+  DailyResults? _yesterday;
+  int? _yesterdayNumber;
 
   @override
   void initState() {
@@ -113,6 +121,14 @@ class _DailyTabState extends State<DailyTab> {
           ),
         );
       }
+      // Yesterday's board, asked for alongside today's: the number before
+      // today's, by the same local calendar.
+      final yesterdayNumber = puzzle.number - 1;
+      final yesterdayAsk = yesterdayNumber >= 1
+          ? repo
+                .results(yesterdayNumber)
+                .then<DailyResults?>((r) => r, onError: (_) => null)
+          : Future<DailyResults?>.value();
       DailyResults? results;
       var resultsFailed = false;
       if (puzzle.mine != null) {
@@ -122,8 +138,19 @@ class _DailyTabState extends State<DailyTab> {
           resultsFailed = true;
         }
       }
+      final asked = await yesterdayAsk;
+      // No answer (no signal): keep the board already shown for that day.
+      final yesterday = asked == null
+          ? (_yesterdayNumber == yesterdayNumber ? _yesterday : null)
+          : (asked.everyone.me != null ? asked : null);
       Notifications().dailyState(
-        lastPlayedDay: puzzle.mine != null ? puzzle.date : null,
+        // Played yesterday is enough for the morning reminder to point at
+        // yesterday's board, even before today's is played.
+        lastPlayedDay: puzzle.mine != null
+            ? puzzle.date
+            : yesterday != null
+            ? dayBefore(puzzle.date)
+            : null,
         streak: puzzle.streak.current,
       );
       if (!mounted) return;
@@ -131,6 +158,8 @@ class _DailyTabState extends State<DailyTab> {
         _puzzle = puzzle;
         _results = results;
         _resultsFailed = resultsFailed;
+        _yesterday = yesterday;
+        _yesterdayNumber = yesterdayNumber;
         _failed = false;
         _loading = false;
       });
@@ -162,9 +191,22 @@ class _DailyTabState extends State<DailyTab> {
     }
   }
 
+  void _openYesterday(DailyPuzzle puzzle, DailyResults board) {
+    Navigator.of(context, rootNavigator: true).push(
+      MaterialPageRoute<void>(
+        builder: (_) =>
+            DailyYesterdayScreen(date: dayBefore(puzzle.date), results: board),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final puzzle = _puzzle;
+    final yesterday = _yesterday;
+    final onYesterday = puzzle == null || yesterday == null
+        ? null
+        : () => _openYesterday(puzzle, yesterday);
     // Off screen in the shell's stack: nothing here should keep animating.
     return TickerMode(
       enabled: widget.visible,
@@ -199,6 +241,7 @@ class _DailyTabState extends State<DailyTab> {
                           ? DailyRun.instance
                           : null,
                       onPlay: () => _play(puzzle),
+                      onYesterday: onYesterday,
                     )
                   : _Results(
                       puzzle: puzzle,
@@ -206,6 +249,7 @@ class _DailyTabState extends State<DailyTab> {
                       failed: _resultsFailed,
                       board: _board,
                       onBoard: (i) => setState(() => _board = i),
+                      onYesterday: onYesterday,
                     ),
             ),
           ),
@@ -215,34 +259,93 @@ class _DailyTabState extends State<DailyTab> {
   }
 }
 
-const _weekdays = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-  'Sunday',
-];
-const _months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
+String _dayLine(String iso) => dailyDayLine(iso);
 
-String _dayLine(String iso) {
-  final d = DateTime.tryParse(iso);
-  if (d == null) return '';
-  return '${_weekdays[d.weekday - 1]}, ${_months[d.month - 1]} ${d.day}';
+/// The date or board eyebrow over the screen's headline, with the
+/// "Yesterday's score" link at the top right when there is a board to show.
+///
+/// The link sits over the heading rather than in a row of its own, so the
+/// heading never moves when it appears. Its touch target reaches down into
+/// the gap and the headline's first line, which take no taps.
+class _Heading extends StatelessWidget {
+  const _Heading({
+    required this.eyebrow,
+    required this.headline,
+    required this.onYesterday,
+  });
+
+  final String eyebrow;
+  final String headline;
+  final VoidCallback? onYesterday;
+
+  @override
+  Widget build(BuildContext context) {
+    final column = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(right: onYesterday == null ? 0 : 128),
+          child: Text(
+            eyebrow,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.eyebrow(),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(headline, style: AppTheme.display(size: 44)),
+      ],
+    );
+    if (onYesterday == null) return column;
+    return Stack(
+      children: [
+        column,
+        Positioned(
+          top: 0,
+          right: 0,
+          child: _YesterdayLink(onTap: onYesterday!),
+        ),
+      ],
+    );
+  }
+}
+
+/// Small and light on purpose, so it never competes with the headline
+/// (owner, 2026-11-02).
+class _YesterdayLink extends StatelessWidget {
+  const _YesterdayLink({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 44, minWidth: 44),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Text(
+              'Yesterday\'s score',
+              style:
+                  AppTheme.body(
+                    size: 13,
+                    weight: FontWeight.w600,
+                    color: AppColors.mutedOnLight,
+                    height: 1.2,
+                  ).copyWith(
+                    decoration: TextDecoration.underline,
+                    decorationColor: AppColors.mutedOnLight,
+                  ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 /// Before the first answer from the server, or when there is none.
@@ -333,6 +436,7 @@ class _Today extends StatelessWidget {
     required this.run,
     required this.onPlay,
     this.guest = false,
+    this.onYesterday,
   });
 
   final DailyPuzzle puzzle;
@@ -345,6 +449,9 @@ class _Today extends StatelessWidget {
   final DailyRun? run;
   final VoidCallback onPlay;
 
+  /// Opens yesterday's final board; null hides the link.
+  final VoidCallback? onYesterday;
+
   @override
   Widget build(BuildContext context) {
     final minutes = (puzzle.total / 6).round().clamp(1, 9);
@@ -356,9 +463,11 @@ class _Today extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(_dayLine(puzzle.date).toUpperCase(), style: AppTheme.eyebrow()),
-        const SizedBox(height: 10),
-        Text('Today\'s Daily', style: AppTheme.display(size: 44)),
+        _Heading(
+          eyebrow: _dayLine(puzzle.date).toUpperCase(),
+          headline: 'Today\'s Daily',
+          onYesterday: onYesterday,
+        ),
         const SizedBox(height: 22),
         Container(
           padding: const EdgeInsets.all(22),
@@ -718,6 +827,7 @@ class _Results extends StatelessWidget {
     required this.failed,
     required this.board,
     required this.onBoard,
+    this.onYesterday,
   });
 
   final DailyPuzzle puzzle;
@@ -725,6 +835,9 @@ class _Results extends StatelessWidget {
   final bool failed;
   final int board;
   final ValueChanged<int> onBoard;
+
+  /// Opens yesterday's final board; null hides the link.
+  final VoidCallback? onYesterday;
 
   @override
   Widget build(BuildContext context) {
@@ -749,51 +862,20 @@ class _Results extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          showing == null
+        _Heading(
+          eyebrow: showing == null
               ? 'TODAY\'S DAILY'
               : 'TODAY\'S DAILY · ${showing.players} PLAYED',
-          style: AppTheme.eyebrow(),
+          headline: headline,
+          onYesterday: onYesterday,
         ),
-        const SizedBox(height: 10),
-        Text(headline, style: AppTheme.display(size: 44)),
         if (school != null) ...[
           const SizedBox(height: 18),
-          Row(
-            children: [
-              _Chip(
-                label: 'Everyone',
-                on: board == 0 || !school.open,
-                onTap: () => onBoard(0),
-              ),
-              const SizedBox(width: 8),
-              Flexible(
-                child: _Chip(
-                  label: school.open
-                      ? school.name
-                      : '${school.name}, at ${school.needs} players',
-                  on: board == 1 && school.open,
-                  enabled: school.open,
-                  onTap: () => onBoard(1),
-                ),
-              ),
-            ],
-          ),
+          DailyBoardChips(school: school, board: board, onBoard: onBoard),
         ],
         const SizedBox(height: 12),
         if (showing != null) ...[
-          _Spread(board: showing, total: mine.total, mine: mine.score),
-          const SizedBox(height: 10),
-          for (final p in _rows(showing)) ...[
-            _Place(
-              rank: p.rank,
-              name: p.isYou ? 'You' : p.name,
-              score: p.score,
-              ms: p.ms,
-              you: p.isYou,
-            ),
-            const SizedBox(height: 6),
-          ],
+          DailyStandings(board: showing, total: mine.total, mine: mine.score),
         ] else
           Container(
             padding: const EdgeInsets.all(22),
@@ -867,237 +949,6 @@ class _Results extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-
-  /// The top names, then you when you are not already among them.
-  List<DailyPlace> _rows(DailyBoard b) {
-    final rows = [...b.top];
-    final me = b.me;
-    if (me != null && !rows.any((r) => r.isYou)) {
-      rows.add(
-        DailyPlace(
-          rank: me.rank,
-          name: 'You',
-          score: me.score,
-          ms: me.ms,
-          isYou: true,
-        ),
-      );
-    }
-    return rows;
-  }
-}
-
-class _Chip extends StatelessWidget {
-  const _Chip({
-    required this.label,
-    required this.on,
-    required this.onTap,
-    this.enabled = true,
-  });
-
-  final String label;
-  final bool on;
-  final bool enabled;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      button: enabled,
-      selected: on,
-      child: GestureDetector(
-        onTap: enabled ? onTap : null,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          height: 44,
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          decoration: BoxDecoration(
-            color: on ? AppColors.charcoal : AppColors.creamDark,
-            borderRadius: BorderRadius.circular(22),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.display(
-                    size: 15,
-                    weight: FontWeight.w700,
-                    height: 1,
-                    tracking: -0.01,
-                    color: on
-                        ? AppColors.cream
-                        : enabled
-                        ? AppColors.charcoal
-                        : AppColors.mutedOnLight,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// How the scores spread: one bar per score, the longest the most common,
-/// yours dark. Six rows at most; the tail is folded into the last.
-class _Spread extends StatelessWidget {
-  const _Spread({required this.board, required this.total, required this.mine});
-
-  final DailyBoard board;
-  final int total;
-  final int mine;
-
-  @override
-  Widget build(BuildContext context) {
-    final scores = board.distribution.keys.toList()
-      ..sort((a, b) => b.compareTo(a));
-    final rows = <(String, int, bool)>[];
-    for (var i = 0; i < scores.length; i++) {
-      final s = scores[i];
-      if (i == 5 && scores.length > 6) {
-        final rest = scores.sublist(5);
-        rows.add((
-          '≤$s',
-          rest.fold(0, (n, r) => n + board.distribution[r]!),
-          rest.contains(mine),
-        ));
-        break;
-      }
-      rows.add(('$s', board.distribution[s]!, s == mine));
-    }
-    final most = rows.fold(1, (m, r) => r.$2 > m ? r.$2 : m);
-
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
-      decoration: BoxDecoration(
-        color: AppColors.cream,
-        borderRadius: BorderRadius.circular(32),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'FIRST TRY, OUT OF $total',
-            style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
-          ),
-          const SizedBox(height: 14),
-          for (final r in rows) ...[
-            Row(
-              children: [
-                SizedBox(
-                  width: 36,
-                  child: Text(r.$1, style: AppTheme.mono(size: 12)),
-                ),
-                Expanded(
-                  child: LayoutBuilder(
-                    builder: (_, box) => Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        width: (box.maxWidth * r.$2 / most).clamp(
-                          28,
-                          box.maxWidth,
-                        ),
-                        height: 20,
-                        padding: const EdgeInsets.only(right: 8),
-                        alignment: Alignment.centerRight,
-                        decoration: BoxDecoration(
-                          color: r.$3
-                              ? AppColors.charcoal
-                              : AppColors.creamDark,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          '${r.$2}',
-                          style: AppTheme.mono(
-                            size: 11,
-                            weight: FontWeight.w600,
-                            color: r.$3 ? AppColors.cream : AppColors.charcoal,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 6),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _Place extends StatelessWidget {
-  const _Place({
-    required this.rank,
-    required this.name,
-    required this.score,
-    required this.ms,
-    required this.you,
-  });
-
-  final int rank;
-  final String name;
-  final int score;
-  final int ms;
-  final bool you;
-
-  @override
-  Widget build(BuildContext context) {
-    final muted = you ? AppColors.mutedOnDark : AppColors.mutedOnLight;
-    final ink = you ? AppColors.cream : AppColors.charcoal;
-    return Container(
-      height: 52,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: you ? AppColors.charcoal : AppColors.cream,
-        borderRadius: BorderRadius.circular(22),
-      ),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 34,
-            child: Text(
-              '$rank',
-              style: AppTheme.mono(
-                size: 13,
-                weight: FontWeight.w600,
-                color: muted,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTheme.body(
-                size: 14.5,
-                weight: FontWeight.w500,
-                color: ink,
-              ),
-            ),
-          ),
-          Text('$score', style: AppTheme.mono(size: 12.5, color: ink)),
-          SizedBox(
-            width: 52,
-            child: Text(
-              clockOf(ms),
-              textAlign: TextAlign.right,
-              style: AppTheme.mono(size: 12.5, color: muted),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

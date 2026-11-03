@@ -127,7 +127,8 @@ const outcomeAskDays = [outcomeAfterDays, 16, 30, 60];
 ///
 /// [lastStudyDay] and [lastDailyDay] are date-only strings, or null if never.
 /// Studying today quiets today's midday reminder; playing today's Daily
-/// quiets today's morning and evening ones. [streak] is the Daily streak as
+/// quiets today's morning and evening ones. The morning after a Daily was
+/// played says yesterday's final board is in. [streak] is the Daily streak as
 /// of today, which only today's evening reminder mentions: nobody knows yet
 /// whether tomorrow's will still be alive.
 ///
@@ -207,6 +208,7 @@ List<PlannedNotification> notificationPlan({
   final playedToday =
       _parseDay(lastDailyDay) != null &&
       _daysBetween(_parseDay(lastDailyDay)!, now) == 0;
+  final lastDaily = _parseDay(lastDailyDay);
   final stop = exam == null ? null : _plusDays(exam, -quietDaysBeforeExam);
 
   void add(PlannedNotification n) {
@@ -229,7 +231,12 @@ List<PlannedNotification> notificationPlan({
           // Never "Daily No. N": students see dates, not a count of the
           // ones they missed (ADR 0022).
           title: 'Today\'s Daily is ready',
-          body: _readyBody(i),
+          // Played the day before: the board for that day is final now, so
+          // the morning one points at it first. The phone writes this the
+          // night before, so it cannot carry the place itself.
+          body: lastDaily != null && _daysBetween(lastDaily, day) == 1
+              ? yesterdayBoardBody
+              : _readyBody(i),
         ),
       );
     }
@@ -305,6 +312,11 @@ int _id(NotifyKind kind, DateTime when) {
   ).difference(DateTime.utc(2020)).inDays;
   return days * 8 + kind.index;
 }
+
+/// The morning one after a day the Daily was played (owner, 2026-11-02).
+const yesterdayBoardBody =
+    'Yesterday\'s final board is in. See where you placed, then play '
+    'today\'s Daily.';
 
 String _readyBody(int dayOffset) {
   const bodies = [

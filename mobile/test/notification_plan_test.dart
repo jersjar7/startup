@@ -145,6 +145,56 @@ void main() {
         '2026-10-21',
       );
     });
+    test('after a played day, points at yesterday\'s final board', () {
+      // Played tonight: tomorrow morning's says the board is in. The phone
+      // writes it the night before, so it names no place.
+      final plan = notificationPlan(
+        now: at('2026-10-20T21:00:00'),
+        lastDailyDay: '2026-10-20',
+        horizonDays: 3,
+      );
+      final ready = ofKind(plan, NotifyKind.dailyReady);
+      expect(dayOf(ready.first.when), '2026-10-21');
+      expect(
+        ready.first.body,
+        'Yesterday\'s final board is in. See where you placed, then play '
+        'today\'s Daily.',
+      );
+      expect(ready.first.title, 'Today\'s Daily is ready');
+      expect(ready.first.when.hour, dailyReadyHour);
+      // Nobody knows yet whether tomorrow's will be played.
+      expect(ready[1].body, isNot(yesterdayBoardBody));
+      expect(respectsDailyCap(plan), isTrue);
+    });
+
+    test('opened before 8am the day after playing, says so this morning', () {
+      final plan = notificationPlan(
+        now: at('2026-10-21T06:30:00'),
+        lastDailyDay: '2026-10-20',
+        horizonDays: 2,
+      );
+      final ready = ofKind(plan, NotifyKind.dailyReady);
+      expect(dayOf(ready.first.when), '2026-10-21');
+      expect(ready.first.body, yesterdayBoardBody);
+      expect(ready[1].body, isNot(yesterdayBoardBody));
+    });
+
+    test('keeps its usual words when yesterday was not played', () {
+      final plan = notificationPlan(
+        now: at('2026-10-21T06:30:00'),
+        lastDailyDay: '2026-10-18',
+        horizonDays: 3,
+      );
+      expect(
+        ofKind(plan, NotifyKind.dailyReady).map((n) => n.body),
+        everyElement(isNot(yesterdayBoardBody)),
+      );
+      expect(yesterdayBoardBody, isNot(contains('game')));
+    });
+
+    test('a tap on it opens the Daily, as before', () {
+      expect(dailyKinds, contains(NotifyKind.dailyReady));
+    });
   });
 
   group('close to the exam', () {
