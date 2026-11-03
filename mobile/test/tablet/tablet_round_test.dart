@@ -84,6 +84,24 @@ void main() {
     expect(find.byKey(const ValueKey('concept-beside')), findsNothing);
   });
 
+  testWidgets('the flag docks the report beside the round (T19)', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues({
+      'book_dot_seen': true,
+      'flag_dot_seen': true,
+    });
+    await _round(tester, landscape);
+    await tester.tap(find.byTooltip('Something unclear?'));
+    await settle(tester);
+    expect(find.byKey(const ValueKey('feedback-beside')), findsOneWidget);
+    expect(find.text('Something unclear?'), findsOneWidget);
+    await _golden(tester, 'feedback-sheet-landscape');
+    await tester.tap(find.byTooltip('Close').last);
+    await settle(tester);
+    expect(find.byKey(const ValueKey('feedback-beside')), findsNothing);
+  });
+
   testWidgets('a rotation keeps the pick, the round and the open concept', (
     tester,
   ) async {

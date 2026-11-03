@@ -296,6 +296,10 @@ class _BoardShellState extends State<BoardShell> {
   /// they leave it open (TABLET.md, "The concept sheet beside a round").
   bool _conceptOpen = false;
 
+  /// The report pane beside the round on a tablet (T19), in the board's
+  /// own state like the concept, so a rotation keeps what was typed.
+  bool _feedbackOpen = false;
+
   /// The game's body and drawing move between layouts on a rotation and
   /// keep their state while they do (TABLET.md section 9).
   final _bodyKey = GlobalKey(debugLabel: 'board-body');
@@ -378,7 +382,10 @@ class _BoardShellState extends State<BoardShell> {
     // A tablet window keeps the concept in the board's own state, so a
     // rotation never closes it; the book is a toggle there.
     if (AppTablet.isTablet(context)) {
-      setState(() => _conceptOpen = !_conceptOpen);
+      setState(() {
+        _conceptOpen = !_conceptOpen;
+        _feedbackOpen = false;
+      });
       return;
     }
     showConcept(
@@ -410,6 +417,13 @@ class _BoardShellState extends State<BoardShell> {
         _flagDot = false;
       });
     }
+    if (AppTablet.isTablet(context)) {
+      setState(() {
+        _feedbackOpen = !_feedbackOpen;
+        _conceptOpen = false;
+      });
+      return;
+    }
     final s = widget.session;
     showFeedbackSheet(
       context,
@@ -430,6 +444,22 @@ class _BoardShellState extends State<BoardShell> {
       // The phone, exactly. A concept left open on a tablet that became a
       // phone window turns into the phone's sheet over the round, still
       // open (TABLET.md section 9, rule 4).
+      if (_feedbackOpen) {
+        return Stack(
+          children: [
+            _phone(context),
+            _scrim(),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: _feedbackPane(
+                const BorderRadius.vertical(top: Radius.circular(40)),
+              ),
+            ),
+          ],
+        );
+      }
       if (!_conceptOpen || widget.brief == null) return _phone(context);
       return Stack(
         children: [
@@ -447,7 +477,9 @@ class _BoardShellState extends State<BoardShell> {
         ],
       );
     }
-    final open = _conceptOpen && widget.brief != null;
+    final open = _feedbackOpen || (_conceptOpen && widget.brief != null);
+    Widget pane(BorderRadius radius) =>
+        _feedbackOpen ? _feedbackPane(radius) : _conceptSheet(radius);
     final docked = open && size.width >= AppTablet.conceptBeside;
     final roundWidth = docked
         ? size.width - AppTablet.paneConceptSheet
@@ -462,7 +494,7 @@ class _BoardShellState extends State<BoardShell> {
             Expanded(child: round),
             SizedBox(
               width: AppTablet.paneConceptSheet,
-              child: _conceptSheet(
+              child: pane(
                 const BorderRadius.horizontal(left: Radius.circular(40)),
               ),
             ),
@@ -480,7 +512,7 @@ class _BoardShellState extends State<BoardShell> {
             right: 0,
             bottom: 0,
             width: AppTablet.paneConceptSheet,
-            child: _conceptSheet(
+            child: pane(
               const BorderRadius.horizontal(left: Radius.circular(40)),
             ),
           ),
@@ -491,7 +523,10 @@ class _BoardShellState extends State<BoardShell> {
 
   Widget _scrim() => Positioned.fill(
     child: GestureDetector(
-      onTap: () => setState(() => _conceptOpen = false),
+      onTap: () => setState(() {
+        _conceptOpen = false;
+        _feedbackOpen = false;
+      }),
       child: const ColoredBox(color: AppColors.scrim),
     ),
   );
@@ -515,6 +550,30 @@ class _BoardShellState extends State<BoardShell> {
       ),
     ),
   );
+
+  /// The report as a pane: the phone's sheet with its own close button.
+  Widget _feedbackPane(BorderRadius radius) {
+    final s = widget.session;
+    return Material(
+      color: AppColors.sheet,
+      borderRadius: radius,
+      clipBehavior: Clip.antiAlias,
+      child: SafeArea(
+        left: false,
+        bottom: false,
+        child: FeedbackSheet(
+          key: const ValueKey('feedback-beside'),
+          gameId: s.gameId,
+          gameName: s.gameName ?? gameDefFor(s.gameId)?.name ?? s.gameId,
+          chapterId: s.chapterId,
+          round: s.round + 1,
+          answered: s.answered,
+          pack: s.pack,
+          onClose: () => setState(() => _feedbackOpen = false),
+        ),
+      ),
+    );
+  }
 
   /// The game's body, under one key in every layout, with the figure scope
   /// that tells its [BoardFigureSlot] whether to draw the figure there.

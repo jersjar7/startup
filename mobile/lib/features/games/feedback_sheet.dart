@@ -6,6 +6,7 @@ import '../../core/network/api_exception.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
+import '../../core/theme/tablet.dart';
 import '../shared/widgets/kit.dart';
 
 /// "Something unclear?" (reference 18): the sheet behind the flag on a game
@@ -53,6 +54,53 @@ Future<void> showConceptFeedbackSheet(
   String? pack,
   String back = 'Back to the concept',
 }) {
+  if (AppTablet.isTablet(context)) {
+    // A pane down the right edge at the concept sheet's width, over the
+    // app's scrim (T19's shape, opened from a concept).
+    return showGeneralDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Close',
+      barrierColor: AppColors.scrim,
+      transitionDuration: const Duration(milliseconds: 260),
+      transitionBuilder: (_, a, _, child) => SlideTransition(
+        position: Tween(
+          begin: const Offset(1, 0),
+          end: Offset.zero,
+        ).animate(CurvedAnimation(parent: a, curve: Curves.easeOutCubic)),
+        child: child,
+      ),
+      pageBuilder: (dialog, _, _) => Align(
+        alignment: Alignment.centerRight,
+        child: SizedBox(
+          width: AppTablet.paneConceptSheet,
+          height: double.infinity,
+          child: Material(
+            color: AppColors.sheet,
+            borderRadius: const BorderRadius.horizontal(
+              left: Radius.circular(40),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: SafeArea(
+              left: false,
+              bottom: false,
+              child: FeedbackSheet.concept(
+                concept: concept,
+                chapterId: chapterId,
+                parts: parts,
+                lessonId: lessonId,
+                lessonName: lessonName,
+                gameId: gameId,
+                pack: pack,
+                back: back,
+                onClose: () => Navigator.of(dialog).pop(),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
   return showModalBottomSheet<void>(
     context: context,
     backgroundColor: AppColors.sheet,
@@ -83,6 +131,7 @@ class FeedbackSheet extends StatefulWidget {
     required this.answered,
     this.pack,
     this.sent = false,
+    this.onClose,
   }) : concept = null,
        parts = const [],
        lessonId = null,
@@ -102,6 +151,7 @@ class FeedbackSheet extends StatefulWidget {
     this.pack,
     this.back = 'Back to the concept',
     this.sent = false,
+    this.onClose,
   }) : gameName = null,
        round = null,
        answered = false;
@@ -131,6 +181,11 @@ class FeedbackSheet extends StatefulWidget {
 
   /// Opens on the thank-you. Only a photograph needs this.
   final bool sent;
+
+  /// Set when the sheet is a pane beside the round on a tablet (T19): it
+  /// closes through this rather than popping a route, and shows its own
+  /// close button where the grabber would be.
+  final VoidCallback? onClose;
 
   /// The parts of a concept sheet, each offered only when the sheet has it.
   static const words = ('words', 'The explanation');
@@ -231,8 +286,18 @@ class _FeedbackSheetState extends State<FeedbackSheet> {
     }
   }
 
+  void _close() => widget.onClose != null
+      ? widget.onClose!()
+      : Navigator.of(context).maybePop();
+
   @override
   Widget build(BuildContext context) {
+    final pane = widget.onClose != null;
+    final closeButton = RoundIconButton(
+      icon: Icons.close_rounded,
+      label: 'Close',
+      onTap: _close,
+    );
     final keyboard = MediaQuery.viewInsetsOf(context).bottom;
     return AnimatedPadding(
       duration: const Duration(milliseconds: 200),
@@ -241,13 +306,18 @@ class _FeedbackSheetState extends State<FeedbackSheet> {
         top: false,
         child: SingleChildScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          padding: const EdgeInsets.fromLTRB(24, 12, 24, 34),
+          padding: pane
+              ? const EdgeInsets.fromLTRB(36, 24, 32, 34)
+              : const EdgeInsets.fromLTRB(24, 12, 24, 34),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Grabber(),
-              const SizedBox(height: 22),
+              if (!pane) ...[const Grabber(), const SizedBox(height: 22)],
+              if (pane && _sent) ...[
+                Align(alignment: Alignment.centerRight, child: closeButton),
+                const SizedBox(height: 8),
+              ],
               if (_sent) ...[
                 Text(
                   'Thanks. That helps.',
@@ -259,21 +329,26 @@ class _FeedbackSheetState extends State<FeedbackSheet> {
                   style: AppTheme.body(size: 16, color: AppColors.mutedOnLight),
                 ),
                 const SizedBox(height: 26),
-                PillButton(
-                  label: widget.back,
-                  onTap: () => Navigator.of(context).maybePop(),
-                ),
+                PillButton(label: widget.back, onTap: _close),
               ] else ...[
-                Text(
-                  _isConcept
-                      ? 'THE CONCEPT · ${widget.concept!.toUpperCase()}'
-                      : '${widget.gameName!.toUpperCase()} · ROUND ${widget.round}',
-                  style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _isConcept
+                            ? 'THE CONCEPT · ${widget.concept!.toUpperCase()}'
+                            : '${widget.gameName!.toUpperCase()} · ROUND ${widget.round}',
+                        style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+                      ),
+                    ),
+                    if (pane) closeButton,
+                  ],
                 ),
+                SizedBox(height: pane ? 20 : 0),
                 const SizedBox(height: 8),
                 Text(
                   'Something unclear?',
-                  style: AppTheme.display(size: 34, height: 1),
+                  style: AppTheme.display(size: pane ? 40 : 34, height: 1),
                 ),
                 const SizedBox(height: 22),
                 // One part only needs no choosing.
