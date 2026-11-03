@@ -263,28 +263,30 @@ class _WhichWayThePassRunsGameState extends State<WhichWayThePassRunsGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 216,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: NetworkPainter(
-                    network: r.network,
-                    highlight: r.highlight,
-                    showEarly: true,
-                    showLate: true,
-                    markCritical: false,
-                    answered: answered,
+          BoardFigure(
+            child: Container(
+              height: 216,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: NetworkPainter(
+                      network: r.network,
+                      highlight: r.highlight,
+                      showEarly: true,
+                      showLate: true,
+                      markCritical: false,
+                      answered: answered,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),
