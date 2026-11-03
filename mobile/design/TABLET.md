@@ -1,6 +1,6 @@
 # TABLET.md: the app on an iPad or an Android tablet
 
-Proposed 2026-11-03 (ADR 0039, status Proposed). Read DESIGN.md first: every
+Proposed 2026-11-03, approved by the owner the same day (ADR 0039, Accepted). Read DESIGN.md first: every
 rule there still holds on a tablet. This file only says what changes when the
 window is wide, and why. Nothing here adds a feature, a screen or a line of
 content. It is the same app, laid out for a bigger window.
@@ -143,10 +143,13 @@ Mockups: `T01-study-landscape`, `T01n-study-landscape-night`.
 - **Right pane:** that chapter's path, live. Swiping the tile redraws the path
   for the chapter on the tile. The path opens scrolled so the lesson in flight
   sits in the upper middle of the pane.
-- **The pill.** On the phone, Continue opens the chapter map, and the map's
-  node opens the lesson sheet. On a tablet the map is already on screen, so
-  Continue opens the next lesson's sheet directly (the step it skips is already
-  in front of the student). It is the same flow with one screen already open.
+- **The pill behaves as on the phone** (owner, 2026-11-03). On the phone,
+  Continue takes the student to the chapter map with the lesson in flight in
+  view, and the student taps the node to open the lesson. On a tablet the map
+  is already the second pane, so Continue scrolls the path to the lesson in
+  flight and rings its node; tapping the node opens the lesson, exactly as on
+  the phone. Continue never skips that step. (The first draft had Continue
+  open the lesson directly; the owner kept the phone's behaviour.)
 - **The grid toggle** (top right of the left pane) swaps the tile for the
   grid of all fifteen (`T02-chapter-map-landscape`): three columns of grid
   tiles in the left pane. Tapping a tile shows that chapter's path on the
@@ -163,7 +166,7 @@ chapter becomes a band across the top (the mark in a 200 circle on the left;
 the eyebrows, the name at 48, the mono line and Continue on the right), the
 page dots under it, and the chapter's live path fills the rest of the window
 below. Swiping the band changes the chapter and redraws the path, as in
-landscape, and Continue opens the lesson directly, as in landscape. A tile
+landscape, and Continue behaves as in landscape. A tile
 drawn twice as large with nothing beside it was tried first and rejected: it
 is the "bigger, with more blank space" version the owner ruled out.
 
@@ -182,16 +185,22 @@ Mockups: `T02p-chapter-map-portrait` (medium), and the right pane of
   amplitude 150 (phone about 90), steps 150 apart, labels in DM Sans 16 on
   two lines at most. The road stays 16 thick with the spring dashes on the
   walked stretch. Only the lesson in flight gets a label tile, in spring.
-- The path's centre line sits a little left of the pane's middle (42 percent)
-  so the labels on the right side have room and the weave still reads as a
-  path, not a column.
+- **The path is centred in its pane** (owner, 2026-11-03). The node column,
+  meaning the middle line of the zigzag (halfway between the left nodes and
+  the right nodes), sits on the pane's own middle line, in every place the
+  path appears: Study in both orientations, All chapters, and behind the
+  opened lesson. The labels hang off the nodes (to the right of a left node,
+  to the left of a right node) and are not counted when centring. The cleared
+  chip and the section eyebrows stay at the pane's left edge. The first draft
+  set the zigzag at 42 percent to make room for labels; it read as off-centre
+  and was dropped. If a label would run out of the pane, it wraps to a second
+  line; the zigzag never moves to make room for it.
 
 ### Lesson sheet
 
 Mockups: `T03-lesson-sheet-landscape`, `T03p-lesson-sheet-portrait`.
 
-- **Expanded: the lesson takes the chapter's pane.** Tapping a node (or
-  Continue) replaces the chapter tile with the lesson: a cream tile at the same
+- **Expanded: the lesson takes the chapter's pane.** Tapping a node replaces the chapter tile with the lesson: a cream tile at the same
   size with the eyebrow, the lesson name as a 40 headline, the games as row
   tiles (the next one spring, each with its 48 round play or check), and
   "Read the concept first" as the outline pill at the foot. A 48 round close
@@ -222,19 +231,20 @@ the book with its one-time ember dot, the flag, the pill. What changes is
 where the game's body goes.
 
 - **Expanded: the drawing beside the answer.** The drawing pane takes the left
-  of the window at full height (about 640 by 664 on an 11-inch landscape), its
-  bottom edge level with the pill's. The right column (420) is **one block
-  sitting on the pill**, bottom aligned: the game's overline, the question at
-  20, the answer controls, and after an answer the feedback panel and the
-  spoken rule. Before an answer the choices are drawn taller (112, labels at
-  26) since the room is there; after an answer they return to 72 so the
-  feedback fits. Any spare height goes above the question, beside the top of
-  the drawing, never between the answers and the pill: a gap there reads as
-  the round having ended.
-  The flag and the pill sit together at the foot of the right column, under
-  the right thumb, the flag left of the pill (on the phone the flag sits above
-  the pill; beside it is the same reach on a tablet and keeps the column's
-  foot one row).
+  of the window at full height (about 640 by 664 on an 11-inch landscape). The
+  right column (420) is **pinned to the drawing's two edges** (owner,
+  2026-11-03): the game's overline, the question at 20 and the answer choices
+  start at the very top, level with the drawing's top edge; the flag and the
+  pill sit at the very bottom, level with the drawing's bottom edge. After an
+  answer the feedback panel and the spoken rule follow the choices at the
+  top, never floating mid-column. Whatever space is left sits between the
+  last of those and the pill, and that is fine. The choices are 88 tall
+  (labels at 26) in both states, so answering never moves them. The flag sits
+  left of the pill in the same row (on the phone it sits above the pill).
+  The first draft bottom-aligned the whole column on the pill to keep the
+  question near the right thumb; the owner did not want the top right half of
+  the window empty, and the reading order (question at the top beside the top
+  of the drawing) wins over thumb reach.
 - Why: in landscape the window is short (820). A phone column (question,
   drawing, answers, feedback, pill) does not fit without scrolling, and
   scrolling a round hides either the drawing or the answer. Side by side,

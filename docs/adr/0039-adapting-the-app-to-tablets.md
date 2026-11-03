@@ -1,6 +1,6 @@
 # 0039. On a tablet the dock becomes a rail, and screens with two things show both
 
-- **Status:** Proposed
+- **Status:** Accepted (owner, 2026-11-03)
 - **Date:** 2026-11-03
 - **Design:** [mobile/design/TABLET.md](../../mobile/design/TABLET.md), mockups in `mobile/design/tablet-screens/png/`
 - **Builds on:** [ADR 0015](0015-the-home-is-one-chapter.md) (the home is one chapter), [ADR 0016](0016-mobile-app-language-and-palette.md) (the app language), [ADR 0025](0025-dark-mode-warm-night.md) (Warm night)
@@ -37,13 +37,16 @@ Two facts shaped the decision:
 3. **Study on expanded is the chapter beside its path.** The chapter tile (or
    the grid) is the left pane; the selected chapter's path is the right pane.
    Opening a lesson replaces the tile with the lesson, keeping the path in
-   view. Continue opens the lesson directly, because the map is already on
-   screen. On medium (portrait) the same pair is stacked: the chapter as a
+   view. The path is centred in its pane. Continue behaves as on the phone:
+   it brings the lesson in flight into view, and the node opens the lesson. On medium (portrait) the same pair is stacked: the chapter as a
    band on top, its path below.
 4. **A round on expanded puts the drawing beside the answer.** `BoardShell`
    gains an optional `figure` slot. Games that use it get the drawing on the
    left and the question, answers, feedback and pill on the right; games that
-   do not yet use it keep the single column, capped in width.
+   do not yet use it keep the single column, capped in width. The right
+   column is pinned to the drawing: question and answers (and the feedback,
+   once answered) at its top edge, flag and pill at its bottom edge. Landscape
+   ships before every game has moved; unmoved games use the capped column.
 5. **The concept sheet docks beside the round at 960 wide or more, and only
    when the student opens it.** The round stays playable beside it. Under 960
    it opens over the round.
@@ -52,6 +55,27 @@ Two facts shaped the decision:
 7. **Phones stay portrait only. Tablets (shortest side 600 or more) allow all
    four orientations**, and nothing a round knows is lost on rotation.
 8. New layout tokens go under `tablet` in `tokens.json`; no new colours.
+
+## Owner decisions, 2026-11-03
+
+The draft went to the owner with five open questions. All five were decided
+as recommended, except the second, where he kept the phone's behaviour:
+
+1. The rail: approved.
+2. Continue on a tablet: behaves as on the phone. It does not open the lesson
+   directly.
+3. Landscape rounds ship before every game moves to the `figure` slot;
+   unmoved games use the capped single column.
+4. iPad support goes in the next release, with the iPad screenshots that
+   requires.
+5. The League is drawn in the slot the brief gave Review, which no longer
+   exists (ADR 0014).
+
+He also asked for two layout changes, now in the decision above: the path is
+centred in its pane, and the round's right column is pinned to the drawing's
+top and bottom edges. The draft had bottom-aligned that column on the pill for
+thumb reach; that reasoning is superseded by his call that the top right half
+must not sit empty.
 
 ## Consequences
 
