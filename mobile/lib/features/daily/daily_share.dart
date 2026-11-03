@@ -7,6 +7,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/tablet.dart';
 import '../shared/widgets/kit.dart';
 import 'daily_calendar.dart';
 import 'daily_models.dart';
@@ -111,9 +112,16 @@ Future<void> showDailyShare(
   required String date,
   required DailyMine mine,
 }) {
+  final tablet = AppTablet.isTablet(context);
   return showModalBottomSheet<void>(
     context: context,
     backgroundColor: AppColors.sheetFog,
+    // T21d: on a tablet the sheet is held to 640 over the app's own scrim,
+    // the card beside its two buttons.
+    barrierColor: tablet ? AppColors.scrim : null,
+    constraints: tablet
+        ? const BoxConstraints(maxWidth: AppTablet.paneSheetMax)
+        : null,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
@@ -174,6 +182,50 @@ class _ShareSheetState extends State<_ShareSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final card = Transform.rotate(
+      angle: -0.035,
+      child: RepaintBoundary(
+        key: _card,
+        child: DailyShareCard(date: widget.date, mine: widget.mine),
+      ),
+    );
+    final share = SheetButton(
+      label: 'Share the picture',
+      loading: _busy,
+      onTap: _sharePicture,
+    );
+    final copy = SheetButton(
+      label: _copied ? 'Copied' : 'Copy as text',
+      filled: false,
+      onTap: _copy,
+    );
+    if (AppTablet.isTablet(context)) {
+      return SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(32, 12, 32, 40),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Grabber(),
+              const SizedBox(height: 30),
+              Row(
+                children: [
+                  card,
+                  const SizedBox(width: 32),
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [share, const SizedBox(height: 12), copy],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return SafeArea(
       top: false,
       child: Padding(
@@ -183,25 +235,11 @@ class _ShareSheetState extends State<_ShareSheet> {
           children: [
             const Grabber(),
             const SizedBox(height: 26),
-            Transform.rotate(
-              angle: -0.035,
-              child: RepaintBoundary(
-                key: _card,
-                child: DailyShareCard(date: widget.date, mine: widget.mine),
-              ),
-            ),
+            card,
             const SizedBox(height: 30),
-            SheetButton(
-              label: 'Share the picture',
-              loading: _busy,
-              onTap: _sharePicture,
-            ),
+            share,
             const SizedBox(height: 10),
-            SheetButton(
-              label: _copied ? 'Copied' : 'Copy as text',
-              filled: false,
-              onTap: _copy,
-            ),
+            copy,
           ],
         ),
       ),

@@ -19,6 +19,7 @@ import 'package:mobile/features/profile/badge_moment.dart';
 import 'package:mobile/features/profile/badges.dart';
 
 import 'support/fonts.dart';
+import 'tablet/tablet_support.dart' show setWindow, landscape, portrait;
 
 /// The Daily (owner's call, 2026-10-15): three whole games from three
 /// chapters, the same for everyone, played once. These pin the screens and
@@ -561,6 +562,82 @@ void main() {
       await expectLater(
         find.byType(MaterialApp),
         matchesGoldenFile('goldens/daily/share.png'),
+      );
+    });
+  });
+
+  // T21, T21b and T21d: the step, the end and the share sheet on a tablet.
+  group('on a tablet', () {
+    for (final (o, size) in [
+      ('landscape', landscape),
+      ('portrait', portrait),
+    ]) {
+      testWidgets('the step, $o', (tester) async {
+        setWindow(tester, size);
+        DailyRun.instance.begin(_puzzle());
+        for (var r = 0; r < 6; r++) {
+          DailyRun.instance.markRound(0, r, ok: r != 3);
+          if (r == 3) DailyRun.instance.markRound(0, r, ok: true);
+        }
+        DailyRun.instance.finishGame(0);
+        await tester.pumpWidget(
+          _app(const DailyStepScreen(justFinished: 0), _FakeRepo(_puzzle())),
+        );
+        await _settle(tester);
+        expect(find.text('Play concept 2'), findsOneWidget);
+        await expectLater(
+          find.byType(MaterialApp),
+          matchesGoldenFile('goldens/tablet/daily-step-$o.png'),
+        );
+      });
+
+      testWidgets('the end, $o', (tester) async {
+        setWindow(tester, size);
+        final run = DailyRun.instance..begin(_puzzle());
+        for (var g = 0; g < 3; g++) {
+          for (var r = 0; r < 6; r++) {
+            final miss = (g == 1 && r == 1) || (g == 2 && r == 3);
+            if (miss) run.markRound(g, r, ok: false);
+            run.markRound(g, r, ok: true);
+          }
+          run.finishGame(g);
+        }
+        await tester.pumpWidget(
+          _app(const DailyDoneScreen(), _FakeRepo(_puzzle())),
+        );
+        await _settle(tester);
+        expect(find.text('16 of 18', findRichText: true), findsOneWidget);
+        await expectLater(
+          find.byType(MaterialApp),
+          matchesGoldenFile('goldens/tablet/daily-done-$o.png'),
+        );
+      });
+    }
+
+    testWidgets('the share sheet, landscape', (tester) async {
+      setWindow(tester, landscape);
+      await tester.pumpWidget(
+        _app(
+          Builder(
+            builder: (context) => Scaffold(
+              body: Center(
+                child: TextButton(
+                  onPressed: () =>
+                      showDailyShare(context, date: '2026-10-28', mine: _mine),
+                  child: const Text('open'),
+                ),
+              ),
+            ),
+          ),
+          _FakeRepo(_puzzle()),
+        ),
+      );
+      await tester.tap(find.text('open'));
+      await _settle(tester);
+      expect(find.text('Share the picture'), findsOneWidget);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('goldens/tablet/daily-share-landscape.png'),
       );
     });
   });
