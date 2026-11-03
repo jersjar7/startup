@@ -164,6 +164,29 @@ class _WhichRatioGameState extends State<WhichRatioGame> {
     return BoardShell(
       session: _session,
       brief: ratiosBrief,
+      figure: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: SizedBox(
+          height: 210,
+          width: double.infinity,
+          child: EngineeringGrid(
+            minor: 18,
+            major: 90,
+            child: CustomPaint(
+              painter: TrianglePainter(
+                angleAtTop: r.angleAtTop,
+                mirror: r.mirror,
+                known: r.known,
+                wanted: r.wanted,
+                highlight: answered ? r.wanted : null,
+                highlightColor: _session.correct == true
+                    ? AppColors.forest
+                    : AppColors.error,
+              ),
+            ),
+          ),
+        ),
+      ),
       buttonLabel: answered ? _session.advanceLabel : 'Lock it in',
       onButton: answered
           ? () {
@@ -184,38 +207,18 @@ class _WhichRatioGameState extends State<WhichRatioGame> {
             style: AppTheme.overline(color: AppColors.ember),
           ),
           const SizedBox(height: 8),
-          Text(
-            r.context,
-            style: const TextStyle(
-              fontSize: 15,
-              height: 1.55,
-              color: AppColors.charcoal,
-            ),
-          ),
-          const SizedBox(height: 14),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 210,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: TrianglePainter(
-                    angleAtTop: r.angleAtTop,
-                    mirror: r.mirror,
-                    known: r.known,
-                    wanted: r.wanted,
-                    highlight: answered ? r.wanted : null,
-                    highlightColor: _session.correct == true
-                        ? AppColors.forest
-                        : AppColors.error,
-                  ),
-                ),
+          Builder(
+            builder: (context) => Text(
+              r.context,
+              style: TextStyle(
+                fontSize: BoardFigureSlot.onTablet(context) ? 20 : 15,
+                height: 1.55,
+                color: AppColors.charcoal,
               ),
             ),
           ),
+          const SizedBox(height: 14),
+          const BoardFigureSlot(),
           const SizedBox(height: 16),
           Row(
             children: [
@@ -295,7 +298,8 @@ class _RatioButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         onTap: onTap,
         child: Container(
-          height: 62,
+          // Taller on a tablet, so answering never moves them (T04).
+          height: BoardFigureSlot.onTablet(context) ? 88 : 62,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
@@ -304,7 +308,12 @@ class _RatioButton extends StatelessWidget {
               width: border == AppColors.line ? 1 : 2,
             ),
           ),
-          child: Text(ratio.label, style: AppTheme.heading(size: 18)),
+          child: Text(
+            ratio.label,
+            style: AppTheme.heading(
+              size: BoardFigureSlot.onTablet(context) ? 26 : 18,
+            ),
+          ),
         ),
       ),
     );
