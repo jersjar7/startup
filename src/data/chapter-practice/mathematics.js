@@ -41,7 +41,7 @@ const PROBLEMS = [
         latex: 'd = \\frac{|24 - 24 + 10|}{\\sqrt{25}} = \\frac{10}{5} = 2'
       }
     ],
-    handbookPage: 'p. 36',
+    handbookPage: 'p. 37',
     handbookFormula: 'd = \\frac{|Ax_0 + By_0 + C|}{\\sqrt{A^2 + B^2}}',
     videoUrl: null,
     traps: [
@@ -88,7 +88,7 @@ const PROBLEMS = [
         latex: 'y = 2(3)^2 - 12(3) + 5 = 18 - 36 + 5 = -13'
       }
     ],
-    handbookPage: 'p. 36',
+    handbookPage: 'p. 37',
     handbookFormula: 'x_{vertex} = -\\frac{b}{2a}',
     videoUrl: null,
     traps: [
@@ -135,7 +135,7 @@ const PROBLEMS = [
         latex: '\\log_2(16) = 4 \\quad (\\text{since } 2^4 = 16)'
       }
     ],
-    handbookPage: 'p. 37',
+    handbookPage: 'p. 38',
     handbookFormula: '\\log_b\\!\\left(\\frac{x}{y}\\right) = \\log_b x - \\log_b y',
     videoUrl: null,
     traps: [
@@ -186,7 +186,7 @@ const PROBLEMS = [
         latex: '\\frac{t}{8} = 2 \\implies t = 16\\,\\text{days}'
       }
     ],
-    handbookPage: 'p. 329',
+    handbookPage: 'p. 335',
     handbookFormula: 'N = N_0\\left(\\tfrac{1}{2}\\right)^{t/T_{1/2}}',
     videoUrl: null,
     traps: [
@@ -233,7 +233,7 @@ const PROBLEMS = [
         latex: 'h = 60\\tan 32° = 60(0.6249) = 37.5\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: '\\tan\\theta = \\frac{\\text{opp}}{\\text{adj}}',
     videoUrl: null,
     traps: [
@@ -280,7 +280,7 @@ const PROBLEMS = [
         latex: '\\theta = \\tan^{-1}(0.75) = 36.9°'
       }
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: '\\tan\\theta = \\frac{\\text{opp}}{\\text{adj}}',
     videoUrl: null,
     traps: [
@@ -331,7 +331,7 @@ const PROBLEMS = [
         latex: 'B = \\sin^{-1}(0.500) = 30.0°'
       }
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: '\\frac{a}{\\sin A} = \\frac{b}{\\sin B}',
     videoUrl: null,
     traps: [
@@ -382,7 +382,7 @@ const PROBLEMS = [
         latex: 'C = \\cos^{-1}(-0.3846) = 112.6°'
       }
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: '\\cos C = \\frac{a^2 + b^2 - c^2}{2ab}',
     videoUrl: null,
     traps: [
@@ -429,7 +429,7 @@ const PROBLEMS = [
         latex: '\\tan 225° = +\\tan 45° = 1'
       }
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: '\\tan 45° = 1',
     videoUrl: null,
     traps: [
@@ -480,7 +480,7 @@ const PROBLEMS = [
         latex: '\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta} = \\frac{8/17}{-15/17} = -\\frac{8}{15}'
       }
     ],
-    handbookPage: 'p. 39',
+    handbookPage: 'p. 40',
     handbookFormula: '\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}',
     videoUrl: null,
     traps: [
@@ -531,7 +531,7 @@ const PROBLEMS = [
         latex: '(3,\\, 2 + 2) = (3, 4)'
       }
     ],
-    handbookPage: 'p. 44',
+    handbookPage: 'p. 45',
     handbookFormula: '(x-h)^2 = 4p(y-k)',
     videoUrl: null,
     traps: [
@@ -582,7 +582,7 @@ const PROBLEMS = [
         latex: 'c = \\sqrt{16} = 4'
       }
     ],
-    handbookPage: 'p. 44',
+    handbookPage: 'p. 45',
     handbookFormula: 'c^2 = a^2 - b^2',
     videoUrl: null,
     traps: [
@@ -629,7 +629,7 @@ const PROBLEMS = [
         latex: "f'(x) = 4(3x^2 + 2)^3 \\cdot 6x = 24x(3x^2 + 2)^3"
       }
     ],
-    handbookPage: 'p. 49',
+    handbookPage: 'p. 50',
     handbookFormula: '\\frac{d}{dx}[g(x)]^n = n[g(x)]^{n-1} g\'(x)',
     videoUrl: null,
     traps: [
@@ -676,7 +676,7 @@ const PROBLEMS = [
         latex: "f'(2) = \\frac{2}{\\sqrt{4(2)+1}} = \\frac{2}{\\sqrt{9}} = \\frac{2}{3}"
       }
     ],
-    handbookPage: 'p. 49',
+    handbookPage: 'p. 50',
     handbookFormula: '\\frac{d}{dx}\\sqrt{u} = \\frac{1}{2\\sqrt{u}}\\cdot\\frac{du}{dx}',
     videoUrl: null,
     traps: [
@@ -727,7 +727,7 @@ const PROBLEMS = [
         latex: 'a(3) = 6(3) - 12 = 6\\,\\text{m/s}^2'
       }
     ],
-    handbookPage: 'p. 101',
+    handbookPage: 'p. 102',
     handbookFormula: 'a(t) = \\frac{d^2 s}{dt^2}',
     videoUrl: null,
     traps: [
@@ -782,7 +782,7 @@ const PROBLEMS = [
         latex: 'y = 240 - 120 = 120, \\quad A = 60 \\times 120 = 7{,}200\\,\\text{m}^2'
       }
     ],
-    handbookPage: 'p. 46',
+    handbookPage: 'p. 47',
     handbookFormula: "A'(x) = 0 \\text{ for the optimum}",
     videoUrl: null,
     traps: [
@@ -829,7 +829,7 @@ const PROBLEMS = [
         latex: '\\left[-\\cos x\\right]_0^{\\pi/2} = -\\cos\\tfrac{\\pi}{2} - (-\\cos 0) = 0 + 1 = 1'
       }
     ],
-    handbookPage: 'p. 50',
+    handbookPage: 'p. 51',
     handbookFormula: '\\int \\sin x\\,dx = -\\cos x + C',
     videoUrl: null,
     traps: [
@@ -880,7 +880,7 @@ const PROBLEMS = [
         latex: '\\left(4 - \\frac{8}{3}\\right) - 0 = \\frac{4}{3}'
       }
     ],
-    handbookPage: 'p. 50',
+    handbookPage: 'p. 51',
     handbookFormula: 'A = \\int_a^b [f(x) - g(x)]\\,dx',
     videoUrl: null,
     traps: [
@@ -927,7 +927,7 @@ const PROBLEMS = [
         latex: '\\frac{2e^0}{3\\cos 0} = \\frac{2(1)}{3(1)} = \\frac{2}{3}'
       }
     ],
-    handbookPage: 'p. 48',
+    handbookPage: 'p. 49',
     handbookFormula: "\\lim_{x \\to a}\\frac{f(x)}{g(x)} = \\lim_{x \\to a}\\frac{f'(x)}{g'(x)}",
     videoUrl: null,
     traps: [
@@ -978,7 +978,7 @@ const PROBLEMS = [
         latex: '\\frac{2}{\\sqrt{\\infty}} = 0'
       }
     ],
-    handbookPage: 'p. 48',
+    handbookPage: 'p. 49',
     handbookFormula: "\\lim_{x \\to a}\\frac{f(x)}{g(x)} = \\lim_{x \\to a}\\frac{f'(x)}{g'(x)}",
     videoUrl: null,
     traps: [
@@ -1025,7 +1025,7 @@ const PROBLEMS = [
         latex: '\\cos\\beta = \\frac{A_y}{|\\vec{A}|} = \\frac{-4}{6} = -\\frac{2}{3}'
       }
     ],
-    handbookPage: 'p. 59',
+    handbookPage: 'p. 60',
     handbookFormula: '\\cos\\beta = \\frac{A_y}{|\\vec{A}|}',
     videoUrl: null,
     traps: [
@@ -1072,7 +1072,7 @@ const PROBLEMS = [
         latex: '|\\vec{A} + \\vec{B}| = \\sqrt{4^2 + 2^2 + 4^2} = \\sqrt{36} = 6\\,\\text{N}'
       }
     ],
-    handbookPage: 'p. 59',
+    handbookPage: 'p. 60',
     handbookFormula: '|\\vec{R}| = \\sqrt{R_x^2 + R_y^2 + R_z^2}',
     videoUrl: null,
     traps: [
@@ -1119,7 +1119,7 @@ const PROBLEMS = [
         latex: 'W = 80 - 60 - 10 = 10\\,\\text{J}'
       }
     ],
-    handbookPage: 'p. 60',
+    handbookPage: 'p. 61',
     handbookFormula: 'W = \\vec{F} \\cdot \\vec{d} = F_x d_x + F_y d_y + F_z d_z',
     videoUrl: null,
     traps: [
@@ -1170,7 +1170,7 @@ const PROBLEMS = [
         latex: '\\text{proj}_{\\vec{b}}\\vec{a} = \\frac{9}{9}\\,\\vec{b} = 2\\hat{i} - 1\\hat{j} + 2\\hat{k}'
       }
     ],
-    handbookPage: 'p. 60',
+    handbookPage: 'p. 61',
     handbookFormula: '\\text{proj}_{\\vec{b}}\\vec{a} = \\frac{\\vec{a}\\cdot\\vec{b}}{|\\vec{b}|^2}\\,\\vec{b}',
     videoUrl: null,
     traps: [
@@ -1221,7 +1221,7 @@ const PROBLEMS = [
         latex: '= -3\\hat{i} + 6\\hat{j} - 3\\hat{k}'
       }
     ],
-    handbookPage: 'p. 60',
+    handbookPage: 'p. 61',
     handbookFormula: '\\vec{A} \\times \\vec{B} = \\begin{vmatrix} \\hat{i} & \\hat{j} & \\hat{k} \\\\ A_x & A_y & A_z \\\\ B_x & B_y & B_z \\end{vmatrix}',
     videoUrl: null,
     traps: [
@@ -1268,7 +1268,7 @@ const PROBLEMS = [
         latex: '|\\vec{A} \\times \\vec{B}| = \\sqrt{(-20)^2 + 15^2} = \\sqrt{625} = 25\\,\\text{m}^2'
       }
     ],
-    handbookPage: 'p. 60',
+    handbookPage: 'p. 61',
     handbookFormula: 'A_{parallelogram} = |\\vec{A} \\times \\vec{B}|',
     videoUrl: null,
     traps: [
@@ -1357,7 +1357,7 @@ const PROBLEMS = [
       { text: 'A sign change guarantees a root inside, so it always converges.', latex: null },
       { text: 'Newton\'s method can diverge; bisection cannot (when bracketed).', latex: null },
     ],
-    handbookPage: 'p. 61',
+    handbookPage: 'p. 62',
     handbookFormula: null,
     videoUrl: null,
     traps: ['Assuming the faster Newton method is always reliable', 'Forgetting bisection needs a bracketed sign change'],

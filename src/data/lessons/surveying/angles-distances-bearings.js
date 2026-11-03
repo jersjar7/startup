@@ -37,7 +37,7 @@ export default {
         { text: 'Identify the quadrant: NE', latex: null },
         { text: 'For bearings in the NE quadrant:', latex: '\\text{Azimuth} = \\text{bearing angle} = 52\\degree' },
       ],
-      handbookPage: 'p. 309, Angles, Distances, and Bearings',
+      handbookPage: 'p. 315, Angles, Distances, and Bearings',
       handbookFormula: '\\text{Azimuth} = \\text{Bearing (NE quadrant)}',
       videoUrl: null,
       traps: [
@@ -63,7 +63,7 @@ export default {
         { text: 'Apply the horizontal distance formula:', latex: 'HD = SD \\cos\\alpha = 250.00 \\times \\cos 8\\degree' },
         { text: 'Compute:', latex: 'HD = 250.00 \\times 0.99027 = 247.57 \\text{ m}' },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: '\\text{Lat} = L\\cos\\theta',
       videoUrl: null,
       traps: [
@@ -90,7 +90,7 @@ export default {
         { text: 'Measured sum:', latex: '108 + 120 + 95 + 132 + 84 = 539\\degree' },
         { text: 'Angular misclosure:', latex: '\\text{Misclosure} = 539 - 540 = -1\\degree' },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: '\\Sigma \\text{interior angles} = (n-2) \\times 180\\degree',
       videoUrl: null,
       traps: [

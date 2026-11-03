@@ -230,7 +230,7 @@ const PROBLEMS = [
       { text: 'Offset line: same slope, starting at a strain of 0.002.', latex: '\\sigma = 10{,}000\\,(\\varepsilon - 0.002)' },
       { text: 'The offset line passes through 20 ksi at 0.004, 30 ksi at 0.005 and 40 ksi at 0.006. The curve also passes through 40 ksi at a strain of 0.006, so they meet there.', latex: '\\sigma_y \\approx 40\\text{ ksi}' },
     ],
-    handbookPage: 'p. 121',
+    handbookPage: 'p. 122',
     handbookFormula: '\\sigma = E\\varepsilon;\\ \\text{yield strength by the 0.2\\% offset method}',
     traps: [
       'Reading the stress at a total strain of 0.002 instead of drawing the offset line.',
@@ -271,7 +271,7 @@ const PROBLEMS = [
       { text: 'The load is constant and the environment is unchanged, so neither cyclic loading nor moisture loss explains the growth.' },
       { text: 'Strain that increases with time at constant stress is creep (the Handbook lists it as time-dependent deformation under load).' },
     ],
-    handbookPage: 'p. 121',
+    handbookPage: 'p. 122',
     handbookFormula: '\\text{Creep: time-dependent deformation under load}',
     traps: [
       'Confusing creep (constant stress, strain grows) with relaxation (constant strain, stress drops).',
@@ -309,7 +309,7 @@ const PROBLEMS = [
       { text: 'Total cementitious materials from the water content.', latex: 'cm = \\dfrac{270}{0.45} = 600\\text{ lb/yd}^3' },
       { text: 'Fly ash is 15% of the cementitious materials, so portland cement is 85%.', latex: 'c = 0.85(600) = 510\\text{ lb/yd}^3 \\quad (\\text{fly ash} = 90\\text{ lb})' },
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: 'w/cm = \\dfrac{W_{water}}{W_{cement} + W_{fly\\,ash}}',
     traps: [
       'Reading the non-air-entrained curve for an air-entrained mix.',

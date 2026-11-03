@@ -652,7 +652,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 6, Model Law §110.20 A.3; p. 10, §150.30',
+    handbookPage: 'p. 6, Model Law §110.20 A.3; p. 11, §150.30',
     handbookFormula: '\\text{§150.30: Unlicensed individuals shall not practice or offer to practice engineering.}',
     videoUrl: null,
     traps: [
@@ -762,7 +762,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 9, Model Law §150.10 A.3-A.4',
+    handbookPage: 'p. 10, Model Law §150.10 A.3-A.4',
     handbookFormula: '\\text{§150.10 A.4: Misdemeanors involving dishonesty, fraud, deceit, or misrepresentation are grounds for discipline.}',
     videoUrl: null,
     traps: [
@@ -876,7 +876,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 6, Model Law §110.20 A.3; p. 9, §150.10 A.9',
+    handbookPage: 'p. 6, Model Law §110.20 A.3; p. 10, §150.10 A.9',
     handbookFormula: '\\text{§150.10 A.9: Violation of any term of a board order is grounds for further discipline.}',
     videoUrl: null,
     traps: [
@@ -931,7 +931,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 12, Intellectual Property: Patents',
+    handbookPage: 'p. 13, Intellectual Property: Patents',
     handbookFormula: '\\text{Patent: exclusive right to make, use, sell an invention for 20 years from filing date.}',
     videoUrl: null,
     traps: [
@@ -986,7 +986,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 12, Intellectual Property: Copyrights',
+    handbookPage: 'p. 13, Intellectual Property: Copyrights',
     handbookFormula: '\\text{Copyright: exclusive rights to reproduce, distribute, perform, and display original works of authorship.}',
     videoUrl: null,
     traps: [
@@ -1041,7 +1041,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 13, Societal Considerations: Sustainability',
+    handbookPage: 'p. 14, Societal Considerations: Sustainability',
     handbookFormula: '\\text{Sustainable = technically viable + economically feasible + environmentally and socially responsible.}',
     videoUrl: null,
     traps: [
@@ -1100,7 +1100,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 12, Intellectual Property: Trade Secrets',
+    handbookPage: 'p. 13, Intellectual Property: Trade Secrets',
     handbookFormula: '\\text{Trade secret: requires written agreement between parties; little protection without one.}',
     videoUrl: null,
     traps: [

@@ -36,7 +36,7 @@ export default {
         { text: 'Average end area volume:', latex: 'V = \\frac{100(200 + 300)}{2} = \\frac{100 \\times 500}{2} = 25{,}000 \\text{ ft}^3' },
         { text: 'Convert to yd\\u00B3:', latex: 'V = \\frac{25{,}000}{27} = 926 \\text{ yd}^3' },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: 'V = \\frac{L(A_1 + A_2)}{2}',
       videoUrl: null,
       traps: [
@@ -62,7 +62,7 @@ export default {
         { text: 'Prismoidal volume:', latex: 'V = \\frac{100(200 + 4 \\times 240 + 300)}{6} = \\frac{100 \\times 1{,}460}{6} = \\frac{146{,}000}{6} = 24{,}333 \\text{ ft}^3' },
         { text: 'Convert to yd\\u00B3:', latex: 'V = \\frac{24{,}333}{27} = 901 \\text{ yd}^3' },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: 'V = \\frac{L(A_1 + 4A_m + A_2)}{6}',
       videoUrl: null,
       traps: [
@@ -89,7 +89,7 @@ export default {
         { text: 'Convert to yd\\u00B3:', latex: 'V = \\frac{47{,}333}{27} = 1{,}753 \\text{ yd}^3' },
         { text: 'Compare: average end area gives $200(150+350)/2 = 50{,}000 \\text{ ft}^3 = 1{,}852 \\text{ yd}^3$ (overestimates by 99 yd\\u00B3)', latex: null },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: 'V = \\frac{L(A_1 + 4A_m + A_2)}{6}',
       videoUrl: null,
       traps: [

@@ -113,7 +113,7 @@ export default {
           "latex": "x = 3.5"
         }
       ],
-      "handbookPage": "p. 37",
+      "handbookPage": "p. 38",
       "handbookFormula": "\\log_b b^n = n",
       "videoUrl": null,
       "traps": [
@@ -165,7 +165,7 @@ export default {
           "latex": "t = \\frac{-1.386}{-0.03} = 46.2\\,\\text{days}"
         }
       ],
-      "handbookPage": "p. 36",
+      "handbookPage": "p. 37",
       "handbookFormula": "\\log_b(x) = c \\iff b^c = x",
       "videoUrl": null,
       "traps": [
@@ -213,7 +213,7 @@ export default {
           "latex": "\\log_2(64) = 6 \\quad\\text{because } 2^6 = 64"
         }
       ],
-      "handbookPage": "pp. 36-37",
+      "handbookPage": "pp. 37-38",
       "handbookFormula": "\\log(xy) = \\log x + \\log y \\quad\\text{and}\\quad \\log(x/y) = \\log x - \\log y",
       "videoUrl": null,
       "traps": [

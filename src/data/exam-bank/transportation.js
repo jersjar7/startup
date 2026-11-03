@@ -38,7 +38,7 @@ const PROBLEMS = [
         latex: 'd_b = \\frac{V^2}{30 \\times 0.3478} = \\frac{45^2}{10.43} = \\frac{2{,}025}{10.43} = 194 \\text{ ft}'
       }
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'SSD = 1.47 V t + \\frac{V^2}{30\\left(\\frac{a}{32.2} \\pm G\\right)}',
     videoUrl: null,
     traps: [
@@ -88,7 +88,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'SSD = 1.47 V t + \\frac{V^2}{30\\left(\\frac{a}{32.2} \\pm G\\right)}',
     videoUrl: null,
     traps: [
@@ -130,7 +130,7 @@ const PROBLEMS = [
         latex: 'ISD = 1.47 \\times V_{\\text{major}} \\times t_g = 1.47 \\times 50 \\times 7.5 = 551 \\text{ ft}'
       }
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'ISD = 1.47 \\, V_{\\text{major}} \\, t_g',
     videoUrl: null,
     traps: [
@@ -180,7 +180,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'PHF = \\frac{V}{4 \\times V_{15}}',
     videoUrl: null,
     traps: [
@@ -227,7 +227,7 @@ const PROBLEMS = [
         latex: 'K = \\frac{L}{A} = \\frac{600}{6} = 100'
       }
     ],
-    handbookPage: 'p. 301',
+    handbookPage: 'p. 307',
     handbookFormula: 'K = \\frac{L}{A}',
     videoUrl: null,
     traps: [
@@ -285,7 +285,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'L = \\frac{A S^2}{400 + 3.5S}',
     videoUrl: null,
     traps: ['Thinking the driver eye height criterion applies to both crest and sag curves'],
@@ -333,7 +333,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'L = \\frac{A S^2}{400 + 3.5S}',
     videoUrl: null,
     traps: [
@@ -384,7 +384,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'L = 2S - \\frac{2{,}158}{A}',
     videoUrl: null,
     traps: [
@@ -427,7 +427,7 @@ const PROBLEMS = [
         latex: 'D = \\frac{5{,}729.58}{R} = \\frac{5{,}729.58}{1{,}146} = 5.0\\degree'
       }
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'R = \\frac{5{,}729.58}{D}',
     videoUrl: null,
     traps: ['Dividing R by the constant instead of the constant by R'],
@@ -475,7 +475,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'T = R \\tan(I/2)',
     videoUrl: null,
     traps: ['Assuming tan(I) = 2 tan(I/2), which is not a valid trigonometric identity'],
@@ -515,7 +515,7 @@ const PROBLEMS = [
         latex: 'L = R \\cdot I \\cdot \\frac{\\pi}{180} = 800 \\times 50 \\times \\frac{\\pi}{180} = 800 \\times 0.8727 = 698 \\text{ ft}'
       }
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'L = R \\, I \\, \\frac{\\pi}{180}',
     videoUrl: null,
     traps: [
@@ -572,7 +572,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 303',
+    handbookPage: 'p. 309',
     handbookFormula: '0.01e + f = \\frac{V^2}{15R}',
     videoUrl: null,
     traps: [
@@ -619,7 +619,7 @@ const PROBLEMS = [
         latex: 'y = 1.0 + \\frac{58.7}{2 \\times 10} = 1.0 + 2.93 = 3.9 \\text{ sec}'
       }
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'y = t + \\frac{v}{2a \\pm 64.4G}',
     videoUrl: null,
     traps: ['Using mph instead of ft/sec in the formula'],
@@ -667,7 +667,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'r = \\frac{W + l}{v}',
     videoUrl: null,
     traps: [
@@ -717,7 +717,7 @@ const PROBLEMS = [
         latex: 'y = 1.0 + \\frac{66.0}{18.07} = 1.0 + 3.65 = 4.7 \\text{ sec}'
       }
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'y = t + \\frac{v}{2a \\pm 64.4G}',
     videoUrl: null,
     traps: [
@@ -768,7 +768,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'y = t + \\frac{v}{2a \\pm 64.4G}',
     videoUrl: null,
     traps: [
@@ -811,7 +811,7 @@ const PROBLEMS = [
         latex: 'D_o = \\frac{D_j}{2} = \\frac{200}{2} = 100 \\text{ veh/mi/ln}'
       }
     ],
-    handbookPage: 'p. 306',
+    handbookPage: 'p. 312',
     handbookFormula: 'D_o = \\frac{D_j}{2}',
     videoUrl: null,
     traps: ['Using $D_j$ directly as the optimum density instead of dividing by 2'],
@@ -859,7 +859,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 306',
+    handbookPage: 'p. 312',
     handbookFormula: 'V = S \\times D',
     videoUrl: null,
     traps: [
@@ -905,7 +905,7 @@ const PROBLEMS = [
         latex: 'RMVM = \\frac{8 \\times 1{,}000{,}000}{26{,}280{,}000} = 0.30 \\text{ crashes/MVM}'
       }
     ],
-    handbookPage: 'p. 307',
+    handbookPage: 'p. 313',
     handbookFormula: 'RMVM = \\frac{A \\times 1{,}000{,}000}{VMT}',
     videoUrl: null,
     traps: [
@@ -956,7 +956,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 307',
+    handbookPage: 'p. 313',
     handbookFormula: 'RMEV = \\frac{A \\times 1{,}000{,}000}{V}',
     videoUrl: null,
     traps: [
@@ -1007,7 +1007,7 @@ const PROBLEMS = [
         latex: 'V_p = 2000\\,\\text{veh/h/ln}'
       }
     ],
-    handbookPage: 'p. 305',
+    handbookPage: 'p. 311',
     handbookFormula: 'V_p = \\frac{V}{PHF \\times N \\times f_{HV} \\times f_p}',
     videoUrl: null,
     traps: [
@@ -1058,7 +1058,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 306',
+    handbookPage: 'p. 311',
     handbookFormula: null,
     videoUrl: null,
     traps: ['Confusing LOS E (at capacity) with LOS F (breakdown)'],
@@ -1106,7 +1106,7 @@ const PROBLEMS = [
         latex: 'D = \\frac{v_p}{S} = \\frac{1{,}650}{55} = 30.0\\,\\text{pc/mi/ln}'
       }
     ],
-    handbookPage: 'pp. 305-306',
+    handbookPage: 'p. 311',
     handbookFormula: 'D = \\frac{v_p}{S}, \\quad v_p = \\frac{V}{PHF \\times N \\times f_{HV}}',
     videoUrl: null,
     traps: [
@@ -1157,7 +1157,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 305',
+    handbookPage: 'p. 311',
     handbookFormula: 'v_p = \\frac{V}{PHF \\times N \\times f_{HV}}',
     videoUrl: null,
     traps: [
@@ -1212,7 +1212,7 @@ const PROBLEMS = [
         latex: 'SN = 2.20 + 1.26 + 0.792 = 4.25 \\approx 4.26'
       }
     ],
-    handbookPage: 'p. 308',
+    handbookPage: 'p. 314',
     handbookFormula: 'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3',
     videoUrl: null,
     traps: ['Ignoring the drainage coefficients and using m = 1.0 for all layers'],
@@ -1281,7 +1281,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 308',
+    handbookPage: 'p. 314',
     handbookFormula: 'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3',
     videoUrl: null,
     traps: [
@@ -1331,7 +1331,7 @@ const PROBLEMS = [
         latex: '555 + 302 = 857 \\text{ ESALs}'
       }
     ],
-    handbookPage: 'p. 308',
+    handbookPage: 'p. 314',
     handbookFormula: 'ESALs = \\sum (\\text{passes}_i \\times LEF_i)',
     videoUrl: null,
     traps: [
@@ -1382,7 +1382,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 308',
+    handbookPage: 'p. 314',
     handbookFormula: 'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3',
     videoUrl: null,
     traps: [
@@ -1429,7 +1429,7 @@ const PROBLEMS = [
         latex: 'V = \\frac{10{,}000}{27} = 370 \\text{ yd}^3'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V = \\frac{L(A_1 + A_2)}{2}',
     videoUrl: null,
     traps: ['Reporting the answer in ft^3 instead of yd^3 -- always divide by 27'],
@@ -1484,7 +1484,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V = \\frac{L(A_1 + A_2)}{2}',
     videoUrl: null,
     traps: [
@@ -1534,7 +1534,7 @@ const PROBLEMS = [
         latex: '926 - 802 = 123 \\text{ yd}^3'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V = \\frac{L(A_1 + 4A_m + A_2)}{6}',
     videoUrl: null,
     traps: [
@@ -1593,7 +1593,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V = \\frac{L(A_1 + A_2)}{2}',
     videoUrl: null,
     traps: [
@@ -1623,7 +1623,7 @@ const PROBLEMS = [
       { text: 'Fraction to Zone A:', latex: '\\frac{160}{220} = 0.727' },
       { text: 'Trips:', latex: 'T = 600 \\times 0.727 = 436\\text{ trips}' },
     ],
-    handbookPage: 'p. 306',
+    handbookPage: 'p. 312',
     handbookFormula: 'T_{ij} = P_i[A_j F_{ij} K_{ij}/\\sum A_j F_{ij} K_{ij}]',
     videoUrl: null,
     traps: [

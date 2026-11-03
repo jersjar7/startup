@@ -71,7 +71,7 @@ const sampleProblem = {
     { label: 'D', text: '22.5 kN·m' },
   ],
   eli5: 'Imagine laying a ruler across two books and pressing down evenly with your hand. The ruler bends the most right in the middle, and that\'s where the bending moment is greatest. For a uniform load on a simple beam, the max moment is always at the center.',
-  handbookPage: 'p. 128',
+  handbookPage: 'p. 140',
   handbookFormula: 'M_{max} = \\frac{wL^2}{8}',
   traps: [
     'The formula is wL²/8, not wL/8. The square matters.',

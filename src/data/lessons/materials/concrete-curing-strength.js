@@ -6,7 +6,7 @@ export default {
   content: [
     { type: 'text', body: 'Concrete gains strength through hydration, the chemical reaction between cement and water. This reaction needs water to continue, which is why curing conditions are critical.' },
     { type: 'heading', body: 'Moist Curing' },
-    { type: 'text', body: 'Continuously moist-cured concrete reaches its highest potential strength. Concrete exposed to air too early loses moisture, slowing or stopping hydration. The FE Handbook (p. 125) shows that concrete moist-cured for only 3 days and then left in air may reach only 55\u201365% of the strength of continuously moist-cured concrete at 28 days.' },
+    { type: 'text', body: 'Continuously moist-cured concrete reaches its highest potential strength. Concrete exposed to air too early loses moisture, slowing or stopping hydration. The FE Handbook (p. 126) shows that concrete moist-cured for only 3 days and then left in air may reach only 55\u201365% of the strength of continuously moist-cured concrete at 28 days.' },
     { type: 'heading', body: 'Strength Gain Over Time' },
     { type: 'text', body: 'For Type I Portland cement under continuous moist curing, concrete reaches approximately 65\u201375% of its 28-day strength at 7 days. Strength continues to increase beyond 28 days, but at a diminishing rate. The 28-day compressive strength ($f\'_c$) is the standard design benchmark.' },
     { type: 'heading', body: 'Compressive Strength Testing' },
@@ -15,7 +15,7 @@ export default {
     { type: 'text', body: 'Concrete has high compressive strength (3,000\u20138,000+ psi) but very low tensile strength, roughly 8\u201312% of its compressive strength. Reinforcing steel (rebar) is embedded in the tension zones to carry the tensile forces. This is why every concrete beam, slab, and column has rebar.' },
     { type: 'callout', variant: 'tip', body: 'Quick ratio: 7-day strength \u2248 70% of 28-day strength for Type I cement. If a 7-day break is at least 65% of the specified f\u2019c, the concrete is usually on track.' },
     { type: 'callout', variant: 'warning', body: 'Concrete that dries out early (forms stripped too soon, no curing compound, hot windy weather) may reach only 50\u201360% of its potential 28-day strength. Early form stripping is a common cause of understrength concrete in the field.' },
-    { type: 'callout', variant: 'exam', body: 'The handbook (p. 125) shows two graphs you should know: (1) W/C vs. compressive strength, and (2) age vs. compressive strength for different curing durations. Both are commonly tested.' },
+    { type: 'callout', variant: 'exam', body: 'The handbook (p. 126) shows two graphs you should know: (1) W/C vs. compressive strength, and (2) age vs. compressive strength for different curing durations. Both are commonly tested.' },
   ],
   illustration: null,
   problems: [
@@ -36,7 +36,7 @@ export default {
         { text: 'The 7-day strength is 70% of the 28-day value:', latex: 'f\'_{c,7} = 0.70 \\times f\'_{c,28}' },
         { text: 'Solve for 28-day strength:', latex: 'f\'_{c,28} = \\frac{f\'_{c,7}}{0.70} = \\frac{2{,}800}{0.70} = 4{,}000 \\text{ psi}' },
       ],
-      handbookPage: 'p. 125',
+      handbookPage: 'p. 126',
       handbookFormula: '\\text{Concrete strength vs. curing time (graph)}',
       videoUrl: null,
       traps: [
@@ -62,7 +62,7 @@ export default {
         { text: 'Fully cured 28-day strength = 5,200 psi', latex: null },
         { text: 'Partially cured concrete reaches 90% of this:', latex: 'f\'_c = 0.90 \\times 5{,}200 = 4{,}680 \\text{ psi}' },
       ],
-      handbookPage: 'p. 125',
+      handbookPage: 'p. 126',
       handbookFormula: '\\text{Concrete strength vs. curing conditions (graph)}',
       videoUrl: null,
       traps: [
@@ -89,7 +89,7 @@ export default {
         { text: 'Mix B field strength:', latex: 'f\'_{c,B} = 4{,}600 \\times 0.85 = 3{,}910 \\text{ psi} < 4{,}500 \\; \\times' },
         { text: 'Only Mix A meets the design requirement.', latex: null },
       ],
-      handbookPage: 'p. 125',
+      handbookPage: 'p. 126',
       handbookFormula: '\\text{Concrete strength vs. curing conditions (graph)}',
       videoUrl: null,
       traps: [

@@ -40,7 +40,7 @@ export default {
         { text: 'Convert flow to gpd:', latex: 'Q = 2.0 \\text{ MGD} = 2{,}000{,}000 \\text{ gpd}' },
         { text: 'Overflow rate:', latex: 'v_o = \\frac{Q}{A} = \\frac{2{,}000{,}000}{2{,}827} = 708 \\text{ gpd/ft}^2' },
       ],
-      handbookPage: 'p. 339',
+      handbookPage: 'p. 345',
       handbookFormula: 'v_o = Q/A_{surface}',
       videoUrl: null,
       traps: [
@@ -67,7 +67,7 @@ export default {
         { text: 'Substitute:', latex: 'F{:}M = \\frac{4{,}000 \\times 200}{2{,}000 \\times 3{,}000}' },
         { text: 'Compute:', latex: 'F{:}M = \\frac{800{,}000}{6{,}000{,}000} = 0.133 \\text{ day}^{-1}' },
       ],
-      handbookPage: 'p. 334',
+      handbookPage: 'p. 340',
       handbookFormula: '\\text{Organic loading rate (F:M)} = Q_0 S_0 / (\\text{Vol} \\cdot X_A)',
       videoUrl: null,
       traps: [
@@ -95,7 +95,7 @@ export default {
         { text: 'Denominator (solids leaving):', latex: 'Q_w X_w + Q_e X_e = 50(10{,}000) + 5{,}000(20) = 600{,}000' },
         { text: 'SRT:', latex: '\\theta_c = \\frac{5{,}250{,}000}{600{,}000} = 8.75 \\approx 8.8 \\text{ days}' },
       ],
-      handbookPage: 'p. 333',
+      handbookPage: 'p. 339',
       handbookFormula: '\\theta_c = \\frac{V X_A}{Q_w X_w + Q_e X_e}',
       videoUrl: null,
       traps: [

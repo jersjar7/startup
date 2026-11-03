@@ -25,7 +25,7 @@ const PROBLEMS = [
         latex: 'A = \\frac{P}{\\sigma_{allow}} = \\frac{80{,}000}{100} = 800\\,\\text{mm}^2'
       }
     ],
-    handbookPage: 'p. 130',
+    handbookPage: 'p. 131',
     handbookFormula: '\\sigma_{allow} = \\frac{\\sigma_y}{FS}, \\quad A = \\frac{P}{\\sigma_{allow}}',
     videoUrl: null,
     traps: [
@@ -60,7 +60,7 @@ const PROBLEMS = [
         latex: '\\sigma = E\\,\\alpha\\,\\Delta T = 200{,}000 \\times 12 \\times 10^{-6} \\times 40 = 96\\,\\text{MPa}'
       }
     ],
-    handbookPage: 'p. 130',
+    handbookPage: 'p. 131',
     handbookFormula: '\\sigma = E\\,\\alpha\\,\\Delta T',
     videoUrl: null,
     traps: [
@@ -99,7 +99,7 @@ const PROBLEMS = [
         latex: 'd = (101{,}859)^{1/3} = 46.7\\,\\text{mm}'
       }
     ],
-    handbookPage: 'p. 133',
+    handbookPage: 'p. 134',
     handbookFormula: '\\tau = \\frac{16T}{\\pi d^3}',
     videoUrl: null,
     traps: [
@@ -138,7 +138,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 133',
+    handbookPage: 'p. 134',
     handbookFormula: '\\tau = \\frac{Tc}{J}, \\quad J = \\frac{\\pi(d_o^4 - d_i^4)}{32}',
     videoUrl: null,
     traps: [
@@ -177,7 +177,7 @@ const PROBLEMS = [
         latex: '\\Delta d = \\varepsilon_{lat}\\,d = 0.00066 \\times 25 = 0.0165\\,\\text{mm}'
       }
     ],
-    handbookPage: 'p. 130',
+    handbookPage: 'p. 131',
     handbookFormula: '\\nu = -\\frac{\\varepsilon_{lat}}{\\varepsilon_{axial}}',
     videoUrl: null,
     traps: [
@@ -212,7 +212,7 @@ const PROBLEMS = [
         latex: 'u_r = \\frac{90{,}000}{400{,}000} = 0.225\\,\\text{MPa} = 0.225\\,\\text{MJ/m}^3'
       }
     ],
-    handbookPage: 'p. 137',
+    handbookPage: 'p. 138',
     handbookFormula: 'u_r = \\frac{\\sigma_{pl}^2}{2E}',
     videoUrl: null,
     traps: [
@@ -247,7 +247,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 140',
+    handbookPage: 'p. 141',
     handbookFormula: 'M_{max} = \\frac{wL^2}{2} \\text{ (cantilever, full UDL)}',
     videoUrl: null,
     traps: [
@@ -292,7 +292,7 @@ const PROBLEMS = [
         latex: 'R_A = \\frac{108}{6} = 18\\,\\text{kN}'
       }
     ],
-    handbookPage: 'p. 134',
+    handbookPage: 'p. 135',
     handbookFormula: '\\sum M = 0, \\quad W = w \\cdot L_{loaded}',
     videoUrl: null,
     traps: [
@@ -327,7 +327,7 @@ const PROBLEMS = [
         latex: 'S = \\frac{M}{\\sigma_{allow}} = \\frac{24 \\times 10^6}{12} = 2.0 \\times 10^6\\,\\text{mm}^3'
       }
     ],
-    handbookPage: 'p. 135',
+    handbookPage: 'p. 136',
     handbookFormula: 'S = \\frac{M}{\\sigma_{allow}}',
     videoUrl: null,
     traps: [
@@ -366,7 +366,7 @@ const PROBLEMS = [
         latex: '\\sigma = \\frac{M}{S} = \\frac{3 \\times 10^6}{50{,}265} = 59.7\\,\\text{MPa}'
       }
     ],
-    handbookPage: 'p. 135',
+    handbookPage: 'p. 136',
     handbookFormula: 'S = \\frac{\\pi d^3}{32}, \\quad \\sigma = \\frac{M}{S}',
     videoUrl: null,
     traps: [
@@ -405,7 +405,7 @@ const PROBLEMS = [
         latex: 'I = \\frac{6.48 \\times 10^{15}}{1.60 \\times 10^8} = 40.5 \\times 10^6\\,\\text{mm}^4'
       }
     ],
-    handbookPage: 'p. 139',
+    handbookPage: 'p. 140',
     handbookFormula: '\\delta = \\frac{PL^3}{48EI}',
     videoUrl: null,
     traps: [
@@ -447,7 +447,7 @@ const PROBLEMS = [
         latex: '\\frac{\\delta_{short}}{\\delta_{long}} = \\left(\\frac{1}{2}\\right)^3 = \\frac{1}{8}'
       }
     ],
-    handbookPage: 'p. 140',
+    handbookPage: 'p. 141',
     handbookFormula: '\\delta = \\frac{PL^3}{3EI}',
     videoUrl: null,
     traps: [
@@ -486,7 +486,7 @@ const PROBLEMS = [
         latex: '\\theta_p = 28.2\\degree'
       }
     ],
-    handbookPage: 'p. 131',
+    handbookPage: 'p. 132',
     handbookFormula: '\\tan(2\\theta_p) = \\frac{2\\tau_{xy}}{\\sigma_x - \\sigma_y}',
     videoUrl: null,
     traps: [
@@ -528,7 +528,7 @@ const PROBLEMS = [
         latex: '\\sigma_h = \\frac{pd}{2t} = \\frac{2 \\times 1{,}500}{2 \\times 10} = 150\\,\\text{MPa}'
       }
     ],
-    handbookPage: 'p. 131',
+    handbookPage: 'p. 132',
     handbookFormula: '\\sigma_h = \\frac{pd}{2t}',
     videoUrl: null,
     traps: [
@@ -567,7 +567,7 @@ const PROBLEMS = [
         latex: 'I = \\frac{1.0 \\times 10^{13}}{1.974 \\times 10^6} = 5.07 \\times 10^6\\,\\text{mm}^4'
       }
     ],
-    handbookPage: 'p. 136',
+    handbookPage: 'p. 137',
     handbookFormula: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2}',
     videoUrl: null,
     traps: [
@@ -598,7 +598,7 @@ const PROBLEMS = [
         latex: 'r = \\sqrt{\\frac{I}{A}} = \\sqrt{\\frac{8 \\times 10^6}{3{,}200}} = \\sqrt{2{,}500} = 50\\,\\text{mm}'
       }
     ],
-    handbookPage: 'p. 136',
+    handbookPage: 'p. 137',
     handbookFormula: 'r = \\sqrt{\\frac{I}{A}}',
     videoUrl: null,
     traps: [
@@ -626,7 +626,7 @@ const PROBLEMS = [
     steps: [
       { text: 'Shape factor:', latex: '\\frac{Z}{S} = \\frac{120}{100} = 1.20' },
     ],
-    handbookPage: 'p. 281',
+    handbookPage: 'p. 287',
     handbookFormula: 'SF = Z/S',
     videoUrl: null,
     traps: ['Inverting to S/Z', 'Confusing the shape factor with the section modulus itself'],

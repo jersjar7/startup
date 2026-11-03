@@ -38,7 +38,7 @@ export default {
         { text: 'Filtration rate:', latex: 'v_s = \\frac{Q}{A_{plan}} = \\frac{1{,}350}{300}' },
         { text: 'Compute:', latex: 'v_s = 4.5\\text{ gpm/ft}^2' },
       ],
-      handbookPage: 'p. 341',
+      handbookPage: 'p. 347',
       handbookFormula: 'v_s = Q/A_{plan}',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'Mass loading (1 mg/L = 1 g/m³):', latex: '\\dot m = 3.0\\,\\tfrac{\\text{g}}{\\text{m}^3} \\times 4{,}000\\,\\tfrac{\\text{m}^3}{\\text{day}} = 12{,}000\\text{ g/day}' },
         { text: 'Convert to kg:', latex: '\\dot m = 12.0\\text{ kg/day}' },
       ],
-      handbookPage: 'p. 346',
+      handbookPage: 'p. 352',
       handbookFormula: '\\text{Dose} = \\text{Demand} + \\text{Residual}',
       videoUrl: null,
       traps: [
@@ -92,7 +92,7 @@ export default {
         { text: 'Solve for contact time:', latex: 't_{10} = \\frac{CT}{C} = \\frac{90}{1.5}' },
         { text: 'Compute:', latex: 't_{10} = 60\\text{ min}' },
       ],
-      handbookPage: 'p. 346',
+      handbookPage: 'p. 352',
       handbookFormula: 'CT = C \\times t_{10}',
       videoUrl: null,
       traps: [

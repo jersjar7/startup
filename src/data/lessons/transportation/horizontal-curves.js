@@ -37,7 +37,7 @@ export default {
       steps: [
         { text: 'Radius from degree of curve:', latex: 'R = \\frac{5{,}729.58}{D} = \\frac{5{,}729.58}{6} = 954.9 \\approx 955 \\text{ ft}' },
       ],
-      handbookPage: 'p. 302',
+      handbookPage: 'p. 308',
       handbookFormula: 'R = \\frac{5{,}729.58}{D}',
       videoUrl: null,
       traps: [
@@ -62,7 +62,7 @@ export default {
       steps: [
         { text: 'Tangent distance:', latex: 'T = R \\tan\\!\\left(\\frac{I}{2}\\right) = 1{,}200 \\times \\tan(15\\degree) = 1{,}200 \\times 0.2679 = 322 \\text{ ft}' },
       ],
-      handbookPage: 'p. 302',
+      handbookPage: 'p. 308',
       handbookFormula: 'T = R \\tan(I/2)',
       videoUrl: null,
       traps: [
@@ -89,7 +89,7 @@ export default {
         { text: 'Solve for superelevation:', latex: '0.01e = 0.225 - 0.15 = 0.075' },
         { text: 'Superelevation rate:', latex: 'e = \\frac{0.075}{0.01} = 7.5\\%' },
       ],
-      handbookPage: 'p. 303',
+      handbookPage: 'p. 309',
       handbookFormula: '0.01e + f = \\frac{V^2}{15R}',
       videoUrl: null,
       traps: [

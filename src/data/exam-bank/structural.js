@@ -42,7 +42,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 271',
+    handbookPage: 'p. 277',
     handbookFormula: 'm + r = 2j \\quad \\text{(determinate)}',
     videoUrl: null,
     traps: ['Confusing the truss formula (m+r=2j) with the beam/frame formula (3m+r=3j+c)'],
@@ -97,7 +97,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 271',
+    handbookPage: 'p. 277',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -151,7 +151,7 @@ const PROBLEMS = [
         latex: '20 - 20 = 0 \\quad \\text{(statically determinate)}'
       }
     ],
-    handbookPage: 'p. 271',
+    handbookPage: 'p. 277',
     handbookFormula: '3m + r = 3j + c \\implies \\text{Statically determinate}',
     videoUrl: null,
     traps: [
@@ -215,7 +215,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 271',
+    handbookPage: 'p. 277',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -266,7 +266,7 @@ const PROBLEMS = [
         latex: '= 50 \\text{ kips}'
       }
     ],
-    handbookPage: 'p. 272',
+    handbookPage: 'p. 278',
     handbookFormula: '1.2D + 1.6(L_r \\text{ or } S \\text{ or } R) + (L \\text{ or } 0.5W)',
     videoUrl: null,
     traps: [
@@ -316,7 +316,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 272',
+    handbookPage: 'p. 278',
     handbookFormula: '1.2D + 1.6L',
     videoUrl: null,
     traps: [
@@ -370,7 +370,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 272',
+    handbookPage: 'p. 278',
     handbookFormula: 'L = L_o \\left(0.25 + \\frac{15}{\\sqrt{K_{LL} A_T}}\\right)',
     videoUrl: null,
     traps: [
@@ -421,7 +421,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 272',
+    handbookPage: 'p. 278',
     handbookFormula: '1.2D + 1.6(L_r \\text{ or } S \\text{ or } R) + (L \\text{ or } 0.5W)',
     videoUrl: null,
     traps: [
@@ -464,7 +464,7 @@ const PROBLEMS = [
         latex: '\\eta = \\frac{L - x}{L} = \\frac{20 - 5}{20} = 0.75'
       }
     ],
-    handbookPage: 'p. 268',
+    handbookPage: 'p. 274',
     handbookFormula: '\\eta_{R_A}(x) = \\frac{L - x}{L}',
     videoUrl: null,
     traps: ['Using x/L instead of (L - x)/L, since that gives the right reaction, not the left'],
@@ -520,7 +520,7 @@ const PROBLEMS = [
         latex: '\\eta = \\frac{(L/2)(L/2)}{L} = \\frac{L}{4}'
       }
     ],
-    handbookPage: 'p. 268',
+    handbookPage: 'p. 274',
     handbookFormula: '\\eta_M = \\frac{a(L - a)}{L} \\text{ at the section}',
     videoUrl: null,
     traps: [
@@ -579,7 +579,7 @@ const PROBLEMS = [
         latex: 'M = w \\times A_{IL} = 2 \\times 112.5 = 225 \\text{ kip-ft}'
       }
     ],
-    handbookPage: 'p. 268',
+    handbookPage: 'p. 274',
     handbookFormula: 'M = w \\times \\text{Area under IL}',
     videoUrl: null,
     traps: [
@@ -646,7 +646,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 268',
+    handbookPage: 'p. 274',
     handbookFormula: '\\eta^+ = 1 - \\frac{a}{L}, \\quad \\eta^- = -\\frac{a}{L}',
     videoUrl: null,
     traps: [
@@ -701,7 +701,7 @@ const PROBLEMS = [
         latex: 'a = \\frac{240}{35.7} = 6.72 \\text{ in.}'
       }
     ],
-    handbookPage: 'p. 275',
+    handbookPage: 'p. 281',
     handbookFormula: 'a = \\frac{A_s f_y}{0.85 f_c\' b}',
     videoUrl: null,
     traps: [
@@ -759,7 +759,7 @@ const PROBLEMS = [
         latex: 'jd = d - \\frac{a}{2}'
       }
     ],
-    handbookPage: 'p. 275',
+    handbookPage: 'p. 281',
     handbookFormula: 'M_n = A_s f_y \\left(d - \\frac{a}{2}\\right)',
     videoUrl: null,
     traps: [
@@ -817,7 +817,7 @@ const PROBLEMS = [
         latex: '\\phi V_c = 0.75 \\times 58.8 = 44.2 \\text{ kips}'
       }
     ],
-    handbookPage: 'p. 276',
+    handbookPage: 'p. 282',
     handbookFormula: 'V_c = 2\\lambda \\sqrt{f_c\'} \\, b_w d',
     videoUrl: null,
     traps: [
@@ -868,7 +868,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 276',
+    handbookPage: 'p. 282',
     handbookFormula: 'V_u \\leq \\phi V_c/2 \\text{ (no stirrups)}, \\quad V_u > \\phi V_c \\text{ (computed } V_s\\text{)}',
     videoUrl: null,
     traps: [
@@ -919,7 +919,7 @@ const PROBLEMS = [
         latex: '\\phi P_n = 0.80(0.65)(845.3) = 0.52 \\times 845.3 = 440 \\text{ kips}'
       }
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 284',
     handbookFormula: '\\phi P_n = 0.80\\phi \\left[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y\\right]',
     videoUrl: null,
     traps: [
@@ -978,7 +978,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 284',
     handbookFormula: '\\phi P_n = 0.80\\phi \\left[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y\\right]',
     videoUrl: null,
     traps: [
@@ -1028,7 +1028,7 @@ const PROBLEMS = [
         latex: '\\phi P_n = 0.85(0.75)(1{,}670) = 0.6375 \\times 1{,}670 = 1{,}065 \\text{ kips}'
       }
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 284',
     handbookFormula: '\\phi P_n = 0.85\\phi \\left[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y\\right]',
     videoUrl: null,
     traps: [
@@ -1087,7 +1087,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 275',
+    handbookPage: 'p. 281',
     handbookFormula: '\\varepsilon_t \\leq 0.002 \\implies \\phi = 0.65 \\text{ (tied)}',
     videoUrl: null,
     traps: [
@@ -1134,7 +1134,7 @@ const PROBLEMS = [
         latex: '\\phi_b M_n = 0.90 \\times 400 = 360 \\text{ kip-ft}'
       }
     ],
-    handbookPage: 'p. 281',
+    handbookPage: 'p. 287',
     handbookFormula: 'M_n = M_p = F_y Z_x',
     videoUrl: null,
     traps: [
@@ -1184,7 +1184,7 @@ const PROBLEMS = [
         latex: 'M_p = F_y Z_x = 50 \\times 112 = 5{,}600 \\text{ kip-in} = 467 \\text{ kip-ft}'
       }
     ],
-    handbookPage: 'p. 281',
+    handbookPage: 'p. 287',
     handbookFormula: 'M_n = F_y Z_x',
     videoUrl: null,
     traps: [
@@ -1235,7 +1235,7 @@ const PROBLEMS = [
         latex: '\\phi_v V_n = 1.00 \\times 174 = 174 \\text{ kips}'
       }
     ],
-    handbookPage: 'p. 281',
+    handbookPage: 'p. 287',
     handbookFormula: 'V_n = 0.6 F_y A_w C_{v1}',
     videoUrl: null,
     traps: [
@@ -1286,7 +1286,7 @@ const PROBLEMS = [
         latex: 'M_n = M_p - (M_p - 0.7F_yS_x)\\frac{20 - 10}{30 - 10} < M_p'
       }
     ],
-    handbookPage: 'p. 281',
+    handbookPage: 'p. 287',
     handbookFormula: 'M_n = C_b\\left[M_p - (M_p - 0.7F_yS_x)\\frac{L_b - L_p}{L_r - L_p}\\right] \\leq M_p',
     videoUrl: null,
     traps: [
@@ -1344,7 +1344,7 @@ const PROBLEMS = [
         latex: '\\frac{KL}{r_y} = \\frac{120}{1.50} = 80'
       }
     ],
-    handbookPage: 'p. 281',
+    handbookPage: 'p. 287',
     handbookFormula: '\\frac{KL}{r}',
     videoUrl: null,
     traps: ['Forgetting to convert feet to inches, since $r$ is always given in inches on the FE'],
@@ -1392,7 +1392,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 287',
+    handbookPage: 'p. 293',
     handbookFormula: 'K = 2.10 \\text{ (fixed-free)}, \\quad K = 1.0 \\text{ (pin-pin)}',
     videoUrl: null,
     traps: [
@@ -1446,7 +1446,7 @@ const PROBLEMS = [
         latex: '\\phi_c P_n = 38.3 \\times 14.4 = 552 \\text{ kips}'
       }
     ],
-    handbookPage: 'p. 288',
+    handbookPage: 'p. 294',
     handbookFormula: '\\phi_c P_n = \\phi_c F_{cr} \\times A_g',
     videoUrl: null,
     traps: [
@@ -1497,7 +1497,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 281',
+    handbookPage: 'p. 287',
     handbookFormula: '\\text{Controlling: } \\max\\left(\\frac{KL}{r_x}, \\frac{KL}{r_y}\\right)',
     videoUrl: null,
     traps: [
@@ -1548,7 +1548,7 @@ const PROBLEMS = [
         latex: 'A_n = 6.25 \\times 0.375 = 2.34 \\text{ in}^2'
       }
     ],
-    handbookPage: 'p. 282',
+    handbookPage: 'p. 288',
     handbookFormula: 'A_n = \\left[b_g - \\Sigma\\left(d_b + \\tfrac{1}{8}\\text{ in.}\\right)\\right] t',
     videoUrl: null,
     traps: [
@@ -1607,7 +1607,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 283',
+    handbookPage: 'p. 289',
     handbookFormula: '\\phi_y = 0.90 \\text{ (yielding)}, \\quad \\phi_t = 0.75 \\text{ (rupture)}',
     videoUrl: null,
     traps: [
@@ -1665,7 +1665,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 283',
+    handbookPage: 'p. 289',
     handbookFormula: '\\text{Yielding: } \\phi_y P_n = 0.90 F_y A_g; \\quad \\text{Rupture: } \\phi_t P_n = 0.75 F_u A_e',
     videoUrl: null,
     traps: [
@@ -1725,7 +1725,7 @@ const PROBLEMS = [
         latex: 'A_e = U \\cdot A_n \\quad (\\text{reduced by shear lag})'
       }
     ],
-    handbookPage: 'p. 283',
+    handbookPage: 'p. 289',
     handbookFormula: 'A_e = U \\cdot A_n',
     videoUrl: null,
     traps: [

@@ -15,9 +15,9 @@ export default {
     { type: 'heading', body: 'Corrosion Prevention' },
     { type: 'text', body: 'Common strategies: protective coatings (paint, galvanizing), cathodic protection (sacrificial anodes or impressed current), material selection (stainless steel, FRP), and isolation (insulating gaskets between dissimilar metals).' },
     { type: 'heading', body: 'Material Properties Comparison' },
-    { type: 'text', body: 'The FE Handbook (p. 119) provides a table of metal properties including density, melting point, specific heat, electrical resistivity, and thermal conductivity. Use this table to compare materials for specific applications.' },
+    { type: 'text', body: 'The FE Handbook (p. 120) provides a table of metal properties including density, melting point, specific heat, electrical resistivity, and thermal conductivity. Use this table to compare materials for specific applications.' },
     { type: 'callout', variant: 'tip', body: 'In a galvanic couple, the more active metal (higher on the activity series) is the ANODE and corrodes. Zinc protects steel because zinc is more active, so it sacrifices itself.' },
-    { type: 'callout', variant: 'exam', body: 'The handbook (p. 116) describes the anode/cathode reactions for corrosion. The metals table (p. 119) provides property data for comparison questions. Know which common metals are more active (zinc, aluminum, steel) vs. more noble (copper, stainless steel, gold).' },
+    { type: 'callout', variant: 'exam', body: 'The handbook (p. 117) describes the anode/cathode reactions for corrosion. The metals table (p. 120) provides property data for comparison questions. Know which common metals are more active (zinc, aluminum, steel) vs. more noble (copper, stainless steel, gold).' },
   ],
   illustration: null,
   problems: [
@@ -39,7 +39,7 @@ export default {
         { text: 'The most active metal (aluminum) becomes the anode and corrodes preferentially.', latex: null },
         { text: 'The steel and copper are cathodically protected by the aluminum.', latex: null },
       ],
-      handbookPage: 'p. 116',
+      handbookPage: 'p. 117',
       handbookFormula: 'M^0 \\rightarrow M^{n+} + ne^-',
       videoUrl: null,
       traps: [
@@ -66,7 +66,7 @@ export default {
         { text: 'When both are exposed to moisture, a galvanic cell forms: zinc = anode, steel = cathode.', latex: null },
         { text: 'The zinc corrodes sacrificially, providing cathodic protection to the steel even at the scratch.', latex: null },
       ],
-      handbookPage: 'p. 116',
+      handbookPage: 'p. 117',
       handbookFormula: 'M^0 \\rightarrow M^{n+} + ne^-',
       videoUrl: null,
       traps: [
@@ -94,7 +94,7 @@ export default {
         { text: 'Al = 2,698 \u2714, Cu = 8,933 \u2718. Eliminate copper.', latex: null },
         { text: 'Aluminum meets all criteria: high conductivity, low density, and forms a protective oxide layer for corrosion resistance.', latex: null },
       ],
-      handbookPage: 'p. 119',
+      handbookPage: 'p. 120',
       handbookFormula: '\\text{Properties of Metals table}',
       videoUrl: null,
       traps: [

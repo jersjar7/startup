@@ -38,7 +38,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -88,7 +88,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -143,7 +143,7 @@ const PROBLEMS = [
         latex: '\\max(12, 13, 10) = 13 \\text{ days}'
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'EF = ES + D',
     videoUrl: null,
     traps: [
@@ -194,7 +194,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'ES = \\text{max}(EF_{\\text{pred}})',
     videoUrl: null,
     traps: [
@@ -241,7 +241,7 @@ const PROBLEMS = [
         latex: 'LF = \\min(LS_1, LS_2) = \\min(12, 9) = 9'
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'LF = \\min(LS \\text{ of all successors})',
     videoUrl: null,
     traps: [
@@ -291,7 +291,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: '\\text{Float} = LS - ES = LF - EF',
     videoUrl: null,
     traps: [
@@ -346,7 +346,7 @@ const PROBLEMS = [
         latex: 'LS_B = LF_B - D_B = 9 - 3 = 6'
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'LS = LF - D',
     videoUrl: null,
     traps: [
@@ -412,7 +412,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'LF = \\min(LS \\text{ of all successors})',
     videoUrl: null,
     traps: [
@@ -463,7 +463,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: '\\text{Float} = LS - ES = LF - EF',
     videoUrl: null,
     traps: [
@@ -513,7 +513,7 @@ const PROBLEMS = [
         latex: '22 - 18 = 4 \\text{ days}'
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: '\\text{Float} = LS - ES = LF - EF',
     videoUrl: null,
     traps: [
@@ -564,7 +564,7 @@ const PROBLEMS = [
         latex: '\\max(21, 22) = 22 \\text{ days}'
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -619,7 +619,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'FF = \\min(ES_j) - EF_i',
     videoUrl: null,
     traps: [
@@ -666,7 +666,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'CV = BCWP - ACWP,\\quad SV = BCWP - BCWS',
     videoUrl: null,
     traps: [
@@ -716,7 +716,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'CV = BCWP - ACWP,\\quad SV = BCWP - BCWS',
     videoUrl: null,
     traps: [
@@ -767,7 +767,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'SV = BCWP - BCWS',
     videoUrl: null,
     traps: [
@@ -818,7 +818,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'CV = BCWP - ACWP,\\quad SV = BCWP - BCWS',
     videoUrl: null,
     traps: [
@@ -869,7 +869,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 311',
+    handbookPage: 'p. 317',
     handbookFormula: 'CPI = \\frac{BCWP}{ACWP}',
     videoUrl: null,
     traps: ['Reversing the CPI interpretation, since CPI > 1.0 is under budget, not over budget'],
@@ -917,7 +917,7 @@ const PROBLEMS = [
         latex: 'EAC = ACWP + ETC = 1{,}000{,}000 + 666{,}667 = 1{,}666{,}667'
       }
     ],
-    handbookPage: 'p. 311',
+    handbookPage: 'p. 317',
     handbookFormula: 'EAC = ACWP + \\frac{BAC - BCWP}{CPI}',
     videoUrl: null,
     traps: [
@@ -964,7 +964,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 311',
+    handbookPage: 'p. 317',
     handbookFormula: 'CPI = \\frac{BCWP}{ACWP},\\quad SPI = \\frac{BCWP}{BCWS}',
     videoUrl: null,
     traps: [
@@ -1019,7 +1019,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 311',
+    handbookPage: 'p. 317',
     handbookFormula: 'ETC = \\frac{BAC - BCWP}{CPI}',
     videoUrl: null,
     traps: [
@@ -1319,7 +1319,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 14',
+    handbookPage: 'p. 15',
     handbookFormula: null,
     videoUrl: null,
     traps: [

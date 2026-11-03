@@ -35,7 +35,7 @@ export default {
       steps: [
         { text: 'Heavy-vehicle factor:', latex: 'f_{HV} = \\frac{1}{1 + P_T(E_T - 1)} = \\frac{1}{1 + 0.10(2.0 - 1)} = \\frac{1}{1.10} = 0.909' },
       ],
-      handbookPage: 'p. 305',
+      handbookPage: 'p. 311',
       handbookFormula: 'f_{HV} = \\frac{1}{1 + P_T(E_T - 1)}',
       videoUrl: null,
       traps: [
@@ -60,7 +60,7 @@ export default {
       steps: [
         { text: 'Demand flow rate:', latex: 'v_p = \\frac{V}{PHF \\times N \\times f_{HV}} = \\frac{4{,}500}{0.92 \\times 3 \\times 0.909} = \\frac{4{,}500}{2.509} = 1{,}793 \\text{ pc/h/ln}' },
       ],
-      handbookPage: 'p. 305',
+      handbookPage: 'p. 311',
       handbookFormula: 'v_p = \\frac{V}{PHF \\times N \\times f_{HV}}',
       videoUrl: null,
       traps: [
@@ -88,7 +88,7 @@ export default {
         { text: 'Density:', latex: 'D = \\frac{v_p}{S} = \\frac{2{,}200}{60} = 36.7 \\text{ pc/mi/ln}' },
         { text: 'LOS: $D = 36.7 \\rightarrow > 35\\text{\\textendash}45 \\rightarrow$ **LOS E**', latex: null },
       ],
-      handbookPage: 'pp. 305\u2013306',
+      handbookPage: 'p. 311',
       handbookFormula: 'v_p = \\frac{V}{PHF \\times N \\times f_{HV}}, \\quad D = \\frac{v_p}{S}',
       videoUrl: null,
       traps: [

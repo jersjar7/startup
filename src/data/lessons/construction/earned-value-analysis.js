@@ -35,7 +35,7 @@ export default {
         { text: 'Cost variance:', latex: 'CV = BCWP - ACWP = 400{,}000 - 450{,}000 = -50{,}000' },
         { text: 'Interpretation: $CV < 0$ \\u2192 over budget', latex: null },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: 'CV = BCWP - ACWP',
       videoUrl: null,
       traps: [
@@ -62,7 +62,7 @@ export default {
         { text: 'Interpretation: $SV < 0$ \\u2192 behind schedule (earned less than planned)', latex: null },
         { text: 'For comparison: $CV = BCWP - ACWP = 420{,}000 - 480{,}000 = -60{,}000$ (also over budget)', latex: null },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: 'SV = BCWP - BCWS',
       videoUrl: null,
       traps: [
@@ -89,7 +89,7 @@ export default {
         { text: 'Cost:', latex: 'CV = 270{,}000 - 250{,}000 = +20{,}000 > 0 \\;\\rightarrow\\; \\text{under budget}' },
         { text: 'Result: behind schedule AND under budget', latex: null },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: 'CV = BCWP - ACWP,\\quad SV = BCWP - BCWS',
       videoUrl: null,
       traps: [

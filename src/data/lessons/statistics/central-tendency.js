@@ -43,7 +43,7 @@ export default {
         { text: 'Divide by the count:', latex: '\\bar{x} = \\frac{64.5}{5} = 12.90\\%' },
         { text: 'TI-36X Pro: [data] \u2192 enter all 5 values \u2192 [2nd][data] (stat) \u2192 1-Var Stats. Read $\\bar{x} = 12.9$ (that\u2019s your mean). You can ignore $s_x$ and $\\sigma_x$ for this problem, because it only asks for the mean.', latex: null },
       ],
-      handbookPage: 'p. 63',
+      handbookPage: 'p. 64',
       handbookFormula: '\\bar{x} = \\frac{1}{n}\\sum_{i=1}^{n} x_i',
       videoUrl: null,
       traps: [
@@ -72,7 +72,7 @@ export default {
         { text: 'Take the square root:', latex: 's = \\sqrt{7{,}266.7} = 85.2\\,\\text{psi}' },
         { text: 'TI-36X Pro: [data] \u2192 enter all 6 values \u2192 [2nd][data] (stat) \u2192 1-Var Stats. Read $s_x = 85.2$, which is the sample standard deviation (uses $n-1$). Don\u2019t accidentally read $\\sigma_x$, which is the population version (uses $n$) and gives 77.8, which is the wrong answer here.', latex: null },
       ],
-      handbookPage: 'p. 63',
+      handbookPage: 'p. 64',
       handbookFormula: 's = \\sqrt{\\frac{\\sum_{i=1}^{n}(x_i - \\bar{x})^2}{n-1}}',
       videoUrl: null,
       traps: [
@@ -100,7 +100,7 @@ export default {
         { text: 'Apply the weighted mean formula:', latex: '\\bar{x}_w = \\frac{\\sum w_i x_i}{\\sum w_i} = \\frac{2(260) + 5(174) + 3(203.3)}{2 + 5 + 3}' },
         { text: 'Compute:', latex: '\\bar{x}_w = \\frac{520 + 870 + 610}{10} = \\frac{2{,}000}{10} = 200\\,\\text{veh/hr}' },
       ],
-      handbookPage: 'p. 63',
+      handbookPage: 'p. 64',
       handbookFormula: '\\bar{x}_w = \\frac{\\sum w_i x_i}{\\sum w_i}',
       videoUrl: null,
       traps: [

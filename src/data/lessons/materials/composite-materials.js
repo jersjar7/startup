@@ -18,7 +18,7 @@ export default {
     { type: 'formula', latex: '\\frac{1}{E_c} = \\frac{f_1}{E_1} + \\frac{f_2}{E_2}', label: 'Isostress (Reuss) model' },
     { type: 'text', body: 'When load is perpendicular to the fibers, both components carry the same stress but strain differently. The resulting composite modulus is always lower than the isostrain value.' },
     { type: 'callout', variant: 'tip', body: 'Parallel loading (isostrain) = additive formula = higher composite modulus. Perpendicular loading (isostress) = reciprocal formula = lower composite modulus. The FE almost always tests the parallel (isostrain) case.' },
-    { type: 'callout', variant: 'exam', body: 'The handbook (p. 123) gives the rule of mixtures for density, heat capacity, and Young\u2019s modulus. It also explicitly states the isostrain condition for long-fiber composites.' },
+    { type: 'callout', variant: 'exam', body: 'The handbook (p. 124) gives the rule of mixtures for density, heat capacity, and Young\u2019s modulus. It also explicitly states the isostrain condition for long-fiber composites.' },
   ],
   illustration: null,
   problems: [
@@ -39,7 +39,7 @@ export default {
         { text: 'Volume fractions: fibers 30%, matrix 70%', latex: 'f_f = 0.30, \\quad f_m = 1 - 0.30 = 0.70' },
         { text: 'Rule of mixtures:', latex: '\\rho_c = f_f\\rho_f + f_m\\rho_m = 0.30(2{,}500) + 0.70(1{,}200) = 750 + 840 = 1{,}590 \\text{ kg/m}^3' },
       ],
-      handbookPage: 'p. 123',
+      handbookPage: 'p. 124',
       handbookFormula: '\\rho_c = f_1\\rho_1 + f_2\\rho_2',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'Volume fractions:', latex: 'f_f = 0.40, \\quad f_m = 0.60' },
         { text: 'Isostrain (parallel) model:', latex: 'E_c = f_f E_f + f_m E_m = 0.40(230) + 0.60(3.5) = 92 + 2.1 = 94.1 \\text{ GPa}' },
       ],
-      handbookPage: 'p. 123',
+      handbookPage: 'p. 124',
       handbookFormula: 'E_c = f_1 E_1 + f_2 E_2',
       videoUrl: null,
       traps: [
@@ -92,7 +92,7 @@ export default {
         { text: 'Common strain in both phases:', latex: '\\varepsilon = \\frac{\\sigma_c}{E_c} = \\frac{100}{52{,}250} = 1.914 \\times 10^{-3}' },
         { text: 'Stress in fibers:', latex: '\\sigma_f = E_f \\varepsilon = 200{,}000 \\times 1.914 \\times 10^{-3} = 383 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 123',
+      handbookPage: 'p. 124',
       handbookFormula: 'E_c = f_1 E_1 + f_2 E_2',
       videoUrl: null,
       traps: [

@@ -29,7 +29,7 @@ const PROBLEMS = [
       { text: 'Runoff depth:', latex: 'Q = \\frac{(P - 0.2S)^2}{P + 0.8S} = \\frac{(4.5 - 0.44)^2}{4.5 + 1.76} = \\frac{16.49}{6.26} = 2.64\\text{ in.}' },
       { text: 'Runoff volume over the subdivision:', latex: 'V = \\frac{2.64}{12}\\text{ ft} \\times 120\\text{ ac} = 26.4\\text{ acre-ft}' },
     ],
-    handbookPage: 'p. 290',
+    handbookPage: 'p. 296',
     handbookFormula: 'Q = \\frac{(P - 0.2S)^2}{P + 0.8S},\\quad S = \\frac{1000}{CN} - 10',
     traps: [
       'Leaving out the initial abstraction 0.2S, which overstates runoff.',
@@ -67,7 +67,7 @@ const PROBLEMS = [
       { text: 'Peak of the 2-hour unit hydrograph at 3 hr:', latex: 'U_{2,p} = \\frac{180 + 240}{2} = 210\\text{ cfs/in.}' },
       { text: 'Scale by the design excess:', latex: 'Q_p = 1.8(210) = 378\\text{ cfs}' },
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 298',
     handbookFormula: 'U_{2\\text{-hr}}(t) = \\tfrac{1}{2}\\left[U_{1\\text{-hr}}(t) + U_{1\\text{-hr}}(t - 1\\text{ hr})\\right]',
     traps: [
       'Applying a 1-hour unit hydrograph directly to a 2-hour storm.',
@@ -105,7 +105,7 @@ const PROBLEMS = [
       { text: 'Critical depth (the downstream root must be below it):', latex: 'y_c = \\left(\\frac{q^2}{g}\\right)^{1/3} = \\left(\\frac{225}{32.2}\\right)^{1/3} = 1.91\\text{ ft}' },
       { text: 'Solve for the supercritical alternate depth by trial:', latex: 'y_2 + \\frac{3.494}{y_2^2} = 5.14 \\;\\Rightarrow\\; y_2 = 0.91\\text{ ft}\\quad(0.91 + 4.22 = 5.13)' },
     ],
-    handbookPage: 'p. 296',
+    handbookPage: 'p. 302',
     handbookFormula: 'E = y + \\frac{q^2}{2g y^2}\\ \\text{(alternate depths have equal } E\\text{)}',
     traps: [
       'Using the hydraulic jump equation; a gate conserves energy, a jump conserves momentum.',
@@ -142,7 +142,7 @@ const PROBLEMS = [
       { text: 'Manning\'s equation (USCS, K = 1.486):', latex: '250 = \\frac{1.486}{0.013}(2y^2)\\left(\\frac{y}{2}\\right)^{2/3}(0.0016)^{1/2} = 5.761\\,y^{8/3}' },
       { text: 'Solve for depth:', latex: 'y^{8/3} = 43.4 \\;\\Rightarrow\\; y = 43.4^{3/8} = 4.11\\text{ ft}\\quad(b = 8.2\\text{ ft})' },
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'Q = \\frac{K}{n} A R_H^{2/3} S^{1/2}',
     traps: [
       'Using R = y; that only holds when the channel is much wider than it is deep.',
@@ -178,7 +178,7 @@ const PROBLEMS = [
       { text: 'Affinity law for head with constant diameter:', latex: '\\frac{H_2}{H_1} = \\left(\\frac{N_2}{N_1}\\right)^2' },
       { text: 'New head:', latex: 'H_2 = 92\\left(\\frac{1450}{1770}\\right)^2 = 92(0.671) = 61.7\\text{ ft}' },
     ],
-    handbookPage: 'p. 194',
+    handbookPage: 'p. 199',
     handbookFormula: '\\left(\\frac{H}{N^2 D^2}\\right)_2 = \\left(\\frac{H}{N^2 D^2}\\right)_1',
     traps: [
       'Using the flow exponent (1) or the power exponent (3) for head.',
@@ -215,7 +215,7 @@ const PROBLEMS = [
       { text: 'Pump brake power:', latex: 'P_b = \\frac{22.3}{0.78} = 28.6\\text{ kW}' },
       { text: 'Motor input power:', latex: 'P_m = \\frac{28.6}{0.92} = 31.1\\text{ kW}' },
     ],
-    handbookPage: 'p. 191',
+    handbookPage: 'p. 197',
     handbookFormula: '\\dot{W} = \\frac{Q\\gamma h}{\\eta_t},\\quad \\eta_t = \\eta_{pump}\\,\\eta_{motor}',
     traps: [
       'Using static lift as the total head.',
@@ -253,7 +253,7 @@ const PROBLEMS = [
       { text: 'Pressure head at the hydrant:', latex: '\\frac{p}{\\gamma} = (1240 - 1105) - 17.2 = 117.8\\text{ ft}' },
       { text: 'Convert to psi:', latex: 'p = 117.8 \\times \\frac{62.4}{144} = 51.0\\text{ psi}' },
     ],
-    handbookPage: 'p. 298',
+    handbookPage: 'p. 304',
     handbookFormula: 'h_f = \\frac{4.73\\,L\\,Q^{1.852}}{C^{1.852} D^{4.87}}',
     traps: [
       'Putting D in inches into a formula that wants feet.',
@@ -328,7 +328,7 @@ const PROBLEMS = [
       { text: 'Orifice area:', latex: 'A = \\frac{Q}{C\\sqrt{2gh}} = \\frac{12}{0.61\\sqrt{2(32.2)(7.0)}} = \\frac{12}{0.61(21.23)} = 0.927\\text{ ft}^2' },
       { text: 'Diameter:', latex: 'D = \\sqrt{\\frac{4A}{\\pi}} = \\sqrt{\\frac{4(0.927)}{\\pi}} = 1.086\\text{ ft} = 13.0\\text{ in.}' },
     ],
-    handbookPage: 'p. 195',
+    handbookPage: 'p. 201',
     handbookFormula: 'Q = C A_0 \\sqrt{2g\\left(\\frac{P_1}{\\gamma} + z_1 - \\frac{P_2}{\\gamma} - z_2\\right)}',
     traps: [
       'Measuring head to the pond bottom or the orifice invert instead of its centerline.',
@@ -366,7 +366,7 @@ const PROBLEMS = [
       { text: 'From the hydraulic-elements graph (n constant), or from geometry R/Rfull = 0.684:', latex: '\\frac{V}{V_f} = \\left(\\frac{R}{R_f}\\right)^{2/3} = 0.684^{2/3} = 0.78' },
       { text: 'Velocity at the night depth:', latex: 'V = 0.78(4.55) = 3.53\\text{ ft/s}' },
     ],
-    handbookPage: 'p. 295',
+    handbookPage: 'p. 301',
     handbookFormula: 'V = \\frac{K}{n} R_H^{2/3} S^{1/2},\\quad \\frac{V}{V_f}\\ \\text{from the hydraulic-elements graph}',
     traps: [
       'Reading the discharge curve instead of the velocity curve.',
@@ -403,7 +403,7 @@ const PROBLEMS = [
       { text: 'Rise of the piezometric surface from 50 ft to 400 ft:', latex: 'h_2 - h_1 = \\frac{Q\\ln(r_2/r_1)}{2\\pi T} = \\frac{96{,}250\\ln(400/50)}{2\\pi(12{,}000)} = 2.65\\text{ ft}' },
       { text: 'Drawdown at 400 ft:', latex: 's_2 = s_1 - (h_2 - h_1) = 8.6 - 2.65 = 5.95\\text{ ft}' },
     ],
-    handbookPage: 'p. 293',
+    handbookPage: 'p. 299',
     handbookFormula: 'Q = \\frac{2\\pi T (h_2 - h_1)}{\\ln(r_2/r_1)}',
     traps: [
       'Reporting the head difference as the answer.',
@@ -440,7 +440,7 @@ const PROBLEMS = [
       { text: 'Seepage (average linear) velocity:', latex: 'v = \\frac{K i}{n_e} = \\frac{45(0.006)}{0.30} = 0.90\\text{ ft/day}' },
       { text: 'Travel time:', latex: 't = \\frac{600}{0.90} = 667\\text{ days}' },
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 298',
     handbookFormula: 'v = \\frac{q}{n} = -\\frac{K}{n}\\frac{dh}{dx}',
     traps: [
       'Using the Darcy (specific discharge) velocity as the travel speed.',
@@ -476,7 +476,7 @@ const PROBLEMS = [
       { text: 'Oxygen used in the bottle:', latex: 'D_1 - D_2 = 8.7 - 4.1 = 4.6\\text{ mg/L}' },
       { text: 'BOD of the undiluted wastewater:', latex: 'BOD_5 = \\frac{4.6}{0.0267} = 173\\text{ mg/L}' },
     ],
-    handbookPage: 'p. 333',
+    handbookPage: 'p. 339',
     handbookFormula: 'BOD = \\frac{D_1 - D_2}{P}',
     traps: [
       'Forgetting to scale the bottle result up by the dilution.',
@@ -584,7 +584,7 @@ const PROBLEMS = [
       { text: 'Stokes\' law:', latex: 'v_t = \\frac{g(\\rho_p - \\rho_f)d^2}{18\\mu} = \\frac{9.81(1652)(1.0\\times10^{-4})^2}{18(1.002\\times10^{-3})} = 0.0090\\text{ m/s} = 9.0\\text{ mm/s}' },
       { text: 'Check laminar settling:', latex: 'Re = \\frac{\\rho v d}{\\mu} = \\frac{998(0.0090)(1.0\\times10^{-4})}{1.002\\times10^{-3}} = 0.9 \\le 1' },
     ],
-    handbookPage: 'p. 340',
+    handbookPage: 'p. 346',
     handbookFormula: 'v_t = \\frac{g(\\rho_p - \\rho_f)d^2}{18\\mu}',
     traps: [
       'Using the particle density rather than the density difference.',
@@ -621,7 +621,7 @@ const PROBLEMS = [
       { text: 'Split between waste line and effluent:', latex: 'Q_w(9000) + (4.5 - Q_w)(18) = 420' },
       { text: 'Solve:', latex: '8982\\,Q_w = 420 - 81 = 339 \\;\\Rightarrow\\; Q_w = 0.0377\\text{ MGD} = 37{,}700\\text{ gpd}' },
     ],
-    handbookPage: 'p. 333',
+    handbookPage: 'p. 339',
     handbookFormula: '\\theta_c = \\frac{V X_A}{Q_w X_w + Q_e X_e}',
     traps: [
       'Forgetting the solids that leave in the effluent.',

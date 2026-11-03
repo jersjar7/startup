@@ -158,7 +158,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 6, Model Law §110.20 A.3 (Practice of Engineering); p. 12, §170.20 C (Exemption Clause)',
+      handbookPage: 'p. 6, Model Law §110.20 A.3 (Practice of Engineering); p. 13, §170.20 C (Exemption Clause)',
       handbookFormula:
         '\\text{§170.20 C: Work of a subordinate under responsible charge that does not include final engineering designs or decisions.}',
       videoUrl: null,

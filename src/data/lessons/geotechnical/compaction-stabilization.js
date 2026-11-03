@@ -35,7 +35,7 @@ export default {
         { text: 'Apply the relative-compaction formula:', latex: 'RC = \\frac{\\gamma_{d,field}}{\\gamma_{d,max}} \\times 100 = \\frac{118}{124} \\times 100' },
         { text: 'Compute:', latex: 'RC = 95.2\\%' },
       ],
-      handbookPage: 'p. 260',
+      handbookPage: 'p. 266',
       handbookFormula: 'RC = (\\gamma_{d,field}/\\gamma_{d,max}) \\times 100',
       videoUrl: null,
       traps: [
@@ -61,7 +61,7 @@ export default {
         { text: 'Apply the relative-density formula:', latex: 'D_r = \\frac{e_{max} - e}{e_{max} - e_{min}} \\times 100 = \\frac{0.90 - 0.60}{0.90 - 0.40} \\times 100' },
         { text: 'Compute:', latex: 'D_r = \\frac{0.30}{0.50} \\times 100 = 60\\%' },
       ],
-      handbookPage: 'p. 260',
+      handbookPage: 'p. 266',
       handbookFormula: 'D_r = (e_{max} - e)/(e_{max} - e_{min}) \\times 100',
       videoUrl: null,
       traps: [

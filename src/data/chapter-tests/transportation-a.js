@@ -32,7 +32,7 @@ const PROBLEMS = [
       { text: 'Check: $190 \\text{ ft} < S = 305 \\text{ ft}$, so the assumption $S \\le L$ is false. Use the $S > L$ equation:', latex: 'L = 2S - \\frac{400 + 3.5S}{A} = 2(305) - \\frac{1{,}467.5}{3.0} = 610 - 489.2 = 120.8 \\text{ ft}' },
       { text: 'Check: $120.8 \\text{ ft} < 305 \\text{ ft}$, consistent with $S > L$. The minimum length is about $121 \\text{ ft}$.', latex: null },
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'S > L:\\; L = 2S - \\frac{400 + 3.5S}{A}',
     traps: [
       'Taking the $S \\le L$ result without checking it against $S$',
@@ -71,7 +71,7 @@ const PROBLEMS = [
       { text: 'Parabola constant and distance from the PVC to the high point:', latex: 'a = \\frac{g_2 - g_1}{2L} = \\frac{-0.018 - 0.032}{1{,}600} = -3.125 \\times 10^{-5}, \\quad x_m = \\frac{-g_1 L}{g_2 - g_1} = \\frac{-0.032(800)}{-0.050} = 512 \\text{ ft}' },
       { text: 'Curve elevation at $x_m$:', latex: 'Y = 599.60 + 0.032(512) - 3.125 \\times 10^{-5}(512)^2 = 599.60 + 16.384 - 8.192 = 607.79 \\text{ ft}' },
     ],
-    handbookPage: 'p. 301',
+    handbookPage: 'p. 307',
     handbookFormula: 'x_m = -\\frac{g_1 L}{g_2 - g_1}, \\quad Y = Y_{PVC} + g_1 x + a x^2',
     traps: [
       'Assuming the high point is under the PVI when the two grades are not equal and opposite',
@@ -110,7 +110,7 @@ const PROBLEMS = [
       { text: 'Angle in the offset equation (degrees, calculator in degree mode):', latex: '\\frac{28.65 S}{R} = \\frac{28.65(565.5)}{1{,}200} = 13.50^\\circ' },
       { text: 'Horizontal sight line offset:', latex: 'HSO = R\\left[1 - \\cos\\left(\\frac{28.65S}{R}\\right)\\right] = 1{,}200(1 - 0.97237) = 33.2 \\text{ ft}' },
     ],
-    handbookPage: 'p. 303',
+    handbookPage: 'p. 309',
     handbookFormula: 'HSO = R\\left[1 - \\cos\\left(\\frac{28.65 S}{R}\\right)\\right]',
     traps: [
       'Using braking distance alone, or reaction distance alone, as the sight distance',
@@ -148,7 +148,7 @@ const PROBLEMS = [
       { text: 'Side friction equation from the Handbook, with $e$ in percent:', latex: '0.01e + f = \\frac{V^2}{15R}' },
       { text: 'Solve for $V$:', latex: 'V = \\sqrt{15R(0.01e + f)} = \\sqrt{15(230)(0.08 + 0.18)} = \\sqrt{897} = 29.9 \\text{ mph}' },
     ],
-    handbookPage: 'p. 303',
+    handbookPage: 'p. 309',
     handbookFormula: '0.01e + f = \\frac{V^2}{15R}',
     traps: [
       'Putting $e$ in as a decimal inside $0.01e$, which divides it by 100 twice',
@@ -186,7 +186,7 @@ const PROBLEMS = [
       { text: 'Curve (arc) length:', latex: 'L = \\frac{\\pi R I}{180} = \\frac{\\pi(1{,}500)(32)}{180} = 837.76 \\text{ ft}' },
       { text: 'PC station: 25+40.00 - 4+30.12 = 21+09.88. PT station:', latex: '2{,}109.88 + 837.76 = 2{,}947.64 \\;\\Rightarrow\\; 29{+}47.64' },
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'T = R\\tan\\frac{I}{2}, \\quad L = \\frac{\\pi R I}{180}',
     traps: [
       'Computing PT as PI + T',
@@ -225,7 +225,7 @@ const PROBLEMS = [
       { text: 'What the base must supply:', latex: 'a_2D_2m_2 = 4.20 - 1.68 - 0.90 = 1.62' },
       { text: 'Base thickness:', latex: 'D_2 = \\frac{1.62}{0.13(1.10)} = \\frac{1.62}{0.143} = 11.3 \\text{ in.}' },
     ],
-    handbookPage: 'p. 308',
+    handbookPage: 'p. 314',
     handbookFormula: 'SN = a_1D_1 + a_2D_2m_2 + a_3D_3m_3',
     traps: [
       'Forgetting the drainage coefficients, or applying one to the asphalt surface',
@@ -273,7 +273,7 @@ const PROBLEMS = [
       { text: 'Trucks in the design lane (one direction of a two-lane road):', latex: '240 \\times 0.50 = 120 \\text{ trucks/day}' },
       { text: 'Design ESALs over 20 years:', latex: '1.284 \\times 120 \\times 365 \\times 20 = 1{,}124{,}784 \\approx 1.12 \\times 10^6' },
     ],
-    handbookPage: 'p. 308',
+    handbookPage: 'p. 314',
     handbookFormula: 'ESAL = \\sum (\\text{LEF} \\times \\text{axle passes})',
     traps: [
       'Reading a tandem axle from the single-axle column',
@@ -311,7 +311,7 @@ const PROBLEMS = [
       { text: 'From the Handbook LEF table: single axle $18{,}000 \\text{ lb}$ = 1.000, single axle $36{,}000 \\text{ lb}$ = 13.93.', latex: null },
       { text: 'Equivalent standard passes:', latex: '\\frac{13.93}{1.000} \\approx 13.9' },
     ],
-    handbookPage: 'p. 308',
+    handbookPage: 'p. 314',
     handbookFormula: '\\text{LEF}_{18\\text{ kip single}} = 1.000',
     traps: [
       'Assuming twice the load means twice the damage',
@@ -349,7 +349,7 @@ const PROBLEMS = [
       { text: 'Flow and density from headway and spacing:', latex: 'q = \\frac{3{,}600}{2.4} = 1{,}500 \\text{ veh/hr}, \\quad k = \\frac{5{,}280}{132} = 40 \\text{ veh/mi}' },
       { text: 'Space mean speed:', latex: 'S = \\frac{q}{k} = \\frac{1{,}500}{40} = 37.5 \\text{ mph}' },
     ],
-    handbookPage: 'p. 305',
+    handbookPage: 'p. 311',
     handbookFormula: 'D = \\frac{v_p}{S}',
     traps: [
       'Leaving the speed in ft/sec',
@@ -387,7 +387,7 @@ const PROBLEMS = [
       { text: 'Ramp density term:', latex: '3.22\\,TRD^{0.84} = 3.22(3.0)^{0.84} = 3.22(2.516) = 8.10 \\text{ mph}' },
       { text: 'Free-flow speed:', latex: 'FFS = 75.4 - 6.6 - 0.0 - 8.10 = 60.7 \\text{ mph}' },
     ],
-    handbookPage: 'p. 304',
+    handbookPage: 'p. 310',
     handbookFormula: 'FFS = BFFS - f_{LW} - f_{RLC} - 3.22\\,TRD^{0.84}',
     traps: [
       'Dropping the 0.84 exponent on ramp density',
@@ -426,7 +426,7 @@ const PROBLEMS = [
       { text: 'Free-flow speed and jam density:', latex: 'S_f = 48 + 0.50(30) = 63 \\text{ mph}, \\quad D_j = \\frac{63}{0.50} = 126 \\text{ veh/mi/ln}' },
       { text: 'Capacity (maximum flow):', latex: 'V_m = \\frac{D_j S_f}{4} = \\frac{126(63)}{4} = 1{,}985 \\text{ veh/hr/ln}' },
     ],
-    handbookPage: 'p. 306',
+    handbookPage: 'p. 312',
     handbookFormula: 'S = S_f - \\frac{S_f}{D_j}D, \\quad V_m = \\frac{D_j S_f}{4}',
     traps: [
       'Reporting the largest observed flow as capacity',
@@ -463,7 +463,7 @@ const PROBLEMS = [
       { text: 'Walking time across the arterial, curb to curb:', latex: '\\frac{L}{S_p} = \\frac{64}{3.5} = 18.29 \\text{ sec}' },
       { text: 'Minimum pedestrian green:', latex: 'G_p = 3.2 + 18.29 + 0.27(18) = 3.2 + 18.29 + 4.86 = 26.3 \\text{ sec}' },
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'G_p = 3.2 + \\frac{L}{S_p} + 0.27N_{ped}',
     traps: [
       'Using crosswalk width instead of length',
@@ -502,7 +502,7 @@ const PROBLEMS = [
       { text: 'All-red clearance:', latex: 'r = \\frac{W + l}{v} = \\frac{84 + 20}{44.1} = 2.4 \\text{ sec}' },
       { text: 'Total change interval:', latex: 'y + r = 3.5 + 2.4 = 5.9 \\text{ sec}' },
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'y = t + \\frac{v}{2a \\pm 2Gg}, \\quad r = \\frac{W + l}{v}',
     traps: [
       'Getting the grade sign backwards (uphill is +)',
@@ -578,7 +578,7 @@ const PROBLEMS = [
       { text: 'Exponentials:', latex: 'e^{-2.40} = 0.0907, \\quad e^{-2.50} = 0.0821, \\quad e^{-2.10} = 0.1225' },
       { text: 'Rail share and riders:', latex: 'P_{rail} = \\frac{0.1225}{0.0907 + 0.0821 + 0.1225} = 0.415, \\quad 0.415(2{,}400) = 995' },
     ],
-    handbookPage: 'p. 307',
+    handbookPage: 'p. 313',
     handbookFormula: 'P(x) = \\frac{e^{U_x}}{\\sum_{i=1}^{n} e^{U_i}}',
     traps: [
       'Leaving a mode out of the denominator',
@@ -616,7 +616,7 @@ const PROBLEMS = [
       { text: 'Combined crash reduction factor:', latex: 'CR = CR_1 + (1 - CR_1)CR_2 = 0.30 + 0.70(0.20) = 0.44' },
       { text: 'Crashes prevented, adjusted for traffic growth:', latex: 'N \\times CR \\times \\frac{ADT_{after}}{ADT_{before}} = 14(0.44)\\frac{21{,}600}{18{,}000} = 7.39 \\text{ crashes/yr}' },
     ],
-    handbookPage: 'p. 307',
+    handbookPage: 'p. 313',
     handbookFormula: 'CR = CR_1 + (1 - CR_1)CR_2, \\quad \\text{prevented} = N \\times CR \\times \\frac{ADT_{after}}{ADT_{before}}',
     traps: [
       'Adding reduction factors',

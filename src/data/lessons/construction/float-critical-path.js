@@ -35,7 +35,7 @@ export default {
         { text: 'Total float:', latex: 'TF = LS - ES = 8 - 3 = 5 \\text{ days}' },
         { text: 'Verify:', latex: 'TF = LF - EF = 10 - 5 = 5 \\text{ days} \\;\\checkmark' },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: '\\text{Float} = LS - ES = LF - EF',
       videoUrl: null,
       traps: [
@@ -63,7 +63,7 @@ export default {
         { text: 'Path 3: A\\u2192C\\u2192D = 4 + 3 + 5 = 12 days', latex: null },
         { text: 'Critical path: A\\u2192B\\u2192D (longest = 15 days)', latex: null },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: '\\text{Float} = LS - ES = LF - EF',
       videoUrl: null,
       traps: [
@@ -90,7 +90,7 @@ export default {
         { text: 'Free float of C:', latex: 'FF_C = ES_E - EF_C = 7 - 5 = 2 \\text{ days}' },
         { text: 'Compare: total float of C = $LS_C - ES_C = 8 - 3 = 5$ days. $FF \\leq TF$ \\checkmark', latex: null },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: '\\text{Float} = LS - ES = LF - EF',
       videoUrl: null,
       traps: [

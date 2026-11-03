@@ -42,7 +42,7 @@ export default {
         { text: 'Radius:', latex: 'R = \\sqrt{\\left(\\frac{80 - (-20)}{2}\\right)^2 + 0^2} = \\sqrt{50^2} = 50 \\text{ MPa}' },
         { text: 'Principal stresses:', latex: '\\sigma_1 = 30 + 50 = 80 \\text{ MPa}, \\quad \\sigma_2 = 30 - 50 = -20 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 131',
+      handbookPage: 'p. 132',
       handbookFormula: '\\sigma_{1,2} = \\frac{\\sigma_x + \\sigma_y}{2} \\pm \\sqrt{\\left(\\frac{\\sigma_x - \\sigma_y}{2}\\right)^2 + \\tau_{xy}^2}',
       videoUrl: null,
       traps: [
@@ -70,7 +70,7 @@ export default {
         { text: 'Radius:', latex: 'R = \\sqrt{30^2 + 40^2} = \\sqrt{2500} = 50 \\text{ MPa}' },
         { text: 'Maximum principal stress:', latex: '\\sigma_1 = C + R = 30 + 50 = 80 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 131',
+      handbookPage: 'p. 132',
       handbookFormula: '\\sigma_{1,2} = \\frac{\\sigma_x + \\sigma_y}{2} \\pm \\sqrt{\\left(\\frac{\\sigma_x - \\sigma_y}{2}\\right)^2 + \\tau_{xy}^2}',
       videoUrl: null,
       traps: [
@@ -99,7 +99,7 @@ export default {
         { text: 'Principal stresses:', latex: '\\sigma_1 = 130 \\text{ MPa}, \\quad \\sigma_2 = 30 \\text{ MPa}, \\quad \\sigma_3 = 0 \\text{ (plane stress)}' },
         { text: 'Both \u03C3\u2081 and \u03C3\u2082 are positive, so absolute max shear includes \u03C3\u2083 = 0:', latex: '\\tau_{abs\\,max} = \\frac{\\sigma_1 - \\sigma_3}{2} = \\frac{130 - 0}{2} = 65 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 133',
+      handbookPage: 'p. 134',
       handbookFormula: '\\tau_{abs\\,max} = \\frac{\\sigma_1 - \\sigma_3}{2}',
       videoUrl: null,
       traps: [

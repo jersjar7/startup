@@ -35,7 +35,7 @@ const PROBLEMS = [
       { text: 'Substitute.', latex: 'AB^2 = 318.4^2 + 402.7^2 - 2(318.4)(402.7)\\cos 73.30^\\circ = 101{,}378 + 162{,}167 - 73{,}690 = 189{,}855' },
       { text: 'Take the square root.', latex: 'AB = \\sqrt{189{,}855} = 435.7\\,\\text{ft}' },
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: 'c^2 = a^2 + b^2 - 2ab\\cos C',
     traps: [
       'The angle must be the one between the two taped sides (the included angle).',
@@ -71,7 +71,7 @@ const PROBLEMS = [
       { text: 'Compute the discriminant.', latex: 'B^2 - 4AC = 16 - 12 = 4' },
       { text: 'Classify: positive means hyperbola.', latex: 'B^2 - 4AC > 0 \\Rightarrow \\text{hyperbola}' },
     ],
-    handbookPage: 'p. 46',
+    handbookPage: 'p. 47',
     handbookFormula: 'B^2 - 4AC < 0: \\text{ellipse}; \\; = 0: \\text{parabola}; \\; > 0: \\text{hyperbola}',
     traps: [
       'B is the coefficient of the $xy$ term; do not drop it.',
@@ -106,7 +106,7 @@ const PROBLEMS = [
       { text: 'Undo the base-10 logarithm.', latex: '\\frac{\\sigma\'}{100} = 10^{0.40} = 2.512' },
       { text: 'Solve.', latex: '\\sigma\' = 251\\,\\text{kPa}' },
     ],
-    handbookPage: 'p. 36',
+    handbookPage: 'p. 37',
     handbookFormula: '\\log_b(x) = c \\iff b^c = x',
     traps: [
       'Undo $\\log_{10}$ with $10^x$, not $e^x$.',
@@ -142,7 +142,7 @@ const PROBLEMS = [
       { text: 'Solve for x where the roof is 2.2 m high.', latex: 'x = a\\sqrt{1 - \\frac{y^2}{b^2}} = 4.0\\sqrt{1 - \\left(\\frac{2.2}{3.0}\\right)^2} = 4.0(0.6799) = 2.72\\,\\text{m}' },
       { text: 'The lane is centered, so it spans x on both sides.', latex: 'w = 2(2.72) = 5.44\\,\\text{m}' },
     ],
-    handbookPage: 'p. 44',
+    handbookPage: 'p. 45',
     handbookFormula: '\\frac{(x-h)^2}{a^2} + \\frac{(y-k)^2}{b^2} = 1',
     traps: [
       'The semi-axis along the road is half the width.',
@@ -179,7 +179,7 @@ const PROBLEMS = [
       { text: 'Both angles below have this sine (ambiguous case).', latex: 'C = 58.07^\\circ \\quad \\text{or} \\quad C = 180^\\circ - 58.07^\\circ = 121.93^\\circ' },
       { text: 'Both are possible here ($42^\\circ + 121.93^\\circ < 180^\\circ$). The corner at C is obtuse, so take the second.', latex: '\\theta = 121.9^\\circ' },
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: '\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C}',
     traps: [
       'Side-side-angle data can fit two triangles; arcsine returns only the acute one.',
@@ -215,7 +215,7 @@ const PROBLEMS = [
       { text: 'Substitute $dV/dt = 6$ and $h = 4.0$.', latex: '6 = 2.25\\pi (4.0)^2 \\frac{dh}{dt} = 113.1\\frac{dh}{dt}' },
       { text: 'Solve.', latex: '\\frac{dh}{dt} = \\frac{6}{113.1} = 0.053\\,\\text{m/min}' },
     ],
-    handbookPage: 'p. 43',
+    handbookPage: 'p. 44',
     handbookFormula: 'V = \\frac{\\pi r^2 h}{3}',
     traps: [
       'Replace r with 1.5h before differentiating, or the radius term is lost.',
@@ -250,7 +250,7 @@ const PROBLEMS = [
       { text: 'Second term: chain rule on the exponent $xy$, whose y-derivative is x.', latex: '\\frac{\\partial}{\\partial y}e^{xy} = e^{xy}\\cdot x' },
       { text: 'Add.', latex: '\\frac{\\partial f}{\\partial y} = 3x^2\\cos(3y) + xe^{xy}' },
     ],
-    handbookPage: 'p. 46',
+    handbookPage: 'p. 47',
     handbookFormula: '\\frac{\\partial z}{\\partial y}\\text{ with } x \\text{ held constant}; \\; \\frac{d(e^u)}{dx} = e^u\\frac{du}{dx}',
     traps: [
       'The inner derivative of $e^{xy}$ with respect to y is x, not y.',
@@ -285,7 +285,7 @@ const PROBLEMS = [
       { text: 'Integrate top minus bottom between them.', latex: 'A = \\int_{-4}^{6}\\left(0.5x + 6 - 0.25x^2\\right)dx = \\left[0.25x^2 + 6x - \\frac{x^3}{12}\\right]_{-4}^{6}' },
       { text: 'Evaluate.', latex: 'A = (9 + 36 - 18) - (4 - 24 + 5.333) = 27 - (-14.667) = 41.7\\,\\text{m}^2' },
     ],
-    handbookPage: 'p. 50',
+    handbookPage: 'p. 51',
     handbookFormula: '\\int x^m dx = \\frac{x^{m+1}}{m+1}',
     traps: [
       'The limits are the crossing points, not the axis intercepts.',
@@ -323,7 +323,7 @@ const PROBLEMS = [
       { text: 'Confirm a minimum.', latex: '\\frac{d^2A}{dx^2} = 2 + \\frac{4000}{x^3} = 6 > 0' },
       { text: 'For reference, the depth is $h = 500/100 = 5.0\\,\\text{m}$.' },
     ],
-    handbookPage: 'p. 46',
+    handbookPage: 'p. 47',
     handbookFormula: "f'(a) = 0 \\text{ and } f''(a) > 0 \\Rightarrow \\text{minimum}",
     traps: [
       'Open top: one horizontal slab, not two.',
@@ -358,7 +358,7 @@ const PROBLEMS = [
       { text: "Apply L'Hospital's rule.", latex: '\\lim_{x \\to 3}\\frac{2x}{1/(x-2)} = \\lim_{x \\to 3} 2x(x - 2)' },
       { text: 'Evaluate.', latex: '2(3)(1) = 6' },
     ],
-    handbookPage: 'p. 48',
+    handbookPage: 'p. 49',
     handbookFormula: "\\lim_{x \\to a}\\frac{f(x)}{g(x)} = \\lim_{x \\to a}\\frac{f'(x)}{g'(x)}",
     traps: [
       "L'Hospital differentiates top and bottom separately; it is not the quotient rule.",
@@ -394,7 +394,7 @@ const PROBLEMS = [
       { text: 'Evaluate between the limits.', latex: 'P = 3\\left[-(t + 1)e^{-t}\\right]_0^3 = 3\\left[-4e^{-3} + 1\\right] = 3(1 - 0.1991)' },
       { text: 'Result.', latex: 'P = 2.40\\,\\text{in}' },
     ],
-    handbookPage: 'p. 50',
+    handbookPage: 'p. 51',
     handbookFormula: '\\int xe^{ax}dx = \\frac{e^{ax}}{a^2}(ax - 1)',
     traps: [
       'A product of t and $e^{-t}$ cannot be integrated factor by factor.',
@@ -429,7 +429,7 @@ const PROBLEMS = [
       { text: 'Direction cosine with the vertical z axis.', latex: '\\cos\\gamma = \\frac{46.20}{340.91} = 0.1355 \\Rightarrow \\gamma = 82.21^\\circ' },
       { text: 'Angle with the horizontal is the complement.', latex: '\\alpha = 90^\\circ - 82.21^\\circ = 7.79^\\circ' },
     ],
-    handbookPage: 'p. 59',
+    handbookPage: 'p. 60',
     handbookFormula: '\\cos\\gamma = a_z/|\\mathbf{A}|, \\quad |\\mathbf{A}| = \\sqrt{a_x^2 + a_y^2 + a_z^2}',
     traps: [
       'The horizontal run uses both x and y components.',
@@ -466,7 +466,7 @@ const PROBLEMS = [
       { text: 'Perpendicular distance.', latex: 'D = \\frac{21.63}{3} = 7.21\\,\\text{m}' },
       { text: 'Check: the part of $\\vec{AP}$ along the line is $12/3 = 4.0\\,\\text{m}$, and $\\sqrt{8.25^2 - 4.0^2} = 7.21\\,\\text{m}$.' },
     ],
-    handbookPage: 'p. 60',
+    handbookPage: 'p. 61',
     handbookFormula: '|\\mathbf{A}\\times\\mathbf{B}| = |\\mathbf{A}||\\mathbf{B}|\\sin\\theta',
     traps: [
       'The distance from A to P is not the shortest distance to the line unless AP is perpendicular to it.',
@@ -502,7 +502,7 @@ const PROBLEMS = [
       { text: 'Normalize.', latex: '\\hat{n} = \\frac{-3\\mathbf{j} + 6\\mathbf{k}}{6.708} = -0.447\\mathbf{j} + 0.894\\mathbf{k}' },
       { text: 'Check: $\\hat{n}\\cdot\\vec{a} = 0$ and $\\hat{n}\\cdot\\vec{b} = -0.894 + 0.894 = 0$.' },
     ],
-    handbookPage: 'p. 60',
+    handbookPage: 'p. 61',
     handbookFormula: '\\mathbf{A}\\times\\mathbf{B} = |\\mathbf{A}||\\mathbf{B}|\\,\\mathbf{n}\\sin\\theta',
     traps: [
       'The j term of the determinant expansion is subtracted.',

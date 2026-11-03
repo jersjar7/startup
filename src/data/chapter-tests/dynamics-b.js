@@ -30,7 +30,7 @@ const PROBLEMS = [
       { text: 'Cruise over the remaining distance at top speed.', latex: 's_2 = 120 - 32 - 32 = 56\\text{ ft},\\qquad t_2 = \\frac{56}{16} = 3.5\\text{ sec}' },
       { text: 'Add the three phases.', latex: 't = 4 + 3.5 + 4 = 11.5\\text{ sec}' },
     ],
-    handbookPage: 'p. 104',
+    handbookPage: 'p. 105',
     handbookFormula: 'v^2 = v_0^2 + 2a_0(s - s_0),\\quad v(t) = a_0(t - t_0) + v_0',
     traps: [
       'Top speed is reached only after a speed-up distance; the hoist does not cover the whole rise at top speed.',
@@ -68,7 +68,7 @@ const PROBLEMS = [
       { text: 'Angle turned in $4.0\\text{ s}$.', latex: '\\theta = \\omega_0 t + \\tfrac{1}{2}\\alpha t^2 = \\tfrac{1}{2}(2.356)(4.0)^2 = 18.85\\text{ rad}\\;(3.0\\text{ rev})' },
       { text: 'Cable wound in is the arc length at the drum surface, radius $0.25\\text{ m}$.', latex: 's = r\\theta = 0.25(18.85) = 4.71\\text{ m}' },
     ],
-    handbookPage: 'p. 109',
+    handbookPage: 'p. 110',
     handbookFormula: '\\omega = \\omega_0 + \\alpha t,\\quad \\theta = \\theta_0 + \\omega_0 t + \\tfrac{1}{2}\\alpha t^2',
     traps: [
       'Rpm is revolutions per minute: multiply by $2\\pi/60$ to get rad/s.',
@@ -105,7 +105,7 @@ const PROBLEMS = [
       { text: 'The cart stops and reverses at $t = 2$ and $t = 4\\text{ sec}$. Find the position at each turn and at the end.', latex: 's(0) = 0,\\quad s(2) = 20\\text{ ft},\\quad s(4) = 16\\text{ ft},\\quad s(5) = 20\\text{ ft}' },
       { text: 'Add the leg lengths as positive numbers.', latex: 'd = |20 - 0| + |16 - 20| + |20 - 16| = 20 + 4 + 4 = 28\\text{ ft}' },
     ],
-    handbookPage: 'p. 105',
+    handbookPage: 'p. 106',
     handbookFormula: 's(t) = \\int_{t_0}^{t} v(\\tau)\\,d\\tau + s_{t_0}',
     traps: [
       'Displacement (end minus start) is not distance when the motion reverses.',
@@ -142,7 +142,7 @@ const PROBLEMS = [
       { text: 'Thin circular disk, axis along a diameter (in the plane of the plate), $R = 0.40\\text{ m}$.', latex: 'I_{xx} = \\tfrac{1}{4}MR^2 = \\tfrac{1}{4}(120)(0.40)^2 = 4.80\\text{ kg}{\\cdot}\\text{m}^2' },
       { text: 'The hinge line is parallel to that diameter and a distance $R$ from it.', latex: 'I_{hinge} = I_{xx} + MR^2 = 4.80 + 120(0.40)^2 = 4.80 + 19.2 = 24.0\\text{ kg}{\\cdot}\\text{m}^2' },
     ],
-    handbookPage: 'p. 111-115',
+    handbookPage: 'p. 112-116',
     handbookFormula: 'I_{xx} = \\tfrac{1}{4}MR^2,\\quad I = I_c + Md^2',
     traps: [
       'A weight in newtons must be divided by $g$ before it goes into a mass moment of inertia.',
@@ -179,7 +179,7 @@ const PROBLEMS = [
       { text: 'Mass of the panel from its weight.', latex: 'm = \\frac{W}{g} = \\frac{30{,}000}{9.81} = 3{,}058\\text{ kg}' },
       { text: 'Newton\'s second law, taking up as positive.', latex: 'T - W = ma \\;\\Rightarrow\\; T = 30{,}000 + 3{,}058(0.60) = 31{,}835\\text{ N} \\approx 31.8\\text{ kN}' },
     ],
-    handbookPage: 'p. 105',
+    handbookPage: 'p. 106',
     handbookFormula: '\\Sigma F = ma,\\quad W = mg',
     traps: [
       'Decelerating while moving down is an upward acceleration: the tension is above the weight.',
@@ -218,7 +218,7 @@ const PROBLEMS = [
       { text: 'Kinetic friction acts down the ramp, against the motion.', latex: 'F_f = \\mu_k N = 0.25(291.1) = 72.8\\text{ N}' },
       { text: 'Newton\'s second law along the ramp.', latex: 'a = \\frac{P\\cos 15\\degree - mg\\sin 20\\degree - F_f}{m} = \\frac{289.8 - 134.2 - 72.8}{40} = 2.07\\text{ m/s}^2' },
     ],
-    handbookPage: 'p. 109',
+    handbookPage: 'p. 110',
     handbookFormula: 'F = \\mu_k N,\\quad \\Sigma F_x = ma_x',
     traps: [
       'A rope pulled at an angle above the surface reduces the normal force, and so the friction.',
@@ -256,7 +256,7 @@ const PROBLEMS = [
       { text: 'Mass of the ball.', latex: 'm = \\frac{9{,}000}{9.81} = 917.4\\text{ kg}' },
       { text: 'At the bottom the acceleration is $v^2/L$ upward, toward the pin.', latex: 'T - W = m\\frac{v^2}{L} \\;\\Rightarrow\\; T = 9{,}000 + 917.4\\left(\\frac{36.72}{8.0}\\right) = 9{,}000 + 4{,}211 = 13{,}211\\text{ N} \\approx 13.2\\text{ kN}' },
     ],
-    handbookPage: 'p. 106',
+    handbookPage: 'p. 107',
     handbookFormula: 'T_2 + V_2 = T_1 + V_1,\\quad F_n = m\\frac{v_t^2}{\\rho}',
     traps: [
       'The height drop is $L(1 - \\cos\\theta)$, not $L\\sin\\theta$ or $L\\cos\\theta$.',
@@ -294,7 +294,7 @@ const PROBLEMS = [
       { text: 'Kinetic energy after the coupling.', latex: 'T_2 = \\tfrac{1}{2}(50{,}000)(1.2)^2 = 36{,}000\\text{ J}' },
       { text: 'Energy lost.', latex: '\\Delta T = 60{,}000 - 36{,}000 = 24{,}000\\text{ J} = 24\\text{ kJ}' },
     ],
-    handbookPage: 'p. 108',
+    handbookPage: 'p. 109',
     handbookFormula: 'm_1 v_1 + m_2 v_2 = m_1 v_1\' + m_2 v_2\'',
     traps: [
       'In an impact momentum is always conserved; kinetic energy is conserved only when $e = 1$.',

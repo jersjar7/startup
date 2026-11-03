@@ -39,7 +39,7 @@ export default {
       steps: [
         { text: 'Maximum flow:', latex: 'V_m = \\frac{D_j \\, S_f}{4} = \\frac{180 \\times 70}{4} = \\frac{12{,}600}{4} = 3{,}150 \\text{ veh/hr/ln}' },
       ],
-      handbookPage: 'p. 306',
+      handbookPage: 'p. 312',
       handbookFormula: 'V_m = \\frac{D_j S_f}{4}',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'Speed-density slope:', latex: '\\frac{S_f}{D_j} = \\frac{60}{120} = 0.5' },
         { text: 'Speed at $D = 40$:', latex: 'S = 60 - 0.5 \\times 40 = 60 - 20 = 40 \\text{ mph}' },
       ],
-      handbookPage: 'p. 306',
+      handbookPage: 'p. 312',
       handbookFormula: 'S = S_f - \\frac{S_f}{D_j} D',
       videoUrl: null,
       traps: [
@@ -91,7 +91,7 @@ export default {
         { text: 'Annual entering vehicles:', latex: 'V = ADT \\times 365 = 8{,}000 \\times 365 = 2{,}920{,}000' },
         { text: 'Crash rate:', latex: 'RMEV = \\frac{A \\times 1{,}000{,}000}{V} = \\frac{12 \\times 1{,}000{,}000}{2{,}920{,}000} = 4.11 \\text{ crashes/MEV}' },
       ],
-      handbookPage: 'p. 307',
+      handbookPage: 'p. 313',
       handbookFormula: 'RMEV = \\frac{A \\times 1{,}000{,}000}{V}',
       videoUrl: null,
       traps: [

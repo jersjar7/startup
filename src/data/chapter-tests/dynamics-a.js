@@ -30,7 +30,7 @@ const PROBLEMS = [
       { text: 'Solve for the distance.', latex: 's = \\frac{73.3^2}{2(10)} = \\frac{5{,}378}{20} = 268.9 \\approx 269\\text{ ft}' },
       { text: 'Check with time: the truck stops in $73.3/10 = 7.33\\text{ s}$ at an average speed of $36.7\\text{ ft/sec}$, and $36.7 \\times 7.33 = 269\\text{ ft}$.' },
     ],
-    handbookPage: 'p. 104',
+    handbookPage: 'p. 105',
     handbookFormula: 'v^2 = v_0^2 + 2a_0(s - s_0)',
     traps: [
       'Mph must become ft/sec before it meets ft/sec^2: multiply by 5,280/3,600 (about 1.467), not the other way round.',
@@ -67,7 +67,7 @@ const PROBLEMS = [
       { text: 'Normal (centripetal) part needed just to follow the loop at 15 m/s.', latex: 'a_n = \\frac{v^2}{\\rho} = \\frac{15^2}{80} = 2.81\\text{ m/s}^2' },
       { text: 'Normal and tangential parts are perpendicular, so $a^2 = a_n^2 + a_t^2$. Solve for the tangential (braking) part.', latex: 'a_t = \\sqrt{a_{max}^2 - a_n^2} = \\sqrt{3.92^2 - 2.81^2} = \\sqrt{7.49} = 2.74\\text{ m/s}^2' },
     ],
-    handbookPage: 'p. 103',
+    handbookPage: 'p. 104',
     handbookFormula: 'a = (dv/dt)\\,e_t + (v^2/\\rho)\\,e_n',
     traps: [
       'A vehicle on a curve accelerates toward the center even at constant speed; braking adds a second, perpendicular part.',
@@ -105,7 +105,7 @@ const PROBLEMS = [
       { text: 'Rearrange and take the positive root.', latex: '4.905\\,t^2 - 1.368\\,t - 6.0 = 0 \\;\\Rightarrow\\; t = \\frac{1.368 + \\sqrt{1.368^2 + 4(4.905)(6.0)}}{2(4.905)} = 1.254\\text{ s}' },
       { text: 'Horizontal motion has no acceleration.', latex: 'x = v_x\\,t = 3.759 \\times 1.254 = 4.71\\text{ m}' },
     ],
-    handbookPage: 'p. 105',
+    handbookPage: 'p. 106',
     handbookFormula: 'x = v_0\\cos(\\theta)\\,t + x_0,\\quad y = -gt^2/2 + v_0\\sin(\\theta)\\,t + y_0',
     traps: [
       'Horizontal speed uses the cosine of the angle measured from the horizontal; vertical uses the sine.',
@@ -142,7 +142,7 @@ const PROBLEMS = [
       { text: 'The center of mass is at mid-length, 3.0 m from either end, so its distance from the pin is:', latex: 'd = 3.0 - 0.5 = 2.5\\text{ m}' },
       { text: 'Parallel-axis theorem.', latex: 'I_O = I_c + md^2 = 54.0 + 18(2.5)^2 = 54.0 + 112.5 = 166.5\\text{ kg}{\\cdot}\\text{m}^2' },
     ],
-    handbookPage: 'p. 114',
+    handbookPage: 'p. 115',
     handbookFormula: 'I_c = ML^2/12,\\quad I_{new} = I_c + md^2',
     traps: [
       'The transfer distance in $I_c + md^2$ is from the center of mass to the new axis, not from the end of the rod.',
@@ -180,8 +180,8 @@ const PROBLEMS = [
       { text: 'Free body of the bucket, down positive.', latex: 'm_B g - T = m_B a \\;\\Rightarrow\\; T = 15(9.81 - 2.45) = 110\\text{ N}' },
       { text: 'Check with the crate: $T - F_f = m_A a$ gives $T = 25(2.45) + 49.05 = 110\\text{ N}$.' },
     ],
-    handbookPage: 'p. 105',
-    handbookFormula: '\\Sigma F = ma \\;(p.\\,105),\\quad F = \\mu_k N \\;(p.\\,109)',
+    handbookPage: 'p. 106',
+    handbookFormula: '\\Sigma F = ma \\;(p.\\,106),\\quad F = \\mu_k N \\;(p.\\,110)',
     traps: [
       'The tension is not the hanging weight once the system accelerates.',
       'Friction acts only on the crate on the deck, and uses the crate\'s normal force, not the total mass.',
@@ -218,7 +218,7 @@ const PROBLEMS = [
       { text: 'The rope does not slip, so $a = \\alpha r$. Substitute $T = mg - m\\alpha r$ into the drum equation.', latex: '(mg - m\\alpha r)\\,r = I\\alpha \\;\\Rightarrow\\; \\alpha = \\frac{m g r}{I + m r^2}' },
       { text: 'Put in the numbers.', latex: '\\alpha = \\frac{50(9.81)(0.25)}{12 + 50(0.25)^2} = \\frac{122.6}{15.125} = 8.11\\text{ rad/s}^2' },
     ],
-    handbookPage: 'p. 109',
+    handbookPage: 'p. 110',
     handbookFormula: '\\Sigma M_q = I_q\\alpha,\\quad \\Sigma F = ma',
     traps: [
       'The rope tension is less than the load\'s weight while the load accelerates downward.',
@@ -255,7 +255,7 @@ const PROBLEMS = [
       { text: 'Useful (output) power: the rate of gaining potential energy.', latex: 'P_{out} = \\dot{m} g h = 50(9.81)(12) = 5{,}886\\text{ W}' },
       { text: 'Input power from the efficiency.', latex: 'P_{in} = \\frac{P_{out}}{\\varepsilon} = \\frac{5{,}886}{0.85} = 6{,}925\\text{ W} = 6.92\\text{ kW}' },
     ],
-    handbookPage: 'p. 107',
+    handbookPage: 'p. 108',
     handbookFormula: 'P = \\frac{dU}{dt},\\quad \\varepsilon = \\frac{P_{out}}{P_{in}}',
     traps: [
       'Divide by efficiency to go from output to input; multiplying makes the input smaller than the output.',
@@ -292,7 +292,7 @@ const PROBLEMS = [
       { text: 'Change in momentum: the hammer goes from $5.42\\text{ m/s}$ to rest.', latex: '\\Delta(mv) = 3{,}000(5.42) = 16{,}270\\text{ N}{\\cdot}\\text{s}' },
       { text: 'Impulse equals change in momentum, so the average force is:', latex: 'F_{avg} = \\frac{m\\,\\Delta v}{\\Delta t} = \\frac{16{,}270}{0.020} = 813{,}700\\text{ N} \\approx 814\\text{ kN}' },
     ],
-    handbookPage: 'p. 107',
+    handbookPage: 'p. 108',
     handbookFormula: '\\Sigma m_i(v_i)_{t_2} = \\Sigma m_i(v_i)_{t_1} + \\Sigma \\int_{t_1}^{t_2} F_i\\,dt',
     traps: [
       'Impact speed is $\\sqrt{2gh}$; forgetting the root gives a number in the wrong units and far too big.',

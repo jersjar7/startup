@@ -38,7 +38,7 @@ export default {
         { "text": "Apply the component formula:", "latex": "\\vec{A} \\cdot \\vec{B} = (3)(-2) + (4)(5)" },
         { "text": "Compute:", "latex": "= -6 + 20 = 14" }
       ],
-      "handbookPage": "p. 60",
+      "handbookPage": "p. 61",
       "handbookFormula": "\\vec{A} \\cdot \\vec{B} = A_xB_x + A_yB_y + A_zB_z",
       "videoUrl": null,
       "traps": [
@@ -66,7 +66,7 @@ export default {
         { "text": "Apply angle formula:", "latex": "\\cos\\theta = \\frac{1}{1 \\cdot \\sqrt{2}} = \\frac{1}{\\sqrt{2}}" },
         { "text": "Solve:", "latex": "\\theta = \\cos^{-1}\\!\\left(\\frac{1}{\\sqrt{2}}\\right) = 45°" }
       ],
-      "handbookPage": "p. 60",
+      "handbookPage": "p. 61",
       "handbookFormula": "\\vec{A} \\cdot \\vec{B} = |\\vec{A}||\\vec{B}|\\cos\\theta",
       "videoUrl": null,
       "traps": [
@@ -93,7 +93,7 @@ export default {
         { "text": "Magnitude of direction:", "latex": "|\\vec{d}| = \\sqrt{4 + 4 + 1} = 3" },
         { "text": "Scalar projection:", "latex": "\\frac{\\vec{F} \\cdot \\vec{d}}{|\\vec{d}|} = \\frac{1500}{3} = 500 \\text{ N}" }
       ],
-      "handbookPage": "p. 60",
+      "handbookPage": "p. 61",
       "handbookFormula": "\\text{proj}_{\\vec{B}}\\vec{A} = \\frac{\\vec{A} \\cdot \\vec{B}}{|\\vec{B}|}",
       "videoUrl": null,
       "traps": [

@@ -38,7 +38,7 @@ const PROBLEMS = [
         latex: '\\Delta N = d \\cos\\theta = 200 \\cos 45\\degree = 200 \\times 0.7071 = 141.4\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: '\\text{Latitude} = d \\cos\\theta',
     videoUrl: null,
     traps: ['Using sine instead of cosine for latitude', 'Confusing bearing angle with azimuth'],
@@ -86,7 +86,7 @@ const PROBLEMS = [
         latex: '\\text{Azimuth} = 180\\degree + 30\\degree = 210\\degree'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: null,
     videoUrl: null,
     traps: ['Subtracting instead of adding for the SW quadrant', 'Confusing the quadrant directions'],
@@ -134,7 +134,7 @@ const PROBLEMS = [
         latex: 'VD = -38.44 \\text{ ft}'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'VD = SD \\sin\\alpha',
     videoUrl: null,
     traps: [
@@ -193,7 +193,7 @@ const PROBLEMS = [
         latex: '\\theta_6 = 720 - 590 = 130\\degree'
       }
     ],
-    handbookPage: 'p. 42',
+    handbookPage: 'p. 43',
     handbookFormula: '\\Sigma \\text{interior angles} = (n-2) \\times 180\\degree',
     videoUrl: null,
     traps: [
@@ -240,7 +240,7 @@ const PROBLEMS = [
         latex: '\\text{Elev}_X = 326.38 - 4.17 = 322.21 \\text{ ft}'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'HI = \\text{Elev} + BS; \\quad \\text{Elev} = HI - FS',
     videoUrl: null,
     traps: ['Subtracting the backsight instead of adding it to the known elevation'],
@@ -295,7 +295,7 @@ const PROBLEMS = [
         latex: 'HI_3 = 450.82 + 4.90 = 455.72; \\quad \\text{Elev}_C = 455.72 - 5.63 = 450.09 \\text{ ft}'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'HI = \\text{Elev} + BS; \\quad \\text{Elev} = HI - FS',
     videoUrl: null,
     traps: [
@@ -354,7 +354,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: '\\text{Allowable} = C\\sqrt{M}',
     videoUrl: null,
     traps: [
@@ -405,7 +405,7 @@ const PROBLEMS = [
         latex: 'HI_{\\text{new}} = \\text{Elev}_{TP} + BS'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'HI = \\text{Elev} + BS',
     videoUrl: null,
     traps: [
@@ -455,7 +455,7 @@ const PROBLEMS = [
         latex: '\\text{Dep} = +286.7 \\text{ m}'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: '\\text{Dep} = L \\sin\\theta',
     videoUrl: null,
     traps: [
@@ -502,7 +502,7 @@ const PROBLEMS = [
         latex: 'E = \\sqrt{0.0144 + 0.0081} = \\sqrt{0.0225} = 0.15 \\text{ m}'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: '\\text{Linear error} = \\sqrt{E_L^2 + E_D^2}',
     videoUrl: null,
     traps: [
@@ -549,7 +549,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: '\\text{Precision} = \\frac{\\text{Linear error}}{\\Sigma L}',
     videoUrl: null,
     traps: [
@@ -600,7 +600,7 @@ const PROBLEMS = [
         latex: '\\text{Dep}_{\\text{adj}} = 210.50 + 0.03 = 210.53 \\text{ m}'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: '\\text{Corr}_{\\text{Dep}} = -E_D \\times \\frac{L_i}{\\Sigma L}',
     videoUrl: null,
     traps: [
@@ -651,7 +651,7 @@ const PROBLEMS = [
         latex: 'A = \\frac{|48|}{2} = 24 \\text{ sq units}'
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'A = \\frac{1}{2}|\\sum(x_i y_{i+1} - x_{i+1} y_i)|',
     videoUrl: null,
     traps: ['Forgetting to divide by 2, which gives double the actual area', 'Reversing the cross product order'],
@@ -720,7 +720,7 @@ const PROBLEMS = [
         latex: 'A = 25 \\times 41 = 1{,}025 \\text{ m}^2'
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'A = w\\left(\\frac{h_1 + h_n}{2} + h_2 + h_3 + \\cdots + h_{n-1}\\right)',
     videoUrl: null,
     traps: [
@@ -789,7 +789,7 @@ const PROBLEMS = [
         latex: 'A = \\frac{10}{3} \\times 60 = 200 \\text{ m}^2'
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'A = \\frac{w}{3}(h_1 + 4h_2 + 2h_3 + 4h_4 + \\cdots + h_n)',
     videoUrl: null,
     traps: [
@@ -853,7 +853,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -899,7 +899,7 @@ const PROBLEMS = [
         latex: 'V = \\frac{30{,}000}{27} = 1{,}111 \\text{ yd}^3'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V = \\frac{L}{2}(A_1 + A_2)',
     videoUrl: null,
     traps: ['Forgetting to convert from ft^3 to yd^3 by dividing by 27'],
@@ -947,7 +947,7 @@ const PROBLEMS = [
         latex: 'V = 21{,}600 \\text{ ft}^3'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V = \\frac{L}{6}(A_1 + 4A_m + A_2)',
     videoUrl: null,
     traps: [
@@ -1002,7 +1002,7 @@ const PROBLEMS = [
         latex: 'V = 15{,}000 + 40{,}000 + 35{,}000 = 90{,}000 \\text{ ft}^3 = \\frac{90{,}000}{27} = 3{,}333 \\text{ yd}^3'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V = \\frac{L}{2}(A_1 + A_2)',
     videoUrl: null,
     traps: [
@@ -1049,7 +1049,7 @@ const PROBLEMS = [
         latex: 'V = \\frac{30{,}000}{3} = 10{,}000 \\text{ ft}^3'
       }
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V = \\frac{h \\times A_{\\text{base}}}{3}',
     videoUrl: null,
     traps: [
@@ -1096,7 +1096,7 @@ const PROBLEMS = [
         latex: 'L = \\frac{36{,}000\\pi}{180} = 200\\pi = 628 \\text{ ft}'
       }
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'L = \\frac{\\pi R I}{180}',
     videoUrl: null,
     traps: ['Using I/2 instead of the full intersection angle I in the curve length formula'],
@@ -1146,7 +1146,7 @@ const PROBLEMS = [
         latex: 'M = 600(1 - 0.7071) = 600 \\times 0.2929 = 175.7 \\text{ ft}'
       }
     ],
-    handbookPage: 'p. 303',
+    handbookPage: 'p. 309',
     handbookFormula: 'M = R\\left(1 - \\cos\\frac{I}{2}\\right)',
     videoUrl: null,
     traps: [
@@ -1203,7 +1203,7 @@ const PROBLEMS = [
         latex: '\\text{Sta PC} = 50+00 - 3+07.05 = 46+92.95'
       }
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'T = R\\tan\\frac{I}{2}; \\quad R = \\frac{5{,}729.58}{D}',
     videoUrl: null,
     traps: [
@@ -1260,7 +1260,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'L = \\frac{\\pi R I}{180}; \\quad T = R\\tan\\frac{I}{2}',
     videoUrl: null,
     traps: [
@@ -1317,7 +1317,7 @@ const PROBLEMS = [
         latex: 'Y = 150 + 2.0 - 0.5 = 151.5 \\text{ ft}'
       }
     ],
-    handbookPage: 'p. 301',
+    handbookPage: 'p. 307',
     handbookFormula: 'Y = Y_{PVC} + g_1 x + \\frac{g_2 - g_1}{2L} x^2',
     videoUrl: null,
     traps: ['Forgetting to convert percent grade to decimal (2% = 0.02, not 2)'],
@@ -1373,7 +1373,7 @@ const PROBLEMS = [
         latex: 'Y = 340 - 4.0 + 2.0 = 338.00 \\text{ ft}'
       }
     ],
-    handbookPage: 'p. 301',
+    handbookPage: 'p. 307',
     handbookFormula: 'x_m = \\frac{-g_1 L}{g_2 - g_1}',
     videoUrl: null,
     traps: [
@@ -1436,7 +1436,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'L = \\frac{AS^2}{2{,}158}',
     videoUrl: null,
     traps: [
@@ -1483,7 +1483,7 @@ const PROBLEMS = [
         latex: 'L = K \\times A = 120 \\times 6 = 720 \\text{ ft}'
       }
     ],
-    handbookPage: 'p. 301',
+    handbookPage: 'p. 307',
     handbookFormula: 'K = \\frac{L}{A}',
     videoUrl: null,
     traps: [

@@ -36,7 +36,7 @@ export default {
         { text: 'Apply Darcy\'s law:', latex: 'q = k\\,i\\,A = 0.01 \\times 0.5 \\times 100' },
         { text: 'Compute:', latex: 'q = 0.5\\text{ cm}^3\\text{/s}' },
       ],
-      handbookPage: 'p. 292',
+      handbookPage: 'p. 298',
       handbookFormula: 'q = kiA',
       videoUrl: null,
       traps: [
@@ -62,7 +62,7 @@ export default {
         { text: 'Apply the critical-gradient formula:', latex: 'i_c = \\frac{G_s - 1}{1 + e} = \\frac{2.70 - 1}{1 + 0.85}' },
         { text: 'Compute:', latex: 'i_c = \\frac{1.70}{1.85} = 0.92' },
       ],
-      handbookPage: 'p. 260',
+      handbookPage: 'p. 266',
       handbookFormula: 'i_c = (G_s - 1)/(1 + e)',
       videoUrl: null,
       traps: [
@@ -88,7 +88,7 @@ export default {
         { text: 'Flow-net seepage formula:', latex: 'q = k\\,H\\,\\frac{N_f}{N_d} = (2\\times10^{-5})(6)\\frac{4}{12}' },
         { text: 'Compute:', latex: 'q = (2\\times10^{-5})(6)(0.333) = 4.0\\times10^{-5}\\text{ m}^3\\text{/s per m}' },
       ],
-      handbookPage: 'p. 292',
+      handbookPage: 'p. 298',
       handbookFormula: 'q = kH(N_f/N_d)',
       videoUrl: null,
       traps: [

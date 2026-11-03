@@ -40,7 +40,7 @@ export default {
         { text: 'Compute:', latex: 'Re = 199{,}400' },
         { text: 'Since $Re = 199{,}400 > 10{,}000$, the flow is fully turbulent.', latex: null },
       ],
-      handbookPage: 'p. 181',
+      handbookPage: 'p. 186',
       handbookFormula: 'Re = \\frac{vD}{\\nu}',
       videoUrl: null,
       traps: [
@@ -67,7 +67,7 @@ export default {
         { text: 'Length-to-diameter ratio:', latex: '\\frac{L}{D} = \\frac{100}{0.2} = 500' },
         { text: 'Head loss:', latex: 'h_f = f \\frac{L}{D} \\frac{v^2}{2g} = 0.02 \\times 500 \\times 0.4587 = 4.59 \\text{ m}' },
       ],
-      handbookPage: 'p. 182',
+      handbookPage: 'p. 187',
       handbookFormula: 'h_f = f \\frac{L}{D} \\frac{v^2}{2g}',
       videoUrl: null,
       traps: [
@@ -95,7 +95,7 @@ export default {
         { text: 'Minor head loss:', latex: 'h_{f,\\text{minor}} = \\Sigma C \\cdot \\frac{v^2}{2g} = 11.8 \\times 0.3185 = 3.76 \\text{ m}' },
         { text: 'Total head loss:', latex: 'h_{f,\\text{total}} = 3.20 + 3.76 = 6.96 \\text{ m}' },
       ],
-      handbookPage: 'p. 182',
+      handbookPage: 'p. 187',
       handbookFormula: 'h_{f,\\text{fitting}} = C \\frac{v^2}{2g}',
       videoUrl: null,
       traps: [

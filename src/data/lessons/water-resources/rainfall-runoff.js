@@ -37,7 +37,7 @@ export default {
         { text: 'Apply the Rational Method:', latex: 'Q = CIA = 0.85 \\times 4.0 \\times 50' },
         { text: 'Compute:', latex: 'Q = 170 \\text{ cfs}' },
       ],
-      handbookPage: 'p. 290',
+      handbookPage: 'p. 296',
       handbookFormula: 'Q = CIA',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'SCS runoff equation:', latex: 'Q = \\frac{(P - 0.2S)^2}{P + 0.8S} = \\frac{(5.0 - 0.5)^2}{5.0 + 2.0}' },
         { text: 'Compute:', latex: 'Q = \\frac{(4.5)^2}{7.0} = \\frac{20.25}{7.0} = 2.89 \\text{ in.}' },
       ],
-      handbookPage: 'p. 290',
+      handbookPage: 'p. 296',
       handbookFormula: 'Q = \\frac{(P - 0.2S)^2}{P + 0.8S}',
       videoUrl: null,
       traps: [
@@ -93,7 +93,7 @@ export default {
         { text: 'Substitute:', latex: 'Q = 3.5(0.90 \\times 30 + 0.40 \\times 20)' },
         { text: 'Compute:', latex: 'Q = 3.5(27 + 8) = 3.5 \\times 35 = 122.5 \\text{ cfs}' },
       ],
-      handbookPage: 'p. 290',
+      handbookPage: 'p. 296',
       handbookFormula: 'Q = CIA',
       videoUrl: null,
       traps: [

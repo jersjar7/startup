@@ -42,7 +42,7 @@ const PROBLEMS = [
         latex: '\\delta = \\frac{200{,}000{,}000}{100{,}000{,}000} = 2.0\\,\\text{mm}'
       }
     ],
-    handbookPage: 'p. 130',
+    handbookPage: 'p. 131',
     handbookFormula: '\\delta = \\frac{PL}{AE}',
     videoUrl: null,
     traps: ['Unit mismatch between kN/m and mm/MPa', 'Forgetting to convert length to mm'],
@@ -90,7 +90,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 129',
+    handbookPage: 'p. 130',
     handbookFormula: '\\sigma = E\\varepsilon',
     videoUrl: null,
     traps: [
@@ -140,7 +140,7 @@ const PROBLEMS = [
         latex: '\\delta_{total} = 0.375 + 0.803 = 1.18\\,\\text{mm}'
       }
     ],
-    handbookPage: 'p. 130',
+    handbookPage: 'p. 131',
     handbookFormula: '\\delta_{total} = \\sum \\frac{P_i L_i}{A_i E_i}',
     videoUrl: null,
     traps: ['Only computing one segment and forgetting the other', 'Using the same $E$ for both materials'],
@@ -203,7 +203,7 @@ const PROBLEMS = [
         latex: '\\sigma = E \\cdot \\frac{\\delta_{restrained}}{L} = 70{,}000 \\times \\frac{0.72}{800} = 63.0\\,\\text{MPa}'
       }
     ],
-    handbookPage: 'p. 130',
+    handbookPage: 'p. 131',
     handbookFormula: '\\delta_t = \\alpha L (T - T_0)',
     videoUrl: null,
     traps: [
@@ -266,7 +266,7 @@ const PROBLEMS = [
         latex: '\\tau = \\frac{Tc}{J} = \\frac{400{,}000 \\times 20}{251{,}327} = 31.8 \\text{ MPa}'
       }
     ],
-    handbookPage: 'p. 133',
+    handbookPage: 'p. 134',
     handbookFormula: '\\tau = \\frac{Tr}{J}',
     videoUrl: null,
     traps: [
@@ -313,7 +313,7 @@ const PROBLEMS = [
         latex: 'T = \\frac{P}{\\omega} = \\frac{15{,}000}{31.42} = 477 \\text{ N}{\\cdot}\\text{m}'
       }
     ],
-    handbookPage: 'p. 366',
+    handbookPage: 'p. 370',
     handbookFormula: 'T = \\frac{P}{\\omega}',
     videoUrl: null,
     traps: [
@@ -364,7 +364,7 @@ const PROBLEMS = [
         latex: '\\phi = \\frac{TL}{GJ} = \\frac{5{,}000{,}000 \\times 2{,}000}{80{,}000 \\times 7{,}456{,}000} = 0.0168 \\text{ rad}'
       }
     ],
-    handbookPage: 'p. 133',
+    handbookPage: 'p. 134',
     handbookFormula: '\\phi = \\frac{TL}{GJ}',
     videoUrl: null,
     traps: [
@@ -415,7 +415,7 @@ const PROBLEMS = [
         latex: '\\frac{\\tau_A}{\\tau_B} = \\frac{d_B^3}{d_A^3} = \\frac{(2d)^3}{d^3} = 8'
       }
     ],
-    handbookPage: 'p. 133',
+    handbookPage: 'p. 134',
     handbookFormula: '\\tau = \\frac{Tc}{J}',
     videoUrl: null,
     traps: [
@@ -470,7 +470,7 @@ const PROBLEMS = [
         latex: 'E = \\frac{\\sigma}{\\varepsilon} = \\frac{342.3}{0.00342} \\approx 100{,}000\\,\\text{MPa} = 100\\,\\text{GPa}'
       }
     ],
-    handbookPage: 'p. 130',
+    handbookPage: 'p. 131',
     handbookFormula: 'E = \\frac{\\sigma}{\\varepsilon}',
     videoUrl: null,
     traps: [
@@ -513,7 +513,7 @@ const PROBLEMS = [
         latex: 'G = \\frac{E}{2(1+\\nu)} = \\frac{110}{2(1+0.34)} = \\frac{110}{2.68} = 41.0\\,\\text{GPa}'
       }
     ],
-    handbookPage: 'p. 129',
+    handbookPage: 'p. 130',
     handbookFormula: 'G = \\frac{E}{2(1+\\nu)}',
     videoUrl: null,
     traps: [
@@ -556,7 +556,7 @@ const PROBLEMS = [
         latex: '\\%RA = \\frac{A_0 - A_f}{A_0} \\times 100 = \\frac{130 - 82}{130} \\times 100 = 36.9\\%'
       }
     ],
-    handbookPage: 'p. 129',
+    handbookPage: 'p. 130',
     handbookFormula: '\\%RA = \\frac{A_0 - A_f}{A_0} \\times 100',
     videoUrl: null,
     traps: [
@@ -607,7 +607,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 129, Stress-Strain Diagram',
+    handbookPage: 'p. 130, Stress-Strain Diagram',
     handbookFormula: '\\text{Yield strength: 0.2\\% offset method}',
     videoUrl: null,
     traps: [
@@ -654,7 +654,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 140',
+    handbookPage: 'p. 141',
     handbookFormula: 'M_{max} = PL \\text{ (cantilever, tip load)}',
     videoUrl: null,
     traps: [
@@ -701,7 +701,7 @@ const PROBLEMS = [
         latex: 'V_{max} = R = 30 \\text{ kN}'
       }
     ],
-    handbookPage: 'p. 139',
+    handbookPage: 'p. 140',
     handbookFormula: 'V_{max} = \\frac{wL}{2}',
     videoUrl: null,
     traps: [
@@ -760,7 +760,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 134',
+    handbookPage: 'p. 135',
     handbookFormula: 'M_2 - M_1 = \\int_{x_1}^{x_2} V(x)\\,dx',
     videoUrl: null,
     traps: [
@@ -820,7 +820,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 134',
+    handbookPage: 'p. 135',
     handbookFormula: 'V = \\frac{dM}{dx}',
     videoUrl: null,
     traps: [
@@ -871,7 +871,7 @@ const PROBLEMS = [
         latex: '\\sigma = \\frac{M}{S} = \\frac{18 \\times 10^6}{2{,}250{,}000} = 8.0 \\text{ MPa}'
       }
     ],
-    handbookPage: 'p. 135',
+    handbookPage: 'p. 136',
     handbookFormula: '\\sigma = \\frac{Mc}{I}',
     videoUrl: null,
     traps: [
@@ -918,7 +918,7 @@ const PROBLEMS = [
         latex: '\\tau_{max} = \\frac{3V}{2A} = \\frac{3 \\times 80{,}000}{2 \\times 80{,}000} = 1.50 \\text{ MPa}'
       }
     ],
-    handbookPage: 'p. 135',
+    handbookPage: 'p. 136',
     handbookFormula: '\\tau = \\frac{VQ}{Ib}',
     videoUrl: null,
     traps: [
@@ -965,7 +965,7 @@ const PROBLEMS = [
         latex: '\\sigma = \\frac{M}{S} = \\frac{300 \\times 10^6}{1{,}200 \\times 10^3} = 250 \\text{ MPa}'
       }
     ],
-    handbookPage: 'p. 135',
+    handbookPage: 'p. 136',
     handbookFormula: '\\sigma = \\frac{M}{S}',
     videoUrl: null,
     traps: [
@@ -1016,7 +1016,7 @@ const PROBLEMS = [
         latex: '\\tau_{max} = \\frac{3V}{2A} = 1.5 \\times \\frac{V}{A}'
       }
     ],
-    handbookPage: 'p. 135',
+    handbookPage: 'p. 136',
     handbookFormula: '\\tau = \\frac{VQ}{Ib}',
     videoUrl: null,
     traps: [
@@ -1063,7 +1063,7 @@ const PROBLEMS = [
         latex: '\\delta = \\frac{5wL^4}{384EI} = \\frac{5 \\times 10 \\times (5{,}000)^4}{384 \\times 200{,}000 \\times 40 \\times 10^6} = 10.2 \\text{ mm}'
       }
     ],
-    handbookPage: 'p. 139',
+    handbookPage: 'p. 140',
     handbookFormula: '\\delta_{max} = \\frac{5wL^4}{384EI}',
     videoUrl: null,
     traps: [
@@ -1110,7 +1110,7 @@ const PROBLEMS = [
         latex: '\\delta = \\frac{PL^3}{3EI} = \\frac{10{,}000 \\times (2{,}000)^3}{3 \\times 200{,}000 \\times 25 \\times 10^6} = 5.33 \\text{ mm}'
       }
     ],
-    handbookPage: 'p. 140',
+    handbookPage: 'p. 141',
     handbookFormula: '\\delta_{max} = \\frac{PL^3}{3EI}',
     videoUrl: null,
     traps: [
@@ -1161,7 +1161,7 @@ const PROBLEMS = [
         latex: '\\delta_{total} = 1.67 + 1.67 = 3.33 \\text{ mm}'
       }
     ],
-    handbookPage: 'p. 139',
+    handbookPage: 'p. 140',
     handbookFormula: '\\delta = \\frac{PL^3}{48EI} + \\frac{5wL^4}{384EI}',
     videoUrl: null,
     traps: [
@@ -1219,7 +1219,7 @@ const PROBLEMS = [
         latex: '\\frac{\\delta_{2L}}{\\delta_L} = \\frac{(2L)^4}{L^4} = 2^4 = 16'
       }
     ],
-    handbookPage: 'p. 139',
+    handbookPage: 'p. 140',
     handbookFormula: '\\delta_{max} = \\frac{5wL^4}{384EI}',
     videoUrl: null,
     traps: [
@@ -1270,7 +1270,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 132',
+    handbookPage: 'p. 133',
     handbookFormula: '\\tau_{max} = R = \\sqrt{\\left(\\frac{\\sigma_x - \\sigma_y}{2}\\right)^2 + \\tau_{xy}^2}',
     videoUrl: null,
     traps: [
@@ -1328,7 +1328,7 @@ const PROBLEMS = [
         latex: '\\sigma_1 = C + R = 10 + 50 = 60 \\text{ MPa}'
       }
     ],
-    handbookPage: 'p. 131',
+    handbookPage: 'p. 132',
     handbookFormula: '\\sigma_{1,2} = \\frac{\\sigma_x + \\sigma_y}{2} \\pm \\sqrt{\\left(\\frac{\\sigma_x - \\sigma_y}{2}\\right)^2 + \\tau_{xy}^2}',
     videoUrl: null,
     traps: [
@@ -1382,7 +1382,7 @@ const PROBLEMS = [
         latex: '\\tau_{abs\\,max} = \\frac{\\sigma_1 - \\sigma_3}{2} = \\frac{90 - (-30)}{2} = 60 \\text{ MPa}'
       }
     ],
-    handbookPage: 'p. 133',
+    handbookPage: 'p. 134',
     handbookFormula: '\\tau_{max} = \\frac{\\sigma_1 - \\sigma_3}{2}',
     videoUrl: null,
     traps: [
@@ -1433,7 +1433,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 132',
+    handbookPage: 'p. 133',
     handbookFormula: '\\sigma_a = C + R, \\quad \\sigma_b = C - R',
     videoUrl: null,
     traps: [
@@ -1484,7 +1484,7 @@ const PROBLEMS = [
         latex: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2} = \\frac{\\pi^2 \\times 200{,}000 \\times 10 \\times 10^6}{(1{,}500)^2} = 8{,}772 \\text{ kN}'
       }
     ],
-    handbookPage: 'p. 136',
+    handbookPage: 'p. 137',
     handbookFormula: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2}',
     videoUrl: null,
     traps: [
@@ -1542,7 +1542,7 @@ const PROBLEMS = [
         latex: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2} = \\frac{\\pi^2 \\times 200{,}000 \\times 30 \\times 10^6}{(8{,}000)^2} = 925 \\text{ kN}'
       }
     ],
-    handbookPage: 'p. 136',
+    handbookPage: 'p. 137',
     handbookFormula: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2}',
     videoUrl: null,
     traps: [
@@ -1596,7 +1596,7 @@ const PROBLEMS = [
         latex: '\\sigma_{cr} = \\frac{\\pi^2 E}{(KL/r)^2} = \\frac{\\pi^2 \\times 200{,}000}{98^2} = 206 \\text{ MPa}'
       }
     ],
-    handbookPage: 'p. 136',
+    handbookPage: 'p. 137',
     handbookFormula: '\\sigma_{cr} = \\frac{\\pi^2 E}{(KL/r)^2}',
     videoUrl: null,
     traps: [
@@ -1643,7 +1643,7 @@ const PROBLEMS = [
         latex: '\\frac{P_{cr,A}}{P_{cr,B}} = \\frac{K_B^2}{K_A^2} = \\frac{2^2}{1^2} = 4'
       }
     ],
-    handbookPage: 'p. 136',
+    handbookPage: 'p. 137',
     handbookFormula: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2}',
     videoUrl: null,
     traps: [
@@ -1672,7 +1672,7 @@ const PROBLEMS = [
       { text: 'Plastic moment:', latex: 'M_p = 36 \\times 50 = 1{,}800\\text{ kip·in}' },
       { text: 'Convert:', latex: 'M_p = 1{,}800/12 = 150\\text{ kip·ft}' },
     ],
-    handbookPage: 'p. 281',
+    handbookPage: 'p. 287',
     handbookFormula: 'M_p = F_y Z',
     videoUrl: null,
     traps: ['Leaving the answer in kip·in', 'Using the elastic section modulus S'],

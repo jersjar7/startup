@@ -191,7 +191,7 @@ const PROBLEMS = [
       { text: 'Model Law 160.10 C: the secretary of state shall not accept organizational papers for a firm whose name or objectives include "engineering" unless the board has issued a certificate of authorization or a letter of eligibility.', latex: null },
       { text: 'Their individual PE licenses are still required (the firm\'s work is sealed by licensees), but they do not take the place of the firm\'s certificate.', latex: null },
     ],
-    handbookPage: 'p. 10',
+    handbookPage: 'p. 11',
     handbookFormula: '\\text{160.10: a firm offering engineering needs a certificate of authorization from the board}',
     traps: [
       'Assuming licensed owners make the firm itself authorized',
@@ -270,7 +270,7 @@ const PROBLEMS = [
       { text: 'Count the days inclusively: from June 3 through June 14.', latex: 'n = 14 - 3 + 1 = 12\\ \\text{days}' },
       { text: 'Multiply by the cap per offense.', latex: 'F_{max} = 12 \\times 2{,}500 = 30{,}000\\ \\text{dollars}' },
     ],
-    handbookPage: 'p. 10',
+    handbookPage: 'p. 11',
     handbookFormula: '\\text{150.30 C: each day of continued violation may constitute a separate offense}',
     traps: [
       'Thinking the board has no power over people who are not licensed',

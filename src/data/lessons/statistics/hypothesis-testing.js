@@ -21,7 +21,7 @@ export default {
     { type: 'text', body: '$O_i$ = observed count, $E_i$ = expected count under the theoretical model. Degrees of freedom: $v = k - 1$ (where $k$ is the number of categories). If $\\chi^2 > \\chi^2_{\\alpha,\\,v}$, the data doesn\u2019t fit the model.' },
     { type: 'callout', variant: 'tip', body: 'Decision rule cheat sheet: for z and t tests, reject $H_0$ when $|\\text{test statistic}| > \\text{critical value}$. For chi-square, reject when $\\chi^2 > \\chi^2_{\\text{crit}}$. In both cases, "bigger means reject."' },
     { type: 'callout', variant: 'warning', body: 'Failing to reject $H_0$ does NOT mean $H_0$ is true. It means you don\u2019t have enough evidence to reject it. The FE loves distractor choices that say "the mean equals $\\mu_0$" after a fail-to-reject result.' },
-    { type: 'callout', variant: 'exam', body: 'The FE handbook gives you z-tables (p. 76) and t-tables (p. 77). You do NOT need to memorize critical values. Just know which table to use and how to read it based on $\\alpha$ and degrees of freedom.' },
+    { type: 'callout', variant: 'exam', body: 'The FE handbook gives you z-tables (p. 77) and t-tables (p. 78). You do NOT need to memorize critical values. Just know which table to use and how to read it based on $\\alpha$ and degrees of freedom.' },
   ],
   illustration: null,
   problems: [
@@ -44,7 +44,7 @@ export default {
         { text: 'Compute the standard error:', latex: '\\frac{360}{\\sqrt{36}} = \\frac{360}{6} = 60' },
         { text: 'Compute the test statistic:', latex: 'z = \\frac{120}{60} = 2.0' },
       ],
-      handbookPage: 'p. 73',
+      handbookPage: 'p. 74',
       handbookFormula: 'z = \\frac{\\bar{x} - \\mu_0}{\\sigma / \\sqrt{n}}',
       videoUrl: null,
       traps: [
@@ -72,7 +72,7 @@ export default {
         { text: 'Compare to the critical value: $t = 2.4 > t_{\\text{crit}} = 1.753$.', latex: null },
         { text: 'Since $t > t_{\\text{crit}}$, reject $H_0$. There is sufficient evidence that $\\mu > 200\\,\\text{kPa}$.', latex: null },
       ],
-      handbookPage: 'p. 73',
+      handbookPage: 'p. 74',
       handbookFormula: 't = \\frac{\\bar{x} - \\mu_0}{s / \\sqrt{n}}',
       videoUrl: null,
       traps: [
@@ -101,7 +101,7 @@ export default {
         { text: 'Simplify:', latex: '\\frac{100}{50} + \\frac{25}{50} + \\frac{25}{50} + \\frac{100}{50} = 2.0 + 0.5 + 0.5 + 2.0 = 5.0' },
         { text: 'Compare: $\\chi^2 = 5.0 < 7.815 = \\chi^2_{\\text{crit}}$. Fail to reject $H_0$, so the uniform model is adequate.', latex: null },
       ],
-      handbookPage: 'p. 79',
+      handbookPage: 'p. 80',
       handbookFormula: '\\chi^2 = \\sum_{i=1}^{k} \\frac{(O_i - E_i)^2}{E_i}',
       videoUrl: null,
       traps: [

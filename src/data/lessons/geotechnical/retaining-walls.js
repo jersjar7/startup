@@ -35,7 +35,7 @@ export default {
       steps: [
         { text: 'Factor of safety:', latex: 'FS = \\frac{\\Sigma M_R}{M_O} = \\frac{15{,}000}{5{,}000} = 3.0' },
       ],
-      handbookPage: 'p. 264',
+      handbookPage: 'p. 270',
       handbookFormula: 'FS_{\\text{overturning}} = \\frac{\\Sigma M_R}{M_O}',
       videoUrl: null,
       traps: [
@@ -62,7 +62,7 @@ export default {
         { text: 'Eccentricity:', latex: 'e = \\frac{B}{2} - \\bar{x} = 3.00 - 2.40 = 0.60 \\text{ ft}' },
         { text: 'Check middle third: $e = 0.60 < B/6 = 1.00$ \\checkmark', latex: null },
       ],
-      handbookPage: 'p. 264',
+      handbookPage: 'p. 270',
       handbookFormula: 'e = \\frac{B}{2} - \\frac{\\Sigma M_R - M_O}{\\Sigma V}',
       videoUrl: null,
       traps: [
@@ -89,7 +89,7 @@ export default {
         { text: 'Check: $e = 1.0 < B/6 = 1.33$ \\checkmark (middle third)', latex: null },
         { text: 'Maximum toe pressure:', latex: 'q_{\\text{toe}} = \\frac{\\Sigma V}{B}\\left(1 + \\frac{6e}{B}\\right) = \\frac{8{,}000}{8}\\left(1 + \\frac{6 \\times 1.0}{8}\\right) = 1{,}000 \\times 1.75 = 1{,}750 \\text{ psf}' },
       ],
-      handbookPage: 'p. 264',
+      handbookPage: 'p. 270',
       handbookFormula: 'q_{\\text{toe}} = \\frac{\\Sigma V}{B}\\left(1 + \\frac{6e}{B}\\right)',
       videoUrl: null,
       traps: [

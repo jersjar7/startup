@@ -191,7 +191,7 @@ const PROBLEMS = [
       { text: 'If the board finds she does not meet the requirements, the contingent license is immediately and automatically revoked upon notice to her, and no license is issued.', latex: null },
       { text: 'From that notice on she may not practice engineering in that state; continuing the bridge design there would be unlicensed practice.', latex: null },
     ],
-    handbookPage: 'p. 11',
+    handbookPage: 'p. 12',
     handbookFormula: '\\text{170.20 B: contingent license ends at final action; if denied, revoked immediately and automatically on notice}',
     traps: [
       'Assuming a temporary license carries a grace period to finish projects',
@@ -230,7 +230,7 @@ const PROBLEMS = [
       { text: 'The State M investigation was for negligence, which is ground A.2 in the Model Law, so the equivalence test is met.', latex: null },
       { text: 'State N may discipline her even though State M never held a hearing or made a finding.', latex: null },
     ],
-    handbookPage: 'p. 9',
+    handbookPage: 'p. 10',
     handbookFormula: '\\text{150.10 A.5: discipline elsewhere, including surrender to avoid discipline, is grounds}',
     traps: [
       'Believing a surrender with no finding leaves no record other boards can act on',

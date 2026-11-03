@@ -20,7 +20,7 @@ const PROBLEMS = [
       { text: 'Solve for acceleration:', latex: 'a = \\frac{576}{720} = 0.8\\,\\text{m/s}^2' },
       { text: 'Now find time from $v = v_0 + at$:', latex: 't = \\frac{v - v_0}{a} = \\frac{24 - 0}{0.8} = 30\\,\\text{s}' },
     ],
-    handbookPage: 'p. 104',
+    handbookPage: 'p. 105',
     handbookFormula: 'v = v_0 + a t',
     videoUrl: null,
     traps: [
@@ -51,7 +51,7 @@ const PROBLEMS = [
       { text: 'Quadratic formula:', latex: 't = \\frac{30 \\pm \\sqrt{30^2 - 4(4.905)(25)}}{2(4.905)} = \\frac{30 \\pm \\sqrt{409.5}}{9.81}' },
       { text: 'The two roots are $t = 1.00\\,\\text{s}$ (up) and $t = 5.12\\,\\text{s}$ (down). Take the downward pass:', latex: 't = \\frac{30 + 20.24}{9.81} = 5.12\\,\\text{s}' },
     ],
-    handbookPage: 'p. 105',
+    handbookPage: 'p. 106',
     handbookFormula: 'y = -\\tfrac{1}{2}g t^2 + v_0 t + y_0',
     videoUrl: null,
     traps: [
@@ -81,7 +81,7 @@ const PROBLEMS = [
       { text: 'Insert values with $\\alpha = -2.5\\,\\text{rad/s}^2$:', latex: '0 = 40^2 + 2(-2.5)\\,\\theta' },
       { text: 'Solve for the angle:', latex: '\\theta = \\frac{1600}{5} = 320\\,\\text{rad}' },
     ],
-    handbookPage: 'p. 109',
+    handbookPage: 'p. 110',
     handbookFormula: '\\omega^2 = \\omega_0^2 + 2\\alpha_0(\\theta - \\theta_0)',
     videoUrl: null,
     traps: [
@@ -111,7 +111,7 @@ const PROBLEMS = [
       { text: 'Tangent distance equals the radius:', latex: 'd = R = 0.10\\,\\text{m}' },
       { text: 'Parallel-axis theorem:', latex: 'I = I_c + md^2 = 0.024 + 6(0.10^2) = 0.024 + 0.060 = 0.084\\,\\text{kg}{\\cdot}\\text{m}^2' },
     ],
-    handbookPage: 'p. 111',
+    handbookPage: 'p. 112',
     handbookFormula: 'I = I_c + md^2',
     videoUrl: null,
     traps: [
@@ -141,7 +141,7 @@ const PROBLEMS = [
       { text: 'Total mass in motion:', latex: 'm_{total} = m_1 + m_2 = 7 + 5 = 12\\,\\text{kg}' },
       { text: 'Apply Newton’s second law to the system:', latex: 'a = \\frac{(m_1 - m_2)g}{m_1 + m_2} = \\frac{19.62}{12} = 1.64\\,\\text{m/s}^2' },
     ],
-    handbookPage: 'p. 105',
+    handbookPage: 'p. 106',
     handbookFormula: '\\sum F = ma',
     videoUrl: null,
     traps: [
@@ -171,7 +171,7 @@ const PROBLEMS = [
       { text: 'Solve for the normal force:', latex: 'N = m(g + a) = 70(9.81 + 2.0)' },
       { text: 'Evaluate:', latex: 'N = 70(11.81) = 827\\,\\text{N}' },
     ],
-    handbookPage: 'p. 105',
+    handbookPage: 'p. 106',
     handbookFormula: '\\sum F = ma',
     videoUrl: null,
     traps: [
@@ -201,7 +201,7 @@ const PROBLEMS = [
       { text: 'Difference of squares (not the square of the difference):', latex: 'v_2^2 - v_1^2 = 25^2 - 10^2 = 625 - 100 = 525\\,\\text{m}^2/\\text{s}^2' },
       { text: 'Evaluate:', latex: '\\Delta T = \\tfrac{1}{2}(1{,}200)(525) = 315{,}000\\,\\text{J} = 315\\,\\text{kJ}' },
     ],
-    handbookPage: 'p. 106',
+    handbookPage: 'p. 107',
     handbookFormula: 'T = \\tfrac{1}{2}mv^2',
     videoUrl: null,
     traps: [
@@ -231,7 +231,7 @@ const PROBLEMS = [
       { text: 'Constant velocity means constant kinetic energy:', latex: '\\Delta T = 0 \\implies U_{net} = 0' },
       { text: 'The positive applied work is exactly balanced by negative friction work:', latex: 'U_{applied} = -U_{friction} = F_f \\, d' },
     ],
-    handbookPage: 'p. 106',
+    handbookPage: 'p. 107',
     handbookFormula: 'T_1 + U_{1 \\to 2} = T_2',
     videoUrl: null,
     traps: [
@@ -261,7 +261,7 @@ const PROBLEMS = [
       { text: 'Velocity change:', latex: '\\Delta v = v_2 - v_1 = 50 - (-40) = 90\\,\\text{m/s}' },
       { text: 'Impulse equals change in momentum:', latex: 'J = m\\,\\Delta v = 0.15(90) = 13.5\\,\\text{N}{\\cdot}\\text{s}' },
     ],
-    handbookPage: 'p. 107',
+    handbookPage: 'p. 108',
     handbookFormula: 'm v_1 + \\int F \\, dt = m v_2',
     videoUrl: null,
     traps: [
@@ -291,7 +291,7 @@ const PROBLEMS = [
       { text: 'Solve for the skater’s recoil speed:', latex: 'v_s = \\frac{m_b v_b}{m_s} = \\frac{3 \\times 8}{60}' },
       { text: 'Evaluate:', latex: 'v_s = \\frac{24}{60} = 0.40\\,\\text{m/s}' },
     ],
-    handbookPage: 'p. 108',
+    handbookPage: 'p. 109',
     handbookFormula: 'm_1 v_1 + m_2 v_2 = m_1 v_1\' + m_2 v_2\'',
     videoUrl: null,
     traps: [
@@ -320,7 +320,7 @@ const PROBLEMS = [
       { text: 'Natural circular frequency of a simple pendulum:', latex: '\\omega_n = \\sqrt{\\frac{g}{L}} = \\sqrt{\\frac{9.81}{0.80}} = \\sqrt{12.26} = 3.50\\,\\text{rad/s}' },
       { text: 'Convert to Hz:', latex: 'f_n = \\frac{\\omega_n}{2\\pi} = \\frac{3.50}{2\\pi} = 0.56\\,\\text{Hz}' },
     ],
-    handbookPage: 'p. 112',
+    handbookPage: 'p. 113',
     handbookFormula: '\\omega_n = \\sqrt{g/L}',
     videoUrl: null,
     traps: [
@@ -350,7 +350,7 @@ const PROBLEMS = [
       { text: 'Evaluate the series combination:', latex: 'k_{eq} = \\left(\\frac{2}{2{,}400} + \\frac{3}{2{,}400}\\right)^{-1} = \\frac{2{,}400}{5} = 480\\,\\text{N/m}' },
       { text: 'Natural circular frequency:', latex: '\\omega_n = \\sqrt{\\frac{k_{eq}}{m}} = \\sqrt{\\frac{480}{5}} = \\sqrt{96} = 9.80\\,\\text{rad/s}' },
     ],
-    handbookPage: 'p. 112',
+    handbookPage: 'p. 113',
     handbookFormula: '\\omega_n = \\sqrt{k/m}',
     videoUrl: null,
     traps: [

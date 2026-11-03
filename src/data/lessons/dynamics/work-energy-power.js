@@ -46,7 +46,7 @@ export default {
         { text: 'At top: $T_1 = 0$ (rest), $V_1 = mgh$. At bottom: $V_2 = 0$ (datum), $T_2 = \\frac{1}{2}mv^2$.', latex: null },
         { text: 'Mass cancels. Solve:', latex: 'v = \\sqrt{2gh} = \\sqrt{2(9.81)(3)} = 7.67 \\text{ m/s}' },
       ],
-      handbookPage: 'p. 106',
+      handbookPage: 'p. 107',
       handbookFormula: 'T_1 + V_1 = T_2 + V_2',
       videoUrl: null,
       traps: [
@@ -74,7 +74,7 @@ export default {
         { text: 'Power output (useful):', latex: 'P_{out} = \\dot{m}gh = 50(9.81)(20) = 9{,}810 \\text{ W} = 9.81 \\text{ kW}' },
         { text: 'Account for efficiency:', latex: 'P_{in} = \\frac{P_{out}}{\\eta} = \\frac{9.81}{0.80} = 12.3 \\text{ kW}' },
       ],
-      handbookPage: 'p. 107',
+      handbookPage: 'p. 108',
       handbookFormula: 'P = \\frac{dU}{dt} \\qquad \\eta = \\frac{P_{out}}{P_{in}}',
       videoUrl: null,
       traps: [
@@ -102,7 +102,7 @@ export default {
         { text: 'Work-energy theorem ($T_2 = 0$, block stops):', latex: '\\tfrac{1}{2}mv^2 = F_f \\cdot d' },
         { text: 'Solve:', latex: 'd = \\frac{v^2}{2\\mu_k g} = \\frac{8^2}{2(0.3)(9.81)} = \\frac{64}{5.886} = 10.9 \\text{ m}' },
       ],
-      handbookPage: 'pp. 106\u2013107',
+      handbookPage: 'pp. 107\u2013108',
       handbookFormula: 'T_1 + U_{1 \\to 2} = T_2',
       videoUrl: null,
       traps: [

@@ -34,7 +34,7 @@ export default {
       steps: [
         { text: 'Bearing capacity with $D_f = 0$:', latex: 'q_{ult} = c_u N_c = 1{,}500 \\times 5.14 = 7{,}710 \\text{ psf}' },
       ],
-      handbookPage: 'p. 264',
+      handbookPage: 'p. 270',
       handbookFormula: 'q_{ult} = c N_c + \\gamma\' D_f N_q + \\frac{1}{2} \\gamma\' B N_\\gamma',
       videoUrl: null,
       traps: [
@@ -62,7 +62,7 @@ export default {
         { text: 'Width term:', latex: '\\tfrac{1}{2} \\gamma B N_\\gamma = 0.5 \\times 120 \\times 4 \\times 15.07 = 3{,}617 \\text{ psf}' },
         { text: 'Total:', latex: 'q_{ult} = 0 + 6{,}624 + 3{,}617 = 10{,}241 \\approx 10{,}240 \\text{ psf}' },
       ],
-      handbookPage: 'p. 264',
+      handbookPage: 'p. 270',
       handbookFormula: 'q_{ult} = c N_c + \\gamma\' D_f N_q + \\frac{1}{2} \\gamma\' B N_\\gamma',
       videoUrl: null,
       traps: [
@@ -91,7 +91,7 @@ export default {
         { text: 'Ultimate:', latex: 'q_{ult} = 7{,}415 + 2{,}208 + 1{,}018 = 10{,}641 \\text{ psf}' },
         { text: 'Allowable:', latex: 'q_{allow} = \\frac{10{,}641}{3} = 3{,}547 \\approx 3{,}550 \\text{ psf}' },
       ],
-      handbookPage: 'p. 264',
+      handbookPage: 'p. 270',
       handbookFormula: 'q_{ult} = c N_c + \\gamma\' D_f N_q + \\frac{1}{2} \\gamma\' B N_\\gamma',
       videoUrl: null,
       traps: [

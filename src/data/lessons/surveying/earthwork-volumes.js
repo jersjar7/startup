@@ -36,7 +36,7 @@ export default {
         { text: 'Average end area volume:', latex: 'V = \\frac{L}{2}(A_1 + A_2) = \\frac{100}{2}(120 + 180)' },
         { text: 'Compute:', latex: 'V = 50 \\times 300 = 15{,}000 \\text{ ft}^3' },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: 'V = \\frac{L}{2}(A_1 + A_2)',
       videoUrl: null,
       traps: [
@@ -63,7 +63,7 @@ export default {
         { text: 'Simplify:', latex: 'V = 16.667 \\times (200 + 1{,}400 + 400) = 16.667 \\times 2{,}000' },
         { text: 'Compute:', latex: 'V = 33{,}333 \\text{ ft}^3' },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: 'V = \\frac{L}{6}(A_1 + 4A_m + A_2)',
       videoUrl: null,
       traps: [
@@ -91,7 +91,7 @@ export default {
         { text: 'Segment 2 (Sta 1+00 to 2+00):', latex: 'V_2 = \\frac{100}{2}(400 + 0) = 20{,}000 \\text{ ft}^3' },
         { text: 'Total volume:', latex: 'V_{\\text{total}} = 20{,}000 + 20{,}000 = 40{,}000 \\text{ ft}^3' },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: 'V = \\frac{L}{2}(A_1 + A_2)',
       videoUrl: null,
       traps: [

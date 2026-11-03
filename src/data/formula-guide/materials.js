@@ -1,6 +1,6 @@
 // Plain-language guide to the formulas on the FE Civil Materials page,
 // in the same order as chapters/materials.js. Symbols checked against the FE
-// Reference Handbook 10.5. The aggregate, asphalt and wood entries are not in
+// Reference Handbook 10.6. The aggregate, asphalt and wood entries are not in
 // the handbook; they follow the standard ASTM/AASHTO definitions.
 export default [
   {

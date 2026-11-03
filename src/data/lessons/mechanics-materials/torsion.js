@@ -41,7 +41,7 @@ export default {
         { text: 'Outer radius: $c = d/2 = 25$ mm', latex: null },
         { text: 'Max shear stress:', latex: '\\tau = \\frac{Tc}{J} = \\frac{500{,}000 \\times 25}{613{,}600} = 20.4 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 133',
+      handbookPage: 'p. 134',
       handbookFormula: '\\tau = \\frac{Tc}{J}',
       videoUrl: null,
       traps: [
@@ -69,7 +69,7 @@ export default {
         { text: 'Convert units: $L = 1{,}500$ mm, $T = 300{,}000$ N\u00B7mm, $G = 80{,}000$ MPa', latex: null },
         { text: 'Angle of twist:', latex: '\\phi = \\frac{TL}{GJ} = \\frac{300{,}000 \\times 1{,}500}{80{,}000 \\times 251{,}327} = 0.0224 \\text{ rad} \\approx 1.28\\degree' },
       ],
-      handbookPage: 'p. 133',
+      handbookPage: 'p. 134',
       handbookFormula: '\\phi = \\frac{TL}{GJ}',
       videoUrl: null,
       traps: [
@@ -97,7 +97,7 @@ export default {
         { text: 'Outer radius: $c = 40$ mm', latex: null },
         { text: 'Rearrange \u03C4 = Tc/J for T:', latex: 'T = \\frac{\\tau_{allow} \\cdot J}{c} = \\frac{60 \\times 2{,}749{,}000}{40} = 4{,}124{,}000 \\text{ N}{\\cdot}\\text{mm} = 4.12 \\text{ kN}{\\cdot}\\text{m}' },
       ],
-      handbookPage: 'p. 133',
+      handbookPage: 'p. 134',
       handbookFormula: '\\tau = \\frac{Tc}{J}',
       videoUrl: null,
       traps: [

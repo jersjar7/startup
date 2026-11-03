@@ -35,7 +35,7 @@ export default {
         { text: 'IL ordinate for positive shear just to the right:', latex: '\\eta = 1 - \\frac{a}{L} = 1 - \\frac{6}{24} = 0.75' },
         { text: 'Maximum positive shear:', latex: 'V = P \\times \\eta = 12 \\times 0.75 = 9.0 \\text{ kips}' },
       ],
-      handbookPage: 'p. 268',
+      handbookPage: 'p. 274',
       handbookFormula: '\\text{IL for shear at section } a: \\eta^+ = 1 - a/L',
       videoUrl: null,
       traps: [
@@ -61,7 +61,7 @@ export default {
         { text: 'IL peak ordinate at midspan:', latex: '\\eta_{\\max} = \\frac{L}{4} = \\frac{30}{4} = 7.5 \\text{ ft}' },
         { text: 'Maximum moment:', latex: 'M_{\\max} = P \\times \\eta_{\\max} = 20 \\times 7.5 = 150 \\text{ kip-ft}' },
       ],
-      handbookPage: 'p. 268',
+      handbookPage: 'p. 274',
       handbookFormula: '\\text{IL for moment at midspan: peak ordinate} = L/4',
       videoUrl: null,
       traps: [
@@ -89,7 +89,7 @@ export default {
         { text: '$P_2 = 10$ kips lands at x = 28 ft:', latex: '\\eta_2 = \\frac{40 - 28}{2} = \\frac{12}{2} = 6 \\text{ ft}' },
         { text: 'Maximum moment:', latex: 'M = P_1 \\eta_1 + P_2 \\eta_2 = 20(10) + 10(6) = 260 \\text{ kip-ft}' },
       ],
-      handbookPage: 'p. 268',
+      handbookPage: 'p. 274',
       handbookFormula: 'M = \\Sigma P_i \\eta_i',
       videoUrl: null,
       traps: [

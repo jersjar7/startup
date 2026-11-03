@@ -110,7 +110,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 231, Benefit-Cost Analysis; p. 234, Factor Table i = 6%',
+      handbookPage: 'p. 237, Benefit-Cost Analysis; p. 240, Factor Table i = 6%',
       handbookFormula: 'B/C = \\frac{B}{C} \\geq 1',
       videoUrl: null,
       traps: [
@@ -159,7 +159,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 231, Benefit-Cost Analysis',
+      handbookPage: 'p. 237, Benefit-Cost Analysis',
       handbookFormula: '\\Delta B/C = \\frac{B_2 - B_1}{C_2 - C_1} \\geq 1',
       videoUrl: null,
       traps: [
@@ -204,7 +204,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 231, Economic Decision Trees; Expected Value',
+      handbookPage: 'p. 237, Economic Decision Trees; Expected Value',
       handbookFormula: 'EV = C_1 \\cdot p_1 + C_2 \\cdot p_2 + \\cdots + C_n \\cdot p_n',
       videoUrl: null,
       traps: [

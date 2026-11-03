@@ -18,7 +18,7 @@ export default {
     { type: 'text', body: 'A column with a high slenderness ratio is "long" and governed by Euler buckling. A column with a low slenderness ratio is "short" and fails by material yielding instead. Euler\'s formula is only valid when $\\sigma_{cr} < \\sigma_y$.' },
     { type: 'callout', variant: 'tip', body: 'Always use the MINIMUM I (or minimum r) for buckling calculations. A column buckles about its weakest axis. For a W-shape, that\'s usually the minor axis (Iy < Ix).' },
     { type: 'callout', variant: 'warning', body: 'K = 2.0 for a cantilever column (fixed-free). This is the worst case, because the effective length is twice the actual length. Students often forget this is an option and default to K = 1.0.' },
-    { type: 'callout', variant: 'exam', body: 'The four K values are in the FE handbook (p. 136). Fixed-fixed = 0.5, fixed-pinned = 0.7, pinned-pinned = 1.0, fixed-free = 2.0. These show up as-is on the exam, so you just need to match the boundary conditions.' },
+    { type: 'callout', variant: 'exam', body: 'The four K values are in the FE handbook (p. 137). Fixed-fixed = 0.5, fixed-pinned = 0.7, pinned-pinned = 1.0, fixed-free = 2.0. These show up as-is on the exam, so you just need to match the boundary conditions.' },
   ],
   illustration: null,
   problems: [
@@ -39,7 +39,7 @@ export default {
         { text: 'Effective length factor: $K = 1.0$ (pinned-pinned)', latex: null },
         { text: 'Critical buckling load:', latex: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2} = \\frac{\\pi^2 \\times 200{,}000 \\times 20 \\times 10^6}{(1.0 \\times 4{,}000)^2} = 2{,}467 \\text{ kN}' },
       ],
-      handbookPage: 'p. 136',
+      handbookPage: 'p. 137',
       handbookFormula: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2}',
       videoUrl: null,
       traps: [
@@ -67,7 +67,7 @@ export default {
         { text: 'Effective length: $KL = 0.7 \\times 5{,}000 = 3{,}500$ mm', latex: null },
         { text: 'Critical load:', latex: 'P_{cr} = \\frac{\\pi^2 \\times 200{,}000 \\times 15 \\times 10^6}{(3{,}500)^2} = 2{,}420 \\text{ kN}' },
       ],
-      handbookPage: 'p. 136',
+      handbookPage: 'p. 137',
       handbookFormula: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2}',
       videoUrl: null,
       traps: [
@@ -96,7 +96,7 @@ export default {
         { text: 'Critical stress:', latex: '\\sigma_{cr} = \\frac{\\pi^2 E}{(KL/r)^2} = \\frac{\\pi^2 \\times 200{,}000}{150^2} = 87.7 \\text{ MPa}' },
         { text: 'Check: $\\sigma_{cr} = 87.7 < \\sigma_y = 250$ MPa \u2192 Euler\'s formula is valid (column buckles before yielding)', latex: null },
       ],
-      handbookPage: 'p. 136',
+      handbookPage: 'p. 137',
       handbookFormula: '\\sigma_{cr} = \\frac{\\pi^2 E}{(KL/r)^2}',
       videoUrl: null,
       traps: [

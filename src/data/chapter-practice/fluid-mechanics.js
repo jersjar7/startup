@@ -20,7 +20,7 @@ const PROBLEMS = [
       { text: 'Solve for the fractional volume change:', latex: '\\left|\\frac{\\Delta V}{V}\\right| = \\frac{\\Delta P}{E_v} = \\frac{5 \\times 10^6}{2.2 \\times 10^9}' },
       { text: 'Compute:', latex: '\\left|\\frac{\\Delta V}{V}\\right| = 0.002273 = 0.227\\%' },
     ],
-    handbookPage: 'p. 176',
+    handbookPage: 'p. 181',
     handbookFormula: 'E_v = -\\frac{\\Delta P}{\\Delta V / V}',
     videoUrl: null,
     traps: [
@@ -51,7 +51,7 @@ const PROBLEMS = [
       { text: 'In gases, viscosity arises from momentum transfer between molecules, which increases as the molecules move faster.', latex: null },
       { text: 'Therefore gas (air) viscosity increases with increasing temperature.', latex: null },
     ],
-    handbookPage: 'p. 176',
+    handbookPage: 'p. 181',
     handbookFormula: '\\tau = \\mu \\frac{dv}{dy}',
     videoUrl: null,
     traps: [
@@ -81,7 +81,7 @@ const PROBLEMS = [
       { text: 'Differential manometer relation (water above mercury on both legs):', latex: 'P_A - P_B = (\\gamma_{Hg} - \\gamma_w)h = (133{,}416 - 9{,}810)(0.3)' },
       { text: 'Compute:', latex: 'P_A - P_B = 123{,}606 \\times 0.3 = 37{,}082\\,\\text{Pa} \\approx 37.1\\,\\text{kPa}' },
     ],
-    handbookPage: 'p. 178',
+    handbookPage: 'p. 183',
     handbookFormula: 'P_A - P_B = (\\gamma_{Hg} - \\gamma_w)h',
     videoUrl: null,
     traps: [
@@ -111,7 +111,7 @@ const PROBLEMS = [
       { text: 'Seawater specific weight:', latex: '\\gamma_{sw} = 1.03 \\times 9{,}810 = 10{,}104\\,\\text{N/m}^3' },
       { text: 'Depth:', latex: 'h = \\frac{P_{\\text{gauge}}}{\\gamma_{sw}} = \\frac{148{,}700}{10{,}104} = 14.72\\,\\text{m}' },
     ],
-    handbookPage: 'p. 177',
+    handbookPage: 'p. 182',
     handbookFormula: 'P_{\\text{abs}} = P_{\\text{atm}} + \\gamma h',
     videoUrl: null,
     traps: [
@@ -141,7 +141,7 @@ const PROBLEMS = [
       { text: 'Submerged fraction:', latex: '\\frac{V_{\\text{sub}}}{V} = \\frac{\\gamma_{\\text{wood}}}{\\gamma_{\\text{oil}}} = \\frac{SG_{\\text{wood}}}{SG_{\\text{oil}}}' },
       { text: 'Compute:', latex: '\\frac{V_{\\text{sub}}}{V} = \\frac{0.80}{0.90} = 0.889' },
     ],
-    handbookPage: 'p. 179',
+    handbookPage: 'p. 184',
     handbookFormula: 'F_B = \\gamma V_{\\text{displaced}}',
     videoUrl: null,
     traps: [
@@ -172,7 +172,7 @@ const PROBLEMS = [
       { text: 'Gate area:', latex: 'A = 2 \\times 2.5 = 5\\,\\text{m}^2' },
       { text: 'Resultant force:', latex: 'F_R = \\gamma h_C A = 9{,}810 \\times 1.0825 \\times 5 = 53{,}095\\,\\text{N} \\approx 53.1\\,\\text{kN}' },
     ],
-    handbookPage: 'p. 179',
+    handbookPage: 'p. 184',
     handbookFormula: 'F_R = \\gamma h_C A',
     videoUrl: null,
     traps: [
@@ -202,7 +202,7 @@ const PROBLEMS = [
       { text: 'Combined outlet area:', latex: 'A_{\\text{out}} = \\frac{\\pi}{4}(0.2^2 + 0.15^2) = 0.04909\\,\\text{m}^2' },
       { text: 'Outlet velocity (equal in both pipes):', latex: 'v_{\\text{out}} = \\frac{Q_{\\text{in}}}{A_{\\text{out}}} = \\frac{0.1414}{0.04909} = 2.88\\,\\text{m/s}' },
     ],
-    handbookPage: 'p. 180',
+    handbookPage: 'p. 185',
     handbookFormula: 'Q_{\\text{in}} = \\Sigma Q_{\\text{out}}',
     videoUrl: null,
     traps: [
@@ -233,7 +233,7 @@ const PROBLEMS = [
       { text: 'Solve for the pressure head at the crest:', latex: '\\frac{P_{\\text{crest}}}{\\gamma} = -2 - 4 = -6\\,\\text{m}' },
       { text: 'Convert to pressure:', latex: 'P_{\\text{crest}} = -6 \\times 9{,}810 = -58{,}860\\,\\text{Pa} \\approx -58.9\\,\\text{kPa}' },
     ],
-    handbookPage: 'p. 180',
+    handbookPage: 'p. 185',
     handbookFormula: '\\frac{P_1}{\\gamma} + \\frac{v_1^2}{2g} + z_1 = \\frac{P_2}{\\gamma} + \\frac{v_2^2}{2g} + z_2',
     videoUrl: null,
     traps: [
@@ -263,7 +263,7 @@ const PROBLEMS = [
       { text: 'Evaluate the power terms:', latex: 'R_H^{0.63} = 0.125^{0.63} = 0.270, \\quad S^{0.54} = 0.002^{0.54} = 0.0349' },
       { text: 'Hazen-Williams velocity:', latex: 'v = 0.849 \\times 120 \\times 0.270 \\times 0.0349 = 0.96\\,\\text{m/s}' },
     ],
-    handbookPage: 'p. 184',
+    handbookPage: 'p. 189',
     handbookFormula: 'v = k_1 C R_H^{0.63} S^{0.54}',
     videoUrl: null,
     traps: [
@@ -294,7 +294,7 @@ const PROBLEMS = [
       { text: 'Head loss:', latex: 'h_f = f \\frac{L}{D} \\frac{v^2}{2g} = 0.256 \\times 1{,}250 \\times 0.01274 = 4.08\\,\\text{m}' },
       { text: 'Pressure drop:', latex: '\\Delta P = \\rho g h_f = 900 \\times 9.81 \\times 4.08 = 36{,}020\\,\\text{Pa} \\approx 36.0\\,\\text{kPa}' },
     ],
-    handbookPage: 'p. 182',
+    handbookPage: 'p. 187',
     handbookFormula: 'h_f = f \\frac{L}{D} \\frac{v^2}{2g}',
     videoUrl: null,
     traps: [
@@ -324,7 +324,7 @@ const PROBLEMS = [
       { text: 'Force on the moving flat plate:', latex: 'F = \\rho A (v - u)^2 = 1{,}000 \\times 0.002 \\times 20^2' },
       { text: 'Compute:', latex: 'F = 1{,}000 \\times 0.002 \\times 400 = 800\\,\\text{N}' },
     ],
-    handbookPage: 'p. 188',
+    handbookPage: 'p. 193',
     handbookFormula: 'F = \\rho A (v - u)^2',
     videoUrl: null,
     traps: [
@@ -354,7 +354,7 @@ const PROBLEMS = [
       { text: 'Flow rate:', latex: 'Q = A v = 1.2566 \\times 10^{-3} \\times 25 = 0.031416\\,\\text{m}^3/\\text{s}' },
       { text: 'Force for a $180\\degree$ reversal:', latex: 'F = 2\\rho Q v = 2 \\times 1{,}000 \\times 0.031416 \\times 25 = 1{,}571\\,\\text{N} \\approx 1.57\\,\\text{kN}' },
     ],
-    handbookPage: 'p. 186',
+    handbookPage: 'p. 191',
     handbookFormula: '\\Sigma F = \\rho Q(v_2 - v_1)',
     videoUrl: null,
     traps: [
@@ -384,7 +384,7 @@ const PROBLEMS = [
       { text: 'Solve for velocity:', latex: 'v = \\sqrt{2gh} = \\sqrt{2 \\times 9.81 \\times 0.5}' },
       { text: 'Compute:', latex: 'v = \\sqrt{9.81} = 3.13\\,\\text{m/s}' },
     ],
-    handbookPage: 'p. 194',
+    handbookPage: 'p. 200',
     handbookFormula: 'v = \\sqrt{2gh}',
     videoUrl: null,
     traps: [
@@ -415,7 +415,7 @@ const PROBLEMS = [
       { text: 'Area ratio correction:', latex: '1 - \\left(\\frac{D_2}{D_1}\\right)^4 = 1 - 0.0625 = 0.9375' },
       { text: 'Flow rate:', latex: 'Q = C_v A_2 \\sqrt{\\frac{2g(2.758)}{0.9375}} = 0.98 \\times 4.418 \\times 10^{-3} \\times 7.60 = 0.0329\\,\\text{m}^3/\\text{s}' },
     ],
-    handbookPage: 'p. 195',
+    handbookPage: 'p. 200',
     handbookFormula: 'Q = C_v A_2 \\sqrt{\\frac{2g\\left(\\frac{P_1 - P_2}{\\gamma} + z_1 - z_2\\right)}{1 - \\left(\\frac{A_2}{A_1}\\right)^2}}',
     videoUrl: null,
     traps: [
@@ -444,7 +444,7 @@ const PROBLEMS = [
       { text: 'Froude time scale:', latex: 't_r = \\sqrt{L_r} = \\sqrt{\\frac{1}{36}} = \\frac{1}{6}' },
       { text: 'Model time:', latex: 't_m = t_p \\sqrt{L_r} = 60 \\times \\frac{1}{6} = 10\\,\\text{s}' },
     ],
-    handbookPage: 'p. 196',
+    handbookPage: 'p. 202',
     handbookFormula: 'Fr_m = Fr_p',
     videoUrl: null,
     traps: [
@@ -474,7 +474,7 @@ const PROBLEMS = [
       { text: 'Base dimensions (M, L, T):', latex: 'r = 3' },
       { text: 'Buckingham Pi theorem:', latex: 'k = n - r = 7 - 3 = 4' },
     ],
-    handbookPage: 'p. 196',
+    handbookPage: 'p. 202',
     handbookFormula: 'k = n - r',
     videoUrl: null,
     traps: [

@@ -1,6 +1,6 @@
 // Plain-language guide to the formulas on the FE Civil Mechanics of Materials page,
 // in the same order as chapters/mechanics-materials.js. Symbols checked against the FE
-// Reference Handbook 10.5.
+// Reference Handbook 10.6.
 export default [
   {
     label: 'Axial Stress',

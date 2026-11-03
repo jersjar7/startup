@@ -35,7 +35,7 @@ export default {
         { "text": "Apply L'Hopital's: differentiate top and bottom:", "latex": "\\lim_{x \\to 0}\\frac{\\cos x}{1}" },
         { "text": "Evaluate:", "latex": "\\frac{\\cos 0}{1} = \\frac{1}{1} = 1" }
       ],
-      "handbookPage": "p. 48",
+      "handbookPage": "p. 49",
       "handbookFormula": "\\lim_{x \\to a}\\frac{f(x)}{g(x)} = \\lim_{x \\to a}\\frac{f'(x)}{g'(x)}",
       "videoUrl": null,
       "traps": [
@@ -64,7 +64,7 @@ export default {
         { "text": "Second round:", "latex": "\\lim_{x \\to 0}\\frac{e^x}{2}" },
         { "text": "Evaluate:", "latex": "\\frac{e^0}{2} = \\frac{1}{2}" }
       ],
-      "handbookPage": "p. 48",
+      "handbookPage": "p. 49",
       "handbookFormula": "\\lim_{x \\to a}\\frac{f(x)}{g(x)} = \\lim_{x \\to a}\\frac{f'(x)}{g'(x)}",
       "videoUrl": null,
       "traps": [
@@ -92,7 +92,7 @@ export default {
         { "text": "Analyze one-sided limits: as $x \\to 0^+$, $\\frac{e^x}{x} \\to +\\infty$; as $x \\to 0^-$, $\\frac{e^x}{x} \\to -\\infty$.", "latex": null },
         { "text": "Since left and right limits disagree, the two-sided limit does not exist.", "latex": null }
       ],
-      "handbookPage": "p. 48, L'Hopital's Rule (applies only to 0/0 or ∞/∞ forms)",
+      "handbookPage": "p. 49, L'Hopital's Rule (applies only to 0/0 or ∞/∞ forms)",
       "handbookFormula": "\\lim_{x \\to a}\\frac{f(x)}{g(x)} = \\lim_{x \\to a}\\frac{f'(x)}{g'(x)}",
       "videoUrl": null,
       "traps": [

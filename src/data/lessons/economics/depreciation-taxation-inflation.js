@@ -3,7 +3,7 @@ export default {
   name: 'Depreciation, Taxation & Inflation',
   subtopicId: 'depreciation-and-finance',
   application:
-    'Every capital asset a civil engineering firm owns (excavators, survey equipment, vehicles, even software) loses value over time, and the IRS lets you deduct that loss. The FE tests whether you can compute depreciation using straight-line and MACRS methods, calculate book value, and understand how depreciation affects taxable income. Inflation shows up when you need to convert between real and nominal dollars or adjust an interest rate for purchasing power erosion. These topics tie directly to after-tax cash flow analysis and project justification. Expect at least one depreciation or inflation-adjusted problem on exam day, and the MACRS table is provided right in the handbook (p. 231).',
+    'Every capital asset a civil engineering firm owns (excavators, survey equipment, vehicles, even software) loses value over time, and the IRS lets you deduct that loss. The FE tests whether you can compute depreciation using straight-line and MACRS methods, calculate book value, and understand how depreciation affects taxable income. Inflation shows up when you need to convert between real and nominal dollars or adjust an interest rate for purchasing power erosion. These topics tie directly to after-tax cash flow analysis and project justification. Expect at least one depreciation or inflation-adjusted problem on exam day, and the MACRS table is provided right in the handbook (p. 237).',
   content: [
     {
       type: 'text',
@@ -22,7 +22,7 @@ export default {
     { type: 'heading', body: 'MACRS Depreciation' },
     {
       type: 'text',
-      body: 'The Modified Accelerated Cost Recovery System (MACRS) uses IRS-defined percentages that front-load depreciation into the early years. The handbook provides a table of MACRS factors for 3-, 5-, 7-, and 10-year recovery periods (p. 231). Salvage value is ignored because MACRS depreciates the full initial cost.',
+      body: 'The Modified Accelerated Cost Recovery System (MACRS) uses IRS-defined percentages that front-load depreciation into the early years. The handbook provides a table of MACRS factors for 3-, 5-, 7-, and 10-year recovery periods (p. 237). Salvage value is ignored because MACRS depreciates the full initial cost.',
     },
     {
       type: 'formula',
@@ -36,7 +36,7 @@ export default {
     {
       type: 'callout',
       variant: 'exam',
-      body: 'The MACRS table is on p. 231 of the handbook. You do not need to memorize the percentages. Just know how to read the table. A 5-year MACRS asset actually has 6 years of depreciation (years 1\u20136) because of the half-year convention.',
+      body: 'The MACRS table is on p. 237 of the handbook. You do not need to memorize the percentages. Just know how to read the table. A 5-year MACRS asset actually has 6 years of depreciation (years 1\u20136) because of the half-year convention.',
     },
     { type: 'heading', body: 'Book Value' },
     {
@@ -105,7 +105,7 @@ export default {
           latex: null,
         },
         {
-          text: 'From the MACRS table (p. 231), the year 2 factor for 5-year property is 32.00%.',
+          text: 'From the MACRS table (p. 237), the year 2 factor for 5-year property is 32.00%.',
           latex: null,
         },
         {
@@ -117,7 +117,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 231, MACRS Factors Table',
+      handbookPage: 'p. 237, MACRS Factors Table',
       handbookFormula: 'D_j = d_j \\times C',
       videoUrl: null,
       traps: [
@@ -162,7 +162,7 @@ export default {
           latex: 'BV_3 = 500{,}000 - 281{,}350 = 218{,}650',
         },
       ],
-      handbookPage: 'p. 230, Book Value; p. 231, MACRS Factors Table',
+      handbookPage: 'p. 236, Book Value; p. 237, MACRS Factors Table',
       handbookFormula: 'BV_j = C - \\sum_{k=1}^{j} D_k',
       videoUrl: null,
       traps: [
@@ -207,7 +207,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 230, Inflation',
+      handbookPage: 'p. 236, Inflation',
       handbookFormula: 'd = i + f + (i \\times f)',
       videoUrl: null,
       traps: [

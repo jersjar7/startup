@@ -42,7 +42,7 @@ const PROBLEMS = [
         latex: '900 - 100 = 400a \\implies a = \\frac{800}{400} = 2.0\\,\\text{m/s}^2'
       }
     ],
-    handbookPage: 'p. 104',
+    handbookPage: 'p. 105',
     handbookFormula: 'v^2 = v_0^2 + 2a_0(s - s_0)',
     videoUrl: null,
     traps: [
@@ -93,7 +93,7 @@ const PROBLEMS = [
         latex: 'R = v_{0x} \\cdot t = 40\\cos 45\\degree \\times 5.77 = 28.28 \\times 5.77 = 163.1\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 105',
+    handbookPage: 'p. 106',
     handbookFormula: 'x = v_0 \\cos\\theta \\cdot t + x_0',
     videoUrl: null,
     traps: [
@@ -150,7 +150,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 103',
+    handbookPage: 'p. 104',
     handbookFormula: 'a_n = \\frac{v^2}{\\rho}',
     videoUrl: null,
     traps: [
@@ -197,7 +197,7 @@ const PROBLEMS = [
         latex: 'x = v_{0x} \\cdot t = 12 \\times 3.03 = 36.3\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 105',
+    handbookPage: 'p. 106',
     handbookFormula: 'x = v_0 \\cos\\theta \\cdot t + x_0',
     videoUrl: null,
     traps: [
@@ -254,7 +254,7 @@ const PROBLEMS = [
         latex: '\\alpha = \\frac{-12.57}{10} = -1.26 \\text{ rad/s}^2 \\quad (|\\alpha| = 1.26 \\text{ rad/s}^2)'
       }
     ],
-    handbookPage: 'p. 109',
+    handbookPage: 'p. 110',
     handbookFormula: '\\omega = \\omega_0 + \\alpha_0 t',
     videoUrl: null,
     traps: [
@@ -301,7 +301,7 @@ const PROBLEMS = [
         latex: 'N = \\frac{\\theta}{2\\pi} = \\frac{96}{2\\pi} = 15.3 \\text{ rev}'
       }
     ],
-    handbookPage: 'p. 109',
+    handbookPage: 'p. 110',
     handbookFormula: '\\theta = \\theta_0 + \\omega_0 t + \\tfrac{1}{2}\\alpha_0 t^2',
     videoUrl: null,
     traps: [
@@ -352,7 +352,7 @@ const PROBLEMS = [
         latex: 'I_{end} = I_c + md^2 = 0.96 + 8(0.6^2) = 0.96 + 2.88 = 3.84 \\text{ kg}{\\cdot}\\text{m}^2'
       }
     ],
-    handbookPage: 'p. 111',
+    handbookPage: 'p. 112',
     handbookFormula: 'I = I_c + md^2',
     videoUrl: null,
     traps: [
@@ -403,7 +403,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 111',
+    handbookPage: 'p. 112',
     handbookFormula: 'I = I_c + md^2',
     videoUrl: null,
     traps: [
@@ -449,7 +449,7 @@ const PROBLEMS = [
         latex: 'F = ma = 1500 \\times 3.125 = 4688\\,\\text{N}'
       }
     ],
-    handbookPage: 'p. 105',
+    handbookPage: 'p. 106',
     handbookFormula: 'F = ma',
     videoUrl: null,
     traps: [
@@ -500,7 +500,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 105',
+    handbookPage: 'p. 106',
     handbookFormula: 'F = ma',
     videoUrl: null,
     traps: [
@@ -555,7 +555,7 @@ const PROBLEMS = [
         latex: 'a = \\frac{T\\cos 30\\degree - f}{m} = \\frac{346.4 - 97.1}{60} = \\frac{249.3}{60} = 4.15\\,\\text{m/s}^2'
       }
     ],
-    handbookPage: 'p. 105',
+    handbookPage: 'p. 106',
     handbookFormula: '\\sum F = ma',
     videoUrl: null,
     traps: [
@@ -617,7 +617,7 @@ const PROBLEMS = [
         latex: 'F = (m_{top} + m_{bottom})a_{max} = (4 + 12)(3.924) = 62.8\\,\\text{N}'
       }
     ],
-    handbookPage: 'p. 105',
+    handbookPage: 'p. 106',
     handbookFormula: '\\sum F = ma',
     videoUrl: null,
     traps: [
@@ -670,7 +670,7 @@ const PROBLEMS = [
         latex: 'v = \\sqrt{2gh} = \\sqrt{2(9.81)(20)} = \\sqrt{392.4} = 19.8\\,\\text{m/s}'
       }
     ],
-    handbookPage: 'p. 106',
+    handbookPage: 'p. 107',
     handbookFormula: 'T_1 + V_1 = T_2 + V_2',
     videoUrl: null,
     traps: [
@@ -717,7 +717,7 @@ const PROBLEMS = [
         latex: 'P = F_g \\cdot v = 706.3 \\times 25 = 17{,}658\\,\\text{W} \\approx 17.7\\,\\text{kW}'
       }
     ],
-    handbookPage: 'p. 107',
+    handbookPage: 'p. 108',
     handbookFormula: 'P = F \\cdot v',
     videoUrl: null,
     traps: [
@@ -768,7 +768,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 106',
+    handbookPage: 'p. 107',
     handbookFormula: 'T_1 + V_1 = T_2 + V_2',
     videoUrl: null,
     traps: [
@@ -815,7 +815,7 @@ const PROBLEMS = [
         latex: 'x = v\\sqrt{\\frac{m}{k}} = 6\\sqrt{\\frac{4}{800}} = 6\\sqrt{0.005} = 6(0.0707) = 0.424\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 106',
+    handbookPage: 'p. 107',
     handbookFormula: 'V_e = \\frac{1}{2}ks^2',
     videoUrl: null,
     traps: [
@@ -873,7 +873,7 @@ const PROBLEMS = [
         latex: 'v_2 = v_1 + \\frac{J}{m} = 6 + \\frac{20}{5} = 6 + 4 = 10.0 \\text{ m/s}'
       }
     ],
-    handbookPage: 'p. 107',
+    handbookPage: 'p. 108',
     handbookFormula: 'm v_1 + \\int F \\, dt = m v_2',
     videoUrl: null,
     traps: [
@@ -932,7 +932,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 108',
+    handbookPage: 'p. 109',
     handbookFormula: 'e = \\frac{(v_2\')_n - (v_1\')_n}{(v_1)_n - (v_2)_n}',
     videoUrl: null,
     traps: [
@@ -991,7 +991,7 @@ const PROBLEMS = [
         latex: 'e = \\frac{v_2\' - v_1\'}{v_1 - v_2} = \\frac{15 - 9}{12 - 3} = \\frac{6}{9} = 0.67'
       }
     ],
-    handbookPage: 'p. 108',
+    handbookPage: 'p. 109',
     handbookFormula: 'e = \\frac{(v_2\')_n - (v_1\')_n}{(v_1)_n - (v_2)_n}',
     videoUrl: null,
     traps: [
@@ -1056,7 +1056,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 108',
+    handbookPage: 'p. 109',
     handbookFormula: 'm_1 v_1 + m_2 v_2 = m_1 v_1\' + m_2 v_2\'',
     videoUrl: null,
     traps: [
@@ -1106,7 +1106,7 @@ const PROBLEMS = [
         latex: 'T_n = \\frac{2\\pi}{\\omega_n} = \\frac{2\\pi}{14.0} = 0.449 \\approx 0.45 \\text{ s}'
       }
     ],
-    handbookPage: 'p. 112',
+    handbookPage: 'p. 113',
     handbookFormula: '\\omega_n = \\sqrt{k/m}',
     videoUrl: null,
     traps: [
@@ -1157,7 +1157,7 @@ const PROBLEMS = [
         latex: 'f_n = \\frac{30}{2\\pi} = 4.77 \\text{ Hz}'
       }
     ],
-    handbookPage: 'p. 112',
+    handbookPage: 'p. 113',
     handbookFormula: '\\omega_n = \\sqrt{k/m}',
     videoUrl: null,
     traps: [
@@ -1212,7 +1212,7 @@ const PROBLEMS = [
         latex: '\\zeta = \\frac{c}{c_c} = \\frac{40}{125.7} = 0.318 \\approx 0.32'
       }
     ],
-    handbookPage: 'p. 112',
+    handbookPage: 'p. 113',
     handbookFormula: '\\zeta = \\frac{c}{2\\sqrt{km}}',
     videoUrl: null,
     traps: [
@@ -1267,7 +1267,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 112',
+    handbookPage: 'p. 113',
     handbookFormula: '\\zeta = \\frac{c}{2\\sqrt{km}}',
     videoUrl: null,
     traps: [

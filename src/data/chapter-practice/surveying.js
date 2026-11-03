@@ -20,7 +20,7 @@ const PROBLEMS = [
       { text: 'For the SW quadrant, the bearing angle equals the azimuth minus $180\\degree$:', latex: '\\theta = 247\\degree - 180\\degree = 67\\degree' },
       { text: 'Write the bearing in the SW quadrant:', latex: '\\text{Bearing} = \\text{S } 67\\degree \\text{ W}' },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: '\\text{SW: bearing} = \\text{azimuth} - 180\\degree',
     videoUrl: null,
     traps: [
@@ -50,7 +50,7 @@ const PROBLEMS = [
       { text: 'Add the angle to the right:', latex: '318\\degree + 95\\degree = 413\\degree' },
       { text: 'Reduce to the $0\\degree$ to $360\\degree$ range:', latex: '\\text{Az}_{\\text{fwd}} = 413\\degree - 360\\degree = 53\\degree' },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: '\\text{Az}_{\\text{next}} = \\text{Az}_{\\text{prev}} + \\text{angle right} \\pm 180\\degree',
     videoUrl: null,
     traps: [
@@ -80,7 +80,7 @@ const PROBLEMS = [
       { text: 'Substitute the totals:', latex: '\\text{Elev}_P = 612.40 + 18.62 - 22.07' },
       { text: 'Compute:', latex: '\\text{Elev}_P = 608.95 \\text{ ft}' },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: '\\text{Elev}_{\\text{final}} = \\text{Elev}_{\\text{start}} + \\Sigma BS - \\Sigma FS',
     videoUrl: null,
     traps: [
@@ -110,7 +110,7 @@ const PROBLEMS = [
       { text: 'The elevation difference uses backsight minus foresight, so equal distances make the errors cancel:', latex: '\\Delta \\text{Elev} = BS - FS' },
       { text: 'Therefore balancing BS and FS distances at each setup removes the systematic effect.', latex: null },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -139,7 +139,7 @@ const PROBLEMS = [
       { text: 'Combine the components with the Pythagorean theorem:', latex: 'L = \\sqrt{\\text{Lat}^2 + \\text{Dep}^2} = \\sqrt{(-150.0)^2 + (-150.0)^2}' },
       { text: 'Compute:', latex: 'L = \\sqrt{22{,}500 + 22{,}500} = \\sqrt{45{,}000} = 212.1 \\text{ m}' },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'L = \\sqrt{\\text{Lat}^2 + \\text{Dep}^2}',
     videoUrl: null,
     traps: [
@@ -169,7 +169,7 @@ const PROBLEMS = [
       { text: 'Reference (bearing) angle:', latex: '\\theta = \\arctan\\frac{|\\text{Dep}|}{|\\text{Lat}|} = \\arctan\\frac{50.0}{86.6} = 30\\degree' },
       { text: 'Convert the NW bearing N $30\\degree$ W to an azimuth:', latex: '\\text{Az} = 360\\degree - 30\\degree = 330\\degree' },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: '\\tan\\theta = \\frac{\\text{Dep}}{\\text{Lat}}; \\quad \\text{NW: Az} = 360\\degree - \\theta',
     videoUrl: null,
     traps: [
@@ -201,7 +201,7 @@ const PROBLEMS = [
       { text: '$(0)(0) - (0)(8) = 0$. Sum the five terms:', latex: '\\sum = 0 + 96 + 144 + 48 + 0 = 288' },
       { text: 'Area is half the absolute value:', latex: 'A = \\frac{|288|}{2} = 144 \\text{ sq units}' },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'A = \\frac{1}{2}\\left|\\sum(x_i y_{i+1} - x_{i+1} y_i)\\right|',
     videoUrl: null,
     traps: [
@@ -259,7 +259,7 @@ const PROBLEMS = [
       { text: 'Apply the shrinkage factor to the bank volume:', latex: 'V_{\\text{fill}} = V_{\\text{bank}} (1 - S) = 5{,}400 (1 - 0.15)' },
       { text: 'Compute:', latex: 'V_{\\text{fill}} = 5{,}400 \\times 0.85 = 4{,}590 \\text{ yd}^3' },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V_{\\text{fill}} = V_{\\text{bank}}(1 - S)',
     videoUrl: null,
     traps: [
@@ -288,7 +288,7 @@ const PROBLEMS = [
       { text: 'Average end area volume in cubic feet:', latex: 'V = \\frac{L}{2}(A_1 + A_2) = \\frac{150}{2}(240 + 168) = 75 \\times 408 = 30{,}600 \\text{ ft}^3' },
       { text: 'Convert to cubic yards:', latex: 'V = \\frac{30{,}600}{27} = 1{,}133 \\text{ yd}^3' },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V = \\frac{L}{2}(A_1 + A_2)',
     videoUrl: null,
     traps: [
@@ -318,7 +318,7 @@ const PROBLEMS = [
       { text: 'Evaluate the secant:', latex: '\\sec 30\\degree = \\frac{1}{\\cos 30\\degree} = \\frac{1}{0.8660} = 1.1547' },
       { text: 'Compute:', latex: 'E = 500(1.1547 - 1) = 500 \\times 0.1547 = 77.4 \\text{ ft}' },
     ],
-    handbookPage: 'p. 303',
+    handbookPage: 'p. 309',
     handbookFormula: 'E = R\\left(\\sec\\frac{I}{2} - 1\\right)',
     videoUrl: null,
     traps: [
@@ -347,7 +347,7 @@ const PROBLEMS = [
       { text: 'Long chord formula:', latex: 'LC = 2R\\sin\\frac{I}{2} = 2 \\times 700 \\times \\sin 40\\degree' },
       { text: 'Evaluate the sine and compute:', latex: 'LC = 1{,}400 \\times 0.6428 = 899.9 \\text{ ft}' },
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'LC = 2R\\sin\\frac{I}{2}',
     videoUrl: null,
     traps: [
@@ -377,7 +377,7 @@ const PROBLEMS = [
       { text: 'Curve elevation at $x = 200$:', latex: 'Y = 240 + (-0.03)(200) + (0.00004)(200^2)' },
       { text: 'Compute:', latex: 'Y = 240 - 6 + 1.6 = 235.60 \\text{ ft}' },
     ],
-    handbookPage: 'p. 301',
+    handbookPage: 'p. 307',
     handbookFormula: 'Y = Y_{PVC} + g_1 x + \\frac{g_2 - g_1}{2L} x^2',
     videoUrl: null,
     traps: [
@@ -406,7 +406,7 @@ const PROBLEMS = [
       { text: 'Algebraic grade difference as a decimal:', latex: 'A = |g_1 - g_2| = |0.02 - (-0.04)| = 0.06' },
       { text: 'Midpoint tangent offset:', latex: 'e = \\frac{AL}{8} = \\frac{(0.06)(600)}{8} = \\frac{36}{8} = 4.50 \\text{ ft}' },
     ],
-    handbookPage: 'p. 301',
+    handbookPage: 'p. 307',
     handbookFormula: 'e = \\frac{AL}{8}',
     videoUrl: null,
     traps: [

@@ -46,7 +46,7 @@ const PROBLEMS = [
         latex: 's = \\sqrt{23250} \\approx 152\\,\\text{psi}'
       }
     ],
-    handbookPage: 'p. 63',
+    handbookPage: 'p. 64',
     handbookFormula: 's = \\sqrt{\\frac{\\sum(x_i - \\bar{x})^2}{n-1}}',
     videoUrl: null,
     traps: [
@@ -97,7 +97,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 63',
+    handbookPage: 'p. 64',
     handbookFormula: '\\text{Right skew: mean} > \\text{median} > \\text{mode}',
     videoUrl: null,
     traps: ['Confusing left skew with right skew direction'],
@@ -160,7 +160,7 @@ const PROBLEMS = [
         latex: 'CV = \\frac{s}{\\bar{x}} = \\frac{1.084}{24.9} \\approx 0.042'
       }
     ],
-    handbookPage: 'p. 63',
+    handbookPage: 'p. 64',
     handbookFormula: 'CV = \\frac{s}{\\bar{x}}',
     videoUrl: null,
     traps: [
@@ -215,7 +215,7 @@ const PROBLEMS = [
         latex: '\\text{Median} = \\frac{3.8 + 4.1}{2} = 3.95 \\times 10^{-4}\\,\\text{cm/s}'
       }
     ],
-    handbookPage: 'p. 63',
+    handbookPage: 'p. 64',
     handbookFormula: '\\text{Median} = \\frac{x_{n/2} + x_{n/2+1}}{2} \\text{ (even } n\\text{)}',
     videoUrl: null,
     traps: [
@@ -270,7 +270,7 @@ const PROBLEMS = [
         latex: 'b = \\frac{150}{100} = 1.50'
       }
     ],
-    handbookPage: 'p. 69',
+    handbookPage: 'p. 70',
     handbookFormula: 'b = \\frac{n\\sum x_i y_i - \\sum x_i \\sum y_i}{n\\sum x_i^2 - (\\sum x_i)^2}',
     videoUrl: null,
     traps: [
@@ -321,7 +321,7 @@ const PROBLEMS = [
         latex: '\\hat{y} = 100 + 350x'
       }
     ],
-    handbookPage: 'p. 69',
+    handbookPage: 'p. 70',
     handbookFormula: 'a = \\bar{y} - b\\bar{x}',
     videoUrl: null,
     traps: ['Reporting the mean of y as the intercept', 'Reversing the subtraction to get a negative intercept'],
@@ -373,7 +373,7 @@ const PROBLEMS = [
         latex: 'r = \\frac{50}{\\sqrt{50 \\times 100}} = \\frac{50}{\\sqrt{5{,}000}} = \\frac{50}{70.71} \\approx 0.71'
       }
     ],
-    handbookPage: 'p. 70',
+    handbookPage: 'p. 71',
     handbookFormula: 'r = \\frac{n\\sum x_i y_i - \\sum x_i \\sum y_i}{\\sqrt{[n\\sum x_i^2 - (\\sum x_i)^2][n\\sum y_i^2 - (\\sum y_i)^2]}}',
     videoUrl: null,
     traps: [
@@ -428,7 +428,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 69',
+    handbookPage: 'p. 70',
     handbookFormula: 'e_i = y_i - \\hat{y}_i',
     videoUrl: null,
     traps: [
@@ -480,7 +480,7 @@ const PROBLEMS = [
         latex: '\\frac{12 \\times 11 \\times 10 \\times 9}{4 \\times 3 \\times 2 \\times 1} = \\frac{11{,}880}{24} = 495'
       }
     ],
-    handbookPage: 'p. 64',
+    handbookPage: 'p. 65',
     handbookFormula: 'C(n, r) = \\frac{n!}{r!\\,(n-r)!}',
     videoUrl: null,
     traps: [
@@ -535,7 +535,7 @@ const PROBLEMS = [
         latex: '15 \\times 0.4877 \\times 0.05 = 0.366'
       }
     ],
-    handbookPage: 'p. 66',
+    handbookPage: 'p. 67',
     handbookFormula: 'P(X = x) = C(n, x)\\,p^x(1-p)^{n-x}',
     videoUrl: null,
     traps: [
@@ -586,7 +586,7 @@ const PROBLEMS = [
         latex: 'P(X > 1{,}090) = 1 - F(2.0) = 1 - 0.9772 = 0.0228 = 2.28\\%'
       }
     ],
-    handbookPage: 'p. 67',
+    handbookPage: 'p. 68',
     handbookFormula: 'z = \\frac{x - \\mu}{\\sigma}',
     videoUrl: null,
     traps: [
@@ -637,7 +637,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 66',
+    handbookPage: 'p. 67',
     handbookFormula: 'P(X = x) = C(n, x)\\,p^x(1-p)^{n-x}',
     videoUrl: null,
     traps: [
@@ -683,7 +683,7 @@ const PROBLEMS = [
         latex: '45{,}000 + 100{,}000 + 56{,}000 = 201{,}000'
       }
     ],
-    handbookPage: 'p. 66',
+    handbookPage: 'p. 67',
     handbookFormula: 'E(X) = \\sum_{k=1}^{n} x_k \\cdot P(x_k)',
     videoUrl: null,
     traps: [
@@ -738,7 +738,7 @@ const PROBLEMS = [
         latex: '\\sigma = \\sqrt{1.14} = 1.07'
       }
     ],
-    handbookPage: 'p. 66',
+    handbookPage: 'p. 67',
     handbookFormula: '\\text{Var}(X) = E(X^2) - [E(X)]^2',
     videoUrl: null,
     traps: ['Reporting $E(X)$ as the answer (gives 2.60)', 'Forgetting to take the square root of the variance'],
@@ -786,7 +786,7 @@ const PROBLEMS = [
         latex: '\\sigma_F = \\sqrt{160} = 12.65\\,\\text{kN/m}'
       }
     ],
-    handbookPage: 'p. 66',
+    handbookPage: 'p. 67',
     handbookFormula: '\\text{Var}(a_1X_1 + a_2X_2) = a_1^2\\sigma_1^2 + a_2^2\\sigma_2^2',
     videoUrl: null,
     traps: [
@@ -841,7 +841,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 66',
+    handbookPage: 'p. 67',
     handbookFormula: '\\text{Var}(X_1 + X_2 + \\cdots) = \\sigma_1^2 + \\sigma_2^2 + \\cdots',
     videoUrl: null,
     traps: [
@@ -896,7 +896,7 @@ const PROBLEMS = [
         latex: '4{,}400 \\pm 98 = (4{,}302,\\; 4{,}498)'
       }
     ],
-    handbookPage: 'p. 74',
+    handbookPage: 'p. 75',
     handbookFormula: '\\bar{x} \\pm z_{\\alpha/2}\\frac{\\sigma}{\\sqrt{n}}',
     videoUrl: null,
     traps: ['Forgetting to divide $\\sigma$ by $\\sqrt{n}$', 'Dividing by $n$ instead of $\\sqrt{n}$'],
@@ -948,7 +948,7 @@ const PROBLEMS = [
         latex: '34 \\pm 2.31 = (31.69^\\circ,\\; 36.31^\\circ)'
       }
     ],
-    handbookPage: 'p. 74',
+    handbookPage: 'p. 75',
     handbookFormula: '\\bar{x} \\pm t_{\\alpha/2,\\,n-1}\\frac{s}{\\sqrt{n}}',
     videoUrl: null,
     traps: ['Using $z = 1.960$ instead of the given t-value', 'Forgetting to divide $s$ by $\\sqrt{n}$'],
@@ -1004,7 +1004,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 75',
+    handbookPage: 'p. 76',
     handbookFormula: 'n = \\left(\\frac{z_{\\alpha/2} \\cdot \\sigma}{e}\\right)^2',
     videoUrl: null,
     traps: [
@@ -1055,7 +1055,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 74',
+    handbookPage: 'p. 75',
     handbookFormula: '\\bar{x} \\pm z_{\\alpha/2}\\frac{\\sigma}{\\sqrt{n}}',
     videoUrl: null,
     traps: [
@@ -1106,7 +1106,7 @@ const PROBLEMS = [
         latex: 'z = \\frac{\\bar{x} - \\mu_0}{\\sigma / \\sqrt{n}} = \\frac{4{,}380 - 4{,}500}{60} = \\frac{-120}{60} = -2.0'
       }
     ],
-    handbookPage: 'p. 73',
+    handbookPage: 'p. 74',
     handbookFormula: 'z = \\frac{\\bar{x} - \\mu_0}{\\sigma / \\sqrt{n}}',
     videoUrl: null,
     traps: [
@@ -1161,7 +1161,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 73',
+    handbookPage: 'p. 74',
     handbookFormula: 't = \\frac{\\bar{x} - \\mu_0}{s / \\sqrt{n}}',
     videoUrl: null,
     traps: [
@@ -1212,7 +1212,7 @@ const PROBLEMS = [
         latex: '\\frac{4 + 25 + 64 + 4 + 9}{20} = \\frac{106}{20} = 5.3'
       }
     ],
-    handbookPage: 'p. 75',
+    handbookPage: 'p. 76',
     handbookFormula: '\\chi^2 = \\sum_{i=1}^{k} \\frac{(O_i - E_i)^2}{E_i}',
     videoUrl: null,
     traps: ['Forgetting to divide by $E$ in each term', 'Computing $(O-E)/E$ instead of $(O-E)^2/E$'],
@@ -1260,7 +1260,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 73',
+    handbookPage: 'p. 74',
     handbookFormula: '\\text{Reject } H_0 \\text{ if } |z| > z_{\\alpha/2}',
     videoUrl: null,
     traps: [

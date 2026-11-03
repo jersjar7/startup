@@ -31,7 +31,7 @@ const PROBLEMS = [
       { text: 'Add the components:', latex: 'R_x = -3.5 + 3.217 = -0.283\\text{ kips},\\quad R_y = 2.700\\text{ kips}' },
       { text: 'Magnitude of the resultant:', latex: 'R = \\sqrt{(-0.283)^2 + 2.700^2} = 2.71\\text{ kips}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: 'F = \\left[ \\left(\\sum F_{x,i}\\right)^2 + \\left(\\sum F_{y,i}\\right)^2 \\right]^{1/2}',
     traps: [
       'The angle between the two pulls is 180° minus 40° = 140°, not 40°.',
@@ -66,7 +66,7 @@ const PROBLEMS = [
       { text: 'Gravity load component perpendicular to the rafter:', latex: '1{,}200\\cos 26.57° = 1{,}073\\text{ lb}' },
       { text: 'The wind load is already perpendicular, so it adds directly:', latex: 'F_n = 1{,}073 + 400 = 1{,}473\\text{ lb}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: 'F_x = F\\cos\\theta_x,\\quad F_y = F\\cos\\theta_y',
     traps: [
       'The perpendicular part of a vertical load on a slope uses the cosine of the roof angle.',
@@ -100,9 +100,9 @@ const PROBLEMS = [
       { text: 'Split the diagram into a uniform part and a triangular part (per foot of wall):', latex: 'R_1 = 1.0(8) = 8.0\\text{ kips at } 4.00\\text{ ft},\\quad R_2 = \\tfrac{1}{2}(2.0)(8) = 8.0\\text{ kips at } \\tfrac{8}{3} = 2.67\\text{ ft}' },
       { text: 'Total resultant:', latex: 'R = 8.0 + 8.0 = 16.0\\text{ kips per ft}' },
       { text: 'Location from the toe:', latex: '\\bar{x} = \\frac{8.0(4.00) + 8.0(2.67)}{16.0} = 3.33\\text{ ft}' },
-      { text: 'Check with the trapezoid formula (handbook p. 98), $a = 1.0$, $b = 3.0$, measured from the longer side:', latex: '\\bar{x} = \\frac{h(2a + b)}{3(a + b)} = \\frac{8(2 + 3)}{3(4)} = 3.33\\text{ ft}' },
+      { text: 'Check with the trapezoid formula (handbook p. 99), $a = 1.0$, $b = 3.0$, measured from the longer side:', latex: '\\bar{x} = \\frac{h(2a + b)}{3(a + b)} = \\frac{8(2 + 3)}{3(4)} = 3.33\\text{ ft}' },
     ],
-    handbookPage: 'p. 98',
+    handbookPage: 'p. 99',
     handbookFormula: 'y_c = \\frac{h(2a + b)}{3(a + b)}',
     traps: [
       'A linearly varying load does not act at mid-width; it shifts toward the larger ordinate.',
@@ -137,7 +137,7 @@ const PROBLEMS = [
       { text: 'Solve:', latex: 'A_y = \\frac{-60 - 40}{16} = -6.25\\text{ kips}' },
       { text: 'The negative sign means $A_y$ acts downward: 6.25 kips. Check with vertical forces:', latex: 'B_y = 10 + 6.25 = 16.25\\text{ kips},\\quad \\sum M_A = 16.25(16) - 10(22) - 40 = 0' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: '\\sum F_n = 0,\\quad \\sum M_n = 0',
     traps: [
       'A couple enters the moment equation directly; it is not multiplied by its distance from the point.',
@@ -172,7 +172,7 @@ const PROBLEMS = [
       { text: 'Lever arm of the weight about A (horizontal distance to the panel center):', latex: 'd_W = 12\\cos 30° = 10.39\\text{ ft}' },
       { text: 'Moments about A:', latex: 'T(24) = 40(10.39) \\Rightarrow T = 17.3\\text{ kips}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: '\\sum M_n = 0',
     traps: [
       'The lever arm of a vertical weight is a horizontal distance.',
@@ -208,7 +208,7 @@ const PROBLEMS = [
       { text: 'Joint C: BC and CD are collinear, the third member CH has no load or support to balance it.', latex: 'F_{CH} = 0' },
       { text: 'Joint D also has diagonal DH, so DI is not zero by inspection (solving gives 0.25P). Joints B, G, H and I have loads or more than one non-collinear member.', latex: '\\text{Zero-force: } AF,\\ FG,\\ CH,\\ EJ,\\ IJ' },
     ],
-    handbookPage: 'p. 97',
+    handbookPage: 'p. 98',
     handbookFormula: '\\text{Two-member joint, no load: both zero. Three members, two collinear, no load: third zero.}',
     traps: [
       'Check every joint, including the corners above the supports.',
@@ -243,7 +243,7 @@ const PROBLEMS = [
       { text: 'Cut through EF, BF and BC. On the left piece, BF and BC pass through B, so moments about B leave only EF (assumed tension):', latex: '\\sum M_B = -40(6) - 4F_{EF} = 0' },
       { text: 'Solve:', latex: 'F_{EF} = -60\\text{ kN} \\Rightarrow 60\\text{ kN compression}' },
     ],
-    handbookPage: 'p. 97',
+    handbookPage: 'p. 98',
     handbookFormula: '\\text{Method of sections: } \\sum M = 0 \\text{ about the intersection of the other two cut members}',
     traps: [
       'The lever arm for a horizontal chord force is the truss depth.',
@@ -278,7 +278,7 @@ const PROBLEMS = [
       { text: 'Joint D: the compression in DE pushes on D with a downward component of 24 kN. Vertical equilibrium:', latex: 'F_{CD} - \\tfrac{3}{5}(40) = 0 \\Rightarrow F_{CD} = 24\\text{ kN}' },
       { text: 'Positive means CD pulls on joint D: tension.', latex: 'F_{CD} = 24\\text{ kN (T)}' },
     ],
-    handbookPage: 'p. 97',
+    handbookPage: 'p. 98',
     handbookFormula: '\\sum F_H = 0,\\quad \\sum F_V = 0',
     traps: [
       'The zero-force rules need an unloaded joint with two collinear members; D has none collinear with CD.',
@@ -313,8 +313,8 @@ const PROBLEMS = [
       { text: 'Rectangle (from x = 4 to 6 ft):', latex: 'A_2 = 2(12) = 24\\text{ ft}^2,\\quad x_2 = 5.00\\text{ ft}' },
       { text: 'Composite centroid:', latex: '\\bar{x} = \\frac{24(2.67) + 24(5.00)}{24 + 24} = \\frac{184}{48} = 3.83\\text{ ft}' },
     ],
-    handbookPage: 'p. 95',
-    handbookFormula: 'x_{ac} = \\frac{\\sum x_n a_n}{A},\\quad \\text{right triangle } x_c = \\tfrac{2b}{3}\\ (\\text{p. 98})',
+    handbookPage: 'p. 96',
+    handbookFormula: 'x_{ac} = \\frac{\\sum x_n a_n}{A},\\quad \\text{right triangle } x_c = \\tfrac{2b}{3}\\ (\\text{p. 99})',
     traps: [
       'A triangle\'s centroid is one third of the width from its tall side, not from its point.',
       'Triangle area is $bh/2$.',
@@ -348,7 +348,7 @@ const PROBLEMS = [
       { text: 'Both rectangles share the same centroid, so subtract:', latex: 'I_x = \\frac{400(600)^3}{12} - \\frac{370(550)^3}{12}' },
       { text: 'Evaluate:', latex: 'I_x = 7{,}200 \\times 10^6 - 5{,}130 \\times 10^6 = 2{,}070 \\times 10^6\\text{ mm}^4' },
     ],
-    handbookPage: 'p. 98',
+    handbookPage: 'p. 99',
     handbookFormula: 'I_{x_c} = \\frac{bh^3}{12}',
     traps: [
       'There are two webs and two flanges; subtract two thicknesses from each outside dimension.',
@@ -386,7 +386,7 @@ const PROBLEMS = [
       { text: 'Bottom flange ($d = 16.25$ in):', latex: 'I_3 = \\frac{16(1.5)^3}{12} + 24(16.25)^2 = 4.5 + 6{,}338 = 6{,}342\\text{ in}^4' },
       { text: 'Sum:', latex: 'I_x = 7{,}501 + 3{,}072 + 6{,}342 = 16{,}915 \\approx 16{,}910\\text{ in}^4' },
     ],
-    handbookPage: 'p. 95-96',
+    handbookPage: 'p. 96-97',
     handbookFormula: 'I_x = I_{x_c} + d_y^2 A',
     traps: [
       'An unsymmetric section has its centroid off mid-depth; find it before transferring.',
@@ -423,7 +423,7 @@ const PROBLEMS = [
       { text: 'Moments about the foot:', latex: '88(16) = 40(6) + 180(0.6s) \\Rightarrow 1{,}408 = 240 + 108s' },
       { text: 'Solve:', latex: 's = \\frac{1{,}168}{108} = 10.8\\text{ ft}' },
     ],
-    handbookPage: 'p. 96',
+    handbookPage: 'p. 97',
     handbookFormula: 'F \\le \\mu_s N',
     traps: [
       'The wall force acts at the full height (16 ft); the weights act at horizontal distances from the foot.',
@@ -459,7 +459,7 @@ const PROBLEMS = [
       { text: 'Wedge: the base pushes back with 8.92 kN horizontally and 20 kN down. The floor normal is 20 kN, and floor friction opposes the motion:', latex: 'F_{floor} = 0.25(20) = 5.00\\text{ kN}' },
       { text: 'Horizontal equilibrium of the wedge:', latex: 'P = 8.92 + 5.00 = 13.9\\text{ kN}' },
     ],
-    handbookPage: 'p. 96-97',
+    handbookPage: 'p. 97-98',
     handbookFormula: 'F \\le \\mu_s N,\\quad \\mu = \\tan\\phi',
     traps: [
       'A wedge has friction on every sliding face, including the floor.',
@@ -494,7 +494,7 @@ const PROBLEMS = [
       { text: 'Impending tipping: the normal force moves to the front bottom edge. Moments about that edge:', latex: 'P_{tip}(5) = 600(2) \\Rightarrow P_{tip} = 240\\text{ lb}' },
       { text: 'Sliding needs less force, so the crate slides first, at 210 lb.', latex: 'P = \\min(210,\\ 240) = 210\\text{ lb (slides)}' },
     ],
-    handbookPage: 'p. 96',
+    handbookPage: 'p. 97',
     handbookFormula: 'F \\le \\mu_s N',
     traps: [
       'Always check both sliding and tipping; the one with the smaller force governs.',

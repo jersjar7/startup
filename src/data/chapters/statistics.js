@@ -9,11 +9,11 @@ export default {
       application: 'As a civil engineer, confidence intervals tell you how much to trust your field data: reporting a soil friction angle as 32\u00b0 \u00b1 3\u00b0 at 95% confidence directly affects foundation design. Hypothesis testing tells you whether differences are real or noise: does a new concrete mix meet spec? Did a pavement treatment actually reduce accidents? These tools turn raw data into engineering decisions.' },
   ],
   formulas: [
-    { latex: '\\bar{x} = \\frac{\\sum x_i}{n}', label: 'Sample Mean', page: 'p. 63' },
-    { latex: 's = \\sqrt{\\frac{\\sum(x_i - \\bar{x})^2}{n-1}}', label: 'Sample Std Dev', page: 'p. 63' },
-    { latex: 'P(X=k) = \\binom{n}{k}p^k(1-p)^{n-k}', label: 'Binomial Distribution', page: 'p. 66' },
-    { latex: 'z = \\frac{x - \\mu}{\\sigma}', label: 'Z-Score', page: 'p. 67' },
-    { latex: 'r = \\frac{\\sum(x_i-\\bar{x})(y_i-\\bar{y})}{\\sqrt{\\sum(x_i-\\bar{x})^2\\sum(y_i-\\bar{y})^2}}', label: 'Correlation Coefficient', page: 'p. 70' },
+    { latex: '\\bar{x} = \\frac{\\sum x_i}{n}', label: 'Sample Mean', page: 'p. 64' },
+    { latex: 's = \\sqrt{\\frac{\\sum(x_i - \\bar{x})^2}{n-1}}', label: 'Sample Std Dev', page: 'p. 64' },
+    { latex: 'P(X=k) = \\binom{n}{k}p^k(1-p)^{n-k}', label: 'Binomial Distribution', page: 'p. 67' },
+    { latex: 'z = \\frac{x - \\mu}{\\sigma}', label: 'Z-Score', page: 'p. 68' },
+    { latex: 'r = \\frac{\\sum(x_i-\\bar{x})(y_i-\\bar{y})}{\\sqrt{\\sum(x_i-\\bar{x})^2\\sum(y_i-\\bar{y})^2}}', label: 'Correlation Coefficient', page: 'p. 71' },
   ],
   traps: [
     'Dividing by n instead of (n\u22121) for sample standard deviation. The FE uses the sample formula.',

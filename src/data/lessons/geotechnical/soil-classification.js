@@ -38,7 +38,7 @@ export default {
         { text: 'A-line check:', latex: 'PI_{A} = 0.73(45 - 20) = 18.25' },
         { text: '$PI = 22 > 18.25$ \u2192 above A-line \u2192 clay (C). Classification: **CL**.', latex: null },
       ],
-      handbookPage: 'p. 267',
+      handbookPage: 'p. 273',
       handbookFormula: '\\text{A-line: } PI = 0.73(LL - 20)',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'Coefficient of concavity:', latex: 'C_c = \\frac{(D_{30})^2}{D_{10} \\times D_{60}} = \\frac{(0.50)^2}{0.15 \\times 2.0} = \\frac{0.25}{0.30} = 0.83' },
         { text: '$C_c = 0.83 < 1$ \u2192 outside the 1\u20133 range \u2718. Classification: **SP** (poorly graded sand).', latex: null },
       ],
-      handbookPage: 'p. 267',
+      handbookPage: 'p. 273',
       handbookFormula: 'C_u = \\frac{D_{60}}{D_{10}}, \\quad C_c = \\frac{(D_{30})^2}{D_{10} \\times D_{60}}',
       videoUrl: null,
       traps: [
@@ -93,7 +93,7 @@ export default {
         { text: 'A-line check:', latex: 'PI_{A} = 0.73(55 - 20) = 25.6' },
         { text: '$PI = 28 > 25.6$ \u2192 above A-line \u2192 clay (C). Classification: **CH** (fat clay).', latex: null },
       ],
-      handbookPage: 'p. 267',
+      handbookPage: 'p. 273',
       handbookFormula: '\\text{A-line: } PI = 0.73(LL - 20)',
       videoUrl: null,
       traps: [

@@ -72,7 +72,7 @@ export default {
     {
       "type": "callout",
       "variant": "exam",
-      "body": "The FE handbook has the integral table on p. 50. You don't need to memorize all 27 formulas, but you DO need to recognize when substitution or by-parts is needed to get an integrand into a form that matches the table."
+      "body": "The FE handbook has the integral table on p. 51. You don't need to memorize all 27 formulas, but you DO need to recognize when substitution or by-parts is needed to get an integrand into a form that matches the table."
     }
   ],
   "illustration": null,
@@ -116,7 +116,7 @@ export default {
           "latex": "F = 2^3 - 0^3 = 8 \\text{ kN/m}"
         }
       ],
-      "handbookPage": "p. 50",
+      "handbookPage": "p. 51",
       "handbookFormula": "\\int x^n\\,dx = \\frac{x^{n+1}}{n+1} + C",
       "videoUrl": null,
       "traps": [
@@ -176,7 +176,7 @@ export default {
           "latex": "\\frac{e^2}{2} - \\frac{e^2 - 1}{4} = \\frac{2e^2 - e^2 + 1}{4} = \\frac{e^2 + 1}{4}"
         }
       ],
-      "handbookPage": "p. 50",
+      "handbookPage": "p. 51",
       "handbookFormula": "\\int u\\,dv = uv - \\int v\\,du",
       "videoUrl": null,
       "traps": [
@@ -232,7 +232,7 @@ export default {
           "latex": "\\left[\\frac{u^4}{4}\\right]_0^1 = \\frac{1}{4} - 0 = \\frac{1}{4}"
         }
       ],
-      "handbookPage": "p. 50",
+      "handbookPage": "p. 51",
       "handbookFormula": "\\int x^n\\,dx = \\frac{x^{n+1}}{n+1} + C",
       "videoUrl": null,
       "traps": [

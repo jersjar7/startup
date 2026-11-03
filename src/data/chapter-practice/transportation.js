@@ -20,7 +20,7 @@ const PROBLEMS = [
       { text: 'Braking distance with $G = +0.05$:', latex: 'd_b = \\frac{55^2}{30\\left(\\dfrac{11.2}{32.2} + 0.05\\right)} = \\frac{3{,}025}{30 \\times 0.3978} = \\frac{3{,}025}{11.93} = 253.5 \\text{ ft}' },
       { text: 'Total SSD:', latex: 'SSD = 202.1 + 253.5 = 455.6 \\approx 456 \\text{ ft}' },
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'SSD = 1.47 V t + \\frac{V^2}{30\\left(\\frac{a}{32.2} \\pm G\\right)}',
     videoUrl: null,
     traps: [
@@ -48,7 +48,7 @@ const PROBLEMS = [
     steps: [
       { text: 'Peak hour factor:', latex: 'PHF = \\frac{V}{4 \\times V_{15}} = \\frac{2{,}400}{4 \\times 700} = \\frac{2{,}400}{2{,}800} = 0.857' },
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'PHF = \\frac{V}{4 \\times V_{15}}',
     videoUrl: null,
     traps: [
@@ -77,7 +77,7 @@ const PROBLEMS = [
       { text: 'Apply the $S \\leq L$ crest formula:', latex: 'L = \\frac{AS^2}{2{,}158} = \\frac{4 \\times 700^2}{2{,}158} = \\frac{1{,}960{,}000}{2{,}158}' },
       { text: 'Evaluate and check the assumption ($S = 700 \\leq L$):', latex: 'L = 908.2 \\approx 909 \\text{ ft} \\quad (700 \\leq 908 \\checkmark)' },
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'L = \\frac{AS^2}{2{,}158} \\quad (S \\leq L)',
     videoUrl: null,
     traps: [
@@ -106,7 +106,7 @@ const PROBLEMS = [
       { text: 'Algebraic difference:', latex: 'A = |g_2 - g_1| \\times 100 = |0.03 - (-0.02)| \\times 100 = 5' },
       { text: 'Curve length:', latex: 'L = K \\times A = 160 \\times 5 = 800 \\text{ ft}' },
     ],
-    handbookPage: 'p. 301',
+    handbookPage: 'p. 307',
     handbookFormula: 'K = \\frac{L}{A}',
     videoUrl: null,
     traps: [
@@ -135,7 +135,7 @@ const PROBLEMS = [
       { text: 'Middle ordinate:', latex: 'M = R\\left[1 - \\cos\\!\\left(\\frac{I}{2}\\right)\\right] = 1{,}000\\left[1 - \\cos(20\\degree)\\right]' },
       { text: 'Evaluate:', latex: 'M = 1{,}000(1 - 0.9397) = 60.3 \\text{ ft}' },
     ],
-    handbookPage: 'p. 303',
+    handbookPage: 'p. 309',
     handbookFormula: 'M = R\\left[1 - \\cos\\!\\left(\\frac{I}{2}\\right)\\right]',
     videoUrl: null,
     traps: [
@@ -165,7 +165,7 @@ const PROBLEMS = [
       { text: 'Substitute:', latex: 'R = \\frac{60^2}{15(0.08 + 0.12)} = \\frac{3{,}600}{15 \\times 0.20}' },
       { text: 'Evaluate:', latex: 'R = \\frac{3{,}600}{3.0} = 1{,}200 \\text{ ft}' },
     ],
-    handbookPage: 'p. 303',
+    handbookPage: 'p. 309',
     handbookFormula: '0.01e + f = \\frac{V^2}{15R}',
     videoUrl: null,
     traps: [
@@ -195,7 +195,7 @@ const PROBLEMS = [
       { text: 'Effective deceleration term (upgrade, +G):', latex: '2a + 64.4G = 2(10) + 64.4(0.04) = 20 + 2.58 = 22.58' },
       { text: 'Yellow interval:', latex: 'y = 1.0 + \\frac{51.3}{22.58} = 1.0 + 2.27 = 3.27 \\approx 3.3 \\text{ sec}' },
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'y = t + \\frac{v}{2a \\pm 64.4G}',
     videoUrl: null,
     traps: [
@@ -225,7 +225,7 @@ const PROBLEMS = [
       { text: 'Difference comes only from the volume term:', latex: '\\Delta G_p = 0.27(N_B - N_A) = 0.27(25 - 5) = 5.4 \\text{ sec}' },
       { text: 'Crosswalk B requires about 5.4 sec more green time.', latex: null },
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'G_p = 3.2 + \\frac{L}{S_p} + 0.27 N_{\\text{ped}}',
     videoUrl: null,
     traps: [
@@ -254,7 +254,7 @@ const PROBLEMS = [
       { text: 'Speed at $D = 40$:', latex: 'S = 50 - \\frac{50}{160}(40) = 50 - 12.5 = 37.5 \\text{ mph}' },
       { text: 'Flow:', latex: 'V = S \\times D = 37.5 \\times 40 = 1{,}500 \\text{ veh/hr/ln}' },
     ],
-    handbookPage: 'p. 306',
+    handbookPage: 'p. 312',
     handbookFormula: 'V = S \\times D, \\quad S = S_f - \\frac{S_f}{D_j} D',
     videoUrl: null,
     traps: [
@@ -283,7 +283,7 @@ const PROBLEMS = [
       { text: 'Vehicle-miles traveled over 5 years:', latex: 'VMT = 5{,}000 \\times (365 \\times 5) \\times 3 = 27{,}375{,}000' },
       { text: 'Crash rate per 100 million VM:', latex: 'R = \\frac{27 \\times 100{,}000{,}000}{27{,}375{,}000} = 98.6' },
     ],
-    handbookPage: 'p. 307',
+    handbookPage: 'p. 313',
     handbookFormula: 'R = \\frac{A \\times 100{,}000{,}000}{VMT}',
     videoUrl: null,
     traps: [
@@ -312,7 +312,7 @@ const PROBLEMS = [
       { text: 'Heavy-vehicle factor:', latex: 'f_{HV} = \\frac{1}{1 + P_T(E_T - 1)} = \\frac{1}{1 + 0.20(3.0 - 1)}' },
       { text: 'Evaluate:', latex: 'f_{HV} = \\frac{1}{1 + 0.40} = \\frac{1}{1.40} = 0.714' },
     ],
-    handbookPage: 'p. 305',
+    handbookPage: 'p. 311',
     handbookFormula: 'f_{HV} = \\frac{1}{1 + P_T(E_T - 1)}',
     videoUrl: null,
     traps: [
@@ -342,7 +342,7 @@ const PROBLEMS = [
       { text: 'That band is LOS C.', latex: null },
       { text: 'Segment 2: $40$ pc/mi/ln is in the $> 35$ to $45$ band, which is LOS E.', latex: null },
     ],
-    handbookPage: 'p. 305',
+    handbookPage: 'p. 311',
     handbookFormula: 'D = \\frac{v_p}{S}',
     videoUrl: null,
     traps: [
@@ -372,7 +372,7 @@ const PROBLEMS = [
       { text: 'Subbase contribution:', latex: 'a_3 D_3 m_3 = 0.12 \\times 8 \\times 1.0 = 0.96' },
       { text: 'Surface thickness:', latex: 'D_1 = \\frac{5.0 - 1.40 - 0.96}{0.44} = \\frac{2.64}{0.44} = 6.0 \\text{ in}' },
     ],
-    handbookPage: 'p. 308',
+    handbookPage: 'p. 314',
     handbookFormula: 'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3',
     videoUrl: null,
     traps: [
@@ -402,7 +402,7 @@ const PROBLEMS = [
       { text: 'Total over the design life:', latex: '1{,}485 \\times 365 \\times 20 = 1{,}485 \\times 7{,}300 = 10{,}840{,}500' },
       { text: 'Rounded:', latex: '\\approx 10.8 \\times 10^6 \\text{ ESALs}' },
     ],
-    handbookPage: 'p. 308',
+    handbookPage: 'p. 314',
     handbookFormula: 'ESALs = \\sum (\\text{passes}_i \\times LEF_i)',
     videoUrl: null,
     traps: [
@@ -431,7 +431,7 @@ const PROBLEMS = [
       { text: 'Relationship:', latex: 'V_{\\text{compacted}} = 0.90 \\times V_{\\text{bank}}' },
       { text: 'Solve for bank volume:', latex: 'V_{\\text{bank}} = \\frac{9{,}000}{0.90} = 10{,}000 \\text{ yd}^3' },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V_{\\text{compacted}} = (\\text{shrinkage factor}) \\times V_{\\text{bank}}',
     videoUrl: null,
     traps: [
@@ -461,7 +461,7 @@ const PROBLEMS = [
       { text: 'Span 2 to 3:', latex: 'V_{23} = \\frac{100(200 + 160)}{2} = 18{,}000 \\text{ ft}^3' },
       { text: 'Total and convert:', latex: 'V = \\frac{16{,}000 + 18{,}000}{27} = \\frac{34{,}000}{27} = 1{,}259 \\text{ yd}^3' },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V = \\frac{L(A_1 + A_2)}{2}',
     videoUrl: null,
     traps: [
@@ -490,7 +490,7 @@ const PROBLEMS = [
       { text: 'Fraction to zone 1:', latex: '\\frac{120}{120 + 80} = 0.60' },
       { text: 'Trips:', latex: 'T = 800 \\times 0.60 = 480\\text{ trips}' },
     ],
-    handbookPage: 'p. 306',
+    handbookPage: 'p. 312',
     handbookFormula: 'T_{ij} = P_i[A_j F_{ij}/\\sum A_j F_{ij}]',
     videoUrl: null,
     traps: [

@@ -31,7 +31,7 @@ const PROBLEMS = [
       { text: 'From the 6% table, $(P/A, 6\\%, 20) = 11.4699$.', latex: null },
       { text: 'Multiply:', latex: 'P = 180{,}000 \\times 11.4699 = 2{,}064{,}600 \\text{ dollars} \\approx 2{,}065{,}000' },
     ],
-    handbookPage: 'p. 229',
+    handbookPage: 'p. 235',
     handbookFormula: '(P/A, i\\%, n) = \\frac{(1+i)^n - 1}{i(1+i)^n}',
     traps: [
       'Multiplying the payment by 20 and ignoring interest.',
@@ -70,7 +70,7 @@ const PROBLEMS = [
       { text: 'Gradient to uniform series factor at 6%, 10 years:', latex: '(A/G, 6\\%, 10) = \\frac{1}{0.06} - \\frac{10}{(1.06)^{10} - 1} = 16.6667 - 12.6447 = 4.0220' },
       { text: 'Equivalent uniform annual cost:', latex: 'A = 3{,}000 + 1{,}500 \\times 4.0220 = 3{,}000 + 6{,}033 = 9{,}033 \\text{ dollars/yr}' },
     ],
-    handbookPage: 'p. 229',
+    handbookPage: 'p. 235',
     handbookFormula: '(A/G, i\\%, n) = \\frac{1}{i} - \\frac{n}{(1+i)^n - 1}',
     traps: [
       'Forgetting the base amount: $A/G$ converts only the growing part.',
@@ -110,7 +110,7 @@ const PROBLEMS = [
       { text: 'Present worth of the payments, with $(P/A, 1\\%, 24) = 21.2434$:', latex: 'P = 4{,}375 \\times 21.2434 = 92{,}940 \\text{ dollars}' },
       { text: 'Compare with the cash price:', latex: '95{,}000 - 92{,}940 = 2{,}060 \\text{ dollars in favor of financing}' },
     ],
-    handbookPage: 'p. 229',
+    handbookPage: 'p. 235',
     handbookFormula: '(P/A, i\\%, n) = \\frac{(1+i)^n - 1}{i(1+i)^n}',
     traps: [
       'Mixing a yearly rate with monthly payments: the rate and the periods must match.',
@@ -150,7 +150,7 @@ const PROBLEMS = [
       { text: 'From the 8% table, $(P/A, 8\\%, 9) = 6.2469$:', latex: 'P = 60{,}000 \\times (1 + 6.2469) = 434{,}800 \\text{ dollars}' },
       { text: 'Check: the end-of-year value moved one year earlier gives the same result, $60{,}000 \\times 6.7101 \\times 1.08 = 434{,}800$.', latex: null },
     ],
-    handbookPage: 'p. 229',
+    handbookPage: 'p. 235',
     handbookFormula: '(P/A, i\\%, n) = \\frac{(1+i)^n - 1}{i(1+i)^n}',
     traps: [
       'The tabulated $P/A$ factor assumes end-of-period payments; beginning-of-year payments need an adjustment.',
@@ -226,7 +226,7 @@ const PROBLEMS = [
       { text: 'Net annual saving:', latex: '52{,}000 - 4{,}000 = 48{,}000 \\text{ dollars/yr}' },
       { text: 'Simple payback period:', latex: 'n_{pb} = \\frac{360{,}000}{48{,}000} = 7.5 \\text{ years}' },
     ],
-    handbookPage: 'p. 230',
+    handbookPage: 'p. 236',
     handbookFormula: '\\text{Payback} = \\frac{\\text{net first cost}}{\\text{net annual benefit}}',
     traps: [
       'Forgetting the rebate or the yearly maintenance.',
@@ -266,7 +266,7 @@ const PROBLEMS = [
       { text: 'Medium versus low:', latex: '\\frac{\\Delta B}{\\Delta C} = \\frac{320{,}000 - 220{,}000}{242{,}800 - 153{,}000} = \\frac{100{,}000}{89{,}800} = 1.11 > 1 \\;\\Rightarrow\\; \\text{medium}' },
       { text: 'High versus medium:', latex: '\\frac{\\Delta B}{\\Delta C} = \\frac{40{,}000}{103{,}100} = 0.39 < 1 \\;\\Rightarrow\\; \\text{keep medium}' },
     ],
-    handbookPage: 'p. 231',
+    handbookPage: 'p. 237',
     handbookFormula: 'B/C \\ge 1 \\text{ (applied to each increment)}',
     traps: [
       'Choosing the alternative with the highest overall B/C ratio instead of comparing increments.',
@@ -315,7 +315,7 @@ const PROBLEMS = [
       { text: '12 ft cofferdam: overtopped only above 12 ft.', latex: 'E[C_{12}] = 95{,}000 + 0.05(250{,}000) = 107{,}500 \\text{ dollars}' },
       { text: 'The 8 ft cofferdam has the lower expected total cost:', latex: '100{,}000 < 107{,}500 \\;\\Rightarrow\\; E[C] = 100{,}000 \\text{ dollars}' },
     ],
-    handbookPage: 'p. 231',
+    handbookPage: 'p. 237',
     handbookFormula: 'EV = (C_1)(p_1) + (C_2)(p_2) + \\cdots',
     traps: [
       'Forgetting that a lower cofferdam is also overtopped by every higher stage.',
@@ -366,7 +366,7 @@ const PROBLEMS = [
       { text: 'Solve:', latex: 'Q = \\frac{36{,}000}{49.20 - 42.00} = \\frac{36{,}000}{7.20} = 5{,}000 \\text{ tons}' },
       { text: 'Above 5,000 tons the far landfill is cheaper; below it the near one is.', latex: null },
     ],
-    handbookPage: 'p. 230',
+    handbookPage: 'p. 236',
     handbookFormula: 'FC_1 + v_1 Q = FC_2 + v_2 Q',
     traps: [
       'Leaving out the haul cost for one of the sites.',
@@ -404,7 +404,7 @@ const PROBLEMS = [
       { text: 'Capitalize each perpetual yearly amount, $P = A/i$:', latex: '\\frac{15{,}000}{0.06} = 250{,}000, \\qquad \\frac{13{,}662}{0.06} = 227{,}700' },
       { text: 'Add the first cost:', latex: 'CC = 900{,}000 + 250{,}000 + 227{,}700 = 1{,}377{,}700 \\approx 1{,}378{,}000 \\text{ dollars}' },
     ],
-    handbookPage: 'p. 230',
+    handbookPage: 'p. 236',
     handbookFormula: '\\text{Capitalized cost} = P + \\frac{A}{i}',
     traps: [
       'Using $A/P$ for a cost that first occurs at the end of the cycle; that is $A/F$.',

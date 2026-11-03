@@ -300,7 +300,7 @@ const PROBLEMS = [
       { text: 'Backward pass: H 15-17, F 10-15, G 12-15. D feeds F and G, so its late finish is the earliest of their late starts.', latex: 'LF_D = \\min(10, 12) = 10, \\quad LS_D = 7' },
       { text: 'Total float:', latex: 'TF_D = LS_D - ES_D = 7 - 5 = 2 \\text{ days}' },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: '\\text{Float} = LS - ES = LF - EF; \\; LF = \\text{earliest } LS \\text{ of successors}',
     traps: [
       'Using the latest successor start in the backward pass',
@@ -353,7 +353,7 @@ const PROBLEMS = [
       { text: 'The overrun was one-time, so the remaining work is estimated at its budget (no CPI adjustment):', latex: 'ETC = 1{,}400' },
       { text: 'Estimate at completion:', latex: 'EAC = ACWP + ETC = 1{,}250 + 1{,}400 = 2{,}650 \\text{ thousand dollars}' },
     ],
-    handbookPage: 'p. 311',
+    handbookPage: 'p. 317',
     handbookFormula: 'EAC = ACWP + ETC',
     traps: [
       'Applying BAC/CPI by habit when the overrun is not expected to continue',
@@ -392,7 +392,7 @@ const PROBLEMS = [
       { text: 'Backfill: the SS link allows a start at day 6, but the FF link needs a finish no earlier than day 13.', latex: 'EF_C = \\max(6 + 5,\\; 11 + 2) = 13' },
       { text: 'Backfill finishes on day 13, and that is the duration of the work.', latex: null },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: '\\text{SS: start of B depends on start of A; FF: finish of B depends on finish of A}',
     traps: [
       'Checking only the SS lag and forgetting the FF lag that controls the finish',
@@ -440,7 +440,7 @@ const PROBLEMS = [
       { text: 'Earned value from the percents complete:', latex: 'BCWP = 20(1.0) + 36(0.5) + 30(0.2) + 0 = 44' },
       { text: 'Schedule performance index:', latex: 'SPI = \\tfrac{BCWP}{BCWS} = \\tfrac{44}{54} = 0.81' },
     ],
-    handbookPage: 'p. 311',
+    handbookPage: 'p. 317',
     handbookFormula: 'SPI = \\dfrac{BCWP}{BCWS}',
     traps: [
       'Counting the whole budget of an activity that has only started',
@@ -491,7 +491,7 @@ const PROBLEMS = [
       { text: 'Total length:', latex: '21(30) + 31(20) = 630 + 620 = 1{,}250 \\text{ ft}' },
       { text: 'Weight with 0.668 lb/ft for a #4 bar:', latex: '1{,}250 \\times 0.668 = 835 \\text{ lb}' },
     ],
-    handbookPage: 'p. 277',
+    handbookPage: 'p. 283',
     handbookFormula: '\\text{\\#4 bar: } 0.668 \\text{ lb/ft}; \\; N = L/s + 1',
     traps: [
       'Forgetting the last bar in each row (fence-post error)',

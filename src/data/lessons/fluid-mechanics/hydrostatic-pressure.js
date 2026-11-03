@@ -36,7 +36,7 @@ export default {
         { text: 'Gauge pressure at depth h:', latex: 'P = \\gamma h = 9{,}810 \\times 5 = 49{,}050 \\text{ Pa}' },
         { text: 'Convert to kPa:', latex: 'P = 49{,}050 \\div 1{,}000 = 49.05 \\text{ kPa}' },
       ],
-      handbookPage: 'p. 177',
+      handbookPage: 'p. 182',
       handbookFormula: 'P_2 - P_1 = -\\gamma(z_2 - z_1) = \\gamma h',
       videoUrl: null,
       traps: [
@@ -63,7 +63,7 @@ export default {
         { text: 'Gauge pressure at depth:', latex: 'P_{\\text{gauge}} = 20 + \\gamma_{\\text{oil}} \\cdot h = 20 + 8{,}338.5 \\times 3 \\div 1{,}000 = 20 + 25.0 = 45.0 \\text{ kPa}' },
         { text: 'Absolute pressure:', latex: 'P_{\\text{abs}} = P_{\\text{atm}} + P_{\\text{gauge}} = 101.3 + 45.0 = 146.3 \\text{ kPa}' },
       ],
-      handbookPage: 'p. 177',
+      handbookPage: 'p. 182',
       handbookFormula: 'P_{\\text{abs}} = P_{\\text{atm}} + P_{\\text{gauge}}',
       videoUrl: null,
       traps: [
@@ -91,7 +91,7 @@ export default {
         { text: 'Convert height difference:', latex: 'h = 250 \\text{ mm} = 0.25 \\text{ m}' },
         { text: 'Gauge pressure in air line:', latex: 'P = \\gamma_{Hg} \\cdot h = 133{,}416 \\times 0.25 = 33{,}354 \\text{ Pa} \\approx 33.35 \\text{ kPa}' },
       ],
-      handbookPage: 'p. 178',
+      handbookPage: 'p. 183',
       handbookFormula: 'P_0 = P_2 + (\\gamma_2 - \\gamma_1)h',
       videoUrl: null,
       traps: [

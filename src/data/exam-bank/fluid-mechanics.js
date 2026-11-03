@@ -38,7 +38,7 @@ const PROBLEMS = [
         latex: '\\gamma = 8{,}535\\,\\text{N/m}^3'
       }
     ],
-    handbookPage: 'p. 176',
+    handbookPage: 'p. 181',
     handbookFormula: '\\gamma = \\rho g',
     videoUrl: null,
     traps: ['Confusing density (kg/m³) with specific weight (N/m³)', 'Forgetting to multiply by $g$'],
@@ -86,7 +86,7 @@ const PROBLEMS = [
         latex: '\\tau = \\mu \\frac{dv}{dy} = 0.04 \\times 2{,}400 = 96\\,\\text{Pa}'
       }
     ],
-    handbookPage: 'p. 176',
+    handbookPage: 'p. 181',
     handbookFormula: '\\tau = \\mu \\frac{dv}{dy}',
     videoUrl: null,
     traps: [
@@ -133,7 +133,7 @@ const PROBLEMS = [
         latex: '\\mu = 5 \\times 10^{-4} \\times 900 = 0.45\\,\\text{Pa}\\cdot\\text{s}'
       }
     ],
-    handbookPage: 'p. 177',
+    handbookPage: 'p. 182',
     handbookFormula: '\\nu = \\frac{\\mu}{\\rho}',
     videoUrl: null,
     traps: [
@@ -184,7 +184,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 177',
+    handbookPage: 'p. 182',
     handbookFormula: '\\nu = \\frac{\\mu}{\\rho}',
     videoUrl: null,
     traps: [
@@ -231,7 +231,7 @@ const PROBLEMS = [
         latex: 'P = \\frac{34{,}335}{1{,}000} = 34.34\\,\\text{kPa}'
       }
     ],
-    handbookPage: 'p. 177',
+    handbookPage: 'p. 182',
     handbookFormula: 'P_2 - P_1 = \\gamma h',
     videoUrl: null,
     traps: [
@@ -282,7 +282,7 @@ const PROBLEMS = [
         latex: 'P_{\\text{gauge}} = 35 + 30.9 = 65.9\\,\\text{kPa}'
       }
     ],
-    handbookPage: 'p. 177',
+    handbookPage: 'p. 182',
     handbookFormula: 'P_2 - P_1 = \\gamma h',
     videoUrl: null,
     traps: [
@@ -337,7 +337,7 @@ const PROBLEMS = [
         latex: 'P = 40{,}025 - 1{,}472 = 38{,}553\\,\\text{Pa} \\approx 38.6\\,\\text{kPa}'
       }
     ],
-    handbookPage: 'p. 178',
+    handbookPage: 'p. 183',
     handbookFormula: 'P_0 = P_2 + \\gamma_2 h_2 - \\gamma_1 h_1',
     videoUrl: null,
     traps: [
@@ -395,7 +395,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 177',
+    handbookPage: 'p. 182',
     handbookFormula: 'P_2 - P_1 = \\gamma h',
     videoUrl: null,
     traps: [
@@ -442,7 +442,7 @@ const PROBLEMS = [
         latex: 'F_R = \\gamma h_C A = 9{,}810 \\times 4 \\times 1.131 = 44{,}342\\,\\text{N} \\approx 44.4\\,\\text{kN}'
       }
     ],
-    handbookPage: 'p. 179',
+    handbookPage: 'p. 184',
     handbookFormula: 'F_R = \\gamma h_C A',
     videoUrl: null,
     traps: [
@@ -497,7 +497,7 @@ const PROBLEMS = [
         latex: 'y_{CP} = y_C + \\frac{I_{xC}}{y_C A} = 4.0 + \\frac{1.0}{4.0 \\times 3.0} = 4.0 + 0.083 = 4.08\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 179',
+    handbookPage: 'p. 184',
     handbookFormula: 'y_{CP} = y_C + \\frac{I_{xC}}{y_C A}',
     videoUrl: null,
     traps: [
@@ -560,7 +560,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 179',
+    handbookPage: 'p. 184',
     handbookFormula: 'F_B = \\gamma V_{\\text{displaced}}',
     videoUrl: null,
     traps: [
@@ -611,7 +611,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 179',
+    handbookPage: 'p. 184',
     handbookFormula: 'y_{CP} = y_C + \\frac{I_{xC}}{y_C A}',
     videoUrl: null,
     traps: [
@@ -662,7 +662,7 @@ const PROBLEMS = [
         latex: 'v_2 = 3 \\times \\left(\\frac{200}{100}\\right)^2 = 3 \\times 4 = 12\\,\\text{m/s}'
       }
     ],
-    handbookPage: 'p. 180',
+    handbookPage: 'p. 185',
     handbookFormula: 'A_1 V_1 = A_2 V_2',
     videoUrl: null,
     traps: [
@@ -713,7 +713,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 180',
+    handbookPage: 'p. 185',
     handbookFormula: 'P_1 + \\frac{1}{2}\\rho v_1^2 + \\rho g z_1 = P_2 + \\frac{1}{2}\\rho v_2^2 + \\rho g z_2',
     videoUrl: null,
     traps: ['Thinking higher velocity means higher pressure (the opposite is true)'],
@@ -761,7 +761,7 @@ const PROBLEMS = [
         latex: 'P_2 = 200{,}000 - 30{,}000 = 170{,}000\\,\\text{Pa} = 170\\,\\text{kPa}'
       }
     ],
-    handbookPage: 'p. 180',
+    handbookPage: 'p. 185',
     handbookFormula: '\\frac{P_1}{\\gamma} + \\frac{v_1^2}{2g} + z_1 = \\frac{P_2}{\\gamma} + \\frac{v_2^2}{2g} + z_2',
     videoUrl: null,
     traps: [
@@ -812,7 +812,7 @@ const PROBLEMS = [
         latex: 'v_2 = \\sqrt{2(9.81)(10.2)} = \\sqrt{200.1} = 14.1\\,\\text{m/s}'
       }
     ],
-    handbookPage: 'p. 180',
+    handbookPage: 'p. 185',
     handbookFormula: '\\frac{P_1}{\\gamma} + \\frac{v_1^2}{2g} + z_1 = \\frac{P_2}{\\gamma} + \\frac{v_2^2}{2g} + z_2 + h_f',
     videoUrl: null,
     traps: [
@@ -859,7 +859,7 @@ const PROBLEMS = [
         latex: 'f = \\frac{64}{Re} = \\frac{64}{88.9} = 0.72'
       }
     ],
-    handbookPage: 'p. 200',
+    handbookPage: 'p. 206',
     handbookFormula: 'f = \\frac{64}{Re} \\quad (\\text{laminar})',
     videoUrl: null,
     traps: [
@@ -910,7 +910,7 @@ const PROBLEMS = [
         latex: '\\Delta P = \\rho g h_f = 1{,}000 \\times 9.81 \\times 3.82 = 37{,}500\\,\\text{Pa} = 37.5\\,\\text{kPa}'
       }
     ],
-    handbookPage: 'p. 182',
+    handbookPage: 'p. 187',
     handbookFormula: 'h_f = f \\frac{L}{D} \\frac{v^2}{2g}',
     videoUrl: null,
     traps: [
@@ -969,7 +969,7 @@ const PROBLEMS = [
         latex: 'h_{\\text{total}} = 6.12 + 0.86 = 6.97\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 182',
+    handbookPage: 'p. 187',
     handbookFormula: 'h_{f,\\text{total}} = f \\frac{L}{D} \\frac{v^2}{2g} + \\Sigma C \\frac{v^2}{2g}',
     videoUrl: null,
     traps: [
@@ -1020,7 +1020,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 182',
+    handbookPage: 'p. 187',
     handbookFormula: 'h_f = f \\frac{L}{D} \\frac{v^2}{2g}',
     videoUrl: null,
     traps: [
@@ -1067,7 +1067,7 @@ const PROBLEMS = [
         latex: 'F = \\rho A v^2 = 1{,}000 \\times 1.963 \\times 10^{-3} \\times 20^2 = 785\\,\\text{N}'
       }
     ],
-    handbookPage: 'p. 186',
+    handbookPage: 'p. 191',
     handbookFormula: '\\Sigma F = \\rho Q(v_2 - v_1)',
     videoUrl: null,
     traps: [
@@ -1126,7 +1126,7 @@ const PROBLEMS = [
         latex: 'F_R = \\sqrt{1{,}463^2 + 3{,}532^2} = 3{,}823\\,\\text{N} \\approx 3.82\\,\\text{kN}'
       }
     ],
-    handbookPage: 'p. 186',
+    handbookPage: 'p. 191',
     handbookFormula: 'P_1 A_1 - P_2 A_2 \\cos\\alpha - F_x = Q\\rho(v_2 \\cos\\alpha - v_1)',
     videoUrl: null,
     traps: [
@@ -1193,7 +1193,7 @@ const PROBLEMS = [
         latex: 'F = 17{,}672 - 3{,}888 - 848 = 12{,}936\\,\\text{N} \\approx 12.9\\,\\text{kN}'
       }
     ],
-    handbookPage: 'p. 186',
+    handbookPage: 'p. 191',
     handbookFormula: '\\Sigma F = \\rho Q(v_2 - v_1)',
     videoUrl: null,
     traps: [
@@ -1240,7 +1240,7 @@ const PROBLEMS = [
         latex: 'F_{\\text{new}} = \\rho A (2v)^2 = 4 \\rho A v^2 = 4 F_{\\text{original}}'
       }
     ],
-    handbookPage: 'p. 186',
+    handbookPage: 'p. 191',
     handbookFormula: 'F = \\rho Q v = \\rho A v^2',
     videoUrl: null,
     traps: [
@@ -1291,7 +1291,7 @@ const PROBLEMS = [
         latex: 'v = 28.9\\,\\text{m/s}'
       }
     ],
-    handbookPage: 'p. 194',
+    handbookPage: 'p. 200',
     handbookFormula: 'v = \\sqrt{\\frac{2(P_0 - P_s)}{\\rho}}',
     videoUrl: null,
     traps: [
@@ -1350,7 +1350,7 @@ const PROBLEMS = [
         latex: 'Q = 0.97 \\times 7.854 \\times 10^{-3} \\times 7.30 = 0.0556\\,\\text{m}^3/\\text{s}'
       }
     ],
-    handbookPage: 'p. 195',
+    handbookPage: 'p. 200',
     handbookFormula: 'Q = C_v A_2 \\sqrt{\\frac{2g\\left(\\frac{P_1 - P_2}{\\gamma}\\right)}{1 - \\left(\\frac{A_2}{A_1}\\right)^2}}',
     videoUrl: null,
     traps: [
@@ -1409,7 +1409,7 @@ const PROBLEMS = [
         latex: 'Q = 0.61 \\times 1.257 \\times 10^{-3} \\times 6.41 = 0.00489\\,\\text{m}^3/\\text{s}'
       }
     ],
-    handbookPage: 'p. 195',
+    handbookPage: 'p. 201',
     handbookFormula: 'Q = C A_0 \\sqrt{\\frac{2g\\left(\\frac{P_1 - P_2}{\\gamma}\\right)}{1 - \\left(\\frac{A_0}{A_1}\\right)^2}}',
     videoUrl: null,
     traps: [
@@ -1460,7 +1460,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 195',
+    handbookPage: 'p. 200',
     handbookFormula: 'Q = C A \\sqrt{\\frac{2g \\Delta h}{1 - (A_2/A_1)^2}}',
     videoUrl: null,
     traps: [
@@ -1511,7 +1511,7 @@ const PROBLEMS = [
         latex: 'k = n - r = 5 - 3 = 2'
       }
     ],
-    handbookPage: 'p. 196',
+    handbookPage: 'p. 202',
     handbookFormula: 'k = n - r',
     videoUrl: null,
     traps: [
@@ -1566,7 +1566,7 @@ const PROBLEMS = [
         latex: 'Q_m = 500 \\times \\frac{1}{1{,}024} = 0.488\\,\\text{m}^3/\\text{s}'
       }
     ],
-    handbookPage: 'p. 196',
+    handbookPage: 'p. 202',
     handbookFormula: 'Fr_m = Fr_p',
     videoUrl: null,
     traps: [
@@ -1621,7 +1621,7 @@ const PROBLEMS = [
         latex: 'F_p = F_m = 80\\,\\text{N}'
       }
     ],
-    handbookPage: 'p. 196',
+    handbookPage: 'p. 202',
     handbookFormula: 'Re_m = Re_p',
     videoUrl: null,
     traps: [
@@ -1672,7 +1672,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 196',
+    handbookPage: 'p. 202',
     handbookFormula: 'Fr = \\frac{v}{\\sqrt{gl}}',
     videoUrl: null,
     traps: [

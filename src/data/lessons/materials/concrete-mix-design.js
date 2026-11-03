@@ -7,7 +7,7 @@ export default {
     { type: 'text', body: 'Concrete strength is primarily controlled by one variable: the water-cement ratio. Everything else (aggregate gradation, admixtures, curing) matters, but W/C is king.' },
     { type: 'heading', body: 'Water-Cement Ratio' },
     { type: 'formula', latex: 'W/C = \\frac{\\text{weight of water}}{\\text{weight of cement}}', label: 'Water-cement ratio (by weight)' },
-    { type: 'text', body: 'Lower W/C means higher strength. The FE Handbook (p. 125) shows the classic curve: at W/C = 0.40, non-air-entrained concrete reaches roughly 6,000\u20137,000 psi, while at W/C = 0.80 it drops to around 2,000 psi.' },
+    { type: 'text', body: 'Lower W/C means higher strength. The FE Handbook (p. 126) shows the classic curve: at W/C = 0.40, non-air-entrained concrete reaches roughly 6,000\u20137,000 psi, while at W/C = 0.80 it drops to around 2,000 psi.' },
     { type: 'heading', body: 'Air Entrainment' },
     { type: 'text', body: 'Tiny air bubbles (typically 4\u20137% by volume) are intentionally introduced using air-entraining admixtures. These bubbles relieve internal pressure from freezing water, dramatically improving freeze-thaw durability. The trade-off: air-entrained concrete has somewhat lower compressive strength at the same W/C ratio.' },
     { type: 'heading', body: 'Admixtures' },
@@ -35,7 +35,7 @@ export default {
       steps: [
         { text: 'Water-cement ratio:', latex: 'W/C = \\frac{300}{600} = 0.50' },
       ],
-      handbookPage: 'p. 125',
+      handbookPage: 'p. 126',
       handbookFormula: 'W/C = \\frac{\\text{weight of water}}{\\text{weight of cement}}',
       videoUrl: null,
       traps: [
@@ -61,7 +61,7 @@ export default {
         { text: 'Current W/C:', latex: 'W/C = \\frac{200}{400} = 0.50' },
         { text: 'Target W/C = 0.40, water unchanged at 200 kg/m\u00B3:', latex: 'C_{\\text{new}} = \\frac{W}{W/C} = \\frac{200}{0.40} = 500 \\text{ kg/m}^3' },
       ],
-      handbookPage: 'p. 125',
+      handbookPage: 'p. 126',
       handbookFormula: 'W/C = \\frac{\\text{weight of water}}{\\text{weight of cement}}',
       videoUrl: null,
       traps: [
@@ -88,7 +88,7 @@ export default {
         { text: 'Exposure: northern climate = freeze-thaw cycles. Air entrainment (4\u20137%) is essential for durability.', latex: null },
         { text: 'Only W/C = 0.45 with 5% entrained air meets both: low W/C for strength AND air entrainment for freeze-thaw durability.', latex: null },
       ],
-      handbookPage: 'p. 125',
+      handbookPage: 'p. 126',
       handbookFormula: 'W/C = \\frac{\\text{weight of water}}{\\text{weight of cement}}',
       videoUrl: null,
       traps: [

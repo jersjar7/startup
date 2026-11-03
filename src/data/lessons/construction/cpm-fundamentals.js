@@ -37,7 +37,7 @@ export default {
         { text: 'Activity B (FS from A): $ES_B = EF_A = 5$', latex: null },
         { text: 'Early finish of B:', latex: 'EF_B = ES_B + D_B = 5 + 3 = 8' },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: 'EF = ES + D',
       videoUrl: null,
       traps: [
@@ -63,7 +63,7 @@ export default {
         { text: 'C has two predecessors: $EF_A = 6$ and $EF_B = 9$', latex: null },
         { text: 'Early start of C:', latex: 'ES_C = \\max(EF_A,\\, EF_B) = \\max(6,\\, 9) = 9' },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: 'ES = \\text{Latest } EF \\text{ of predecessors}',
       videoUrl: null,
       traps: [
@@ -92,7 +92,7 @@ export default {
         { text: 'D: $ES = \\max(10, 7) = 10$, $EF = 12$', latex: null },
         { text: 'Project duration = $EF_D = 12$ days. Critical path: A \\u2192 B \\u2192 D.', latex: null },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: 'EF = ES + D,\\quad ES = \\text{max}(EF_{\\text{pred}})',
       videoUrl: null,
       traps: [

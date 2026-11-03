@@ -35,7 +35,7 @@ const PROBLEMS = [
         latex: '\\theta = \\arctan\\!\\left(\\frac{120}{90}\\right) = 53.1\\degree',
       },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: 'R = \\sqrt{R_x^2 + R_y^2}',
     videoUrl: null,
     traps: [
@@ -80,7 +80,7 @@ const PROBLEMS = [
         latex: null,
       },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: 'M_z = x F_y - y F_x',
     videoUrl: null,
     traps: [
@@ -121,7 +121,7 @@ const PROBLEMS = [
         latex: 'A_y = 2.5\\,\\text{kN (downward)}',
       },
     ],
-    handbookPage: 'p. 94, Equilibrium Requirements',
+    handbookPage: 'p. 95, Equilibrium Requirements',
     handbookFormula: '\\sum F_n = 0 \\quad \\sum M_n = 0',
     videoUrl: null,
     traps: [
@@ -162,7 +162,7 @@ const PROBLEMS = [
         latex: 'T = \\frac{600}{\\sin 30\\degree} = \\frac{600}{0.5} = 1{,}200\\,\\text{N}',
       },
     ],
-    handbookPage: 'p. 94, Equilibrium Requirements',
+    handbookPage: 'p. 95, Equilibrium Requirements',
     handbookFormula: '\\sum M_n = 0',
     videoUrl: null,
     traps: [
@@ -203,7 +203,7 @@ const PROBLEMS = [
         latex: 'F_{AB} + F_{AE}(0.6) = 0 \\quad \\Rightarrow \\quad F_{AB} = 15.0\\,\\text{kN (tension)}',
       },
     ],
-    handbookPage: 'p. 97, Plane Truss: Method of Joints',
+    handbookPage: 'p. 98, Plane Truss: Method of Joints',
     handbookFormula: '\\sum F_H = 0 \\quad \\sum F_V = 0',
     videoUrl: null,
     traps: [
@@ -244,7 +244,7 @@ const PROBLEMS = [
         latex: '\\sum F_y = 0: \\quad F_{vert} - P = 0 \\quad \\Rightarrow \\quad F_{vert} = P',
       },
     ],
-    handbookPage: 'p. 97, Plane Truss: Method of Joints',
+    handbookPage: 'p. 98, Plane Truss: Method of Joints',
     handbookFormula: '\\sum F_V = 0',
     videoUrl: null,
     traps: [
@@ -285,7 +285,7 @@ const PROBLEMS = [
         latex: 'F = 136.8\\,\\text{N}',
       },
     ],
-    handbookPage: 'p. 96, Friction',
+    handbookPage: 'p. 97, Friction',
     handbookFormula: 'F \\leq \\mu_s N',
     videoUrl: null,
     traps: [
@@ -331,7 +331,7 @@ const PROBLEMS = [
         latex: 'P = \\frac{800(0.2835)}{0.991} = \\frac{226.8}{0.991} = 228.9\\,\\text{N}',
       },
     ],
-    handbookPage: 'p. 96, Friction',
+    handbookPage: 'p. 97, Friction',
     handbookFormula: 'F \\leq \\mu_s N',
     videoUrl: null,
     traps: [
@@ -372,7 +372,7 @@ const PROBLEMS = [
         latex: '\\bar{y} = \\frac{12{,}000(60) - 1{,}600(100)}{12{,}000 - 1{,}600} = \\frac{720{,}000 - 160{,}000}{10{,}400} = \\frac{560{,}000}{10{,}400} = 53.8\\,\\text{mm}',
       },
     ],
-    handbookPage: 'p. 95, Centroid of Area',
+    handbookPage: 'p. 96, Centroid of Area',
     handbookFormula: '\\bar{y} = \\frac{\\sum A_i\\, y_i}{\\sum A_i}',
     videoUrl: null,
     traps: [
@@ -413,7 +413,7 @@ const PROBLEMS = [
         latex: '\\bar{y} = \\frac{2{,}400(20) + 900(50)}{2{,}400 + 900} = \\frac{48{,}000 + 45{,}000}{3{,}300} = \\frac{93{,}000}{3{,}300} = 28.2\\,\\text{mm}',
       },
     ],
-    handbookPage: 'p. 95, Centroid of Area',
+    handbookPage: 'p. 96, Centroid of Area',
     handbookFormula: '\\bar{y} = \\frac{\\sum A_i\\, y_i}{\\sum A_i}',
     videoUrl: null,
     traps: [
@@ -454,7 +454,7 @@ const PROBLEMS = [
         latex: 'I = 28.125 \\times 10^6 - 6.655 \\times 10^6 = 21.5 \\times 10^6\\,\\text{mm}^4',
       },
     ],
-    handbookPage: 'p. 98',
+    handbookPage: 'p. 99',
     handbookFormula: 'I_x = \\frac{b_o h_o^3 - b_i h_i^3}{12}',
     videoUrl: null,
     traps: [
@@ -495,7 +495,7 @@ const PROBLEMS = [
         latex: 'I = \\bar{I} + A d^2 = 4.91 \\times 10^6 + 19.63 \\times 10^6 = 24.5 \\times 10^6\\,\\text{mm}^4',
       },
     ],
-    handbookPage: 'p. 95',
+    handbookPage: 'p. 96',
     handbookFormula: 'I = \\bar{I} + Ad^2',
     videoUrl: null,
     traps: [

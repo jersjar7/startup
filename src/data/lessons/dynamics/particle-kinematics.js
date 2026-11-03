@@ -46,7 +46,7 @@ export default {
         { text: 'No time given, so use:', latex: 'v^2 = v_0^2 + 2a(s - s_0)' },
         { text: 'Solve for distance:', latex: '0 = 25^2 + 2(-5)(s) \\implies s = \\frac{625}{10} = 62.5 \\text{ m}' },
       ],
-      handbookPage: 'p. 104',
+      handbookPage: 'p. 105',
       handbookFormula: 'v^2 = v_0^2 + 2a_0(s - s_0)',
       videoUrl: null,
       traps: [
@@ -73,7 +73,7 @@ export default {
         { text: 'At max height, $v_y = 0$. Use:', latex: 'v_y^2 = v_{0y}^2 + 2(-g)(h)' },
         { text: 'Solve:', latex: '0 = 17.32^2 - 2(9.81)(h) \\implies h = \\frac{300}{19.62} = 15.3 \\text{ m}' },
       ],
-      handbookPage: 'p. 104',
+      handbookPage: 'p. 105',
       handbookFormula: 'y = -\\frac{g t^2}{2} + v_0 \\sin\\theta \\cdot t + y_0',
       videoUrl: null,
       traps: [
@@ -100,7 +100,7 @@ export default {
         { text: 'Normal acceleration:', latex: 'a_n = \\frac{v^2}{\\rho} = \\frac{30^2}{200} = 4.5 \\text{ m/s}^2' },
         { text: 'Total acceleration:', latex: 'a = \\sqrt{a_t^2 + a_n^2} = \\sqrt{2^2 + 4.5^2} = \\sqrt{24.25} = 4.92 \\text{ m/s}^2' },
       ],
-      handbookPage: 'p. 103',
+      handbookPage: 'p. 104',
       handbookFormula: 'a_n = \\frac{v^2}{\\rho}',
       videoUrl: null,
       traps: [

@@ -38,7 +38,7 @@ export default {
         { text: 'Specific weight from specific gravity:', latex: '\\gamma = SG \\times \\gamma_w' },
         { text: 'Substitute:', latex: '\\gamma = 0.85 \\times 9{,}810 = 8{,}338 \\text{ N/m}^3' },
       ],
-      handbookPage: 'p. 176',
+      handbookPage: 'p. 181',
       handbookFormula: 'SG = \\frac{\\gamma}{\\gamma_w}',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'Velocity gradient for linear profile:', latex: '\\frac{dv}{dy} = \\frac{v}{\\delta} = \\frac{0.5}{0.002} = 250 \\text{ s}^{-1}' },
         { text: 'Shear stress:', latex: '\\tau = \\mu \\frac{dv}{dy} = 0.1 \\times 250 = 25 \\text{ Pa}' },
       ],
-      handbookPage: 'p. 176',
+      handbookPage: 'p. 181',
       handbookFormula: '\\tau = \\mu \\frac{dv}{dy}',
       videoUrl: null,
       traps: [
@@ -92,7 +92,7 @@ export default {
         { text: 'Apply capillary rise formula with $\\cos 0\\degree = 1$:', latex: 'h = \\frac{4\\sigma \\cos \\beta}{\\gamma d} = \\frac{4(0.0728)(1)}{9{,}789 \\times 0.0015}' },
         { text: 'Compute:', latex: 'h = \\frac{0.2912}{14.684} = 0.01983 \\text{ m} \\approx 19.8 \\text{ mm}' },
       ],
-      handbookPage: 'p. 177',
+      handbookPage: 'p. 182',
       handbookFormula: 'h = \\frac{4\\sigma \\cos \\beta}{\\gamma d}',
       videoUrl: null,
       traps: [

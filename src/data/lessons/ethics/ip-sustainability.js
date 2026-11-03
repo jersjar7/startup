@@ -107,7 +107,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 12, Intellectual Property: Trade Secrets',
+      handbookPage: 'p. 13, Intellectual Property: Trade Secrets',
       handbookFormula:
         '\\text{Trade secret: formula, pattern, method, technique, or process used in business for competitive advantage.}',
       videoUrl: null,
@@ -165,7 +165,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 13, Societal Considerations: Life-cycle analysis',
+      handbookPage: 'p. 14, Societal Considerations: Life-cycle analysis',
       handbookFormula:
         '\\text{Life-cycle analysis (cradle to grave): assessing environmental consequences from design through disposal.}',
       videoUrl: null,
@@ -227,7 +227,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 12, Intellectual Property: Patents, Trademarks, Copyrights, Trade Secrets',
+      handbookPage: 'p. 13, Intellectual Property: Patents, Trademarks, Copyrights, Trade Secrets',
       handbookFormula:
         '\\text{Patent = invention; Trademark = brand identifier; Copyright = authorship; Trade secret = confidential method.}',
       videoUrl: null,

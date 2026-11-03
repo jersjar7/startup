@@ -1,6 +1,6 @@
 // Plain-language guide to the formulas on the FE Civil Surveying page,
 // in the same order as chapters/surveying.js. Symbols checked against the FE
-// Reference Handbook 10.5. The inverse computation is not printed in the
+// Reference Handbook 10.6. The inverse computation is not printed in the
 // handbook; it is standard coordinate geometry.
 export default [
   {

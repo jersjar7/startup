@@ -20,7 +20,7 @@ const PROBLEMS = [
       { text: 'Substitute the diameters:', latex: '\\%RA = \\left(1 - \\frac{9.5^2}{12.8^2}\\right)\\times 100 = (1 - 0.551)\\times 100' },
       { text: 'Result:', latex: '\\%RA = 44.9\\%' },
     ],
-    handbookPage: 'p. 129',
+    handbookPage: 'p. 130',
     handbookFormula: '\\%RA = \\left(1 - \\frac{A_f}{A_0}\\right)\\times 100',
     videoUrl: null,
     traps: [
@@ -50,7 +50,7 @@ const PROBLEMS = [
       { text: 'Substitute the engineering strain:', latex: '\\varepsilon_T = \\ln(1 + 0.25) = \\ln(1.25)' },
       { text: 'Result:', latex: '\\varepsilon_T = 0.223' },
     ],
-    handbookPage: 'p. 118',
+    handbookPage: 'p. 119',
     handbookFormula: '\\varepsilon_T = \\ln(1 + \\varepsilon)',
     videoUrl: null,
     traps: [
@@ -79,7 +79,7 @@ const PROBLEMS = [
       { text: 'Stress ratio definition:', latex: 'R = \\frac{\\sigma_{\\min}}{\\sigma_{\\max}}' },
       { text: 'Substitute, keeping the negative sign on the compressive minimum:', latex: 'R = \\frac{-60}{180} = -0.33' },
     ],
-    handbookPage: 'p. 121',
+    handbookPage: 'p. 122',
     handbookFormula: 'R = \\frac{\\sigma_{\\min}}{\\sigma_{\\max}}',
     videoUrl: null,
     traps: [
@@ -109,7 +109,7 @@ const PROBLEMS = [
       { text: 'Apply the fracture toughness formula with $Y = 1.0$:', latex: 'K_{IC} = Y\\sigma\\sqrt{\\pi a} = 1.0 \\times 300 \\times \\sqrt{\\pi \\times 0.004}' },
       { text: 'Evaluate:', latex: 'K_{IC} = 300 \\times 0.1121 = 33.6\\,\\text{MPa}\\cdot\\text{m}^{1/2}' },
     ],
-    handbookPage: 'p. 122',
+    handbookPage: 'p. 123',
     handbookFormula: 'K_{IC} = Y\\sigma\\sqrt{\\pi a}',
     videoUrl: null,
     traps: [
@@ -140,7 +140,7 @@ const PROBLEMS = [
       { text: 'Lever rule for the solid ($\\alpha$) fraction (opposite arm):', latex: 'f_\\alpha = \\frac{x_L - x_0}{x_L - x_\\alpha} = \\frac{55 - 35}{55 - 18} = \\frac{20}{37}' },
       { text: 'Result:', latex: 'f_\\alpha = 0.54' },
     ],
-    handbookPage: 'p. 127',
+    handbookPage: 'p. 128',
     handbookFormula: 'f_\\alpha = \\frac{x_L - x_0}{x_L - x_\\alpha}',
     videoUrl: null,
     traps: [
@@ -170,7 +170,7 @@ const PROBLEMS = [
       { text: 'Substitute the diameters:', latex: '\\%CW = \\left(1 - \\frac{9^2}{12^2}\\right)\\times 100 = (1 - 0.5625)\\times 100' },
       { text: 'Result:', latex: '\\%CW = 43.8\\%' },
     ],
-    handbookPage: 'p. 116',
+    handbookPage: 'p. 117',
     handbookFormula: '\\%CW = \\frac{A_0 - A_f}{A_0}\\times 100',
     videoUrl: null,
     traps: [
@@ -199,7 +199,7 @@ const PROBLEMS = [
       { text: 'Rearrange the water-cement ratio:', latex: 'W = (W/C)\\times C' },
       { text: 'Substitute:', latex: 'W = 0.45 \\times 380 = 171 \\text{ kg/m}^3' },
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: 'W/C = \\frac{\\text{weight of water}}{\\text{weight of cement}}',
     videoUrl: null,
     traps: [
@@ -229,7 +229,7 @@ const PROBLEMS = [
       { text: 'Subtract the free moisture from the design batch water:', latex: 'W_{\\text{add}} = 185 - 28' },
       { text: 'Result:', latex: 'W_{\\text{add}} = 157 \\text{ kg/m}^3' },
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: 'W_{\\text{add}} = W_{\\text{design}} - (\\%\\text{free moisture})\\times W_{\\text{agg}}',
     videoUrl: null,
     traps: [
@@ -259,7 +259,7 @@ const PROBLEMS = [
       { text: 'Take the square root of the compressive strength:', latex: '\\sqrt{4{,}000} = 63.2' },
       { text: 'Multiply:', latex: 'f_r = 7.5 \\times 63.2 = 474 \\text{ psi}' },
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: 'f_r = 7.5\\sqrt{f\'_c}',
     videoUrl: null,
     traps: [
@@ -288,7 +288,7 @@ const PROBLEMS = [
       { text: '7-day strength is 70% of the 28-day strength:', latex: 'f\'_{c,7} = 0.70 \\times f\'_{c,28}' },
       { text: 'Substitute:', latex: 'f\'_{c,7} = 0.70 \\times 4{,}500 = 3{,}150 \\text{ psi}' },
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: '\\text{Concrete strength vs. curing time (graph)}',
     videoUrl: null,
     traps: [
@@ -318,7 +318,7 @@ const PROBLEMS = [
       { text: 'Substitute:', latex: '\\frac{1}{E_c} = \\frac{0.5}{72} + \\frac{0.5}{3.5} = 0.00694 + 0.14286 = 0.1498' },
       { text: 'Invert:', latex: 'E_c = \\frac{1}{0.1498} = 6.68\\,\\text{GPa}' },
     ],
-    handbookPage: 'p. 123',
+    handbookPage: 'p. 124',
     handbookFormula: '\\frac{1}{E_c} = \\frac{f_1}{E_1} + \\frac{f_2}{E_2}',
     videoUrl: null,
     traps: [
@@ -348,7 +348,7 @@ const PROBLEMS = [
       { text: 'Solve for the fiber fraction:', latex: 'f_f = \\frac{\\rho_c - \\rho_m}{\\rho_f - \\rho_m} = \\frac{1{,}800 - 1{,}150}{2{,}600 - 1{,}150}' },
       { text: 'Result:', latex: 'f_f = \\frac{650}{1{,}450} = 0.45' },
     ],
-    handbookPage: 'p. 123',
+    handbookPage: 'p. 124',
     handbookFormula: '\\rho_c = f_1\\rho_1 + f_2\\rho_2',
     videoUrl: null,
     traps: [
@@ -378,7 +378,7 @@ const PROBLEMS = [
       { text: 'The more active metal becomes the anode and oxidizes (corrodes) sacrificially.', latex: null },
       { text: 'Steel therefore becomes the cathode and is protected from corrosion.', latex: null },
     ],
-    handbookPage: 'p. 116',
+    handbookPage: 'p. 117',
     handbookFormula: 'M^0 \\rightarrow M^{n+} + ne^-',
     videoUrl: null,
     traps: [
@@ -408,7 +408,7 @@ const PROBLEMS = [
       { text: 'Chromium reacts with oxygen to form a thin, adherent chromium-oxide passive layer.', latex: null },
       { text: 'This passive film blocks further oxidation and re-forms if damaged, giving corrosion resistance.', latex: null },
     ],
-    handbookPage: 'p. 116',
+    handbookPage: 'p. 117',
     handbookFormula: null,
     videoUrl: null,
     traps: [

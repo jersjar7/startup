@@ -34,7 +34,7 @@ export default {
       steps: [
         { text: 'Active coefficient:', latex: 'K_a = \\tan^2(45\\degree - 30\\degree/2) = \\tan^2(30\\degree) = (0.5774)^2 = 0.333' },
       ],
-      handbookPage: 'p. 263',
+      handbookPage: 'p. 269',
       handbookFormula: 'K_a = \\tan^2(45\\degree - \\phi/2)',
       videoUrl: null,
       traps: [
@@ -60,7 +60,7 @@ export default {
         { text: 'Active coefficient:', latex: 'K_a = \\tan^2(30\\degree) = 0.333' },
         { text: 'Active force:', latex: 'P_a = \\frac{1}{2} K_a \\gamma H^2 = \\frac{1}{2}(0.333)(120)(15^2) = 4{,}500 \\text{ lb/ft}' },
       ],
-      handbookPage: 'p. 263',
+      handbookPage: 'p. 269',
       handbookFormula: 'P_a = \\frac{1}{2} K_a \\gamma H^2',
       videoUrl: null,
       traps: [
@@ -88,7 +88,7 @@ export default {
         { text: 'Surcharge pressure force (rectangular):', latex: 'P_{a,\\text{surcharge}} = K_a \\cdot q \\cdot H = \\frac{1}{3} \\times 200 \\times 12 = 800 \\text{ lb/ft}' },
         { text: 'Total:', latex: 'P_a = 2{,}880 + 800 = 3{,}680 \\text{ lb/ft}' },
       ],
-      handbookPage: 'p. 263',
+      handbookPage: 'p. 269',
       handbookFormula: 'P_a = \\frac{1}{2} K_a \\gamma H^2',
       videoUrl: null,
       traps: [

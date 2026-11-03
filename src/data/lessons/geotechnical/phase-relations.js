@@ -37,7 +37,7 @@ export default {
         { text: 'At full saturation, $S = 1$:', latex: 'Se = \\omega G_s \\implies e = \\omega G_s' },
         { text: 'Substitute:', latex: 'e = 0.20 \\times 2.70 = 0.54' },
       ],
-      handbookPage: 'p. 259\u2013260',
+      handbookPage: 'p. 265\u2013266',
       handbookFormula: 'S = \\frac{\\omega G_s}{e}',
       videoUrl: null,
       traps: [
@@ -64,7 +64,7 @@ export default {
         { text: 'Void ratio from $\\gamma_d = \\frac{G_s \\gamma_w}{1+e}$:', latex: 'e = \\frac{G_s \\gamma_w}{\\gamma_d} - 1 = \\frac{2.65 \\times 62.4}{104.3} - 1 = 0.586' },
         { text: 'Degree of saturation:', latex: 'S = \\frac{\\omega G_s}{e} = \\frac{0.15 \\times 2.65}{0.586} = 0.678 = 68\\%' },
       ],
-      handbookPage: 'p. 259\u2013260',
+      handbookPage: 'p. 265\u2013266',
       handbookFormula: 'S = \\frac{\\omega G_s}{e}, \\quad \\gamma_d = \\frac{\\gamma}{1+\\omega}',
       videoUrl: null,
       traps: [
@@ -92,7 +92,7 @@ export default {
         { text: 'Expand and collect:', latex: '125 + 125e = 169.7 + 62.4e \\implies 62.6e = 44.7 \\implies e = 0.714' },
         { text: 'At saturation ($S = 1$):', latex: '\\omega = \\frac{e}{G_s} = \\frac{0.714}{2.72} = 0.263 = 26\\%' },
       ],
-      handbookPage: 'p. 259',
+      handbookPage: 'p. 265',
       handbookFormula: '\\gamma_{sat} = \\frac{(G_s + e)\\gamma_w}{1+e}',
       videoUrl: null,
       traps: [

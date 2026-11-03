@@ -43,7 +43,7 @@ export default {
         { text: 'Critical depth formula:', latex: 'y_c = \\left(\\frac{q^2}{g}\\right)^{1/3} = \\left(\\frac{9^2}{9.81}\\right)^{1/3}' },
         { text: 'Compute:', latex: 'y_c = \\left(\\frac{81}{9.81}\\right)^{1/3} = (8.257)^{1/3} = 2.02 \\text{ m}' },
       ],
-      handbookPage: 'p. 296',
+      handbookPage: 'p. 302',
       handbookFormula: 'y_c = \\left(\\frac{q^2}{g}\\right)^{1/3}',
       videoUrl: null,
       traps: [
@@ -70,7 +70,7 @@ export default {
         { text: 'Compute:', latex: 'Fr = \\frac{4}{\\sqrt{4.905}} = \\frac{4}{2.215} = 1.81' },
         { text: 'Since $Fr = 1.81 > 1$, the flow is supercritical.', latex: null },
       ],
-      handbookPage: 'p. 296',
+      handbookPage: 'p. 302',
       handbookFormula: 'Fr = \\frac{V}{\\sqrt{g y_h}}',
       videoUrl: null,
       traps: [
@@ -98,7 +98,7 @@ export default {
         { text: 'Simplify inside the radical:', latex: 'y_2 = 0.2\\left(-1 + \\sqrt{1 + 72}\\right) = 0.2\\left(-1 + \\sqrt{73}\\right)' },
         { text: 'Compute:', latex: 'y_2 = 0.2(-1 + 8.544) = 0.2 \\times 7.544 = 1.51 \\text{ m}' },
       ],
-      handbookPage: 'p. 297',
+      handbookPage: 'p. 303',
       handbookFormula: 'y_2 = \\frac{y_1}{2}\\left(-1 + \\sqrt{1 + 8Fr_1^2}\\right)',
       videoUrl: null,
       traps: [

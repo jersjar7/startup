@@ -1,6 +1,6 @@
 // Plain-language guide to the formulas on the FE Civil Probability and
 // Statistics page, in the same order as chapters/statistics.js. Symbols
-// checked against the FE Reference Handbook 10.5.
+// checked against the FE Reference Handbook 10.6.
 export default [
   {
     label: 'Sample Mean',

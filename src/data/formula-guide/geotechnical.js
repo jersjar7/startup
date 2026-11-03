@@ -1,6 +1,6 @@
 // Plain-language guide to the formulas on the FE Civil Geotechnical Engineering page,
 // in the same order as chapters/geotechnical.js. Symbols checked against the FE
-// Reference Handbook 10.5.
+// Reference Handbook 10.6.
 export default [
   {
     label: 'Effective Stress',

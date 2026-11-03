@@ -40,7 +40,7 @@ export default {
         { text: 'Substitute:', latex: '\\Delta H = \\frac{10}{1+0.90} \\times 0.30 \\times \\log \\frac{1{,}500}{1{,}000}' },
         { text: 'Compute:', latex: '\\Delta H = 5.263 \\times 0.30 \\times 0.1761 = 0.278 \\text{ ft} = 3.3 \\text{ in.}' },
       ],
-      handbookPage: 'p. 261',
+      handbookPage: 'p. 267',
       handbookFormula: '\\Delta H = \\frac{H_0}{1+e_0} C_c \\log \\frac{p_0 + \\Delta p}{p_0}',
       videoUrl: null,
       traps: [
@@ -66,7 +66,7 @@ export default {
         { text: 'Two-way drainage:', latex: 'H_{dr} = H/2 = 10/2 = 5 \\text{ ft}' },
         { text: 'Solve for time:', latex: 't = \\frac{T_v \\cdot H_{dr}^2}{c_v} = \\frac{0.197 \\times 5^2}{0.50} = \\frac{0.197 \\times 25}{0.50} = 9.85 \\approx 10 \\text{ days}' },
       ],
-      handbookPage: 'p. 262',
+      handbookPage: 'p. 268',
       handbookFormula: 'T_v = \\frac{c_v \\cdot t}{H_{dr}^2}',
       videoUrl: null,
       traps: [
@@ -94,7 +94,7 @@ export default {
         { text: 'Evaluate logs:', latex: '\\log(1.5) = 0.1761, \\quad \\log(1.167) = 0.0669' },
         { text: 'Compute:', latex: '\\Delta H = 5.714 \\times [0.01057 + 0.02678] = 5.714 \\times 0.03735 = 0.213 \\text{ ft} = 2.6 \\text{ in.}' },
       ],
-      handbookPage: 'p. 261',
+      handbookPage: 'p. 267',
       handbookFormula: '\\Delta H = \\frac{H_0}{1+e_0}\\left[C_r \\log \\frac{p_c}{p_0} + C_c \\log \\frac{p_0 + \\Delta p}{p_c}\\right]',
       videoUrl: null,
       traps: [

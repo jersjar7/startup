@@ -28,7 +28,7 @@ const PROBLEMS = [
       { text: 'Find the mass density of the oil from its specific gravity.', latex: '\\rho = SG \\cdot \\rho_w = 0.88(1.94) = 1.707\\ \\text{slug/ft}^3' },
       { text: 'Divide the dynamic viscosity by the density. A slug is 1 lbf-sec²/ft, so the units reduce to ft²/sec.', latex: '\\nu = \\frac{\\mu}{\\rho} = \\frac{3.2 \\times 10^{-4}}{1.707} = 1.87 \\times 10^{-4}\\ \\text{ft}^2\\text{/sec}' },
     ],
-    handbookPage: 'p. 177',
+    handbookPage: 'p. 182',
     handbookFormula: '\\nu = \\mu / \\rho',
     traps: [
       'Using specific weight (lbf/ft³) or density in lbm/ft³ instead of slug/ft³.',
@@ -63,7 +63,7 @@ const PROBLEMS = [
       { text: 'Capillary rise in a 3 mm tube, with $\\cos 0° = 1$.', latex: 'h_c = \\frac{4\\sigma\\cos\\beta}{\\gamma d} = \\frac{4(0.0728)(1)}{9{,}810(0.003)} = 0.0099\\ \\text{m} = 9.9\\ \\text{mm}' },
       { text: 'Water wets glass, so the meniscus pulls the column up and the tube reads high. Subtract the rise.', latex: '\\frac{p}{\\gamma} = 0.850 - 0.0099 = 0.840\\ \\text{m}' },
     ],
-    handbookPage: 'p. 177',
+    handbookPage: 'p. 182',
     handbookFormula: 'h = \\frac{4\\sigma\\cos\\beta}{\\gamma d}',
     traps: [
       'Using the tube radius where the formula has the diameter.',
@@ -100,7 +100,7 @@ const PROBLEMS = [
       { text: 'Buoyant force equals total weight; the displaced volume is the plan area times the draft.', latex: '62.4(10 \\times 6)\\,d = 3{,}689 \\Rightarrow d = \\frac{3{,}689}{3{,}744} = 0.985\\ \\text{ft}' },
       { text: 'Check: $d$ is less than 1.5 ft, so the float is not swamped. About 0.5 ft of freeboard remains.' },
     ],
-    handbookPage: 'p. 179',
+    handbookPage: 'p. 184',
     handbookFormula: 'F_B = \\gamma_w V_{displaced} = W_{total}',
     traps: [
       'Forgetting either the timber weight or the added load.',
@@ -137,7 +137,7 @@ const PROBLEMS = [
       { text: 'Vertical component equals the weight of that wedge.', latex: 'F_V = 9.81(14.74) = 145\\ \\text{kN/m}' },
       { text: 'Check by components: the resultant is $9.81(4.5)(9.58) = 423\\ \\text{kN/m}$ normal to the face, and its vertical part is $423 \\cos 70° = 145\\ \\text{kN/m}$.' },
     ],
-    handbookPage: 'p. 179',
+    handbookPage: 'p. 184',
     handbookFormula: 'F_R = \\rho g\\, y_C \\sin\\theta\\, A',
     traps: [
       'Giving the horizontal component or the full resultant when the vertical component is asked.',
@@ -175,7 +175,7 @@ const PROBLEMS = [
       { text: 'Factor of safety against flotation.', latex: 'FS = \\frac{W}{F_B} = \\frac{8{,}500}{9{,}800} = 0.87' },
       { text: 'Below 1.0: the empty manhole would float, so it needs an anti-flotation collar or a heavier base.' },
     ],
-    handbookPage: 'p. 179',
+    handbookPage: 'p. 184',
     handbookFormula: 'F_B = \\gamma_w V_{displaced}',
     traps: [
       'Using the inside diameter or the full height.',
@@ -213,7 +213,7 @@ const PROBLEMS = [
       { text: 'Sea side: the tide wets only the bottom 1.2 m, a triangular load acting 0.4 m above the bottom, which is $1.8 - 0.4 = 1.4\\ \\text{m}$ below the hinge.', latex: 'F_2 = \\tfrac{1}{2}(9.81)(1.2)^2(1.0) = 7.06\\ \\text{kN}, \\quad M_2 = 7.06(1.4) = 9.89\\ \\text{kN·m}' },
       { text: 'Moments about the hinge: $P$ acts 1.8 m below it.', latex: 'P(1.8) = 38.14 - 9.89 \\Rightarrow P = 15.7\\ \\text{kN}' },
     ],
-    handbookPage: 'p. 179',
+    handbookPage: 'p. 184',
     handbookFormula: 'y_{CP} = y_C + \\frac{I_{xC}}{y_C A}',
     traps: [
       'Applying a hydrostatic force at the centroid instead of the center of pressure.',
@@ -250,7 +250,7 @@ const PROBLEMS = [
       { text: 'Pressure difference as a head of the flowing water, using the difference in specific weights.', latex: '\\frac{p_0 - p_s}{\\gamma_w} = (SG_g - 1)h = (1.60 - 1)(0.75) = 0.45\\ \\text{ft}' },
       { text: 'Pitot tube velocity.', latex: 'v = \\sqrt{2g\\frac{p_0 - p_s}{\\gamma_w}} = \\sqrt{2(32.2)(0.45)} = 5.38\\ \\text{ft/sec}' },
     ],
-    handbookPage: 'p. 194',
+    handbookPage: 'p. 200',
     handbookFormula: 'v = \\sqrt{(2/\\rho)(P_0 - P_s)} = \\sqrt{2g(P_0 - P_s)/\\gamma}',
     traps: [
       'Ignoring the water above the gauge fluid: use $SG_g - 1$, not $SG_g$.',
@@ -287,7 +287,7 @@ const PROBLEMS = [
       { text: 'Area of the 4-in. bore.', latex: 'A_0 = \\frac{\\pi}{4}\\left(\\frac{4}{12}\\right)^2 = 0.0873\\ \\text{ft}^2' },
       { text: 'Discharge through the orifice meter (horizontal, so no elevation term).', latex: 'Q = C A_0 \\sqrt{2g\\,\\Delta h} = 0.62(0.0873)\\sqrt{2(32.2)(11.54)} = 0.62(0.0873)(27.26) = 1.47\\ \\text{ft}^3\\text{/sec}' },
     ],
-    handbookPage: 'p. 195',
+    handbookPage: 'p. 201',
     handbookFormula: 'Q = C A_0 \\sqrt{2g\\left(\\frac{P_1}{\\gamma} + z_1 - \\frac{P_2}{\\gamma} - z_2\\right)}',
     traps: [
       'Forgetting that 1 psi is 144 lbf/ft².',
@@ -324,7 +324,7 @@ const PROBLEMS = [
       { text: 'Orifice area.', latex: 'A_0 = \\frac{\\pi}{4}(0.050)^2 = 0.001963\\ \\text{m}^2' },
       { text: 'Discharge with the coefficient.', latex: 'Q = C A_0\\sqrt{2gh} = 0.61(0.001963)(9.40) = 0.0113\\ \\text{m}^3\\text{/s} = 11.3\\ \\text{L/s}' },
     ],
-    handbookPage: 'p. 185',
+    handbookPage: 'p. 190',
     handbookFormula: 'Q = C A_0 \\sqrt{2gh}',
     traps: [
       'Leaving out the discharge coefficient, or dividing by it.',
@@ -360,7 +360,7 @@ const PROBLEMS = [
       { text: 'Energy equation from the reservoir surface (1) to the summit (2).', latex: '0 + 0 + 120.0 = \\frac{p_2}{\\gamma} + 0.23 + 115.0 + 2.4' },
       { text: 'Solve for the pressure head and the pressure.', latex: '\\frac{p_2}{\\gamma} = 2.37\\ \\text{m}, \\quad p_2 = 9.81(2.37) = 23.3\\ \\text{kPa}' },
     ],
-    handbookPage: 'p. 180',
+    handbookPage: 'p. 185',
     handbookFormula: '\\frac{P_1}{\\gamma} + z_1 + \\frac{v_1^2}{2g} = \\frac{P_2}{\\gamma} + z_2 + \\frac{v_2^2}{2g} + h_f',
     traps: [
       'Forgetting the velocity head in the pipe at the summit.',
@@ -398,7 +398,7 @@ const PROBLEMS = [
       { text: 'y component.', latex: 'F_y = \\rho Q v \\sin 120° = 1{,}368(0.866) = 1{,}185\\ \\text{N}' },
       { text: 'Resultant on the blade.', latex: 'F = \\sqrt{2{,}053^2 + 1{,}185^2} = 2{,}370\\ \\text{N} = 2.37\\ \\text{kN}' },
     ],
-    handbookPage: 'p. 187',
+    handbookPage: 'p. 192',
     handbookFormula: '-F_x = Q\\rho(v_2\\cos\\alpha - v_1), \\quad F_y = Q\\rho(v_2\\sin\\alpha - 0)',
     traps: [
       'Sign of $\\cos 120°$: it is negative, so the x change is $1.5v$, more than a full stop.',

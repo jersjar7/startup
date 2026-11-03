@@ -33,7 +33,7 @@ export default {
         { text: 'Fraction to Zone 1:', latex: '\\frac{100}{100 + 60} = \\frac{100}{160} = 0.625' },
         { text: 'Trips to Zone 1:', latex: 'T_{i1} = 1{,}000 \\times 0.625 = 625\\text{ trips}' },
       ],
-      handbookPage: 'p. 306',
+      handbookPage: 'p. 312',
       handbookFormula: 'T_{ij} = P_i [A_j F_{ij} K_{ij} / \\sum A_j F_{ij} K_{ij}]',
       videoUrl: null,
       traps: [
@@ -60,7 +60,7 @@ export default {
         { text: 'The gravity model allocates trips among zones.', latex: null },
         { text: 'So it belongs to the trip distribution step.', latex: null },
       ],
-      handbookPage: 'p. 306',
+      handbookPage: 'p. 312',
       handbookFormula: null,
       videoUrl: null,
       traps: [
@@ -87,7 +87,7 @@ export default {
         { text: 'Lower F means a smaller share of trips to that zone.', latex: null },
         { text: 'So trips between the zones decrease.', latex: null },
       ],
-      handbookPage: 'p. 306',
+      handbookPage: 'p. 312',
       handbookFormula: null,
       videoUrl: null,
       traps: [

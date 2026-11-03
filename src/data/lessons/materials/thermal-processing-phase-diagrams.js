@@ -42,7 +42,7 @@ export default {
         { text: 'Temperature change:', latex: '\\Delta T = 40 - 5 = 35\\degree\\text{C}' },
         { text: 'Change in length:', latex: '\\Delta L = \\alpha L \\Delta T = 11.7 \\times 10^{-6} \\times 25{,}000 \\times 35 = 10.2 \\text{ mm}' },
       ],
-      handbookPage: 'p. 126',
+      handbookPage: 'p. 127',
       handbookFormula: '\\alpha = \\frac{\\varepsilon}{\\Delta T}',
       videoUrl: null,
       traps: [
@@ -70,7 +70,7 @@ export default {
         { text: 'Rapid quenching prevents diffusion-controlled decomposition into ferrite + cementite.', latex: null },
         { text: 'Instead, a diffusionless shear transformation produces martensite (BCT structure), which is very hard but brittle.', latex: null },
       ],
-      handbookPage: 'p. 116',
+      handbookPage: 'p. 117',
       handbookFormula: '\\text{Quenching austenite} \\rightarrow \\text{martensite}',
       videoUrl: null,
       traps: [
@@ -96,7 +96,7 @@ export default {
         { text: 'Identify tie-line endpoints at temperature T:', latex: 'x_\\alpha = 10 \\text{ wt\\%},\\quad x_L = 40 \\text{ wt\\%},\\quad x_0 = 30 \\text{ wt\\%}' },
         { text: 'Lever rule for liquid fraction:', latex: 'f_L = \\frac{x_0 - x_\\alpha}{x_L - x_\\alpha} = \\frac{30 - 10}{40 - 10} = \\frac{20}{30} = 0.667' },
       ],
-      handbookPage: 'p. 127',
+      handbookPage: 'p. 128',
       handbookFormula: 'f_\\alpha = \\frac{x_L - x_0}{x_L - x_\\alpha}',
       videoUrl: null,
       traps: [

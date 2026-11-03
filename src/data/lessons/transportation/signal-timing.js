@@ -36,7 +36,7 @@ export default {
         { text: 'Convert speed:', latex: 'v = 50 \\times 1.467 = 73.3 \\text{ ft/sec}' },
         { text: 'Yellow interval (level grade):', latex: 'y = 1.0 + \\frac{73.3}{2 \\times 10} = 1.0 + \\frac{73.3}{20} = 1.0 + 3.67 = 4.7 \\text{ sec}' },
       ],
-      handbookPage: 'p. 300',
+      handbookPage: 'p. 306',
       handbookFormula: 'y = t + \\frac{v}{2a \\pm 64.4G}',
       videoUrl: null,
       traps: [
@@ -62,7 +62,7 @@ export default {
         { text: 'Convert speed:', latex: 'v = 50 \\times 1.467 = 73.3 \\text{ ft/sec}' },
         { text: 'Red clearance:', latex: 'r = \\frac{W + l}{v} = \\frac{60 + 20}{73.3} = \\frac{80}{73.3} = 1.1 \\text{ sec}' },
       ],
-      handbookPage: 'p. 300',
+      handbookPage: 'p. 306',
       handbookFormula: 'r = \\frac{W + l}{v}',
       videoUrl: null,
       traps: [
@@ -89,7 +89,7 @@ export default {
         { text: 'Pedestrian volume adjustment:', latex: '0.27 \\times N_{\\text{ped}} = 0.27 \\times 15 = 4.05 \\text{ sec}' },
         { text: 'Total pedestrian green:', latex: 'G_p = 3.2 + 16.0 + 4.05 = 23.3 \\text{ sec}' },
       ],
-      handbookPage: 'p. 300',
+      handbookPage: 'p. 306',
       handbookFormula: 'G_p = 3.2 + \\frac{L}{S_p} + 0.27 N_{\\text{ped}}',
       videoUrl: null,
       traps: [

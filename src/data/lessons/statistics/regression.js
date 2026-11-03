@@ -45,7 +45,7 @@ export default {
         { text: 'Divide:', latex: 'b = \\frac{700}{200} = 3.5' },
         { text: 'TI-36X Pro: [data] \u2192 enter all 5 $(x, y)$ pairs in L1/L2 \u2192 [2nd][data] (stat) \u2192 LinReg \u2192 read the slope $b = 3.5$.', latex: null },
       ],
-      handbookPage: 'p. 69',
+      handbookPage: 'p. 70',
       handbookFormula: 'b = \\frac{n\\sum x_i y_i - \\sum x_i \\sum y_i}{n\\sum x_i^2 - (\\sum x_i)^2}',
       videoUrl: null,
       traps: [
@@ -71,7 +71,7 @@ export default {
         { text: 'The coefficient of determination is $R^2 = r^2$.', latex: null },
         { text: 'Compute:', latex: 'R^2 = (-0.92)^2 = 0.8464 = 84.6\\%' },
       ],
-      handbookPage: 'p. 70',
+      handbookPage: 'p. 71',
       handbookFormula: 'R^2 = r^2',
       videoUrl: null,
       traps: [
@@ -98,7 +98,7 @@ export default {
         { text: 'Write the regression equation:', latex: '\\hat{y} = 12 + 4.2x' },
         { text: 'Predict at $x = 20$:', latex: '\\hat{y} = 12 + 4.2(20) = 12 + 84 = 96\\,\\text{kPa}' },
       ],
-      handbookPage: 'p. 69',
+      handbookPage: 'p. 70',
       handbookFormula: 'a = \\bar{y} - b\\bar{x}',
       videoUrl: null,
       traps: [

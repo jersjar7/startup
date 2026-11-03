@@ -5,7 +5,7 @@ import '../packs/drawing/figure_text.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
-/// The MACRS percentages, exactly as the handbook prints them on p. 231.
+/// The MACRS percentages, exactly as the handbook prints them on p. 237.
 ///
 /// Keyed by recovery period. Note the lengths: a three year property is
 /// depreciated over four years and a five year property over six, because the

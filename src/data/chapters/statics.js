@@ -9,11 +9,11 @@ export default {
       application: 'Centroids locate the neutral axis of composite beam cross-sections and the point of application of distributed loads. Moments of inertia control how much a beam bends and where it fails in flexure. You compute these for composite sections using the parallel axis theorem: built-up steel columns, reinforced concrete T-beams, and timber box beams all require combining individual shape properties about a common axis.' },
   ],
   formulas: [
-    { latex: '\\sum F_x = 0,\\quad \\sum F_y = 0,\\quad \\sum M = 0', label: 'Equilibrium Equations', page: 'p. 94' },
-    { latex: '\\bar{x} = \\frac{\\sum A_i x_i}{\\sum A_i}', label: 'Composite Centroid', page: 'p. 95' },
-    { latex: 'I_x = \\bar{I}_x + Ad^2', label: 'Parallel Axis Theorem', page: 'p. 95' },
-    { latex: 'F \\leq \\mu_s N', label: 'Static Friction', page: 'p. 96' },
-    { latex: 'M = r \\times F', label: 'Moment of a Force', page: 'p. 94' },
+    { latex: '\\sum F_x = 0,\\quad \\sum F_y = 0,\\quad \\sum M = 0', label: 'Equilibrium Equations', page: 'p. 95' },
+    { latex: '\\bar{x} = \\frac{\\sum A_i x_i}{\\sum A_i}', label: 'Composite Centroid', page: 'p. 96' },
+    { latex: 'I_x = \\bar{I}_x + Ad^2', label: 'Parallel Axis Theorem', page: 'p. 96' },
+    { latex: 'F \\leq \\mu_s N', label: 'Static Friction', page: 'p. 97' },
+    { latex: 'M = r \\times F', label: 'Moment of a Force', page: 'p. 95' },
     { latex: 'F_{out} = F_{in}\\,\\frac{a_{in}}{a_{out}}', label: 'Lever / Machine (mechanical advantage)', page: null, inHandbook: false },
   ],
   traps: [

@@ -264,7 +264,7 @@ const PROBLEMS = [
       { text: 'Free float of C uses the earliest of its successors\' early starts:', latex: 'FF_C = \\min(ES_E, ES_F) - EF_C = \\min(9, 12) - 7 = 2 \\text{ days}' },
       { text: 'Check against total float from the backward pass: LS(E) = 11, LS(F) = 12, so LF(C) = 11 and TF(C) = 11 - 7 = 4 days. Free float (2) is never more than total float (4).', latex: null },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'FF = \\min(ES_{succ}) - EF;\\quad TF = LS - ES = LF - EF',
     traps: [
       'Reporting total float when free float is asked',
@@ -353,7 +353,7 @@ const PROBLEMS = [
       { text: 'Estimate to complete:', latex: 'ETC = \\frac{BAC - BCWP}{CPI} = \\frac{3{,}000 - 1{,}080}{0.90} = 2{,}133' },
       { text: 'Estimate at completion:', latex: 'EAC = ACWP + ETC = 1{,}200 + 2{,}133 = 3{,}333 \\text{ thousand dollars}' },
     ],
-    handbookPage: 'p. 311',
+    handbookPage: 'p. 317',
     handbookFormula: 'EAC = ACWP + \\frac{BAC - BCWP}{CPI}',
     traps: [
       'Stopping at the estimate to complete and not adding the cost already spent',
@@ -520,7 +520,7 @@ const PROBLEMS = [
       { text: 'Loose volume:', latex: 'V_L = 15{,}960 \\times 1.25 = 19{,}950 \\text{ yd}^3' },
       { text: 'Truckloads:', latex: 'N = \\frac{19{,}950}{14} = 1{,}425' },
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 265',
     handbookFormula: '\\gamma_d = \\frac{\\gamma}{1 + w};\\quad V_{borrow} = V_{fill}\\frac{\\gamma_{d,fill}}{\\gamma_{d,borrow}}',
     traps: [
       'Using the total (moist) unit weight of the borrow instead of its dry unit weight',

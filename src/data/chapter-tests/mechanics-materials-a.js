@@ -38,7 +38,7 @@ const PROBLEMS = [
       { text: 'Moment at B is the running sum.', latex: 'M_B = 0 + 33 - 57 = -24\\ \\text{kip-ft}' },
       { text: 'Check from the free end: the overhang area is (6.0)(4) = +24, and M_C must be zero.', latex: 'M_C = -24 + 24 = 0\\ \\checkmark' },
     ],
-    handbookPage: 'p. 134',
+    handbookPage: 'p. 135',
     handbookFormula: 'M_2 - M_1 = \\int_{x_1}^{x_2} V(x)\\,dx',
     traps: [
       'Adding shear areas without their signs.',
@@ -81,7 +81,7 @@ const PROBLEMS = [
       { text: 'Just left of the couple, at x = L/3:', latex: 'M = -\\frac{M_0}{L}\\cdot\\frac{L}{3} = -\\frac{M_0}{3}' },
       { text: 'A clockwise applied couple makes the moment jump by +M0, and the line returns to zero at B.', latex: 'M = -\\frac{M_0}{3} + M_0 = +\\frac{2M_0}{3}' },
     ],
-    handbookPage: 'p. 134',
+    handbookPage: 'p. 135',
     handbookFormula: 'V = \\frac{dM(x)}{dx}',
     traps: [
       'Treating a couple like a point force and drawing a peak.',
@@ -120,7 +120,7 @@ const PROBLEMS = [
       { text: 'It acts at the centroid, one third of the height above the base.', latex: '\\bar{y} = \\frac{10}{3} = 3.33\\ \\text{ft}' },
       { text: 'Moment at the fixed base.', latex: 'M = (3.0)(3.33) = 10\\ \\text{kip-ft}\\quad \\left(=\\tfrac{w_0 L^2}{6}\\right)' },
     ],
-    handbookPage: 'p. 140',
+    handbookPage: 'p. 141',
     handbookFormula: 'M_{max} = \\frac{w_0 L^2}{6}\\ \\text{at the fixed end}',
     traps: [
       'Using w L^2/2 as if the load were uniform.',
@@ -159,7 +159,7 @@ const PROBLEMS = [
       { text: 'One bolt per side carries the full load through two shear planes (double shear).', latex: 'V_{plane} = \\frac{18}{2} = 9.0\\ \\text{kips}' },
       { text: 'Average shear stress.', latex: '\\tau = \\frac{P}{2A} = \\frac{18}{2(0.442)} = 20.4\\ \\text{ksi}' },
     ],
-    handbookPage: 'p. 130',
+    handbookPage: 'p. 131',
     handbookFormula: '\\tau_{avg} = \\frac{P}{nA}\\ (n = \\text{number of shear planes, from } \\sigma = P/A)',
     traps: [
       'Single shear instead of double shear.',
@@ -198,7 +198,7 @@ const PROBLEMS = [
       { text: 'Radius in inches.', latex: 'r = \\frac{30(12)}{2} = 180\\ \\text{in.}' },
       { text: 'Thin-wall hoop stress (t/r = 0.003, well under 0.1).', latex: '\\sigma_t = \\frac{p r}{t} = \\frac{(34.7)(180)}{0.50} = 12{,}480\\ \\text{psi} \\approx 12.5\\ \\text{ksi}' },
     ],
-    handbookPage: 'p. 131',
+    handbookPage: 'p. 132',
     handbookFormula: '\\sigma_t = \\frac{P_i r}{t}',
     traps: [
       'Using the diameter instead of the radius.',
@@ -241,7 +241,7 @@ const PROBLEMS = [
       { text: 'Moment at the base, in kip-in.', latex: 'M = (0.80)(10)(12) = 96\\ \\text{kip-in.}' },
       { text: 'Maximum bending stress, c = outside radius.', latex: '\\sigma = \\frac{Mc}{I} = \\frac{(96)(3.3125)}{28.1} = 11.3\\ \\text{ksi}' },
     ],
-    handbookPage: 'p. 135',
+    handbookPage: 'p. 136',
     handbookFormula: '\\sigma_x = \\pm \\frac{Mc}{I}',
     traps: [
       'Using the solid-section I for a hollow pipe.',
@@ -285,7 +285,7 @@ const PROBLEMS = [
       { text: 'Shear flow at the joint.', latex: 'q = \\frac{VQ}{I} = \\frac{600(53.3)}{492} = 65.0\\ \\text{lb/in.}' },
       { text: 'Nail spacing.', latex: 's = \\frac{F_{nail}}{q} = \\frac{250}{65.0} = 3.84\\ \\text{in.}' },
     ],
-    handbookPage: 'p. 135',
+    handbookPage: 'p. 136',
     handbookFormula: 'q = \\frac{VQ}{I}',
     traps: [
       'Taking Q at the neutral axis instead of at the joint.',
@@ -327,7 +327,7 @@ const PROBLEMS = [
       { text: 'The gap takes 0.040 in.; the rest is prevented by the abutment.', latex: '\\delta_{prevented} = 0.1755 - 0.040 = 0.1355\\ \\text{in.}' },
       { text: 'Compatibility: the wall force must shorten the rod by that amount, PL/AE = 0.1355.', latex: '\\sigma = \\frac{P}{A} = \\frac{E\\,\\delta_{prevented}}{L} = \\frac{29{,}000(0.1355)}{300} = 13.1\\ \\text{ksi (compression)}' },
     ],
-    handbookPage: 'p. 130',
+    handbookPage: 'p. 131',
     handbookFormula: '\\delta_t = \\alpha L (T - T_o),\\qquad \\delta = \\frac{PL}{AE}',
     traps: [
       'Ignoring the gap.',
@@ -370,7 +370,7 @@ const PROBLEMS = [
       { text: 'Sum the segment twists.', latex: '\\phi_{C/A} = \\frac{(-1.8)(0.6) + (1.2)(0.4)}{GJ}\\times 10^3 = \\frac{-600}{(80\\times10^9)(6.14\\times10^{-7})} = -0.0122\\ \\text{rad}' },
       { text: 'Convert to degrees.', latex: '|\\phi_C| = 0.0122 \\times \\frac{180}{\\pi} = 0.70^{\\circ}' },
     ],
-    handbookPage: 'p. 133',
+    handbookPage: 'p. 134',
     handbookFormula: '\\phi = \\frac{TL}{GJ}',
     traps: [
       'Using I instead of J.',
@@ -412,7 +412,7 @@ const PROBLEMS = [
       { text: 'Span in inches and E in psi.', latex: 'L = 180\\ \\text{in.},\\qquad E = 1.6\\times10^6\\ \\text{psi}' },
       { text: 'Midspan deflection for a uniform load.', latex: '\\delta = \\frac{5wL^4}{384EI} = \\frac{5(4.44)(180)^4}{384(1.6\\times10^6)(98.9)} = 0.384\\ \\text{in.}' },
     ],
-    handbookPage: 'p. 139',
+    handbookPage: 'p. 140',
     handbookFormula: 'v_{max} = \\frac{5wL^4}{384EI}',
     traps: [
       'Forgetting the tributary width (spacing) of the joist.',
@@ -451,7 +451,7 @@ const PROBLEMS = [
       { text: 'Moment from the eccentricity.', latex: 'M = Pe = (120{,}000)(4) = 480{,}000\\ \\text{lb-in.}' },
       { text: 'Combine axial and bending stress on the face nearer the load.', latex: '\\sigma_{max} = \\frac{P}{A} + \\frac{M}{S} = 312.5 + 312.5 = 625\\ \\text{psi}' },
     ],
-    handbookPage: 'p. 135',
+    handbookPage: 'p. 136',
     handbookFormula: '\\sigma = \\frac{P}{A} \\pm \\frac{Mc}{I}',
     traps: [
       'Forgetting the bending part of an eccentric load.',
@@ -493,7 +493,7 @@ const PROBLEMS = [
       { text: 'Half the difference of the normal stresses.', latex: '\\frac{\\sigma_x - \\sigma_y}{2} = \\frac{-45 - 75}{2} = -60\\ \\text{MPa}' },
       { text: 'Radius of Mohr\'s circle = maximum in-plane shear stress.', latex: '\\tau_{max,in} = R = \\sqrt{60^2 + 32^2} = 68\\ \\text{MPa}' },
     ],
-    handbookPage: 'p. 132-133',
+    handbookPage: 'p. 133-134',
     handbookFormula: 'R = \\sqrt{\\left(\\frac{\\sigma_x - \\sigma_y}{2}\\right)^2 + \\tau_{xy}^2},\\qquad \\tau_{in} = R',
     traps: [
       'Dropping the minus sign on the compressive stress, which gives (45 - 75)/2 = -15 and R = 35.',
@@ -536,7 +536,7 @@ const PROBLEMS = [
       { text: 'Mohr\'s circle center and radius.', latex: 'C = \\frac{60 + 30}{2} = 45,\\qquad R = \\sqrt{15^2 + 13.3^2} = 20.0\\ \\text{MPa}' },
       { text: 'Maximum principal stress.', latex: '\\sigma_1 = C + R = 45 + 20.0 = 65.0\\ \\text{MPa}' },
     ],
-    handbookPage: 'p. 131-134',
+    handbookPage: 'p. 132-135',
     handbookFormula: '\\sigma_t = \\frac{Pr}{t},\\ \\sigma_a = \\frac{Pr}{2t},\\ \\tau = \\frac{T}{2A_m t},\\ \\sigma_{1} = C + R',
     traps: [
       'Ignoring the axial stress from the end caps.',

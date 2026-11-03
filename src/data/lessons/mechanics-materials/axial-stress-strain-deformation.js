@@ -20,7 +20,7 @@ export default {
     { type: 'text', body: 'Valid only in the elastic range (below the proportional limit). This connects stress, strain, and modulus in one equation.' },
     { type: 'callout', variant: 'tip', body: 'Three quantities, three formulas. If you know any two of stress, strain, and deformation, you can find the third. Decision tree: need stress? \u03C3 = P/A. Need deformation? \u03B4 = PL/AE. Need strain? \u03B5 = \u03B4/L.' },
     { type: 'callout', variant: 'warning', body: 'Watch the units. If E is in GPa and A is in mm\u00B2, keep P in N and L in mm. Mixing m and mm is the most common source of wrong answers.' },
-    { type: 'callout', variant: 'exam', body: 'If a problem says "a steel rod" without giving E, use 200 GPa (or 29,000 ksi). The handbook\'s material properties table (p. 137) has values for common materials.' },
+    { type: 'callout', variant: 'exam', body: 'If a problem says "a steel rod" without giving E, use 200 GPa (or 29,000 ksi). The handbook\'s material properties table (p. 138) has values for common materials.' },
   ],
   illustration: null,
   problems: [
@@ -41,7 +41,7 @@ export default {
         { text: 'Cross-sectional area:', latex: 'A = \\frac{\\pi d^2}{4} = \\frac{\\pi (20)^2}{4} = 314.2 \\text{ mm}^2' },
         { text: 'Axial stress:', latex: '\\sigma = \\frac{P}{A} = \\frac{15{,}000}{314.2} = 47.7 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 130',
+      handbookPage: 'p. 131',
       handbookFormula: '\\sigma = \\frac{P}{A}',
       videoUrl: null,
       traps: [
@@ -68,7 +68,7 @@ export default {
         { text: 'Convert length to mm:', latex: 'L = 2.5 \\text{ m} = 2{,}500 \\text{ mm}' },
         { text: 'Elongation:', latex: '\\delta = \\frac{PL}{AE} = \\frac{120{,}000 \\times 2{,}500}{1{,}500 \\times 70{,}000} = \\frac{300{,}000{,}000}{105{,}000{,}000} = 2.86 \\text{ mm}' },
       ],
-      handbookPage: 'p. 130',
+      handbookPage: 'p. 131',
       handbookFormula: '\\delta = \\frac{PL}{AE}',
       videoUrl: null,
       traps: [
@@ -96,7 +96,7 @@ export default {
         { text: 'Free thermal expansion (if unconstrained):', latex: '\\delta_t = \\alpha L \\Delta T = 11.7 \\times 10^{-6} \\times 1{,}000 \\times 50 = 0.585 \\text{ mm}' },
         { text: 'Since the bar is fully restrained, the walls prevent this expansion. The thermal stress is:', latex: '\\sigma = E \\alpha \\Delta T = 200{,}000 \\times 11.7 \\times 10^{-6} \\times 50 = 117 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 130',
+      handbookPage: 'p. 131',
       handbookFormula: '\\delta_t = \\alpha L(T - T_0)',
       videoUrl: null,
       traps: [

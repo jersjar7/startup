@@ -42,7 +42,7 @@ export default {
         { text: 'Conservation of momentum:', latex: 'm_1 v_1 + m_2 v_2 = (m_1 + m_2)v\'' },
         { text: 'Solve:', latex: '2{,}000(15) + 1{,}000(0) = 3{,}000 \\cdot v\' \\implies v\' = \\frac{30{,}000}{3{,}000} = 10.0 \\text{ m/s}' },
       ],
-      handbookPage: 'p. 108',
+      handbookPage: 'p. 109',
       handbookFormula: 'm_1 v_1 + m_2 v_2 = m_1 v_1\' + m_2 v_2\'',
       videoUrl: null,
       traps: [
@@ -70,7 +70,7 @@ export default {
         { text: 'Add the two equations:', latex: '2v_2\' = 12 \\implies v_2\' = 6 \\text{ m/s}' },
         { text: 'Subtract to find the striking ball:', latex: 'v_1\' = 8 - 6 = 2.0 \\text{ m/s}' },
       ],
-      handbookPage: 'p. 108',
+      handbookPage: 'p. 109',
       handbookFormula: 'e = \\frac{v_2\' - v_1\'}{v_1 - v_2}',
       videoUrl: null,
       traps: [
@@ -98,7 +98,7 @@ export default {
         { text: 'Change in momentum:', latex: '|\\Delta p| = 1{,}500 \\times 20 = 30{,}000 \\text{ kg}{\\cdot}\\text{m/s}' },
         { text: 'Average force:', latex: 'F_{avg} = \\frac{30{,}000}{0.15} = 200{,}000 \\text{ N}' },
       ],
-      handbookPage: 'p. 107',
+      handbookPage: 'p. 108',
       handbookFormula: 'm v_1 + \\int F \\, dt = m v_2',
       videoUrl: null,
       traps: [

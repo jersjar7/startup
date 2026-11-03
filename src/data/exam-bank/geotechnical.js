@@ -34,7 +34,7 @@ const PROBLEMS = [
         latex: 'n = \\frac{e}{1+e} = \\frac{0.65}{1+0.65} = \\frac{0.65}{1.65} = 0.394'
       }
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 265',
     handbookFormula: 'n = \\frac{e}{1+e}',
     videoUrl: null,
     traps: ['Confusing void ratio (e) with porosity (n) and reporting e as the answer'],
@@ -78,7 +78,7 @@ const PROBLEMS = [
         latex: 'Se = \\omega G_s \\implies (1)e = \\omega G_s \\implies e = \\omega G_s'
       }
     ],
-    handbookPage: 'p. 260',
+    handbookPage: 'p. 266',
     handbookFormula: 'Se = \\omega G_s',
     videoUrl: null,
     traps: [
@@ -124,7 +124,7 @@ const PROBLEMS = [
         latex: '\\gamma_d = \\frac{125}{1+0.22} = \\frac{125}{1.22} = 102.5 \\text{ pcf}'
       }
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 265',
     handbookFormula: '\\gamma_d = \\frac{\\gamma}{1+\\omega}',
     videoUrl: null,
     traps: [
@@ -174,7 +174,7 @@ const PROBLEMS = [
         latex: 'S = \\frac{\\omega G_s}{e}'
       }
     ],
-    handbookPage: 'p. 259-260',
+    handbookPage: 'p. 265-266',
     handbookFormula: 'S = \\frac{\\omega G_s}{e}',
     videoUrl: null,
     traps: [
@@ -216,7 +216,7 @@ const PROBLEMS = [
         latex: 'C_u = \\frac{D_{60}}{D_{10}} = \\frac{10}{0.25} = 40'
       }
     ],
-    handbookPage: 'p. 267',
+    handbookPage: 'p. 273',
     handbookFormula: 'C_u = \\frac{D_{60}}{D_{10}}',
     videoUrl: null,
     traps: [
@@ -270,7 +270,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 267',
+    handbookPage: 'p. 273',
     handbookFormula: '\\text{A-line: } PI = 0.73(LL - 20)',
     videoUrl: null,
     traps: ['Confusing above/below the A-line -- above is clay (C), below is silt (M)'],
@@ -322,7 +322,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 267',
+    handbookPage: 'p. 273',
     handbookFormula: 'C_u = \\frac{D_{60}}{D_{10}}, \\quad C_c = \\frac{(D_{30})^2}{D_{10} \\times D_{60}}',
     videoUrl: null,
     traps: [
@@ -376,7 +376,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 267',
+    handbookPage: 'p. 273',
     handbookFormula: 'PI = LL - PL, \\quad \\text{A-line: } PI = 0.73(LL - 20)',
     videoUrl: null,
     traps: [
@@ -427,7 +427,7 @@ const PROBLEMS = [
         latex: '\\sigma\' = \\sigma - u \\implies \\Delta\\sigma\' = q'
       }
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: '\\sigma\' = \\sigma - u',
     videoUrl: null,
     traps: [
@@ -477,7 +477,7 @@ const PROBLEMS = [
         latex: '\\sigma\' = 944 - 499 = 445 \\text{ psf}'
       }
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: '\\sigma\' = \\sigma - u',
     videoUrl: null,
     traps: [
@@ -528,7 +528,7 @@ const PROBLEMS = [
         latex: '\\Delta \\sigma\' = \\Delta \\sigma - \\Delta u = -50 - (-312) = +262 \\text{ psf (increase)}'
       }
     ],
-    handbookPage: 'p. 263-264',
+    handbookPage: 'p. 269-270',
     handbookFormula: '\\sigma\' = \\sigma - u',
     videoUrl: null,
     traps: [
@@ -578,7 +578,7 @@ const PROBLEMS = [
         latex: '\\sigma\' = 2{,}440 - 998 = 1{,}442 \\text{ psf}'
       }
     ],
-    handbookPage: 'p. 263-264',
+    handbookPage: 'p. 269-270',
     handbookFormula: '\\sigma\' = \\sigma - u',
     videoUrl: null,
     traps: [
@@ -657,7 +657,7 @@ const PROBLEMS = [
         latex: '\\Delta H = 0.468 \\text{ ft} = 5.6 \\text{ in.}'
       }
     ],
-    handbookPage: 'p. 261',
+    handbookPage: 'p. 267',
     handbookFormula: '\\Delta H = \\frac{H_0}{1+e_0} C_c \\log \\frac{p_0 + \\Delta p}{p_0}',
     videoUrl: null,
     traps: [
@@ -707,7 +707,7 @@ const PROBLEMS = [
         latex: 'H_{dr} = H = 20 \\text{ ft}'
       }
     ],
-    handbookPage: 'p. 262',
+    handbookPage: 'p. 268',
     handbookFormula: 'T_v = \\frac{c_v \\cdot t}{H_{dr}^2}',
     videoUrl: null,
     traps: [
@@ -763,7 +763,7 @@ const PROBLEMS = [
         latex: 't = \\frac{0.848 \\times 64}{0.40} = \\frac{54.3}{0.40} = 136 \\text{ days}'
       }
     ],
-    handbookPage: 'p. 262',
+    handbookPage: 'p. 268',
     handbookFormula: 'T_v = \\frac{c_v \\cdot t}{H_{dr}^2}',
     videoUrl: null,
     traps: [
@@ -814,7 +814,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 261',
+    handbookPage: 'p. 267',
     handbookFormula: '\\Delta H = \\frac{H_0}{1+e_0} C_r \\log \\frac{p_0 + \\Delta p}{p_0}',
     videoUrl: null,
     traps: [
@@ -861,7 +861,7 @@ const PROBLEMS = [
         latex: '\\tau_f = 2{,}000 \\times 0.7002 = 1{,}400 \\text{ psf}'
       }
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: '\\tau_f = c + \\sigma_N \\tan \\phi',
     videoUrl: null,
     traps: [
@@ -911,7 +911,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 262-263',
+    handbookPage: 'p. 268-269',
     handbookFormula: '\\tau_f = c_u \\quad (\\phi_u = 0)',
     videoUrl: null,
     traps: [
@@ -957,7 +957,7 @@ const PROBLEMS = [
         latex: '\\phi = \\arcsin(0.50) = 30\\degree'
       }
     ],
-    handbookPage: 'p. 262',
+    handbookPage: 'p. 268',
     handbookFormula: '\\sin \\phi = \\frac{\\sigma_1 - \\sigma_3}{\\sigma_1 + \\sigma_3}',
     videoUrl: null,
     traps: [
@@ -1008,7 +1008,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 262-263',
+    handbookPage: 'p. 268-269',
     handbookFormula: '\\tau_f = c_u \\quad (\\phi_u = 0)',
     videoUrl: null,
     traps: [
@@ -1058,7 +1058,7 @@ const PROBLEMS = [
         latex: 'q_u = 80(5.7) + 18(1.0) + 0 = 456 + 18 = 474\\,\\text{kPa}'
       }
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: 'q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma',
     videoUrl: null,
     traps: ['Forgetting the overburden term $qN_q$', 'Using depth instead of width for the $N_\\gamma$ term'],
@@ -1113,7 +1113,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: 'q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma',
     videoUrl: null,
     traps: ['Thinking depth affects the width term (it does not, since B is width, not depth)'],
@@ -1161,7 +1161,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: 'q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma',
     videoUrl: null,
     traps: [
@@ -1224,7 +1224,7 @@ const PROBLEMS = [
         latex: 'q_{allow} = \\frac{625.6}{3} = 208.5 \\approx 209\\,\\text{kPa}'
       }
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: 'q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma',
     videoUrl: null,
     traps: [
@@ -1282,7 +1282,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: 'K_0 = 1 - \\sin \\phi',
     videoUrl: null,
     traps: [
@@ -1328,7 +1328,7 @@ const PROBLEMS = [
         latex: 'P_a = \\frac{1}{2} \\times \\frac{1}{3} \\times 110 \\times 20^2 = \\frac{1}{2} \\times \\frac{1}{3} \\times 110 \\times 400 = 7{,}330 \\text{ lb/ft}'
       }
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: 'P_a = \\frac{1}{2} K_a \\gamma H^2',
     videoUrl: null,
     traps: [
@@ -1385,7 +1385,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: 'K_a = \\tan^2(45\\degree - \\phi/2), \\quad K_p = \\tan^2(45\\degree + \\phi/2)',
     videoUrl: null,
     traps: [
@@ -1435,7 +1435,7 @@ const PROBLEMS = [
         latex: '\\frac{K_0}{K_a} = \\frac{0.500}{0.333} = 1.50'
       }
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: 'K_a = \\tan^2(45\\degree - \\phi/2), \\quad K_0 = 1 - \\sin \\phi',
     videoUrl: null,
     traps: [
@@ -1478,7 +1478,7 @@ const PROBLEMS = [
         latex: 'FS = \\frac{\\Sigma F_R}{\\Sigma F_D} = \\frac{6{,}000}{3{,}000} = 2.0'
       }
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: 'FS_{\\text{sliding}} = \\frac{\\Sigma F_R}{\\Sigma F_D}',
     videoUrl: null,
     traps: ['Inverting the ratio -- FS is always resisting/driving, not driving/resisting'],
@@ -1526,7 +1526,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: 'q_{\\text{toe}} = \\frac{\\Sigma V}{B}\\left(1 + \\frac{6e}{B}\\right)',
     videoUrl: null,
     traps: [
@@ -1580,7 +1580,7 @@ const PROBLEMS = [
         latex: 'q_{\\text{toe}} = \\frac{10{,}000}{10}\\left(1 + \\frac{6 \\times 1.0}{10}\\right) = 1{,}000 \\times 1.60 = 1{,}600 \\text{ psf}'
       }
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: 'q_{\\text{toe}} = \\frac{\\Sigma V}{B}\\left(1 + \\frac{6e}{B}\\right)',
     videoUrl: null,
     traps: [
@@ -1637,7 +1637,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: 'FS_{\\text{sliding}} = \\frac{\\Sigma F_R}{\\Sigma F_D}',
     videoUrl: null,
     traps: [
@@ -1666,7 +1666,7 @@ const PROBLEMS = [
       { text: 'Apply Darcy velocity:', latex: 'v = k\\,i = (5\\times10^{-4})(0.4)' },
       { text: 'Compute:', latex: 'v = 2.0\\times10^{-4}\\text{ cm/s}' },
     ],
-    handbookPage: 'p. 291',
+    handbookPage: 'p. 297',
     handbookFormula: 'v = ki',
     videoUrl: null,
     traps: [
@@ -1695,7 +1695,7 @@ const PROBLEMS = [
       { text: 'Apply the dry infinite-slope formula:', latex: 'FS = \\frac{\\tan 38\\degree}{\\tan 25\\degree} = \\frac{0.7813}{0.4663}' },
       { text: 'Compute:', latex: 'FS = 1.68' },
     ],
-    handbookPage: 'p. 265',
+    handbookPage: 'p. 271',
     handbookFormula: 'FS = \\tan\\phi/\\tan\\beta',
     videoUrl: null,
     traps: [
@@ -1724,7 +1724,7 @@ const PROBLEMS = [
       { text: 'Apply the formula:', latex: 'RC = \\frac{112}{118} \\times 100' },
       { text: 'Compute:', latex: 'RC = 94.9\\%' },
     ],
-    handbookPage: 'p. 260',
+    handbookPage: 'p. 266',
     handbookFormula: 'RC = (\\gamma_{d,field}/\\gamma_{d,max}) \\times 100',
     videoUrl: null,
     traps: [

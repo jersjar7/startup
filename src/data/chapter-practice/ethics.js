@@ -470,7 +470,7 @@ const PROBLEMS = [
         latex: '20 - 3 = 17\\ \\text{years}'
       }
     ],
-    handbookPage: 'p. 12, Intellectual Property: Patents',
+    handbookPage: 'p. 13, Intellectual Property: Patents',
     handbookFormula:
       '\\text{Patent: exclusive right to make, use, sell an invention for 20 years from filing date.}',
     videoUrl: null,
@@ -527,7 +527,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 12, Intellectual Property: Patents',
+    handbookPage: 'p. 13, Intellectual Property: Patents',
     handbookFormula:
       '\\text{Patent requires public disclosure; trade secret requires maintained secrecy. The two are mutually exclusive.}',
     videoUrl: null,

@@ -39,7 +39,7 @@ export default {
         { text: 'Manning\'s equation (USCS):', latex: 'Q = \\frac{1.486}{0.013}(8)(1.0)^{2/3}(0.001)^{1/2}' },
         { text: 'Compute:', latex: 'Q = 114.3 \\times 8 \\times 1.0 \\times 0.0316 = 28.9 \\text{ ft}^3\\text{/s}' },
       ],
-      handbookPage: 'p. 297',
+      handbookPage: 'p. 303',
       handbookFormula: 'Q = \\frac{K}{n} A R_H^{2/3} S^{1/2}',
       videoUrl: null,
       traps: [
@@ -68,7 +68,7 @@ export default {
         { text: 'Evaluate powers:', latex: '(0.75)^{2/3} = 0.826, \\quad (0.002)^{1/2} = 0.04472' },
         { text: 'Compute:', latex: 'Q = 99.07 \\times 7.069 \\times 0.826 \\times 0.04472 = 25.9 \\text{ ft}^3\\text{/s}' },
       ],
-      handbookPage: 'p. 297',
+      handbookPage: 'p. 303',
       handbookFormula: 'Q = \\frac{K}{n} A R_H^{2/3} S^{1/2}',
       videoUrl: null,
       traps: [
@@ -95,7 +95,7 @@ export default {
         { text: 'Substitute:', latex: '\\frac{v_A}{v_B} = \\frac{0.025}{0.013} = 1.92' },
         { text: 'Channel A is about 1.9 times faster than Channel B.', latex: null },
       ],
-      handbookPage: 'p. 297',
+      handbookPage: 'p. 303',
       handbookFormula: 'v = \\frac{K}{n} R_H^{2/3} S^{1/2}',
       videoUrl: null,
       traps: [

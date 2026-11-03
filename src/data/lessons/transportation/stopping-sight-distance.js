@@ -39,7 +39,7 @@ export default {
         { text: 'Braking distance (level, $G = 0$):', latex: 'd_b = \\frac{60^2}{30\\left(\\dfrac{11.2}{32.2}\\right)} = \\frac{3{,}600}{10.43} = 345.1 \\text{ ft}' },
         { text: 'Total SSD:', latex: 'SSD = 220.5 + 345.1 = 565.6 \\approx 566 \\text{ ft}' },
       ],
-      handbookPage: 'p. 300',
+      handbookPage: 'p. 306',
       handbookFormula: 'SSD = 1.47 V t + \\frac{V^2}{30\\left(\\frac{a}{32.2} \\pm G\\right)}',
       videoUrl: null,
       traps: [
@@ -66,7 +66,7 @@ export default {
         { text: 'Braking distance with $G = -0.04$:', latex: 'd_b = \\frac{3{,}600}{30\\left(\\dfrac{11.2}{32.2} - 0.04\\right)} = \\frac{3{,}600}{30 \\times 0.308} = \\frac{3{,}600}{9.23} = 390 \\text{ ft}' },
         { text: 'Total SSD:', latex: 'SSD = 220.5 + 390 = 610 \\text{ ft}' },
       ],
-      handbookPage: 'p. 300',
+      handbookPage: 'p. 306',
       handbookFormula: 'SSD = 1.47 V t + \\frac{V^2}{30\\left(\\frac{a}{32.2} \\pm G\\right)}',
       videoUrl: null,
       traps: [
@@ -94,7 +94,7 @@ export default {
         { text: 'Peak 15-minute flow rate:', latex: '\\text{Flow rate} = 4 \\times V_{15} = 4 \\times 400 = 1{,}600 \\text{ veh/hr}' },
         { text: 'Equivalently: $V / PHF = 1{,}200 / 0.75 = 1{,}600$ veh/hr', latex: null },
       ],
-      handbookPage: 'p. 300',
+      handbookPage: 'p. 306',
       handbookFormula: 'PHF = \\frac{V}{4 \\times V_{15}}',
       videoUrl: null,
       traps: [

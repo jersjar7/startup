@@ -37,7 +37,7 @@ export default {
         { text: 'Nominal moment:', latex: 'M_n = A_s f_y \\left(d - \\frac{a}{2}\\right) = 180 \\left(18 - \\frac{4.41}{2}\\right)' },
         { text: 'Compute:', latex: 'M_n = 180 \\times 15.80 = 2{,}843 \\text{ kip-in} = 237 \\text{ kip-ft}' },
       ],
-      handbookPage: 'p. 275',
+      handbookPage: 'p. 281',
       handbookFormula: 'M_n = A_s f_y \\left(d - \\frac{a}{2}\\right)',
       videoUrl: null,
       traps: [
@@ -64,7 +64,7 @@ export default {
         { text: 'Design shear capacity:', latex: '\\phi V_c = 0.75 \\times 26.3 = 19.7 \\text{ kips}' },
         { text: 'Compare:', latex: 'V_u = 22 > \\phi V_c = 19.7 \\implies \\text{stirrups required with computed } V_s' },
       ],
-      handbookPage: 'p. 276',
+      handbookPage: 'p. 282',
       handbookFormula: 'V_c = 2\\lambda \\sqrt{f_c\'} \\, b_w d',
       videoUrl: null,
       traps: [
@@ -92,7 +92,7 @@ export default {
         { text: 'Required spacing:', latex: 's = \\frac{A_v f_y d}{V_s} = \\frac{0.22 \\times 60 \\times 24}{50.8} = \\frac{316.8}{50.8} = 6.2 \\text{ in.} \\rightarrow 6 \\text{ in.}' },
         { text: 'Check max spacing: $V_s = 50.8 < 4 b_w d \\sqrt{f_c\'}  = 85.2$ kips, so max $s = d/2 = 12$ in. Since $6 < 12$, use $s = 6$ in.', latex: null },
       ],
-      handbookPage: 'p. 276',
+      handbookPage: 'p. 282',
       handbookFormula: 's = \\frac{A_v f_y d}{V_s}',
       videoUrl: null,
       traps: [

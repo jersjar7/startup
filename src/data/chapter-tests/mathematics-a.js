@@ -34,7 +34,7 @@ const PROBLEMS = [
       { text: 'Substitute into the gas line equation and solve for $x$.', latex: 'x + 3(2x - 40) = 300 \\;\\Rightarrow\\; 7x = 420 \\;\\Rightarrow\\; x = 60\\ \\text{ft}' },
       { text: 'Back-substitute for $y$, then check in both equations.', latex: 'y = 2(60) - 40 = 80\\ \\text{ft};\\quad 60 + 3(80) = 300\\ \\checkmark' },
     ],
-    handbookPage: 'p. 36',
+    handbookPage: 'p. 37',
     handbookFormula: 'Ax + By + C = 0,\\quad y = mx + b',
     traps: [
       'Sign slips when isolating $y$: $2x - y = 40$ gives $y = 2x - 40$, not $2x + 40$.',
@@ -69,7 +69,7 @@ const PROBLEMS = [
       { text: 'Take the arctangent.', latex: '\\alpha = \\arctan 1.643 = 58.7^\\circ' },
       { text: 'Check with the line inclinations: they add because one slope is negative.', latex: '\\arctan 0.75 + \\arctan 0.40 = 36.87^\\circ + 21.80^\\circ = 58.67^\\circ' },
     ],
-    handbookPage: 'p. 36',
+    handbookPage: 'p. 37',
     handbookFormula: '\\alpha = \\arctan\\left[\\dfrac{m_2 - m_1}{1 + m_2 m_1}\\right]',
     traps: [
       'The denominator is $1 + m_1 m_2$; with a negative slope the product is negative and the denominator shrinks.',
@@ -104,8 +104,8 @@ const PROBLEMS = [
       { text: 'Point P is 10 ft from the left springing, so it is 30 ft from the crown.', latex: 'x = 40 - 10 = 30\\ \\text{ft}' },
       { text: 'Evaluate.', latex: 'h = 20\\left[1 - 0.5625\\right] = 8.75\\ \\text{ft}' },
     ],
-    handbookPage: 'p. 44',
-    handbookFormula: '(y - k)^2 = 2p(x - h)\\ \\text{(p. 44; for a vertical axis swap } x \\text{ and } y\\text{: } (x - h)^2 = 2p(y - k))',
+    handbookPage: 'p. 45',
+    handbookFormula: '(y - k)^2 = 2p(x - h)\\ \\text{(p. 45; for a vertical axis swap } x \\text{ and } y\\text{: } (x - h)^2 = 2p(y - k))',
     traps: [
       'Measure $x$ from the vertex (the crown), not from the support where the distance was given.',
       'The parabola reaches zero at the half span, 40 ft, not at the full span.',
@@ -140,7 +140,7 @@ const PROBLEMS = [
       { text: 'Solve for $x$.', latex: 'x = \\dfrac{150(0.3346)}{0.6069 - 0.3346} = 184.4\\ \\text{ft}' },
       { text: 'Find the height and check it from A.', latex: 'h = 184.4(0.6069) = 111.9\\ \\text{ft};\\quad (184.4 + 150)(0.3346) = 111.9\\ \\checkmark' },
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: '\\tan\\theta = y/x',
     traps: [
       'The 150.0 ft is the distance between the stations, not to the tower; one tangent alone cannot give the height.',
@@ -175,7 +175,7 @@ const PROBLEMS = [
       { text: 'Find the decay rate from the 3 hour reading.', latex: 'k = \\dfrac{\\ln(2.0/1.4)}{3.0} = \\dfrac{0.3567}{3.0} = 0.1189\\ \\text{h}^{-1}' },
       { text: 'Solve for the time to reach 0.5 mg/L, measured from the start.', latex: 't = \\dfrac{\\ln(2.0/0.5)}{k} = \\dfrac{1.3863}{0.1189} = 11.7\\ \\text{h}' },
     ],
-    handbookPage: 'p. 36',
+    handbookPage: 'p. 37',
     handbookFormula: '\\log_b(x) = c \\text{ where } b^c = x;\\ \\ln x \\text{ is base } e',
     traps: [
       'Decay is exponential: equal fractions per hour, not equal amounts.',
@@ -210,7 +210,7 @@ const PROBLEMS = [
       { text: 'Hold $y$ constant and differentiate each term with respect to $x$.', latex: '\\dfrac{\\partial}{\\partial x}(120) = 0,\\quad \\dfrac{\\partial}{\\partial x}(0.04x^2) = 0.08x,\\quad \\dfrac{\\partial}{\\partial x}(-0.03xy) = -0.03y' },
       { text: 'Add the terms.', latex: '\\dfrac{\\partial z}{\\partial x} = 0.08x - 0.03y' },
     ],
-    handbookPage: 'p. 46',
+    handbookPage: 'p. 47',
     handbookFormula: '\\dfrac{\\partial z}{\\partial x} = \\dfrac{\\partial f(x, y)}{\\partial x}\\ \\text{with } y \\text{ held constant}',
     traps: [
       'Holding $y$ constant does not make the $xy$ term vanish; it becomes $y$ times the derivative of $x$.',
@@ -245,7 +245,7 @@ const PROBLEMS = [
       { text: 'Evaluate.', latex: '150(15) + 20(15)^2 = 2{,}250 + 4{,}500 = 6{,}750\\ \\text{lb}' },
       { text: 'Check with the trapezoid: average of the end intensities times the length.', latex: '\\tfrac{1}{2}(150 + 750)(15) = 6{,}750\\ \\text{lb}\\ \\checkmark' },
     ],
-    handbookPage: 'p. 50',
+    handbookPage: 'p. 51',
     handbookFormula: '\\int x^m\\,dx = \\dfrac{x^{m+1}}{m+1}',
     traps: [
       'The power rule divides by the new exponent: $\\int 40x\\,dx = 20x^2$.',
@@ -281,7 +281,7 @@ const PROBLEMS = [
       { text: 'Evaluate.', latex: 'A = (8 - 2.667) - (-8 + 2.667) = 10.67\\ \\text{ft}^2' },
       { text: 'Check with the Handbook parabola area, two thirds of the enclosing rectangle.', latex: 'A = \\tfrac{2}{3}bh = \\tfrac{2}{3}(8)(2) = 10.67\\ \\text{ft}^2\\ \\checkmark' },
     ],
-    handbookPage: 'p. 40',
+    handbookPage: 'p. 41',
     handbookFormula: 'A = \\tfrac{2}{3}bh\\ \\text{(parabolic segment)}',
     traps: [
       'Integrate top minus bottom: the water surface $y = 2$ minus the channel bottom.',
@@ -316,7 +316,7 @@ const PROBLEMS = [
       { text: 'Evaluate at $h = 6.0$ ft.', latex: '\\dfrac{dV}{dh} = 2{,}400(6) + 1{,}500(36) = 68{,}400\\ \\text{ft}^3/\\text{ft}' },
       { text: 'Apply the chain rule with the rate of rise.', latex: '\\dfrac{dV}{dt} = 68{,}400 \\times 0.40 = 27{,}360\\ \\text{ft}^3/\\text{hr}' },
     ],
-    handbookPage: 'p. 49',
+    handbookPage: 'p. 50',
     handbookFormula: '\\dfrac{d[f(u)]}{dx} = \\dfrac{d[f(u)]}{du}\\,\\dfrac{du}{dx}',
     traps: [
       'Check the units: ft³/ft times ft/hr gives ft³/hr. Without $dh/dt$ the units are wrong.',
@@ -352,7 +352,7 @@ const PROBLEMS = [
       { text: 'Divide by the 12 hour window.', latex: '\\bar{Q} = \\dfrac{1}{12}\\left[36 + 1.5(7.639)\\right] = 3 + \\dfrac{3}{\\pi} = 3.95\\ \\text{MGD}' },
     ],
     handbookPage: null,
-    handbookFormula: '\\bar{f} = \\dfrac{1}{b - a}\\int_a^b f(x)\\,dx;\\quad \\int \\sin x\\,dx = -\\cos x\\ \\text{(p. 50)}',
+    handbookFormula: '\\bar{f} = \\dfrac{1}{b - a}\\int_a^b f(x)\\,dx;\\quad \\int \\sin x\\,dx = -\\cos x\\ \\text{(p. 51)}',
     traps: [
       'Divide the integral by the length of the interval; the integral alone (47.5 MGD·h) is a total, not an average rate.',
       'Use radians: the argument $\\pi t/12$ runs from 0 to $\\pi$.',
@@ -388,7 +388,7 @@ const PROBLEMS = [
       { text: 'Divide.', latex: '\\bar{y} = \\dfrac{M_x}{A} = \\dfrac{16}{10.67} = 1.50\\ \\text{ft}' },
       { text: 'Check with horizontal strips of width $4 - y^2/4$.', latex: '\\bar{y} = \\dfrac{\\int_0^4 y\\,(4 - y^2/4)\\,dy}{\\int_0^4 (4 - y^2/4)\\,dy} = \\dfrac{16}{10.67} = 1.50\\ \\text{ft}\\ \\checkmark' },
     ],
-    handbookPage: 'p. 95',
+    handbookPage: 'p. 96',
     handbookFormula: 'y_c = \\dfrac{\\int y\\,dA}{A},\\quad A = \\int f(x)\\,dx',
     traps: [
       'With vertical strips the moment arm is $y/2$, not $y$.',
@@ -424,7 +424,7 @@ const PROBLEMS = [
       { text: 'Dot product and lengths.', latex: '\\overrightarrow{AB}\\cdot\\overrightarrow{AC} = -180 + 0 + 400 = 220;\\quad |AB| = \\sqrt{625} = 25,\\ |AC| = \\sqrt{625} = 25' },
       { text: 'Angle.', latex: '\\cos\\theta = \\dfrac{220}{(25)(25)} = 0.352 \\;\\Rightarrow\\; \\theta = 69.4^\\circ' },
     ],
-    handbookPage: 'p. 60',
+    handbookPage: 'p. 61',
     handbookFormula: '\\mathbf{A}\\cdot\\mathbf{B} = a_x b_x + a_y b_y + a_z b_z = |\\mathbf{A}||\\mathbf{B}|\\cos\\theta',
     traps: [
       'Vectors for an angle at A must start at A: subtract the coordinates of A from those of B and C.',
@@ -460,7 +460,7 @@ const PROBLEMS = [
       { text: 'Expand by components.', latex: 'M_x = (0)(-4) - (6)(-3) = 18;\\quad M_y = (6)(5) - (2)(-4) = 38;\\quad M_z = (2)(-3) - (0)(5) = -6' },
       { text: 'Result.', latex: '\\mathbf{M}_O = 18\\mathbf{i} + 38\\mathbf{j} - 6\\mathbf{k}\\ \\text{kN·m}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: 'M = r \\times F;\\ M_x = yF_z - zF_y,\\ M_y = zF_x - xF_z,\\ M_z = xF_y - yF_x',
     traps: [
       'The moment arm runs from the moment point O to the force, not from the coordinate origin.',
@@ -496,7 +496,7 @@ const PROBLEMS = [
       { text: 'Cross product.', latex: '\\overrightarrow{PQ} \\times \\overrightarrow{PR} = (0 \\cdot 1 - 3 \\cdot 5)\\mathbf{i} - (6 \\cdot 1 - 3 \\cdot 2)\\mathbf{j} + (6 \\cdot 5 - 0 \\cdot 2)\\mathbf{k} = -15\\mathbf{i} + 0\\mathbf{j} + 30\\mathbf{k}' },
       { text: 'Half the magnitude.', latex: 'A = \\tfrac{1}{2}\\sqrt{(-15)^2 + 0^2 + 30^2} = \\tfrac{1}{2}\\sqrt{1{,}125} = 16.8\\ \\text{m}^2' },
     ],
-    handbookPage: 'p. 60',
+    handbookPage: 'p. 61',
     handbookFormula: '|\\mathbf{A} \\times \\mathbf{B}| = |\\mathbf{A}||\\mathbf{B}|\\sin\\theta',
     traps: [
       'The cross product magnitude is the parallelogram; the triangle is half.',

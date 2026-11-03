@@ -42,7 +42,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 121',
+    handbookPage: 'p. 122',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -89,7 +89,7 @@ const PROBLEMS = [
         latex: '\\Delta L = \\varepsilon \\cdot L_0 = 1.25 \\times 10^{-3} \\times 200 = 0.25\\,\\text{mm}'
       }
     ],
-    handbookPage: 'p. 121',
+    handbookPage: 'p. 122',
     handbookFormula: '\\sigma = E\\varepsilon',
     videoUrl: null,
     traps: [
@@ -140,7 +140,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 121',
+    handbookPage: 'p. 122',
     handbookFormula: '\\sigma = E\\varepsilon',
     videoUrl: null,
     traps: [
@@ -195,7 +195,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 121',
+    handbookPage: 'p. 122',
     handbookFormula: '\\sigma_T = \\frac{F}{A}',
     videoUrl: null,
     traps: [
@@ -246,7 +246,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -293,7 +293,7 @@ const PROBLEMS = [
         latex: 'TS = 500 \\times 250 = 125{,}000\\,\\text{psi}'
       }
     ],
-    handbookPage: 'p. 122',
+    handbookPage: 'p. 123',
     handbookFormula: 'TS\\,(\\text{psi}) \\approx 500 \\times BHN',
     videoUrl: null,
     traps: [
@@ -344,7 +344,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 121',
+    handbookPage: 'p. 122',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -395,7 +395,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 121',
+    handbookPage: 'p. 122',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -446,7 +446,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 116',
+    handbookPage: 'p. 117',
     handbookFormula: '\\%CW = \\frac{A_0 - A_f}{A_0} \\times 100',
     videoUrl: null,
     traps: [
@@ -493,7 +493,7 @@ const PROBLEMS = [
         latex: '\\Delta L = \\alpha L \\Delta T = 23 \\times 10^{-6} \\times 6{,}000 \\times 35 = 4.83\\,\\text{mm}'
       }
     ],
-    handbookPage: 'p. 126',
+    handbookPage: 'p. 127',
     handbookFormula: '\\Delta L = \\alpha L \\Delta T',
     videoUrl: null,
     traps: [
@@ -544,7 +544,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 116',
+    handbookPage: 'p. 117',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -599,7 +599,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 116',
+    handbookPage: 'p. 117',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -650,7 +650,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: 'W/C = \\frac{\\text{weight of water}}{\\text{weight of cement}}',
     videoUrl: null,
     traps: [
@@ -700,7 +700,7 @@ const PROBLEMS = [
         latex: 'W/C_{\\text{new}} = \\frac{148.75}{350} = 0.425'
       }
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: 'W/C = \\frac{\\text{weight of water}}{\\text{weight of cement}}',
     videoUrl: null,
     traps: [
@@ -751,7 +751,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -802,7 +802,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -853,7 +853,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -903,7 +903,7 @@ const PROBLEMS = [
         latex: '0.12 \\times 5{,}000 = 600 \\text{ psi}'
       }
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -954,7 +954,7 @@ const PROBLEMS = [
         latex: 'f\'_{c,\\text{field}} = 0.55 \\times 5{,}000 = 2{,}750 \\text{ psi}'
       }
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: '\\text{Concrete strength vs. curing conditions (graph)}',
     videoUrl: null,
     traps: [
@@ -1009,7 +1009,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 125',
+    handbookPage: 'p. 126',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -1060,7 +1060,7 @@ const PROBLEMS = [
         latex: 'E_c = 44.6\\,\\text{GPa}'
       }
     ],
-    handbookPage: 'p. 123',
+    handbookPage: 'p. 124',
     handbookFormula: 'E_c = V_f E_f + V_m E_m',
     videoUrl: null,
     traps: [
@@ -1111,7 +1111,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 123',
+    handbookPage: 'p. 124',
     handbookFormula: null,
     videoUrl: null,
     traps: ['Thinking composites are isotropic, when they are anisotropic (direction-dependent)'],
@@ -1159,7 +1159,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 123',
+    handbookPage: 'p. 124',
     handbookFormula: '\\frac{1}{E_c} = \\frac{f_1}{E_1} + \\frac{f_2}{E_2}',
     videoUrl: null,
     traps: [
@@ -1210,7 +1210,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 123',
+    handbookPage: 'p. 124',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -1261,7 +1261,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 116',
+    handbookPage: 'p. 117',
     handbookFormula: 'M^0 \\rightarrow M^{n+} + ne^-',
     videoUrl: null,
     traps: [
@@ -1295,7 +1295,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The FE Handbook (p. 122) gives the approximation: $\\text{TS (psi)} \\approx 500 \\times \\text{BHN}$. Plugging in: $500 \\times 200 = 100{,}000$ psi. The 700 MPa choice uses the metric approximation $\\text{TS (MPa)} \\approx 3.5 \\times \\text{BHN} = 3.5 \\times 200 = 700$ MPa. That is also a correct conversion, but the question asks for the answer using the handbook relationship, and 100,000 psi is the direct result. The 57 psi choice divides BHN by something nonsensical. The 400,000 psi choice uses an incorrect multiplier of 2,000.',
+    eli5: 'The FE Handbook (p. 123) gives the approximation: $\\text{TS (psi)} \\approx 500 \\times \\text{BHN}$. Plugging in: $500 \\times 200 = 100{,}000$ psi. The 700 MPa choice uses the metric approximation $\\text{TS (MPa)} \\approx 3.5 \\times \\text{BHN} = 3.5 \\times 200 = 700$ MPa. That is also a correct conversion, but the question asks for the answer using the handbook relationship, and 100,000 psi is the direct result. The 57 psi choice divides BHN by something nonsensical. The 400,000 psi choice uses an incorrect multiplier of 2,000.',
     hint: 'The FE Handbook gives a direct multiplier to convert BHN to tensile strength in psi for plain carbon steels.',
     steps: [
       {
@@ -1307,7 +1307,7 @@ const PROBLEMS = [
         latex: '\\text{TS} \\approx 500 \\times 200 = 100{,}000 \\text{ psi}'
       }
     ],
-    handbookPage: 'p. 122',
+    handbookPage: 'p. 123',
     handbookFormula: '\\text{TS(psi)} \\simeq 500 \\text{ BHN}',
     videoUrl: null,
     traps: [
@@ -1358,7 +1358,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 116',
+    handbookPage: 'p. 117',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -1392,7 +1392,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The FE Handbook (p. 116) states directly: "Cold working (plastically deforming) a metal increases strength and lowers ductility." This is because cold working introduces dislocations into the crystal structure, which makes it harder for further deformation to occur (higher strength) but also reduces the material\'s ability to deform before fracture (lower ductility). This is a classic trade-off in materials science. The \"decreases strength and increases ductility\" choice is exactly backwards. The \"increases both strength and ductility\" choice sounds appealing but violates the fundamental strength-ductility trade-off. The \"decreases both strength and ductility\" choice is wrong on both counts. The question is hard because students often confuse cold working with heat treatment (annealing), which does the opposite -- it relieves internal stresses and restores ductility at the cost of strength.',
+    eli5: 'The FE Handbook (p. 117) states directly: "Cold working (plastically deforming) a metal increases strength and lowers ductility." This is because cold working introduces dislocations into the crystal structure, which makes it harder for further deformation to occur (higher strength) but also reduces the material\'s ability to deform before fracture (lower ductility). This is a classic trade-off in materials science. The \"decreases strength and increases ductility\" choice is exactly backwards. The \"increases both strength and ductility\" choice sounds appealing but violates the fundamental strength-ductility trade-off. The \"decreases both strength and ductility\" choice is wrong on both counts. The question is hard because students often confuse cold working with heat treatment (annealing), which does the opposite -- it relieves internal stresses and restores ductility at the cost of strength.',
     hint: 'Cold working introduces dislocations that resist further deformation. Think about what that means for both strength and the ability to stretch.',
     steps: [
       {
@@ -1412,7 +1412,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 116',
+    handbookPage: 'p. 117',
     handbookFormula: null,
     videoUrl: null,
     traps: [

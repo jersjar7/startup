@@ -37,7 +37,7 @@ export default {
         { text: 'Plastic moment:', latex: 'M_p = F_y Z_x = 50 \\times 120 = 6{,}000 \\text{ kip-in} = 500 \\text{ kip-ft}' },
         { text: 'LRFD design strength:', latex: '\\phi_b M_n = 0.90 \\times 500 = 450 \\text{ kip-ft}' },
       ],
-      handbookPage: 'p. 281',
+      handbookPage: 'p. 287',
       handbookFormula: 'M_n = M_p = F_y Z_x',
       videoUrl: null,
       traps: [
@@ -64,7 +64,7 @@ export default {
         { text: 'Maximum moment for uniform load:', latex: 'M_u = \\frac{w_u L^2}{8}' },
         { text: 'Solve for $w_u$:', latex: 'w_u = \\frac{8 \\times \\phi_b M_p}{L^2} = \\frac{8 \\times 300}{20^2} = \\frac{2{,}400}{400} = 6.0 \\text{ kip/ft}' },
       ],
-      handbookPage: 'p. 281',
+      handbookPage: 'p. 287',
       handbookFormula: 'M_n = F_y Z_x, \\quad \\phi_b = 0.90',
       videoUrl: null,
       traps: [
@@ -93,7 +93,7 @@ export default {
         { text: 'Compute:', latex: 'M_n = 500 - 200 \\times \\frac{7}{17} = 500 - 82.4 = 418 \\text{ kip-ft}' },
         { text: 'Check: $M_n = 418 \\leq M_p = 500$ \\checkmark', latex: null },
       ],
-      handbookPage: 'p. 281',
+      handbookPage: 'p. 287',
       handbookFormula: 'M_n = C_b\\left[M_p - (M_p - 0.7F_yS_x)\\frac{L_b - L_p}{L_r - L_p}\\right] \\leq M_p',
       videoUrl: null,
       traps: [

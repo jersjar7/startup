@@ -40,7 +40,7 @@ export default {
         { text: 'Darcy velocity:', latex: 'q = Ki = (5 \\times 10^{-4})(0.02) = 1.0 \\times 10^{-5} \\text{ m/s}' },
         { text: 'Seepage velocity:', latex: 'v = \\frac{q}{n} = \\frac{1.0 \\times 10^{-5}}{0.30} = 3.33 \\times 10^{-5} \\text{ m/s}' },
       ],
-      handbookPage: 'p. 292',
+      handbookPage: 'p. 298',
       handbookFormula: 'v = \\frac{q}{n} = \\frac{-K}{n}\\frac{dh}{dx}',
       videoUrl: null,
       traps: [
@@ -69,7 +69,7 @@ export default {
         { text: 'Compute denominator:', latex: '\\ln(400) = 5.991' },
         { text: 'Discharge:', latex: 'Q = \\frac{3.142}{5.991} = 0.52 \\text{ ft}^3\\text{/s}' },
       ],
-      handbookPage: 'p. 292',
+      handbookPage: 'p. 299',
       handbookFormula: 'Q = \\frac{\\pi K(h_2^2 - h_1^2)}{\\ln(r_2/r_1)}',
       videoUrl: null,
       traps: [
@@ -98,7 +98,7 @@ export default {
         { text: 'Substitute:', latex: 'Q = \\frac{2\\pi (6 \\times 10^{-4})(30 - 25)}{\\ln(100/10)}' },
         { text: 'Compute:', latex: 'Q = \\frac{2\\pi (6 \\times 10^{-4})(5)}{\\ln(10)} = \\frac{0.01885}{2.303} = 0.0082 \\text{ m}^3\\text{/s}' },
       ],
-      handbookPage: 'p. 293',
+      handbookPage: 'p. 299',
       handbookFormula: 'Q = \\frac{2\\pi T(h_2 - h_1)}{\\ln(r_2/r_1)}',
       videoUrl: null,
       traps: [

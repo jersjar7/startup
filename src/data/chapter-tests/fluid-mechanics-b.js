@@ -29,7 +29,7 @@ const PROBLEMS = [
       { text: 'Divide by the total volume, 100 L, to get the specific gravity of the blend.', latex: 'SG = \\frac{103.3}{100} = 1.033' },
       { text: 'Convert to density.', latex: '\\rho = SG\\,\\rho_w = 1.033(1{,}000) = 1{,}033\\ \\text{kg/m}^3' },
     ],
-    handbookPage: 'p. 176',
+    handbookPage: 'p. 181',
     handbookFormula: 'SG = \\rho / \\rho_w',
     traps: [
       'Averaging the specific gravities without weighting them by volume.',
@@ -65,7 +65,7 @@ const PROBLEMS = [
       { text: 'Absolute temperature.', latex: 'T = 25 + 273.15 = 298.15\\ \\text{K}' },
       { text: 'Solve the ideal gas law for density.', latex: '\\rho = \\frac{P}{RT} = \\frac{701{,}300}{287(298.15)} = 8.20\\ \\text{kg/m}^3' },
     ],
-    handbookPage: 'p. 143',
+    handbookPage: 'p. 144',
     handbookFormula: 'Pv = RT,\\quad \\rho = 1/v = \\frac{P}{RT}',
     traps: [
       'Putting the gauge pressure into the ideal gas law.',
@@ -103,7 +103,7 @@ const PROBLEMS = [
       { text: 'Drag force over the wetted area of the shaft.', latex: 'F = \\tau(\\pi D L) = 6{,}032\\,\\pi(0.080)(0.120) = 181.9\\ \\text{N}' },
       { text: 'Torque about the shaft axis.', latex: 'T = F r = 181.9(0.040) = 7.28\\ \\text{N·m}' },
     ],
-    handbookPage: 'p. 176-177',
+    handbookPage: 'p. 181-182',
     handbookFormula: '\\tau_t = \\mu\\frac{dv}{dy} = \\mu\\frac{v}{\\delta}',
     traps: [
       'Using the diametral clearance as the film thickness.',
@@ -139,7 +139,7 @@ const PROBLEMS = [
       { text: 'Pressure added by each liquid layer.', latex: '\\Delta p_{oil} = 0.85(9.81)(1.5) = 12.51\\ \\text{kPa},\\quad \\Delta p_{w} = 9.81(2.0) = 19.62\\ \\text{kPa}' },
       { text: 'The bottom reading is the air pressure plus both layers, so subtract them.', latex: 'p_{air} = 45.0 - 12.51 - 19.62 = 12.9\\ \\text{kPa (gauge)}' },
     ],
-    handbookPage: 'p. 177',
+    handbookPage: 'p. 182',
     handbookFormula: 'P_2 - P_1 = -\\gamma(z_2 - z_1)',
     traps: [
       'Using the specific weight of water for the oil layer.',
@@ -176,7 +176,7 @@ const PROBLEMS = [
       { text: 'Down the water in the B leg from 0.95 m to the center of B at 0.30 m.', latex: '+\\,9.81(0.95 - 0.30) = +6.377' },
       { text: 'This equals $p_B$. Solve for the difference.', latex: 'p_A - p_B = 11.772 - 1.962 - 6.377 = 3.43\\ \\text{kPa}' },
     ],
-    handbookPage: 'p. 178',
+    handbookPage: 'p. 183',
     handbookFormula: 'P_0 = P_2 + \\gamma_2 h_2 - \\gamma_1 h_1',
     traps: [
       'Ignoring that pipe B sits higher than pipe A.',
@@ -214,7 +214,7 @@ const PROBLEMS = [
       { text: 'Buoyancy equals the downward load (Archimedes).', latex: '\\rho g A d = W + T \\Rightarrow d = \\frac{10{,}829}{1{,}025(9.81)(1.131)} = 0.952\\ \\text{m}' },
       { text: 'Check: 0.952 m is less than the 2.0-m height, so the buoy floats.', latex: '0.952 < 2.0\\ \\text{m}' },
     ],
-    handbookPage: 'p. 179',
+    handbookPage: 'p. 184',
     handbookFormula: 'F_B = \\rho g V_{displaced}',
     traps: [
       'Leaving out the chain pull, or subtracting it.',
@@ -252,7 +252,7 @@ const PROBLEMS = [
       { text: 'Vertical component is the weight of that water.', latex: 'F_V = \\gamma A_V L = 9.81(3.267)(4) = 128.2\\ \\text{kN}' },
       { text: 'Combine the components.', latex: 'F = \\sqrt{103.0^2 + 128.2^2} = 164\\ \\text{kN}' },
     ],
-    handbookPage: 'p. 179',
+    handbookPage: 'p. 184',
     handbookFormula: 'F_H = \\gamma h_c A_{proj},\\quad F_V = \\gamma V_{above}',
     traps: [
       'Reporting one component instead of the resultant.',
@@ -288,7 +288,7 @@ const PROBLEMS = [
       { text: 'Convert the reading to lbf/ft².', latex: '\\Delta p = 0.80(144) = 115.2\\ \\text{lbf/ft}^2' },
       { text: 'Solve the stagnation pressure equation for velocity.', latex: 'v = \\sqrt{\\frac{2\\Delta p}{\\rho}} = \\sqrt{\\frac{2(115.2)}{1.94}} = 10.9\\ \\text{ft/sec}' },
     ],
-    handbookPage: 'p. 194',
+    handbookPage: 'p. 200',
     handbookFormula: 'v = \\sqrt{\\frac{2}{\\rho}(P_0 - P_s)}',
     traps: [
       'Skipping the psi to lbf/ft² conversion.',
@@ -325,7 +325,7 @@ const PROBLEMS = [
       { text: 'Venturi equation, with $z_1 = z_2$.', latex: 'Q = \\frac{C_v A_2}{\\sqrt{1 - (A_2/A_1)^2}}\\sqrt{2g\\frac{p_1 - p_2}{\\gamma}} = \\frac{0.98(0.1963)}{\\sqrt{1 - 0.3164}}\\sqrt{2(32.2)(5.77)}' },
       { text: 'Evaluate.', latex: 'Q = \\frac{0.1924(19.28)}{0.8268} = 4.49\\ \\text{ft}^3\\text{/sec}' },
     ],
-    handbookPage: 'p. 195',
+    handbookPage: 'p. 200',
     handbookFormula: 'Q = \\frac{C_v A_2}{\\sqrt{1 - (A_2/A_1)^2}}\\sqrt{2g\\left(\\frac{P_1}{\\gamma} + z_1 - \\frac{P_2}{\\gamma} - z_2\\right)}',
     traps: [
       'Dropping the approach factor.',
@@ -364,7 +364,7 @@ const PROBLEMS = [
       { text: 'Bernoulli with the datum at point 2, so $z_1 = 10$ ft and $z_2 = 0$.', latex: '\\frac{p_2}{\\gamma} = 69.23 + 10 + 0.91 - 4.59 = 75.55\\ \\text{ft}' },
       { text: 'Back to psi.', latex: 'p_2 = \\frac{75.55(62.4)}{144} = 32.7\\ \\text{psi}' },
     ],
-    handbookPage: 'p. 180',
+    handbookPage: 'p. 185',
     handbookFormula: '\\frac{P_1}{\\gamma} + z_1 + \\frac{v_1^2}{2g} = \\frac{P_2}{\\gamma} + z_2 + \\frac{v_2^2}{2g}',
     traps: [
       'Getting the sign of the elevation change wrong.',
@@ -403,7 +403,7 @@ const PROBLEMS = [
       { text: 'Impulse-momentum on the water in the nozzle, with $F$ the force of the nozzle on the water (taken upstream).', latex: 'p_1 A_1 - F = \\rho Q(v_2 - v_1) \\Rightarrow F = 969 - 267 = 702\\ \\text{N}' },
       { text: 'The water pushes the nozzle downstream with an equal and opposite 702 N, which the bolts must hold.', latex: 'F_{bolts} = 702\\ \\text{N}' },
     ],
-    handbookPage: 'p. 186',
+    handbookPage: 'p. 191',
     handbookFormula: '\\Sigma F = Q\\rho(v_2 - v_1),\\quad P_1A_1 - P_2A_2 - F_x = Q\\rho(v_2 - v_1)',
     traps: [
       'Forgetting the pressure force at the flange.',

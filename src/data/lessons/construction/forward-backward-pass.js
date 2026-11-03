@@ -36,7 +36,7 @@ export default {
         { text: 'E has predecessors B and C:', latex: 'ES_E = \\max(EF_B, EF_C) = \\max(7, 5) = 7' },
         { text: 'Early finish:', latex: 'EF_E = 7 + 3 = 10' },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: 'ES = \\text{Latest } EF \\text{ of predecessors}',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'C feeds only E: $LF_C = LS_E = 10$', latex: null },
         { text: 'Late start of C:', latex: 'LS_C = LF_C - D_C = 10 - 2 = 8' },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: 'LS = LF - D,\\quad LF = \\text{Earliest } LS \\text{ of successors}',
       videoUrl: null,
       traps: [
@@ -92,7 +92,7 @@ export default {
         { text: '$LS_D = 7$ and $LS_E = 10$', latex: null },
         { text: 'Late finish of B:', latex: 'LF_B = \\min(LS_D, LS_E) = \\min(7, 10) = 7' },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: 'LF = \\text{Earliest } LS \\text{ of successors}',
       videoUrl: null,
       traps: [

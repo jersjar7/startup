@@ -33,7 +33,7 @@ const PROBLEMS = [
       { text: 'Fines: $PI = 32 - 19 = 13$. The A-line at $LL = 32$ is $0.73(32 - 20) = 8.8$. PI is above the A-line and above 7, so the fines are clay (CL).', latex: 'PI = 13 > 8.8 \\Rightarrow \\text{CL fines}' },
       { text: 'Combine: poorly graded sand with clay.', latex: '\\text{SP-SC}' },
     ],
-    handbookPage: 'p. 267',
+    handbookPage: 'p. 273',
     handbookFormula: 'C_u = D_{60}/D_{10},\\quad C_c = D_{30}^2/(D_{10} D_{60}),\\quad \\text{A-line: } PI = 0.73(LL - 20)',
     traps: [
       'Deciding gravel versus sand from the whole sample instead of the coarse fraction (here both give sand, but not always).',
@@ -74,7 +74,7 @@ const PROBLEMS = [
       { text: 'First term and second term:', latex: '(23)(0.2 + 0.03) = 5.29, \\quad 0.01(43)(9) = 3.87' },
       { text: 'Add and round to the nearest whole number.', latex: 'GI = 5.29 + 3.87 = 9.16 \\approx 9 \\Rightarrow \\text{A-7-6 (9)}' },
     ],
-    handbookPage: 'p. 266',
+    handbookPage: 'p. 272',
     handbookFormula: 'GI = (F - 35)[0.2 + 0.005(LL - 40)] + 0.01(F - 15)(PI - 10)',
     traps: [
       'Reading the A-7 subgroup rule backwards: A-7-6 is the one with $PI > LL - 30$.',
@@ -111,7 +111,7 @@ const PROBLEMS = [
       { text: 'Moist unit weight of the fill:', latex: '\\gamma = \\frac{6.85}{0.05521} = 124.1 \\text{ pcf}' },
       { text: 'Dry unit weight, with $w = 0.115$:', latex: '\\gamma_d = \\frac{\\gamma}{1 + w} = \\frac{124.1}{1.115} = 111.3 \\text{ pcf}' },
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 265',
     handbookFormula: '\\gamma = W/V,\\quad \\gamma_D = W_S/V,\\quad \\omega = W_W/W_S',
     traps: [
       'Using $\\gamma(1 - w)$ instead of $\\gamma/(1 + w)$; water content is based on the dry weight.',
@@ -149,7 +149,7 @@ const PROBLEMS = [
       { text: 'Volume of that water:', latex: '\\frac{151.2}{62.4} = 2.42 \\text{ ft}^3' },
       { text: 'Convert to gallons:', latex: '2.42 \\times 7.48 = 18.1 \\text{ gal}' },
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 265',
     handbookFormula: '\\omega = W_W/W_S,\\quad \\gamma_D = W_S/V',
     traps: [
       'Applying the water content to the moist weight instead of the dry weight.',
@@ -186,7 +186,7 @@ const PROBLEMS = [
       { text: 'Solve for the borrow volume:', latex: 'V_{pit} = V_{fill}\\frac{1 + e_{pit}}{1 + e_{fill}} = 12{,}000 \\times \\frac{1.88}{1.58}' },
       { text: 'Evaluate:', latex: 'V_{pit} = 14{,}280 \\text{ yd}^3' },
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 265',
     handbookFormula: 'e = V_V/V_S \\;\\Rightarrow\\; V = V_S(1 + e)',
     traps: [
       'Using the void ratios directly as the volume ratio.',
@@ -225,7 +225,7 @@ const PROBLEMS = [
       { text: 'Substitute:', latex: 'K = 2.303 \\times \\frac{0.01 \\times 12}{600} \\times \\log_{10}\\frac{80}{40} = 2.303 \\times 2.0 \\times 10^{-4} \\times 0.301' },
       { text: 'Result:', latex: 'K = 1.39 \\times 10^{-4} \\text{ cm/s}' },
     ],
-    handbookPage: 'p. 291',
+    handbookPage: 'p. 297',
     handbookFormula: 'K = 2.303\\,[aL/(A t_e)]\\log_{10}(h_1/h_2)',
     traps: [
       'Dropping the 2.303 when using base-10 logs.',
@@ -299,7 +299,7 @@ const PROBLEMS = [
       { text: 'After: the sand is above the water table (no pore pressure), and the clay is below it with the water table at its top.', latex: '\\sigma\'_1 = 10(112) + 6(118 - 62.4) = 1{,}120 + 333.6 = 1{,}453.6 \\text{ psf}' },
       { text: 'Increase:', latex: '\\Delta\\sigma\' = 1{,}453.6 - 949.6 = 504 \\text{ psf}' },
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: "\\sigma' = \\sigma - u,\\quad u = \\gamma_w h",
     traps: [
       'Forgetting that drained soil above the new water table weighs less than it did saturated.',
@@ -348,7 +348,7 @@ const PROBLEMS = [
       { text: 'Factor of safety:', latex: 'FS = \\frac{i_c}{i_e} = \\frac{0.923}{0.70} = 1.32' },
       { text: 'Check: at the bottom of the sand $\\sigma = 1{,}200$ psf and $u = 62.4 \\times 17 = 1{,}061$ psf, so $\\sigma\' = 139$ psf, still positive, consistent with FS > 1.' },
     ],
-    handbookPage: 'p. 260',
+    handbookPage: 'p. 266',
     handbookFormula: 'FS_s = i_c/i_e,\\quad i_c = (\\gamma_{sat} - \\gamma_W)/\\gamma_W',
     traps: [
       'Using the pressure head at the gravel (17 ft) instead of the head loss (7 ft).',
@@ -388,7 +388,7 @@ const PROBLEMS = [
       { text: 'Water force:', latex: 'P_w = \\tfrac{1}{2}(62.4)(8)^2 = 1{,}997 \\text{ lb/ft}' },
       { text: 'Total:', latex: 'P = 1{,}040 + 2{,}647 + 1{,}997 = 5{,}684 \\approx 5{,}680 \\text{ lb/ft}' },
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: "K_A = \\tan^2(45° - \\phi/2),\\; P_{A2} = \\sigma'_1 K_A H_2 + \\tfrac{1}{2}(\\sigma'_2 - \\sigma'_1)K_A H_2,\\; P_w = \\tfrac{1}{2}\\gamma_w H_2^2",
     traps: [
       'Forgetting the water force, or multiplying it by $K_A$.',
@@ -431,7 +431,7 @@ const PROBLEMS = [
       { text: 'Intercept from $\\tau_F = c + \\sigma_N\\tan\\phi$:', latex: 'c = 19.5 - 25(0.56) = 5.5 \\text{ psi}' },
       { text: 'Convert to psf:', latex: 'c = 5.5 \\times 144 = 792 \\text{ psf}' },
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: '\\sigma_N = P/A,\\quad \\tau = T/A,\\quad \\tau_F = c + \\sigma_N\\tan\\phi',
     traps: [
       'Working with forces instead of stresses.',
@@ -469,7 +469,7 @@ const PROBLEMS = [
       { text: 'Width term uses the soil below the base, which is submerged:', latex: "\\gamma' = 125 - 62.4 = 62.6 \\text{ pcf};\\quad \\tfrac{1}{2}(62.6)(5)(22.0) = 3{,}443 \\text{ psf}" },
       { text: 'Add:', latex: 'q_{ULT} = 8{,}352 + 3{,}443 = 11{,}795 \\approx 11{,}800 \\text{ psf}' },
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: "q_{ULT} = cN_c + \\gamma' D_f N_q + \\tfrac{1}{2}\\gamma' B N_\\gamma",
     traps: [
       'Using the saturated unit weight below the water table.',
@@ -509,7 +509,7 @@ const PROBLEMS = [
       { text: 'Allowable pressure:', latex: 'q_{all} = 7{,}300/3 = 2{,}433 \\text{ psf}' },
       { text: 'Allowable load per foot of wall:', latex: 'Q = 2{,}433 \\times 6 = 14{,}600 \\text{ lb/ft}' },
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: "q_{ULT} = cN_c + \\gamma' D_f N_q + \\tfrac{1}{2}\\gamma' B N_\\gamma",
     traps: [
       'Reporting a pressure when a load per foot is asked.',
@@ -599,7 +599,7 @@ const PROBLEMS = [
       { text: 'Bracket:', latex: '0.05\\log\\frac{1{,}600}{1{,}113} + 0.30\\log\\frac{2{,}013}{1{,}600} = 0.00788 + 0.02993 = 0.03781' },
       { text: 'Settlement:', latex: 'S = \\frac{12}{1.92}(0.03781) = 0.236 \\text{ ft} = 2.84 \\text{ in.}' },
     ],
-    handbookPage: 'p. 261',
+    handbookPage: 'p. 267',
     handbookFormula: 'S = \\frac{H_o}{1 + e_o}\\left[C_R\\log\\frac{p_c}{p_o} + C_C\\log\\frac{p_o + \\Delta p}{p_c}\\right]',
     traps: [
       'Treating an overconsolidated clay as normally consolidated.',
@@ -650,7 +650,7 @@ const PROBLEMS = [
       { text: 'Available resistance:', latex: 'T_{FF} = cL_S + W\\cos\\alpha\\tan\\phi = 150(40) + 14{,}745\\tan 26° = 6{,}000 + 7{,}191 = 13{,}191 \\text{ lb/ft}' },
       { text: 'Factor of safety:', latex: 'FS = \\frac{13{,}191}{10{,}324} = 1.28' },
     ],
-    handbookPage: 'p. 265',
+    handbookPage: 'p. 271',
     handbookFormula: 'FS = \\frac{cL_S + W_M\\cos\\alpha_S\\tan\\phi}{W_M\\sin\\alpha_S}',
     traps: [
       'Forgetting the cohesion term or multiplying $c$ by the wrong length.',

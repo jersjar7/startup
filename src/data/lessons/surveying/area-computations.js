@@ -37,7 +37,7 @@ export default {
         { text: 'Simplify:', latex: '\\sum = 0 + 24 + 0 = 24' },
         { text: 'Area:', latex: 'A = \\frac{|24|}{2} = 12 \\text{ sq units}' },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: 'A = \\frac{1}{2}|\\sum(x_i y_{i+1} - x_{i+1} y_i)|',
       videoUrl: null,
       traps: [
@@ -67,7 +67,7 @@ export default {
         { text: 'DA:', latex: '(2)(0) - (0)(5) = 0' },
         { text: 'Sum and compute area:', latex: 'A = \\frac{|0 + 60 + 28 + 0|}{2} = \\frac{88}{2} = 44 \\text{ sq units}' },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: 'A = \\frac{1}{2}|\\sum(x_i y_{i+1} - x_{i+1} y_i)|',
       videoUrl: null,
       traps: [
@@ -95,7 +95,7 @@ export default {
         { text: 'Substitute:', latex: 'A = 20\\left(\\frac{0 + 0}{2} + 8 + 12 + 10\\right) = 20(0 + 30)' },
         { text: 'Compute:', latex: 'A = 600 \\text{ m}^2' },
       ],
-      handbookPage: 'p. 310',
+      handbookPage: 'p. 316',
       handbookFormula: 'A = w\\left(\\frac{h_1 + h_n}{2} + h_2 + h_3 + \\cdots\\right)',
       videoUrl: null,
       traps: [

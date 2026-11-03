@@ -35,7 +35,7 @@ const PROBLEMS = [
         latex: 'P = 18{,}000 \\times 4.6229 = 83{,}212 \\approx 83{,}200',
       },
     ],
-    handbookPage: 'p. 229, Uniform Series Present Worth; p. 235, Factor Table i = 8%',
+    handbookPage: 'p. 235, Uniform Series Present Worth; p. 241, Factor Table i = 8%',
     handbookFormula: 'P = A \\cdot \\frac{(1+i)^n - 1}{i(1+i)^n}',
     videoUrl: null,
     traps: [
@@ -80,7 +80,7 @@ const PROBLEMS = [
         latex: 'A = 5{,}000 + 1{,}000 \\times 3.0045 = 8{,}004 \\approx 8{,}000',
       },
     ],
-    handbookPage: 'p. 229, Uniform Gradient (A/G); p. 235, Factor Table i = 10%',
+    handbookPage: 'p. 235, Uniform Gradient (A/G); p. 241, Factor Table i = 10%',
     handbookFormula: 'A = A_{\\text{base}} + G(A/G,\\, i\\%,\\, n)',
     videoUrl: null,
     traps: [
@@ -121,7 +121,7 @@ const PROBLEMS = [
         latex: 'CC = 2{,}000{,}000 + 800{,}000 = 2{,}800{,}000',
       },
     ],
-    handbookPage: 'p. 230, Capitalized Cost',
+    handbookPage: 'p. 236, Capitalized Cost',
     handbookFormula: 'CC = C_0 + \\frac{A}{i}',
     videoUrl: null,
     traps: [
@@ -170,7 +170,7 @@ const PROBLEMS = [
         latex: null,
       },
     ],
-    handbookPage: 'p. 229, Single Payment Present Worth + Uniform Series Present Worth; p. 235, Factor Table i = 10%',
+    handbookPage: 'p. 235, Single Payment Present Worth + Uniform Series Present Worth; p. 241, Factor Table i = 10%',
     handbookFormula: 'PW = C_0 + C_0(P/F,\\, i\\%,\\, n_1) + A_{\\text{oper}}(P/A,\\, i\\%,\\, N)',
     videoUrl: null,
     traps: [
@@ -211,7 +211,7 @@ const PROBLEMS = [
         latex: 'Q^* = \\frac{90{,}000}{180} = 500 \\text{ panels}',
       },
     ],
-    handbookPage: 'p. 230, Cost Estimation and Break-Even Analysis',
+    handbookPage: 'p. 236, Cost Estimation and Break-Even Analysis',
     handbookFormula: 'Q^* = \\frac{FC}{p - v}',
     videoUrl: null,
     traps: [
@@ -256,7 +256,7 @@ const PROBLEMS = [
         latex: null,
       },
     ],
-    handbookPage: 'p. 230, Cost Estimation; p. 229, Engineering Economics concepts',
+    handbookPage: 'p. 236, Cost Estimation; p. 235, Engineering Economics concepts',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -297,7 +297,7 @@ const PROBLEMS = [
         latex: null,
       },
     ],
-    handbookPage: 'p. 231, Benefit-Cost Analysis',
+    handbookPage: 'p. 237, Benefit-Cost Analysis',
     handbookFormula: 'B/C = \\frac{B - D}{C}',
     videoUrl: null,
     traps: [
@@ -342,7 +342,7 @@ const PROBLEMS = [
         latex: 'EV = 290{,}000',
       },
     ],
-    handbookPage: 'p. 231, Economic Decision Trees; Expected Value',
+    handbookPage: 'p. 237, Economic Decision Trees; Expected Value',
     handbookFormula: 'EV = C_1 \\cdot p_1 + C_2 \\cdot p_2 + \\cdots + C_n \\cdot p_n',
     videoUrl: null,
     traps: [
@@ -383,7 +383,7 @@ const PROBLEMS = [
         latex: 'BV_5 = 150{,}000 - 75{,}000 = 75{,}000',
       },
     ],
-    handbookPage: 'p. 230, Depreciation; Book Value',
+    handbookPage: 'p. 236, Depreciation; Book Value',
     handbookFormula: 'BV_j = C - j \\cdot \\frac{C - S_n}{n}',
     videoUrl: null,
     traps: [
@@ -428,7 +428,7 @@ const PROBLEMS = [
         latex: '\\text{Real} = \\frac{50{,}000}{1.34392} = 37{,}205 \\approx 37{,}200',
       },
     ],
-    handbookPage: 'p. 230, Inflation',
+    handbookPage: 'p. 236, Inflation',
     handbookFormula: '\\text{Constant dollars} = \\frac{\\text{Actual dollars}}{(1 + f)^n}',
     videoUrl: null,
     traps: [
@@ -458,7 +458,7 @@ const PROBLEMS = [
       { text: '18% ≥ 12%.', latex: null },
       { text: 'So the project is accepted.', latex: null },
     ],
-    handbookPage: 'p. 230',
+    handbookPage: 'p. 236',
     handbookFormula: null,
     videoUrl: null,
     traps: ['Reversing the accept/reject rule', 'Adding criteria beyond the IRR-vs-MARR comparison'],

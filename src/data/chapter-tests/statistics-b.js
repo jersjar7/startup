@@ -32,7 +32,7 @@ const PROBLEMS = [
       { text: 'MH-9:', latex: 'CV = \\dfrac{1.80}{18.0} = 0.10 = 10\\%' },
       { text: 'MH-3 has the larger CV, so its flow varies more relative to its mean, even though its standard deviation in cfs is smaller.', latex: null },
     ],
-    handbookPage: 'p. 63',
+    handbookPage: 'p. 64',
     handbookFormula: 'CV = s/\\bar{X}',
     traps: [
       'Comparing standard deviations directly when the means differ',
@@ -72,7 +72,7 @@ const PROBLEMS = [
       { text: 'Positions 11 to 20 are all 2, so the 20th value is 2. Positions 21 to 29 are all 3, so the 21st value is 3.', latex: null },
       { text: 'Median:', latex: '\\tfrac{1}{2}(2 + 3) = 2.5' },
     ],
-    handbookPage: 'p. 63',
+    handbookPage: 'p. 64',
     handbookFormula: '\\text{n even: median = average of the } (n/2)\\text{th and } (n/2 + 1)\\text{th items}',
     traps: [
       'Reporting the mode (highest frequency) as the median',
@@ -120,7 +120,7 @@ const PROBLEMS = [
       { text: 'Take the fifth root with base-10 logs:', latex: '\\log_{10}\\bar{X}_g = \\dfrac{10.2887}{5} = 2.0577' },
       { text: 'Geometric mean:', latex: '\\bar{X}_g = 10^{2.0577} \\approx 114\\ \\text{CFU/100 mL}' },
     ],
-    handbookPage: 'p. 63',
+    handbookPage: 'p. 64',
     handbookFormula: '\\bar{X}_g = \\sqrt[n]{X_1 X_2 \\cdots X_n}',
     traps: [
       'Computing the ordinary (arithmetic) mean out of habit',
@@ -160,7 +160,7 @@ const PROBLEMS = [
       { text: 'Culverts:', latex: 'C(5,3) = \\dfrac{5!}{3!\\,2!} = 10' },
       { text: 'The two choices are independent, so multiply:', latex: '15 \\times 10 = 150' },
     ],
-    handbookPage: 'p. 64',
+    handbookPage: 'p. 65',
     handbookFormula: 'C(n,r) = \\dfrac{n!}{r!\\,(n-r)!}',
     traps: [
       'Using permutations when the order of the sites does not matter',
@@ -199,7 +199,7 @@ const PROBLEMS = [
       { text: 'Decks with both exposed rebar and spalling: 18.', latex: 'P(S, R) = \\dfrac{18}{200} = 0.09' },
       { text: 'Conditional probability from the law of compound probability:', latex: 'P(S \\mid R) = \\dfrac{P(S, R)}{P(R)} = \\dfrac{0.09}{0.15} = 0.60' },
     ],
-    handbookPage: 'p. 65',
+    handbookPage: 'p. 66',
     handbookFormula: 'P(A, B) = P(B)\\,P(A \\mid B)',
     traps: [
       'Dividing by all 200 decks instead of the 30 with exposed rebar',
@@ -246,7 +246,7 @@ const PROBLEMS = [
       { text: 'Probability of no exceedance:', latex: 'P(0) = (0.90)^3 = 0.729' },
       { text: 'At least once is the complement:', latex: 'P(x \\ge 1) = 1 - 0.729 = 0.271' },
     ],
-    handbookPage: 'p. 66',
+    handbookPage: 'p. 67',
     handbookFormula: 'P(x) = C(n,x)\\,p^x q^{n-x}',
     traps: [
       'Adding the annual probabilities (3 x 0.10)',
@@ -285,7 +285,7 @@ const PROBLEMS = [
       { text: 'Standardize the limit:', latex: 'z = \\dfrac{\\bar{x} - \\mu}{\\sigma/\\sqrt{n}} = \\dfrac{28.8 - 24}{3} = 1.6' },
       { text: 'Upper tail from the unit normal table:', latex: 'P(\\bar{x} > 28.8) = R(1.6) = 0.0548 \\approx 0.055' },
     ],
-    handbookPage: 'p. 75',
+    handbookPage: 'p. 76',
     handbookFormula: 'Z = \\dfrac{\\bar{X} - \\mu}{\\sigma/\\sqrt{n}}',
     traps: [
       'Using sigma instead of sigma / square root of n for an average',
@@ -325,7 +325,7 @@ const PROBLEMS = [
       { text: 'Both independent coupons pass:', latex: '(0.9332)^2 = 0.8709' },
       { text: 'The heat is rejected if not both pass:', latex: 'P = 1 - 0.8709 = 0.129' },
     ],
-    handbookPage: 'p. 76',
+    handbookPage: 'p. 77',
     handbookFormula: 'z = \\dfrac{x - \\mu}{\\sigma},\\quad F(-x) = 1 - F(x)',
     traps: [
       'Stopping at the single-coupon probability',
@@ -374,7 +374,7 @@ const PROBLEMS = [
       { text: 'Variance:', latex: '\\sigma^2 = (60)(0.15)(0.85) = 7.65' },
       { text: 'Standard deviation:', latex: '\\sigma = \\sqrt{7.65} = 2.77' },
     ],
-    handbookPage: 'p. 67',
+    handbookPage: 'p. 68',
     handbookFormula: '\\sigma^2 = npq',
     traps: [
       'Stopping at the variance',
@@ -414,7 +414,7 @@ const PROBLEMS = [
       { text: 'Substitute:', latex: 'n = \\left(\\dfrac{1.96 \\times 1.4}{0.5}\\right)^2 = (5.488)^2 = 30.1' },
       { text: 'Always round a sample size up:', latex: 'n = 31' },
     ],
-    handbookPage: 'p. 75',
+    handbookPage: 'p. 76',
     handbookFormula: 'n = \\left(\\dfrac{z_{\\alpha/2}\\,\\sigma}{\\bar{x} - \\mu}\\right)^2',
     traps: [
       'Forgetting to square the ratio',
@@ -454,7 +454,7 @@ const PROBLEMS = [
       { text: 'Half-width:', latex: '1.943 \\times 0.4158 = 0.808' },
       { text: 'Lower limit:', latex: '\\bar{x} - t_{\\alpha/2,\\,n-1}\\dfrac{s}{\\sqrt{n}} = 6.8 - 0.808 = 5.99\\%' },
     ],
-    handbookPage: 'p. 74',
+    handbookPage: 'p. 75',
     handbookFormula: '\\bar{X} - t_{\\alpha/2,\\,n-1}\\dfrac{s}{\\sqrt{n}} \\le \\mu \\le \\bar{X} + t_{\\alpha/2,\\,n-1}\\dfrac{s}{\\sqrt{n}}',
     traps: [
       'Using z instead of t for a small sample with unknown sigma',
@@ -494,7 +494,7 @@ const PROBLEMS = [
       { text: 'Compare:', latex: '|t_0| = 2.17 < 2.262' },
       { text: 'Do not reject H0. At the 0.05 level the data do not show that the mean thickness differs from 60 mil.', latex: null },
     ],
-    handbookPage: 'p. 73',
+    handbookPage: 'p. 74',
     handbookFormula: 't_0 = \\dfrac{\\bar{X} - \\mu_0}{s/\\sqrt{n}},\\quad \\text{reject if } |t_0| > t_{\\alpha/2,\\,n-1}',
     traps: [
       'Using the one-tailed critical value for a "not equal" alternative',
@@ -535,7 +535,7 @@ const PROBLEMS = [
       { text: 'Predicted settlement at 8 ft:', latex: '\\hat{y} = -0.06 + 0.31(8) = 2.42\\ \\text{in.}' },
       { text: 'Residual:', latex: 'e = y - \\hat{y} = 2.30 - 2.42 = -0.12\\ \\text{in.}' },
     ],
-    handbookPage: 'p. 69',
+    handbookPage: 'p. 70',
     handbookFormula: 'e_i = y_i - \\hat{y}_i = y_i - (\\hat{a} + \\hat{b}x_i)',
     traps: [
       'Dropping the intercept when predicting',

@@ -32,7 +32,7 @@ const PROBLEMS = [
       { text: 'Sum the components:', latex: 'R_x = 120 + 240 - 150 = 210\\text{ N},\\quad R_y = 160 - 100 = 60\\text{ N}' },
       { text: 'Combine them:', latex: 'R = \\sqrt{210^2 + 60^2} = 218\\text{ N}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: 'F = \\left[\\left(\\sum F_{x,i}\\right)^2 + \\left(\\sum F_{y,i}\\right)^2\\right]^{1/2}',
     traps: [
       'Read each slope triangle carefully: the leg parallel to x goes with the x component.',
@@ -69,7 +69,7 @@ const PROBLEMS = [
       { text: 'Add the two forces:', latex: '\\mathbf{R} = (0,\\,-1800,\\,-3200)\\text{ N}' },
       { text: 'The horizontal component combines the x and y parts:', latex: 'R_h = \\sqrt{0^2 + 1800^2} = 1{,}800\\text{ N}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: 'F_x = (x/R)F,\\; F_y = (y/R)F,\\; F_z = (z/R)F',
     traps: [
       'Use the full 3D cable length for the direction, not the plan length.',
@@ -106,7 +106,7 @@ const PROBLEMS = [
       { text: 'Sum (counterclockwise positive):', latex: 'M_O = -40 + 64 = +24\\text{ kip-ft (counterclockwise)}' },
       { text: 'The force part is 20 kips down and 4 kips to the left, acting at O.', latex: '\\mathbf{F} = (-4,\\,-20)\\text{ kips}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: 'M = \\Sigma(\\mathbf{r}_n \\times \\mathbf{F}_n),\\; M_z = xF_y - yF_x',
     traps: [
       'The moment arm of a vertical force is a horizontal distance (2 ft), not the bracket height.',
@@ -141,7 +141,7 @@ const PROBLEMS = [
       { text: 'Moments about the 18 kip wheel (its own moment is zero):', latex: 'R\\,\\bar{x} = (12)(10) = 120\\text{ kip-ft}' },
       { text: 'Location:', latex: '\\bar{x} = \\frac{120}{30} = 4.0\\text{ ft}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: '\\mathbf{F} = \\Sigma \\mathbf{F}_n,\\; \\mathbf{M} = \\Sigma(\\mathbf{r}_n \\times \\mathbf{F}_n)',
     traps: [
       'The resultant lies closer to the heavier load, so check that your answer is under half the spacing.',
@@ -177,7 +177,7 @@ const PROBLEMS = [
       { text: 'Solve for the vertical component:', latex: 'T_y = 7.0\\text{ kN}' },
       { text: 'Convert to the rod tension:', latex: 'T = \\frac{7.0}{3/5} = 11.7\\text{ kN}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: '\\Sigma \\mathbf{F}_n = 0,\\; \\Sigma \\mathbf{M}_n = 0',
     traps: [
       'The beam weight acts at midspan (2 m), not at B.',
@@ -214,7 +214,7 @@ const PROBLEMS = [
       { text: 'Solve:', latex: 'N_2 = 414\\text{ N},\\quad N_1 = 586\\text{ N}' },
       { text: 'Check with Lami: each force is proportional to the sine of the angle between the other two.', latex: 'N_2 = \\frac{800\\sin 30^\\circ}{\\sin 75^\\circ} = 414\\text{ N}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: '\\Sigma F_x = 0,\\; \\Sigma F_y = 0',
     traps: [
       'The normal force makes the face angle with the vertical, not with the horizontal.',
@@ -251,7 +251,7 @@ const PROBLEMS = [
       { text: 'Joint G: FG and GH are collinear, CG is the third member, no load at G. So CG = 0.', latex: 'F_{CG} = 0' },
       { text: 'Joint C carries P. With CG = 0, the diagonals CF and CH must supply the vertical force, so they are not zero.', latex: 'F_{CF}\\sin\\theta + F_{CH}\\sin\\theta = P' },
     ],
-    handbookPage: 'p. 97',
+    handbookPage: 'p. 98',
     handbookFormula: 'Three members at an unloaded joint, two collinear: the third is a zero-force member.',
     traps: [
       'A load near a member does not put force in it: the rule depends on the joint at the member\'s other end.',
@@ -288,7 +288,7 @@ const PROBLEMS = [
       { text: 'FG rises 4 ft over 6 ft (length 7.21 ft):', latex: 'F_{FG} = 4.50\\left(\\tfrac{7.21}{6}\\right) = 5.41\\text{ kips}' },
       { text: 'The force must push toward the left piece to balance the net clockwise moment, so FG is in compression.', latex: 'F_{FG} = 5.41\\text{ kips (C)}' },
     ],
-    handbookPage: 'p. 97',
+    handbookPage: 'p. 98',
     handbookFormula: 'Method of sections: cut the truss so the unknown member force is an external force on one piece; \\Sigma M = 0',
     traps: [
       'Include every load on the piece you keep, including the one at F.',
@@ -325,7 +325,7 @@ const PROBLEMS = [
       { text: 'Solve:', latex: 'F = \\frac{15}{4.8} = 3.13\\text{ kN}' },
       { text: 'Check on leg AC alone, moments about A with the pin force at C (3, 4):', latex: '3(0.8F) + 4(0.6F) = 4.8F = 15\\;\\checkmark' },
     ],
-    handbookPage: 'p. 97',
+    handbookPage: 'p. 98',
     handbookFormula: 'A two-force body in static equilibrium has two applied forces that are equal in magnitude, opposite in direction, and collinear.',
     traps: [
       'The load is not at the apex, so the legs do not share it equally.',
@@ -360,7 +360,7 @@ const PROBLEMS = [
       { text: 'Quarter circle (removed). Its centroid is $4r/3\\pi = 50.9$ mm below the top edge:', latex: 'A_2 = \\frac{\\pi(120)^2}{4} = 11{,}310\\text{ mm}^2,\\quad y_2 = 200 - 50.9 = 149.1\\text{ mm}' },
       { text: 'Composite centroid:', latex: 'y_c = \\frac{60{,}000(100) - 11{,}310(149.1)}{60{,}000 - 11{,}310} = \\frac{4{,}314{,}000}{48{,}690} = 88.6\\text{ mm}' },
     ],
-    handbookPage: 'p. 95',
+    handbookPage: 'p. 96',
     handbookFormula: 'y_c = \\Sigma y_n a_n / \\Sigma a_n',
     traps: [
       'A hole or notch enters with a negative area.',
@@ -396,7 +396,7 @@ const PROBLEMS = [
       { text: 'Centroid definition:', latex: 'y_c = \\frac{\\int \\tilde{y}\\,dA}{\\int dA} = \\frac{\\int_0^b \\tfrac{1}{2}(kx^2)(kx^2)\\,dx}{\\int_0^b kx^2\\,dx}' },
       { text: 'Evaluated, as a check:', latex: 'y_c = \\frac{k^2b^5/10}{kb^3/3} = \\frac{3kb^2}{10}' },
     ],
-    handbookPage: 'p. 95',
+    handbookPage: 'p. 96',
     handbookFormula: 'y_c = \\int y\\,dA / A',
     traps: [
       'With vertical strips, the arm for $y_c$ is half the strip height, not the full height.',
@@ -433,7 +433,7 @@ const PROBLEMS = [
       { text: 'Plate about its own centroid, then transferred ($d_2 = 5.15$ in.):', latex: 'I_2 = \\frac{10(1)^3}{12} + 10(5.15)^2 = 265.9\\text{ in}^4' },
       { text: 'Total:', latex: 'I_x = 839.3 + 265.9 = 1{,}105\\text{ in}^4' },
     ],
-    handbookPage: 'p. 95',
+    handbookPage: 'p. 96',
     handbookFormula: 'I_x = I_{x_c} + d_y^2 A',
     traps: [
       'Every piece needs a transfer term to the composite centroid, including the rolled beam.',
@@ -468,7 +468,7 @@ const PROBLEMS = [
       { text: 'Substitute $h = 0.9$ m, $a = 0.3$ m, $b = 0.6$ m:', latex: 'I_x = \\frac{(0.9)^3(0.9 + 0.6)}{12} = \\frac{0.729(1.5)}{12} = 0.091\\text{ m}^4' },
       { text: 'Check by pieces: a 0.3 m rectangle plus a triangle 0.3 m wide, both about the base.', latex: '\\frac{0.3(0.9)^3}{3} + \\frac{0.3(0.9)^3}{12} = 0.0729 + 0.0182 = 0.091\\text{ m}^4' },
     ],
-    handbookPage: 'p. 98',
+    handbookPage: 'p. 99',
     handbookFormula: 'I_x = h^3(3a + b)/12',
     traps: [
       'The width that sits on the axis is b; the far width is a.',
@@ -505,7 +505,7 @@ const PROBLEMS = [
       { text: 'Result:', latex: 'P = 671\\text{ N}' },
       { text: 'Check with the friction angle $\\phi = \\tan^{-1}0.30 = 16.7^\\circ$:', latex: 'P = W\\tan(20^\\circ + 16.7^\\circ) = 900(0.745) = 671\\text{ N}' },
     ],
-    handbookPage: 'p. 96',
+    handbookPage: 'p. 97',
     handbookFormula: 'F \\le \\mu_s N',
     traps: [
       'A horizontal force on a ramp changes the normal force; include $P\\sin\\theta$.',

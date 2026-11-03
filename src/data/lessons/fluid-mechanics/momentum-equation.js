@@ -37,7 +37,7 @@ export default {
         { text: 'Flow rate:', latex: 'Q = Av = 0.01 \\times 15 = 0.15 \\text{ m}^3/\\text{s}' },
         { text: 'Force on the plate (all x-momentum absorbed):', latex: 'F = \\rho Q v = 1{,}000 \\times 0.15 \\times 15 = 2{,}250 \\text{ N}' },
       ],
-      handbookPage: 'p. 186',
+      handbookPage: 'p. 191',
       handbookFormula: '\\Sigma F = \\rho Q (v_2 - v_1)',
       videoUrl: null,
       traps: [
@@ -66,7 +66,7 @@ export default {
         { text: 'Compute:', latex: 'F_x = F_y = 14{,}140 + 1{,}131 = 15{,}271 \\text{ N}' },
         { text: 'Resultant:', latex: 'F_R = \\sqrt{F_x^2 + F_y^2} = 15{,}271\\sqrt{2} \\approx 21{,}593 \\text{ N} \\approx 21.6 \\text{ kN}' },
       ],
-      handbookPage: 'p. 186',
+      handbookPage: 'p. 191',
       handbookFormula: 'P_1 A_1 - P_2 A_2 \\cos\\alpha - F_x = Q\\rho(v_2 \\cos\\alpha - v_1)',
       videoUrl: null,
       traps: [
@@ -96,7 +96,7 @@ export default {
         { text: 'Substitute:', latex: 'F = 350{,}000 \\times 7.854 \\times 10^{-3} - 1{,}000 \\times 0.01571 \\times (32 - 2)' },
         { text: 'Compute:', latex: 'F = 2{,}749 - 471 = 2{,}278 \\text{ N}' },
       ],
-      handbookPage: 'p. 186',
+      handbookPage: 'p. 191',
       handbookFormula: '\\Sigma F = \\rho Q(v_2 - v_1)',
       videoUrl: null,
       traps: [

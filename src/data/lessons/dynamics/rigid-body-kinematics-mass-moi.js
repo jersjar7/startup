@@ -16,13 +16,13 @@ export default {
     { type: 'heading', body: 'Mass Moment of Inertia' },
     { type: 'text', body: 'Mass moment of inertia $I$ measures how mass is distributed relative to a rotation axis. Larger $I$ means harder to spin up.' },
     { type: 'formula', latex: 'I = \\int r^2 \\, dm' },
-    { type: 'text', body: 'For standard shapes (cylinder, sphere, rod, disk), use the table on handbook pp. 114\u2013115. Don\'t derive from scratch.' },
+    { type: 'text', body: 'For standard shapes (cylinder, sphere, rod, disk), use the table on handbook pp. 115\u2013115. Don\'t derive from scratch.' },
     { type: 'heading', body: 'Parallel-Axis Theorem' },
     { type: 'formula', latex: 'I = I_c + md^2' },
     { type: 'text', body: '$I_c$ is the moment about the centroidal axis, $m$ is the total mass, and $d$ is the distance between the two parallel axes. Always transfer FROM the centroid, never between two arbitrary axes directly.' },
     { type: 'callout', variant: 'tip', body: 'The parallel-axis theorem only works one direction: centroidal axis to any parallel axis. If you need to go from axis A to axis B, go A to centroid first, then centroid to B.' },
     { type: 'callout', variant: 'warning', body: 'Angular velocity must be in rad/s for all formulas. If given rpm, convert: \u03C9 = rpm \u00D7 2\u03C0/60.' },
-    { type: 'callout', variant: 'exam', body: 'The FE Handbook gives mass MOI formulas for standard shapes on pp. 114\u2013115. You don\'t need to memorize them. Just know how to read the table and apply the parallel-axis theorem.' },
+    { type: 'callout', variant: 'exam', body: 'The FE Handbook gives mass MOI formulas for standard shapes on pp. 115\u2013115. You don\'t need to memorize them. Just know how to read the table and apply the parallel-axis theorem.' },
   ],
   illustration: null,
   problems: [
@@ -43,7 +43,7 @@ export default {
         { text: 'Identify knowns: $\\omega_0 = 0$, $\\alpha = 4$ rad/s\u00B2, $t = 5$ s', latex: null },
         { text: 'Apply:', latex: '\\omega = \\omega_0 + \\alpha t = 0 + 4(5) = 20 \\text{ rad/s}' },
       ],
-      handbookPage: 'p. 109',
+      handbookPage: 'p. 110',
       handbookFormula: '\\omega = \\omega_0 + \\alpha t',
       videoUrl: null,
       traps: [
@@ -69,7 +69,7 @@ export default {
         { text: 'Convert rpm to rad/s:', latex: '\\omega = 3{,}600 \\times \\frac{2\\pi}{60} = 376.99 \\text{ rad/s}' },
         { text: 'Tangential velocity:', latex: 'v = r\\omega = 0.15 \\times 376.99 = 56.5 \\text{ m/s}' },
       ],
-      handbookPage: 'p. 103',
+      handbookPage: 'p. 104',
       handbookFormula: 'v = r\\omega',
       videoUrl: null,
       traps: [
@@ -96,7 +96,7 @@ export default {
         { text: 'Centroidal MOI for solid cylinder about its longitudinal axis:', latex: 'I_c = \\frac{1}{2}mR^2 = \\frac{1}{2}(12)(0.2^2) = 0.24 \\text{ kg}{\\cdot}\\text{m}^2' },
         { text: 'Apply parallel-axis theorem:', latex: 'I = I_c + md^2 = 0.24 + 12(0.5^2) = 0.24 + 3.00 = 3.24 \\text{ kg}{\\cdot}\\text{m}^2' },
       ],
-      handbookPage: 'pp. 111, 114',
+      handbookPage: 'pp. 112, 115',
       handbookFormula: 'I = I_c + md^2',
       videoUrl: null,
       traps: [

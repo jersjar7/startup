@@ -38,7 +38,7 @@ export default {
         { text: 'Divide by efficiency for brake power:', latex: '\\dot W_{brake} = \\frac{14{,}715}{0.75}' },
         { text: 'Compute:', latex: '\\dot W_{brake} = 19{,}620\\text{ W} \\approx 19.6\\text{ kW}' },
       ],
-      handbookPage: 'p. 191',
+      handbookPage: 'p. 197',
       handbookFormula: '\\dot W = \\gamma Q H / \\eta',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'Apply the NPSH_A equation:', latex: 'NPSH_A = 10.3 + (-3.0) - 1.0 - 0.24' },
         { text: 'Compute:', latex: 'NPSH_A = 6.06 \\approx 6.1\\text{ m}' },
       ],
-      handbookPage: 'p. 191',
+      handbookPage: 'p. 196',
       handbookFormula: 'NPSH_A = H_{pa} + H_s - \\sum h_L - H_{vp}',
       videoUrl: null,
       traps: [
@@ -92,7 +92,7 @@ export default {
         { text: 'Convert to horsepower:', latex: 'WHP = \\frac{6{,}864}{550}' },
         { text: 'Compute:', latex: 'WHP = 12.5\\text{ hp}' },
       ],
-      handbookPage: 'p. 191',
+      handbookPage: 'p. 197',
       handbookFormula: '\\dot W = \\gamma Q H',
       videoUrl: null,
       traps: [

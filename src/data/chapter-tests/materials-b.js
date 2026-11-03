@@ -367,7 +367,7 @@ const PROBLEMS = [
       { text: 'Unit weight term.', latex: '115^{1.5} = 115\\sqrt{115} = 1{,}233.2' },
       { text: 'Substitute, with $f\'_c$ in psi.', latex: 'E_c = 33(1{,}233.2)(70.71) = 2{,}877{,}700\\text{ psi} \\approx 2{,}880\\text{ ksi}' },
     ],
-    handbookPage: 'p. 275',
+    handbookPage: 'p. 281',
     handbookFormula: 'E_c = 33\\,w_c^{1.5}\\sqrt{f\'_c}\\ \\text{(psi)}',
     traps: [
       'Using $57{,}000\\sqrt{f\'_c}$ for lightweight concrete; it overstates stiffness and understates deflection.',
@@ -407,7 +407,7 @@ const PROBLEMS = [
       { text: 'Permanent (plastic) strain left after unloading.', latex: '\\varepsilon_p = 0.0120 - 0.00166 = 0.01034' },
       { text: 'Permanent elongation over the 12 ft = 144 in. rod.', latex: '\\delta_p = 0.01034 \\times 144 = 1.49\\text{ in.}' },
     ],
-    handbookPage: 'p. 121',
+    handbookPage: 'p. 122',
     handbookFormula: '\\sigma = E\\varepsilon,\\quad \\varepsilon_p = \\varepsilon_P - \\dfrac{\\sigma_P}{E},\\quad \\delta_p = \\varepsilon_p L',
     traps: [
       'Reporting the total elongation under load instead of what remains after unloading.',

@@ -40,7 +40,7 @@ export default {
         { text: 'Compute $H^{3/2}$:', latex: '(1.5)^{3/2} = 1.5 \\times \\sqrt{1.5} = 1.5 \\times 1.225 = 1.837' },
         { text: 'Discharge:', latex: 'Q = 3.33 \\times 5 \\times 1.837 = 30.6 \\text{ ft}^3\\text{/s}' },
       ],
-      handbookPage: 'p. 297',
+      handbookPage: 'p. 303',
       handbookFormula: 'Q = CLH^{3/2}',
       videoUrl: null,
       traps: [
@@ -67,7 +67,7 @@ export default {
         { text: 'Compute $H^{5/2}$:', latex: '(2.0)^{5/2} = 2^2 \\times \\sqrt{2} = 4 \\times 1.414 = 5.657' },
         { text: 'Discharge:', latex: 'Q = 2.54 \\times 5.657 = 14.4 \\text{ ft}^3\\text{/s}' },
       ],
-      handbookPage: 'p. 297',
+      handbookPage: 'p. 303',
       handbookFormula: 'Q = CH^{5/2}',
       videoUrl: null,
       traps: [
@@ -94,7 +94,7 @@ export default {
         { text: 'Substitute:', latex: '\\frac{Q_A}{Q_B} = \\frac{150}{100} = 1.50' },
         { text: 'Pipe A carries 50% more flow than Pipe B.', latex: null },
       ],
-      handbookPage: 'p. 297',
+      handbookPage: 'p. 303',
       handbookFormula: 'Q = k_1 C A R_H^{0.63} S_v^{0.54}',
       videoUrl: null,
       traps: [

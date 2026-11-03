@@ -35,7 +35,7 @@ export default {
         { text: 'Height of Instrument:', latex: 'HI = 100.00 + 1.52 = 101.52 \\text{ m}' },
         { text: 'Elevation of point A:', latex: '\\text{Elev}_A = HI - FS = 101.52 - 2.35 = 99.17 \\text{ m}' },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: 'HI = \\text{Elev} + BS; \\quad \\text{Elev} = HI - FS',
       videoUrl: null,
       traps: [
@@ -63,7 +63,7 @@ export default {
         { text: 'Setup 2, HI from TP-1:', latex: 'HI_2 = 251.44 + 5.21 = 256.65 \\text{ ft}' },
         { text: 'Elevation of point B:', latex: '\\text{Elev}_B = 256.65 - 1.95 = 254.70 \\text{ ft}' },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: 'HI = \\text{Elev} + BS; \\quad \\text{Elev} = HI - FS',
       videoUrl: null,
       traps: [
@@ -90,7 +90,7 @@ export default {
         { text: 'Allowable error:', latex: 'C\\sqrt{M} = 0.05\\sqrt{4} = 0.05 \\times 2.0 = 0.10 \\text{ ft}' },
         { text: 'Compare: $0.03 < 0.10$, so the survey meets tolerance.', latex: null },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: '\\text{Allowable} = C\\sqrt{M}',
       videoUrl: null,
       traps: [

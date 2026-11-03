@@ -29,7 +29,7 @@ const PROBLEMS = [
       { text: 'Time of concentration and intensity:', latex: 't_c = 14 + 6 = 20\\text{ min},\\quad i = \\frac{120}{20 + 20} = 3.0\\text{ in./hr}' },
       { text: 'Rational formula (acres and in./hr give cfs):', latex: 'Q = C_w i A = 0.62(3.0)(4.0) = 7.4\\text{ cfs}' },
     ],
-    handbookPage: 'p. 290',
+    handbookPage: 'p. 296',
     handbookFormula: 'Q = CIA',
     traps: [
       'Averaging the two C values without weighting by area.',
@@ -102,7 +102,7 @@ const PROBLEMS = [
       { text: 'Lake evaporation depth for the month:', latex: 'E_L = P_c E_p = 0.70(0.32)(31) = 6.94\\text{ in.} = 0.579\\text{ ft}' },
       { text: 'Volume lost:', latex: 'V = 0.579\\text{ ft} \\times 850\\text{ ac} = 492\\text{ acre-ft}' },
     ],
-    handbookPage: 'p. 290',
+    handbookPage: 'p. 296',
     handbookFormula: 'E_L = P_c E_p',
     traps: [
       'Dividing by the pan coefficient (it is less than 1 because the lake evaporates less than the pan).',
@@ -138,7 +138,7 @@ const PROBLEMS = [
       { text: 'Hydraulic radius:', latex: 'R_H = \\frac{20}{18} = 1.111\\text{ ft},\\quad R_H^{2/3} = 1.073' },
       { text: 'Manning\'s equation:', latex: 'Q = \\frac{1.486}{0.012}(20)(1.073)(0.006)^{1/2} = 206\\text{ cfs}' },
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'Q = \\frac{K}{n} A R_H^{2/3} S^{1/2}',
     traps: [
       'Leaving the roof out of the wetted perimeter for a barrel that flows full.',
@@ -174,7 +174,7 @@ const PROBLEMS = [
       { text: 'Velocity and hydraulic depth:', latex: 'v = \\frac{400}{42} = 9.52\\text{ ft/s},\\quad D = \\frac{A}{T} = 2.1\\text{ ft}' },
       { text: 'Froude number:', latex: 'Fr = \\frac{9.52}{\\sqrt{32.2(2.1)}} = 1.16 > 1 \\Rightarrow \\text{supercritical}' },
     ],
-    handbookPage: 'p. 296',
+    handbookPage: 'p. 302',
     handbookFormula: 'Fr = \\frac{v}{\\sqrt{g y_h}},\\quad y_h = A/T',
     traps: [
       'Using the maximum depth instead of the hydraulic depth A/T; here it changes the answer from supercritical to subcritical.',
@@ -210,7 +210,7 @@ const PROBLEMS = [
       { text: 'With a suction lift the static head is negative, Hs = -z. Set NPSHA equal to NPSHR:', latex: '32.87 - z - 2.5 - 1.17 = 12.0' },
       { text: 'Solve:', latex: 'z = 32.87 - 2.5 - 1.17 - 12.0 = 17.2\\text{ ft}' },
     ],
-    handbookPage: 'p. 191',
+    handbookPage: 'p. 196',
     handbookFormula: 'NPSH_A = H_{pa} + H_s - \\sum h_L - H_{vp}',
     traps: [
       'Forgetting that the pump needs NPSHR left over; NPSHA = 0 is already cavitating.',
@@ -246,7 +246,7 @@ const PROBLEMS = [
       { text: 'Pressure drops:', latex: 'H_R = 72 - 20 = 52\\text{ psi},\\quad H_F = 72 - 54 = 18\\text{ psi}' },
       { text: 'Rated capacity at 20 psi:', latex: 'Q_R = 1{,}150\\left(\\frac{52}{18}\\right)^{0.54} = 1{,}150(1.774) = 2{,}040\\text{ gpm}' },
     ],
-    handbookPage: 'p. 299',
+    handbookPage: 'p. 305',
     handbookFormula: 'Q_R = Q_F (H_R/H_F)^{0.54}',
     traps: [
       'Measuring either drop from the wrong reference pressure; both drops start at the static pressure.',
@@ -283,7 +283,7 @@ const PROBLEMS = [
       { text: 'Split the total:', latex: 'Q_2 = 4.0\\,\\frac{0.213}{1 + 0.213} = 0.70\\text{ cfs},\\quad Q_1 = 3.30\\text{ cfs}' },
       { text: 'Check: head loss in each pipe is about 10.5 ft.', latex: 'h_f = \\frac{4.73 L Q^{1.852}}{C^{1.852} D^{4.87}} \\approx 10.5\\text{ ft for both}' },
     ],
-    handbookPage: 'p. 298',
+    handbookPage: 'p. 304',
     handbookFormula: 'h_f = \\frac{4.73\\,L\\,Q^{1.852}}{C^{1.852} D^{4.87}}',
     traps: [
       'Splitting flow equally or by area; parallel pipes share the head loss, and flow follows from it.',
@@ -319,7 +319,7 @@ const PROBLEMS = [
       { text: 'Design-flood water surface:', latex: '842.0 + 5.39 = 847.4\\text{ ft}' },
       { text: 'Add freeboard:', latex: '847.4 + 3.0 = 850.4\\text{ ft}' },
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'Q = CLH^{3/2}',
     traps: [
       'Inverting the 3/2 power incorrectly (H is (Q/CL) to the 2/3).',
@@ -391,7 +391,7 @@ const PROBLEMS = [
       { text: 'Solve Manning\'s velocity equation for slope:', latex: 'S = \\left(\\frac{v\\,n}{1.486\\,R_H^{2/3}}\\right)^2 = \\left(\\frac{2.0(0.013)}{1.486(0.520)}\\right)^2' },
       { text: 'Result:', latex: 'S = (0.0336)^2 = 0.0011\\text{ ft/ft}' },
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'v = \\frac{K}{n} R_H^{2/3} S^{1/2}',
     traps: [
       'Using the pipe radius D/2 as the hydraulic radius.',
@@ -429,7 +429,7 @@ const PROBLEMS = [
       { text: 'Magnitude of the gradient of the plane:', latex: 'i = \\sqrt{0.0050^2 + 0.0040^2} = 0.0064' },
       { text: 'Flow is down this gradient, toward the northeast (about 51° east of north).', latex: '\\theta = \\tan^{-1}(0.0050/0.0040) = 51^{\\circ}\\text{ from north}' },
     ],
-    handbookPage: 'p. 291',
+    handbookPage: 'p. 297',
     handbookFormula: 'i = dh/dx',
     traps: [
       'Taking the gradient between one pair of wells; flow follows the steepest direction of the plane, which is generally not along a pair.',
@@ -465,7 +465,7 @@ const PROBLEMS = [
       { text: 'Flow area for 1,000 ft of canal:', latex: 'A = 30(1{,}000) = 30{,}000\\text{ ft}^2' },
       { text: 'Darcy\'s law:', latex: 'Q = KiA = 85(0.0020)(30{,}000) = 5{,}100\\text{ ft}^3\\text{/day}' },
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 298',
     handbookFormula: 'Q = -KA\\,\\frac{dh}{dx}',
     traps: [
       'Dividing by porosity: porosity converts Darcy velocity to seepage velocity, it does not change the volume of flow.',
@@ -501,7 +501,7 @@ const PROBLEMS = [
       { text: 'Mass balance for the mixed DO:', latex: 'DO_{mix} = \\frac{85(7.8) + 7.74(2.0)}{85 + 7.74} = \\frac{678.5}{92.74} = 7.32\\text{ mg/L}' },
       { text: 'Initial deficit:', latex: 'D_a = DO_{sat} - DO_{mix} = 9.1 - 7.32 = 1.78\\text{ mg/L}' },
     ],
-    handbookPage: 'p. 321',
+    handbookPage: 'p. 327',
     handbookFormula: 'DO = DO_{sat} - D;\\quad C_{mix} = \\frac{\\sum C_i Q_i}{\\sum Q_i}',
     traps: [
       'Mixing MGD and cfs in the same mass balance.',
@@ -536,7 +536,7 @@ const PROBLEMS = [
       { text: 'Convert each level to relative energy and add:', latex: '10^{8.4} + 10^{8.7} + 10^{8.0} = (2.51 + 5.01 + 1.00) \\times 10^{8} = 8.52 \\times 10^{8}' },
       { text: 'Back to decibels:', latex: 'SPL_{total} = 10\\log_{10}(8.52 \\times 10^{8}) = 89.3\\text{ dB}' },
     ],
-    handbookPage: 'p. 33',
+    handbookPage: 'p. 34',
     handbookFormula: 'SPL_{total} = 10\\log_{10}\\sum 10^{SPL/10}',
     traps: [
       'Adding decibels arithmetically.',
@@ -572,7 +572,7 @@ const PROBLEMS = [
       { text: 'Baffling: perforated inlet baffle, serpentine baffles, outlet weir = superior, BF = 0.7:', latex: 't_{10} = 0.7(96) = 67.2\\text{ min}' },
       { text: 'CT:', latex: 'CT = C\\,t_{10} = 1.2(67.2) = 80.6\\text{ mg}\\cdot\\text{min/L}' },
     ],
-    handbookPage: 'p. 346',
+    handbookPage: 'p. 352',
     handbookFormula: 'CT_{calc} = C \\times t_{10},\\quad t_{10} \\approx \\theta \\times BF',
     traps: [
       'Using average flow; CT is checked at peak hourly flow.',

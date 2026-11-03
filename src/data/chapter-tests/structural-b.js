@@ -31,7 +31,7 @@ const PROBLEMS = [
       { text: 'Solve for the force in the top chord, with F taken as a push on the cut (compression).', latex: 'F = \\dfrac{1{,}350 - 360 - 180}{9} = \\dfrac{810}{9} = 90 \\text{ kips}' },
       { text: 'Sense: the moment from the left piece about L3 is sagging, so the top fibre of the truss, the top chord, is in compression.', latex: 'F_{U2U3} = 90 \\text{ kips (C)}' },
     ],
-    handbookPage: 'p. 97',
+    handbookPage: 'p. 98',
     handbookFormula: '\\Sigma M = 0 \\text{ on a section free body (method of sections)}',
     traps: [
       'Taking moments about U2, which gives the bottom chord L2L3 instead.',
@@ -69,7 +69,7 @@ const PROBLEMS = [
       { text: 'Free body of column AB: A_y runs along the column axis and makes no moment; H_A acts 12 ft below B.', latex: 'M_B = H_A(12) = 6(12) = 72 \\text{ kip-ft}' },
       { text: 'Check from the girder side: column CD has only a vertical reaction, so its moment at C is zero, and the girder moment at B is D_y(16) minus the girder load moment.', latex: 'M_B = 16.5(16) - 1.5(16)(8) = 264 - 192 = 72 \\text{ kip-ft}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: '\\Sigma F_x = 0,\\; \\Sigma F_y = 0,\\; \\Sigma M = 0',
     traps: [
       'Sharing the horizontal reaction between a pin and a roller.',
@@ -107,7 +107,7 @@ const PROBLEMS = [
       { text: 'Shear in span AB is V = R_A - wx; it is zero where the moment peaks.', latex: 'x = \\dfrac{18.2}{2} = 9.1 \\text{ ft}' },
       { text: 'Moment at that point.', latex: 'M_{max} = 18.2(9.1) - \\dfrac{2(9.1)^2}{2} = 82.8 \\text{ kip-ft}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: '\\Sigma M = 0;\\; M_{max} \\text{ where } V = 0',
     traps: [
       'Using wL^2/8 for the span and forgetting the overhang.',
@@ -149,7 +149,7 @@ const PROBLEMS = [
       { text: 'Strut BC: L = 180 in., A = 4.0 in.^2. Both forces are compression, so the product is positive.', latex: '\\dfrac{(-1.667)(-33.3)(180)}{(4.0)(29{,}000)} = 0.0862 \\text{ in.}' },
       { text: 'Add. A positive result means C moves in the direction of the unit load (down).', latex: '\\Delta_C = 0.0883 + 0.0862 = 0.175 \\text{ in.}' },
     ],
-    handbookPage: 'p. 268',
+    handbookPage: 'p. 274',
     handbookFormula: '\\Delta_{joint} = \\sum f_i \\left(\\dfrac{FL}{AE}\\right)_i',
     traps: [
       'Leaving the member lengths in feet.',
@@ -186,7 +186,7 @@ const PROBLEMS = [
       { text: 'Midspan deflection of a simple beam with a central point load (Handbook beam table).', latex: '\\Delta = \\dfrac{PL^3}{48EI}' },
       { text: 'Set the deflection equal to the limit and solve for I.', latex: 'I_{min} = \\dfrac{20(360)^3}{48(29{,}000)(1.00)} = 670 \\text{ in.}^4' },
     ],
-    handbookPage: 'p. 139',
+    handbookPage: 'p. 140',
     handbookFormula: 'v_{max} = \\dfrac{PL^3}{48EI}',
     traps: [
       'Mixing feet and inches: L must be 360 in. in both the formula and the limit.',
@@ -224,7 +224,7 @@ const PROBLEMS = [
       { text: 'Effective length with the theoretical fixed-free factor.', latex: 'KL = 2.0(18)(12) = 432 \\text{ in.}' },
       { text: 'Euler load.', latex: 'P_{cr} = \\dfrac{\\pi^2 EI}{(KL)^2} = \\dfrac{\\pi^2(29{,}000)(18.70)}{432^2} = 28.7 \\text{ kips}' },
     ],
-    handbookPage: 'p. 136',
+    handbookPage: 'p. 137',
     handbookFormula: 'P_{cr} = \\dfrac{\\pi^2 EI}{(K\\ell)^2},\\; K = 2.0 \\text{ (fixed-free)}',
     traps: [
       'Using K = 1.0 for a free top.',
@@ -264,7 +264,7 @@ const PROBLEMS = [
       { text: 'Check the arrangement. The middle panel U1-U2-L2-L1 is a four-bar rectangle: it can rack (shear) with no change in bar length, so the truss is a mechanism.', latex: '\\text{panel 2: no diagonal} \\Rightarrow \\text{unstable}' },
       { text: 'The count balanced only because the first panel has one redundant diagonal; one redundant plus one mechanism still adds up to 2j. The Handbook notes that stability also requires an appropriate arrangement of members.', latex: '\\text{Classification: unstable}' },
     ],
-    handbookPage: 'p. 271',
+    handbookPage: 'p. 277',
     handbookFormula: 'm + r = 2j \\text{ (necessary, not sufficient)}',
     traps: [
       'Trusting m + r = 2j without looking at the arrangement of the bars.',
@@ -303,7 +303,7 @@ const PROBLEMS = [
       { text: 'Solve.', latex: 'R_B = \\dfrac{240 - 90}{20} = 7.5 \\text{ kips}' },
       { text: 'Check by compatibility: the cantilever tip deflection from P equals the tip deflection the prop removes.', latex: '\\dfrac{5PL^3}{48EI} = \\dfrac{R_B L^3}{3EI} \\Rightarrow R_B = \\dfrac{5P}{16} = 7.5 \\text{ kips}' },
     ],
-    handbookPage: 'p. 141',
+    handbookPage: 'p. 142',
     handbookFormula: '(FEM)_{AB} = \\dfrac{3PL}{16} \\text{ (fixed at A, pinned at B, load at midspan)}',
     traps: [
       'Treating the beam as simply supported.',
@@ -341,7 +341,7 @@ const PROBLEMS = [
       { text: 'Set M(x) = 0.', latex: 'x^2 - 30x + 150 = 0' },
       { text: 'Take the root nearest A.', latex: 'x = \\dfrac{30 - \\sqrt{900 - 600}}{2} = 6.34 \\text{ ft} \\;(= 0.211L)' },
     ],
-    handbookPage: 'p. 271',
+    handbookPage: 'p. 277',
     handbookFormula: 'FEM = \\dfrac{wL^2}{12}',
     traps: [
       'Using the midspan moment wL^2/24 or the simple-span wL^2/8 as the end moment.',
@@ -381,7 +381,7 @@ const PROBLEMS = [
       { text: 'Live load placed on the positive region only (span AB).', latex: 'R_{A,L} = 2.0(12.0) = 24.0 \\text{ kips}' },
       { text: 'Maximum service reaction.', latex: 'R_{A,max} = 10.7 + 24.0 = 34.7 \\text{ kips}' },
     ],
-    handbookPage: 'p. 268',
+    handbookPage: 'p. 274',
     handbookFormula: '\\text{Effect} = w \\times (\\text{area under the influence line over the loaded length})',
     traps: [
       'Loading the live load over the whole beam, including the part where the influence line is negative.',
@@ -419,7 +419,7 @@ const PROBLEMS = [
       { text: 'Line load on the beam.', latex: 'w_u = 244(8) = 1{,}952 \\text{ lb/ft} = 1.952 \\text{ kips/ft}' },
       { text: 'Maximum moment of the simply supported 24-ft beam.', latex: 'M_u = \\dfrac{1.952(24)^2}{8} = 141 \\text{ kip-ft}' },
     ],
-    handbookPage: 'p. 272',
+    handbookPage: 'p. 278',
     handbookFormula: '1.2D + 1.6L;\\; M = \\dfrac{wL^2}{8}',
     traps: [
       'Using the beam spacing on one side only for the tributary width.',
@@ -458,7 +458,7 @@ const PROBLEMS = [
       { text: 'Shapes near the cut-off in the table: W18x50 = 379 (fails), W14x61 = 383, W16x57 = 394, W21x48 = 398 (all pass).', latex: '\\phi_b M_{px}(\\text{W21x48}) = 398 \\ge 380' },
       { text: 'Lighter shapes all fall short: W21x44 = 358, W18x46 = 340, W16x45 = 309 kip-ft. The lightest passing shape is the W21x48.', latex: '\\text{Use W21x48 (48 lb/ft)}' },
     ],
-    handbookPage: 'p. 285',
+    handbookPage: 'p. 291',
     handbookFormula: '\\phi_b M_n = \\phi_b F_y Z_x \\ge M_u',
     traps: [
       'Taking the first adequate row instead of the lightest adequate shape.',
@@ -497,7 +497,7 @@ const PROBLEMS = [
       { text: 'Critical stress.', latex: 'F_{cr} = 0.658^{50/61.6}(50) = 35.6 \\text{ ksi}' },
       { text: 'Design strength.', latex: '\\phi_c P_n = 0.90(35.6)(17.0) = 545 \\text{ kips}' },
     ],
-    handbookPage: 'p. 281',
+    handbookPage: 'p. 287',
     handbookFormula: 'F_{cr} = 0.658^{F_y/F_e} F_y \\text{ when } KL/r \\le 4.71\\sqrt{E/F_y}',
     traps: [
       'Assuming the weak axis always controls.',
@@ -536,7 +536,7 @@ const PROBLEMS = [
       { text: 'Both forms of the block shear equation (U_bs = 1.0).', latex: '0.6(58)(5.31) + 58(1.06) = 246.5;\\quad 0.6(36)(7.50) + 58(1.06) = 223.6 \\text{ kips}' },
       { text: 'Take the smaller and apply phi.', latex: '\\phi R_n = 0.75(223.6) = 168 \\text{ kips}' },
     ],
-    handbookPage: 'p. 283',
+    handbookPage: 'p. 289',
     handbookFormula: 'R_n = 0.6F_uA_{nv} + U_{bs}F_uA_{nt} \\le 0.6F_yA_{gv} + U_{bs}F_uA_{nt}',
     traps: [
       'Skipping the upper limit on the shear term.',
@@ -575,7 +575,7 @@ const PROBLEMS = [
       { text: 'Minimum clear space: the largest of the three limits.', latex: 's = \\max(1.0,\\; 1.128,\\; \\tfrac{4}{3}(1.0)) = 1.333 \\text{ in.}' },
       { text: 'Add the parts across the width.', latex: 'b = 2(1.5) + 2(0.375) + 4(1.128) + 3(1.333) = 12.26 \\text{ in.}' },
     ],
-    handbookPage: 'p. 277',
+    handbookPage: 'p. 283',
     handbookFormula: 'b_{min} = 2c_c + 2d_s + n\\,d_b + (n - 1)s',
     traps: [
       'Counting n spaces instead of n - 1.',
@@ -614,7 +614,7 @@ const PROBLEMS = [
       { text: 'Check strain: c = a/0.85 = 0.644 in.', latex: '\\varepsilon_t = 0.003\\left(\\dfrac{5.94 - 0.644}{0.644}\\right) = 0.025 > 0.005 \\Rightarrow \\phi = 0.90' },
       { text: 'Nominal and design strength.', latex: 'M_n = 0.372(60)(5.94 - 0.274) = 126.4 \\text{ kip-in.};\\quad \\phi M_n = \\dfrac{0.90(126.4)}{12} = 9.48 \\text{ kip-ft/ft}' },
     ],
-    handbookPage: 'p. 275',
+    handbookPage: 'p. 281',
     handbookFormula: 'M_n = A_s f_y\\left(d - \\dfrac{a}{2}\\right),\\; a = \\dfrac{A_s f_y}{0.85 f\'_c b}',
     traps: [
       'Using one bar per foot instead of converting the spacing.',
@@ -651,7 +651,7 @@ const PROBLEMS = [
       { text: 'Stress block depth with beta_1 = 0.85 for 4,000 psi concrete.', latex: 'a = \\beta_1 c = 0.85(7.5) = 6.375 \\text{ in.}' },
       { text: 'Force balance: steel tension equals concrete compression.', latex: 'A_s = \\dfrac{0.85 f\'_c a b}{f_y} = \\dfrac{0.85(4)(6.375)(12)}{60} = 4.34 \\text{ in}^2' },
     ],
-    handbookPage: 'p. 277',
+    handbookPage: 'p. 283',
     handbookFormula: '\\text{Tension-controlled: } c \\le 0.375 d_t;\\; a = \\beta_1 c',
     traps: [
       'Using c = 0.6d (the balanced or compression-controlled limit).',

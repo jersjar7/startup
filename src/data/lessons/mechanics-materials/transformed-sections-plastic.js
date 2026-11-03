@@ -34,7 +34,7 @@ export default {
         { text: 'Apply the modular-ratio definition:', latex: 'n = \\frac{E_{steel}}{E_{concrete}} = \\frac{29{,}000}{3{,}625}' },
         { text: 'Compute:', latex: 'n = 8' },
       ],
-      handbookPage: 'p. 136',
+      handbookPage: 'p. 137',
       handbookFormula: 'n = E_1/E_2',
       videoUrl: null,
       traps: [
@@ -60,7 +60,7 @@ export default {
         { text: 'Plastic moment:', latex: 'M_p = F_y Z = 50 \\times 60 = 3{,}000\\text{ kip·in}' },
         { text: 'Convert to kip·ft:', latex: 'M_p = \\frac{3{,}000}{12} = 250\\text{ kip·ft}' },
       ],
-      handbookPage: 'p. 281',
+      handbookPage: 'p. 287',
       handbookFormula: 'M_p = F_y Z',
       videoUrl: null,
       traps: [
@@ -87,7 +87,7 @@ export default {
         { text: 'The stiffer material (Material 1) carries the factor n.', latex: null },
         { text: 'So σ₁ = n × (My/I_T).', latex: null },
       ],
-      handbookPage: 'p. 136',
+      handbookPage: 'p. 137',
       handbookFormula: '\\sigma_1 = nMy/I_T',
       videoUrl: null,
       traps: [

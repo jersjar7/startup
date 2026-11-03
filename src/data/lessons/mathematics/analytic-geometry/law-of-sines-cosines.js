@@ -84,7 +84,7 @@ export default {
           "latex": "b = 18 \\times \\frac{\\sin 75°}{\\sin 40°} = 18 \\times \\frac{0.9659}{0.6428} = 27.1\\,\\text{m}"
         }
       ],
-      "handbookPage": "p. 38",
+      "handbookPage": "p. 39",
       "handbookFormula": "\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C}",
       "videoUrl": null,
       "traps": [
@@ -136,7 +136,7 @@ export default {
           "latex": "c = \\sqrt{10545} = 102.7\\,\\text{m}"
         }
       ],
-      "handbookPage": "p. 38",
+      "handbookPage": "p. 39",
       "handbookFormula": "c^2 = a^2 + b^2 - 2ab\\cos C",
       "videoUrl": null,
       "traps": [
@@ -188,7 +188,7 @@ export default {
           "latex": "C = \\cos^{-1}(-0.21875) = 102.6°"
         }
       ],
-      "handbookPage": "p. 38",
+      "handbookPage": "p. 39",
       "handbookFormula": "\\cos C = \\frac{a^2 + b^2 - c^2}{2ab}",
       "videoUrl": null,
       "traps": [

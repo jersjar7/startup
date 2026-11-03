@@ -37,7 +37,7 @@ export default {
         { text: 'Compare:', latex: '2j = 2(7) = 14' },
         { text: 'Since $m + r = 2j = 14$, the truss is stable and statically determinate.', latex: null },
       ],
-      handbookPage: 'p. 271',
+      handbookPage: 'p. 277',
       handbookFormula: 'm + r = 2j \\implies \\text{Stable and statically determinate}',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'Compare to:', latex: '3j + c = 3(4) + 0 = 12' },
         { text: 'Degree of indeterminacy:', latex: '14 - 12 = 2' },
       ],
-      handbookPage: 'p. 271',
+      handbookPage: 'p. 277',
       handbookFormula: '3m + r > 3j + c \\implies \\text{Stable and statically indeterminate}',
       videoUrl: null,
       traps: [
@@ -93,7 +93,7 @@ export default {
         { text: 'But all 3 reactions are vertical (parallel).', latex: null },
         { text: 'No horizontal reaction exists, so $\\Sigma F_x = 0$ cannot be satisfied for any horizontal load. The structure is geometrically unstable.', latex: null },
       ],
-      handbookPage: 'p. 271',
+      handbookPage: 'p. 277',
       handbookFormula: 'm + r = 2j \\text{ (necessary but not sufficient for stability)}',
       videoUrl: null,
       traps: [

@@ -20,7 +20,7 @@ const PROBLEMS = [
       { text: 'Solve for e:', latex: 'e = \\frac{G_s \\gamma_w}{\\gamma_d} - 1 = \\frac{2.68 \\times 62.4}{100} - 1' },
       { text: 'Compute:', latex: 'e = 1.672 - 1 = 0.672' },
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 265',
     handbookFormula: '\\gamma_d = \\frac{G_s \\gamma_w}{1+e}',
     videoUrl: null,
     traps: [
@@ -50,7 +50,7 @@ const PROBLEMS = [
       { text: 'Compute Se:', latex: 'Se = 0.60 \\times 0.85 = 0.51' },
       { text: 'Substitute:', latex: '\\gamma = \\frac{(2.72 + 0.51)(62.4)}{1.85} = \\frac{201.6}{1.85} = 108.9 \\text{ pcf}' },
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 265',
     handbookFormula: '\\gamma = \\frac{(G_s + Se)\\gamma_w}{1+e}',
     videoUrl: null,
     traps: [
@@ -81,7 +81,7 @@ const PROBLEMS = [
       { text: 'A-line check:', latex: 'PI_A = 0.73(35 - 20) = 10.95' },
       { text: '$PI = 17 > 10.95$ → above A-line → clay (C). Classification: **CL**.', latex: null },
     ],
-    handbookPage: 'p. 267',
+    handbookPage: 'p. 273',
     handbookFormula: 'PI = LL - PL, \\quad \\text{A-line: } PI = 0.73(LL - 20)',
     videoUrl: null,
     traps: [
@@ -111,7 +111,7 @@ const PROBLEMS = [
       { text: 'Coefficient of concavity:', latex: 'C_c = \\frac{(D_{30})^2}{D_{10} \\times D_{60}} = \\frac{5.76}{3.20} = 1.80' },
       { text: '$C_c = 1.80$ in the 1–3 range. Classification: **GW** (well-graded gravel).', latex: null },
     ],
-    handbookPage: 'p. 260',
+    handbookPage: 'p. 266',
     handbookFormula: 'C_u = \\frac{D_{60}}{D_{10}}, \\quad C_c = \\frac{(D_{30})^2}{D_{10} \\times D_{60}}',
     videoUrl: null,
     traps: [
@@ -141,7 +141,7 @@ const PROBLEMS = [
       { text: 'Pore pressure (6 ft below WT):', latex: 'u = 62.4 \\times 6 = 374.4 \\text{ psf}' },
       { text: 'Effective stress:', latex: '\\sigma\' = 1{,}240 - 374 = 865 \\text{ psf}' },
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: '\\sigma\' = \\sigma - u',
     videoUrl: null,
     traps: [
@@ -179,7 +179,7 @@ const PROBLEMS = [
       { text: 'Pore water pressure:', latex: 'u = \\gamma_w h = 62.4 \\times 18 = 1{,}123 \\text{ psf}' },
       { text: 'Effective stress:', latex: '\\sigma\' = \\sigma - u = 1{,}800 - 1{,}123 = 677 \\text{ psf}' },
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: '\\sigma\' = \\sigma - u, \\quad u = \\gamma_w h',
     videoUrl: null,
     traps: [
@@ -210,7 +210,7 @@ const PROBLEMS = [
       { text: 'Substitute:', latex: '\\Delta H = \\frac{15}{2.20} \\times 0.36 \\times \\log \\frac{2{,}400}{1{,}200}' },
       { text: 'Compute:', latex: '\\Delta H = 6.818 \\times 0.36 \\times 0.3010 = 0.739 \\text{ ft} = 8.9 \\text{ in.}' },
     ],
-    handbookPage: 'p. 261',
+    handbookPage: 'p. 267',
     handbookFormula: '\\Delta H = \\frac{H_0}{1+e_0} C_c \\log \\frac{p_0 + \\Delta p}{p_0}, \\quad C_c \\approx 0.009(LL - 10)',
     videoUrl: null,
     traps: [
@@ -239,7 +239,7 @@ const PROBLEMS = [
       { text: 'Time is proportional to time factor:', latex: '\\frac{t_{90}}{t_{50}} = \\frac{T_{v,90}}{T_{v,50}}' },
       { text: 'Solve:', latex: 't_{90} = 40 \\times \\frac{0.848}{0.197} = 40 \\times 4.305 = 172 \\text{ days}' },
     ],
-    handbookPage: 'p. 262',
+    handbookPage: 'p. 268',
     handbookFormula: 'T_v = \\frac{c_v \\cdot t}{H_{dr}^2}',
     videoUrl: null,
     traps: [
@@ -269,7 +269,7 @@ const PROBLEMS = [
       { text: 'Flow factor:', latex: '\\tan^2(45\\degree + 18\\degree) = \\tan^2(63\\degree) = (1.9626)^2 = 3.852' },
       { text: 'Compute:', latex: '\\sigma_1 = 2{,}500 \\times 3.852 = 9{,}630 \\approx 9{,}600 \\text{ psf}' },
     ],
-    handbookPage: 'p. 262',
+    handbookPage: 'p. 268',
     handbookFormula: '\\sigma_1 = \\sigma_3 \\tan^2\\!\\left(45\\degree + \\frac{\\phi}{2}\\right)',
     videoUrl: null,
     traps: [
@@ -299,7 +299,7 @@ const PROBLEMS = [
       { text: 'Evaluate:', latex: '\\tau_f = 150 + 2{,}000(0.5317) = 150 + 1{,}063 = 1{,}213 \\text{ psf}' },
       { text: 'Factor of safety:', latex: 'FS = \\frac{\\tau_f}{\\tau} = \\frac{1{,}213}{1{,}000} = 1.21' },
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: 'FS = \\frac{c\' + \\sigma_N\' \\tan \\phi\'}{\\tau}',
     videoUrl: null,
     traps: [
@@ -329,7 +329,7 @@ const PROBLEMS = [
       { text: 'Total at-rest force:', latex: 'P_0 = \\frac{1}{2} K_0 \\gamma H^2 = \\frac{1}{2}(0.470)(115)(256)' },
       { text: 'Compute:', latex: 'P_0 = 0.5 \\times 0.470 \\times 115 \\times 256 \\approx 6{,}920 \\text{ lb/ft}' },
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: 'K_0 = 1 - \\sin \\phi, \\quad P_0 = \\frac{1}{2} K_0 \\gamma H^2',
     videoUrl: null,
     traps: [
@@ -362,7 +362,7 @@ const PROBLEMS = [
       { text: 'Set to zero at the crack depth:', latex: '0 = \\gamma z_c - 2 c_u \\implies z_c = \\frac{2 c_u}{\\gamma}' },
       { text: 'Compute:', latex: 'z_c = \\frac{2 \\times 400}{120} = \\frac{800}{120} = 6.7 \\text{ ft}' },
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: 'z_c = \\frac{2 c_u}{\\gamma}',
     videoUrl: null,
     traps: [
@@ -391,7 +391,7 @@ const PROBLEMS = [
       { text: 'Sliding resistance:', latex: '\\Sigma F_R = \\mu \\Sigma V = 0.55 \\times 12{,}000 = 6{,}600 \\text{ lb/ft}' },
       { text: 'Factor of safety:', latex: 'FS = \\frac{\\Sigma F_R}{\\Sigma F_D} = \\frac{6{,}600}{4{,}800} = 1.38' },
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: 'FS_{\\text{sliding}} = \\frac{\\mu \\Sigma V}{\\Sigma F_D}',
     videoUrl: null,
     traps: [
@@ -421,7 +421,7 @@ const PROBLEMS = [
       { text: 'Minimum pressure formula:', latex: 'q_{min} = \\frac{\\Sigma V}{B}\\left(1 - \\frac{6e}{B}\\right) = \\frac{9{,}000}{9}\\left(1 - \\frac{6 \\times 1.0}{9}\\right)' },
       { text: 'Compute:', latex: 'q_{min} = 1{,}000(1 - 0.667) = 333 \\text{ psf}' },
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: 'q_{min} = \\frac{\\Sigma V}{B}\\left(1 - \\frac{6e}{B}\\right)',
     videoUrl: null,
     traps: [
@@ -455,7 +455,7 @@ const PROBLEMS = [
       { text: 'Overburden term:', latex: '\\gamma D_f = 18 \\times 1.2 = 21.6 \\text{ kPa}' },
       { text: 'Total:', latex: 'q_{ult} = 400.9 + 21.6 = 422 \\text{ kPa}' },
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: 'q_{ult} = 1.3 c N_c + \\gamma D_f N_q + 0.4 \\gamma B N_\\gamma',
     videoUrl: null,
     traps: [
@@ -487,7 +487,7 @@ const PROBLEMS = [
       { text: 'Applied contact pressure:', latex: 'q_{applied} = \\frac{P}{B} = \\frac{30{,}000}{5} = 6{,}000 \\text{ psf}' },
       { text: 'Factor of safety:', latex: 'FS = \\frac{q_{ult}}{q_{applied}} = \\frac{18{,}000}{6{,}000} = 3.0' },
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: 'FS = \\frac{q_{ult}}{q_{applied}}',
     videoUrl: null,
     traps: [
@@ -516,7 +516,7 @@ const PROBLEMS = [
       { text: 'Apply the flow-net formula:', latex: 'q = kH\\frac{N_f}{N_d} = (1\\times10^{-4})(8)(0.5)' },
       { text: 'Compute:', latex: 'q = 4.0\\times10^{-4}\\text{ m}^3\\text{/s per m}' },
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 298',
     handbookFormula: 'q = kH(N_f/N_d)',
     videoUrl: null,
     traps: [
@@ -546,7 +546,7 @@ const PROBLEMS = [
       { text: 'With seepage: FS = (γ′/γ_sat)(tan φ/tan β), and γ′/γ_sat ≈ 0.5.', latex: null },
       { text: 'So the factor of safety roughly halves.', latex: null },
     ],
-    handbookPage: 'p. 265',
+    handbookPage: 'p. 271',
     handbookFormula: 'FS = (\\gamma\'/\\gamma_{sat})\\tan\\phi/\\tan\\beta',
     videoUrl: null,
     traps: [
@@ -575,7 +575,7 @@ const PROBLEMS = [
       { text: 'Apply the relative-density formula:', latex: 'D_r = \\frac{0.80 - 0.52}{0.80 - 0.45} \\times 100' },
       { text: 'Compute:', latex: 'D_r = \\frac{0.28}{0.35} \\times 100 = 80\\%' },
     ],
-    handbookPage: 'p. 260',
+    handbookPage: 'p. 266',
     handbookFormula: 'D_r = (e_{max} - e)/(e_{max} - e_{min}) \\times 100',
     videoUrl: null,
     traps: [

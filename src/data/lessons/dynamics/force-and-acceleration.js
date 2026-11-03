@@ -43,7 +43,7 @@ export default {
         { text: 'Frictionless floor, horizontal force, so only the horizontal equation matters:', latex: '\\sum F_x = ma_x' },
         { text: 'Solve:', latex: 'a = \\frac{F}{m} = \\frac{240}{80} = 3.0 \\text{ m/s}^2' },
       ],
-      handbookPage: 'p. 105',
+      handbookPage: 'p. 106',
       handbookFormula: '\\sum F = ma',
       videoUrl: null,
       traps: [
@@ -70,7 +70,7 @@ export default {
         { text: 'Find mass:', latex: 'm = \\frac{W}{g} = \\frac{500}{9.81} = 50.97 \\text{ kg}' },
         { text: 'Apply \u03A3F = ma along the incline:', latex: 'a = \\frac{250}{50.97} = 4.91 \\text{ m/s}^2' },
       ],
-      handbookPage: 'p. 105',
+      handbookPage: 'p. 106',
       handbookFormula: '\\sum F = ma',
       videoUrl: null,
       traps: [
@@ -98,7 +98,7 @@ export default {
         { text: 'Torque from tangential force:', latex: 'M = F \\times R = 15 \\times 0.3 = 4.5 \\text{ N}{\\cdot}\\text{m}' },
         { text: 'Apply \u03A3M = I\u03B1:', latex: '\\alpha = \\frac{M}{I} = \\frac{4.5}{0.45} = 10.0 \\text{ rad/s}^2' },
       ],
-      handbookPage: 'pp. 109, 114',
+      handbookPage: 'pp. 110, 115',
       handbookFormula: '\\sum M_c = I_c \\alpha',
       videoUrl: null,
       traps: [

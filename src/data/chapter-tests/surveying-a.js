@@ -31,7 +31,7 @@ const PROBLEMS = [
       { text: 'A negative cosine means an obtuse angle:', latex: 'B = \\cos^{-1}(-0.18107) = 100.432^\\circ = 100^\\circ 25\' 56\'\'' },
       { text: 'Check: the other angles are A = 36°53′05″ and C = 42°40′59″, and the three add to 180°.', latex: null },
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: 'b^2 = a^2 + c^2 - 2ac\\cos B',
     traps: [
       'Subtracting the wrong side: the squared side with the minus sign must be the one opposite the angle you want.',
@@ -69,7 +69,7 @@ const PROBLEMS = [
       { text: 'Bearing angle from the N-S line:', latex: '\\theta = \\tan^{-1}\\left(\\dfrac{|\\Delta E|}{|\\Delta N|}\\right) = \\tan^{-1}\\left(\\dfrac{406.35}{337.63}\\right) = 50.2773^\\circ' },
       { text: 'Convert to degrees, minutes, seconds:', latex: '50.2773^\\circ = 50^\\circ 16\' 38\'\' \\;\\Rightarrow\\; \\text{S } 50^\\circ 16\' 38\'\' \\text{ W}' },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: '\\theta = \\tan^{-1}(\\Delta E / \\Delta N)',
     traps: [
       'Subtracting P from Q in the wrong order gives the back bearing.',
@@ -108,7 +108,7 @@ const PROBLEMS = [
       { text: 'Central angle of that arc, from l = R d π/180:', latex: 'd = \\dfrac{180\\, l}{\\pi R} = \\dfrac{180(141.93)}{\\pi (850)} = 9.567^\\circ' },
       { text: 'Deflection angle from the tangent is half the central angle:', latex: '\\delta = d/2 = 4.7835^\\circ = 4^\\circ 47\' 00\'\'' },
     ],
-    handbookPage: 'p. 302-303',
+    handbookPage: 'p. 308-309',
     handbookFormula: 'T = R\\tan(I/2),\\quad l = R\\,d\\,\\pi/180',
     traps: [
       'Stations along the curve are measured along the arc from the PC, not from the PI.',
@@ -145,7 +145,7 @@ const PROBLEMS = [
       { text: 'Sum and halve:', latex: 'A = \\tfrac{1}{2}\\,|692{,}000| = 346{,}000 \\text{ ft}^2' },
       { text: 'Convert to acres:', latex: '346{,}000 / 43{,}560 = 7.94 \\text{ acres}' },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: '\\text{Area} = [X_A(Y_B - Y_N) + X_B(Y_C - Y_A) + \\dots + X_N(Y_A - Y_{N-1})]/2',
     traps: [
       'The corners must be taken in order around the boundary.',
@@ -194,7 +194,7 @@ const PROBLEMS = [
       { text: 'Segment between arc and chord:', latex: 'A = \\tfrac{1}{2}R^2(\\varphi - \\sin\\varphi) = 259{,}200(0.83776 - 0.74314) = 24{,}524 \\text{ ft}^2' },
       { text: 'Convert to acres:', latex: '24{,}524 / 43{,}560 = 0.563 \\text{ acre}' },
     ],
-    handbookPage: 'p. 41',
+    handbookPage: 'p. 42',
     handbookFormula: 'A = \\dfrac{r^2(\\varphi - \\sin\\varphi)}{2}',
     traps: [
       'The angle in the sector term must be in radians.',
@@ -230,7 +230,7 @@ const PROBLEMS = [
       { text: 'Pyramid volume:', latex: 'V = \\dfrac{h\\,A}{3} = \\dfrac{50(312)}{3} = 5{,}200 \\text{ ft}^3' },
       { text: 'Convert to cubic yards:', latex: '5{,}200 / 27 = 192.6 \\text{ yd}^3' },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V = h\\,(\\text{area of base})/3',
     traps: [
       'Average end area treats the end as a wedge and gives 1.5 times the pyramid volume here.',
@@ -267,7 +267,7 @@ const PROBLEMS = [
       { text: 'Truckloads:', latex: 'n = 23{,}728 / 14 = 1{,}694.9 \\;\\Rightarrow\\; 1{,}695 \\text{ loads}' },
       { text: 'The pit density (104 lb/ft³) would only be needed for the size of the borrow excavation, 20,990 yd³.', latex: null },
     ],
-    handbookPage: 'p. 259',
+    handbookPage: 'p. 265',
     handbookFormula: '\\gamma_D = W_S / V',
     traps: [
       'Hauled volume is loose volume, not bank or compacted volume.',
@@ -304,7 +304,7 @@ const PROBLEMS = [
       { text: 'Change in ordinate from 7+00 to 14+00:', latex: '\\Delta M = M_{14+00} - M_{7+00} = -2{,}400 - 4{,}100 = -6{,}500 \\text{ yd}^3' },
       { text: 'A negative change (falling line) is net fill:', latex: 'V_{fill,net} = 6{,}500 \\text{ yd}^3' },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: '\\text{Mass ordinate} = \\Sigma(\\text{cut} - \\text{fill})',
     traps: [
       'An ordinate is a running total from the beginning of the project, not the volume at that station.',

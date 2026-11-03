@@ -3,7 +3,7 @@ export default {
   name: 'Equivalence & Interest Factors',
   subtopicId: 'time-value-of-money',
   application:
-    "Every engineering economics problem on the FE boils down to moving money through time. You'll convert a lump sum today into its future equivalent, spread a present cost into equal annual payments, or discount a series of future cash flows back to the present. The nine standard interest factors are the tools, and the factor tables in the handbook (pp. 232\u2013236) are your shortcut. Civil engineers use these constantly: sizing a sinking fund for bridge replacement, calculating loan payments on equipment, or comparing the annual cost of two pavement alternatives. If you can read a cash flow diagram and pick the right factor, these are fast points.",
+    "Every engineering economics problem on the FE boils down to moving money through time. You'll convert a lump sum today into its future equivalent, spread a present cost into equal annual payments, or discount a series of future cash flows back to the present. The nine standard interest factors are the tools, and the factor tables in the handbook (pp. 238\u2013242) are your shortcut. Civil engineers use these constantly: sizing a sinking fund for bridge replacement, calculating loan payments on equipment, or comparing the annual cost of two pavement alternatives. If you can read a cash flow diagram and pick the right factor, these are fast points.",
   content: [
     {
       type: 'text',
@@ -137,7 +137,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 229, Uniform Series Sinking Fund; p. 234, Factor Table i = 6%',
+      handbookPage: 'p. 235, Uniform Series Sinking Fund; p. 240, Factor Table i = 6%',
       handbookFormula: 'A = F \\cdot \\frac{i}{(1+i)^n - 1}',
       videoUrl: null,
       traps: [
@@ -186,7 +186,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 230, Non-Annual Compounding',
+      handbookPage: 'p. 236, Non-Annual Compounding',
       handbookFormula: 'i_e = \\left(1 + \\frac{r}{m}\\right)^m - 1',
       videoUrl: null,
       traps: [
@@ -235,7 +235,7 @@ export default {
           latex: 'P = 67{,}101 + 51{,}954 = 119{,}055 \\approx 119{,}100',
         },
       ],
-      handbookPage: 'p. 229, Uniform Series Present Worth + Uniform Gradient Present Worth; p. 235, Factor Table i = 8%',
+      handbookPage: 'p. 235, Uniform Series Present Worth + Uniform Gradient Present Worth; p. 241, Factor Table i = 8%',
       handbookFormula: 'P = A(P/A,\\, i\\%,\\, n) + G(P/G,\\, i\\%,\\, n)',
       videoUrl: null,
       traps: [

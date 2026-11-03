@@ -31,7 +31,7 @@ const PROBLEMS = [
       { text: 'Cut between U2 and L2. The chords are horizontal, so only the diagonal has a vertical component. Take tension F as positive (pulling down toward L2 on the left piece).', latex: '\\Sigma F_y = 27 - 18 - 0.8F = 0' },
       { text: 'Solve. A positive answer means tension.', latex: 'F_{U2L2} = \\dfrac{9}{0.8} = 11.25 \\text{ kips (T)}' },
     ],
-    handbookPage: 'p. 97',
+    handbookPage: 'p. 98',
     handbookFormula: '\\Sigma F_V = 0 \\text{ on a section free body}',
     traps: [
       'Stopping at the panel shear (9 kips) and forgetting the diagonal carries it at a slope.',
@@ -69,7 +69,7 @@ const PROBLEMS = [
       { text: 'Solve. The negative sign means the reaction acts downward.', latex: 'R_A = -3.75 \\text{ kips} \\;(\\text{3.75 kips downward})' },
       { text: 'Check: R_B = 15 + 3.75 = 18.75 kips upward, and 18.75 - 3.75 = 15 kips balances the hinge force.', latex: 'R_B + R_A = 18.75 - 3.75 = 15 \\text{ kips}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: '\\Sigma F = 0,\\; \\Sigma M = 0;\\; M_{hinge} = 0',
     traps: [
       'Treating the beam as one rigid piece and putting the full 30 kips at C.',
@@ -107,7 +107,7 @@ const PROBLEMS = [
       { text: 'Solve for the horizontal reaction.', latex: 'H_A = \\dfrac{450 - 225}{12} = 18.75 \\text{ kips}' },
       { text: 'Same result from the closed form for a uniformly loaded three-hinged frame with the hinge at midspan.', latex: 'H = \\dfrac{wL^2}{8h} = \\dfrac{2(30)^2}{8(12)} = 18.75 \\text{ kips}' },
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: '\\Sigma M_C = 0 \\text{ at the hinge}',
     traps: [
       'Leaving out the load on the left half when taking moments about C.',
@@ -147,7 +147,7 @@ const PROBLEMS = [
       { text: 'Moment under the 32-kip axle.', latex: 'M = 21.87(16.4) - 8(14) = 246.6 \\text{ kip-ft}' },
       { text: 'Check the other candidate (resultant and 8-kip axle bisected by midspan): about 118 kip-ft, and the 32-kip axle alone at midspan gives 240 kip-ft. Both are smaller.', latex: 'M_{max} \\approx 247 \\text{ kip-ft}' },
     ],
-    handbookPage: 'p. 268',
+    handbookPage: 'p. 274',
     handbookFormula: '\\text{Midspan bisects } R \\text{ and the adjacent load}',
     traps: [
       'Centring the axle spacing on midspan instead of the resultant-to-axle distance.',
@@ -187,7 +187,7 @@ const PROBLEMS = [
       { text: 'Evaluate in kip/in.', latex: 'w = \\dfrac{5.45 \\times 10^9}{3.44 \\times 10^{10}} = 0.159 \\text{ kip/in.}' },
       { text: 'Convert to kips/ft.', latex: 'w = 0.159(12) = 1.90 \\text{ kips/ft}' },
     ],
-    handbookPage: 'p. 139',
+    handbookPage: 'p. 140',
     handbookFormula: 'v_{max} = \\dfrac{5wL^4}{384EI}',
     traps: [
       'Reporting w in kip/in. instead of kips/ft.',
@@ -226,7 +226,7 @@ const PROBLEMS = [
       { text: 'Sum FfL/A for the three members.', latex: '2\\dfrac{(-25)(-0.833)(180)}{4.0} + \\dfrac{(20)(0.667)(288)}{2.0} = 1{,}875 + 1{,}920 = 3{,}795' },
       { text: 'Divide by E.', latex: '\\Delta_B = \\dfrac{3{,}795}{29{,}000} = 0.131 \\text{ in. (downward)}' },
     ],
-    handbookPage: 'p. 268',
+    handbookPage: 'p. 274',
     handbookFormula: '\\Delta_{joint} = \\sum f_i \\left(\\dfrac{FL}{AE}\\right)_i',
     traps: [
       'Mixing signs: a compression member has negative F and negative f, so its product is positive.',
@@ -265,7 +265,7 @@ const PROBLEMS = [
       { text: 'Limiting slenderness.', latex: '\\dfrac{KL}{r} \\ge \\pi\\sqrt{\\dfrac{29{,}000}{30}} = 97.7' },
       { text: 'Fixed-pinned: theoretical K = 0.7. Solve for L.', latex: 'L \\ge \\dfrac{97.7(1.20)}{0.7} = 167 \\text{ in.} = 14.0 \\text{ ft}' },
     ],
-    handbookPage: 'p. 136',
+    handbookPage: 'p. 137',
     handbookFormula: '\\sigma_{cr} = \\dfrac{\\pi^2 E}{(K\\ell/r)^2}',
     traps: [
       'Using K = 1.0 for every column.',
@@ -304,7 +304,7 @@ const PROBLEMS = [
       { text: 'Reactions: fixed base 3, pin 2. Condition equations: one hinge joining two members.', latex: 'r = 3 + 2 = 5,\\quad c = 1' },
       { text: 'Compare.', latex: '3m + r = 17 > 3j + c = 16 \\Rightarrow \\text{indeterminate to degree } 1' },
     ],
-    handbookPage: 'p. 271',
+    handbookPage: 'p. 277',
     handbookFormula: '3m + r > 3j + c \\Rightarrow \\text{stable and statically indeterminate}',
     traps: [
       'Giving a pin one reaction instead of two.',
@@ -344,7 +344,7 @@ const PROBLEMS = [
       { text: 'Compatibility: the net deflection at B is zero.', latex: 'B_y = \\dfrac{\\Delta_B}{\\delta_{BB}} = \\dfrac{5wL}{8}' },
       { text: 'Evaluate with the full length L = 40 ft.', latex: 'B_y = \\dfrac{5(3)(40)}{8} = 75 \\text{ kips}' },
     ],
-    handbookPage: 'p. 270',
+    handbookPage: 'p. 276',
     handbookFormula: '\\Delta_{BB} + B_y\\delta_{BB} = 0',
     traps: [
       'Using one span as L in the Handbook case.',
@@ -383,7 +383,7 @@ const PROBLEMS = [
       { text: 'Service loads on the column.', latex: 'D = 0.080(750) = 60 \\text{ kips},\\quad L = 0.050(750) = 37.5 \\text{ kips}' },
       { text: 'Factored load.', latex: 'P_u = 1.2(60) + 1.6(37.5) = 132 \\text{ kips}' },
     ],
-    handbookPage: 'p. 272',
+    handbookPage: 'p. 278',
     handbookFormula: '1.2D + 1.6L + 0.5(L_r \\text{ or } S \\text{ or } R)',
     traps: [
       'Using an edge or corner column\'s tributary area for an interior column.',
@@ -422,7 +422,7 @@ const PROBLEMS = [
       { text: 'Combination 4 (wind leads).', latex: '1.2(40) + 1.0(30) + 25 + 0.5(10) = 108 \\text{ kips}' },
       { text: 'Combination 6 (wind with minimum dead load) gives 0.9(40) + 30 = 66 kips. The governing value is the largest.', latex: 'P_u = 108 \\text{ kips}' },
     ],
-    handbookPage: 'p. 272',
+    handbookPage: 'p. 278',
     handbookFormula: '1.2D + 1.0W + L + 0.5(L_r \\text{ or } S \\text{ or } R)',
     traps: [
       'Assuming 1.2D + 1.6L always governs.',
@@ -462,7 +462,7 @@ const PROBLEMS = [
       { text: 'Inelastic lateral-torsional buckling strength with the given $C_b$.', latex: 'C_b[\\phi_b M_p - BF(L_b - L_p)] = 1.30[379 - 13.1(6.17)] = 388 \\text{ kip-ft}' },
       { text: 'Apply the ceiling.', latex: '\\phi_b M_n = \\min(388,\\; 379) = 379 \\text{ kip-ft}' },
     ],
-    handbookPage: 'p. 285',
+    handbookPage: 'p. 291',
     handbookFormula: '\\phi M_n = C_b[\\phi M_p - BF(L_b - L_p)] \\le \\phi M_p',
     traps: [
       'Forgetting that $C_b$ can push the result above $\\phi_b M_p$, which is not allowed.',
@@ -501,7 +501,7 @@ const PROBLEMS = [
       { text: 'Rupture on the effective net area.', latex: '\\phi P_n = 0.75(58)(2.66) = 115.8 \\text{ kips}' },
       { text: 'The smaller value governs.', latex: '\\phi P_n = \\min(121.5,\\; 115.8) \\approx 116 \\text{ kips}' },
     ],
-    handbookPage: 'p. 282-283',
+    handbookPage: 'p. 288-289',
     handbookFormula: '\\phi P_n = 0.75 F_u A_e,\\; A_e = U A_n,\\; U = 1 - \\bar{x}/L',
     traps: [
       'Skipping shear lag for an angle bolted through one leg.',
@@ -538,7 +538,7 @@ const PROBLEMS = [
       { text: 'Effective length (same both axes; the table uses $r_y$, which governs).', latex: 'KL = 0.80(20) = 16 \\text{ ft}' },
       { text: 'Read Table 4-1, W14x61 column, KL = 16 ft.', latex: '\\phi_c P_n = 515 \\text{ kips}' },
     ],
-    handbookPage: 'p. 289',
+    handbookPage: 'p. 295',
     handbookFormula: '\\phi_c P_n \\text{ from AISC Table 4-1 at } KL',
     traps: [
       'Using the actual height instead of KL.',
@@ -577,7 +577,7 @@ const PROBLEMS = [
       { text: 'Classify: $0.002 < \\varepsilon_t < 0.005$, a transition section.', latex: '0.002 < 0.00379 < 0.005' },
       { text: 'Transition-zone factor for members with ties (stirrups).', latex: '\\phi = 0.48 + 83\\varepsilon_t = 0.48 + 83(0.00379) = 0.79' },
     ],
-    handbookPage: 'p. 275',
+    handbookPage: 'p. 281',
     handbookFormula: '\\phi = 0.48 + 83\\varepsilon_t \\;(0.002 < \\varepsilon_t < 0.005)',
     traps: [
       'Using d instead of $d_t$.',
@@ -615,7 +615,7 @@ const PROBLEMS = [
       { text: 'Threshold that sets the spacing row (and the upper limit $8b_wd\\sqrt{f\'_c}$ = 155.8 kips is not exceeded).', latex: '4b_wd\\sqrt{f\'_c} = 4(14)(22)\\sqrt{4{,}000} = 77.9 \\text{ kips} < 94.4' },
       { text: 'Maximum spacing for $V_s > 4b_wd\\sqrt{f\'_c}$: the smaller of d/4 and 12 in.', latex: 's_{max} = \\min\\left(\\dfrac{22}{4},\\; 12\\right) = 5.5 \\text{ in.}' },
     ],
-    handbookPage: 'p. 276',
+    handbookPage: 'p. 282',
     handbookFormula: 'V_s > 4b_w d\\sqrt{f\'_c}:\\; s_{max} = \\min(d/4,\\; 12 \\text{ in.})',
     traps: [
       'Computing $V_s$ as $V_u - \\phi V_c$, which understates it and picks the wrong row.',
@@ -654,7 +654,7 @@ const PROBLEMS = [
       { text: 'Nominal and design moment.', latex: 'M_n = 5.00(60)(22.3 - 3.15) = 5{,}745 \\text{ kip-in.} = 478.7 \\text{ kip-ft}' },
       { text: 'Apply the factor.', latex: '\\phi M_n = 0.90(478.7) = 431 \\text{ kip-ft}' },
     ],
-    handbookPage: 'p. 275',
+    handbookPage: 'p. 281',
     handbookFormula: 'M_n = A_s f_y\\left(d - \\dfrac{a}{2}\\right),\\; a = \\dfrac{A_s f_y}{0.85 f\'_c b}',
     traps: [
       'Using the lower row depth as d.',

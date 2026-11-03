@@ -31,7 +31,7 @@ const PROBLEMS = [
       { text: 'PI = 30 is below 32.1, so the soil plots below the A-line: a silt, not a clay.', latex: '30 < 32.1' },
       { text: 'The liquid limit is 50 or more and the soil is inorganic, so the symbol is MH (elastic silt).', latex: 'LL = 64 \\ge 50 \\Rightarrow \\text{MH}' },
     ],
-    handbookPage: 'p. 267',
+    handbookPage: 'p. 273',
     handbookFormula: 'PI = LL - PL,\\quad \\text{A-line: } PI = 0.73(LL - 20)',
     traps: [
       'Assuming a high PI means clay without computing the A-line at the given LL.',
@@ -70,7 +70,7 @@ const PROBLEMS = [
       { text: 'Coefficients of uniformity and curvature:', latex: 'C_u = \\frac{0.6}{0.15} = 4.0, \\quad C_c = \\frac{0.32^2}{0.15 \\times 0.6} = 1.14' },
       { text: 'A well-graded sand needs $C_u \\ge 6$ and $1 \\le C_c \\le 3$. $C_c$ passes but $C_u = 4.0$ fails, so the sand is poorly graded.', latex: '\\text{SP}' },
     ],
-    handbookPage: 'p. 267',
+    handbookPage: 'p. 273',
     handbookFormula: 'C_u = D_{60}/D_{10},\\quad C_c = (D_{30})^2/(D_{10} \\times D_{60})',
     traps: [
       'Seeing $C_c$ in range and calling the sand well graded without checking $C_u$.',
@@ -116,7 +116,7 @@ const PROBLEMS = [
       { text: 'Degree of saturation:', latex: 'S = \\frac{V_w}{V_v} = \\frac{310}{388.9} = 0.80 = 80\\%' },
       { text: 'Check with $S = wG_s/e$: $w = 310/1{,}650 = 18.8\\%$, $e = 388.9/611.1 = 0.636$.', latex: 'S = \\frac{0.188(2.70)}{0.636} = 0.80' },
     ],
-    handbookPage: 'p. 259-260',
+    handbookPage: 'p. 265-266',
     handbookFormula: 'S = V_W/V_V \\times 100 = \\omega G_S/e',
     traps: [
       'Dividing the water volume by the total volume or by the solids volume instead of by the voids.',
@@ -151,7 +151,7 @@ const PROBLEMS = [
       { text: 'Void ratio of a saturated soil ($S = 1$):', latex: 'e = \\frac{wG_s}{S} = 0.38(2.72) = 1.034' },
       { text: 'Saturated unit weight:', latex: '\\gamma_{sat} = \\frac{(G_s + e)\\gamma_w}{1 + e} = \\frac{(2.72 + 1.034)(62.4)}{2.034} = 115.2 \\text{ pcf}' },
     ],
-    handbookPage: 'p. 259-260',
+    handbookPage: 'p. 265-266',
     handbookFormula: '\\gamma_{sat} = (G_S + e)\\gamma_W/(1 + e),\\quad S = \\omega G_S/e',
     traps: [
       'Taking the void ratio equal to the water content.',
@@ -188,7 +188,7 @@ const PROBLEMS = [
       { text: 'Unconfined compressive strength, converted to psf:', latex: 'q_u = \\frac{28.0}{1.749} = 16.0 \\text{ psi} \\times 144 = 2{,}305 \\text{ psf}' },
       { text: 'With $\\sigma_3 = 0$ and $\\phi = 0$, the Mohr circle radius is the shear strength:', latex: 'c_u = \\frac{q_u}{2} = \\frac{2{,}305}{2} = 1{,}150 \\text{ psf}' },
     ],
-    handbookPage: 'p. 262',
+    handbookPage: 'p. 268',
     handbookFormula: '\\tau_F = c + \\sigma_N \\tan\\phi \\text{ with } \\phi = 0 \\Rightarrow c_u = q_u/2',
     traps: [
       'Dividing the failure load by the original area instead of the corrected area.',
@@ -226,7 +226,7 @@ const PROBLEMS = [
       { text: 'Effective stress:', latex: "\\sigma' = 2{,}427 - 1{,}498 = 930 \\text{ psf}" },
       { text: 'Check with buoyant unit weights from the riverbed:', latex: "\\sigma' = 10(122 - 62.4) + 6(118 - 62.4) = 596 + 334 = 930 \\text{ psf}" },
     ],
-    handbookPage: 'p. 263-264',
+    handbookPage: 'p. 269-270',
     handbookFormula: "\\sigma' = \\sigma - u,\\quad u = h_u\\gamma_w",
     traps: [
       'Adding the river water to the total stress but not to the pore pressure.',
@@ -276,7 +276,7 @@ const PROBLEMS = [
       { text: 'Heave begins when the effective stress there reaches zero:', latex: "\\sigma' = \\sigma - u = 0 \\Rightarrow 115(30 - d) = 1{,}498" },
       { text: 'Solve:', latex: '30 - d = 13.0 \\text{ ft} \\Rightarrow d = 17.0 \\text{ ft}' },
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: "\\sigma' = \\sigma - u,\\quad u = h_u\\gamma_w",
     traps: [
       'Using the buoyant unit weight for the clay plug in a dry excavation.',
@@ -323,7 +323,7 @@ const PROBLEMS = [
       { text: 'Force from the surcharge (rectangle):', latex: 'P_2 = qK_AH = 250(0.307)(14) = 1{,}075 \\text{ lb/ft}' },
       { text: 'Total active force:', latex: 'P_A = 3{,}553 + 1{,}075 = 4{,}630 \\text{ lb/ft}' },
     ],
-    handbookPage: 'p. 263',
+    handbookPage: 'p. 269',
     handbookFormula: 'K_A = \\tan^2(45° - \\phi/2),\\quad P_A = \\tfrac{1}{2}K_A\\gamma H^2 + qK_AH',
     traps: [
       'Forgetting the surcharge, or applying it as a triangle instead of a rectangle.',
@@ -363,7 +363,7 @@ const PROBLEMS = [
       { text: 'For $c\' = 0$, the failure line through the origin is tangent to the effective-stress Mohr circle:', latex: "\\sin\\phi' = \\frac{\\sigma_1' - \\sigma_3'}{\\sigma_1' + \\sigma_3'} = \\frac{2{,}500}{4{,}700} = 0.532" },
       { text: 'Effective friction angle:', latex: "\\phi' = \\sin^{-1}(0.532) = 32.1°" },
     ],
-    handbookPage: 'p. 262-263',
+    handbookPage: 'p. 268-269',
     handbookFormula: "\\tau_F = c + \\sigma_N\\tan\\phi,\\quad \\sigma' = \\sigma - u",
     traps: [
       'Using total stresses when the question asks for the effective angle.',
@@ -402,7 +402,7 @@ const PROBLEMS = [
       { text: 'Width term:', latex: "\\tfrac{1}{2}\\gamma' B N_\\gamma = 0.5(9.69)(1.2)(10.9) = 63.4 \\text{ kPa}" },
       { text: 'Ultimate bearing capacity:', latex: 'q_{ult} = 248.4 + 103.7 + 63.4 = 415 \\text{ kPa}' },
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: "q_{ULT} = cN_c + \\gamma' D_f N_q + \\tfrac{1}{2}\\gamma' B N_\\gamma",
     traps: [
       'Using the saturated or moist unit weight when the water table is at or above the footing base.',
@@ -443,7 +443,7 @@ const PROBLEMS = [
       { text: 'Average pressure:', latex: '\\frac{V}{B} = \\frac{24{,}000}{8} = 3{,}000 \\text{ psf}' },
       { text: 'Maximum pressure at the heavily loaded edge:', latex: 'q_{max} = \\frac{V}{B}\\left(1 + \\frac{6e}{B}\\right) = 3{,}000\\left(1 + \\frac{6(0.667)}{8}\\right) = 4{,}500 \\text{ psf}' },
     ],
-    handbookPage: 'p. 264',
+    handbookPage: 'p. 270',
     handbookFormula: 'q_{toe} = \\frac{\\sum V}{B}\\left(1 + \\frac{6e}{B}\\right)',
     traps: [
       'Reporting the average or the minimum pressure.',
@@ -534,7 +534,7 @@ const PROBLEMS = [
       { text: 'From the handbook table, $T_v = 0.684$ corresponds to $U = 85\\%$.' },
       { text: 'Settlement after one year:', latex: 'S = U S_{ult} = 0.85(8.0) = 6.8 \\text{ in.}' },
     ],
-    handbookPage: 'p. 261-262',
+    handbookPage: 'p. 267-268',
     handbookFormula: '\\Delta H = \\frac{H_o C_C}{1 + e_o}\\log\\frac{p_o + \\Delta p}{p_o},\\quad T_v = \\frac{c_v t}{H_{dr}^2},\\quad S_T = U_{AV} S_{ULT}',
     traps: [
       'Using the full layer thickness as the drainage path when the clay drains both ways.',
@@ -657,7 +657,7 @@ const PROBLEMS = [
       { text: 'Void ratio at full saturation:', latex: 'e = \\frac{wG_s}{S} = 0.18(2.70) = 0.486' },
       { text: 'Dry unit weight:', latex: '\\gamma_{d} = \\frac{G_s\\gamma_w}{1 + e} = \\frac{2.70(62.4)}{1.486} = 113.4 \\text{ pcf}' },
     ],
-    handbookPage: 'p. 259-260',
+    handbookPage: 'p. 265-266',
     handbookFormula: '\\gamma_D = G_S\\gamma_W/(1 + e),\\quad S = \\omega G_S/e',
     traps: [
       'Setting the void ratio equal to the water content.',
@@ -694,7 +694,7 @@ const PROBLEMS = [
       { text: 'Time in seconds: $t = 2.0(60) = 120$ s.' },
       { text: 'Hydraulic conductivity:', latex: 'k = \\frac{Q}{iAt} = \\frac{280}{3.33(28.3)(120)} = 2.5 \\times 10^{-2} \\text{ cm/s}' },
     ],
-    handbookPage: 'p. 291',
+    handbookPage: 'p. 297',
     handbookFormula: 'K = Q/(iAt_e),\\quad i = dh/dx',
     traps: [
       'Forgetting to divide the head by the specimen length.',

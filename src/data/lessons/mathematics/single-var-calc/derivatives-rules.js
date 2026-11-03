@@ -114,7 +114,7 @@ export default {
           "latex": "4(3x + 5)^3 \\cdot 3 = 12(3x + 5)^3"
         }
       ],
-      "handbookPage": "p. 49",
+      "handbookPage": "p. 50",
       "handbookFormula": "\\frac{d}{dx}(u^n) = nu^{n-1}\\frac{du}{dx}",
       "videoUrl": null,
       "traps": [
@@ -166,7 +166,7 @@ export default {
           "latex": "f'(x) = e^{3x}(3x^2 + 2x)"
         }
       ],
-      "handbookPage": "p. 49",
+      "handbookPage": "p. 50",
       "handbookFormula": "\\frac{d}{dx}(uv) = u\\frac{dv}{dx} + v\\frac{du}{dx}",
       "videoUrl": null,
       "traps": [
@@ -214,7 +214,7 @@ export default {
           "latex": "f'(x) = \\frac{(x^2 + 1)\\cos x - \\sin x \\cdot 2x}{(x^2 + 1)^2}"
         }
       ],
-      "handbookPage": "p. 49",
+      "handbookPage": "p. 50",
       "handbookFormula": "\\frac{d}{dx}\\!\\left(\\frac{u}{v}\\right) = \\frac{v\\,\\frac{du}{dx} - u\\,\\frac{dv}{dx}}{v^2}",
       "videoUrl": null,
       "traps": [

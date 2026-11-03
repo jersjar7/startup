@@ -36,7 +36,7 @@ export default {
         { text: 'Apply the dry infinite-slope formula:', latex: 'FS = \\frac{\\tan \\phi}{\\tan \\beta} = \\frac{\\tan 34\\degree}{\\tan 20\\degree}' },
         { text: 'Compute:', latex: 'FS = \\frac{0.6745}{0.3640} = 1.85' },
       ],
-      handbookPage: 'p. 265',
+      handbookPage: 'p. 271',
       handbookFormula: 'FS = \\tan\\phi/\\tan\\beta',
       videoUrl: null,
       traps: [
@@ -63,7 +63,7 @@ export default {
         { text: 'Reduction factor:', latex: '\\frac{\\gamma\'}{\\gamma_{sat}} = \\frac{9.81}{19.62} = 0.5' },
         { text: 'Apply to the dry FS:', latex: 'FS = 0.5 \\times 1.85 = 0.93' },
       ],
-      handbookPage: 'p. 265',
+      handbookPage: 'p. 271',
       handbookFormula: 'FS = (\\gamma\'/\\gamma_{sat})\\tan\\phi/\\tan\\beta',
       videoUrl: null,
       traps: [
@@ -90,7 +90,7 @@ export default {
         { text: 'Driving force:', latex: 'W\\sin\\alpha = 400(0.4226) = 169\\text{ kN/m}' },
         { text: 'Factor of safety:', latex: 'FS = \\frac{252}{169} = 1.49' },
       ],
-      handbookPage: 'p. 265',
+      handbookPage: 'p. 271',
       handbookFormula: 'FS = (cL_s + W\\cos\\alpha\\tan\\phi)/(W\\sin\\alpha)',
       videoUrl: null,
       traps: [

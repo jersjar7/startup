@@ -46,7 +46,7 @@ const PROBLEMS = [
         latex: 'F = 15{,}000 \\times 1.4693 = 22{,}040'
       }
     ],
-    handbookPage: 'p. 229, Single Payment Compound Amount',
+    handbookPage: 'p. 235, Single Payment Compound Amount',
     handbookFormula: 'F = P(1+i)^n',
     videoUrl: null,
     traps: [
@@ -96,7 +96,7 @@ const PROBLEMS = [
         latex: 'A = 200{,}000 \\times 0.18744 = 37{,}490'
       }
     ],
-    handbookPage: 'p. 229, Capital Recovery; p. 235, Factor Table i = 10%',
+    handbookPage: 'p. 235, Capital Recovery; p. 241, Factor Table i = 10%',
     handbookFormula: 'A = P \\cdot \\frac{i(1+i)^n}{(1+i)^n - 1}',
     videoUrl: null,
     traps: [
@@ -151,7 +151,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 229, Interest Factor Table',
+    handbookPage: 'p. 235, Interest Factor Table',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -210,7 +210,7 @@ const PROBLEMS = [
         latex: 'F = 5{,}000 \\times 13.412 = 67{,}060'
       }
     ],
-    handbookPage: 'p. 229, Uniform Series Compound Amount; p. 230, Non-Annual Compounding',
+    handbookPage: 'p. 235, Uniform Series Compound Amount; p. 236, Non-Annual Compounding',
     handbookFormula: 'F = A \\cdot \\frac{(1+i)^n - 1}{i}',
     videoUrl: null,
     traps: [
@@ -265,7 +265,7 @@ const PROBLEMS = [
         latex: 'PW = -45{,}000 + 58{,}881 + 2{,}792 = 16{,}673 \\approx 16{,}700'
       }
     ],
-    handbookPage: 'p. 229, Uniform Series Present Worth; Single Payment Present Worth',
+    handbookPage: 'p. 235, Uniform Series Present Worth; Single Payment Present Worth',
     handbookFormula: 'PW = -C_0 + A(P/A,\\, i\\%,\\, n) + S_n(P/F,\\, i\\%,\\, n)',
     videoUrl: null,
     traps: [
@@ -320,7 +320,7 @@ const PROBLEMS = [
         latex: 'FW = -251{,}820 + 284{,}655 = 32{,}835 \\approx 32{,}800'
       }
     ],
-    handbookPage: 'p. 229, Single Payment Compound Amount; Uniform Series Compound Amount',
+    handbookPage: 'p. 235, Single Payment Compound Amount; Uniform Series Compound Amount',
     handbookFormula: 'FW = -C_0(F/P,\\, i\\%,\\, n) + A(F/A,\\, i\\%,\\, n)',
     videoUrl: null,
     traps: [
@@ -375,7 +375,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 229, Engineering Economics',
+    handbookPage: 'p. 235, Engineering Economics',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -442,7 +442,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 229, Capital Recovery (A/P) + Sinking Fund (A/F); p. 235, Factor Table i = 10%',
+    handbookPage: 'p. 235, Capital Recovery (A/P) + Sinking Fund (A/F); p. 241, Factor Table i = 10%',
     handbookFormula: 'AW = C_0(A/P,\\, i\\%,\\, n) + A_{\\text{oper}} - S_n(A/F,\\, i\\%,\\, n)',
     videoUrl: null,
     traps: [
@@ -497,7 +497,7 @@ const PROBLEMS = [
         latex: 'Q^* = \\frac{5{,}000}{5} = 1{,}000 \\text{ tons}'
       }
     ],
-    handbookPage: 'p. 230, Cost Estimation and Break-Even Analysis',
+    handbookPage: 'p. 236, Cost Estimation and Break-Even Analysis',
     handbookFormula: 'Q^* = \\frac{FC_A - FC_B}{VC_B - VC_A}',
     videoUrl: null,
     traps: [
@@ -548,7 +548,7 @@ const PROBLEMS = [
         latex: '\\text{Payback} = \\frac{250{,}000}{50{,}000} = 5.0 \\text{ years}'
       }
     ],
-    handbookPage: 'p. 230, Cost Estimation and Payback Analysis',
+    handbookPage: 'p. 236, Cost Estimation and Payback Analysis',
     handbookFormula: '\\text{Payback Period} = \\frac{\\text{Initial Investment}}{\\text{Annual Net Savings}}',
     videoUrl: null,
     traps: [
@@ -607,7 +607,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 230, Cost Estimation and Break-Even Analysis',
+    handbookPage: 'p. 236, Cost Estimation and Break-Even Analysis',
     handbookFormula: 'TC = FC + VC \\cdot Q',
     videoUrl: null,
     traps: [
@@ -662,7 +662,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 229, Engineering Economics: Sunk Costs',
+    handbookPage: 'p. 235, Engineering Economics: Sunk Costs',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -713,7 +713,7 @@ const PROBLEMS = [
         latex: 'B/C = \\frac{2{,}576{,}035}{2{,}000{,}000} = 1.29'
       }
     ],
-    handbookPage: 'p. 231',
+    handbookPage: 'p. 237',
     handbookFormula: 'B/C = \\frac{PW_{\\text{benefits}}}{PW_{\\text{costs}}}',
     videoUrl: null,
     traps: [
@@ -764,7 +764,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 231',
+    handbookPage: 'p. 237',
     handbookFormula: null,
     videoUrl: null,
     traps: ['Thinking any positive B/C means the project is justified, when it must be >= 1.0'],
@@ -816,7 +816,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 231, Benefit-Cost Analysis',
+    handbookPage: 'p. 237, Benefit-Cost Analysis',
     handbookFormula: '\\Delta B/C = \\frac{B_2 - B_1}{C_2 - C_1} \\geq 1',
     videoUrl: null,
     traps: [
@@ -875,7 +875,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 229, Single Payment Present Worth; p. 231, Expected Value',
+    handbookPage: 'p. 235, Single Payment Present Worth; p. 237, Expected Value',
     handbookFormula: 'EV = C_1 \\cdot p_1 + C_2 \\cdot p_2',
     videoUrl: null,
     traps: [
@@ -922,7 +922,7 @@ const PROBLEMS = [
         latex: 'D = \\frac{C - S_n}{n} = \\frac{120{,}000 - 20{,}000}{10} = \\frac{100{,}000}{10} = 10{,}000'
       }
     ],
-    handbookPage: 'p. 230, Depreciation',
+    handbookPage: 'p. 236, Depreciation',
     handbookFormula: 'D_j = \\frac{C - S_n}{n}',
     videoUrl: null,
     traps: [
@@ -973,7 +973,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 230, Taxation',
+    handbookPage: 'p. 236, Taxation',
     handbookFormula: '\\text{Tax} = t \\times (\\text{Revenue} - \\text{Expenses} - D)',
     videoUrl: null,
     traps: [
@@ -1032,7 +1032,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 230, Inflation',
+    handbookPage: 'p. 236, Inflation',
     handbookFormula: 'd = i + f + (i \\times f)',
     videoUrl: null,
     traps: [
@@ -1087,11 +1087,11 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'The option claiming MACRS applies only to assets with a useful life of 20 years or more is fabricated, since the MACRS table on p. 231 covers 3-, 5-, 7-, and 10-year recovery periods (among others).',
+        text: 'The option claiming MACRS applies only to assets with a useful life of 20 years or more is fabricated, since the MACRS table on p. 237 covers 3-, 5-, 7-, and 10-year recovery periods (among others).',
         latex: null
       }
     ],
-    handbookPage: 'p. 230, MACRS and Straight-Line Depreciation',
+    handbookPage: 'p. 236, MACRS and Straight-Line Depreciation',
     handbookFormula: 'D_j = d_j \\times C \\quad \\text{(MACRS)} \\qquad D_j = \\frac{C - S_n}{n} \\quad \\text{(SL)}',
     videoUrl: null,
     traps: [
@@ -1120,7 +1120,7 @@ const PROBLEMS = [
       { text: 'Break-even:', latex: '5{,}000 = \\frac{5{,}600}{1+i}' },
       { text: 'Solve:', latex: '1+i = 1.12 \\Rightarrow i = 12\\%' },
     ],
-    handbookPage: 'p. 229',
+    handbookPage: 'p. 235',
     handbookFormula: 'P = F/(1+i)^n',
     videoUrl: null,
     traps: ['Dividing the gain by the future value', 'Forgetting IRR is the rate making NPW = 0'],

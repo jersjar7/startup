@@ -21,7 +21,7 @@ const PROBLEMS = [
       { text: 'Frame right side:', latex: '3j + c = 3(6) + 0 = 18' },
       { text: 'Degree of indeterminacy:', latex: '24 - 18 = 6' },
     ],
-    handbookPage: 'p. 271',
+    handbookPage: 'p. 277',
     handbookFormula: '\\text{Degree} = (3m + r) - (3j + c)',
     videoUrl: null,
     traps: [
@@ -51,7 +51,7 @@ const PROBLEMS = [
       { text: 'Equilibrium equations for a planar beam:', latex: '3' },
       { text: 'External indeterminacy:', latex: 'r - 3 = 4 - 3 = 1' },
     ],
-    handbookPage: 'p. 271',
+    handbookPage: 'p. 277',
     handbookFormula: '\\text{External degree} = r - 3 \\quad \\text{(planar)}',
     videoUrl: null,
     traps: [
@@ -81,7 +81,7 @@ const PROBLEMS = [
       { text: 'Substitute:', latex: '40 + 0.75(30) + 0.75(24) = 40 + 22.5 + 18' },
       { text: 'Service load:', latex: '= 80.5 \\text{ kips}' },
     ],
-    handbookPage: 'p. 272',
+    handbookPage: 'p. 278',
     handbookFormula: 'D + 0.75L + 0.75(L_r \\text{ or } S \\text{ or } R)',
     videoUrl: null,
     traps: [
@@ -111,7 +111,7 @@ const PROBLEMS = [
       { text: 'Combination 2:', latex: '1.2D + 1.6L = 1.2(100) + 1.6(10) = 136 \\text{ kips}' },
       { text: 'Controlling: Combination 1 at 140 kips (dead load dominates).', latex: null },
     ],
-    handbookPage: 'p. 272',
+    handbookPage: 'p. 278',
     handbookFormula: '1.4D \\quad \\text{vs} \\quad 1.2D + 1.6L',
     videoUrl: null,
     traps: [
@@ -141,7 +141,7 @@ const PROBLEMS = [
       { text: 'Area under IL over the loaded half:', latex: 'A_{IL} = \\frac{1.0 + 0.5}{2}(10) = 7.5' },
       { text: 'Left reaction:', latex: 'R_A = w \\times A_{IL} = 3 \\times 7.5 = 22.5 \\text{ kips}' },
     ],
-    handbookPage: 'p. 268',
+    handbookPage: 'p. 274',
     handbookFormula: 'R = w \\times \\text{Area under IL}',
     videoUrl: null,
     traps: [
@@ -171,7 +171,7 @@ const PROBLEMS = [
       { text: 'Net area for a full-span uniform load:', latex: 'A^{+} + A^{-} = 0' },
       { text: 'Shear:', latex: 'V_{mid} = w \\times 0 = 0' },
     ],
-    handbookPage: 'p. 268',
+    handbookPage: 'p. 274',
     handbookFormula: 'V = w \\times \\text{(net signed area under IL)}',
     videoUrl: null,
     traps: [
@@ -201,7 +201,7 @@ const PROBLEMS = [
       { text: 'Second expression:', latex: '\\frac{200}{60000}(12)(20) = 0.80 \\text{ in}^2' },
       { text: 'Governing minimum (larger value):', latex: 'A_{s,\\min} = 0.80 \\text{ in}^2' },
     ],
-    handbookPage: 'p. 275',
+    handbookPage: 'p. 281',
     handbookFormula: 'A_{s,\\min} = \\max\\left(\\frac{3\\sqrt{f_c\'}}{f_y} b_w d, \\; \\frac{200}{f_y} b_w d\\right)',
     videoUrl: null,
     traps: [
@@ -230,7 +230,7 @@ const PROBLEMS = [
       { text: 'Stirrup shear capacity:', latex: 'V_s = \\frac{A_v f_y d}{s} = \\frac{0.40 \\times 60 \\times 22}{8}' },
       { text: 'Compute:', latex: 'V_s = \\frac{528}{8} = 66 \\text{ kips}' },
     ],
-    handbookPage: 'p. 276',
+    handbookPage: 'p. 282',
     handbookFormula: 'V_s = \\frac{A_v f_y d}{s}',
     videoUrl: null,
     traps: [
@@ -260,7 +260,7 @@ const PROBLEMS = [
       { text: 'Inside brackets:', latex: '0.85(4)(212) + 4.0(60) = 720.8 + 240 = 960.8 \\text{ kips}' },
       { text: 'Apply factors:', latex: '\\phi P_n = 0.80(0.65)(960.8) = 0.52 \\times 960.8 = 500 \\text{ kips}' },
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 284',
     handbookFormula: '\\phi P_n = 0.80\\phi \\left[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y\\right]',
     videoUrl: null,
     traps: [
@@ -290,7 +290,7 @@ const PROBLEMS = [
       { text: 'Proposed ratio:', latex: '\\rho_g = 0.10 > 0.08' },
       { text: 'Exceeds the 8 percent maximum, which causes bar congestion and placement problems.', latex: null },
     ],
-    handbookPage: 'p. 278',
+    handbookPage: 'p. 284',
     handbookFormula: '0.01 \\leq \\rho_g \\leq 0.08',
     videoUrl: null,
     traps: [
@@ -319,7 +319,7 @@ const PROBLEMS = [
       { text: 'Plastic moment:', latex: 'M_p = F_y Z_x = 50 \\times 100 = 5{,}000 \\text{ kip-in} = 416.7 \\text{ kip-ft}' },
       { text: 'ASD allowable strength:', latex: '\\frac{M_n}{\\Omega_b} = \\frac{416.7}{1.67} = 250 \\text{ kip-ft}' },
     ],
-    handbookPage: 'p. 281',
+    handbookPage: 'p. 287',
     handbookFormula: '\\frac{M_n}{\\Omega_b}, \\quad \\Omega_b = 1.67',
     videoUrl: null,
     traps: [
@@ -349,7 +349,7 @@ const PROBLEMS = [
       { text: 'Nominal shear:', latex: 'V_n = 0.6(36)(5.40)(1.0) = 116.6 \\text{ kips}' },
       { text: 'Design shear ($\\phi_v = 1.00$):', latex: '\\phi_v V_n = 117 \\text{ kips}' },
     ],
-    handbookPage: 'p. 281',
+    handbookPage: 'p. 287',
     handbookFormula: 'V_n = 0.6 F_y A_w C_{v1}',
     videoUrl: null,
     traps: [
@@ -378,7 +378,7 @@ const PROBLEMS = [
       { text: 'Euler buckling stress:', latex: 'F_e = \\frac{\\pi^2 (29{,}000)}{140^2} = \\frac{286{,}218}{19{,}600} = 14.6 \\text{ ksi}' },
       { text: 'Elastic critical stress:', latex: 'F_{cr} = 0.877 F_e = 0.877(14.6) = 12.8 \\text{ ksi}' },
     ],
-    handbookPage: 'p. 281',
+    handbookPage: 'p. 287',
     handbookFormula: 'F_{cr} = 0.877 F_e, \\quad F_e = \\frac{\\pi^2 E}{(KL/r)^2}',
     videoUrl: null,
     traps: [
@@ -408,7 +408,7 @@ const PROBLEMS = [
       { text: 'Compare:', latex: '\\frac{KL}{r} = 90 < 113.4' },
       { text: 'Since $KL/r$ is below the threshold, inelastic buckling governs.', latex: null },
     ],
-    handbookPage: 'p. 281',
+    handbookPage: 'p. 287',
     handbookFormula: '\\frac{KL}{r} \\leq 4.71\\sqrt{E/F_y} \\implies \\text{inelastic buckling}',
     videoUrl: null,
     traps: [
@@ -438,7 +438,7 @@ const PROBLEMS = [
       { text: 'Net width along the staggered path (3 holes, 2 diagonals):', latex: 'b_n = 10 - 3(1.0) + 2\\left(\\frac{1.5^2}{4(2.5)}\\right) = 10 - 3 + 0.45 = 7.45 \\text{ in.}' },
       { text: 'Net area:', latex: 'A_n = 7.45 \\times 0.375 = 2.79 \\text{ in}^2' },
     ],
-    handbookPage: 'p. 282',
+    handbookPage: 'p. 288',
     handbookFormula: 'b_n = b_g - \\Sigma d_h + \\Sigma \\frac{s^2}{4g}',
     videoUrl: null,
     traps: [
@@ -468,7 +468,7 @@ const PROBLEMS = [
       { text: 'Shear lag factor:', latex: 'U = 1 - \\frac{\\bar{x}}{L} = 1 - \\frac{1.20}{9.0} = 0.867' },
       { text: 'Effective net area:', latex: 'A_e = U A_n = 0.867 \\times 4.00 = 3.47 \\text{ in}^2' },
     ],
-    handbookPage: 'p. 283',
+    handbookPage: 'p. 289',
     handbookFormula: 'A_e = U A_n, \\quad U = 1 - \\frac{\\bar{x}}{L}',
     videoUrl: null,
     traps: [

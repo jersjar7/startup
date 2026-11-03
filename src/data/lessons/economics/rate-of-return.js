@@ -33,7 +33,7 @@ export default {
         { text: 'That means net present worth = 0.', latex: null },
         { text: 'So IRR is the rate where NPW = 0.', latex: null },
       ],
-      handbookPage: 'p. 229',
+      handbookPage: 'p. 235',
       handbookFormula: 'PW_{benefits} - PW_{costs} = 0',
       videoUrl: null,
       traps: [
@@ -60,7 +60,7 @@ export default {
         { text: 'Compare: 12% < 15%.', latex: null },
         { text: 'Since IRR is below MARR, reject the project.', latex: null },
       ],
-      handbookPage: 'p. 229',
+      handbookPage: 'p. 235',
       handbookFormula: null,
       videoUrl: null,
       traps: [
@@ -87,7 +87,7 @@ export default {
         { text: 'Solve for (1 + i):', latex: '1 + i = \\frac{1{,}150}{1{,}000} = 1.15' },
         { text: 'Internal rate of return:', latex: 'i = 0.15 = 15\\%' },
       ],
-      handbookPage: 'p. 229',
+      handbookPage: 'p. 235',
       handbookFormula: 'P = F/(1+i)^n',
       videoUrl: null,
       traps: [

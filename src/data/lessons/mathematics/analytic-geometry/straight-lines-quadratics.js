@@ -118,7 +118,7 @@ export default {
           "latex": "0.02 \\times 100 = 2.0\\%"
         }
       ],
-      "handbookPage": "p. 36",
+      "handbookPage": "p. 37",
       "handbookFormula": "m = \\frac{y_2 - y_1}{x_2 - x_1}",
       "videoUrl": null,
       "traps": [
@@ -162,7 +162,7 @@ export default {
           "latex": "m_\\perp = -\\frac{1}{m_{PQ}} = -\\frac{1}{2/3} = -\\frac{3}{2}"
         }
       ],
-      "handbookPage": "p. 36",
+      "handbookPage": "p. 37",
       "handbookFormula": "m_1 = -\\frac{1}{m_2}",
       "videoUrl": null,
       "traps": [
@@ -222,7 +222,7 @@ export default {
           "latex": "t \\approx 2.82\\,\\text{s}"
         }
       ],
-      "handbookPage": "p. 36",
+      "handbookPage": "p. 37",
       "handbookFormula": "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
       "videoUrl": null,
       "traps": [

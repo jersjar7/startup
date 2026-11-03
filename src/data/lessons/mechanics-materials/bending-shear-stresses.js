@@ -44,7 +44,7 @@ export default {
         { text: 'Distance to extreme fiber: $c = h/2 = 100$ mm', latex: null },
         { text: 'Max bending stress:', latex: '\\sigma = \\frac{Mc}{I} = \\frac{8{,}000{,}000 \\times 100}{66{,}670{,}000} = 12.0 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 135',
+      handbookPage: 'p. 136',
       handbookFormula: '\\sigma = \\frac{Mc}{I}',
       videoUrl: null,
       traps: [
@@ -72,7 +72,7 @@ export default {
         { text: 'Cross-sectional area:', latex: 'A = 150 \\times 300 = 45{,}000 \\text{ mm}^2' },
         { text: 'Max shear stress (at neutral axis):', latex: '\\tau_{max} = \\frac{3V}{2A} = \\frac{3 \\times 45{,}000}{2 \\times 45{,}000} = 1.50 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 135',
+      handbookPage: 'p. 136',
       handbookFormula: '\\tau = \\frac{VQ}{Ib}',
       videoUrl: null,
       traps: [
@@ -101,7 +101,7 @@ export default {
         { text: 'Width at the junction: $b = 10$ mm (web thickness)', latex: null },
         { text: 'Shear stress:', latex: '\\tau = \\frac{VQ}{Ib} = \\frac{60{,}000 \\times 420{,}000}{132.4 \\times 10^6 \\times 10} = 19.0 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 135',
+      handbookPage: 'p. 136',
       handbookFormula: '\\tau = \\frac{VQ}{Ib}',
       videoUrl: null,
       traps: [

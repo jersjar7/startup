@@ -19,7 +19,7 @@ const PROBLEMS = [
       { text: 'Tally the occurrences of each value:', latex: '2.1 \\rightarrow 3,\\quad 3.4 \\rightarrow 2,\\quad 2.8 \\rightarrow 1,\\quad 4.0 \\rightarrow 1' },
       { text: 'The value with the highest frequency is the mode:', latex: '\\text{Mode} = 2.1\\,\\text{mm}' },
     ],
-    handbookPage: 'p. 63',
+    handbookPage: 'p. 64',
     handbookFormula: '\\text{Mode} = \\text{most frequently occurring value}',
     videoUrl: null,
     traps: [
@@ -50,7 +50,7 @@ const PROBLEMS = [
       { text: 'Population variance (divide by $N = 4$):', latex: '\\sigma^2 = \\frac{20}{4} = 5' },
       { text: 'Population standard deviation:', latex: '\\sigma = \\sqrt{5} = 2.24\\,\\text{mm}' },
     ],
-    handbookPage: 'p. 63',
+    handbookPage: 'p. 64',
     handbookFormula: '\\sigma = \\sqrt{\\frac{1}{N}\\sum_{i=1}^{N}(x_i - \\mu)^2}',
     videoUrl: null,
     traps: [
@@ -79,7 +79,7 @@ const PROBLEMS = [
       { text: 'Compute the coefficient of determination:', latex: 'R^2 = r^2 = (0.95)^2 = 0.9025' },
       { text: 'The fraction explained is $0.9025$. The fraction unexplained is the complement:', latex: '1 - R^2 = 1 - 0.9025 = 0.0975' },
     ],
-    handbookPage: 'p. 70',
+    handbookPage: 'p. 71',
     handbookFormula: 'R^2 = r^2',
     videoUrl: null,
     traps: [
@@ -109,7 +109,7 @@ const PROBLEMS = [
       { text: 'Substitute $\\hat{y} = 1{,}455$, $a = -120$, $b = 450$:', latex: 'x = \\frac{1{,}455 - (-120)}{450} = \\frac{1{,}575}{450}' },
       { text: 'Divide:', latex: 'x = 3.50\\,\\text{ft}' },
     ],
-    handbookPage: 'p. 69',
+    handbookPage: 'p. 70',
     handbookFormula: '\\hat{y} = a + bx',
     videoUrl: null,
     traps: [
@@ -138,7 +138,7 @@ const PROBLEMS = [
       { text: 'Order matters (ranked bonuses), so use permutations:', latex: 'P(7, 3) = \\frac{7!}{(7-3)!} = \\frac{7!}{4!}' },
       { text: 'Simplify:', latex: '7 \\times 6 \\times 5 = 210' },
     ],
-    handbookPage: 'p. 64',
+    handbookPage: 'p. 65',
     handbookFormula: 'P(n, r) = \\frac{n!}{(n - r)!}',
     videoUrl: null,
     traps: [
@@ -168,7 +168,7 @@ const PROBLEMS = [
       { text: 'Compute the variance:', latex: '\\sigma^2 = npq = 80(0.10)(0.90) = 7.2' },
       { text: 'Take the square root:', latex: '\\sigma = \\sqrt{7.2} = 2.68' },
     ],
-    handbookPage: 'p. 67',
+    handbookPage: 'p. 68',
     handbookFormula: '\\sigma^2 = npq \\quad \\text{where } q = 1 - p',
     videoUrl: null,
     traps: [
@@ -199,7 +199,7 @@ const PROBLEMS = [
       { text: 'Bid B is certain:', latex: 'E(B) = 25{,}000 \\text{ dollars}' },
       { text: 'Compare and take the difference:', latex: 'E(B) - E(A) = 25{,}000 - 20{,}000 = 5{,}000 \\text{ dollars (Bid B preferred)}' },
     ],
-    handbookPage: 'p. 66',
+    handbookPage: 'p. 67',
     handbookFormula: 'E(X) = \\sum_{k=1}^{n} x_k \\cdot P(x_k)',
     videoUrl: null,
     traps: [
@@ -229,7 +229,7 @@ const PROBLEMS = [
       { text: 'Substitute the means:', latex: 'E(U) = 1.2(90) + 1.6(35) = 108 + 56' },
       { text: 'Sum:', latex: 'E(U) = 164\\,\\text{kN}' },
     ],
-    handbookPage: 'p. 66',
+    handbookPage: 'p. 67',
     handbookFormula: 'E(a_1 X_1 + a_2 X_2) = a_1 E(X_1) + a_2 E(X_2)',
     videoUrl: null,
     traps: [
@@ -260,7 +260,7 @@ const PROBLEMS = [
       { text: 'Margin of error:', latex: 'E = 1.645 \\times 0.10 = 0.164' },
       { text: 'Confidence interval:', latex: '19.6 \\pm 0.164 = (19.44,\\; 19.76)' },
     ],
-    handbookPage: 'p. 74',
+    handbookPage: 'p. 75',
     handbookFormula: '\\bar{x} \\pm z_{\\alpha/2}\\frac{\\sigma}{\\sqrt{n}}',
     videoUrl: null,
     traps: [
@@ -291,7 +291,7 @@ const PROBLEMS = [
       { text: 'Solve for the sample-size ratio:', latex: '\\sqrt{n_{\\text{new}}} = 2\\sqrt{n_{\\text{old}}} \\;\\Rightarrow\\; n_{\\text{new}} = 4\\,n_{\\text{old}}' },
       { text: 'Apply to $n_{\\text{old}} = 25$:', latex: 'n_{\\text{new}} = 4(25) = 100' },
     ],
-    handbookPage: 'p. 74',
+    handbookPage: 'p. 75',
     handbookFormula: 'E = z_{\\alpha/2}\\frac{\\sigma}{\\sqrt{n}}',
     videoUrl: null,
     traps: [
@@ -322,7 +322,7 @@ const PROBLEMS = [
       { text: 'Compute the test statistic:', latex: 'z = \\frac{\\bar{x} - \\mu_0}{\\sigma/\\sqrt{n}} = \\frac{106 - 100}{2.0} = 3.0' },
       { text: 'Compare: $|z| = 3.0 > 1.96$. Reject $H_0$.', latex: null },
     ],
-    handbookPage: 'p. 73',
+    handbookPage: 'p. 74',
     handbookFormula: 'z = \\frac{\\bar{x} - \\mu_0}{\\sigma / \\sqrt{n}}',
     videoUrl: null,
     traps: [
@@ -352,7 +352,7 @@ const PROBLEMS = [
       { text: 'The probability of a Type I error is the significance level, chosen before testing:', latex: 'P(\\text{Type I}) = \\alpha' },
       { text: 'For contrast, failing to reject a false $H_0$ is a Type II error with probability $\\beta$.', latex: null },
     ],
-    handbookPage: 'p. 72',
+    handbookPage: 'p. 73',
     handbookFormula: 'P(\\text{Type I error}) = \\alpha',
     videoUrl: null,
     traps: [

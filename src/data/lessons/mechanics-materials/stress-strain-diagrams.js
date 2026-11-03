@@ -21,7 +21,7 @@ export default {
     { type: 'text', body: '$\\nu$ is Poisson\'s ratio, the ratio of lateral strain to axial strain. For steel, $\\nu \\approx 0.30$. This links the three elastic constants $E$, $G$, and $\\nu$.' },
     { type: 'callout', variant: 'tip', body: 'To find E from a stress-strain curve, pick two points on the straight-line portion and compute rise/run: E = \u0394\u03C3/\u0394\u03B5. Don\'t pick points from the curved plastic region.' },
     { type: 'callout', variant: 'warning', body: 'Engineering stress uses the original cross-sectional area. True stress uses the actual (necked) area. The FE uses engineering stress unless stated otherwise. They diverge after necking begins.' },
-    { type: 'callout', variant: 'exam', body: 'The handbook has material property tables on pp. 137\u2013138 with E, G, \u03BD, and \u03B1 for common materials. You don\'t need to memorize these values.' },
+    { type: 'callout', variant: 'exam', body: 'The handbook has material property tables on pp. 138\u2013139 with E, G, \u03BD, and \u03B1 for common materials. You don\'t need to memorize these values.' },
   ],
   illustration: null,
   problems: [
@@ -41,7 +41,7 @@ export default {
       steps: [
         { text: 'Modulus of elasticity:', latex: 'E = \\frac{\\sigma}{\\varepsilon} = \\frac{140}{0.0020} = 70{,}000 \\text{ MPa} = 70 \\text{ GPa}' },
       ],
-      handbookPage: 'p. 129',
+      handbookPage: 'p. 130',
       handbookFormula: 'E = \\frac{\\sigma}{\\varepsilon}',
       videoUrl: null,
       traps: [
@@ -67,7 +67,7 @@ export default {
         { text: 'Material 1: $\\sigma_y$ well below $\\sigma_u$ (250 vs 400 MPa), large elongation (25%) \u2192 significant plastic deformation before fracture \u2192 ductile', latex: null },
         { text: 'Material 2: $\\sigma_y \\approx \\sigma_u$ (830 vs 830 MPa), near-zero elongation (0.5%) \u2192 fractures with almost no yielding \u2192 brittle', latex: null },
       ],
-      handbookPage: 'p. 129',
+      handbookPage: 'p. 130',
       handbookFormula: '\\%\\text{Elongation} = \\frac{L_f - L_0}{L_0} \\times 100',
       videoUrl: null,
       traps: [
@@ -93,7 +93,7 @@ export default {
         { text: 'The specimen dimensions are not needed: E and \u03BD are given directly.', latex: null },
         { text: 'Shear modulus:', latex: 'G = \\frac{E}{2(1+\\nu)} = \\frac{200}{2(1+0.30)} = \\frac{200}{2.60} = 76.9 \\text{ GPa}' },
       ],
-      handbookPage: 'p. 129',
+      handbookPage: 'p. 130',
       handbookFormula: 'G = \\frac{E}{2(1+\\nu)}',
       videoUrl: null,
       traps: [

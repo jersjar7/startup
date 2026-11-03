@@ -155,7 +155,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 9, Model Law §150.10 A.3',
+      handbookPage: 'p. 10, Model Law §150.10 A.3',
       handbookFormula:
         '\\text{§150.10 A.3: Conviction of any felony, whether or not related to engineering practice.}',
       videoUrl: null,
@@ -213,7 +213,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 10, Model Law §150.30 A.2; p. 10, §160.10 A, C; p. 9, §150.10 A.9',
+      handbookPage: 'p. 11, Model Law §150.30 A.2; p. 11, §160.10 A, C; p. 10, §150.10 A.9',
       handbookFormula:
         '\\text{§150.30 A.2: Unlicensed individuals shall not use "engineering" in their name or form of business activity.}',
       videoUrl: null,

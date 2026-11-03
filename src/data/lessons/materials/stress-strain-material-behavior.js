@@ -18,7 +18,7 @@ export default {
     { type: 'text', body: 'The elastic modulus $E$ is the slope of the linear portion of the stress-strain curve. It measures stiffness, not strength. Glass is stiff but brittle, while rubber is flexible but can stretch far without breaking.' },
     { type: 'text', body: 'Yield strength ($\\sigma_y$) is the stress at which permanent deformation begins, found by the 0.2% offset method. Ultimate tensile strength (UTS) is the peak engineering stress. Ductility is measured as percent elongation at fracture.' },
     { type: 'callout', variant: 'tip', body: 'Stiffness \u2260 strength. Steel (E = 200 GPa) is about 3\u00D7 stiffer than aluminum (E = 70 GPa), but some aluminum alloys approach steel\u2019s yield strength. A stiff material resists deformation; a strong material resists failure.' },
-    { type: 'callout', variant: 'exam', body: 'The handbook gives \u03C3 = E\u03B5 on p. 121. If a problem says \u201Csteel\u201D without specifying E, use 200 GPa (29,000 ksi). For aluminum, use 70 GPa (10,000 ksi).' },
+    { type: 'callout', variant: 'exam', body: 'The handbook gives \u03C3 = E\u03B5 on p. 122. If a problem says \u201Csteel\u201D without specifying E, use 200 GPa (29,000 ksi). For aluminum, use 70 GPa (10,000 ksi).' },
   ],
   illustration: null,
   problems: [
@@ -39,7 +39,7 @@ export default {
         { text: 'Convert force to newtons:', latex: 'P = 60 \\text{ kN} = 60{,}000 \\text{ N}' },
         { text: 'Engineering stress:', latex: '\\sigma = \\frac{P}{A_0} = \\frac{60{,}000}{150} = 400 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 121',
+      handbookPage: 'p. 122',
       handbookFormula: '\\sigma = \\frac{F}{A_0}',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'Engineering strain:', latex: '\\varepsilon = \\frac{\\Delta L}{L_0} = \\frac{0.125}{50} = 0.0025' },
         { text: 'Elastic modulus from Hooke\u2019s law:', latex: 'E = \\frac{\\sigma}{\\varepsilon} = \\frac{175}{0.0025} = 70{,}000 \\text{ MPa} = 70 \\text{ GPa}' },
       ],
-      handbookPage: 'p. 121',
+      handbookPage: 'p. 122',
       handbookFormula: '\\sigma = E\\varepsilon',
       videoUrl: null,
       traps: [
@@ -92,7 +92,7 @@ export default {
         { text: 'From volume conservation during plastic deformation:', latex: '\\sigma_T = \\sigma(1 + \\varepsilon)' },
         { text: 'Substitute:', latex: '\\sigma_T = 520(1 + 0.15) = 520 \\times 1.15 = 598 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 121',
+      handbookPage: 'p. 122',
       handbookFormula: '\\sigma_T = \\frac{F}{A}',
       videoUrl: null,
       traps: [

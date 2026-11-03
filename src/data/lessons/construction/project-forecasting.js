@@ -35,7 +35,7 @@ export default {
         { text: 'Cost Performance Index:', latex: 'CPI = \\frac{BCWP}{ACWP} = \\frac{600{,}000}{750{,}000} = 0.80' },
         { text: '$CPI = 0.80 < 1.0$ \\u2192 over budget (20% cost overrun rate)', latex: null },
       ],
-      handbookPage: 'p. 311',
+      handbookPage: 'p. 317',
       handbookFormula: 'CPI = \\frac{BCWP}{ACWP}',
       videoUrl: null,
       traps: [
@@ -61,7 +61,7 @@ export default {
         { text: 'Remaining work (budgeted):', latex: 'BAC - BCWP = 2{,}000{,}000 - 600{,}000 = 1{,}400{,}000' },
         { text: 'Estimate to complete:', latex: 'ETC = \\frac{1{,}400{,}000}{0.80} = 1{,}750{,}000' },
       ],
-      handbookPage: 'p. 311',
+      handbookPage: 'p. 317',
       handbookFormula: 'ETC = \\frac{BAC - BCWP}{CPI}',
       videoUrl: null,
       traps: [
@@ -87,7 +87,7 @@ export default {
         { text: 'Estimate at completion:', latex: 'EAC = ACWP + ETC = 750{,}000 + 1{,}750{,}000 = 2{,}500{,}000' },
         { text: 'Overrun: $EAC - BAC = 2{,}500{,}000 - 2{,}000{,}000 = 500{,}000$ (25% over original budget)', latex: null },
       ],
-      handbookPage: 'p. 311',
+      handbookPage: 'p. 317',
       handbookFormula: 'EAC = ACWP + ETC',
       videoUrl: null,
       traps: [

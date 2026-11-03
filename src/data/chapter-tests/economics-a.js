@@ -31,7 +31,7 @@ const PROBLEMS = [
       { text: 'Compound it over the 12 months of a year:', latex: 'i_e = \\left(1 + \\frac{r}{m}\\right)^m - 1 = (1.0075)^{12} - 1' },
       { text: 'Evaluate:', latex: '(1.0075)^{12} = 1.0938 \\;\\Rightarrow\\; i_e = 0.0938 = 9.38\\%' },
     ],
-    handbookPage: 'p. 230',
+    handbookPage: 'p. 236',
     handbookFormula: 'i_e = \\left(1 + \\frac{r}{m}\\right)^m - 1',
     traps: [
       'Reporting the nominal 9% as if it were the effective rate.',
@@ -70,7 +70,7 @@ const PROBLEMS = [
       { text: 'Move that value back 2 years to year 0:', latex: 'P_0 = 74{,}518\\,(P/F,\\,6\\%,\\,2) = 74{,}518(0.8900) = 66{,}321' },
       { text: 'Check: $12{,}000[(P/A,6\\%,10) - (P/A,6\\%,2)] = 12{,}000(7.3601 - 1.8334) = 66{,}320$.', latex: null },
     ],
-    handbookPage: 'p. 229',
+    handbookPage: 'p. 235',
     handbookFormula: 'P = A\\,(P/A,\\,i,\\,n)\\,(P/F,\\,i,\\,k)',
     traps: [
       'Discounting the series from year 3 instead of year 2.',
@@ -110,7 +110,7 @@ const PROBLEMS = [
       { text: 'Remaining balance:', latex: 'B_{24} = 3{,}480(32.871) = 114{,}390 \\approx 114{,}400' },
       { text: 'Check (future worth method): $180{,}000(1.005)^{24} - 3{,}480(F/A, 0.5\\%, 24) = 202{,}896 - 3{,}480(25.432) = 114{,}390$.', latex: null },
     ],
-    handbookPage: 'p. 229',
+    handbookPage: 'p. 235',
     handbookFormula: 'A = P\\frac{i(1+i)^n}{(1+i)^n - 1}, \\quad P = A\\frac{(1+i)^n - 1}{i(1+i)^n}',
     traps: [
       'Using the annual rate and years instead of 0.5% per month and months.',
@@ -149,7 +149,7 @@ const PROBLEMS = [
       { text: 'Sinking fund factor:', latex: '(A/F,\\,4\\%,\\,12) = \\frac{0.04}{(1.04)^{12} - 1} = \\frac{0.04}{0.60103} = 0.0666' },
       { text: 'Annual deposit:', latex: 'A = 400{,}000(0.0666) = 26{,}600' },
     ],
-    handbookPage: 'p. 229',
+    handbookPage: 'p. 235',
     handbookFormula: 'A = F\\frac{i}{(1+i)^n - 1}',
     traps: [
       'Using $(A/P)$ when the given amount is in the future.',
@@ -188,7 +188,7 @@ const PROBLEMS = [
       { text: 'Interpolate:', latex: 'i = 8\\% + 2\\% \\times \\frac{6.7101 - 6.25}{6.7101 - 6.1446} = 8\\% + 1.63\\% = 9.6\\%' },
       { text: 'Check: $8{,}000(P/A, 9.6\\%, 10) = 8{,}000(6.251) = 50{,}010$, essentially the 50,000 cost.', latex: null },
     ],
-    handbookPage: 'p. 230',
+    handbookPage: 'p. 236',
     handbookFormula: 'PW = -P + A\\,(P/A,\\,i^*,\\,n) = 0',
     traps: [
       'Dividing the annual saving by the first cost, which assumes a perpetual series.',
@@ -264,7 +264,7 @@ const PROBLEMS = [
       { text: 'Hourly saving of the electric pump: $7.50 - 4.00 = 3.50$ dollars per hour.', latex: null },
       { text: 'Set the annual costs equal and solve for hours $h$:', latex: '2{,}255 = 3.50\\,h \\;\\Rightarrow\\; h = 644 \\text{ hr/yr}' },
     ],
-    handbookPage: 'p. 230',
+    handbookPage: 'p. 236',
     handbookFormula: 'C_1(A/P,\\,i,\\,n) + c_1 h = C_2(A/P,\\,i,\\,n) + c_2 h',
     traps: [
       'Ignoring interest on the extra investment.',
@@ -303,7 +303,7 @@ const PROBLEMS = [
       { text: 'Subtract the bid cost on the Bid branch:', latex: 'EV_{bid} = 33{,}600 - 15{,}000 = 18{,}600 \\text{ dollars}' },
       { text: 'Not bidding is worth 0, so bidding is the better choice.', latex: null },
     ],
-    handbookPage: 'p. 231',
+    handbookPage: 'p. 237',
     handbookFormula: 'EV = (C_1)(p_1) + (C_2)(p_2) + \\cdots',
     traps: [
       'Treating the negative profit as positive.',
@@ -354,7 +354,7 @@ const PROBLEMS = [
       { text: 'Concrete is lower by $5{,}284 - 4{,}711 = 573$ dollars per year.', latex: null },
       { text: 'Present worth over each pipe’s own life (metal 67,567 against concrete 74,305) favors metal only because it covers 25 years of service against 50.', latex: null },
     ],
-    handbookPage: 'p. 229',
+    handbookPage: 'p. 235',
     handbookFormula: 'EUAC = P\\,(A/P,\\,i,\\,n) + \\text{annual cost}',
     traps: [
       'Comparing present worths of alternatives with different lives.',
@@ -394,7 +394,7 @@ const PROBLEMS = [
       { text: 'Salvage (a return, so it reduces cost):', latex: '150{,}000\\,(P/F,\\,4\\%,\\,30) = 150{,}000(0.3083) = 46{,}245' },
       { text: 'Present worth of cost:', latex: 'PW = 1{,}200{,}000 + 339{,}600 + 345{,}840 - 46{,}245 = 1{,}839{,}195 \\approx 1{,}839{,}000' },
     ],
-    handbookPage: 'p. 229',
+    handbookPage: 'p. 235',
     handbookFormula: 'PW = P_0 + \\sum F_k(P/F,\\,i,\\,k) + A(P/A,\\,i,\\,n) - S(P/F,\\,i,\\,n)',
     traps: [
       'Adding the salvage value as a cost.',

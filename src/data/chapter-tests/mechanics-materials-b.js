@@ -38,7 +38,7 @@ const PROBLEMS = [
       { text: 'Add the triangle of shear from midspan to the zero-shear point.', latex: 'M_{max} = 125 + \\tfrac{1}{2}(7.5)(1.875) = 132.0\\ \\text{kip-ft}' },
       { text: 'Check from the right: R_B = 32.5 kips, and the zero-shear point is 8.125 ft from B.', latex: '32.5(8.125) - \\tfrac{4(8.125)^2}{2} = 132.0\\ \\checkmark' },
     ],
-    handbookPage: 'p. 134',
+    handbookPage: 'p. 135',
     handbookFormula: 'M_2 - M_1 = \\int_{x_1}^{x_2} V(x)\\,dx',
     traps: [
       'Stopping at the concentrated load or at midspan: the moment peaks where the shear changes sign, not at a load point here.',
@@ -79,7 +79,7 @@ const PROBLEMS = [
       { text: 'The jump equals the concentrated load; a drop means the load acts downward.', latex: 'P_B = V_{B^-} - V_{B^+} = 16 - 4 = 12\\ \\text{kips}' },
       { text: 'Check: the slope from B to C is (4 + 20)/12 = 2 kip/ft, a 24-kip uniform load. Total load 12 + 24 = 36 kips equals the reactions 16 + 20.', latex: '12 + 24 = 16 + 20 = 36\\ \\checkmark' },
     ],
-    handbookPage: 'p. 134',
+    handbookPage: 'p. 135',
     handbookFormula: 'V_2 - V_1 = -\\int_{x_1}^{x_2} w(x)\\,dx',
     traps: [
       'Reading a single shear value instead of the size of the step.',
@@ -121,7 +121,7 @@ const PROBLEMS = [
       { text: 'Stress needed to cancel it (tension, since the rail wants to shorten).', latex: '\\sigma = E\\,\\varepsilon_t = 29{,}000(5.85\\times10^{-4}) = 16.97\\ \\text{ksi}' },
       { text: 'Axial force in the rail.', latex: 'F = \\sigma A = 16.97(13.0) = 221\\ \\text{kips}' },
     ],
-    handbookPage: 'p. 130',
+    handbookPage: 'p. 131',
     handbookFormula: '\\delta_t = \\alpha L (T - T_o),\\quad \\sigma = E\\,\\varepsilon',
     traps: [
       'Subtracting a negative temperature wrongly: from 85°F to -5°F is a 90°F change.',
@@ -160,7 +160,7 @@ const PROBLEMS = [
       { text: 'Thin-wall check: t/r = 12/750 = 0.016, well under 0.1.', latex: 't/r = 0.016 < 0.1' },
       { text: 'Axial stress from the handbook thin-wall formula.', latex: '\\sigma_a = \\dfrac{p\\,r}{2t} = \\dfrac{1.2(750)}{2(12)} = 37.5\\ \\text{MPa}' },
     ],
-    handbookPage: 'p. 131',
+    handbookPage: 'p. 132',
     handbookFormula: '\\sigma_t = \\dfrac{P_i r}{t},\\quad \\sigma_a = \\dfrac{P_i r}{2t}',
     traps: [
       'Reporting the hoop stress (twice as large) when the question asks for the axial stress.',
@@ -199,7 +199,7 @@ const PROBLEMS = [
       { text: 'Shear stress at that radius.', latex: '\\tau_i = \\dfrac{T\\,r_i}{J} = \\dfrac{30(1.0)}{6.38} = 4.70\\ \\text{ksi}' },
       { text: 'For comparison, the outer surface carries 30(1.5)/6.38 = 7.05 ksi.', latex: '\\tau_o = 7.05\\ \\text{ksi}' },
     ],
-    handbookPage: 'p. 133',
+    handbookPage: 'p. 134',
     handbookFormula: '\\tau = \\dfrac{T r}{J}',
     traps: [
       'Using the outer radius out of habit when the question asks about the inside surface.',
@@ -243,7 +243,7 @@ const PROBLEMS = [
       { text: 'The tension side is the top of the stem, at the distance from the neutral axis below.', latex: 'c_t = 9 - 3.07 = 5.93\\ \\text{in.}' },
       { text: 'Maximum tensile stress.', latex: '\\sigma_t = \\dfrac{M c_t}{I} = \\dfrac{240(5.93)}{112.6} = 12.6\\ \\text{ksi}' },
     ],
-    handbookPage: 'p. 134',
+    handbookPage: 'p. 135',
     handbookFormula: '\\sigma_x = -\\dfrac{M y}{I}',
     traps: [
       'Using half the depth for c on an unsymmetric section.',
@@ -286,7 +286,7 @@ const PROBLEMS = [
       { text: 'Only I changes; for a rectangle I grows with the cube of depth.', latex: '\\dfrac{I_2}{I_1} = \\dfrac{b(2h)^3/12}{b h^3/12} = 8' },
       { text: 'Deflection ratio.', latex: '\\dfrac{\\delta_2}{\\delta_1} = \\dfrac{I_1}{I_2} = \\dfrac{1}{8}' },
     ],
-    handbookPage: 'p. 139',
+    handbookPage: 'p. 140',
     handbookFormula: 'v_{max} = -\\dfrac{5wL^4}{384EI}',
     traps: [
       'Mixing up how stress changes with depth (1/h^2) and how deflection changes (1/h^3).',
@@ -325,7 +325,7 @@ const PROBLEMS = [
       { text: 'Height in inches.', latex: 'L = 12(12) = 144\\ \\text{in.}' },
       { text: 'Shortening.', latex: '\\delta = \\dfrac{PL}{E_cA_c + E_sA_s} = \\dfrac{500(144)}{1{,}124{,}800} = 0.0640\\ \\text{in.}' },
     ],
-    handbookPage: 'p. 130',
+    handbookPage: 'p. 131',
     handbookFormula: '\\delta = \\dfrac{PL}{AE}',
     traps: [
       'Ignoring the reinforcement: the bars carry a real share of the load.',
@@ -368,7 +368,7 @@ const PROBLEMS = [
       { text: 'Tip deflection from the end load.', latex: '\\delta_P = \\dfrac{PL^3}{3EI} = \\dfrac{2(96)^3}{3(29{,}000)(110)} = 0.185\\ \\text{in.}' },
       { text: 'Superpose.', latex: '\\delta = 0.139 + 0.185 = 0.324\\ \\text{in.}' },
     ],
-    handbookPage: 'p. 140',
+    handbookPage: 'p. 141',
     handbookFormula: 'v_{max} = -\\dfrac{wL^4}{8EI},\\quad v_{max} = -\\dfrac{Pa^2}{6EI}(3L - a)\\ \\text{with}\\ a = L',
     traps: [
       'Leaving w in kip/ft while L is in inches, which inflates the uniform-load part twelvefold.',
@@ -411,7 +411,7 @@ const PROBLEMS = [
       { text: 'Angle of twist in radians.', latex: '\\phi = \\dfrac{TL}{GJ} = \\dfrac{8(72)}{11{,}500(0.497)} = 0.101\\ \\text{rad}' },
       { text: 'Convert to degrees.', latex: '\\phi = 0.101\\left(\\dfrac{180}{\\pi}\\right) = 5.77^{\\circ}' },
     ],
-    handbookPage: 'p. 133',
+    handbookPage: 'p. 134',
     handbookFormula: '\\phi = \\dfrac{TL}{GJ}',
     traps: [
       'Using E where the formula needs the shear modulus G.',
@@ -451,7 +451,7 @@ const PROBLEMS = [
       { text: 'Radius.', latex: 'R = \\sqrt{\\left(\\dfrac{90 - (-30)}{2}\\right)^2 + 45^2} = \\sqrt{60^2 + 45^2} = 75\\ \\text{MPa}' },
       { text: 'Smaller principal stress.', latex: '\\sigma_b = C - R = 30 - 75 = -45\\ \\text{MPa}' },
     ],
-    handbookPage: 'p. 132',
+    handbookPage: 'p. 133',
     handbookFormula: 'C = \\dfrac{\\sigma_x + \\sigma_y}{2},\\ R = \\sqrt{\\left(\\dfrac{\\sigma_x - \\sigma_y}{2}\\right)^2 + \\tau_{xy}^2},\\ \\sigma_b = C - R',
     traps: [
       'Dropping the minus sign on the compressive stress when computing the center.',
@@ -495,7 +495,7 @@ const PROBLEMS = [
       { text: 'Transverse shear stress at a.', latex: '\\tau = \\dfrac{VQ}{Ib} = \\dfrac{9000(81)}{864(6)} = 140.6\\ \\text{psi}' },
       { text: 'Maximum principal stress (sigma_y = 0).', latex: '\\sigma_1 = \\dfrac{312.5}{2} + \\sqrt{\\left(\\dfrac{312.5}{2}\\right)^2 + 140.6^2} = 156.3 + 210.2 = 366\\ \\text{psi}' },
     ],
-    handbookPage: 'p. 134-135',
+    handbookPage: 'p. 135-136',
     handbookFormula: '\\sigma_x = -\\dfrac{My}{I},\\quad \\tau_{xy} = \\dfrac{VQ}{Ib}',
     traps: [
       'Using Q for the full half section: that gives the shear stress at the neutral axis, not at point a.',
@@ -538,7 +538,7 @@ const PROBLEMS = [
       { text: 'Principal stresses.', latex: '\\sigma_{a,b} = C \\pm R = \\pm 9\\ \\text{ksi}' },
       { text: 'On Mohr\'s circle the principal points are 90° from the shear points, so on the element they are 45° from the shaft axis.', latex: '2\\theta_p = 90^{\\circ} \\Rightarrow \\theta_p = 45^{\\circ}' },
     ],
-    handbookPage: 'p. 132',
+    handbookPage: 'p. 133',
     handbookFormula: 'C = \\dfrac{\\sigma_x + \\sigma_y}{2},\\quad R = \\sqrt{\\left(\\dfrac{\\sigma_x - \\sigma_y}{2}\\right)^2 + \\tau_{xy}^2}',
     traps: [
       'Thinking that no normal stress on the cross-section means no normal stress anywhere.',

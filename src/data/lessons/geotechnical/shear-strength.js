@@ -35,7 +35,7 @@ export default {
         { text: 'Mohr-Coulomb:', latex: '\\tau_f = c\' + \\sigma_N\' \\tan \\phi\'' },
         { text: 'Substitute:', latex: '\\tau_f = 200 + 1{,}000 \\times \\tan 30\\degree = 200 + 577 = 777 \\text{ psf}' },
       ],
-      handbookPage: 'p. 263',
+      handbookPage: 'p. 269',
       handbookFormula: '\\tau_f = c + \\sigma_N \\tan \\phi',
       videoUrl: null,
       traps: [
@@ -61,7 +61,7 @@ export default {
         { text: 'For $c = 0$:', latex: '\\sin \\phi = \\frac{\\sigma_1 - \\sigma_3}{\\sigma_1 + \\sigma_3} = \\frac{6{,}000 - 2{,}000}{6{,}000 + 2{,}000} = \\frac{4{,}000}{8{,}000} = 0.50' },
         { text: 'Friction angle:', latex: '\\phi = \\arcsin(0.50) = 30\\degree' },
       ],
-      handbookPage: 'p. 262',
+      handbookPage: 'p. 268',
       handbookFormula: '\\sin \\phi = \\frac{t}{s} = \\frac{\\sigma_1 - \\sigma_3}{\\sigma_1 + \\sigma_3}',
       videoUrl: null,
       traps: [
@@ -87,7 +87,7 @@ export default {
         { text: 'Deviator stress at failure:', latex: '\\sigma_1 - \\sigma_3 = 2{,}400 \\text{ psf}' },
         { text: 'For $\\phi_u = 0$, undrained cohesion = radius of Mohr circle:', latex: 'c_u = \\frac{\\sigma_1 - \\sigma_3}{2} = \\frac{2{,}400}{2} = 1{,}200 \\text{ psf}' },
       ],
-      handbookPage: 'p. 262\u2013263',
+      handbookPage: 'p. 268\u2013269',
       handbookFormula: '\\tau_f = c + \\sigma_N \\tan \\phi',
       videoUrl: null,
       traps: [

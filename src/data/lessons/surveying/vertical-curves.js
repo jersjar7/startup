@@ -38,7 +38,7 @@ export default {
         { text: 'PVI is at $x = L/2$ from PVC:', latex: 'x = \\frac{600}{2} = 300 \\text{ ft}' },
         { text: 'PVI elevation (on tangent):', latex: 'Y_{PVI} = Y_{PVC} + g_1 \\times \\frac{L}{2} = 100 + 0.04 \\times 300 = 112.0 \\text{ ft}' },
       ],
-      handbookPage: 'p. 301',
+      handbookPage: 'p. 307',
       handbookFormula: '\\text{Tangent elevation} = Y_{PVC} + g_1 x',
       videoUrl: null,
       traps: [
@@ -66,7 +66,7 @@ export default {
         { text: 'Compute:', latex: 'Y = 100 + 12 - 4.5 = 107.5 \\text{ ft}' },
         { text: 'The tangent offset at PVI: $E = 112 - 107.5 = 4.5$ ft below the tangent.', latex: null },
       ],
-      handbookPage: 'p. 301',
+      handbookPage: 'p. 307',
       handbookFormula: 'Y = Y_{PVC} + g_1 x + \\frac{g_2 - g_1}{2L} x^2',
       videoUrl: null,
       traps: [
@@ -93,7 +93,7 @@ export default {
         { text: 'High point location:', latex: 'x_m = \\frac{-g_1 L}{g_2 - g_1} = \\frac{-(0.03)(400)}{-0.01 - 0.03}' },
         { text: 'Simplify:', latex: 'x_m = \\frac{-12}{-0.04} = 300 \\text{ ft from PVC}' },
       ],
-      handbookPage: 'p. 301',
+      handbookPage: 'p. 307',
       handbookFormula: 'x_m = \\frac{-g_1 L}{g_2 - g_1}',
       videoUrl: null,
       traps: [

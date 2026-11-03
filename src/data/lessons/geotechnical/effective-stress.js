@@ -35,7 +35,7 @@ export default {
         { text: 'Pore water pressure:', latex: 'u = \\gamma_w \\times H = 62.4 \\times 10 = 624 \\text{ psf}' },
         { text: 'Effective stress:', latex: '\\sigma\' = 1{,}150 - 624 = 526 \\text{ psf}' },
       ],
-      handbookPage: 'p. 263',
+      handbookPage: 'p. 269',
       handbookFormula: '\\sigma\' = \\sigma - u',
       videoUrl: null,
       traps: [
@@ -62,7 +62,7 @@ export default {
         { text: 'Pore water pressure (8 ft below WT):', latex: 'u = 62.4 \\times 8 = 499 \\text{ psf}' },
         { text: 'Effective stress:', latex: '\\sigma\' = 1{,}510 - 499 = 1{,}011 \\text{ psf}' },
       ],
-      handbookPage: 'p. 263\u2013264',
+      handbookPage: 'p. 269\u2013270',
       handbookFormula: '\\sigma\' = \\sigma - u',
       videoUrl: null,
       traps: [
@@ -89,7 +89,7 @@ export default {
         { text: 'Pore water pressure (10 ft below WT):', latex: 'u = 62.4 \\times 10 = 624 \\text{ psf}' },
         { text: 'Effective stress:', latex: '\\sigma\' = 1{,}910 - 624 = 1{,}286 \\text{ psf}' },
       ],
-      handbookPage: 'p. 264',
+      handbookPage: 'p. 270',
       handbookFormula: '\\sigma\' = \\sigma - u',
       videoUrl: null,
       traps: [

@@ -39,7 +39,7 @@ export default {
         { text: 'Inside the brackets:', latex: '0.85(4)(248) + 480 = 843.2 + 480 = 1{,}323 \\text{ kips}' },
         { text: 'Apply factors:', latex: '\\phi P_n = 0.52 \\times 1{,}323 = 688 \\text{ kips}' },
       ],
-      handbookPage: 'p. 278',
+      handbookPage: 'p. 284',
       handbookFormula: '\\phi P_n = 0.80\\phi \\left[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y\\right]',
       videoUrl: null,
       traps: [
@@ -67,7 +67,7 @@ export default {
         { text: 'Reinforcement ratio:', latex: '\\rho_g = \\frac{3.16}{324} = 0.00975 = 0.975\\%' },
         { text: 'ACI limits: $0.01 \\leq \\rho_g \\leq 0.08$. Since $0.00975 < 0.01$, the ratio is below minimum.', latex: null },
       ],
-      handbookPage: 'p. 278',
+      handbookPage: 'p. 284',
       handbookFormula: '0.01 \\leq \\rho_g \\leq 0.08',
       videoUrl: null,
       traps: [
@@ -96,7 +96,7 @@ export default {
         { text: 'Compute:', latex: '= 0.52\\left[1{,}164.5 + 360\\right] = 0.52 \\times 1{,}524.5 = 793 \\text{ kips}' },
         { text: 'Compare: $P_u = 550 < \\phi P_n = 793$ kips. The column is adequate.', latex: null },
       ],
-      handbookPage: 'p. 278',
+      handbookPage: 'p. 284',
       handbookFormula: '\\phi P_n = 0.80\\phi \\left[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y\\right]',
       videoUrl: null,
       traps: [

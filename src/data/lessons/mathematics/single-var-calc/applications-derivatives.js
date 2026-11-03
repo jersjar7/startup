@@ -86,7 +86,7 @@ export default {
           "latex": "f''(x) = -4 < 0 \\quad\\text{(concave down, maximum)}"
         }
       ],
-      "handbookPage": "p. 46",
+      "handbookPage": "p. 47",
       "handbookFormula": "f'(a) = 0 \\text{ and } f''(a) < 0 \\implies \\text{maximum}",
       "videoUrl": null,
       "traps": [
@@ -138,7 +138,7 @@ export default {
           "latex": "C(6) = 3(36) - 36(6) + 150 = 108 - 216 + 150 = 42\\,\\text{dollars/m}"
         }
       ],
-      "handbookPage": "p. 46",
+      "handbookPage": "p. 47",
       "handbookFormula": "f'(a) = 0 \\text{ and } f''(a) > 0 \\implies \\text{minimum}",
       "videoUrl": null,
       "traps": [
@@ -190,7 +190,7 @@ export default {
           "latex": null
         }
       ],
-      "handbookPage": "p. 46",
+      "handbookPage": "p. 47",
       "handbookFormula": "f''(a) = 0 \\text{ and } f''(x) \\text{ changes sign} \\implies \\text{inflection point}",
       "videoUrl": null,
       "traps": [

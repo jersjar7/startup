@@ -38,7 +38,7 @@ export default {
         { text: 'Compute exponent:', latex: 'e^{-1.15} = 0.317' },
         { text: 'BOD\u2085:', latex: 'BOD_5 = 300(1 - 0.317) = 300 \\times 0.683 = 205 \\text{ mg/L}' },
       ],
-      handbookPage: 'p. 321',
+      handbookPage: 'p. 327',
       handbookFormula: 'BOD_t = L_0(1 - e^{-kt})',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'Substitute:', latex: 'L_0 = \\frac{180}{1 - e^{-0.20 \\times 5}} = \\frac{180}{1 - e^{-1.0}}' },
         { text: 'Compute:', latex: 'L_0 = \\frac{180}{1 - 0.368} = \\frac{180}{0.632} = 285 \\text{ mg/L}' },
       ],
-      handbookPage: 'p. 321',
+      handbookPage: 'p. 327',
       handbookFormula: 'BOD_t = L_0(1 - e^{-kt})',
       videoUrl: null,
       traps: [
@@ -93,7 +93,7 @@ export default {
         { text: 'Compute $1.056^8$:', latex: '1.056^8 = 1.546' },
         { text: 'Rate constant at 28\u00B0C:', latex: 'k_{28} = 0.23 \\times 1.546 = 0.35 \\text{ day}^{-1}' },
       ],
-      handbookPage: 'p. 322',
+      handbookPage: 'p. 328',
       handbookFormula: 'k_T = k_{20} \\theta^{(T-20)}',
       videoUrl: null,
       traps: [

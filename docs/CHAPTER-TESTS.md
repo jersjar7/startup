@@ -169,7 +169,7 @@ a hole.
    and where possible a different angle on the idea. `ct-check` flags close
    wording; a reviewer reads any flagged pair side by side.
 2. **Like the real FE.** Four choices, one correct. Solvable in about three
-   minutes with the FE Reference Handbook 10.5 and an approved calculator.
+   minutes with the FE Reference Handbook 10.6 and an approved calculator.
    Realistic engineering numbers and units (US customary and SI, as the exam
    mixes them). The setting is a real civil engineering situation where one
    fits: a footing, a culvert, a haul road, a survey traverse.

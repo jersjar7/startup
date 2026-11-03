@@ -30,7 +30,7 @@ const PROBLEMS = [
       { text: 'Read the 4th sorted value:', latex: '\\text{median} = 4.4\\ \\text{MGD}' },
       { text: 'For comparison, the mean is pulled up by Friday:', latex: '\\bar{X} = \\frac{33.1}{7} = 4.73\\ \\text{MGD}' },
     ],
-    handbookPage: 'p. 63',
+    handbookPage: 'p. 64',
     handbookFormula: '\\text{median} = \\left(\\tfrac{n+1}{2}\\right)\\text{th item of the sorted data (}n\\text{ odd)}',
     traps: [
       'Taking the middle value of the unsorted list (Thursday, 4.5).',
@@ -67,7 +67,7 @@ const PROBLEMS = [
       { text: 'Sample variance, dividing by $n - 1 = 5$:', latex: 's^2 = \\frac{0.28}{5} = 0.056\\ \\text{in}^2' },
       { text: 'Sample standard deviation:', latex: 's = \\sqrt{0.056} = 0.237\\ \\text{in}' },
     ],
-    handbookPage: 'p. 63',
+    handbookPage: 'p. 64',
     handbookFormula: 's = \\sqrt{\\frac{1}{n-1}\\sum_{i=1}^{n}(X_i - \\bar{X})^2}',
     traps: [
       'Dividing by n instead of n − 1 for a sample (0.216 in).',
@@ -103,7 +103,7 @@ const PROBLEMS = [
       { text: 'Total weight (volume):', latex: '\\sum w_i = 1{,}500 + 2{,}500 + 1{,}000 = 5{,}000\\ \\text{yd}^3' },
       { text: 'Weighted mean moisture content:', latex: '\\bar{X}_w = \\frac{87{,}500}{5{,}000} = 17.5\\%' },
     ],
-    handbookPage: 'p. 63',
+    handbookPage: 'p. 64',
     handbookFormula: '\\bar{X}_w = \\frac{\\sum w_i X_i}{\\sum w_i}',
     traps: [
       'Averaging the three moisture contents without weighting by volume (18.7%).',
@@ -146,7 +146,7 @@ const PROBLEMS = [
       { text: 'For independent events the joint probability is the product:', latex: 'P(\\text{all fail}) = (0.08)(0.15)(0.20) = 0.0024' },
       { text: 'At least one runs is the complement:', latex: 'P(\\text{in service}) = 1 - 0.0024 = 0.9976 \\approx 0.998' },
     ],
-    handbookPage: 'p. 65',
+    handbookPage: 'p. 66',
     handbookFormula: 'P(A, B) = P(A)P(B \\mid A) = P(A)P(B)\\ \\text{(independent)}',
     traps: [
       'Multiplying the availabilities, which gives the chance all three run, not at least one.',
@@ -183,7 +183,7 @@ const PROBLEMS = [
       { text: 'Probability that all 4 drawn are good:', latex: 'P = \\frac{2{,}380}{4{,}845} = 0.491' },
       { text: 'Check by sequential draws:', latex: '\\frac{17}{20}\\cdot\\frac{16}{19}\\cdot\\frac{15}{18}\\cdot\\frac{14}{17} = 0.491' },
     ],
-    handbookPage: 'p. 64',
+    handbookPage: 'p. 65',
     handbookFormula: 'C(n, r) = \\frac{n!}{r!\\,(n-r)!}',
     traps: [
       'Using the binomial (with replacement) model, 0.85⁴ = 0.522.',
@@ -219,7 +219,7 @@ const PROBLEMS = [
       { text: 'Total probability of a rejection:', latex: 'P(R) = 0.030 + 0.048 = 0.078' },
       { text: 'Bayes theorem:', latex: 'P(Y \\mid R) = \\frac{P(Y)P(R \\mid Y)}{P(R)} = \\frac{0.048}{0.078} = 0.615' },
     ],
-    handbookPage: 'p. 65',
+    handbookPage: 'p. 66',
     handbookFormula: 'P(B_j \\mid A) = \\frac{P(A \\mid B_j)P(B_j)}{\\sum_{i=1}^{n} P(A \\mid B_i)P(B_i)}',
     traps: [
       'Stopping at the joint probability 0.048 without dividing by P(rejected).',
@@ -256,7 +256,7 @@ const PROBLEMS = [
       { text: 'Poisson probability of exactly one crash:', latex: 'P(1) = \\frac{e^{-2.1}\\,2.1^1}{1!} = 0.2572' },
       { text: 'At most one crash:', latex: 'P(X \\le 1) = 0.1225 + 0.2572 = 0.380' },
     ],
-    handbookPage: 'p. 84',
+    handbookPage: 'p. 85',
     handbookFormula: 'f(x; \\lambda) = \\frac{\\lambda^x e^{-\\lambda}}{x!}',
     traps: [
       'Using the annual mean for a 6-month period.',
@@ -293,7 +293,7 @@ const PROBLEMS = [
       { text: 'Tail areas from the unit normal table:', latex: 'R(2.0) = 1 - 0.9772 = 0.0228,\\quad R(1.6) = 1 - 0.9452 = 0.0548' },
       { text: 'Fraction outside the specification:', latex: 'P = 0.0228 + 0.0548 = 0.0776 \\approx 0.078' },
     ],
-    handbookPage: 'p. 67',
+    handbookPage: 'p. 68',
     handbookFormula: 'z = \\frac{x - \\mu}{\\sigma}',
     traps: [
       'Treating the specification band as symmetric about the mean.',
@@ -338,7 +338,7 @@ const PROBLEMS = [
       { text: 'All 10 passing:', latex: 'P(10) = (0.85)^{10} = 0.1969' },
       { text: 'Probability of acceptance:', latex: 'P(X \\ge 9) = 0.3474 + 0.1969 = 0.544' },
     ],
-    handbookPage: 'p. 66',
+    handbookPage: 'p. 67',
     handbookFormula: 'P_n(x) = C(n, x)\\,p^x q^{n-x}',
     traps: [
       'Reading "at least 9" as "more than 9" or as "exactly 9".',
@@ -374,7 +374,7 @@ const PROBLEMS = [
       { text: 'Write the standardization with $x = 4{,}000$ psi:', latex: '-1.2816 = \\frac{4{,}000 - \\mu}{450}' },
       { text: 'Solve for the required mean:', latex: '\\mu = 4{,}000 + 1.2816(450) = 4{,}000 + 577 = 4{,}577\\ \\text{psi}' },
     ],
-    handbookPage: 'p. 76',
+    handbookPage: 'p. 77',
     handbookFormula: 'z = \\frac{x - \\mu}{\\sigma},\\quad F(1.2816) = 0.90',
     traps: [
       'Using the two-sided or 5% value 1.6449 for a one-sided 10% tail.',
@@ -421,7 +421,7 @@ const PROBLEMS = [
       { text: 'Half-width of the interval:', latex: 't\\,\\frac{s}{\\sqrt{n}} = 2.776\\left(\\frac{12.85}{\\sqrt{5}}\\right) = 2.776(5.745) = 15.9\\ \\text{kips}' },
       { text: 'Confidence interval:', latex: '197 \\pm 15.9 \\;\\Rightarrow\\; 181.1\\ \\text{to}\\ 212.9\\ \\text{kips}' },
     ],
-    handbookPage: 'p. 74',
+    handbookPage: 'p. 75',
     handbookFormula: '\\bar{X} - t_{\\alpha/2,\\,n-1}\\frac{s}{\\sqrt{n}} \\le \\mu \\le \\bar{X} + t_{\\alpha/2,\\,n-1}\\frac{s}{\\sqrt{n}}',
     traps: [
       'Using z = 1.96 for a sample of 5 with σ unknown.',
@@ -459,7 +459,7 @@ const PROBLEMS = [
       { text: 'One-tailed critical value with $n - 1 = 7$ degrees of freedom:', latex: 't_{0.05,\\,7} = 1.895' },
       { text: 'Rejection rule for $H_1\\!: \\mu < \\mu_0$:', latex: 't_0 = -1.94 < -1.895 \\;\\Rightarrow\\; \\text{reject } H_0' },
     ],
-    handbookPage: 'p. 73',
+    handbookPage: 'p. 74',
     handbookFormula: 't_0 = \\frac{\\bar{X} - \\mu_0}{s/\\sqrt{n}},\\quad \\text{reject if } t_0 < -t_{\\alpha,\\,n-1}',
     traps: [
       'Using the two-tailed value t(0.025, 7) for a one-sided alternative.',
@@ -496,7 +496,7 @@ const PROBLEMS = [
       { text: 'Corrected sum of squares of x:', latex: 'S_{xx} = \\sum x^2 - \\frac{(\\sum x)^2}{n} = 32.70 - \\frac{(12.8)^2}{6} = 32.70 - 27.307 = 5.393' },
       { text: 'Least-squares slope:', latex: 'b = \\frac{S_{xy}}{S_{xx}} = \\frac{2.56}{5.393} = 0.475' },
     ],
-    handbookPage: 'p. 69',
+    handbookPage: 'p. 70',
     handbookFormula: 'b = \\frac{S_{xy}}{S_{xx}},\\quad S_{xy} = \\sum x_i y_i - \\frac{1}{n}\\left(\\sum x_i\\right)\\left(\\sum y_i\\right)',
     traps: [
       'Using raw sums (Σxy/Σx²) instead of the sums corrected for the means.',
@@ -543,7 +543,7 @@ const PROBLEMS = [
       { text: 'The sign of $r$ (and of the slope $b = -0.42$) is negative, so speed decreases as density increases.', latex: 'r < 0 \\;\\Rightarrow\\; \\text{inverse relationship}' },
       { text: 'The change in speed per unit density is the slope, not $r$:', latex: '\\frac{\\Delta \\hat{y}}{\\Delta x} = b = -0.42\\ \\text{mph per veh/mi/ln}' },
     ],
-    handbookPage: 'p. 70',
+    handbookPage: 'p. 71',
     handbookFormula: 'R^2 = \\frac{S_{xy}^2}{S_{xx}S_{yy}}',
     traps: [
       'Reporting r instead of r² as the fraction of variation explained.',

@@ -30,7 +30,7 @@ const PROBLEMS = [
       { text: 'Solve for AC:', latex: 'AC = \\dfrac{412.36\\,\\sin 48.7528^\\circ}{\\sin 59.9361^\\circ} = \\dfrac{412.36(0.75190)}{0.86552} = 358.24 \\text{ ft}' },
       { text: 'Check: BC = AB sin A / sin C = 451.34 ft, and the longest side (BC) faces the largest angle (A = 71.31°), as it must.', latex: null },
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: '\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B} = \\dfrac{c}{\\sin C}',
     traps: [
       'The side you want goes with the angle across from it, not the angle at its end.',
@@ -68,7 +68,7 @@ const PROBLEMS = [
       { text: 'Station of the PC, measured back along the tangent:', latex: '\\text{PC} = (52+46.80) - 287.26 = 49+59.54' },
       { text: 'Station of the PT, measured forward along the curve:', latex: '\\text{PT} = (49+59.54) + 552.92 = 55+12.47' },
     ],
-    handbookPage: 'p. 302-303',
+    handbookPage: 'p. 308-309',
     handbookFormula: 'E = R\\left[\\dfrac{1}{\\cos(I/2)} - 1\\right],\\quad T = R\\tan(I/2),\\quad L = \\dfrac{\\pi R I}{180}',
     traps: [
       'PT is not PI + T: stationing runs along the arc, which is shorter than the two tangents.',
@@ -105,7 +105,7 @@ const PROBLEMS = [
       { text: 'Corrected slope distance:', latex: 'S = 487.32 - 0.094 = 487.226 \\text{ ft}' },
       { text: 'Horizontal distance from the right triangle:', latex: 'H = \\sqrt{S^2 - h^2} = \\sqrt{487.226^2 - 22.40^2} = 486.71 \\text{ ft}' },
     ],
-    handbookPage: 'p. 130',
+    handbookPage: 'p. 131',
     handbookFormula: '\\delta_t = \\alpha L (T - T_o)',
     traps: [
       'Sign of the temperature correction: a tape colder than its standard is too short, so the true distance is less than the reading.',
@@ -142,7 +142,7 @@ const PROBLEMS = [
       { text: 'Offsets 2, 4 and 6 get weight 4; offsets 3 and 5 get weight 2:', latex: '4(30.8 + 34.6 + 21.7) = 348.4,\\quad 2(26.4 + 28.1) = 109.0' },
       { text: 'Area:', latex: 'A = \\dfrac{w}{3}\\left[h_1 + 4\\textstyle\\sum h_{even} + 2\\sum h_{odd} + h_n\\right] = \\dfrac{30}{3}(20.4 + 348.4 + 109.0) = 4{,}778 \\text{ ft}^2' },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'A = \\dfrac{w}{3}\\left[h_1 + 2\\sum_{k=3,5,\\dots}^{n-2} h_k + 4\\sum_{k=2,4,\\dots}^{n-1} h_k + h_n\\right]',
     traps: [
       'The weight 4 goes on the even-numbered offsets (2nd, 4th, 6th), counting the first offset as number 1.',
@@ -180,7 +180,7 @@ const PROBLEMS = [
       { text: 'Sector with central angle I:', latex: 'A_{sector} = \\pi R^2 \\dfrac{I}{360} = \\pi(350)^2\\dfrac{72}{360} = 76{,}969 \\text{ ft}^2' },
       { text: 'Shaded strip, in acres:', latex: 'A = 89{,}001 - 76{,}969 = 12{,}032 \\text{ ft}^2 = \\dfrac{12{,}032}{43{,}560} = 0.276 \\text{ acre}' },
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'T = R\\tan(I/2),\\quad A = RT - \\pi R^2 \\dfrac{I}{360}',
     traps: [
       'The central angle of the sector equals I, the deflection between the tangents.',
@@ -217,7 +217,7 @@ const PROBLEMS = [
       { text: 'Prismoidal formula:', latex: 'V = \\dfrac{L}{6}(A_1 + 4A_m + A_2) = \\dfrac{100}{6}\\left[344 + 4(418) + 365\\right] = \\dfrac{100}{6}(2{,}381) = 39{,}683 \\text{ ft}^3' },
       { text: 'Convert to cubic yards:', latex: 'V = 39{,}683 / 27 = 1{,}470 \\text{ yd}^3' },
     ],
-    handbookPage: 'p. 309',
+    handbookPage: 'p. 315',
     handbookFormula: 'V = L(A_1 + 4A_m + A_2)/6',
     traps: [
       'L is the distance between the two end sections (100 ft), not the 50 ft to the middle.',

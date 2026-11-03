@@ -36,7 +36,7 @@ export default {
         { text: 'Gross area:', latex: 'A_g = 0.5 \\times 6 = 3.0 \\text{ in}^2' },
         { text: 'Design strength for yielding:', latex: '\\phi_y P_n = 0.90 \\times 36 \\times 3.0 = 97.2 \\approx 97 \\text{ kips}' },
       ],
-      handbookPage: 'p. 283',
+      handbookPage: 'p. 289',
       handbookFormula: 'P_n = F_y A_g, \\quad \\phi_y = 0.90',
       videoUrl: null,
       traps: [
@@ -63,7 +63,7 @@ export default {
         { text: 'Net width:', latex: 'b_n = 10 - 2(1.0) = 8.0 \\text{ in.}' },
         { text: 'Net area:', latex: 'A_n = b_n \\times t = 8.0 \\times 0.5 = 4.00 \\text{ in}^2' },
       ],
-      handbookPage: 'p. 282',
+      handbookPage: 'p. 288',
       handbookFormula: 'A_n = \\left[b_g - \\Sigma\\left(d_b + \\tfrac{1}{8}\\text{ in.}\\right)\\right] t',
       videoUrl: null,
       traps: [
@@ -93,7 +93,7 @@ export default {
         { text: 'Rupture ($A_e = UA_n = 1.0 \\times 3.125$):', latex: '\\phi_t P_n = 0.75 \\times 65 \\times 3.125 = 152 \\text{ kips}' },
         { text: 'Controlling: $\\min(180, 152) = 152$ kips (rupture governs).', latex: null },
       ],
-      handbookPage: 'p. 283',
+      handbookPage: 'p. 289',
       handbookFormula: '\\text{Yielding: } \\phi_y P_n = 0.90 F_y A_g; \\quad \\text{Rupture: } \\phi_t P_n = 0.75 F_u A_e',
       videoUrl: null,
       traps: [

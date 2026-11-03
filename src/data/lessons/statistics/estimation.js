@@ -12,14 +12,14 @@ export default {
     { type: 'text', body: 'When you compute $s$ from your sample (the usual case), use the t-distribution with $v = n - 1$ degrees of freedom.' },
     { type: 'formula', latex: '\\bar{x} - t_{\\alpha/2,\\,n-1}\\frac{s}{\\sqrt{n}} \\leq \\mu \\leq \\bar{x} + t_{\\alpha/2,\\,n-1}\\frac{s}{\\sqrt{n}}' },
     { type: 'heading', body: 'Common z Values' },
-    { type: 'text', body: 'The FE handbook provides these on p. 75. Memorizing the 95% value ($z_{\\alpha/2} = 1.960$) is enough, because the rest are in the table: 90% \u2192 1.645, 95% \u2192 1.960, 99% \u2192 2.576.' },
+    { type: 'text', body: 'The FE handbook provides these on p. 76. Memorizing the 95% value ($z_{\\alpha/2} = 1.960$) is enough, because the rest are in the table: 90% \u2192 1.645, 95% \u2192 1.960, 99% \u2192 2.576.' },
     { type: 'heading', body: 'Sample Size' },
     { type: 'text', body: 'If you need a specific margin of error $e$ before collecting data, solve for $n$.' },
     { type: 'formula', latex: 'n = \\left(\\frac{z_{\\alpha/2} \\cdot \\sigma}{e}\\right)^2', label: 'Required Sample Size' },
     { type: 'text', body: 'Always round $n$ up to the next whole number, because you can\u2019t test half a specimen.' },
     { type: 'callout', variant: 'tip', body: 'Decision tree: Does the problem give you $\\sigma$ (population std dev)? Use z. Does it give you $s$ (sample std dev)? Use t with $n-1$ degrees of freedom. The FE almost always tells you which one you have.' },
     { type: 'callout', variant: 'warning', body: 'The margin of error is $z_{\\alpha/2} \\cdot \\sigma / \\sqrt{n}$, NOT $z_{\\alpha/2} \\cdot \\sigma / n$. Forgetting the square root on $n$ is a classic exam mistake.' },
-    { type: 'callout', variant: 'exam', body: 'The FE handbook includes z-values on p. 75 and a t-distribution table. You do NOT need to memorize these. Just know which table to use and how to read it.' },
+    { type: 'callout', variant: 'exam', body: 'The FE handbook includes z-values on p. 76 and a t-distribution table. You do NOT need to memorize these. Just know which table to use and how to read it.' },
   ],
   illustration: null,
   problems: [
@@ -41,7 +41,7 @@ export default {
         { text: 'Compute the margin of error:', latex: 'E = z_{\\alpha/2} \\cdot \\frac{\\sigma}{\\sqrt{n}} = 1.960 \\cdot \\frac{5}{\\sqrt{25}} = 1.960 \\cdot 1.0 = 1.96' },
         { text: 'Build the interval:', latex: '42 \\pm 1.96 = (40.04,\\; 43.96)' },
       ],
-      handbookPage: 'p. 74',
+      handbookPage: 'p. 75',
       handbookFormula: '\\bar{x} \\pm z_{\\alpha/2}\\frac{\\sigma}{\\sqrt{n}}',
       videoUrl: null,
       traps: [
@@ -68,7 +68,7 @@ export default {
         { text: 'Compute the margin of error:', latex: 'E = t_{\\alpha/2,\\,n-1} \\cdot \\frac{s}{\\sqrt{n}} = 2.262 \\cdot \\frac{120}{\\sqrt{10}} = 2.262 \\cdot 37.95 = 85.8' },
         { text: 'Build the interval:', latex: '4{,}350 \\pm 85.8 = (4{,}264,\\; 4{,}436)' },
       ],
-      handbookPage: 'p. 74',
+      handbookPage: 'p. 75',
       handbookFormula: '\\bar{x} \\pm t_{\\alpha/2,\\,n-1}\\frac{s}{\\sqrt{n}}',
       videoUrl: null,
       traps: [
@@ -97,7 +97,7 @@ export default {
         { text: 'Square it:', latex: 'n = 7.84^2 = 61.47' },
         { text: 'Round up: $n = 62$ (always round up, because you can\u2019t count for 0.47 of a day).', latex: null },
       ],
-      handbookPage: 'p. 75',
+      handbookPage: 'p. 76',
       handbookFormula: 'n = \\left(\\frac{z_{\\alpha/2} \\cdot \\sigma}{e}\\right)^2',
       videoUrl: null,
       traps: [

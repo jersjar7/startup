@@ -3,7 +3,7 @@ export default {
   name: 'Trusses: Method of Joints & Sections',
   subtopicId: 'trusses-and-friction',
   application:
-    'Trusses are one of the highest-frequency statics topics on the FE Civil. You will see roof trusses, bridge trusses, and transmission towers. The exam tests two methods: method of joints (write equilibrium at each joint to find all member forces) and method of sections (cut through the truss and use equilibrium on one side to find specific member forces). It also tests whether you can spot zero-force members instantly. The handbook (p. 97) defines both methods and the zero-force member rules. Knowing when to use joints vs. sections saves critical time on exam day.',
+    'Trusses are one of the highest-frequency statics topics on the FE Civil. You will see roof trusses, bridge trusses, and transmission towers. The exam tests two methods: method of joints (write equilibrium at each joint to find all member forces) and method of sections (cut through the truss and use equilibrium on one side to find specific member forces). It also tests whether you can spot zero-force members instantly. The handbook (p. 98) defines both methods and the zero-force member rules. Knowing when to use joints vs. sections saves critical time on exam day.',
   content: [
     {
       type: 'text',
@@ -79,7 +79,7 @@ export default {
           latex: 'F_{CD} = 0',
         },
       ],
-      handbookPage: 'p. 97, Statically Determinate Truss',
+      handbookPage: 'p. 98, Statically Determinate Truss',
       handbookFormula: null,
       videoUrl: null,
       traps: [
@@ -124,7 +124,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 97, Plane Truss: Method of Joints',
+      handbookPage: 'p. 98, Plane Truss: Method of Joints',
       handbookFormula: '\\sum F_H = 0 \\quad \\sum F_V = 0',
       videoUrl: null,
       traps: [
@@ -173,7 +173,7 @@ export default {
           latex: 'F_{BC} \\times 4 = 24 \\quad \\Rightarrow \\quad F_{BC} = 6 \\text{ kN (tension)}',
         },
       ],
-      handbookPage: 'p. 97, Plane Truss: Method of Sections',
+      handbookPage: 'p. 98, Plane Truss: Method of Sections',
       handbookFormula: '\\sum F_H = 0 \\quad \\sum F_V = 0 \\quad \\sum M = 0',
       videoUrl: null,
       traps: [

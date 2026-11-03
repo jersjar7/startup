@@ -42,7 +42,7 @@ export default {
         { text: 'Natural circular frequency:', latex: '\\omega_n = \\sqrt{\\frac{k}{m}} = \\sqrt{\\frac{800}{50}} = \\sqrt{16} = 4.0 \\text{ rad/s}' },
         { text: 'Convert to Hz:', latex: 'f_n = \\frac{\\omega_n}{2\\pi} = \\frac{4.0}{2\\pi} = 0.637 \\approx 0.64 \\text{ Hz}' },
       ],
-      handbookPage: 'p. 112',
+      handbookPage: 'p. 113',
       handbookFormula: '\\omega_n = \\sqrt{k/m}',
       videoUrl: null,
       traps: [
@@ -70,7 +70,7 @@ export default {
         { text: 'Natural circular frequency:', latex: '\\omega_n = \\sqrt{\\frac{k}{m}} = \\sqrt{\\frac{50{,}000}{203.9}} = \\sqrt{245.2} = 15.66 \\text{ rad/s}' },
         { text: 'Resonance at natural frequency:', latex: 'f_n = \\frac{15.66}{2\\pi} = 2.49 \\text{ Hz}' },
       ],
-      handbookPage: 'p. 112',
+      handbookPage: 'p. 113',
       handbookFormula: '\\omega_n = \\sqrt{k/m}',
       videoUrl: null,
       traps: [
@@ -98,7 +98,7 @@ export default {
         { text: 'Natural circular frequency:', latex: '\\omega_n = \\sqrt{\\frac{k_t}{I}} = \\sqrt{\\frac{500}{0.5}} = \\sqrt{1{,}000} = 31.6 \\text{ rad/s}' },
         { text: 'Convert to Hz:', latex: 'f_n = \\frac{31.6}{2\\pi} = 5.03 \\text{ Hz}' },
       ],
-      handbookPage: 'p. 113',
+      handbookPage: 'p. 114',
       handbookFormula: '\\omega_n = \\sqrt{k_t / I}',
       videoUrl: null,
       traps: [

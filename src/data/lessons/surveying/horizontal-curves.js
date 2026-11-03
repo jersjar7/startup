@@ -38,7 +38,7 @@ export default {
       steps: [
         { text: 'Radius from degree of curve:', latex: 'R = \\frac{5{,}729.58}{D} = \\frac{5{,}729.58}{6} = 954.93 \\approx 955 \\text{ ft}' },
       ],
-      handbookPage: 'p. 302',
+      handbookPage: 'p. 308',
       handbookFormula: 'D = \\frac{5{,}729.58}{R}',
       videoUrl: null,
       traps: [
@@ -64,7 +64,7 @@ export default {
         { text: 'Tangent distance:', latex: 'T = R\\tan\\frac{I}{2} = 1{,}000 \\times \\tan 20\\degree' },
         { text: 'Compute:', latex: 'T = 1{,}000 \\times 0.3640 = 364 \\text{ ft}' },
       ],
-      handbookPage: 'p. 302',
+      handbookPage: 'p. 308',
       handbookFormula: 'T = R\\tan\\frac{I}{2}',
       videoUrl: null,
       traps: [
@@ -90,7 +90,7 @@ export default {
         { text: 'Curve length:', latex: 'L = \\frac{\\pi R I}{180} = \\frac{\\pi \\times 800 \\times 50}{180} = 698.13 \\text{ ft}' },
         { text: 'Station of PT:', latex: '\\text{Sta PT} = 25+00 + 6+98.13 = 31+98.13' },
       ],
-      handbookPage: 'p. 302',
+      handbookPage: 'p. 308',
       handbookFormula: 'L = \\frac{\\pi R I}{180}',
       videoUrl: null,
       traps: [

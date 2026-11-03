@@ -21,7 +21,7 @@ export default {
     { type: 'heading', body: 'Fracture Toughness' },
     { type: 'formula', latex: 'K_{IC} = Y\\sigma\\sqrt{\\pi a}', label: 'Critical stress intensity factor' },
     { type: 'text', body: '$K_{IC}$ is a material property (units: MPa\u00B7m$^{1/2}$). $\\sigma$ is the applied stress and $Y$ is a geometry factor: $Y = 1.1$ for an edge crack, $Y = 1.0$ for an internal crack. Watch what $a$ means, because it changes with the geometry: for an edge crack $a$ is the full depth of the crack, while for an internal crack $a$ is HALF the crack length (an internal crack of total length $2a$). Both go into the formula in meters.' },
-    { type: 'callout', variant: 'exam', body: 'The handbook (p. 122) gives the fracture toughness formula and a table of K_IC values for common materials. Remember: edge cracks use Y = 1.1, internal cracks use Y = 1.0. Always convert crack length to meters before plugging in.' },
+    { type: 'callout', variant: 'exam', body: 'The handbook (p. 123) gives the fracture toughness formula and a table of K_IC values for common materials. Remember: edge cracks use Y = 1.1, internal cracks use Y = 1.0. Always convert crack length to meters before plugging in.' },
   ],
   illustration: null,
   problems: [
@@ -41,7 +41,7 @@ export default {
       steps: [
         { text: 'Apply the BHN\u2013TS relationship:', latex: 'TS = 3.45 \\times BHN = 3.45 \\times 200 = 690 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 122',
+      handbookPage: 'p. 123',
       handbookFormula: 'TS \\text{ (MPa)} \\approx 3.45 \\times BHN',
       videoUrl: null,
       traps: [
@@ -70,7 +70,7 @@ export default {
         { text: 'Evaluate the square root:', latex: '\\sqrt{\\pi \\times 0.010} = \\sqrt{0.03142} = 0.1773' },
         { text: 'Solve:', latex: '\\sigma = \\frac{46}{1.1 \\times 0.1773} = \\frac{46}{0.1950} = 236 \\text{ MPa}' },
       ],
-      handbookPage: 'p. 122',
+      handbookPage: 'p. 123',
       handbookFormula: 'K_{IC} = Y\\sigma\\sqrt{\\pi a}',
       videoUrl: null,
       traps: [
@@ -98,7 +98,7 @@ export default {
         { text: 'Square both sides:', latex: '\\pi a = (0.1091)^2 = 0.01190' },
         { text: 'Solve for a:', latex: 'a = \\frac{0.01190}{\\pi} = 0.003789 \\text{ m} = 3.8 \\text{ mm}' },
       ],
-      handbookPage: 'p. 122',
+      handbookPage: 'p. 123',
       handbookFormula: 'K_{IC} = Y\\sigma\\sqrt{\\pi a}',
       videoUrl: null,
       traps: [

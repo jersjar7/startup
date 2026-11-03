@@ -3,7 +3,7 @@ export default {
   name: 'Centroids of Composite Shapes',
   subtopicId: 'section-properties',
   application:
-    'Centroids locate the neutral axis of beam cross-sections, the point of application of distributed loads, and the center of pressure on submerged surfaces. On the FE, you will decompose a composite shape into simple rectangles, triangles, or circles, look up each piece\u2019s area and centroid from the handbook tables (pp. 98\u2013100), and combine them using the weighted-average formula. The most common exam setup is a T-beam, an L-shape, or a plate with holes. If you can split a shape into pieces and take a weighted average, these are fast points.',
+    'Centroids locate the neutral axis of beam cross-sections, the point of application of distributed loads, and the center of pressure on submerged surfaces. On the FE, you will decompose a composite shape into simple rectangles, triangles, or circles, look up each piece\u2019s area and centroid from the handbook tables (pp. 99\u2013101), and combine them using the weighted-average formula. The most common exam setup is a T-beam, an L-shape, or a plate with holes. If you can split a shape into pieces and take a weighted average, these are fast points.',
   content: [
     {
       type: 'text',
@@ -42,7 +42,7 @@ export default {
     {
       type: 'callout',
       variant: 'exam',
-      body: 'The handbook (pp. 98\u2013100) provides centroid locations for triangles, rectangles, circles, semicircles, and parabolic segments. You do not need to integrate. Just look up the centroid and multiply by the area.',
+      body: 'The handbook (pp. 99\u2013101) provides centroid locations for triangles, rectangles, circles, semicircles, and parabolic segments. You do not need to integrate. Just look up the centroid and multiply by the area.',
     },
     {
       type: 'callout',
@@ -80,7 +80,7 @@ export default {
           latex: '\\bar{y} = \\frac{1{,}600 \\times 40 + 2{,}400 \\times 90}{1{,}600 + 2{,}400} = \\frac{64{,}000 + 216{,}000}{4{,}000} = \\frac{280{,}000}{4{,}000} = 70.0 \\text{ mm}',
         },
       ],
-      handbookPage: 'p. 95, Centroid of Area; pp. 98\u2013100, Shape Properties',
+      handbookPage: 'p. 96, Centroid of Area; pp. 99\u2013101, Shape Properties',
       handbookFormula: '\\bar{y} = \\frac{\\sum A_i\\, y_i}{\\sum A_i}',
       videoUrl: null,
       traps: [
@@ -121,7 +121,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 95, Centroid of Area; pp. 98\u2013100, Shape Properties',
+      handbookPage: 'p. 96, Centroid of Area; pp. 99\u2013101, Shape Properties',
       handbookFormula: '\\bar{y} = \\frac{\\sum A_i\\, y_i}{\\sum A_i}',
       videoUrl: null,
       traps: [
@@ -166,7 +166,7 @@ export default {
           latex: '\\bar{y} = \\frac{1{,}342{,}500}{6{,}000 + 4{,}200 + 4{,}500} = \\frac{1{,}342{,}500}{14{,}700} = 91.3 \\text{ mm}',
         },
       ],
-      handbookPage: 'p. 95, Centroid of Area; pp. 98\u2013100, Shape Properties',
+      handbookPage: 'p. 96, Centroid of Area; pp. 99\u2013101, Shape Properties',
       handbookFormula: '\\bar{y} = \\frac{\\sum A_i\\, y_i}{\\sum A_i}',
       videoUrl: null,
       traps: [

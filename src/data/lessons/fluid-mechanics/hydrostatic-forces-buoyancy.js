@@ -37,7 +37,7 @@ export default {
         { text: 'Gate area:', latex: 'A = 2 \\times 3 = 6 \\text{ m}^2' },
         { text: 'Resultant force:', latex: 'F_R = \\gamma h_C A = 9{,}810 \\times 1.5 \\times 6 = 88{,}290 \\text{ N} = 88.3 \\text{ kN}' },
       ],
-      handbookPage: 'p. 179',
+      handbookPage: 'p. 184',
       handbookFormula: 'F_R = (\\rho g y_C \\sin\\theta) A',
       videoUrl: null,
       traps: [
@@ -64,7 +64,7 @@ export default {
         { text: 'Centroidal moment of inertia:', latex: 'I_{xC} = \\frac{bh^3}{12} = \\frac{2(3)^3}{12} = 4.5 \\text{ m}^4' },
         { text: 'Center of pressure:', latex: 'y_{CP} = y_C + \\frac{I_{xC}}{y_C A} = 1.5 + \\frac{4.5}{1.5 \\times 6} = 1.5 + 0.5 = 2.0 \\text{ m}' },
       ],
-      handbookPage: 'p. 179',
+      handbookPage: 'p. 184',
       handbookFormula: 'y_{CP} = y_C + \\frac{I_{xC}}{y_C A}',
       videoUrl: null,
       traps: [
@@ -91,7 +91,7 @@ export default {
         { text: 'Net force:', latex: 'F_{\\text{net}} = F_B - W = 19.62 - 15.0 = 4.62 \\text{ kN (upward)}' },
         { text: 'Since $F_B > W$, the tank tends to float.', latex: null },
       ],
-      handbookPage: 'p. 179',
+      handbookPage: 'p. 184',
       handbookFormula: 'F_B = \\gamma V_{\\text{displaced}}',
       videoUrl: null,
       traps: [

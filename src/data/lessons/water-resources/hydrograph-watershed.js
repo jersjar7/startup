@@ -37,7 +37,7 @@ export default {
         { text: 'The UH peak is for 1 inch of excess rainfall:', latex: 'Q_{UH,peak} = 500 \\text{ cfs}' },
         { text: 'Scale by excess rainfall depth:', latex: 'Q_{peak} = P \\times Q_{UH,peak} = 3 \\times 500 = 1{,}500 \\text{ cfs}' },
       ],
-      handbookPage: 'p. 292',
+      handbookPage: 'p. 298',
       handbookFormula: '\\text{Unit hydrograph: 1 unit of rainfall over specified duration}',
       videoUrl: null,
       traps: [
@@ -64,7 +64,7 @@ export default {
         { text: 'Rational Method:', latex: 'Q = CIA = 0.60 \\times 4.8 \\times 100' },
         { text: 'Compute:', latex: 'Q = 288 \\text{ cfs}' },
       ],
-      handbookPage: 'p. 290',
+      handbookPage: 'p. 296',
       handbookFormula: 'Q = CIA',
       videoUrl: null,
       traps: [
@@ -91,7 +91,7 @@ export default {
         { text: 'Substitute:', latex: '\\frac{\\Delta S}{\\Delta t} = 800 - 500 = 300 \\text{ cfs}' },
         { text: 'Since $\\Delta S/\\Delta t > 0$, storage is increasing at 300 cfs.', latex: null },
       ],
-      handbookPage: 'p. 290',
+      handbookPage: 'p. 296',
       handbookFormula: 'P + Q_{in} - Q_{out} + Q_g - E_s - T_s - I = \\Delta S_s',
       videoUrl: null,
       traps: [

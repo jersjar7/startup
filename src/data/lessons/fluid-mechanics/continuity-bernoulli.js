@@ -37,7 +37,7 @@ export default {
         { text: 'From continuity (areas cancel the $\\pi/4$):', latex: 'v_2 = v_1 \\times \\left(\\frac{D_1}{D_2}\\right)^2' },
         { text: 'Substitute:', latex: 'v_2 = 2 \\times \\left(\\frac{300}{150}\\right)^2 = 2 \\times 4 = 8 \\text{ m/s}' },
       ],
-      handbookPage: 'p. 180',
+      handbookPage: 'p. 185',
       handbookFormula: 'A_1 v_1 = A_2 v_2',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'Substitute:', latex: 'P_2 = 250{,}000 + \\frac{1{,}000}{2}(1.5^2 - 6.0^2) = 250{,}000 + 500(-33.75)' },
         { text: 'Solve:', latex: 'P_2 = 250{,}000 - 16{,}875 = 233{,}125 \\text{ Pa} \\approx 233 \\text{ kPa}' },
       ],
-      handbookPage: 'p. 180',
+      handbookPage: 'p. 185',
       handbookFormula: '\\frac{P_1}{\\gamma} + \\frac{v_1^2}{2g} + z_1 = \\frac{P_2}{\\gamma} + \\frac{v_2^2}{2g} + z_2',
       videoUrl: null,
       traps: [
@@ -93,7 +93,7 @@ export default {
         { text: 'Solve for exit velocity (Torricelli\u2019s theorem):', latex: 'v_2 = \\sqrt{2g \\cdot z_1} = \\sqrt{2 \\times 9.81 \\times 10}' },
         { text: 'Compute:', latex: 'v_2 = \\sqrt{196.2} = 14.0 \\text{ m/s}' },
       ],
-      handbookPage: 'p. 180',
+      handbookPage: 'p. 185',
       handbookFormula: '\\frac{P_1}{\\gamma} + \\frac{v_1^2}{2g} + z_1 = \\frac{P_2}{\\gamma} + \\frac{v_2^2}{2g} + z_2',
       videoUrl: null,
       traps: [

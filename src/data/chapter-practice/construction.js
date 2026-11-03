@@ -20,7 +20,7 @@ const PROBLEMS = [
       { text: 'Start-to-Start with 2-day lag means S starts 2 days after R starts:', latex: 'ES_S = ES_R + \\text{lag} = 3 + 2 = 5' },
       { text: 'The 7-day duration of R does not enter an SS relationship.', latex: null },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'ES_S = ES_R + \\text{lag (SS)}',
     videoUrl: null,
     traps: [
@@ -50,7 +50,7 @@ const PROBLEMS = [
       { text: 'Shared dependencies that must stay logically distinct require a dummy activity.', latex: null },
       { text: 'A dummy has zero duration and only enforces precedence; it represents no real work.', latex: null },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: null,
     videoUrl: null,
     traps: [
@@ -80,7 +80,7 @@ const PROBLEMS = [
       { text: 'S depends on both Q and R:', latex: 'ES_S = \\max(EF_Q, EF_R) = \\max(10, 15) = 15' },
       { text: 'Check: $EF_S = 15 + 5 = 20$ equals the project duration. Critical path is P-R-S.', latex: null },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'ES = \\max(EF \\text{ of all predecessors})',
     videoUrl: null,
     traps: [
@@ -110,7 +110,7 @@ const PROBLEMS = [
       { text: 'Q feeds only S:', latex: 'LF_Q = LS_S = 15' },
       { text: 'For reference, $LS_Q = LF_Q - D_Q = 15 - 4 = 11$, but the question asks for LF.', latex: null },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'LF = \\min(LS \\text{ of all successors})',
     videoUrl: null,
     traps: [
@@ -140,7 +140,7 @@ const PROBLEMS = [
       { text: 'Total float:', latex: 'TF = LF - EF = 20 - 14 = 6 \\text{ days}' },
       { text: 'Verify via late start: $LS = LF - D = 20 - 8 = 12$, $TF = LS - ES = 12 - 6 = 6$.', latex: null },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: '\\text{Float} = LS - ES = LF - EF',
     videoUrl: null,
     traps: [
@@ -170,7 +170,7 @@ const PROBLEMS = [
       { text: 'LF increases by 3, EF unchanged:', latex: 'TF = (LF + 3) - EF = 0 + 3 = 3 \\text{ days}' },
       { text: 'Positive total float means the activity is off the critical path.', latex: null },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: '\\text{Float} = LS - ES = LF - EF',
     videoUrl: null,
     traps: [
@@ -199,7 +199,7 @@ const PROBLEMS = [
       { text: 'Cost variance:', latex: 'CV = BCWP - ACWP = 1{,}050{,}000 - 980{,}000 = +70{,}000' },
       { text: 'Positive CV means earned value exceeds actual cost: under budget.', latex: null },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'CV = BCWP - ACWP',
     videoUrl: null,
     traps: [
@@ -229,7 +229,7 @@ const PROBLEMS = [
       { text: 'Cost variance zero:', latex: 'CV = BCWP - ACWP = 0 \\Rightarrow BCWP = ACWP' },
       { text: 'Therefore all three are equal:', latex: 'BCWS = BCWP = ACWP' },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 316',
     handbookFormula: 'CV = BCWP - ACWP,\\quad SV = BCWP - BCWS',
     videoUrl: null,
     traps: [
@@ -258,7 +258,7 @@ const PROBLEMS = [
       { text: 'Schedule Performance Index:', latex: 'SPI = \\frac{BCWP}{BCWS} = \\frac{840{,}000}{1{,}050{,}000} = 0.80' },
       { text: '$SPI = 0.80 < 1.0$ means the project is behind schedule.', latex: null },
     ],
-    handbookPage: 'p. 311',
+    handbookPage: 'p. 317',
     handbookFormula: 'SPI = \\frac{BCWP}{BCWS}',
     videoUrl: null,
     traps: [
@@ -288,7 +288,7 @@ const PROBLEMS = [
       { text: 'Estimate at completion:', latex: 'EAC = \\frac{BAC}{CPI} = \\frac{4{,}000{,}000}{0.8333} = 4{,}800{,}000' },
       { text: 'The forecast exceeds the 4,000,000 budget because the project is running over budget.', latex: null },
     ],
-    handbookPage: 'p. 311',
+    handbookPage: 'p. 317',
     handbookFormula: 'EAC = \\frac{BAC}{CPI}',
     videoUrl: null,
     traps: [

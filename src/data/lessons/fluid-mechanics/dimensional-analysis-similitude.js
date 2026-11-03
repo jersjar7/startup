@@ -38,7 +38,7 @@ export default {
         { text: 'Identify:', latex: 'n = 7 \\text{ variables}, \\quad r = 3 \\text{ dimensions (M, L, T)}' },
         { text: 'Buckingham Pi theorem:', latex: 'k = n - r = 7 - 3 = 4' },
       ],
-      handbookPage: 'p. 196',
+      handbookPage: 'p. 202',
       handbookFormula: 'k = n - r',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'Solve for model velocity:', latex: 'v_m = v_p \\sqrt{\\frac{l_m}{l_p}} = 10 \\sqrt{\\frac{1}{25}} = 10 \\times \\frac{1}{5}' },
         { text: 'Compute:', latex: 'v_m = 2.0 \\text{ m/s}' },
       ],
-      handbookPage: 'p. 196',
+      handbookPage: 'p. 202',
       handbookFormula: 'Fr_m = Fr_p \\quad \\Rightarrow \\quad \\frac{v_m}{\\sqrt{g l_m}} = \\frac{v_p}{\\sqrt{g l_p}}',
       videoUrl: null,
       traps: [
@@ -91,7 +91,7 @@ export default {
         { text: 'Reynolds similitude with same fluid ($\\nu_m = \\nu_p$):', latex: 'v_m l_m = v_p l_p' },
         { text: 'Solve for model velocity:', latex: 'v_m = v_p \\times \\frac{l_p}{l_m} = 3 \\times \\frac{10}{1} = 30 \\text{ m/s}' },
       ],
-      handbookPage: 'p. 196',
+      handbookPage: 'p. 202',
       handbookFormula: 'Re_m = Re_p \\quad \\Rightarrow \\quad \\frac{v_m l_m}{\\nu_m} = \\frac{v_p l_p}{\\nu_p}',
       videoUrl: null,
       traps: [

@@ -3,7 +3,7 @@ export default {
   name: 'Force Systems & Resultants',
   subtopicId: 'forces-and-equilibrium',
   application:
-    'Civil engineers resolve force systems every time they combine dead load, live load, and wind on a structural connection, or find the net effect of soil pressure on a retaining wall. The FE tests whether you can break a force into x and y components, find the resultant of multiple concurrent forces, and compute the moment of a force about a point. These are the building blocks: every equilibrium, truss, and beam problem starts here. The handbook gives you the formulas on p. 94, but the exam tests whether you can apply them quickly with direction cosines, geometry-based resolution, and the cross product.',
+    'Civil engineers resolve force systems every time they combine dead load, live load, and wind on a structural connection, or find the net effect of soil pressure on a retaining wall. The FE tests whether you can break a force into x and y components, find the resultant of multiple concurrent forces, and compute the moment of a force about a point. These are the building blocks: every equilibrium, truss, and beam problem starts here. The handbook gives you the formulas on p. 95, but the exam tests whether you can apply them quickly with direction cosines, geometry-based resolution, and the cross product.',
   content: [
     {
       type: 'text',
@@ -71,7 +71,7 @@ export default {
     {
       type: 'callout',
       variant: 'exam',
-      body: 'The handbook (p. 94) gives the cross product components: $M_x = yF_z - zF_y$, $M_y = zF_x - xF_z$, $M_z = xF_y - yF_x$. On the FE Civil, almost all statics problems are 2D, so you only need $M_z = xF_y - yF_x$.',
+      body: 'The handbook (p. 95) gives the cross product components: $M_x = yF_z - zF_y$, $M_y = zF_x - xF_z$, $M_z = xF_y - yF_x$. On the FE Civil, almost all statics problems are 2D, so you only need $M_z = xF_y - yF_x$.',
     },
   ],
   illustration: null,
@@ -108,7 +108,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 94, Resolution of a Force',
+      handbookPage: 'p. 95, Resolution of a Force',
       handbookFormula: 'F_x = F\\cos\\theta_x \\quad F_y = F\\cos\\theta_y',
       videoUrl: null,
       traps: [
@@ -149,7 +149,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 94, Resolution of a Force',
+      handbookPage: 'p. 95, Resolution of a Force',
       handbookFormula: 'F_x = \\frac{x}{R}\\,F \\quad F_y = \\frac{y}{R}\\,F',
       videoUrl: null,
       traps: [
@@ -194,7 +194,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 94, Moments',
+      handbookPage: 'p. 95, Moments',
       handbookFormula: '\\mathbf{M} = \\mathbf{r} \\times \\mathbf{F}',
       videoUrl: null,
       traps: [

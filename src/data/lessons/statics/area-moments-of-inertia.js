@@ -17,7 +17,7 @@ export default {
     },
     {
       type: 'text',
-      body: 'For standard shapes, the handbook tables (pp. 98\u2013100) provide $I$ directly. For a rectangle about its centroidal axis: $I_{xc} = bh^3/12$. For a circle: $I_{xc} = \\pi r^4/4$.',
+      body: 'For standard shapes, the handbook tables (pp. 99\u2013101) provide $I$ directly. For a rectangle about its centroidal axis: $I_{xc} = bh^3/12$. For a circle: $I_{xc} = \\pi r^4/4$.',
     },
     { type: 'heading', body: 'Parallel Axis Theorem' },
     {
@@ -62,7 +62,7 @@ export default {
     {
       type: 'callout',
       variant: 'exam',
-      body: 'The handbook tables (pp. 98\u2013100) give $I$ about centroidal axes for every standard shape. Do not compute integrals on the FE. Look up the value and apply the parallel axis theorem if needed.',
+      body: 'The handbook tables (pp. 99\u2013101) give $I$ about centroidal axes for every standard shape. Do not compute integrals on the FE. Look up the value and apply the parallel axis theorem if needed.',
     },
   ],
   illustration: null,
@@ -99,7 +99,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'pp. 98\u2013100, Shape Properties Table (Rectangle)',
+      handbookPage: 'pp. 99\u2013101, Shape Properties Table (Rectangle)',
       handbookFormula: 'I_{xc} = \\frac{bh^3}{12}',
       videoUrl: null,
       traps: [
@@ -144,7 +144,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 95, Parallel Axis Theorem; pp. 98\u2013100, Shape Properties',
+      handbookPage: 'p. 96, Parallel Axis Theorem; pp. 99\u2013101, Shape Properties',
       handbookFormula: 'I_x = \\bar{I}_{xc} + Ad^2',
       videoUrl: null,
       traps: [
@@ -185,7 +185,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 95, Parallel Axis Theorem; pp. 98\u2013100, Shape Properties',
+      handbookPage: 'p. 96, Parallel Axis Theorem; pp. 99\u2013101, Shape Properties',
       handbookFormula: 'I_x = \\bar{I}_{xc} + Ad^2',
       videoUrl: null,
       traps: [

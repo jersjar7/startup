@@ -30,7 +30,7 @@ const PROBLEMS = [
       { text: 'The vehicles the driver must see are on the highway, so use the major-road speed and the left-turn time gap:', latex: 'V_{major} = 50 \\text{ mph}, \\quad t_g = 7.5 \\text{ sec}' },
       { text: 'Apply the Handbook intersection sight distance equation:', latex: 'ISD = 1.47\\,V_{major}\\,t_g = 1.47(50)(7.5) = 551 \\text{ ft}' },
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 306',
     handbookFormula: 'ISD = 1.47\\,V_{major}\\,t_g',
     traps: [
       'Using the minor-road speed instead of the major-road speed',
@@ -70,7 +70,7 @@ const PROBLEMS = [
       { text: 'The result is longer than the curve, so the assumption fails. Use the $S > L$ form and solve for $S$:', latex: 'L = 2S - \\frac{2158}{A} \\;\\Rightarrow\\; S = \\frac{L + 2158/A}{2} = \\frac{300 + 479.6}{2} = 390 \\text{ ft}' },
       { text: 'Check: $390 \\text{ ft} > 300 \\text{ ft}$, consistent with $S > L$.', latex: 'S \\approx 390 \\text{ ft}' },
     ],
-    handbookPage: 'p. 302',
+    handbookPage: 'p. 308',
     handbookFormula: 'L = 2S - \\frac{2158}{A} \\quad (S > L,\\ \\text{crest})',
     traps: [
       'Accepting the $S \\le L$ result without checking it against the curve length',
@@ -110,7 +110,7 @@ const PROBLEMS = [
       { text: 'Curve elevation at the bridge:', latex: 'Y = 248.60 + (-0.030)(240) + 4.583\\times10^{-5}(240)^2 = 248.60 - 7.20 + 2.64 = 244.04 \\text{ ft}' },
       { text: 'Clearance to the bridge underside:', latex: 'C = 260.00 - 244.04 = 15.96 \\text{ ft}' },
     ],
-    handbookPage: 'p. 301',
+    handbookPage: 'p. 307',
     handbookFormula: 'Y = Y_{PVC} + g_1 x + \\frac{g_2 - g_1}{2L}x^2',
     traps: [
       'Measuring $x$ from the PVI instead of the PVC',
@@ -152,7 +152,7 @@ const PROBLEMS = [
       { text: 'Set $E = 85 \\text{ ft}$ with $I/2 = 19^\\circ$:', latex: '\\frac{1}{\\cos 19^\\circ} - 1 = 1.05762 - 1 = 0.05762' },
       { text: 'Solve for the radius. $E$ grows with $R$, so this is the minimum:', latex: 'R = \\frac{85}{0.05762} = 1{,}475 \\text{ ft}' },
     ],
-    handbookPage: 'p. 303',
+    handbookPage: 'p. 309',
     handbookFormula: 'E = R\\left[\\frac{1}{\\cos(I/2)} - 1\\right]',
     traps: [
       'Confusing the external distance $E$ with the middle ordinate $M$',
@@ -190,7 +190,7 @@ const PROBLEMS = [
       { text: 'Convert the speeds to ft/sec:', latex: 'v_0 = 55(1.467) = 80.67 \\text{ ft/sec}, \\quad v = 25(1.467) = 36.67 \\text{ ft/sec}' },
       { text: 'Constant-acceleration relation solved for distance:', latex: 'd = \\frac{v_0^2 - v^2}{2a} = \\frac{80.67^2 - 36.67^2}{2(6.5)} = \\frac{6507 - 1344}{13} = 397 \\text{ ft}' },
     ],
-    handbookPage: 'p. 104',
+    handbookPage: 'p. 105',
     handbookFormula: 'v^2 = v_0^2 + 2a_0(s - s_0)',
     traps: [
       'Leaving speeds in mph while the deceleration is in ft/sec$^2$',
@@ -266,7 +266,7 @@ const PROBLEMS = [
       { text: 'Deficiency the overlay must supply:', latex: '\\Delta SN = 4.60 - 2.875 = 1.725' },
       { text: 'Overlay thickness with the new-asphalt coefficient:', latex: 'D_1 = \\frac{1.725}{0.44} = 3.92 \\text{ in.}' },
     ],
-    handbookPage: 'p. 308',
+    handbookPage: 'p. 314',
     handbookFormula: 'SN = a_1D_1 + a_2D_2m_2 + a_3D_3m_3 + \\dots',
     traps: [
       'Giving damaged asphalt its new-material layer coefficient',
@@ -314,7 +314,7 @@ const PROBLEMS = [
       { text: 'Structural number contributed by the base as designed:', latex: 'SN_2 = a_2 D_2 m_2 = 0.14(9.0)(1.15) = 1.449' },
       { text: 'Keep $SN_2$ with the revised drainage coefficient:', latex: 'D_2 = \\frac{1.449}{0.14(0.80)} = 12.9 \\text{ in.}' },
     ],
-    handbookPage: 'p. 308',
+    handbookPage: 'p. 314',
     handbookFormula: 'SN = a_1D_1 + a_2D_2m_2 + a_3D_3m_3',
     traps: [
       'Reporting the added thickness when the new total is asked',
@@ -391,7 +391,7 @@ const PROBLEMS = [
       { text: 'The two roots:', latex: 'S = 47.1 \\text{ mph (uncongested)} \\quad \\text{or} \\quad S = 10.9 \\text{ mph (congested)}' },
       { text: 'A queue is the congested regime (density $1{,}500/10.9 = 138 \\text{ veh/mi/ln}$, above the optimum $85$):', latex: 'S = 10.9 \\text{ mph}' },
     ],
-    handbookPage: 'p. 306',
+    handbookPage: 'p. 312',
     handbookFormula: 'S = S_f - \\frac{S_f}{D_j}D, \\quad V = DS',
     traps: [
       'Taking the uncongested root for queued traffic',
@@ -429,7 +429,7 @@ const PROBLEMS = [
       { text: 'Since $BP < v_p \\le c$, speed drops below FFS:', latex: 'S = 70 - \\frac{(70 - 2{,}400/45)(1{,}800 - 1{,}200)^2}{(2{,}400 - 1{,}200)^2} = 70 - 16.67(0.25) = 65.8 \\text{ mph}' },
       { text: 'Density:', latex: 'D = \\frac{v_p}{S} = \\frac{1{,}800}{65.8} = 27.3 \\text{ pc/mi/ln}' },
     ],
-    handbookPage: 'p. 304-305',
+    handbookPage: 'p. 310-311',
     handbookFormula: 'S = FFS_{adj} - \\frac{\\left(FFS_{adj} - \\frac{c_{adj}}{D_c}\\right)(v_p - BP)^a}{(c_{adj} - BP)^a}, \\quad D = \\frac{v_p}{S}',
     traps: [
       'Using the free-flow speed when the flow is above the breakpoint',
@@ -541,7 +541,7 @@ const PROBLEMS = [
       { text: 'Annual entering vehicles:', latex: 'V = ADT \\times 365 = 6.57 \\times 10^6' },
       { text: 'Crash rate per million entering vehicles:', latex: 'R_{MEV} = \\frac{A \\times 1{,}000{,}000}{V} = \\frac{12(10^6)}{6.57 \\times 10^6} = 1.83' },
     ],
-    handbookPage: 'p. 307',
+    handbookPage: 'p. 313',
     handbookFormula: 'R_{MEV} = \\frac{A \\times 1{,}000{,}000}{V}, \\quad V = ADT \\times 365',
     traps: [
       'Using the multi-year crash total with one year of traffic',
@@ -579,7 +579,7 @@ const PROBLEMS = [
       { text: 'Sum of the weights:', latex: '\\sum A_j F_{1j} K_{1j} = 4{,}800 + 1{,}250 + 1{,}800 = 7{,}850' },
       { text: 'Gravity model for Zone 4:', latex: 'T_{14} = P_1 \\frac{A_4 F_{14} K_{14}}{\\sum A_j F_{1j} K_{1j}} = 3{,}000 \\times \\frac{1{,}800}{7{,}850} = 688' },
     ],
-    handbookPage: 'p. 306',
+    handbookPage: 'p. 312',
     handbookFormula: 'T_{ij} = P_i \\frac{A_j F_{ij} K_{ij}}{\\sum_j A_j F_{ij} K_{ij}}',
     traps: [
       'Leaving out the friction factors',

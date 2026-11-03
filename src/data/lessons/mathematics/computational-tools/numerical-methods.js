@@ -33,7 +33,7 @@ export default {
         { text: 'Apply Newton\'s update:', latex: 'x_1 = 1.5 - \\frac{0.25}{3}' },
         { text: 'Compute:', latex: 'x_1 = 1.5 - 0.0833 = 1.417' },
       ],
-      handbookPage: 'p. 61',
+      handbookPage: 'p. 62',
       handbookFormula: 'x_{j+1} = x_j - f(x_j)/f\'(x_j)',
       videoUrl: null,
       traps: [
@@ -60,7 +60,7 @@ export default {
         { text: 'A sign change means f(a) and f(b) have opposite signs.', latex: null },
         { text: 'So the requirement is f(a)·f(b) < 0.', latex: null },
       ],
-      handbookPage: 'p. 61',
+      handbookPage: 'p. 62',
       handbookFormula: null,
       videoUrl: null,
       traps: [
@@ -87,7 +87,7 @@ export default {
         { text: 'A far initial guess can also send iterations away from the root.', latex: null },
         { text: 'So poor guesses or near-zero derivatives cause failure.', latex: null },
       ],
-      handbookPage: 'p. 61',
+      handbookPage: 'p. 62',
       handbookFormula: null,
       videoUrl: null,
       traps: [

@@ -42,7 +42,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: 'F_x = \\frac{x}{R}\\,F',
     videoUrl: null,
     traps: [
@@ -97,7 +97,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: 'R = \\sqrt{R_x^2 + R_y^2}',
     videoUrl: null,
     traps: [
@@ -148,7 +148,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: 'M = Fd',
     videoUrl: null,
     traps: [
@@ -198,7 +198,7 @@ const PROBLEMS = [
         latex: 'M_{net} = 2{,}400 - 400 = 2{,}000\\,\\text{N}\\cdot\\text{m (CW)}'
       }
     ],
-    handbookPage: 'p. 94',
+    handbookPage: 'p. 95',
     handbookFormula: 'M_O = \\sum (F \\times d)',
     videoUrl: null,
     traps: [
@@ -253,7 +253,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 94, Equilibrium Requirements',
+    handbookPage: 'p. 95, Equilibrium Requirements',
     handbookFormula: '\\sum F_n = 0 \\quad \\sum M_n = 0',
     videoUrl: null,
     traps: [
@@ -308,7 +308,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 94, Equilibrium Requirements',
+    handbookPage: 'p. 95, Equilibrium Requirements',
     handbookFormula: '\\sum F_n = 0 \\quad \\sum M_n = 0',
     videoUrl: null,
     traps: [
@@ -363,7 +363,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 94, Equilibrium Requirements; p. 95, Centroids',
+    handbookPage: 'p. 95, Equilibrium Requirements; p. 96, Centroids',
     handbookFormula: '\\sum M_n = 0',
     videoUrl: null,
     traps: [
@@ -418,7 +418,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 94, Equilibrium Requirements',
+    handbookPage: 'p. 95, Equilibrium Requirements',
     handbookFormula: '\\sum F_n = 0 \\quad \\sum M_n = 0',
     videoUrl: null,
     traps: [
@@ -473,7 +473,7 @@ const PROBLEMS = [
         latex: 'F_{AB} = 16.0 \\text{ kN (tension)}'
       }
     ],
-    handbookPage: 'p. 97, Plane Truss: Method of Joints',
+    handbookPage: 'p. 98, Plane Truss: Method of Joints',
     handbookFormula: '\\sum F_H = 0 \\quad \\sum F_V = 0',
     videoUrl: null,
     traps: [
@@ -532,7 +532,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 97, Plane Truss: Method of Sections',
+    handbookPage: 'p. 98, Plane Truss: Method of Sections',
     handbookFormula: '\\sum F_H = 0 \\quad \\sum F_V = 0 \\quad \\sum M = 0',
     videoUrl: null,
     traps: [
@@ -591,7 +591,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 97, Plane Truss: Method of Sections',
+    handbookPage: 'p. 98, Plane Truss: Method of Sections',
     handbookFormula: '\\sum F_H = 0 \\quad \\sum F_V = 0 \\quad \\sum M = 0',
     videoUrl: null,
     traps: [
@@ -646,7 +646,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 271, Statically Determinate Truss',
+    handbookPage: 'p. 277, Statically Determinate Truss',
     handbookFormula: 'm + r = 2j',
     videoUrl: null,
     traps: [
@@ -697,7 +697,7 @@ const PROBLEMS = [
         latex: 'F_{\\text{friction}} = 80 \\text{ N}'
       }
     ],
-    handbookPage: 'p. 96, Friction',
+    handbookPage: 'p. 97, Friction',
     handbookFormula: 'F \\leq \\mu_s N',
     videoUrl: null,
     traps: [
@@ -752,7 +752,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 97, Belt Friction',
+    handbookPage: 'p. 98, Belt Friction',
     handbookFormula: 'F_1 = F_2\\, e^{\\mu\\theta}',
     videoUrl: null,
     traps: [
@@ -807,7 +807,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 96, Friction',
+    handbookPage: 'p. 97, Friction',
     handbookFormula: 'F \\leq \\mu_s N',
     videoUrl: null,
     traps: [
@@ -862,7 +862,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 96, Friction',
+    handbookPage: 'p. 97, Friction',
     handbookFormula: 'F \\leq \\mu_s N',
     videoUrl: null,
     traps: [
@@ -913,7 +913,7 @@ const PROBLEMS = [
         latex: '\\bar{y} = \\frac{1{,}600(10) + 1{,}600(60)}{1{,}600 + 1{,}600} = \\frac{16{,}000 + 96{,}000}{3{,}200} = \\frac{112{,}000}{3{,}200} = 35.0 \\text{ mm}'
       }
     ],
-    handbookPage: 'p. 95, Centroid of Area',
+    handbookPage: 'p. 96, Centroid of Area',
     handbookFormula: '\\bar{y} = \\frac{\\sum A_i\\, y_i}{\\sum A_i}',
     videoUrl: null,
     traps: [
@@ -968,7 +968,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 95, Centroid of Area',
+    handbookPage: 'p. 96, Centroid of Area',
     handbookFormula: '\\bar{y} = \\frac{\\sum A_i\\, y_i}{\\sum A_i}',
     videoUrl: null,
     traps: [
@@ -1019,7 +1019,7 @@ const PROBLEMS = [
         latex: '\\bar{x} = \\frac{1{,}600(5) + 2{,}400(30)}{1{,}600 + 2{,}400} = \\frac{8{,}000 + 72{,}000}{4{,}000} = 20.0 \\text{ mm}'
       }
     ],
-    handbookPage: 'p. 95, Centroid of Area; pp. 98-100, Shape Properties',
+    handbookPage: 'p. 96, Centroid of Area; pp. 99-101, Shape Properties',
     handbookFormula: '\\bar{x} = \\frac{\\sum A_i\\, x_i}{\\sum A_i}',
     videoUrl: null,
     traps: [
@@ -1074,7 +1074,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 95, Centroid of Area',
+    handbookPage: 'p. 96, Centroid of Area',
     handbookFormula: '\\bar{y} = \\frac{\\sum A_i\\, y_i}{\\sum A_i}',
     videoUrl: null,
     traps: [
@@ -1125,7 +1125,7 @@ const PROBLEMS = [
         latex: 'I = \\frac{12{,}800{,}000{,}000}{12} = 1{,}067 \\times 10^6\\,\\text{mm}^4'
       }
     ],
-    handbookPage: 'p. 98',
+    handbookPage: 'p. 99',
     handbookFormula: 'I_x = \\frac{bh^3}{12}',
     videoUrl: null,
     traps: [
@@ -1176,7 +1176,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 95',
+    handbookPage: 'p. 96',
     handbookFormula: 'I = \\bar{I} + Ad^2',
     videoUrl: null,
     traps: ['Confusing the transfer term with the centroidal moment itself'],
@@ -1228,7 +1228,7 @@ const PROBLEMS = [
         latex: 'J = \\frac{\\pi d^4}{32} = \\frac{\\pi (200)^4}{32} = 157.1 \\times 10^6\\,\\text{mm}^4'
       }
     ],
-    handbookPage: 'pp. 98–100',
+    handbookPage: 'pp. 99–101',
     handbookFormula: 'J = \\frac{\\pi r^4}{2}',
     videoUrl: null,
     traps: [
@@ -1287,7 +1287,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 95',
+    handbookPage: 'p. 96',
     handbookFormula: 'I_x = \\bar{I}_{xc} + Ad^2',
     videoUrl: null,
     traps: [

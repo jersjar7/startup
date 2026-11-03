@@ -112,7 +112,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 230, Cost Estimation; p. 229, Engineering Economics concepts',
+      handbookPage: 'p. 236, Cost Estimation; p. 235, Engineering Economics concepts',
       handbookFormula: null,
       videoUrl: null,
       traps: [
@@ -161,7 +161,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 230, Cost Estimation and Break-Even Analysis',
+      handbookPage: 'p. 236, Cost Estimation and Break-Even Analysis',
       handbookFormula: 'Q^* = \\frac{FC_A - FC_B}{VC_B - VC_A}',
       videoUrl: null,
       traps: [
@@ -202,7 +202,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 230, Cost Estimation and Payback Analysis',
+      handbookPage: 'p. 236, Cost Estimation and Payback Analysis',
       handbookFormula: '\\text{Payback Period} = \\frac{\\text{Initial Investment}}{\\text{Annual Net Savings}}',
       videoUrl: null,
       traps: [

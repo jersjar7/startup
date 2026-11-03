@@ -47,7 +47,7 @@ export default {
         { text: 'Simplify:', latex: '\\frac{8 \\times 7 \\times 6}{3 \\times 2 \\times 1} = \\frac{336}{6} = 56' },
         { text: 'TI-36X Pro: Type 8 \u2192 [PRB] \u2192 nCr \u2192 3 \u2192 [=]. Result: 56.', latex: null },
       ],
-      handbookPage: 'p. 64',
+      handbookPage: 'p. 65',
       handbookFormula: 'C(n, r) = \\frac{n!}{r!\\,(n-r)!}',
       videoUrl: null,
       traps: [
@@ -76,7 +76,7 @@ export default {
         { text: 'Compute each part:', latex: '(0.90)^8 = 0.4305, \\quad (0.10)^2 = 0.01' },
         { text: 'Multiply:', latex: 'P = 45 \\times 0.4305 \\times 0.01 = 0.194' },
       ],
-      handbookPage: 'p. 66',
+      handbookPage: 'p. 67',
       handbookFormula: 'P(X = x) = C(n, x)\\,p^x(1-p)^{n-x}',
       videoUrl: null,
       traps: [
@@ -104,7 +104,7 @@ export default {
         { text: 'From the handbook table: $F(1.67) = 0.9525$.', latex: null },
         { text: 'Compute the fail rate:', latex: 'F(-1.67) = 1 - 0.9525 = 0.0475 = 4.75\\%' },
       ],
-      handbookPage: 'p. 67',
+      handbookPage: 'p. 68',
       handbookFormula: 'z = \\frac{x - \\mu}{\\sigma}',
       videoUrl: null,
       traps: [

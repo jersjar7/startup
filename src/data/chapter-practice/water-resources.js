@@ -22,7 +22,7 @@ const PROBLEMS = [
       { text: 'Manning\'s equation (SI, $K = 1.0$):', latex: 'Q = \\frac{1.0}{0.018}(2.16)(0.499)^{2/3}(0.0016)^{1/2}' },
       { text: 'Compute:', latex: 'Q = 55.56 \\times 2.16 \\times 0.629 \\times 0.04 = 3.02\\,\\text{m}^3\\text{/s}' },
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'Q = \\frac{K}{n} A R_H^{2/3} S^{1/2}',
     videoUrl: null,
     traps: [
@@ -55,7 +55,7 @@ const PROBLEMS = [
       { text: 'Manning\'s equation (USCS, $K = 1.486$):', latex: 'Q = \\frac{1.486}{0.024}(6.283)(1.0)^{2/3}(0.005)^{1/2}' },
       { text: 'Compute:', latex: 'Q = 61.92 \\times 6.283 \\times 1.0 \\times 0.0707 = 27.5\\,\\text{ft}^3\\text{/s}' },
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'Q = \\frac{K}{n} A R_H^{2/3} S^{1/2}',
     videoUrl: null,
     traps: [
@@ -85,7 +85,7 @@ const PROBLEMS = [
       { text: 'Velocity head:', latex: '\\frac{v^2}{2g} = \\frac{(2.0)^2}{2(9.81)} = 0.204\\,\\text{m}' },
       { text: 'Specific energy:', latex: 'E = y + \\frac{v^2}{2g} = 2.5 + 0.204 = 2.70\\,\\text{m}' },
     ],
-    handbookPage: 'p. 295',
+    handbookPage: 'p. 301',
     handbookFormula: 'E = y + \\frac{v^2}{2g}',
     videoUrl: null,
     traps: [
@@ -115,7 +115,7 @@ const PROBLEMS = [
       { text: 'Substitute:', latex: '\\Delta E = \\frac{(2.5 - 0.5)^3}{4(0.5)(2.5)}' },
       { text: 'Compute:', latex: '\\Delta E = \\frac{(2.0)^3}{5.0} = \\frac{8}{5} = 1.60\\,\\text{m}' },
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: '\\Delta E = \\frac{(y_2 - y_1)^3}{4 y_1 y_2}',
     videoUrl: null,
     traps: [
@@ -146,7 +146,7 @@ const PROBLEMS = [
       { text: 'Substitute:', latex: 'S_v = \\left[\\frac{1.8}{1.318(140)(0.349)(0.167)^{0.63}}\\right]^{1.852} = 0.01073' },
       { text: 'Head loss:', latex: 'h_f = S_v L = 0.01073 \\times 1{,}200 = 12.9\\,\\text{ft}' },
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'Q = k_1 C A R_H^{0.63} S_v^{0.54}',
     videoUrl: null,
     traps: [
@@ -176,7 +176,7 @@ const PROBLEMS = [
       { text: 'Solve for the head:', latex: 'H = \\left(\\frac{Q}{C}\\right)^{2/5} = \\left(\\frac{8.0}{2.54}\\right)^{0.4}' },
       { text: 'Compute:', latex: 'H = (3.150)^{0.4} = 1.58\\,\\text{ft}' },
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'Q = CH^{5/2}',
     videoUrl: null,
     traps: [
@@ -207,7 +207,7 @@ const PROBLEMS = [
       { text: 'Check initial abstraction:', latex: '0.2S = 0.70\\,\\text{in.} < P = 3.5\\,\\text{in.}\\;\\checkmark' },
       { text: 'SCS runoff equation:', latex: 'Q = \\frac{(3.5 - 0.70)^2}{3.5 + 2.81} = \\frac{(2.80)^2}{6.31} = 1.24\\,\\text{in.}' },
     ],
-    handbookPage: 'p. 290',
+    handbookPage: 'p. 296',
     handbookFormula: 'Q = \\frac{(P - 0.2S)^2}{P + 0.8S}',
     videoUrl: null,
     traps: [
@@ -237,7 +237,7 @@ const PROBLEMS = [
       { text: 'Substitute:', latex: 'A = \\frac{90}{0.55 \\times 3.0} = \\frac{90}{1.65}' },
       { text: 'Compute:', latex: 'A = 54.5\\,\\text{acres}' },
     ],
-    handbookPage: 'p. 290',
+    handbookPage: 'p. 296',
     handbookFormula: 'Q = CIA',
     videoUrl: null,
     traps: [
@@ -268,7 +268,7 @@ const PROBLEMS = [
       { text: 'At hour 3, add both contributions:', latex: '\\underbrace{2 \\times 150}_{\\text{pulse 1}} + \\underbrace{3 \\times 300}_{\\text{pulse 2}} = 300 + 900' },
       { text: 'Peak direct runoff:', latex: 'Q_{peak} = 1{,}200\\,\\text{cfs}' },
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 298',
     handbookFormula: '\\text{DRH}(t) = \\sum_j P_j \\cdot UH(t - j + 1)',
     videoUrl: null,
     traps: [
@@ -297,7 +297,7 @@ const PROBLEMS = [
       { text: 'Depth in feet (acres cancel):', latex: 'd = \\frac{V}{A} = \\frac{1{,}500\\,\\text{acre-ft}}{6{,}000\\,\\text{acres}} = 0.25\\,\\text{ft}' },
       { text: 'Convert to inches:', latex: 'd = 0.25\\,\\text{ft} \\times 12\\,\\frac{\\text{in.}}{\\text{ft}} = 3.0\\,\\text{in.}' },
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 298',
     handbookFormula: 'd = \\frac{V}{A}',
     videoUrl: null,
     traps: [
@@ -327,7 +327,7 @@ const PROBLEMS = [
       { text: 'Darcy discharge:', latex: 'Q = KAi = (4 \\times 10^{-5})(300)(0.05) = 6.0 \\times 10^{-4}\\,\\text{m}^3\\text{/s}' },
       { text: 'Convert to per day:', latex: 'Q = 6.0 \\times 10^{-4} \\times 86{,}400 = 51.8\\,\\text{m}^3\\text{/day}' },
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 298',
     handbookFormula: 'Q = KAi = KA\\frac{dh}{L}',
     videoUrl: null,
     traps: [
@@ -358,7 +358,7 @@ const PROBLEMS = [
       { text: 'Substitute:', latex: 'h_1 = \\sqrt{80^2 - \\frac{0.8(5.70)}{\\pi(6 \\times 10^{-4})}} = \\sqrt{6{,}400 - 2{,}419}' },
       { text: 'Compute:', latex: 'h_1 = \\sqrt{3{,}981} = 63.1\\,\\text{ft}' },
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 299',
     handbookFormula: 'Q = \\frac{\\pi K(h_2^2 - h_1^2)}{\\ln(r_2/r_1)}',
     videoUrl: null,
     traps: [
@@ -388,7 +388,7 @@ const PROBLEMS = [
       { text: 'Evaluate the exponent:', latex: 'e^{-0.72} = 0.487' },
       { text: 'BOD remaining at 4 days:', latex: 'L_t = 320 \\times 0.487 = 155.8\\,\\text{mg/L}' },
     ],
-    handbookPage: 'p. 321',
+    handbookPage: 'p. 327',
     handbookFormula: 'L_t = L_0 e^{-kt}',
     videoUrl: null,
     traps: [
@@ -418,7 +418,7 @@ const PROBLEMS = [
       { text: 'Critical deficit:', latex: 'D_c = \\frac{k_d}{k_r}L_a\\, e^{-k_d t_c} = \\frac{0.2}{0.4}(20)e^{-0.2(3.47)} = 10(0.5) = 5.0\\,\\text{mg/L}' },
       { text: 'Minimum dissolved oxygen:', latex: 'DO_{min} = DO_{sat} - D_c = 9.0 - 5.0 = 4.0\\,\\text{mg/L}' },
     ],
-    handbookPage: 'p. 321',
+    handbookPage: 'p. 327',
     handbookFormula: 'D_c = \\frac{k_d}{k_r}L_a e^{-k_d t_c}, \\quad t_c = \\frac{1}{k_r - k_d}\\ln\\frac{k_r}{k_d}',
     videoUrl: null,
     traps: [
@@ -449,7 +449,7 @@ const PROBLEMS = [
       { text: 'Detention time:', latex: '\\theta = \\frac{V}{Q} = \\frac{19{,}200}{200{,}535} = 0.0958\\,\\text{day}' },
       { text: 'Convert to hours:', latex: '\\theta = 0.0958 \\times 24 = 2.3\\,\\text{hours}' },
     ],
-    handbookPage: 'p. 339',
+    handbookPage: 'p. 345',
     handbookFormula: '\\theta = \\frac{V}{Q}',
     videoUrl: null,
     traps: [
@@ -479,7 +479,7 @@ const PROBLEMS = [
       { text: 'Solve the circular area for diameter:', latex: 'D = \\sqrt{\\frac{4A}{\\pi}} = \\sqrt{\\frac{4(2{,}778)}{\\pi}}' },
       { text: 'Compute:', latex: 'D = \\sqrt{3{,}537} = 59.5\\,\\text{ft}' },
     ],
-    handbookPage: 'p. 339',
+    handbookPage: 'p. 345',
     handbookFormula: 'v_o = \\frac{Q}{A}, \\quad A = \\frac{\\pi D^2}{4}',
     videoUrl: null,
     traps: [
@@ -508,7 +508,7 @@ const PROBLEMS = [
       { text: 'CT relationship:', latex: 'CT = C \\times t_{10}' },
       { text: 'Compute:', latex: 'CT = 2.0 \\times 45 = 90\\,\\text{mg·min/L}' },
     ],
-    handbookPage: 'p. 346',
+    handbookPage: 'p. 352',
     handbookFormula: 'CT = C \\times t_{10}',
     videoUrl: null,
     traps: [
@@ -537,7 +537,7 @@ const PROBLEMS = [
       { text: 'Uniformity coefficient:', latex: 'UC = \\frac{d_{60}}{d_{10}} = \\frac{0.75}{0.50}' },
       { text: 'Compute:', latex: 'UC = 1.5' },
     ],
-    handbookPage: 'p. 341',
+    handbookPage: 'p. 347',
     handbookFormula: 'UC = d_{60}/d_{10}',
     videoUrl: null,
     traps: [
@@ -596,7 +596,7 @@ const PROBLEMS = [
       { text: 'Fluid power:', latex: '\\gamma Q H = 9{,}810 \\times 0.030 \\times 24.5 = 7{,}210\\,\\text{W}' },
       { text: 'Brake power:', latex: '\\frac{7{,}210}{0.70} = 10{,}300\\,\\text{W} \\approx 10.3\\,\\text{kW}' },
     ],
-    handbookPage: 'p. 191',
+    handbookPage: 'p. 197',
     handbookFormula: '\\dot W = \\gamma Q H / \\eta',
     videoUrl: null,
     traps: [

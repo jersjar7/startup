@@ -37,7 +37,7 @@ export default {
         { text: 'Crest curve, $S \\leq L$:', latex: 'L = \\frac{A S^2}{2{,}158} = \\frac{8 \\times 500^2}{2{,}158} = \\frac{2{,}000{,}000}{2{,}158} = 927 \\text{ ft}' },
         { text: 'Verify: $S = 500 < L = 927$ \\checkmark', latex: null },
       ],
-      handbookPage: 'p. 302',
+      handbookPage: 'p. 308',
       handbookFormula: 'L = \\frac{A S^2}{2{,}158}',
       videoUrl: null,
       traps: [
@@ -64,7 +64,7 @@ export default {
         { text: 'Tangent offset at PVI:', latex: 'E = \\frac{(g_2 - g_1) \\cdot L}{8} = \\frac{(-0.05 - 0.03) \\times 800}{8} = \\frac{-0.08 \\times 800}{8} = -8.0 \\text{ ft}' },
         { text: 'Magnitude: $|E| = 8.0$ ft (curve is 8 ft below the tangent at midpoint)', latex: null },
       ],
-      handbookPage: 'p. 301',
+      handbookPage: 'p. 307',
       handbookFormula: 'E = a\\left(\\frac{L}{2}\\right)^2',
       videoUrl: null,
       traps: [
@@ -91,7 +91,7 @@ export default {
         { text: 'Sag headlight formula ($S \\leq L$):', latex: 'L = \\frac{A S^2}{400 + 3.5S} = \\frac{8 \\times 300^2}{400 + 3.5(300)} = \\frac{720{,}000}{1{,}450} = 497 \\text{ ft}' },
         { text: 'Verify: $S = 300 < L = 497$ \\checkmark', latex: null },
       ],
-      handbookPage: 'p. 302',
+      handbookPage: 'p. 308',
       handbookFormula: 'L = \\frac{A S^2}{400 + 3.5S}',
       videoUrl: null,
       traps: [

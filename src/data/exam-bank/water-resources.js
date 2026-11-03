@@ -46,7 +46,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'Q = \\frac{K}{n} A R_H^{2/3} S^{1/2}',
     videoUrl: null,
     traps: ['Thinking the units cancel out automatically', 'Confusing underestimate with overestimate'],
@@ -102,7 +102,7 @@ const PROBLEMS = [
         latex: 'Q = 45.45 \\times 9.0 \\times 0.951 \\times 0.02 = 7.8\\,\\text{m}^3/\\text{s}'
       }
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'Q = \\frac{K}{n} A R_H^{2/3} S^{1/2}',
     videoUrl: null,
     traps: [
@@ -161,7 +161,7 @@ const PROBLEMS = [
         latex: 'R_H = \\frac{A}{P} = \\frac{\\pi D^2/4}{\\pi D} = \\frac{D}{4}'
       }
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'R_H = \\frac{A}{P}',
     videoUrl: null,
     traps: ['Confusing hydraulic radius (D/4) with geometric radius (D/2)'],
@@ -217,7 +217,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'Q = \\frac{K}{n} A R_H^{2/3} S^{1/2}',
     videoUrl: null,
     traps: [
@@ -275,7 +275,7 @@ const PROBLEMS = [
         latex: 'y_c = (1.631)^{1/3} = 1.18\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 296',
+    handbookPage: 'p. 302',
     handbookFormula: 'y_c = \\left(\\frac{q^2}{g}\\right)^{1/3}',
     videoUrl: null,
     traps: ['Using total discharge $Q$ instead of unit discharge $q$', 'Forgetting to take the cube root'],
@@ -323,7 +323,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 296',
+    handbookPage: 'p. 302',
     handbookFormula: 'Fr = \\frac{V}{\\sqrt{gy}}',
     videoUrl: null,
     traps: ['Confusing Froude number with Reynolds number'],
@@ -375,7 +375,7 @@ const PROBLEMS = [
         latex: 'y_2 = 0.15(-1 + 11.36) = 0.15 \\times 10.36 = 1.55\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'y_2 = \\frac{y_1}{2}\\left(-1 + \\sqrt{1 + 8Fr_1^2}\\right)',
     videoUrl: null,
     traps: [
@@ -436,7 +436,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 296',
+    handbookPage: 'p. 302',
     handbookFormula: 'E = y + \\frac{V^2}{2g}',
     videoUrl: null,
     traps: [
@@ -487,7 +487,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'v = k_1 C R_H^{0.63} S_v^{0.54}',
     videoUrl: null,
     traps: [
@@ -541,7 +541,7 @@ const PROBLEMS = [
         latex: 'Q = 3.33 \\times 3.76 \\times 1.315 = 16.5\\text{ ft}^3\\text{/s}'
       }
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'Q = C(L - 0.2H)H^{3/2}',
     videoUrl: null,
     traps: [
@@ -600,7 +600,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'Q = CLH^{3/2}; \\quad Q = CH^{5/2}',
     videoUrl: null,
     traps: [
@@ -663,7 +663,7 @@ const PROBLEMS = [
         latex: 'Q = vA = 3.65 \\times 0.545 = 2.0\\text{ ft}^3\\text{/s}'
       }
     ],
-    handbookPage: 'p. 297',
+    handbookPage: 'p. 303',
     handbookFormula: 'Q = k_1 C A R_H^{0.63} S_v^{0.54}',
     videoUrl: null,
     traps: [
@@ -710,7 +710,7 @@ const PROBLEMS = [
         latex: 'Q = 115.5\\text{ cfs}'
       }
     ],
-    handbookPage: 'p. 290',
+    handbookPage: 'p. 296',
     handbookFormula: 'Q = CIA',
     videoUrl: null,
     traps: [
@@ -764,7 +764,7 @@ const PROBLEMS = [
         latex: 'Q = \\frac{(5.333)^2}{8.667} = \\frac{28.44}{8.667} = 3.28\\text{ in.}'
       }
     ],
-    handbookPage: 'p. 290',
+    handbookPage: 'p. 296',
     handbookFormula: 'Q = \\frac{(P - 0.2S)^2}{P + 0.8S}',
     videoUrl: null,
     traps: [
@@ -815,7 +815,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 290',
+    handbookPage: 'p. 296',
     handbookFormula: 'S = \\frac{1{,}000}{CN} - 10',
     videoUrl: null,
     traps: [
@@ -865,7 +865,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 290',
+    handbookPage: 'p. 296',
     handbookFormula: 'P + Q_{in} - Q_{out} + Q_g - E_s - T_s - I = \\Delta S_s',
     videoUrl: null,
     traps: [
@@ -916,7 +916,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 298',
     handbookFormula: '\\text{Unit hydrograph: 1 unit of rainfall over specified duration}',
     videoUrl: null,
     traps: [
@@ -962,7 +962,7 @@ const PROBLEMS = [
         latex: 'Q_{peak} = P \\times Q_{UH,peak} = 2.5 \\times 300 = 750\\text{ cfs}'
       }
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 298',
     handbookFormula: '\\text{Unit hydrograph: 1 unit of rainfall over specified duration}',
     videoUrl: null,
     traps: [
@@ -1013,7 +1013,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 290',
+    handbookPage: 'p. 296',
     handbookFormula: 'Q = CIA',
     videoUrl: null,
     traps: [
@@ -1063,7 +1063,7 @@ const PROBLEMS = [
         latex: '\\Delta S = 75 \\times 7{,}200 = 540{,}000\\text{ ft}^3'
       }
     ],
-    handbookPage: 'p. 290',
+    handbookPage: 'p. 296',
     handbookFormula: 'I - O = \\frac{\\Delta S}{\\Delta t}',
     videoUrl: null,
     traps: [
@@ -1114,7 +1114,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 298',
     handbookFormula: 'v = \\frac{q}{n}',
     videoUrl: null,
     traps: [
@@ -1172,7 +1172,7 @@ const PROBLEMS = [
         latex: 'Q = \\frac{0.1005}{6.215} = 0.016\\text{ m}^3\\text{/s}'
       }
     ],
-    handbookPage: 'p. 293',
+    handbookPage: 'p. 299',
     handbookFormula: 'Q = \\frac{2\\pi T(h_2 - h_1)}{\\ln(r_2/r_1)}',
     videoUrl: null,
     traps: [
@@ -1233,7 +1233,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 299',
     handbookFormula: 'Q = \\frac{\\pi K(h_2^2 - h_1^2)}{\\ln(r_2/r_1)}',
     videoUrl: null,
     traps: [
@@ -1287,7 +1287,7 @@ const PROBLEMS = [
         latex: 't = \\frac{1.837 \\times 10^7}{3{,}600} = 5{,}100\\text{ hours}'
       }
     ],
-    handbookPage: 'p. 292',
+    handbookPage: 'p. 298',
     handbookFormula: 'v = \\frac{q}{n} = \\frac{Ki}{n}',
     videoUrl: null,
     traps: [
@@ -1338,7 +1338,7 @@ const PROBLEMS = [
         latex: 'BOD_3 = 250(1 - 0.502) = 250 \\times 0.498 = 125\\text{ mg/L}'
       }
     ],
-    handbookPage: 'p. 321',
+    handbookPage: 'p. 327',
     handbookFormula: 'BOD_t = L_0(1 - e^{-kt})',
     videoUrl: null,
     traps: [
@@ -1388,7 +1388,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 321',
+    handbookPage: 'p. 327',
     handbookFormula: 'DO = DO_{sat} - D',
     videoUrl: null,
     traps: [
@@ -1438,7 +1438,7 @@ const PROBLEMS = [
         latex: 'L_0 = \\frac{150}{1 - 0.472} = \\frac{150}{0.528} = 284\\text{ mg/L}'
       }
     ],
-    handbookPage: 'p. 321',
+    handbookPage: 'p. 327',
     handbookFormula: 'BOD_t = L_0(1 - e^{-kt})',
     videoUrl: null,
     traps: [
@@ -1489,7 +1489,7 @@ const PROBLEMS = [
         latex: 'k_{30} = 0.20 \\times 1.724 = 0.345 \\approx 0.34\\text{ day}^{-1}'
       }
     ],
-    handbookPage: 'p. 322',
+    handbookPage: 'p. 328',
     handbookFormula: 'k_T = k_{20} \\theta^{(T-20)}',
     videoUrl: null,
     traps: [
@@ -1540,7 +1540,7 @@ const PROBLEMS = [
         latex: 'v_o = \\frac{Q}{A} = \\frac{1{,}500{,}000}{1{,}963} = 764\\text{ gpd/ft}^2'
       }
     ],
-    handbookPage: 'p. 339',
+    handbookPage: 'p. 345',
     handbookFormula: 'v_o = Q/A_{surface}',
     videoUrl: null,
     traps: [
@@ -1591,7 +1591,7 @@ const PROBLEMS = [
         latex: '\\frac{v_s}{v_o} = \\frac{400}{600} = 0.67 \\text{ (67\\%)}'
       }
     ],
-    handbookPage: 'p. 339',
+    handbookPage: 'p. 345',
     handbookFormula: 'v_o = Q/A_{surface}',
     videoUrl: null,
     traps: [
@@ -1641,7 +1641,7 @@ const PROBLEMS = [
         latex: 'F{:}M = \\frac{900{,}000}{7{,}500{,}000} = 0.12\\text{ day}^{-1}'
       }
     ],
-    handbookPage: 'p. 334',
+    handbookPage: 'p. 340',
     handbookFormula: '\\text{F:M} = Q_0 S_0 / (\\text{Vol} \\cdot X_A)',
     videoUrl: null,
     traps: [
@@ -1692,7 +1692,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 333',
+    handbookPage: 'p. 339',
     handbookFormula: '\\theta_c = \\frac{V X_A}{Q_w X_w + Q_e X_e}; \\quad \\theta = \\frac{V}{Q}',
     videoUrl: null,
     traps: [
@@ -1721,7 +1721,7 @@ const PROBLEMS = [
       { text: 'Plan area:', latex: 'A_{plan} = 24 \\times 12 = 288\\text{ ft}^2' },
       { text: 'Filtration rate:', latex: 'v_s = \\frac{1{,}728}{288} = 6.0\\text{ gpm/ft}^2' },
     ],
-    handbookPage: 'p. 341',
+    handbookPage: 'p. 347',
     handbookFormula: 'v_s = Q/A_{plan}',
     videoUrl: null,
     traps: [
@@ -1750,7 +1750,7 @@ const PROBLEMS = [
       { text: 'Applied dose:', latex: '\\text{Dose} = 1.8 + 0.5 = 2.3\\text{ mg/L}' },
       { text: 'Feed rate:', latex: '2.3 \\times 2.0 \\times 8.34 = 38.4\\text{ lb/day}' },
     ],
-    handbookPage: 'p. 346',
+    handbookPage: 'p. 352',
     handbookFormula: '\\text{Dose} = \\text{Demand} + \\text{Residual}',
     videoUrl: null,
     traps: [
@@ -1809,7 +1809,7 @@ const PROBLEMS = [
       { text: 'Fluid power:', latex: '\\gamma Q H = 9{,}810 \\times 0.08 \\times 25 = 19{,}620\\text{ W}' },
       { text: 'Brake power:', latex: '\\frac{19{,}620}{0.80} = 24{,}525\\text{ W} \\approx 24.5\\text{ kW}' },
     ],
-    handbookPage: 'p. 191',
+    handbookPage: 'p. 197',
     handbookFormula: '\\dot W = \\gamma Q H / \\eta',
     videoUrl: null,
     traps: [

@@ -39,7 +39,7 @@ export default {
         { text: 'Substitute:', latex: '1.2(20) + 1.6(40) = 24 + 64' },
         { text: 'Factored load:', latex: '= 88 \\text{ kips}' },
       ],
-      handbookPage: 'p. 272',
+      handbookPage: 'p. 278',
       handbookFormula: '1.2D + 1.6L + 0.5(L_r \\text{ or } S \\text{ or } R)',
       videoUrl: null,
       traps: [
@@ -67,7 +67,7 @@ export default {
         { text: 'Combo 3:', latex: '1.2(30) + 1.6(20) + 1.0(50) = 36 + 32 + 50 = 118 \\text{ kips}' },
         { text: 'Controlling: Combo 2 at 126 kips.', latex: null },
       ],
-      handbookPage: 'p. 272',
+      handbookPage: 'p. 278',
       handbookFormula: '1.2D + 1.6L + 0.5(L_r \\text{ or } S \\text{ or } R)',
       videoUrl: null,
       traps: [
@@ -96,7 +96,7 @@ export default {
         { text: 'Reduced live load:', latex: 'L = 27.8 \\approx 28 \\text{ psf}' },
         { text: 'Check minimum: $L \\geq 0.50 L_o = 25$ psf. Since $28 > 25$, OK.', latex: null },
       ],
-      handbookPage: 'p. 272',
+      handbookPage: 'p. 278',
       handbookFormula: 'L = L_o \\left(0.25 + \\frac{15}{\\sqrt{K_{LL} A_T}}\\right)',
       videoUrl: null,
       traps: [

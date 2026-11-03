@@ -37,7 +37,7 @@ export default {
         { text: 'Pitot tube velocity:', latex: 'v = \\sqrt{\\frac{2(P_0 - P_s)}{\\rho}} = \\sqrt{\\frac{2 \\times 25{,}000}{1{,}000}} = \\sqrt{50}' },
         { text: 'Compute:', latex: 'v = 7.07 \\text{ m/s}' },
       ],
-      handbookPage: 'p. 194',
+      handbookPage: 'p. 200',
       handbookFormula: 'v = \\sqrt{\\frac{2(P_0 - P_s)}{\\rho}}',
       videoUrl: null,
       traps: [
@@ -66,7 +66,7 @@ export default {
         { text: 'Flow rate:', latex: 'Q = C_v A_2 \\sqrt{\\frac{2g(4.077)}{1 - 0.0625}} = 0.98 \\times 7.854 \\times 10^{-3} \\times \\sqrt{\\frac{80.07}{0.9375}}' },
         { text: 'Compute:', latex: 'Q = 0.98 \\times 7.854 \\times 10^{-3} \\times 9.24 = 0.0711 \\text{ m}^3/\\text{s}' },
       ],
-      handbookPage: 'p. 195',
+      handbookPage: 'p. 200',
       handbookFormula: 'Q = C_v A_2 \\sqrt{\\frac{2g\\left(\\frac{P_1 - P_2}{\\gamma} + z_1 - z_2\\right)}{1 - \\left(\\frac{A_2}{A_1}\\right)^2}}',
       videoUrl: null,
       traps: [
@@ -95,7 +95,7 @@ export default {
         { text: 'Flow rate:', latex: 'Q = C A_0 \\sqrt{\\frac{2g \\times 3.058}{0.9375}} = 0.62 \\times 1.963 \\times 10^{-3} \\times \\sqrt{63.94}' },
         { text: 'Compute:', latex: 'Q = 0.62 \\times 1.963 \\times 10^{-3} \\times 8.00 = 0.00974 \\text{ m}^3/\\text{s}' },
       ],
-      handbookPage: 'p. 195',
+      handbookPage: 'p. 201',
       handbookFormula: 'Q = C A_0 \\sqrt{\\frac{2g\\left(\\frac{P_1 - P_2}{\\gamma}\\right)}{1 - \\left(\\frac{A_0}{A_1}\\right)^2}}',
       videoUrl: null,
       traps: [

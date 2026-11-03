@@ -39,7 +39,7 @@ export default {
         { text: 'Latitude (N-S component):', latex: '\\text{Lat} = 200 \\cos 60\\degree = 200 \\times 0.500 = 100.0 \\text{ m}' },
         { text: 'Departure (E-W component):', latex: '\\text{Dep} = 200 \\sin 60\\degree = 200 \\times 0.866 = 173.2 \\text{ m}' },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: '\\text{Lat} = L\\cos\\theta, \\quad \\text{Dep} = L\\sin\\theta',
       videoUrl: null,
       traps: [
@@ -65,7 +65,7 @@ export default {
         { text: 'Linear closure error:', latex: 'E = \\sqrt{0.08^2 + 0.06^2} = \\sqrt{0.0064 + 0.0036} = \\sqrt{0.01} = 0.10 \\text{ m}' },
         { text: 'Precision ratio:', latex: '\\frac{0.10}{1{,}000} = \\frac{1}{10{,}000} = 1:10{,}000' },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: '\\text{Linear error} = \\sqrt{E_L^2 + E_D^2}',
       videoUrl: null,
       traps: [
@@ -91,7 +91,7 @@ export default {
         { text: 'Compass rule latitude correction:', latex: '\\text{Corr}_{\\text{Lat}} = -E_L \\times \\frac{L_i}{\\Sigma L} = -0.08 \\times \\frac{250}{1{,}000}' },
         { text: 'Compute:', latex: '\\text{Corr} = -0.08 \\times 0.25 = -0.020 \\text{ m}' },
       ],
-      handbookPage: 'p. 309',
+      handbookPage: 'p. 315',
       handbookFormula: '\\text{Corr}_{\\text{Lat}} = -E_L \\times \\frac{L_i}{\\Sigma L}',
       videoUrl: null,
       traps: [

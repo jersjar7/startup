@@ -1,6 +1,6 @@
 // Plain-language guide to the formulas on the FE Civil Water Resources page,
 // in the same order as chapters/water-resources.js. Symbols checked against the FE
-// Reference Handbook 10.5. The hardness entry is not printed as a formula in
+// Reference Handbook 10.6. The hardness entry is not printed as a formula in
 // the handbook; it is the standard equivalents conversion.
 export default [
   {

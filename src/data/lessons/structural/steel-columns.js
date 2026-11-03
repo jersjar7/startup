@@ -38,7 +38,7 @@ export default {
         { text: 'Convert to inches:', latex: 'KL = 15 \\times 12 = 180 \\text{ in.}' },
         { text: 'Slenderness ratio:', latex: '\\frac{KL}{r_y} = \\frac{180}{1.91} = 94.2 \\approx 94' },
       ],
-      handbookPage: 'p. 281',
+      handbookPage: 'p. 287',
       handbookFormula: 'L_c = KL',
       videoUrl: null,
       traps: [
@@ -64,7 +64,7 @@ export default {
         { text: 'From AISC Table 4-14 at $KL/r = 60$:', latex: '\\phi_c F_{cr} = 34.6 \\text{ ksi}' },
         { text: 'Design compressive strength:', latex: '\\phi_c P_n = \\phi_c F_{cr} \\times A_g = 34.6 \\times 15.0 = 519 \\text{ kips}' },
       ],
-      handbookPage: 'p. 288',
+      handbookPage: 'p. 294',
       handbookFormula: '\\phi_c P_n = \\phi_c F_{cr} \\times A_g',
       videoUrl: null,
       traps: [
@@ -91,7 +91,7 @@ export default {
         { text: 'Column B:', latex: '\\frac{KL}{r} = \\frac{0.80 \\times 18 \\times 12}{2.0} = \\frac{172.8}{2.0} = 86.4 \\approx 86' },
         { text: 'Column B has the higher slenderness ratio ($86 > 72$), so it has lower design strength.', latex: null },
       ],
-      handbookPage: 'p. 287',
+      handbookPage: 'p. 293',
       handbookFormula: 'L_c = KL',
       videoUrl: null,
       traps: [

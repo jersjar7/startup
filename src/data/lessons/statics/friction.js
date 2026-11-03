@@ -3,7 +3,7 @@ export default {
   name: 'Friction',
   subtopicId: 'trusses-and-friction',
   application:
-    'Friction problems on the FE test whether you understand the difference between static and kinetic friction, can identify when impending motion occurs, and can apply the belt friction and screw-jack formulas. Civil engineers check friction when designing retaining walls against sliding, analyzing braking forces on highway grades, and sizing belt-driven equipment. The handbook (pp. 96\u201397) covers static friction ($F \\leq \\mu_s N$), screw-jack mechanics, and belt friction. Expect one friction problem on the exam. It is usually straightforward if you set up the normal force correctly.',
+    'Friction problems on the FE test whether you understand the difference between static and kinetic friction, can identify when impending motion occurs, and can apply the belt friction and screw-jack formulas. Civil engineers check friction when designing retaining walls against sliding, analyzing braking forces on highway grades, and sizing belt-driven equipment. The handbook (pp. 97\u201398) covers static friction ($F \\leq \\mu_s N$), screw-jack mechanics, and belt friction. Expect one friction problem on the exam. It is usually straightforward if you set up the normal force correctly.',
   content: [
     {
       type: 'text',
@@ -52,7 +52,7 @@ export default {
     {
       type: 'callout',
       variant: 'exam',
-      body: 'The handbook (p. 97) gives the belt friction formula with $F_1$ as the force in the direction of impending motion. If the problem describes a pulley or capstan, identify the tight and slack sides before plugging in.',
+      body: 'The handbook (p. 98) gives the belt friction formula with $F_1$ as the force in the direction of impending motion. If the problem describes a pulley or capstan, identify the tight and slack sides before plugging in.',
     },
   ],
   illustration: null,
@@ -85,7 +85,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 96, Friction',
+      handbookPage: 'p. 97, Friction',
       handbookFormula: 'F \\leq \\mu_s N',
       videoUrl: null,
       traps: [
@@ -130,7 +130,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 97, Belt Friction',
+      handbookPage: 'p. 98, Belt Friction',
       handbookFormula: 'F_1 = F_2\\, e^{\\mu\\theta}',
       videoUrl: null,
       traps: [
@@ -179,7 +179,7 @@ export default {
           latex: 'P(0.906 - 0.211) = 338 + 362.5 = 700.5 \\quad \\Rightarrow \\quad P = \\frac{700.5}{0.695} = 1{,}008 \\text{ N}',
         },
       ],
-      handbookPage: 'p. 96, Friction',
+      handbookPage: 'p. 97, Friction',
       handbookFormula: 'F \\leq \\mu_s N',
       videoUrl: null,
       traps: [

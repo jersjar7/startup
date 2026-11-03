@@ -87,7 +87,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 94, Equilibrium Requirements',
+      handbookPage: 'p. 95, Equilibrium Requirements',
       handbookFormula: '\\sum F_x = 0 \\quad \\sum F_y = 0 \\quad \\sum M = 0',
       videoUrl: null,
       traps: [
@@ -128,7 +128,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 94, Equilibrium Requirements',
+      handbookPage: 'p. 95, Equilibrium Requirements',
       handbookFormula: '\\sum F_y = 0 \\quad \\sum M = 0',
       videoUrl: null,
       traps: [
@@ -177,7 +177,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 94, Equilibrium Requirements; Moments',
+      handbookPage: 'p. 95, Equilibrium Requirements; Moments',
       handbookFormula: '\\sum M = 0',
       videoUrl: null,
       traps: [

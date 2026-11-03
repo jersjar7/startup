@@ -110,7 +110,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 229, Uniform Series Present Worth; p. 234, Factor Table i = 6%',
+      handbookPage: 'p. 235, Uniform Series Present Worth; p. 240, Factor Table i = 6%',
       handbookFormula: 'P = A \\cdot \\frac{(1+i)^n - 1}{i(1+i)^n}',
       videoUrl: null,
       traps: [
@@ -159,7 +159,7 @@ export default {
           latex: 'EUAC = 41{,}720 + 40{,}000 - 3{,}450 = 78{,}270 \\approx 78{,}700',
         },
       ],
-      handbookPage: 'p. 229, Capital Recovery (A/P) + Sinking Fund (A/F); p. 235, Factor Table i = 8%',
+      handbookPage: 'p. 235, Capital Recovery (A/P) + Sinking Fund (A/F); p. 241, Factor Table i = 8%',
       handbookFormula: 'EUAC = C_0(A/P,\\, i\\%,\\, n) + A_{\\text{oper}} - S_n(A/F,\\, i\\%,\\, n)',
       videoUrl: null,
       traps: [
@@ -216,7 +216,7 @@ export default {
           latex: null,
         },
       ],
-      handbookPage: 'p. 229, Capital Recovery (A/P) + Sinking Fund (A/F); p. 235, Factor Table i = 10%',
+      handbookPage: 'p. 235, Capital Recovery (A/P) + Sinking Fund (A/F); p. 241, Factor Table i = 10%',
       handbookFormula: 'AW = C_0(A/P,\\, i\\%,\\, n) + A_{\\text{oper}} - S_n(A/F,\\, i\\%,\\, n)',
       videoUrl: null,
       traps: [

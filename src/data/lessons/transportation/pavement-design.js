@@ -36,7 +36,7 @@ export default {
         { text: 'Subbase:', latex: 'a_3 D_3 m_3 = 0.11 \\times 10 \\times 1.0 = 1.10' },
         { text: 'Total:', latex: 'SN = 1.32 + 1.12 + 1.10 = 3.54' },
       ],
-      handbookPage: 'p. 308',
+      handbookPage: 'p. 314',
       handbookFormula: 'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3',
       videoUrl: null,
       traps: [
@@ -64,7 +64,7 @@ export default {
         { text: 'Required base SN:', latex: 'SN_{\\text{base}} = 4.0 - 1.76 - 1.056 = 1.184' },
         { text: 'Base thickness:', latex: 'D_2 = \\frac{1.184}{0.14 \\times 1.0} = 8.5 \\text{ in}' },
       ],
-      handbookPage: 'p. 308',
+      handbookPage: 'p. 314',
       handbookFormula: 'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3',
       videoUrl: null,
       traps: [
@@ -90,7 +90,7 @@ export default {
         { text: 'Look up LEF for 24,000 lb single axle: $3.03$', latex: null },
         { text: 'Equivalent single-axle loads:', latex: 'ESALs = 1{,}000 \\times 3.03 = 3{,}030' },
       ],
-      handbookPage: 'p. 308',
+      handbookPage: 'p. 314',
       handbookFormula: 'SN = a_1 D_1 + a_2 D_2 m_2 + \\ldots',
       videoUrl: null,
       traps: [
