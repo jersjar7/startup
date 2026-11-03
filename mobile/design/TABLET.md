@@ -318,10 +318,12 @@ sit beside, so it opens as a full page.
 
 ### The done screen (end of a sitting)
 
-No mockup; the rule is enough. The hero tile (the count on spring) and the two
-half tiles sit in the left half; the closing line, the honest paper line and
-the Done pill with Start over sit in the right half, bottom aligned. Medium
-keeps the phone layout at a 560 column on the left with the pill bottom right.
+Mockup: `T19b-round-done-landscape`. The hero tile (the count on spring) and
+the two half tiles (first try, lesson) stack on the left at 560; the closing
+line at 52 and the honest paper line sit on the right, with Start over and the
+Done pill at the right column's foot. The phone stacks all of it; side by side
+the student reads the score and the line about paper together. Medium keeps
+the phone layout at a 560 column on the left with the pill bottom right.
 
 ### The Daily
 
@@ -343,10 +345,22 @@ Mockups: `T08-daily-landscape` (before playing), `T08b-daily-results-landscape`
   student sees where they stand and what to replay without scrolling.
 - **Medium:** the phone layout at the content width, the hero card capped at
   640; the rows get the taller tablet row (the mark at 52).
-- Daily steps (`daily_step_screen`), the Daily's done screen, Yesterday's
-  board and the share sheet: as the phone, at a 640 column on the butter
-  ground, set left with the pill bottom right. The share card itself is an
-  image and does not change.
+- **A Daily step** (`T21-daily-step-landscape`): the three concepts of today
+  as rows on the left (done with a check and its score, the current one
+  charcoal, the next one quiet), the current concept's card on the right
+  (chapter, mark, lesson, game name at 52, its line, "Read the concept
+  first"), the pill bottom right. The phone shows only pips for the other two;
+  the tablet names them, which is arrangement, not new content: the same three
+  rows are on the Daily tab.
+- **The Daily's done screen** (`T21b-daily-done-landscape`): the spring hero
+  (16 of 18, the eighteen pips, the line) fills the left; time and streak
+  stack on the right with Share and "How others did" at the foot.
+- **Yesterday's score** (`T21c-daily-yesterday-landscape`): the place as a
+  headline with yesterday's spread under it on the left, the board's rows on
+  the right, the student's row charcoal. The phone shows the top two and you;
+  the right column has room for the rows around you as well.
+- **The share sheet** (`T21d-daily-share-landscape`): a bottom sheet capped at
+  640, the share card on the left of it and the two actions on the right.
 
 ### Profile
 
@@ -386,54 +400,90 @@ is the newest pushed page and the one with the most to arrange.)
 
 ### Onboarding and the welcome
 
-Mockups: `T10-welcome-landscape`, `T10p-welcome-portrait`.
+Mockups: `T10-welcome-landscape`, `T10p-welcome-portrait`,
+`T13-onboarding-together-landscape`, `T13b-onboarding-games-landscape`,
+`T13c-onboarding-honest-landscape`, `T13p-onboarding-honest-portrait`,
+`T14-titles-landscape`.
 
 - **Welcome, expanded:** the headline and the pill on the left, set low, the
   three floating cards (Statics on spring, Fluids on peach, the 375 card on
   cream) on the right at about 1.5 times the phone's size. "I already have an
   account" sits beside the pill, not under it.
-- **Welcome, medium:** the cards larger across the top, the headline on three
-  lines, the pill and the text action at the foot, on the left. This one stays
-  phone-like on purpose: it is a poster seen once, with one object and one
-  action, and splitting it would make two heroes.
-- **The tour (titles and onboarding screens), try one, the paper hand-off, the
-  chapter deck:** expanded puts the object (the round, the card deck, the
-  hand-off card) on the right at tablet size and the headline with the step
-  dots and the action on the left. Medium keeps the phone order at a 600
-  column. Try one is a real round, so it follows the board rules above.
+- **Welcome, medium:** stays phone-like on purpose: a poster seen once, one
+  object and one action; splitting it would make two heroes.
+- **The three tour steps** (two parts; a minute each; honest by design), on
+  their phone grounds (fog, peach, butter): the headline and the paragraph on
+  the left at the 480 measure, the step's object on the right at tablet size
+  (the two cards with the raccoon between them; the sample truss round with
+  its three choices; the mastery card). The next button sits bottom right,
+  Skip top right. On honest by design the mastery card sits at the top of the
+  right column and the actions (Create my account, Try a round first, I
+  already have an account, the terms line) at its foot.
+- **Medium:** honest by design (`T13p`) puts the headline and the paragraph
+  side by side across the top, the mastery card under them, the actions at
+  the foot. The other two steps follow the same order.
+- **Titles** and the **splash** (`T14b-splash-landscape`): centred marks,
+  phone-like on purpose. There is nothing to arrange, and they last seconds.
+- The app has no separate try-one or paper hand-off screens any more (the old
+  reference kit drew them): "Try a round first" opens a real round, which
+  follows the board rules above.
 
-### Sign up, log in, forgot password, verify, check your email
+### Sign up, log in, forgot password, check your email
 
-- **Expanded:** the ground colour runs edge to edge (fog, then spring for the
-  password, as the phone's flow). The step indicator and the headline at 64
-  sit on the left half; the one oversized field, its caption and the round next
-  button sit on the right half, vertically centred. One field per screen still.
-- The keyboard: on an iPad the keyboard takes about 40 percent of the height
-  in landscape. The field column must sit in the top 55 percent of the window
-  so it is never covered; the builder should check this with the iPad
-  simulator keyboard showing, not just reason about it.
-- Check your email and the verify sheets: bottom sheets capped at 640.
-- Medium: the phone's column at 560, set left.
+Mockups: `T12-create-email-landscape`, `T12b-create-name-landscape`,
+`T12c-create-password-landscape`, `T12d-create-school-landscape`,
+`T12e-log-in-landscape`, `T12f-forgot-landscape`,
+`T12g-check-email-landscape`, `T12p-create-email-portrait`.
 
-### The smaller screens
+- **Expanded:** the ground colour runs edge to edge (fog, butter for the name,
+  spring for the password, peach for the school, as the phone's flow). The
+  close or back button and the step dots on the top line; the headline at 76
+  to 84 on the left; the one oversized field, its caption and the row with
+  the text link and the round next button on the right. One field per screen
+  still.
+- **The keyboard is drawn.** On an iPad in landscape the keyboard takes about
+  300 of the 820 points. Every field, its caption and its next button sit in
+  the band above it; the mockups show the keyboard (a plain stand-in for the
+  system one) to prove it. On the school step the graduating chips move under
+  the headline on the left, because under the field they would sit behind the
+  keyboard. The big FE letters the phone sets behind log in are left out: on
+  a tablet the keyboard covers that band.
+- **Check your email:** the verify sheet, capped at 640 and centred, with its
+  two actions side by side and the two text actions on one line under them.
+- **Medium:** stays phone-like on purpose (`T12p`): the phone's column, set
+  left, above the keyboard. With the keyboard up, a portrait window has a
+  phone-sized band left, and one field per screen already fills it.
 
-As the phone, with the tablet type and spacing (section 7), in a column capped
-at 640 and set left of centre, or as a capped sheet:
+### Every other screen
 
-| Screen | On a tablet |
-|---|---|
-| Splash | Centred mark, unchanged |
-| Exam date | Hero date left, month chips and day strip right (expanded); phone column (medium) |
-| Mastery | Hero figure and the three chapters to work on left, every chapter's tile right (expanded) |
-| Days studied | Count and month chips left, the month grid right, larger cells (expanded) |
-| Concepts, XP | Phone column at 640 |
-| Badges | The coins in a wider grid (5 across medium, 6 across expanded), same coins |
-| Badge moment, league moment | Full-window moments; the Rive artboard scales to fit the shorter side |
-| Pass card, exam outcome, outcome link | Phone column at 560; the card drawn larger |
-| Account sheet, feedback sheet, share sheet | Bottom sheets capped at 640 |
-| About, Contact, Edit profile | Phone column at 640 |
-| Chapter games pending, update needed | Phone column at 560 |
-| Guest Profile and guest Daily | The same split as the signed-in tab (what an account adds on the right) |
+Each row says what the tablet does and whether it passes the test in the
+self-check: does the screen show more, or arrange better, than the phone, or
+is it only larger? Where a screen stays phone-like, the row says why that is
+on purpose.
+
+| Screen | Mockup | On a tablet | Test |
+|---|---|---|---|
+| Exam date | `T15-exam-date-landscape` | The question and the chosen date (Jan 15, its weekday, "73 days out") on the left; month chips and two full weeks of days on the right, so the days around the exam are visible at once; Clear the date and the round next button at the foot | Arranges better, shows more days |
+| Days studied | `T16-days-studied-landscape` | The count (27 days), its line and the month chips on the left; this month and last month as grids on the right | Shows more: two months, not one |
+| Mastery | `T17-mastery-landscape` | The total (21 percent), its line and "where effort pays" on the left; the picked chapter's card and every chapter's tile on the right, the picked tile charcoal | Arranges better: the chart and the chapter it points at side by side |
+| Account sheet (the settings: appearance, reminders) | `T18-account-sheet-landscape` | Bottom sheet capped at 640 over the dimmed Profile | Phone-like on purpose: a short settings sheet; a side pane would compete with Profile |
+| About | `T18b-about-landscape` | The same sheet, taller, text at the 620 measure | Phone-like on purpose: one column of prose is the right form for reading |
+| Edit profile | `T18c-edit-profile-landscape` | The same sheet, three rows | Phone-like on purpose: three rows |
+| Contact us | `T18d-contact-landscape` | The headline and the promise on the left; the email and message fields on the right; Send it bottom right | Arranges better: the message box gets the height |
+| Feedback sheet ("Something unclear?") | `T19-feedback-sheet-landscape` | Docks on the right at 460 like the concept sheet, so the round and its drawing stay in view while the student says what is wrong | Arranges better |
+| Badges | `T20-badges-landscape` | The headline and the count on the left; the fifteen chapter coins five across and the four milestones on the right, all on one screen | Shows more: no scrolling |
+| Badge moment | `T20b-badge-moment-landscape` | The card centred, the coin larger; All badges and Carry on at the foot | Phone-like on purpose: a moment is one thing |
+| League moment | `T22-league-moment-landscape` | The same shape: the coin, "You moved up to Silver", the line, Carry on | Phone-like on purpose: a moment |
+| XP | `T23-xp-landscape` | The total, its line and the app and website halves on the left; how it is earned and today's bar on the right | Arranges better |
+| Concepts | `T23b-concepts-landscape` | The count and its line on the left; the concepts grouped by chapter, two columns of rows, on the right | Shows more |
+| Exam outcome ("How did it go?") | `T24-exam-outcome-landscape` | The question as a headline on the left; why we ask and the three answers on the right | Arranges better |
+| Pass card | `T24b-pass-card-landscape` | The card large on the left (a stand-in here; `pass_card.dart` draws the real one); "It is yours." and Save or share on the right | Arranges better: the card is the object, the actions sit beside it |
+| Outcome link (the email link's page) | none | As the exam outcome: the question left, the choices right | Same pattern as `T24` |
+| Update needed | `T25-update-needed-landscape` | The headline left, the reason right, the pill bottom right | Phone-like on purpose: one message and one action |
+| A lesson not ready yet | none | The lesson pane's own message ("This lesson is not ready yet...") in place of the game rows | Lives inside the lesson pane (`T03`) |
+| Guest Profile | `T25b-guest-profile-landscape` | The headline and the rounds on the left; what a free account adds and Create an account on the right | Arranges better |
+| Guest Daily | `T25c-guest-daily-landscape` | The Daily's left column as signed in; the three concepts and Sign up to play on the right | Same split as `T08` |
+| Splash, titles | `T14b`, `T14` | Centred marks | Phone-like on purpose: nothing to arrange |
 
 ## 5. Games, concept sheets and pictures: bigger and clearer
 
