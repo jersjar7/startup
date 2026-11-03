@@ -11,6 +11,7 @@ import 'package:mobile/features/auth/auth_controller.dart';
 import 'package:mobile/features/games/chapter_map_screen.dart';
 import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/game_progress.dart';
+import 'package:mobile/features/games/lesson_brief.dart';
 import 'package:mobile/features/home/home_shell.dart';
 import 'package:mobile/features/study/study_tab.dart' show appClock;
 
@@ -129,6 +130,16 @@ void main() {
       await expectLater(
         find.byType(MaterialApp),
         matchesGoldenFile('../goldens/tablet/study-lesson-$name.png'),
+      );
+
+      // The concept from the lesson: a full page, the picture beside or
+      // above the steps (T07).
+      await tester.tap(find.text('Read the concept first'));
+      await settle(tester);
+      expect(find.byType(ConceptPage), findsOneWidget);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('../goldens/tablet/lesson-brief-$name.png'),
       );
       await _drain(tester);
     });
