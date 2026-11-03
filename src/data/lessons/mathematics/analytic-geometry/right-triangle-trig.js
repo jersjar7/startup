@@ -87,7 +87,7 @@ export default {
           "latex": "h = 50 \\times \\tan 35° = 50 \\times 0.7002 = 35.0\\,\\text{m}"
         }
       ],
-      "handbookPage": "p. 23",
+      "handbookPage": "p. 38",
       "handbookFormula": "\\tan\\theta = \\frac{\\text{opp}}{\\text{adj}}",
       "videoUrl": null,
       "traps": [
@@ -135,7 +135,7 @@ export default {
           "latex": "F_x = 12 \\times 0.7660 = 9.19\\,\\text{kN}"
         }
       ],
-      "handbookPage": "p. 23",
+      "handbookPage": "p. 38",
       "handbookFormula": "F_x = F\\cos\\theta",
       "videoUrl": null,
       "traps": [
@@ -191,7 +191,7 @@ export default {
           "latex": "h = \\frac{30 \\times 0.4663}{1 - \\frac{0.4663}{0.9004}} = \\frac{13.99}{0.4821} = 29.0\\,\\text{m}"
         }
       ],
-      "handbookPage": "p. 23",
+      "handbookPage": "p. 38",
       "handbookFormula": "\\tan\\theta = \\frac{\\text{opp}}{\\text{adj}}",
       "videoUrl": null,
       "traps": [

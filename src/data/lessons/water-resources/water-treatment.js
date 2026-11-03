@@ -67,7 +67,7 @@ export default {
         { text: 'Substitute:', latex: 'F{:}M = \\frac{4{,}000 \\times 200}{2{,}000 \\times 3{,}000}' },
         { text: 'Compute:', latex: 'F{:}M = \\frac{800{,}000}{6{,}000{,}000} = 0.133 \\text{ day}^{-1}' },
       ],
-      handbookPage: 'p. 333',
+      handbookPage: 'p. 334',
       handbookFormula: '\\text{Organic loading rate (F:M)} = Q_0 S_0 / (\\text{Vol} \\cdot X_A)',
       videoUrl: null,
       traps: [

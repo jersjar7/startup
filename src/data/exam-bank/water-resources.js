@@ -275,7 +275,7 @@ const PROBLEMS = [
         latex: 'y_c = (1.631)^{1/3} = 1.18\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 289',
+    handbookPage: 'p. 296',
     handbookFormula: 'y_c = \\left(\\frac{q^2}{g}\\right)^{1/3}',
     videoUrl: null,
     traps: ['Using total discharge $Q$ instead of unit discharge $q$', 'Forgetting to take the cube root'],
@@ -323,7 +323,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 289',
+    handbookPage: 'p. 296',
     handbookFormula: 'Fr = \\frac{V}{\\sqrt{gy}}',
     videoUrl: null,
     traps: ['Confusing Froude number with Reynolds number'],
@@ -1641,7 +1641,7 @@ const PROBLEMS = [
         latex: 'F{:}M = \\frac{900{,}000}{7{,}500{,}000} = 0.12\\text{ day}^{-1}'
       }
     ],
-    handbookPage: 'p. 333',
+    handbookPage: 'p. 334',
     handbookFormula: '\\text{F:M} = Q_0 S_0 / (\\text{Vol} \\cdot X_A)',
     videoUrl: null,
     traps: [

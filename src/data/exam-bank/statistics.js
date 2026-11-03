@@ -373,7 +373,7 @@ const PROBLEMS = [
         latex: 'r = \\frac{50}{\\sqrt{50 \\times 100}} = \\frac{50}{\\sqrt{5{,}000}} = \\frac{50}{70.71} \\approx 0.71'
       }
     ],
-    handbookPage: 'p. 69',
+    handbookPage: 'p. 70',
     handbookFormula: 'r = \\frac{n\\sum x_i y_i - \\sum x_i \\sum y_i}{\\sqrt{[n\\sum x_i^2 - (\\sum x_i)^2][n\\sum y_i^2 - (\\sum y_i)^2]}}',
     videoUrl: null,
     traps: [
@@ -683,7 +683,7 @@ const PROBLEMS = [
         latex: '45{,}000 + 100{,}000 + 56{,}000 = 201{,}000'
       }
     ],
-    handbookPage: 'p. 65',
+    handbookPage: 'p. 66',
     handbookFormula: 'E(X) = \\sum_{k=1}^{n} x_k \\cdot P(x_k)',
     videoUrl: null,
     traps: [
@@ -738,7 +738,7 @@ const PROBLEMS = [
         latex: '\\sigma = \\sqrt{1.14} = 1.07'
       }
     ],
-    handbookPage: 'p. 65',
+    handbookPage: 'p. 66',
     handbookFormula: '\\text{Var}(X) = E(X^2) - [E(X)]^2',
     videoUrl: null,
     traps: ['Reporting $E(X)$ as the answer (gives 2.60)', 'Forgetting to take the square root of the variance'],
@@ -786,7 +786,7 @@ const PROBLEMS = [
         latex: '\\sigma_F = \\sqrt{160} = 12.65\\,\\text{kN/m}'
       }
     ],
-    handbookPage: 'p. 65',
+    handbookPage: 'p. 66',
     handbookFormula: '\\text{Var}(a_1X_1 + a_2X_2) = a_1^2\\sigma_1^2 + a_2^2\\sigma_2^2',
     videoUrl: null,
     traps: [
@@ -841,7 +841,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 65',
+    handbookPage: 'p. 66',
     handbookFormula: '\\text{Var}(X_1 + X_2 + \\cdots) = \\sigma_1^2 + \\sigma_2^2 + \\cdots',
     videoUrl: null,
     traps: [
@@ -1106,7 +1106,7 @@ const PROBLEMS = [
         latex: 'z = \\frac{\\bar{x} - \\mu_0}{\\sigma / \\sqrt{n}} = \\frac{4{,}380 - 4{,}500}{60} = \\frac{-120}{60} = -2.0'
       }
     ],
-    handbookPage: 'p. 72',
+    handbookPage: 'p. 73',
     handbookFormula: 'z = \\frac{\\bar{x} - \\mu_0}{\\sigma / \\sqrt{n}}',
     videoUrl: null,
     traps: [
@@ -1260,7 +1260,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 72',
+    handbookPage: 'p. 73',
     handbookFormula: '\\text{Reject } H_0 \\text{ if } |z| > z_{\\alpha/2}',
     videoUrl: null,
     traps: [

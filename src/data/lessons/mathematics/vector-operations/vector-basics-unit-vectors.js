@@ -39,7 +39,7 @@ export default {
         { "text": "Apply the magnitude formula:", "latex": "|\\vec{d}| = \\sqrt{30^2 + 40^2}" },
         { "text": "Compute:", "latex": "|\\vec{d}| = \\sqrt{900 + 1600} = \\sqrt{2500} = 50 \\text{ m}" }
       ],
-      "handbookPage": "p. 94",
+      "handbookPage": "p. 59",
       "handbookFormula": "|\\vec{A}| = \\sqrt{A_x^2 + A_y^2 + A_z^2}",
       "videoUrl": null,
       "traps": [
@@ -66,7 +66,7 @@ export default {
         { "text": "Find its magnitude:", "latex": "|\\vec{AB}| = \\sqrt{3^2 + 4^2 + 0^2} = \\sqrt{25} = 5" },
         { "text": "Divide by magnitude:", "latex": "\\hat{u} = \\frac{3}{5}\\hat{i} + \\frac{4}{5}\\hat{j} + 0\\hat{k} = 0.6\\hat{i} + 0.8\\hat{j}" }
       ],
-      "handbookPage": "p. 94",
+      "handbookPage": "p. 59",
       "handbookFormula": "\\hat{u}_A = \\frac{\\vec{A}}{|\\vec{A}|}",
       "videoUrl": null,
       "traps": [

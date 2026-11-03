@@ -230,7 +230,7 @@ const PROBLEMS = [
       { text: 'Area in square feet:', latex: 'A = 200 \\times 435.6 = 87{,}120 \\text{ ft}^2' },
       { text: 'Convert to acres:', latex: 'A = \\frac{87{,}120}{43{,}560} = 2.00 \\text{ acres}' },
     ],
-    handbookPage: 'p. 310',
+    handbookPage: 'p. 3',
     handbookFormula: '1 \\text{ acre} = 43{,}560 \\text{ ft}^2',
     videoUrl: null,
     traps: [

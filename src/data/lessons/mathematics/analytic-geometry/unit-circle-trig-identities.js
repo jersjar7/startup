@@ -71,7 +71,7 @@ export default {
           "latex": "\\cos 60° = \\frac{1}{2}"
         }
       ],
-      "handbookPage": "p. 23",
+      "handbookPage": "p. 38",
       "handbookFormula": "\\cos 60° = \\frac{1}{2}",
       "videoUrl": null,
       "traps": [
@@ -119,7 +119,7 @@ export default {
           "latex": "\\cos\\theta = -\\frac{4}{5}"
         }
       ],
-      "handbookPage": "p. 23",
+      "handbookPage": "p. 39",
       "handbookFormula": "\\sin^2\\theta + \\cos^2\\theta = 1",
       "videoUrl": null,
       "traps": [
@@ -167,7 +167,7 @@ export default {
           "latex": "\\sin 2\\theta = 2 \\times \\frac{5}{13} \\times \\frac{12}{13} = \\frac{120}{169}"
         }
       ],
-      "handbookPage": "p. 23",
+      "handbookPage": "p. 39",
       "handbookFormula": "\\sin 2\\theta = 2\\sin\\theta\\cos\\theta",
       "videoUrl": null,
       "traps": [

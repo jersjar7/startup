@@ -459,7 +459,7 @@ const PROBLEMS = [
       { text: 'Wedge: the base pushes back with 8.92 kN horizontally and 20 kN down. The floor normal is 20 kN, and floor friction opposes the motion:', latex: 'F_{floor} = 0.25(20) = 5.00\\text{ kN}' },
       { text: 'Horizontal equilibrium of the wedge:', latex: 'P = 8.92 + 5.00 = 13.9\\text{ kN}' },
     ],
-    handbookPage: 'p. 96',
+    handbookPage: 'p. 96-97',
     handbookFormula: 'F \\le \\mu_s N,\\quad \\mu = \\tan\\phi',
     traps: [
       'A wedge has friction on every sliding face, including the floor.',

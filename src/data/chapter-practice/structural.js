@@ -468,7 +468,7 @@ const PROBLEMS = [
       { text: 'Shear lag factor:', latex: 'U = 1 - \\frac{\\bar{x}}{L} = 1 - \\frac{1.20}{9.0} = 0.867' },
       { text: 'Effective net area:', latex: 'A_e = U A_n = 0.867 \\times 4.00 = 3.47 \\text{ in}^2' },
     ],
-    handbookPage: 'p. 282',
+    handbookPage: 'p. 283',
     handbookFormula: 'A_e = U A_n, \\quad U = 1 - \\frac{\\bar{x}}{L}',
     videoUrl: null,
     traps: [

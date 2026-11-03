@@ -85,7 +85,7 @@ const PROBLEMS = [
       { text: 'Velocity head:', latex: '\\frac{v^2}{2g} = \\frac{(2.0)^2}{2(9.81)} = 0.204\\,\\text{m}' },
       { text: 'Specific energy:', latex: 'E = y + \\frac{v^2}{2g} = 2.5 + 0.204 = 2.70\\,\\text{m}' },
     ],
-    handbookPage: 'p. 296',
+    handbookPage: 'p. 295',
     handbookFormula: 'E = y + \\frac{v^2}{2g}',
     videoUrl: null,
     traps: [

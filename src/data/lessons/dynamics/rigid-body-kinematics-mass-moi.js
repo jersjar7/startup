@@ -96,7 +96,7 @@ export default {
         { text: 'Centroidal MOI for solid cylinder about its longitudinal axis:', latex: 'I_c = \\frac{1}{2}mR^2 = \\frac{1}{2}(12)(0.2^2) = 0.24 \\text{ kg}{\\cdot}\\text{m}^2' },
         { text: 'Apply parallel-axis theorem:', latex: 'I = I_c + md^2 = 0.24 + 12(0.5^2) = 0.24 + 3.00 = 3.24 \\text{ kg}{\\cdot}\\text{m}^2' },
       ],
-      handbookPage: 'pp. 110, 114',
+      handbookPage: 'pp. 111, 114',
       handbookFormula: 'I = I_c + md^2',
       videoUrl: null,
       traps: [

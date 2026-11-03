@@ -263,7 +263,7 @@ const PROBLEMS = [
       { text: 'Evaluate the power terms:', latex: 'R_H^{0.63} = 0.125^{0.63} = 0.270, \\quad S^{0.54} = 0.002^{0.54} = 0.0349' },
       { text: 'Hazen-Williams velocity:', latex: 'v = 0.849 \\times 120 \\times 0.270 \\times 0.0349 = 0.96\\,\\text{m/s}' },
     ],
-    handbookPage: 'p. 182',
+    handbookPage: 'p. 184',
     handbookFormula: 'v = k_1 C R_H^{0.63} S^{0.54}',
     videoUrl: null,
     traps: [
@@ -324,7 +324,7 @@ const PROBLEMS = [
       { text: 'Force on the moving flat plate:', latex: 'F = \\rho A (v - u)^2 = 1{,}000 \\times 0.002 \\times 20^2' },
       { text: 'Compute:', latex: 'F = 1{,}000 \\times 0.002 \\times 400 = 800\\,\\text{N}' },
     ],
-    handbookPage: 'p. 186',
+    handbookPage: 'p. 188',
     handbookFormula: 'F = \\rho A (v - u)^2',
     videoUrl: null,
     traps: [

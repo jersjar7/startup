@@ -103,7 +103,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 4, Model Rules §240.15 A.5, A.6',
+    handbookPage: 'p. 5, Model Rules §240.15 A.5, A.6',
     handbookFormula:
       '\\text{A.6: Disclose the identity of any party on whose behalf a public statement is issued.}',
     videoUrl: null,

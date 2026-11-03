@@ -280,7 +280,7 @@ const PROBLEMS = [
         latex: '4 + (-1) = 3'
       }
     ],
-    handbookPage: 'p. 36',
+    handbookPage: 'p. 37',
     handbookFormula: '\\ln(e^n) = n',
     videoUrl: null,
     traps: [
@@ -327,7 +327,7 @@ const PROBLEMS = [
         latex: 't = \\frac{\\ln(2)}{0.06} = \\frac{0.6931}{0.06} = 11.6\\,\\text{years}'
       }
     ],
-    handbookPage: 'p. 36',
+    handbookPage: 'p. 37',
     handbookFormula: '\\ln(e^x) = x',
     videoUrl: null,
     traps: [
@@ -382,7 +382,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 36',
+    handbookPage: 'p. 37',
     handbookFormula: '\\log(x^c) = c\\,\\log x',
     videoUrl: null,
     traps: [
@@ -433,7 +433,7 @@ const PROBLEMS = [
         latex: 'L = \\frac{3.0}{\\cos 65°} = \\frac{3.0}{0.4226} = 7.1\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 23',
+    handbookPage: 'p. 38',
     handbookFormula: '\\cos\\theta = \\frac{\\text{adj}}{\\text{hyp}}',
     videoUrl: null,
     traps: ['Using sine instead of cosine', 'Multiplying by cos instead of dividing'],
@@ -481,7 +481,7 @@ const PROBLEMS = [
         latex: 'W = \\frac{20}{\\sin 55°} = \\frac{20}{0.8192} = 24.4\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 23',
+    handbookPage: 'p. 38',
     handbookFormula: '\\sin\\theta = \\frac{\\text{opp}}{\\text{hyp}}',
     videoUrl: null,
     traps: [
@@ -532,7 +532,7 @@ const PROBLEMS = [
         latex: '\\theta = 7.1°'
       }
     ],
-    handbookPage: 'p. 23',
+    handbookPage: 'p. 38',
     handbookFormula: '\\tan\\theta = \\frac{\\text{opp}}{\\text{adj}}',
     videoUrl: null,
     traps: [
@@ -587,7 +587,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 23',
+    handbookPage: 'p. 38',
     handbookFormula: 'F_x = F\\cos\\theta,\\quad F_y = F\\sin\\theta',
     videoUrl: null,
     traps: [
@@ -893,7 +893,7 @@ const PROBLEMS = [
         latex: '\\sin\\theta = -\\frac{24}{25}'
       }
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: '\\sin^2\\theta + \\cos^2\\theta = 1',
     videoUrl: null,
     traps: [
@@ -940,7 +940,7 @@ const PROBLEMS = [
         latex: '\\cos 2\\theta = 2\\left(\\frac{3}{5}\\right)^2 - 1 = 2 \\cdot \\frac{9}{25} - 1 = \\frac{18}{25} - \\frac{25}{25} = -\\frac{7}{25}'
       }
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: '\\cos 2\\theta = 2\\cos^2\\theta - 1',
     videoUrl: null,
     traps: [
@@ -995,7 +995,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: '\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}',
     videoUrl: null,
     traps: [
@@ -1042,7 +1042,7 @@ const PROBLEMS = [
         latex: 'd = 2r = 2(6) = 12'
       }
     ],
-    handbookPage: 'p. 24',
+    handbookPage: 'p. 45',
     handbookFormula: '(x-h)^2 + (y-k)^2 = r^2',
     videoUrl: null,
     traps: ['Giving the radius instead of the diameter', 'Giving $r^2$ as the answer'],
@@ -1090,7 +1090,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 24',
+    handbookPage: 'p. 45',
     handbookFormula: '(x-h)^2 + (y-k)^2 = r^2',
     videoUrl: null,
     traps: [
@@ -1141,7 +1141,7 @@ const PROBLEMS = [
         latex: '2a = 2(4) = 8'
       }
     ],
-    handbookPage: 'p. 24',
+    handbookPage: 'p. 44',
     handbookFormula: '\\frac{(x-h)^2}{a^2} + \\frac{(y-k)^2}{b^2} = 1',
     videoUrl: null,
     traps: ['Giving the semi-axis instead of the full axis length', 'Confusing major and minor axes'],
@@ -1189,7 +1189,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 24',
+    handbookPage: 'p. 46',
     handbookFormula: '(x-h)^2 + (y-k)^2 = r^2',
     videoUrl: null,
     traps: [
@@ -2112,7 +2112,7 @@ const PROBLEMS = [
         latex: '= \\sqrt{36 + 4 + 9} = \\sqrt{49} = 7'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 59',
     handbookFormula: '|\\vec{A}| = \\sqrt{A_x^2 + A_y^2 + A_z^2}',
     videoUrl: null,
     traps: [
@@ -2159,7 +2159,7 @@ const PROBLEMS = [
         latex: '\\hat{u} = \\frac{\\vec{v}}{|\\vec{v}|} = \\frac{2}{7}\\hat{i} - \\frac{6}{7}\\hat{j} + \\frac{3}{7}\\hat{k}'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 59',
     handbookFormula: '\\hat{u}_A = \\frac{\\vec{A}}{|\\vec{A}|}',
     videoUrl: null,
     traps: [
@@ -2214,7 +2214,7 @@ const PROBLEMS = [
         latex: '\\vec{F} = 350\\hat{u} = \\frac{700}{\\sqrt{29}}\\hat{i} + \\frac{1400}{\\sqrt{29}}\\hat{j} - \\frac{1050}{\\sqrt{29}}\\hat{k}'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 59',
     handbookFormula: '\\vec{F} = F\\,\\hat{u}',
     videoUrl: null,
     traps: [
@@ -2265,7 +2265,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 59',
     handbookFormula: '|\\vec{A}| = \\sqrt{A_x^2 + A_y^2}',
     videoUrl: null,
     traps: [
@@ -2312,7 +2312,7 @@ const PROBLEMS = [
         latex: '= -5 - 12 + 12 = -5'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 60',
     handbookFormula: '\\vec{A} \\cdot \\vec{B} = A_xB_x + A_yB_y + A_zB_z',
     videoUrl: null,
     traps: [
@@ -2367,7 +2367,7 @@ const PROBLEMS = [
         latex: '\\theta = \\cos^{-1}(0.6667) = 48.2°'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 60',
     handbookFormula: '\\cos\\theta = \\frac{\\vec{A} \\cdot \\vec{B}}{|\\vec{A}||\\vec{B}|}',
     videoUrl: null,
     traps: [
@@ -2418,7 +2418,7 @@ const PROBLEMS = [
         latex: '\\frac{1100}{5} = 220 \\text{ N}'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 60',
     handbookFormula: '\\text{proj}_{\\vec{B}}\\vec{A} = \\frac{\\vec{A} \\cdot \\vec{B}}{|\\vec{B}|}',
     videoUrl: null,
     traps: ['Using the raw dot product without dividing by |d|', 'Dividing by |F| instead of |d|'],
@@ -2466,7 +2466,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 60',
     handbookFormula: '\\vec{A} \\cdot \\vec{B} = |\\vec{A}||\\vec{B}|\\cos\\theta',
     videoUrl: null,
     traps: [
@@ -2525,7 +2525,7 @@ const PROBLEMS = [
         latex: '\\vec{A} \\times \\vec{B} = 12\\hat{i} - 8\\hat{j} + 0\\hat{k}'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 60',
     handbookFormula: '\\vec{A} \\times \\vec{B} = \\begin{vmatrix} \\hat{i} & \\hat{j} & \\hat{k} \\\\ A_x & A_y & A_z \\\\ B_x & B_y & B_z \\end{vmatrix}',
     videoUrl: null,
     traps: [
@@ -2584,7 +2584,7 @@ const PROBLEMS = [
         latex: '|\\vec{M}| = \\sqrt{0^2 + 500^2 + 0^2} = 500 \\text{ N·m}'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 94',
     handbookFormula: '\\vec{M}_O = \\vec{r} \\times \\vec{F}',
     videoUrl: null,
     traps: [
@@ -2635,7 +2635,7 @@ const PROBLEMS = [
         latex: '\\frac{13}{2} = 6.5 \\text{ m}^2'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 60',
     handbookFormula: '|\\vec{A} \\times \\vec{B}| = |\\vec{A}||\\vec{B}|\\sin\\theta',
     videoUrl: null,
     traps: [
@@ -2686,7 +2686,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 60',
     handbookFormula: '|\\vec{A} \\times \\vec{B}| = |\\vec{A}||\\vec{B}|\\sin\\theta',
     videoUrl: null,
     traps: [

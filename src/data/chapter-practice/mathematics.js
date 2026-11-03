@@ -135,7 +135,7 @@ const PROBLEMS = [
         latex: '\\log_2(16) = 4 \\quad (\\text{since } 2^4 = 16)'
       }
     ],
-    handbookPage: 'p. 36',
+    handbookPage: 'p. 37',
     handbookFormula: '\\log_b\\!\\left(\\frac{x}{y}\\right) = \\log_b x - \\log_b y',
     videoUrl: null,
     traps: [
@@ -186,7 +186,7 @@ const PROBLEMS = [
         latex: '\\frac{t}{8} = 2 \\implies t = 16\\,\\text{days}'
       }
     ],
-    handbookPage: 'p. 36',
+    handbookPage: 'p. 329',
     handbookFormula: 'N = N_0\\left(\\tfrac{1}{2}\\right)^{t/T_{1/2}}',
     videoUrl: null,
     traps: [
@@ -233,7 +233,7 @@ const PROBLEMS = [
         latex: 'h = 60\\tan 32° = 60(0.6249) = 37.5\\,\\text{m}'
       }
     ],
-    handbookPage: 'p. 23',
+    handbookPage: 'p. 38',
     handbookFormula: '\\tan\\theta = \\frac{\\text{opp}}{\\text{adj}}',
     videoUrl: null,
     traps: [
@@ -280,7 +280,7 @@ const PROBLEMS = [
         latex: '\\theta = \\tan^{-1}(0.75) = 36.9°'
       }
     ],
-    handbookPage: 'p. 23',
+    handbookPage: 'p. 38',
     handbookFormula: '\\tan\\theta = \\frac{\\text{opp}}{\\text{adj}}',
     videoUrl: null,
     traps: [
@@ -480,7 +480,7 @@ const PROBLEMS = [
         latex: '\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta} = \\frac{8/17}{-15/17} = -\\frac{8}{15}'
       }
     ],
-    handbookPage: 'p. 38',
+    handbookPage: 'p. 39',
     handbookFormula: '\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}',
     videoUrl: null,
     traps: [
@@ -531,7 +531,7 @@ const PROBLEMS = [
         latex: '(3,\\, 2 + 2) = (3, 4)'
       }
     ],
-    handbookPage: 'p. 24',
+    handbookPage: 'p. 44',
     handbookFormula: '(x-h)^2 = 4p(y-k)',
     videoUrl: null,
     traps: [
@@ -582,7 +582,7 @@ const PROBLEMS = [
         latex: 'c = \\sqrt{16} = 4'
       }
     ],
-    handbookPage: 'p. 24',
+    handbookPage: 'p. 44',
     handbookFormula: 'c^2 = a^2 - b^2',
     videoUrl: null,
     traps: [
@@ -727,7 +727,7 @@ const PROBLEMS = [
         latex: 'a(3) = 6(3) - 12 = 6\\,\\text{m/s}^2'
       }
     ],
-    handbookPage: 'p. 46',
+    handbookPage: 'p. 101',
     handbookFormula: 'a(t) = \\frac{d^2 s}{dt^2}',
     videoUrl: null,
     traps: [
@@ -1025,7 +1025,7 @@ const PROBLEMS = [
         latex: '\\cos\\beta = \\frac{A_y}{|\\vec{A}|} = \\frac{-4}{6} = -\\frac{2}{3}'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 59',
     handbookFormula: '\\cos\\beta = \\frac{A_y}{|\\vec{A}|}',
     videoUrl: null,
     traps: [
@@ -1072,7 +1072,7 @@ const PROBLEMS = [
         latex: '|\\vec{A} + \\vec{B}| = \\sqrt{4^2 + 2^2 + 4^2} = \\sqrt{36} = 6\\,\\text{N}'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 59',
     handbookFormula: '|\\vec{R}| = \\sqrt{R_x^2 + R_y^2 + R_z^2}',
     videoUrl: null,
     traps: [
@@ -1119,7 +1119,7 @@ const PROBLEMS = [
         latex: 'W = 80 - 60 - 10 = 10\\,\\text{J}'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 60',
     handbookFormula: 'W = \\vec{F} \\cdot \\vec{d} = F_x d_x + F_y d_y + F_z d_z',
     videoUrl: null,
     traps: [
@@ -1170,7 +1170,7 @@ const PROBLEMS = [
         latex: '\\text{proj}_{\\vec{b}}\\vec{a} = \\frac{9}{9}\\,\\vec{b} = 2\\hat{i} - 1\\hat{j} + 2\\hat{k}'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 60',
     handbookFormula: '\\text{proj}_{\\vec{b}}\\vec{a} = \\frac{\\vec{a}\\cdot\\vec{b}}{|\\vec{b}|^2}\\,\\vec{b}',
     videoUrl: null,
     traps: [
@@ -1221,7 +1221,7 @@ const PROBLEMS = [
         latex: '= -3\\hat{i} + 6\\hat{j} - 3\\hat{k}'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 60',
     handbookFormula: '\\vec{A} \\times \\vec{B} = \\begin{vmatrix} \\hat{i} & \\hat{j} & \\hat{k} \\\\ A_x & A_y & A_z \\\\ B_x & B_y & B_z \\end{vmatrix}',
     videoUrl: null,
     traps: [
@@ -1268,7 +1268,7 @@ const PROBLEMS = [
         latex: '|\\vec{A} \\times \\vec{B}| = \\sqrt{(-20)^2 + 15^2} = \\sqrt{625} = 25\\,\\text{m}^2'
       }
     ],
-    handbookPage: 'p. 55',
+    handbookPage: 'p. 60',
     handbookFormula: 'A_{parallelogram} = |\\vec{A} \\times \\vec{B}|',
     videoUrl: null,
     traps: [

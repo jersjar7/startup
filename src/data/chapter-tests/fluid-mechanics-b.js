@@ -103,7 +103,7 @@ const PROBLEMS = [
       { text: 'Drag force over the wetted area of the shaft.', latex: 'F = \\tau(\\pi D L) = 6{,}032\\,\\pi(0.080)(0.120) = 181.9\\ \\text{N}' },
       { text: 'Torque about the shaft axis.', latex: 'T = F r = 181.9(0.040) = 7.28\\ \\text{N·m}' },
     ],
-    handbookPage: 'p. 177',
+    handbookPage: 'p. 176-177',
     handbookFormula: '\\tau_t = \\mu\\frac{dv}{dy} = \\mu\\frac{v}{\\delta}',
     traps: [
       'Using the diametral clearance as the film thickness.',

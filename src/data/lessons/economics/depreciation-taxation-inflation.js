@@ -162,7 +162,7 @@ export default {
           latex: 'BV_3 = 500{,}000 - 281{,}350 = 218{,}650',
         },
       ],
-      handbookPage: 'p. 231, Book Value; MACRS Factors Table',
+      handbookPage: 'p. 230, Book Value; p. 231, MACRS Factors Table',
       handbookFormula: 'BV_j = C - \\sum_{k=1}^{j} D_k',
       videoUrl: null,
       traps: [

@@ -121,7 +121,7 @@ const PROBLEMS = [
         latex: 'CC = 2{,}000{,}000 + 800{,}000 = 2{,}800{,}000',
       },
     ],
-    handbookPage: 'p. 229, Capitalized Cost',
+    handbookPage: 'p. 230, Capitalized Cost',
     handbookFormula: 'CC = C_0 + \\frac{A}{i}',
     videoUrl: null,
     traps: [
@@ -383,7 +383,7 @@ const PROBLEMS = [
         latex: 'BV_5 = 150{,}000 - 75{,}000 = 75{,}000',
       },
     ],
-    handbookPage: 'p. 231, Depreciation; Book Value',
+    handbookPage: 'p. 230, Depreciation; Book Value',
     handbookFormula: 'BV_j = C - j \\cdot \\frac{C - S_n}{n}',
     videoUrl: null,
     traps: [
@@ -458,7 +458,7 @@ const PROBLEMS = [
       { text: '18% ≥ 12%.', latex: null },
       { text: 'So the project is accepted.', latex: null },
     ],
-    handbookPage: 'p. 229',
+    handbookPage: 'p. 230',
     handbookFormula: null,
     videoUrl: null,
     traps: ['Reversing the accept/reject rule', 'Adding criteria beyond the IRR-vs-MARR comparison'],

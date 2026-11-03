@@ -79,7 +79,7 @@ const PROBLEMS = [
       { text: 'Compute the coefficient of determination:', latex: 'R^2 = r^2 = (0.95)^2 = 0.9025' },
       { text: 'The fraction explained is $0.9025$. The fraction unexplained is the complement:', latex: '1 - R^2 = 1 - 0.9025 = 0.0975' },
     ],
-    handbookPage: 'p. 69',
+    handbookPage: 'p. 70',
     handbookFormula: 'R^2 = r^2',
     videoUrl: null,
     traps: [
@@ -168,7 +168,7 @@ const PROBLEMS = [
       { text: 'Compute the variance:', latex: '\\sigma^2 = npq = 80(0.10)(0.90) = 7.2' },
       { text: 'Take the square root:', latex: '\\sigma = \\sqrt{7.2} = 2.68' },
     ],
-    handbookPage: 'p. 66',
+    handbookPage: 'p. 67',
     handbookFormula: '\\sigma^2 = npq \\quad \\text{where } q = 1 - p',
     videoUrl: null,
     traps: [
@@ -199,7 +199,7 @@ const PROBLEMS = [
       { text: 'Bid B is certain:', latex: 'E(B) = 25{,}000 \\text{ dollars}' },
       { text: 'Compare and take the difference:', latex: 'E(B) - E(A) = 25{,}000 - 20{,}000 = 5{,}000 \\text{ dollars (Bid B preferred)}' },
     ],
-    handbookPage: 'p. 65',
+    handbookPage: 'p. 66',
     handbookFormula: 'E(X) = \\sum_{k=1}^{n} x_k \\cdot P(x_k)',
     videoUrl: null,
     traps: [
@@ -229,7 +229,7 @@ const PROBLEMS = [
       { text: 'Substitute the means:', latex: 'E(U) = 1.2(90) + 1.6(35) = 108 + 56' },
       { text: 'Sum:', latex: 'E(U) = 164\\,\\text{kN}' },
     ],
-    handbookPage: 'p. 65',
+    handbookPage: 'p. 66',
     handbookFormula: 'E(a_1 X_1 + a_2 X_2) = a_1 E(X_1) + a_2 E(X_2)',
     videoUrl: null,
     traps: [
@@ -322,7 +322,7 @@ const PROBLEMS = [
       { text: 'Compute the test statistic:', latex: 'z = \\frac{\\bar{x} - \\mu_0}{\\sigma/\\sqrt{n}} = \\frac{106 - 100}{2.0} = 3.0' },
       { text: 'Compare: $|z| = 3.0 > 1.96$. Reject $H_0$.', latex: null },
     ],
-    handbookPage: 'p. 72',
+    handbookPage: 'p. 73',
     handbookFormula: 'z = \\frac{\\bar{x} - \\mu_0}{\\sigma / \\sqrt{n}}',
     videoUrl: null,
     traps: [

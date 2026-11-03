@@ -2,11 +2,11 @@ export default {
   id: 'beam-deflections',
   name: 'Beam Deflections',
   subtopicId: 'beams',
-  application: 'Deflection limits often control beam design more than strength: a floor beam might be strong enough but deflect so much that the ceiling cracks or feels bouncy underfoot. Building codes limit deflection to L/360 for live load and L/240 for total load. Civil engineers use the deflection tables in the FE handbook to check serviceability without deriving anything. On the FE, expect problems that give you a beam configuration and ask for the maximum deflection or slope using the tables on pp. 140\u2013141.',
+  application: 'Deflection limits often control beam design more than strength: a floor beam might be strong enough but deflect so much that the ceiling cracks or feels bouncy underfoot. Building codes limit deflection to L/360 for live load and L/240 for total load. Civil engineers use the deflection tables in the FE handbook to check serviceability without deriving anything. On the FE, expect problems that give you a beam configuration and ask for the maximum deflection or slope using the tables on pp. 139\u2013140.',
   content: [
     { type: 'text', body: 'Strength tells you if a beam will break. Deflection tells you if it will work. Most beam designs are governed by deflection, not strength.' },
     { type: 'heading', body: 'Deflection by Table Lookup' },
-    { type: 'text', body: 'The FE handbook (pp. 140\u2013141) provides deflection and slope formulas for common beam configurations. You don\'t derive these. You match the loading to the right table entry and plug in.' },
+    { type: 'text', body: 'The FE handbook (pp. 139\u2013140) provides deflection and slope formulas for common beam configurations. You don\'t derive these. You match the loading to the right table entry and plug in.' },
     { type: 'heading', body: 'Simply Supported Beam: Common Cases' },
     { type: 'formula', latex: '\\delta_{max} = \\frac{PL^3}{48EI}', label: 'Midpoint load' },
     { type: 'formula', latex: '\\delta_{max} = \\frac{5wL^4}{384EI}', label: 'Uniform distributed load' },
@@ -18,7 +18,7 @@ export default {
     { type: 'text', body: 'When a beam has multiple loads, calculate the deflection from each load separately using the tables, then add them together. This works because deflection is linearly proportional to load in the elastic range.' },
     { type: 'callout', variant: 'tip', body: 'Three numbers to memorize for the denominator of simply supported beam deflections: 48 (midpoint load), 384 (UDL; note the 5 in the numerator), 3 (cantilever tip load). Everything else you look up.' },
     { type: 'callout', variant: 'warning', body: 'Don\'t confuse the simply supported and cantilever formulas. A cantilever under a tip load deflects PL\u00B3/3EI, and that\'s 16 times more than a simply supported beam with a midpoint load (PL\u00B3/48EI). Same beam, different supports, vastly different behavior.' },
-    { type: 'callout', variant: 'exam', body: 'The deflection tables are on pp. 140\u2013141 of the FE handbook. You will have them in front of you. Don\'t memorize every formula. Just know how to match the loading pattern to the right table entry.' },
+    { type: 'callout', variant: 'exam', body: 'The deflection tables are on pp. 139\u2013140 of the FE handbook. You will have them in front of you. Don\'t memorize every formula. Just know how to match the loading pattern to the right table entry.' },
   ],
   illustration: null,
   problems: [
@@ -34,12 +34,12 @@ export default {
       correctAnswerId: 'c1',
       difficulty: 'easy',
       eli5: 'Straight table lookup: simply supported beam, midpoint load, max deflection = PL\u00B3/48EI. The unit trap is the big one: everything in N, mm, and MPa. The 1.33 mm option comes from using PL\u00B3/96EI (doubling the denominator). The 5.33 mm option comes from using PL\u00B3/24EI (halving the denominator). The 42.7 mm option comes from using PL\u00B3/3EI (the cantilever formula instead of simply supported).',
-      hint: 'Which deflection formula applies to a simply supported beam with a midpoint load? Check the table on p. 140.',
+      hint: 'Which deflection formula applies to a simply supported beam with a midpoint load? Check the table on p. 139.',
       steps: [
         { text: 'Convert units: $P = 20{,}000$ N, $L = 4{,}000$ mm, $E = 200{,}000$ MPa, $I = 50 \\times 10^6$ mm\u2074', latex: null },
         { text: 'Max deflection:', latex: '\\delta = \\frac{PL^3}{48EI} = \\frac{20{,}000 \\times (4{,}000)^3}{48 \\times 200{,}000 \\times 50 \\times 10^6} = 2.67 \\text{ mm}' },
       ],
-      handbookPage: 'p. 140',
+      handbookPage: 'p. 139',
       handbookFormula: '\\delta_{max} = \\frac{PL^3}{48EI}',
       videoUrl: null,
       traps: [
@@ -66,7 +66,7 @@ export default {
         { text: 'Convert: $w = 8$ N/mm, $L = 3{,}000$ mm, $E = 200{,}000$ MPa, $I = 30 \\times 10^6$ mm\u2074', latex: null },
         { text: 'Max deflection at free end:', latex: '\\delta = \\frac{wL^4}{8EI} = \\frac{8 \\times (3{,}000)^4}{8 \\times 200{,}000 \\times 30 \\times 10^6} = 13.5 \\text{ mm}' },
       ],
-      handbookPage: 'p. 141',
+      handbookPage: 'p. 140',
       handbookFormula: '\\delta_{max} = \\frac{wL^4}{8EI}',
       videoUrl: null,
       traps: [
@@ -94,7 +94,7 @@ export default {
         { text: 'Deflection from UDL:', latex: '\\delta_w = \\frac{5wL^4}{384EI} = \\frac{5 \\times 4 \\times (6{,}000)^4}{384 \\times 200{,}000 \\times 80 \\times 10^6} = 4.22 \\text{ mm}' },
         { text: 'Total by superposition:', latex: '\\delta_{total} = 6.75 + 4.22 = 10.97 \\approx 11.0 \\text{ mm}' },
       ],
-      handbookPage: 'pp. 135, 140',
+      handbookPage: 'pp. 135, 139',
       handbookFormula: '\\delta_{max} = \\frac{PL^3}{48EI} + \\frac{5wL^4}{384EI}',
       videoUrl: null,
       traps: [
