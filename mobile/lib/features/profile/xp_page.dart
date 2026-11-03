@@ -5,6 +5,8 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
 import '../daily/daily_calendar.dart';
+import '../../core/theme/tablet.dart';
+import '../shared/widgets/split_page.dart';
 import '../shared/widgets/kit.dart';
 import '../study/study_tab.dart' show appClock;
 
@@ -118,109 +120,120 @@ class XpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = split;
-    return Scaffold(
-      backgroundColor: AppColors.fog,
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
+    final head = <Widget>[
+      Row(
+        children: [
+          RoundIconButton(
+            icon: Icons.chevron_left_rounded,
+            label: 'Back',
+            onTap: () => Navigator.of(context).maybePop(),
+          ),
+          const Spacer(),
+          Text(
+            'TOTAL XP',
+            style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+          ),
+        ],
+      ),
+      const SizedBox(height: 22),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        children: [
+          Flexible(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                _thousands(total),
+                style: AppTheme.display(
+                  size: 118,
+                  height: 0.82,
+                  tracking: -0.07,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Text('XP', style: AppTheme.display(size: 26, tracking: -0.03)),
+        ],
+      ),
+      const SizedBox(height: 14),
+      Text(
+        'Points for practice, in the app and on the website. They '
+        'rank the leaderboard. They are not mastery.',
+        style: AppTheme.body(size: 16, color: AppColors.mutedOnLight),
+      ),
+      const SizedBox(height: 26),
+      if (failed)
+        Text(
+          'The server could not be reached, so where it came from '
+          'is not shown. Try again with a signal.',
+          style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
+        )
+      else ...[
+        Row(
           children: [
-            Row(
-              children: [
-                RoundIconButton(
-                  icon: Icons.chevron_left_rounded,
-                  label: 'Back',
-                  onTap: () => Navigator.of(context).maybePop(),
-                ),
-                const Spacer(),
-                Text(
-                  'TOTAL XP',
-                  style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
-                ),
-              ],
+            Expanded(
+              child: _Half(label: 'IN THE APP', value: s?.phone),
             ),
-            const SizedBox(height: 22),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Flexible(
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      _thousands(total),
-                      style: AppTheme.display(
-                        size: 118,
-                        height: 0.82,
-                        tracking: -0.07,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Text('XP', style: AppTheme.display(size: 26, tracking: -0.03)),
-              ],
-            ),
-            const SizedBox(height: 14),
-            Text(
-              'Points for practice, in the app and on the website. They '
-              'rank the leaderboard. They are not mastery.',
-              style: AppTheme.body(size: 16, color: AppColors.mutedOnLight),
-            ),
-            const SizedBox(height: 26),
-            if (failed)
-              Text(
-                'The server could not be reached, so where it came from '
-                'is not shown. Try again with a signal.',
-                style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
-              )
-            else ...[
-              Row(
-                children: [
-                  Expanded(
-                    child: _Half(label: 'IN THE APP', value: s?.phone),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _Half(label: 'ON THE WEBSITE', value: s?.web),
-                  ),
-                ],
-              ),
-              if (s != null && s.phoneDailyCap > 0) ...[
-                const SizedBox(height: 30),
-                _Today(split: s),
-              ],
-            ],
-            const SizedBox(height: 30),
-            Text('HOW IT IS EARNED', style: AppTheme.eyebrow()),
-            const SizedBox(height: 14),
-            Container(
-              padding: const EdgeInsets.fromLTRB(22, 20, 22, 20),
-              decoration: BoxDecoration(
-                color: AppColors.cream,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // The rates are the server's (service/xp.js).
-                  _Rate(
-                    where: 'In the app',
-                    how:
-                        '5 for each round right, 2 for a miss, up to '
-                        '${s?.phoneDailyCap ?? 60} a day.',
-                  ),
-                  const SizedBox(height: 14),
-                  const _Rate(
-                    where: 'On the website',
-                    how:
-                        '10 for each problem right, 5 for a miss, and 25 '
-                        'more for finishing a practice session.',
-                  ),
-                ],
-              ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: _Half(label: 'ON THE WEBSITE', value: s?.web),
             ),
           ],
+        ),
+        if (s != null && s.phoneDailyCap > 0) ...[
+          const SizedBox(height: 30),
+          _Today(split: s),
+        ],
+      ],
+      const SizedBox(height: 30),
+    ];
+    final rest = <Widget>[
+      Text('HOW IT IS EARNED', style: AppTheme.eyebrow()),
+      const SizedBox(height: 14),
+      Container(
+        padding: const EdgeInsets.fromLTRB(22, 20, 22, 20),
+        decoration: BoxDecoration(
+          color: AppColors.cream,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // The rates are the server's (service/xp.js).
+            _Rate(
+              where: 'In the app',
+              how:
+                  '5 for each round right, 2 for a miss, up to '
+                  '${s?.phoneDailyCap ?? 60} a day.',
+            ),
+            const SizedBox(height: 14),
+            const _Rate(
+              where: 'On the website',
+              how:
+                  '10 for each problem right, 5 for a miss, and 25 '
+                  'more for finishing a practice session.',
+            ),
+          ],
+        ),
+      ),
+    ];
+    if (AppTablet.of(context) == SizeClass.expanded) {
+      return Scaffold(
+        backgroundColor: AppColors.fog,
+        body: SplitPage(left: head, right: rest, rightTopPad: 64),
+      );
+    }
+    return Scaffold(
+      backgroundColor: AppColors.fog,
+      body: MediumColumn(
+        child: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
+            children: [...head, ...rest],
+          ),
         ),
       ),
     );

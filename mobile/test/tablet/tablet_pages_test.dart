@@ -5,7 +5,12 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:mobile/features/home/home_shell.dart' show BesideRail;
 import 'package:mobile/features/league/league_model.dart';
 import 'package:mobile/features/league/league_screen.dart';
+import 'package:mobile/features/games/game_catalog.dart';
+import 'package:mobile/features/profile/badges.dart';
+import 'package:mobile/features/profile/badges_page.dart';
+import 'package:mobile/features/profile/concepts_page.dart';
 import 'package:mobile/features/profile/exam_date_screen.dart';
+import 'package:mobile/features/profile/xp_page.dart';
 import 'package:mobile/features/study/content_repository.dart';
 import 'package:mobile/features/profile/mastery_screen.dart';
 import 'package:mobile/features/profile/study_days_screen.dart';
@@ -132,6 +137,27 @@ void main() {
     ),
   );
   page('exam-date', () => const ExamDateScreen(initial: '2027-01-15'));
+  page(
+    'xp',
+    () => const XpPage(
+      total: 1395,
+      split: XpSplit(
+        total: 1395,
+        phone: 420,
+        web: 975,
+        phoneToday: 35,
+        phoneDailyCap: 60,
+      ),
+    ),
+  );
+  page('concepts', () => ConceptsPage(held: _held(), onOpen: (_) {}));
+  page(
+    'badges',
+    () => BadgesPage(
+      earned: {for (final b in allBadges.take(6)) b.id},
+      onOpen: (_) {},
+    ),
+  );
 }
 
 const _mastery = <String, ChapterMastery>{
@@ -140,3 +166,10 @@ const _mastery = <String, ChapterMastery>{
   'ethics': ChapterMastery(total: 84, desk: 84),
   'geotechnical': ChapterMastery(total: 4, desk: 4),
 };
+
+List<HeldConcept> _held() => [
+  for (final id in ['mathematics', 'statics', 'fluid-mechanics'])
+    for (final lesson in chapterMaps[id]!.lessons.take(2))
+      for (final game in lesson.builtGames.take(2))
+        HeldConcept(chapter: chapterMaps[id]!, lesson: lesson, game: game),
+];

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../games/game_progress.dart';
+import '../../core/theme/tablet.dart';
+import '../shared/widgets/split_page.dart';
 import '../shared/widgets/kit.dart';
 import 'badge_art.dart';
 import 'badge_moment.dart';
@@ -129,53 +131,64 @@ class BadgesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final count = allBadges.where((b) => earned.contains(b.id)).length;
+    final head = <Widget>[
+      Align(
+        alignment: Alignment.centerLeft,
+        child: RoundIconButton(
+          icon: Icons.chevron_left_rounded,
+          label: 'Back',
+          onTap: () => Navigator.of(context).maybePop(),
+        ),
+      ),
+      const SizedBox(height: 22),
+      Text('Badges', style: AppTheme.display(size: 46, height: 0.98)),
+      const SizedBox(height: 8),
+      Text(
+        count == 0
+            ? 'None yet. Finish a lesson for your first.'
+            : '$count of ${allBadges.length} earned.',
+        style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
+      ),
+      const SizedBox(height: 30),
+    ];
+    final rest = <Widget>[
+      Text('CHAPTERS', style: AppTheme.eyebrow()),
+      const SizedBox(height: 4),
+      Text(
+        'A chapter\'s drawing, for its first lesson done.',
+        style: AppTheme.body(size: 13, color: AppColors.mutedOnLight),
+      ),
+      const SizedBox(height: 18),
+      _Grid(
+        badges: chapterBadges,
+        earned: earned,
+        onOpen: onOpen,
+        artReady: artReady,
+      ),
+      const SizedBox(height: 30),
+      Text('MILESTONES', style: AppTheme.eyebrow()),
+      const SizedBox(height: 18),
+      _Grid(
+        badges: milestoneBadges,
+        earned: earned,
+        onOpen: onOpen,
+        artReady: artReady,
+      ),
+    ];
+    if (AppTablet.of(context) == SizeClass.expanded) {
+      return Scaffold(
+        backgroundColor: AppColors.fog,
+        body: SplitPage(left: head, right: rest, rightTopPad: 64),
+      );
+    }
     return Scaffold(
       backgroundColor: AppColors.fog,
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: RoundIconButton(
-                icon: Icons.chevron_left_rounded,
-                label: 'Back',
-                onTap: () => Navigator.of(context).maybePop(),
-              ),
-            ),
-            const SizedBox(height: 22),
-            Text('Badges', style: AppTheme.display(size: 46, height: 0.98)),
-            const SizedBox(height: 8),
-            Text(
-              count == 0
-                  ? 'None yet. Finish a lesson for your first.'
-                  : '$count of ${allBadges.length} earned.',
-              style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
-            ),
-            const SizedBox(height: 30),
-            Text('CHAPTERS', style: AppTheme.eyebrow()),
-            const SizedBox(height: 4),
-            Text(
-              'A chapter\'s drawing, for its first lesson done.',
-              style: AppTheme.body(size: 13, color: AppColors.mutedOnLight),
-            ),
-            const SizedBox(height: 18),
-            _Grid(
-              badges: chapterBadges,
-              earned: earned,
-              onOpen: onOpen,
-              artReady: artReady,
-            ),
-            const SizedBox(height: 30),
-            Text('MILESTONES', style: AppTheme.eyebrow()),
-            const SizedBox(height: 18),
-            _Grid(
-              badges: milestoneBadges,
-              earned: earned,
-              onOpen: onOpen,
-              artReady: artReady,
-            ),
-          ],
+      body: MediumColumn(
+        child: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
+            children: [...head, ...rest],
+          ),
         ),
       ),
     );

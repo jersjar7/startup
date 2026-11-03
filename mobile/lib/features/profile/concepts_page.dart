@@ -5,6 +5,8 @@ import '../../core/theme/app_theme.dart';
 import '../games/game_catalog.dart';
 import '../games/game_progress.dart';
 import '../games/lesson_brief.dart';
+import '../../core/theme/tablet.dart';
+import '../shared/widgets/split_page.dart';
 import '../shared/widgets/kit.dart';
 import '../study/chapter_bands.dart' show cardNameFor;
 import '../study/chapter_marks.dart';
@@ -73,88 +75,95 @@ class ConceptsPage extends StatelessWidget {
     for (final c in held) {
       byChapter.putIfAbsent(c.chapter, () => []).add(c);
     }
+    final head = <Widget>[
+      Row(
+        children: [
+          RoundIconButton(
+            icon: Icons.chevron_left_rounded,
+            label: 'Back',
+            onTap: () => Navigator.of(context).maybePop(),
+          ),
+          const Spacer(),
+          Text(
+            'CONCEPTS',
+            style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+          ),
+        ],
+      ),
+      const SizedBox(height: 22),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        children: [
+          Text(
+            '${held.length}',
+            style: AppTheme.display(size: 118, height: 0.82, tracking: -0.07),
+          ),
+          const SizedBox(width: 10),
+          Text(
+            held.length == 1 ? 'concept' : 'concepts',
+            style: AppTheme.display(size: 26, tracking: -0.03),
+          ),
+        ],
+      ),
+      const SizedBox(height: 14),
+      Text(
+        held.isEmpty
+            ? 'None yet. Clear all the rounds on one concept and it '
+                  'lands here.'
+            : 'Each one finished here on the ${deviceNounOf(context)}, '
+                  'every round cleared. '
+                  'The website counts its own practice.',
+        style: AppTheme.body(size: 16, color: AppColors.mutedOnLight),
+      ),
+    ];
+    final rest = <Widget>[
+      for (final entry in byChapter.entries) ...[
+        const SizedBox(height: 30),
+        Row(
+          children: [
+            ChapterMark(
+              chapterId: entry.key.id,
+              color: AppColors.charcoal,
+              size: 24,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                cardNameFor(entry.key).toUpperCase(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.eyebrow(),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Text(
+              '${entry.value.length}',
+              style: AppTheme.mono(size: 13, color: AppColors.forest),
+            ),
+          ],
+        ),
+        const SizedBox(height: 14),
+        for (final c in entry.value) ...[
+          _ConceptTile(concept: c, onTap: () => onOpen(c)),
+          const SizedBox(height: 8),
+        ],
+      ],
+    ];
+    if (AppTablet.of(context) == SizeClass.expanded) {
+      return Scaffold(
+        backgroundColor: AppColors.fog,
+        body: SplitPage(left: head, right: rest, rightTopPad: 34),
+      );
+    }
     return Scaffold(
       backgroundColor: AppColors.fog,
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
-          children: [
-            Row(
-              children: [
-                RoundIconButton(
-                  icon: Icons.chevron_left_rounded,
-                  label: 'Back',
-                  onTap: () => Navigator.of(context).maybePop(),
-                ),
-                const Spacer(),
-                Text(
-                  'CONCEPTS',
-                  style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
-                ),
-              ],
-            ),
-            const SizedBox(height: 22),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Text(
-                  '${held.length}',
-                  style: AppTheme.display(
-                    size: 118,
-                    height: 0.82,
-                    tracking: -0.07,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  held.length == 1 ? 'concept' : 'concepts',
-                  style: AppTheme.display(size: 26, tracking: -0.03),
-                ),
-              ],
-            ),
-            const SizedBox(height: 14),
-            Text(
-              held.isEmpty
-                  ? 'None yet. Clear all the rounds on one concept and it '
-                        'lands here.'
-                  : 'Each one finished here on the ${deviceNounOf(context)}, '
-                        'every round cleared. '
-                        'The website counts its own practice.',
-              style: AppTheme.body(size: 16, color: AppColors.mutedOnLight),
-            ),
-            for (final entry in byChapter.entries) ...[
-              const SizedBox(height: 30),
-              Row(
-                children: [
-                  ChapterMark(
-                    chapterId: entry.key.id,
-                    color: AppColors.charcoal,
-                    size: 24,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      cardNameFor(entry.key).toUpperCase(),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.eyebrow(),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    '${entry.value.length}',
-                    style: AppTheme.mono(size: 13, color: AppColors.forest),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              for (final c in entry.value) ...[
-                _ConceptTile(concept: c, onTap: () => onOpen(c)),
-                const SizedBox(height: 8),
-              ],
-            ],
-          ],
+      body: MediumColumn(
+        child: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
+            children: [...head, ...rest],
+          ),
         ),
       ),
     );
