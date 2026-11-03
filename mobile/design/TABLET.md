@@ -603,6 +603,10 @@ Run the night goldens at tablet size too:
 
 Flutter gives these for little or no work; nothing beyond them is proposed.
 
+**Deferred (2026-11-03).** The first tablet release ships without this
+section. Hover, the focus ring and the keys are left for a later release;
+nothing in the layouts above depends on them.
+
 - **Hover:** pills, round buttons, rail items, rows and nodes take a pressed
   look at about half strength on hover (a pointer is a promise to tap). No
   hover-only information, ever: a touch user must see everything.
