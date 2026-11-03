@@ -12,6 +12,7 @@ import { formatDuration } from './format';
 import '../diagnostic/diagnostic.css';
 import '../exam/exam.css';
 import './chapterTest.css';
+import { handbookRef } from '../data/handbook';
 
 // The score, where it came from (by topic), and every question with its
 // solution. Only reachable once the test is handed in; the server refuses the
@@ -110,7 +111,7 @@ function ReviewCard({ q, n }) {
       {q.handbookPage && (
         <p className="ct-handbook">
           <BookOpen size={16} />
-          <span>FE Reference Handbook, {q.handbookPage}{q.handbookFormula ? `: ${q.handbookFormula}` : ''}</span>
+          <span>{handbookRef(q.handbookPage, 'FE Reference Handbook')}{q.handbookFormula ? `: ${q.handbookFormula}` : ''}</span>
         </p>
       )}
     </article>

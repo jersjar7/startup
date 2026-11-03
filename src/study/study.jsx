@@ -20,6 +20,7 @@ import { getChapterPracticeCount } from '../data/chapter-practice/index';
 import { LoadingState } from '../components/LoadingState';
 import { ChapterFinish } from './ChapterFinish';
 import './study.css';
+import { handbookRef } from '../data/handbook';
 
 /* ── KaTeX block renderer ── */
 function MathBlock({ tex }) {
@@ -210,7 +211,7 @@ function FormulaCard({ formula }) {
       <MathBlock tex={formula.latex} />
       <div className="formula-meta">
         <span className="formula-label">{formula.label}</span>
-        <span className="formula-page">{formula.page}</span>
+        {formula.page && <span className="formula-page">{handbookRef(formula.page)}</span>}
       </div>
     </div>
   );

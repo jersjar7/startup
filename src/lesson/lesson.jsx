@@ -30,6 +30,7 @@ import { LessonContent } from '../components/LessonContent';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import './lesson.css';
 import { localDate } from '../data/localDate';
+import { handbookRef } from '../data/handbook';
 
 /* ── Problem diagram renderer ── */
 function ProblemDiagram({ diagram, className = 'lesson-diagram' }) {
@@ -86,7 +87,7 @@ function HandbookPanel({ problem }) {
             {showPage ? (
               <span className="lp-handbook-ref">
                 <BookBookmark size={14} weight="bold" />
-                {problem.handbookPage}
+                {handbookRef(problem.handbookPage)}
               </span>
             ) : (
               <span className="lp-handbook-hidden">

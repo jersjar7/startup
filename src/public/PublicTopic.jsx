@@ -15,6 +15,7 @@ import { CaretRight } from '@phosphor-icons/react';
 import { RaccoonPeek } from '../components/brand/RaccoonPeek';
 import './public.css';
 import { pageTitle, titleName } from '../seo/pageTitle';
+import { handbookRef } from '../data/handbook';
 
 const SITE = 'https://fe4raccoons.com';
 
@@ -181,7 +182,7 @@ export function PublicTopic() {
                 </span>
                 <span className="pub-formula-meta">
                   <span className="pub-formula-label">{f.label}</span>
-                  {f.page && <span className="pub-formula-page">FE Handbook {f.page}</span>}
+                  {f.page && <span className="pub-formula-page">{handbookRef(f.page)}</span>}
                   {f.inHandbook === false && <span className="pub-formula-page">Not in the handbook</span>}
                 </span>
               </li>

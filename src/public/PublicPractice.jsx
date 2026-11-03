@@ -11,6 +11,7 @@ import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import { AppArrow } from '../components/brand/AppArrow';
 import './public.css';
 import { pageTitle, titleName } from '../seo/pageTitle';
+import { handbookRef } from '../data/handbook';
 
 const SITE = 'https://fe4raccoons.com';
 
@@ -86,7 +87,7 @@ function PracticeProblem({ p, n, onAnswer }) {
             ))}
           </ol>
         )}
-        {p.handbookPage && <p className="pub-practice-ref">FE Reference Handbook: {p.handbookPage}</p>}
+        {p.handbookPage && <p className="pub-practice-ref">{handbookRef(p.handbookPage, 'FE Reference Handbook')}</p>}
       </details>
     </article>
   );

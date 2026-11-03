@@ -9,6 +9,7 @@ import { AppArrow } from '../components/brand/AppArrow';
 import { ChapterCoin } from '../components/brand/ChapterCoin';
 import './public.css';
 import './formulaFinder.css';
+import { handbookRef } from '../data/handbook';
 
 const SITE = 'https://fe4raccoons.com';
 const PATH = '/fe-civil/formulas';
@@ -28,7 +29,7 @@ function FormulaEntry({ f }) {
     <article className="ff-entry" id={f.id}>
       <div className="ff-entry-head">
         <h3><a href={`#${f.id}`}>{f.label}</a></h3>
-        {f.page && <span className="ff-page">Handbook {f.page}</span>}
+        {f.page && <span className="ff-page">{handbookRef(f.page)}</span>}
         {!f.inHandbook && <span className="ff-page ff-memorize">Not in the handbook: memorize it</span>}
       </div>
       <div className="ff-entry-body">
@@ -104,7 +105,7 @@ export function FormulaFinder() {
       hasDefinedTerm: formulas.map((f) => ({
         '@type': 'DefinedTerm',
         name: f.label,
-        description: [f.use, f.page && `FE Reference Handbook ${f.page}.`].filter(Boolean).join(' '),
+        description: [f.use, f.page && `${handbookRef(f.page, 'FE Reference Handbook')}.`].filter(Boolean).join(' '),
         url: `${SITE}${PATH}#${f.id}`,
         inDefinedTermSet: `${SITE}${PATH}`,
       })),

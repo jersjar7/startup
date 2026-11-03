@@ -11,6 +11,7 @@ import { computeFocusAreas } from '../data/readiness';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import './problems.css';
 import { localDate } from '../data/localDate';
+import { handbookRef } from '../data/handbook';
 
 // States: LOADING -> SESSION -> SUMMARY
 // Within SESSION each problem: ANSWERING -> REVIEWED
@@ -552,7 +553,7 @@ export function Problems({ userName, onLogout, reviewMode = false, displayName }
 
             {problem.handbookPage && (
               <div className="handbook-ref">
-                FE Handbook Reference: {problem.handbookPage}
+                {handbookRef(problem.handbookPage, 'FE Reference Handbook')}
               </div>
             )}
 
