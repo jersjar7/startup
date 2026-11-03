@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../core/handbook.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/tablet.dart';
 import '../shared/widgets/kit.dart';
 import '../auth/auth_controller.dart';
 import '../guest/account_needed.dart';
@@ -17236,6 +17237,21 @@ Future<void> showConcept(
   String? chapterId,
   String? pack,
 }) {
+  // A tablet window: there is no round to sit beside, so the concept opens
+  // as a full page, the picture beside the steps (TABLET.md, T07).
+  if (AppTablet.isTablet(context)) {
+    return Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
+        builder: (_) => ConceptPage(
+          section: section,
+          back: back,
+          gameId: gameId,
+          chapterId: chapterId,
+          pack: pack,
+        ),
+      ),
+    );
+  }
   return showModalBottomSheet<void>(
     context: context,
     backgroundColor: AppColors.sheet,
@@ -17274,9 +17290,15 @@ class ConceptView extends StatelessWidget {
     this.gameId,
     this.chapterId,
     this.pack,
+    this.onClose,
   });
 
   final BriefSection section;
+
+  /// Set when the sheet is a pane beside a round on a tablet: it gets its own
+  /// close button at the top, and no pill, since the round's pill is the
+  /// window's one action.
+  final VoidCallback? onClose;
 
   /// The game the sheet was opened from, if any, for a report.
   final String? gameId;
@@ -17301,6 +17323,17 @@ class ConceptView extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.fromLTRB(24, 16, 24, 34),
         children: [
+          if (onClose != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: RoundIconButton(
+                icon: Icons.close_rounded,
+                label: 'Close the concept',
+                onTap: onClose!,
+                fill: AppColors.creamDark,
+                iconColor: AppColors.charcoal,
+              ),
+            ),
           Text(
             handbook == null
                 ? 'THE CONCEPT'
@@ -17379,12 +17412,13 @@ class ConceptView extends StatelessWidget {
                 onTap: () => _openFlag(context),
               ),
             ),
-            const SizedBox(height: 12),
+            if (onClose == null) const SizedBox(height: 12),
           ],
-          PillButton(
-            label: back,
-            onTap: onBack ?? () => Navigator.of(context).maybePop(),
-          ),
+          if (onClose == null)
+            PillButton(
+              label: back,
+              onTap: onBack ?? () => Navigator.of(context).maybePop(),
+            ),
         ],
       ),
     );
@@ -17485,6 +17519,258 @@ class _FormulaTile extends StatelessWidget {
             ),
           ],
         ],
+      ),
+    );
+  }
+}
+
+/// The concept as a full page on a tablet (TABLET.md, "The lesson brief"):
+/// opened from "Read the concept first", with no round to sit beside.
+/// Expanded: the picture beside the steps, so the picture stays in view
+/// while every step is read. Medium: the picture full width, the steps two
+/// by two, the spoken rules in a row. The words are the phone sheet's.
+class ConceptPage extends StatelessWidget {
+  const ConceptPage({
+    super.key,
+    required this.section,
+    this.back = 'Back to the lesson',
+    this.gameId,
+    this.chapterId,
+    this.pack,
+  });
+
+  final BriefSection section;
+  final String back;
+  final String? gameId;
+  final String? chapterId;
+  final String? pack;
+
+  @override
+  Widget build(BuildContext context) {
+    final expanded = AppTablet.of(context) == SizeClass.expanded;
+    final handbook = section.handbook;
+    final lessonName = section.lesson ?? lessonForBrief(section)?.name;
+    final eyebrow = handbook == null
+        ? 'THE CONCEPT'
+        : 'THE CONCEPT · ${handbookLabel(handbook).toUpperCase()}';
+
+    final headline = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (lessonName != null) ...[
+          Text(
+            lessonName,
+            style: AppTheme.display(
+              size: 20,
+              weight: FontWeight.w700,
+              height: 1.2,
+              tracking: -0.02,
+              color: AppColors.mutedOnLight,
+            ),
+          ),
+          const SizedBox(height: 14),
+        ],
+        Text(section.title, style: AppTheme.display(size: 52, height: 1.0)),
+      ],
+    );
+
+    final picture = section.picture == null
+        ? null
+        : LayoutBuilder(
+            builder: (context, box) {
+              final s = AppTablet.figureScale(box.maxWidth);
+              return SizedBox(
+                width: box.maxWidth,
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: SizedBox(
+                    width: box.maxWidth / s,
+                    child: section.picture!(),
+                  ),
+                ),
+              );
+            },
+          );
+
+    Widget step((String, String) step) => Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          step.$1.toUpperCase(),
+          style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+        ),
+        const SizedBox(height: 6),
+        Text(step.$2, style: AppTablet.bodyTablet()),
+      ],
+    );
+
+    final steps = section.steps.isEmpty
+        ? Text(section.body, style: AppTablet.bodyTablet())
+        : expanded
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (final (i, s) in section.steps.indexed) ...[
+                if (i > 0) const SizedBox(height: 22),
+                step(s),
+              ],
+            ],
+          )
+        : Column(
+            children: [
+              // Two by two: left to right, then top to bottom.
+              for (var i = 0; i < section.steps.length; i += 2) ...[
+                if (i > 0) const SizedBox(height: 22),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(child: step(section.steps[i])),
+                    const SizedBox(width: 24),
+                    Expanded(
+                      child: i + 1 < section.steps.length
+                          ? step(section.steps[i + 1])
+                          : const SizedBox.shrink(),
+                    ),
+                  ],
+                ),
+              ],
+            ],
+          );
+
+    final rules = <Widget>[
+      if (section.formula != null) _FormulaTile(latex: section.formula!),
+      if (section.spoken.isEmpty)
+        for (final (label, latex) in section.formulas)
+          _FormulaTile(label: label, latex: latex),
+      for (final (label, latex, words) in section.spoken)
+        _FormulaTile(label: label, latex: latex, words: words),
+    ];
+    final rulesRow = rules.isEmpty
+        ? const SizedBox.shrink()
+        : rules.length <= 3
+        ? Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (final (i, r) in rules.indexed) ...[
+                if (i > 0) const SizedBox(width: 12),
+                Expanded(child: r),
+              ],
+            ],
+          )
+        : Column(
+            children: [
+              for (final (i, r) in rules.indexed) ...[
+                if (i > 0) const SizedBox(height: 10),
+                r,
+              ],
+            ],
+          );
+
+    final paper = Text(
+      'Knowing this is not the same as solving with it. The full problems '
+      'belong at a desk, on paper.',
+      style: AppTheme.body(
+        size: 15,
+        height: 1.45,
+        color: AppColors.mutedOnLight,
+      ),
+    );
+    final pill = ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: AppTablet.pillMax),
+      child: PillButton(
+        label: back,
+        onTap: () => Navigator.of(context).maybePop(),
+      ),
+    );
+
+    final top = Row(
+      children: [
+        RoundIconButton(
+          icon: Icons.chevron_left_rounded,
+          label: 'Back',
+          onTap: () => Navigator.of(context).maybePop(),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Text(
+            eyebrow,
+            style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+          ),
+        ),
+      ],
+    );
+
+    final Widget body;
+    if (expanded) {
+      body = Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 540,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                headline,
+                if (picture != null) ...[const SizedBox(height: 26), picture],
+              ],
+            ),
+          ),
+          const SizedBox(width: 40),
+          Expanded(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: AppTablet.measureBody,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [steps, const SizedBox(height: 26), rulesRow],
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      body = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          headline,
+          if (picture != null) ...[const SizedBox(height: 26), picture],
+          const SizedBox(height: 26),
+          steps,
+          const SizedBox(height: 26),
+          rulesRow,
+        ],
+      );
+    }
+
+    return Scaffold(
+      backgroundColor: AppColors.sheet,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppTablet.screenX,
+            AppTablet.spaceTop - 8,
+            AppTablet.screenX,
+            24,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              top,
+              const SizedBox(height: 24),
+              Expanded(child: SingleChildScrollView(child: body)),
+              const SizedBox(height: 18),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(child: paper),
+                  const SizedBox(width: 24),
+                  Flexible(child: pill),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
