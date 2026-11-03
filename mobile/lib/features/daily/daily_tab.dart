@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
@@ -561,96 +563,129 @@ class _Today extends StatelessWidget {
   }
 
   /// T08: the date, the headline and the count on the left with the streak
-  /// at its foot; the three games and the pill on the cream hero, right.
+  /// at its foot; today's three as tall rows on the cream hero, filling the
+  /// right column, with the pill at its foot.
   Widget _expanded(
     BuildContext context,
     int minutes,
     bool going,
     String label,
   ) {
-    return _TwoColumns(
-      left: [
-        _Heading(
-          eyebrow: _dayLine(puzzle.date).toUpperCase(),
-          headline: 'Today\'s Daily',
-          onYesterday: null,
-          size: 64,
-        ),
-        const SizedBox(height: 32),
-        Text(
-          '${puzzle.games.length}',
-          style: AppTheme.display(size: 200, height: 0.82, tracking: -0.07),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          'concepts, about $minutes min',
-          style: AppTheme.display(
-            size: 26,
-            weight: FontWeight.w700,
-            tracking: -0.02,
+    final left = <Widget>[
+      _Heading(
+        eyebrow: _dayLine(puzzle.date).toUpperCase(),
+        headline: 'Today\'s Daily',
+        onYesterday: null,
+        size: 64,
+      ),
+      const Spacer(),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        children: [
+          Text(
+            '${puzzle.games.length}',
+            style: AppTheme.display(size: 200, height: 0.82, tracking: -0.07),
           ),
-        ),
-        const SizedBox(height: 12),
-        Text(
-          'Play, then see how you did against everyone else today.',
-          style: AppTablet.bodyTablet(color: AppColors.mutedOnLight),
-        ),
-        const SizedBox(height: 32),
-        if (guest)
-          const _GuestWhy()
-        else
-          StreakTile(
-            current: puzzle.streak.current,
-            playedToday: puzzle.streak.playedToday,
-          ),
-      ],
-      right: [
-        if (onYesterday != null)
-          Align(
-            alignment: Alignment.centerRight,
-            child: _YesterdayLink(onTap: onYesterday!),
-          ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(28),
-          decoration: BoxDecoration(
-            color: AppColors.cream,
-            borderRadius: BorderRadius.circular(36),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text('SAME FOR EVERYONE', style: AppTheme.eyebrow()),
-              const SizedBox(height: 18),
-              for (var i = 0; i < puzzle.games.length; i++) ...[
-                if (i > 0) const SizedBox(height: 10),
-                _GameRow(
-                  game: puzzle.games[i],
-                  done: going && i < run!.gameIndex,
-                ),
-              ],
-              const SizedBox(height: 24),
-              Align(
-                alignment: Alignment.centerRight,
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: AppTablet.pillMax,
-                  ),
-                  child: guest
-                      ? const _GuestPlay()
-                      : playable
-                      ? PillButton(label: label, onTap: onPlay)
-                      : Text(
-                          'Today\'s Daily has a concept this version of the '
-                          'app does not have yet. Update the app to play it.',
-                          style: AppTablet.bodyTablet(),
-                        ),
-                ),
+          const SizedBox(width: 10),
+          Flexible(
+            child: Text(
+              'concepts, about $minutes min',
+              style: AppTheme.display(
+                size: 26,
+                weight: FontWeight.w700,
+                tracking: -0.02,
               ),
-            ],
+            ),
           ),
+        ],
+      ),
+      const SizedBox(height: 32),
+      Text(
+        'Same for everyone. Play, then see how you did against everyone '
+        'else today.',
+        style: AppTablet.bodyTablet(),
+      ),
+      const Spacer(flex: 2),
+      if (guest)
+        const _GuestWhy()
+      else
+        StreakTile(
+          current: puzzle.streak.current,
+          playedToday: puzzle.streak.playedToday,
         ),
-      ],
+    ];
+    final card = Container(
+      padding: const EdgeInsets.all(28),
+      decoration: BoxDecoration(
+        color: AppColors.cream,
+        borderRadius: BorderRadius.circular(40),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text('TODAY\'S THREE', style: AppTheme.eyebrow()),
+          const SizedBox(height: 28),
+          for (var i = 0; i < puzzle.games.length; i++) ...[
+            if (i > 0) const SizedBox(height: 12),
+            Expanded(
+              child: _GameRow(
+                game: puzzle.games[i],
+                done: going && i < run!.gameIndex,
+                tall: true,
+              ),
+            ),
+          ],
+          const SizedBox(height: 28),
+          if (guest)
+            const _GuestPlay()
+          else if (playable)
+            PillButton(label: label, onTap: onPlay)
+          else
+            Text(
+              'Today\'s Daily has a concept this version of the app does '
+              'not have yet. Update the app to play it.',
+              style: AppTablet.bodyTablet(),
+            ),
+        ],
+      ),
+    );
+    // The window's height, less the Daily's own insets: the two columns
+    // fill it, as T08 does.
+    final view = MediaQuery.sizeOf(context).height;
+    final insets =
+        MediaQuery.viewPaddingOf(context).vertical + _top(context) + 30;
+    final fill = view - insets;
+    return SizedBox(
+      height: math.max(fill, 600),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            width: AppTablet.paneLeading + 20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: left,
+            ),
+          ),
+          const SizedBox(width: AppTablet.paneGap * 3),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (onYesterday != null) ...[
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: _YesterdayLink(onTap: onYesterday!),
+                  ),
+                  const SizedBox(height: 8),
+                ],
+                Expanded(child: card),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -838,7 +873,16 @@ class _GuestWhy extends StatelessWidget {
 }
 
 class _GameRow extends StatelessWidget {
-  const _GameRow({required this.game, required this.done, this.onAgain});
+  const _GameRow({
+    required this.game,
+    required this.done,
+    this.onAgain,
+    this.tall = false,
+  });
+
+  /// The tablet's taller row (T08): the mark at 52, the words larger, as
+  /// tall as the card gives it.
+  final bool tall;
 
   final DailyGame game;
   final bool done;
@@ -850,6 +894,7 @@ class _GameRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final def = gameDefFor(game.gameId);
     final chapter = chapterMaps[game.chapterId];
+    if (tall) return _tall(def, chapter);
     return Container(
       height: 64,
       padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
@@ -920,6 +965,73 @@ class _GameRow extends StatelessWidget {
               '${game.rounds}',
               style: AppTheme.mono(size: 12, color: AppColors.mutedOnLight),
             ),
+        ],
+      ),
+    );
+  }
+
+  Widget _tall(GameDef? def, ChapterMap? chapter) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(22, 12, 26, 12),
+      decoration: BoxDecoration(
+        color: done ? AppColors.springField : AppColors.creamDark,
+        borderRadius: BorderRadius.circular(32),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 92,
+            height: 92,
+            decoration: BoxDecoration(
+              color: done ? AppColors.charcoal : AppColors.fog,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: done
+                  ? const Icon(
+                      Icons.check_rounded,
+                      size: 40,
+                      color: AppColors.springOnDark,
+                    )
+                  : ChapterMark(
+                      chapterId: game.chapterId,
+                      color: AppColors.charcoal,
+                      size: 52,
+                    ),
+            ),
+          ),
+          const SizedBox(width: 22),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  def?.name ?? game.gameId,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.display(
+                    size: 22,
+                    weight: FontWeight.w700,
+                    height: 1.15,
+                    tracking: -0.02,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  lessonForGame(game.gameId)?.name ?? chapter?.name ?? '',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTablet.bodyTablet(color: AppColors.mutedOnLight),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Text(
+            '${game.rounds} rounds',
+            style: AppTheme.mono(size: 14, color: AppColors.mutedOnLight),
+          ),
         ],
       ),
     );
