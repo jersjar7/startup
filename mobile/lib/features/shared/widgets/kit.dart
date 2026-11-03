@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/tablet.dart';
 
 /// The app language's three shared controls (`mobile/design/DESIGN.md`):
 /// the pill CTA, the round icon button and the floating dock. Sizes are the
@@ -796,9 +797,141 @@ class BottomDock extends StatelessWidget {
   }
 }
 
+/// The dock turned on its side for a tablet window (TABLET.md section 2,
+/// ADR 0039): a cream bar down the left edge, 104 wide, right corners 40,
+/// the same three items stacked in its vertical middle, 28 apart, read top
+/// to bottom as the phone's dock reads left to right. Same 54 circles, same
+/// 12 labels, the active one a spring circle, the dot on its shoulder.
+class SideRail extends StatelessWidget {
+  const SideRail({
+    super.key,
+    required this.items,
+    required this.index,
+    required this.onSelect,
+    this.dots = const {},
+    this.dotColor = AppColors.ember,
+  });
+
+  final List<DockItem> items;
+
+  /// The active item, or null when no tab is in front (never, today).
+  final int? index;
+  final ValueChanged<int> onSelect;
+  final Set<int> dots;
+  final Color dotColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: AppTablet.rail,
+      decoration: const BoxDecoration(
+        color: AppColors.cream,
+        borderRadius: BorderRadius.horizontal(right: Radius.circular(40)),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x1F2C2C2C),
+            blurRadius: 30,
+            offset: Offset(6, 0),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        right: false,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var i = 0; i < items.length; i++) ...[
+                if (i > 0) const SizedBox(height: 28),
+                Semantics(
+                  button: true,
+                  selected: i == index,
+                  label: dots.contains(i) && items[i].dotLabel != null
+                      ? '${items[i].label}, ${items[i].dotLabel}'
+                      : items[i].label,
+                  child: _Pressable(
+                    key: ValueKey('rail-$i'),
+                    onTap: () => onSelect(i),
+                    child: SizedBox(
+                      width: 96,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 180),
+                                curve: Curves.easeOut,
+                                width: 54,
+                                height: 54,
+                                decoration: BoxDecoration(
+                                  color: i == index
+                                      ? AppColors.spring
+                                      : Colors.transparent,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  i == index
+                                      ? items[i].activeIcon
+                                      : items[i].icon,
+                                  size: 24,
+                                  color: i == index
+                                      ? AppColors.onAccent
+                                      : AppColors.ink2,
+                                ),
+                              ),
+                              if (dots.contains(i))
+                                Positioned(
+                                  top: 4,
+                                  right: 4,
+                                  child: Container(
+                                    key: ValueKey('dock-dot-$i'),
+                                    width: 12,
+                                    height: 12,
+                                    decoration: BoxDecoration(
+                                      color: dotColor,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: AppColors.cream,
+                                        width: 2.5,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          ExcludeSemantics(
+                            child: Text(
+                              items[i].label,
+                              style: GoogleFonts.dmSans(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: -0.1,
+                                color: i == index
+                                    ? AppColors.charcoal
+                                    : AppColors.ink2,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 /// Press feedback the kit asks for: scale to 0.95 for 120ms, then back.
 class _Pressable extends StatefulWidget {
-  const _Pressable({required this.child, required this.onTap});
+  const _Pressable({super.key, required this.child, required this.onTap});
   final Widget child;
   final VoidCallback onTap;
 

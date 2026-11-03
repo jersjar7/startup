@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../core/notifications/notification_plan.dart';
 import '../../core/notifications/notifications.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/tablet.dart';
 import '../auth/auth_controller.dart';
 import '../daily/daily_repository.dart';
 import '../daily/daily_tab.dart';
@@ -40,12 +41,24 @@ class HomeShell extends StatefulWidget {
     requested.value = tab;
   }
 
+  /// The tab in front, for the rail drawn beside a page pushed over the
+  /// shell on a tablet ([BesideRail]).
+  static final current = ValueNotifier<int>(0);
+
+  /// Whether the shell is a guest's, for the same rail.
+  static final guest = ValueNotifier<bool>(false);
+
   @override
   State<HomeShell> createState() => _HomeShellState();
 }
 
 class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   int _index = 0;
+
+  /// The tabs keep their state when the window changes class (a rotation, a
+  /// split divider): the same stack moves between the dock's layout and the
+  /// rail's, it is never rebuilt.
+  final _tabsKey = GlobalKey(debugLabel: 'home-tabs');
 
   /// Wakes the dock at the next midnight, when a new Daily is due.
   Timer? _midnight;
@@ -172,6 +185,55 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final guest = context.watch<AuthController>().isGuest;
+    HomeShell.current.value = _index;
+    HomeShell.guest.value = guest;
+    final tabs = IndexedStack(
+      key: _tabsKey,
+      index: _index,
+      // A guest (Apple 5.1.1(v)) has Study as it is; Profile and the Daily
+      // show what an account adds instead (features/guest).
+      children: guest
+          ? const [GuestProfileTab(), StudyTab(), GuestDailyTab()]
+          : [
+              const ProfileTab(),
+              const StudyTab(),
+              DailyTab(visible: _index == HomeTab.daily.index),
+            ],
+    );
+    final items = guest ? _guestItems : _items;
+    final dots = guest
+        ? {HomeTab.profile.index, HomeTab.daily.index}
+        : {if (DailyDone.dueOn(appClock())) HomeTab.daily.index};
+    final dotColor = guest ? AppColors.ink3 : AppColors.ember;
+    void onSelect(int i) => setState(() => _index = i);
+
+    // A tablet window: the dock becomes the rail down the left edge (ADR
+    // 0039). The content sits beside it and never slides under it.
+    if (AppTablet.isTablet(context)) {
+      return Scaffold(
+        backgroundColor: AppColors.fog,
+        body: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SideRail(
+              items: items,
+              index: _index,
+              onSelect: onSelect,
+              dots: dots,
+              dotColor: dotColor,
+            ),
+            Expanded(
+              child: MediaQuery.removePadding(
+                context: context,
+                removeLeft: true,
+                child: tabs,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppColors.fog,
       // Each tab's ground runs on under the dock, so its rounded corners sit
@@ -181,26 +243,62 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
       // MediaQuery.paddingOf(context).bottom, which Scaffold sets to the
       // dock's height, so nothing ends up hidden under it.
       extendBody: true,
-      body: IndexedStack(
-        index: _index,
-        // A guest (Apple 5.1.1(v)) has Study as it is; Profile and the Daily
-        // show what an account adds instead (features/guest).
-        children: guest
-            ? const [GuestProfileTab(), StudyTab(), GuestDailyTab()]
-            : [
-                const ProfileTab(),
-                const StudyTab(),
-                DailyTab(visible: _index == HomeTab.daily.index),
-              ],
-      ),
+      body: tabs,
       bottomNavigationBar: BottomDock(
-        items: guest ? _guestItems : _items,
+        items: items,
         index: _index,
-        onSelect: (i) => setState(() => _index = i),
-        dots: guest
-            ? {HomeTab.profile.index, HomeTab.daily.index}
-            : {if (DailyDone.dueOn(appClock())) HomeTab.daily.index},
-        dotColor: guest ? AppColors.ink3 : AppColors.ember,
+        onSelect: onSelect,
+        dots: dots,
+        dotColor: dotColor,
+      ),
+    );
+  }
+
+  static List<DockItem> itemsFor({required bool guest}) =>
+      guest ? _guestItems : _items;
+}
+
+/// A page pushed over the home on a tablet opens beside the rail, not over
+/// it (TABLET.md section 2): Mastery, Days studied, the League, Badges, XP,
+/// Concepts, the exam date, the pass card, About, Contact, Edit profile.
+///
+/// On a phone window it is the page alone, covering the dock as it always
+/// has. The page keeps its place in the tree either way, so a rotation never
+/// rebuilds it. Tapping the rail closes the page and shows that tab.
+class BesideRail extends StatelessWidget {
+  const BesideRail({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final tablet = AppTablet.isTablet(context);
+    return ColoredBox(
+      color: AppColors.fog,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (tablet)
+            ValueListenableBuilder<int>(
+              valueListenable: HomeShell.current,
+              builder: (context, index, _) => SideRail(
+                items: _HomeShellState.itemsFor(guest: HomeShell.guest.value),
+                index: index,
+                onSelect: (i) {
+                  Navigator.of(context).popUntil((r) => r.isFirst);
+                  HomeShell.select(HomeTab.values[i]);
+                },
+              ),
+            ),
+          Expanded(
+            key: const ValueKey('beside-rail-page'),
+            child: MediaQuery.removePadding(
+              context: context,
+              removeLeft: tablet,
+              child: child,
+            ),
+          ),
+        ],
       ),
     );
   }
