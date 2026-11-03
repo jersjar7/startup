@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mobile/core/network/api_client.dart';
+import 'package:mobile/core/network/api_exception.dart';
 import 'package:mobile/core/storage/app_storage.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/theme/app_theme.dart';
@@ -166,6 +167,12 @@ class _SeededApi extends ApiClient {
       };
     }
     if (path.startsWith('/daily/') && path.endsWith('/results')) {
+      // Today's board only. The store pictures predate "Yesterday's score",
+      // and yesterday's board is pictured in daily_yesterday_test.dart.
+      final today = dailyNumberOn(DateTime.parse(_dailyDate));
+      if (path != '/daily/$today/results') {
+        throw ApiException('Not here', statusCode: 404);
+      }
       // A believable spread for 212 players: a bell peaking at 15 of 18, so the
       // folded last row stays small and the bars read as a curve.
       // Three perfect scores (the named top three), then the 17s from Ben
