@@ -38,7 +38,8 @@ Two facts shaped the decision:
    the grid) is the left pane; the selected chapter's path is the right pane.
    Opening a lesson replaces the tile with the lesson, keeping the path in
    view. Continue opens the lesson directly, because the map is already on
-   screen.
+   screen. On medium (portrait) the same pair is stacked: the chapter as a
+   band on top, its path below.
 4. **A round on expanded puts the drawing beside the answer.** `BoardShell`
    gains an optional `figure` slot. Games that use it get the drawing on the
    left and the question, answers, feedback and pill on the right; games that
@@ -85,5 +86,8 @@ Two facts shaped the decision:
   right). Rejected: Profile is a page of type with no tiles (ADR 0023), and
   turning its facts into a list would undo that. Its pages open beside the
   rail instead.
+- **In portrait, one chapter tile drawn larger.** Tried first and rejected in
+  review: it is the "bigger, with more blank space" version. Portrait has
+  height to spare, so the chapter and its path are stacked instead.
 - **Stay in iPhone compatibility mode.** Rejected: it is locked to portrait, so
   split screen beside the Handbook and landscape are both lost.

@@ -157,20 +157,27 @@ Mockups: `T01-study-landscape`, `T01n-study-landscape-night`.
   facts. ADR 0015 decided the home is one chapter and one button, and the path
   beside it is the detail of that same chapter, not a second subject.
 
-**Medium (portrait):** `T01p-study-portrait`. One chapter, the tile drawn at
-560 wide with the mark at 200 inside a 340 circle, and the next chapter's tile
-peeking at the right edge so the swipe is visible. Continue opens the chapter
-map as on the phone.
+**Medium (portrait):** `T01p-study-portrait`. The same pairing as landscape,
+stacked, because portrait has height to spare and no width to spare. The
+chapter becomes a band across the top (the mark in a 200 circle on the left;
+the eyebrows, the name at 48, the mono line and Continue on the right), the
+page dots under it, and the chapter's live path fills the rest of the window
+below. Swiping the band changes the chapter and redraws the path, as in
+landscape, and Continue opens the lesson directly, as in landscape. A tile
+drawn twice as large with nothing beside it was tried first and rejected: it
+is the "bigger, with more blank space" version the owner ruled out.
 
 ### Chapter map
 
 Mockups: `T02p-chapter-map-portrait` (medium), and the right pane of
 `T01`, `T02` and `T03` (expanded).
 
-- On expanded it is not a screen; it is Study's right pane (above).
-- On medium it is pushed beside the rail: round back button and the chapter
-  eyebrow on the top line, the chapter name as a headline at 56, the cleared
-  chip, then the path.
+- On a tablet it is never a pushed screen: in landscape it is Study's right
+  pane, in portrait the lower part of Study (above).
+- **All chapters, medium** (`T02p-chapter-map-portrait`): the grid toggle puts
+  the fifteen grid tiles in five columns across the top (three rows), and the
+  picked chapter's eyebrow, name and path below them. The picked tile is
+  charcoal, the chapter in flight spring, as in landscape.
 - **The path gets bigger, not just wider.** Nodes 100 (phone 84), the weave
   amplitude 150 (phone about 90), steps 150 apart, labels in DM Sans 16 on
   two lines at most. The road stays 16 thick with the spring dashes on the
@@ -195,8 +202,14 @@ Mockups: `T03-lesson-sheet-landscape`, `T03p-lesson-sheet-portrait`.
   the path is on screen. Why the left pane and not a third column: two panes
   is the most a window holds, and the left pane is "what to do now" in both
   states (a chapter, then a lesson in it).
-- **Medium: a bottom sheet, capped at 640 and centred**, over the dimmed map
-  (rail included). The rows run wider, so each blurb fits on one line.
+- **Medium** (`T03p`): the lesson takes the band's place at the top, as it
+  takes the left pane in landscape, and the path stays in view below with the
+  lesson's node ringed. The width allows the games side by side: three
+  columns, each with its name, its blurb and its 48 round play or check, the
+  next one spring. "Read the concept first" spans the foot of the lesson. A
+  bottom sheet over the dimmed path was the first version; it hid the path,
+  which is the thing that tells the student where this lesson sits.
+- **Compact:** the phone's lesson sheet over the chapter map, unchanged.
 
 ### A round (the board)
 
@@ -209,9 +222,15 @@ the book with its one-time ember dot, the flag, the pill. What changes is
 where the game's body goes.
 
 - **Expanded: the drawing beside the answer.** The drawing pane takes the left
-  of the window (about 640 by 560 on an 11-inch landscape). The right column
-  (420) holds, top to bottom: the game's overline, the question at 20, the
-  answer controls, and after an answer the feedback panel and the spoken rule.
+  of the window at full height (about 640 by 664 on an 11-inch landscape), its
+  bottom edge level with the pill's. The right column (420) is **one block
+  sitting on the pill**, bottom aligned: the game's overline, the question at
+  20, the answer controls, and after an answer the feedback panel and the
+  spoken rule. Before an answer the choices are drawn taller (112, labels at
+  26) since the room is there; after an answer they return to 72 so the
+  feedback fits. Any spare height goes above the question, beside the top of
+  the drawing, never between the answers and the pill: a gap there reads as
+  the round having ended.
   The flag and the pill sit together at the foot of the right column, under
   the right thumb, the flag left of the pill (on the phone the flag sits above
   the pill; beside it is the same reach on a tablet and keeps the column's
@@ -329,8 +348,13 @@ Mockups: `T09-profile-landscape`, `T09p-profile-portrait`.
   the mono line under it. Right: the four facts (rounds left with its bar, days
   studied, days to the exam, the league line with its coin), as tile-number
   figures at 84 with their units and lines, stacked with 46 between them.
-- **Medium:** the headline at 76, the four facts as a two by two grid of type
-  at 90 (still no boxes), the pill bottom right with the raccoon.
+- **Medium** (`T09p`): the headline at 92, then **the fact Carry on acts on
+  leads**: rounds left at 150 with its bar the full width of the column. The
+  other three facts sit in a row of three under it (the figure at 76, the unit
+  under the figure, the line under that). Carry on and the raccoon sit bottom
+  right. Ranking the facts this way is an arrangement, not new content: the
+  pill and its fact read as one thing. A two by two grid of equal facts was
+  the first version; it left a third of the window empty.
 - The empty face (nothing done yet) follows the same split: the headline left,
   the app's own figures right.
 - Every page behind a fact (Mastery, Days studied, the League, Concepts, XP,
@@ -359,7 +383,9 @@ Mockups: `T10-welcome-landscape`, `T10p-welcome-portrait`.
   cream) on the right at about 1.5 times the phone's size. "I already have an
   account" sits beside the pill, not under it.
 - **Welcome, medium:** the cards larger across the top, the headline on three
-  lines, the pill and the text action at the foot, on the left.
+  lines, the pill and the text action at the foot, on the left. This one stays
+  phone-like on purpose: it is a poster seen once, with one object and one
+  action, and splitting it would make two heroes.
 - **The tour (titles and onboarding screens), try one, the paper hand-off, the
   chapter deck:** expanded puts the object (the round, the card deck, the
   hand-off card) on the right at tablet size and the headline with the step
