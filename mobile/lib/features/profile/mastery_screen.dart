@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../home/home_shell.dart' show BesideRail;
 import '../../core/theme/app_theme.dart';
 import '../games/game_catalog.dart';
 import '../shared/widgets/kit.dart';
@@ -88,7 +89,8 @@ class MasteryScreen extends StatelessWidget {
                 mastery: mastery,
                 onOpen: (chapter) => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ChapterMapScreen(chapter: chapter),
+                    builder: (_) =>
+                        BesideRail(child: ChapterMapScreen(chapter: chapter)),
                   ),
                 ),
               ),

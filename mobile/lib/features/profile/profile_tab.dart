@@ -182,7 +182,8 @@ class _ProfileTabState extends State<ProfileTab> {
 
   void _openLeague() => Navigator.of(context).push(
     MaterialPageRoute<void>(
-      builder: (_) => LeagueScreen(initial: LeagueStore.view.value),
+      builder: (_) =>
+          BesideRail(child: LeagueScreen(initial: LeagueStore.view.value)),
     ),
   );
 
@@ -370,23 +371,23 @@ class _ProfileTabState extends State<ProfileTab> {
 
   void _openChapter(ChapterMap chapter) => Navigator.of(
     context,
-  ).push(MaterialPageRoute(builder: (_) => ChapterMapScreen(chapter: chapter)));
+  ).push(MaterialPageRoute(builder: (_) => BesideRail(child: ChapterMapScreen(chapter: chapter))));
 
   void _openExam(String? iso) => Navigator.of(
     context,
-  ).push(MaterialPageRoute(builder: (_) => ExamDateScreen(initial: iso)));
+  ).push(MaterialPageRoute(builder: (_) => BesideRail(child: ExamDateScreen(initial: iso))));
 
   void _openDays(int count) => Navigator.of(
     context,
-  ).push(MaterialPageRoute(builder: (_) => StudyDaysScreen(count: count)));
+  ).push(MaterialPageRoute(builder: (_) => BesideRail(child: StudyDaysScreen(count: count))));
 
   void _openMastery(Map<String, ChapterMastery> m) => Navigator.of(
     context,
-  ).push(MaterialPageRoute(builder: (_) => MasteryScreen(mastery: m)));
+  ).push(MaterialPageRoute(builder: (_) => BesideRail(child: MasteryScreen(mastery: m))));
 
   void _openPassCard() => Navigator.of(
     context,
-  ).push(MaterialPageRoute<void>(builder: (_) => const PassCardScreen()));
+  ).push(MaterialPageRoute<void>(builder: (_) => const BesideRail(child: PassCardScreen())));
 
   static const _weekdays = [
     'MONDAY',
@@ -831,7 +832,7 @@ void _openOver(BuildContext context, Widget page) {
   Navigator.of(
     context,
     rootNavigator: true,
-  ).push(MaterialPageRoute<void>(builder: (_) => page));
+  ).push(MaterialPageRoute<void>(builder: (_) => BesideRail(child: page)));
 }
 
 class _Figure extends StatelessWidget {

@@ -4,6 +4,7 @@ import '../../core/notifications/notification_plan.dart'
     show outcomeAskDays, outcomeAfterDays;
 export '../../core/notifications/notification_plan.dart' show outcomeAskDays;
 import '../../core/theme/app_colors.dart';
+import '../home/home_shell.dart' show BesideRail;
 import '../../core/theme/app_theme.dart';
 import '../games/game_catalog.dart';
 import '../auth/auth_controller.dart';
@@ -144,7 +145,7 @@ class _ExamOutcomeCardState extends State<ExamOutcomeCard> {
       if (sat && passed == true) {
         Navigator.of(
           context,
-        ).push(MaterialPageRoute<void>(builder: (_) => const PassCardScreen()));
+        ).push(MaterialPageRoute<void>(builder: (_) => const BesideRail(child: PassCardScreen())));
       }
       return;
     }
