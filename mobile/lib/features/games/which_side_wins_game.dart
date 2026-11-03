@@ -221,22 +221,24 @@ class _WhichSideWinsGameState extends State<WhichSideWinsGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 190,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: BreakEvenPainter(
-                    lines: r.lines,
-                    qTo: r.qTo,
-                    at: r.at,
-                    revealed: answered,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 190,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: BreakEvenPainter(
+                      lines: r.lines,
+                      qTo: r.qTo,
+                      at: r.at,
+                      revealed: answered,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

@@ -241,22 +241,24 @@ class _BalanceTheRateGameState extends State<BalanceTheRateGame> {
             ),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 110,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: BalancePainter(
-                    project: r.project,
-                    rate: shown / 100,
-                    reference: r.reference,
-                    settled: answered,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 110,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: BalancePainter(
+                      project: r.project,
+                      rate: shown / 100,
+                      reference: r.reference,
+                      settled: answered,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

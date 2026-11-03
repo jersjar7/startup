@@ -282,21 +282,23 @@ class _WhatDoesItTakeGameState extends State<WhatDoesItTakeGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 150,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: CashFlowPainter(
-                    flows: r.flows,
-                    periods: r.periods,
-                    unit: 'years',
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 150,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: CashFlowPainter(
+                      flows: r.flows,
+                      periods: r.periods,
+                      unit: 'years',
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

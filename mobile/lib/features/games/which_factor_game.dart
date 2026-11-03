@@ -276,21 +276,23 @@ class _WhichFactorGameState extends State<WhichFactorGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 160,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: CashFlowPainter(
-                    flows: r.flows,
-                    periods: r.periods,
-                    unit: r.unit,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 160,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: CashFlowPainter(
+                      flows: r.flows,
+                      periods: r.periods,
+                      unit: r.unit,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

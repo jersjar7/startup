@@ -202,11 +202,13 @@ class _WhenDoesItLandGameState extends State<WhenDoesItLandGame> {
             ),
           ),
           const SizedBox(height: 14),
-          _Timeline(
-            picked: _picked,
-            truth: r.answer,
-            locked: answered,
-            onTap: answered ? null : (p) => setState(() => _picked = p),
+          BoardFigure(
+            child: _Timeline(
+              picked: _picked,
+              truth: r.answer,
+              locked: answered,
+              onTap: answered ? null : (p) => setState(() => _picked = p),
+            ),
           ),
           const SizedBox(height: 8),
           Text(

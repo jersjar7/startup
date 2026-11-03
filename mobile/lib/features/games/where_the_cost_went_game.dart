@@ -288,12 +288,14 @@ class _WhereTheCostWentGameState extends State<WhereTheCostWentGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Bar(
-            round: r,
-            spans: spans,
-            picked: _picked,
-            locked: answered,
-            onTap: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _Bar(
+              round: r,
+              spans: spans,
+              picked: _picked,
+              locked: answered,
+              onTap: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 16),

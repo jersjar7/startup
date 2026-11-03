@@ -243,28 +243,30 @@ class _HowLongToCompareGameState extends State<HowLongToCompareGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 120,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: LivesPainter(
-                    lifeA: r.lifeA,
-                    lifeB: r.lifeB,
-                    span: r.span,
-                    nameA: r.nameA,
-                    nameB: r.nameB,
-                    // The mark only appears once it is answered, and only when
-                    // repeating them is what the answer turned out to be.
-                    bracket: answered && r.answer == Study.multiple
-                        ? r.multiple
-                        : null,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 120,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: LivesPainter(
+                      lifeA: r.lifeA,
+                      lifeB: r.lifeB,
+                      span: r.span,
+                      nameA: r.nameA,
+                      nameB: r.nameB,
+                      // The mark only appears once it is answered, and only when
+                      // repeating them is what the answer turned out to be.
+                      bracket: answered && r.answer == Study.multiple
+                          ? r.multiple
+                          : null,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),
