@@ -251,12 +251,14 @@ class _WhereDoesThatPairLandGameState extends State<WhereDoesThatPairLandGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Grid(
-            task: r.task,
-            picked: _picked,
-            answer: r.answer,
-            locked: answered,
-            onPick: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _Grid(
+              task: r.task,
+              picked: _picked,
+              answer: r.answer,
+              locked: answered,
+              onPick: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

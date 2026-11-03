@@ -212,12 +212,14 @@ class _WhichLengthIsWhichGameState extends State<WhichLengthIsWhichGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Hill(
-            sight: r.sight,
-            picked: _picked,
-            answer: r.answer,
-            locked: answered,
-            onPick: answered ? null : (s) => setState(() => _picked = s),
+          BoardFigure(
+            child: _Hill(
+              sight: r.sight,
+              picked: _picked,
+              answer: r.answer,
+              locked: answered,
+              onPick: answered ? null : (s) => setState(() => _picked = s),
+            ),
           ),
           const SizedBox(height: 10),
           Center(

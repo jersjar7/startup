@@ -192,12 +192,14 @@ class _WhichPieceIsThatGameState extends State<WhichPieceIsThatGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Curve(
-            bend: r.bend,
-            picked: _picked,
-            answer: r.answer,
-            locked: answered,
-            onPick: answered ? null : (p) => setState(() => _picked = p),
+          BoardFigure(
+            child: _Curve(
+              bend: r.bend,
+              picked: _picked,
+              answer: r.answer,
+              locked: answered,
+              onPick: answered ? null : (p) => setState(() => _picked = p),
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

@@ -216,34 +216,36 @@ class _WhichIsLongerGameState extends State<WhichIsLongerGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 260,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: AlignPainter(
-                    bend: r.bend,
-                    // Neither is picked out until it is answered: the two
-                    // candidates have to look alike while it is a question.
-                    answer: answered
-                        ? (r.answer == Longer.tangent
-                              ? Bit.tangent
-                              : r.answer == Longer.arc
-                              ? Bit.arc
-                              : null)
-                        : null,
-                    locked: answered,
-                    label: 'R ${r.bend.radius.round()} ft, I ${r.bend.turn}°',
+          BoardFigure(
+            child: Container(
+              height: 260,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: AlignPainter(
+                      bend: r.bend,
+                      // Neither is picked out until it is answered: the two
+                      // candidates have to look alike while it is a question.
+                      answer: answered
+                          ? (r.answer == Longer.tangent
+                                ? Bit.tangent
+                                : r.answer == Longer.arc
+                                ? Bit.arc
+                                : null)
+                          : null,
+                      locked: answered,
+                      label: 'R ${r.bend.radius.round()} ft, I ${r.bend.turn}°',
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

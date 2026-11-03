@@ -260,29 +260,31 @@ class _DoesTheListingCloseGameState extends State<DoesTheListingCloseGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 230,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: ParcelPainter(
-                    parcel: r.parcel,
-                    order: r.order,
-                    showCoordinates: false,
-                    fill: answered && r.answer == Listed.boundary,
-                    tone: answered && r.answer != Listed.boundary
-                        ? AppColors.error
-                        : AppColors.charcoal,
+          BoardFigure(
+            child: Container(
+              height: 230,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: ParcelPainter(
+                      parcel: r.parcel,
+                      order: r.order,
+                      showCoordinates: false,
+                      fill: answered && r.answer == Listed.boundary,
+                      tone: answered && r.answer != Listed.boundary
+                          ? AppColors.error
+                          : AppColors.charcoal,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

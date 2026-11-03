@@ -188,21 +188,23 @@ class _PlusOrMinusGameState extends State<PlusOrMinusGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 230,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: LegPainter(course: r.course, showSigns: answered),
-                  child: const SizedBox.expand(),
+          BoardFigure(
+            child: Container(
+              height: 230,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: LegPainter(course: r.course, showSigns: answered),
+                    child: const SizedBox.expand(),
+                  ),
                 ),
               ),
             ),

@@ -225,12 +225,14 @@ class _FindItOnThePlanGameState extends State<FindItOnThePlanGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Plan(
-            shots: r.shots,
-            picked: _picked,
-            answer: r.answer,
-            locked: answered,
-            onPick: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _Plan(
+              shots: r.shots,
+              picked: _picked,
+              answer: r.answer,
+              locked: answered,
+              onPick: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           if (answered) ...[
             const SizedBox(height: 14),

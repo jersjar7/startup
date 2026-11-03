@@ -235,12 +235,14 @@ class _WhichCourseTakesTheMostGameState
             ),
           ),
           const SizedBox(height: 12),
-          _Sketch(
-            trip: r.trip,
-            picked: _picked,
-            answer: r.answer,
-            locked: answered,
-            onPick: answered ? null : (i) => setState(() => _picked = i),
+          BoardFigure(
+            child: _Sketch(
+              trip: r.trip,
+              picked: _picked,
+              answer: r.answer,
+              locked: answered,
+              onPick: answered ? null : (i) => setState(() => _picked = i),
+            ),
           ),
           const SizedBox(height: 10),
           Center(

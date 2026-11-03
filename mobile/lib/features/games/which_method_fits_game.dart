@@ -230,29 +230,31 @@ class _WhichMethodFitsGameState extends State<WhichMethodFitsGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 220,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: r.parcel != null
-                      ? ParcelPainter(
-                          parcel: r.parcel!,
-                          order: [
-                            for (var i = 0; i < r.parcel!.corners.length; i++)
-                              i,
-                          ],
-                        )
-                      : OffsetsPainter(strip: r.strip!),
-                  child: const SizedBox.expand(),
+          BoardFigure(
+            child: Container(
+              height: 220,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: r.parcel != null
+                        ? ParcelPainter(
+                            parcel: r.parcel!,
+                            order: [
+                              for (var i = 0; i < r.parcel!.corners.length; i++)
+                                i,
+                            ],
+                          )
+                        : OffsetsPainter(strip: r.strip!),
+                    child: const SizedBox.expand(),
+                  ),
                 ),
               ),
             ),
