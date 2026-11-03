@@ -223,32 +223,34 @@ class _ReadTheLineGameState extends State<ReadTheLineGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: DotPlotPainter.heightFor(r.values),
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: LayoutBuilder(
-                  builder: (context, box) {
-                    final size = Size(box.maxWidth, box.maxHeight);
-                    return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTapDown: (d) => _tap(d.localPosition, size, r),
-                      child: CustomPaint(
-                        painter: DotPlotPainter(
-                          values: r.values,
-                          from: r.from,
-                          to: r.to,
-                          picked: _picked,
-                          truth: answered ? r.answer : const {},
-                          revealed: answered,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: DotPlotPainter.heightFor(r.values),
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: LayoutBuilder(
+                    builder: (context, box) {
+                      final size = Size(box.maxWidth, box.maxHeight);
+                      return GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTapDown: (d) => _tap(d.localPosition, size, r),
+                        child: CustomPaint(
+                          painter: DotPlotPainter(
+                            values: r.values,
+                            from: r.from,
+                            to: r.to,
+                            picked: _picked,
+                            truth: answered ? r.answer : const {},
+                            revealed: answered,
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

@@ -258,23 +258,25 @@ class _AddTheSquaresGameState extends State<AddTheSquaresGame> {
             child: MathBlock(r.combination, fontSize: 16),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 240,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: SigmaTrianglePainter(
-                    a: r.legA,
-                    b: r.legB,
-                    aLabel: r.aLabel,
-                    bLabel: r.bLabel,
-                    showHypotenuse: true,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 240,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: SigmaTrianglePainter(
+                      a: r.legA,
+                      b: r.legB,
+                      aLabel: r.aLabel,
+                      bLabel: r.bLabel,
+                      showHypotenuse: true,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

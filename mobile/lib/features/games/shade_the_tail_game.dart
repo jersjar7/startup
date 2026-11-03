@@ -242,37 +242,39 @@ class _ShadeTheTailGameState extends State<ShadeTheTailGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 230,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: LayoutBuilder(
-                  builder: (context, box) => GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTapDown: answered
-                        ? null
-                        : (down) {
-                            final hit = NormalPainter.regionAt(
-                              down.localPosition.dx,
-                              box.maxWidth,
-                              r.regions,
-                            );
-                            if (hit != null) setState(() => _picked = hit);
-                          },
-                    child: CustomPaint(
-                      painter: NormalPainter(
-                        regions: r.regions,
-                        cuts: r.cuts,
-                        labels: r.labels,
-                        picked: _picked,
-                        truth: answered ? r.answer : null,
-                        revealed: answered,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 230,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: LayoutBuilder(
+                    builder: (context, box) => GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTapDown: answered
+                          ? null
+                          : (down) {
+                              final hit = NormalPainter.regionAt(
+                                down.localPosition.dx,
+                                box.maxWidth,
+                                r.regions,
+                              );
+                              if (hit != null) setState(() => _picked = hit);
+                            },
+                      child: CustomPaint(
+                        painter: NormalPainter(
+                          regions: r.regions,
+                          cuts: r.cuts,
+                          labels: r.labels,
+                          picked: _picked,
+                          truth: answered ? r.answer : null,
+                          revealed: answered,
+                        ),
+                        child: const SizedBox.expand(),
                       ),
-                      child: const SizedBox.expand(),
                     ),
                   ),
                 ),

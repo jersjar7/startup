@@ -202,38 +202,40 @@ class _WiderOrNarrowerGameState extends State<WiderOrNarrowerGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 130,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: IntervalPainter(
-                    center: 0,
-                    widest: 1.5,
-                    unit: 'the true mean',
-                    bands: [
-                      const Band(
-                        margin: 1,
-                        label: 'as it stands',
-                        tone: BandTone.before,
-                      ),
-                      // Held back until it is answered: the picture IS the
-                      // answer, so showing it early asks nothing of anybody.
-                      if (answered)
-                        Band(
-                          margin: r.after,
-                          label: 'after the change',
-                          tone: _session.correct!
-                              ? BandTone.truth
-                              : BandTone.wrong,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 130,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: IntervalPainter(
+                      center: 0,
+                      widest: 1.5,
+                      unit: 'the true mean',
+                      bands: [
+                        const Band(
+                          margin: 1,
+                          label: 'as it stands',
+                          tone: BandTone.before,
                         ),
-                    ],
+                        // Held back until it is answered: the picture IS the
+                        // answer, so showing it early asks nothing of anybody.
+                        if (answered)
+                          Band(
+                            margin: r.after,
+                            label: 'after the change',
+                            tone: _session.correct!
+                                ? BandTone.truth
+                                : BandTone.wrong,
+                          ),
+                      ],
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

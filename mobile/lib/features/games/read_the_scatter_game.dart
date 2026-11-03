@@ -240,19 +240,21 @@ class _ReadTheScatterGameState extends State<ReadTheScatterGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 250,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: ScatterPainter(
-                    points: r.points,
-                    xTo: r.xTo,
-                    yTo: r.yTo,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 250,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: ScatterPainter(
+                      points: r.points,
+                      xTo: r.xTo,
+                      yTo: r.yTo,
+                    ),
                   ),
                 ),
               ),

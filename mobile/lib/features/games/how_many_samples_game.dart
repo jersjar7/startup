@@ -233,26 +233,29 @@ class _HowManySamplesGameState extends State<HowManySamplesGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 230,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: MarginCurvePainter(
-                    k: r.k,
-                    target: r.target,
-                    candidates: r.candidates,
-                    nFrom: r.from,
-                    nTo: (r.from + (r.candidates.last - r.from) * 1.18).round(),
-                    picked: _picked,
-                    truth: answered ? r.answer : null,
-                    revealed: answered,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 230,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: MarginCurvePainter(
+                      k: r.k,
+                      target: r.target,
+                      candidates: r.candidates,
+                      nFrom: r.from,
+                      nTo: (r.from + (r.candidates.last - r.from) * 1.18)
+                          .round(),
+                      picked: _picked,
+                      truth: answered ? r.answer : null,
+                      revealed: answered,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

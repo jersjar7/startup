@@ -234,17 +234,23 @@ class _HowDoTheySitGameState extends State<HowDoTheySitGame> {
           _Event(letter: 'B', text: r.second, tone: AppColors.sunbeamBg),
           if (answered) ...[
             const SizedBox(height: 12),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: SizedBox(
-                height: 175,
-                width: double.infinity,
-                child: EngineeringGrid(
-                  minor: 18,
-                  major: 90,
-                  child: CustomPaint(
-                    painter: VennPainter(link: r.answer, left: 'A', right: 'B'),
-                    child: const SizedBox.expand(),
+            BoardFigure(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: SizedBox(
+                  height: 175,
+                  width: double.infinity,
+                  child: EngineeringGrid(
+                    minor: 18,
+                    major: 90,
+                    child: CustomPaint(
+                      painter: VennPainter(
+                        link: r.answer,
+                        left: 'A',
+                        right: 'B',
+                      ),
+                      child: const SizedBox.expand(),
+                    ),
                   ),
                 ),
               ),

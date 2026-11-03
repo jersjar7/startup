@@ -290,40 +290,42 @@ class _WhatGoesUnderGameState extends State<WhatGoesUnderGame> {
             ),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 160,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: IntervalPainter(
-                    center: r.mean,
-                    widest: widest * 1.12,
-                    unit: r.unit,
-                    bands: [
-                      // All three, always. The widths are the argument, and
-                      // seeing them side by side is what makes the wrong
-                      // denominator look like the wrong denominator.
-                      for (var i = 0; i < r.options.length; i++)
-                        Band(
-                          margin: marginWith(r, i),
-                          label: r.names[i],
-                          tone: answered
-                              ? (i == r.answer
-                                    ? BandTone.truth
-                                    : (i == _picked
-                                          ? BandTone.wrong
-                                          : BandTone.before))
-                              : (i == _picked
-                                    ? BandTone.live
-                                    : BandTone.before),
-                        ),
-                    ],
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 160,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: IntervalPainter(
+                      center: r.mean,
+                      widest: widest * 1.12,
+                      unit: r.unit,
+                      bands: [
+                        // All three, always. The widths are the argument, and
+                        // seeing them side by side is what makes the wrong
+                        // denominator look like the wrong denominator.
+                        for (var i = 0; i < r.options.length; i++)
+                          Band(
+                            margin: marginWith(r, i),
+                            label: r.names[i],
+                            tone: answered
+                                ? (i == r.answer
+                                      ? BandTone.truth
+                                      : (i == _picked
+                                            ? BandTone.wrong
+                                            : BandTone.before))
+                                : (i == _picked
+                                      ? BandTone.live
+                                      : BandTone.before),
+                          ),
+                      ],
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

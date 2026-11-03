@@ -209,26 +209,28 @@ class _WhereItBalancesGameState extends State<WhereItBalancesGame> {
             style: AppTheme.mono(size: 11.5, color: AppColors.ink3),
           ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: SizedBox(
-              height: 250,
-              width: double.infinity,
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: BeamPainter(
-                    outcomes: r.outcomes,
-                    fulcrums: r.fulcrums,
-                    from: 0,
-                    to: r.to,
-                    unit: r.unit,
-                    picked: _picked,
-                    truth: answered ? r.answer : null,
-                    revealed: answered,
+          BoardFigure(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                height: 250,
+                width: double.infinity,
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: BeamPainter(
+                      outcomes: r.outcomes,
+                      fulcrums: r.fulcrums,
+                      from: 0,
+                      to: r.to,
+                      unit: r.unit,
+                      picked: _picked,
+                      truth: answered ? r.answer : null,
+                      revealed: answered,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),
