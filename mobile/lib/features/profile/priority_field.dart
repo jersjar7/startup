@@ -18,13 +18,30 @@ import 'mastery_model.dart';
 /// thing a drawing has for comparing two quantities at once, and this is two
 /// quantities at once.
 class PriorityField extends StatefulWidget {
-  const PriorityField({super.key, required this.mastery, required this.onOpen});
+  const PriorityField({
+    super.key,
+    required this.mastery,
+    required this.onOpen,
+    this.picked,
+    this.onPick,
+    this.showDetail = true,
+  });
 
   /// chapterId -> both halves, as the server composes them.
   final Map<String, ChapterMastery> mastery;
 
   /// Open a chapter's map from the detail panel.
   final void Function(ChapterMap chapter) onOpen;
+
+  /// The chapter a caller holds as picked, when the detail lives outside
+  /// the field (T17 puts it in its own pane). Null keeps the pick here.
+  final String? picked;
+
+  /// Told when a dot is tapped, so a caller holding the pick can follow.
+  final ValueChanged<String>? onPick;
+
+  /// Off when the caller shows [ChapterDetail] somewhere else.
+  final bool showDetail;
 
   @override
   State<PriorityField> createState() => _PriorityFieldState();
@@ -72,7 +89,8 @@ class _PriorityFieldState extends State<PriorityField> {
         ),
       );
     }
-    final picked = _picked ?? (focus.isEmpty ? null : focus.first);
+    final picked =
+        widget.picked ?? _picked ?? (focus.isEmpty ? null : focus.first);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +102,9 @@ class _PriorityFieldState extends State<PriorityField> {
               behavior: HitTestBehavior.opaque,
               onTapUp: (d) {
                 final hit = _nearest(points, d.localPosition, size);
-                if (hit != null) setState(() => _picked = hit);
+                if (hit == null) return;
+                setState(() => _picked = hit);
+                widget.onPick?.call(hit);
               },
               child: CustomPaint(
                 size: size,
@@ -93,15 +113,16 @@ class _PriorityFieldState extends State<PriorityField> {
             );
           },
         ),
-        const SizedBox(height: 14),
-        if (picked != null)
-          _Detail(
+        if (widget.showDetail && picked != null) ...[
+          const SizedBox(height: 14),
+          ChapterDetail(
             chapter: chapterMaps[picked]!,
             mastery: widget.mastery[picked],
             pct: totals[picked] ?? 0,
             rank: focusRank(totals, picked),
             onOpen: () => widget.onOpen(chapterMaps[picked]!),
           ),
+        ],
       ],
     );
   }
@@ -275,13 +296,17 @@ class _FieldPainter extends CustomPainter {
 /// What the tapped dot is, and what finishing it would do. The two halves are
 /// named and colored apart: ember is the website's mastery, spring is what
 /// this phone has done (ADR 0020).
-class _Detail extends StatelessWidget {
-  const _Detail({
+/// One chapter's two halves and what finishing it would be worth. Below the
+/// field on a phone; its own pane on a wide tablet ([large]).
+class ChapterDetail extends StatelessWidget {
+  const ChapterDetail({
+    super.key,
     required this.chapter,
     required this.mastery,
     required this.pct,
     required this.rank,
     required this.onOpen,
+    this.large = false,
   });
 
   final ChapterMap chapter;
@@ -289,6 +314,7 @@ class _Detail extends StatelessWidget {
   final int pct;
   final int rank;
   final VoidCallback onOpen;
+  final bool large;
 
   @override
   Widget build(BuildContext context) {
@@ -300,19 +326,25 @@ class _Detail extends StatelessWidget {
     return GestureDetector(
       onTap: onOpen,
       child: Container(
-        padding: const EdgeInsets.fromLTRB(18, 16, 18, 18),
+        padding: large
+            ? const EdgeInsets.fromLTRB(30, 28, 30, 30)
+            : const EdgeInsets.fromLTRB(18, 16, 18, 18),
         decoration: BoxDecoration(
           color: AppColors.cream,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(large ? 40 : 24),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               chapter.name,
-              style: AppTheme.display(size: 20, height: 1.1, tracking: -0.03),
+              style: AppTheme.display(
+                size: large ? 30 : 20,
+                height: 1.1,
+                tracking: -0.03,
+              ),
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: large ? 22 : 14),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -323,9 +355,10 @@ class _Detail extends StatelessWidget {
                     unit: '%',
                     source: 'earned on the website',
                     tone: AppColors.ember,
+                    large: large,
                   ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: large ? 16 : 10),
                 Expanded(
                   child: _Half(
                     label: 'PROGRESS',
@@ -333,19 +366,20 @@ class _Detail extends StatelessWidget {
                     unit: items == 0 ? '' : ' of $items',
                     source: 'done in this app',
                     tone: AppColors.forest,
+                    large: large,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 13),
+            SizedBox(height: large ? 22 : 13),
             Text(
               'Worth ${weightChip(chapter)} of the exam. Finishing it would '
               'move your total by about $gain points, which puts it '
               '${_ordinal(rank)} of ${chapterMaps.length} for where effort '
               'pays.',
               style: AppTheme.body(
-                size: 13,
-                height: 1.45,
+                size: large ? 16 : 13,
+                height: large ? 1.55 : 1.45,
                 color: AppColors.mutedOnLight,
               ),
             ),
@@ -373,6 +407,7 @@ class _Half extends StatelessWidget {
     required this.unit,
     required this.source,
     required this.tone,
+    this.large = false,
   });
 
   final String label;
@@ -380,20 +415,23 @@ class _Half extends StatelessWidget {
   final String unit;
   final String source;
   final Color tone;
+  final bool large;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 11, 12, 12),
+      padding: large
+          ? const EdgeInsets.fromLTRB(18, 18, 18, 18)
+          : const EdgeInsets.fromLTRB(12, 11, 12, 12),
       decoration: BoxDecoration(
         color: AppColors.creamDark,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(large ? 24 : 16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: AppTheme.eyebrow(color: AppColors.mutedOnLight)),
-          const SizedBox(height: 7),
+          SizedBox(height: large ? 16 : 7),
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
@@ -401,7 +439,7 @@ class _Half extends StatelessWidget {
               TextSpan(
                 text: value,
                 style: AppTheme.display(
-                  size: 26,
+                  size: large ? 48 : 26,
                   height: 0.9,
                   tracking: -0.04,
                   color: tone,
@@ -409,16 +447,23 @@ class _Half extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: unit,
-                    style: AppTheme.display(size: 13, height: 0.9, color: tone),
+                    style: AppTheme.display(
+                      size: large ? 26 : 13,
+                      height: 0.9,
+                      color: tone,
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: large ? 16 : 8),
           Text(
             source,
-            style: AppTheme.mono(size: 9.5, color: AppColors.mutedOnLight),
+            style: AppTheme.mono(
+              size: large ? 12 : 9.5,
+              color: AppColors.mutedOnLight,
+            ),
           ),
         ],
       ),

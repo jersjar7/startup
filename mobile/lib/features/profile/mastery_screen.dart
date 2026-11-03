@@ -28,16 +28,12 @@ class MasteryScreen extends StatelessWidget {
     final overall = weightedMastery(totals);
 
     if (AppTablet.of(context) == SizeClass.expanded) {
-      // T17: the total and where effort pays on the left, every chapter on
-      // the right.
-      return Scaffold(
-        backgroundColor: AppColors.fog,
-        body: SplitPage(
-          leftWidth: 480,
-          left: _lead(context, overall),
-          right: _every(columns: 3),
-          rightTopPad: 64,
-        ),
+      // T17: the total and where effort pays on the left; the picked
+      // chapter's card as its own pane on the right, every chapter under it.
+      return _WideMastery(
+        mastery: mastery,
+        lead: (picked, onPick) =>
+            _lead(context, overall, picked: picked, onPick: onPick),
       );
     }
     return Scaffold(
@@ -57,7 +53,12 @@ class MasteryScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> _lead(BuildContext context, int overall) => [
+  List<Widget> _lead(
+    BuildContext context,
+    int overall, {
+    String? picked,
+    ValueChanged<String>? onPick,
+  }) => [
     Row(
       children: [
         RoundIconButton(
@@ -111,11 +112,10 @@ class MasteryScreen extends StatelessWidget {
     const SizedBox(height: 10),
     PriorityField(
       mastery: mastery,
-      onOpen: (chapter) => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => BesideRail(child: ChapterMapScreen(chapter: chapter)),
-        ),
-      ),
+      picked: picked,
+      onPick: onPick,
+      showDetail: onPick == null,
+      onOpen: (chapter) => _open(context, chapter),
     ),
   ];
 
@@ -141,6 +141,154 @@ class MasteryScreen extends StatelessWidget {
       ],
     ),
   ];
+}
+
+void _open(BuildContext context, ChapterMap chapter) =>
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => BesideRail(child: ChapterMapScreen(chapter: chapter)),
+      ),
+    );
+
+/// T17 on a wide window. Holds the picked chapter, so a dot on the field or
+/// a tile in the grid both fill the card at the top of the right pane.
+class _WideMastery extends StatefulWidget {
+  const _WideMastery({required this.mastery, required this.lead});
+
+  final Map<String, ChapterMastery> mastery;
+  final List<Widget> Function(String? picked, ValueChanged<String> onPick) lead;
+
+  @override
+  State<_WideMastery> createState() => _WideMasteryState();
+}
+
+class _WideMasteryState extends State<_WideMastery> {
+  String? _picked;
+
+  @override
+  Widget build(BuildContext context) {
+    final totals = totalsOf(widget.mastery);
+    final focus = focusChapters(totals);
+    final picked =
+        _picked ?? (focus.isEmpty ? chapterMaps.keys.first : focus.first);
+    void pick(String id) => setState(() => _picked = id);
+    final chapter = chapterMaps[picked]!;
+
+    return Scaffold(
+      backgroundColor: AppColors.fog,
+      body: SplitPage(
+        leftWidth: 480,
+        left: widget.lead(picked, pick),
+        rightTopPad: 64,
+        right: [
+          ChapterDetail(
+            chapter: chapter,
+            mastery: widget.mastery[picked],
+            pct: totals[picked] ?? 0,
+            rank: focusRank(totals, picked),
+            onOpen: () => _open(context, chapter),
+            large: true,
+          ),
+          const SizedBox(height: 32),
+          Text(
+            'EVERY CHAPTER',
+            style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+          ),
+          const SizedBox(height: 14),
+          GridView(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              mainAxisExtent: 74,
+            ),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              for (final c in chapterMaps.values)
+                _SmallTile(
+                  chapter: c,
+                  pct: totals[c.id] ?? 0,
+                  on: c.id == picked,
+                  onTap: () => pick(c.id),
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A chapter in T17's grid: its mark, its mastery, its share of the exam.
+/// The picked one goes dark, so the card above reads as its.
+class _SmallTile extends StatelessWidget {
+  const _SmallTile({
+    required this.chapter,
+    required this.pct,
+    required this.on,
+    required this.onTap,
+  });
+
+  final ChapterMap chapter;
+  final int pct;
+  final bool on;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      selected: on,
+      label: '${chapter.name}, $pct percent',
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            color: on ? AppColors.charcoal : AppColors.cream,
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Row(
+            children: [
+              ChapterMark(
+                chapterId: chapter.id,
+                color: on ? AppColors.spring : AppColors.charcoal,
+                size: 28,
+              ),
+              const Spacer(),
+              Text(
+                '$pct%',
+                style: AppTheme.mono(
+                  size: 16,
+                  weight: FontWeight.w700,
+                  color: on ? AppColors.cream : AppColors.charcoal,
+                ),
+              ),
+              const Spacer(),
+              Flexible(
+                flex: 3,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    weightChip(chapter),
+                    style: AppTheme.mono(
+                      size: 13,
+                      color: on
+                          ? AppColors.mutedOnDark
+                          : AppColors.mutedOnLight,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _ChapterTile extends StatelessWidget {
