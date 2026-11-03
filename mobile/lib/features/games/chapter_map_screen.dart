@@ -26,9 +26,24 @@ import 'road_segment.dart';
 /// dashed stretch where the student has walked, and the lesson names as cream
 /// tiles, the one in flight in spring.
 class ChapterMapScreen extends StatefulWidget {
-  const ChapterMapScreen({super.key, required this.chapter, this.masteryPct});
+  const ChapterMapScreen({
+    super.key,
+    required this.chapter,
+    this.masteryPct,
+    this.openLesson,
+    this.handBackOnTablet = false,
+  });
 
   final ChapterMap chapter;
+
+  /// A lesson to open the sheet for as the map appears: the lesson a tablet
+  /// had open when its window narrowed to a phone's.
+  final LessonNode? openLesson;
+
+  /// Opened by Study on a tablet whose window narrowed: when the window
+  /// widens again the map closes itself (and the sheet), answering true, so
+  /// Study shows the lesson in its own pane again.
+  final bool handBackOnTablet;
 
   /// Chapter mastery from the server, when the caller already has it. The
   /// Study tile shows it; the map no longer repeats it, so this is kept only
@@ -54,6 +69,28 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
     super.initState();
     _readProgress();
     _shown.addAll(_target); // first visit: nothing to animate
+    if (widget.openLesson case final lesson?) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _openLesson(lesson);
+      });
+    }
+  }
+
+  bool _handingBack = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!widget.handBackOnTablet || _handingBack) return;
+    if (!AppTablet.isTablet(context)) return;
+    _handingBack = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final me = ModalRoute.of(context);
+      final nav = Navigator.of(context);
+      nav.popUntil((r) => r == me);
+      nav.pop(true);
+    });
   }
 
   void _readProgress() {
@@ -463,7 +500,8 @@ class ChapterPath extends StatelessWidget {
     final room = onRight
         ? width - (slot.x + nodeSize / 2 + _labelGap) - _edge
         : slot.x - nodeSize / 2 - _labelGap - _edge;
-    final w = metrics.labelWidth().clamp(60.0, room);
+    // A window between layouts (mid-resize) can leave less than the floor.
+    final w = room <= 60 ? room : metrics.labelWidth().clamp(60.0, room);
 
     return Positioned(
       top: top,

@@ -176,6 +176,29 @@ void main() {
     await _drain(tester);
   });
 
+  testWidgets('the opened lesson survives a split to phone width and back', (
+    tester,
+  ) async {
+    await _open(tester, landscape);
+    final math = chapterMaps['mathematics']!;
+    await tester.tap(find.byKey(ValueKey(math.lessons[2].id)));
+    await settle(tester);
+    // Narrowed to a phone's width: the phone's chapter map with the
+    // lesson's sheet up.
+    tester.view.physicalSize = splitHalf;
+    await settle(tester);
+    expect(find.byType(ChapterMapScreen), findsOneWidget);
+    expect(find.byType(LessonSheet), findsOneWidget);
+    expect(find.text(math.lessons[2].name), findsWidgets);
+    // Widened again: the lesson back in its pane.
+    tester.view.physicalSize = landscape;
+    await settle(tester);
+    expect(find.byType(ChapterMapScreen), findsNothing);
+    expect(find.byKey(const ValueKey('lesson-pane')), findsOneWidget);
+    expect(find.text(math.lessons[2].name), findsWidgets);
+    await _drain(tester);
+  });
+
   testWidgets('the path at night keeps the spring roles', (tester) async {
     AppPalette.dark = true;
     addTearDown(() => AppPalette.dark = false);

@@ -11,6 +11,7 @@ import '../auth/auth_controller.dart';
 import '../games/chapter_map_screen.dart';
 import '../games/game_catalog.dart';
 import '../games/game_progress.dart';
+import '../home/home_shell.dart' show HomeShell, HomeTab;
 import '../shared/widgets/kit.dart';
 import '../guest/guest_tabs.dart' show SignInChip;
 import 'chapter_bands.dart' show cardNameFor;
@@ -134,6 +135,33 @@ class _StudyTabState extends State<StudyTab> {
     _ringed = null;
   });
 
+  /// The lesson open in its pane when the window narrowed to a phone's: the
+  /// phone shows it the phone's way, its chapter map with the lesson sheet
+  /// up, and hands it back when the window widens again.
+  bool _handedOff = false;
+
+  void _handOff(ChapterMap chapter, LessonNode lesson) {
+    _handedOff = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      final back = await Navigator.of(context).push<bool>(
+        MaterialPageRoute(
+          builder: (_) => ChapterMapScreen(
+            chapter: chapter,
+            openLesson: lesson,
+            handBackOnTablet: true,
+          ),
+        ),
+      );
+      if (!mounted) return;
+      setState(() {
+        _handedOff = false;
+        // Left on the phone: the lesson is closed there too.
+        if (back != true) _lesson = null;
+      });
+    });
+  }
+
   Future<void> _play(String gameId) async {
     await context.push('/games/play/$gameId');
     if (!mounted) return;
@@ -157,6 +185,13 @@ class _StudyTabState extends State<StudyTab> {
         final current = resumeTarget(progress)?.$1.id;
 
         final size = AppTablet.of(context);
+        final open = _lesson;
+        if (!size.isTablet &&
+            open != null &&
+            !_handedOff &&
+            HomeShell.current.value == HomeTab.study.index) {
+          _handOff(open.$1, open.$2);
+        }
         if (size.isTablet) {
           return _tabletLayout(
             context,
