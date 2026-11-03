@@ -643,15 +643,11 @@ class _BoardShellState extends State<BoardShell> {
                           child: widget.figure!,
                         ),
                       )
-                    : Align(
-                        alignment: Alignment.topCenter,
-                        child: _EvenFigure(
-                          width: box.maxWidth,
-                          maxHeight: box.maxHeight,
-                          child: KeyedSubtree(
-                            key: _figureKey,
-                            child: widget.figure!,
-                          ),
+                    : _PaneFigure(
+                        size: box.biggest,
+                        child: KeyedSubtree(
+                          key: _figureKey,
+                          child: widget.figure!,
                         ),
                       ),
               ),
@@ -1354,6 +1350,141 @@ class _EvenFigure extends StatelessWidget {
   }
 }
 
+/// A drawing that keeps its shape, in the pane beside the answers: the
+/// paper card fills the pane top to bottom, level with the answer column,
+/// and the drawing sits in its middle at its figure scale. The paper's grid
+/// carries on past the drawing from the drawing's own lines, and the
+/// drawing's own frame is trimmed off so it reads as one sheet.
+class _PaneFigure extends StatefulWidget {
+  const _PaneFigure({required this.size, required this.child});
+
+  final Size size;
+  final Widget child;
+
+  @override
+  State<_PaneFigure> createState() => _PaneFigureState();
+}
+
+class _PaneFigureState extends State<_PaneFigure> {
+  final _origin = ValueNotifier<Offset>(Offset.zero);
+
+  @override
+  void dispose() {
+    _origin.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = widget.size;
+    final s = AppTablet.figureScale(size.width);
+    return SizedBox.fromSize(
+      size: size,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.line),
+          borderRadius: BorderRadius.circular(_paneRadius),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(_paneRadius - 1),
+          child: CustomPaint(
+            painter: _PaneGrid(origin: _origin, scale: s),
+            child: CustomMultiChildLayout(
+              delegate: _CentreDelegate(_origin),
+              children: [
+                LayoutId(
+                  id: 0,
+                  child: ClipRect(
+                    clipper: const _Inset(_frameTrim),
+                    child: _EvenFigure(
+                      width: size.width,
+                      maxHeight: size.height,
+                      child: widget.child,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  static const _paneRadius = 20.0;
+
+  /// The drawing's own border, at most 2 points at figure scale.
+  static const _frameTrim = 2.5;
+}
+
+class _CentreDelegate extends MultiChildLayoutDelegate {
+  _CentreDelegate(this.origin);
+
+  final ValueNotifier<Offset> origin;
+
+  @override
+  void performLayout(Size size) {
+    final child = layoutChild(0, BoxConstraints.loose(size));
+    final at = Offset(
+      (size.width - child.width) / 2,
+      (size.height - child.height) / 2,
+    );
+    positionChild(0, at);
+    origin.value = at;
+  }
+
+  @override
+  bool shouldRelayout(_CentreDelegate old) => old.origin != origin;
+}
+
+class _Inset extends CustomClipper<Rect> {
+  const _Inset(this.by);
+
+  final double by;
+
+  @override
+  Rect getClip(Size size) => (Offset.zero & size).deflate(by);
+
+  @override
+  bool shouldReclip(_Inset old) => old.by != by;
+}
+
+/// The engineering paper behind a pane drawing: the grid of the packs'
+/// drawings (18 and 90 at phone size), grown by the figure scale and lined up
+/// with the drawing's own.
+class _PaneGrid extends CustomPainter {
+  _PaneGrid({required this.origin, required this.scale})
+    : super(repaint: origin);
+
+  final ValueNotifier<Offset> origin;
+  final double scale;
+
+  static const _sage = Color(0xFF64A08C);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawRect(Offset.zero & size, Paint()..color = AppColors.paper);
+    void grid(double step, double opacity) {
+      final p = Paint()
+        ..color = _sage.withValues(alpha: opacity)
+        ..strokeWidth = 1;
+      final o = origin.value;
+      for (var x = o.dx % step; x <= size.width; x += step) {
+        canvas.drawLine(Offset(x, 0), Offset(x, size.height), p);
+      }
+      for (var y = o.dy % step; y <= size.height; y += step) {
+        canvas.drawLine(Offset(0, y), Offset(size.width, y), p);
+      }
+    }
+
+    grid(18 * scale, 0.05);
+    grid(90 * scale, 0.10);
+  }
+
+  @override
+  bool shouldRepaint(_PaneGrid old) => old.scale != scale;
+}
+
 /// The game's drawing, marked where it sits in the game's column (ADR 0039).
 ///
 /// This is how a game moves to the figure slot: wrap the drawing, change
@@ -1458,14 +1589,7 @@ class _BoardFigureState extends State<BoardFigure> {
                             height: size.height,
                             child: keyed,
                           )
-                        : Align(
-                            alignment: Alignment.topCenter,
-                            child: _EvenFigure(
-                              width: size.width,
-                              maxHeight: size.height,
-                              child: keyed,
-                            ),
-                          ),
+                        : _PaneFigure(size: size, child: keyed),
                   ),
                 ),
               );
