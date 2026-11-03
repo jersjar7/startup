@@ -692,6 +692,474 @@ ${zone('Moving down to Bronze', C.ember, ico.down, [leagueRow(13, 'Nina S.', 310
 </div>`, 'overflow:hidden;')}
 `);
 
+// ════════════════════ every other screen (2026-11-03, second pass) ════════════════════
+// Real copy from lib/features and the phone goldens. Screens that stay
+// phone-like on purpose say so in TABLET.md, section 4.
+
+const nextBtn = (label = 'Next') => `<span role="button" aria-label="${label}" style="display:flex;align-items:center;justify-content:center;width:72px;height:72px;border-radius:36px;background:${C.charcoal};color:${C.spring};flex-shrink:0;">${arrow(30)}</span>`;
+const stepDots = (n, at, color = C.charcoal) => `<div style="display:flex;gap:6px;align-items:center;">${Array.from({ length: n }, (_, i) => `<span style="width:${i === at ? 34 : 8}px;height:8px;border-radius:4px;background:${color};opacity:${i === at ? 1 : 0.3};"></span>`).join('')}</div>`;
+const link = (t, color = C.charcoal, size = 16) => `<span role="link" style="font-size:${size}px;font-weight:500;color:${color};text-decoration:underline;text-underline-offset:4px;">${t}</span>`;
+const field = (placeholder, caption, w, line = C.forest) => `
+<div style="width:${w}px;display:flex;flex-direction:column;gap:14px;">
+<div style="font-family:${F.display};font-weight:700;font-size:40px;letter-spacing:-0.03em;color:${C.muted};opacity:0.75;padding-bottom:12px;border-bottom:3px solid ${line};">${placeholder}</div>
+<div style="font-size:16px;line-height:1.5;color:${C.muted};max-width:${TB.measure.body}px;">${caption}</div>
+</div>`;
+const twoTone = (a, b, size = 72, second = C.forest) => headline(`${a}<br><span style="color:${second};">${b}</span>`, size);
+const topLine = (x, w, left, right = '') => abs(x, TOP + 12, w, 52, `<div style="display:flex;align-items:center;justify-content:space-between;height:52px;gap:20px;">${left}${right}</div>`);
+const sheetBox = (w, h, inner, { radius = '40px 40px 0 0', pad = '12px 36px 32px' } = {}) => `
+<div style="width:${w}px;height:${h}px;box-sizing:border-box;padding:${pad};border-radius:${radius};background:${C.sheet};display:flex;flex-direction:column;gap:18px;overflow:hidden;">
+<div style="align-self:center;width:44px;height:5px;border-radius:3px;background:${C.charcoal};opacity:0.25;flex-shrink:0;"></div>
+${inner}
+</div>`;
+const scrim = () => abs(0, 0, null, null, '', `width:100%;height:100%;background:${C.scrim};z-index:6;`);
+const block = (bg, inner, pad = '28px') => `<div style="box-sizing:border-box;padding:${pad};border-radius:32px;background:${bg};">${inner}</div>`;
+const darkPill = (label, w = null, h = 64) => `<span role="button" style="display:flex;align-items:center;justify-content:center;height:${h}px;${w ? `width:${w}px;` : ''}box-sizing:border-box;border-radius:${h / 2}px;background:${C.charcoal};color:${C.onCharcoal};font-family:${F.display};font-weight:700;font-size:18px;">${label}</span>`;
+const lightPill = (label, w = null, h = 64) => `<span role="button" style="display:flex;align-items:center;justify-content:center;height:${h}px;${w ? `width:${w}px;` : ''}box-sizing:border-box;border-radius:${h / 2}px;border:2px solid ${C.charcoal};font-family:${F.display};font-weight:700;font-size:18px;">${label}</span>`;
+const LEFT_W = 500; // the left column on screens with no rail
+const RX = 620;     // where the right column starts on screens with no rail
+const RW = L.W - RX - 56;
+
+// The system keyboard, drawn as a plain stand-in (iPadOS draws the real one).
+// It is on the auth mockups to prove the field and its next button clear it.
+const keyboard = (W, H, h = 300) => {
+  const key = (t, w = 1) => `<span style="flex:${w};display:flex;align-items:center;justify-content:center;height:58px;border-radius:9px;background:#FCFCFE;box-shadow:0 1px 0 #8E9096;font-family:-apple-system,'Inter',sans-serif;font-size:20px;color:#1C1C1E;">${t}</span>`;
+  const row = (keys, pad = 0) => `<div style="display:flex;gap:9px;padding:0 ${pad}px;">${keys.map((k) => (Array.isArray(k) ? key(k[0], k[1]) : key(k))).join('')}</div>`;
+  return abs(0, H - h, W, h, `<div style="height:${h}px;box-sizing:border-box;padding:12px 10px;background:#D1D3D9;display:flex;flex-direction:column;gap:11px;">
+${row(['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', ['delete', 1.4]])}${row(['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ['return', 1.8]], 28)}${row([['shift', 1.3], 'z', 'x', 'c', 'v', 'b', 'n', 'm', '@', '.', ['shift', 1.3]])}${row([['.?123', 1.6], [' ', 7], ['.?123', 1.6]])}</div>`, 'z-index:4;');
+};
+
+// ── T12 Auth: one field per screen; headline left, the field right ──
+const authL = (name, title, ground, dots, at, head, field_, below, { close = true, decor = '', kb = true } = {}) => {
+  out[name] = page(title, L.W, L.H, ground, `
+${decor}${kb ? keyboard(L.W, L.H) : ''}
+${abs(56, TOP + 12, 500, 52, `<div style="display:flex;align-items:center;gap:22px;height:52px;">${roundIcon(close ? 'Close' : 'Back', close ? ico.close : ico.back)}${dots ? stepDots(dots, at) : ''}</div>`)}
+${abs(56, TOP + 110, LEFT_W, null, head)}
+${abs(RX, TOP + 168, RW, null, `<div style="display:flex;flex-direction:column;gap:40px;">${field_}${below}</div>`)}
+`);
+};
+const nextRow = (left) => `<div style="display:flex;align-items:center;justify-content:space-between;">${left}${nextBtn()}</div>`;
+authL('T12-create-email-landscape', 'Create account, email, landscape', C.fog, 5, 0,
+  twoTone('First,', 'your email.', 84),
+  field('you@school.edu', 'Completely free. Your progress follows you to the website.', RW),
+  nextRow(link('Log in instead')));
+authL('T12b-create-name-landscape', 'Create account, name, landscape', C.butter, 5, 1,
+  headline('What should<br>we call you?', 84),
+  field('Your first name', "Shown on the Daily's board and in hello. You can change it any time.", RW, C.charcoal),
+  nextRow(link('Skip')));
+authL('T12c-create-password-landscape', 'Create account, password, landscape', C.spring, 5, 2,
+  headline('Pick a<br>password.', 84, C.onAccent),
+  `<div style="width:${RW}px;display:flex;flex-direction:column;gap:14px;"><div style="display:flex;align-items:center;gap:6px;height:52px;padding-bottom:12px;border-bottom:3px solid ${C.onAccent};"><span style="width:3px;height:44px;background:${C.onAccent};"></span>${Array.from({ length: 8 }, () => `<span style="width:12px;height:12px;border-radius:6px;background:${C.onAccent};opacity:0.45;"></span>`).join('')}</div><div style="font-size:16px;line-height:1.5;color:${C.onAccent};opacity:0.75;">Eight characters or more. You can reset it by email any time.</div></div>`,
+  nextRow('<span></span>'));
+const gradChips = (on) => `<div style="display:flex;gap:6px;">${['Winter', 'Spring', 'Summer', 'Fall'].map((t) => `<span style="display:flex;align-items:center;justify-content:center;height:44px;padding:0 20px;border-radius:22px;${t === on ? `background:${C.charcoal};color:${C.onCharcoal};` : ''}font-family:${F.mono};font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">${t}</span>`).join('')}</div>`;
+const yearChips = (on) => `<div style="display:flex;gap:6px;">${[2026, 2027, 2028, 2029, 2030].map((t) => `<span style="display:flex;align-items:center;justify-content:center;height:44px;padding:0 18px;border-radius:22px;${t === on ? `background:${C.charcoal};color:${C.onCharcoal};` : ''}font-family:${F.mono};font-size:14px;font-weight:600;">${t}</span>`).join('')}</div>`;
+authL('T12d-create-school-landscape', 'Create account, school, landscape', C.peach, 5, 3,
+  `<div style="display:flex;flex-direction:column;gap:22px;">${headline('Where do<br>you study?', 76)}<div style="display:flex;flex-direction:column;gap:10px;">${eyebrow('Graduating', C.muted)}${gradChips('Spring')}${yearChips(2027)}</div></div>`,
+  field('Your university', 'So we can show you how you compare with other students at your school.', RW, C.charcoal),
+  nextRow(link('I have already graduated')));
+// The phone sets big FE letters behind log in; on a tablet the keyboard covers
+// that band, so they are left out.
+authL('T12e-log-in-landscape', 'Log in, landscape', C.fog, 2, 0,
+  twoTone('Hey again.', "What's your<br>email?", 76),
+  field('you@school.edu', 'Your password comes next.', RW),
+  nextRow(link('Create an account')));
+authL('T12f-forgot-landscape', 'Forgot password, landscape', C.fog, 0, 0,
+  twoTone('Reset your', 'password.', 84),
+  field('you@school.edu', "We'll email you a reset link.", RW),
+  nextRow(link('Back to log in')), { close: false });
+
+// Check your email: the verify sheet, capped at 640 and centred, the two cards behind.
+out['T12g-check-email-landscape'] = page('Check your email, landscape', L.W, L.H, C.fog, `
+${abs(400, TOP + 18, null, null, stepDots(3, 2))}
+${abs(250, 70, 380, 380, `<div style="width:380px;height:380px;border-radius:40px;background:${C.spring};opacity:0.5;transform:rotate(-6deg);"></div>`)}
+${abs(560, 120, 360, 360, `<div style="width:360px;height:360px;border-radius:40px;background:${C.peach};opacity:0.6;transform:rotate(8deg);"></div>`)}
+${abs((L.W - TB.pane.sheetMax) / 2, L.H - 320, TB.pane.sheetMax, 320, sheetBox(TB.pane.sheetMax, 320, `
+${headline('Check your email.', 44)}
+<div style="font-size:17px;line-height:1.5;color:${C.muted};">We sent a link to <span style="color:${C.charcoal};">you@school.edu</span>. Tap it and you're in.</div>
+<div style="display:flex;gap:12px;margin-top:4px;">${darkPill('Open email app', 278)}${lightPill('Resend link', 278)}</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">${link('Wrong email? Go back', C.charcoal, 15)}<span style="font-size:15px;font-weight:600;color:${C.forest};">Continue to the app</span></div>`))}
+`);
+
+// Portrait: the auth flow stays the phone's column, set left. One example.
+out['T12p-create-email-portrait'] = page('Create account, email, portrait', P.W, P.H, C.fog, `
+${abs(56, TOP + 12, 500, 52, `<div style="display:flex;align-items:center;gap:22px;height:52px;">${roundIcon('Close', ico.close)}${stepDots(5, 0)}</div>`)}
+${abs(56, TOP + 140, 600, null, twoTone('First,', 'your email.', 84))}
+${abs(56, TOP + 380, 600, null, field('you@school.edu', 'Completely free. Your progress follows you to the website.', 600))}
+${abs(56, TOP + 540, 600, 72, nextRow(link('Log in instead')))}
+${keyboard(P.W, P.H, 320)}
+`);
+
+// ── T13 Onboarding: the words left, the object right ──
+const onbTop = (n, at) => `${abs(56, TOP + 12, L.W - 112, 52, `<div style="display:flex;align-items:center;justify-content:space-between;height:52px;"><div style="display:flex;align-items:center;gap:22px;">${roundIcon('Close', ico.close)}${stepDots(n, at)}</div>${at < n - 1 ? link('Skip', C.charcoal, 15) : ''}</div>`)}`;
+const body17 = (t, w = 480) => `<div style="max-width:${w}px;font-size:17px;line-height:1.6;color:${C.charcoal};opacity:0.82;">${t}</div>`;
+const listCard = (bg, over, big, items, w) => `<div style="width:${w}px;box-sizing:border-box;display:flex;gap:28px;padding:30px 32px;border-radius:36px;background:${bg};">
+<div style="display:flex;flex-direction:column;gap:10px;width:170px;flex-shrink:0;">${eyebrow(over, C.onAccent, 12)}<span style="font-family:${F.display};font-weight:800;font-size:40px;letter-spacing:-0.04em;color:${C.onAccent};">${big}</span></div>
+<div style="display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:1.4;color:${C.onAccent};">${items.map((i) => `<span>${i}</span>`).join('')}</div></div>`;
+out['T13-onboarding-together-landscape'] = page('Onboarding, two parts, landscape', L.W, L.H, C.fog, `
+${onbTop(3, 0)}
+${abs(56, TOP + 130, 500, null, `<div style="display:flex;flex-direction:column;gap:26px;">${headline('Learn at the desk.<br>Practice<br>anywhere.', 64)}${body17('FE for Raccoons comes in two parts. The website is where you learn the material and earn your mastery. The app is for the time in between, when you are away from your desk and have a few minutes to keep concepts fresh.')}</div>`)}
+${abs(RX, TOP + 110, RW, null, `<div style="display:flex;flex-direction:column;gap:0;">
+${listCard(C.cream, 'fe4raccoons.com', 'Learn it', ['135 lessons with full solutions', '1,454 exam-style problems', 'The 6-hour exam simulation', 'Your mastery, chapter by chapter'], RW)}
+<div style="height:70px;position:relative;"><img src="${RACCOON}" alt="" style="position:absolute;right:70px;top:14px;width:120px;"></div>
+${listCard(C.spring, 'The app', 'Keep it', ['375 concepts, about a minute each', 'Any chapter, in any order', 'Keeps you sharp between desk sessions'], RW)}
+</div>`)}
+${abs(L.W - 56 - 72, L.H - 36 - 72, 72, 72, nextBtn())}
+`);
+
+// The sample round on step two: the shared truss, one member picked out.
+const truss = (w, h) => {
+  const s = w / 420, y0 = h - 70 * s, y1 = 80 * s, xs = [50, 150, 270, 370].map((v) => v * s);
+  const J = { A: [xs[0], y0], B: [xs[1], y0], C: [xs[2], y0], D: [xs[3], y0], E: [xs[1], y1], F: [xs[2], y1] };
+  const m = (a, b, col = C.charcoal, sw = 3.2) => `<path d="M${J[a][0]} ${J[a][1]} L${J[b][0]} ${J[b][1]}" stroke="${col}" stroke-width="${sw * s}" stroke-linecap="round"/>`;
+  const members = [['A', 'B'], ['B', 'C'], ['C', 'D'], ['A', 'E'], ['E', 'B'], ['B', 'F'], ['F', 'C'], ['F', 'D']].map(([a, b]) => m(a, b)).join('') + m('E', 'F', C.ember, 5);
+  const joints = Object.values(J).map(([x, y]) => `<circle cx="${x}" cy="${y}" r="${7 * s}" fill="${C.paper}" stroke="${C.charcoal}" stroke-width="${2.4 * s}"/>`).join('');
+  const lab = (k, dx, dy) => `<text x="${J[k][0] + dx * s}" y="${J[k][1] + dy * s}" font-family="JetBrains Mono" font-size="${13 * s}" fill="${C.muted}">${k}</text>`;
+  const pin = `<path d="M${xs[0]} ${y0 + 7 * s} l${-14 * s} ${22 * s} h${28 * s} z" fill="none" stroke="${C.charcoal}" stroke-width="${2.2 * s}"/><path d="M${xs[0] - 22 * s} ${y0 + 31 * s} h${44 * s}" stroke="${C.charcoal}" stroke-width="${2.2 * s}"/>`;
+  const roller = `<circle cx="${xs[3]}" cy="${y0 + 17 * s}" r="${9 * s}" fill="none" stroke="${C.charcoal}" stroke-width="${2.2 * s}"/><path d="M${xs[3] - 22 * s} ${y0 + 28 * s} h${44 * s}" stroke="${C.charcoal}" stroke-width="${2.2 * s}"/>`;
+  const load = `<path d="M${xs[2]} ${y1 - 66 * s} V${y1 - 12 * s}" stroke="${C.charcoal}" stroke-width="${2.6 * s}"/><path d="M${xs[2] - 7 * s} ${y1 - 22 * s} l${7 * s} ${10 * s} l${7 * s} ${-10 * s}" fill="none" stroke="${C.charcoal}" stroke-width="${2.6 * s}" stroke-linejoin="round"/><text x="${xs[2] + 10 * s}" y="${y1 - 52 * s}" font-family="JetBrains Mono" font-weight="700" font-size="${14 * s}" fill="${C.charcoal}">24 kN</text>`;
+  return `<div style="${gridPaper(w, h, Math.round(40 * s))}"><svg width="${w}" height="${h}" style="position:absolute;inset:0;" fill="none">${members}${pin}${roller}${load}${joints}${lab('A', -20, -8)}${lab('B', -4, 32)}${lab('C', -4, 32)}${lab('D', 12, -8)}${lab('E', -24, -6)}${lab('F', 12, -8)}</svg></div>`;
+};
+const choiceChips = (labels, on, w, h = 56) => `<div style="display:flex;gap:10px;width:${w}px;">${labels.map((l) => `<span style="flex:1;display:flex;align-items:center;justify-content:center;height:${h}px;border-radius:${h / 2}px;background:${l === on ? C.charcoal : C.creamDark};color:${l === on ? C.onCharcoal : C.charcoal};font-family:${F.display};font-weight:700;font-size:17px;">${l}</span>`).join('')}</div>`;
+out['T13b-onboarding-games-landscape'] = page('Onboarding, a minute each, landscape', L.W, L.H, C.peach, `
+${onbTop(3, 1)}
+${abs(56, TOP + 130, 500, null, `<div style="display:flex;flex-direction:column;gap:26px;">${headline('One concept.<br>A minute each.', 64)}${body17('Each lesson in the app is a few rounds. For each round, you read a figure, make a call, and see right away whether you were right and why. All fifteen chapters are open from the start, so you can go straight to the one you need.')}</div>`)}
+${abs(RX, TOP + 90, RW, null, `<div style="box-sizing:border-box;width:${RW}px;padding:26px 28px 28px;border-radius:36px;background:${C.cream};display:flex;flex-direction:column;gap:16px;">
+<div style="display:flex;align-items:center;gap:14px;">${pips(1, 6, RW - 56 - 60)}<span style="width:46px;text-align:right;">${eyebrow('2 / 6')}</span></div>
+${eyebrow('Which way is it being worked', C.forest)}
+<div style="font-size:17px;line-height:1.5;">Same truss, same load. This time the member picked out runs along the top, between the two apex joints.</div>
+${truss(RW - 56, 300)}
+${choiceChips(['Stretched', 'Squashed', 'Neither'], 'Squashed', RW - 56)}
+</div>`)}
+${abs(L.W - 56 - 72, L.H - 36 - 72, 72, 72, nextBtn())}
+`);
+const masteryCard = (w) => `<div style="width:${w}px;box-sizing:border-box;padding:26px 30px;border-radius:36px;background:${C.cream};display:flex;flex-direction:column;gap:14px;">
+${eyebrow('Where mastery comes from')}
+<div style="display:flex;align-items:flex-end;gap:14px;"><span style="font-family:${F.display};font-weight:800;font-size:110px;line-height:0.82;letter-spacing:-0.06em;">100<span style="font-size:44px;">%</span></span><span style="font-family:${F.display};font-weight:700;font-size:18px;line-height:1.25;padding-bottom:6px;">the problems you work<br>on the website</span></div>
+<div style="display:flex;gap:6px;">${Array.from({ length: 10 }, () => `<span style="flex:1;height:14px;border-radius:7px;background:${C.charcoal};"></span>`).join('')}</div>
+<div style="font-size:15px;line-height:1.5;color:${C.muted};">Practice in the app does not change this number, but it helps you have the concepts fresh for more effective study sessions.</div></div>`;
+const legal = `<div style="font-size:12.5px;line-height:1.5;color:${C.muted};">By creating an account or using the app, you agree to our <u>Terms of Service</u> and <u>Privacy Policy</u>.</div>`;
+out['T13c-onboarding-honest-landscape'] = page('Onboarding, honest by design, landscape', L.W, L.H, C.butter, `
+${onbTop(3, 2)}
+${abs(56, TOP + 130, 500, null, `<div style="display:flex;flex-direction:column;gap:26px;">${headline('Honest by<br>design.', 72)}${body17('With an account, everything you play in the app is saved, and you can see it on the website too. It does not raise your mastery score, though. Recognizing a concept is not the same as solving a problem with it, so mastery only comes from problems you work at a desk.')}</div>`)}
+${abs(RX, TOP + 110, RW, null, masteryCard(RW))}
+${abs(RX, L.H - 36 - 262, RW, null, `<div style="display:flex;flex-direction:column;gap:14px;">
+${pill('Create my account')}
+${lightPill('Try a round first')}
+<div style="display:flex;justify-content:center;font-size:16px;font-weight:500;margin-top:4px;">I already have an account</div>
+<div style="margin-top:6px;">${legal}</div></div>`)}
+`);
+out['T13p-onboarding-honest-portrait'] = page('Onboarding, honest by design, portrait', P.W, P.H, C.butter, `
+${abs(56, TOP + 12, P.W - 112, 52, `<div style="display:flex;align-items:center;gap:22px;height:52px;">${roundIcon('Close', ico.close)}${stepDots(3, 2)}</div>`)}
+${abs(56, TOP + 120, P.W - 112, null, `<div style="display:grid;grid-template-columns:300px 1fr;column-gap:36px;align-items:start;">${headline('Honest by<br>design.', 64)}${body17('With an account, everything you play in the app is saved, and you can see it on the website too. It does not raise your mastery score, though. Recognizing a concept is not the same as solving a problem with it, so mastery only comes from problems you work at a desk.', 400)}</div>`)}
+${abs(56, TOP + 470, P.W - 112, null, masteryCard(P.W - 112))}
+${abs(56, P.H - 40 - 300, P.W - 112, null, `<div style="display:flex;flex-direction:column;gap:14px;">${pill('Create my account')}${lightPill('Try a round first')}<div style="display:flex;justify-content:center;font-size:16px;font-weight:500;margin-top:4px;">I already have an account</div><div style="margin-top:6px;">${legal}</div></div>`)}
+`);
+
+// Titles and splash: posters, phone-like on purpose.
+out['T14-titles-landscape'] = page('Titles, landscape', L.W, L.H, C.paper, `
+${abs(0, 0, L.W, L.H, '', `${gridPaper(L.W, L.H, 48)}border-radius:0;`)}
+${abs(0, 250, L.W, null, `<div style="display:flex;flex-direction:column;align-items:center;gap:26px;">${headline('Welcome to', 56)}<div style="display:flex;flex-direction:column;align-items:center;padding:14px 22px;border-radius:14px;background:${C.white};box-shadow:0 4px 0 ${C.plinth};"><span style="font-family:${F.display};font-weight:800;font-size:96px;line-height:0.85;letter-spacing:-0.05em;">FE<span style="color:${C.ember};">4</span></span><span style="font-family:${F.display};font-weight:700;font-size:22px;letter-spacing:0.32em;">RACCOONS</span></div>${headline('the mobile app', 56, C.ember)}</div>`)}
+`);
+out['T14b-splash-landscape'] = page('Splash, landscape', L.W, L.H, C.fog, `
+${abs(0, 330, L.W, null, `<div style="display:flex;flex-direction:column;align-items:center;"><span style="font-family:${F.display};font-weight:800;font-size:112px;line-height:0.85;letter-spacing:-0.05em;">FE<span style="color:${C.ember};">4</span></span><span style="font-family:${F.display};font-weight:600;font-size:26px;letter-spacing:0.36em;margin-top:8px;">RACCOONS</span></div>`)}
+`);
+
+// ── T15 Exam date: the date left, the picker right, two weeks at a glance ──
+const monthChips = (months, on, dark = false) => `<div style="display:flex;gap:6px;flex-wrap:wrap;">${months.map((m) => `<span style="display:flex;align-items:center;justify-content:center;height:44px;padding:0 18px;border-radius:22px;${m === on ? `background:${C.charcoal};color:${dark ? C.spring : C.onCharcoal};` : `color:${C.onAccent};`}font-family:${F.mono};font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">${m}</span>`).join('')}</div>`;
+const dayCell = (dow, d, on, size = 66) => `<span style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:${size}px;height:${size * 1.45}px;border-radius:${size / 2}px;${on ? `background:${C.charcoal};color:${C.spring};` : `color:${C.onAccent};`}"><span style="font-family:${F.mono};font-size:11px;font-weight:600;letter-spacing:0.06em;">${dow}</span><span style="font-family:${F.display};font-weight:700;font-size:28px;">${d}</span></span>`;
+const DOW = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'];
+out['T15-exam-date-landscape'] = page('Exam date, landscape', L.W, L.H, C.spring, `
+${abs(56, TOP + 12, 52, 52, roundIcon('Back', ico.back))}
+${abs(56, TOP + 110, 520, null, `<div style="display:flex;flex-direction:column;gap:40px;">${headline("When's the<br>big day?", 76, C.onAccent)}
+<div style="display:flex;flex-direction:column;gap:18px;"><span style="font-family:${F.display};font-weight:800;font-size:150px;line-height:0.82;letter-spacing:-0.07em;color:${C.onAccent};">Jan 15</span>
+<div style="display:flex;align-items:center;gap:14px;">${eyebrow('Friday', C.onAccent, 14)}<span style="display:flex;align-items:center;height:40px;padding:0 16px;border-radius:20px;background:${C.charcoal};color:${C.spring};font-family:${F.mono};font-size:14px;font-weight:600;">73 days out</span></div></div></div>`)}
+${abs(RX + 20, TOP + 150, RW - 20, null, `<div style="display:flex;flex-direction:column;gap:30px;">${monthChips(['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'], 'Jan', true)}
+<div style="display:grid;grid-template-columns:repeat(7,66px);column-gap:8px;row-gap:14px;">${[11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].map((d, i) => dayCell(DOW[i % 7], d, d === 15)).join('')}</div></div>`)}
+${abs(RX + 20, L.H - 36 - 72, RW - 20, 72, `<div style="display:flex;align-items:center;justify-content:space-between;height:72px;">${link('Clear the date', C.onAccent)}${nextBtn('Save the date')}</div>`)}
+`);
+
+// ── T16 Days studied: the count left, two months right ──
+const monthGrid = (name, first, days, studied, today, w) => {
+  const cell = Math.min(42, Math.floor((w - 6 * 10) / 7));
+  const cells = Array.from({ length: first }, () => '<span></span>').concat(Array.from({ length: days }, (_, i) => {
+    const d = i + 1, on = studied.includes(d), now = d === today, future = today && d > today;
+    return `<span style="display:flex;align-items:center;justify-content:center;width:${cell}px;height:${cell}px;border-radius:50%;${on ? `background:${C.charcoal};color:${C.onCharcoal};` : now ? `background:${C.cream};` : ''}font-family:${F.mono};font-size:15px;font-weight:600;${!on && !now ? `color:${C.muted};${future ? 'opacity:0.5;' : ''}` : ''}">${d}</span>`;
+  }));
+  return `<div style="display:flex;flex-direction:column;gap:12px;"><div style="display:flex;align-items:baseline;justify-content:space-between;">${headline(name, 34)}${eyebrow(`${studied.length} of ${today || days} days`, C.muted)}</div>
+<div style="display:grid;grid-template-columns:repeat(7,${cell}px);column-gap:${Math.floor((w - 7 * cell) / 6)}px;row-gap:6px;">${DOW.map((d) => `<span style="text-align:center;font-family:${F.mono};font-size:11px;font-weight:600;color:${C.muted};">${d}</span>`).join('')}${cells.join('')}</div></div>`;
+};
+out['T16-days-studied-landscape'] = page('Days studied, landscape', L.W, L.H, C.butter, `
+${rail('profile', L.H)}
+${topLine(CX, 420, roundIcon('Back', ico.back), eyebrow('Days studied', C.muted))}
+${abs(CX, TOP + 130, 420, null, `<div style="display:flex;flex-direction:column;gap:26px;"><div style="display:flex;align-items:baseline;gap:14px;"><span style="font-family:${F.display};font-weight:800;font-size:170px;line-height:0.82;letter-spacing:-0.07em;">27</span><span style="font-family:${F.display};font-weight:700;font-size:34px;">days</span></div>
+<div style="font-size:17px;line-height:1.6;opacity:0.82;">Since Aug 3. Every day you finish a round or open a lesson counts once, and the number only ever goes up.</div>
+${monthChips(['Nov', 'Oct', 'Sep', 'Aug'], 'Nov')}</div>`)}
+${abs(CX + 420 + 64, TOP + 40, L.W - (CX + 420 + 64) - 48, null, `<div style="display:flex;flex-direction:column;gap:36px;">
+${monthGrid('November', 6, 30, [1, 2], 3, L.W - (CX + 420 + 64) - 48)}
+${monthGrid('October', 3, 31, [3, 4, 10, 11, 17, 18, 24, 31], 0, L.W - (CX + 420 + 64) - 48)}</div>`)}
+`);
+
+// ── T17 Mastery: the total and where effort pays, beside the chapters ──
+const WEIGHTS = { mathematics: '8-12', statistics: '8-12', ethics: '4-6', economics: '5-8', statics: '8-12', dynamics: '4-6', 'mechanics-materials': '7-11', materials: '5-8', 'fluid-mechanics': '6-9', surveying: '6-9', 'water-resources': '10-15', structural: '10-15', geotechnical: '10-15', transportation: '9-14', construction: '8-12' };
+const MASTERY = { mathematics: 62, statistics: 40, ethics: 55, economics: 48, statics: 70, dynamics: 15, 'mechanics-materials': 22, materials: 10, 'fluid-mechanics': 30, surveying: 5, 'water-resources': 8, structural: 12, geotechnical: 0, transportation: 4, construction: 6 };
+const scatter = (w, h) => {
+  const px = (q) => 40 + ((q - 3) / 11) * (w - 60), py = (m) => h - 30 - (m / 100) * (h - 50);
+  const mid = (r) => { const [a, b] = r.split('-').map(Number); return (a + b) / 2; };
+  const dots = chapters.map(([id]) => { const x = px(mid(WEIGHTS[id])), y = py(MASTERY[id]); const sel = id === 'geotechnical'; const low = MASTERY[id] < 25 && mid(WEIGHTS[id]) > 8; return `<circle cx="${x}" cy="${y}" r="${sel ? 10 : 7}" fill="${sel || low ? C.ember : C.charcoal}"${sel ? ` stroke="${C.fog}" stroke-width="3"` : ''}/>`; }).join('');
+  return `<svg width="${w}" height="${h}" fill="none">
+<rect x="${px(8.5)}" y="${py(30)}" width="${px(14) - px(8.5)}" height="${py(0) - py(30)}" rx="10" fill="${C.ember}" opacity="0.14"/>
+<text x="${px(14) - 8}" y="${py(30) + 18}" text-anchor="end" font-family="JetBrains Mono" font-size="11" fill="${C.ember}">work here first</text>
+${[0, 25, 50, 75, 100].map((m) => `<text x="0" y="${py(m) + 4}" font-family="JetBrains Mono" font-size="10" fill="${C.muted}">${m}</text><path d="M30 ${py(m)} H${w}" stroke="${C.line}"/>`).join('')}
+${[4, 8, 12].map((q) => `<text x="${px(q)}" y="${h - 8}" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="${C.muted}">${q} Q</text>`).join('')}
+${dots}</svg>`;
+};
+const masteryTile = ([id, name]) => {
+  const sel = id === 'geotechnical';
+  return `<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;height:52px;box-sizing:border-box;padding:0 14px;border-radius:18px;background:${sel ? C.charcoal : C.cream};color:${sel ? C.onCharcoal : C.charcoal};">${mark(id, sel ? C.spring : C.charcoal, 22, 1.7)}<span style="font-family:${F.mono};font-size:13px;font-weight:600;">${MASTERY[id]}%</span><span style="font-family:${F.mono};font-size:11px;color:${sel ? C.mutedDark : C.muted};">${WEIGHTS[id]} Q</span></div>`;
+};
+out['T17-mastery-landscape'] = page('Mastery, landscape', L.W, L.H, C.fog, `
+${rail('profile', L.H)}
+${topLine(CX, 470, roundIcon('Back', ico.back), eyebrow('Total concept mastery', C.muted))}
+${abs(CX, TOP + 92, 470, null, `<div style="display:flex;flex-direction:column;gap:16px;"><span style="font-family:${F.display};font-weight:800;font-size:130px;line-height:0.82;letter-spacing:-0.07em;color:${C.ember};">21<span style="font-size:60px;">%</span></span>
+<div style="font-size:15px;line-height:1.55;color:${C.charcoal};opacity:0.82;">Of the concepts the FE Civil tests, weighted by how many questions each chapter gets. Earned at the desk on the website. What you do in this app does not count toward it. Not a probability of passing.</div>
+<div style="margin-top:6px;">${eyebrow('Where effort pays', C.muted)}</div>${scatter(470, 270)}</div>`)}
+${abs(CX + 470 + 48, TOP + 92, L.W - (CX + 470 + 48) - 40, null, `<div style="display:flex;flex-direction:column;gap:14px;">
+${block(C.cream, `<div style="display:flex;flex-direction:column;gap:14px;">${headline('Geotechnical Engineering', 28)}
+<div style="display:flex;gap:10px;"><div style="flex:1;box-sizing:border-box;padding:14px 16px;border-radius:18px;background:${C.creamDark};">${eyebrow('Mastery', C.muted, 11)}<div style="font-family:${F.display};font-weight:800;font-size:40px;color:${C.ember};margin-top:6px;">0%</div><div style="font-family:${F.mono};font-size:11px;color:${C.muted};">earned on the website</div></div>
+<div style="flex:1;box-sizing:border-box;padding:14px 16px;border-radius:18px;background:${C.creamDark};">${eyebrow('Progress', C.muted, 11)}<div style="font-family:${F.display};font-weight:800;font-size:40px;color:${C.forest};margin-top:6px;">0</div><div style="font-family:${F.mono};font-size:11px;color:${C.muted};">done in this app</div></div></div>
+<div style="font-size:15px;line-height:1.5;color:${C.muted};">Worth 10-15 Q of the exam. Finishing it would move your total by about 10.0 points, which puts it 1st of 15 for where effort pays.</div></div>`, '24px 26px')}
+<div style="margin-top:6px;">${eyebrow('Every chapter', C.muted)}</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">${chapters.map(masteryTile).join('')}</div></div>`)}
+`);
+
+// ── T18 Account sheet and its pages: sheets capped at 640, phone-like on purpose ──
+const profileBehind = `${rail('profile', L.H)}
+${topLine(CX, L.W - CX - 40, eyebrow('Tuesday, Nov 3', C.muted), avatar)}
+${abs(CX, TOP + 104, 460, null, headline('Welcome back, Jerson.', 96))}`;
+const stat = (label, n) => `<div style="flex:1;box-sizing:border-box;padding:16px 18px;border-radius:20px;background:${C.creamDark};display:flex;flex-direction:column;gap:8px;">${eyebrow(label, C.muted, 11)}<span style="font-family:${F.display};font-weight:800;font-size:34px;letter-spacing:-0.04em;">${n}</span></div>`;
+const seg = (opts, on) => `<div style="display:flex;gap:4px;">${opts.map((o) => `<span style="display:flex;align-items:center;height:40px;padding:0 16px;border-radius:20px;${o === on ? `background:${C.charcoal};color:${C.spring};` : `color:${C.muted};`}font-family:${F.mono};font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">${o}</span>`).join('')}</div>`;
+const toggle = (on) => `<span style="display:inline-block;position:relative;width:52px;height:30px;border-radius:15px;background:${on ? C.forest : C.creamDark};"><span style="position:absolute;top:4px;left:${on ? 26 : 4}px;width:22px;height:22px;border-radius:11px;background:${on ? C.white : C.muted};"></span></span>`;
+const SH = 640, SX = RAIL + (L.W - RAIL - SH) / 2;
+out['T18-account-sheet-landscape'] = page('Account sheet, landscape', L.W, L.H, C.fog, `
+${profileBehind}${scrim()}
+${abs(SX, L.H - 600, SH, 600, sheetBox(SH, 600, `
+<div style="display:flex;align-items:center;gap:16px;"><span style="display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:26px;background:${C.charcoal};color:${C.onCharcoal};font-family:${F.display};font-weight:700;font-size:18px;">J</span><span style="flex-grow:1;font-family:${F.display};font-weight:700;font-size:24px;">j@x.edu</span>${creamButton('Edit profile', `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>`).replace(`background:${C.cream}`, `background:${C.creamDark}`)}${creamButton('More', `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>`).replace(`background:${C.cream}`, `background:${C.creamDark}`)}</div>
+<div style="display:flex;gap:10px;">${stat('Total XP', '1,240')}${stat('Badges', '2')}${stat('Concepts', '9')}</div>
+<div style="display:flex;align-items:center;justify-content:space-between;height:56px;"><span style="font-size:17px;font-weight:500;">Appearance</span>${seg(['Auto', 'Light', 'Dark'], 'Auto')}</div>
+<div style="display:flex;align-items:center;justify-content:space-between;height:44px;"><span style="font-size:17px;font-weight:500;">Study reminders</span>${toggle(false)}</div>
+<div style="flex-grow:1;"></div>
+${darkPill('Open the website')}
+<div style="display:flex;gap:12px;">${lightPill('How it works', 278)}${lightPill('Sign out', 278)}</div>
+<div style="text-align:center;font-family:${F.mono};font-size:12px;color:${C.muted};">Version 1.3.0</div>`), 'z-index:7;')}
+`);
+const ABOUT = ["I'm Jerson, a recent graduate. I finished my master's in Civil Engineering at BYU in May 2025.", 'Some engineering concepts were really hard for me. Not all of them, but some took a lot of work, and I wished I had something to learn from other than the books. There is only so much teaching assistants and professors can do, and a lot of the time I was on my own. I wished I had one place where I could study all my courses and find what I needed.', 'I needed that most when I was preparing for the FE exam. The exam covers so many courses and chapters that I had to pull resources together from many different places, and almost none of them explained things in simple terms. I believe a lot of civil engineering concepts are really hard, but explained well, they make sense.', "With what I studied, and what I learned building websites and mobile apps, I thought I could make an impact and give other students the resource I wish I'd had."];
+out['T18b-about-landscape'] = page('About, landscape', L.W, L.H, C.fog, `
+${profileBehind}${scrim()}
+${abs(SX, L.H - 640, SH, 640, sheetBox(SH, 640, `
+<div style="display:flex;align-items:center;gap:8px;color:${C.charcoal};">${ico.back}<span style="font-family:${F.display};font-weight:700;font-size:16px;">Account</span></div>
+${headline('Why this exists', 40)}
+${ABOUT.map((p) => `<div style="font-size:16px;line-height:1.6;color:${C.charcoal};opacity:0.85;max-width:${TB.measure.body - 40}px;">${p}</div>`).join('')}`), 'z-index:7;')}
+`);
+const editRow = (k, v) => `<div style="display:flex;align-items:center;justify-content:space-between;height:60px;border-bottom:1px solid ${C.line};"><span style="font-size:17px;font-weight:500;">${k}</span><span style="display:flex;align-items:center;gap:12px;font-size:16px;color:${C.muted};">${v}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></span></div>`;
+out['T18c-edit-profile-landscape'] = page('Edit profile, landscape', L.W, L.H, C.fog, `
+${profileBehind}${scrim()}
+${abs(SX, L.H - 370, SH, 370, sheetBox(SH, 370, `
+<div style="display:flex;align-items:center;gap:8px;">${ico.back}<span style="font-family:${F.display};font-weight:700;font-size:16px;">Account</span></div>
+${headline('Edit profile', 40)}
+<div>${editRow('Name', 'Jerson')}${editRow('Email', 'j@x.edu')}${editRow('School', 'BYU, graduated 2025')}</div>`), 'z-index:7;')}
+`);
+// Contact: a pushed page; the words left, the two fields right.
+const boxField = (label, value, h, caption) => `<div style="display:flex;flex-direction:column;gap:10px;">${eyebrow(label, C.muted)}<div style="height:${h}px;box-sizing:border-box;padding:18px 20px;border-radius:22px;background:${C.cream};font-size:17px;line-height:1.5;color:${C.muted};">${value}</div>${caption ? `<div style="font-size:14px;color:${C.muted};">${caption}</div>` : ''}</div>`;
+out['T18d-contact-landscape'] = page('Contact us, landscape', L.W, L.H, C.fog, `
+${rail('profile', L.H)}
+${topLine(CX, 400, `<div style="display:flex;align-items:center;gap:14px;">${roundIcon('Back to the account', ico.back)}${eyebrow('Account', C.muted)}</div>`)}
+${abs(CX, TOP + 120, 400, null, `<div style="display:flex;flex-direction:column;gap:22px;">${headline('Contact us', 72)}${body17('A question, a round that looks wrong, something you wish the app did. A person reads every one and writes back to that email.', 400)}</div>`)}
+${abs(CX + 400 + 64, TOP + 40, L.W - (CX + 400 + 64) - 48, null, `<div style="display:flex;flex-direction:column;gap:24px;">${boxField('Your email', 'j@x.edu', 64, 'Where we write back. You do not need an account.')}${boxField('Your message', 'Your message', 300)}</div>`)}
+${abs(L.W - 48 - TB.size.pillMax, L.H - 36 - 72, TB.size.pillMax, 72, pill('Send it'))}
+`);
+
+// ── T19 Round extras: the feedback sheet docks like the concept sheet ──
+const PERP_Q = 'A property boundary runs from P(2, 3) to Q(8, 7). A utility easement must be laid perpendicular to it through Q.';
+const perpFigure = (w, h) => {
+  const s = w / 600, ox = 70 * s, oy = h - 60 * s, u = 52 * s;
+  const P = [ox + 2 * u, oy - 3 * u], Q = [ox + 8 * u, oy - 7 * u];
+  return `<div style="${gridPaper(w, h, Math.round(u))}"><svg width="${w}" height="${h}" style="position:absolute;inset:0;" fill="none">
+<path d="M${ox} ${oy} H${w - 30 * s}" stroke="${C.muted}" stroke-width="${1.6 * s}"/><path d="M${ox} ${oy} V${30 * s}" stroke="${C.muted}" stroke-width="${1.6 * s}"/>
+<path d="M${P[0] - 1.5 * u} ${P[1] + 1 * u} L${Q[0] + 1.5 * u} ${Q[1] - 1 * u}" stroke="${C.charcoal}" stroke-width="${3.4 * s}" stroke-linecap="round"/>
+<circle cx="${P[0]}" cy="${P[1]}" r="${7 * s}" fill="${C.paper}" stroke="${C.charcoal}" stroke-width="${2.6 * s}"/><circle cx="${Q[0]}" cy="${Q[1]}" r="${7 * s}" fill="${C.paper}" stroke="${C.charcoal}" stroke-width="${2.6 * s}"/>
+<text x="${P[0] + 12 * s}" y="${P[1] + 22 * s}" font-family="JetBrains Mono" font-weight="700" font-size="${14 * s}" fill="${C.charcoal}">P(2, 3)</text><text x="${Q[0] + 12 * s}" y="${Q[1] + 24 * s}" font-family="JetBrains Mono" font-weight="700" font-size="${14 * s}" fill="${C.charcoal}">Q(8, 7)</text></svg></div>`;
+};
+const sheetChips = (labels, on) => `<div style="display:flex;flex-wrap:wrap;gap:8px;">${labels.map((l) => `<span style="display:flex;align-items:center;height:46px;padding:0 20px;border-radius:23px;background:${l === on ? C.charcoal : C.creamDark};color:${l === on ? C.onCharcoal : C.charcoal};font-family:${F.display};font-weight:700;font-size:16px;">${l}</span>`).join('')}</div>`;
+out['T19-feedback-sheet-landscape'] = page('Feedback sheet, landscape', L.W, L.H, C.fog, `
+${abs(40, TOP + 8, 600, 48, roundHeader(600, { done: 0, count: '0 / 8', pipsW: 330 }))}
+${abs(40, TOP + 84, 600, null, `<div style="display:flex;flex-direction:column;gap:10px;">${eyebrow('Lay it perpendicular', C.ember)}<div style="font-size:18px;line-height:1.5;">${PERP_Q}</div></div>`)}
+${abs(40, TOP + 200, null, null, perpFigure(600, 520))}
+${abs(L.W - SHEET_W, 0, SHEET_W, L.H, `<div style="width:${SHEET_W}px;height:${L.H}px;box-sizing:border-box;padding:${TOP + 8}px 32px 36px 36px;border-radius:40px 0 0 40px;background:${C.sheet};box-shadow:-6px 0 30px rgba(44,44,44,0.10);display:flex;flex-direction:column;gap:18px;">
+<div style="display:flex;align-items:center;justify-content:space-between;height:48px;">${eyebrow('Perpendicular Flip · Round 1', C.muted)}${roundIcon('Close', ico.close)}</div>
+${headline('Something unclear?', 40)}
+${sheetChips(['The question', 'The drawing', 'How to play', 'The concept'], 'The question')}
+<div style="margin-top:8px;font-family:${F.display};font-weight:700;font-size:24px;color:${C.muted};opacity:0.75;padding-bottom:12px;border-bottom:3px solid ${C.forest};">What tripped you up?</div>
+<div style="font-size:15px;line-height:1.5;color:${C.muted};">We read every one. The round you were on comes along, so you can keep it short.</div>
+<div style="flex-grow:1;"></div>${pill('Send it')}</div>`)}
+`);
+out['T19b-round-done-landscape'] = page('Round done, landscape', L.W, L.H, C.fog, `
+${abs(40, TOP + 8, 48, 48, roundIcon('Close', ico.close))}
+${abs(40, TOP + 96, 560, null, `<div style="display:flex;flex-direction:column;gap:12px;">
+<div style="box-sizing:border-box;height:400px;padding:30px 32px;border-radius:40px;background:${C.spring};color:${C.onAccent};display:flex;flex-direction:column;justify-content:space-between;"><div style="display:flex;justify-content:space-between;">${eyebrow('All done', C.onAccent)}${eyebrow('Perpendicular Flip', C.onAccent)}</div>
+<div style="display:flex;align-items:baseline;gap:14px;"><span style="font-family:${F.display};font-weight:800;font-size:200px;line-height:0.8;letter-spacing:-0.07em;">8</span><span style="font-family:${F.display};font-weight:700;font-size:30px;">of 8</span></div>
+<div style="font-size:17px;line-height:1.5;">6 on the first try. The 2 you missed came back and you got them.</div></div>
+<div style="display:flex;gap:12px;"><div style="flex:1;height:180px;box-sizing:border-box;padding:24px;border-radius:32px;background:${C.cream};display:flex;flex-direction:column;justify-content:space-between;">${eyebrow('First try')}<span style="font-family:${F.display};font-weight:800;font-size:76px;line-height:0.82;letter-spacing:-0.06em;">6 <span style="font-size:20px;letter-spacing:0;">of 8</span></span></div>
+<div style="flex:1;height:180px;box-sizing:border-box;padding:24px;border-radius:32px;background:${C.butter};display:flex;flex-direction:column;justify-content:space-between;">${eyebrow('Lesson')}<span style="font-family:${F.display};font-weight:800;font-size:76px;line-height:0.82;letter-spacing:-0.06em;">1 <span style="font-size:20px;letter-spacing:0;">of 3 done</span></span></div></div></div>`)}
+${abs(660, TOP + 96, 480, null, `<div style="display:flex;flex-direction:column;gap:16px;">${headline('You can build the perpendicular by hand.', 52)}${body17('Knowing the rule is not the same as solving with it. The full problems belong at a desk, on paper.', 440)}</div>`)}
+${abs(660, L.H - 36 - 72, 480, 72, `<div style="display:flex;align-items:center;justify-content:space-between;">${link('Start over')}${pill('Done', { width: 360 })}</div>`)}
+`);
+
+// ── T20 Badges: the page, and the moment ──
+const BADGE_CH = chapters.map(([id, name]) => [id, { mathematics: 'Math', statistics: 'Statistics', ethics: 'Ethics', economics: 'Economics', 'mechanics-materials': 'Mechanics', 'fluid-mechanics': 'Fluids', 'water-resources': 'Water', geotechnical: 'Geotech', transportation: 'Transport', structural: 'Structural', construction: 'Construction' }[id] || name]);
+const badgeCoin = (id, earned, s = 96) => `<span style="display:flex;align-items:center;justify-content:center;width:${s}px;height:${s}px;border-radius:50%;${earned ? `background:${C.spring};box-shadow:inset 0 0 0 ${s / 16}px ${C.forest}, 0 5px 0 ${C.plinth};` : `background:${C.creamDark};box-shadow:inset 0 0 0 2px ${C.line};`}color:${earned ? C.onAccent : C.muted};">${mark(id, 'currentColor', s * 0.5, 1.6)}</span>`;
+const milestoneCoin = (glyphSvg, earned, s = 96) => `<span style="display:flex;align-items:center;justify-content:center;width:${s}px;height:${s}px;border-radius:50%;${earned ? `background:${C.sunbeam};box-shadow:inset 0 0 0 ${s / 16}px #C98E14, 0 5px 0 ${C.plinth};` : `background:${C.creamDark};box-shadow:inset 0 0 0 2px ${C.line};`}color:${earned ? C.onAccent : C.muted};">${glyphSvg}</span>`;
+const badgeCell = (coinHtml, name) => `<div style="display:flex;flex-direction:column;align-items:center;gap:10px;width:112px;">${coinHtml}<span style="font-family:${F.display};font-weight:700;font-size:14px;text-align:center;">${name}</span></div>`;
+const mg = { flawless: `<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>`, daily: `<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>`, seven: `<svg width="44" height="44" viewBox="0 0 24 24" fill="none"><text x="12" y="17" text-anchor="middle" font-family="DM Sans" font-weight="800" font-size="15" fill="currentColor">7</text></svg>`, all: `<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>` };
+out['T20-badges-landscape'] = page('Badges, landscape', L.W, L.H, C.fog, `
+${rail('profile', L.H)}
+${topLine(CX, 300, roundIcon('Back', ico.back))}
+${abs(CX, TOP + 120, 300, null, `<div style="display:flex;flex-direction:column;gap:18px;">${headline('Badges', 72)}<div style="font-size:17px;color:${C.muted};">2 of 19 earned.</div></div>`)}
+${abs(CX + 300 + 40, TOP + 24, L.W - (CX + 300 + 40) - 40, null, `<div style="display:flex;flex-direction:column;gap:14px;">
+<div style="display:flex;align-items:baseline;justify-content:space-between;">${eyebrow('Chapters')}<span style="font-size:14px;color:${C.muted};">A chapter's drawing, for its first lesson done.</span></div>
+<div style="display:grid;grid-template-columns:repeat(5,112px);column-gap:16px;row-gap:18px;">${BADGE_CH.map(([id, n]) => badgeCell(badgeCoin(id, id === 'mathematics', 84), n)).join('')}</div>
+<div style="height:8px;"></div>${eyebrow('Milestones')}
+<div style="display:grid;grid-template-columns:repeat(5,112px);column-gap:16px;">${badgeCell(milestoneCoin(mg.flawless, false, 84), 'Flawless')}${badgeCell(milestoneCoin(mg.daily, true, 84), 'First Daily')}${badgeCell(milestoneCoin(mg.seven, false, 84), 'Seven in a row')}${badgeCell(milestoneCoin(mg.all, false, 84), 'All chapters')}</div></div>`)}
+`);
+const momentCard = (w, coinHtml, over, overColor, title, line) => `<div style="width:${w}px;box-sizing:border-box;padding:44px 40px 40px;border-radius:44px;background:${C.cream};display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;">${coinHtml}<div style="height:6px;"></div>${eyebrow(over, overColor)}${headline(title, 44, C.charcoal, 'text-align:center;')}<div style="font-size:17px;line-height:1.5;color:${C.muted};max-width:420px;">${line}</div></div>`;
+out['T20b-badge-moment-landscape'] = page('Badge moment, landscape', L.W, L.H, C.fog, `
+${abs((L.W - 560) / 2, 70, 560, null, momentCard(560, badgeCoin('mathematics', true, 180), 'New badge', C.forest, 'Mathematics', 'Your first lesson in Mathematics, done.'))}
+${abs((L.W - 720) / 2, L.H - 36 - 72, 720, 72, `<div style="display:flex;align-items:center;justify-content:space-between;">${link('All badges')}${pill('Carry on', { width: TB.size.pillMax })}</div>`)}
+`);
+
+// ── T21 The Daily's steps, done, yesterday, share ──
+const daySteps = (at) => `<div style="display:flex;flex-direction:column;gap:10px;">${[['statics', 'Which Distance Counts', 'Force Systems &amp; Resultants', '5 of 6'], ['mechanics-materials', 'Which Stretches More', 'Axial Stress, Strain &amp; Deformation', 'Now'], ['surveying', 'Find It on the Plan', 'Angles, Distances &amp; Bearings', 'Next']].map(([id, n, l, st], i) => `<div style="display:flex;align-items:center;gap:16px;box-sizing:border-box;padding:16px 20px 16px 16px;border-radius:26px;background:${i === at ? C.charcoal : C.cream};color:${i === at ? C.onCharcoal : C.charcoal};${i > at ? 'opacity:0.6;' : ''}"><span style="display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:28px;background:${i === at ? C.spring : C.creamDark};color:${C.onAccent};">${i < at ? ico.check(22) : mark(id, 'currentColor', 30, 1.7)}</span><span style="display:flex;flex-direction:column;gap:3px;flex-grow:1;"><span style="font-family:${F.display};font-weight:700;font-size:17px;">${n}</span><span style="font-size:13px;color:${i === at ? C.mutedDark : C.muted};">${l}</span></span><span style="font-family:${F.mono};font-size:12px;color:${i === at ? C.spring : C.muted};">${st}</span></div>`).join('')}</div>`;
+out['T21-daily-step-landscape'] = page('Daily step, landscape', L.W, L.H, C.fog, `
+${abs(56, TOP + 12, 48, 48, roundIcon('Close', ico.close))}
+${abs(56, TOP + 100, 460, null, `<div style="display:flex;flex-direction:column;gap:18px;"><div style="display:flex;justify-content:space-between;">${eyebrow("Today's Daily")}${eyebrow('Concept 2 of 3', C.muted)}</div>${daySteps(1)}</div>`)}
+${abs(RX - 40, TOP + 12, L.W - (RX - 40) - 56, L.H - TOP - 12 - 36 - 72 - 24, `<div style="height:100%;box-sizing:border-box;padding:32px 36px;border-radius:40px;background:${C.cream};display:flex;flex-direction:column;gap:14px;">
+${eyebrow('Mechanics of Materials', C.muted)}
+<div style="flex-grow:1;display:flex;align-items:center;justify-content:center;"><span style="display:flex;align-items:center;justify-content:center;width:200px;height:200px;border-radius:50%;background:${C.springField};color:${C.charcoal};">${mark('mechanics-materials', 'currentColor', 120, 1.4)}</span></div>
+<div style="font-family:${F.display};font-weight:700;font-size:17px;color:${C.muted};">Axial Stress, Strain &amp; Deformation</div>
+${headline('Which Stretches More', 52)}
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;"><div style="font-size:17px;line-height:1.5;color:${C.muted};">Two bars, one scale. Which one moves further?</div><span style="white-space:nowrap;">${link('Read the concept first', C.charcoal, 15)}</span></div></div>`)}
+${abs(L.W - 56 - TB.size.pillMax, L.H - 36 - 72, TB.size.pillMax, 72, pill('Play concept 2'))}
+`);
+const pipGrid = (w, missed) => `<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;width:${w}px;">${Array.from({ length: 18 }, (_, i) => `<span style="height:16px;border-radius:8px;background:${missed.includes(i) ? C.cream : C.charcoal};"></span>`).join('')}</div>`;
+out['T21b-daily-done-landscape'] = page('Daily done, landscape', L.W, L.H, C.fog, `
+${abs(56, TOP + 12, 48, 48, roundIcon('Close', ico.close))}
+${abs(56, TOP + 96, 600, null, `<div style="box-sizing:border-box;height:${L.H - TOP - 96 - 36}px;padding:34px 36px;border-radius:44px;background:${C.spring};color:${C.onAccent};display:flex;flex-direction:column;justify-content:space-between;">
+<div style="display:flex;justify-content:space-between;">${eyebrow("Today's Daily", C.onAccent)}${eyebrow('Done', C.onAccent)}</div>
+<div style="display:flex;align-items:baseline;gap:16px;"><span style="font-family:${F.display};font-weight:800;font-size:200px;line-height:0.8;letter-spacing:-0.07em;">16</span><span style="font-family:${F.display};font-weight:700;font-size:32px;">of 18</span></div>
+${pipGrid(528, [7, 10])}
+<div style="font-size:18px;line-height:1.5;">On the first try. You missed one in Mechanics of Materials and one in Surveying, and they all came back.</div></div>`)}
+${abs(696, TOP + 96, L.W - 696 - 56, null, `<div style="display:flex;flex-direction:column;gap:12px;">
+<div style="height:180px;box-sizing:border-box;padding:24px 28px;border-radius:32px;background:${C.cream};display:flex;flex-direction:column;justify-content:space-between;">${eyebrow('Time')}<span style="font-family:${F.display};font-weight:800;font-size:84px;line-height:0.82;letter-spacing:-0.05em;">2:41</span></div>
+<div style="height:180px;box-sizing:border-box;padding:24px 28px;border-radius:32px;background:${C.butter};display:flex;flex-direction:column;justify-content:space-between;">${eyebrow('Streak', C.forest)}<span style="font-family:${F.display};font-weight:800;font-size:84px;line-height:0.82;letter-spacing:-0.05em;">6 <span style="font-size:22px;letter-spacing:0;">days</span></span></div></div>`)}
+${abs(696, L.H - 36 - 72, L.W - 696 - 56, 72, `<div style="display:flex;align-items:center;justify-content:space-between;">${link('Share')}${pill('How others did', { width: 330 })}</div>`)}
+`);
+out['T21c-daily-yesterday-landscape'] = page("Yesterday's score, landscape", L.W, L.H, C.butter, `
+${rail('daily', L.H)}
+${topLine(CX, 520, roundIcon('Back', ico.back))}
+${abs(CX, TOP + 100, 520, null, `<div style="display:flex;flex-direction:column;gap:18px;">${eyebrow('Monday, Nov 2 · Final · 23 played')}${headline('4th of 23<br>yesterday', 72)}
+<div style="box-sizing:border-box;margin-top:10px;padding:24px 28px;border-radius:36px;background:${C.cream};display:flex;flex-direction:column;gap:6px;">${eyebrow('First try, out of 18', C.muted)}<div style="height:6px;"></div>${bar('18', 3, 7, false)}${bar('17', 5, 7, true)}${bar('16', 7, 7, false)}${bar('15', 5, 7, false)}${bar('14', 3, 7, false)}</div></div>`)}
+${abs(RIGHT_X, TOP + 100, RIGHT_W, null, `<div style="display:flex;flex-direction:column;gap:10px;">${eyebrow('The board', C.muted)}<div style="height:4px;"></div>
+${rankRow(1, 'Maria L.', 18, '1:58', false)}${rankRow(2, 'Dev P.', 18, '2:20', false)}${rankRow(3, 'Ana R.', 17, '2:05', false)}${rankRow(4, 'You', 17, '2:41', true)}${rankRow(5, 'Sam K.', 17, '3:02', false)}${rankRow(6, 'Priya N.', 16, '2:12', false)}${rankRow(7, 'Luis M.', 16, '2:47', false)}</div>`)}
+`);
+const shareCard = (w) => `<div style="width:${w}px;box-sizing:border-box;padding:28px 30px 24px;border-radius:30px;background:${C.white};box-shadow:0 18px 40px rgba(44,44,44,0.16);transform:rotate(-2deg);display:flex;flex-direction:column;gap:14px;">
+<div style="display:flex;justify-content:space-between;">${eyebrow('FE for Raccoons')}${eyebrow('Nov 3', C.muted)}</div>${headline('The Daily', 34)}
+<div style="display:flex;align-items:baseline;gap:10px;"><span style="font-family:${F.display};font-weight:800;font-size:86px;line-height:0.82;letter-spacing:-0.06em;">16</span><span style="font-family:${F.display};font-weight:700;font-size:22px;">of 18</span><span style="font-family:${F.mono};font-size:18px;font-weight:600;margin-left:8px;">2:41</span></div>
+<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:7px;">${Array.from({ length: 18 }, (_, i) => `<span style="height:14px;border-radius:7px;background:${[7, 10].includes(i) ? C.peach : C.charcoal};"></span>`).join('')}</div>
+<div style="font-family:${F.mono};font-size:12px;color:${C.muted};">fe4raccoons.com</div></div>`;
+out['T21d-daily-share-landscape'] = page('Share your result, landscape', L.W, L.H, C.butter, `
+${rail('daily', L.H)}${scrim()}
+${abs(SX, L.H - 400, SH, 400, sheetBox(SH, 400, `<div style="display:flex;gap:32px;align-items:center;flex-grow:1;">${shareCard(320)}<div style="flex-grow:1;display:flex;flex-direction:column;gap:12px;">${darkPill('Share the picture')}${lightPill('Copy as text')}</div></div>`), 'z-index:7;')}
+`);
+
+// ── T22 League moment: a moment, phone-like on purpose ──
+const bigCoin = (letter, s = 180) => `<span style="display:flex;align-items:center;justify-content:center;width:${s}px;height:${s}px;border-radius:50%;background:${T.leagueCoin.silver.face};box-shadow:inset 0 0 0 ${s / 14}px ${T.leagueCoin.silver.rim}, 0 8px 0 ${C.plinth};"><span style="display:flex;align-items:center;justify-content:center;width:${s * 0.68}px;height:${s * 0.68}px;border-radius:50%;border:${s / 40}px solid ${T.leagueCoin.silver.ink};font-family:${F.display};font-weight:800;font-size:${s * 0.36}px;color:${T.leagueCoin.silver.ink};">${letter}</span></span>`;
+out['T22-league-moment-landscape'] = page('League moment, landscape', L.W, L.H, C.fog, `
+${abs((L.W - 560) / 2, 70, 560, null, momentCard(560, bigCoin('S'), 'Moved up', C.forest, 'You moved up to Silver', '3rd of 15 in Bronze last week. A new week starts now, and everyone is back at zero.'))}
+${abs((L.W - TB.size.pillMax) / 2, L.H - 36 - 72, TB.size.pillMax, 72, pill('Carry on'))}
+`);
+
+// ── T23 XP and Concepts: the number left, where it came from right ──
+const half = (label, n) => `<div style="flex:1;box-sizing:border-box;padding:22px 24px;border-radius:28px;background:${C.cream};display:flex;flex-direction:column;gap:10px;">${eyebrow(label, C.muted)}<span style="font-family:${F.display};font-weight:800;font-size:54px;letter-spacing:-0.05em;">${n}</span></div>`;
+const how = (where, what) => `<div style="display:flex;gap:20px;padding:16px 0;border-bottom:1px solid ${C.line};"><span style="width:150px;flex-shrink:0;font-family:${F.display};font-weight:700;font-size:17px;">${where}</span><span style="font-size:16px;line-height:1.5;color:${C.muted};">${what}</span></div>`;
+out['T23-xp-landscape'] = page('XP, landscape', L.W, L.H, C.fog, `
+${rail('profile', L.H)}
+${topLine(CX, 420, roundIcon('Back', ico.back), eyebrow('Total XP', C.muted))}
+${abs(CX, TOP + 190, 420, null, `<div style="display:flex;flex-direction:column;gap:22px;"><div style="display:flex;align-items:baseline;gap:12px;"><span style="font-family:${F.display};font-weight:800;font-size:150px;line-height:0.82;letter-spacing:-0.07em;">1,240</span><span style="font-family:${F.display};font-weight:700;font-size:26px;">XP</span></div>${body17('Points for practice, in the app and on the website. They rank the leaderboard. They are not mastery.', 420)}
+<div style="display:flex;gap:10px;margin-top:8px;">${half('In the app', '410')}${half('On the website', '830')}</div></div>`)}
+${abs(CX + 420 + 64, TOP + 190, L.W - (CX + 420 + 64) - 48, null, `<div style="display:flex;flex-direction:column;gap:8px;">${eyebrow('How it is earned')}
+${how('In the app', '5 for each round right, 2 for a miss, up to 60 a day.')}${how('On the website', '10 for each problem right, 5 for a miss, and 25 more for finishing a practice session.')}
+<div style="height:30px;"></div>${eyebrow('Today in the app')}
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:6px;"><span style="font-family:${F.display};font-weight:800;font-size:44px;letter-spacing:-0.04em;">35 <span style="font-size:20px;letter-spacing:0;">of 60</span></span></div>
+${progressBar(L.W - (CX + 420 + 64) - 48, 35 / 60)}
+<div style="font-size:15px;line-height:1.5;color:${C.muted};margin-top:6px;">The app gives up to 60 a day, so a phone never outscores the desk.</div></div>`)}
+`);
+const conceptRow = (title, lesson) => `<div style="display:flex;align-items:center;gap:14px;height:60px;box-sizing:border-box;padding:0 16px 0 20px;border-radius:20px;background:${C.cream};"><span style="display:flex;flex-direction:column;gap:2px;flex-grow:1;"><span style="font-family:${F.display};font-weight:700;font-size:16px;">${title}</span><span style="font-size:13px;color:${C.muted};">${lesson}</span></span><span style="color:${C.muted};">${ico.book}</span></div>`;
+const conceptGroup = (id, name, rows) => `<div style="display:flex;flex-direction:column;gap:8px;"><div style="display:flex;align-items:center;gap:10px;">${mark(id, C.charcoal, 20, 1.8)}${eyebrow(name)}<span style="font-family:${F.mono};font-size:12px;color:${C.muted};">${rows.length}</span></div>${rows.map(([t, l]) => conceptRow(t, l)).join('')}</div>`;
+out['T23b-concepts-landscape'] = page('Concepts, landscape', L.W, L.H, C.fog, `
+${rail('profile', L.H)}
+${topLine(CX, 380, roundIcon('Back', ico.back), eyebrow('Concepts', C.muted))}
+${abs(CX, TOP + 120, 380, null, `<div style="display:flex;flex-direction:column;gap:22px;"><div style="display:flex;align-items:baseline;gap:12px;"><span style="font-family:${F.display};font-weight:800;font-size:170px;line-height:0.82;letter-spacing:-0.07em;">9</span><span style="font-family:${F.display};font-weight:700;font-size:28px;">concepts</span></div>${body17('Each one finished here on the phone, every round cleared. The website counts its own practice.', 380)}</div>`)}
+${abs(CX + 380 + 56, TOP + 24, L.W - (CX + 380 + 56) - 40, null, `<div style="display:grid;grid-template-columns:1fr 1fr;column-gap:16px;row-gap:22px;align-items:start;">
+${conceptGroup('mathematics', 'Mathematics', [['Parallel and perpendicular', 'Straight Lines &amp; Quadratics'], ['The part under the square root', 'Straight Lines &amp; Quadratics'], ['Grade, rise and run', 'Straight Lines &amp; Quadratics'], ['What a log is, and the rule that does not exist', 'Logarithms'], ['Getting the unknown down from the exponent', 'Logarithms'], ['Squeeze the logs into one first', 'Logarithms'], ['Opposite, adjacent, hypotenuse', 'Right Triangle Trigonometry']])}
+${conceptGroup('statics', 'Statics', [['The arm is the shortest distance to the line', 'Force Systems &amp; Resultants'], ['Which part gets the cosine', 'Force Systems &amp; Resultants']])}</div>`)}
+`);
+
+// ── T24 Exam outcome and the pass card ──
+out['T24-exam-outcome-landscape'] = page('Exam outcome, landscape', L.W, L.H, C.fog, `
+${rail('profile', L.H)}
+${topLine(CX, L.W - CX - 40, eyebrow('Saturday, Jan 16', C.muted), avatar)}
+${abs(CX, TOP + 120, 460, null, `<div style="display:flex;flex-direction:column;gap:20px;">${eyebrow('How did it go?', C.ember)}${headline('Your exam has been and gone.', 64)}</div>`)}
+${abs(CX + 460 + 64, TOP + 136, L.W - (CX + 460 + 64) - 48, null, `<div style="display:flex;flex-direction:column;gap:14px;">${body17('Telling us is how we learn which study patterns actually lead to a pass, which makes this better for everyone sitting it after you.', 460)}
+<div style="height:18px;"></div>${pill('I passed')}${lightPill('Not this time')}<div style="display:flex;justify-content:center;margin-top:6px;">${link('I did not sit it', C.charcoal, 15)}</div></div>`)}
+`);
+const passCardArt = (w, h) => `<div style="width:${w}px;height:${h}px;box-sizing:border-box;padding:${w * 0.05}px;border-radius:14px;background:${C.white};box-shadow:0 18px 40px rgba(44,44,44,0.16);display:flex;gap:${w * 0.04}px;position:relative;overflow:hidden;">
+<div style="flex:1;display:flex;flex-direction:column;"><span style="font-family:${F.mono};font-size:${w * 0.016}px;color:${C.ember};letter-spacing:0.08em;">FUNDAMENTALS OF ENGINEERING</span><span style="font-family:${F.display};font-weight:800;font-size:${w * 0.075}px;line-height:0.95;letter-spacing:-0.04em;margin-top:${w * 0.02}px;">FE Civil<br>passed.</span><span style="font-family:${F.display};font-weight:700;font-size:${w * 0.03}px;margin-top:${w * 0.02}px;">Jerson Garcia, EIT</span><span style="flex-grow:1;"></span><div style="display:flex;gap:${w * 0.04}px;border-top:1px solid ${C.line};padding-top:${w * 0.015}px;font-family:${F.mono};font-size:${w * 0.014}px;color:${C.muted};"><span>Civil Engineering</span><span>Pass</span><span>January 2027</span></div></div>
+<div style="width:48%;display:flex;flex-direction:column;justify-content:flex-end;gap:${w * 0.006}px;">${chapters.slice().reverse().map(([, n], i) => `<span style="height:${h * 0.042}px;border-radius:3px;background:${i === 0 ? C.ember : i % 3 === 1 ? C.creamDark : C.charcoal};margin-left:${(i * 7) % 18}px;font-family:${F.mono};font-size:${w * 0.011}px;color:${i % 3 === 1 ? C.charcoal : C.onCharcoal};padding-left:6px;line-height:${h * 0.042}px;overflow:hidden;white-space:nowrap;">${n.toUpperCase()}</span>`).join('')}</div>
+<img src="${RACCOON}" alt="" style="position:absolute;right:${w * 0.06}px;top:${h * 0.03}px;width:${w * 0.08}px;"></div>`;
+out['T24b-pass-card-landscape'] = page('Pass card, landscape', L.W, L.H, C.fog, `
+${abs(56, TOP + 12, 48, 48, roundIcon('Close', ico.close))}
+${abs(56, TOP + 120, 660, null, passCardArt(660, 440))}
+${abs(780, TOP + 150, L.W - 780 - 56, null, `<div style="display:flex;flex-direction:column;gap:18px;">${headline('It is yours.', 64)}${body17('Post it, print it, or keep it. It stays on your profile, so you can find it again.', 340)}</div>`)}
+${abs(780, L.H - 36 - 72 - 76, L.W - 780 - 56, null, `<div style="display:flex;flex-direction:column;gap:12px;">${pill('Save or share')}<div style="display:flex;justify-content:center;">${link('Change the name', C.charcoal, 15)}</div></div>`)}
+`);
+
+// ── T25 Edge states, and the guest's tabs ──
+out['T25-update-needed-landscape'] = page('Update needed, landscape', L.W, L.H, C.fog, `
+${abs(56, TOP + 12, 48, 48, roundIcon('Back', ico.back))}
+${abs(56, TOP + 140, 600, null, `<div style="display:flex;flex-direction:column;gap:22px;">${eyebrow('A new kind of round', C.muted)}${headline(`Update the app<br>to play <span style="color:${C.forest};">this lesson.</span>`, 76)}</div>`)}
+${abs(RX + 60, TOP + 300, L.W - RX - 60 - 56, null, body17('It teaches with something your version does not have yet. Every other lesson works as it is, and nothing you have done is lost.', 440))}
+${abs(L.W - 56 - TB.size.pillMax, L.H - 36 - 72, TB.size.pillMax, 72, pill('Update the app'))}
+`);
+const adds = ['Your mastery across all 15 chapters', 'The Daily, your streak and badges', 'Lessons and practice on fe4raccoons.com, in sync with this phone', 'Your exam date and countdown'];
+const addList = `<div style="display:flex;flex-direction:column;gap:14px;">${adds.map((a) => `<div style="display:flex;gap:14px;align-items:flex-start;font-size:17px;line-height:1.45;"><span style="flex-shrink:0;margin-top:3px;width:18px;height:18px;border-radius:6px;border:2.5px solid ${C.forest};"></span>${a}</div>`).join('')}</div>`;
+const greenPill = (label, w = null) => pill(label, { width: w }).replace(`background:${C.charcoal}`, `background:${C.forest}`);
+out['T25b-guest-profile-landscape'] = page('Guest profile, landscape', L.W, L.H, C.fog, `
+${rail('profile', L.H)}
+${topLine(CX, L.W - CX - 40, eyebrow('Tuesday, Nov 3', C.muted), avatar.replace('>J<', '>?<'))}
+${abs(CX, TOP + 104, 470, null, `<div style="display:flex;flex-direction:column;gap:40px;">${headline('Your progress lives on this phone for now.', 64)}${fact('4', 'rounds', 'Finished on this phone', '', 110)}</div>`)}
+${abs(CX + 470 + 72, TOP + 140, L.W - (CX + 470 + 72) - 40, null, `<div style="display:flex;flex-direction:column;gap:18px;">${headline('A free account adds', 28)}${addList}</div>`)}
+${abs(CX + 470 + 72, L.H - 36 - 72 - 40, L.W - (CX + 470 + 72) - 40, null, `<div style="display:flex;flex-direction:column;gap:12px;">${greenPill('Create an account')}<div style="font-size:15px;color:${C.muted};">The 4 rounds come with you. Have one? <u style="color:${C.charcoal};">Sign in</u></div></div>`)}
+`);
+out['T25c-guest-daily-landscape'] = page('Guest Daily, landscape', L.W, L.H, C.butter, `
+${rail('daily', L.H)}
+${abs(CX, TOP + 24, 500, null, `<div style="display:flex;flex-direction:column;gap:16px;">${eyebrow('Tuesday, Nov 3')}${headline("Today's Daily", 64)}
+${eyebrow('Same for everyone', C.muted)}<div style="font-size:17px;line-height:1.5;opacity:0.82;">Play, then see how you did against everyone else today.</div>
+<div style="display:flex;align-items:baseline;gap:14px;margin-top:20px;"><span style="font-family:${F.display};font-weight:800;font-size:200px;line-height:0.8;letter-spacing:-0.07em;">3</span><span style="font-family:${F.display};font-weight:700;font-size:26px;">concepts, about 3 min</span></div></div>`)}
+${abs(CX, L.H - 36 - 110, 500, null, `<div style="font-size:15px;line-height:1.5;color:${C.muted};">The Daily ranks you against everyone who played today and keeps your streak, so it needs an account. These concepts are in your lessons too.</div>`)}
+${abs(RIGHT_X, TOP + 24, RIGHT_W, L.H - TOP - 24 - 36, `<div style="height:100%;box-sizing:border-box;padding:26px;border-radius:40px;background:${C.cream};display:flex;flex-direction:column;gap:12px;">
+${dailyRow('fluid-mechanics', 'Which Property Is That', 'Fluid Properties', '6')}${dailyRow('structural', 'Z or S', 'Steel Beams', '6')}${dailyRow('mathematics', 'One Log', 'Logarithms', '6')}
+<div style="height:6px;"></div>${pill('Sign up to play')}<div style="text-align:center;font-size:15px;color:${C.muted};">Already have one? <u style="color:${C.charcoal};">Sign in</u></div></div>`)}
+`);
+
+
 // ── write ──
 const dir = new URL('./tablet-screens/html/', import.meta.url);
 mkdirSync(dir, { recursive: true });
