@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'features/packs/pack_store.dart';
 import 'core/network/api_client.dart';
+import 'core/orientation_policy.dart';
 import 'core/router.dart';
 import 'core/storage/app_storage.dart';
 import 'core/theme/app_colors.dart';
@@ -20,7 +21,8 @@ class FeRaccoonsApp extends StatefulWidget {
   State<FeRaccoonsApp> createState() => _FeRaccoonsAppState();
 }
 
-class _FeRaccoonsAppState extends State<FeRaccoonsApp> {
+class _FeRaccoonsAppState extends State<FeRaccoonsApp>
+    with WidgetsBindingObserver {
   late final AuthController _auth;
   late final GoRouter _router;
 
@@ -30,14 +32,20 @@ class _FeRaccoonsAppState extends State<FeRaccoonsApp> {
     _auth = AuthController(api: ApiClient(), storage: AppStorage());
     _router = buildRouter(_auth);
     _auth.bootstrap(); // launch gate: token check -> /me
+    WidgetsBinding.instance.addObserver(this);
     // A newer content pack, if the server has one, downloads quietly and
     // reaches the next lesson opened (ADR 0030). Packs are public, so a
     // guest gets them too.
     if (packsOn) unawaited(PackStore.instance.refresh(_auth.api));
   }
 
+  /// A foldable opened flat becomes a tablet, and may turn.
+  @override
+  void didChangeMetrics() => unawaited(applyOrientationPolicy());
+
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _auth.dispose();
     super.dispose();
   }

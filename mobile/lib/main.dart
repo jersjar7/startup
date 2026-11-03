@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'app.dart';
 import 'core/licenses.dart';
+import 'core/orientation_policy.dart';
 import 'core/storage/app_storage.dart';
 import 'core/theme/theme_mode.dart';
 import 'features/daily/daily_repository.dart';
@@ -22,13 +22,12 @@ Future<void> main() async {
   // and synchronous: it only registers a callback, nothing is read until
   // somebody opens the licence page.
   registerFontLicenses();
-  // Portrait only (owner, 2026-10-08). Landscape was never designed: at
-  // 852x393 the study screen overflows by 46px, the exam date screen by 160
-  // and the study days screen by 589. Locked here as well as in Info.plist,
+  // Portrait only on a phone (owner, 2026-10-08); every way on a tablet
+  // (ADR 0039). Chosen by the device's shortest side, so Android, with one
+  // manifest for both, gets it right too. Set here as well as in Info.plist,
   // because the plist governs what iOS offers and this governs what the app
-  // accepts, and a screen that forces its own orientation would otherwise
-  // slip past the plist unnoticed.
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  // accepts.
+  await applyOrientationPolicy();
   // Half-finished sittings are restored before the first frame, so a lesson
   // opens where it was left rather than at the top.
   await GameProgress.instance.load(AppStorage());

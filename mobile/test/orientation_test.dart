@@ -1,68 +1,99 @@
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mobile/core/orientation_policy.dart';
 
-/// Portrait, iPhone only (owner, 2026-10-08).
+/// Phones portrait only (owner, 2026-10-08); iPad and Android tablets every
+/// way, with split screen (ADR 0039, owner 2026-11-03).
 ///
-/// The app shipped as universal with landscape enabled, both of which were
-/// Flutter defaults rather than decisions. Measured before changing them:
+/// Measured before the phone lock: at 852x393 a phone's study screen
+/// overflowed by 46px, the exam date screen by 160 and the study days screen
+/// by 589. A phone in landscape is still never offered. A tablet's screens
+/// are laid out for both orientations (mobile/design/TABLET.md).
 ///
-///   iPad 13 landscape   study days overflowed by 473px
-///   iPhone 15 landscape study 46px, exam date 160px, study days 589px
-///
-/// Nothing in the design documentation mentions a tablet, and the whole
-/// product is built around a phone held in one hand for a few minutes. These
-/// are read from the real build config rather than asserted in Dart, because
-/// the config is what iOS actually obeys.
+/// These are read from the real build config rather than asserted in Dart,
+/// because the config is what iOS actually obeys.
 void main() {
   final plist = File('ios/Runner/Info.plist').readAsStringSync();
   final pbx = File('ios/Runner.xcodeproj/project.pbxproj').readAsStringSync();
 
-  test('iOS is offered portrait and nothing else', () {
+  String orientations(String key) {
     final block = RegExp(
-      r'<key>UISupportedInterfaceOrientations</key>\s*<array>(.*?)</array>',
+      '<key>${RegExp.escape(key)}</key>\\s*<array>(.*?)</array>',
       dotAll: true,
     ).firstMatch(plist);
-    expect(
-      block,
-      isNotNull,
-      reason: 'the orientation list is missing entirely',
-    );
-    final body = block!.group(1)!;
+    expect(block, isNotNull, reason: '$key is missing entirely');
+    return block!.group(1)!;
+  }
+
+  test('an iPhone is offered portrait and nothing else', () {
+    final body = orientations('UISupportedInterfaceOrientations');
     expect(body, contains('UIInterfaceOrientationPortrait'));
     expect(
       body,
       isNot(contains('Landscape')),
-      reason: 'landscape is back, and three screens overflow in it',
+      reason: 'landscape is back on the phone, and three screens overflow',
     );
     expect(body, isNot(contains('PortraitUpsideDown')));
   });
 
-  test('iPad is not a target', () {
-    expect(
-      pbx,
-      isNot(contains('TARGETED_DEVICE_FAMILY = "1,2"')),
-      reason:
-          'universal again: Apple will then require iPad screenshots '
-          'and review the app on a device it was never designed for',
-    );
-    expect(pbx, contains('TARGETED_DEVICE_FAMILY = "1"'));
+  test('an iPad is offered all four orientations', () {
+    final body = orientations('UISupportedInterfaceOrientations~ipad');
+    for (final o in [
+      'UIInterfaceOrientationPortrait',
+      'UIInterfaceOrientationPortraitUpsideDown',
+      'UIInterfaceOrientationLandscapeLeft',
+      'UIInterfaceOrientationLandscapeRight',
+    ]) {
+      expect(body, contains('<string>$o</string>'));
+    }
   });
 
-  test('no iPad-only configuration is left behind', () {
+  test('split screen works: the app does not demand the whole screen', () {
+    // iPad multitasking needs all four orientations AND no
+    // UIRequiresFullScreen; with it, the Handbook cannot sit beside the app.
+    expect(plist, isNot(contains('UIRequiresFullScreen')));
+  });
+
+  test('iPhone and iPad are both targets, in every build configuration', () {
+    expect(pbx, isNot(contains('TARGETED_DEVICE_FAMILY = "1";')));
     expect(
-      plist,
-      isNot(contains('~ipad')),
-      reason: 'dead config that outlived the iPad target',
+      RegExp(r'TARGETED_DEVICE_FAMILY = "1,2";').allMatches(pbx).length,
+      3,
+      reason: 'Debug, Release and Profile',
     );
   });
 
-  test('the app also refuses landscape itself, not only via the plist', () {
-    // The plist governs what iOS offers; this governs what the app accepts.
-    // A screen that forced its own orientation would otherwise slip past.
+  test('the app sets its own orientations, chosen by the device size', () {
+    // The plist governs what iOS offers; this governs what the app accepts,
+    // on Android too, which has one manifest for phones and tablets.
     final main = File('lib/main.dart').readAsStringSync();
-    expect(main, contains('setPreferredOrientations'));
-    expect(main, contains('DeviceOrientation.portraitUp'));
-    expect(main, isNot(contains('DeviceOrientation.landscape')));
+    expect(main, contains('applyOrientationPolicy'));
+    final manifest = File(
+      'android/app/src/main/AndroidManifest.xml',
+    ).readAsStringSync();
+    expect(
+      manifest,
+      isNot(contains('android:screenOrientation')),
+      reason: 'a manifest lock would hold tablets to it too',
+    );
+  });
+
+  group('orientationsFor', () {
+    test('a phone (shortest side under 600) is portrait up only', () {
+      for (final side in [320.0, 375.0, 390.0, 430.0, 599.0]) {
+        expect(orientationsFor(side), [DeviceOrientation.portraitUp]);
+      }
+    });
+
+    test('a tablet (600 or more) turns every way', () {
+      for (final side in [600.0, 744.0, 820.0, 1024.0]) {
+        expect(
+          orientationsFor(side).toSet(),
+          DeviceOrientation.values.toSet(),
+        );
+      }
+    });
   });
 }
