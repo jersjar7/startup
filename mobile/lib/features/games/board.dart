@@ -613,7 +613,9 @@ class _BoardShellState extends State<BoardShell> {
   Widget _tablet(BuildContext context, {required double roundWidth}) {
     final session = widget.session;
     final beside =
-        (widget.figure != null || _markers.value > 0) &&
+        // One drawing goes beside the answers; a round with several (a
+        // figure for each choice) keeps them in its column.
+        (widget.figure != null || _markers.value == 1) &&
         AppTablet.classFor(roundWidth) == SizeClass.expanded &&
         !AppTablet.isShort(context);
     final Widget body;

@@ -381,21 +381,25 @@ class _PackPickOneGameState extends State<PackPickOneGame> {
           ),
         ),
         const SizedBox(height: 12),
-        Container(
-          height: (_game.json['figureHeight']! as num).toDouble(),
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.line),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(11),
-            child: EngineeringGrid(
-              minor: 18,
-              major: 90,
-              child: CustomPaint(
-                painter: DrawingPainter(ops(figure[answered ? 'done' : 'ask'])),
-                child: const SizedBox.expand(),
+        BoardFigure(
+          child: Container(
+            height: (_game.json['figureHeight']! as num).toDouble(),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.line),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(11),
+              child: EngineeringGrid(
+                minor: 18,
+                major: 90,
+                child: CustomPaint(
+                  painter: DrawingPainter(
+                    ops(figure[answered ? 'done' : 'ask']),
+                  ),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),
@@ -543,8 +547,31 @@ class _ScreenBlocks extends StatelessWidget {
       if (_shown(b)) ..._block(b),
   ];
 
+  /// A node tree that draws ('draw', 'tapdraw') and holds no answer.
+  static bool _isFigure(Object? n) {
+    var draws = false;
+    var answers = false;
+    void walk(Object? o) {
+      if (o is Map) {
+        final k = o['k'];
+        if (k == 'draw' || k == 'tapdraw') draws = true;
+        if (k == 'answer') answers = true;
+        o.values.forEach(walk);
+      } else if (o is List) {
+        o.forEach(walk);
+      }
+    }
+
+    walk(n);
+    return draws && !answers;
+  }
+
   List<Widget> _block(Map<String, Object?> b) {
-    if (b['k'] != null) return [_node(b)];
+    if (b['k'] != null) {
+      // A drawing on its own (a framed draw node with no answers in it) is
+      // the round's figure: beside the answers on a tablet.
+      return [_isFigure(b) ? BoardFigure(child: _node(b)) : _node(b)];
+    }
     if (b['gap'] case final num h) return [SizedBox(height: h.toDouble())];
     if (b['overline'] case final String s) {
       return [Text(s, style: AppTheme.overline(color: _colors[b['color']]!))];
@@ -604,34 +631,36 @@ class _ScreenBlocks extends StatelessWidget {
       );
       final h = _num(b['h']);
       return [
-        switch (b['frame']) {
-          'panel' => Container(
-            height: h,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(minor: 18, major: 90, child: paint),
-            ),
-          ),
-          'grid' => EngineeringGrid(
-            minor: 18,
-            major: 90,
-            child: SizedBox(height: h, child: paint),
-          ),
-          'clip' => ClipRRect(
-            borderRadius: BorderRadius.circular(_num(b['radius'])),
-            child: SizedBox(
+        BoardFigure(
+          child: switch (b['frame']) {
+            'panel' => Container(
               height: h,
-              width: double.infinity,
-              child: EngineeringGrid(minor: 18, major: 90, child: paint),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(minor: 18, major: 90, child: paint),
+              ),
             ),
-          ),
-          _ => SizedBox(height: h, child: paint),
-        },
+            'grid' => EngineeringGrid(
+              minor: 18,
+              major: 90,
+              child: SizedBox(height: h, child: paint),
+            ),
+            'clip' => ClipRRect(
+              borderRadius: BorderRadius.circular(_num(b['radius'])),
+              child: SizedBox(
+                height: h,
+                width: double.infinity,
+                child: EngineeringGrid(minor: 18, major: 90, child: paint),
+              ),
+            ),
+            _ => SizedBox(height: h, child: paint),
+          },
+        ),
       ];
     }
     if (b['row'] case final List cells) {
@@ -773,38 +802,40 @@ class _ScreenBlocks extends StatelessWidget {
       final state = '${mark < 0 ? '-' : mark}|${answered ? 1 : 0}';
       final h = _num(b['h']);
       return [
-        LayoutBuilder(
-          builder: (context, box) {
-            final size = Size(box.maxWidth, h);
-            final area = GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTapDown: onPick == null
-                  ? null
-                  : (details) {
-                      final hit = _nearest(b, size, details.localPosition);
-                      if (hit != null) onPick!(hits[hit]);
-                    },
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: SizedBox(
-                  width: size.width,
-                  height: size.height,
-                  child: CustomPaint(
-                    painter: DrawingPainter(ops(drawings[state])),
-                    child: const SizedBox.expand(),
+        BoardFigure(
+          child: LayoutBuilder(
+            builder: (context, box) {
+              final size = Size(box.maxWidth, h);
+              final area = GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTapDown: onPick == null
+                    ? null
+                    : (details) {
+                        final hit = _nearest(b, size, details.localPosition);
+                        if (hit != null) onPick!(hits[hit]);
+                      },
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: SizedBox(
+                    width: size.width,
+                    height: size.height,
+                    child: CustomPaint(
+                      painter: DrawingPainter(ops(drawings[state])),
+                      child: const SizedBox.expand(),
+                    ),
                   ),
                 ),
-              ),
-            );
-            if (b['radius'] case final num r) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(r.toDouble()),
-                child: area,
               );
-            }
-            return area;
-          },
+              if (b['radius'] case final num r) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(r.toDouble()),
+                  child: area,
+                );
+              }
+              return area;
+            },
+          ),
         ),
       ];
     }
