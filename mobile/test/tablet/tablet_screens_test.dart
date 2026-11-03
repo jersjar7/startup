@@ -9,6 +9,7 @@ import 'package:mobile/features/auth/verify_screen.dart';
 import 'package:mobile/features/onboarding/onboarding_screen.dart';
 import 'package:mobile/features/onboarding/welcome_screen.dart';
 import 'package:mobile/features/packs/update_needed_screen.dart';
+import 'package:mobile/features/shared/widgets/kit.dart' show RoundNextButton;
 import 'package:mobile/features/study/study_tab.dart' show appClock;
 
 import '../support/fonts.dart';
@@ -41,7 +42,10 @@ void main() {
   };
 
   for (final e in screens.entries) {
-    for (final (o, size) in [('landscape', landscape), ('portrait', portrait)]) {
+    for (final (o, size) in [
+      ('landscape', landscape),
+      ('portrait', portrait),
+    ]) {
       testWidgets('${e.key} ($o)', (tester) async {
         setWindow(tester, size);
         await tester.pumpWidget(tabletApp(home: e.value(), guest: true));
@@ -53,6 +57,39 @@ void main() {
         await expectLater(
           find.byType(MaterialApp),
           matchesGoldenFile('../goldens/tablet/${e.key}-$o.png'),
+        );
+        await drain(tester);
+      });
+    }
+  }
+
+  // The tour's second and third pages (T13b, T13c, T13p), reached the way a
+  // student does: the next button.
+  for (final (name, taps) in [
+    ('onboarding-games', 1),
+    ('onboarding-honest', 2),
+  ]) {
+    for (final (o, size) in [
+      ('landscape', landscape),
+      ('portrait', portrait),
+    ]) {
+      testWidgets('$name ($o)', (tester) async {
+        setWindow(tester, size);
+        await tester.pumpWidget(
+          tabletApp(home: const OnboardingScreen(), guest: true),
+        );
+        await tester.pump(const Duration(seconds: 1));
+        for (var i = 0; i < taps; i++) {
+          await tester.tap(find.byType(RoundNextButton).hitTestable().first);
+          await tester.pump();
+          await tester.pump(const Duration(seconds: 1));
+        }
+        // The ground follows the page once it settles.
+        await tester.pump(const Duration(seconds: 1));
+        expect(tester.takeException(), isNull);
+        await expectLater(
+          find.byType(MaterialApp),
+          matchesGoldenFile('../goldens/tablet/$name-$o.png'),
         );
         await drain(tester);
       });

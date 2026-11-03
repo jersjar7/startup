@@ -12,7 +12,7 @@ import '../home/home_shell.dart';
 import '../shared/widgets/kit.dart';
 import '../shared/widgets/legal_line.dart';
 import '../shared/widgets/raccoon_peek.dart';
-import '../shared/widgets/split_page.dart';
+import '../../core/theme/tablet.dart';
 
 /// The first-run tour: how the app and the website split the work, what a
 /// lesson in the app is, and what the app honestly is not. Then sign up.
@@ -101,30 +101,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       color: _grounds[_page],
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: TabletCap(
-          child: PageView(
-            controller: _pc,
-            onPageChanged: (i) => setState(() => _page = i),
-            children: [
-              _Together(
-                onBack: _leave,
-                onSkip: () => _go('/welcome'),
-                onNext: () => _to(1),
-              ),
-              _Games(
-                onBack: () => _to(0),
-                onSkip: () => _go('/welcome'),
-                onNext: () => _to(2),
-              ),
-              _Honest(
-                replay: widget.replay,
-                onBack: () => _to(1),
-                onCreate: () => _go('/create'),
-                onSignIn: () => _go('/signin'),
-                onTry: _tryFirst,
-              ),
-            ],
-          ),
+        body: PageView(
+          controller: _pc,
+          onPageChanged: (i) => setState(() => _page = i),
+          children: [
+            _Together(
+              onBack: _leave,
+              onSkip: () => _go('/welcome'),
+              onNext: () => _to(1),
+            ),
+            _Games(
+              onBack: () => _to(0),
+              onSkip: () => _go('/welcome'),
+              onNext: () => _to(2),
+            ),
+            _Honest(
+              replay: widget.replay,
+              onBack: () => _to(1),
+              onCreate: () => _go('/create'),
+              onSignIn: () => _go('/signin'),
+              onTry: _tryFirst,
+            ),
+          ],
         ),
       ),
     );
@@ -150,7 +148,11 @@ class _StepRow extends StatelessWidget {
           label: 'Back',
         ),
         const SizedBox(width: 14),
-        Expanded(child: StepBar(count: 3, at: at)),
+        if (AppTablet.isTablet(context)) ...[
+          SizedBox(width: 120, child: StepBar(count: 3, at: at)),
+          const Spacer(),
+        ] else
+          Expanded(child: StepBar(count: 3, at: at)),
         if (onSkip != null) TextAction(label: 'Skip', onTap: onSkip!),
       ],
     );
@@ -158,6 +160,105 @@ class _StepRow extends StatelessWidget {
 }
 
 const _pad = EdgeInsets.fromLTRB(24, 4, 24, 34);
+
+/// A tour page on a tablet (T13 to T13c, T13p). Landscape: the headline and
+/// its paragraph on the left, the page's picture on the right with the way
+/// on under it. Portrait: the headline and paragraph side by side on top,
+/// the picture and the way on below, full width.
+class _TourPage extends StatelessWidget {
+  const _TourPage({
+    required this.row,
+    required this.headline,
+    required this.body,
+    required this.picture,
+    required this.foot,
+    this.fill = false,
+  });
+
+  final Widget row;
+  final String headline;
+  final String body;
+  final Widget picture;
+  final List<Widget> foot;
+
+  /// The picture takes the height the page leaves (the board preview).
+  final bool fill;
+
+  @override
+  Widget build(BuildContext context) {
+    final wide = AppTablet.of(context) == SizeClass.expanded;
+    final title = Text(
+      headline,
+      style: AppTheme.display(
+        size: wide ? 76 : 72,
+        height: 0.98,
+        tracking: -0.05,
+      ),
+    );
+    final text = Text(
+      body,
+      style: AppTheme.body(size: 19, height: 1.6, color: AppColors.ink2),
+    );
+    final right = <Widget>[
+      if (fill) Expanded(child: picture) else picture,
+      if (!fill) const Spacer() else const SizedBox(height: 32),
+      ...foot,
+    ];
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(
+          AppTablet.screenX,
+          AppTablet.spaceTop + 16,
+          AppTablet.screenX,
+          AppTablet.spaceTop + 8,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            row,
+            const SizedBox(height: 56),
+            Expanded(
+              child: wide
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [title, const SizedBox(height: 28), text],
+                          ),
+                        ),
+                        const SizedBox(width: AppTablet.paneGap * 3),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: right,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(child: title),
+                            const SizedBox(width: 40),
+                            Expanded(child: text),
+                          ],
+                        ),
+                        const SizedBox(height: 56),
+                        ...right,
+                      ],
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 /// A page that fills the screen when it fits, so its Spacer still pushes
 /// the blocks to the thumb zone, and scrolls when it does not. The full
@@ -195,8 +296,26 @@ class _Games extends StatelessWidget {
   final VoidCallback onSkip;
   final VoidCallback onNext;
 
+  static const _body =
+      'Each lesson in the app is a few rounds. For each round, you read a figure, make a call, and see right away whether you were right and why. All fifteen chapters are open from the start, so you can go straight to the one you need.';
+
   @override
   Widget build(BuildContext context) {
+    if (AppTablet.isTablet(context)) {
+      return _TourPage(
+        row: _StepRow(at: 2, onBack: onBack, onSkip: onSkip),
+        headline: 'One concept.\nA minute each.',
+        body: _body,
+        picture: const _BoardPreview(),
+        fill: true,
+        foot: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: RoundNextButton(onTap: onNext),
+          ),
+        ],
+      );
+    }
     return SafeArea(
       child: _FitOrScroll(
         child: Column(
@@ -207,7 +326,7 @@ class _Games extends StatelessWidget {
             Text('One concept.\nA minute each.', style: AppTheme.display()),
             const SizedBox(height: 12),
             Text(
-              'Each lesson in the app is a few rounds. For each round, you read a figure, make a call, and see right away whether you were right and why. All fifteen chapters are open from the start, so you can go straight to the one you need.',
+              _body,
               style: AppTheme.body(
                 size: 16,
                 height: 1.45,
@@ -238,8 +357,9 @@ class _BoardPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final round = workRounds[1];
+    final t = AppTablet.isTablet(context);
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(t ? 28 : 20),
       decoration: BoxDecoration(
         color: AppColors.cream,
         borderRadius: BorderRadius.circular(36),
@@ -257,15 +377,15 @@ class _BoardPreview extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             'WHICH WAY IS IT BEING WORKED',
-            style: AppTheme.eyebrow(size: 11, color: AppColors.forest),
+            style: AppTheme.eyebrow(size: t ? 13 : 11, color: AppColors.forest),
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: t ? 12 : 6),
           Text(
             round.setting,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: AppTheme.body(
-              size: 14,
+              size: t ? 17 : 14,
               weight: FontWeight.w500,
               height: 1.35,
             ),
@@ -317,19 +437,20 @@ class _Choice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppTablet.isTablet(context);
     return Container(
-      height: 44,
+      height: t ? 56 : 44,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: on ? AppColors.charcoal : AppColors.creamDark,
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(t ? 28 : 22),
       ),
       child: Text(
         label,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: AppTheme.display(
-          size: 13,
+          size: t ? 16 : 13,
           weight: FontWeight.w700,
           height: 1,
           tracking: -0.02,
@@ -353,8 +474,61 @@ class _Together extends StatelessWidget {
   final VoidCallback onSkip;
   final VoidCallback onNext;
 
+  static const _body =
+      'FE for Raccoons comes in two parts. The website is where you learn the material and earn your mastery. The app is for the time in between, when you are away from your desk and have a few minutes to keep concepts fresh.';
+
+  static const _learn = _PlaceTile(
+    color: AppColors.cream,
+    eyebrow: 'fe4raccoons.com',
+    title: 'Learn it',
+    lines: [
+      '135 lessons with full solutions',
+      '1,454 exam-style problems',
+      'The 6-hour exam simulation',
+      'Your mastery, chapter by chapter',
+    ],
+  );
+
+  // The raccoon from the app icon peeks over the app's half, the way he
+  // peeks over the 4 there, so the first place he appears is the app's own
+  // (tester's notes on build 1075: "where's our mascot?").
+  static const _keep = Stack(
+    clipBehavior: Clip.none,
+    children: [
+      _PlaceTile(
+        color: AppColors.springField,
+        eyebrow: 'The app',
+        title: 'Keep it',
+        lines: [
+          '375 concepts, about a minute each',
+          'Any chapter, in any order',
+          'Keeps you sharp between desk sessions',
+        ],
+      ),
+      Positioned(top: -RaccoonPeek.baseline, right: 26, child: RaccoonPeek()),
+    ],
+  );
+
   @override
   Widget build(BuildContext context) {
+    if (AppTablet.isTablet(context)) {
+      // T13: the two tiles stacked on the right, the raccoon between them.
+      return _TourPage(
+        row: _StepRow(at: 1, onBack: onBack, onSkip: onSkip),
+        headline: 'Learn at\nthe desk.\nPractice\nanywhere.',
+        body: _body,
+        picture: const Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [_learn, SizedBox(height: 64), _keep],
+        ),
+        foot: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: RoundNextButton(onTap: onNext),
+          ),
+        ],
+      );
+    }
     return SafeArea(
       child: _FitOrScroll(
         child: Column(
@@ -370,7 +544,7 @@ class _Together extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'FE for Raccoons comes in two parts. The website is where you learn the material and earn your mastery. The app is for the time in between, when you are away from your desk and have a few minutes to keep concepts fresh.',
+              _body,
               style: AppTheme.body(
                 size: 16,
                 height: 1.45,
@@ -378,17 +552,7 @@ class _Together extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            const _PlaceTile(
-              color: AppColors.cream,
-              eyebrow: 'fe4raccoons.com',
-              title: 'Learn it',
-              lines: [
-                '135 lessons with full solutions',
-                '1,454 exam-style problems',
-                'The 6-hour exam simulation',
-                'Your mastery, chapter by chapter',
-              ],
-            ),
+            _learn,
             const SizedBox(height: 10),
             const Center(
               child: Icon(
@@ -398,30 +562,7 @@ class _Together extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            // The raccoon from the app icon peeks over the app's half, the
-            // way he peeks over the 4 there, so the first place he appears
-            // is the app's own (tester's notes on build 1075: "where's our
-            // mascot?").
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                const _PlaceTile(
-                  color: AppColors.springField,
-                  eyebrow: 'The app',
-                  title: 'Keep it',
-                  lines: [
-                    '375 concepts, about a minute each',
-                    'Any chapter, in any order',
-                    'Keeps you sharp between desk sessions',
-                  ],
-                ),
-                const Positioned(
-                  top: -RaccoonPeek.baseline,
-                  right: 26,
-                  child: RaccoonPeek(),
-                ),
-              ],
-            ),
+            _keep,
             const SizedBox(height: 22),
             Align(
               alignment: Alignment.centerRight,
@@ -449,42 +590,48 @@ class _PlaceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppTablet.isTablet(context);
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+      padding: t
+          ? const EdgeInsets.fromLTRB(32, 30, 32, 30)
+          : const EdgeInsets.fromLTRB(20, 18, 20, 18),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(32),
+        borderRadius: BorderRadius.circular(t ? 40 : 32),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 104,
+            width: t ? 190 : 104,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   eyebrow.toUpperCase(),
                   maxLines: 2,
-                  style: AppTheme.eyebrow(size: 10),
+                  style: AppTheme.eyebrow(size: t ? 12 : 10),
                 ),
-                const SizedBox(height: 6),
-                Text(title, style: AppTheme.display(size: 26, height: 1)),
+                SizedBox(height: t ? 14 : 6),
+                Text(
+                  title,
+                  style: AppTheme.display(size: t ? 40 : 26, height: 1),
+                ),
               ],
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: t ? 20 : 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 for (final l in lines)
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
+                    padding: EdgeInsets.only(bottom: t ? 10 : 4),
                     child: Text(
                       l,
                       style: AppTheme.body(
-                        size: 13.5,
+                        size: t ? 17 : 13.5,
                         weight: FontWeight.w500,
                         height: 1.3,
                       ),
@@ -519,8 +666,114 @@ class _Honest extends StatelessWidget {
   /// Into the app with no account (Apple 5.1.1(v)).
   final VoidCallback onTry;
 
+  static const _body =
+      'With an account, everything you play in the app is saved, and you can see it on the website too. It does not raise your mastery score, though. Recognizing a concept is not the same as solving a problem with it, so mastery only comes from problems you work at a desk.';
+
   @override
   Widget build(BuildContext context) {
+    final tablet = AppTablet.isTablet(context);
+    final card = Container(
+      padding: tablet
+          ? const EdgeInsets.fromLTRB(30, 30, 30, 30)
+          : const EdgeInsets.fromLTRB(24, 20, 24, 20),
+      decoration: BoxDecoration(
+        color: AppColors.cream,
+        borderRadius: BorderRadius.circular(36),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'WHERE MASTERY COMES FROM',
+            style: AppTheme.eyebrow(
+              size: tablet ? 13 : 11,
+              color: AppColors.ink2,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                '100',
+                style: AppTheme.display(
+                  size: tablet ? 110 : 76,
+                  height: 0.82,
+                  tracking: -0.06,
+                ),
+              ),
+              Text(
+                '%',
+                style: AppTheme.display(
+                  size: tablet ? 44 : 30,
+                  weight: FontWeight.w700,
+                  height: 1,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  'the problems you work\non the website',
+                  style: AppTheme.body(
+                    size: tablet ? 18 : 14,
+                    weight: FontWeight.w600,
+                    height: 1.2,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          const Pips(count: 10, filled: 10),
+          const SizedBox(height: 8),
+          Text(
+            'Practice in the app does not change this number, but it helps you have the concepts fresh for more effective study sessions.',
+            style: AppTheme.body(
+              size: tablet ? 16 : 13,
+              color: AppColors.ink2,
+              height: 1.35,
+            ),
+          ),
+        ],
+      ),
+    );
+    final foot = <Widget>[
+      SizedBox(height: replay ? 22 : 14),
+      PillButton(
+        label: replay ? 'Got it' : 'Create my account',
+        onTap: onCreate,
+      ),
+      if (!replay) ...[
+        const SizedBox(height: 8),
+        SheetButton(label: 'Try a round first', filled: false, onTap: onTry),
+      ],
+      if (!replay)
+        Center(
+          child: TextButton(
+            onPressed: onSignIn,
+            child: Text(
+              'I already have an account',
+              style: AppTheme.body(
+                size: 15,
+                weight: FontWeight.w500,
+                color: AppColors.charcoal,
+              ),
+            ),
+          ),
+        ),
+      const LegalLine(),
+    ];
+    if (tablet) {
+      // T13c and T13p: the mastery card, then the ways on.
+      return _TourPage(
+        row: _StepRow(at: 3, onBack: onBack),
+        headline: 'Honest by\ndesign.',
+        body: _body,
+        picture: card,
+        foot: foot,
+      );
+    }
     return SafeArea(
       child: _FitOrScroll(
         child: Column(
@@ -530,100 +783,10 @@ class _Honest extends StatelessWidget {
             const SizedBox(height: 20),
             Text('Honest by\ndesign.', style: AppTheme.display()),
             const SizedBox(height: 12),
-            Text(
-              'With an account, everything you play in the app is saved, and you can see it on the website too. It does not raise your mastery score, though. Recognizing a concept is not the same as solving a problem with it, so mastery only comes from problems you work at a desk.',
-              style: AppTheme.body(size: 16, height: 1.45),
-            ),
+            Text(_body, style: AppTheme.body(size: 16, height: 1.45)),
             const Spacer(),
-            Container(
-              padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
-              decoration: BoxDecoration(
-                color: AppColors.cream,
-                borderRadius: BorderRadius.circular(36),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'WHERE MASTERY COMES FROM',
-                    style: AppTheme.eyebrow(size: 11, color: AppColors.ink2),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: [
-                      Text(
-                        '100',
-                        style: AppTheme.display(
-                          size: 76,
-                          height: 0.82,
-                          tracking: -0.06,
-                        ),
-                      ),
-                      Text(
-                        '%',
-                        style: AppTheme.display(
-                          size: 30,
-                          weight: FontWeight.w700,
-                          height: 1,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          'the problems you work\non the website',
-                          style: AppTheme.body(
-                            size: 14,
-                            weight: FontWeight.w600,
-                            height: 1.2,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  const Pips(count: 10, filled: 10),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Practice in the app does not change this number, but it helps you have the concepts fresh for more effective study sessions.',
-                    style: AppTheme.body(
-                      size: 13,
-                      color: AppColors.ink2,
-                      height: 1.35,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: replay ? 22 : 14),
-            PillButton(
-              label: replay ? 'Got it' : 'Create my account',
-              onTap: onCreate,
-            ),
-            if (!replay) ...[
-              const SizedBox(height: 8),
-              SheetButton(
-                label: 'Try a round first',
-                filled: false,
-                onTap: onTry,
-              ),
-            ],
-            if (!replay)
-              Center(
-                child: TextButton(
-                  onPressed: onSignIn,
-                  child: Text(
-                    'I already have an account',
-                    style: AppTheme.body(
-                      size: 15,
-                      weight: FontWeight.w500,
-                      color: AppColors.charcoal,
-                    ),
-                  ),
-                ),
-              ),
-            const LegalLine(),
+            card,
+            ...foot,
           ],
         ),
       ),
