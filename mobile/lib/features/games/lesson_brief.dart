@@ -235,7 +235,7 @@ const logRulesBrief = BriefSection(
     ),
     ('Power', r'\log_b(x^n) = n\log_b x', 'the power comes down in front'),
   ],
-  handbook: 'Handbook p. 36',
+  handbook: 'Handbook pp. 36-37',
 );
 
 const undoExponentBrief = BriefSection(
@@ -278,7 +278,7 @@ const undoExponentBrief = BriefSection(
       'the log is just the power, named the other way round',
     ),
   ],
-  handbook: 'Handbook p. 36',
+  handbook: 'Handbook pp. 36-37',
 );
 
 const combineLogsBrief = BriefSection(
@@ -373,7 +373,7 @@ const ratiosBrief = BriefSection(
       'tangent is opposite over adjacent',
     ),
   ],
-  handbook: 'Handbook p. 23',
+  handbook: 'Handbook p. 38',
 );
 
 const sideNamesBrief = BriefSection(
@@ -410,7 +410,7 @@ const sideNamesBrief = BriefSection(
       'the side that misses it, and the side that touches it',
     ),
   ],
-  handbook: 'Handbook p. 23',
+  handbook: 'Handbook p. 38',
 );
 
 const componentsBrief = BriefSection(
@@ -451,7 +451,7 @@ const componentsBrief = BriefSection(
       'now across takes sine and up takes cosine',
     ),
   ],
-  handbook: 'Handbook p. 23',
+  handbook: 'Handbook p. 94',
 );
 
 // ── Law of Sines & Law of Cosines ───────────────────────────────────────────
@@ -496,7 +496,7 @@ const whichLawBrief = BriefSection(
       'Pythagoras, with a correction taken off for the angle',
     ),
   ],
-  handbook: 'Handbook p. 23',
+  handbook: 'Handbook p. 38',
 );
 
 const setupBrief = BriefSection(
@@ -538,7 +538,7 @@ const setupBrief = BriefSection(
       'the side facing the angle comes off the top',
     ),
   ],
-  handbook: 'Handbook p. 23',
+  handbook: 'Handbook p. 38',
 );
 
 const obtuseBrief = BriefSection(
@@ -580,7 +580,7 @@ const obtuseBrief = BriefSection(
       'if the facing side squared wins, the angle is past square',
     ),
   ],
-  handbook: 'Handbook p. 23',
+  handbook: 'Handbook p. 38',
 );
 
 // ── Unit Circle & Trig Identities ───────────────────────────────────────────
@@ -624,7 +624,7 @@ const unitCircleBrief = BriefSection(
       'at 45 the two match; at 30 across wins; at 60 up wins',
     ),
   ],
-  handbook: 'Handbook p. 23',
+  handbook: 'Handbook p. 38',
 );
 
 const quadrantBrief = BriefSection(
@@ -666,7 +666,7 @@ const quadrantBrief = BriefSection(
       'first is across then up, quarter by quarter',
     ),
   ],
-  handbook: 'Handbook p. 23',
+  handbook: 'Handbook p. 39',
 );
 
 const identitiesBrief = BriefSection(
@@ -713,7 +713,7 @@ const identitiesBrief = BriefSection(
       'cosine squared take away sine squared, that way round',
     ),
   ],
-  handbook: 'Handbook p. 23',
+  handbook: 'Handbook p. 39',
 );
 
 // ── Circles & Conic Sections ────────────────────────────────────────────────
@@ -751,7 +751,7 @@ const circleFormBrief = BriefSection(
       'the center is h across and k up, and the reach is r',
     ),
   ],
-  handbook: 'Handbook p. 24',
+  handbook: 'Handbook p. 45',
 );
 
 const readingConicsBrief = BriefSection(
@@ -801,7 +801,7 @@ const readingConicsBrief = BriefSection(
       'minus b over two a gives where the turning point sits',
     ),
   ],
-  handbook: 'Handbook p. 24',
+  handbook: 'Handbook pp. 44-45',
 );
 
 const completeSquareBrief = BriefSection(
@@ -843,7 +843,7 @@ const completeSquareBrief = BriefSection(
       'half of ten is five, five squared is twenty-five',
     ),
   ],
-  handbook: 'Handbook p. 24',
+  handbook: 'Handbook p. 46',
 );
 
 // ── Derivatives & Derivative Rules ──────────────────────────────────────────
@@ -1384,7 +1384,7 @@ const vectorAddBrief = BriefSection(
       'across with across, up with up',
     ),
   ],
-  handbook: 'Handbook p. 94',
+  handbook: 'Handbook p. 59',
 );
 
 const unitVectorBrief = BriefSection(
@@ -1425,7 +1425,7 @@ const unitVectorBrief = BriefSection(
       'the far end take away the near end',
     ),
   ],
-  handbook: 'Handbook p. 94',
+  handbook: 'Handbook p. 59',
 );
 
 const magnitudeBrief = BriefSection(
@@ -1465,7 +1465,7 @@ const magnitudeBrief = BriefSection(
       'two triangles that come up again and again',
     ),
   ],
-  handbook: 'Handbook p. 94',
+  handbook: 'Handbook p. 59',
 );
 
 // ── Dot Product & Angle Between Vectors ─────────────────────────────────────
@@ -1502,7 +1502,7 @@ const dotProductBrief = BriefSection(
       'the answer is a plain number, with no direction',
     ),
   ],
-  handbook: 'Handbook p. 94',
+  handbook: 'Handbook p. 60',
 );
 
 const dotAngleBrief = BriefSection(
@@ -1547,7 +1547,7 @@ const dotAngleBrief = BriefSection(
       'zero means the two are at a square corner',
     ),
   ],
-  handbook: 'Handbook p. 94',
+  handbook: 'Handbook p. 60',
 );
 
 const projectionBrief = BriefSection(
@@ -1587,7 +1587,7 @@ const projectionBrief = BriefSection(
       'the force dotted with the unit arrow along the member',
     ),
   ],
-  handbook: 'Handbook p. 94',
+  handbook: 'Handbook p. 60',
 );
 
 // ── Cross Product & Applications ────────────────────────────────────────────
@@ -1634,7 +1634,7 @@ const rightHandBrief = BriefSection(
       'no turn at all, so nothing',
     ),
   ],
-  handbook: 'Handbook p. 94',
+  handbook: 'Handbook p. 60',
 );
 
 const areaBrief = BriefSection(
@@ -1667,7 +1667,7 @@ const areaBrief = BriefSection(
     ),
     ('Triangle', r'\tfrac{1}{2}|\vec{A} \times \vec{B}|', 'half of that area'),
   ],
-  handbook: 'Handbook p. 94',
+  handbook: 'Handbook p. 60',
 );
 
 const cofactorBrief = BriefSection(
@@ -1709,7 +1709,7 @@ const cofactorBrief = BriefSection(
       'plus, then minus, then plus',
     ),
   ],
-  handbook: 'Handbook p. 94',
+  handbook: 'Handbook p. 60',
 );
 
 // ── Spreadsheet Computations ────────────────────────────────────────────────
@@ -2220,7 +2220,7 @@ const correlationBrief = BriefSection(
       'either a shapeless cloud, or a shape that is not straight',
     ),
   ],
-  handbook: 'Handbook p. 69',
+  handbook: 'Handbook p. 70',
 );
 
 const regressionLineBrief = BriefSection(
@@ -2304,7 +2304,7 @@ const determinationBrief = BriefSection(
     ),
     ('What is left unexplained', r'1 - R^2', 'one minus the share explained'),
   ],
-  handbook: 'Handbook p. 69',
+  handbook: 'Handbook p. 70',
 );
 
 const countingBrief = BriefSection(
@@ -2390,7 +2390,7 @@ const binomialBrief = BriefSection(
       'tries, times the chance of a success, times the chance of a failure',
     ),
   ],
-  handbook: 'Handbook p. 66',
+  handbook: 'Handbook pp. 66-67',
 );
 
 const normalTableBrief = BriefSection(
@@ -2483,7 +2483,7 @@ const expectedValueBrief = BriefSection(
       'three outcomes, three chances, one balance point',
     ),
   ],
-  handbook: 'Handbook p. 65',
+  handbook: 'Handbook p. 66',
 );
 
 const varianceShortcutBrief = BriefSection(
@@ -2526,7 +2526,7 @@ const varianceShortcutBrief = BriefSection(
       'second total, less the first total squared',
     ),
   ],
-  handbook: 'Handbook p. 65',
+  handbook: 'Handbook p. 66',
 );
 
 const combiningBrief = BriefSection(
@@ -2575,7 +2575,7 @@ const combiningBrief = BriefSection(
       'square each spread, add, take the root',
     ),
   ],
-  handbook: 'Handbook p. 65',
+  handbook: 'Handbook p. 66',
 );
 
 const marginOfErrorBrief = BriefSection(
@@ -2618,7 +2618,7 @@ const marginOfErrorBrief = BriefSection(
       '25 samples, root 5, a margin of about 2',
     ),
   ],
-  handbook: 'Handbook p. 74',
+  handbook: 'Handbook pp. 74-75',
 );
 
 const zOrTBrief = BriefSection(
@@ -3204,7 +3204,7 @@ const exemptionBrief = BriefSection(
       'the engineer is directing the work as it is done, not hearing about it later',
     ),
   ],
-  handbook: 'Handbook p. 11, Model Law 170.20 C',
+  handbook: 'Handbook p. 12, Model Law 170.20 C',
 );
 
 const holdingOutBrief = BriefSection(
@@ -3894,7 +3894,7 @@ const ratesBrief = BriefSection(
       'periodic one, nominal twelve, effective 12.68',
     ),
   ],
-  handbook: 'Handbook p. 229',
+  handbook: 'Handbook p. 230',
 );
 
 const piecesBrief = BriefSection(
@@ -4370,7 +4370,7 @@ const irrBrief = BriefSection(
       '150 over the thousand you put in',
     ),
   ],
-  handbook: 'Handbook p. 229',
+  handbook: 'Handbook p. 230',
 );
 
 const marrBrief = BriefSection(
@@ -4411,7 +4411,7 @@ const marrBrief = BriefSection(
       'the return on the extra money reaches the hurdle',
     ),
   ],
-  handbook: 'Handbook p. 229',
+  handbook: 'Handbook p. 230',
 );
 
 const timingBrief = BriefSection(
@@ -4544,7 +4544,7 @@ const bookValueBrief = BriefSection(
       'half a million, minus what has gone, is what is left',
     ),
   ],
-  handbook: 'Handbook p. 231',
+  handbook: 'Handbook p. 230',
 );
 
 const inflationBrief = BriefSection(
@@ -4860,7 +4860,7 @@ const zeroForceBrief = BriefSection(
       'the pin has to be empty',
     ),
   ],
-  handbook: 'Handbook p. 95',
+  handbook: 'Handbook p. 97',
 );
 
 const senseOfForceBrief = BriefSection(
@@ -4901,7 +4901,7 @@ const senseOfForceBrief = BriefSection(
     ('Positive', r'T > 0', 'stretched, so tension'),
     ('Negative', r'T < 0', 'squashed, so compression'),
   ],
-  handbook: 'Handbook p. 95',
+  handbook: 'Handbook p. 97',
 );
 
 const sectionBrief = BriefSection(
@@ -4945,7 +4945,7 @@ const sectionBrief = BriefSection(
       'the other two drop out, leaving the one you want',
     ),
   ],
-  handbook: 'Handbook p. 95',
+  handbook: 'Handbook p. 97',
 );
 
 const deformationBrief = BriefSection(
@@ -5189,7 +5189,7 @@ const twistBrief = BriefSection(
       'G comes from E and Poisson\'s ratio',
     ),
   ],
-  handbook: 'Handbook p. 134',
+  handbook: 'Handbook pp. 133 to 134',
 );
 
 const thinWallBrief = BriefSection(
@@ -5235,7 +5235,7 @@ const thinWallBrief = BriefSection(
     ),
     ('Good while', r't < 0.1\,r', 'the wall is under a tenth of the radius'),
   ],
-  handbook: 'Handbook p. 133',
+  handbook: 'Handbook p. 134',
 );
 
 const curveBrief = BriefSection(
@@ -5386,7 +5386,7 @@ const linkedBrief = BriefSection(
       'nu about 0.3, so G is a bit over a third of E',
     ),
   ],
-  handbook: 'Handbook p. 130',
+  handbook: 'Handbook pp. 129 to 130',
 );
 
 const slopeRulesBrief = BriefSection(
@@ -5437,7 +5437,7 @@ const slopeRulesBrief = BriefSection(
       'moment changes by the area under the shear',
     ),
   ],
-  handbook: 'Handbook p. 140',
+  handbook: 'Handbook p. 134',
 );
 
 const peakBrief = BriefSection(
@@ -5487,7 +5487,7 @@ const peakBrief = BriefSection(
       'load per length times span squared, over eight',
     ),
   ],
-  handbook: 'Handbook p. 140',
+  handbook: 'Handbook p. 139',
 );
 
 const jumpBrief = BriefSection(
@@ -5531,7 +5531,7 @@ const jumpBrief = BriefSection(
     ),
     ('A pin or roller end', r'M = 0', 'no moment at a pinned or rolling end'),
   ],
-  handbook: 'Handbook p. 140',
+  handbook: 'Handbook p. 134',
 );
 
 const fiberBrief = BriefSection(
@@ -5723,7 +5723,7 @@ const tableBrief2 = BriefSection(
       'w L to the fourth, over eight EI',
     ),
   ],
-  handbook: 'Handbook pp. 140 to 141',
+  handbook: 'Handbook pp. 139 to 140',
 );
 
 const bounceBrief = BriefSection(
@@ -5770,7 +5770,7 @@ const bounceBrief = BriefSection(
       'sag no more than the span over 360',
     ),
   ],
-  handbook: 'Handbook pp. 140 to 141',
+  handbook: 'Handbook pp. 139 to 140',
 );
 
 const addBrief = BriefSection(
@@ -5812,7 +5812,7 @@ const addBrief = BriefSection(
       'sag is proportional to load while the beam is elastic',
     ),
   ],
-  handbook: 'Handbook pp. 140 to 141',
+  handbook: 'Handbook pp. 135 and 139 to 140',
 );
 
 const transformBrief = BriefSection(
@@ -5946,7 +5946,7 @@ const plasticBrief = BriefSection(
       'how much more the beam carries after first yield',
     ),
   ],
-  handbook: 'Handbook pp. 136 and 281',
+  handbook: 'Handbook pp. 135 and 281',
 );
 
 const circleBrief = BriefSection(
@@ -5996,7 +5996,7 @@ const circleBrief = BriefSection(
       'twice the angle turned in the material',
     ),
   ],
-  handbook: 'Handbook p. 131',
+  handbook: 'Handbook p. 132',
 );
 
 const buildBrief = BriefSection(
@@ -6041,7 +6041,7 @@ const buildBrief = BriefSection(
     ),
     ('Equal both ways', r'R = 0', 'a point, no shear on any plane'),
   ],
-  handbook: 'Handbook p. 131',
+  handbook: 'Handbook p. 132',
 );
 
 const worstBrief = BriefSection(
@@ -6091,7 +6091,7 @@ const worstBrief = BriefSection(
       'half the far end, bigger than the radius',
     ),
   ],
-  handbook: 'Handbook p. 132',
+  handbook: 'Handbook pp. 132 to 133',
 );
 
 const endsBrief = BriefSection(
@@ -6469,7 +6469,7 @@ const spinInertiaBrief = BriefSection(
       'add the weight times how far the axis moved, squared, always starting from the middle',
     ),
   ],
-  handbook: 'Handbook pp. 110 and 114 to 115',
+  handbook: 'Handbook pp. 111 and 114 to 115',
 );
 
 const weightBrief = BriefSection(
@@ -6957,7 +6957,7 @@ const underneathBrief = BriefSection(
       'the natural log of one plus the engineering strain',
     ),
   ],
-  handbook: 'Handbook p. 121',
+  handbook: 'Handbook pp. 118 and 121',
 );
 
 const trueStressBrief = BriefSection(
@@ -7008,7 +7008,7 @@ const trueStressBrief = BriefSection(
       'the bar keeps its volume, so its area shrinks by that same factor',
     ),
   ],
-  handbook: 'Handbook p. 121',
+  handbook: 'Handbook pp. 118 and 121',
 );
 
 const crackBrief = BriefSection(
@@ -8132,7 +8132,7 @@ const capillaryBrief = BriefSection(
       'past ninety degrees the climb goes negative and it is pushed down',
     ),
   ],
-  handbook: 'Handbook p. 176',
+  handbook: 'Handbook p. 177',
 );
 
 const depthBrief = BriefSection(
@@ -8512,7 +8512,7 @@ const torricelliBrief = BriefSection(
       'because the head sits under a square root',
     ),
   ],
-  handbook: 'Handbook p. 180',
+  handbook: 'Handbook p. 185',
 );
 
 const reynoldsBrief = BriefSection(
@@ -8699,7 +8699,7 @@ const deflectionBrief = BriefSection(
       'turned a hundred and eighty degrees: double the push',
     ),
   ],
-  handbook: 'Handbook p. 186',
+  handbook: 'Handbook p. 187',
 );
 
 const thrustBrief = BriefSection(
@@ -8890,7 +8890,7 @@ const coefficientBrief = BriefSection(
       'with no height change the elevation terms drop out entirely',
     ),
   ],
-  handbook: 'Handbook p. 194',
+  handbook: 'Handbook p. 195',
 );
 
 const similitudeBrief = BriefSection(
@@ -9883,7 +9883,7 @@ const roadCurveBrief = BriefSection(
       'the straight chord, plus how far the road misses the corner and the chord',
     ),
   ],
-  handbook: 'Handbook p. 302',
+  handbook: 'Handbook pp. 302 to 303',
 );
 
 const degreeBrief = BriefSection(
@@ -11150,7 +11150,7 @@ const foodRatioBrief = BriefSection(
     ('The food', r'Q S_0', 'flow times incoming strength, a load per day'),
     ('The bugs', r'V X_A', 'basin volume times solids concentration, a mass'),
   ],
-  handbook: 'Handbook p. 333',
+  handbook: 'Handbook p. 334',
 );
 
 const doseBrief = BriefSection(
@@ -11513,7 +11513,7 @@ const momentCenterBrief = BriefSection(
       'the up and down forces add up to nothing',
     ),
   ],
-  handbook: 'Handbook p. 271',
+  handbook: 'Handbook p. 97',
 );
 
 const jointForceBrief = BriefSection(
@@ -11554,7 +11554,7 @@ const jointForceBrief = BriefSection(
     ('The flat bar', r'F\cos\theta', 'what is left over, pulling sideways'),
     ('Always', r'F > P', 'the bar force beats the load, every time'),
   ],
-  handbook: 'Handbook p. 271',
+  handbook: 'Handbook p. 97',
 );
 
 const unitLoadBrief = BriefSection(
@@ -11602,7 +11602,7 @@ const unitLoadBrief = BriefSection(
       'ask with a twist if you want a twist',
     ),
   ],
-  handbook: 'Handbook p. 271',
+  handbook: 'Handbook pp. 268 to 269',
 );
 
 const termSignBrief = BriefSection(
@@ -11646,7 +11646,7 @@ const termSignBrief = BriefSection(
     ),
     ('They agree', r'nN > 0', 'both pulling or both pushing, so the term adds'),
   ],
-  handbook: 'Handbook p. 271',
+  handbook: 'Handbook pp. 268 to 269',
 );
 
 const redundantBrief = BriefSection(
@@ -16303,7 +16303,7 @@ const trussRouteBrief = BriefSection(
       'what the supports push back with',
     ),
   ],
-  handbook: 'Handbook p. 271',
+  handbook: 'Handbook p. 97',
 );
 
 const naturalBrief = BriefSection(
@@ -16947,7 +16947,7 @@ const lawsBrief = BriefSection(
       'A changes nothing, so just multiply',
     ),
   ],
-  handbook: 'Handbook p. 105',
+  handbook: 'Handbook pp. 64-65',
 );
 
 const periodBrief = BriefSection(
@@ -17126,7 +17126,7 @@ const beltBrief = BriefSection(
     ),
     ('Half a turn', r'\theta = \pi', 'pi radians, never 180 in this formula'),
   ],
-  handbook: 'Handbook p. 96',
+  handbook: 'Handbook p. 97',
 );
 
 const normalForceBrief = BriefSection(
