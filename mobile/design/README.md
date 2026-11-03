@@ -20,6 +20,11 @@ in the brand's three faces.
 - `build-screens.mjs`, `render.mjs`: regenerate the HTML and the PNGs
   (`node build-screens.mjs && node render.mjs`; rendering uses the local
   Google Chrome headless).
+- `TABLET.md`: the proposed tablet rules (ADR 0039, Proposed): size classes,
+  the rail, two-pane screens, drawings at tablet size, rotation.
+- `tablet-screens/png/`, `tablet-screens/html/`: the tablet mockups at 2x
+  (1180 by 820 landscape, 820 by 1180 portrait), regenerated with
+  `node build-tablet-screens.mjs && node render-tablet.mjs`.
 
 ## What changed from the AI kit
 
