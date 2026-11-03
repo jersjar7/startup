@@ -171,11 +171,15 @@ class DailySpread extends StatelessWidget {
     required this.board,
     required this.total,
     required this.mine,
+    this.large = false,
   });
 
   final DailyBoard board;
   final int total;
   final int mine;
+
+  /// The roomier card a tablet's left pane uses (T08b, T21c).
+  final bool large;
 
   @override
   Widget build(BuildContext context) {
@@ -198,10 +202,12 @@ class DailySpread extends StatelessWidget {
     final most = rows.fold(1, (m, r) => r.$2 > m ? r.$2 : m);
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+      padding: large
+          ? const EdgeInsets.fromLTRB(28, 28, 28, 24)
+          : const EdgeInsets.fromLTRB(20, 20, 20, 18),
       decoration: BoxDecoration(
         color: AppColors.cream,
-        borderRadius: BorderRadius.circular(32),
+        borderRadius: BorderRadius.circular(large ? 40 : 32),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,13 +216,16 @@ class DailySpread extends StatelessWidget {
             'FIRST TRY, OUT OF $total',
             style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: large ? 20 : 14),
           for (final r in rows) ...[
             Row(
               children: [
                 SizedBox(
-                  width: 36,
-                  child: Text(r.$1, style: AppTheme.mono(size: 12)),
+                  width: large ? 54 : 36,
+                  child: Text(
+                    r.$1,
+                    style: AppTheme.mono(size: large ? 14 : 12),
+                  ),
                 ),
                 Expanded(
                   child: LayoutBuilder(
@@ -227,19 +236,19 @@ class DailySpread extends StatelessWidget {
                           28,
                           box.maxWidth,
                         ),
-                        height: 20,
-                        padding: const EdgeInsets.only(right: 8),
+                        height: large ? 26 : 20,
+                        padding: EdgeInsets.only(right: large ? 12 : 8),
                         alignment: Alignment.centerRight,
                         decoration: BoxDecoration(
                           color: r.$3
                               ? AppColors.charcoal
                               : AppColors.creamDark,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(large ? 13 : 10),
                         ),
                         child: Text(
                           '${r.$2}',
                           style: AppTheme.mono(
-                            size: 11,
+                            size: large ? 13 : 11,
                             weight: FontWeight.w600,
                             color: r.$3 ? AppColors.cream : AppColors.charcoal,
                           ),
@@ -250,7 +259,7 @@ class DailySpread extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: large ? 10 : 6),
           ],
         ],
       ),
@@ -266,6 +275,7 @@ class DailyPlaceRow extends StatelessWidget {
     required this.score,
     required this.ms,
     required this.you,
+    this.large = false,
   });
 
   final int rank;
@@ -274,25 +284,28 @@ class DailyPlaceRow extends StatelessWidget {
   final int ms;
   final bool you;
 
+  /// The taller row a tablet's board column uses (T08b, T21c).
+  final bool large;
+
   @override
   Widget build(BuildContext context) {
     final muted = you ? AppColors.mutedOnDark : AppColors.mutedOnLight;
     final ink = you ? AppColors.cream : AppColors.charcoal;
     return Container(
-      height: 52,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      height: large ? 62 : 52,
+      padding: EdgeInsets.symmetric(horizontal: large ? 22 : 16),
       decoration: BoxDecoration(
         color: you ? AppColors.charcoal : AppColors.cream,
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(large ? 28 : 22),
       ),
       child: Row(
         children: [
           SizedBox(
-            width: 34,
+            width: large ? 40 : 34,
             child: Text(
               '$rank',
               style: AppTheme.mono(
-                size: 13,
+                size: large ? 14 : 13,
                 weight: FontWeight.w600,
                 color: muted,
               ),
@@ -303,20 +316,29 @@ class DailyPlaceRow extends StatelessWidget {
               name,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: AppTheme.body(
-                size: 14.5,
-                weight: FontWeight.w500,
-                color: ink,
-              ),
+              style: large
+                  ? AppTheme.display(size: 17, tracking: -0.02, color: ink)
+                  : AppTheme.body(
+                      size: 14.5,
+                      weight: FontWeight.w500,
+                      color: ink,
+                    ),
             ),
           ),
-          Text('$score', style: AppTheme.mono(size: 12.5, color: ink)),
+          Text(
+            '$score',
+            style: AppTheme.mono(
+              size: large ? 14 : 12.5,
+              weight: large ? FontWeight.w700 : FontWeight.w500,
+              color: ink,
+            ),
+          ),
           SizedBox(
-            width: 52,
+            width: large ? 70 : 52,
             child: Text(
               clockOf(ms),
               textAlign: TextAlign.right,
-              style: AppTheme.mono(size: 12.5, color: muted),
+              style: AppTheme.mono(size: large ? 14 : 12.5, color: muted),
             ),
           ),
         ],

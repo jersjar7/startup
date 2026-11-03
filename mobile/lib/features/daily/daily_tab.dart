@@ -1207,6 +1207,7 @@ class _Results extends StatelessWidget {
                       board: showing,
                       total: mine.total,
                       mine: mine.score,
+                      large: true,
                     )
                   else
                     DailyBars(rows: mine.rounds, missed: AppColors.peach),
@@ -1236,8 +1237,9 @@ class _Results extends StatelessWidget {
                           score: p.score,
                           ms: p.ms,
                           you: p.isYou,
+                          large: true,
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 10),
                       ]
                     else
                       Text(

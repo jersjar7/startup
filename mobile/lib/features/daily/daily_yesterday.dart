@@ -46,6 +46,7 @@ class _DailyYesterdayScreenState extends State<DailyYesterdayScreen> {
       return Material(
         color: AppColors.butter,
         child: SplitPage(
+          leftWidth: 520,
           left: [
             RoundIconButton(
               icon: Icons.chevron_left_rounded,
@@ -75,10 +76,17 @@ class _DailyYesterdayScreenState extends State<DailyYesterdayScreen> {
               ),
             ],
             const SizedBox(height: 24),
-            DailySpread(board: showing, total: total, mine: me?.score ?? -1),
+            DailySpread(
+              board: showing,
+              total: total,
+              mine: me?.score ?? -1,
+              large: true,
+            ),
           ],
           rightTopPad: 88,
           right: [
+            Text('THE BOARD', style: AppTheme.eyebrow(color: AppColors.ink2)),
+            const SizedBox(height: 22),
             for (final p in boardRows(showing)) ...[
               DailyPlaceRow(
                 rank: p.rank,
@@ -86,8 +94,9 @@ class _DailyYesterdayScreenState extends State<DailyYesterdayScreen> {
                 score: p.score,
                 ms: p.ms,
                 you: p.isYou,
+                large: true,
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 10),
             ],
           ],
         ),
