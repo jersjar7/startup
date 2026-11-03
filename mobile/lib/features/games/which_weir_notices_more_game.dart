@@ -251,14 +251,16 @@ class _WhichWeirNoticesMoreGameState extends State<WhichWeirNoticesMoreGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Plate(
-            weir: r.top,
-            then: r.thenTop,
-            name: 'A',
-            locked: answered,
-            won:
-                answered && r.answer == Notices.top ||
-                answered && r.answer == Notices.same,
+          BoardFigure(
+            child: _Plate(
+              weir: r.top,
+              then: r.thenTop,
+              name: 'A',
+              locked: answered,
+              won:
+                  answered && r.answer == Notices.top ||
+                  answered && r.answer == Notices.same,
+            ),
           ),
           const SizedBox(height: 8),
           _Plate(

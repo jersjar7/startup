@@ -247,13 +247,16 @@ class _WhichOneShedsMoreGameState extends State<WhichOneShedsMoreGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Plan(
-            catchment: r.top,
-            rain: r.rain,
-            name: 'A',
-            biggest: r.biggest,
-            won: answered && (r.answer == Sheds.top || r.answer == Sheds.same),
-            locked: answered,
+          BoardFigure(
+            child: _Plan(
+              catchment: r.top,
+              rain: r.rain,
+              name: 'A',
+              biggest: r.biggest,
+              won:
+                  answered && (r.answer == Sheds.top || r.answer == Sheds.same),
+              locked: answered,
+            ),
           ),
           const SizedBox(height: 8),
           _Plan(

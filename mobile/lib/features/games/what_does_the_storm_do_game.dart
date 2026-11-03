@@ -259,35 +259,37 @@ class _WhatDoesTheStormDoGameState extends State<WhatDoesTheStormDoGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 226,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: HydrographPainter(
-                    waves: answered && r.answer == Scaling.flows
-                        ? [r.unit, r.result]
-                        : [r.unit],
-                    names: answered && r.answer == Scaling.flows
-                        ? const ['the unit hydrograph', 'this storm']
-                        : const ['the unit hydrograph'],
-                    tones: const [AppColors.ink3, AppColors.forest],
-                    topFlow: answered && r.answer == Scaling.flows
-                        ? null
-                        : r.unit.peak * 1.18,
-                    note:
-                        '${_num(r.unitHours)} hour unit hydrograph, '
-                        'peak ${_num(r.unit.peak)} cfs',
+          BoardFigure(
+            child: Container(
+              height: 226,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: HydrographPainter(
+                      waves: answered && r.answer == Scaling.flows
+                          ? [r.unit, r.result]
+                          : [r.unit],
+                      names: answered && r.answer == Scaling.flows
+                          ? const ['the unit hydrograph', 'this storm']
+                          : const ['the unit hydrograph'],
+                      tones: const [AppColors.ink3, AppColors.forest],
+                      topFlow: answered && r.answer == Scaling.flows
+                          ? null
+                          : r.unit.peak * 1.18,
+                      note:
+                          '${_num(r.unitHours)} hour unit hydrograph, '
+                          'peak ${_num(r.unit.peak)} cfs',
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

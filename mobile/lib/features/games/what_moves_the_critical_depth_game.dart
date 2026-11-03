@@ -237,29 +237,31 @@ class _WhatMovesTheCriticalDepthGameState
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 250,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: EnergyCurvePainter(
-                    flume: r.before,
-                    after: answered && r.moved ? r.after : null,
-                    label: !answered
-                        ? 'q ${r.before.unitFlow.toStringAsFixed(1)} m2/s'
-                        : (r.moved
-                              ? 'green: after the change'
-                              : 'the curve did not move'),
+          BoardFigure(
+            child: Container(
+              height: 250,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: EnergyCurvePainter(
+                      flume: r.before,
+                      after: answered && r.moved ? r.after : null,
+                      label: !answered
+                          ? 'q ${r.before.unitFlow.toStringAsFixed(1)} m2/s'
+                          : (r.moved
+                                ? 'green: after the change'
+                                : 'the curve did not move'),
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

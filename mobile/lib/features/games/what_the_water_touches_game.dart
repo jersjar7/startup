@@ -237,13 +237,15 @@ class _WhatTheWaterTouchesGameState extends State<WhatTheWaterTouchesGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Section(
-            channel: r.channel,
-            traced: r.traced,
-            picked: _picked,
-            answer: r.answer,
-            locked: answered,
-            onPick: answered ? null : (p) => setState(() => _picked = p),
+          BoardFigure(
+            child: _Section(
+              channel: r.channel,
+              traced: r.traced,
+              picked: _picked,
+              answer: r.answer,
+              locked: answered,
+              onPick: answered ? null : (p) => setState(() => _picked = p),
+            ),
           ),
           const SizedBox(height: 10),
           Center(

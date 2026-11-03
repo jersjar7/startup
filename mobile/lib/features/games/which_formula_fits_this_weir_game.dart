@@ -209,21 +209,23 @@ class _WhichFormulaFitsThisWeirGameState
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 232,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: WeirPainter(weir: r.weir, showFlow: answered),
-                  child: const SizedBox.expand(),
+          BoardFigure(
+            child: Container(
+              height: 232,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: WeirPainter(weir: r.weir, showFlow: answered),
+                    child: const SizedBox.expand(),
+                  ),
                 ),
               ),
             ),

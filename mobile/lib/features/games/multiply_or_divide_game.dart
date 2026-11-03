@@ -232,29 +232,31 @@ class _MultiplyOrDivideGameState extends State<MultiplyOrDivideGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 214,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: BodPainter(
-                    demand: r.demand,
-                    day: r.day,
-                    showSplit: answered,
-                    note: answered
-                        ? 'the fraction at day ${_num(r.day)} is '
-                              '${r.demand.fractionAt(r.day).toStringAsFixed(3)}'
-                        : 'k ${r.demand.rate} per day',
+          BoardFigure(
+            child: Container(
+              height: 214,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: BodPainter(
+                      demand: r.demand,
+                      day: r.day,
+                      showSplit: answered,
+                      note: answered
+                          ? 'the fraction at day ${_num(r.day)} is '
+                                '${r.demand.fractionAt(r.day).toStringAsFixed(3)}'
+                          : 'k ${r.demand.rate} per day',
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

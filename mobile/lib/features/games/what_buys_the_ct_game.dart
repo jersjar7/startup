@@ -233,24 +233,26 @@ class _WhatBuysTheCtGameState extends State<WhatBuysTheCtGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 224,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: ContactPainter(
-                    contact: answered ? r.after : r.before,
-                    answered: answered,
+          BoardFigure(
+            child: Container(
+              height: 224,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: ContactPainter(
+                      contact: answered ? r.after : r.before,
+                      answered: answered,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

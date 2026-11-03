@@ -296,18 +296,20 @@ class _WhichOneRunsFasterGameState extends State<WhichOneRunsFasterGame> {
             ),
           ),
           const SizedBox(height: 12),
-          _Pair(
-            channel: r.top,
-            other: r.bottom,
-            name: 'A',
-            caption: r.caption(true),
-            outcome: !answered
-                ? null
-                : (r.answer == Swifter.same
-                      ? AppColors.forest
-                      : (r.answer == Swifter.top
-                            ? AppColors.forest
-                            : AppColors.line)),
+          BoardFigure(
+            child: _Pair(
+              channel: r.top,
+              other: r.bottom,
+              name: 'A',
+              caption: r.caption(true),
+              outcome: !answered
+                  ? null
+                  : (r.answer == Swifter.same
+                        ? AppColors.forest
+                        : (r.answer == Swifter.top
+                              ? AppColors.forest
+                              : AppColors.line)),
+            ),
           ),
           const SizedBox(height: 8),
           _Pair(

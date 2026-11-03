@@ -244,29 +244,31 @@ class _WarmerOrColderGameState extends State<WarmerOrColderGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 222,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: BodPainter(
-                    demand: r.base,
-                    day: 5,
-                    warmer: answered ? r.corrected : null,
-                    showSplit: false,
-                    note: answered
-                        ? 'red: the same sample at ${_num(r.celsius)} degrees'
-                        : 'black: k ${r.base.rate} at 20 degrees',
+          BoardFigure(
+            child: Container(
+              height: 222,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: BodPainter(
+                      demand: r.base,
+                      day: 5,
+                      warmer: answered ? r.corrected : null,
+                      showSplit: false,
+                      note: answered
+                          ? 'red: the same sample at ${_num(r.celsius)} degrees'
+                          : 'black: k ${r.base.rate} at 20 degrees',
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),
