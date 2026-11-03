@@ -8,7 +8,7 @@ import '../auth/auth_controller.dart';
 import '../home/home_shell.dart';
 import '../shared/widgets/kit.dart';
 import '../study/chapter_marks.dart';
-import '../shared/widgets/split_page.dart';
+import '../../core/theme/tablet.dart';
 
 /// The root of the signed-out app: the only screen a signed-out student
 /// lands on, from a first launch or a sign-out. Two ways forward and no
@@ -20,67 +20,177 @@ import '../shared/widgets/split_page.dart';
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
+  Future<void> _guest(BuildContext context) async {
+    await context.read<AuthController>().startGuest();
+    HomeShell.select(HomeTab.study);
+    if (context.mounted) context.go('/home');
+  }
+
   @override
   Widget build(BuildContext context) {
+    final size = AppTablet.of(context);
+    if (size.isTablet) return _tablet(context, size);
     return Scaffold(
       backgroundColor: AppColors.fog,
-      body: TabletCap(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 4, 24, 34),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 8),
-                Text(
-                  'FE FOR RACCOONS',
-                  style: AppTheme.eyebrow(color: AppColors.ink2),
-                ),
-                const Expanded(child: WelcomeCards()),
-                Text(
-                  'The FE Civil,\none concept at a time.',
-                  style: AppTheme.display(size: 44),
-                ),
-                const SizedBox(height: 22),
-                PillButton(
-                  label: "Let's go",
-                  // The tour runs before this screen now, so there is only one
-                  // road from here.
-                  onTap: () => context.push('/create'),
-                ),
-                const SizedBox(height: 10),
-                // The same third way in as the tour's last screen, for anyone
-                // who skipped the tour (Apple 5.1.1(v)).
-                SheetButton(
-                  label: 'Try a round first',
-                  filled: false,
-                  onTap: () async {
-                    await context.read<AuthController>().startGuest();
-                    HomeShell.select(HomeTab.study);
-                    if (context.mounted) context.go('/home');
-                  },
-                ),
-                const SizedBox(height: 6),
-                Center(
-                  child: TextButton(
-                    onPressed: () => context.push('/signin'),
-                    child: Text(
-                      'I already have an account',
-                      style: AppTheme.body(
-                        size: 15,
-                        weight: FontWeight.w500,
-                        color: AppColors.ink2,
-                      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 4, 24, 34),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 8),
+              Text(
+                'FE FOR RACCOONS',
+                style: AppTheme.eyebrow(color: AppColors.ink2),
+              ),
+              const Expanded(child: WelcomeCards()),
+              Text(
+                'The FE Civil,\none concept at a time.',
+                style: AppTheme.display(size: 44),
+              ),
+              const SizedBox(height: 22),
+              PillButton(
+                label: "Let's go",
+                // The tour runs before this screen now, so there is only one
+                // road from here.
+                onTap: () => context.push('/create'),
+              ),
+              const SizedBox(height: 10),
+              // The same third way in as the tour's last screen, for anyone
+              // who skipped the tour (Apple 5.1.1(v)).
+              SheetButton(
+                label: 'Try a round first',
+                filled: false,
+                onTap: () => _guest(context),
+              ),
+              const SizedBox(height: 6),
+              Center(
+                child: TextButton(
+                  onPressed: () => context.push('/signin'),
+                  child: Text(
+                    'I already have an account',
+                    style: AppTheme.body(
+                      size: 15,
+                      weight: FontWeight.w500,
+                      color: AppColors.ink2,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
+
+  /// T10 and T10p: the cards large, the headline at the foot of the left
+  /// column, the pill at its 440 with the other two ways in as quiet links
+  /// beside it (landscape) or under it (portrait). The guest door stays: the
+  /// mockup leaves it out, Apple 5.1.1(v) does not.
+  Widget _tablet(BuildContext context, SizeClass size) {
+    final wide = size == SizeClass.expanded;
+    Widget link(String label, VoidCallback onTap, {bool strong = false}) =>
+        TextButton(
+          onPressed: onTap,
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          ),
+          child: Text(
+            label,
+            style: AppTablet.bodyTablet(
+              weight: strong ? FontWeight.w600 : FontWeight.w500,
+              color: strong ? AppColors.charcoal : AppColors.ink2,
+            ),
+          ),
+        );
+    final pill = SizedBox(
+      width: AppTablet.pillMax,
+      child: PillButton(
+        label: "Let's go",
+        onTap: () => context.push('/create'),
+      ),
+    );
+    final links = [
+      link('Try a round first', () => _guest(context), strong: true),
+      link('I already have an account', () => context.push('/signin')),
+    ];
+    final headline = Text(
+      'The FE Civil,\none concept\nat a time.',
+      style: AppTablet.headlineXL(),
+    );
+    final eyebrow = Text(
+      'FE FOR RACCOONS',
+      style: AppTheme.eyebrow(color: AppColors.ink2),
+    );
+
+    return Scaffold(
+      backgroundColor: AppColors.fog,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppTablet.screenX,
+            AppTablet.spaceTop + 24,
+            AppTablet.screenX,
+            AppTablet.screenX,
+          ),
+          child: wide
+              ? Stack(
+                  children: [
+                    const Positioned(
+                      top: 24,
+                      right: 0,
+                      width: 540,
+                      bottom: 120,
+                      child: _FitCards(),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        eyebrow,
+                        const Spacer(),
+                        headline,
+                        const SizedBox(height: 28),
+                        Row(
+                          children: [pill, const SizedBox(width: 24), ...links],
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    eyebrow,
+                    const Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(8, 40, 8, 24),
+                        child: _FitCards(),
+                      ),
+                    ),
+                    headline,
+                    const SizedBox(height: 28),
+                    pill,
+                    const SizedBox(height: 8),
+                    Wrap(children: links),
+                  ],
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+/// [WelcomeCards] grown to fill the space it is given: the fan is about
+/// 440 tall at its phone size, so it scales by the height it has.
+class _FitCards extends StatelessWidget {
+  const _FitCards();
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, box) =>
+        WelcomeCards(scale: (box.maxHeight / 440).clamp(1.0, 2.0)),
+  );
 }
 
 /// Three floating cards that read as one set: the statics mark on spring,
@@ -90,7 +200,11 @@ class WelcomeScreen extends StatelessWidget {
 /// (owner's review of build 814: the formulas that were here hid under
 /// the concepts card).
 class WelcomeCards extends StatelessWidget {
-  const WelcomeCards({super.key});
+  const WelcomeCards({super.key, this.scale = 1});
+
+  /// Larger on a tablet: heights, offsets, marks and type grow by this;
+  /// widths already follow the space.
+  final double scale;
 
   @override
   Widget build(BuildContext context) {
@@ -108,10 +222,10 @@ class WelcomeCards extends StatelessWidget {
         child: Container(
           width: width,
           height: height,
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20 * (1 + (scale - 1) / 2)),
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(30 * (1 + (scale - 1) / 2)),
             boxShadow: shadow
                 ? const [
                     BoxShadow(
@@ -125,7 +239,10 @@ class WelcomeCards extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(eyebrow, style: AppTheme.eyebrow(size: 11)),
+              Text(
+                eyebrow,
+                style: AppTheme.eyebrow(size: 11 * (1 + (scale - 1) / 3)),
+              ),
               Expanded(child: Center(child: body)),
             ],
           ),
@@ -140,45 +257,45 @@ class WelcomeCards extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             Positioned(
-              top: 18,
+              top: 18 * scale,
               left: 0,
               child: card(
                 color: AppColors.springField,
                 eyebrow: 'STATICS',
                 width: w * 0.58,
-                height: 236,
+                height: 236 * scale,
                 angle: -0.10,
-                body: const ChapterMark(
+                body: ChapterMark(
                   chapterId: 'statics',
                   color: AppColors.charcoal,
-                  size: 128,
+                  size: 128 * scale,
                 ),
               ),
             ),
             Positioned(
-              top: 74,
+              top: 74 * scale,
               right: -18,
               child: card(
                 color: AppColors.peach,
                 eyebrow: 'FLUIDS',
                 width: w * 0.5,
-                height: 214,
+                height: 214 * scale,
                 angle: 0.14,
-                body: const ChapterMark(
+                body: ChapterMark(
                   chapterId: 'fluid-mechanics',
                   color: AppColors.charcoal,
-                  size: 112,
+                  size: 112 * scale,
                 ),
               ),
             ),
             Positioned(
-              top: 300,
+              top: 300 * scale,
               left: w * 0.22,
               child: card(
                 color: AppColors.cream,
                 eyebrow: 'CONCEPTS',
-                width: 196,
-                height: 122,
+                width: 196 * scale,
+                height: 122 * scale,
                 angle: -0.03,
                 shadow: true,
                 body: FittedBox(
@@ -190,7 +307,7 @@ class WelcomeCards extends StatelessWidget {
                       Text(
                         '375',
                         style: AppTheme.display(
-                          size: 54,
+                          size: 54 * scale,
                           height: 0.82,
                           tracking: -0.06,
                         ),
@@ -199,7 +316,7 @@ class WelcomeCards extends StatelessWidget {
                       Text(
                         'free',
                         style: AppTheme.display(
-                          size: 16,
+                          size: 16 * scale,
                           weight: FontWeight.w700,
                           height: 1,
                         ),
