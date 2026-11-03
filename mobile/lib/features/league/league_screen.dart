@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
+import '../../core/theme/tablet.dart';
 import '../shared/widgets/kit.dart';
+import '../shared/widgets/split_page.dart';
 import 'league_coin.dart';
 import 'league_model.dart';
 
@@ -50,55 +52,136 @@ class _LeagueScreenState extends State<LeagueScreen> {
   @override
   Widget build(BuildContext context) {
     final v = _view;
+    if (v != null &&
+        v.joined &&
+        v.me != null &&
+        AppTablet.of(context) == SizeClass.expanded) {
+      return Scaffold(backgroundColor: AppColors.fog, body: _split(v));
+    }
     return Scaffold(
       backgroundColor: AppColors.fog,
-      body: SafeArea(
-        bottom: false,
-        child: v == null
-            ? const Center(child: CircularProgressIndicator())
-            : ListView(
-                controller: widget.scroll,
-                padding: EdgeInsets.fromLTRB(
-                  24,
-                  8,
-                  24,
-                  34 + MediaQuery.paddingOf(context).bottom,
-                ),
-                children: [
-                  Row(
-                    children: [
-                      RoundIconButton(
-                        icon: Icons.chevron_left_rounded,
-                        label: 'Back',
-                        onTap: () => Navigator.of(context).maybePop(),
-                      ),
-                      const Spacer(),
-                      Text(
-                        'ENDS SATURDAY',
-                        style: AppTheme.eyebrow(color: AppColors.charcoal),
-                      ),
-                    ],
+      body: MediumColumn(
+        child: SafeArea(
+          bottom: false,
+          child: v == null
+              ? const Center(child: CircularProgressIndicator())
+              : ListView(
+                  controller: widget.scroll,
+                  padding: EdgeInsets.fromLTRB(
+                    24,
+                    8,
+                    24,
+                    34 + MediaQuery.paddingOf(context).bottom,
                   ),
-                  const SizedBox(height: 28),
-                  Row(
-                    children: [
-                      LeagueCoin(metal: v.metal, size: 40),
-                      const SizedBox(width: 12),
-                      Flexible(
-                        child: Text(
-                          '${v.metal.label} league',
-                          style: AppTheme.display(size: 40),
+                  children: [
+                    Row(
+                      children: [
+                        RoundIconButton(
+                          icon: Icons.chevron_left_rounded,
+                          label: 'Back',
+                          onTap: () => Navigator.of(context).maybePop(),
                         ),
-                      ),
-                    ],
-                  ),
-                  if (v.joined && v.me != null)
-                    ..._board(v)
-                  else
-                    ..._notJoined(v),
-                ],
-              ),
+                        const Spacer(),
+                        Text(
+                          'ENDS SATURDAY',
+                          style: AppTheme.eyebrow(color: AppColors.charcoal),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 28),
+                    Row(
+                      children: [
+                        LeagueCoin(metal: v.metal, size: 40),
+                        const SizedBox(width: 12),
+                        Flexible(
+                          child: Text(
+                            '${v.metal.label} league',
+                            style: AppTheme.display(size: 40),
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (v.joined && v.me != null)
+                      ..._board(v)
+                    else
+                      ..._notJoined(v),
+                  ],
+                ),
+        ),
       ),
+    );
+  }
+
+  /// T11: the coin, the place and the lines on the left; the three zones on
+  /// the right, all fifteen in view or nearly.
+  Widget _split(LeagueView v) {
+    final me = v.me!;
+    return SplitPage(
+      rightScroll: widget.scroll,
+      left: [
+        Row(
+          children: [
+            RoundIconButton(
+              icon: Icons.chevron_left_rounded,
+              label: 'Back',
+              onTap: () => Navigator.of(context).maybePop(),
+            ),
+            const Spacer(),
+            Text(
+              'ENDS SATURDAY',
+              style: AppTheme.eyebrow(color: AppColors.charcoal),
+            ),
+          ],
+        ),
+        const SizedBox(height: 40),
+        Row(
+          children: [
+            LeagueCoin(metal: v.metal, size: 46),
+            const SizedBox(width: 14),
+            Flexible(
+              child: Text(
+                '${v.metal.label} league',
+                style: AppTheme.display(size: 44),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 18),
+        Text.rich(
+          TextSpan(
+            text: ordinal(me.place),
+            style: AppTablet.heroXL(),
+            children: [
+              const TextSpan(text: ' '),
+              TextSpan(
+                text: 'of ${v.rows.length}',
+                style: AppTheme.display(
+                  size: 30,
+                  weight: FontWeight.w700,
+                  height: 0.82,
+                  tracking: -0.03,
+                ),
+              ),
+            ],
+          ),
+          semanticsLabel: '${ordinal(me.place)} of ${v.rows.length}',
+        ),
+        const SizedBox(height: 32),
+        Text(
+          [
+            if (v.passLine.isNotEmpty) v.passLine,
+            'Points from the app and the website both count.',
+            'The week ends Saturday at midnight, Eastern.',
+          ].join(' '),
+          style: AppTablet.bodyTablet(),
+        ),
+        const SizedBox(height: 22),
+        Text(
+          'Everyone here studied this week. A new league starts every Sunday.',
+          style: AppTablet.bodyTablet(color: AppColors.mutedOnLight),
+        ),
+      ],
+      right: _zones(v, firstPad: 0),
     );
   }
 
@@ -117,10 +200,48 @@ class _LeagueScreenState extends State<LeagueScreen> {
     ),
   ];
 
-  List<Widget> _board(LeagueView v) {
-    final me = v.me!;
+  List<Widget> _zones(LeagueView v, {double firstPad = 26}) {
     final up = v.metal.up;
     final down = v.metal.down;
+    var first = true;
+    double pad() {
+      final p = first ? firstPad : 26.0;
+      first = false;
+      return p;
+    }
+
+    return [
+      if (v.upZone.isNotEmpty && up != null) ...[
+        _ZoneLabel(
+          top: pad(),
+          text: 'Moving up to ${up.label}',
+          color: AppColors.forest,
+          icon: Icons.arrow_upward_rounded,
+        ),
+        _Group(rows: v.upZone),
+      ],
+      if (v.stayZone.isNotEmpty) ...[
+        _ZoneLabel(
+          top: pad(),
+          text: 'Staying in ${v.metal.label}',
+          color: AppColors.mutedOnLight,
+        ),
+        _Group(rows: v.stayZone),
+      ],
+      if (v.downZone.isNotEmpty && down != null) ...[
+        _ZoneLabel(
+          top: pad(),
+          text: 'Moving down to ${down.label}',
+          color: AppColors.ember,
+          icon: Icons.arrow_downward_rounded,
+        ),
+        _Group(rows: v.downZone),
+      ],
+    ];
+  }
+
+  List<Widget> _board(LeagueView v) {
+    final me = v.me!;
     return [
       const SizedBox(height: 14),
       Text.rich(
@@ -151,29 +272,7 @@ class _LeagueScreenState extends State<LeagueScreen> {
         ].join(' '),
         style: AppTheme.body(size: 15),
       ),
-      if (v.upZone.isNotEmpty && up != null) ...[
-        _ZoneLabel(
-          text: 'Moving up to ${up.label}',
-          color: AppColors.forest,
-          icon: Icons.arrow_upward_rounded,
-        ),
-        _Group(rows: v.upZone),
-      ],
-      if (v.stayZone.isNotEmpty) ...[
-        _ZoneLabel(
-          text: 'Staying in ${v.metal.label}',
-          color: AppColors.mutedOnLight,
-        ),
-        _Group(rows: v.stayZone),
-      ],
-      if (v.downZone.isNotEmpty && down != null) ...[
-        _ZoneLabel(
-          text: 'Moving down to ${down.label}',
-          color: AppColors.ember,
-          icon: Icons.arrow_downward_rounded,
-        ),
-        _Group(rows: v.downZone),
-      ],
+      ..._zones(v),
       const SizedBox(height: 22),
       Text(
         'Everyone here studied this week. A new league starts every Sunday.',
@@ -184,7 +283,14 @@ class _LeagueScreenState extends State<LeagueScreen> {
 }
 
 class _ZoneLabel extends StatelessWidget {
-  const _ZoneLabel({required this.text, required this.color, this.icon});
+  const _ZoneLabel({
+    required this.text,
+    required this.color,
+    this.icon,
+    this.top = 26,
+  });
+
+  final double top;
 
   final String text;
   final Color color;
@@ -193,7 +299,7 @@ class _ZoneLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 26, 0, 10),
+      padding: EdgeInsets.fromLTRB(0, top, 0, 10),
       child: Row(
         children: [
           if (icon != null) ...[

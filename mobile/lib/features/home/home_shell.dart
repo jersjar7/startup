@@ -273,7 +273,9 @@ class BesideRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tablet = AppTablet.isTablet(context);
-    return ColoredBox(
+    // A Material, not a bare colour: the rail's labels are drawn outside the
+    // page's Scaffold and need a text theme under them.
+    return Material(
       color: AppColors.fog,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
