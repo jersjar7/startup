@@ -151,9 +151,72 @@ class ConceptsPage extends StatelessWidget {
       ],
     ];
     if (AppTablet.of(context) == SizeClass.expanded) {
+      // T23b: the count on the left; the chapters in two columns on the
+      // right, each group whole, each going to the shorter column.
+      final columns = [<Widget>[], <Widget>[]];
+      final tall = [0, 0];
+      for (final entry in byChapter.entries) {
+        final i = tall[0] <= tall[1] ? 0 : 1;
+        tall[i] += entry.value.length + 1;
+        columns[i].addAll([
+          if (columns[i].isNotEmpty) const SizedBox(height: 28),
+          Row(
+            children: [
+              ChapterMark(
+                chapterId: entry.key.id,
+                color: AppColors.charcoal,
+                size: 22,
+              ),
+              const SizedBox(width: 12),
+              Flexible(
+                child: Text(
+                  cardNameFor(entry.key).toUpperCase(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.eyebrow(),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                '${entry.value.length}',
+                style: AppTheme.mono(size: 13, color: AppColors.mutedOnLight),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          for (final c in entry.value) ...[
+            _ConceptTile(concept: c, onTap: () => onOpen(c), plain: true),
+            const SizedBox(height: 8),
+          ],
+        ]);
+      }
       return Scaffold(
         backgroundColor: AppColors.fog,
-        body: SplitPage(left: head, right: rest, rightTopPad: 34),
+        body: SplitPage(
+          leftWidth: 380,
+          left: head,
+          rightTopPad: 12,
+          right: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: columns[0],
+                  ),
+                ),
+                const SizedBox(width: AppTablet.paneGap),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: columns[1],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       );
     }
     return Scaffold(
@@ -171,10 +234,17 @@ class ConceptsPage extends StatelessWidget {
 }
 
 class _ConceptTile extends StatelessWidget {
-  const _ConceptTile({required this.concept, required this.onTap});
+  const _ConceptTile({
+    required this.concept,
+    required this.onTap,
+    this.plain = false,
+  });
 
   final HeldConcept concept;
   final VoidCallback onTap;
+
+  /// The book as a bare mark, not a dark disc: T23b's narrower columns.
+  final bool plain;
 
   @override
   Widget build(BuildContext context) {
@@ -217,19 +287,29 @@ class _ConceptTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 14),
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.charcoal,
+                  if (plain)
+                    const Padding(
+                      padding: EdgeInsets.only(right: 8),
+                      child: Icon(
+                        Icons.menu_book_outlined,
+                        color: AppColors.mutedOnLight,
+                        size: 24,
+                      ),
+                    )
+                  else
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.charcoal,
+                      ),
+                      child: const Icon(
+                        Icons.menu_book_outlined,
+                        color: AppColors.cream,
+                        size: 20,
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.menu_book_outlined,
-                      color: AppColors.cream,
-                      size: 20,
-                    ),
-                  ),
                 ],
               ),
             ),
