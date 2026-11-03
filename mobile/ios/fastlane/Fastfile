@@ -125,7 +125,9 @@ platform :ios do
                    -u BUNDLER_ORIG_GEM_HOME -u BUNDLER_ORIG_GEM_PATH]
     Dir.chdir(FLUTTER_ROOT) do
       sh(*clean_env, "flutter", "pub", "get")
-      sh(*clean_env, "flutter", "build", "ios", "--release", "--no-codesign", "--build-number=#{build_no}")
+      # Students play from the content packs (ADR 0030); the built-in rounds
+      # stay inside as the fallback.
+      sh(*clean_env, "flutter", "build", "ios", "--release", "--no-codesign", "--dart-define=PACKS=true", "--build-number=#{build_no}")
     end
 
     # Pin ONLY the Runner target to manual signing with the Oqupa distribution
