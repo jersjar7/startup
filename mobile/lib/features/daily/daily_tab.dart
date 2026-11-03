@@ -1170,18 +1170,103 @@ class _Results extends StatelessWidget {
       ),
     ];
     if (wide) {
-      // T08b: where the student stands on the left; yesterday's score, the
-      // concepts to replay and sharing on the right.
-      return _TwoColumns(
-        left: children,
-        right: [
-          if (onYesterday != null)
-            Align(
-              alignment: Alignment.centerRight,
-              child: _YesterdayLink(onTap: onYesterday!),
+      // T08b: the headline, the boards, the spread and the streak on the
+      // left; the places, the school's line, the concepts to replay and
+      // sharing on the right.
+      final view = MediaQuery.sizeOf(context).height;
+      final fill =
+          view -
+          MediaQuery.viewPaddingOf(context).vertical -
+          _top(context) -
+          30;
+      return SizedBox(
+        height: math.max(fill, 640),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(
+              width: 540,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  children.first,
+                  if (school != null) ...[
+                    const SizedBox(height: 22),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: DailyBoardChips(
+                        school: school,
+                        board: board,
+                        onBoard: onBoard,
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 24),
+                  if (showing != null)
+                    DailySpread(
+                      board: showing,
+                      total: mine.total,
+                      mine: mine.score,
+                    )
+                  else
+                    DailyBars(rows: mine.rounds, missed: AppColors.peach),
+                  const Spacer(),
+                  StreakTile(current: puzzle.streak.current, playedToday: true),
+                ],
+              ),
             ),
-          ...concepts.skip(1),
-        ],
+            const SizedBox(width: AppTablet.paneGap * 2),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: onYesterday == null
+                          ? const SizedBox(height: 44)
+                          : _YesterdayLink(onTap: onYesterday!),
+                    ),
+                    const SizedBox(height: 16),
+                    if (showing != null)
+                      for (final p in boardRows(showing)) ...[
+                        DailyPlaceRow(
+                          rank: p.rank,
+                          name: p.isYou ? 'You' : p.name,
+                          score: p.score,
+                          ms: p.ms,
+                          you: p.isYou,
+                        ),
+                        const SizedBox(height: 8),
+                      ]
+                    else
+                      Text(
+                        failed
+                            ? 'How everyone did shows once you are back online.'
+                            : 'Your score goes up the next time you have a '
+                                  'signal.',
+                        style: AppTablet.bodyTablet(
+                          color: AppColors.mutedOnLight,
+                        ),
+                      ),
+                    if (school != null && !school.open) ...[
+                      const SizedBox(height: 8),
+                      Text(
+                        '${school.name}\'s board opens once ${school.needs} '
+                        'students from it play the same day. '
+                        '${school.players} so far today.',
+                        style: AppTablet.bodyTablet(
+                          color: AppColors.mutedOnLight,
+                        ),
+                      ),
+                    ],
+                    ...concepts,
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       );
     }
     return Column(
@@ -1213,37 +1298,6 @@ class _MediumCap extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: AppTablet.paneSheetMax),
         child: child,
       ),
-    );
-  }
-}
-
-/// The two columns of an expanded Daily: the leading pane at 400, the rest.
-class _TwoColumns extends StatelessWidget {
-  const _TwoColumns({required this.left, required this.right});
-
-  final List<Widget> left;
-  final List<Widget> right;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: AppTablet.paneLeading,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: left,
-          ),
-        ),
-        const SizedBox(width: AppTablet.paneGap * 3),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: right,
-          ),
-        ),
-      ],
     );
   }
 }
