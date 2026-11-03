@@ -264,27 +264,29 @@ class _WhereDoYouParkItGameState extends State<WhereDoYouParkItGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 212,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  // The loads are only drawn once the round is over: where
-                  // they stand is the question.
-                  painter: InfluencePainter(
-                    line: r.line,
-                    loads: answered ? r.parked : const [],
-                    showOrdinates: answered,
+          BoardFigure(
+            child: Container(
+              height: 212,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    // The loads are only drawn once the round is over: where
+                    // they stand is the question.
+                    painter: InfluencePainter(
+                      line: r.line,
+                      loads: answered ? r.parked : const [],
+                      showOrdinates: answered,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

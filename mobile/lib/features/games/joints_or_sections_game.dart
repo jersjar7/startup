@@ -246,24 +246,26 @@ class _JointsOrSectionsGameState extends State<JointsOrSectionsGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 214,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: SectionPointsPainter(
-                    truss: routeTruss,
-                    target: r.target,
+          BoardFigure(
+            child: Container(
+              height: 214,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: SectionPointsPainter(
+                      truss: routeTruss,
+                      target: r.target,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

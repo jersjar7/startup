@@ -228,27 +228,29 @@ class _WhichOneControlsGameState extends State<WhichOneControlsGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: answered
-                ? 90.0 + 20 * (loadRows(r.bundle) + 3)
-                : 40.0 + 20 * loadRows(r.bundle),
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: LoadBarPainter(
-                    bundle: r.bundle,
-                    unit: r.unit,
-                    answered: answered,
+          BoardFigure(
+            child: Container(
+              height: answered
+                  ? 90.0 + 20 * (loadRows(r.bundle) + 3)
+                  : 40.0 + 20 * loadRows(r.bundle),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: LoadBarPainter(
+                      bundle: r.bundle,
+                      unit: r.unit,
+                      answered: answered,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

@@ -287,35 +287,37 @@ class _WhereDoYouTakeMomentsGameState extends State<WhereDoYouTakeMomentsGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 238,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: SectionPointsPainter(
-                    truss: r.truss,
-                    cut: r.cut,
-                    target: r.target,
-                    anchors: r.anchors,
-                    picked: _picked == Pivot.first
-                        ? 0
-                        : (_picked == Pivot.second ? 1 : null),
-                    answer: !answered
-                        ? null
-                        : (r.answer == Pivot.first
-                              ? 0
-                              : (r.answer == Pivot.second ? 1 : null)),
-                    locked: answered,
+          BoardFigure(
+            child: Container(
+              height: 238,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: SectionPointsPainter(
+                      truss: r.truss,
+                      cut: r.cut,
+                      target: r.target,
+                      anchors: r.anchors,
+                      picked: _picked == Pivot.first
+                          ? 0
+                          : (_picked == Pivot.second ? 1 : null),
+                      answer: !answered
+                          ? null
+                          : (r.answer == Pivot.first
+                                ? 0
+                                : (r.answer == Pivot.second ? 1 : null)),
+                      locked: answered,
+                    ),
+                    child: const SizedBox.expand(),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),

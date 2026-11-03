@@ -247,21 +247,23 @@ class _IsAllOfItConnectedGameState extends State<IsAllOfItConnectedGame> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 186,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.line),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: EngineeringGrid(
-                minor: 18,
-                major: 90,
-                child: CustomPaint(
-                  painter: GripPainter(grip: r.grip, answered: answered),
-                  child: const SizedBox.expand(),
+          BoardFigure(
+            child: Container(
+              height: 186,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.line),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(11),
+                child: EngineeringGrid(
+                  minor: 18,
+                  major: 90,
+                  child: CustomPaint(
+                    painter: GripPainter(grip: r.grip, answered: answered),
+                    child: const SizedBox.expand(),
+                  ),
                 ),
               ),
             ),
