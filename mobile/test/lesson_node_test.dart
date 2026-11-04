@@ -57,18 +57,18 @@ void main() {
     // no glyph at all under this design, so the absence of the check is the
     // whole assertion.
     await tester.pump(const Duration(milliseconds: 100));
-    expect(find.byIcon(Icons.check_rounded), findsNothing);
+    expect(find.byKey(LessonNodeWidget.checkKey), findsNothing);
 
     // The wedge is closed by now, and the node is still holding the full
     // circle for its beat: no check yet.
     await tester.pump(const Duration(milliseconds: 1100));
-    expect(find.byIcon(Icons.check_rounded), findsNothing);
+    expect(find.byKey(LessonNodeWidget.checkKey), findsNothing);
     expect(settled, isNull);
 
     await tester.pump(
       LessonNodeWidget.closedHold + const Duration(milliseconds: 100),
     );
-    expect(find.byIcon(Icons.check_rounded), findsOneWidget);
+    expect(find.byKey(LessonNodeWidget.checkKey), findsOneWidget);
     expect(settled, 1.0);
   });
 
@@ -85,7 +85,7 @@ void main() {
       ),
     );
     await tester.pump(const Duration(milliseconds: 50));
-    expect(find.byIcon(Icons.check_rounded), findsOneWidget);
+    expect(find.byKey(LessonNodeWidget.checkKey), findsOneWidget);
     expect(settled, isNull);
   });
 
@@ -116,11 +116,12 @@ void main() {
     // Only two states carry a glyph. The other two are told apart by their
     // silhouette, which is the point of the design: it still reads with the
     // color taken out.
-    for (final (state, icon) in const [
+    const glyphs = [LessonNodeWidget.checkKey, LessonNodeWidget.dotsKey];
+    for (final (state, glyph) in const [
       (NodeState.notStarted, null),
       (NodeState.inProgress, null),
-      (NodeState.cleared, Icons.check_rounded),
-      (NodeState.notBuilt, Icons.more_horiz_rounded),
+      (NodeState.cleared, LessonNodeWidget.checkKey),
+      (NodeState.notBuilt, LessonNodeWidget.dotsKey),
     ]) {
       await tester.pumpWidget(
         host(
@@ -133,10 +134,12 @@ void main() {
         ),
       );
       await tester.pump();
-      if (icon == null) {
-        expect(find.byType(Icon), findsNothing, reason: '$state');
-      } else {
-        expect(find.byIcon(icon), findsOneWidget, reason: '$state');
+      for (final key in glyphs) {
+        expect(
+          find.byKey(key),
+          key == glyph ? findsOneWidget : findsNothing,
+          reason: '$state',
+        );
       }
     }
   });

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/road.dart';
 import 'lesson_node_rive.dart';
 
 /// Where a lesson stands on the path. Nothing here knows about content: hand
@@ -36,7 +37,7 @@ class NodeSkin {
   final Color face;
   final NodeShape shape;
 
-  /// A stroke around the face, where the silhouette needs one to read.
+  /// The track the progress ring runs on.
   final Color? rim;
 
   /// What sits on the face. Null where the shape says enough on its own.
@@ -47,9 +48,12 @@ class NodeSkin {
   /// progress to show.
   final Color? wedge;
 
-  /// The slab under the face: a tone of the face itself, taken in whichever
-  /// direction has the room.
-  Color get plinth => plinthFor(face);
+  /// The platform's side. Every platform on the isometric path stands on
+  /// the same plinth tan as the road's walls (ROAD.md, "One material"), day
+  /// and night. The not-built square keeps a tone of its own face: its
+  /// creamDark top is too close to the tan to read as a separate surface.
+  Color get plinth =>
+      shape == NodeShape.circle ? RoadColors.plinth : plinthFor(face);
 
   /// A charcoal face has about 18 points of lightness beneath it and 82 above,
   /// so it lifts; anything pale sinks. Both land near 22 points of separation,
@@ -79,11 +83,13 @@ class NodeSkin {
       glyph: Icons.check_rounded,
       ink: AppColors.spring,
     ),
-    // A gauge: a cream face, and the charcoal arc around its edge is the
-    // work done. No track under it (owner's call, 2026-09-19).
+    // A gauge: a cream face in a spring ring, and the charcoal arc over the
+    // ring is the work done (the approved isometric path, R02 and R04,
+    // 2026-11-03).
     NodeState.inProgress => const NodeSkin(
       face: AppColors.cream,
       shape: NodeShape.circle,
+      rim: AppColors.spring,
       wedge: AppColors.charcoal,
     ),
     // Plain paper: a cream disc on its plinth, nothing on it yet.
@@ -107,7 +113,9 @@ class NodeSkin {
   double get widthFactor => shape == NodeShape.circle ? 1 : 0.72;
 }
 
-/// One node on the path, with its own animation.
+/// One lesson on the path, drawn as an isometric platform (ROAD.md): an
+/// elliptical face, the node circle squashed to half height, standing on a
+/// plinth [depth] tall. It owns its own animation.
 ///
 /// It animates **only when [fractionTo] changes**, and the map only changes it
 /// once it is back on screen. The first version animated the moment progress
@@ -118,6 +126,10 @@ class NodeSkin {
 /// wedge has actually closed, holds the closed circle for a beat, then turns
 /// over. Otherwise the finished face arrives before the fill and the fill is
 /// pointless.
+///
+/// The laid-out size is `PlatformBox(size, depth).size`, the face at the top.
+/// The rise, the bounce, the breath and the finishing pop draw past the box,
+/// unclipped.
 class LessonNodeWidget extends StatefulWidget {
   const LessonNodeWidget({
     super.key,
@@ -125,12 +137,15 @@ class LessonNodeWidget extends StatefulWidget {
     required this.fractionFrom,
     required this.fractionTo,
     required this.size,
+    double? depth,
     this.current = false,
+    this.ahead = false,
+    this.arriveTick = 0,
     this.skin,
     this.onTap,
     this.onSettled,
     this.duration = const Duration(milliseconds: 1100),
-  });
+  }) : depth = depth ?? size / 6;
 
   final NodeState state;
 
@@ -142,7 +157,21 @@ class LessonNodeWidget extends StatefulWidget {
   final double fractionFrom;
   final double fractionTo;
 
+  /// The face's width: the long axis of its ellipse.
   final double size;
+
+  /// The plinth's height in points: 14 on the phone, 16 on the tablet
+  /// ([RoadSize]). Defaults to a sixth of [size], so 84 gives 14.
+  final double depth;
+
+  /// The walked road has not reached this platform yet: it rests at 95%.
+  /// When this turns false it rises to 100% with a 4 pt lift over 300 ms
+  /// ([AppRoad.riseScale], [AppRoad.riseLift]).
+  final bool ahead;
+
+  /// Each increment plays one arrival bounce, to 105% and back over 300 ms
+  /// ([AppRoad.arriveBounce]).
+  final int arriveTick;
 
   /// Overrides the colors this state would normally wear. Only a comparison
   /// harness passes this; the app lets the state decide.
@@ -154,28 +183,50 @@ class LessonNodeWidget extends StatefulWidget {
   final ValueChanged<double>? onSettled;
   final Duration duration;
 
-  /// A little air above the face, so the shadow is not clipped by the slot it
-  /// sits in. This used to be room for a "start here" pill, which was dropped:
-  /// nothing locks, so pointing at one node implied an order the map does not
-  /// actually impose.
+  /// The air a map leaves above each platform in its slot, so the lift and
+  /// the pop are not clipped by whatever sits above. Not part of the
+  /// widget's own box.
   static const topSpace = 10.0;
-
-  /// How far the plinth shows below the face.
-  static const bodyShow = 7.0;
 
   /// How long a just-closed wedge stays on screen before the node turns
   /// over. Long enough to register as "full", short enough not to stall.
   static const closedHold = Duration(milliseconds: 320);
+
+  /// Marks a node showing the finished check, and one showing the not-built
+  /// ellipsis. Both are drawn, not icons, so tests find them by these.
+  static const checkKey = ValueKey<String>('lesson-node-check');
+  static const dotsKey = ValueKey<String>('lesson-node-dots');
+
+  /// How far a press sinks the face, as a fraction of the face's width: 8
+  /// of the artboard's 100, about half the plinth.
+  static const pressSink = 0.08;
+
+  /// The progress ring's thickness, as a fraction of the face's width
+  /// (0.22 of its radius, road.mjs).
+  static const ringThickness = 0.11;
 
   @override
   State<LessonNodeWidget> createState() => _LessonNodeWidgetState();
 }
 
 class _LessonNodeWidgetState extends State<LessonNodeWidget>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late final AnimationController _c = AnimationController(vsync: this);
   late Animation<double> _fraction;
   bool _pressed = false;
+
+  /// The rise when [LessonNodeWidget.ahead] turns false, and the arrival
+  /// bounce. Both rest at 1, where the curves are back at 100% and no lift.
+  late final AnimationController _rise = AnimationController(
+    vsync: this,
+    duration: Duration(milliseconds: AppRoad.riseMs.round()),
+    value: 1,
+  );
+  late final AnimationController _arrive = AnimationController(
+    vsync: this,
+    duration: Duration(milliseconds: AppRoad.arriveMs.round()),
+    value: 1,
+  );
 
   @override
   void initState() {
@@ -184,10 +235,17 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
     if (widget.fractionFrom != widget.fractionTo) _run(widget.fractionFrom);
   }
 
+  bool get _still => MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+
   @override
   void didUpdateWidget(LessonNodeWidget old) {
     super.didUpdateWidget(old);
     if (old.fractionTo != widget.fractionTo) _run(_fraction.value);
+    if (old.ahead && !widget.ahead && !_still) _rise.forward(from: 0);
+    if (widget.ahead) _rise.value = 1;
+    if (old.arriveTick != widget.arriveTick && !_still) {
+      _arrive.forward(from: 0);
+    }
   }
 
   void _run(double from) {
@@ -231,89 +289,134 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
   @override
   void dispose() {
     _c.dispose();
+    _rise.dispose();
+    _arrive.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = widget.size;
+    final box = PlatformBox(widget.size, widget.depth);
+    final still = _still;
+    // Reduce Motion: every platform sits at 100% and nothing bounces.
+    final ahead = widget.ahead && !still;
 
-    return Column(
+    return GestureDetector(
+      behavior: HitTestBehavior.deferToChild,
+      onTapDown: (_) {
+        HapticFeedback.lightImpact();
+        setState(() => _pressed = true);
+      },
+      onTapCancel: () => setState(() => _pressed = false),
+      onTapUp: (_) => setState(() => _pressed = false),
+      onTap: widget.onTap,
+      child: SizedBox.fromSize(
+        size: box.size,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned.fill(
+              child: IgnorePointer(
+                child: AnimatedBuilder(
+                  animation: Listenable.merge([
+                    _fraction,
+                    _rise,
+                    _arrive,
+                    LessonNodeArt.file,
+                  ]),
+                  builder: (context, _) => _art(box, ahead),
+                ),
+              ),
+            ),
+            // The tap target is the platform: the face, the side and the
+            // foot, not the corners of the box.
+            Positioned.fill(child: CustomPaint(painter: _PlatformHit(box))),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// What the node wears this frame. Hold the unfinished face until the
+  /// wedge has closed and had its beat: a node whose animation is still
+  /// running has not turned over yet, whatever the wedge reads this frame.
+  NodeState get _showing =>
+      widget.state == NodeState.cleared &&
+          (_c.isAnimating || _fraction.value < 0.999)
+      ? NodeState.inProgress
+      : widget.state;
+
+  Widget _art(PlatformBox box, bool ahead) {
+    final showing = _showing;
+    final skin = widget.skin ?? NodeSkin.of(showing);
+    final marker = switch (showing) {
+      NodeState.cleared => const SizedBox.shrink(
+        key: LessonNodeWidget.checkKey,
+      ),
+      NodeState.notBuilt => const SizedBox.shrink(
+        key: LessonNodeWidget.dotsKey,
+      ),
+      _ => const SizedBox.shrink(),
+    };
+
+    // Once the artwork is in, Rive draws the node, its rise and its bounce
+    // included. Everything above this line (what state, how full, when it
+    // turns over, whether it is ahead) is decided the same way either way.
+    final art = LessonNodeArt.file.value;
+    if (art != null) {
+      return Stack(
+        clipBehavior: Clip.none,
+        children: [
+          marker,
+          Positioned.fill(
+            child: RiveLessonNode(
+              file: art,
+              showing: showing,
+              skin: skin,
+              fraction: _fraction.value,
+              pressed: _pressed,
+              current: widget.current,
+              ahead: ahead,
+              arriveTick: widget.arriveTick,
+              size: widget.size,
+              depth: widget.depth,
+            ),
+          ),
+        ],
+      );
+    }
+
+    // The painter: the same platform, the same rise and bounce, around the
+    // middle of the side. No breath and no pop: those repeat or celebrate,
+    // and a test double should settle.
+    final scale =
+        (ahead ? AppRoad.aheadScale : AppRoad.riseScale(_rise.value)) *
+        AppRoad.arriveBounce(_arrive.value);
+    final lift = ahead ? 0.0 : AppRoad.riseLift(_rise.value);
+    final o = box.scaleOrigin;
+    return Stack(
+      clipBehavior: Clip.none,
       children: [
-        const SizedBox(height: LessonNodeWidget.topSpace),
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapDown: (_) {
-            HapticFeedback.lightImpact();
-            setState(() => _pressed = true);
-          },
-          onTapCancel: () => setState(() => _pressed = false),
-          onTapUp: (_) => setState(() => _pressed = false),
-          onTap: widget.onTap,
-          child: AnimatedBuilder(
-            animation: Listenable.merge([_fraction, LessonNodeArt.file]),
-            builder: (context, _) {
-              // Hold the unfinished face until the wedge has closed and had
-              // its beat: a node whose animation is still running has not
-              // turned over yet, whatever the wedge reads this frame.
-              final showing =
-                  widget.state == NodeState.cleared &&
-                      (_c.isAnimating || _fraction.value < 0.999)
-                  ? NodeState.inProgress
-                  : widget.state;
-              final skin = widget.skin ?? NodeSkin.of(showing);
-
-              // Once the artwork is in, Rive draws the node. Everything
-              // above this line (what state, how full, when it turns over)
-              // is decided the same way either way.
-              final art = LessonNodeArt.file.value;
-              if (art != null) {
-                return RiveLessonNode(
-                  file: art,
-                  showing: showing,
+        marker,
+        Positioned.fill(
+          child: Transform(
+            transform: Matrix4.identity()
+              ..translateByDouble(o.dx, o.dy - lift, 0, 1)
+              ..scaleByDouble(scale, scale, 1, 1)
+              ..translateByDouble(-o.dx, -o.dy, 0, 1),
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(end: _pressed ? 1 : 0),
+              duration: const Duration(milliseconds: 90),
+              curve: Curves.easeOut,
+              builder: (context, press, _) => CustomPaint(
+                painter: PlatformPainter(
                   skin: skin,
                   fraction: _fraction.value,
-                  pressed: _pressed,
-                  current: widget.current,
-                  size: size,
-                );
-              }
-
-              final face = size * skin.widthFactor;
-
-              return SizedBox(
-                width: size,
-                height: size + LessonNodeWidget.bodyShow,
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    // The plinth: the same outline as the face, extended down,
-                    // so the node reads as a thing standing on something.
-                    Positioned(
-                      top: (size - face) / 2,
-                      child: _Slab(
-                        width: face,
-                        height: face + LessonNodeWidget.bodyShow,
-                        shape: skin.shape,
-                        color: skin.plinth,
-                      ),
-                    ),
-                    AnimatedPositioned(
-                      duration: const Duration(milliseconds: 90),
-                      curve: Curves.easeOut,
-                      top:
-                          (size - face) / 2 +
-                          (_pressed ? LessonNodeWidget.bodyShow - 1 : 0),
-                      child: _NodeFace(
-                        size: face,
-                        skin: skin,
-                        fraction: _fraction.value,
-                      ),
-                    ),
-                  ],
+                  depth: widget.depth,
+                  sink: press * LessonNodeWidget.pressSink * widget.size,
                 ),
-              );
-            },
+              ),
+            ),
           ),
         ),
       ],
@@ -321,132 +424,162 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
   }
 }
 
-class _Slab extends StatelessWidget {
-  const _Slab({
-    required this.width,
-    required this.height,
-    required this.shape,
-    required this.color,
-  });
+/// The platform's outline at rest, for hit testing: the face ellipse, the
+/// side and the foot ellipse. Paints nothing.
+class _PlatformHit extends CustomPainter {
+  const _PlatformHit(this.box);
 
-  final double width;
-  final double height;
-  final NodeShape shape;
-  final Color color;
+  final PlatformBox box;
+
+  bool _inEllipse(Offset p, Offset c) {
+    final dx = (p.dx - c.dx) / box.rx, dy = (p.dy - c.dy) / box.ry;
+    return dx * dx + dy * dy <= 1;
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(
-          shape == NodeShape.circle ? width / 2 : 0.28 * width,
-        ),
-      ),
-    );
-  }
+  bool? hitTest(Offset p) =>
+      _inEllipse(p, box.face) ||
+      _inEllipse(p, box.foot) ||
+      (p.dx >= 0 &&
+          p.dx <= box.width &&
+          p.dy >= box.face.dy &&
+          p.dy <= box.foot.dy);
+
+  @override
+  void paint(Canvas canvas, Size size) {}
+
+  @override
+  bool shouldRepaint(_PlatformHit old) =>
+      old.box.width != box.width || old.box.plinth != box.plinth;
 }
 
-class _NodeFace extends StatelessWidget {
-  const _NodeFace({
-    required this.size,
+/// One platform, drawn the way the Rive artboard draws it, pose for pose:
+/// the foot and the side in the plinth color, the face on top, and on the
+/// face's plane (squashed to half height) the ring, the check or the dots.
+/// Public so a harness can draw a platform without the widget.
+class PlatformPainter extends CustomPainter {
+  const PlatformPainter({
     required this.skin,
     required this.fraction,
+    required this.depth,
+    this.sink = 0,
   });
 
-  final double size;
   final NodeSkin skin;
   final double fraction;
 
-  @override
-  Widget build(BuildContext context) {
-    final glyph = skin.glyph;
-    return SizedBox(
-      width: size,
-      height: size,
-      child: CustomPaint(
-        painter: _FacePainter(skin: skin, fraction: fraction),
-        child: glyph == null
-            ? null
-            : Center(
-                child: Icon(
-                  glyph,
-                  color: skin.ink,
-                  size: size * (skin.shape == NodeShape.circle ? 0.44 : 0.34),
-                ),
-              ),
-      ),
-    );
-  }
-}
-
-class _FacePainter extends CustomPainter {
-  const _FacePainter({required this.skin, required this.fraction});
-
-  final NodeSkin skin;
-  final double fraction;
-
-  /// The ring's thickness as a fraction of the face: the track and the
-  /// progress arc share it, and the arc's outer edge sits on the face's edge.
-  static const _ring = 0.08;
+  /// The plinth's height, and how far a press has sunk the face.
+  final double depth;
+  final double sink;
 
   @override
   void paint(Canvas canvas, Size size) {
     final d = size.width;
-    final c = Offset(d / 2, d / 2);
+    final w = d * skin.widthFactor;
+    final rx = w / 2;
+    final k = AppRoad.k;
+    final face = Offset(d / 2, d * k / 2 + sink);
+    final foot = Offset(d / 2, d * k / 2 + depth);
+    final plinth = Paint()..color = skin.plinth;
 
-    switch (skin.shape) {
-      case NodeShape.circle:
-        canvas.drawCircle(c, d / 2, Paint()..color = skin.face);
-      case NodeShape.roundedSquare:
-        canvas.drawRRect(
-          RRect.fromRectAndRadius(
-            Offset.zero & size,
-            Radius.circular(0.28 * d),
-          ),
-          Paint()..color = skin.face,
+    // Draws [paint] on the ground plane centred at [c]: the outline seen
+    // from above, squashed to half height.
+    void onPlane(Offset c, void Function() draw) {
+      canvas
+        ..save()
+        ..translate(c.dx, c.dy)
+        ..scale(1, k);
+      draw();
+      canvas.restore();
+    }
+
+    void outline(Offset c, Paint paint) => onPlane(c, () {
+      switch (skin.shape) {
+        case NodeShape.circle:
+          canvas.drawCircle(Offset.zero, rx, paint);
+        case NodeShape.roundedSquare:
+          canvas.drawRRect(
+            RRect.fromRectAndRadius(
+              Rect.fromCircle(center: Offset.zero, radius: rx),
+              Radius.circular(0.28 * w),
+            ),
+            paint,
+          );
+      }
+    });
+
+    // The plinth: the foot, and the side up to the face.
+    outline(foot, plinth);
+    canvas.drawRect(
+      Rect.fromLTRB(face.dx - rx, face.dy, face.dx + rx, foot.dy),
+      plinth,
+    );
+    outline(face, Paint()..color = skin.face);
+
+    onPlane(face, () {
+      final t = LessonNodeWidget.ringThickness * w;
+      final ring = Rect.fromCircle(center: Offset.zero, radius: rx - t / 2);
+      final rim = skin.rim;
+      if (rim != null) {
+        canvas.drawOval(
+          ring,
+          Paint()
+            ..color = rim
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = t,
         );
-    }
+      }
+      final wedge = skin.wedge;
+      if (wedge != null && fraction > 0) {
+        // Never a sliver: at least 54 degrees, so "barely started" reads.
+        // It closes at 1, as the artboard's does.
+        final sweep = fraction.clamp(0.15, 1.0) * 2 * math.pi;
+        canvas.drawArc(
+          ring,
+          -math.pi / 2,
+          sweep,
+          false,
+          Paint()
+            ..color = wedge
+            ..style = PaintingStyle.stroke
+            ..strokeCap = StrokeCap.butt
+            ..strokeWidth = t,
+        );
+      }
 
-    final rim = skin.rim;
-    if (rim != null) {
-      // The track.
-      canvas.drawCircle(
-        c,
-        d / 2 - _ring * d / 2,
-        Paint()
-          ..color = rim
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = _ring * d,
-      );
-    }
-
-    final wedge = skin.wedge;
-    if (wedge != null && fraction > 0) {
-      // The arc never vanishes at a tenth and never closes at nine tenths,
-      // so "barely started" and "nearly done" both stay readable and neither
-      // can impersonate a finished node.
-      final sweep = (fraction * 2 * math.pi).clamp(
-        54 * math.pi / 180,
-        330 * math.pi / 180,
-      );
-      canvas.drawArc(
-        Rect.fromCircle(center: c, radius: d / 2 - _ring * d / 2),
-        -math.pi / 2,
-        sweep,
-        false,
-        Paint()
-          ..color = wedge
-          ..style = PaintingStyle.stroke
-          ..strokeCap = StrokeCap.round
-          ..strokeWidth = _ring * d,
-      );
-    }
+      final glyph = skin.glyph;
+      if (glyph == Icons.check_rounded) {
+        // road.mjs's check, drawn for a face of radius 42.
+        final s = rx / 42;
+        canvas.drawPath(
+          Path()
+            ..moveTo(-15 * s, 1 * s)
+            ..lineTo(-6 * s, 10 * s)
+            ..lineTo(14 * s, -10 * s),
+          Paint()
+            ..color = skin.ink
+            ..style = PaintingStyle.stroke
+            ..strokeCap = StrokeCap.round
+            ..strokeJoin = StrokeJoin.round
+            ..strokeWidth = 6.5 * s,
+        );
+      } else if (glyph == Icons.more_horiz_rounded) {
+        final u = d / 100;
+        for (final x in const [-6.1, 0.0, 6.1]) {
+          canvas.drawCircle(
+            Offset(x * u, 0),
+            2.05 * u,
+            Paint()..color = skin.ink,
+          );
+        }
+      }
+    });
   }
 
   @override
-  bool shouldRepaint(_FacePainter old) =>
-      old.fraction != fraction || old.skin != skin;
+  bool shouldRepaint(PlatformPainter old) =>
+      old.fraction != fraction ||
+      old.skin != skin ||
+      old.depth != depth ||
+      old.sink != sink;
 }
