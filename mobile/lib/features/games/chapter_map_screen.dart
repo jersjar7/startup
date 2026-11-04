@@ -1686,8 +1686,12 @@ class ChapterPathPaneState extends State<ChapterPathPane> {
                   ],
                 ],
               ),
-              // The section eyebrows sit at the pane's left edge.
+              // The section eyebrows sit at the pane's left edge. Keyed by
+              // chapter: the path's state (where the pin was last drawn, the
+              // roads seen walked) is one chapter's, and carried into the next
+              // it held that chapter's pin where the last one's had been.
               ChapterPath(
+                key: ValueKey('path-${chapter.id}'),
                 chapter: chapter,
                 width: box.maxWidth,
                 shown: _shown,

@@ -67,15 +67,41 @@ class _StudyTabState extends State<StudyTab> {
 
   final _pathKey = GlobalKey<ChapterPathPaneState>(debugLabel: 'study-path');
 
+  /// The chapter in flight when the pager last landed on it.
+  String? _landed;
+
   @override
   void initState() {
     super.initState();
     // Land on the chapter in flight. After that the page is the student's:
-    // progress changing underneath does not yank the pager anywhere.
+    // progress changing underneath does not yank the pager anywhere while
+    // they are on this tab.
     final resume = resumeTarget(GameProgress.instance);
+    _landed = resume?.$1.id;
     final start = resume == null ? 0 : _chapters.indexOf(resume.$1);
     _page = math.max(0, start);
     _pager = PageController(initialPage: _page);
+  }
+
+  /// The chapter in flight moved while the tab was out of view: a lesson
+  /// played from Profile's Carry on, or the account's rounds arriving after
+  /// sign-in, when the tab had been built on an empty map. The tab is kept
+  /// alive under the others, so it lands on the new chapter now, ready for
+  /// when it is shown, instead of keeping the one it was built on.
+  void _land(String chapterId) {
+    final i = _chapters.indexWhere((c) => c.id == chapterId);
+    _landed = chapterId;
+    if (i < 0 || i == _page) return;
+    _page = i;
+    _lesson = null;
+    _ringed = null;
+    _gridPick = _chapters[i];
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      for (final pager in [_pager, _tabletPager]) {
+        if (pager != null && pager.hasClients) pager.jumpToPage(_page);
+      }
+    });
   }
 
   @override
@@ -183,6 +209,11 @@ class _StudyTabState extends State<StudyTab> {
       builder: (context, _) {
         final progress = GameProgress.instance;
         final current = resumeTarget(progress)?.$1.id;
+        if (current != null &&
+            current != _landed &&
+            HomeShell.current.value != HomeTab.study.index) {
+          _land(current);
+        }
 
         final size = AppTablet.of(context);
         final open = _lesson;

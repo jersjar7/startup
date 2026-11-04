@@ -12,7 +12,9 @@ import 'package:mobile/features/games/chapter_map_screen.dart';
 import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/lesson_brief.dart';
+import 'package:mobile/features/games/road_segment.dart';
 import 'package:mobile/features/home/home_shell.dart';
+import 'package:mobile/features/study/chapter_bands.dart' show cardNameFor;
 import 'package:mobile/features/study/study_tab.dart' show appClock;
 
 import '../support/fonts.dart';
@@ -160,6 +162,90 @@ void main() {
       await _drain(tester);
     });
   }
+
+  // The pin and the road are each chapter's own. A path kept across a change
+  // of chapter once carried the last chapter's pin over: from an untouched
+  // Ethics to Geotechnical, the pin sat on Phase Relations, over its check,
+  // instead of resting on the road into Effective Stress (ROAD.md).
+  testWidgets('switching chapters draws the new chapter\'s own pin and road', (
+    tester,
+  ) async {
+    _wipe();
+    final geo = chapterMaps['geotechnical']!;
+    final ethics = chapterMaps['ethics']!;
+    for (final game in geo.lessons[0].builtGames) {
+      for (var r = 0; r < game.rounds; r++) {
+        GameProgress.instance.markRoundCleared(game.id, r, firstTry: true);
+      }
+    }
+    final next = geo.lessons[1].builtGames.first;
+    GameProgress.instance.markRoundCleared(next.id, 0, firstTry: true);
+
+    Offset pinAt() {
+      final pin = tester.widget<RoadPin>(find.byType(RoadPin).last);
+      return pin.anchor;
+    }
+
+    Map<String, double> roads() => {
+      for (final e in tester.widgetList<RoadSegment>(find.byType(RoadSegment)))
+        '${e.from}': e.travelled,
+    };
+
+    await _open(tester, landscape);
+    // Opened on the chapter in flight: Geotechnical, computed fresh.
+    expect(find.text(geo.lessons[1].name), findsWidgets);
+    final pin = pinAt();
+    final road = roads();
+    final first = tester.getRect(find.byKey(ValueKey(geo.lessons[0].id)));
+    final origin = tester.getTopLeft(find.byType(ChapterPath));
+    expect(first.shift(-origin).contains(pin), isFalse);
+
+    await tester.tap(find.bySemanticsLabel('All chapters'));
+    await settle(tester);
+    await tester.tap(find.text(cardNameFor(ethics)).first);
+    await settle(tester);
+    await tester.tap(find.text(cardNameFor(geo)).first);
+    await settle(tester);
+    await _drain(tester);
+
+    expect(find.byType(RoadPin), findsOneWidget);
+    expect((pinAt() - pin).distance, lessThan(0.01));
+    expect(roads(), road);
+  });
+
+  // The tab is kept alive under the others, so it was built on whatever
+  // chapter was in flight at sign-in. Rounds played elsewhere (Profile's
+  // Carry on) moved the student's place, and Study still opened on the old
+  // chapter. Out of view it follows; in view the page stays the student's.
+  testWidgets('Study opens on the chapter played in from elsewhere', (
+    tester,
+  ) async {
+    setWindow(tester, landscape);
+    await tester.pumpWidget(_app());
+    await settle(tester);
+    expect(HomeShell.current.value, HomeTab.profile.index);
+    final geo = chapterMaps['geotechnical']!;
+    GameProgress.instance.markRoundCleared(
+      geo.lessons[0].builtGames.first.id,
+      0,
+      firstTry: true,
+    );
+    await settle(tester);
+    HomeShell.select(HomeTab.study);
+    await settle(tester);
+    expect(find.text(geo.lessons[0].name), findsWidgets);
+
+    // On the tab, a round in another chapter leaves the page where it is.
+    final math = chapterMaps['mathematics']!;
+    GameProgress.instance.markRoundCleared(
+      math.lessons[3].builtGames.first.id,
+      0,
+      firstTry: true,
+    );
+    await settle(tester);
+    expect(find.text(geo.lessons[0].name), findsWidgets);
+    await _drain(tester);
+  });
 
   testWidgets('the opened lesson survives a rotation', (tester) async {
     await _open(tester, landscape);
