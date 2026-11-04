@@ -60,8 +60,9 @@ SHOT_W, SHOT_H = 2752, 2064
 # Where each screen's drawing sits, in the capture's own pixels (x, y, w, h),
 # and the point on it a finger would work. Read off the captures.
 DRAWINGS = {
-    # the flow net under the sheet pile wall, inside the round's drawing pane
-    'round-net': ((70, 756, 1708, 684), None, 24),
+    # the truss of Stretched or Squashed, member AB picked out, inside the
+    # round's drawing pane (the pane is mostly open grid round it)
+    'round-work': ((360, 700, 1160, 780), None, 0),
     # the concept sheet's first picture: a footing pressing the soft clay
     'round-concept': ((1880, 508, 826, 418), None, 16),
     # the Daily's three concepts, without the pill
@@ -94,10 +95,10 @@ FRAMES = [
     dict(name='03-results', shot='daily-done', overline='After you play', color='ember',
          headline=f'See how you did<br>against {em("everyone")}', glow=SUN,
          coins=[('water-resources', .075, .80, 230, 'butter', 12)], seed=23),
-    dict(name='04-round', shot='round-net', overline='Your turn', color='forest',
-         headline=f'See the concept.<br>Then {em("work it")}.', lift='round-net', bp='flownet',
-         grow=1.1, anchor='right',
-         coins=[('fluid-mechanics', .075, .80, 250, 'spring', 12)], seed=24),
+    dict(name='04-round', shot='round-work', overline='Your turn', color='forest',
+         headline=f'See the concept.<br>Then {em("work it")}.', lift='round-work', bp='truss',
+         grow=1.4, anchor='right',
+         coins=[('statics', .075, .80, 250, 'spring', 12)], seed=24),
     dict(name='05-sheet', shot='round-concept', overline='Why it works that way', color='sunbeam',
          headline=f'Every idea starts<br>with a {em("picture")}', lift='round-concept', bp='truss',
          grow=1.04, nudge=6, coins=[('geotechnical', .075, .80, 250, 'butter', 12)], seed=25),
@@ -294,21 +295,6 @@ def bp_truss(x, y, w, color, sw):
             f'{lines}</g><g stroke="none">{joints}</g></svg>')
 
 
-def bp_flownet(cx, cy, w, color, sw):
-    paths = []
-    for k in range(4):
-        rx, ry = w * (.18 + k * .1), w * (.12 + k * .075)
-        paths.append(f'<path d="M{cx - rx} {cy} A {rx} {ry} 0 0 0 {cx + rx} {cy}"/>')
-    for k in range(-5, 6):
-        ang = math.pi / 2 + k * .25
-        x0, y0 = cx + math.cos(ang) * w * .1, cy + math.sin(ang) * w * .07
-        x1, y1 = cx + math.cos(ang) * w * .5, cy + math.sin(ang) * w * .38
-        paths.append(f'<line x1="{x0}" y1="{y0}" x2="{x1}" y2="{y1}" stroke-dasharray="{sw * 3} {sw * 3}"/>')
-    paths.append(f'<line x1="{cx - w * .6}" y1="{cy}" x2="{cx + w * .6}" y2="{cy}"/>')
-    return (f'<svg class="abs" style="left:0;top:0;overflow:visible" width="1" height="1">'
-            f'<g fill="none" stroke="{color}" stroke-width="{sw}" stroke-linecap="round">{"".join(paths)}</g></svg>')
-
-
 # ── the tablet ──────────────────────────────────────────────────────────────
 
 # iPad Pro 13-inch (M5): 281.6 by 215.5 by 5.1 mm, a uniform bezel of about
@@ -453,8 +439,6 @@ def poster(F, w, h, out):
         body.append(bp_mohr(w * .82, h * .17, 250 * u, line, 5 * u))
     elif bp == 'truss':
         body.append(bp_truss(w * .52, h * .05, 900 * u, line, 5 * u))
-    elif bp == 'flownet':
-        body.append(bp_flownet(w * .78, h * .13, 900 * u, line, 5 * u))
     # Overline and headline: type alone, never on a pill (owner, 2026-10-20).
     body.append(f"""<div class="abs" style="left:{L['text_x']}px;top:{L['text_y']}px;width:{L['text_w']}px;z-index:90">
       <div style="color:{OVERLINE[F['color']]};font-weight:600;font-size:{L['over']}px;letter-spacing:.085em;

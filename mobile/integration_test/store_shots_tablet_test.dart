@@ -40,6 +40,13 @@ const _email = String.fromEnvironment('email');
 const _password = String.fromEnvironment('password');
 const _only = String.fromEnvironment('SHOTS');
 
+/// The game whose round the "work it" shot shows. Not the seepage flow net:
+/// its drawing in pack v24 is wrong (redrawn later, not yet in a pack).
+const _roundGame = String.fromEnvironment(
+  'ROUND_GAME',
+  defaultValue: 'stretched-or-squashed',
+);
+
 bool _want(String name) => _only.isEmpty || _only.split(',').contains(name);
 
 const _history = [
@@ -360,12 +367,17 @@ void main() {
     if (_want('daily-results')) await _shot(tester, 'daily-results');
 
     // A round with the drawing beside the answers, the right choice picked.
-    if (_want('round-net')) {
-      _router(tester).push('/games/play/counting-the-net');
+    // ROUND_GAME may list several games to compare; with one (the default)
+    // the shot is `round-work`.
+    final roundGames = _roundGame.split(',');
+    for (final game in roundGames) {
+      final name = roundGames.length == 1 ? 'round-work' : 'round-$game';
+      if (!_want(name)) continue;
+      _router(tester).push('/games/play/$game');
       await _wait(tester, 4000);
-      final r = _which(pack, ['counting-the-net']);
+      final r = _which(pack, [game]);
       if (r != null) await _tapText(tester, r.options[r.answer]);
-      await _shot(tester, 'round-net');
+      await _shot(tester, name);
       _router(tester).go('/home');
       await _wait(tester, 2500);
     }

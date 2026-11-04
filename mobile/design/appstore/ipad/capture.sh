@@ -5,6 +5,9 @@
 #
 #   design/appstore/ipad/capture.sh [simulator udid] [shot,names]
 #
+# ROUND_GAME=a,b in the environment photographs those games' rounds side by
+# side (round-<game>) to choose one; unset, the test's own pick is round-work.
+#
 # What it does, and why each step is here:
 # - Xcode 27 has no Simulator window on this Mac, so the iPad is turned with
 #   `devicectl device orientation set` (the same event as turning it).
@@ -37,7 +40,8 @@ cd "$MOBILE"
 : > "$LOG"
 flutter test integration_test/store_shots_tablet_test.dart -d "$UDID" \
   --dart-define=PACKS=true --dart-define-from-file="$SECRETS" \
-  --dart-define=SHOTS="$SHOTS" > "$LOG" 2>&1 &
+  --dart-define=SHOTS="$SHOTS" \
+  ${ROUND_GAME:+--dart-define=ROUND_GAME="$ROUND_GAME"} > "$LOG" 2>&1 &
 PID=$!
 
 seen=""
