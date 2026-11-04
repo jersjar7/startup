@@ -467,6 +467,7 @@ class PinShadow extends StatelessWidget {
     required this.size,
     this.opacity = 1,
     this.glow = 0,
+    this.heading = 0,
   });
 
   final Offset anchor;
@@ -476,14 +477,20 @@ class PinShadow extends StatelessWidget {
   /// The spring glow's strength, 0 (none) to 1.
   final double glow;
 
-  /// The glow's radius on the ground.
-  static double glowRadius(RoadSize size) => size.width * 0.9;
+  /// Which way the pin is walking, as an angle on the ground: the glow is
+  /// a pool stretched along the way it goes and no wider than the road.
+  final double heading;
+
+  /// The glow's half length along the walk, and half width across it, on
+  /// the ground.
+  static double glowAlong(RoadSize size) => size.width * 1.1;
+  static double glowAcross(RoadSize size) => size.width / 2;
 
   @override
   Widget build(BuildContext context) {
     final rx = size.pinFoot / 2;
     final ry = rx * AppRoad.k;
-    final gx = glowRadius(size);
+    final gx = glowAlong(size);
     final pad = math.max(rx, gx) + 4;
     return Positioned(
       left: anchor.dx - pad,
@@ -496,7 +503,9 @@ class PinShadow extends StatelessWidget {
           painter: _PinShadowPainter(
             rx: rx,
             ry: ry,
-            gx: gx,
+            along: gx,
+            across: glowAcross(size),
+            heading: heading,
             opacity: opacity,
             glow: glow,
           ),
@@ -510,14 +519,18 @@ class _PinShadowPainter extends CustomPainter {
   const _PinShadowPainter({
     required this.rx,
     required this.ry,
-    required this.gx,
+    required this.along,
+    required this.across,
+    required this.heading,
     required this.opacity,
     required this.glow,
   });
 
   final double rx;
   final double ry;
-  final double gx;
+  final double along;
+  final double across;
+  final double heading;
   final double opacity;
   final double glow;
 
@@ -525,10 +538,13 @@ class _PinShadowPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final c = size.center(Offset.zero);
     if (glow > 0) {
-      // A flat spring pool of light, lying on the surface.
+      // A flat spring pool of light lying on the surface: an ellipse on the
+      // ground along the walk, then squashed like the ground.
       canvas.save();
       canvas.translate(c.dx, c.dy);
-      canvas.scale(gx, gx * AppRoad.k);
+      canvas.scale(1, AppRoad.k);
+      canvas.rotate(heading);
+      canvas.scale(along, across);
       final a = (glow * opacity).clamp(0.0, 1.0).toDouble();
       canvas.drawCircle(
         Offset.zero,
@@ -536,11 +552,11 @@ class _PinShadowPainter extends CustomPainter {
         Paint()
           ..shader = RadialGradient(
             colors: [
-              RoadColors.pulse.withValues(alpha: 0.9 * a),
-              RoadColors.pulse.withValues(alpha: 0.4 * a),
+              RoadColors.pulse.withValues(alpha: a),
+              RoadColors.pulse.withValues(alpha: 0.6 * a),
               RoadColors.pulse.withValues(alpha: 0),
             ],
-            stops: const [0, 0.5, 1],
+            stops: const [0, 0.55, 1],
           ).createShader(Rect.fromCircle(center: Offset.zero, radius: 1)),
       );
       canvas.restore();
@@ -562,7 +578,9 @@ class _PinShadowPainter extends CustomPainter {
   bool shouldRepaint(_PinShadowPainter old) =>
       old.rx != rx ||
       old.ry != ry ||
-      old.gx != gx ||
+      old.along != along ||
+      old.across != across ||
+      old.heading != heading ||
       old.opacity != opacity ||
       old.glow != glow;
 }
@@ -573,12 +591,22 @@ enum TripPart { oldRoad, jointUp, face, jointDown, newRoad }
 /// One point of the pin's trip: where its anchor is on screen, the ground
 /// point under it, how high it stands, and on what.
 class TripPoint {
-  const TripPoint(this.anchor, this.ground, this.height, this.part, this.s);
+  const TripPoint(
+    this.anchor,
+    this.ground,
+    this.height,
+    this.part,
+    this.s, [
+    this.heading = 0,
+  ]);
 
   final Offset anchor;
   final Offset ground;
   final double height;
   final TripPart part;
+
+  /// Which way the walk goes here, as an angle on the ground.
+  final double heading;
 
   /// Distance along the trip, on screen, from its start.
   final double s;
@@ -737,12 +765,17 @@ class PinTrip {
     final a = points[lo], b = points[hi];
     final span = b.s - a.s;
     final u = span <= 0 ? 0.0 : (target - a.s) / span;
+    // The heading from a few points either side, so it turns smoothly.
+    final p0 = points[math.max(0, lo - 3)].ground;
+    final p1 = points[math.min(points.length - 1, hi + 3)].ground;
+    final d = p1 - p0;
     return TripPoint(
       Offset.lerp(a.anchor, b.anchor, u)!,
       Offset.lerp(a.ground, b.ground, u)!,
       a.height + (b.height - a.height) * u,
       u < 0.5 ? a.part : b.part,
       target,
+      math.atan2(d.dy, d.dx),
     );
   }
 }

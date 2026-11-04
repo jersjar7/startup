@@ -379,6 +379,7 @@ class _PinAt {
     this.onPlatform,
     this.segment,
     this.glow = 0,
+    this.heading = 0,
     this.part,
   });
 
@@ -387,8 +388,10 @@ class _PinAt {
   final int? onPlatform;
   final int? segment;
 
-  /// The spring glow under the pin while it walks, 0..1.
+  /// The spring glow under the pin while it walks, 0..1, and which way it
+  /// is walking (an angle on the ground).
   final double glow;
+  final double heading;
 
   /// Which part of its walk the pin is on, while it walks.
   final TripPart? part;
@@ -745,6 +748,7 @@ class ChapterPathState extends State<ChapterPath>
         size: road,
         opacity: opacity,
         glow: p.glow,
+        heading: p.heading,
       );
       final trace = debugPinTrace;
       final trip = _trip;
@@ -894,6 +898,7 @@ class ChapterPathState extends State<ChapterPath>
       onPlatform: onFace ? seg : null,
       segment: onFace ? null : (onNew ? seg : seg - 1),
       glow: glow,
+      heading: at.heading,
       part: at.part,
     );
   }
