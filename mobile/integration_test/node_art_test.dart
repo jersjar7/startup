@@ -136,6 +136,42 @@ void main() {
           await shoot(key, '$renderer-$name-${t.toString().padLeft(3, '0')}');
         }
       }
+
+      // The turn-over of a finished platform, every frame from the end of
+      // the ring's hold, day and night, with and without Reduce Motion.
+      for (final night in [false, true]) {
+        for (final still in [false, true]) {
+          AppPalette.dark = night;
+          final key = GlobalKey();
+          final tag =
+              '$renderer-turn-${night ? 'night' : 'day'}'
+              '${still ? '-still' : ''}';
+          await tester.pumpWidget(
+            page(
+              key,
+              MediaQuery(
+                data: MediaQueryData(disableAnimations: still),
+                child: KeyedSubtree(
+                  key: ValueKey(tag),
+                  child: LessonNodeWidget(
+                    state: NodeState.cleared,
+                    fractionFrom: 2 / 3,
+                    fractionTo: 1,
+                    size: RoadSize.phone.platform,
+                    depth: RoadSize.phone.plinth,
+                  ),
+                ),
+              ),
+            ),
+          );
+          if (!still) await tester.pump(const Duration(milliseconds: 1380));
+          for (var f = 0; f < 24; f++) {
+            await shoot(key, '$tag-${f.toString().padLeft(2, '0')}');
+            await tester.pump(const Duration(milliseconds: 1000 ~/ 60));
+          }
+        }
+      }
+      AppPalette.dark = false;
     }
   });
 }
