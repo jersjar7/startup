@@ -126,7 +126,16 @@ class _DemoState extends State<_Demo> {
       home: Builder(
         builder: (context) {
           var media = MediaQuery.of(context);
-          if (turn) media = media.copyWith(size: media.size.flipped);
+          if (turn) {
+            // Turned clockwise: the screen's top edge is the page's left.
+            EdgeInsets turned(EdgeInsets p) =>
+                EdgeInsets.fromLTRB(p.top, p.right, p.bottom, p.left);
+            media = media.copyWith(
+              size: media.size.flipped,
+              padding: turned(media.padding),
+              viewPadding: turned(media.viewPadding),
+            );
+          }
           final tablet = media.size.width >= AppTablet.medium;
           final metrics = tablet
               ? const PathMetrics.tablet()
@@ -155,16 +164,20 @@ class _DemoState extends State<_Demo> {
             ),
             child: Scaffold(
               backgroundColor: AppColors.fog,
-              body: ClipRect(
-                child: OverflowBox(
-                  alignment: Alignment.topLeft,
-                  maxHeight: double.infinity,
-                  child: Transform.translate(
-                    offset: Offset(
-                      tablet ? AppTablet.rail + 400 + AppTablet.paneX : 0,
-                      media.size.height * 0.36 - face,
+              // Nothing under the status bar.
+              body: SafeArea(
+                bottom: false,
+                child: ClipRect(
+                  child: OverflowBox(
+                    alignment: Alignment.topLeft,
+                    maxHeight: double.infinity,
+                    child: Transform.translate(
+                      offset: Offset(
+                        tablet ? AppTablet.rail + 400 + AppTablet.paneX : 0,
+                        media.size.height * 0.36 - face,
+                      ),
+                      child: SizedBox(width: width, child: path),
                     ),
-                    child: SizedBox(width: width, child: path),
                   ),
                 ),
               ),
