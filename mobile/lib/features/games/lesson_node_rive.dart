@@ -94,6 +94,7 @@ class RiveLessonNode extends StatefulWidget {
     required this.pressed,
     required this.current,
     required this.ahead,
+    required this.still,
     required this.arriveTick,
     required this.size,
     required this.depth,
@@ -109,6 +110,10 @@ class RiveLessonNode extends StatefulWidget {
   /// The walked road has not reached it: it rests at 95%, and rises when
   /// this turns false.
   final bool ahead;
+
+  /// Reduce Motion: a change of face cross-fades its colors over
+  /// [LessonNodeWidget.stillFade] and nothing pops.
+  final bool still;
 
   /// Each change plays one arrival bounce.
   final int arriveTick;
@@ -135,11 +140,13 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
   late final rive.ViewModelInstanceNumber _depth;
   late final Map<String, rive.ViewModelInstanceColor> _colors;
 
-  /// The brand colors live in Dart, so the cross-fade between two states'
-  /// colors does too, on the same 220ms the artboard uses for its geometry.
+  /// The brand colors live in Dart. A change of face swaps them at once,
+  /// the same frame the artboard swaps its pose, so no in-between grey face
+  /// is ever drawn (the finished node turns over in its pop). Only under
+  /// Reduce Motion do they cross-fade, over [LessonNodeWidget.stillFade].
   late final AnimationController _tint = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 220),
+    duration: LessonNodeWidget.stillFade,
   );
   late _Palette _from;
   late _Palette _to;
@@ -186,7 +193,8 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
     super.didUpdateWidget(old);
     if (old.showing != widget.showing) {
       _state.value = widget.showing.name;
-      if (old.showing == NodeState.inProgress &&
+      if (!widget.still &&
+          old.showing == NodeState.inProgress &&
           widget.showing == NodeState.cleared) {
         _celebrate.trigger();
       }
@@ -204,7 +212,13 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
     if (next != _to) {
       _from = _Palette.lerp(_from, _to, Curves.easeOut.transform(_tint.value));
       _to = next;
-      _tint.forward(from: 0);
+      if (widget.still) {
+        _tint.forward(from: 0);
+      } else {
+        _tint.value = 1;
+        _from = next;
+        _push(next);
+      }
     }
   }
 

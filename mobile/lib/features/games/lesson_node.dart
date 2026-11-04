@@ -205,6 +205,46 @@ class LessonNodeWidget extends StatefulWidget {
   /// (0.22 of its radius, road.mjs).
   static const ringThickness = 0.11;
 
+  /// Under Reduce Motion a change of face cross-fades (the face only, never
+  /// the plinth) in this long, with no ring sweep, the same as the road.
+  static const stillFade = Duration(milliseconds: 180);
+
+  /// The finished pop: the artboard's Celebrate, 40 frames at 60 fps. The
+  /// face turns over at its first frame, with no fade, and pops.
+  static const popDuration = Duration(milliseconds: 667);
+
+  /// The pop's scale on the face: up to 1.09, down to 0.985, back to 1, on
+  /// the artboard's keyframes (frames 0, 9, 22, 40).
+  static final popScale = TweenSequence<double>([
+    TweenSequenceItem(
+      tween: Tween(
+        begin: 1.0,
+        end: 1.09,
+      ).chain(CurveTween(curve: const Cubic(0, 0, 0.58, 1))),
+      weight: 9,
+    ),
+    TweenSequenceItem(
+      tween: Tween(
+        begin: 1.09,
+        end: 0.985,
+      ).chain(CurveTween(curve: const Cubic(0.42, 0, 0.58, 1))),
+      weight: 13,
+    ),
+    TweenSequenceItem(
+      tween: Tween(
+        begin: 0.985,
+        end: 1.0,
+      ).chain(CurveTween(curve: const Cubic(0.42, 0, 0.58, 1))),
+      weight: 18,
+    ),
+  ]);
+
+  /// The halo that leaves the face during the pop: its scale and opacity.
+  static double haloScale(double t) =>
+      1 + 0.42 * const Cubic(0, 0, 0.58, 1).transform(t);
+  static double haloOpacity(double t) =>
+      0.55 * (1 - const Cubic(0, 0, 0.58, 1).transform(t));
+
   @override
   State<LessonNodeWidget> createState() => _LessonNodeWidgetState();
 }
@@ -228,11 +268,36 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
     value: 1,
   );
 
+  /// The finished pop, in the painter. Rests at 1 (scale 1, no halo).
+  late final AnimationController _pop = AnimationController(
+    vsync: this,
+    duration: LessonNodeWidget.popDuration,
+    value: 1,
+  );
+
+  /// Under Reduce Motion: what was showing before the change, faded out
+  /// under the new face while [_c] runs. Null when nothing is fading.
+  (NodeSkin, double)? _fadeFrom;
+  bool _ranStill = false;
+  bool _pendingRun = false;
+
   @override
   void initState() {
     super.initState();
     _fraction = AlwaysStoppedAnimation(widget.fractionTo);
-    if (widget.fractionFrom != widget.fractionTo) _run(widget.fractionFrom);
+    // The first run waits for didChangeDependencies, where Reduce Motion
+    // can be read.
+    _pendingRun = widget.fractionFrom != widget.fractionTo;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_pendingRun) {
+      _pendingRun = false;
+      _fraction = AlwaysStoppedAnimation(widget.fractionFrom);
+      _run(widget.fractionFrom);
+    }
   }
 
   bool get _still => MediaQuery.maybeDisableAnimationsOf(context) ?? false;
@@ -250,6 +315,27 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
 
   void _run(double from) {
     _c.stop();
+    final closing = widget.state == NodeState.cleared && widget.fractionTo >= 1;
+    if (_still) {
+      // No sweep and no hold: the new face fades in over the old one.
+      final was = _showing;
+      _fadeFrom = (widget.skin ?? NodeSkin.of(was), _fraction.value);
+      _ranStill = true;
+      _fraction = AlwaysStoppedAnimation(widget.fractionTo);
+      _c
+        ..duration = LessonNodeWidget.stillFade
+        ..value = 0
+        ..forward().then((_) {
+          if (mounted) {
+            if (closing) HapticFeedback.mediumImpact();
+            setState(() => _fadeFrom = null);
+            widget.onSettled?.call(widget.fractionTo);
+          }
+        });
+      return;
+    }
+    _ranStill = false;
+    _fadeFrom = null;
     final fill = Tween<double>(
       begin: from,
       end: widget.fractionTo,
@@ -259,7 +345,6 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
     // before the face turns over, so the moment of finishing is seen and not
     // just implied. The hold is part of the same animation, so the tests'
     // clock and onSettled both see one run.
-    final closing = widget.state == NodeState.cleared && widget.fractionTo >= 1;
     final hold = closing ? LessonNodeWidget.closedHold : Duration.zero;
     final fillMs = widget.duration.inMilliseconds.toDouble();
     _fraction =
@@ -279,7 +364,11 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
       ..forward().then((_) {
         if (mounted) {
           // The turn-over is felt as well as seen.
-          if (closing) HapticFeedback.mediumImpact();
+          if (closing) {
+            HapticFeedback.mediumImpact();
+            // The face turns over at once and pops; nothing fades.
+            _pop.forward(from: 0);
+          }
           setState(() {}); // the face may turn over now
           widget.onSettled?.call(widget.fractionTo);
         }
@@ -291,6 +380,7 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
     _c.dispose();
     _rise.dispose();
     _arrive.dispose();
+    _pop.dispose();
     super.dispose();
   }
 
@@ -322,9 +412,11 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
                     _fraction,
                     _rise,
                     _arrive,
+                    _pop,
+                    _c,
                     LessonNodeArt.file,
                   ]),
-                  builder: (context, _) => _art(box, ahead),
+                  builder: (context, _) => _art(box, ahead, still),
                 ),
               ),
             ),
@@ -342,11 +434,12 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
   /// running has not turned over yet, whatever the wedge reads this frame.
   NodeState get _showing =>
       widget.state == NodeState.cleared &&
+          !_ranStill &&
           (_c.isAnimating || _fraction.value < 0.999)
       ? NodeState.inProgress
       : widget.state;
 
-  Widget _art(PlatformBox box, bool ahead) {
+  Widget _art(PlatformBox box, bool ahead, bool still) {
     final showing = _showing;
     final skin = widget.skin ?? NodeSkin.of(showing);
     final marker = switch (showing) {
@@ -377,6 +470,7 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
               pressed: _pressed,
               current: widget.current,
               ahead: ahead,
+              still: still,
               arriveTick: widget.arriveTick,
               size: widget.size,
               depth: widget.depth,
@@ -414,6 +508,11 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
                   fraction: _fraction.value,
                   depth: widget.depth,
                   sink: press * LessonNodeWidget.pressSink * widget.size,
+                  pop: LessonNodeWidget.popScale.transform(_pop.value),
+                  halo: _pop.value,
+                  previous: _fadeFrom?.$1,
+                  previousFraction: _fadeFrom?.$2 ?? 0,
+                  fade: _fadeFrom == null ? 1 : _c.value,
                 ),
               ),
             ),
@@ -463,6 +562,11 @@ class PlatformPainter extends CustomPainter {
     required this.fraction,
     required this.depth,
     this.sink = 0,
+    this.pop = 1,
+    this.halo = 1,
+    this.previous,
+    this.previousFraction = 0,
+    this.fade = 1,
   });
 
   final NodeSkin skin;
@@ -472,18 +576,25 @@ class PlatformPainter extends CustomPainter {
   final double depth;
   final double sink;
 
+  /// The finished pop: the face's scale ([LessonNodeWidget.popScale]) and
+  /// where the halo is, 0..1 (1 is gone).
+  final double pop;
+  final double halo;
+
+  /// Under Reduce Motion: the face that was showing, and how far the new
+  /// face has faded in over it. The plinth never fades.
+  final NodeSkin? previous;
+  final double previousFraction;
+  final double fade;
+
   @override
   void paint(Canvas canvas, Size size) {
     final d = size.width;
-    final w = d * skin.widthFactor;
-    final rx = w / 2;
     final k = AppRoad.k;
     final face = Offset(d / 2, d * k / 2 + sink);
     final foot = Offset(d / 2, d * k / 2 + depth);
-    final plinth = Paint()..color = skin.plinth;
 
-    // Draws [paint] on the ground plane centred at [c]: the outline seen
-    // from above, squashed to half height.
+    // Draws on the face's plane centred at [c]: squashed to half height.
     void onPlane(Offset c, void Function() draw) {
       canvas
         ..save()
@@ -493,7 +604,8 @@ class PlatformPainter extends CustomPainter {
       canvas.restore();
     }
 
-    void outline(Offset c, Paint paint) => onPlane(c, () {
+    void outline(NodeSkin skin, Offset c, Paint paint) => onPlane(c, () {
+      final rx = d * skin.widthFactor / 2;
       switch (skin.shape) {
         case NodeShape.circle:
           canvas.drawCircle(Offset.zero, rx, paint);
@@ -501,20 +613,72 @@ class PlatformPainter extends CustomPainter {
           canvas.drawRRect(
             RRect.fromRectAndRadius(
               Rect.fromCircle(center: Offset.zero, radius: rx),
-              Radius.circular(0.28 * w),
+              Radius.circular(0.56 * rx),
             ),
             paint,
           );
       }
     });
 
-    // The plinth: the foot, and the side up to the face.
-    outline(foot, plinth);
+    // The plinth: the foot, and the side up to the face. Solid always.
+    final rx = d * skin.widthFactor / 2;
+    final plinth = Paint()..color = skin.plinth;
+    outline(skin, foot, plinth);
     canvas.drawRect(
       Rect.fromLTRB(face.dx - rx, face.dy, face.dx + rx, foot.dy),
       plinth,
     );
-    outline(face, Paint()..color = skin.face);
+
+    // The face, scaled by the pop about its own centre.
+    canvas
+      ..save()
+      ..translate(face.dx, face.dy)
+      ..scale(pop)
+      ..translate(-face.dx, -face.dy);
+    final before = previous;
+    if (before != null && fade < 1) {
+      _face(canvas, before, previousFraction, d, face, outline, onPlane);
+      canvas.saveLayer(
+        null,
+        Paint()..color = Color.fromRGBO(0, 0, 0, fade.clamp(0.0, 1.0)),
+      );
+      _face(canvas, skin, fraction, d, face, outline, onPlane);
+      canvas.restore();
+    } else {
+      _face(canvas, skin, fraction, d, face, outline, onPlane);
+    }
+    canvas.restore();
+
+    // The halo leaving the face at the finished moment.
+    if (halo < 1) {
+      final u = d / 100;
+      onPlane(face, () {
+        canvas.drawCircle(
+          Offset.zero,
+          50 * u * LessonNodeWidget.haloScale(halo),
+          Paint()
+            ..color = AppColors.spring.withValues(
+              alpha: LessonNodeWidget.haloOpacity(halo),
+            )
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 3 * u,
+        );
+      });
+    }
+  }
+
+  void _face(
+    Canvas canvas,
+    NodeSkin skin,
+    double fraction,
+    double d,
+    Offset face,
+    void Function(NodeSkin, Offset, Paint) outline,
+    void Function(Offset, void Function()) onPlane,
+  ) {
+    final w = d * skin.widthFactor;
+    final rx = w / 2;
+    outline(skin, face, Paint()..color = skin.face);
 
     onPlane(face, () {
       final t = LessonNodeWidget.ringThickness * w;
@@ -581,5 +745,10 @@ class PlatformPainter extends CustomPainter {
       old.fraction != fraction ||
       old.skin != skin ||
       old.depth != depth ||
-      old.sink != sink;
+      old.sink != sink ||
+      old.pop != pop ||
+      old.halo != halo ||
+      old.previous != previous ||
+      old.previousFraction != previousFraction ||
+      old.fade != fade;
 }
