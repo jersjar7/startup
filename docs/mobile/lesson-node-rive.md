@@ -50,8 +50,10 @@ cross-fade in Dart (also 220 ms, `RiveLessonNode._tint`). Keep those two
 numbers the same.
 
 **The painter is the fallback, and the test double.** If the `.riv` fails to
-load, or has not loaded yet, the node paints itself exactly as it did before
-Rive existed. Widget tests and goldens never load the file, so they exercise
+load, or has not loaded yet, the node paints the same platform itself
+(`PlatformPainter` in `lesson_node.dart`), pose for pose, with the same rise
+and bounce; only the breath and the finishing pop are Rive's alone, so a
+test settles. Widget tests and goldens never load the file, so they exercise
 the painter and every piece of app logic, and none of them need a native
 library. The visual result of the Rive path is checked by eye:
 `integration_test/node_art_test.dart` photographs the four states on a
@@ -76,6 +78,9 @@ these properties by name and nothing else in the file is reachable.
 | `ink` | color | the glyph on the face (check, or ellipsis) |
 | `halo` | color | the ring that leaves the face at the finished moment |
 | `current` | boolean | this is the lesson the student is in the middle of |
+| `ahead` | boolean | the walked road has not reached this platform: it rests at 95%; turning false plays the rise |
+| `arrive` | trigger | one arrival bounce, to 105% and back |
+| `depth` | number | the plinth's height in artboard units (points x 100 / face width), 9 to 26 |
 
 `lesson_node_rive_test.dart` reads `scene.rml` and fails if this list, the
 enum values, the artboard name, the state machine name or the artboard size
@@ -114,32 +119,41 @@ check, so the cap only cost the finishing moment.) The arc's own opacity is
 bound to `progress` through a 0..0.02 ramp, so a fraction of zero hides it
 entirely (the painter's `fraction > 0` rule).
 
-Progress is drawn as a RING since 2026-09-19: an 8pt spring track on a 92
-circle, and the charcoal arc over it, so the ring is the rim of the disc and
-not a chart on its face. The pie it replaced read as a dashboard idiom next
-to the plain discs. The untouched disc wears no track at all, and there is no
-soft shadow under the plinth any more: the plinth alone carries the depth.
+**The platform (2026-11-03, ROAD.md).** The node is an isometric platform:
+the face is the node circle squashed to half height (100 by 50 units), on a
+plinth `depth` tall whose foot is the face's ellipse moved straight down.
+Every platform's side is the plinth tan (`RoadColors.plinth`), the same as
+the road's walls; only the not-built square keeps a tone of its own face.
+The face, the ring, the check, the dots and the halo all sit in a node
+squashed to half height, so they are foreshortened with the face and their
+strokes thin at the top and bottom, as in the approved mockups. The faces
+are flat, with no gradients.
 
-**The finishing moment**, in order: the wedge fills to a full circle (1100 ms
-in Dart), the closed circle holds for `LessonNodeWidget.closedHold` (320 ms,
-also Dart), then the state turns to `cleared` and Rive cross-fades the face to
-charcoal with the check while `celebrate` plays the pop and halo. The hold is
-part of the same animation run, so `onSettled` fires once, after it.
+Progress is a spring track 11 units thick (0.22 of the face radius, as in
+road.mjs) with the charcoal arc over it, butt ended, trimmed from the top.
 
-**The button look.** The face carries two low-alpha gradient fills over its
-bound color: a touch of white along the top edge and a little charcoal shade
-along the bottom, so it reads as lit from above whatever color the app sends.
-The plinth has a darker lip along its bottom so it reads as a side rather
-than a smear, and a soft ground shadow sits under it. Pressing sinks the face
-9 of the plinth's 10 units, so it lands on the plinth rather than floating.
+A press sinks the face 8 units. The side is two shapes so that works: the
+top 8 of the side goes down with the face, the rest (bound to `depth`
+minus 8) stays, so no corner of the side ever shows beside the face.
 
-Geometry is in artboard units where the face is 100 across. The plinth shows
-10 below it (the painter had 7; a button wants more edge) and there is 12 of
-air on every side, so the pop and halo have room. `RiveLessonNode` positions
-the artboard so the face lands exactly where the painter's face was in the
-node's slot, and lets it hang over the edges. The plinth is therefore 10% of
-the face rather than a fixed 7 points: at the map's 62 to 82 point nodes it
-shows 6 to 8 points.
+**Ahead and arrive.** Two more layers: `Ahead` (Up, Ahead, Rise) and
+`Arrive` (Rest, Bounce). A platform set `ahead` before its first frame is
+at 95% at once and never plays the rise; turning `ahead` false plays Rise,
+18 frames (300 ms) sampled frame by frame from `AppRoad.riseScale` and
+`AppRoad.riseLift` in road.dart, so Rive and the painter move identically.
+`arrive` plays Bounce, 18 frames sampled from `AppRoad.arriveBounce`. The
+rise, the bounce and the breath all scale about the middle of the side.
+The lift is keyed in units (4 points at an 84 point face), so on a 92 point
+tablet face it is 4.4 points.
+
+Geometry: the artboard is 124 by 100 with the face centre at (62, 39).
+`RiveLessonNode` places it so that point lands on the widget's face centre
+(`PlatformBox.face`) and lets it hang over the box.
+
+The scene is generated by `mobile/rive/build_lesson_node.mjs` (the numbers
+come from road.mjs and road.dart): change it and run
+`node rive/build_lesson_node.mjs && rive rive/lesson_node --once` from
+`mobile/` rather than hand-editing a pose.
 
 ## Checking the artwork without the app
 
