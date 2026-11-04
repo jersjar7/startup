@@ -665,8 +665,14 @@ class ChapterPathState extends State<ChapterPath>
     );
 
     // ── the scene, in depth order: platform 1, segment 1 to 2, platform 2…
-    Widget shadowFor(_PinAt p, double opacity) =>
-        PinShadow(anchor: p.point, size: road, opacity: opacity);
+    // Every child is keyed: a shadow moving between layers shifts the list,
+    // and an unkeyed platform would lose its state (and replay its art).
+    Widget shadowFor(_PinAt p, double opacity) => PinShadow(
+      key: ValueKey('shadow-${pins.indexWhere((q) => identical(q.$1, p))}'),
+      anchor: p.point,
+      size: road,
+      opacity: opacity,
+    );
     final children = <Widget>[];
     for (var i = 0; i < nodes.length; i++) {
       final slot = nodes[i];
@@ -717,6 +723,7 @@ class ChapterPathState extends State<ChapterPath>
           for (final slot in slots)
             if (!slot.isNode)
               Positioned(
+                key: ValueKey('header-${slot.header!.id}'),
                 top: slot.y,
                 left: w.headerLeft,
                 child: _SubtopicHeader(
@@ -725,8 +732,13 @@ class ChapterPathState extends State<ChapterPath>
                 ),
               ),
           ...labels,
-          for (final (p, o) in pins)
-            RoadPin(anchor: p.point, size: road, opacity: o),
+          for (final (i, (p, o)) in pins.indexed)
+            RoadPin(
+              key: ValueKey('pin-$i'),
+              anchor: p.point,
+              size: road,
+              opacity: o,
+            ),
         ],
       ),
     );
@@ -797,6 +809,7 @@ class ChapterPathState extends State<ChapterPath>
     final lesson = slot.lesson!;
     final box = PlatformBox(size, plinth);
     return Positioned(
+      key: ValueKey('platform-${lesson.id}'),
       top: slot.face - box.ry,
       left: slot.x - size / 2,
       width: size,
@@ -913,6 +926,7 @@ class ChapterPathState extends State<ChapterPath>
       );
       labels.add(
         Positioned(
+          key: ValueKey('label-at-${lesson.id}'),
           top: cy,
           left: x0,
           width: lw,

@@ -253,6 +253,7 @@ void main() {
 
     // The road moment has started; the pin still waits until the hop.
     await tester.pump(); // the clock is reported after the frame
+    final platform = tester.state(find.byKey(ValueKey(third.id)));
     final state = tester.state<ChapterPathState>(find.byType(ChapterPath));
     final next = lessons[3];
     expect(state.arriveTicks[next.id], isNull);
@@ -276,6 +277,10 @@ void main() {
 
     // Taps still land during the moment.
     expect(tester.hasRunningAnimations, isTrue);
+
+    // The pin's shadow changed layers on the way (platform, then road):
+    // the finished platform kept its state, so its art never replayed.
+    expect(tester.state(find.byKey(ValueKey(third.id))), same(platform));
 
     // 1800: the next platform's bounce is asked for, once.
     await tester.pump(const Duration(milliseconds: 400));
