@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../core/theme/app_colors.dart';
@@ -10,12 +12,15 @@ import '../features/games/game_catalog.dart';
 import '../features/games/game_progress.dart';
 import '../features/games/lesson_node.dart';
 import '../features/games/lesson_node_rive.dart';
+import '../features/games/road_segment.dart';
+import '../core/theme/road.dart';
 
 /// The finishing moment on the real chapter path, on a loop, for watching
 /// and recording on a device (ROAD.md). Not part of the app:
 ///
 ///   flutter run -t lib/dev/road_moment.dart [--dart-define=NIGHT=true]
 ///       [--dart-define=REDUCE=true] [--dart-define=TURN=true]
+///       [--dart-define=LOG=true]
 ///
 /// Mathematics, two lessons behind and the third one round from done. Two
 /// seconds in, that round is "played": the map takes in the progress exactly
@@ -24,12 +29,46 @@ import '../features/games/lesson_node_rive.dart';
 /// window 600 or wider draws the tablet's path, as Study does on a tablet.
 /// TURN draws the screen a quarter turn round, so a simulator that cannot be
 /// rotated from the command line still records a landscape tablet: turn the
-/// video back afterwards (ffmpeg -vf transpose=2).
+/// video back afterwards (ffmpeg -vf transpose=2). LOG prints every frame
+/// of the pin's walk as one `PINTRACE {json}` line, and the path it should
+/// be on as one `PINPATH {json}` line per walk, for
+/// design/road/pin_trace_check.py.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AppPalette.dark = const bool.fromEnvironment('NIGHT');
+  if (const bool.fromEnvironment('LOG')) debugPinTrace = _log;
   await LessonNodeArt.warmUp();
   runApp(const _Demo());
+}
+
+PinTrip? _logged;
+
+List<double> _xy(Offset o) => [o.dx, o.dy];
+
+void _log(PinTraceFrame f) {
+  final trip = f.trip;
+  if (!identical(trip, _logged)) {
+    _logged = trip;
+    List<List<double>> curve(RoadGeometry g) => [
+      for (var i = 0; i <= 2000; i++) _xy(g.at(i / 2000, trip.size.road)),
+    ];
+    debugPrintSynchronously(
+      'PINPATH ${jsonEncode({
+        'into': trip.into == null ? null : curve(trip.into!),
+        'out': curve(trip.out),
+        'center': _xy(trip.center),
+        'r': trip.r,
+        'k': AppRoad.k,
+        'plinth': trip.plinth,
+        'road': trip.size.road,
+        'faceCenter': _xy(trip.faceCenter),
+        'path': [for (final p in trip.points) _xy(p.anchor)],
+      })}',
+    );
+  }
+  debugPrintSynchronously(
+    'PINTRACE ${jsonEncode({'ms': f.ms, 'anchor': _xy(f.anchor), 'glowCenter': _xy(f.glowCenter), 'glow': f.glow, 'part': f.part.name, 'height': f.height})}',
+  );
 }
 
 class _Demo extends StatefulWidget {
