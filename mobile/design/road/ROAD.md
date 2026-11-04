@@ -18,6 +18,7 @@ the same `road/road.mjs`.
 | R05-storyboard | The finishing moment in six frames, with a timeline |
 | R05b-reduced-motion | What Reduce Motion shows instead |
 | R06-segment-closeup | One segment at 4x: surface, shoulders, centre line, shadow |
+| R07-isometric | The same mid-chapter path in a true isometric-style view, for the owner to choose |
 | tablet-screens T01 | Tablet landscape, mid-chapter, day |
 
 ## The look
@@ -75,9 +76,44 @@ node in the same state, or darker than its surface for walked road.
 
 **Shape.** Use the app's own curve rule, unchanged, from `RoadPainter._road`
 in `road_segment.dart`. The road leaves the finished node and leans 80% of the
-way toward the next node's column at 52% of the drop. It is trimmed by arc
-length where it enters each node, tucked 3 under the face. The mockups draw
-exactly this curve.
+way toward the next node's column at 52% of the drop. The mockups draw
+exactly this curve, between centres moved down to road height, and end it at
+each node's side as the next section describes.
+
+## Where the road meets a node (owner, 2026-11-03)
+
+The whole path reads as a small built roadmap: each node is a raised
+platform, and the road arrives at the platform's side, at road height, like a
+road meeting a building. It never passes under a node.
+
+- **Road height.** The road's top sits lower than the node's top face by
+  the plinth depth minus the wall depth (7 minus 4 in the mockups, so 3). In
+  drawing terms, the road's curve runs between the node centres moved down
+  by that difference.
+- **The near side.** A segment leaves the upper node from that node's lower,
+  viewer-facing side. There the road is drawn in front of the node and
+  butts against its wall. The road's top is cut by the node's outline at
+  road height, and its wall and shadow are cut by the outline on the ground,
+  the wall depth lower. A slab of plinth shows between the node's face and
+  the road, which is the node standing taller.
+- **The joint.** A thin lit lip (the rim colour, 1.6 wide) runs along the cut
+  where the road's surface meets the node's wall, so the joint looks built,
+  not overlapped. The rim's own band shows along the end of the surface too.
+- **The far side.** The segment ends under the lower node's upper side. The
+  node is drawn after it and hides the very end, which is correct for a road
+  arriving behind a platform.
+- **Shadows.** The road's ground shadow is cut by the node's footprint, so
+  it meets the node's base and the two read as one shadow.
+- **Order.** Each node and each segment is its own layer: node 1, segment 1
+  to 2, node 2, segment 2 to 3, and so on down the path. In Flutter that is
+  the `Stack` order, with each `RoadSegment` placed between the two
+  `LessonNodeWidget`s it joins.
+- **Painter.** The cuts are `Path.combine(PathOperation.difference, ...)`
+  with the node's circle (at road height for the top layers, at ground
+  height for the wall and shadow), or a `canvas.clipPath` of the same shape.
+  The lip is an arc of that circle, clipped to the road band.
+
+R06 shows the joint at 4x and again close up.
 
 ## Labels: two collisions fixed
 
@@ -86,7 +122,10 @@ its node, and the current-node ring nearly touched "Straight Lines &
 Quadratics". The label gap was 12 from the face (`ChapterPath._labelGap`),
 which is less than the ring's own 10 (a 6 gap and a 4 stroke).
 
-**Rule:** a label starts **28** from the node face on both sides. That clears
+**Rule:** a label starts **28** from the node face on both sides. It is
+centred on the face, unless the road leaving that node would run through it.
+In that case its bottom sits 8 above the road's top edge at the label's near
+end (the painter knows that point from the curve). That clears
 the ring by 18 and the plinth by more. On the phone at 390 this still leaves
 183 for a 156 label. On the tablet it leaves the full 220. The label keeps its
 existing room clamp, so a narrow window shrinks the label and never the gap.
@@ -140,14 +179,45 @@ The marker is the brand's raccoon peek on a small charcoal coin, 32 on the
 phone and 36 on the tablet, with a 3 fog ring that lifts it off the road. It
 uses the brand asset as drawn and is not a new character.
 
-- **At rest** it sits on the road 72% of the way into the lesson the student
-  goes to next. On the first node, where no road arrives, it peeks over the
+- **At rest** it sits on the road into the lesson the student goes to next:
+  72% of the way on the phone, 45% on the tablet, where the label tile of
+  the lesson in flight sits closer to the road. On the first node, where no road arrives, it peeks over the
   top of the node.
 - **During the moment** it follows just behind the pulse and parks at 72% of
   the new segment.
 
 If the owner drops it, nothing else changes, because the pulse already carries
 the motion.
+
+## The other option: a true isometric view (R07)
+
+R07 draws the same mid-chapter path tilted about 30 degrees. The ground is
+squashed to half its depth, the nodes become elliptical platforms 14 tall,
+the road slabs are 8 tall in the same projection, and the labels stay flat.
+It is more of a place. It is also a bigger build:
+
+- **Rive node art.** Every node pose (four states, the ring, the check, the
+  press, the breath, the finishing pop, the new `ahead` and `arrive`) has to
+  be redrawn as an ellipse with a visible side. The progress ring becomes an
+  elliptical arc, and the check is drawn foreshortened. That is the whole
+  `lesson_node` artboard again, plus its golden screenshots.
+- **Hit areas.** A node's tappable area is its platform, an ellipse plus its
+  side, not a circle. The 48 minimum touch size has to be checked against
+  the squashed height (an 84 node is only 42 tall on screen plus its side).
+  The scroll-to-lesson and the ring position also move to the projected
+  centre.
+- **Painter.** The road painter draws in ground space and projects. That is
+  one transform on the canvas for the slab, plus the joint cut becoming an
+  ellipse. The painter fallback for nodes must draw the same ellipses and
+  sides, so the painter and Rive keep matching.
+- **Layout.** Rows have to be twice as far apart on the ground to keep the
+  same spacing on screen, and section eyebrows and labels need their own
+  placement rules, because they stay flat while the path tilts.
+
+Rough size: the road is a small change to what is proposed here. The nodes,
+in Rive and in the painter, are most of the work, about as much as building
+`lesson_node` the first time. The top-down view with built joints keeps all
+of today's node work.
 
 ## Reduce Motion
 

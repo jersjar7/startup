@@ -48,19 +48,18 @@ const quad = (a, c, b, t) => lerp(lerp(a, c, t), lerp(c, b, t), t);
 // The app's rule (RoadPainter._road): leave the node, lean 80% of the way
 // toward the next node's column, arrive. Then trim by arc length where the
 // curve enters each node, tucked 3 under the face so there is no seam.
-export function segmentCurve(from, to, r) {
+export function segmentCurve(from, to, r, { startReach = r - 3, endReach = r - 3 } = {}) {
   const dx = to.x - from.x;
   const lean = Math.abs(dx) > 4 ? from.x + dx * 0.8 : from.x + r * 0.55;
   const c = { x: lean, y: from.y + (to.y - from.y) * 0.52 };
-  const reach = r - 3;
   let t0 = 0, t1 = 1;
   for (let t = 0; t <= 1; t += 0.001) {
     const p = quad(from, c, to, t);
-    if (Math.hypot(p.x - from.x, p.y - from.y) >= reach) { t0 = t; break; }
+    if (Math.hypot(p.x - from.x, p.y - from.y) >= startReach) { t0 = t; break; }
   }
   for (let t = 1; t >= t0; t -= 0.001) {
     const p = quad(from, c, to, t);
-    if (Math.hypot(p.x - to.x, p.y - to.y) >= reach) { t1 = t; break; }
+    if (Math.hypot(p.x - to.x, p.y - to.y) >= endReach) { t1 = t; break; }
   }
   // The sub-curve between t0 and t1 is itself a quadratic (blossoming).
   const p0 = quad(from, c, to, t0);
@@ -91,42 +90,80 @@ export function segmentCurve(from, to, r) {
   return { d, length: len, at };
 }
 
+// The road meets each node at the node's side wall, at road height
+// (ROAD.md, "Where the road meets a node"). Node centres are the centres of
+// their top faces; `plinth` is the node's plinth depth. The road's surface
+// sits (plinth - depth) lower than the node's top face, so its curve runs
+// between the centres moved down by that much. It leaves the upper node from
+// that node's near (viewer-facing) side, in front of it, and ends under the
+// lower node's far side, where the node hides it.
+export function joinedSegment(a, b, r, size, plinth) {
+  const drop = plinth - size.depth;
+  const from = { x: a.x, y: a.y + drop }, to = { x: b.x, y: b.y + drop };
+  const curve = segmentCurve(from, to, r, { startReach: r - 2, endReach: r - 4 });
+  return { curve, near: { x: a.x, y: a.y + drop, r } };
+}
+
 let uid = 0;
 // One segment. `fill` is how far the charcoal has run (0..1), `line` how far
 // the centre line has been revealed (0..1, never ahead of fill), `pulse` is
 // where the pulse is (null for none). Colours come in as CSS values.
-export function segmentSvg(curve, { fill = 0, line = fill, pulse = null, size, col }) {
+export function segmentSvg(curve, { fill = 0, line = fill, pulse = null, size, col, near = null }) {
   const id = `r${uid++}`;
   const { width: w, edge, line: lw, dash, gap, depth, shadowY, blur } = size;
   const dash1 = (f) => `pathLength="1" stroke-dasharray="${Math.max(0, f).toFixed(4)} 2"`;
-  // A slab, bottom to top: ground shadow, side wall (the same band moved
-  // down by the wall's depth, so it shows only under the downward-facing
-  // edge, lit from above like the node plinths), rim, surface.
-  const slab = (wall, rim, top, shadowOpacity, extra = '') =>
-    `<path d="${curve.d}" stroke="${col.roadShadow}" stroke-opacity="${shadowOpacity}" stroke-width="${w}" stroke-linecap="round" transform="translate(0 ${shadowY})" filter="url(#${id}b)" ${extra}/>`
-    + `<path d="${curve.d}" stroke="${wall}" stroke-width="${w}" stroke-linecap="round" transform="translate(0 ${depth})" ${extra}/>`
-    + `<path d="${curve.d}" stroke="${rim}" stroke-width="${w}" stroke-linecap="round" ${extra}/>`
-    + `<path d="${curve.d}" stroke="${top}" stroke-width="${w - 2 * edge}" stroke-linecap="round" ${extra}/>`;
-  let s = '';
-  // The road not walked: the same slab in the untouched node's materials.
-  s += slab(col.roadOffWall, col.roadOffEdge, col.roadOff, 0.5);
-  // The walked part, laid forward from the finished node; its wall darkens
-  // with it because it is cut at the same length.
-  if (fill > 0) s += slab(col.roadWall, col.roadEdge, col.roadOn, 1, dash1(fill));
+  const band = (stroke, width, extra = '') => `<path d="${curve.d}" stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" ${extra}/>`;
+  // A slab. On the ground: its soft shadow and its side wall (the same band
+  // moved down by the wall's depth, so it shows only under the downward-
+  // facing edge, lit from above like the node plinths). On top: the rim and
+  // the surface. The pale road is drawn whole; the walked part is laid over
+  // it, cut at `fill`, so its wall darkens with it.
+  const walked = fill > 0 ? dash1(fill) : null;
+  let ground = band(col.roadShadow, w, `stroke-opacity="0.5" transform="translate(0 ${shadowY})" filter="url(#${id}b)"`)
+    + band(col.roadOffWall, w, `transform="translate(0 ${depth})"`);
+  let top = band(col.roadOffEdge, w) + band(col.roadOff, w - 2 * edge);
+  if (walked) {
+    ground += band(col.roadShadow, w, `transform="translate(0 ${shadowY})" filter="url(#${id}b)" ${walked}`)
+      + band(col.roadWall, w, `transform="translate(0 ${depth})" ${walked}`);
+    top += band(col.roadEdge, w, walked) + band(col.roadOn, w - 2 * edge, walked);
+  }
+  let defs = `<filter id="${id}b" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="${blur}"/></filter>`;
   if (line > 0) {
-    s += `<mask id="${id}m" maskUnits="userSpaceOnUse"><path d="${curve.d}" stroke="#fff" stroke-width="${w + 8}" stroke-linecap="butt" ${dash1(Math.min(line, fill))}/></mask>`;
-    s += `<path d="${curve.d}" stroke="${col.roadLine}" stroke-width="${lw}" stroke-linecap="round" stroke-dasharray="${dash} ${gap}" stroke-dashoffset="${-gap / 2}" mask="url(#${id}m)"/>`;
+    defs += `<mask id="${id}m" maskUnits="userSpaceOnUse" x="-2000" y="-2000" width="6000" height="8000"><path d="${curve.d}" stroke="#fff" stroke-width="${w + 8}" stroke-linecap="butt" ${dash1(Math.min(line, fill))}/></mask>`;
+    top += `<path d="${curve.d}" stroke="${col.roadLine}" stroke-width="${lw}" stroke-linecap="round" stroke-dasharray="${dash} ${gap}" stroke-dashoffset="${-gap / 2}" mask="url(#${id}m)"/>`;
   }
   if (pulse != null) {
     const p = curve.at(pulse);
-    s += `<radialGradient id="${id}g"><stop offset="0" stop-color="${col.roadPulse}" stop-opacity="0.95"/><stop offset="0.45" stop-color="${col.roadPulse}" stop-opacity="0.45"/><stop offset="1" stop-color="${col.roadPulse}" stop-opacity="0"/></radialGradient>`;
-    s += `<ellipse cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" rx="${w * 0.95}" ry="${w * 0.5}" transform="rotate(${(p.angle * 180 / Math.PI).toFixed(1)} ${p.x.toFixed(1)} ${p.y.toFixed(1)})" fill="url(#${id}g)"/>`;
+    defs += `<radialGradient id="${id}g"><stop offset="0" stop-color="${col.roadPulse}" stop-opacity="0.95"/><stop offset="0.45" stop-color="${col.roadPulse}" stop-opacity="0.45"/><stop offset="1" stop-color="${col.roadPulse}" stop-opacity="0"/></radialGradient>`;
+    top += `<ellipse cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" rx="${w * 0.95}" ry="${w * 0.5}" transform="rotate(${(p.angle * 180 / Math.PI).toFixed(1)} ${p.x.toFixed(1)} ${p.y.toFixed(1)})" fill="url(#${id}g)"/>`;
   }
-  const defs = `<filter id="${id}b" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="${blur}"/></filter>`;
-  return `<defs>${defs}</defs>${s}`;
+  if (!near) return `<defs>${defs}</defs>${ground}${top}`;
+  // The joint (ROAD.md, "Where the road meets a node"). The node is a
+  // cylinder. The road's top is cut by the cylinder's outline at road height;
+  // its wall and shadow by the outline at the ground, the wall's depth lower.
+  // So the road butts against the node's side instead of passing under it,
+  // and a thin lit rim runs along the cut where the surface meets the wall.
+  const { x, y, r } = near;
+  const big = 'x="-2000" y="-2000" width="6000" height="8000"';
+  const cut = (cy, mid) => `<mask id="${id}${mid}" maskUnits="userSpaceOnUse" ${big}><rect ${big} fill="#fff"/><circle cx="${x}" cy="${cy}" r="${r}" fill="#000"/></mask>`;
+  defs += cut(y, 't') + cut(y + depth, 'g')
+    + `<mask id="${id}j" maskUnits="userSpaceOnUse" ${big}><path d="${curve.d}" stroke="#fff" stroke-width="${w}" stroke-linecap="butt"/></mask>`;
+  const lip = `<circle cx="${x}" cy="${y}" r="${r + 0.8}" stroke="${walked ? col.roadEdge : col.roadOffEdge}" stroke-width="1.6" mask="url(#${id}j)"/>`;
+  return `<defs>${defs}</defs><g mask="url(#${id}g)">${ground}</g><g mask="url(#${id}t)">${top}${lip}</g>`;
 }
 
 // The position marker: the brand's raccoon peek on a small charcoal coin with
 // the node's plinth under it, parked on the road. `src` is the peek PNG.
 export const marker = (x, y, src, d = 34, { ring = '#E3DFD7' } = {}) =>
-  `<div aria-hidden="true" style="position:absolute;left:${x - d / 2}px;top:${y - d / 2}px;width:${d}px;height:${d}px;border-radius:50%;background:#2C2C2C;box-shadow:0 0 0 3px ${ring};display:flex;align-items:flex-end;justify-content:center;overflow:hidden;z-index:3;"><img src="${src}" alt="" style="width:${Math.round(d * 0.78)}px;margin-bottom:${Math.round(d * 0.18)}px;"></div>`;
+  `<div aria-hidden="true" style="position:absolute;left:${x - d / 2}px;top:${y - d / 2}px;width:${d}px;height:${d}px;border-radius:50%;background:#2C2C2C;box-shadow:0 0 0 3px ${ring};display:flex;align-items:flex-end;justify-content:center;overflow:hidden;z-index:200;"><img src="${src}" alt="" style="width:${Math.round(d * 0.78)}px;margin-bottom:${Math.round(d * 0.18)}px;"></div>`;
+
+// Where the top edge of a segment's road is at screen column `x`, or null
+// when the road does not reach that column. Labels use it to stay clear of
+// the road that leaves their node (ROAD.md, "Labels").
+export function roadTopAt(curve, x, halfWidth) {
+  for (let f = 0; f <= 1; f += 0.005) {
+    const a = curve.at(f), b = curve.at(Math.min(1, f + 0.005));
+    if ((a.x - x) * (b.x - x) <= 0) return a.y - halfWidth / Math.max(0.2, Math.abs(Math.cos(a.angle)));
+  }
+  return null;
+}

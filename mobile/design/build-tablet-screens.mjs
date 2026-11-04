@@ -9,7 +9,7 @@
 // can see what a tablet adds. Content is the app's own: real chapters,
 // lessons, games and copy from lib/features.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { roadDay, roadNight, roadSize, segmentCurve, segmentSvg, marker } from './road/road.mjs';
+import { roadDay, roadNight, roadSize, segmentSvg, joinedSegment, marker, roadTopAt } from './road/road.mjs';
 
 const T = JSON.parse(readFileSync(new URL('./tokens.json', import.meta.url)));
 const TB = T.tablet;
@@ -166,7 +166,7 @@ ${item('Daily', sun(false), sun(true), active === 'daily', dailyDot)}
 
 // ── the chapter path, drawn into a pane ──
 // nodes: {name, sub, state: 'done'|'now'|'todo', frac?, section?}
-const path = ({ width, top, nodes, node = 92, step = 136, amp = 110, highlight = null, labelW = 210 }) => {
+const path = ({ width, top, nodes, node = 92, step = 150, amp = 110, highlight = null, labelW = 210 }) => {
   // The node column is centred in its pane (TABLET.md, "The path"): the
   // zigzag's middle line is the pane's middle line; labels hang off the nodes.
   const cx0 = Math.round(width / 2);
@@ -184,11 +184,15 @@ const path = ({ width, top, nodes, node = 92, step = 136, amp = 110, highlight =
   // the app's own curve rule, walked segments charcoal with a centre line.
   let road = '';
   let mk = '';
+  const curves = [];
   for (let i = 0; i < placed.length - 1; i++) {
     const a = placed[i], b = placed[i + 1];
-    const curve = segmentCurve({ x: a.x, y: a.y }, { x: b.x, y: b.y }, node / 2);
-    road += segmentSvg(curve, { fill: a.state === 'done' ? 1 : 0, size: roadSize.tablet, col: C });
-    if (b.state === 'now') { const q = curve.at(0.72); mk = marker(q.x, q.y, RACCOON, 36, { ring: C.fog }); }
+    // The node plinth here is 7 (disc() below). Each segment is its own
+    // layer: in front of the node it leaves, behind the node it arrives at.
+    const { curve, near } = joinedSegment(a, b, node / 2, roadSize.tablet, 7);
+    curves.push(curve);
+    road += `<svg aria-hidden="true" width="${width}" height="${h}" style="position:absolute;left:0;top:0;overflow:visible;z-index:${2 * i + 11};" fill="none">${segmentSvg(curve, { fill: a.state === 'done' ? 1 : 0, size: roadSize.tablet, col: C, near })}</svg>`;
+    if (b.state === 'now') { const q = curve.at(0.45); mk = marker(q.x, q.y, RACCOON, 36, { ring: C.fog }); }
   }
   const walked = '';
   const disc = (n) => {
@@ -212,13 +216,19 @@ const path = ({ width, top, nodes, node = 92, step = 136, amp = 110, highlight =
     // Clear of the ring (8 of fog and 4 of charcoal) by 16 more.
     const gap = node / 2 + 28;
     const pos = right ? `left:${n.x + gap}px;` : `right:${width - n.x + gap}px;`;
-    return `<div style="position:absolute;top:${n.y}px;${pos}width:${labelW}px;transform:translateY(-50%);display:flex;${right ? '' : 'justify-content:flex-end;'}">${box}</div>`;
+    // Centred on the face, unless the road leaving this node would run
+    // through it: then the label sits just above that road.
+    const lines = Math.ceil((n.name.replace(/&amp;/g, '&').length * 8.6) / labelW);
+    const est = lines * 18.4 + 4 + 14 + (tileOn ? 24 : 0);
+    const edge = curves[i] ? roadTopAt(curves[i], right ? n.x + gap : n.x - gap, roadSize.tablet.width / 2) : null;
+    const lift = edge != null && n.y + est / 2 > edge - 8;
+    return `<div style="position:absolute;z-index:90;top:${lift ? edge - 8 : n.y}px;${pos}width:${labelW}px;transform:translateY(${lift ? '-100%' : '-50%'});display:flex;${right ? '' : 'justify-content:flex-end;'}">${box}</div>`;
   };
   return {
     height: h,
-    html: `<svg aria-hidden="true" width="${width}" height="${h}" style="position:absolute;left:0;top:0;" fill="none">${road}${walked}</svg>
-${sections.map((s) => `<div style="position:absolute;left:0;top:${s.y}px;padding:6px 14px 6px 0;background:${C.fog};">${eyebrow(s.text, C.muted)}</div>`).join('')}
-${placed.map((n) => `<div style="position:absolute;left:${n.x - node / 2}px;top:${n.y - node / 2}px;">${disc(n)}</div>`).join('')}
+    html: `${road}${walked}
+${sections.map((s) => `<div style="position:absolute;z-index:80;left:0;top:${s.y}px;padding:6px 14px 6px 0;background:${C.fog};">${eyebrow(s.text, C.muted)}</div>`).join('')}
+${placed.map((n, i) => `<div style="position:absolute;z-index:${2 * i + 10};left:${n.x - node / 2}px;top:${n.y - node / 2}px;">${disc(n)}</div>`).join('')}
 ${placed.map(label).join('')}
 ${mk}`,
   };
@@ -395,7 +405,7 @@ ${rail('study', P.H)}
 ${abs(CX, TOP + 12, PW, 48, `<div style="display:flex;align-items:center;justify-content:space-between;height:48px;">${eyebrow('73 days to the exam', C.muted)}${roundIcon('All chapters', ico.grid)}</div>`)}
 ${abs(CX, TOP + 76, null, null, chapterBand({ w: PW }))}
 ${abs(CX, TOP + 76 + 300, PW, 12, `<div style="display:flex;justify-content:center;">${dots(15, 0)}</div>`)}
-${pathPane(CX, TOP + 412, PW, P.H - TOP - 412, mathNodes, '3 of 16 cleared', { top: 64, node: 92, step: 128, amp: 150, labelW: 230 })}
+${pathPane(CX, TOP + 412, PW, P.H - TOP - 412, mathNodes, '3 of 16 cleared', { top: 64, node: 92, amp: 110, labelW: 230 })}
 `);
 
 // ── T02 Chapter map, landscape: every chapter beside the one you picked ──
@@ -404,7 +414,7 @@ ${rail('study', L.H)}
 ${abs(CX, TOP + 12, 400, 48, `<div style="display:flex;align-items:center;justify-content:space-between;height:48px;">${eyebrow('73 days to the exam', C.muted)}${roundIcon('One chapter', ico.single)}</div>`)}
 ${abs(CX, TOP + 76, null, null, gridTiles(3, 126, 124, { selected: 'statics' }))}
 ${abs(CX + 400 + 32, TOP + 12, 560, null, `<div style="display:flex;flex-direction:column;gap:14px;">${eyebrow('Chapter 5 · 4 to 6 on the exam', C.muted)}${headline('Statics', 44)}</div>`)}
-${pathPane(CX + 400 + 32, TOP + 112, L.W - (CX + 400 + 32) - 24, L.H - TOP - 112, staticsNodes, '1 of 7 cleared', { top: 64, step: 124, node: 84, amp: 100 })}
+${pathPane(CX + 400 + 32, TOP + 112, L.W - (CX + 400 + 32) - 24, L.H - TOP - 112, staticsNodes, '1 of 7 cleared', { top: 64, node: 84, amp: 100 })}
 `);
 
 // ── T02p All chapters, portrait: the grid on top, the picked chapter's path below ──
@@ -413,7 +423,7 @@ ${rail('study', P.H)}
 ${abs(CX, TOP + 12, PW, 48, `<div style="display:flex;align-items:center;justify-content:space-between;height:48px;">${eyebrow('73 days to the exam', C.muted)}${roundIcon('One chapter', ico.single)}</div>`)}
 ${abs(CX, TOP + 76, null, null, gridTiles(5, (PW - 40) / 5, 112, { selected: 'statics' }))}
 ${abs(CX, TOP + 76 + 3 * 112 + 20 + 34, PW, null, `<div style="display:flex;flex-direction:column;gap:12px;">${eyebrow('Chapter 5 · 4 to 6 on the exam', C.muted)}${headline('Statics', 44)}</div>`)}
-${pathPane(CX, TOP + 576, PW, P.H - TOP - 576, staticsNodes, '1 of 7 cleared', { top: 64, step: 124, node: 88, amp: 150, labelW: 230 })}
+${pathPane(CX, TOP + 576, PW, P.H - TOP - 576, staticsNodes, '1 of 7 cleared', { top: 64, node: 88, amp: 110, labelW: 230 })}
 `);
 
 // ── T03 Lesson sheet, landscape: the lesson takes the chapter's pane ──
@@ -463,7 +473,7 @@ ${creamButton('Back to the chapter', ico.close, { size: 48 }).replace(`backgroun
 <div style="display:flex;gap:10px;height:190px;">${RTT_GAMES.map(gameCol).join('')}</div>
 ${outlinePill('Read the concept first')}
 </div>`)}
-${pathPane(CX, TOP + 500, PW, P.H - TOP - 500, mathNodes, '3 of 16 cleared', { top: 64, node: 92, step: 128, amp: 150, labelW: 230, highlight: 'Right Triangle Trigonometry' })}
+${pathPane(CX, TOP + 500, PW, P.H - TOP - 500, mathNodes, '3 of 16 cleared', { top: 64, node: 92, amp: 110, labelW: 230, highlight: 'Right Triangle Trigonometry' })}
 `);
 
 // ── T04 Round, landscape: the drawing beside the answer ──

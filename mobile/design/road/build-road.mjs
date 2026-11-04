@@ -9,7 +9,7 @@
 // The tablet path is tablet-screens T01 (and every other tablet path),
 // which draws its road with the same road.mjs.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { roadDay, roadNight, roadSize, segmentCurve, segmentSvg, marker } from './road.mjs';
+import { roadDay, roadNight, roadSize, segmentCurve, segmentSvg, joinedSegment, marker } from './road.mjs';
 
 const T = JSON.parse(readFileSync(new URL('../tokens.json', import.meta.url)));
 const day = {
@@ -84,6 +84,7 @@ const withState = (doneCount, nowFrac) => mathNodes.map((n, i) => ({
 }));
 
 // The phone's metrics, from PathMetrics.phone at 390 wide.
+const PLINTH = 7; // the mockups' node plinth (disc() below draws 0.08 of 84)
 const PH = { node: 84, amp: 70, row: 124, header: 48, top: 26, topSpace: 10, labelW: 156, labelGap: 28, edge: 12 };
 
 // Places the nodes the way ChapterPath.build does.
@@ -108,10 +109,12 @@ const pathHtml = (nodes, width, m, size, { seg = () => ({}), nodeFx = () => ({})
   let svg = '';
   for (let i = 0; i < placed.length - 1; i++) {
     const a = placed[i], b = placed[i + 1];
-    const curve = segmentCurve({ x: a.x, y: a.y }, { x: b.x, y: b.y }, r);
+    const { curve, near } = joinedSegment(a, b, r, size, PLINTH);
     curves.push(curve);
     const walked = a.state === 'done' ? { fill: 1, line: 1 } : {};
-    svg += segmentSvg(curve, { ...walked, ...seg(i), size, col: C });
+    // Each segment is its own layer: in front of the node it leaves, behind
+    // the node it arrives at.
+    svg += `<svg aria-hidden="true" width="${width}" height="${height}" style="position:absolute;left:0;top:0;overflow:visible;z-index:${2 * i + 11};" fill="none">${segmentSvg(curve, { ...walked, ...seg(i), size, col: C, near })}</svg>`;
   }
   const label = (n, i) => {
     const right = n.x <= width / 2;
@@ -123,7 +126,7 @@ const pathHtml = (nodes, width, m, size, { seg = () => ({}), nodeFx = () => ({})
     const room = right ? width - (n.x + gap) - m.edge : n.x - gap - m.edge;
     const w = Math.min(m.labelW, room);
     const pos = right ? `left:${n.x + gap}px;` : `left:${n.x - gap - w}px;`;
-    return `<div style="position:absolute;top:${n.y}px;${pos}width:${w}px;transform:translateY(-50%);display:flex;${right ? '' : 'justify-content:flex-end;'}">${box}</div>`;
+    return `<div style="position:absolute;z-index:90;top:${n.y}px;${pos}width:${w}px;transform:translateY(-50%);display:flex;${right ? '' : 'justify-content:flex-end;'}">${box}</div>`;
   };
   let mk = '';
   if (markerAt) {
@@ -134,9 +137,9 @@ const pathHtml = (nodes, width, m, size, { seg = () => ({}), nodeFx = () => ({})
     height,
     placed,
     curves,
-    html: `<svg aria-hidden="true" width="${width}" height="${height}" style="position:absolute;left:0;top:0;overflow:visible" fill="none">${svg}</svg>
-${sections.map((s) => `<div style="position:absolute;left:24px;top:${s.y + 10}px;padding:4px 12px 4px 0;background:${C.fog};">${eyebrow(s.text, C.muted)}</div>`).join('')}
-${placed.map((n, i) => `<div style="position:absolute;left:${n.x - r}px;top:${n.y - r}px;z-index:2;">${disc(n, m.node, { ring: ringed === i, ...nodeFx(i) })}</div>`).join('')}
+    html: `${svg}
+${sections.map((s) => `<div style="position:absolute;z-index:80;left:24px;top:${s.y + 10}px;padding:4px 12px 4px 0;background:${C.fog};">${eyebrow(s.text, C.muted)}</div>`).join('')}
+${placed.map((n, i) => `<div style="position:absolute;left:${n.x - r}px;top:${n.y - r}px;z-index:${2 * i + 10};">${disc(n, m.node, { ring: ringed === i, ...nodeFx(i) })}</div>`).join('')}
 ${labels ? placed.map(label).join('') : ''}
 ${mk}`,
   };
@@ -253,8 +256,7 @@ const closeUp = () => {
   const S = 4; // drawn at 4x
   const a = { x: 30, y: 30 }, b = { x: 170, y: 154 };
   const r = 42;
-  const curve = segmentCurve(a, b, r);
-  // Numbered leaders, in road units: from the exact layer out to clear ground.
+  const { curve, near } = joinedSegment(a, b, r, roadSize.phone, PLINTH);
   // Numbered leaders, in road units: from the exact layer out to clear ground.
   // Surface, rim and line are measured across the road; wall and shadow
   // straight down from the lower edge, where they show.
@@ -270,29 +272,96 @@ const closeUp = () => {
     }
     return `<line x1="${sx}" y1="${sy}" x2="${ex}" y2="${ey}" stroke="${C.ember}" stroke-width="0.5"/><circle cx="${sx}" cy="${sy}" r="1.1" fill="${C.ember}"/><circle cx="${ex}" cy="${ey}" r="3.6" fill="${C.ember}"/><text x="${ex}" y="${ey + 1.4}" text-anchor="middle" font-family="JetBrains Mono" font-weight="600" font-size="4" fill="#FFFFFF">${n}</text>`;
   }).join('');
-  const svgAt = (opts, nightMode, k = S) => `<div style="${vars(nightMode ? night : day)}"><svg width="${200 * k}" height="${190 * k}" viewBox="0 0 200 190" fill="none" style="display:block;border-radius:24px;background:${C.fog};">${segmentSvg(curve, { size: roadSize.phone, col: C, ...opts })}
-<circle cx="${a.x}" cy="${a.y + 7}" r="${r}" fill="${C.plinth}"/><circle cx="${a.x}" cy="${a.y}" r="${r}" fill="${C.charcoal}"/>
-<circle cx="${b.x}" cy="${b.y + 7}" r="${r}" fill="${C.plinth}"/><circle cx="${b.x}" cy="${b.y}" r="${r}" fill="${C.cream}"/>${k === S ? leaders() : ''}</svg></div>`;
-  const p = curve.at(0.5);
-  const callout = (n, x, y, text) => `<div style="position:absolute;left:${x}px;top:${y}px;display:flex;gap:10px;align-items:baseline;max-width:300px;"><span style="font-family:${F.mono};font-weight:600;font-size:13px;color:${C.charcoal};">${n}</span><span style="font-size:14px;line-height:1.5;">${text}</span></div>`;
-  const dot = (n, x, y) => `<div style="position:absolute;left:${x - 13}px;top:${y - 13}px;width:26px;height:26px;border-radius:13px;background:${C.ember};color:#fff;font-family:${F.mono};font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center;">${n}</div>`;
-  const px = p.x * 4, py = p.y * 4;
-  const nx = Math.cos(p.angle + Math.PI / 2), ny = Math.sin(p.angle + Math.PI / 2);
+  // A node as a cylinder: plinth (side wall) then top face.
+  const cyl = (n, face) => `<path d="M${n.x - r} ${n.y} A ${r} ${r} 0 0 1 ${n.x + r} ${n.y} L ${n.x + r} ${n.y + PLINTH} A ${r} ${r} 0 0 1 ${n.x - r} ${n.y + PLINTH} Z" fill="${C.plinth}"/><circle cx="${n.x}" cy="${n.y}" r="${r}" fill="${face}"/>`;
+  // Drawn in depth order: the node the road leaves, the road, the node it reaches.
+  const scene = (opts) => `${cyl(a, C.charcoal)}${segmentSvg(curve, { size: roadSize.phone, col: C, near, ...opts })}${cyl(b, C.cream)}`;
+  const svgAt = (opts, nightMode, k = S, view = [0, 0, 200, 190], extra = '') => `<div style="${vars(nightMode ? night : day)}"><svg width="${view[2] * k}" height="${view[3] * k}" viewBox="${view.join(' ')}" fill="none" style="display:block;border-radius:24px;background:${C.fog};">${scene(opts)}${extra}</svg></div>`;
+  const callout = (n, x, y, text) => `<div style="position:absolute;left:${x}px;top:${y}px;display:flex;gap:10px;align-items:baseline;max-width:460px;"><span style="font-family:${F.mono};font-weight:600;font-size:13px;color:${C.charcoal};">${n}</span><span style="font-size:14px;line-height:1.5;">${text}</span></div>`;
+  // The joint, close: where the road leaves the finished node's near side.
+  const j = curve.at(0);
+  const JV = [j.x - 22, j.y - 15, 44, 30];
+  const jLead = (n, x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${C.ember}" stroke-width="0.2"/><circle cx="${x1}" cy="${y1}" r="0.45" fill="${C.ember}"/><circle cx="${x2}" cy="${y2}" r="1.6" fill="${C.ember}"/><text x="${x2}" y="${y2 + 0.6}" text-anchor="middle" font-family="JetBrains Mono" font-weight="600" font-size="1.8" fill="#FFFFFF">${n}</text>`;
+  const lipAt = { x: a.x + (r + 0.8) * Math.cos(Math.atan2(j.y - near.y, j.x - near.x)), y: near.y + (r + 0.8) * Math.sin(Math.atan2(j.y - near.y, j.x - near.x)) };
+  const jointLeads = jLead(6, lipAt.x, lipAt.y, JV[0] + 38, JV[1] + 5) + jLead(7, a.x + (r + 1.6) * Math.cos(Math.atan2(j.y - a.y, j.x - a.x) + 0.12), a.y + (r + 1.6) * Math.sin(Math.atan2(j.y - a.y, j.x - a.x) + 0.12), JV[0] + 5, JV[1] + 26);
   return `
-${abs(48, 40, 1300, null, `${eyebrow('One segment · phone sizes at 4x', C.muted)}<h1 style="margin:10px 0 0;font-family:${F.display};font-weight:800;font-size:36px;letter-spacing:-0.04em;">A road, not a racing track</h1>`)}
-${abs(48, 140, 800, 760, `${svgAt({ fill: 1, line: 1 }, false)}`)}
-${abs(890, 150, 460, null, `<div style="position:relative;height:370px;">
+${abs(48, 40, 1300, null, `${eyebrow('One segment · phone sizes at 4x', C.muted)}<h1 style="margin:10px 0 0;font-family:${F.display};font-weight:800;font-size:36px;letter-spacing:-0.04em;">A road that meets each node like a road meets a building</h1>`)}
+${abs(48, 140, 800, 760, `${svgAt({ fill: 1, line: 1 }, false, S, [0, 0, 200, 190], leaders())}`)}
+${abs(890, 150, 460, null, `<div style="position:relative;height:330px;">
 ${callout(1, 0, 0, '<b>Surface.</b> tile, 16 wide: dark charcoal grey, so the wall under it can be darker.')}
-${callout(2, 0, 80, '<b>Rim.</b> tile2, 2 each side: the lit top edge of the slab.')}
-${callout(3, 0, 140, '<b>Centre line.</b> Cream, 2 wide, 7 on and 9 off, round ends.')}
-${callout(4, 0, 200, '<b>Wall.</b> Charcoal, 4 deep, under the downward-facing edge. The node plinth is 7, so the nodes stand taller than the road.')}
-${callout(5, 0, 290, '<b>Shadow.</b> pipOff, 7 down, blurred 3, on the ground under the wall.')}
+${callout(2, 0, 50, '<b>Rim.</b> tile2, 2 each side: the lit top edge of the slab.')}
+${callout(3, 0, 100, '<b>Centre line.</b> Cream, 2 wide, 7 on and 9 off, round ends.')}
+${callout(4, 0, 150, '<b>Wall.</b> Charcoal, 4 deep, under the downward-facing edge. The node plinth is 7, so the nodes stand taller than the road.')}
+${callout(5, 0, 222, '<b>Shadow.</b> pipOff, 7 down, blurred 3, on the ground under the wall.')}
+${callout(6, 0, 272, '<b>Joint.</b> The road ends at the node&rsquo;s side, in front of its plinth, its top 3 below the node&rsquo;s face. A lit lip runs along the cut. At the far end the next node hides the road.')}
 </div>`)}
-${abs(890, 500, 220, null, `${svgAt({ fill: 0 }, false, 1.1)}<div style="margin-top:12px;font-family:${F.mono};font-size:12px;font-weight:600;">Not walked yet, day</div><div style="font-size:13px;color:${C.muted};line-height:1.5;margin-top:4px;">creamDark slab, cream rim, plinth wall, half the shadow. No line.</div>`)}
-${abs(1130, 500, 220, null, `${svgAt({ fill: 1, line: 1 }, true, 1.1)}<div style="margin-top:12px;font-family:${F.mono};font-size:12px;font-weight:600;">Walked, night</div><div style="font-size:13px;color:${C.muted};line-height:1.5;margin-top:4px;">lineOnDark surface, plinth rim, tile wall, night ink line.</div>`)}
+${abs(890, 500, 460, null, `${svgAt({ fill: 1, line: 1 }, false, 460 / 44, JV, jointLeads)}<div style="margin-top:12px;font-family:${F.mono};font-size:12px;font-weight:600;">The joint, close up</div><div style="font-size:13px;color:${C.muted};line-height:1.5;margin-top:4px;">6 the lit lip where the surface meets the node&rsquo;s wall. 7 the node&rsquo;s plinth, standing 3 above the road.</div>`)}
+${abs(48, 940, 260, null, `${svgAt({ fill: 0 }, false, 1.3)}<div style="margin-top:12px;font-family:${F.mono};font-size:12px;font-weight:600;">Not walked yet, day</div><div style="font-size:13px;color:${C.muted};line-height:1.5;margin-top:4px;">creamDark slab, cream rim, plinth wall, half the shadow. No line.</div>`)}
+${abs(338, 940, 260, null, `${svgAt({ fill: 1, line: 1 }, true, 1.3)}<div style="margin-top:12px;font-family:${F.mono};font-size:12px;font-weight:600;">Walked, night</div><div style="font-size:13px;color:${C.muted};line-height:1.5;margin-top:4px;">lineOnDark surface, plinth rim, tile wall, night ink line.</div>`)}
 `;
 };
-out['R06-segment-closeup'] = page('Road, one segment', 1400, 940, closeUp());
+out['R06-segment-closeup'] = page('Road, one segment', 1400, 1300, closeUp());
+
+// ── R07: the same mid-chapter path in a true isometric-style view ──
+// For the owner to compare with the top-down view. The ground is tilted
+// about 30 degrees (depth squashed to half), nodes are raised elliptical
+// platforms and the road slabs use the same projection. Labels stay flat.
+const iso = () => {
+  const K = 0.5; // ground depth on screen
+  const HN = 14, HR = 8; // node and road heights on screen: the road is lower
+  const r = 42, w = 20, Y0 = 336, GAP = 240;
+  const nodes = withState(2, 1 / 3).slice(0, 5).map((n, i) => ({ ...n, x: W / 2 + (i % 2 === 0 ? -70 : 70), g: i * GAP }));
+  const sy = (g) => Y0 + g * K; // ground y to screen y
+  const proj = (dy) => `translate(0 ${Y0 + dy}) scale(1 ${K})`; // ground plane at a height
+  let svg = '';
+  let mk = '';
+  const big = 'x="-2000" y="-2000" width="6000" height="8000"';
+  const node = (n) => {
+    const X = n.x, Y = sy(n.g), T = Y - HN;
+    let face;
+    if (n.state === 'done') face = `<ellipse cx="${X}" cy="${T}" rx="${r}" ry="${r * K}" fill="${C.charcoal}"/><g transform="translate(${X} ${T}) scale(1 ${K})"><path d="M-14 1l9 9 19-20" stroke="${C.spring}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+    else if (n.state === 'now') face = `<g transform="translate(${X} ${T}) scale(1 ${K})"><circle r="${r - 4.6}" stroke="${C.spring}" stroke-width="9.2"/><circle r="${r - 4.6}" stroke="${C.charcoal}" stroke-width="9.2" pathLength="1" stroke-dasharray="${n.frac} 1" transform="rotate(-90)"/><circle r="${r - 9.2}" fill="${C.cream}"/></g>`;
+    else face = `<ellipse cx="${X}" cy="${T}" rx="${r}" ry="${r * K}" fill="${C.cream}"/>`;
+    return `<ellipse cx="${X}" cy="${Y}" rx="${r}" ry="${r * K}" fill="${C.plinth}"/><rect x="${X - r}" y="${T}" width="${2 * r}" height="${HN}" fill="${C.plinth}"/>${face}`;
+  };
+  nodes.forEach((a, i) => {
+    svg += node(a);
+    const b = nodes[i + 1];
+    if (!b) return;
+    const curve = segmentCurve({ x: a.x, y: a.g }, { x: b.x, y: b.g }, r, { startReach: r - 2, endReach: r - 4 });
+    const walked = a.state === 'done';
+    const id = `iso${i}`;
+    const band = (stroke, width, extra = '') => `<path d="${curve.d}" stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" ${extra}/>`;
+    const ground = `<g transform="${proj(5)}" filter="url(#${id}b)">${band(C.roadShadow, w, walked ? '' : 'stroke-opacity="0.5"')}</g>`
+      + `<g transform="${proj(0)}">${band(walked ? C.roadWall : C.roadOffWall, w)}</g>`;
+    const top = `<g transform="${proj(-HR)}">${band(walked ? C.roadEdge : C.roadOffEdge, w)}${band(walked ? C.roadOn : C.roadOff, w - 4)}${walked ? `<path d="${curve.d}" stroke="${C.roadLine}" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 9" stroke-dashoffset="-4.5"/>` : ''}</g>`;
+    // The joint: the top is cut by the platform's outline at road height,
+    // the wall and shadow by its outline on the ground.
+    const X = a.x, Y = sy(a.g);
+    const cut = (cy, m) => `<mask id="${id}${m}" maskUnits="userSpaceOnUse" ${big}><rect ${big} fill="#fff"/><ellipse cx="${X}" cy="${cy}" rx="${r}" ry="${r * K}" fill="#000"/></mask>`;
+    const lip = `<mask id="${id}j" maskUnits="userSpaceOnUse" ${big}><g transform="${proj(-HR)}">${band('#fff', w)}</g></mask><ellipse cx="${X}" cy="${Y - HR}" rx="${r + 0.8}" ry="${(r + 0.8) * K}" stroke="${walked ? C.roadEdge : C.roadOffEdge}" stroke-width="1.4" mask="url(#${id}j)"/>`;
+    svg += `<defs><filter id="${id}b" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>${cut(Y, 'g')}${cut(Y - HR, 't')}</defs><g mask="url(#${id}g)">${ground}</g><g mask="url(#${id}t)">${top}${lip}</g>`;
+    if (b.state === 'now') {
+      const q = curve.at(0.72);
+      mk = marker(q.x, sy(q.y) - HR, PEEK, 32, { ring: C.fog });
+    }
+  });
+  const labels = nodes.map((n, i) => {
+    const right = n.x <= W / 2;
+    const now = n.state === 'now';
+    const subColor = now ? C.charcoal : n.state === 'done' ? C.forest : C.muted;
+    const inner = `<span style="display:flex;flex-direction:column;gap:3px;${right ? '' : 'align-items:flex-end;text-align:right;'}"><span style="font-family:${F.display};font-weight:700;font-size:14px;line-height:1.15;letter-spacing:-0.02em;color:${C.charcoal};">${n.name}</span><span style="font-family:${F.mono};font-size:10.5px;color:${subColor};">${n.sub}</span></span>`;
+    const box = now ? `<span style="display:inline-block;padding:12px 14px;border-radius:20px;background:${C.springField};">${inner}</span>` : inner;
+    const gap = r + 28, wl = 156;
+    const pos = right ? `left:${n.x + gap}px;` : `left:${n.x - gap - wl}px;`;
+    return `<div style="position:absolute;z-index:90;top:${sy(n.g) - HN / 2}px;${pos}width:${wl}px;transform:translateY(-50%);display:flex;${right ? '' : 'justify-content:flex-end;'}">${box}</div>`;
+  }).join('');
+  return page('Road, isometric view', W, H, `${phoneTop(2)}
+${abs(24, 248, null, null, eyebrow('Analytic geometry · 6', C.muted))}
+<svg aria-hidden="true" width="${W}" height="${H}" style="position:absolute;left:0;top:0;" fill="none">${svg}</svg>
+${labels}${mk}`);
+};
+out['R07-isometric'] = iso();
 
 const dir = new URL('./html/', import.meta.url);
 mkdirSync(dir, { recursive: true });
