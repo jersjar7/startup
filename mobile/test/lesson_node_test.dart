@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:mobile/core/theme/road.dart';
 import 'package:mobile/features/games/lesson_node.dart';
 
 /// The node draws itself and animates itself, so it can be checked without a
@@ -164,5 +165,107 @@ void main() {
       );
       seen.add(signature);
     }
+  });
+
+  group('the platform', () {
+    // The painter's scale and lift: the Transform around its CustomPaint.
+    Matrix4 pose(WidgetTester tester) => tester
+        .widget<Transform>(
+          find.descendant(
+            of: find.byType(LessonNodeWidget),
+            matching: find.byType(Transform),
+          ),
+        )
+        .transform;
+
+    Widget node({bool ahead = false, int tick = 0, bool still = false}) =>
+        MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(disableAnimations: still),
+            child: Scaffold(
+              body: Center(
+                child: LessonNodeWidget(
+                  state: NodeState.notStarted,
+                  fractionFrom: 0,
+                  fractionTo: 0,
+                  size: 84,
+                  ahead: ahead,
+                  arriveTick: tick,
+                ),
+              ),
+            ),
+          ),
+        );
+
+    testWidgets('lays out as its platform box, 84 by 56 on the phone', (
+      tester,
+    ) async {
+      await tester.pumpWidget(node());
+      expect(tester.getSize(find.byType(LessonNodeWidget)), const Size(84, 56));
+    });
+
+    testWidgets('rests at 95% ahead, then rises with the lift', (tester) async {
+      await tester.pumpWidget(node(ahead: true));
+      expect(pose(tester).entry(0, 0), closeTo(AppRoad.aheadScale, 1e-6));
+
+      await tester.pumpWidget(node());
+      await tester.pump(const Duration(milliseconds: 150));
+      final m = pose(tester);
+      expect(m.entry(0, 0), closeTo(AppRoad.riseScale(0.5), 1e-3));
+      // Scaled about the middle of the side, then lifted.
+      final o = const PlatformBox(84, 14).scaleOrigin;
+      final s = AppRoad.riseScale(0.5);
+      expect(
+        m.getTranslation().y,
+        closeTo(o.dy - AppRoad.riseLift(0.5) - s * o.dy, 1e-3),
+      );
+      await tester.pumpAndSettle();
+      expect(pose(tester).entry(0, 0), closeTo(1, 1e-9));
+    });
+
+    testWidgets('arriveTick plays one bounce', (tester) async {
+      await tester.pumpWidget(node());
+      await tester.pumpWidget(node(tick: 1));
+      await tester.pump(const Duration(milliseconds: 150));
+      expect(
+        pose(tester).entry(0, 0),
+        closeTo(AppRoad.arriveBounce(0.5), 1e-3),
+      );
+      await tester.pumpAndSettle();
+      expect(pose(tester).entry(0, 0), closeTo(1, 1e-9));
+    });
+
+    testWidgets('with Reduce Motion every platform is at 100%', (tester) async {
+      await tester.pumpWidget(node(ahead: true, still: true));
+      expect(pose(tester).entry(0, 0), closeTo(1, 1e-9));
+      await tester.pumpWidget(node(still: true, tick: 1));
+      await tester.pump(const Duration(milliseconds: 150));
+      expect(pose(tester).entry(0, 0), closeTo(1, 1e-9));
+    });
+
+    testWidgets('only the platform takes a tap, not the corners of its box', (
+      tester,
+    ) async {
+      var taps = 0;
+      await tester.pumpWidget(
+        host(
+          LessonNodeWidget(
+            state: NodeState.notStarted,
+            fractionFrom: 0,
+            fractionTo: 0,
+            size: 84,
+            onTap: () => taps++,
+          ),
+        ),
+      );
+      final box = tester.getRect(find.byType(LessonNodeWidget));
+      await tester.tapAt(box.topLeft + const Offset(3, 3));
+      await tester.tapAt(box.bottomRight - const Offset(3, 3));
+      expect(taps, 0);
+      await tester.tapAt(box.topLeft + const Offset(42, 21)); // the face
+      await tester.tapAt(box.topLeft + const Offset(2, 30)); // the side
+      await tester.tapAt(box.topLeft + const Offset(42, 54)); // the foot
+      expect(taps, 3);
+    });
   });
 }
