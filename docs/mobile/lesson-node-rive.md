@@ -57,9 +57,9 @@ face, over the old face.
 
 **The painter is the fallback, and the test double.** If the `.riv` fails to
 load, or has not loaded yet, the node paints the same platform itself
-(`PlatformPainter` in `lesson_node.dart`), pose for pose, with the same rise
-and bounce; only the breath and the finishing pop are Rive's alone, so a
-test settles. Widget tests and goldens never load the file, so they exercise
+(`PlatformPainter` in `lesson_node.dart`), pose for pose, with the same rise,
+bounce, finishing pop and halo; only the breath, which repeats, is Rive's
+alone, so a test settles. Widget tests and goldens never load the file, so they exercise
 the painter and every piece of app logic, and none of them need a native
 library. The visual result of the Rive path is checked by eye:
 `integration_test/node_art_test.dart` photographs the four states on a
@@ -112,8 +112,10 @@ finished moment never have to know about each other:
   while it is still unfinished, else the first started-but-unfinished lesson
   on the path, else none. Never an untouched lesson, for the same reason the
   old "start here" pill was dropped.
-- **Clear**: `celebrate` plays a 40-frame pop (the face lifts to 1.09, settles
-  to 0.985, returns) while a stroke-only ring scales out to 1.42 and fades.
+- **Clear**: `celebrate` plays a 40-frame pop on the whole platform, face and
+  side together, about the middle of the side (1.09, then 0.985, then 1),
+  while a stroke-only ring on the face's plane, drawn under the platform,
+  scales out to 1.42 and fades.
   It returns to idle on its own.
 
 Two things are bound directly rather than keyed. The arc's trim end is
