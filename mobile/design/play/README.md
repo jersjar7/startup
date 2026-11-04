@@ -90,5 +90,6 @@ reads the real build files.
   `secrets/android-upload-key.json` are not reproducible and are not in git.
   Losing them means a support round trip with Google before the app can be
   updated again.
-- **No tablet or TV screenshots.** The app is phone only, the same decision
-  taken for iPad.
+- **Tablet screenshots since 1.4.0** (2026-11-04), when the tablet layouts
+  shipped: 7-inch and 10-inch sets in `tablet/7in/` and `tablet/10in/`. Still
+  no TV screenshots.

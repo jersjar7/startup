@@ -101,5 +101,5 @@ again on a shorter canvas. Review the set at
 `design/appstore/contact-sheet-play.png` before uploading, and the row of
 150 pixel tiles at `search-tiles-play.png`, which is the size a stranger sees.
 
-No tablet or TV screenshots: the app is phone only, the same decision taken
-for iPad (see `../appstore/declarations.md`).
+Tablet screenshots since 1.4.0 (2026-11-04): `tablet/7in/` and
+`tablet/10in/`. No TV screenshots.

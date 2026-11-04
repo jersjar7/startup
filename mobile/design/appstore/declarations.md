@@ -90,7 +90,13 @@ uses the system keychain rather than implementing cryptography.
 
 ## Device and orientation
 
-**iPhone only (`TARGETED_DEVICE_FAMILY = "1"`), portrait only.**
+**Since 1.4.0 (2026-11-04): iPhone and iPad (`TARGETED_DEVICE_FAMILY = "1,2"`).
+Portrait only on iPhone; every orientation on iPad, with the tablet layouts in
+`../TABLET.md`. Supporting iPad brings back the 13-inch iPad screenshot slot,
+filled from `ipad/out/`.**
+
+History, kept for the reasoning: until 1.3.0 the app was iPhone only
+(`TARGETED_DEVICE_FAMILY = "1"`), portrait only.
 
 Both were Flutter defaults rather than decisions, and both shipped something
 nobody designed. Measured before changing them:
