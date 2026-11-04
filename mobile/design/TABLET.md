@@ -181,12 +181,14 @@ Mockups: `T02p-chapter-map-portrait` (medium), and the right pane of
   the fifteen grid tiles in five columns across the top (three rows), and the
   picked chapter's eyebrow, name and path below them. The picked tile is
   charcoal, the chapter in flight spring, as in landscape.
-- **The path gets bigger, not just wider.** Nodes 100 (phone 84), the weave
-  amplitude 110 (phone 70), steps 150 apart, labels in DM Sans 16 on
-  two lines at most. Labels start 28 from the node face, clear of the ring.
-  The road is the one in `road/ROAD.md` (24 wide on a tablet, 20 on a
-  phone): a raised slab, dark with a cream centre line behind the student,
-  pale ahead, its wall shorter than the node plinths. The weave was 150;
+- **The path gets bigger, not just wider.** The path is isometric, as in
+  `road/ROAD.md`: nodes are elliptical platforms 92 wide and 16 tall (phone
+  84 and 14), the weave amplitude 110 (phone 70), steps 150 apart, labels
+  flat in DM Sans 16 on two lines at most. Labels start 28 from the
+  platform and move only as far as they must to clear the road and the
+  marker. The road is 24 wide on a tablet (20 on a phone): a slab 9 tall,
+  charcoal on top with a plinth tan side and a cream centre line behind the
+  student, pale ahead. The weave was 150;
   with a road this wide, a 150 weave runs the road nearly flat through the
   labels, so it is 110 (`PathMetrics.ampFor` should cap at 110).
   Only the lesson in flight gets a label tile, in spring.

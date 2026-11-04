@@ -9,7 +9,7 @@
 // can see what a tablet adds. Content is the app's own: real chapters,
 // lessons, games and copy from lib/features.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { roadDay, roadNight, roadSize, segmentSvg, joinedSegment, marker, roadTopAt } from './road/road.mjs';
+import { roadDay, roadNight, roadSize, isoPath, placeLabel } from './road/road.mjs';
 
 const T = JSON.parse(readFileSync(new URL('./tokens.json', import.meta.url)));
 const TB = T.tablet;
@@ -167,70 +167,42 @@ ${item('Daily', sun(false), sun(true), active === 'daily', dailyDot)}
 // ── the chapter path, drawn into a pane ──
 // nodes: {name, sub, state: 'done'|'now'|'todo', frac?, section?}
 const path = ({ width, top, nodes, node = 92, step = 150, amp = 110, highlight = null, labelW = 210 }) => {
-  // The node column is centred in its pane (TABLET.md, "The path"): the
-  // zigzag's middle line is the pane's middle line; labels hang off the nodes.
-  const cx0 = Math.round(width / 2);
-  let y = top;
-  const placed = [];
-  const sections = [];
-  nodes.forEach((n, i) => {
-    if (n.section) { sections.push({ y, text: n.section }); y += 54; }
-    const x = cx0 + (i % 2 === 0 ? -amp : amp);
-    placed.push({ ...n, x, y: y + node / 2 });
-    y += step;
+  // The isometric path (road/ROAD.md): platforms and a raised road, drawn
+  // by the same road/road.mjs as the phone. The zigzag's middle line is the
+  // pane's middle line (TABLET.md, "The path"); labels stay flat beside
+  // their platform and move off the road when they would cross it.
+  const r = node / 2;
+  const ringAt = nodes.findIndex((n) => n.name === highlight);
+  const nowAt = nodes.findIndex((n) => n.state === 'now');
+  const p = isoPath({
+    nodes, width, r, size: roadSize.tablet, col: C, row: step, amp, top, sectionGap: 54,
+    ring: ringAt >= 0 ? ringAt : null, peek: RACCOON, markerD: 36,
+    markerAt: nowAt > 0 ? { seg: nowAt - 1, f: 0.55 } : null,
   });
-  const h = y + 40;
-  // The road (mobile/design/road/ROAD.md): one segment per pair of nodes on
-  // the app's own curve rule, walked segments charcoal with a centre line.
-  let road = '';
-  let mk = '';
-  const curves = [];
-  for (let i = 0; i < placed.length - 1; i++) {
-    const a = placed[i], b = placed[i + 1];
-    // The node plinth here is 7 (disc() below). Each segment is its own
-    // layer: in front of the node it leaves, behind the node it arrives at.
-    const { curve, near } = joinedSegment(a, b, node / 2, roadSize.tablet, 7);
-    curves.push(curve);
-    road += `<svg aria-hidden="true" width="${width}" height="${h}" style="position:absolute;left:0;top:0;overflow:visible;z-index:${2 * i + 11};" fill="none">${segmentSvg(curve, { fill: a.state === 'done' ? 1 : 0, size: roadSize.tablet, col: C, near })}</svg>`;
-    if (b.state === 'now') { const q = curve.at(0.45); mk = marker(q.x, q.y, RACCOON, 36, { ring: C.fog }); }
-  }
-  const walked = '';
-  const disc = (n) => {
-    const r = node / 2;
-    const on = highlight === n.name;
-    if (n.state === 'done') return `<span style="display:flex;align-items:center;justify-content:center;width:${node}px;height:${node}px;border-radius:${r}px;background:${C.charcoal};color:${C.spring};box-shadow:0 7px 0 ${C.plinth};">${ico.check(36, 3)}</span>`;
-    if (n.state === 'now') {
-      const pct = Math.round((n.frac ?? 0.33) * 100);
-      return `<span style="position:relative;display:block;width:${node}px;height:${node}px;border-radius:${r}px;background:conic-gradient(${C.charcoal} 0 ${pct}%, ${C.spring} ${pct}% 100%);box-shadow:0 7px 0 ${C.plinth}${on ? `, 0 0 0 8px ${C.fog}, 0 0 0 12px ${C.charcoal}` : ''};"><span style="position:absolute;inset:11px;border-radius:50%;background:${C.cream};"></span></span>`;
-    }
-    return `<span style="display:block;width:${node}px;height:${node}px;border-radius:${r}px;background:${C.cream};box-shadow:0 7px 0 ${C.plinth}${on ? `, 0 0 0 8px ${C.fog}, 0 0 0 12px ${C.charcoal}` : ''};"></span>`;
-  };
-  const label = (n, i) => {
-    const right = i % 2 === 0; // node on the left, label to its right
+  const obstacles = [...p.obstacles];
+  if (p.markerPt) for (let t = 0; t < 6.28; t += 0.5) obstacles.push({ x: p.markerPt.x + 22 * Math.cos(t), y: p.markerPt.y + 22 * Math.sin(t) });
+  const label = (n) => {
+    const right = n.x <= width / 2; // node on the left, label to its right
     const tileOn = n.state === 'now';
     const subColor = n.state === 'done' ? C.forest : tileOn ? C.onAccent : C.muted;
     const inner = `<span style="display:flex;flex-direction:column;gap:4px;${right ? '' : 'align-items:flex-end;text-align:right;'}"><span style="font-family:${F.display};font-weight:700;font-size:16px;line-height:1.15;letter-spacing:-0.02em;color:${tileOn ? C.onAccent : C.charcoal};">${n.name}</span><span style="font-family:${F.mono};font-size:11.5px;color:${subColor};">${n.sub}</span></span>`;
     const box = tileOn
       ? `<span style="display:inline-block;padding:12px 16px;border-radius:20px;background:${C.spring};">${inner}</span>`
       : inner;
-    // Clear of the ring (8 of fog and 4 of charcoal) by 16 more.
-    const gap = node / 2 + 28;
-    const pos = right ? `left:${n.x + gap}px;` : `right:${width - n.x + gap}px;`;
-    // Centred on the face, unless the road leaving this node would run
-    // through it: then the label sits just above that road.
-    const lines = Math.ceil((n.name.replace(/&amp;/g, '&').length * 8.6) / labelW);
-    const est = lines * 18.4 + 4 + 14 + (tileOn ? 24 : 0);
-    const edge = curves[i] ? roadTopAt(curves[i], right ? n.x + gap : n.x - gap, roadSize.tablet.width / 2) : null;
-    const lift = edge != null && n.y + est / 2 > edge - 8;
-    return `<div style="position:absolute;z-index:90;top:${lift ? edge - 8 : n.y}px;${pos}width:${labelW}px;transform:translateY(${lift ? '-100%' : '-50%'});display:flex;${right ? '' : 'justify-content:flex-end;'}">${box}</div>`;
+    // Clear of the ground ring by 18.
+    const gap = r + 28;
+    const x0 = right ? n.x + gap : n.x - gap - labelW;
+    const lines = Math.ceil((n.name.replace(/&amp;/g, '&').length * 8.8) / (labelW - (tileOn ? 32 : 0)));
+    const h = lines * 18.4 + 4 + 14 + (tileOn ? 24 : 0);
+    const cy = placeLabel({ x0, x1: x0 + labelW, cy: n.T, h, obstacles });
+    return `<div style="position:absolute;z-index:90;top:${cy}px;left:${x0}px;width:${labelW}px;transform:translateY(-50%);display:flex;${right ? '' : 'justify-content:flex-end;'}">${box}</div>`;
   };
   return {
-    height: h,
-    html: `${road}${walked}
-${sections.map((s) => `<div style="position:absolute;z-index:80;left:0;top:${s.y}px;padding:6px 14px 6px 0;background:${C.fog};">${eyebrow(s.text, C.muted)}</div>`).join('')}
-${placed.map((n, i) => `<div style="position:absolute;z-index:${2 * i + 10};left:${n.x - node / 2}px;top:${n.y - node / 2}px;">${disc(n)}</div>`).join('')}
-${placed.map(label).join('')}
-${mk}`,
+    height: p.height,
+    html: `<svg aria-hidden="true" width="${width}" height="${p.height}" style="position:absolute;left:0;top:0;overflow:visible;" fill="none">${p.svg}</svg>
+${p.sections.map((s) => `<div style="position:absolute;z-index:80;left:0;top:${s.y + 4}px;">${eyebrow(s.text, C.muted)}</div>`).join('')}
+${p.placed.map(label).join('')}
+${p.markerHtml}${p.checkHtml}`,
   };
 };
 
