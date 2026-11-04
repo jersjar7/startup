@@ -159,7 +159,7 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
                   onSettled: (id, value) {
                     final before = _shown[id] ?? 0;
                     setState(() => _shown[id] = value);
-                    askAfterFirstLesson(
+                    askAfterLessonCleared(
                       context,
                       widget.chapter,
                       id,
@@ -177,10 +177,12 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
   }
 }
 
-/// Moment 2 of the reminders invitation (reminders-ask SPEC): the first time
-/// a lesson is fully cleared, once its ring has filled and the road after it
-/// has opened, and 400 ms more.
-void askAfterFirstLesson(
+/// Moment 2 of the reminders invitation (reminders-ask SPEC): when a lesson
+/// is fully cleared, once its ring has filled and the road after it has
+/// opened, and 400 ms more. Any lesson, not only a student's first: someone
+/// updating with lessons already behind them would otherwise never be asked.
+/// [mayAskFor] still allows it once at most.
+void askAfterLessonCleared(
   BuildContext context,
   ChapterMap chapter,
   String lessonId,
@@ -192,24 +194,11 @@ void askAfterFirstLesson(
   if (lesson == null) return;
   final progress = GameProgress.instance;
   if (progress.stateOf(lesson) != LessonState.cleared) return;
-  if (clearedLessonCount() != 1) return;
   final delay = lessonAskDelay(context);
   Future<void>.delayed(delay, () {
     if (!context.mounted) return;
     offerReminders(context, moment: AskMoment.lesson, lessonName: lesson.name);
   });
-}
-
-/// Lessons fully cleared, in every chapter.
-int clearedLessonCount() {
-  final progress = GameProgress.instance;
-  var n = 0;
-  for (final chapter in chapterMaps.values) {
-    for (final lesson in chapter.lessons) {
-      if (progress.stateOf(lesson) == LessonState.cleared) n++;
-    }
-  }
-  return n;
 }
 
 class _Header extends StatelessWidget {
@@ -1712,7 +1701,7 @@ class ChapterPathPaneState extends State<ChapterPathPane> {
                 onSettled: (id, value) {
                   final before = _shown[id] ?? 0;
                   setState(() => _shown[id] = value);
-                  askAfterFirstLesson(
+                  askAfterLessonCleared(
                     context,
                     widget.chapter,
                     id,

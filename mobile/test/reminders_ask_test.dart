@@ -649,7 +649,7 @@ void main() {
     });
   });
 
-  group('moment 2: the first lesson cleared', () {
+  group('moment 2: a lesson cleared', () {
     final chapter = chapterMaps['mathematics']!;
     final first = chapter.lessons.firstWhere((l) => l.playable);
     final second = chapter.lessons.where((l) => l.playable).elementAt(1);
@@ -678,9 +678,8 @@ void main() {
 
     testWidgets('after the road has opened, over the map (A3)', (tester) async {
       clear(first);
-      expect(clearedLessonCount(), 1);
       final context = await map(tester);
-      askAfterFirstLesson(context, chapter, first.id, 0.67, 1);
+      askAfterLessonCleared(context, chapter, first.id, 0.67, 1);
       await tester.pump(wait - const Duration(milliseconds: 50));
       expect(_m2Title, findsNothing);
       await tester.pump(const Duration(milliseconds: 60));
@@ -696,20 +695,22 @@ void main() {
       );
     });
 
-    testWidgets('not for a second lesson, nor a ring already full', (
+    testWidgets('a later lesson asks too: updaters have cleared some', (
       tester,
     ) async {
       clear(first);
       clear(second);
       final context = await map(tester);
-      askAfterFirstLesson(context, chapter, second.id, 0.5, 1);
+      askAfterLessonCleared(context, chapter, second.id, 0.5, 1);
       await tester.pump(wait);
       await _settle(tester);
-      expect(_m2Title, findsNothing);
+      expect(_m2Title, findsOneWidget);
+    });
 
-      GameProgress.instance.clearAll();
+    testWidgets('not for a ring that was already full', (tester) async {
       clear(first);
-      askAfterFirstLesson(context, chapter, first.id, 1, 1);
+      final context = await map(tester);
+      askAfterLessonCleared(context, chapter, first.id, 1, 1);
       await tester.pump(wait);
       await _settle(tester);
       expect(_m2Title, findsNothing);
