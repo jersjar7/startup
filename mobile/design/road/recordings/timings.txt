@@ -1,33 +1,56 @@
-The finishing moment, measured from these recordings (30 fps frames,
-ffmpeg). t0 is the next platform starting to rise, fitted to its measured
-face width against the rise curve; every time below is from t0, in ms.
-Fill and line are eased in and start under the platform lip, so they are
-measured at their visible half way point (spec: fill 150-1200 -> 675,
-line 400-1200 -> 800), give or take a frame.
+The finishing moment (owner, 2026-11-03: the pin walks the whole way).
 
-                       spec   phone day  phone night  tablet landscape
-rise starts               0           0            0                 0
-fill half way           675         588          663               618
-line half way           800         761          768               769
-pulse first glow       1200        1164         1176              1210
-bounce starts          1800        1789         1793              1822
-bounce peak           1.05x       1.048        1.047     about 1.05 (2 px rounding)
-settled                2100        2089         2093              2122
-spring tile on the
-newly reached lesson  1800-2100   first seen 1830, full 1997 (day);
-                                  1943 / 2010 (night, faint at first on
-                                  the dark ground); 1844 / 2044 (tablet)
+Timeline, in ms from the next platform starting to rise:
 
-The tile starts growing at 1800 with the bounce and eases out over 300 ms;
-it stays on the finished lesson until then.
+  rise                       0 - 300
+  fill                     150 - 1200
+  line                     400 - 1200
+  pin walk                1200 - 2100   old road, up the step, through the
+                                        face centre, down, new road to rest;
+                                        glow under the pin fades in and out
+                                        over 150 ms at each end
+  bounce + spring tile    2100 - 2400   tile moves to the new lesson as the
+                                        pin arrives
+  total                   2400
 
-Reduce Motion (phone): the finished platform's face fades in 180 ms
-(6.03 to 6.20 s in the raw take), then the road, pin and tile change in
-one cross-fade (6.23 to 6.40 s, about 180 ms). No pulse, bounce, rise or
-ring sweep.
+The real step up and down is the platform's height over the road slab:
+6 pt on the phone, 7 pt on the tablet.
 
-phone-*: iPhone 17e simulator (390 pt wide), debug build, below the
-status bar. tablet-landscape: iPad Air 11-inch simulator drawn a quarter
-turn round (lib/dev/road_moment.dart, TURN) and turned back, cropped to the
-path pane. Each clip runs from just before the last round is played until
-the next platform settles.
+Checked two ways.
+
+1. The app's own numbers, every drawn frame (lib/dev/road_moment.dart with
+   LOG=true, design/road/pin_trace_check.py). Second walk of each run:
+
+                        phone day  phone night  tablet
+   frames                    54         54        54
+   off the path, max      0.000      0.000     0.000 pt
+   glow off anchor, max   0.000      0.000     0.000 pt
+   step max / median  5.15/3.91  5.15/3.91  7.40/5.61 pt
+   ratio                  1.316      1.316     1.318
+   face centre to path    0.000      0.000     0.000 pt
+
+   The first walk after launch drops a frame in the debug simulator (38 to
+   50 ms gap), which makes its raw ratio 3.04 (day) and 2.87 (night); per
+   1/60 s it is 1.37 and 1.32. The strict 60 fps widget test in
+   test/road_path_test.dart holds the ratio under 1.5 on both sizes.
+
+2. From the pictures alone (design/road/coin_trace.py: the coin found by
+   image matching in every frame at 60 a second, its bottom point traced):
+
+                        phone day  phone night  tablet
+   walk                  54 frames  54 frames  54 frames (900 ms)
+   step max / median   15.4/11.8  15.4/11.8  14.8/11.2 px
+   ratio                   1.31       1.31      1.33
+
+   trace-*.png: every frame's coin bottom over the last frame.
+   strip-*.jpg: every 2nd frame of the walk.
+
+Reduce Motion (phone): no walk. The finished platform's face fades in,
+then road, pin, glow-free rest spot and tile change in one 180 ms
+cross-fade (about 1.57 to 1.73 s into the clip).
+
+phone-*: iPhone 17e simulator (390 pt wide), debug build. tablet-landscape:
+iPad Air 11-inch simulator drawn a quarter turn round
+(lib/dev/road_moment.dart, TURN) and turned back, cropped to the path
+pane. Each clip runs from before the last round until after the pin
+settles.
