@@ -84,9 +84,18 @@ class GameProgress extends ChangeNotifier {
   /// Somewhere between untouched and finished.
   bool isStarted(String gameId) => roundsCleared(gameId).isNotEmpty;
 
-  void markRoundCleared(String gameId, int round, {required bool firstTry}) {
+  /// A [daily] round counts on the map like any other, but it does not move
+  /// the student's place: the Daily is the puzzle everyone shares, not the
+  /// chapter they are working through, and taking it for one sent Study and
+  /// Profile's Carry on to whichever chapter the day's puzzle came from.
+  void markRoundCleared(
+    String gameId,
+    int round, {
+    required bool firstTry,
+    bool daily = false,
+  }) {
     final set = _rounds.putIfAbsent(gameId, () => <int>{});
-    _lastGame = gameId;
+    if (!daily) _lastGame = gameId;
     if (set.add(round)) {
       if (firstTry) _firstTry[gameId] = (_firstTry[gameId] ?? 0) + 1;
     }

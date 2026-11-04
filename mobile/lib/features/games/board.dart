@@ -154,6 +154,7 @@ class BoardSession extends ChangeNotifier {
           gameId,
           r,
           firstTry: !_seen.contains(r),
+          daily: isDaily,
         ),
       );
     } else {

@@ -57,4 +57,32 @@ void main() {
     expect(GameProgress.instance.stateOf(b), LessonState.cleared);
     expect(GameProgress.instance.currentLessonIn(chapter), a.id);
   });
+
+  // The Daily is the puzzle everyone shares: its round counts on the map,
+  // but the student's place stays in the chapter they are working through.
+  test('a Daily round does not move the student\'s place', () {
+    GameProgress.instance.markRoundCleared(
+      a.builtGames[0].id,
+      1,
+      firstTry: true,
+    );
+    final other = chapterMaps.values.firstWhere(
+      (c) =>
+          c.id != chapter.id && c.lessons.any((l) => l.builtGames.isNotEmpty),
+    );
+    final daily = other.lessons
+        .firstWhere((l) => l.builtGames.isNotEmpty)
+        .builtGames
+        .first;
+    addTearDown(() => GameProgress.instance.reset(daily.id));
+    GameProgress.instance.markRoundCleared(
+      daily.id,
+      0,
+      firstTry: true,
+      daily: true,
+    );
+    expect(GameProgress.instance.isStarted(daily.id), isTrue);
+    expect(GameProgress.instance.lastChapter?.id, chapter.id);
+    expect(GameProgress.instance.currentLessonIn(chapter), a.id);
+  });
 }
