@@ -270,6 +270,17 @@ void main() {
   });
 
   group('the turn-over', () {
+    // The whole platform's scale: the Transform around the painter.
+    double scale(WidgetTester tester) => tester
+        .widget<Transform>(
+          find.descendant(
+            of: find.byType(LessonNodeWidget),
+            matching: find.byType(Transform),
+          ),
+        )
+        .transform
+        .entry(0, 0);
+
     PlatformPainter painter(WidgetTester tester) =>
         tester
                 .widget<CustomPaint>(
@@ -319,7 +330,7 @@ void main() {
         await tester.pump(const Duration(milliseconds: 1000 ~/ 60));
       }
       await tester.pumpAndSettle();
-      expect(painter(tester).pop, 1);
+      expect(scale(tester), closeTo(1, 1e-9));
     });
 
     testWidgets('the pop rises above full size during the turn', (
@@ -329,7 +340,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 1430));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 150));
-      expect(painter(tester).pop, greaterThan(1.05));
+      expect(scale(tester), greaterThan(1.05));
     });
 
     testWidgets('under Reduce Motion: no sweep, a 180 ms fade to finished', (
@@ -344,12 +355,12 @@ void main() {
       expect(p.previous?.face, NodeSkin.of(NodeState.inProgress).face);
       expect(p.previousFraction, closeTo(2 / 3, 1e-9));
       await tester.pump(const Duration(milliseconds: 90));
-      expect(painter(tester).fade, closeTo(0.5, 0.1));
+      expect(painter(tester).fade, closeTo(Curves.easeOut.transform(0.5), 0.1));
       expect(settled, isNull);
       await tester.pump(const Duration(milliseconds: 100));
       expect(settled, 1.0);
       expect(painter(tester).previous, isNull);
-      expect(painter(tester).pop, 1, reason: 'nothing pops');
+      expect(scale(tester), closeTo(1, 1e-9), reason: 'nothing pops');
     });
   });
 }
