@@ -217,7 +217,7 @@ const closeUp = () => {
     return { x: at.x + side * ax * o, y: at.y + side * ay * o };
   };
   const top = scr(q, HR);
-  const near = scr(edge(size.width / 2 - 0.3, curve.at(0.64)), HR);
+  const near = scr(edge(size.width / 2 - 1, curve.at(0.64)), HR);
   const wall = scr(edge(size.width / 2), HR / 2 - 1);
   const shadow = scr(edge(size.width / 2 + 4), -size.shadowY);
   const surf = scr(edge(-5, curve.at(0.36)), HR);
@@ -235,7 +235,7 @@ ${abs(48, 40, 1300, null, `${eyebrow('One segment · phone sizes at 4x', C.muted
 ${abs(48, 140, 880, 600, scene(1, false, 4, view, leads))}
 ${abs(970, 150, 382, null, `<div style="position:relative;height:520px;">
 ${callout(1, 0, 0, '<b>Top.</b> Charcoal, 20 wide on the ground, like a finished platform&rsquo;s face.')}
-${callout(2, 0, 72, '<b>Edge.</b> A tile2 hairline only, so the top reads as one plane.')}
+${callout(2, 0, 72, '<b>Rim.</b> tile2, 2 wide on both edges of the top: a lit edge, never a second surface.')}
 ${callout(3, 0, 120, '<b>Centre line.</b> Cream, 2 wide, 7 on and 9 off.')}
 ${callout(4, 0, 168, '<b>Side wall.</b> Plinth tan, 8 tall, under the near edge. The platforms are 14, so they stand taller.')}
 ${callout(5, 0, 266, '<b>Shadow.</b> pipOff on the ground, blurred, under the wall.')}
@@ -243,7 +243,7 @@ ${callout(6, 0, 316, '<b>Joint.</b> The road ends at the platform&rsquo;s side, 
 </div>`)}
 ${abs(48, 790, 520, null, `${scene(1, false, 13, JV, jl)}<div style="margin-top:12px;font-family:${F.mono};font-size:12px;font-weight:600;">The joint, close up</div><div style="font-size:13px;color:${C.muted};line-height:1.5;margin-top:4px;">6 the lip where the road meets the platform. 7 the platform&rsquo;s side, standing above the road.</div>`)}
 ${abs(620, 790, 340, null, `${scene(0, false, 1.5)}<div style="margin-top:12px;font-family:${F.mono};font-size:12px;font-weight:600;">Not walked yet, day</div><div style="font-size:13px;color:${C.muted};line-height:1.5;margin-top:4px;">creamDark top, cream rim, plinth tan wall, half the shadow. No line.</div>`)}
-${abs(1000, 790, 340, null, `${scene(1, true, 1.5)}<div style="margin-top:12px;font-family:${F.mono};font-size:12px;font-weight:600;">Walked, night</div><div style="font-size:13px;color:${C.muted};line-height:1.5;margin-top:4px;">tile2 top, night plinth wall, night ink line.</div>`)}
+${abs(1000, 790, 340, null, `${scene(1, true, 1.5)}<div style="margin-top:12px;font-family:${F.mono};font-size:12px;font-weight:600;">Walked, night</div><div style="font-size:13px;color:${C.muted};line-height:1.5;margin-top:4px;">tile top, lineOnDark rim, night plinth wall, night ink line.</div>`)}
 `;
 };
 out['R06-segment-closeup'] = page('Road, one segment', 1400, 1240, closeUp());

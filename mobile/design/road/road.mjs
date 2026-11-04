@@ -16,7 +16,7 @@
 // is cream on tan.
 export const roadDay = {
   roadOn: '#2C2C2C', // charcoal: the walked top
-  roadEdge: '#47453F', // tile2: a hairline along the walked top's edges
+  roadEdge: '#47453F', // tile2: the lit rim along both edges of the walked top
   roadWall: '#CDBFA8', // plinth: the walked side wall
   roadLine: '#FFF9F0', // cream: the dashed centre line
   roadOff: '#F5EDE0', // creamDark: the top of the road not walked yet
@@ -26,8 +26,8 @@ export const roadDay = {
   roadPulse: '#63F0A8', // spring: the pulse that runs ahead
 };
 export const roadNight = {
-  roadOn: '#403C36', // tile2 (night): the walked top, lighter than the ground
-  roadEdge: '#4A463F', // lineOnDark (night): its hairline
+  roadOn: '#34312C', // tile (night): the walked top, lighter than the ground
+  roadEdge: '#4A463F', // lineOnDark (night): its lit rim
   roadWall: '#5A544C', // plinth (night): the side wall, as under a node
   roadLine: '#F2ECE2', // the night ink (the charcoal role at night)
   roadOff: '#272522', // cream (night): the untouched node's face
@@ -41,8 +41,8 @@ export const roadNight = {
 // node: platform height (its plinth), road: slab height. The road is a
 // little over half the platform's height, so the nodes stand taller.
 export const roadSize = {
-  phone: { width: 20, rim: 2, hair: 0.6, line: 2, dash: 7, gap: 9, node: 14, road: 8, blur: 3, shadowY: 4 },
-  tablet: { width: 24, rim: 2, hair: 0.6, line: 2.5, dash: 9, gap: 10, node: 16, road: 9, blur: 3.5, shadowY: 5 },
+  phone: { width: 20, rim: 2, line: 2, dash: 7, gap: 9, node: 14, road: 8, blur: 3, shadowY: 4 },
+  tablet: { width: 24, rim: 2, line: 2.5, dash: 9, gap: 10, node: 16, road: 9, blur: 3.5, shadowY: 5 },
 };
 export const K = 0.5; // ground depth on screen: a tilt of about 30 degrees
 
@@ -175,10 +175,10 @@ export function isoPath({
       s += layer(size.shadowY, band(col.roadShadow, w, `filter="url(#${id}b)" ${cut}`), 'g');
       s += layer(0, band(col.roadWall, w, cut), 'g') + layer(-HR / 2, band(col.roadWall, w, cut), 'h');
     }
-    // Top: the pale road with its lit rim, then the walked top with only a
-    // hairline edge, then the centre line.
+    // Top: the pale road with its lit rim, then the walked top with its own
+    // lit rim of the same width, then the centre line.
     let top = band(col.roadOffEdge, w) + band(col.roadOff, w - 2 * size.rim);
-    if (cut) top += band(col.roadEdge, w, cut) + band(col.roadOn, w - 2 * size.hair, cut);
+    if (cut) top += band(col.roadEdge, w, cut) + band(col.roadOn, w - 2 * size.rim, cut);
     // The centre line is revealed up to `line`, never ahead of the fill.
     let dashes = '';
     if (line > 0) {
@@ -227,9 +227,13 @@ export function isoPath({
     const kind = placed[i].state === 'done' ? 'walked' : 'pale';
     pts.push([`seg${i}-leave-${kind}`, scr(c.at(0), HR)], [`seg${i}-arrive-${kind}`, scr(c.at(1), HR)], [`seg${i}-middle-${kind}`, scr(c.at(0.5), HR)]);
   });
-  if (markerPt) pts.push(['marker', markerPt]);
-  const checkHtml = pts.map(([n, q]) => `<i data-check="${n}" style="position:absolute;left:${q.x.toFixed(2)}px;top:${q.y.toFixed(2)}px;width:0;height:0;"></i>`).join('')
-    + `<script>window.addEventListener('load',()=>{if(window.__c)return;window.__c=1;const o=[];document.querySelectorAll('[data-check]').forEach(e=>{const b=e.getBoundingClientRect();o.push([e.dataset.check,b.left,b.top]);});const p=document.createElement('pre');p.id='checks';p.style.display='none';p.textContent=JSON.stringify(o);document.body.appendChild(p);});</script>`;
+  if (markerPt) {
+    // The road's screen direction at the marker, for the dash-line check.
+    const a = markerAt.seg != null ? curves[markerAt.seg].at(markerAt.f).angle : null;
+    pts.push(['marker', markerPt, a == null ? '' : Math.atan2(Math.sin(a) * K, Math.cos(a)).toFixed(5)]);
+  }
+  const checkHtml = pts.map(([n, q, a = '']) => `<i data-check="${n}" data-a="${a}" style="position:absolute;left:${q.x.toFixed(2)}px;top:${q.y.toFixed(2)}px;width:0;height:0;"></i>`).join('')
+    + `<script>window.addEventListener('load',()=>{if(window.__c)return;window.__c=1;const o=[];document.querySelectorAll('[data-check]').forEach(e=>{const b=e.getBoundingClientRect();o.push([e.dataset.check,b.left,b.top,e.dataset.a]);});const p=document.createElement('pre');p.id='checks';p.style.display='none';p.textContent=JSON.stringify(o);document.body.appendChild(p);});</script>`;
   return { height, placed, sections, curves, obstacles, svg, markerHtml, markerPt, scr, HR, checkHtml };
 }
 

@@ -187,8 +187,8 @@ Mockups: `T02p-chapter-map-portrait` (medium), and the right pane of
   flat in DM Sans 16 on two lines at most. Labels start 28 from the
   platform and move only as far as they must to clear the road and the
   marker. The road is 24 wide on a tablet (20 on a phone): a slab 9 tall,
-  charcoal on top with a plinth tan side and a cream centre line behind the
-  student, pale ahead. The weave was 150;
+  charcoal on top with a thin lighter rim on both edges, a plinth tan side
+  and a cream centre line behind the student, pale ahead. The weave was 150;
   with a road this wide, a 150 weave runs the road nearly flat through the
   labels, so it is 110 (`PathMetrics.ampFor` should cap at 110).
   Only the lesson in flight gets a label tile, in spring.

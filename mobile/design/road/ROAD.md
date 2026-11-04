@@ -54,8 +54,9 @@ The platforms and the road are built from the same parts, so the road reads
 as part of the same small model. Each slab is a top, a side wall under its
 near edge, and a soft shadow on the ground.
 
-**Walked road (owner correction, 2026-11-03).** Built exactly like the pale
-road, only darker on top:
+**Walked road (owner corrections, 2026-11-03).** Built exactly like the
+pale road, only darker on top: a top surface, a thin lighter rim on both of
+its edges, a tan side wall under the near edge, and the shadow.
 
 1. **Shadow.** pipOff on the ground, 4 below the road (5 on the tablet),
    blurred 3.
@@ -63,9 +64,10 @@ road, only darker on top:
    It is the road's full band moved down by the slab height, so it shows
    only under the edge facing the viewer, and it is shorter than a platform's
    side.
-3. **Top.** Charcoal, like a finished platform's face.
-4. **Edge.** A tile2 hairline (0.6) along both edges of the top, in place of
-   the old lit rim, so the top reads as one plane over a tan side.
+3. **Rim.** tile2, **2 wide on both edges** of the top, the same width as
+   the pale road's rim. It is a lit edge on the charcoal, a step lighter, and
+   at 2 of 20 it never reads as a second surface.
+4. **Top.** Charcoal, like a finished platform's face, between the rims.
 5. **Centre line.** Cream, 2 wide (2.5 on tablet), 7 on and 9 off (9 and 10
    on tablet), round ends.
 
@@ -75,8 +77,8 @@ centre line.
 
 | Role | Day | Night |
 |---|---|---|
-| Walked top | charcoal #2C2C2C | tile2 #403C36 |
-| Walked edge (hairline) | tile2 #47453F | lineOnDark #4A463F |
+| Walked top | charcoal #2C2C2C | tile #34312C |
+| Walked rim | tile2 #47453F | lineOnDark #4A463F |
 | Walked wall | plinth #CDBFA8 | plinth #5A544C |
 | Centre line | cream #FFF9F0 | night ink #F2ECE2 |
 | Road ahead, top | creamDark #F5EDE0 | cream #272522 |
@@ -86,9 +88,11 @@ centre line.
 | Pulse | spring | spring |
 
 At night the charcoal role turns light, and a light road would be the loudest
-thing on the screen, so the walked top uses the night tile2: lighter than the
-ground, darker than a finished platform's face. Its wall is the night plinth,
-the same as under every platform, so the side reads the same way as by day.
+thing on the screen, so the walked top uses the night tile: lighter than the
+ground and than the road ahead. Its rim is the night lineOnDark, a step
+lighter again, the same relation as tile2 on charcoal by day. Its wall is
+the night plinth, the same as under every platform, so the three steps (top,
+rim, wall) read the same way as by day.
 
 ## Where the road meets a platform
 
@@ -129,11 +133,17 @@ circle. A narrow window still shrinks the label, never the gap.
 The marker is the brand's raccoon peek on a small charcoal coin, 32 on the
 phone and 36 on the tablet, with a 3 fog ring that lifts it off the road.
 
-- **Its centre is the road's centre line on the road's top.** Dart takes
-  the point at the marker's fraction along the curve (by arc length), on the
-  ground, projects it and raises it by the slab height. That is the same
-  point the centre-line dashes pass through. It is never offset sideways or
-  lifted to clear something; the labels move instead.
+- **Its centre sits on the dashed centre line of the road's top**, measured
+  square to the road's direction at that point, not along a horizontal row.
+  The dashed line, carried on through the pin, passes through the pin's
+  centre on both sides. Dart takes the point at the marker's fraction along
+  the curve (by arc length), on the ground, projects it and raises it by the
+  slab height: the same point the dashes are drawn through. It is never
+  offset sideways or lifted to clear something; the labels move instead.
+- **Why it can look off when it is not.** The pin (32) is wider than the
+  road's top, so it also covers the tan wall under the near edge. Centred on
+  the top, it overhangs the wall side more than the far side. Centring it on
+  the top plus the wall would put it off the dashes, so the dashes win.
 - **At rest** it sits 72% of the way into the lesson the student goes to
   next on the phone, and 55% on the tablet.
 - **On the first platform,** where no road arrives, it sits at the centre of
@@ -198,9 +208,11 @@ Rive draws only the platforms.**
   trimmed path stroked at road width, drawn through one projection
   (`canvas.translate(0, -height); canvas.scale(1, 0.5)`), bottom to top:
   shadow (ground, blurred), wall (two bands, at the ground and at half
-  height), top (hairline band, then the surface), dashes, lip. The walked
+  height), top (rim band, then the surface), dashes, lip. The walked
   layers are drawn over the pale ones on `PathMetric.extractPath(0, length *
-  fill)`, so the wall turns with the fill. The pulse and the marker use
+  fill)`, so the wall turns with the fill. The rim is the top band at full
+  width in the rim colour, with the surface band 4 narrower over it, for
+  walked and pale road alike. The pulse and the marker use
   `getTangentForOffset(length * f)`, projected and raised by the slab
   height. Colours come from `AppColors`, so night needs no extra work.
 - **The joint cuts.** Each layer is clipped with the platform's ellipse at
@@ -258,11 +270,18 @@ goldens.
 joint (each segment leaving and arriving), the middle of every segment, and
 every marker, in day and night, from R01 to R05 and T01/T01n, at 3x into
 `road/png/checks/`. Small ember ticks on the crop edges mark the exact
-centre-line point. The pages write those points on load (`checkHtml` in
-`road.mjs`), so the crops follow the drawing.
+centre-line point. The pages write those points, and the road's direction
+at the marker, on load (`checkHtml` in `road.mjs`), so the crops follow the
+drawing.
 
-Measured on 2026-11-03 with the marker hidden: the road's width across the
-marker's row is centred on the marker to within 0.9 px on R02, R04, T01,
-T01n and five of the six storyboard frames. In frame 4 the pulse glow sits
-under the marker and spoils the measurement; it was checked by eye on its
-crop.
+For each marker on a road the script also shoots the page with the pin
+hidden, finds the dashes on both sides of the pin's spot, fits a curve
+through them along the road and draws it as a thin ember line on two crops:
+`<name>-marker.png` (with the pin) and `<name>-marker-pin-hidden.png` (the
+bare road, with the pin's outline and centre drawn on). It prints the
+distance from the dash line to the pin's centre, square to the road.
+
+Measured on 2026-11-03: under 0.1 px on R02, R04, every storyboard frame,
+T01 and T01n, with dashes found on both sides of the pin in every case but
+storyboard frame 4, where the pin sits where the road leaves the platform
+and there is no road behind it yet.
