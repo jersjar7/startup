@@ -79,7 +79,7 @@ const PH = { r: 42, amp: 70, row: 120, labelW: 156, labelGap: 28, edge: 12, name
 const pathHtml = (nodes, width, m, opts = {}) => {
   const p = isoPath({ nodes, width, r: m.r, size: roadSize.phone, col: C, row: m.row, amp: m.amp, peek: PEEK, ...opts });
   const obstacles = [...p.obstacles];
-  if (p.markerPt) for (let a = 0; a < 6.28; a += 0.5) obstacles.push({ x: p.markerPt.x + 20 * Math.cos(a), y: p.markerPt.y + 20 * Math.sin(a) });
+  obstacles.push(...p.markerObstacles);
   const label = (n) => {
     const right = n.x <= width / 2;
     const now = n.state === 'now';

@@ -98,7 +98,7 @@ def points(folder, name, w, h):
     return json.loads(html.unescape(m.group(1))) if m else []
 
 
-def crop(img, x, y, half, out, fit=None, ang=None):
+def crop(img, x, y, half, out, curve=None, cross=False, dot=None):
     box = [round((x - half) * 2), round((y - half) * 2), round((x + half) * 2), round((y + half) * 2)]
     c = img.crop(box).resize((half * 6, half * 6), Image.LANCZOS)
     d = ImageDraw.Draw(c)
@@ -106,17 +106,33 @@ def crop(img, x, y, half, out, fit=None, ang=None):
     for a, b in (((cx, 0), (cx, 14)), ((cx, half * 6 - 14), (cx, half * 6)),
                  ((0, cy), (14, cy)), ((half * 6 - 14, cy), (half * 6, cy))):
         d.line([a, b], fill=TICK, width=3)
-    if fit is not None:
-        # The fitted dash line, from 2x image pixels to this 3x crop (x1.5).
-        c0, c1, c2 = fit[:3]
-        tx, ty = math.cos(ang), math.sin(ang)
-        line = []
-        for k in range(-half * 2 - 20, half * 2 + 21, 2):
-            u = float(k); v = c0 + c1 * u + c2 * u * u
-            line.append((cx + 1.5 * (u * tx - v * ty), cy + 1.5 * (u * ty + v * tx)))
-        d.line(line, fill=TICK, width=2)
+    if curve:
+        # The true centre curve of the road's top, from the page's own maths.
+        d.line([(cx + 3 * u, cy + 3 * v) for u, v in curve], fill=TICK, width=2)
+    if cross:
+        d.line([cx - 9, cy, cx + 9, cy], fill=TICK, width=2)
+        d.line([cx, cy - 9, cx, cy + 9], fill=TICK, width=2)
+    if dot is not None:
+        # The coin's bottom point, where the page actually drew it.
+        bx, by = cx + 3 * (dot[0] - x), cy + 3 * (dot[1] - y)
+        d.ellipse([bx - 5, by - 5, bx + 5, by + 5], fill=TICK, outline='#FFFFFF', width=1)
     c.save(os.path.join(OUT, out + '.png'))
     return out + '.png'
+
+
+def nearest(curve):
+    """Distance from the contact point (0, 0) to the curve, and the curve's
+    screen direction there."""
+    best = None
+    for k in range(len(curve) - 1):
+        (ax, ay), (bx, by) = curve[k], curve[k + 1]
+        dx, dy = bx - ax, by - ay
+        L = dx * dx + dy * dy or 1e-9
+        t = max(0, min(1, -(ax * dx + ay * dy) / L))
+        dist = math.hypot(ax + t * dx, ay + t * dy)
+        if best is None or dist < best[0]:
+            best = (dist, math.atan2(dy, dx))
+    return best
 
 
 made, report = [], []
@@ -125,25 +141,31 @@ for folder, name, w, h, mode in PAGES:
     short = name.split('-')[0]
     seen = {}
     bare = without_pin(folder, name, w, h)
-    for label, x, y, a in points(folder, name, w, h):
+    pts = points(folder, name, w, h)
+    bottoms = [(bx, by) for lab, bx, by, _ in pts if lab == 'coin-bottom']
+    shadows = [(bx, by) for lab, bx, by, _ in pts if lab == 'shadow-centre']
+    for label, x, y, a in pts:
+        if label in ('coin-bottom', 'shadow-centre'):
+            continue
         if label == 'marker':
+            bottom = min(bottoms, key=lambda b: math.hypot(b[0] - x, b[1] - y)) if bottoms else None
             n = seen.get('marker', 0); seen['marker'] = n + 1
             out = f'{short}-{mode}-marker' + (f'-frame{n + 1}' if short == 'R05' else '')
-            fit = dash_fit(bare, x, y, float(a), mode) if a else None
-            made.append(crop(img, x, y, 48, out, fit, float(a) if a else None))
-            if fit:
-                # The same spot with the pin hidden: the pin's outline and
-                # centre over the bare road, so the dash line under it shows.
-                made.append(crop(bare, x, y, 48, out + '-pin-hidden', fit, float(a)))
-                rad = (18 if short.startswith('T') else 16) * 3
-                im = Image.open(os.path.join(OUT, out + '-pin-hidden.png'))
-                dd = ImageDraw.Draw(im); m = 48 * 3
-                dd.ellipse([m - rad, m - rad, m + rad, m + rad], outline=TICK, width=2)
-                dd.line([m - 7, m, m + 7, m], fill=TICK, width=2); dd.line([m, m - 7, m, m + 7], fill=TICK, width=2)
-                im.save(os.path.join(OUT, out + '-pin-hidden.png'))
-                report.append(f'{out}: pin centre is {fit[0] / 2:+.2f} px from the dash line, square to the road ({fit[3]} dash px behind it, {fit[4]} ahead)')
+            curve = [tuple(map(float, q.split(','))) for q in a.split()] if a else None
+            made.append(crop(img, x, y, 48, out, curve, dot=bottom))
+            gap = math.hypot(bottom[0] - x, bottom[1] - y) if bottom else float('nan')
+            sh = min(shadows, key=lambda b: math.hypot(b[0] - x, b[1] - y)) if shadows else None
+            sgap = math.hypot(sh[0] - x, sh[1] - y) if sh else float('nan')
+            if curve:
+                # The same spot with the pin hidden: the curve over the bare
+                # dashes, with the contact point marked.
+                made.append(crop(bare, x, y, 48, out + '-pin-hidden', curve, cross=True))
+                dist, ang = nearest(curve)
+                fit = dash_fit(bare, x, y, ang, mode)
+                dash = f'drawn dashes {fit[0] / 2:+.2f} px from the curve there ({fit[3]} dash px behind, {fit[4]} ahead)' if fit else 'no dashes to fit'
+                report.append(f'{out}: coin bottom {gap:.2f} px and shadow centre {sgap:.2f} px from the anchor, anchor {dist:.2f} px from the true centre curve; {dash}')
             else:
-                report.append(f'{out}: ' + ('first platform, no road through it' if not a else 'too few dash pixels to fit'))
+                report.append(f'{out}: first platform, coin bottom {gap:.2f} px and shadow centre {sgap:.2f} px from the face centre')
             continue
         if short == 'R05':
             continue

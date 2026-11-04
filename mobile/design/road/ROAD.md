@@ -128,29 +128,39 @@ road, the platform and the marker. It checks a set of points: the road's top
 edges and foot along each curve, the platform's outline and the marker's
 circle. A narrow window still shrinks the label, never the gap.
 
-## The marker on the centre line (owner correction, 2026-11-03)
+## The marker stands on the centre line (owner, 2026-11-03)
 
 The marker is the brand's raccoon peek on a small charcoal coin, 32 on the
-phone and 36 on the tablet, with a 3 fog ring that lifts it off the road.
+phone and 36 on the tablet, with a 3 fog ring. Its size and look are
+unchanged. No stem.
 
-- **Its centre sits on the dashed centre line of the road's top**, measured
-  square to the road's direction at that point, not along a horizontal row.
-  The dashed line, carried on through the pin, passes through the pin's
-  centre on both sides. Dart takes the point at the marker's fraction along
-  the curve (by arc length), on the ground, projects it and raises it by the
-  slab height: the same point the dashes are drawn through. It is never
-  offset sideways or lifted to clear something; the labels move instead.
-- **Why it can look off when it is not.** The pin (32) is wider than the
-  road's top, so it also covers the tan wall under the near edge. Centred on
-  the top, it overhangs the wall side more than the far side. Centring it on
-  the top plus the wall would put it off the dashes, so the dashes win.
-- **At rest** it sits 72% of the way into the lesson the student goes to
-  next on the phone, and 55% on the tablet.
-- **On the first platform,** where no road arrives, it sits at the centre of
-  the platform's face, which is where the centre line starts.
-- **During the moment** it follows just behind the pulse (at 0.8 of the
-  pulse, minus 0.08) and parks at 72% of the new segment. Every frame uses
-  the same centre-line point.
+- **The anchor is the coin's bottom centre**, the lowest point of its outer
+  ring, not its centre. That point sits exactly on the road's dashed centre
+  curve. Dart takes the point at the marker's fraction along the curve (by
+  arc length) on the ground, projects it and raises it by the slab height;
+  that is the anchor. The coin's centre is the anchor moved straight up by
+  the radius plus the ring (19 on the phone, 21 on the tablet). So the coin
+  stands on the road the way a marker stands in an isometric scene, instead
+  of lying over it.
+- **On a platform** (the first lesson, before any road) the anchor is the
+  centre of the platform's top face.
+- **Contact shadow.** A soft ellipse lies flat on the road's top, in the
+  same projection, centred on the anchor and drawn under the coin: a ground
+  circle the width of the road's top plus 2 (18 on the phone, 22 on the
+  tablet) squashed to half height, black at 38%, blurred 1.2. It is subtle
+  on the walked charcoal and clearer on pale road and platform faces. It
+  moves with the coin.
+- **At rest** the anchor sits 72% of the way into the lesson the student
+  goes to next on the phone, and 55% on the tablet.
+- **During the moment** the anchor follows just behind the pulse (at 0.8 of
+  the pulse, minus 0.08) and parks at 72% of the new segment. Coin and
+  shadow move together, and every frame uses the same rule.
+- **Labels** clear the coin where it now stands, above the road.
+
+In Flutter: the marker is a widget positioned by its bottom centre
+(`Positioned` at the anchor with a `FractionalTranslation(-0.5, -1)` on the
+coin and its ring), with the shadow painted by `RoadPainter` at the same
+anchor so it sits on the road's layer.
 
 If the owner drops the marker, nothing else changes, because the pulse
 already carries the motion.
@@ -270,18 +280,19 @@ goldens.
 joint (each segment leaving and arriving), the middle of every segment, and
 every marker, in day and night, from R01 to R05 and T01/T01n, at 3x into
 `road/png/checks/`. Small ember ticks on the crop edges mark the exact
-centre-line point. The pages write those points, and the road's direction
-at the marker, on load (`checkHtml` in `road.mjs`), so the crops follow the
-drawing.
+point. The pages write their points on load (`checkHtml` in `road.mjs`), so
+the crops follow the drawing.
 
-For each marker on a road the script also shoots the page with the pin
-hidden, finds the dashes on both sides of the pin's spot, fits a curve
-through them along the road and draws it as a thin ember line on two crops:
-`<name>-marker.png` (with the pin) and `<name>-marker-pin-hidden.png` (the
-bare road, with the pin's outline and centre drawn on). It prints the
-distance from the dash line to the pin's centre, square to the road.
+Each marker crop is centred on the anchor. It shows the road's true centre
+curve (from the page's own maths, not a fit) in thin ember, and an ember dot
+on the coin's bottom point where the page actually drew it (read back from
+the coin's box). A second crop, `-pin-hidden`, shows the same spot with the
+coin hidden, so the contact shadow and the dashes under it show against the
+curve. The script prints, for each marker, how far the drawn coin bottom and
+the shadow's centre are from the anchor, the anchor's distance from the
+curve, and where the drawn dashes sit relative to the curve there.
 
-Measured on 2026-11-03: under 0.1 px on R02, R04, every storyboard frame,
-T01 and T01n, with dashes found on both sides of the pin in every case but
-storyboard frame 4, where the pin sits where the road leaves the platform
-and there is no road behind it yet.
+Measured on 2026-11-03, on R01 to R05 (all six storyboard frames), T01 and
+T01n: coin bottom and shadow centre 0.00 px from the anchor, anchor 0.00 px
+from the curve (or from the face centre on R01 and R03), drawn dashes within
+0.25 px of the curve.

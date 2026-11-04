@@ -217,7 +217,7 @@ export function isoPath({
     markerPt = markerAt.seg != null
       ? scr(curves[markerAt.seg].at(markerAt.f), HR)
       : { x: placed[0].x, y: placed[0].T }; // the centre of the first face, where the centre line starts
-    if (peek) markerHtml = marker(markerPt.x, markerPt.y, peek, markerD, { ring: col.fog });
+    if (peek) markerHtml = marker(markerPt.x, markerPt.y, peek, markerD, { ring: col.fog, foot: w - 2 * size.rim + 2 });
   }
   // Named points for the zoomed checks (road/checks.py): every joint, the
   // middle of every segment, and the marker. Invisible; a small script
@@ -228,13 +228,26 @@ export function isoPath({
     pts.push([`seg${i}-leave-${kind}`, scr(c.at(0), HR)], [`seg${i}-arrive-${kind}`, scr(c.at(1), HR)], [`seg${i}-middle-${kind}`, scr(c.at(0.5), HR)]);
   });
   if (markerPt) {
-    // The road's screen direction at the marker, for the dash-line check.
-    const a = markerAt.seg != null ? curves[markerAt.seg].at(markerAt.f).angle : null;
-    pts.push(['marker', markerPt, a == null ? '' : Math.atan2(Math.sin(a) * K, Math.cos(a)).toFixed(5)]);
+    // The true centre curve of the marker's segment on the road's top, as
+    // offsets from the contact point, for the check crops.
+    let a = '';
+    if (markerAt.seg != null) {
+      const c = curves[markerAt.seg], q = [];
+      for (let t = 0; t <= 1.0001; t += 0.01) { const p = scr(c.at(Math.min(t, 1)), HR); q.push(`${(p.x - markerPt.x).toFixed(2)},${(p.y - markerPt.y).toFixed(2)}`); }
+      a = q.join(' ');
+    }
+    pts.push(['marker', markerPt, a]);
   }
   const checkHtml = pts.map(([n, q, a = '']) => `<i data-check="${n}" data-a="${a}" style="position:absolute;left:${q.x.toFixed(2)}px;top:${q.y.toFixed(2)}px;width:0;height:0;"></i>`).join('')
-    + `<script>window.addEventListener('load',()=>{if(window.__c)return;window.__c=1;const o=[];document.querySelectorAll('[data-check]').forEach(e=>{const b=e.getBoundingClientRect();o.push([e.dataset.check,b.left,b.top,e.dataset.a]);});const p=document.createElement('pre');p.id='checks';p.style.display='none';p.textContent=JSON.stringify(o);document.body.appendChild(p);});</script>`;
-  return { height, placed, sections, curves, obstacles, svg, markerHtml, markerPt, scr, HR, checkHtml };
+    + `<script>window.addEventListener('load',()=>{if(window.__c)return;window.__c=1;const o=[];document.querySelectorAll('[data-check]').forEach(e=>{const b=e.getBoundingClientRect();o.push([e.dataset.check,b.left,b.top,e.dataset.a]);});document.querySelectorAll('div[aria-hidden][style*="z-index:200"]').forEach(e=>{const b=e.getBoundingClientRect();o.push(['coin-bottom',b.left+b.width/2,b.bottom+${MARKER_RING},'']);});document.querySelectorAll('[data-shadow]').forEach(e=>{const b=e.getBoundingClientRect();o.push(['shadow-centre',b.left+b.width/2,b.top+b.height/2,'']);});const p=document.createElement('pre');p.id='checks';p.style.display='none';p.textContent=JSON.stringify(o);document.body.appendChild(p);});</script>`;
+  // Points the labels must clear: the coin.
+  const markerObstacles = [];
+  if (markerPt) {
+    const R = markerD / 2 + MARKER_RING, cy = markerPt.y + markerCentreDY(markerD);
+    for (let t = 0; t < 6.28; t += 0.4) markerObstacles.push({ x: markerPt.x + (R + 2) * Math.cos(t), y: cy + (R + 2) * Math.sin(t) });
+    markerObstacles.push({ x: markerPt.x, y: markerPt.y });
+  }
+  return { height, placed, sections, curves, obstacles, svg, markerHtml, markerPt, markerObstacles, scr, HR, checkHtml };
 }
 
 // Puts a label beside its node: centred on the node's face if that is
@@ -249,7 +262,18 @@ export function placeLabel({ x0, x1, cy, h, obstacles, margin = 6 }) {
   return cy;
 }
 
-// The position marker: the brand's raccoon peek on a small charcoal coin,
-// centred on (x, y), with a fog ring that lifts it off the road.
-export const marker = (x, y, src, d = 34, { ring = '#E3DFD7' } = {}) =>
-  `<div aria-hidden="true" style="position:absolute;left:${x - d / 2}px;top:${y - d / 2}px;width:${d}px;height:${d}px;border-radius:50%;background:#2C2C2C;box-shadow:0 0 0 3px ${ring};display:flex;align-items:flex-end;justify-content:center;overflow:hidden;z-index:200;"><img src="${src}" alt="" style="width:${Math.round(d * 0.78)}px;margin-bottom:${Math.round(d * 0.18)}px;"></div>`;
+// The position marker: the brand's raccoon peek on a small charcoal coin
+// with a fog ring. Its anchor is the BOTTOM CENTRE of the coin's outer edge
+// (owner, 2026-11-03): (x, y) is that point, and the coin's centre sits
+// straight above it by the radius plus the ring.
+export const MARKER_RING = 3;
+export const markerCentreDY = (d) => -(d / 2 + MARKER_RING);
+// Under it, a soft contact shadow lies flat on the road's top in the same
+// projection (a ground circle `foot` across, squashed by K), centred on the
+// same anchor, so the coin reads as standing on the road.
+export const marker = (x, y, src, d = 34, { ring = '#E3DFD7', foot = 18 } = {}) => {
+  const cy = y + markerCentreDY(d);
+  const rx = foot / 2, ry = rx * K, bw = foot + 8, bh = foot * K + 8;
+  const shadow = `<div data-shadow style="position:absolute;left:${(x - bw / 2).toFixed(2)}px;top:${(y - bh / 2).toFixed(2)}px;width:${bw}px;height:${bh}px;z-index:199;pointer-events:none;"><svg width="${bw}" height="${bh}" viewBox="${-bw / 2} ${-bh / 2} ${bw} ${bh}" style="display:block;overflow:visible;"><defs><filter id="ms${Math.round(x * 100)}${Math.round(y * 100)}" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="1.2"/></filter></defs><ellipse cx="0" cy="0" rx="${rx}" ry="${ry}" fill="#000" fill-opacity="0.38" filter="url(#ms${Math.round(x * 100)}${Math.round(y * 100)})"/></svg></div>`;
+  return shadow + `<div aria-hidden="true" style="position:absolute;left:${(x - d / 2).toFixed(2)}px;top:${(cy - d / 2).toFixed(2)}px;width:${d}px;height:${d}px;border-radius:50%;background:#2C2C2C;box-shadow:0 0 0 ${MARKER_RING}px ${ring};display:flex;align-items:flex-end;justify-content:center;overflow:hidden;z-index:200;"><img src="${src}" alt="" style="width:${Math.round(d * 0.78)}px;margin-bottom:${Math.round(d * 0.18)}px;"></div>`;
+};
