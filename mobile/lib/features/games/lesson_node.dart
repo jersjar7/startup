@@ -210,10 +210,11 @@ class LessonNodeWidget extends StatefulWidget {
   static const stillFade = Duration(milliseconds: 180);
 
   /// The finished pop: the artboard's Celebrate, 40 frames at 60 fps. The
-  /// face turns over at its first frame, with no fade, and pops.
+  /// face turns over at its first frame, with no fade, and the whole
+  /// platform pops, face and side together, about the middle of the side.
   static const popDuration = Duration(milliseconds: 667);
 
-  /// The pop's scale on the face: up to 1.09, down to 0.985, back to 1, on
+  /// The pop's scale on the platform: up to 1.09, down to 0.985, back to 1, on
   /// the artboard's keyframes (frames 0, 9, 22, 40).
   static final popScale = TweenSequence<double>([
     TweenSequenceItem(
@@ -482,11 +483,12 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
     }
 
     // The painter: the same platform, the same rise and bounce, around the
-    // middle of the side. No breath and no pop: those repeat or celebrate,
+    // middle of the side. No breath: it repeats,
     // and a test double should settle.
     final scale =
         (ahead ? AppRoad.aheadScale : AppRoad.riseScale(_rise.value)) *
-        AppRoad.arriveBounce(_arrive.value);
+        AppRoad.arriveBounce(_arrive.value) *
+        LessonNodeWidget.popScale.transform(_pop.value);
     final lift = ahead ? 0.0 : AppRoad.riseLift(_rise.value);
     final o = box.scaleOrigin;
     return Stack(
@@ -509,7 +511,7 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
                   fraction: _fraction.value,
                   depth: widget.depth,
                   sink: press * LessonNodeWidget.pressSink * widget.size,
-                  pop: LessonNodeWidget.popScale.transform(_pop.value),
+
                   halo: _pop.value,
                   previous: _fadeFrom?.$1,
                   previousFraction: _fadeFrom?.$2 ?? 0,
@@ -566,7 +568,6 @@ class PlatformPainter extends CustomPainter {
     required this.fraction,
     required this.depth,
     this.sink = 0,
-    this.pop = 1,
     this.halo = 1,
     this.previous,
     this.previousFraction = 0,
@@ -580,9 +581,8 @@ class PlatformPainter extends CustomPainter {
   final double depth;
   final double sink;
 
-  /// The finished pop: the face's scale ([LessonNodeWidget.popScale]) and
-  /// where the halo is, 0..1 (1 is gone).
-  final double pop;
+  /// Where the finished pop's halo is, 0..1 (1 is gone). The pop's scale
+  /// is applied to the whole platform by the widget, with the rise's.
   final double halo;
 
   /// Under Reduce Motion: the face that was showing, and how far the new
@@ -651,12 +651,6 @@ class PlatformPainter extends CustomPainter {
       plinth,
     );
 
-    // The face, scaled by the pop about its own centre.
-    canvas
-      ..save()
-      ..translate(face.dx, face.dy)
-      ..scale(pop)
-      ..translate(-face.dx, -face.dy);
     final before = previous;
     if (before != null && fade < 1) {
       _face(canvas, before, previousFraction, d, face, outline, onPlane);
@@ -669,7 +663,6 @@ class PlatformPainter extends CustomPainter {
     } else {
       _face(canvas, skin, fraction, d, face, outline, onPlane);
     }
-    canvas.restore();
   }
 
   void _face(
@@ -751,7 +744,6 @@ class PlatformPainter extends CustomPainter {
       old.skin != skin ||
       old.depth != depth ||
       old.sink != sink ||
-      old.pop != pop ||
       old.halo != halo ||
       old.previous != previous ||
       old.previousFraction != previousFraction ||

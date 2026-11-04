@@ -189,7 +189,8 @@ const rml = `<Rive version="1" kind="fragment">
         are foreshortened the way the face is.
 
         Nesting, outermost first: Ahead (the 95% rest and the rise) > Arrive
-        (the bounce) > Breath (the current lesson) > the platform. All three
+        (the bounce) > Breath (the current lesson) > Pop (the finished pop) >
+        the platform. All four
         scale about the middle of the side, ${f(O)} below the face centre.
         First child draws on top.
     -->
@@ -200,14 +201,16 @@ const rml = `<Rive version="1" kind="fragment">
         <Node x="${CX}" y="${f(FY + O)}" name="Ahead" id="${id.ahead}">
             <Node x="0" y="0" name="Arrive" id="${id.arrive}">
                 <Node x="0" y="0" name="Breath" id="${id.breath}">
+                    <!-- The finished pop: the whole platform, face and side together. -->
+                    <Node x="0" y="0" name="Pop" id="${id.pop}">
                     <!-- The platform, with its origin on the face centre. -->
                     <Node x="0" y="${f(-O)}" name="Platform" id="${id.platform}">
 
                         <!-- Everything that sinks when pressed: the face and the top of the side. -->
                         <Node x="0" y="0" name="Press" id="${id.press}">
 
-                            <!-- Everything that pops when the lesson is finished. -->
-                            <Node x="0" y="0" name="Pop" id="${id.pop}">
+                            <!-- Everything on the face. -->
+                            <Node x="0" y="0" name="FaceGroup" id="0:28">
                                 <!-- The face's plane: the circle squashed to half height. -->
                                 <Node x="0" y="0" scaleY="${K}" name="Tilt" id="${id.tilt}">
 
@@ -304,8 +307,10 @@ const rml = `<Rive version="1" kind="fragment">
                             </Node>
                         </Node>
 
-                            <!-- The halo that leaves the face at the finished moment, on the face's plane. Drawn under the platform, so it never crosses the plinth. -->
-                            <Node x="0" y="0" scaleY="${K}" name="HaloTilt" id="${id.haloTilt}">
+                    </Node>
+
+                            <!-- The halo that leaves the face at the finished moment, on the face's plane. Drawn under the platform, so it never crosses the plinth, and popping with it. -->
+                            <Node x="0" y="${f(-O)}" scaleY="${K}" name="HaloTilt" id="${id.haloTilt}">
                                 <Shape x="0" y="0" opacity="0" name="Halo" id="${id.halo}">
                                     <Ellipse width="100" height="100" name="Path" id="0:23"/>
                                     <Stroke thickness="3" name="Stroke">
