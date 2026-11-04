@@ -329,13 +329,9 @@ class _RemindersRowState extends State<RemindersRow> {
         if (mounted) setState(() => _on = false);
         return;
       }
-      // Asking is the same call whether or not they have been asked before;
-      // on a second ask iOS answers from its own record without a dialog.
-      final granted = await widget.notifications.requestPermission();
-      if (granted) {
-        await widget.notifications.setEnabled(true);
-        await widget.notifications.rearm(examDay: widget.examIso);
-      }
+      final granted = await widget.notifications.turnOn(
+        examDay: widget.examIso,
+      );
       if (mounted) setState(() => _on = granted);
       if (!granted && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

@@ -177,6 +177,21 @@ class Notifications {
   Future<bool> requestPermission() async =>
       await _guard(_requestPermission) ?? false;
 
+  /// Turns reminders on the one way the app does it, from the Profile row or
+  /// from the invitation: ask the system, and only on a yes switch them on
+  /// and arm the plan. Returns whether they are on.
+  ///
+  /// Asking is the same call whether or not they have been asked before; on
+  /// a second ask iOS answers from its own record without a dialog.
+  Future<bool> turnOn({String? examDay}) async {
+    final granted = await requestPermission();
+    if (granted) {
+      await setEnabled(true);
+      await rearm(examDay: examDay);
+    }
+    return granted;
+  }
+
   Future<bool> _requestPermission() async {
     await init();
     final prefs = await SharedPreferences.getInstance();
