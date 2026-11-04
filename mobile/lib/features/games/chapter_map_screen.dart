@@ -945,6 +945,10 @@ class ChapterPathState extends State<ChapterPath>
         onRight: onRight,
         nameSize: metrics.labelSize(),
         detailSize: metrics.detailSize(),
+        tileFade: Duration(
+          milliseconds: (reduce ? AppRoad.reducedFadeMs : AppRoad.tileFadeMs)
+              .round(),
+        ),
       );
       final h = label.measureHeight(lw, scaler);
       final x0 = onRight ? slot.x + gap : slot.x - gap - lw;
@@ -965,20 +969,7 @@ class ChapterPathState extends State<ChapterPath>
             translation: const Offset(0, -0.5),
             child: KeyedSubtree(
               key: ValueKey('label-${lesson.id}'),
-              // The tile fades in and out rather than snapping.
-              child: AnimatedSwitcher(
-                duration: Duration(
-                  milliseconds:
-                      (reduce ? AppRoad.reducedFadeMs : AppRoad.tileFadeMs)
-                          .round(),
-                ),
-                // The label keeps the slot's full width, as without the fade.
-                layoutBuilder: (shown, leaving) => Stack(
-                  fit: StackFit.passthrough,
-                  children: [...leaving, ?shown],
-                ),
-                child: KeyedSubtree(key: ValueKey(current), child: label),
-              ),
+              child: label,
             ),
           ),
         ),
@@ -1046,7 +1037,11 @@ class _NodeLabel extends StatelessWidget {
     required this.onRight,
     this.nameSize = 14,
     this.detailSize = 10.5,
+    this.tileFade = Duration.zero,
   });
+
+  /// How long the tile takes to grow in around the label, or shrink away.
+  final Duration tileFade;
 
   final double nameSize;
   final double detailSize;
@@ -1127,12 +1122,18 @@ class _NodeLabel extends StatelessWidget {
       ],
     );
 
-    // Only the lesson in flight gets a tile: the one place to look.
-    if (!current) return text;
-    return Container(
-      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+    // Only where the student is gets a tile: the one place to look. It
+    // grows in around the words (and away again) rather than snapping.
+    return AnimatedContainer(
+      duration: tileFade,
+      curve: Curves.easeOut,
+      padding: current
+          ? const EdgeInsets.fromLTRB(14, 12, 14, 12)
+          : EdgeInsets.zero,
       decoration: BoxDecoration(
-        color: AppColors.springField,
+        color: current
+            ? AppColors.springField
+            : AppColors.springField.withValues(alpha: 0),
         borderRadius: BorderRadius.circular(20),
       ),
       child: text,

@@ -93,7 +93,8 @@ void main() {
   RoadSegment segmentAfter(WidgetTester tester, LessonNode l) =>
       tester.widget<RoadSegment>(find.byKey(ValueKey('road-${l.id}')));
 
-  /// Whether a lesson's label wears the spring "you are here" tile.
+  /// Whether a lesson's label wears the spring "you are here" tile, all or
+  /// part of the way in.
   bool tiled(String id) => find
       .descendant(
         of: find.byKey(ValueKey('label-$id')),
@@ -101,7 +102,7 @@ void main() {
           (w) =>
               w is Container &&
               w.decoration is BoxDecoration &&
-              (w.decoration! as BoxDecoration).color == AppColors.springField,
+              _spring((w.decoration! as BoxDecoration).color),
         ),
       )
       .evaluate()
@@ -306,6 +307,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 400));
     expect(state.arriveTicks[next.id], 1);
     // The tile is on its way over, fading in during the bounce.
+    await tester.pump(const Duration(milliseconds: 100));
     expect(tiled(next.id), isTrue);
 
     // 2100: parked where it rests now, the tile wholly on the new lesson,
@@ -324,4 +326,14 @@ void main() {
     );
     expect(state.arriveTicks[next.id], 1);
   });
+}
+
+/// The tile's colour at any point of its fade: spring, not wholly clear.
+bool _spring(Color? c) {
+  const s = AppColors.springField;
+  return c != null &&
+      c.a > 0 &&
+      (c.r - s.r).abs() < 0.01 &&
+      (c.g - s.g).abs() < 0.01 &&
+      (c.b - s.b).abs() < 0.01;
 }
