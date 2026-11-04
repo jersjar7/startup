@@ -187,13 +187,27 @@ class _TourPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final wide = AppTablet.of(context) == SizeClass.expanded;
-    final title = Text(
-      headline,
-      style: AppTheme.display(
-        size: wide ? 76 : 72,
-        height: 0.98,
-        tracking: -0.05,
-      ),
+    TextStyle titleStyle(double size) =>
+        AppTheme.display(size: size, height: 0.98, tracking: -0.05);
+    // Wraps between words as designed, but never inside one: on a narrow
+    // portrait tablet "anywhere." would otherwise break and leave its full
+    // stop alone on a line, so the size comes down until the longest word
+    // fits.
+    final title = LayoutBuilder(
+      builder: (context, box) {
+        final size = wide ? 76.0 : 72.0;
+        var longest = 0.0;
+        for (final word in headline.split(RegExp(r'\s+'))) {
+          final painter = TextPainter(
+            text: TextSpan(text: word, style: titleStyle(size)),
+            textDirection: TextDirection.ltr,
+            textScaler: MediaQuery.textScalerOf(context),
+          )..layout();
+          if (painter.width > longest) longest = painter.width;
+        }
+        final fit = longest > box.maxWidth ? box.maxWidth / longest : 1.0;
+        return Text(headline, style: titleStyle((size * fit).floorToDouble()));
+      },
     );
     final text = Text(
       body,
