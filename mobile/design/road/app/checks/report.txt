@@ -1,0 +1,18 @@
+phone-mid-day: pin anchor (158.20, 488.74); ring bottom in pixels -0.07 pt; coin bottom 0.000 pt; shadow centre 0.000 pt; anchor to curve 0.000 pt
+phone-new-day: pin anchor (125.00, 287.00); ring bottom in pixels +0.00 pt; coin bottom 0.000 pt; shadow centre 0.000 pt; anchor to curve on a platform face
+tablet-landscape-day: pin anchor (830.61, 396.06); ring bottom in pixels -0.06 pt; coin bottom 0.000 pt; shadow centre 0.000 pt; anchor to curve 0.000 pt
+phone-mid-night: pin anchor (158.20, 488.74); ring bottom in pixels -0.07 pt; coin bottom 0.000 pt; shadow centre 0.000 pt; anchor to curve 0.000 pt
+phone-new-night: pin anchor (125.00, 287.00); ring bottom in pixels +0.00 pt; coin bottom 0.000 pt; shadow centre 0.000 pt; anchor to curve on a platform face
+tablet-landscape-night: pin anchor (830.61, 396.06); ring bottom in pixels -0.06 pt; coin bottom 0.000 pt; shadow centre 0.000 pt; anchor to curve 0.000 pt
+moment-0: pin anchor (158.20, 140.74); ring bottom in pixels -0.07 pt; coin bottom 0.000 pt; shadow centre 0.000 pt; anchor to curve 0.000 pt
+moment-0: fill 0.000  line 0.000  pulse -1.000
+moment-300: pin anchor (158.20, 140.74); ring bottom in pixels -0.07 pt; coin bottom 0.000 pt; shadow centre 0.000 pt; anchor to curve 0.000 pt
+moment-300: fill 0.012  line 0.000  pulse -1.000
+moment-700: pin anchor (158.20, 140.74); ring bottom in pixels -0.07 pt; coin bottom 0.000 pt; shadow centre 0.000 pt; anchor to curve 0.000 pt
+moment-700: fill 0.568  line 0.211  pulse -1.000
+moment-1200: pin anchor (151.10, 200.17); ring bottom in pixels -0.17 pt; coin bottom 0.000 pt; shadow centre 0.000 pt; anchor to curve 0.000 pt
+moment-1200: fill 1.000  line 1.000  pulse 0.000
+moment-1500: pin anchor (190.27, 226.02); ring bottom in pixels -0.02 pt; coin bottom 0.000 pt; shadow centre 0.000 pt; anchor to curve 0.000 pt
+moment-1500: fill 1.000  line 1.000  pulse 0.500
+moment-2100: pin anchor (231.80, 260.74); ring bottom in pixels -0.07 pt; coin bottom 0.000 pt; shadow centre 0.000 pt; anchor to curve 0.000 pt
+moment-2100: fill 1.000  line 1.000  pulse -1.000
