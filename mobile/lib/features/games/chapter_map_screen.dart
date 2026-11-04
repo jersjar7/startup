@@ -1,8 +1,11 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/road.dart';
 import '../../core/theme/tablet.dart';
 import '../shared/widgets/kit.dart';
 import 'game_catalog.dart';
@@ -272,55 +275,64 @@ class _Chip extends StatelessWidget {
   }
 }
 
-/// One laid-out thing on the path: a subtopic heading or a lesson node.
+/// One laid-out thing on the path: a subtopic heading or a lesson platform.
 class _Slot {
-  _Slot.header(this.header, this.y) : lesson = null, x = 0;
-  _Slot.node(this.lesson, this.y, this.x) : header = null;
+  _Slot.header(this.header, this.y) : lesson = null, x = 0, face = 0;
+  _Slot.node(this.lesson, this.y, this.x, this.face) : header = null;
 
   final Subtopic? header;
   final LessonNode? lesson;
+
+  /// The slot's top, and for a platform its face centre on screen.
   final double y;
   final double x;
+  final double face;
 
   bool get isNode => lesson != null;
 }
 
-/// How big a path is drawn. The phone's sizes follow the screen width; a
-/// tablet's are larger, not only wider (TABLET.md, "Chapter map"): nodes
-/// 100, the weave 150 either side, steps 150 apart, labels in DM Sans 16.
+/// How big a path is drawn (ROAD.md, "The view"; TABLET.md, "Chapter
+/// map"). The phone's sizes follow the screen width and land exactly on the
+/// approved 84 platforms and 70 weave at 390; a tablet's are fixed and
+/// larger, not only wider.
 class PathMetrics {
   const PathMetrics.phone() : tablet = false;
   const PathMetrics.tablet() : tablet = true;
 
   final bool tablet;
 
-  double rowHeight() => tablet ? 150 : 124;
+  /// The road and platform sizes for this device.
+  RoadSize get road => tablet ? RoadSize.tablet : RoadSize.phone;
+
+  double rowHeight() => road.row;
+
+  /// How tall a platform stands.
+  double platformDepth() => road.plinth;
+  double sectionGap() => road.sectionGap;
   double labelWidth() => tablet ? 220 : 156;
   double labelSize() => tablet ? 16 : 14;
   double detailSize() => tablet ? 12 : 10.5;
 
-  /// Nodes and the swing of the path scale with the screen, so a narrow phone
-  /// gets a smaller disc and a tighter weave instead of a squeezed label.
+  /// A narrow phone gets a smaller platform and a tighter weave instead of a
+  /// squeezed label; 390 is the approved 84.
   double nodeSizeFor(double width) =>
-      tablet ? 100 : (width * 0.215).clamp(62.0, 84.0);
+      tablet ? road.platform : (width * 84 / 390).clamp(62.0, 84.0);
 
-  /// Nodes alternate left and right of center by this much: a real weave,
-  /// wide enough that the road is a path and not a wobble. A tablet pane too
-  /// narrow for the full 150 swing keeps a third of its width either side.
+  /// Platforms alternate left and right of the middle line by this much. A
+  /// tablet pane too narrow for the full 110 swing keeps what fits.
   double ampFor(double width) => tablet
-      ? (width / 2 - nodeSizeFor(width) / 2 - 16).clamp(52.0, 150.0)
-      : (width * 0.18).clamp(52.0, 72.0);
+      ? (width / 2 - nodeSizeFor(width) / 2 - 16).clamp(52.0, road.amp)
+      : (width * 70 / 390).clamp(52.0, 72.0);
 
-  /// Distance from a slot's top to the center of its node face.
-  double faceCenterFor(double width) =>
-      LessonNodeWidget.topSpace + nodeSizeFor(width) / 2;
+  /// Distance from a slot's top to the centre of its platform's face.
+  double faceCenterFor(double width) => nodeSizeFor(width) / 2 * AppRoad.k + 4;
 
-  /// Where a lesson's node face sits on the path, from the path's top: what
-  /// a scroll to that lesson aims at.
+  /// Where a lesson's platform face sits on the path, from the path's top:
+  /// what a scroll to that lesson aims at.
   double faceTopOf(ChapterMap chapter, String lessonId, double width) {
-    var y = 26.0;
+    var y = ChapterPath._top;
     for (final sub in chapter.subtopics) {
-      y += ChapterPath._headerHeight;
+      y += sectionGap();
       for (final lesson in chapter.lessonsIn(sub.id)) {
         if (lesson.id == lessonId) return y + faceCenterFor(width);
         y += rowHeight();
@@ -330,7 +342,62 @@ class PathMetrics {
   }
 }
 
-class ChapterPath extends StatelessWidget {
+/// Moves a label up or down from [cy] by the smallest step that keeps the
+/// box `x0..x1` by [h] clear of every point in [obstacles] (ROAD.md,
+/// "Labels"). Returns the label's centre y.
+double placePathLabel({
+  required double x0,
+  required double x1,
+  required double cy,
+  required double h,
+  required List<Offset> obstacles,
+  double margin = 6,
+}) {
+  bool hit(double c) => obstacles.any(
+    (p) =>
+        p.dx >= x0 - margin &&
+        p.dx <= x1 + margin &&
+        p.dy >= c - h / 2 - margin &&
+        p.dy <= c + h / 2 + margin,
+  );
+  for (var d = 0.0; d <= 90; d += 2) {
+    if (!hit(cy - d)) return cy - d;
+    if (!hit(cy + d)) return cy + d;
+  }
+  return cy;
+}
+
+/// Where the raccoon pin stands: [lesson] is the lesson it points at, and
+/// [point] the pin's anchor, the bottom centre of its coin. [onPlatform]
+/// says which layer its contact shadow lies on: the face of that platform,
+/// or (when null) the road segment [segment].
+@immutable
+class _PinAt {
+  const _PinAt(this.lesson, this.point, {this.onPlatform, this.segment});
+
+  final int lesson;
+  final Offset point;
+  final int? onPlatform;
+  final int? segment;
+
+  @override
+  bool operator ==(Object other) =>
+      other is _PinAt && other.lesson == lesson && other.point == point;
+
+  @override
+  int get hashCode => Object.hash(lesson, point);
+}
+
+/// The chapter path in the isometric view (ROAD.md): every lesson a raised
+/// platform, a road between each pair, the raccoon pin on the road to the
+/// lesson the student goes to next, and the labels flat on top.
+///
+/// It also runs the finishing moment. A finished lesson plays its own
+/// moment on its platform; when that settles the road segment after it
+/// opens (fill, centre line, pulse), the next platform rises at the start
+/// and bounces at 1800 ms, and the pin follows the pulse. Nothing here
+/// blocks a tap.
+class ChapterPath extends StatefulWidget {
   const ChapterPath({
     super.key,
     required this.chapter,
@@ -362,12 +429,11 @@ class ChapterPath extends StatelessWidget {
   final void Function(String lessonId, double value) onSettled;
   final PathMetrics metrics;
 
-  /// The lesson ringed in charcoal, with a fog gap: the one a tablet's
-  /// lesson pane is about, or the one Continue brought into view.
+  /// The lesson ringed in charcoal: the one a tablet's lesson pane is about,
+  /// or the one Continue brought into view.
   final String? ringed;
 
-  static const _headerHeight = 48.0;
-  static const _labelGap = 12.0;
+  static const _top = 26.0;
   static const _edge = 12.0;
 
   /// The phone's sizes, kept for the callers that measure the phone's map.
@@ -378,143 +444,518 @@ class ChapterPath extends StatelessWidget {
       const PathMetrics.phone().faceCenterFor(width);
 
   @override
+  State<ChapterPath> createState() => ChapterPathState();
+}
+
+@visibleForTesting
+class ChapterPathState extends State<ChapterPath>
+    with SingleTickerProviderStateMixin {
+  /// Bumped per lesson to play its platform's arrival bounce.
+  final Map<String, int> _arrive = {};
+
+  /// Where the pin was last drawn at rest.
+  _PinAt? _pinShown;
+
+  /// The moment in flight: which segment, and its clock in milliseconds.
+  int? _momentSeg;
+  Animation<double>? _clock;
+
+  /// Segments that have just been walked and whose moment has not reported
+  /// its clock yet (it does so a frame later).
+  final Set<int> _awaiting = {};
+
+  /// A quiet 180 ms cross-fade of the pin from [_fadeFrom] to where it rests
+  /// now, for every move that is not a road opening.
+  late final AnimationController _fade = AnimationController(
+    vsync: this,
+    duration: Duration(milliseconds: AppRoad.reducedFadeMs.round()),
+  )..addListener(() => setState(() {}));
+  _PinAt? _fadeFrom;
+
+  /// Labels are measured once per layout, not on every frame of a moment.
+  String? _labelKey;
+  List<Widget> _labels = const [];
+
+  @visibleForTesting
+  Map<String, int> get arriveTicks => Map.unmodifiable(_arrive);
+
+  @override
+  void dispose() {
+    _clock?.removeListener(_tick);
+    _fade.dispose();
+    super.dispose();
+  }
+
+  void _tick() => setState(() {});
+
+  bool _walked(String id) =>
+      widget.state[id] == NodeState.cleared && (widget.shown[id] ?? 0) >= 0.999;
+
+  /// Segments seen walked on the last build. The maps the parent passes
+  /// are updated in place, so a road that has just been walked is found by
+  /// comparing with what this state saw, not with the old widget.
+  Set<int>? _walkedSeen;
+
+  void _noteWalked() {
+    final lessons = widget.chapter.lessons;
+    final now = {
+      for (var i = 0; i < lessons.length - 1; i++)
+        if (_walked(lessons[i].id)) i,
+    };
+    final seen = _walkedSeen;
+    if (seen != null) _awaiting.addAll(now.difference(seen));
+    _walkedSeen = now;
+  }
+
+  void _onMoment(int seg, Animation<double> clock) {
+    _awaiting.remove(seg);
+    _clock?.removeListener(_tick);
+    _clock = clock..addListener(_tick);
+    _momentSeg = seg;
+    _momentFrom = _pinShown;
+    void done(AnimationStatus s) {
+      if (s != AnimationStatus.completed) return;
+      clock.removeStatusListener(done);
+      clock.removeListener(_tick);
+      if (!mounted || _clock != clock) return;
+      setState(() {
+        _clock = null;
+        _momentSeg = null;
+        // The pin has followed the pulse to where it rests now; anything
+        // else (a pin that was elsewhere) cross-fades to its place.
+        if (_handled) {
+          _pinShown = _pinTarget;
+        }
+        _handled = false;
+      });
+    }
+
+    clock.addStatusListener(done);
+    setState(() {});
+  }
+
+  _PinAt? _momentFrom;
+  _PinAt? _pinTarget;
+  bool _handled = false;
+
+  void _onArrive(String lessonId) {
+    if (!mounted) return;
+    setState(() => _arrive[lessonId] = (_arrive[lessonId] ?? 0) + 1);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final w = widget;
+    final metrics = w.metrics;
+    final road = metrics.road;
+    final width = w.width;
+    final reduce = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+    _noteWalked();
+
+    // ── layout: platforms down the screen, a section name between groups ──
     final slots = <_Slot>[];
     final nodeSize = metrics.nodeSizeFor(width);
-    final faceCenter = metrics.faceCenterFor(width);
+    final r = nodeSize / 2;
     final amp = metrics.ampFor(width);
-    final rowHeight = metrics.rowHeight();
-    var y = 26.0;
+    var y = ChapterPath._top;
     var n = 0;
-
-    for (final sub in chapter.subtopics) {
+    for (final sub in w.chapter.subtopics) {
       slots.add(_Slot.header(sub, y));
-      y += _headerHeight;
-      for (final lesson in chapter.lessonsIn(sub.id)) {
+      y += metrics.sectionGap();
+      for (final lesson in w.chapter.lessonsIn(sub.id)) {
         // The zigzag's middle line is the pane's middle line (owner,
-        // 2026-11-03); the labels hang off the nodes and are not counted.
+        // 2026-11-03); the labels hang off the platforms and are not counted.
         final x = width / 2 + (n.isEven ? -amp : amp);
-        slots.add(_Slot.node(lesson, y, x));
-        y += rowHeight;
+        slots.add(_Slot.node(lesson, y, x, y + metrics.faceCenterFor(width)));
+        y += metrics.rowHeight();
         n++;
       }
     }
-    y += 40;
-
+    final height = y + 40;
     final nodes = slots.where((s) => s.isNode).toList(growable: false);
-    const ringGap = 6.0;
-    const ringStroke = 4.0;
+    Offset foot(int i) => Offset(nodes[i].x, nodes[i].face + road.plinth);
+    final geometry = [
+      for (var i = 0; i < nodes.length - 1; i++)
+        RoadGeometry(from: foot(i), to: foot(i + 1), r: r),
+    ];
+
+    // ── the pin: where it rests, and where it is this frame ──
+    _PinAt? anchorFor(int? lesson) {
+      if (nodes.isEmpty) return null;
+      final i = lesson ?? nodes.length - 1;
+      if (i == 0 || lesson == null) {
+        return _PinAt(i, Offset(nodes[i].x, nodes[i].face), onPlatform: i);
+      }
+      return _PinAt(
+        i,
+        geometry[i - 1].at(road.pinRest, road.road),
+        segment: i - 1,
+      );
+    }
+
+    final nextId =
+        w.current ?? GameProgress.instance.nextLessonIn(w.chapter)?.id;
+    final nextIndex = nodes.indexWhere((s) => s.lesson!.id == nextId);
+    final target = anchorFor(nextIndex < 0 ? null : nextIndex);
+    _pinTarget = target;
+    _pinShown ??= target;
+
+    final pins = <(_PinAt, double)>[];
+    final seg = _momentSeg;
+    final clock = _clock;
+    if (seg != null && clock != null && target != null) {
+      final from = _momentFrom ?? _pinShown!;
+      _handled = target.lesson == seg + 1 && from.lesson == seg;
+      final ms = clock.value;
+      if (!_handled) {
+        pins.add((_pinShown!, 1));
+      } else if (reduce) {
+        // The moment's clock is the 180 ms fade: out where it was, in at
+        // its new place, still on the centre line.
+        final u = (ms / AppRoad.reducedFadeMs).clamp(0.0, 1.0);
+        pins
+          ..add((from, 1 - u))
+          ..add((target, u));
+      } else {
+        pins.add((_momentPin(ms, seg, from, target, geometry, nodes), 1));
+      }
+    } else if (_fade.isAnimating && _fadeFrom != null && target != null) {
+      pins
+        ..add((_fadeFrom!, 1 - _fade.value))
+        ..add((target, _fade.value));
+    } else if (target != null) {
+      final pending =
+          _awaiting.isNotEmpty ||
+          w.chapter.lessons.any(
+            (l) =>
+                w.state[l.id] == NodeState.cleared &&
+                (w.shown[l.id] ?? 0) < 0.999,
+          );
+      if (_pinShown != target && !pending) {
+        if (_pinShown != null && _pinShown!.lesson == target.lesson) {
+          _pinShown = target; // the same place, re-laid out (a resize)
+        } else {
+          final from = _pinShown;
+          _pinShown = target;
+          if (from != null && !reduce) {
+            _fadeFrom = from;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) _fade.forward(from: 0);
+            });
+            pins.add((from, 1));
+          } else if (from != null) {
+            _fadeFrom = from;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) _fade.forward(from: 0);
+            });
+            pins.add((from, 1));
+          }
+        }
+      }
+      if (pins.isEmpty) pins.add((_pinShown!, 1));
+    }
+
+    // ── labels, measured and placed clear of the road, platforms and pin ──
+    final labels = _placeLabels(
+      context,
+      nodes: nodes,
+      geometry: geometry,
+      r: r,
+      pin: target,
+    );
+
+    // ── the scene, in depth order: platform 1, segment 1 to 2, platform 2…
+    Widget shadowFor(_PinAt p, double opacity) =>
+        PinShadow(anchor: p.point, size: road, opacity: opacity);
+    final children = <Widget>[];
+    for (var i = 0; i < nodes.length; i++) {
+      final slot = nodes[i];
+      final id = slot.lesson!.id;
+      if (id == w.ringed) children.add(_ring(slot, r));
+      children.add(
+        _platform(
+          slot,
+          nodeSize,
+          ahead: !reduce && i > 0 && !_walked(nodes[i - 1].lesson!.id),
+          arriveTick: _arrive[id] ?? 0,
+          plinth: metrics.platformDepth(),
+        ),
+      );
+      for (final (p, o) in pins) {
+        if (p.onPlatform == i) children.add(shadowFor(p, o));
+      }
+      if (i < nodes.length - 1) {
+        children.add(
+          RoadSegment(
+            key: ValueKey('road-$id'),
+            from: foot(i),
+            to: foot(i + 1),
+            radius: r,
+            size: road,
+            reduceMotion: reduce,
+            travelled: _walked(id) ? 1 : 0,
+            onMoment: (clock) => _onMoment(i, clock),
+            onArrive: () => _onArrive(nodes[i + 1].lesson!.id),
+          ),
+        );
+        for (final (p, o) in pins) {
+          if (p.onPlatform == null && p.segment == i) {
+            children.add(shadowFor(p, o));
+          }
+        }
+      }
+    }
 
     return SizedBox(
       width: width,
-      height: y,
+      height: height,
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
-          for (var i = 0; i < nodes.length - 1; i++)
-            RoadSegment(
-              key: ValueKey('road-${nodes[i].lesson!.id}'),
-              from: Offset(nodes[i].x, nodes[i].y + faceCenter),
-              to: Offset(nodes[i + 1].x, nodes[i + 1].y + faceCenter),
-              nodeRadius: nodeSize / 2,
-              // The road opens once the lesson behind it is finished, and only
-              // after that node's own ring has filled.
-              travelled:
-                  state[nodes[i].lesson!.id] == NodeState.cleared &&
-                      (shown[nodes[i].lesson!.id] ?? 0) >= 0.999
-                  ? 1
-                  : 0,
-              startDelay: const Duration(milliseconds: 120),
-            ),
+          ...children,
           // Section names sit in a fog gap in the road, painted over it.
           for (final slot in slots)
             if (!slot.isNode)
               Positioned(
                 top: slot.y,
-                left: headerLeft,
+                left: w.headerLeft,
                 child: _SubtopicHeader(
                   subtopic: slot.header!,
-                  count: chapter.lessonsIn(slot.header!.id).length,
+                  count: w.chapter.lessonsIn(slot.header!.id).length,
                 ),
               ),
-          for (final slot in slots)
-            if (slot.isNode && slot.lesson!.id == ringed)
-              Positioned(
-                key: const ValueKey('path-ring'),
-                top: slot.y + faceCenter - nodeSize / 2 - ringGap - ringStroke,
-                left: slot.x - nodeSize / 2 - ringGap - ringStroke,
-                width: nodeSize + 2 * (ringGap + ringStroke),
-                height: nodeSize + 2 * (ringGap + ringStroke),
-                child: IgnorePointer(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.fog,
-                      border: Border.all(
-                        color: AppColors.charcoal,
-                        width: ringStroke,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-          for (final slot in slots)
-            if (slot.isNode) ...[
-              Positioned(
-                top: slot.y,
-                left: slot.x - nodeSize / 2,
-                width: nodeSize,
-                child: LessonNodeWidget(
-                  key: ValueKey(slot.lesson!.id),
-                  state: state[slot.lesson!.id] ?? NodeState.notBuilt,
-                  current: slot.lesson!.id == current,
-                  fractionFrom: shown[slot.lesson!.id] ?? 0,
-                  fractionTo: target[slot.lesson!.id] ?? 0,
-                  size: nodeSize,
-                  onTap: () => onTap(slot.lesson!),
-                  onSettled: (v) => onSettled(slot.lesson!.id, v),
-                ),
-              ),
-              _label(slot, nodeSize),
-            ],
+          ...labels,
+          for (final (p, o) in pins)
+            RoadPin(anchor: p.point, size: road, opacity: o),
         ],
       ),
     );
   }
 
-  /// The lesson name, parked on whichever side of the node has more room.
-  Widget _label(_Slot slot, double nodeSize) {
-    final lesson = slot.lesson!;
-    final nodeState = state[lesson.id] ?? NodeState.notBuilt;
-    final onRight = slot.x <= width / 2;
-    final label = _NodeLabel(
-      lesson: lesson,
-      state: nodeState,
-      current: lesson.id == current,
-      onRight: onRight,
-      nameSize: metrics.labelSize(),
-      detailSize: metrics.detailSize(),
-    );
+  /// The pin during the moment on segment [seg]: where it was until 900 ms,
+  /// a short hop over the finished platform to the start of the new road by
+  /// 1200 ms, then just behind the pulse (0.8 of it, minus 0.08, on the
+  /// phone) until it parks where it rests.
+  _PinAt _momentPin(
+    double ms,
+    int seg,
+    _PinAt from,
+    _PinAt to,
+    List<RoadGeometry> geometry,
+    List<_Slot> nodes,
+  ) {
+    final road = widget.metrics.road;
+    final g = geometry[seg];
+    const hopStart = AppRoad.pulseStartMs - 300;
+    if (ms < hopStart) return from;
+    if (ms < AppRoad.pulseStartMs) {
+      final u = momentSpan(ms, hopStart, AppRoad.pulseStartMs);
+      final start = g.at(0, road.road);
+      return _PinAt(
+        from.lesson,
+        Offset.lerp(from.point, start, u)!,
+        onPlatform: seg,
+      );
+    }
+    if (ms >= AppRoad.pulseEndMs) return to;
+    final pulse = momentSpan(ms, AppRoad.pulseStartMs, AppRoad.pulseEndMs);
+    // The pin trails the pulse and lands exactly on its resting fraction.
+    const trail = 0.08;
+    final f = math.max(0.0, pulse * (road.pinRest + trail) - trail);
+    return _PinAt(to.lesson, g.at(f, road.road), segment: seg);
+  }
 
-    // Line the tile up with the middle of the node face.
-    final top = slot.y + metrics.faceCenterFor(width);
-    final room = onRight
-        ? width - (slot.x + nodeSize / 2 + _labelGap) - _edge
-        : slot.x - nodeSize / 2 - _labelGap - _edge;
-    // A window between layouts (mid-resize) can leave less than the floor.
-    final w = room <= 60 ? room : metrics.labelWidth().clamp(60.0, room);
-
+  /// The tablet's "this lesson" ring: an ellipse on the ground around the
+  /// platform's foot, 10 out, in charcoal.
+  Widget _ring(_Slot slot, double r) {
+    final road = widget.metrics.road;
+    final rr = r + 10;
+    final center = Offset(slot.x, slot.face + road.plinth);
     return Positioned(
-      top: top,
-      left: onRight
-          ? slot.x + nodeSize / 2 + _labelGap
-          : slot.x - nodeSize / 2 - _labelGap - w,
-      width: w,
-      child: FractionalTranslation(
-        translation: const Offset(0, -0.5),
-        child: label,
+      key: const ValueKey('path-ring'),
+      left: center.dx - rr - 2,
+      top: center.dy - rr * AppRoad.k - 2,
+      width: 2 * rr + 4,
+      height: 2 * rr * AppRoad.k + 4,
+      child: IgnorePointer(
+        child: CustomPaint(
+          painter: _GroundRing(rx: rr, ry: rr * AppRoad.k),
+        ),
       ),
     );
   }
+
+  /// One platform, its box placed so its face centre lands on the slot's
+  /// face centre ([PlatformBox]).
+  Widget _platform(
+    _Slot slot,
+    double size, {
+    required bool ahead,
+    required int arriveTick,
+    required double plinth,
+  }) {
+    final lesson = slot.lesson!;
+    final box = PlatformBox(size, plinth);
+    return Positioned(
+      top: slot.face - box.ry,
+      left: slot.x - size / 2,
+      width: size,
+      child: LessonNodeWidget(
+        key: ValueKey(lesson.id),
+        state: widget.state[lesson.id] ?? NodeState.notBuilt,
+        current: lesson.id == widget.current,
+        fractionFrom: widget.shown[lesson.id] ?? 0,
+        fractionTo: widget.target[lesson.id] ?? 0,
+        size: size,
+        ahead: ahead,
+        arriveTick: arriveTick,
+        depth: plinth,
+        onTap: () => widget.onTap(lesson),
+        onSettled: (v) => widget.onSettled(lesson.id, v),
+      ),
+    );
+  }
+
+  /// Every lesson's name and count, beside its platform, moved off the road
+  /// when it would cross it (ROAD.md, "Labels"; TABLET.md).
+  List<Widget> _placeLabels(
+    BuildContext context, {
+    required List<_Slot> nodes,
+    required List<RoadGeometry> geometry,
+    required double r,
+    required _PinAt? pin,
+  }) {
+    final w = widget;
+    final metrics = w.metrics;
+    final road = metrics.road;
+    final scaler = MediaQuery.textScalerOf(context);
+    final key = [
+      w.width,
+      w.metrics.tablet,
+      w.current,
+      pin?.point,
+      scaler.scale(10),
+      for (final s in nodes) '${s.lesson!.id}:${w.state[s.lesson!.id]}',
+      for (final s in nodes) GameProgress.instance.clearedIn(s.lesson!),
+    ].join('|');
+    if (key == _labelKey) return _labels;
+
+    // The points a label must clear: the road's top edges and foot along
+    // each curve, each platform's outline, and the pin's coin.
+    final obstacles = <Offset>[];
+    for (final g in geometry) {
+      for (var f = 0.0; f <= 1.0001; f += 0.025) {
+        final t = g.tangentAt(math.min(1, f));
+        final a = -t.angle;
+        final nrm = Offset(
+          math.cos(a + math.pi / 2),
+          math.sin(a + math.pi / 2),
+        );
+        for (final s in const [-1.0, 1.0]) {
+          final e = t.position + nrm * (s * road.width / 2);
+          obstacles
+            ..add(AppRoad.project(e, road.road))
+            ..add(AppRoad.project(e));
+        }
+      }
+    }
+    final ry = r * AppRoad.k;
+    for (final s in nodes) {
+      final top = s.face - ry, bottom = s.face + road.plinth + ry;
+      obstacles.addAll([
+        Offset(s.x - r, top),
+        Offset(s.x + r, top),
+        Offset(s.x - r, bottom),
+        Offset(s.x + r, bottom),
+        Offset(s.x, bottom),
+        Offset(s.x, top),
+      ]);
+    }
+    if (pin != null) {
+      final rr = road.coin / 2 + AppRoad.pinRing;
+      final c = pin.point - Offset(0, rr);
+      for (var t = 0.0; t < 6.28; t += 0.4) {
+        obstacles.add(c + Offset(math.cos(t), math.sin(t)) * (rr + 2));
+      }
+      obstacles.add(pin.point);
+    }
+
+    final labels = <Widget>[];
+    for (final slot in nodes) {
+      final lesson = slot.lesson!;
+      final state = w.state[lesson.id] ?? NodeState.notBuilt;
+      final current = lesson.id == w.current;
+      final onRight = slot.x <= w.width / 2;
+      final gap = r + AppRoad.labelGap;
+      final room = onRight
+          ? w.width - (slot.x + gap) - ChapterPath._edge
+          : slot.x - gap - ChapterPath._edge;
+      // A window between layouts (mid-resize) can leave less than the floor.
+      final lw = room <= 60
+          ? math.max(room, 1.0)
+          : metrics.labelWidth().clamp(60.0, room);
+      final label = _NodeLabel(
+        lesson: lesson,
+        state: state,
+        current: current,
+        onRight: onRight,
+        nameSize: metrics.labelSize(),
+        detailSize: metrics.detailSize(),
+      );
+      final h = label.measureHeight(lw, scaler);
+      final x0 = onRight ? slot.x + gap : slot.x - gap - lw;
+      final cy = placePathLabel(
+        x0: x0,
+        x1: x0 + lw,
+        cy: slot.face,
+        h: h,
+        obstacles: obstacles,
+      );
+      labels.add(
+        Positioned(
+          top: cy,
+          left: x0,
+          width: lw,
+          child: FractionalTranslation(
+            translation: const Offset(0, -0.5),
+            child: KeyedSubtree(
+              key: ValueKey('label-${lesson.id}'),
+              child: label,
+            ),
+          ),
+        ),
+      );
+    }
+    _labelKey = key;
+    _labels = labels;
+    return labels;
+  }
+}
+
+/// The charcoal ring on the ground around a platform's foot.
+class _GroundRing extends CustomPainter {
+  const _GroundRing({required this.rx, required this.ry});
+
+  final double rx;
+  final double ry;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: size.center(Offset.zero),
+        width: 2 * rx,
+        height: 2 * ry,
+      ),
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3.5,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_GroundRing old) => old.rx != rx || old.ry != ry;
 }
 
 class _SubtopicHeader extends StatelessWidget {
@@ -559,17 +1000,53 @@ class _NodeLabel extends StatelessWidget {
   /// node either way.
   final bool onRight;
 
-  @override
-  Widget build(BuildContext context) {
-    final progress = GameProgress.instance;
-    final built = state != NodeState.notBuilt;
+  String get _detail {
     final total = lesson.builtGames.length;
-    final done = progress.clearedIn(lesson);
-    final detail = !built
+    final done = GameProgress.instance.clearedIn(lesson);
+    return state == NodeState.notBuilt
         ? 'not written yet'
         : state == NodeState.cleared
         ? (total == 1 ? 'done' : 'all $total done')
         : '$done of $total done';
+  }
+
+  TextStyle get _nameStyle => AppTheme.display(
+    size: nameSize,
+    weight: FontWeight.w700,
+    height: 1.15,
+    tracking: -0.02,
+    color: state != NodeState.notBuilt
+        ? AppColors.charcoal
+        : AppColors.mutedOnLight,
+  );
+
+  TextStyle _detailStyle(Color color) =>
+      AppTheme.mono(size: detailSize, color: color);
+
+  /// How tall this label lays out at [width], so the path can move it clear
+  /// of the road before it is drawn.
+  double measureHeight(double width, TextScaler scaler) {
+    final inner = current ? width - 28 : width;
+    double h(String text, TextStyle style) {
+      final tp = TextPainter(
+        text: TextSpan(text: text, style: style),
+        textDirection: TextDirection.ltr,
+        textScaler: scaler,
+      )..layout(maxWidth: math.max(1, inner));
+      final height = tp.height;
+      tp.dispose();
+      return height;
+    }
+
+    return h(lesson.name, _nameStyle) +
+        3 +
+        h(_detail, _detailStyle(AppColors.charcoal)) +
+        (current ? 24 : 0);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final done = GameProgress.instance.clearedIn(lesson);
     final detailColor = current
         ? AppColors.charcoal
         : done > 0
@@ -585,19 +1062,10 @@ class _NodeLabel extends StatelessWidget {
         Text(
           lesson.name,
           textAlign: onRight ? TextAlign.left : TextAlign.right,
-          style: AppTheme.display(
-            size: nameSize,
-            weight: FontWeight.w700,
-            height: 1.15,
-            tracking: -0.02,
-            color: built ? AppColors.charcoal : AppColors.mutedOnLight,
-          ),
+          style: _nameStyle,
         ),
         const SizedBox(height: 3),
-        Text(
-          detail,
-          style: AppTheme.mono(size: detailSize, color: detailColor),
-        ),
+        Text(_detail, style: _detailStyle(detailColor)),
       ],
     );
 
