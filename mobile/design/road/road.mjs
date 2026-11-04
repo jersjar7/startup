@@ -217,7 +217,7 @@ export function isoPath({
     markerPt = markerAt.seg != null
       ? scr(curves[markerAt.seg].at(markerAt.f), HR)
       : { x: placed[0].x, y: placed[0].T }; // the centre of the first face, where the centre line starts
-    if (peek) markerHtml = marker(markerPt.x, markerPt.y, peek, markerD, { ring: col.fog, foot: w - 2 * size.rim + 2 });
+    if (peek) markerHtml = marker(markerPt.x, markerPt.y, peek, markerD, { ring: col.roadPulse, foot: w - 2 * size.rim + 2 });
   }
   // Named points for the zoomed checks (road/checks.py): every joint, the
   // middle of every segment, and the marker. Invisible; a small script
@@ -263,7 +263,7 @@ export function placeLabel({ x0, x1, cy, h, obstacles, margin = 6 }) {
 }
 
 // The position marker: the brand's raccoon peek on a small charcoal coin
-// with a fog ring. Its anchor is the BOTTOM CENTRE of the coin's outer edge
+// with a spring ring (set by isoPath). Its anchor is the BOTTOM CENTRE of the coin's outer edge
 // (owner, 2026-11-03): (x, y) is that point, and the coin's centre sits
 // straight above it by the radius plus the ring.
 export const MARKER_RING = 3;

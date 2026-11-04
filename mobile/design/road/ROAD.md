@@ -131,8 +131,10 @@ circle. A narrow window still shrinks the label, never the gap.
 ## The marker stands on the centre line (owner, 2026-11-03)
 
 The marker is the brand's raccoon peek on a small charcoal coin, 32 on the
-phone and 36 on the tablet, with a 3 fog ring. Its size and look are
-unchanged. No stem.
+phone and 36 on the tablet, with a 3 wide **spring ring (#63F0A8), day and
+night** (owner, 2026-11-03). A fog ring vanished into the fog ground by day
+and the near-black by night; spring ties the pin to the spring progress ring
+on the current lesson. No stem.
 
 - **The anchor is the coin's bottom centre**, the lowest point of its outer
   ring, not its centre. That point sits exactly on the road's dashed centre
