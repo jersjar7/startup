@@ -478,19 +478,22 @@ class PinShadow extends StatelessWidget {
   final double glow;
 
   /// Which way the pin is walking, as an angle on the ground: the glow is
-  /// a pool stretched along the way it goes and no wider than the road.
+  /// a pool lying along the way it goes, a little longer than it is wide.
   final double heading;
 
-  /// The glow's half length along the walk, and half width across it, on
-  /// the ground.
-  static double glowAlong(RoadSize size) => size.width * 1.1;
+  /// The glow's solid core on the ground: as wide as the road across the
+  /// walk and twice that along it, so it shows either side of the coin. Its
+  /// soft edge runs out to [glowFalloff] times the core, a little past the
+  /// road's edges.
   static double glowAcross(RoadSize size) => size.width / 2;
+  static double glowAlong(RoadSize size) => glowAcross(size) * 2;
+  static const glowFalloff = 1.5;
 
   @override
   Widget build(BuildContext context) {
     final rx = size.pinFoot / 2;
     final ry = rx * AppRoad.k;
-    final gx = glowAlong(size);
+    final gx = glowAlong(size) * glowFalloff;
     final pad = math.max(rx, gx) + 4;
     return Positioned(
       left: anchor.dx - pad,
@@ -504,7 +507,7 @@ class PinShadow extends StatelessWidget {
             rx: rx,
             ry: ry,
             along: gx,
-            across: glowAcross(size),
+            across: glowAcross(size) * glowFalloff,
             heading: heading,
             opacity: opacity,
             glow: glow,
@@ -553,10 +556,12 @@ class _PinShadowPainter extends CustomPainter {
           ..shader = RadialGradient(
             colors: [
               RoadColors.pulse.withValues(alpha: a),
-              RoadColors.pulse.withValues(alpha: 0.6 * a),
+              RoadColors.pulse.withValues(alpha: a),
+              RoadColors.pulse.withValues(alpha: 0.5 * a),
               RoadColors.pulse.withValues(alpha: 0),
             ],
-            stops: const [0, 0.55, 1],
+            // Solid to the core's edge (1 / falloff), then a soft run out.
+            stops: const [0, 0.58, 1 / PinShadow.glowFalloff, 1],
           ).createShader(Rect.fromCircle(center: Offset.zero, radius: 1)),
       );
       canvas.restore();
@@ -566,7 +571,9 @@ class _PinShadowPainter extends CustomPainter {
       Paint()
         ..color = const Color(
           0xFF000000,
-        ).withValues(alpha: AppRoad.pinShadowAlpha * opacity)
+          // Lighter while the glow is lit, so the glow's core shows through
+          // it; the shadow still lies on top.
+        ).withValues(alpha: AppRoad.pinShadowAlpha * opacity * (1 - 0.6 * glow))
         ..maskFilter = const MaskFilter.blur(
           BlurStyle.normal,
           AppRoad.pinShadowBlur,

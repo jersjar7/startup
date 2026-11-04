@@ -224,8 +224,14 @@ speed). Every frame's anchor lies on the path.
 
 **The glow** is the pin's own light, not a separate pulse: a flat spring
 pool on the surface the pin stands on, centred on the anchor, under the
-coin's contact shadow and under every label. It fades in over the first
-150 ms of the walk and out over the last 150 ms. While the anchor is
+coin's contact shadow and under every label. On the ground it is an
+ellipse lying along the walk: a solid spring core as wide as the road and
+twice that long, so it shows either side of the coin, with a soft edge out
+to 1.5 times the core that spills a little past the road's edges. The
+contact shadow lightens to 40% while the glow is lit so the core reads
+through it. The same spring by day and at night, on road and face alike
+(owner, 2026-11-03: the "green sparkle" must be plainly visible). It fades
+in over the first 150 ms of the walk and out over the last 150 ms. While the anchor is
 outside the finished platform's rim the glow and shadow lie in the road's
 layer (the platform's wall covers them as the pin steps up); inside the rim
 they lie on the face.
