@@ -77,12 +77,16 @@ abstract final class AppRoad {
   static double riseLift(double t) =>
       lift * _sinPi(t.clamp(0.0, 1.0).toDouble());
 
-  /// The arrival bounce's scale, `t` 0..1 over [arriveMs]: up to about 105%
-  /// and back, easing out. Exactly the mockup's curve.
+  /// The arrival bounce's scale, `t` 0..1 over [arriveMs]: up to exactly
+  /// 105% and back, easing out. The mockup's curve (a half sine that leans
+  /// early), scaled so its peak is the 105% ROAD.md asks for.
   static double arriveBounce(double t) {
     final b = t.clamp(0.0, 1.0).toDouble();
-    return 1 + (arriveScale - 1) * _sinPi(b) * (1 - b * 0.3);
+    return 1 + (arriveScale - 1) * _sinPi(b) * (1 - b * 0.3) / _bouncePeak;
   }
+
+  /// The peak of `sin(pi t) * (1 - 0.3 t)`, so the bounce tops out at 105%.
+  static const _bouncePeak = 0.855304;
 
   static double _sinPi(double t) => math.sin(math.pi * t);
 
