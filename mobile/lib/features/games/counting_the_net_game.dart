@@ -110,8 +110,9 @@ const netRounds = <NetRound>[
   NetRound(
     subject: 'a wider net',
     asked:
-        'The same structure is redrawn with six channels instead of four, '
-        'with the drops unchanged. What happens to the seepage?',
+        'A shallower sheet pile in the same ground gives a net with six '
+        'channels instead of four, and the same twelve drops. What happens '
+        'to the seepage?',
     net: _wideNet,
     options: [
       'It rises by half',
@@ -121,10 +122,10 @@ const netRounds = <NetRound>[
     ],
     answer: 0,
     why:
-        'It rises by half, since four lanes have become six. In practice a '
-        'net drawn with more channels usually means the drops have gone up '
-        'too, because the squares have to stay square; but where only the '
-        'channels change, the water changes with them in proportion.',
+        'It rises by half, since four lanes have become six. The shorter '
+        'pile is why: the water has an easier way under it, so more of the '
+        'ground carries flow. The squares stay square, so a net only gains '
+        'channels when the structure itself changes.',
     source: 'geo-seep-q3',
   ),
   NetRound(
