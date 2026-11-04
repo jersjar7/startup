@@ -1,10 +1,9 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart' hide Path;
 
 import '../packs/drawing/figure_path.dart';
 import '../../core/theme/app_colors.dart';
 import 'figure_ink.dart';
+import 'flow_net_geometry.dart';
 
 /// A flow net under a water-retaining structure, described by the two counts
 /// that are read off it.
@@ -100,8 +99,77 @@ class FlowNetPainter extends CustomPainter {
       fontSize: 9.5,
     );
 
+    // The net itself, worked out with the conformal map for a sheet pile
+    // in a layer of finite depth (see [FlowNetGeometry]), drawn true to
+    // scale: one layer thickness is the same length across as down, so the
+    // cells come out square and the crossings at right angles. Squares
+    // with these counts fix how deep the pile goes, so the pile is drawn
+    // to that depth.
+    final geometry = FlowNetGeometry(net.channels, net.drops);
+    final layer = bottom - ground;
+    Offset onPage((double, double) p) =>
+        Offset(middle + p.$1 * layer, ground + p.$2 * layer);
+    Path through(List<(double, double)> points) {
+      final path = Path();
+      final first = onPage(points.first);
+      path.moveTo(first.dx, first.dy);
+      for (final p in points.skip(1)) {
+        final at = onPage(p);
+        path.lineTo(at.dx, at.dy);
+      }
+      return path;
+    }
+
     // The sheet pile.
-    final toe = ground + (bottom - ground) * 0.45;
+    final toe = ground + layer * geometry.pileDepth;
+
+    // Clipped above the rock line, which stays the drawing's darkest edge.
+    canvas
+      ..save()
+      ..clipRect(Rect.fromLTRB(left, ground, right, bottom - 1.2));
+
+    // The equipotential lines, one per drop, from the rock up to the pile.
+    final equipotential = Paint()
+      ..color = AppColors.ember.withValues(alpha: 0.65)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.1;
+    for (final line in geometry.equipotentials()) {
+      canvas.drawPath(through(line), equipotential);
+    }
+
+    // The flow lines between them, nested under the toe. The first runs
+    // down the pile and round its toe, the last along the rock: both are
+    // drawn as boundaries, a hair off the structure so they show.
+    final flow = Paint()
+      ..color = AppColors.info
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.3;
+    for (final line in geometry.flowLines()) {
+      canvas.drawPath(through(line), flow);
+    }
+    final boundary = Paint()
+      ..color = AppColors.info
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+    canvas.drawLine(
+      Offset(left, bottom - 2.2),
+      Offset(right, bottom - 2.2),
+      boundary,
+    );
+    canvas.drawPath(
+      Path()
+        ..moveTo(middle - 3, ground)
+        ..lineTo(middle - 3, toe)
+        ..arcToPoint(
+          Offset(middle + 3, toe),
+          radius: const Radius.circular(3),
+          clockwise: false,
+        )
+        ..lineTo(middle + 3, ground),
+      boundary,
+    );
+    canvas.restore();
+
     canvas.drawLine(
       Offset(middle, high - 6),
       Offset(middle, toe),
@@ -109,39 +177,6 @@ class FlowNetPainter extends CustomPainter {
         ..color = AppColors.charcoal
         ..strokeWidth = 4,
     );
-
-    // The flow lines: one lane boundary per channel. Each starts further out
-    // along the upstream bed than the last and dives deeper under the toe,
-    // so they read as nested arcs rather than a fan from one point.
-    for (var i = 0; i <= net.channels; i++) {
-      final t = i / net.channels;
-      final depth = toe + (bottom - toe - 6) * t;
-      final start = left + 6 + (middle - left - 30) * t * 0.75;
-      final end = right - 6 - (right - middle - 30) * t * 0.75;
-      final path = Path()..moveTo(start, ground + 3);
-      path.cubicTo(middle - 44, depth, middle + 44, depth, end, ground + 3);
-      canvas.drawPath(
-        path,
-        Paint()
-          ..color = AppColors.info
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = i == 0 || i == net.channels ? 2 : 1.3,
-      );
-    }
-
-    // The equipotential lines, crossing them: one per drop.
-    for (var j = 1; j < net.drops; j++) {
-      final t = j / net.drops;
-      final x = left + 10 + (right - left - 20) * t;
-      final sag = math.sin(math.pi * t) * 12;
-      canvas.drawLine(
-        Offset(x, ground + 4 + sag * 0.4),
-        Offset(x, toe + (bottom - toe - 6) * math.sin(math.pi * t) + 4),
-        Paint()
-          ..color = AppColors.ember.withValues(alpha: 0.65)
-          ..strokeWidth = 1.1,
-      );
-    }
 
     if (answered) {
       writeOn(
