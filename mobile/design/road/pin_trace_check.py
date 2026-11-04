@@ -3,8 +3,9 @@
     flutter run -t lib/dev/road_moment.dart --dart-define=LOG=true > run.log
     python3 design/road/pin_trace_check.py run.log [more.log ...]
 
-The demo prints one PINPATH line per walk (the two roads' centre curves on
-their tops, the finished platform's face, and the walk's own path) and one
+The demo prints the path once per walk, in `PINPATH+` pieces ended by
+`PINPATH.` (the two roads' centre curves on their tops, the finished
+platform's face, and the walk's own path), and one
 PINTRACE line per drawn frame (the pin's anchor, its glow's centre, which
 part of the walk it is on and how high it stands). For every walk this
 checks, in logical points:
@@ -32,12 +33,15 @@ def near(q, line):
 
 
 def walks(lines):
-    path, frames = None, []
+    path, frames, pieces = None, [], []
     for line in lines:
-        if 'PINPATH ' in line:
+        if 'PINPATH+ ' in line:
             if path and frames:
                 yield path, frames
-            path, frames = json.loads(line.split('PINPATH ', 1)[1]), []
+                path, frames = None, []
+            pieces.append(line.split('PINPATH+ ', 1)[1].rstrip('\n'))
+        elif 'PINPATH.' in line:
+            path, frames, pieces = json.loads(''.join(pieces)), [], []
         elif 'PINTRACE ' in line and path:
             frames.append(json.loads(line.split('PINTRACE ', 1)[1]))
     if path and frames:

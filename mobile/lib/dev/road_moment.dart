@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ import '../core/theme/road.dart';
 /// rotated from the command line still records a landscape tablet: turn the
 /// video back afterwards (ffmpeg -vf transpose=2). LOG prints every frame
 /// of the pin's walk as one `PINTRACE {json}` line, and the path it should
-/// be on as one `PINPATH {json}` line per walk, for
+/// be on once per walk (`PINPATH+` pieces, then `PINPATH.`), for
 /// design/road/pin_trace_check.py.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,23 +53,38 @@ void _log(PinTraceFrame f) {
     List<List<double>> curve(RoadGeometry g) => [
       for (var i = 0; i <= 2000; i++) _xy(g.at(i / 2000, trip.size.road)),
     ];
-    debugPrintSynchronously(
-      'PINPATH ${jsonEncode({
-        'into': trip.into == null ? null : curve(trip.into!),
-        'out': curve(trip.out),
-        'center': _xy(trip.center),
-        'r': trip.r,
-        'k': AppRoad.k,
-        'plinth': trip.plinth,
-        'road': trip.size.road,
-        'faceCenter': _xy(trip.faceCenter),
-        'path': [for (final p in trip.points) _xy(p.anchor)],
-      })}',
-    );
+    final json = jsonEncode({
+      'into': trip.into == null ? null : curve(trip.into!),
+      'out': curve(trip.out),
+      'center': _xy(trip.center),
+      'r': trip.r,
+      'k': AppRoad.k,
+      'plinth': trip.plinth,
+      'road': trip.size.road,
+      'faceCenter': _xy(trip.faceCenter),
+      'path': [for (final p in trip.points) _xy(p.anchor)],
+    });
+    // The device log cuts long lines, so the path goes out in pieces.
+    for (var at = 0; at < json.length; at += 600) {
+      final end = math.min(json.length, at + 600);
+      _buffer.add('PINPATH+ ${json.substring(at, end)}');
+    }
+    _buffer.add('PINPATH.');
   }
-  debugPrintSynchronously(
+  _buffer.add(
     'PINTRACE ${jsonEncode({'ms': f.ms, 'anchor': _xy(f.anchor), 'glowCenter': _xy(f.glowCenter), 'glow': f.glow, 'part': f.part.name, 'height': f.height})}',
   );
+}
+
+/// Held until the loop starts over, so printing never costs the walk a
+/// frame.
+final _buffer = <String>[];
+
+void _flush() {
+  for (final line in _buffer) {
+    debugPrintSynchronously(line);
+  }
+  _buffer.clear();
 }
 
 class _Demo extends StatefulWidget {
@@ -109,6 +125,7 @@ class _DemoState extends State<_Demo> {
   }
 
   void _reset() {
+    _flush();
     for (final lesson in chapter.lessons) {
       for (final game in lesson.builtGames) {
         p.reset(game.id);
