@@ -5,20 +5,29 @@ Fill and line are eased in and start under the platform lip, so they are
 measured at their visible half way point (spec: fill 150-1200 -> 675,
 line 400-1200 -> 800), give or take a frame.
 
-                     spec   phone day  phone night  tablet landscape
-rise starts             0           0            0                 0
-fill half way         675         591          663               620
-line half way         800         766          752               773
-pulse first glow     1200        1163         1164              1210
-bounce starts        1800        1796         1798              1820
-bounce peak         1.05x       1.048        1.047     about 1.05 (2 px rounding)
-settled              2100        2096         2098              2120
+                       spec   phone day  phone night  tablet landscape
+rise starts               0           0            0                 0
+fill half way           675         588          663               618
+line half way           800         761          768               769
+pulse first glow       1200        1164         1176              1210
+bounce starts          1800        1789         1793              1822
+bounce peak           1.05x       1.048        1.047     about 1.05 (2 px rounding)
+settled                2100        2089         2093              2122
+spring tile on the
+newly reached lesson  1800-2100   first seen 1830, full 1997 (day);
+                                  1943 / 2010 (night, faint at first on
+                                  the dark ground); 1844 / 2044 (tablet)
 
-Reduce Motion (phone): the road and pin change in one cross-fade over
-6 frames (about 200 ms at 30 fps; spec 180 ms), no pulse, no bounce, no rise.
+The tile starts growing at 1800 with the bounce and eases out over 300 ms;
+it stays on the finished lesson until then.
 
-phone-*: iPhone 17e simulator (390 pt wide), debug build.
-tablet-landscape: iPad Air 11-inch simulator drawn a quarter turn round
-(lib/dev/road_moment.dart, TURN) and turned back, cropped to the path pane.
-Each clip runs from just before the last round is played until the next
-platform settles.
+Reduce Motion (phone): the finished platform's face fades in 180 ms
+(6.03 to 6.20 s in the raw take), then the road, pin and tile change in
+one cross-fade (6.23 to 6.40 s, about 180 ms). No pulse, bounce, rise or
+ring sweep.
+
+phone-*: iPhone 17e simulator (390 pt wide), debug build, below the
+status bar. tablet-landscape: iPad Air 11-inch simulator drawn a quarter
+turn round (lib/dev/road_moment.dart, TURN) and turned back, cropped to the
+path pane. Each clip runs from just before the last round is played until
+the next platform settles.

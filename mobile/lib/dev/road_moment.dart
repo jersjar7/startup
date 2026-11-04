@@ -121,7 +121,7 @@ class _DemoState extends State<_Demo> {
     const reduce = bool.fromEnvironment('REDUCE');
     const turn = bool.fromEnvironment('TURN');
     return MaterialApp(
-      theme: AppTheme.light,
+      theme: AppPalette.dark ? AppTheme.dark : AppTheme.light,
       debugShowCheckedModeBanner: false,
       home: Builder(
         builder: (context) {
