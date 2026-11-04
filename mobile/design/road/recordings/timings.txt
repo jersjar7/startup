@@ -38,12 +38,18 @@ Checked two ways.
    image matching in every frame at 60 a second, its bottom point traced):
 
                         phone day  phone night  tablet
-   walk                  54 frames  54 frames  54 frames (900 ms)
-   step max / median   15.4/11.8  15.4/11.8  14.8/11.2 px
-   ratio                   1.31       1.31      1.33
+   walk                  54 frames  54 frames  55 frames
+   step max / median   15.4/11.8  15.4/11.8  14.8/10.9 px
+   ratio                   1.31       1.31      1.36
+
+   The tablet take has one frame the recorder repeated near the end (a 0
+   step), which adds a frame and lowers the median a little.
 
    trace-*.png: every frame's coin bottom over the last frame.
    strip-*.jpg: every 2nd frame of the walk.
+   glow-crops.png: five evenly spaced walk frames per clip (10% to 90% of
+   the walk, so the first and last are inside the 150 ms fades), cropped at
+   full resolution round the traced anchor.
 
 Reduce Motion (phone): no walk. The finished platform's face fades in,
 then road, pin, glow-free rest spot and tile change in one 180 ms
