@@ -183,8 +183,10 @@ Mockups: `T02p-chapter-map-portrait` (medium), and the right pane of
   charcoal, the chapter in flight spring, as in landscape.
 - **The path gets bigger, not just wider.** Nodes 100 (phone 84), the weave
   amplitude 150 (phone about 90), steps 150 apart, labels in DM Sans 16 on
-  two lines at most. The road stays 16 thick with the spring dashes on the
-  walked stretch. Only the lesson in flight gets a label tile, in spring.
+  two lines at most. Labels start 28 from the node face, clear of the ring.
+  The road is the one in `road/ROAD.md` (24 wide on a tablet, 20 on a
+  phone): charcoal with a cream centre line behind the student, pale ahead.
+  Only the lesson in flight gets a label tile, in spring.
 - **The path is centred in its pane** (owner, 2026-11-03). The node column,
   meaning the middle line of the zigzag (halfway between the left nodes and
   the right nodes), sits on the pane's own middle line, in every place the

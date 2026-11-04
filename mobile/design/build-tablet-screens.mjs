@@ -9,6 +9,7 @@
 // can see what a tablet adds. Content is the app's own: real chapters,
 // lessons, games and copy from lib/features.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { roadDay, roadNight, roadSize, segmentCurve, segmentSvg, marker } from './road/road.mjs';
 
 const T = JSON.parse(readFileSync(new URL('./tokens.json', import.meta.url)));
 const TB = T.tablet;
@@ -23,7 +24,7 @@ const day = {
   onCharcoal: T.color.cream, onAccent: T.color.charcoal, paper: '#FDFCF8',
   plinth: '#CDBFA8', sheet: T.color.cream, line: 'rgba(44,44,44,0.12)', emberBg: '#FEF0EA',
   forestBg: '#E8F5EE', white: '#FFFFFF', scrim: 'rgba(44,44,44,0.45)', grid: 'rgba(100,160,140,0.10)',
-  gridFine: 'rgba(100,160,140,0.05)',
+  gridFine: 'rgba(100,160,140,0.05)', ...roadDay,
 };
 // Night values from lib/core/theme/app_colors.dart (ADR 0025, "Warm night").
 const night = {
@@ -33,7 +34,7 @@ const night = {
   mutedDark: '#A89F93', pipOff: 'rgba(242,236,226,0.2)', onCharcoal: '#1B1A18',
   paper: '#24221F', plinth: '#5A544C', sheet: '#2E2B27', line: 'rgba(242,236,226,0.14)',
   emberBg: '#3A2219', forestBg: '#1C3328', white: '#24221F', scrim: 'rgba(0,0,0,0.78)',
-  grid: 'rgba(120,190,160,0.10)', gridFine: 'rgba(120,190,160,0.05)',
+  grid: 'rgba(120,190,160,0.10)', gridFine: 'rgba(120,190,160,0.05)', ...roadNight,
 };
 const vars = (p) => Object.entries(p).map(([k, v]) => `--${k}:${v};`).join('');
 const C = Object.fromEntries(Object.keys(day).map((k) => [k, `var(--${k})`]));
@@ -179,21 +180,24 @@ const path = ({ width, top, nodes, node = 92, step = 136, amp = 110, highlight =
     y += step;
   });
   const h = y + 40;
+  // The road (mobile/design/road/ROAD.md): one segment per pair of nodes on
+  // the app's own curve rule, walked segments charcoal with a centre line.
   let road = '';
-  let walked = '';
+  let mk = '';
   for (let i = 0; i < placed.length - 1; i++) {
     const a = placed[i], b = placed[i + 1];
-    const d = `M${a.x} ${a.y} C ${a.x} ${a.y + (b.y - a.y) * 0.55}, ${b.x} ${b.y - (b.y - a.y) * 0.55}, ${b.x} ${b.y}`;
-    road += `<path d="${d}" stroke="${C.charcoal}" stroke-width="16" stroke-linecap="round"/>`;
-    if (a.state === 'done') walked += `<path d="${d}" stroke="${C.spring}" stroke-width="6" stroke-linecap="round" stroke-dasharray="16 13"/>`;
+    const curve = segmentCurve({ x: a.x, y: a.y }, { x: b.x, y: b.y }, node / 2);
+    road += segmentSvg(curve, { fill: a.state === 'done' ? 1 : 0, size: roadSize.tablet, col: C });
+    if (b.state === 'now') { const q = curve.at(0.72); mk = marker(q.x, q.y, RACCOON, 36, { ring: C.fog }); }
   }
+  const walked = '';
   const disc = (n) => {
     const r = node / 2;
     const on = highlight === n.name;
     if (n.state === 'done') return `<span style="display:flex;align-items:center;justify-content:center;width:${node}px;height:${node}px;border-radius:${r}px;background:${C.charcoal};color:${C.spring};box-shadow:0 7px 0 ${C.plinth};">${ico.check(36, 3)}</span>`;
     if (n.state === 'now') {
       const pct = Math.round((n.frac ?? 0.33) * 100);
-      return `<span style="position:relative;display:block;width:${node}px;height:${node}px;border-radius:${r}px;background:conic-gradient(${C.spring} 0 ${pct}%, ${C.charcoal} ${pct}% 100%);box-shadow:0 7px 0 ${C.plinth}${on ? `, 0 0 0 8px ${C.fog}, 0 0 0 12px ${C.charcoal}` : ''};"><span style="position:absolute;inset:11px;border-radius:50%;background:${C.cream};"></span></span>`;
+      return `<span style="position:relative;display:block;width:${node}px;height:${node}px;border-radius:${r}px;background:conic-gradient(${C.charcoal} 0 ${pct}%, ${C.spring} ${pct}% 100%);box-shadow:0 7px 0 ${C.plinth}${on ? `, 0 0 0 8px ${C.fog}, 0 0 0 12px ${C.charcoal}` : ''};"><span style="position:absolute;inset:11px;border-radius:50%;background:${C.cream};"></span></span>`;
     }
     return `<span style="display:block;width:${node}px;height:${node}px;border-radius:${r}px;background:${C.cream};box-shadow:0 7px 0 ${C.plinth}${on ? `, 0 0 0 8px ${C.fog}, 0 0 0 12px ${C.charcoal}` : ''};"></span>`;
   };
@@ -205,7 +209,8 @@ const path = ({ width, top, nodes, node = 92, step = 136, amp = 110, highlight =
     const box = tileOn
       ? `<span style="display:inline-block;padding:12px 16px;border-radius:20px;background:${C.spring};">${inner}</span>`
       : inner;
-    const gap = node / 2 + 18;
+    // Clear of the ring (8 of fog and 4 of charcoal) by 16 more.
+    const gap = node / 2 + 28;
     const pos = right ? `left:${n.x + gap}px;` : `right:${width - n.x + gap}px;`;
     return `<div style="position:absolute;top:${n.y}px;${pos}width:${labelW}px;transform:translateY(-50%);display:flex;${right ? '' : 'justify-content:flex-end;'}">${box}</div>`;
   };
@@ -214,7 +219,8 @@ const path = ({ width, top, nodes, node = 92, step = 136, amp = 110, highlight =
     html: `<svg aria-hidden="true" width="${width}" height="${h}" style="position:absolute;left:0;top:0;" fill="none">${road}${walked}</svg>
 ${sections.map((s) => `<div style="position:absolute;left:0;top:${s.y}px;padding:6px 14px 6px 0;background:${C.fog};">${eyebrow(s.text, C.muted)}</div>`).join('')}
 ${placed.map((n) => `<div style="position:absolute;left:${n.x - node / 2}px;top:${n.y - node / 2}px;">${disc(n)}</div>`).join('')}
-${placed.map(label).join('')}`,
+${placed.map(label).join('')}
+${mk}`,
   };
 };
 
