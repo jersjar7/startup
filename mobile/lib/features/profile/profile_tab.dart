@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/network/api_exception.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/tablet.dart';
 import '../auth/auth_controller.dart';
 import '../games/chapter_map_screen.dart';
 import '../onboarding/onboarding_screen.dart';
@@ -308,6 +309,35 @@ class _ProfileTabState extends State<ProfileTab> {
               );
             }
 
+            // T24: on a wide tablet the question, while it is due, is the
+            // whole page; answering or putting it away brings Profile back.
+            if (askOutcome && AppTablet.of(context) == SizeClass.expanded) {
+              return SafeArea(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppTablet.screenX,
+                    AppTablet.spaceTop,
+                    AppTablet.screenX,
+                    AppTablet.screenX,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      top,
+                      const SizedBox(height: 64),
+                      ExamOutcomeCard(
+                        auth: auth,
+                        split: true,
+                        mastery: snap.data == null ? null : totals,
+                        onSetExamDate: () => _openExam(examIso),
+                        onDone: () => setState(() => _outcomeDone = true),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+
             return LayoutBuilder(
               builder: (context, box) => SingleChildScrollView(
                 controller: _scroll,
@@ -369,25 +399,36 @@ class _ProfileTabState extends State<ProfileTab> {
     return false;
   }
 
-  void _openChapter(ChapterMap chapter) => Navigator.of(
-    context,
-  ).push(MaterialPageRoute(builder: (_) => BesideRail(child: ChapterMapScreen(chapter: chapter))));
+  void _openChapter(ChapterMap chapter) => Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (_) => BesideRail(child: ChapterMapScreen(chapter: chapter)),
+    ),
+  );
 
-  void _openExam(String? iso) => Navigator.of(
-    context,
-  ).push(MaterialPageRoute(builder: (_) => BesideRail(child: ExamDateScreen(initial: iso))));
+  void _openExam(String? iso) => Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (_) => BesideRail(child: ExamDateScreen(initial: iso)),
+    ),
+  );
 
-  void _openDays(int count) => Navigator.of(
-    context,
-  ).push(MaterialPageRoute(builder: (_) => BesideRail(child: StudyDaysScreen(count: count))));
+  void _openDays(int count) => Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (_) => BesideRail(child: StudyDaysScreen(count: count)),
+    ),
+  );
 
-  void _openMastery(Map<String, ChapterMastery> m) => Navigator.of(
-    context,
-  ).push(MaterialPageRoute(builder: (_) => BesideRail(child: MasteryScreen(mastery: m))));
+  void _openMastery(Map<String, ChapterMastery> m) =>
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => BesideRail(child: MasteryScreen(mastery: m)),
+        ),
+      );
 
-  void _openPassCard() => Navigator.of(
-    context,
-  ).push(MaterialPageRoute<void>(builder: (_) => const BesideRail(child: PassCardScreen())));
+  void _openPassCard() => Navigator.of(context).push(
+    MaterialPageRoute<void>(
+      builder: (_) => const BesideRail(child: PassCardScreen()),
+    ),
+  );
 
   static const _weekdays = [
     'MONDAY',

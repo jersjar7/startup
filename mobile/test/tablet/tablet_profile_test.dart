@@ -115,6 +115,26 @@ void main() {
     });
   }
 
+  testWidgets('the exam outcome takes the page (T24)', (tester) async {
+    setWindow(tester, landscape);
+    _underway();
+    await tester.pumpWidget(
+      tabletApp(user: {..._user, 'examDate': '2026-10-20'}),
+    );
+    await settle(tester);
+    expect(find.text('Your exam has been and gone.'), findsOneWidget);
+    expect(find.text('Carry on'), findsNothing);
+    expect(tester.takeException(), isNull);
+    final headline = tester.getRect(find.text('Your exam has been and gone.'));
+    final passed = tester.getRect(find.text('I passed'));
+    expect(passed.left, greaterThan(headline.right));
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('../goldens/tablet/exam-outcome-landscape.png'),
+    );
+    await drain(tester);
+  });
+
   testWidgets('Profile at night', (tester) async {
     night();
     setWindow(tester, landscape);

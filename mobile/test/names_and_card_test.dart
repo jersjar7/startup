@@ -509,6 +509,26 @@ void main() {
       expect(find.text('Set my next exam date'), findsOneWidget);
       expect(find.text('Get my card'), findsNothing);
     });
+
+    testWidgets('on a wide tablet: what happened left, what next right', (
+      tester,
+    ) async {
+      server.link = _card;
+      await _pump(
+        tester,
+        const OutcomeLinkScreen(token: 'tok', answer: 'passed'),
+        signedIn: false,
+        size: const Size(1180, 820),
+      );
+      expect(tester.takeException(), isNull);
+      final heading = tester.getRect(find.text('Congratulations'));
+      final pill = tester.getRect(find.text('Get my card'));
+      expect(pill.left, greaterThan(heading.left + 400));
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('goldens/tablet/outcome-link-landscape.png'),
+      );
+    });
   });
 
   testWidgets('the email\'s links open their screens through the real '

@@ -6,7 +6,7 @@ import '../../core/network/api_exception.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
-import '../shared/widgets/split_page.dart';
+import '../../core/theme/tablet.dart';
 import '../shared/widgets/kit.dart';
 import 'account_extras.dart' show StripChip;
 import 'exam_date_screen.dart';
@@ -132,88 +132,159 @@ class _OutcomeLinkScreenState extends State<OutcomeLinkScreen> {
       (a) => a.status == AuthStatus.authenticated,
     );
     final passed = widget.answer == 'passed' && _card;
-    return Scaffold(
-      backgroundColor: passed ? AppColors.springField : AppColors.fog,
-      body: SafeArea(
-        child: TabletCap(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  children: [
-                    RoundIconButton(
-                      icon: Icons.close_rounded,
-                      label: 'Close',
-                      onTap: _home,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 26),
-                Text(
-                  _loading ? 'One moment.' : _heading,
-                  style: AppTheme.display(),
-                ),
-                if (!_loading && _msg.isNotEmpty) ...[
-                  const SizedBox(height: 14),
-                  Text(_msg, style: AppTheme.body(size: 16)),
-                ],
-                if (_offerAttempt) ...[
-                  const SizedBox(height: 28),
-                  Text(
-                    'One last thing: which attempt was it?',
-                    style: AppTheme.body(size: 16, weight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 12),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: [
-                      for (final (n, label) in const [
-                        (1, 'First'),
-                        (2, 'Second'),
-                        (3, 'Third or more'),
-                      ])
-                        StripChip(
-                          label: label,
-                          on: _attemptSaved == n,
-                          onTap: () => _sendAttempt(n),
-                        ),
-                    ],
-                  ),
-                ],
-                const Spacer(),
-                if (!_loading && passed)
-                  PillButton(
-                    label: 'Get my card',
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => PassCardScreen(token: widget.token),
-                      ),
-                    ),
-                  )
-                else if (!_loading &&
-                    _ok &&
-                    signedIn &&
-                    widget.answer != null &&
-                    widget.answer != 'passed')
-                  // Both are about to sit again; the date is the first step.
-                  PillButton(
-                    label: 'Set my next exam date',
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => const ExamDateScreen(),
-                      ),
-                    ),
-                  )
-                else if (!_loading)
-                  PillButton(label: 'Open the app', onTap: _home),
-              ],
-            ),
+    final tablet = AppTablet.isTablet(context);
+    final wide = AppTablet.of(context) == SizeClass.expanded;
+    final close = Row(
+      children: [
+        RoundIconButton(
+          icon: Icons.close_rounded,
+          label: 'Close',
+          onTap: _home,
+        ),
+      ],
+    );
+    final heading = Text(
+      _loading ? 'One moment.' : _heading,
+      style: tablet
+          ? AppTheme.display(size: 64, height: 1, tracking: -0.04)
+          : AppTheme.display(),
+    );
+    final message = <Widget>[
+      if (!_loading && _msg.isNotEmpty) ...[
+        SizedBox(height: tablet ? 20 : 14),
+        Text(
+          _msg,
+          style: tablet
+              ? AppTheme.body(size: 19, height: 1.6)
+              : AppTheme.body(size: 16),
+        ),
+      ],
+    ];
+    final attempt = <Widget>[
+      if (_offerAttempt) ...[
+        const SizedBox(height: 28),
+        Text(
+          'One last thing: which attempt was it?',
+          style: AppTheme.body(size: tablet ? 17 : 16, weight: FontWeight.w600),
+        ),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final (n, label) in const [
+              (1, 'First'),
+              (2, 'Second'),
+              (3, 'Third or more'),
+            ])
+              StripChip(
+                label: label,
+                on: _attemptSaved == n,
+                onTap: () => _sendAttempt(n),
+              ),
+          ],
+        ),
+      ],
+    ];
+    final Widget? action;
+    if (!_loading && passed) {
+      action = PillButton(
+        label: 'Get my card',
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => PassCardScreen(token: widget.token),
           ),
         ),
-      ),
+      );
+    } else if (!_loading &&
+        _ok &&
+        signedIn &&
+        widget.answer != null &&
+        widget.answer != 'passed') {
+      // Both are about to sit again; the date is the first step.
+      action = PillButton(
+        label: 'Set my next exam date',
+        onTap: () => Navigator.of(
+          context,
+        ).push(MaterialPageRoute<void>(builder: (_) => const ExamDateScreen())),
+      );
+    } else if (!_loading) {
+      action = PillButton(label: 'Open the app', onTap: _home);
+    } else {
+      action = null;
+    }
+
+    final Widget body;
+    if (wide) {
+      // As T24: what happened on the left, what is next on the right.
+      body = Padding(
+        padding: const EdgeInsets.fromLTRB(
+          AppTablet.screenX,
+          AppTablet.spaceTop,
+          AppTablet.screenX,
+          AppTablet.screenX,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            close,
+            const SizedBox(height: 64),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [heading, ...message],
+                    ),
+                  ),
+                  const SizedBox(width: 64),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [...attempt, const Spacer(), ?action],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      body = Padding(
+        padding: tablet
+            ? const EdgeInsets.fromLTRB(
+                AppTablet.screenX,
+                AppTablet.spaceTop,
+                AppTablet.screenX,
+                AppTablet.screenX,
+              )
+            : const EdgeInsets.fromLTRB(24, 8, 24, 34),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            close,
+            SizedBox(height: tablet ? 64 : 26),
+            heading,
+            ...message,
+            ...attempt,
+            const Spacer(),
+            if (action != null)
+              tablet
+                  ? Align(
+                      alignment: Alignment.centerRight,
+                      child: SizedBox(width: AppTablet.pillMax, child: action),
+                    )
+                  : action,
+          ],
+        ),
+      );
+    }
+    return Scaffold(
+      backgroundColor: passed ? AppColors.springField : AppColors.fog,
+      body: SafeArea(child: body),
     );
   }
 }

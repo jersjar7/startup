@@ -10,6 +10,7 @@ import '../games/game_catalog.dart';
 import '../auth/auth_controller.dart';
 import 'mastery_model.dart';
 import 'pass_card_screen.dart';
+import '../shared/widgets/kit.dart';
 
 /// Nine days after the exam, the one question worth interrupting for.
 ///
@@ -79,7 +80,12 @@ class ExamOutcomeCard extends StatefulWidget {
     this.via = 'app',
     this.mastery,
     this.onSetExamDate,
+    this.split = false,
   });
+
+  /// T24: a wide tablet gives the question the whole page, the question as
+  /// a headline on the left and the reason and the answers on the right.
+  final bool split;
 
   final AuthController auth;
   final VoidCallback? onDone;
@@ -143,9 +149,11 @@ class _ExamOutcomeCardState extends State<ExamOutcomeCard> {
       // A pass goes straight on to the card, the reward, rather than ending
       // on a thank-you (ADR 0023). The card reads it from the account.
       if (sat && passed == true) {
-        Navigator.of(
-          context,
-        ).push(MaterialPageRoute<void>(builder: (_) => const BesideRail(child: PassCardScreen())));
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => const BesideRail(child: PassCardScreen()),
+          ),
+        );
       }
       return;
     }
@@ -271,8 +279,191 @@ class _ExamOutcomeCardState extends State<ExamOutcomeCard> {
     );
   }
 
+  /// T24, the same three states laid out as a page.
+  Widget _buildSplit() {
+    final e = _ending;
+    final String eyebrow;
+    final String heading;
+    final String body;
+    final List<Widget> answers;
+    Widget link(String label, VoidCallback? onTap) => Center(
+      child: TextButton(
+        onPressed: onTap,
+        child: Text(
+          label,
+          style: AppTheme.body(
+            size: 15,
+            weight: FontWeight.w600,
+          ).copyWith(decoration: TextDecoration.underline),
+        ),
+      ),
+    );
+    if (e != null) {
+      eyebrow = 'WHAT NOW';
+      heading = e.heading;
+      body = e.body;
+      answers = [
+        if (e.weakest != null) ...[
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
+            decoration: BoxDecoration(
+              color: AppColors.cream,
+              borderRadius: BorderRadius.circular(28),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'WEAKEST, AGAINST ITS SHARE OF THE EXAM',
+                  style: AppTheme.eyebrow(color: AppColors.ink3),
+                ),
+                const SizedBox(height: 8),
+                Text(e.weakest!, style: AppTheme.display(size: 28)),
+              ],
+            ),
+          ),
+          const SizedBox(height: 14),
+        ],
+        if (widget.onSetExamDate != null)
+          PillButton(
+            label: 'Set a new exam date',
+            onTap: () {
+              widget.onSetExamDate!();
+              widget.onDone?.call();
+            },
+          ),
+        const SizedBox(height: 6),
+        link('Not now', widget.onDone),
+      ];
+    } else if (_askingAttempt) {
+      eyebrow = 'HOW DID IT GO?';
+      heading = _passed ? 'Congratulations.' : 'Thank you for saying.';
+      body = _passed
+          ? 'One last thing: which attempt was it?'
+          : 'The repeat population is studied far less than the first-time '
+                'one. Which attempt was this?';
+      answers = [
+        for (final n in [1, 2, 3]) ...[
+          SheetButton(
+            label: n == 1 ? 'First' : (n == 2 ? 'Second' : 'Third or more'),
+            filled: false,
+            onTap: () {
+              if (!_busy) _answer(sat: true, passed: _passed, attempt: n);
+            },
+          ),
+          const SizedBox(height: 12),
+        ],
+        link(
+          'Rather not say',
+          _busy ? null : () => _answer(sat: true, passed: _passed),
+        ),
+      ];
+    } else {
+      eyebrow = 'HOW DID IT GO?';
+      heading = 'Your exam has been and gone.';
+      body =
+          'Telling us is how we learn which study patterns actually lead to '
+          'a pass, which makes this better for everyone sitting it after you.';
+      answers = [
+        PillButton(
+          label: 'I passed',
+          onTap: () {
+            if (!_busy) {
+              setState(() {
+                _passed = true;
+                _askingAttempt = true;
+              });
+            }
+          },
+        ),
+        const SizedBox(height: 14),
+        SheetButton(
+          label: 'Not this time',
+          filled: false,
+          onTap: () {
+            if (!_busy) {
+              setState(() {
+                _passed = false;
+                _askingAttempt = true;
+              });
+            }
+          },
+        ),
+        const SizedBox(height: 6),
+        link('I did not sit it', _busy ? null : () => _answer(sat: false)),
+      ];
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      eyebrow,
+                      style: AppTheme.eyebrow(
+                        color: e == null ? AppColors.ember : AppColors.ink2,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Text(
+                heading,
+                style: AppTheme.display(size: 64, height: 1, tracking: -0.04),
+              ),
+              if (widget.dismissible && e == null) ...[
+                const SizedBox(height: 28),
+                TextButton(
+                  onPressed: _busy ? null : _snooze,
+                  style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                  child: Text(
+                    'Ask me later',
+                    style: AppTheme.body(
+                      size: 15,
+                      weight: FontWeight.w600,
+                      color: AppColors.ink2,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(width: 64),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  body,
+                  style: AppTheme.body(
+                    size: 17,
+                    height: 1.6,
+                    color: AppColors.mutedOnLight,
+                  ),
+                ),
+                const SizedBox(height: 32),
+                ...answers,
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (widget.split) return _buildSplit();
     return Container(
       padding: const EdgeInsets.fromLTRB(22, 20, 22, 20),
       decoration: BoxDecoration(
