@@ -15,13 +15,16 @@ import '../features/games/lesson_node_rive.dart';
 /// and recording on a device (ROAD.md). Not part of the app:
 ///
 ///   flutter run -t lib/dev/road_moment.dart [--dart-define=NIGHT=true]
-///       [--dart-define=REDUCE=true]
+///       [--dart-define=REDUCE=true] [--dart-define=TURN=true]
 ///
 /// Mathematics, two lessons behind and the third one round from done. Two
 /// seconds in, that round is "played": the map takes in the progress exactly
 /// as it does when a sitting closes, so the third platform plays its own
 /// moment, then the road to the fourth opens. It starts over every 9 s. A
 /// window 600 or wider draws the tablet's path, as Study does on a tablet.
+/// TURN draws the screen a quarter turn round, so a simulator that cannot be
+/// rotated from the command line still records a landscape tablet: turn the
+/// video back afterwards (ffmpeg -vf transpose=2).
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AppPalette.dark = const bool.fromEnvironment('NIGHT');
@@ -116,12 +119,14 @@ class _DemoState extends State<_Demo> {
   @override
   Widget build(BuildContext context) {
     const reduce = bool.fromEnvironment('REDUCE');
+    const turn = bool.fromEnvironment('TURN');
     return MaterialApp(
       theme: AppTheme.light,
       debugShowCheckedModeBanner: false,
       home: Builder(
         builder: (context) {
-          final media = MediaQuery.of(context);
+          var media = MediaQuery.of(context);
+          if (turn) media = media.copyWith(size: media.size.flipped);
           final tablet = media.size.width >= AppTablet.medium;
           final metrics = tablet
               ? const PathMetrics.tablet()
@@ -144,7 +149,7 @@ class _DemoState extends State<_Demo> {
             onTap: (_) {},
             onSettled: (id, v) => setState(() => _shown[id] = v),
           );
-          return MediaQuery(
+          final page = MediaQuery(
             data: media.copyWith(
               disableAnimations: reduce || media.disableAnimations,
             ),
@@ -165,6 +170,7 @@ class _DemoState extends State<_Demo> {
               ),
             ),
           );
+          return turn ? RotatedBox(quarterTurns: 1, child: page) : page;
         },
       ),
     );

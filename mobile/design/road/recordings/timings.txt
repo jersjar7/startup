@@ -1,0 +1,24 @@
+The finishing moment, measured from these recordings (30 fps frames,
+ffmpeg). t0 is the next platform starting to rise, fitted to its measured
+face width against the rise curve; every time below is from t0, in ms.
+Fill and line are eased in and start under the platform lip, so they are
+measured at their visible half way point (spec: fill 150-1200 -> 675,
+line 400-1200 -> 800), give or take a frame.
+
+                     spec   phone day  phone night  tablet landscape
+rise starts             0           0            0                 0
+fill half way         675         591          663               620
+line half way         800         766          752               773
+pulse first glow     1200        1163         1164              1210
+bounce starts        1800        1796         1798              1820
+bounce peak         1.05x       1.048        1.047     about 1.05 (2 px rounding)
+settled              2100        2096         2098              2120
+
+Reduce Motion (phone): the road and pin change in one cross-fade over
+6 frames (about 200 ms at 30 fps; spec 180 ms), no pulse, no bounce, no rise.
+
+phone-*: iPhone 17e simulator (390 pt wide), debug build.
+tablet-landscape: iPad Air 11-inch simulator drawn a quarter turn round
+(lib/dev/road_moment.dart, TURN) and turned back, cropped to the path pane.
+Each clip runs from just before the last round is played until the next
+platform settles.
