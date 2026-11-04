@@ -50,6 +50,10 @@ abstract final class AppRoad {
   /// Reduce Motion: the segment and the pin cross-fade, nothing else moves.
   static const reducedFadeMs = 180.0;
 
+  /// The spring label tile moves to the newly reached lesson during the
+  /// bounce: it fades in over the bounce, [arriveStartMs] to [arriveEndMs].
+  static const tileFadeMs = arriveEndMs - arriveStartMs;
+
   // ── the platforms' own motion, for the node widget ──
 
   /// A platform the walked road has not reached rests at 95%.

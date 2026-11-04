@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/core/theme/road.dart';
 import 'package:mobile/features/games/chapter_map_screen.dart';
@@ -91,6 +92,20 @@ void main() {
 
   RoadSegment segmentAfter(WidgetTester tester, LessonNode l) =>
       tester.widget<RoadSegment>(find.byKey(ValueKey('road-${l.id}')));
+
+  /// Whether a lesson's label wears the spring "you are here" tile.
+  bool tiled(String id) => find
+      .descendant(
+        of: find.byKey(ValueKey('label-$id')),
+        matching: find.byWidgetPredicate(
+          (w) =>
+              w is Container &&
+              w.decoration is BoxDecoration &&
+              (w.decoration! as BoxDecoration).color == AppColors.springField,
+        ),
+      )
+      .evaluate()
+      .isNotEmpty;
 
   RoadPin pin(WidgetTester tester) =>
       tester.widgetList<RoadPin>(find.byType(RoadPin)).single;
@@ -235,6 +250,7 @@ void main() {
     );
     await tester.pump();
     final before = pin(tester).anchor;
+    expect(tiled(third.id), isTrue);
     final into = segmentAfter(tester, lessons[1]);
     expect(before, into.geometry.at(road.pinRest, road.road));
 
@@ -278,6 +294,10 @@ void main() {
     // Taps still land during the moment.
     expect(tester.hasRunningAnimations, isTrue);
 
+    // The tile stays with the finished lesson until the road has arrived.
+    expect(tiled(third.id), isTrue);
+    expect(tiled(lessons[3].id), isFalse);
+
     // The pin's shadow changed layers on the way (platform, then road):
     // the finished platform kept its state, so its art never replayed.
     expect(tester.state(find.byKey(ValueKey(third.id))), same(platform));
@@ -285,10 +305,19 @@ void main() {
     // 1800: the next platform's bounce is asked for, once.
     await tester.pump(const Duration(milliseconds: 400));
     expect(state.arriveTicks[next.id], 1);
+    // The tile is on its way over, fading in during the bounce.
+    expect(tiled(next.id), isTrue);
 
-    // 2100: parked where it rests now.
+    // 2100: parked where it rests now, the tile wholly on the new lesson,
+    // and the new lesson does not breathe until it is started.
     await tester.pump(const Duration(milliseconds: 400));
     await tester.pump();
+    expect(tiled(next.id), isTrue);
+    expect(tiled(third.id), isFalse);
+    expect(
+      tester.widget<LessonNodeWidget>(find.byKey(ValueKey(next.id))).current,
+      isFalse,
+    );
     expect(
       (pin(tester).anchor - open.geometry.at(road.pinRest, road.road)).distance,
       lessThan(0.01),

@@ -538,6 +538,13 @@ class ChapterPathState extends State<ChapterPath>
   _PinAt? _pinTarget;
   bool _handled = false;
 
+  /// The lesson whose label wears the spring tile: where the student is.
+  /// The lesson in flight when there is one; otherwise the lesson the pin
+  /// stands at, the next one to start. A newly reached lesson takes it from
+  /// the finished one during the arrival bounce (ROAD.md), never before the
+  /// road has got there.
+  String? _tile;
+
   void _onArrive(String lessonId) {
     if (!mounted) return;
     setState(() => _arrive[lessonId] = (_arrive[lessonId] ?? 0) + 1);
@@ -655,6 +662,27 @@ class ChapterPathState extends State<ChapterPath>
       if (pins.isEmpty) pins.add((_pinShown!, 1));
     }
 
+    // ── the spring tile: on the lesson in flight, else where the pin is ──
+    final reached = target == null || nextId == null
+        ? null
+        : nodes[target.lesson].lesson!.id;
+    if (w.current != null) {
+      _tile = w.current;
+    } else if (seg != null && clock != null && _handled) {
+      final handOver = reduce ? 0 : AppRoad.arriveStartMs;
+      if (clock.value >= handOver) _tile = reached;
+    } else if (seg == null) {
+      // Held while a finished lesson or its road is still to play.
+      final pending =
+          _awaiting.isNotEmpty ||
+          w.chapter.lessons.any(
+            (l) =>
+                w.state[l.id] == NodeState.cleared &&
+                (w.shown[l.id] ?? 0) < 0.999,
+          );
+      if (!pending || _tile == null) _tile = reached;
+    }
+
     // ── labels, measured and placed clear of the road, platforms and pin ──
     final labels = _placeLabels(
       context,
@@ -662,6 +690,7 @@ class ChapterPathState extends State<ChapterPath>
       geometry: geometry,
       r: r,
       pin: target,
+      reduce: reduce,
     );
 
     // ── the scene, in depth order: platform 1, segment 1 to 2, platform 2…
@@ -837,6 +866,7 @@ class ChapterPathState extends State<ChapterPath>
     required List<RoadGeometry> geometry,
     required double r,
     required _PinAt? pin,
+    required bool reduce,
   }) {
     final w = widget;
     final metrics = w.metrics;
@@ -845,7 +875,8 @@ class ChapterPathState extends State<ChapterPath>
     final key = [
       w.width,
       w.metrics.tablet,
-      w.current,
+      _tile,
+      reduce,
       pin?.point,
       scaler.scale(10),
       for (final s in nodes) '${s.lesson!.id}:${w.state[s.lesson!.id]}',
@@ -897,7 +928,7 @@ class ChapterPathState extends State<ChapterPath>
     for (final slot in nodes) {
       final lesson = slot.lesson!;
       final state = w.state[lesson.id] ?? NodeState.notBuilt;
-      final current = lesson.id == w.current;
+      final current = lesson.id == _tile;
       final onRight = slot.x <= w.width / 2;
       final gap = r + AppRoad.labelGap;
       final room = onRight
@@ -934,7 +965,20 @@ class ChapterPathState extends State<ChapterPath>
             translation: const Offset(0, -0.5),
             child: KeyedSubtree(
               key: ValueKey('label-${lesson.id}'),
-              child: label,
+              // The tile fades in and out rather than snapping.
+              child: AnimatedSwitcher(
+                duration: Duration(
+                  milliseconds:
+                      (reduce ? AppRoad.reducedFadeMs : AppRoad.tileFadeMs)
+                          .round(),
+                ),
+                // The label keeps the slot's full width, as without the fade.
+                layoutBuilder: (shown, leaving) => Stack(
+                  fit: StackFit.passthrough,
+                  children: [...leaving, ?shown],
+                ),
+                child: KeyedSubtree(key: ValueKey(current), child: label),
+              ),
             ),
           ),
         ),
