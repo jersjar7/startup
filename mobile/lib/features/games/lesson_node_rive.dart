@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart' as rive;
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/road.dart';
 import 'lesson_node.dart';
 
 /// The Rive artwork behind every lesson node, loaded once for the whole app.
@@ -34,15 +35,21 @@ abstract final class LessonNodeArt {
     'ink',
     'halo',
     'current',
+    'ahead',
+    'arrive',
+    'depth',
   ];
 
   /// The artboard's own geometry, in artboard units. The face is 100 across
-  /// with a 10 plinth under it and 12 of air on every side, so the finished
-  /// pop and its halo have room to leave the face without being clipped.
+  /// and 50 deep, centred at ([pad] + 50, [faceCentreY]), with air around it
+  /// so the rise, the bounce, the pop and the halo are not clipped, and room
+  /// below for a plinth up to [maxDepth] deep.
   static const faceSize = 100.0;
   static const artWidth = 124.0;
-  static const artHeight = 134.0;
+  static const artHeight = 100.0;
   static const pad = 12.0;
+  static const faceCentreY = 39.0;
+  static const maxDepth = 26.0;
 
   /// The loaded file, or null while loading and after a failure.
   static final file = ValueNotifier<rive.File?>(null);
@@ -86,7 +93,10 @@ class RiveLessonNode extends StatefulWidget {
     required this.fraction,
     required this.pressed,
     required this.current,
+    required this.ahead,
+    required this.arriveTick,
     required this.size,
+    required this.depth,
   });
 
   final rive.File file;
@@ -95,7 +105,17 @@ class RiveLessonNode extends StatefulWidget {
   final double fraction;
   final bool pressed;
   final bool current;
+
+  /// The walked road has not reached it: it rests at 95%, and rises when
+  /// this turns false.
+  final bool ahead;
+
+  /// Each change plays one arrival bounce.
+  final int arriveTick;
+
+  /// The face's width and the plinth's height, in points.
   final double size;
+  final double depth;
 
   @override
   State<RiveLessonNode> createState() => _RiveLessonNodeState();
@@ -110,6 +130,9 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
   late final rive.ViewModelInstanceBoolean _pressed;
   late final rive.ViewModelInstanceBoolean _current;
   late final rive.ViewModelInstanceTrigger _celebrate;
+  late final rive.ViewModelInstanceBoolean _ahead;
+  late final rive.ViewModelInstanceTrigger _arrive;
+  late final rive.ViewModelInstanceNumber _depth;
   late final Map<String, rive.ViewModelInstanceColor> _colors;
 
   /// The brand colors live in Dart, so the cross-fade between two states'
@@ -137,6 +160,9 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
     _pressed = _vmi.boolean('pressed')!;
     _current = _vmi.boolean('current')!;
     _celebrate = _vmi.trigger('celebrate')!;
+    _ahead = _vmi.boolean('ahead')!;
+    _arrive = _vmi.trigger('arrive')!;
+    _depth = _vmi.number('depth')!;
     _colors = {for (final name in _Palette.names) name: _vmi.color(name)!};
 
     _from = _to = _Palette.of(widget.skin, previous: null);
@@ -145,6 +171,10 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
     _progress.value = widget.fraction;
     _pressed.value = widget.pressed;
     _current.value = widget.current;
+    // Set before the first frame, so a platform that starts ahead is at
+    // 95% from the start and never plays the rise on arrival.
+    _ahead.value = widget.ahead;
+    _depth.value = _depthUnits;
 
     _tint.addListener(() {
       _push(_Palette.lerp(_from, _to, Curves.easeOut.transform(_tint.value)));
@@ -164,6 +194,11 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
     if (old.fraction != widget.fraction) _progress.value = widget.fraction;
     if (old.pressed != widget.pressed) _pressed.value = widget.pressed;
     if (old.current != widget.current) _current.value = widget.current;
+    if (old.ahead != widget.ahead) _ahead.value = widget.ahead;
+    if (old.arriveTick != widget.arriveTick) _arrive.trigger();
+    if (old.depth != widget.depth || old.size != widget.size) {
+      _depth.value = _depthUnits;
+    }
 
     final next = _Palette.of(widget.skin, previous: _to);
     if (next != _to) {
@@ -172,6 +207,12 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
       _tint.forward(from: 0);
     }
   }
+
+  /// The plinth in artboard units, where the face is 100 across.
+  double get _depthUnits =>
+      (widget.depth * LessonNodeArt.faceSize / widget.size)
+          .clamp(9.0, LessonNodeArt.maxDepth)
+          .toDouble();
 
   void _push(_Palette p) {
     for (final name in _Palette.names) {
@@ -190,6 +231,9 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
     _pressed.dispose();
     _current.dispose();
     _celebrate.dispose();
+    _ahead.dispose();
+    _arrive.dispose();
+    _depth.dispose();
     _vmi.dispose();
     _controller.dispose();
     super.dispose();
@@ -197,32 +241,28 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
 
   @override
   Widget build(BuildContext context) {
-    // The node's slot is the same box the painter uses: the face, plus the
-    // plinth showing below it. The artboard is bigger than that by its
-    // padding on every side, so it hangs over the slot rather than shrinking
-    // to fit it, and the face lands exactly where the painter's face was.
-    final size = widget.size;
-    final k = size / LessonNodeArt.faceSize;
-    return SizedBox(
-      width: size,
-      height: size + LessonNodeWidget.bodyShow,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Positioned(
-            left: -LessonNodeArt.pad * k,
-            top: -LessonNodeArt.pad * k,
-            width: LessonNodeArt.artWidth * k,
-            height: LessonNodeArt.artHeight * k,
-            child: rive.RiveWidget(
-              controller: _controller,
-              fit: rive.Fit.contain,
-              // Taps belong to the GestureDetector around the node.
-              hitTestBehavior: rive.RiveHitTestBehavior.none,
-            ),
+    // The node's box is the platform (PlatformBox): the face at the top, the
+    // plinth below it. The artboard is bigger than that by its air, so it
+    // hangs over the box rather than shrinking to fit it, and its face
+    // centre lands on the box's face centre, where the painter draws it.
+    final k = widget.size / LessonNodeArt.faceSize;
+    final faceY = widget.size * AppRoad.k / 2;
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Positioned(
+          left: -LessonNodeArt.pad * k,
+          top: faceY - LessonNodeArt.faceCentreY * k,
+          width: LessonNodeArt.artWidth * k,
+          height: LessonNodeArt.artHeight * k,
+          child: rive.RiveWidget(
+            controller: _controller,
+            fit: rive.Fit.contain,
+            // Taps belong to the GestureDetector around the node.
+            hitTestBehavior: rive.RiveHitTestBehavior.none,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
