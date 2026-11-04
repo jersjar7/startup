@@ -7,6 +7,8 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/theme/road.dart';
 import '../../core/theme/tablet.dart';
+import '../../core/notifications/reminders_ask.dart';
+import '../reminders/reminders_ask_sheet.dart';
 import '../shared/widgets/kit.dart';
 import 'game_catalog.dart';
 import 'game_progress.dart';
@@ -154,7 +156,17 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
                   state: _state,
                   current: _current,
                   onTap: _openLesson,
-                  onSettled: (id, value) => setState(() => _shown[id] = value),
+                  onSettled: (id, value) {
+                    final before = _shown[id] ?? 0;
+                    setState(() => _shown[id] = value);
+                    askAfterFirstLesson(
+                      context,
+                      widget.chapter,
+                      id,
+                      before,
+                      value,
+                    );
+                  },
                 ),
               ],
             ),
@@ -163,6 +175,41 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
       ),
     );
   }
+}
+
+/// Moment 2 of the reminders invitation (reminders-ask SPEC): the first time
+/// a lesson is fully cleared, once its ring has filled and the road after it
+/// has opened, and 400 ms more.
+void askAfterFirstLesson(
+  BuildContext context,
+  ChapterMap chapter,
+  String lessonId,
+  double before,
+  double after,
+) {
+  if (before >= 0.999 || after < 0.999) return;
+  final lesson = chapter.lessons.where((l) => l.id == lessonId).firstOrNull;
+  if (lesson == null) return;
+  final progress = GameProgress.instance;
+  if (progress.stateOf(lesson) != LessonState.cleared) return;
+  if (clearedLessonCount() != 1) return;
+  final delay = lessonAskDelay(context);
+  Future<void>.delayed(delay, () {
+    if (!context.mounted) return;
+    offerReminders(context, moment: AskMoment.lesson, lessonName: lesson.name);
+  });
+}
+
+/// Lessons fully cleared, in every chapter.
+int clearedLessonCount() {
+  final progress = GameProgress.instance;
+  var n = 0;
+  for (final chapter in chapterMaps.values) {
+    for (final lesson in chapter.lessons) {
+      if (progress.stateOf(lesson) == LessonState.cleared) n++;
+    }
+  }
+  return n;
 }
 
 class _Header extends StatelessWidget {
@@ -1662,7 +1709,17 @@ class ChapterPathPaneState extends State<ChapterPathPane> {
                 metrics: const PathMetrics.tablet(),
                 headerLeft: 0,
                 onTap: widget.onOpenLesson,
-                onSettled: (id, value) => setState(() => _shown[id] = value),
+                onSettled: (id, value) {
+                  final before = _shown[id] ?? 0;
+                  setState(() => _shown[id] = value);
+                  askAfterFirstLesson(
+                    context,
+                    widget.chapter,
+                    id,
+                    before,
+                    value,
+                  );
+                },
               ),
             ],
           ),

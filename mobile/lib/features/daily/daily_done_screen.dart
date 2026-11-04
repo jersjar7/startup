@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/notifications/notifications.dart';
+import '../../core/notifications/reminders_ask.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../games/game_catalog.dart';
 import '../home/home_shell.dart';
 import '../profile/badge_moment.dart';
 import '../profile/badges.dart';
+import '../reminders/reminders_ask_sheet.dart';
 import '../shared/widgets/kit.dart';
 import 'daily_models.dart';
 import 'daily_repository.dart';
@@ -125,8 +127,26 @@ class _DailyDoneScreenState extends State<DailyDoneScreen> {
     // Held until the result is in, so badges from the Daily's games and from
     // the Daily itself arrive together, after the score has been seen.
     ready: !_sending,
+    onSettled: _offerReminders,
     child: Builder(builder: _page),
   );
+
+  /// Moment 1 of the reminders invitation (reminders-ask SPEC): when the
+  /// streak is 1, after any badge moment has closed, 400 ms after the
+  /// screen settles.
+  Future<void> _offerReminders() async {
+    final streak = _streak;
+    if (streak == null || streak.current != 1) return;
+    await Future<void>.delayed(
+      const Duration(milliseconds: remindersAskSettleMs),
+    );
+    if (!mounted) return;
+    await offerReminders(
+      context,
+      moment: AskMoment.daily,
+      streak: streak.current,
+    );
+  }
 
   Widget _page(BuildContext context) {
     final puzzle = _puzzle;

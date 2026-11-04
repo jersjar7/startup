@@ -125,12 +125,22 @@ class _BadgeMomentScreenState extends State<BadgeMomentScreen> {
 /// and anything that arrives while it is (a Daily's answer comes back from
 /// the server a moment after the screen opens).
 class BadgeMomentHost extends StatefulWidget {
-  const BadgeMomentHost({super.key, required this.child, this.ready = true});
+  const BadgeMomentHost({
+    super.key,
+    required this.child,
+    this.ready = true,
+    this.onSettled,
+  });
 
   final Widget child;
 
   /// False holds what is waiting until the screen has said its own piece.
   final bool ready;
+
+  /// Called once, when the host is ready and any badge moment it showed has
+  /// closed: the screen is the student's again (the reminders invitation
+  /// waits for this).
+  final VoidCallback? onSettled;
 
   @override
   State<BadgeMomentHost> createState() => _BadgeMomentHostState();
@@ -138,6 +148,13 @@ class BadgeMomentHost extends StatefulWidget {
 
 class _BadgeMomentHostState extends State<BadgeMomentHost> {
   bool _showing = false;
+  bool _settled = false;
+
+  void _settle() {
+    if (_settled || !mounted || !widget.ready) return;
+    _settled = true;
+    widget.onSettled?.call();
+  }
 
   @override
   void initState() {
@@ -162,10 +179,16 @@ class _BadgeMomentHostState extends State<BadgeMomentHost> {
 
   Future<void> _check() async {
     if (_showing || !mounted || !widget.ready) return;
-    if (BadgeLedger.pending.value.isEmpty) return;
+    if (BadgeLedger.pending.value.isEmpty) {
+      _settle();
+      return;
+    }
     // Badges belong to an account. A guest's wait for the account they make,
     // and are shown at the first summary after it.
-    if (_guest()) return;
+    if (_guest()) {
+      _settle();
+      return;
+    }
     final route = ModalRoute.of(context);
     if (route != null && !route.isCurrent) return;
     // The artwork was loaded at launch (main.dart); if it never arrived, the
@@ -173,6 +196,7 @@ class _BadgeMomentHostState extends State<BadgeMomentHost> {
     _showing = true;
     await showBadgeMoments(context, BadgeLedger.takePending());
     _showing = false;
+    _settle();
   }
 
   bool _guest() {
