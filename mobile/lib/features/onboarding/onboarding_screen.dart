@@ -184,6 +184,13 @@ class _TourPage extends StatelessWidget {
   /// The picture takes the height the page leaves (the board preview).
   final bool fill;
 
+  static const _tabletPad = EdgeInsets.fromLTRB(
+    AppTablet.screenX,
+    AppTablet.spaceTop + 16,
+    AppTablet.screenX,
+    AppTablet.spaceTop + 8,
+  );
+
   @override
   Widget build(BuildContext context) {
     final wide = AppTablet.of(context) == SizeClass.expanded;
@@ -192,23 +199,22 @@ class _TourPage extends StatelessWidget {
     // Wraps between words as designed, but never inside one: on a narrow
     // portrait tablet "anywhere." would otherwise break and leave its full
     // stop alone on a line, so the size comes down until the longest word
-    // fits.
-    final title = LayoutBuilder(
-      builder: (context, box) {
-        final size = wide ? 76.0 : 72.0;
-        var longest = 0.0;
-        for (final word in headline.split(RegExp(r'\s+'))) {
-          final painter = TextPainter(
-            text: TextSpan(text: word, style: titleStyle(size)),
-            textDirection: TextDirection.ltr,
-            textScaler: MediaQuery.textScalerOf(context),
-          )..layout();
-          if (painter.width > longest) longest = painter.width;
-        }
-        final fit = longest > box.maxWidth ? box.maxWidth / longest : 1.0;
-        return Text(headline, style: titleStyle((size * fit).floorToDouble()));
-      },
-    );
+    // fits in its column.
+    Widget title(double column) {
+      final size = wide ? 76.0 : 72.0;
+      var longest = 0.0;
+      for (final word in headline.split(RegExp(r'\s+'))) {
+        final painter = TextPainter(
+          text: TextSpan(text: word, style: titleStyle(size)),
+          textDirection: TextDirection.ltr,
+          textScaler: MediaQuery.textScalerOf(context),
+        )..layout();
+        if (painter.width > longest) longest = painter.width;
+      }
+      final fit = longest > column ? column / longest : 1.0;
+      return Text(headline, style: titleStyle((size * fit).floorToDouble()));
+    }
+
     final text = Text(
       body,
       style: AppTheme.body(size: 19, height: 1.6, color: AppColors.ink2),
@@ -218,57 +224,76 @@ class _TourPage extends StatelessWidget {
       if (!fill) const Spacer() else const SizedBox(height: 32),
       ...foot,
     ];
+    // Fills the window when it fits, as designed, and scrolls when it does
+    // not, as the phone's pages do ([_FitOrScroll]): a window in Stage
+    // Manager can be any size, and a short one overflowed by 122 points.
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          AppTablet.screenX,
-          AppTablet.spaceTop + 16,
-          AppTablet.screenX,
-          AppTablet.spaceTop + 8,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            row,
-            const SizedBox(height: 56),
-            Expanded(
-              child: wide
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [title, const SizedBox(height: 28), text],
-                          ),
-                        ),
-                        const SizedBox(width: AppTablet.paneGap * 3),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: right,
-                          ),
-                        ),
-                      ],
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(child: title),
-                            const SizedBox(width: 40),
-                            Expanded(child: text),
-                          ],
-                        ),
-                        const SizedBox(height: 56),
-                        ...right,
-                      ],
+      child: LayoutBuilder(
+        builder: (context, box) {
+          final inner = box.maxWidth - _tabletPad.horizontal;
+          final column = wide
+              ? (inner - AppTablet.paneGap * 3) / 2
+              : (inner - 40) / 2;
+          return SingleChildScrollView(
+            padding: _tabletPad,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: box.maxHeight - _tabletPad.vertical,
+              ),
+              child: IntrinsicHeight(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    row,
+                    const SizedBox(height: 56),
+                    Expanded(
+                      child: wide
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      title(column),
+                                      const SizedBox(height: 28),
+                                      text,
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: AppTablet.paneGap * 3),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: right,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(child: title(column)),
+                                    const SizedBox(width: 40),
+                                    Expanded(child: text),
+                                  ],
+                                ),
+                                const SizedBox(height: 56),
+                                ...right,
+                              ],
+                            ),
                     ),
+                  ],
+                ),
+              ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -124,39 +126,85 @@ class WelcomeScreen extends StatelessWidget {
       style: AppTheme.eyebrow(color: AppColors.ink2),
     );
 
+    const pad = EdgeInsets.fromLTRB(
+      AppTablet.screenX,
+      AppTablet.spaceTop + 24,
+      AppTablet.screenX,
+      AppTablet.screenX,
+    );
+
+    // A window shorter than a pane (Stage Manager): the words and the ways
+    // in, scrolling as one column, and no fan, which has no room to stand.
+    if (AppTablet.isShort(context)) {
+      return Scaffold(
+        backgroundColor: AppColors.fog,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: pad,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                eyebrow,
+                const SizedBox(height: 40),
+                headline,
+                const SizedBox(height: 28),
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [pill, const SizedBox(width: 24), ...links],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppColors.fog,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            AppTablet.screenX,
-            AppTablet.spaceTop + 24,
-            AppTablet.screenX,
-            AppTablet.screenX,
-          ),
+          padding: pad,
           child: wide
-              ? Stack(
-                  children: [
-                    const Positioned(
-                      top: 24,
-                      right: 0,
-                      width: 540,
-                      bottom: 120,
-                      child: _FitCards(),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        eyebrow,
-                        const Spacer(),
-                        headline,
-                        const SizedBox(height: 28),
-                        Row(
-                          children: [pill, const SizedBox(width: 24), ...links],
+              ? LayoutBuilder(
+                  // The cards keep clear of the headline's column: in a
+                  // narrow window (Stage Manager) they give up width rather
+                  // than lie over it.
+                  builder: (context, box) => Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Positioned(
+                        top: 24,
+                        right: 0,
+                        width: math.min(
+                          540,
+                          box.maxWidth -
+                              AppTablet.paneLeading -
+                              AppTablet.paneGap,
                         ),
-                      ],
-                    ),
-                  ],
+                        bottom: 120,
+                        child: const _FitCards(),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          eyebrow,
+                          const Spacer(),
+                          headline,
+                          const SizedBox(height: 28),
+                          // The links drop under the pill in a window too
+                          // narrow for the three on one line.
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              pill,
+                              const SizedBox(width: 24),
+                              ...links,
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 )
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,15 +229,23 @@ class WelcomeScreen extends StatelessWidget {
   }
 }
 
-/// [WelcomeCards] grown to fill the space it is given: the fan is about
-/// 440 tall at its phone size, so it scales by the height it has.
+/// [WelcomeCards] sized to the space it is given: the fan is about 440
+/// tall at its phone size, so it scales by the height it has. A short
+/// window (Stage Manager) shrinks it to fit, and one with no room for it
+/// at a readable size leaves it out rather than lay it over the headline.
 class _FitCards extends StatelessWidget {
   const _FitCards();
 
+  static const _height = 440.0;
+  static const _smallest = 0.6;
+
   @override
   Widget build(BuildContext context) => LayoutBuilder(
-    builder: (context, box) =>
-        WelcomeCards(scale: (box.maxHeight / 440).clamp(1.0, 2.0)),
+    builder: (context, box) {
+      final scale = box.maxHeight / _height;
+      if (scale < _smallest) return const SizedBox.shrink();
+      return WelcomeCards(scale: math.min(scale, 2.0));
+    },
   );
 }
 
