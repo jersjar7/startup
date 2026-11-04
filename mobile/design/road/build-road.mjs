@@ -165,7 +165,7 @@ out['R03-phone-new-night'] = phone('Road, phone, new student, night', fresh, 0, 
 out['R04-phone-mid-night'] = phone('Road, phone, mid-chapter, night', mid, 2, midOpts, true);
 
 // ── the storyboard: segment 2 to 3 opens after Right Triangle Trig is done ──
-// Times run from the node's onSettled (its own pop has already played).
+// Times run from when the finished lesson settles (its own pop has already played).
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const span = (t, a, b) => ease(Math.min(1, Math.max(0, (t - a) / (b - a))));
 const back = (t) => { const c = 1.7; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
@@ -181,9 +181,9 @@ const at = (t) => {
   };
 };
 const FRAMES = [
-  [0, 'Ready', 'The finished node has turned charcoal with its check. The road ahead is pale; the next node waits at 95%.', '0 ms'],
+  [0, 'Ready', 'The finished node has turned charcoal with its check. The road ahead is a pale slab; the next node waits at 95%.', '0 ms'],
   [300, 'The next node rises', '95% to 100% with a 4 pt lift and a slight overshoot.', '0 to 300 ms'],
-  [700, 'The road fills', 'Charcoal runs from the finished node along the curve. Ease in-out.', '150 to 1200 ms'],
+  [700, 'The road fills', 'The dark surface and its wall run from the finished node along the curve together. Ease in-out.', '150 to 1200 ms'],
   [1200, 'The centre line draws in', 'Cream dashes reveal behind the fill, never ahead of it.', '400 to 1200 ms'],
   [1500, 'A pulse runs ahead', 'A small spring glow travels the road to the next node. The marker follows just behind it.', '1200 to 1800 ms'],
   [2100, 'Arrival', 'The next node does one small bounce and settles at 100%. The marker parks where the road meets it. No breath yet: that waits until the lesson is started.', '1800 to 2100 ms'],
@@ -229,7 +229,7 @@ const rmFrame = (afterState) => {
   return `<div style="position:relative;width:${FW}px;height:${FH}px;border-radius:24px;overflow:hidden;background:${C.fog};"><div style="position:absolute;left:${-(n2.x - 60)}px;top:${-(n2.y - 80)}px;width:${W}px;height:${p.height}px;">${p.html}</div></div>`;
 };
 out['R05-storyboard'] = page('Road, finishing storyboard', SBW, SBH, `
-${abs(48, 40, 1200, null, `${eyebrow('The road opens · phone, day · times from the node\'s onSettled', C.muted)}<h1 style="margin:10px 0 0;font-family:${F.display};font-weight:800;font-size:36px;letter-spacing:-0.04em;">Finishing a lesson opens the road to the next one</h1>`)}
+${abs(48, 40, 1200, null, `${eyebrow('The road opens · phone, day · times from when the finished lesson settles', C.muted)}<h1 style="margin:10px 0 0;font-family:${F.display};font-weight:800;font-size:36px;letter-spacing:-0.04em;">Finishing a lesson opens the road to the next one</h1>`)}
 ${FRAMES.map(([t, name, what, when], i) => abs(48 + i * (FW + 24), 140, FW, null, `${frame(t)}
 <div style="margin-top:14px;font-family:${F.mono};font-size:12px;font-weight:600;color:${C.charcoal};">${i + 1} · ${when}</div>
 <div style="margin-top:6px;font-family:${F.display};font-weight:700;font-size:17px;letter-spacing:-0.02em;">${name}</div>
@@ -255,11 +255,19 @@ const closeUp = () => {
   const r = 42;
   const curve = segmentCurve(a, b, r);
   // Numbered leaders, in road units: from the exact layer out to clear ground.
-  const leaders = () => [[1, 0.42, -5, -26], [2, 0.56, -9, -22], [3, 0.7, 0, -30], [4, 0.5, 13.5, 22]].map(([n, f, o, out]) => {
+  // Numbered leaders, in road units: from the exact layer out to clear ground.
+  // Surface, rim and line are measured across the road; wall and shadow
+  // straight down from the lower edge, where they show.
+  const D = roadSize.phone.depth, HW = roadSize.phone.width / 2;
+  const leaders = () => [[1, 0.42, 'across', -5, -26], [2, 0.56, 'across', -9, -22], [3, 0.7, 'across', 0, -30], [4, 0.5, 'down', D / 2, 0], [5, 0.36, 'down', D + 4, 0]].map(([n, f, how, o, out]) => {
     const q = curve.at(f);
     const nx = Math.cos(q.angle + Math.PI / 2), ny = Math.sin(q.angle + Math.PI / 2);
-    const sx = q.x + nx * o, sy = q.y + ny * o;
-    const ex = q.x + nx * (o + out), ey = q.y + ny * (o + out);
+    let sx, sy, ex, ey;
+    if (how === 'across') {
+      sx = q.x + nx * o; sy = q.y + ny * o; ex = q.x + nx * (o + out); ey = q.y + ny * (o + out);
+    } else {
+      sx = q.x; sy = q.y + HW / Math.abs(Math.cos(q.angle)) + o; ex = sx - 20; ey = sy + 16;
+    }
     return `<line x1="${sx}" y1="${sy}" x2="${ex}" y2="${ey}" stroke="${C.ember}" stroke-width="0.5"/><circle cx="${sx}" cy="${sy}" r="1.1" fill="${C.ember}"/><circle cx="${ex}" cy="${ey}" r="3.6" fill="${C.ember}"/><text x="${ex}" y="${ey + 1.4}" text-anchor="middle" font-family="JetBrains Mono" font-weight="600" font-size="4" fill="#FFFFFF">${n}</text>`;
   }).join('');
   const svgAt = (opts, nightMode, k = S) => `<div style="${vars(nightMode ? night : day)}"><svg width="${200 * k}" height="${190 * k}" viewBox="0 0 200 190" fill="none" style="display:block;border-radius:24px;background:${C.fog};">${segmentSvg(curve, { size: roadSize.phone, col: C, ...opts })}
@@ -273,14 +281,15 @@ const closeUp = () => {
   return `
 ${abs(48, 40, 1300, null, `${eyebrow('One segment · phone sizes at 4x', C.muted)}<h1 style="margin:10px 0 0;font-family:${F.display};font-weight:800;font-size:36px;letter-spacing:-0.04em;">A road, not a racing track</h1>`)}
 ${abs(48, 140, 800, 760, `${svgAt({ fill: 1, line: 1 }, false)}`)}
-${abs(890, 150, 460, null, `<div style="position:relative;height:360px;">
-${callout(1, 0, 0, '<b>Surface.</b> Charcoal, 16 wide. The same charcoal as a finished node, so walked road and finished lessons read as one thing.')}
-${callout(2, 0, 120, '<b>Shoulders.</b> tile2, 2 each side: a lighter edge you notice only up close.')}
-${callout(3, 0, 200, '<b>Centre line.</b> Cream, 2 wide, 7 on and 9 off, round ends.')}
-${callout(4, 0, 280, '<b>Shadow.</b> pipOff, 3 down, blurred 2.5. Only the walked road casts one.')}
+${abs(890, 150, 460, null, `<div style="position:relative;height:370px;">
+${callout(1, 0, 0, '<b>Surface.</b> tile, 16 wide: dark charcoal grey, so the wall under it can be darker.')}
+${callout(2, 0, 80, '<b>Rim.</b> tile2, 2 each side: the lit top edge of the slab.')}
+${callout(3, 0, 140, '<b>Centre line.</b> Cream, 2 wide, 7 on and 9 off, round ends.')}
+${callout(4, 0, 200, '<b>Wall.</b> Charcoal, 4 deep, under the downward-facing edge. The node plinth is 7, so the nodes stand taller than the road.')}
+${callout(5, 0, 290, '<b>Shadow.</b> pipOff, 7 down, blurred 3, on the ground under the wall.')}
 </div>`)}
-${abs(890, 500, 220, null, `${svgAt({ fill: 0 }, false, 1.1)}<div style="margin-top:12px;font-family:${F.mono};font-size:12px;font-weight:600;">Not walked yet, day</div><div style="font-size:13px;color:${C.muted};line-height:1.5;margin-top:4px;">creamDark with a plinth edge. No line, no shadow.</div>`)}
-${abs(1130, 500, 220, null, `${svgAt({ fill: 1, line: 1 }, true, 1.1)}<div style="margin-top:12px;font-family:${F.mono};font-size:12px;font-weight:600;">Walked, night</div><div style="font-size:13px;color:${C.muted};line-height:1.5;margin-top:4px;">lineOnDark surface, plinth shoulders, night ink line.</div>`)}
+${abs(890, 500, 220, null, `${svgAt({ fill: 0 }, false, 1.1)}<div style="margin-top:12px;font-family:${F.mono};font-size:12px;font-weight:600;">Not walked yet, day</div><div style="font-size:13px;color:${C.muted};line-height:1.5;margin-top:4px;">creamDark slab, cream rim, plinth wall, half the shadow. No line.</div>`)}
+${abs(1130, 500, 220, null, `${svgAt({ fill: 1, line: 1 }, true, 1.1)}<div style="margin-top:12px;font-family:${F.mono};font-size:12px;font-weight:600;">Walked, night</div><div style="font-size:13px;color:${C.muted};line-height:1.5;margin-top:4px;">lineOnDark surface, plinth rim, tile wall, night ink line.</div>`)}
 `;
 };
 out['R06-segment-closeup'] = page('Road, one segment', 1400, 940, closeUp());

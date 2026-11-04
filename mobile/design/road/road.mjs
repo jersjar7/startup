@@ -6,30 +6,40 @@
 // build-tablet-screens.mjs (every tablet path), so the two never drift.
 
 // Road colours by role. Each value is a token from tokens.json (day) or
-// app_colors.dart (night). ROAD.md, "Colour", explains the night choice.
+// app_colors.dart (night). ROAD.md, "Colour", explains the choices.
+//
+// The road is a raised slab: a top surface with a thin lighter rim, a side
+// wall under its downward-facing edge, and a soft shadow on the ground. The
+// wall is shorter than a node's plinth, so the nodes stand taller.
 export const roadDay = {
-  roadOn: '#2C2C2C', // charcoal: the walked surface
-  roadEdge: '#47453F', // tile2: the lighter shoulder line
+  roadOn: '#3A3936', // tile: the walked surface, dark charcoal grey
+  roadEdge: '#47453F', // tile2: the lighter rim along its top edges
+  roadWall: '#2C2C2C', // charcoal: its side wall, darker than the surface
   roadLine: '#FFF9F0', // cream: the dashed centre line
   roadOff: '#F5EDE0', // creamDark: the road not walked yet
-  roadOffEdge: '#CDBFA8', // plinth: its edge, the untouched node's material
-  roadShadow: 'rgba(44,44,44,0.22)', // pipOff: the shadow it sits in
+  roadOffEdge: '#FFF9F0', // cream: its rim
+  roadOffWall: '#CDBFA8', // plinth: its wall, the untouched node's plinth
+  roadShadow: 'rgba(44,44,44,0.22)', // pipOff: the shadow on the ground
   roadPulse: '#63F0A8', // spring: the pulse that runs ahead
 };
 export const roadNight = {
   roadOn: '#4A463F', // lineOnDark (night): lighter than the ground, so walked reads as defined
-  roadEdge: '#5A544C', // plinth (night): the shoulder, a touch lighter again
+  roadEdge: '#5A544C', // plinth (night): the rim, a touch lighter again
+  roadWall: '#34312C', // tile (night): the wall, darker than the surface
   roadLine: '#F2ECE2', // the night ink (the charcoal role at night)
   roadOff: '#272522', // cream (night): the untouched node's face
-  roadOffEdge: '#2E2B27', // sheet (night): an edge you barely see
+  roadOffEdge: '#3A3732', // creamDark (night): its rim
+  roadOffWall: '#5A544C', // plinth (night): its wall, as under an untouched node
   roadShadow: 'rgba(0,0,0,0.5)',
   roadPulse: '#63F0A8', // spring, the same in both themes
 };
 
-// Sizes. Phone nodes are 84 at 390 wide; tablet nodes are 100.
+// Sizes. Phone nodes are 84 at 390 wide; tablet nodes are 100 (92 in the
+// tablet mockups). The mockups' node plinth is 7 deep, so the wall is 4:
+// 0.6 of the plinth, which ROAD.md sets as the rule.
 export const roadSize = {
-  phone: { width: 20, edge: 2, line: 2, dash: 7, gap: 9, shadowY: 3, blur: 2.5 },
-  tablet: { width: 24, edge: 2, line: 2.5, dash: 9, gap: 10, shadowY: 3, blur: 3 },
+  phone: { width: 20, edge: 2, line: 2, dash: 7, gap: 9, depth: 4, shadowY: 7, blur: 3 },
+  tablet: { width: 24, edge: 2, line: 2.5, dash: 9, gap: 10, depth: 4, shadowY: 7, blur: 3.5 },
 };
 
 const lerp = (a, b, t) => ({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t });
@@ -87,18 +97,22 @@ let uid = 0;
 // where the pulse is (null for none). Colours come in as CSS values.
 export function segmentSvg(curve, { fill = 0, line = fill, pulse = null, size, col }) {
   const id = `r${uid++}`;
-  const { width: w, edge, line: lw, dash, gap, shadowY, blur } = size;
+  const { width: w, edge, line: lw, dash, gap, depth, shadowY, blur } = size;
   const dash1 = (f) => `pathLength="1" stroke-dasharray="${Math.max(0, f).toFixed(4)} 2"`;
+  // A slab, bottom to top: ground shadow, side wall (the same band moved
+  // down by the wall's depth, so it shows only under the downward-facing
+  // edge, lit from above like the node plinths), rim, surface.
+  const slab = (wall, rim, top, shadowOpacity, extra = '') =>
+    `<path d="${curve.d}" stroke="${col.roadShadow}" stroke-opacity="${shadowOpacity}" stroke-width="${w}" stroke-linecap="round" transform="translate(0 ${shadowY})" filter="url(#${id}b)" ${extra}/>`
+    + `<path d="${curve.d}" stroke="${wall}" stroke-width="${w}" stroke-linecap="round" transform="translate(0 ${depth})" ${extra}/>`
+    + `<path d="${curve.d}" stroke="${rim}" stroke-width="${w}" stroke-linecap="round" ${extra}/>`
+    + `<path d="${curve.d}" stroke="${top}" stroke-width="${w - 2 * edge}" stroke-linecap="round" ${extra}/>`;
   let s = '';
-  // The road not walked: a flat pale band with the untouched node's edge.
-  s += `<path d="${curve.d}" stroke="${col.roadOffEdge}" stroke-width="${w}" stroke-linecap="round"/>`;
-  s += `<path d="${curve.d}" stroke="${col.roadOff}" stroke-width="${w - 2 * edge}" stroke-linecap="round"/>`;
-  if (fill > 0) {
-    // The walked part: shadow, shoulder, surface, laid forward from the start.
-    s += `<path d="${curve.d}" stroke="${col.roadShadow}" stroke-width="${w}" stroke-linecap="round" transform="translate(0 ${shadowY})" filter="url(#${id}b)" ${dash1(fill)}/>`;
-    s += `<path d="${curve.d}" stroke="${col.roadEdge}" stroke-width="${w}" stroke-linecap="round" ${dash1(fill)}/>`;
-    s += `<path d="${curve.d}" stroke="${col.roadOn}" stroke-width="${w - 2 * edge}" stroke-linecap="round" ${dash1(fill)}/>`;
-  }
+  // The road not walked: the same slab in the untouched node's materials.
+  s += slab(col.roadOffWall, col.roadOffEdge, col.roadOff, 0.5);
+  // The walked part, laid forward from the finished node; its wall darkens
+  // with it because it is cut at the same length.
+  if (fill > 0) s += slab(col.roadWall, col.roadEdge, col.roadOn, 1, dash1(fill));
   if (line > 0) {
     s += `<mask id="${id}m" maskUnits="userSpaceOnUse"><path d="${curve.d}" stroke="#fff" stroke-width="${w + 8}" stroke-linecap="butt" ${dash1(Math.min(line, fill))}/></mask>`;
     s += `<path d="${curve.d}" stroke="${col.roadLine}" stroke-width="${lw}" stroke-linecap="round" stroke-dasharray="${dash} ${gap}" stroke-dashoffset="${-gap / 2}" mask="url(#${id}m)"/>`;

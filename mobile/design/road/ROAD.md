@@ -1,7 +1,7 @@
 # The road between lessons
 
 The black lines between lesson nodes become a road. The road behind the
-student is charcoal with a cream centre line. The road ahead is pale. Finishing
+student is a dark raised slab with a cream centre line. The road ahead is a pale slab. Finishing
 a lesson opens the next stretch, one segment at a time. This applies to the
 phone and the tablet, by day and by night.
 
@@ -22,23 +22,31 @@ the same `road/road.mjs`.
 
 ## The look
 
-The road is a calm, flat road seen from above. It is not a racing track: there
-are no kerbs, no arrows, no perspective and no speed lines.
+The road is a calm, raised slab seen from above, like the owner's reference:
+a top surface with a thin lit rim, a side wall under its near edge, and a
+soft shadow on the ground. It is not a racing track: there are no kerbs, no
+arrows, no perspective and no speed lines.
 
-**Walked.** Each walked segment has four layers, bottom to top:
+**Height (owner, 2026-11-03).** The nodes stand a little taller than the
+road. The node plinth stays as it is (10% of the face: 8.4 on an 84 phone
+node, 10 on a 100 tablet node). The road's wall is **0.6 of the plinth**: 5
+on the phone, 6 on the tablet. The mockups draw a 7 plinth and a 4 wall. The
+wall shows only under the downward-facing edge of each curve, lit from above
+like the node plinths.
 
-1. **Shadow.** pipOff, 3 down, blurred 2.5 (3 on tablet). Only walked road
-   casts a shadow, so it sits in the ground and the pale road does not.
-2. **Shoulders.** tile2, 2 wide on each side. This is a slightly lighter edge
-   that you notice only up close.
-3. **Surface.** charcoal. A finished node is charcoal too, so the walked road
-   and the finished lessons read as one thing.
-4. **Centre line.** cream, 2 wide (2.5 on tablet), 7 on and 9 off (9 and 10
+**Walked.** Each walked segment has five layers, bottom to top:
+
+1. **Shadow.** pipOff, 7 down, blurred 3, on the ground under the wall.
+2. **Wall.** charcoal, the band moved down by the wall depth.
+3. **Rim.** tile2, 2 wide on each side: the lit top edge.
+4. **Surface.** tile, a dark charcoal grey. It is a step lighter than
+   charcoal so the wall under it can be darker while using only tokens.
+5. **Centre line.** cream, 2 wide (2.5 on tablet), 7 on and 9 off (9 and 10
    on tablet), with round ends.
 
-**Not walked.** A flat creamDark band with a plinth edge, and no line or
-shadow. These are the untouched node's own materials (a cream face on a
-plinth), so the road ahead looks like part of the nodes it leads to.
+**Not walked.** The same slab in the untouched node's materials: a creamDark
+surface, a cream rim, a plinth wall and half the shadow, with no centre line.
+The road ahead looks like part of the nodes it leads to.
 
 **Width.** The total width is 20 on the phone, where nodes are 84, and 24 on
 the tablet, where nodes are 100. That is about a quarter of a node: wide enough
@@ -50,16 +58,20 @@ the charcoal role:
 
 | Role | Day | Night |
 |---|---|---|
-| Walked surface | charcoal #2C2C2C | lineOnDark #4A463F |
-| Shoulders | tile2 #47453F | plinth #5A544C |
+| Walked surface | tile #3A3936 | lineOnDark #4A463F |
+| Walked rim | tile2 #47453F | plinth #5A544C |
+| Walked wall | charcoal #2C2C2C | tile #34312C |
 | Centre line | cream #FFF9F0 | night ink #F2ECE2 |
-| Not walked | creamDark #F5EDE0, plinth edge | cream #272522, sheet #2E2B27 edge |
+| Not walked surface | creamDark #F5EDE0 | cream #272522 |
+| Not walked rim | cream #FFF9F0 | creamDark #3A3732 |
+| Not walked wall | plinth #CDBFA8 | plinth #5A544C |
 | Shadow | pipOff | black at 50% |
 | Pulse | spring | spring |
 
 At night the walked road is lighter than the ground, and the road ahead is
 barely lighter than the ground. This keeps the same order as by day: the walked
-road is the defined one.
+road is the defined one. Each wall is the same material as the plinth under a
+node in the same state, or darker than its surface for walked road.
 
 **Shape.** Use the app's own curve rule, unchanged, from `RoadPainter._road`
 in `road_segment.dart`. The road leaves the finished node and leans 80% of the
@@ -99,13 +111,13 @@ with no replay.
 
 The road waits for the node's own finishing moment, which already exists: the
 ring fills (1100 ms), holds (320 ms), turns charcoal with the check, and plays
-the `celebrate` pop. The road then starts from that node's `onSettled`. Times
-below are counted from there.
+the `celebrate` pop. The road starts when that finished lesson settles (the
+node's `onSettled` in code). Times below are counted from there.
 
 | # | What | When | Curve |
 |---|---|---|---|
 | 1 | The next node rises from 95% to 100% with a 4 pt lift | 0 to 300 ms | ease out with a slight overshoot |
-| 2 | The road fills from pale to charcoal, from the finished node along the curve | 150 to 1200 ms (1050) | ease in-out |
+| 2 | The road fills from pale to dark, surface and wall together, from the finished node along the curve | 150 to 1200 ms (1050) | ease in-out |
 | 3 | The centre line reveals behind the fill | 400 to 1200 ms (800) | ease in-out |
 | 4 | A small spring pulse runs the road to the next node | 1200 to 1800 ms (600) | ease in-out |
 | 5 | The next node does one small bounce, to 105% and back | 1800 to 2100 ms (300) | ease out with an overshoot |
@@ -141,8 +153,8 @@ the motion.
 
 When the system asks for less motion (`MediaQuery.disableAnimations`):
 
-- The whole segment, charcoal and centre line together, cross-fades in over
-  **180 ms**.
+- The whole segment, dark surface, wall and centre line together,
+  cross-fades in over **180 ms**.
 - Nothing runs along the curve. There is no pulse, no lift and no bounce.
 - Every node sits at 100%. The 95% rest size is turned off.
 - The marker fades out where it was and fades in at its new place, over the
@@ -156,13 +168,27 @@ The node's own finishing moment follows its existing reduced-motion rule.
 that already exist. Rive draws only the nodes.**
 
 - **The road.** `RoadPainter` already takes two node centres, builds the
-  curve, trims it by arc length, and owns a `travelled` value per segment. The
-  new look is four `drawPath` calls in place of one: shadow, shoulder, surface
-  and centre line. The walked part is a `PathMetric.extractPath(0, length *
-  fill)`. The centre line uses the dash loop the painter already has, cut at
+  curve, trims it by arc length, and owns a `travelled` value per segment.
+  The slab is the same trimmed path stroked several times, bottom to top:
+  1. the ground shadow: the path shifted down by the wall depth plus 3, with
+     a `MaskFilter.blur`;
+  2. the wall: the same path at full road width, shifted straight down by
+     the wall depth (`path.shift(Offset(0, depth))`), in the wall colour;
+  3. the rim at full width;
+  4. the surface, 4 narrower;
+  5. the dashed centre line.
+
+  Shifting the whole band down is what makes the wall show only under the
+  downward-facing edge, with no per-curve maths. The surface covers the
+  shifted band everywhere else, and because the wall is shallower than the
+  road is wide, there is never a gap. The pale road is drawn this way in
+  full. The walked layers are then drawn over it on `PathMetric.extractPath(0,
+  length * fill)`, shifted copies included, so the wall darkens with the
+  fill. The centre line uses the dash loop the painter already has, cut at
   `line`. The pulse is one blurred spring oval at `getTangentForOffset(length
   * pulse)`. Colours come from `AppColors` (ThemedColor), so night needs no
-  extra work.
+  extra work. The widget's `bounds` grows by the wall depth plus the shadow
+  at the bottom so nothing is clipped.
 - **The nodes.** These stay on the `lesson_node` artboard and need two
   additions in the existing layered pattern, the way `current` drives the
   breath:
@@ -194,4 +220,6 @@ tablet, and rows are 124 or 150 apart, with section breaks between them.
   the Dart one.
 
 Drawing the road in Dart means one road, which fits any spacing on any device
-and is tested by the goldens that already exist.
+and is tested by the goldens that already exist. The raised slab does not
+change this: it is the same path drawn with a downward shift, which a Rive
+drawing stretched to a segment could not do correctly either.
