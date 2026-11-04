@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/notifications/notification_plan.dart';
@@ -70,6 +71,7 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     try {
       if (context.read<AuthController>().isGuest) _index = HomeTab.study.index;
     } catch (_) {}
+    _publish(_index);
     HomeShell.requested.addListener(_onRequest);
     Notifications.tapped.addListener(_onTap);
     DailyDone.day.addListener(_refreshDot);
@@ -117,7 +119,40 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     final tab = HomeShell.requested.value;
     if (tab == null) return;
     HomeShell.requested.value = null;
-    if (mounted) setState(() => _index = tab.index);
+    if (mounted) _select(tab.index);
+  }
+
+  /// Shows tab [i], and tells the rail beside a pushed page.
+  void _select(int i) {
+    _publish(i);
+    setState(() => _index = i);
+  }
+
+  /// Tells [BesideRail] the tab in front and whether this is a guest's
+  /// shell. Its rail rebuilds when they change, so they are never written
+  /// while a frame is being built: picking a tab on that rail used to set
+  /// them from the shell's build, rebuilding the page's rail in the middle
+  /// of it (a debug assertion). From a tap they are written at once, so
+  /// Study reads the right tab as it builds; from a build they wait for the
+  /// end of the frame.
+  void _publish(int index, [bool? guest]) {
+    void write() {
+      HomeShell.current.value = index;
+      if (guest != null) HomeShell.guest.value = guest;
+    }
+
+    if (HomeShell.current.value == index &&
+        (guest == null || HomeShell.guest.value == guest)) {
+      return;
+    }
+    final phase = SchedulerBinding.instance.schedulerPhase;
+    if (phase == SchedulerPhase.persistentCallbacks) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) write();
+      });
+    } else {
+      write();
+    }
   }
 
   /// Where a tapped reminder lands. The Daily's open the Daily; the exam
@@ -140,7 +175,7 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     if (kind != NotifyKind.outcome) Notifications.tapped.value = null;
     final nav = Navigator.maybeOf(context);
     if (nav != null && nav.canPop()) nav.popUntil((r) => r.isFirst);
-    setState(() => _index = _tabFor(kind).index);
+    _select(_tabFor(kind).index);
   }
 
   static const _items = [
@@ -185,8 +220,7 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final guest = context.watch<AuthController>().isGuest;
-    HomeShell.current.value = _index;
-    HomeShell.guest.value = guest;
+    _publish(_index, guest);
     final tabs = IndexedStack(
       key: _tabsKey,
       index: _index,
@@ -205,7 +239,7 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
         ? {HomeTab.profile.index, HomeTab.daily.index}
         : {if (DailyDone.dueOn(appClock())) HomeTab.daily.index};
     final dotColor = guest ? AppColors.ink3 : AppColors.ember;
-    void onSelect(int i) => setState(() => _index = i);
+    void onSelect(int i) => _select(i);
 
     // A tablet window: the dock becomes the rail down the left edge (ADR
     // 0039). The content sits beside it and never slides under it.

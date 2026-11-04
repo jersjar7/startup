@@ -135,4 +135,30 @@ void main() {
     expect(find.byKey(const ValueKey('dock-dot-2')), findsOneWidget);
     await _drain(tester);
   });
+
+  // The rail beside a pushed page listens to the tab in front. The shell
+  // once wrote that tab while it was building, so picking a tab on that rail
+  // rebuilt the page's rail in the middle of the shell's build (a debug
+  // assertion, "setState() or markNeedsBuild() called during build").
+  testWidgets('a tab picked on the rail beside a page builds cleanly', (
+    tester,
+  ) async {
+    setWindow(tester, landscape);
+    await tester.pumpWidget(_app());
+    await settle(tester);
+    final shell = tester.element(find.byType(HomeShell));
+    Navigator.of(shell).push(
+      MaterialPageRoute<void>(
+        builder: (_) => const BesideRail(child: Scaffold(body: Text('page'))),
+      ),
+    );
+    await settle(tester);
+    expect(find.text('page'), findsOneWidget);
+    await tester.tap(find.text('Study').last);
+    await settle(tester);
+    expect(tester.takeException(), isNull);
+    expect(find.text('page'), findsNothing);
+    expect(HomeShell.current.value, HomeTab.study.index);
+    await _drain(tester);
+  });
 }
