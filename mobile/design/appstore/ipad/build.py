@@ -21,8 +21,8 @@ device changes, from a phone to a tablet.
 
 Outputs:
     design/appstore/ipad/out/      2752 x 2064, App Store 13-inch iPad
-    design/play/tablet/7in/        1920 x 1200, Play 7-inch tablet
-    design/play/tablet/10in/       2560 x 1600, Play 10-inch tablet
+    design/play/tablet/7in/        1920 x 1080, Play 7-inch tablet (Play takes 16:9 only)
+    design/play/tablet/10in/       2560 x 1440, Play 10-inch tablet
     contact sheets beside each
 """
 import math
@@ -390,7 +390,7 @@ def lifted(name, x, y, w, rot=0, z=60, key=None, finger=True):
 def layout(w, h):
     """Where the words and the tablet go. On a 4:3 canvas (the iPad's own
     shape) the headline sits above the tablet, as on the phone set; on Play's
-    16:10 canvases there is width to spare and not height, so the words sit
+    16:9 canvases there is width to spare and not height, so the words sit
     to the left of it."""
     if w / h < 1.45:
         u = h / 2064
@@ -496,8 +496,8 @@ def contact_sheet(paths, out, cols=3):
 
 STORES = [
     ('appstore', 2752, 2064, HERE / 'out'),
-    ('play-10in', 2560, 1600, MOBILE / 'design' / 'play' / 'tablet' / '10in'),
-    ('play-7in', 1920, 1200, MOBILE / 'design' / 'play' / 'tablet' / '7in'),
+    ('play-10in', 2560, 1440, MOBILE / 'design' / 'play' / 'tablet' / '10in'),
+    ('play-7in', 1920, 1080, MOBILE / 'design' / 'play' / 'tablet' / '7in'),
 ]
 
 

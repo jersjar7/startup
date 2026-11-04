@@ -205,7 +205,10 @@ cd mobile
 N=$(git rev-list --count HEAD)
 
 # 2. Archive. This succeeds; the IPA step inside it does not, see below.
-flutter build ipa --release --build-number=$N --dart-define=BUILD_NUMBER=$N
+# PACKS=true since 1.3.0: without it the app ignores content packs and
+# ships the old bundled content path. The Android bundle needs it too.
+flutter build ipa --release --build-number=$N --dart-define=BUILD_NUMBER=$N \
+  --dart-define=PACKS=true
 
 # 3. Export a signed IPA with MANUAL signing.
 xcodebuild -exportArchive \
