@@ -268,4 +268,88 @@ void main() {
       expect(taps, 3);
     });
   });
+
+  group('the turn-over', () {
+    PlatformPainter painter(WidgetTester tester) =>
+        tester
+                .widget<CustomPaint>(
+                  find.descendant(
+                    of: find.byType(LessonNodeWidget),
+                    matching: find.byWidgetPredicate(
+                      (w) => w is CustomPaint && w.painter is PlatformPainter,
+                    ),
+                  ),
+                )
+                .painter!
+            as PlatformPainter;
+
+    Widget finishing({bool still = false}) => MaterialApp(
+      home: MediaQuery(
+        data: MediaQueryData(disableAnimations: still),
+        child: Scaffold(
+          body: Center(
+            child: LessonNodeWidget(
+              state: NodeState.cleared,
+              fractionFrom: 2 / 3,
+              fractionTo: 1,
+              size: 84,
+              onSettled: (v) => settled = v,
+            ),
+          ),
+        ),
+      ),
+    );
+
+    testWidgets('flips to the finished face at once, then pops', (
+      tester,
+    ) async {
+      await tester.pumpWidget(finishing());
+      // Ring fills 1100 ms, holds 320 ms, then turns.
+      await tester.pump(const Duration(milliseconds: 1400));
+      expect(find.byKey(LessonNodeWidget.checkKey), findsNothing);
+      await tester.pump(const Duration(milliseconds: 30));
+      await tester.pump();
+      expect(find.byKey(LessonNodeWidget.checkKey), findsOneWidget);
+      // Every frame of the turn draws one solid face, never two blended.
+      for (var i = 0; i < 40; i++) {
+        final p = painter(tester);
+        expect(p.previous, isNull);
+        expect(p.fade, 1);
+        expect(p.skin.face, NodeSkin.of(NodeState.cleared).face);
+        await tester.pump(const Duration(milliseconds: 1000 ~/ 60));
+      }
+      await tester.pumpAndSettle();
+      expect(painter(tester).pop, 1);
+    });
+
+    testWidgets('the pop rises above full size during the turn', (
+      tester,
+    ) async {
+      await tester.pumpWidget(finishing());
+      await tester.pump(const Duration(milliseconds: 1430));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 150));
+      expect(painter(tester).pop, greaterThan(1.05));
+    });
+
+    testWidgets('under Reduce Motion: no sweep, a 180 ms fade to finished', (
+      tester,
+    ) async {
+      await tester.pumpWidget(finishing(still: true));
+      await tester.pump();
+      // The finished face is the one drawn from the start, fading in over
+      // the old one, and the ring does not sweep.
+      expect(find.byKey(LessonNodeWidget.checkKey), findsOneWidget);
+      final p = painter(tester);
+      expect(p.previous?.face, NodeSkin.of(NodeState.inProgress).face);
+      expect(p.previousFraction, closeTo(2 / 3, 1e-9));
+      await tester.pump(const Duration(milliseconds: 90));
+      expect(painter(tester).fade, closeTo(0.5, 0.1));
+      expect(settled, isNull);
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(settled, 1.0);
+      expect(painter(tester).previous, isNull);
+      expect(painter(tester).pop, 1, reason: 'nothing pops');
+    });
+  });
 }

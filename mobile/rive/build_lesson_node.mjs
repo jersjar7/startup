@@ -141,7 +141,7 @@ ${states.join('\n')}
 
 const states = [['0:80', '0:60', '0:121'], ['0:81', '0:61', '0:122'], ['0:82', '0:62', '0:123'], ['0:83', '0:63', '0:124']];
 const stateLayer = layer('State', '0:71', '0:81', states.map(([sid, aid], i) => st(aid, 160 * (i + 1), sid,
-  states.filter(([o]) => o !== sid).map(([o, , ev]) => tr(o, 220, cond(vm.state, 'enum', ev))))));
+  states.filter(([o]) => o !== sid).map(([o, , ev]) => tr(o, 0, cond(vm.state, 'enum', ev))))));
 const pressLayer = layer('Press', '0:72', '0:84', [
   st('0:64', 160, '0:84', [tr('0:85', 90, cond(vm.pressed, 'bool', 'true'))]),
   st('0:65', 320, '0:85', [tr('0:84', 90, cond(vm.pressed, 'bool', 'false'))]),

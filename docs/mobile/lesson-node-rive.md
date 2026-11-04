@@ -44,10 +44,16 @@ pop on arrival.
 **The brand colors stay in Dart.** The artboard has no color of its own that
 matters; every paint is bound to a view model color property, and
 `NodeSkin.of(state)` in Dart supplies them, so cream, charcoal and ember are
-defined once, in `app_colors.dart`. The consequence is that when a node
-changes state the geometry cross-fades inside Rive (220 ms) and the colors
-cross-fade in Dart (also 220 ms, `RiveLessonNode._tint`). Keep those two
-numbers the same.
+defined once, in `app_colors.dart`. When a node
+changes state the pose switches inside Rive in one frame and the colors are
+swapped in Dart in the same frame, so two faces are never blended (a
+cross-fade from the in-progress face to the finished one drew a muddy grey
+platform by day and a cream ghost at night; owner's coordinator,
+2026-11-03). The finished node turns over inside its pop instead. Under
+Reduce Motion the colors alone cross-fade over 180 ms
+(`LessonNodeWidget.stillFade`, `RiveLessonNode._tint`), the ring does not
+sweep, the plinth never fades and nothing pops; the painter fades only the
+face, over the old face.
 
 **The painter is the fallback, and the test double.** If the `.riv` fails to
 load, or has not loaded yet, the node paints the same platform itself
@@ -92,8 +98,8 @@ breaking change on both sides; do it in both places and rebuild the `.riv`.
 Four state machine layers run at once, so press, state, the breath and the
 finished moment never have to know about each other:
 
-- **State**: one hold pose per `NodeState`, with a 220 ms eased transition
-  between every pair. The pose keys the face's width and corner radius (a
+- **State**: one hold pose per `NodeState`, switched instantly between
+  every pair. The pose keys the face's width and corner radius (a
   100 circle, or a 72 rounded square for `notBuilt`), the rim's opacity, the
   check's opacity, the ellipsis's opacity, and the wedge group's opacity.
   Circle to square is a morph, not a swap.
@@ -165,8 +171,8 @@ rive . --screenshot=build/a.png --data=state=inProgress --data=progress=0.5 --ad
 rive . --screenshot=build/b.png --data=state=cleared --data=celebrate=1 --advance=20 --advance=10
 ```
 
-`--advance=20` is there because the machine starts in `notStarted` and takes
-220 ms to arrive at whatever `--data` asked for. The headless render uses the
+`--advance=20` is there to let the machine settle into whatever `--data` asked
+for. The headless render uses the
 authored default colors (a white face), not the app's; the app overwrites all
 six the moment the widget mounts.
 
