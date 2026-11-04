@@ -65,7 +65,7 @@ for shot, pts in points.items():
     for p in pts:
         name = p['name']
         if name == 'state':
-            report.append(f"{shot}: fill {p['fill']:.3f}  line {p['line']:.3f}  pulse {p['pulse']:.3f}")
+            report.append(f"{shot}: fill {p['fill']:.3f}  line {p['line']:.3f}")
             continue
         if name == 'marker':
             c, d, cx, cy = crop(img, p['x'], p['y'], 48)

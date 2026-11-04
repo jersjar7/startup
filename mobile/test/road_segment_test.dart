@@ -43,7 +43,6 @@ void main() {
     final p = painter(tester);
     expect(p.fill, 1);
     expect(p.line, 1);
-    expect(p.pulse, isNull);
     expect(moments, 0);
     expect(tester.hasRunningAnimations, isFalse);
   });
@@ -81,19 +80,16 @@ void main() {
     p = await ms(700);
     expect(p.line, greaterThan(0));
     expect(p.line, lessThanOrEqualTo(p.fill));
-    expect(p.pulse, isNull);
-    // Both done at 1200; the pulse runs 1200 to 1800.
+    // Both done at 1200; the pin then walks until 2100.
     p = await ms(1201);
     expect(p.fill, 1);
     expect(p.line, 1);
-    p = await ms(1500);
-    expect(p.pulse, closeTo(0.5, 0.01));
+    await ms(2000);
     expect(arrived, 0);
-    // The arrival bounce is called at 1800.
-    p = await ms(1810);
-    expect(p.pulse, isNull);
+    // The arrival bounce is called at 2100, as the pin arrives.
+    await ms(2110);
     expect(arrived, 1);
-    await ms(2100);
+    await ms(2400);
     await tester.pump(const Duration(milliseconds: 20));
     expect(tester.hasRunningAnimations, isFalse);
     expect(arrived, 1);
@@ -117,7 +113,6 @@ void main() {
     var p = painter(tester);
     expect(p.fill, 1);
     expect(p.line, 1);
-    expect(p.pulse, isNull);
     expect(p.walkedAlpha, closeTo(0.5, 0.05));
     await tester.pump(const Duration(milliseconds: 100));
     p = painter(tester);

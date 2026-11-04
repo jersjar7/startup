@@ -268,7 +268,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 600));
     expect(shown[third.id], 1);
 
-    // The road moment has started; the pin still waits until the hop.
+    // The road moment has started; the pin waits while the road fills.
     await tester.pump(); // the clock is reported after the frame
     final platform = tester.state(find.byKey(ValueKey(third.id)));
     final state = tester.state<ChapterPathState>(find.byType(ChapterPath));
@@ -277,20 +277,13 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
     expect(pin(tester).anchor, before);
 
-    // Mid pulse (1500 ms): just behind the pulse, on the new road's curve.
+    // 1500 ms: walking, its glow under it, centred on its anchor.
     await tester.pump(const Duration(milliseconds: 1000));
     final open = segmentAfter(tester, third);
-    final drawn = tester
-        .widgetList<CustomPaint>(find.byType(CustomPaint))
-        .map((c) => c.painter)
-        .whereType<RoadPainter>()
-        .firstWhere((r) => r.geometry.from == open.from);
-    expect(drawn.pulse, isNotNull);
-    final f = drawn.pulse! * (road.pinRest + 0.08) - 0.08;
-    expect(
-      (pin(tester).anchor - open.geometry.at(f, road.road)).distance,
-      lessThan(0.5),
-    );
+    expect(pin(tester).anchor, isNot(before));
+    final glow = tester.widgetList<PinShadow>(find.byType(PinShadow)).single;
+    expect(glow.glow, greaterThan(0));
+    expect(glow.anchor, pin(tester).anchor);
 
     // Taps still land during the moment.
     expect(tester.hasRunningAnimations, isTrue);
@@ -303,14 +296,19 @@ void main() {
     // the finished platform kept its state, so its art never replayed.
     expect(tester.state(find.byKey(ValueKey(third.id))), same(platform));
 
-    // 1800: the next platform's bounce is asked for, once.
-    await tester.pump(const Duration(milliseconds: 400));
+    // Not yet arrived at 2000.
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(state.arriveTicks[next.id], isNull);
+    expect(tiled(third.id), isTrue);
+
+    // 2100: the pin arrives; the next platform's bounce is asked for, once.
+    await tester.pump(const Duration(milliseconds: 110));
     expect(state.arriveTicks[next.id], 1);
     // The tile is on its way over, fading in during the bounce.
     await tester.pump(const Duration(milliseconds: 100));
     expect(tiled(next.id), isTrue);
 
-    // 2100: parked where it rests now, the tile wholly on the new lesson,
+    // 2400: parked where it rests now, the tile wholly on the new lesson,
     // and the new lesson does not breathe until it is started.
     await tester.pump(const Duration(milliseconds: 400));
     await tester.pump();
@@ -326,6 +324,154 @@ void main() {
     );
     expect(state.arriveTicks[next.id], 1);
   });
+
+  for (final (name, metrics, width) in const [
+    ('phone', PathMetrics.phone(), 390.0),
+    ('tablet', PathMetrics.tablet(), 640.0),
+  ]) {
+    testWidgets('$name: the pin walks the whole way, evenly, on the path, '
+        'its glow under it', (tester) async {
+      finish(lessons[0]);
+      finish(lessons[1]);
+      final third = lessons[2];
+      for (final game in third.builtGames) {
+        for (var r = 0; r < game.rounds - 1; r++) {
+          p.markRoundCleared(game.id, r, firstTry: true);
+        }
+      }
+      final shown = {for (final l in lessons) l.id: p.fractionOf(l)};
+      late StateSetter rebuild;
+      tester.view.physicalSize = Size(width, 2400);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      final frames = <PinTraceFrame>[];
+      debugPinTrace = frames.add;
+      addTearDown(() => debugPinTrace = null);
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.light,
+          home: Scaffold(
+            body: StatefulBuilder(
+              builder: (context, setState) {
+                rebuild = setState;
+                return SingleChildScrollView(
+                  child: ChapterPath(
+                    chapter: chapter,
+                    width: width,
+                    metrics: metrics,
+                    shown: shown,
+                    target: {for (final l in lessons) l.id: p.fractionOf(l)},
+                    state: {for (final l in lessons) l.id: stateOf(l)},
+                    current: p.currentLessonIn(chapter),
+                    onTap: (_) {},
+                    onSettled: (id, v) => setState(() => shown[id] = v),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      final road = metrics.road;
+      final before = pin(tester).anchor;
+      final into = segmentAfter(tester, lessons[1]).geometry;
+      final out = segmentAfter(tester, third).geometry;
+
+      for (final game in third.builtGames) {
+        p.markRoundCleared(game.id, game.rounds - 1, firstTry: true);
+      }
+      rebuild(() {});
+      // Every frame at 60 a second, through both moments.
+      for (var i = 0; i < 260; i++) {
+        await tester.pump(const Duration(microseconds: 16667));
+      }
+      expect(frames.length, greaterThan(45));
+      final after = pin(tester).anchor;
+      expect(
+        (after - out.at(road.pinRest, road.road)).distance,
+        lessThan(0.01),
+      );
+
+      // The path, independently: each road's centre curve on its top, and
+      // the finished platform's face.
+      final plinth = metrics.platformDepth();
+      final centre = Offset(out.from.dx, out.from.dy / AppRoad.k);
+      final r = out.r;
+      List<Offset> curve(RoadGeometry g) => [
+        for (var f = 0.0; f <= 1.0; f += 0.0005) g.at(f, road.road),
+      ];
+      double near(Offset q, List<Offset> line) {
+        var best = double.infinity;
+        for (var i = 0; i < line.length - 1; i++) {
+          final a = line[i], b = line[i + 1];
+          final ab = b - a;
+          final len2 = ab.dx * ab.dx + ab.dy * ab.dy;
+          final t = len2 == 0
+              ? 0.0
+              : (((q - a).dx * ab.dx + (q - a).dy * ab.dy) / len2).clamp(
+                  0.0,
+                  1.0,
+                );
+          best = math.min(best, (q - (a + ab * t)).distance);
+        }
+        return best;
+      }
+
+      final oldLine = curve(into), newLine = curve(out);
+      var worst = 0.0;
+      for (final f in frames) {
+        final q = f.anchor;
+        double off;
+        switch (f.part) {
+          case TripPart.oldRoad:
+            off = near(q, oldLine);
+          case TripPart.newRoad:
+            off = near(q, newLine);
+          case TripPart.jointUp || TripPart.jointDown:
+            // On the curve, lifted part of the way up the step.
+            expect(f.height, inInclusiveRange(road.road - 1e-6, plinth + 1e-6));
+            final lowered = q + Offset(0, f.height - road.road);
+            off = near(lowered, f.part == TripPart.jointUp ? oldLine : newLine);
+          case TripPart.face:
+            expect(f.height, closeTo(plinth, 1e-6));
+            final ground = Offset(q.dx, (q.dy + plinth) / AppRoad.k);
+            off = math.max(0, (ground - centre).distance - r);
+        }
+        worst = math.max(worst, off);
+        if (f.glow > 0) {
+          expect((f.glowCenter - f.anchor).distance, lessThan(0.5));
+        }
+      }
+      expect(worst, lessThan(0.5), reason: 'the anchor left the path');
+
+      // Every part, in order, and through the face centre.
+      final parts = frames.map((f) => f.part).toList();
+      for (final part in TripPart.values) {
+        expect(parts, contains(part));
+      }
+      final order = [
+        for (var i = 0; i < parts.length; i++)
+          if (i == 0 || parts[i] != parts[i - 1]) parts[i],
+      ];
+      expect(order, TripPart.values);
+      final trail = [before, ...frames.map((f) => f.anchor), after];
+      final faceCenter = AppRoad.project(centre, plinth);
+      final path = frames.first.trip.points.map((t) => t.anchor).toList();
+      expect(near(faceCenter, path), lessThan(0.5));
+
+      // No jumps: the largest step between frames is within 1.5 times the
+      // median step, from the rest spot to the rest spot.
+      final steps = [
+        for (var i = 1; i < trail.length; i++)
+          (trail[i] - trail[i - 1]).distance,
+      ]..sort();
+      final median = steps[steps.length ~/ 2];
+      expect(steps.last, lessThanOrEqualTo(1.5 * median));
+      // And the frames drawn pass the centre within half a step.
+      expect(near(faceCenter, trail), lessThan(median / 2));
+    });
+  }
 }
 
 /// The tile's colour at any point of its fade: spring, not wholly clear.

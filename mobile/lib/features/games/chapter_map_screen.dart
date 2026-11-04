@@ -373,12 +373,25 @@ double placePathLabel({
 /// or (when null) the road segment [segment].
 @immutable
 class _PinAt {
-  const _PinAt(this.lesson, this.point, {this.onPlatform, this.segment});
+  const _PinAt(
+    this.lesson,
+    this.point, {
+    this.onPlatform,
+    this.segment,
+    this.glow = 0,
+    this.part,
+  });
 
   final int lesson;
   final Offset point;
   final int? onPlatform;
   final int? segment;
+
+  /// The spring glow under the pin while it walks, 0..1.
+  final double glow;
+
+  /// Which part of its walk the pin is on, while it walks.
+  final TripPart? part;
 
   @override
   bool operator ==(Object other) =>
@@ -388,14 +401,43 @@ class _PinAt {
   int get hashCode => Object.hash(lesson, point);
 }
 
+/// One frame of the pin's walk, for the road checks: what the path drew.
+/// Points are in the path's own coordinates.
+class PinTraceFrame {
+  const PinTraceFrame({
+    required this.ms,
+    required this.anchor,
+    required this.glowCenter,
+    required this.glow,
+    required this.part,
+    required this.ground,
+    required this.height,
+    required this.trip,
+  });
+
+  final double ms;
+  final Offset anchor;
+  final Offset glowCenter;
+  final double glow;
+  final TripPart part;
+  final Offset ground;
+  final double height;
+  final PinTrip trip;
+}
+
+/// Set by a check (the road demo, a test) to see every frame of the pin's
+/// walk as it is drawn. Null in the app.
+void Function(PinTraceFrame frame)? debugPinTrace;
+
 /// The chapter path in the isometric view (ROAD.md): every lesson a raised
 /// platform, a road between each pair, the raccoon pin on the road to the
 /// lesson the student goes to next, and the labels flat on top.
 ///
 /// It also runs the finishing moment. A finished lesson plays its own
 /// moment on its platform; when that settles the road segment after it
-/// opens (fill, centre line, pulse), the next platform rises at the start
-/// and bounces at 1800 ms, and the pin follows the pulse. Nothing here
+/// opens (fill, centre line), the next platform rises at the start, the
+/// pin walks over the finished platform to the new road with its glow under
+/// it, and the next platform bounces as it arrives (2100 ms). Nothing here
 /// blocks a tap.
 class ChapterPath extends StatefulWidget {
   const ChapterPath({
@@ -624,7 +666,7 @@ class ChapterPathState extends State<ChapterPath>
           ..add((from, 1 - u))
           ..add((target, u));
       } else {
-        pins.add((_momentPin(ms, seg, from, target, geometry, nodes), 1));
+        pins.add((_momentPin(ms, seg, from, target, geometry), 1));
       }
     } else if (_fade.isAnimating && _fadeFrom != null && target != null) {
       pins
@@ -696,12 +738,34 @@ class ChapterPathState extends State<ChapterPath>
     // ── the scene, in depth order: platform 1, segment 1 to 2, platform 2…
     // Every child is keyed: a shadow moving between layers shifts the list,
     // and an unkeyed platform would lose its state (and replay its art).
-    Widget shadowFor(_PinAt p, double opacity) => PinShadow(
-      key: ValueKey('shadow-${pins.indexWhere((q) => identical(q.$1, p))}'),
-      anchor: p.point,
-      size: road,
-      opacity: opacity,
-    );
+    Widget shadowFor(_PinAt p, double opacity) {
+      final shadow = PinShadow(
+        key: ValueKey('shadow-${pins.indexWhere((q) => identical(q.$1, p))}'),
+        anchor: p.point,
+        size: road,
+        opacity: opacity,
+        glow: p.glow,
+      );
+      final trace = debugPinTrace;
+      final trip = _trip;
+      if (trace != null && p.part != null && trip != null && clock != null) {
+        final at = _tripAt!;
+        trace(
+          PinTraceFrame(
+            ms: clock.value,
+            anchor: p.point,
+            glowCenter: shadow.anchor,
+            glow: shadow.glow,
+            part: p.part!,
+            ground: at.ground,
+            height: at.height,
+            trip: trip,
+          ),
+        );
+      }
+      return shadow;
+    }
+
     final children = <Widget>[];
     for (var i = 0; i < nodes.length; i++) {
       final slot = nodes[i];
@@ -773,37 +837,65 @@ class ChapterPathState extends State<ChapterPath>
     );
   }
 
-  /// The pin during the moment on segment [seg]: where it was until 900 ms,
-  /// a short hop over the finished platform to the start of the new road by
-  /// 1200 ms, then just behind the pulse (0.8 of it, minus 0.08, on the
-  /// phone) until it parks where it rests.
+  /// The pin's walk for the moment on segment [seg], built once.
+  PinTrip? _trip;
+  (Offset, Offset, Offset?)? _tripKey;
+
+  /// Where the walk is this frame.
+  TripPoint? _tripAt;
+
+  /// The pin during the moment on segment [seg] (ROAD.md): it waits where
+  /// it rests while the road fills, then walks the whole way at an even
+  /// speed, its glow under it, from [AppRoad.tripStartMs] to
+  /// [AppRoad.tripEndMs]: down the road into the finished lesson, up onto
+  /// that platform, through its face centre, down onto the new road, to
+  /// where it rests there.
   _PinAt _momentPin(
     double ms,
     int seg,
     _PinAt from,
     _PinAt to,
     List<RoadGeometry> geometry,
-    List<_Slot> nodes,
   ) {
     final road = widget.metrics.road;
-    final g = geometry[seg];
-    const hopStart = AppRoad.pulseStartMs - 300;
-    if (ms < hopStart) return from;
-    if (ms < AppRoad.pulseStartMs) {
-      final u = momentSpan(ms, hopStart, AppRoad.pulseStartMs);
-      final start = g.at(0, road.road);
-      return _PinAt(
-        from.lesson,
-        Offset.lerp(from.point, start, u)!,
-        onPlatform: seg,
+    final into = seg > 0 ? geometry[seg - 1] : null;
+    final out = geometry[seg];
+    final key = (out.from, out.to, into?.from);
+    if (_tripKey != key || _trip == null) {
+      _trip = PinTrip(
+        into: into,
+        out: out,
+        size: road,
+        plinth: widget.metrics.platformDepth(),
       );
+      _tripKey = key;
     }
-    if (ms >= AppRoad.pulseEndMs) return to;
-    final pulse = momentSpan(ms, AppRoad.pulseStartMs, AppRoad.pulseEndMs);
-    // The pin trails the pulse and lands exactly on its resting fraction.
-    const trail = 0.08;
-    final f = math.max(0.0, pulse * (road.pinRest + trail) - trail);
-    return _PinAt(to.lesson, g.at(f, road.road), segment: seg);
+    final trip = _trip!;
+    _tripAt = null;
+    if (ms < AppRoad.tripStartMs) return from;
+    if (ms >= AppRoad.tripEndMs) return to;
+    final t =
+        (ms - AppRoad.tripStartMs) / (AppRoad.tripEndMs - AppRoad.tripStartMs);
+    final at = trip.at(AppRoad.tripEase(t));
+    _tripAt = at;
+    // The glow fades in as the pin sets off and out as it stops.
+    final spanMs = AppRoad.tripEndMs - AppRoad.tripStartMs;
+    final glow = math.min(
+      1.0,
+      math.min(t, 1 - t) * spanMs / AppRoad.glowFadeMs,
+    );
+    // Its glow and shadow lie on the road while the pin is outside the
+    // platform's rim, on the platform's face inside it.
+    final onFace = at.onFace(trip.center, trip.r);
+    final onNew = at.part == TripPart.jointDown || at.part == TripPart.newRoad;
+    return _PinAt(
+      onNew ? to.lesson : from.lesson,
+      at.anchor,
+      onPlatform: onFace ? seg : null,
+      segment: onFace ? null : (onNew ? seg : seg - 1),
+      glow: glow,
+      part: at.part,
+    );
   }
 
   /// The tablet's "this lesson" ring: an ellipse on the ground around the

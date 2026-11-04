@@ -85,7 +85,7 @@ centre line.
 | Road ahead, rim | cream #FFF9F0 | creamDark #3A3732 |
 | Road ahead, wall | plinth #CDBFA8 | plinth #5A544C |
 | Shadow | pipOff | black at 50% |
-| Pulse | spring | spring |
+| Pin glow | spring | spring |
 
 At night the charcoal role turns light, and a light road would be the loudest
 thing on the screen, so the walked top uses the night tile: lighter than the
@@ -154,18 +154,16 @@ on the current lesson. No stem.
   moves with the coin.
 - **At rest** the anchor sits 72% of the way into the lesson the student
   goes to next on the phone, and 55% on the tablet.
-- **During the moment** the anchor follows just behind the pulse (at 0.8 of
-  the pulse, minus 0.08) and parks at 72% of the new segment. Coin and
-  shadow move together, and every frame uses the same rule.
+- **During the moment** the pin walks the whole circuit (owner,
+  2026-11-03), with no hop and no jump. See "The pin's walk" below.
 - **Labels** clear the coin where it now stands, above the road.
 
 In Flutter: the marker is a widget positioned by its bottom centre
 (`Positioned` at the anchor with a `FractionalTranslation(-0.5, -1)` on the
-coin and its ring), with the shadow painted by `RoadPainter` at the same
-anchor so it sits on the road's layer.
-
-If the owner drops the marker, nothing else changes, because the pulse
-already carries the motion.
+coin and its ring). Its shadow and glow are one widget (`PinShadow`) at the
+same anchor, placed in the stack right after the road or platform the pin
+stands on, so they lie on that surface, under the coin and under every
+label.
 
 ## Each segment owns its progress
 
@@ -175,7 +173,6 @@ Each segment is its own `RoadSegment` widget and owns these values:
 |---|---|---|
 | `fill` | 0..1 | How far the charcoal has run from the finished platform |
 | `line` | 0..1, never more than `fill` | How far the centre line has been revealed |
-| `pulse` | null or 0..1 | Where the pulse is, null when there is none |
 
 At rest a segment is either `fill = line = 1` (the lesson behind it is
 finished) or `0`. Only finishing that lesson moves it. Reopening a map draws
@@ -192,12 +189,46 @@ finished lesson settles (`onSettled`). Times are counted from there.
 | 1 | The next platform rises from 95% to 100% with a 4 pt lift | 0 to 300 ms | ease out with a slight overshoot |
 | 2 | The road fills from pale to dark, top and wall together, from the finished platform along the curve | 150 to 1200 ms (1050) | ease in-out |
 | 3 | The centre line reveals behind the fill | 400 to 1200 ms (800) | ease in-out |
-| 4 | A small spring pulse runs the road to the next platform | 1200 to 1800 ms (600) | ease in-out |
-| 5 | The next platform does one small bounce, to 105% and back | 1800 to 2100 ms (300) | ease out with an overshoot |
+| 4 | The raccoon pin walks from its old rest spot to its new one, its spring glow under it (below) | 1200 to 2100 ms (900) | even speed along the path; a soft ease in-out over the whole trip |
+| 5 | As the pin arrives, the next platform does one small bounce, to 105% and back, and the spring label tile moves to its lesson | 2100 to 2400 ms (300) | ease out with an overshoot (bounce); ease out (tile) |
 
-The whole moment takes 2.1 s and nothing blocks input. The next platform does
+The whole moment takes 2.4 s and nothing blocks input. (Until 2026-11-03 a
+spring pulse ran the road ahead of the pin from 1200 to 1800 and the bounce
+was at 1800; the owner replaced the pulse with the pin's own glow and asked
+for the whole walk, so the bounce now waits for the pin.) The next platform does
 not start breathing when it ends; the breath stays reserved for a started
 lesson. Platforms the walked road has not reached rest at 95%.
+
+## The pin's walk (owner, 2026-11-03)
+
+The pin starts once the road has filled and its centre line is drawn, and
+walks one unbroken path:
+
+1. from where it rests on the road into the lesson just finished, along that
+   road's centre curve, on the road's top;
+2. up onto the finished platform: across a short band either side of the
+   rim (2 inside, 4 outside, on the ground) the anchor rises smoothly from
+   the road's top to the face, by the real step between them (plinth minus
+   slab: 6 on the phone, 7 on the tablet);
+3. across the face, through the face centre, on a curve from where it came
+   up to where it goes down;
+4. down onto the new road the same way;
+5. along the new road's centre curve to where it rests (72% on the phone,
+   55% on the tablet).
+
+The whole path is measured by its length on screen, so the pin moves at an
+even speed along what the student sees; the only easing is one soft in-out
+over the whole trip (a sine ease with a quarter of an even walk under it, so
+the pin never stalls and is never more than about 1.4 times its average
+speed). Every frame's anchor lies on the path.
+
+**The glow** is the pin's own light, not a separate pulse: a flat spring
+pool on the surface the pin stands on, centred on the anchor, under the
+coin's contact shadow and under every label. It fades in over the first
+150 ms of the walk and out over the last 150 ms. While the anchor is
+outside the finished platform's rim the glow and shadow lie in the road's
+layer (the platform's wall covers them as the pin steps up); inside the rim
+they lie on the face.
 
 ## Reduce Motion
 
@@ -205,7 +236,7 @@ When the system asks for less motion (`MediaQuery.disableAnimations`):
 
 - The whole segment (top, wall and centre line) cross-fades in over
   **180 ms**.
-- Nothing runs along the curve: no pulse, no lift, no bounce.
+- Nothing runs along the curve: no walk, no glow, no lift, no bounce.
 - Every platform sits at 100%.
 - The marker fades out where it was and in at its new place, over the same
   180 ms, still on the centre line.
@@ -224,9 +255,10 @@ Rive draws only the platforms.**
   layers are drawn over the pale ones on `PathMetric.extractPath(0, length *
   fill)`, so the wall turns with the fill. The rim is the top band at full
   width in the rim colour, with the surface band 4 narrower over it, for
-  walked and pale road alike. The pulse and the marker use
+  walked and pale road alike. The marker uses
   `getTangentForOffset(length * f)`, projected and raised by the slab
-  height. Colours come from `AppColors`, so night needs no extra work.
+  height, at rest; its walk is a `PinTrip` built on the ground with a
+  height at every point and measured on screen. Colours come from `AppColors`, so night needs no extra work.
 - **The joint cuts.** Each layer is clipped with the platform's ellipse at
   that layer's height: `canvas.clipPath` with
   `Path.combine(PathOperation.difference, bounds, ellipse)`. The lip is the
@@ -236,9 +268,10 @@ Rive draws only the platforms.**
   arc, the check foreshortened. Two new inputs join the existing layered
   pattern: `ahead` (holds 95%, moves to 100% with the lift) and `arrive` (the
   bounce). The painter fallback draws the same ellipses and sides.
-- **Timing.** One controller per segment runs the 2.1 s with `Interval`s for
-  fill, line and pulse. It starts on `onSettled` and fires `ahead=false` at 0
-  and `arrive` at 1800 on the next platform.
+- **Timing.** One controller per segment runs the 2.4 s with `Interval`s for
+  fill and line, and reports its clock so the path walks the pin. It starts
+  on `onSettled` and fires `ahead=false` at 0 and `arrive` at 2100 on the
+  next platform.
 
 **Why not draw the road in Rive.** Node positions come from Dart
 (`PathMetrics`) and differ by device and width. A Rive road stretched to each

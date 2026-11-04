@@ -17,9 +17,9 @@ import '../../core/theme/road.dart';
 ///
 /// [travelled] is 1 once the lesson behind it is finished, else 0. Turning
 /// it to 1 plays the finishing moment (ROAD.md, "The finishing moment"):
-/// the road fills, the centre line draws in behind it, and a spring pulse
-/// runs to the next platform. With Reduce Motion the whole segment
-/// cross-fades in over 180 ms instead.
+/// the road fills and the centre line draws in behind it; then the path
+/// walks the raccoon pin over it ([PinTrip]). With Reduce Motion the whole
+/// segment cross-fades in over 180 ms instead.
 class RoadSegment extends StatefulWidget {
   const RoadSegment({
     super.key,
@@ -52,7 +52,7 @@ class RoadSegment extends StatefulWidget {
 
   /// Called once when the finishing moment starts, with its clock: the
   /// milliseconds into the moment, 0 to [AppRoad.momentMs]. The path uses it
-  /// to move the raccoon pin along behind the pulse.
+  /// to walk the raccoon pin and its glow over the new road.
   final ValueChanged<Animation<double>>? onMoment;
 
   /// Called at [AppRoad.arriveStartMs]: the next platform's bounce.
@@ -199,12 +199,6 @@ class _RoadSegmentState extends State<RoadSegment>
                   line: walked
                       ? momentSpan(ms, AppRoad.lineStartMs, AppRoad.lineEndMs)
                       : 0,
-                  pulse:
-                      running &&
-                          ms >= AppRoad.pulseStartMs &&
-                          ms <= AppRoad.pulseEndMs
-                      ? momentSpan(ms, AppRoad.pulseStartMs, AppRoad.pulseEndMs)
-                      : null,
                   walkedAlpha: _fade.value,
                 ),
               );
@@ -283,7 +277,7 @@ class RoadGeometry {
 /// The road, painted bottom to top as ROAD.md lays out: the shadow on the
 /// ground, the side wall under the near edge, the top with its lit rim on
 /// both edges, the dashed centre line, the lip where it meets the platform
-/// it leaves, and the pulse.
+/// it leaves. (The pin's spring glow is drawn with the pin, under it.)
 ///
 /// Every layer is the trimmed ground curve stroked at the road's width and
 /// drawn through one projection (`translate(0, -height)` then
@@ -296,7 +290,6 @@ class RoadPainter extends CustomPainter {
     required this.size,
     required this.fill,
     required this.line,
-    this.pulse,
     this.walkedAlpha = 1,
   });
 
@@ -311,9 +304,6 @@ class RoadPainter extends CustomPainter {
 
   /// How far the centre line is revealed, never more than [fill].
   final double line;
-
-  /// Where the pulse is, 0..1, or null.
-  final double? pulse;
 
   /// The walked layers' opacity: 1, except during a Reduce Motion fade.
   final double walkedAlpha;
@@ -447,32 +437,6 @@ class RoadPainter extends CustomPainter {
     canvas.restore();
     canvas.restore();
 
-    // 6. The pulse: a small spring glow on the road's top, lying flat.
-    final p = pulse;
-    if (p != null) {
-      final t = g.tangentAt(p);
-      final at = AppRoad.project(t.position, hr);
-      final angle = math.atan2(math.sin(-t.angle) * k, math.cos(-t.angle));
-      canvas.save();
-      canvas.translate(at.dx, at.dy);
-      canvas.rotate(angle);
-      canvas.scale(w * 0.95, w * 0.4);
-      canvas.drawCircle(
-        Offset.zero,
-        1,
-        Paint()
-          ..shader = RadialGradient(
-            colors: [
-              RoadColors.pulse.withValues(alpha: 0.95),
-              RoadColors.pulse.withValues(alpha: 0.45),
-              RoadColors.pulse.withValues(alpha: 0),
-            ],
-            stops: const [0, 0.45, 1],
-          ).createShader(Rect.fromCircle(center: Offset.zero, radius: 1)),
-      );
-      canvas.restore();
-    }
-
     canvas.restore();
   }
 
@@ -480,7 +444,6 @@ class RoadPainter extends CustomPainter {
   bool shouldRepaint(RoadPainter old) =>
       old.fill != fill ||
       old.line != line ||
-      old.pulse != pulse ||
       old.walkedAlpha != walkedAlpha ||
       old.geometry.from != geometry.from ||
       old.geometry.to != geometry.to ||
@@ -488,35 +451,55 @@ class RoadPainter extends CustomPainter {
       old.size != size;
 }
 
-/// The soft contact shadow under the raccoon pin: a ground circle the width
-/// of the road's top plus 2, squashed like the ground, centred on the pin's
-/// anchor. Painted in the road's layer, so it lies on the road.
+/// What lies under the raccoon pin, on the surface it stands on: its spring
+/// glow while it walks, then the soft contact shadow, both centred on the
+/// pin's anchor and squashed like the ground.
+///
+/// The glow is the pin's own light (owner, 2026-11-03): it travels with the
+/// pin, fading in as the pin sets off and out as it stops ([glow], 0..1).
+/// The shadow is a ground circle the width of the road's top plus 2. The
+/// path places this right after the road or platform the pin is on, so
+/// both lie on that surface, under the coin and under every label.
 class PinShadow extends StatelessWidget {
   const PinShadow({
     super.key,
     required this.anchor,
     required this.size,
     this.opacity = 1,
+    this.glow = 0,
   });
 
   final Offset anchor;
   final RoadSize size;
   final double opacity;
 
+  /// The spring glow's strength, 0 (none) to 1.
+  final double glow;
+
+  /// The glow's radius on the ground.
+  static double glowRadius(RoadSize size) => size.width * 0.9;
+
   @override
   Widget build(BuildContext context) {
     final rx = size.pinFoot / 2;
     final ry = rx * AppRoad.k;
-    const pad = 6.0;
+    final gx = glowRadius(size);
+    final pad = math.max(rx, gx) + 4;
     return Positioned(
-      left: anchor.dx - rx - pad,
-      top: anchor.dy - ry - pad,
-      width: 2 * (rx + pad),
-      height: 2 * (ry + pad),
+      left: anchor.dx - pad,
+      top: anchor.dy - pad * AppRoad.k,
+      width: 2 * pad,
+      height: 2 * pad * AppRoad.k,
       child: IgnorePointer(
         child: CustomPaint(
           key: const ValueKey('pin-shadow'),
-          painter: _PinShadowPainter(rx: rx, ry: ry, opacity: opacity),
+          painter: _PinShadowPainter(
+            rx: rx,
+            ry: ry,
+            gx: gx,
+            opacity: opacity,
+            glow: glow,
+          ),
         ),
       ),
     );
@@ -527,21 +510,43 @@ class _PinShadowPainter extends CustomPainter {
   const _PinShadowPainter({
     required this.rx,
     required this.ry,
+    required this.gx,
     required this.opacity,
+    required this.glow,
   });
 
   final double rx;
   final double ry;
+  final double gx;
   final double opacity;
+  final double glow;
 
   @override
   void paint(Canvas canvas, Size size) {
+    final c = size.center(Offset.zero);
+    if (glow > 0) {
+      // A flat spring pool of light, lying on the surface.
+      canvas.save();
+      canvas.translate(c.dx, c.dy);
+      canvas.scale(gx, gx * AppRoad.k);
+      final a = (glow * opacity).clamp(0.0, 1.0).toDouble();
+      canvas.drawCircle(
+        Offset.zero,
+        1,
+        Paint()
+          ..shader = RadialGradient(
+            colors: [
+              RoadColors.pulse.withValues(alpha: 0.9 * a),
+              RoadColors.pulse.withValues(alpha: 0.4 * a),
+              RoadColors.pulse.withValues(alpha: 0),
+            ],
+            stops: const [0, 0.5, 1],
+          ).createShader(Rect.fromCircle(center: Offset.zero, radius: 1)),
+      );
+      canvas.restore();
+    }
     canvas.drawOval(
-      Rect.fromCenter(
-        center: size.center(Offset.zero),
-        width: 2 * rx,
-        height: 2 * ry,
-      ),
+      Rect.fromCenter(center: c, width: 2 * rx, height: 2 * ry),
       Paint()
         ..color = const Color(
           0xFF000000,
@@ -555,7 +560,191 @@ class _PinShadowPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_PinShadowPainter old) =>
-      old.rx != rx || old.ry != ry || old.opacity != opacity;
+      old.rx != rx ||
+      old.ry != ry ||
+      old.gx != gx ||
+      old.opacity != opacity ||
+      old.glow != glow;
+}
+
+/// Which surface the walking pin is on.
+enum TripPart { oldRoad, jointUp, face, jointDown, newRoad }
+
+/// One point of the pin's trip: where its anchor is on screen, the ground
+/// point under it, how high it stands, and on what.
+class TripPoint {
+  const TripPoint(this.anchor, this.ground, this.height, this.part, this.s);
+
+  final Offset anchor;
+  final Offset ground;
+  final double height;
+  final TripPart part;
+
+  /// Distance along the trip, on screen, from its start.
+  final double s;
+
+  /// Over the platform's face (inside its rim) rather than over a road.
+  bool onFace(Offset centre, double r) => (ground - centre).distance < r;
+}
+
+/// The raccoon pin's walk when a lesson is finished (ROAD.md): from where it
+/// rests on the road into that lesson, along the road's centre curve to the
+/// platform, up the step onto its face, across the face through its centre,
+/// down onto the new road, and along that road's centre curve to where it
+/// rests.
+///
+/// Built on the ground with a height at every point, projected, and
+/// measured by length ON SCREEN, so [at] moves the pin at an even speed
+/// along what the student sees. The step up and down is a smooth rise
+/// across a short band either side of the rim ([jointIn] inside, [jointOut]
+/// outside), from the road's top to the face.
+class PinTrip {
+  PinTrip({
+    required this.into,
+    required this.out,
+    required this.size,
+    required this.plinth,
+  }) : center = Offset(out.from.dx, out.from.dy / AppRoad.k),
+       r = out.r {
+    final road = size.road;
+    final pts = <(Offset, double, TripPart)>[];
+    double smooth(double t) {
+      final u = t.clamp(0.0, 1.0).toDouble();
+      return u * u * (3 - 2 * u);
+    }
+
+    // Where a road's curve is [d] from the finished platform's centre.
+    double fAt(RoadGeometry g, double d, {required bool leaving}) {
+      var lo = 0.0, hi = 1.0;
+      for (var i = 0; i < 40; i++) {
+        final mid = (lo + hi) / 2;
+        final dist = (g.tangentAt(mid).position - center).distance;
+        // Leaving, distance grows with f; arriving, it shrinks.
+        if ((dist < d) == leaving) {
+          lo = mid;
+        } else {
+          hi = mid;
+        }
+      }
+      return (lo + hi) / 2;
+    }
+
+    void along(
+      RoadGeometry g,
+      double f0,
+      double f1,
+      TripPart part,
+      double Function(double f) height,
+    ) {
+      final n = math.max(2, ((f1 - f0).abs() * g.length / 0.5).ceil());
+      for (var i = 0; i <= n; i++) {
+        final f = f0 + (f1 - f0) * i / n;
+        pts.add((g.tangentAt(f).position, height(f), part));
+      }
+    }
+
+    final i = into;
+    Offset entry;
+    if (i != null) {
+      final rest = size.pinRest;
+      final fOut = fAt(i, r + jointOut, leaving: false);
+      final fIn = fAt(i, r - jointIn, leaving: false);
+      along(i, rest, fOut, TripPart.oldRoad, (_) => road);
+      along(i, fOut, fIn, TripPart.jointUp, (f) {
+        final u = (f - fOut) / (fIn - fOut);
+        return road + (plinth - road) * smooth(u);
+      });
+      entry = i.tangentAt(fIn).position;
+    } else {
+      // The first lesson: the pin stood on its face, at the centre.
+      entry = center;
+    }
+
+    // Across the face: a curve from where it came up to where it goes
+    // down, through the centre at its middle.
+    final exit = out.tangentAt(0).position;
+    final ctrl = center * 2 - (entry + exit) / 2;
+    const faceSteps = 80;
+    for (var k = 0; k <= faceSteps; k++) {
+      final t = k / faceSteps;
+      final a = (1 - t) * (1 - t), b = 2 * (1 - t) * t, c = t * t;
+      pts.add((entry * a + ctrl * b + exit * c, plinth, TripPart.face));
+    }
+    if (i == null) {
+      // No step up: drop the face's first half from the centre on.
+      pts.removeRange(0, faceSteps ~/ 2);
+    }
+
+    final fDown = fAt(out, r + jointOut, leaving: true);
+    along(out, 0, fDown, TripPart.jointDown, (f) {
+      final u = f / fDown;
+      return plinth + (road - plinth) * smooth(u);
+    });
+    along(out, fDown, size.pinRest, TripPart.newRoad, (_) => road);
+
+    // Measure on screen, dropping repeats where two parts meet.
+    var s = 0.0;
+    Offset? last;
+    for (final (g, h, part) in pts) {
+      final a = AppRoad.project(g, h);
+      if (last != null) {
+        final d = (a - last).distance;
+        if (d < 1e-6) continue;
+        s += d;
+      }
+      points.add(TripPoint(a, g, h, part, s));
+      last = a;
+    }
+  }
+
+  /// How far inside and outside the rim the step up (and down) runs, on
+  /// the ground.
+  static const jointIn = 2.0;
+  static const jointOut = 4.0;
+
+  /// The road into the finished lesson (null for the first lesson, whose
+  /// pin stood on its face) and the road just opened.
+  final RoadGeometry? into;
+  final RoadGeometry out;
+  final RoadSize size;
+
+  /// The platforms' height: the face stands this high.
+  final double plinth;
+
+  /// The finished platform's centre, on the ground, and its radius.
+  final Offset center;
+  final double r;
+
+  final List<TripPoint> points = [];
+
+  double get length => points.last.s;
+
+  /// The finished platform's face centre on screen.
+  Offset get faceCenter => AppRoad.project(center, plinth);
+
+  /// The trip at [t], 0..1 of its length on screen.
+  TripPoint at(double t) {
+    final target = length * t.clamp(0.0, 1.0);
+    var lo = 0, hi = points.length - 1;
+    while (hi - lo > 1) {
+      final mid = (lo + hi) >> 1;
+      if (points[mid].s <= target) {
+        lo = mid;
+      } else {
+        hi = mid;
+      }
+    }
+    final a = points[lo], b = points[hi];
+    final span = b.s - a.s;
+    final u = span <= 0 ? 0.0 : (target - a.s) / span;
+    return TripPoint(
+      Offset.lerp(a.anchor, b.anchor, u)!,
+      Offset.lerp(a.ground, b.ground, u)!,
+      a.height + (b.height - a.height) * u,
+      u < 0.5 ? a.part : b.part,
+      target,
+    );
+  }
 }
 
 /// The raccoon pin: the brand's raccoon peek on a small charcoal coin with a

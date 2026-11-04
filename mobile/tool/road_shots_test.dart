@@ -319,7 +319,7 @@ void main() {
     );
     var elapsed = 0.0;
     // The clock of the moment: find it from the painter's own values.
-    for (final ms in const [0, 300, 700, 1200, 1500, 2100]) {
+    for (final ms in const [0, 300, 700, 1200, 1500, 1800, 2100, 2400]) {
       if (ms > elapsed) {
         await tester.pump(Duration(milliseconds: (ms - elapsed).round()));
         elapsed = ms.toDouble();
@@ -331,13 +331,12 @@ void main() {
         'name': 'state',
         'fill': p.fill,
         'line': p.line,
-        'pulse': p.pulse ?? -1,
         'x': 0,
         'y': 0,
       });
     }
     // Let everything finish.
     await tester.pump(const Duration(seconds: 3));
-    expect(AppRoad.momentMs, 2100);
+    expect(AppRoad.momentMs, 2400);
   });
 }

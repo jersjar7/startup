@@ -23,8 +23,8 @@ abstract final class AppRoad {
   // Times run from when the finished lesson settles (its own pop has
   // played). Each value is milliseconds into the moment.
 
-  /// The whole moment: 2.1 s.
-  static const momentMs = 2100.0;
+  /// The whole moment: 2.4 s.
+  static const momentMs = 2400.0;
 
   /// 1. The next platform rises from [aheadScale] to 100% with a [lift]
   ///    point lift, ease out with a slight overshoot.
@@ -39,13 +39,30 @@ abstract final class AppRoad {
   static const lineStartMs = 400.0;
   static const lineEndMs = 1200.0;
 
-  /// 4. A small spring pulse runs the road to the next platform.
-  static const pulseStartMs = 1200.0;
-  static const pulseEndMs = 1800.0;
+  /// 4. The raccoon pin walks the whole way, its spring glow under it: down
+  ///    the rest of the road into the finished lesson, up onto that
+  ///    platform, across its face through the centre, down onto the new
+  ///    road and along it to where it rests. Even speed along the path,
+  ///    ease in-out over the whole trip ([tripEase]).
+  static const tripStartMs = 1200.0;
+  static const tripEndMs = 2100.0;
 
-  /// 5. The next platform does one small bounce, to [arriveScale] and back.
-  static const arriveStartMs = 1800.0;
-  static const arriveEndMs = 2100.0;
+  /// The pin's glow fades in over the first [glowFadeMs] of the trip and
+  /// out over the last.
+  static const glowFadeMs = 150.0;
+
+  /// The trip's ease: a soft in-out (a sine ease with a quarter of an even
+  /// walk under it), so the pin sets off and stops gently but never stalls,
+  /// and is never more than about 1.4 times its average speed.
+  static double tripEase(double t) {
+    final u = t.clamp(0.0, 1.0).toDouble();
+    return 0.25 * u + 0.75 * (1 - math.cos(math.pi * u)) / 2;
+  }
+
+  /// 5. As the pin arrives, the next platform does one small bounce, to
+  ///    [arriveScale] and back, and the spring tile moves to its label.
+  static const arriveStartMs = tripEndMs;
+  static const arriveEndMs = 2400.0;
 
   /// Reduce Motion: the segment and the pin cross-fade, nothing else moves.
   static const reducedFadeMs = 180.0;
