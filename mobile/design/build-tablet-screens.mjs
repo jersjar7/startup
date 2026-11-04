@@ -180,7 +180,7 @@ const path = ({ width, top, nodes, node = 92, step = 150, amp = 110, highlight =
     markerAt: nowAt > 0 ? { seg: nowAt - 1, f: 0.55 } : null,
   });
   const obstacles = [...p.obstacles];
-  if (p.markerPt) for (let t = 0; t < 6.28; t += 0.5) obstacles.push({ x: p.markerPt.x + 22 * Math.cos(t), y: p.markerPt.y + 22 * Math.sin(t) });
+  obstacles.push(...p.markerObstacles);
   const label = (n) => {
     const right = n.x <= width / 2; // node on the left, label to its right
     const tileOn = n.state === 'now';
