@@ -206,18 +206,6 @@ const rml = `<Rive version="1" kind="fragment">
                         <!-- Everything that sinks when pressed: the face and the top of the side. -->
                         <Node x="0" y="0" name="Press" id="${id.press}">
 
-                            <!-- The halo that leaves the face at the finished moment, on the face's plane. -->
-                            <Node x="0" y="0" scaleY="${K}" name="HaloTilt" id="${id.haloTilt}">
-                                <Shape x="0" y="0" opacity="0" name="Halo" id="${id.halo}">
-                                    <Ellipse width="100" height="100" name="Path" id="0:23"/>
-                                    <Stroke thickness="3" name="Stroke">
-                                        <SolidColor colorValue="FF63F0A8" name="Halo" id="0:25">
-                                            ${bind(vm.halo, 37)}
-                                        </SolidColor>
-                                    </Stroke>
-                                </Shape>
-                            </Node>
-
                             <!-- Everything that pops when the lesson is finished. -->
                             <Node x="0" y="0" name="Pop" id="${id.pop}">
                                 <!-- The face's plane: the circle squashed to half height. -->
@@ -315,6 +303,18 @@ const rml = `<Rive version="1" kind="fragment">
                                 </Shape>
                             </Node>
                         </Node>
+
+                            <!-- The halo that leaves the face at the finished moment, on the face's plane. Drawn under the platform, so it never crosses the plinth. -->
+                            <Node x="0" y="0" scaleY="${K}" name="HaloTilt" id="${id.haloTilt}">
+                                <Shape x="0" y="0" opacity="0" name="Halo" id="${id.halo}">
+                                    <Ellipse width="100" height="100" name="Path" id="0:23"/>
+                                    <Stroke thickness="3" name="Stroke">
+                                        <SolidColor colorValue="FF63F0A8" name="Halo" id="0:25">
+                                            ${bind(vm.halo, 37)}
+                                        </SolidColor>
+                                    </Stroke>
+                                </Shape>
+                            </Node>
                     </Node>
                 </Node>
             </Node>

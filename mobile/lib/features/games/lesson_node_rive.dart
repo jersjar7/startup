@@ -95,6 +95,7 @@ class RiveLessonNode extends StatefulWidget {
     required this.current,
     required this.ahead,
     required this.still,
+    this.fadeFrom,
     required this.arriveTick,
     required this.size,
     required this.depth,
@@ -114,6 +115,10 @@ class RiveLessonNode extends StatefulWidget {
   /// Reduce Motion: a change of face cross-fades its colors over
   /// [LessonNodeWidget.stillFade] and nothing pops.
   final bool still;
+
+  /// Under Reduce Motion, the face that was showing when this widget was
+  /// first built mid-change: its colors fade to [skin]'s.
+  final NodeSkin? fadeFrom;
 
   /// Each change plays one arrival bounce.
   final int arriveTick;
@@ -173,7 +178,11 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
     _colors = {for (final name in _Palette.names) name: _vmi.color(name)!};
 
     _from = _to = _Palette.of(widget.skin, previous: null);
-    _push(_to);
+    final before = widget.fadeFrom;
+    if (widget.still && before != null) {
+      _from = _Palette.of(before, previous: null);
+    }
+    _push(_from);
     _state.value = widget.showing.name;
     _progress.value = widget.fraction;
     _pressed.value = widget.pressed;
@@ -186,6 +195,7 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
     _tint.addListener(() {
       _push(_Palette.lerp(_from, _to, Curves.easeOut.transform(_tint.value)));
     });
+    if (_from != _to) _tint.forward(from: 0);
   }
 
   @override

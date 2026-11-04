@@ -344,7 +344,7 @@ void main() {
       expect(p.previous?.face, NodeSkin.of(NodeState.inProgress).face);
       expect(p.previousFraction, closeTo(2 / 3, 1e-9));
       await tester.pump(const Duration(milliseconds: 90));
-      expect(painter(tester).fade, closeTo(0.5, 0.1));
+      expect(painter(tester).fade, closeTo(Curves.easeOut.transform(0.5), 0.1));
       expect(settled, isNull);
       await tester.pump(const Duration(milliseconds: 100));
       expect(settled, 1.0);

@@ -471,6 +471,7 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
               current: widget.current,
               ahead: ahead,
               still: still,
+              fadeFrom: _fadeFrom?.$1,
               arriveTick: widget.arriveTick,
               size: widget.size,
               depth: widget.depth,
@@ -512,7 +513,10 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
                   halo: _pop.value,
                   previous: _fadeFrom?.$1,
                   previousFraction: _fadeFrom?.$2 ?? 0,
-                  fade: _fadeFrom == null ? 1 : _c.value,
+                  // The same ease as the Rive path's color fade.
+                  fade: _fadeFrom == null
+                      ? 1
+                      : Curves.easeOut.transform(_c.value),
                 ),
               ),
             ),
@@ -620,6 +624,24 @@ class PlatformPainter extends CustomPainter {
       }
     });
 
+    // The halo leaving the face at the finished moment, drawn under the
+    // platform so it never crosses the plinth.
+    if (halo < 1) {
+      final u = d / 100;
+      onPlane(face, () {
+        canvas.drawCircle(
+          Offset.zero,
+          50 * u * LessonNodeWidget.haloScale(halo),
+          Paint()
+            ..color = AppColors.spring.withValues(
+              alpha: LessonNodeWidget.haloOpacity(halo),
+            )
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 3 * u,
+        );
+      });
+    }
+
     // The plinth: the foot, and the side up to the face. Solid always.
     final rx = d * skin.widthFactor / 2;
     final plinth = Paint()..color = skin.plinth;
@@ -648,23 +670,6 @@ class PlatformPainter extends CustomPainter {
       _face(canvas, skin, fraction, d, face, outline, onPlane);
     }
     canvas.restore();
-
-    // The halo leaving the face at the finished moment.
-    if (halo < 1) {
-      final u = d / 100;
-      onPlane(face, () {
-        canvas.drawCircle(
-          Offset.zero,
-          50 * u * LessonNodeWidget.haloScale(halo),
-          Paint()
-            ..color = AppColors.spring.withValues(
-              alpha: LessonNodeWidget.haloOpacity(halo),
-            )
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 3 * u,
-        );
-      });
-    }
   }
 
   void _face(
