@@ -5,6 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import 'app.dart';
 import 'core/licenses.dart';
+import 'core/notifications/reminders_ask.dart';
 import 'core/orientation_policy.dart';
 import 'core/storage/app_storage.dart';
 import 'core/theme/theme_mode.dart';
@@ -37,6 +38,8 @@ Future<void> main() async {
   await DailyDone.load();
   // Light, dark or the phone's own, before the first frame is drawn.
   await Appearance.load();
+  // The reminders invitation never comes on the first launch day.
+  await RemindersAsk.noteLaunch();
   // The content pack inside the app, or a newer one downloaded before: on
   // disk, so the first lesson never waits on the network (ADR 0030).
   if (packsOn) {
