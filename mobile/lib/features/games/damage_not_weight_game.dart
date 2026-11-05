@@ -102,7 +102,8 @@ const loadRounds = <LoadRound>[
   LoadRound(
     subject: 'a thousand passes',
     asked:
-        'A thousand of those axles come past in a year. How many standard '
+        'A 24 kip single axle has a load equivalency factor of 3.03, and a '
+        'thousand of them pass in a year. How many equivalent standard axle '
         'loads is that?',
     axles: _lessonAxles,
     options: [
