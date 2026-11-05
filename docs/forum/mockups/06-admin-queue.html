@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forum review queue</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<link rel="stylesheet" href="mock.css">
+<style>
+main { max-width: 900px; }
+h1 { font-size: 1.5rem; font-weight: 700; }
+.sub { font-size: 0.88rem; color: var(--gray-500); margin: 0.2rem 0 1.4rem; }
+.seg { display: flex; gap: 1.6rem; border-bottom: 1px solid var(--gray-200); margin-bottom: 1.2rem; }
+.seg a { font-family: var(--font-heading); font-weight: 600; font-size: 0.92rem; color: var(--gray-500); padding: 0.5rem 0; border-bottom: 3px solid transparent; margin-bottom: -1px; }
+.seg a.on { color: var(--charcoal); border-bottom-color: var(--ember); }
+.seg b { font-family: var(--font-mono); font-size: 0.78rem; margin-left: 0.3rem; }
+.item { margin-bottom: 0.9rem; }
+.item .top { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.item .kind { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-500); }
+.item .email { font-size: 0.8rem; color: var(--gray-500); }
+.item .on-q { font-size: 0.82rem; color: var(--gray-500); margin-top: 0.7rem; }
+.item .on-q b { color: var(--charcoal); font-weight: 600; }
+.item .text { margin-top: 0.35rem; font-size: 0.96rem; }
+.item .text h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.2rem; }
+.item .acts { display: flex; gap: 0.8rem; align-items: center; margin-top: 0.9rem; }
+.ok { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--forest); color: white; border-radius: 999px; padding: 0.55rem 1.1rem; font-family: var(--font-heading); font-weight: 600; font-size: 0.88rem; }
+.hide { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--error); font-family: var(--font-heading); font-weight: 600; font-size: 0.88rem; padding: 0.55rem 0.6rem; }
+.flag { border-left: 4px solid var(--error); }
+</style></head>
+<body>
+<header class="site">
+  <a class="logo"><span class="fe">FE<i>4</i></span><span class="rc">RACCOONS</span></a>
+  <nav class="tabs">
+    <a class="tab">Study</a>
+    <a class="tab">Forum</a>
+    <a class="tab">PE prep</a>
+  </nav>
+  <div class="actions">
+    <a class="chip-link"><i class="ph-bold ph-exam"></i>Exam Sim</a>
+    <a class="chip-link"><i class="ph-bold ph-chart-line-up"></i>Analytics</a>
+    <a class="profile"><i class="ph-bold ph-user-circle"></i></a>
+  </div>
+</header>
+<main>
+  <h1>Forum review</h1>
+  <p class="sub">First posts wait here until you approve them. Approving a post also trusts that student, so their next posts go up right away.</p>
+  <div class="seg"><a class="on">Waiting<b>3</b></a><a>Reported<b>1</b></a><a>Hidden<b>0</b></a></div>
+
+  <div class="card item">
+    <div class="top"><span class="av" style="background:var(--cream-dark)">MA</span><span class="who">Maria</span><span class="email">maria@example.edu</span><span class="kind">First post, reply</span><span class="when" style="margin-left:auto">6 min ago</span></div>
+    <p class="on-q">On <b>Is it worth taking the FE before graduating?</b></p>
+    <div class="text">Thanks everyone. Booking it for March then.</div>
+    <div class="acts"><a class="ok"><i class="ph-bold ph-check"></i>Approve</a><a class="hide"><i class="ph-bold ph-eye-slash"></i>Hide</a></div>
+  </div>
+
+  <div class="card item">
+    <div class="top"><span class="av" style="background:var(--forest-bg)">KO</span><span class="who">Kevin</span><span class="email">kevin@example.com</span><span class="kind">First post, question</span><span class="when" style="margin-left:auto">1h ago</span></div>
+    <div class="text" style="margin-top:.8rem"><h3>Can I use the 10.5 Handbook if my exam is in January?</h3>My school library only has the old printed copy. Is it close enough to the current one?</div>
+    <div class="acts"><a class="ok"><i class="ph-bold ph-check"></i>Approve</a><a class="hide"><i class="ph-bold ph-eye-slash"></i>Hide</a></div>
+  </div>
+
+  <div class="card item">
+    <div class="top"><span class="av" style="background:var(--ember-bg)">BX</span><span class="who">bestprep</span><span class="email">deals4u@example.net</span><span class="kind">First post, reply</span><span class="when" style="margin-left:auto">3h ago</span></div>
+    <p class="on-q">On <b>Which calculator did you use on exam day?</b></p>
+    <div class="text">Get 50% off the best FE course, link in my profile.</div>
+    <div class="acts"><a class="ok"><i class="ph-bold ph-check"></i>Approve</a><a class="hide"><i class="ph-bold ph-eye-slash"></i>Hide</a></div>
+  </div>
+</main>
+<footer class="site">FE for Raccoons</footer>
+<section class="legend"><p class="overline">What this page is</p><ol>
+<li>A new section of the admin page, only for the owner account. Shown here as its own screen.</li>
+<li>Waiting: first posts. Approve publishes the post and trusts the student. Hide keeps it off the site; the student is not told it was hidden.</li>
+<li>Reported: posts that two different students reported, already hidden until you decide.</li>
+<li>You get one email a day when something is waiting, never one per post.</li></ol></section>
+</body></html>

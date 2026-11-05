@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Question page</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<link rel="stylesheet" href="mock.css">
+<style>
+main { max-width: 820px; }
+.crumb { font-family: var(--font-heading); font-weight: 600; font-size: 0.88rem; color: var(--gray-500); display: inline-flex; align-items: center; gap: 0.35rem; margin-bottom: 1.2rem; }
+h1.qt { font-size: 2rem; font-weight: 700; letter-spacing: -0.035em; line-height: 1.2; }
+.post { display: grid; grid-template-columns: 44px minmax(0,1fr); gap: 0.9rem; }
+.post .head { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.35rem; }
+.post .body { font-size: 1rem; color: var(--charcoal); }
+.post .body p + p { margin-top: 0.7rem; }
+.post .tools { display: flex; gap: 1.1rem; margin-top: 0.6rem; font-family: var(--font-heading); font-weight: 600; font-size: 0.8rem; color: var(--gray-500); }
+.post .tools span { display: inline-flex; align-items: center; gap: 0.3rem; }
+.question { margin: 1.2rem 0 2rem; }
+.rhead { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.7rem; }
+.replies { padding: 0.4rem 1.3rem; }
+.replies .post { padding: 1.1rem 0; }
+.replies .post + .post { border-top: 1px solid var(--gray-100); }
+.mine-wait { background: var(--sunbeam-bg); margin: 0.4rem -1.3rem -0.4rem; padding: 1.1rem 1.3rem !important; border-top: 0 !important; }
+.wait { display: flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; color: var(--gray-600); margin-top: 0.55rem; }
+.wait i { color: var(--sunbeam); font-size: 1rem; }
+/* signed out */
+.gate { margin-top: 1.2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; flex-wrap: wrap; }
+.gate h3 { font-size: 1.05rem; font-weight: 700; }
+.gate p { font-size: 0.88rem; color: var(--gray-600); }
+.gate .acts { display: flex; align-items: center; gap: 1rem; }
+/* signed in */
+.compose { margin-top: 1.2rem; }
+.compose .box { border: 1.5px solid var(--gray-200); border-radius: 10px; min-height: 120px; padding: 0.8rem 0.9rem; font-size: 0.95rem; color: var(--charcoal); background: white; }
+.compose .box .caret { display: inline-block; width: 1.5px; height: 1.1em; background: var(--charcoal); vertical-align: -0.2em; }
+.compose .row { display: flex; justify-content: space-between; align-items: center; margin-top: 0.8rem; gap: 1rem; }
+.compose .hint { font-size: 0.8rem; color: var(--gray-500); }
+.in .gate, .out .compose, .out .mine-wait { display: none; }
+.related { margin-top: 2.2rem; }
+.related .when { white-space: nowrap; }
+.related a { display: flex; justify-content: space-between; gap: 1rem; padding: 0.6rem 0; border-top: 1px solid var(--gray-200); font-size: 0.92rem; font-weight: 500; }
+.phone h1.qt { font-size: 1.55rem; }
+.phone .post { grid-template-columns: 36px minmax(0,1fr); gap: 0.7rem; }
+.phone .replies { padding: 0.3rem 1rem; }
+.phone .compose .row { flex-direction: column; align-items: flex-start; }
+.phone .mine-wait { margin: 0.3rem -1rem -0.3rem; padding: 1rem !important; }
+.phone .gate { flex-direction: column; align-items: flex-start; }
+</style>
+<script>document.documentElement.className = location.search.includes('in') ? 'in' : 'out';</script>
+</head>
+<body>
+<header class="site">
+  <a class="logo"><span class="fe">FE<i>4</i></span><span class="rc">RACCOONS</span></a>
+  <nav class="tabs">
+    <a class="tab">Study</a>
+    <a class="tab on">Forum</a>
+    <a class="tab">PE prep</a>
+  </nav>
+  <div class="actions">
+    <a class="text-link signed-out-only">Sign in</a>
+    <a class="chip-link signed-in-only"><i class="ph-bold ph-exam"></i>Exam Sim</a>
+    <a class="profile signed-in-only"><i class="ph-bold ph-user-circle"></i></a>
+  </div>
+</header>
+<main>
+  <a class="crumb"><i class="ph-bold ph-arrow-left"></i>Forum</a>
+  <h1 class="qt">Is it worth taking the FE before graduating?</h1>
+  <div class="post question">
+    <span class="av big" style="background:var(--sunbeam-bg)">PR</span>
+    <div>
+      <div class="head"><span class="who">Priya</span><span class="when">Asked 5 hours ago</span></div>
+      <div class="body">
+        <p>I graduate in May and my advisor says to take it now while everything is fresh. My internship starts in June and I am worried I will not have time to study once I start working.</p>
+        <p>Did anyone take it during their last semester? Was it too much with classes?</p>
+      </div>
+      <div class="tools"><span><i class="ph-bold ph-flag"></i>Report</span></div>
+    </div>
+  </div>
+
+  <div class="rhead"><span class="overline">3 replies</span><span class="when">Oldest first</span></div>
+  <div class="card replies">
+    <div class="post">
+      <span class="av" style="background:var(--forest-bg)">DK</span>
+      <div><div class="head"><span class="who">Daniel</span><span class="when">4 hours ago</span></div>
+      <div class="body"><p>I took it in March of my senior year and passed. Statics, Mechanics of Materials and Fluids were still fresh from class, which carried me. I studied about an hour a day for eight weeks.</p></div>
+      <div class="tools"><span><i class="ph-bold ph-flag"></i>Report</span></div></div>
+    </div>
+    <div class="post">
+      <span class="av owner">JG</span>
+      <div><div class="head"><span class="who">Jerson</span><span class="role">Founder</span><span class="when">3 hours ago</span></div>
+      <div class="body"><p>Take it before you start working if you can. Once you are on a project, an hour a night is much harder to protect. The exam rewards breadth, and that is exactly what your last year of school gives you.</p></div>
+      <div class="tools"><span><i class="ph-bold ph-flag"></i>Report</span></div></div>
+    </div>
+    <div class="post">
+      <span class="av" style="background:var(--ember-bg)">LH</span>
+      <div><div class="head"><span class="who">Lena</span><span class="when">2 hours ago</span></div>
+      <div class="body"><p>Same situation last year. I booked the exam for spring break so it did not collide with finals. Best decision I made.</p></div>
+      <div class="tools"><span><i class="ph-bold ph-flag"></i>Report</span></div></div>
+    </div>
+    <div class="post mine-wait">
+      <span class="av" style="background:var(--cream-dark)">MA</span>
+      <div><div class="head"><span class="who">Maria</span><span class="when">Just now</span></div>
+      <div class="body"><p>Thanks everyone. Booking it for March then.</p></div>
+      <div class="wait"><i class="ph-fill ph-clock"></i>Your first post is waiting for Jerson to approve it. Only you can see it until then.</div></div>
+    </div>
+  </div>
+
+  <div class="card gate">
+    <div><h3>Join the conversation</h3><p>Reading is open to everyone. To reply, sign in or make a free account.</p></div>
+    <div class="acts"><a class="text-link">Sign in</a><a class="btn small">Join free<span class="disc"><i class="ph-bold ph-arrow-right"></i></span></a></div>
+  </div>
+
+  <div class="card compose">
+    <p class="overline" style="margin-bottom:.6rem">Your reply</p>
+    <div class="box"><span class="caret"></span><span style="color:var(--gray-400)">Share what worked for you</span></div>
+    <div class="row"><span class="hint">Replying as Maria. Be kind and stay on topic.</span><a class="btn small">Post reply<span class="disc"><i class="ph-bold ph-arrow-right"></i></span></a></div>
+  </div>
+
+  <section class="related">
+    <p class="overline" style="margin-bottom:.4rem">Related questions</p>
+    <a><span>How long did you study for the FE?</span><span class="when">8 replies</span></a>
+    <a><span>Do employers care if you passed the FE when hiring interns?</span><span class="when">4 replies</span></a>
+  </section>
+</main>
+<footer class="site">FE for Raccoons</footer>
+<section class="legend"><p class="overline">What this page is</p><ol class="lg-out">
+<li>One question per page, with its own address, title and description, so Google can show it in search results.</li>
+<li>Signed out: everything is readable. The box at the bottom invites the visitor to sign in or join free to reply.</li>
+<li>Replies run oldest first, like a conversation. Jerson's replies carry a "Founder" mark.</li>
+<li>Related questions at the bottom keep readers moving through the forum instead of leaving.</li></ol>
+<ol class="lg-in">
+<li>Signed in: a reply box replaces the sign-in invitation.</li>
+<li>A student's first post shows only to them, on a yellow band, until Jerson approves it from the admin page.</li>
+<li>Report sits on every post. A post reported twice hides until Jerson looks at it.</li></ol></section>
+<style>.out .lg-in, .in .lg-out, .in .signed-out-only, .out .signed-in-only { display: none !important; }</style>
+</body></html>

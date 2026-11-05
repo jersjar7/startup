@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask a question</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<link rel="stylesheet" href="mock.css">
+<style>
+main { max-width: 760px; }
+.crumb { font-family: var(--font-heading); font-weight: 600; font-size: 0.88rem; color: var(--gray-500); display: inline-flex; align-items: center; gap: 0.35rem; margin-bottom: 1.4rem; }
+.title-in { font-family: var(--font-heading); font-size: 1.9rem; font-weight: 700; letter-spacing: -0.035em; line-height: 1.2; border-bottom: 2px solid var(--ember); padding-bottom: 0.5rem; }
+.title-in .caret { display: inline-block; width: 2px; height: 1em; background: var(--charcoal); vertical-align: -0.12em; margin-left: 2px; }
+.count { font-family: var(--font-mono); font-size: 0.72rem; color: var(--gray-500); text-align: right; margin-top: 0.35rem; }
+.asked { margin-top: 1rem; border-left: 4px solid var(--sunbeam); }
+.asked h3 { font-size: 0.98rem; font-weight: 700; margin-bottom: 0.15rem; }
+.asked p.lead { font-size: 0.86rem; color: var(--gray-600); margin-bottom: 0.5rem; }
+.asked a { display: flex; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; border-top: 1px solid var(--gray-100); font-size: 0.92rem; font-weight: 500; }
+.asked .when { white-space: nowrap; }
+.details { margin-top: 1.6rem; }
+.details .box { background: white; border-radius: 16px; box-shadow: var(--shadow-card); min-height: 170px; padding: 1.1rem 1.2rem; color: var(--gray-400); font-size: 0.98rem; }
+.foot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.3rem; flex-wrap: wrap; }
+.foot p { font-size: 0.82rem; color: var(--gray-500); max-width: 380px; }
+.phone .title-in { font-size: 1.45rem; }
+</style></head>
+<body>
+<header class="site">
+  <a class="logo"><span class="fe">FE<i>4</i></span><span class="rc">RACCOONS</span></a>
+  <nav class="tabs">
+    <a class="tab">Study</a>
+    <a class="tab on">Forum</a>
+    <a class="tab">PE prep</a>
+  </nav>
+  <div class="actions">
+    <a class="chip-link"><i class="ph-bold ph-exam"></i>Exam Sim</a>
+    <a class="profile"><i class="ph-bold ph-user-circle"></i></a>
+  </div>
+</header>
+<main>
+  <a class="crumb"><i class="ph-bold ph-arrow-left"></i>Forum</a>
+  <p class="overline" style="margin-bottom:.5rem">Ask a question</p>
+  <div class="title-in">How long should I study for the FE<span class="caret"></span></div>
+  <p class="count">35 of 120</p>
+
+  <div class="card asked">
+    <h3>Already asked?</h3>
+    <p class="lead">These look close. If one answers it, you will get your answer faster there.</p>
+    <a><span>How long did you study for the FE?</span><span class="when">8 replies</span></a>
+    <a><span>Is two months enough to study for the FE Civil?</span><span class="when">5 replies</span></a>
+  </div>
+
+  <div class="details">
+    <p class="overline" style="margin-bottom:.5rem">Details (optional)</p>
+    <div class="box">Add what you have tried, your exam date, or anything that helps people answer.</div>
+  </div>
+
+  <div class="foot">
+    <p>Your first question is checked by Jerson before it appears, usually the same day. We will email you when someone replies.</p>
+    <a class="btn">Post question<span class="disc"><i class="ph-bold ph-arrow-right"></i></span></a>
+  </div>
+</main>
+<footer class="site">FE for Raccoons</footer>
+<section class="legend"><p class="overline">What this page is</p><ol>
+<li>The question itself is the big line at the top, typed like a heading, not a form field. It becomes the page title Google shows.</li>
+<li>While the student types, matching questions appear under it. One strong page per question beats ten weak copies.</li>
+<li>Details are optional. Only signed-in students with a verified email reach this page.</li>
+<li>The note by the button sets expectations: first post is reviewed, and replies arrive by email.</li></ol></section>
+</body></html>

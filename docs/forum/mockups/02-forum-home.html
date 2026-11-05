@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forum home</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<link rel="stylesheet" href="mock.css">
+<style>
+.top { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 2rem; }
+.top h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1.1; }
+.top p { color: var(--gray-600); max-width: 560px; margin-top: 0.6rem; }
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 2.5rem; align-items: start; }
+.sec { margin: 0 0 0.7rem; display: flex; justify-content: space-between; align-items: baseline; }
+.q { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 1.2rem; padding: 1.1rem 1.2rem; }
+.q + .q { border-top: 1px solid var(--gray-100); }
+.q h3 { font-size: 1.08rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.3; }
+.q p.ex { font-size: 0.88rem; color: var(--gray-600); margin-top: 0.3rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.q .by { display: flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; color: var(--gray-500); margin-top: 0.6rem; }
+.q .by .av { width: 22px; height: 22px; font-size: 0.55rem; }
+.count { text-align: right; min-width: 64px; }
+.count b { display: block; font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; line-height: 1.1; }
+.count span { font-family: var(--font-mono); font-size: 0.68rem; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.06em; }
+.list { padding: 0; overflow: hidden; }
+.owner-list { border-left: 4px solid var(--ember); }
+.side h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; }
+.side li { font-size: 0.86rem; color: var(--gray-600); margin: 0.45rem 0; display: flex; gap: 0.55rem; }
+.side li i { color: var(--forest); font-size: 1.05rem; margin-top: 0.15rem; }
+.side ul { list-style: none; padding: 0; margin: 0; }
+.search { display: flex; align-items: center; gap: 0.6rem; background: white; border: 1.5px solid var(--gray-200); border-radius: 999px; padding: 0.7rem 1.1rem; color: var(--gray-500); font-size: 0.92rem; margin-bottom: 1.6rem; }
+.search i { font-size: 1.1rem; }
+.phone .top { flex-direction: column; align-items: flex-start; gap: 1rem; }
+.phone .top h1 { font-size: 1.9rem; }
+.phone .grid { grid-template-columns: 1fr; gap: 1.6rem; }
+.phone .q { padding: 1rem; gap: 0.8rem; }
+.phone .q h3 { font-size: 1rem; }
+.phone .count { min-width: 44px; }
+</style></head>
+<body>
+<header class="site">
+  <a class="logo"><span class="fe">FE<i>4</i></span><span class="rc">RACCOONS</span></a>
+  <nav class="tabs">
+    <a class="tab">Study</a>
+    <a class="tab on">Forum</a>
+    <a class="tab">PE prep</a>
+  </nav>
+  <div class="actions">
+    <a class="text-link">Sign in</a>
+  </div>
+</header>
+<main>
+  <div class="top">
+    <div>
+      <h1>Forum</h1>
+      <p>Questions about the FE, internships, jobs and the civil engineering field. Anyone can read. Students with an FE for Raccoons account can ask and reply.</p>
+    </div>
+    <a class="btn">Ask a question<span class="disc"><i class="ph-bold ph-arrow-right"></i></span></a>
+  </div>
+  <div class="search"><i class="ph-bold ph-magnifying-glass"></i>Search questions</div>
+  <div class="grid">
+    <section>
+      <p class="sec"><span class="overline">From Jerson</span><span class="when">What should we build next</span></p>
+      <div class="card list owner-list">
+        <a class="q"><div><h3>What is one resource you wish FE for Raccoons had?</h3><p class="ex">I build this site for you, so I would rather hear it from you than guess. A formula sheet, more practice in one chapter, video walkthroughs, anything. Tell me what would have helped you most.</p><div class="by"><span class="av owner">JG</span>Jerson, founder, 2 hours ago</div></div><div class="count"><b>14</b><span>replies</span></div></a>
+        <a class="q"><div><h3>Would a timed 10-minute formula drill be worth it?</h3><p class="ex">Thinking about a short daily drill where you find the right Handbook equation under time pressure. Would you use it, or is it one more thing to do?</p><div class="by"><span class="av owner">JG</span>Jerson, founder, 3 days ago</div></div><div class="count"><b>9</b><span>replies</span></div></a>
+      </div>
+      <p class="sec" style="margin-top:2rem"><span class="overline">Latest questions</span></p>
+      <div class="card list">
+        <a class="q"><div><h3>Is it worth taking the FE before graduating?</h3><p class="ex">I graduate in May and my advisor says take it now while everything is fresh. My internship starts in June. Did anyone take it during their last semester?</p><div class="by"><span class="av" style="background:var(--sunbeam-bg)">PR</span>Priya, 5 hours ago</div></div><div class="count"><b>3</b><span>replies</span></div></a>
+        <a class="q"><div><h3>How did you study the Water Resources chapter?</h3><p class="ex">It is my weakest chapter by far. Open channel flow and pipe networks take me forever. What worked for you?</p><div class="by"><span class="av" style="background:var(--forest-bg)">MO</span>Marcus, yesterday</div></div><div class="count"><b>3</b><span>replies</span></div></a>
+        <a class="q"><div><h3>Do employers care if you passed the FE when hiring interns?</h3><p class="ex">Applying for summer internships in transportation. Is it worth mentioning that I am studying for the FE on my resume?</p><div class="by"><span class="av" style="background:var(--ember-bg)">LH</span>Lena, 2 days ago</div></div><div class="count"><b>4</b><span>replies</span></div></a>
+        <a class="q"><div><h3>Which calculator did you use on exam day?</h3><p class="ex">Choosing between the TI-36X Pro and the Casio fx-991EX. Which one is faster for the FE?</p><div class="by"><span class="av" style="background:var(--cream-dark)">SN</span>Sam, 4 days ago</div></div><div class="count"><b>11</b><span>replies</span></div></a>
+      </div>
+    </section>
+    <aside class="side">
+      <div class="card">
+        <h3>How the forum works</h3>
+        <ul>
+          <li><i class="ph-bold ph-check"></i>Anyone can read every question and reply.</li>
+          <li><i class="ph-bold ph-check"></i>To ask or reply, sign in with a verified email.</li>
+          <li><i class="ph-bold ph-check"></i>Your first post is checked by Jerson before it appears. After that, posts go up right away.</li>
+          <li><i class="ph-bold ph-check"></i>Keep it about the FE, school and the civil engineering field.</li>
+        </ul>
+      </div>
+      <div class="card" style="margin-top:0.9rem">
+        <h3>New here?</h3>
+        <p style="font-size:.86rem;color:var(--gray-600);margin-bottom:.9rem">FE for Raccoons is a completely free study site for the FE Civil exam. Make an account to join the conversation.</p>
+        <a class="btn small dark">Join free<span class="disc"><i class="ph-bold ph-arrow-right"></i></span></a>
+      </div>
+    </aside>
+  </div>
+</main>
+<footer class="site">FE for Raccoons</footer>
+<section class="legend"><p class="overline">What this page is</p><ol>
+<li>The forum's front page, open to anyone, including visitors from Google (shown here signed out).</li>
+<li>Jerson's own questions stay pinned on top with an ember edge, so they never get lost in the list.</li>
+<li>Below them, every other question, newest activity first. Search finds older ones.</li>
+<li>"Ask a question" sends a visitor to sign in first, then straight back to the question form.</li></ol></section>
+</body></html>
