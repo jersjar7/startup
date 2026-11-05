@@ -3,13 +3,13 @@
   "title": "FE Civil",
   "format": 2,
   "latest": {
-    "version": 24,
+    "version": 25,
     "format": 2,
-    "file": "fe-civil-v24-beb5ecbff76c.json",
-    "sha256": "beb5ecbff76c845a84924080f88198daf70abea7b1e858491781dd0df1676703",
-    "bytes": 55422985,
-    "gzipBytes": 3413587,
-    "published": "2026-11-03T20:21:47.166Z",
+    "file": "fe-civil-v25-c34bc7ab0da6.json",
+    "sha256": "c34bc7ab0da6e1d3fd0fa48917a5080119e45115760c65299115d50b521f4ab2",
+    "bytes": 55883658,
+    "gzipBytes": 3526825,
+    "published": "2026-11-05T01:14:05.898Z",
     "lessons": {
       "mathematics/straight-lines-quadratics": "1.2.0",
       "mathematics/logarithms": "1.2.0",
@@ -209,9 +209,9 @@
         "gzipBytes": 163214
       },
       "geotechnical": {
-        "file": "fe-civil.geotechnical.ebcb4db7bf7a.json",
-        "sha256": "ebcb4db7bf7aff170bb4f049d0204f302acdc9c9ecb6067303b6d981a834e4a5",
-        "gzipBytes": 237646
+        "file": "fe-civil.geotechnical.22ba49a6f09d.json",
+        "sha256": "22ba49a6f09d5991666bf9f9812b7300f82235bc4a5f4fdc121aa2c9560d8a16",
+        "gzipBytes": 350884
       },
       "transportation": {
         "file": "fe-civil.transportation.785e42baf8f2.json",
@@ -267,6 +267,13 @@
       "file": "fe-civil-v24-beb5ecbff76c.json",
       "sha256": "beb5ecbff76c845a84924080f88198daf70abea7b1e858491781dd0df1676703",
       "published": "2026-11-03T20:21:47.166Z"
+    },
+    {
+      "version": 25,
+      "format": 2,
+      "file": "fe-civil-v25-c34bc7ab0da6.json",
+      "sha256": "c34bc7ab0da6e1d3fd0fa48917a5080119e45115760c65299115d50b521f4ab2",
+      "published": "2026-11-05T01:14:05.898Z"
     }
   ]
 }
