@@ -3,13 +3,13 @@
   "title": "FE Civil",
   "format": 2,
   "latest": {
-    "version": 25,
+    "version": 26,
     "format": 2,
-    "file": "fe-civil-v25-c34bc7ab0da6.json",
-    "sha256": "c34bc7ab0da6e1d3fd0fa48917a5080119e45115760c65299115d50b521f4ab2",
-    "bytes": 55883658,
-    "gzipBytes": 3526825,
-    "published": "2026-11-05T01:14:05.898Z",
+    "file": "fe-civil-v26-cafd1657567b.json",
+    "sha256": "cafd1657567be1e6bc7c70ce05589efb15ccbaf2cf9edf733aad9edd5b695d72",
+    "bytes": 55883726,
+    "gzipBytes": 3526817,
+    "published": "2026-11-06T01:47:02.880Z",
     "lessons": {
       "mathematics/straight-lines-quadratics": "1.2.0",
       "mathematics/logarithms": "1.2.0",
@@ -214,9 +214,9 @@
         "gzipBytes": 350884
       },
       "transportation": {
-        "file": "fe-civil.transportation.785e42baf8f2.json",
-        "sha256": "785e42baf8f260235be7244f214a54e3545b0fe42f7391fc8877c0049a34c742",
-        "gzipBytes": 271935
+        "file": "fe-civil.transportation.ed64620223f3.json",
+        "sha256": "ed64620223f3dc0985d37833fbb24976048ca10872ad75e1481beebc9515d8a1",
+        "gzipBytes": 271931
       },
       "construction": {
         "file": "fe-civil.construction.3f1270c5d47d.json",
@@ -274,6 +274,13 @@
       "file": "fe-civil-v25-c34bc7ab0da6.json",
       "sha256": "c34bc7ab0da6e1d3fd0fa48917a5080119e45115760c65299115d50b521f4ab2",
       "published": "2026-11-05T01:14:05.898Z"
+    },
+    {
+      "version": 26,
+      "format": 2,
+      "file": "fe-civil-v26-cafd1657567b.json",
+      "sha256": "cafd1657567be1e6bc7c70ce05589efb15ccbaf2cf9edf733aad9edd5b695d72",
+      "published": "2026-11-06T01:47:02.880Z"
     }
   ]
 }
