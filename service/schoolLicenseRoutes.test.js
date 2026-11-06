@@ -246,6 +246,16 @@ describe('the exam gate, through a school licence', () => {
     expect(next.status).toBe(403);
   });
 
+  it('the status tells a student whose licence ended that their exam is still open', async () => {
+    const lic = addLicense();
+    const u = addUser('jane@gmail.com', codeVerifiedAt('jane@byu.edu'));
+    const server = app();
+    await start(server, u.email);
+    lic.endedAt = new Date();
+    const res = await status(server, u.email);
+    expect(res.body).toMatchObject({ purchased: false, unfinishedSchoolExam: true });
+  });
+
   it('an attempt that ran out of time after the licence ended is graded, not dropped', async () => {
     addLicense({ endedAt: new Date() });
     const u = addUser('jane@gmail.com', codeVerifiedAt('jane@byu.edu'));

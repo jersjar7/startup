@@ -253,6 +253,15 @@ router.get('/status', verifyAuth, async (req, res) => {
       result.school = publicSchool(school.license);
       if (!school.access) result.schoolReason = school.reason; // 'unverified' | 'seats_full'
     }
+    // A licence that ended mid-exam leaves that exam open to finish
+    // (routes/exam.js). Only a student could have one, so nobody else pays
+    // for the lookup.
+    if (!result.purchased && (req.user.studentVerified === true || isStudentEmail(req.user.email))) {
+      const attempts = await DB.getExamAttempts(userId);
+      if (attempts.some((a) => a.status === 'in_progress' && a.accessVia === 'school')) {
+        result.unfinishedSchoolExam = true;
+      }
+    }
   }
 
   res.send(result);

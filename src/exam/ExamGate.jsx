@@ -44,6 +44,7 @@ export function ExamGate({ userName }) {
   const [school, setSchool] = React.useState(null);
   const [schoolReason, setSchoolReason] = React.useState(null);
   const [buyInstead, setBuyInstead] = React.useState(false);
+  const [unfinishedSchoolExam, setUnfinishedSchoolExam] = React.useState(false);
 
   React.useEffect(() => {
     if (!userName) {
@@ -68,6 +69,7 @@ export function ExamGate({ userName }) {
           setAccess(data.access || null);
           setSchool(data.school || null);
           setSchoolReason(data.schoolReason || null);
+          setUnfinishedSchoolExam(data.unfinishedSchoolExam === true);
         } else {
           setPurchased(false);
         }
@@ -387,6 +389,19 @@ export function ExamGate({ userName }) {
             <p className="exam-gate-subtitle">
               The closest thing to sitting for the real FE Civil exam.
             </p>
+
+            {unfinishedSchoolExam && (
+              <div className="exam-gate-unfinished" role="status">
+                <p>
+                  Your school&apos;s licence has ended, and the exam you started under it is still open.
+                  You can finish it.
+                </p>
+                <button type="button" className="btn-primary exam-gate-finish" onClick={() => navigate('/exam/session')}>
+                  Finish my exam
+                  <ArrowRight size={16} weight="bold" />
+                </button>
+              </div>
+            )}
 
             {schoolReason === 'seats_full' && school && (
               <div className="exam-gate-seats-full" role="status">

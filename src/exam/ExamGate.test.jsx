@@ -106,4 +106,10 @@ describe('ExamGate and school licences', () => {
     expect(await screen.findByText('Every seat at Brigham Young University is taken')).toBeInTheDocument();
     expect(screen.getByText(/Ask your department to add seats/)).toBeInTheDocument();
   });
+
+  it('a student whose licence ended mid-exam is offered to finish it', async () => {
+    status = { purchased: false, access: null, unfinishedSchoolExam: true };
+    renderGate();
+    expect(await screen.findByRole('button', { name: /Finish my exam/ })).toBeInTheDocument();
+  });
 });
