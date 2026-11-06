@@ -154,6 +154,12 @@ describe('decideSimAccess', () => {
     expect(d.license.schoolName).toBe('Brigham Young University');
   });
 
+  it('the school on their profile points them at verification, never grants access', () => {
+    const u = { _id: 'u', email: 'me@gmail.com', emailVerified: true, school: { name: 'Brigham Young University' } };
+    const d = decideSimAccess({ user: u, licenses: [license()], hintDomains: ['byu.edu'], now: NOW });
+    expect(d).toMatchObject({ access: false, reason: 'unverified', domain: 'byu.edu' });
+  });
+
   it('a requested but unconfirmed school code does not', () => {
     const u = { _id: 'u', email: 'me@gmail.com', emailVerified: true, studentCodeEmail: 'jane@byu.edu' };
     expect(decideSimAccess({ user: u, licenses: [license()], now: NOW })).toMatchObject({ access: false, reason: 'none' });
@@ -232,7 +238,7 @@ describe('decideSimAccess', () => {
 describe('publicSchool', () => {
   it('never hands the browser the contact or the notes', () => {
     const p = publicSchool(license());
-    expect(p).toEqual({ name: 'Brigham Young University', endsAt: license().endsAt });
+    expect(p).toEqual({ name: 'Brigham Young University', domains: ['byu.edu'], endsAt: license().endsAt });
     expect(JSON.stringify(p)).not.toMatch(/ames|PO 123/);
   });
 });

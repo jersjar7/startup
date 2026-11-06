@@ -99,17 +99,21 @@ function seatsLeft(license) {
 ///   user       the user document
 ///   licenses   licences that MIGHT apply (any state); filtered here
 ///   claims     this user's seat claims ({ licenseId })
+///   hintDomains domains we only GUESS are theirs (their profile school's);
+///              they can point a student at verification, never grant access
 ///
 /// Returns { access, via, license, domain, reason, needsClaim }:
 ///   via 'purchase'   bought it; nothing about schools matters
 ///   via 'school'     holds (or can take) a seat on an active licence
 ///   reason, when access is false:
 ///     'none'          no purchase and no licence for any verified domain
-///     'unverified'    a licence covers the account's domain but the address
-///                     is not verified yet (the student should verify)
+///     'unverified'    a licence seems to cover them (their account domain or
+///                     profile school) but no address on it is verified yet
 ///     'seats_full'    a licence covers them but every seat is taken
 ///   needsClaim true   access via a licence they do not hold a seat on yet
-function decideSimAccess({ purchased = false, user = null, licenses = [], claims = [], now = new Date() } = {}) {
+function decideSimAccess({
+  purchased = false, user = null, licenses = [], claims = [], hintDomains = [], now = new Date(),
+} = {}) {
   if (purchased) return { access: true, via: 'purchase', license: null, domain: null, reason: null, needsClaim: false };
 
   const active = (licenses || []).filter((l) => isLicenseActive(l, now));
@@ -128,11 +132,18 @@ function decideSimAccess({ purchased = false, user = null, licenses = [], claims
   }
   if (full) return { access: false, via: null, license: full.license, domain: full.domain, reason: 'seats_full', needsClaim: false };
 
-  // Not verified, but the account address sits on a licensed domain: tell the
-  // student their school covers them so they verify instead of paying.
-  const unverifiedDomain = user && user.emailVerified !== true ? emailDomain(user.email) : '';
-  const lic = unverifiedDomain && active.find((l) => licenseCoversDomain(l, unverifiedDomain));
-  if (lic) return { access: false, via: null, license: lic, domain: unverifiedDomain, reason: 'unverified', needsClaim: false };
+  // Not verified, but we have reason to think a licence covers them: the
+  // account address sits on a licensed domain, or the school on their profile
+  // owns one (hintDomains). Never access, only a pointer: tell the student
+  // their school covers them so they verify instead of paying.
+  const hints = [
+    user && user.emailVerified !== true ? emailDomain(user.email) : '',
+    ...(hintDomains || []).map(normalizeDomain),
+  ].filter(Boolean);
+  for (const domain of hints) {
+    const lic = active.find((l) => licenseCoversDomain(l, domain));
+    if (lic) return { access: false, via: null, license: lic, domain, reason: 'unverified', needsClaim: false };
+  }
 
   return { access: false, via: null, license: null, domain: null, reason: 'none', needsClaim: false };
 }
@@ -140,7 +151,7 @@ function decideSimAccess({ purchased = false, user = null, licenses = [], claims
 /// What the browser is told about a licence. Never the contact or the notes.
 function publicSchool(license) {
   if (!license) return null;
-  return { name: license.schoolName, endsAt: license.endsAt };
+  return { name: license.schoolName, domains: license.domains || [], endsAt: license.endsAt };
 }
 
 module.exports = {

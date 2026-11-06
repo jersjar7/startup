@@ -138,6 +138,17 @@ function schoolForDomain(domain) {
   return null;
 }
 
+/// The email domains the directory lists for a school name ("Brigham Young
+/// University" or a known alias), or []. A HINT for school licences (ADR 0040):
+/// a self-reported school can point a student at verification, never grant
+/// anything.
+function domainsForSchoolName(name) {
+  const q = fold(name);
+  if (!q) return [];
+  const entry = DIRECTORY.find((s) => fold(s.name) === q);
+  return entry ? [...(entry.domains || [])] : [];
+}
+
 /// A short form for display, where one exists.
 ///
 /// "Brigham Young University" is what we store and group on; "BYU" is what a
@@ -187,4 +198,5 @@ module.exports = {
   canonicalSchool,
   schoolForDomain,
   shortSchoolName,
+  domainsForSchoolName,
 };

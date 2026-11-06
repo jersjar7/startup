@@ -8,6 +8,7 @@ const { examXp } = require('../xp.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
 const { isAttemptExpired } = require('../examAttempt.js');
+const { resolveSimAccess } = require('../simAccess.js');
 const { scoreAttempt } = require('../examScoring.js');
 const {
   sanitizeAnswers, sanitizeTimes, isNewer, mergeAutosaveStamped, mergeSubmission, answeredCount, elapsedSeconds,
@@ -30,16 +31,42 @@ const MIN_GRADED_FRACTION = 0.1; // 11 of 110
 const TIME_LIMIT_SECONDS = 5 * 3600 + 20 * 60; // 5 hours 20 minutes = 19200 seconds
 // XP values live in ../xp.js (examAttempt + examCorrect).
 
-// Middleware: verify user has purchased exam simulation
-async function requirePurchase(req, res, next) {
+// Middleware: the student has the simulation, bought or through their school
+// (ADR 0040, ../simAccess.js). Starting an exam is what claims a school seat
+// (requireSimAccessClaiming); the other routes only read, so opening the page
+// or listing past attempts never spends one.
+//
+// A school licence can end while a student is mid-exam. That must not cost
+// them the exam (docs/EXAM-SIMULATION.md): an attempt started under a licence
+// stays resumable, savable and submittable after the licence ends, and an
+// expired one is still graded by /start. They cannot start a new one.
+// Purchases keep their old behaviour (a refund ends access).
+const simAccessGate = (claim) => async function requireSimAccess(req, res, next) {
   const userId = req.user._id.toString();
-  const purchased = await DB.hasPurchased(userId);
-  if (!purchased) {
-    return res.status(403).send({ msg: 'Exam Simulation purchase required' });
+  const decision = await resolveSimAccess(req.user, { claim });
+  if (decision.access) {
+    req.simAccess = decision;
+    return next();
   }
-  next();
-}
+  const attempts = await DB.getExamAttempts(userId);
+  const open = attempts.find((a) => a.status === 'in_progress' && a.accessVia === 'school');
+  if (open) {
+    req.simAccess = { ...decision, grace: true, graceAttemptId: open._id.toString() };
+    return next();
+  }
+  const msg = decision.reason === 'seats_full'
+    ? 'Every seat on your school\'s licence is taken. Ask your department to add seats.'
+    : 'Exam Simulation purchase required';
+  return res.status(403).send({ msg, reason: decision.reason });
+};
+const requireSimAccess = simAccessGate(false);
+const requireSimAccessClaiming = simAccessGate(true);
 
+// In grace (see requireSimAccess) a request may only touch the attempt that
+// was already open.
+function outsideGrace(req, attemptId) {
+  return req.simAccess?.grace === true && String(attemptId) !== req.simAccess.graceAttemptId;
+}
 
 // The result of an attempt that is already graded, for a submit that arrives
 // after it was: a double tap, or a retry whose first response was lost. The
@@ -155,7 +182,7 @@ async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeco
 }
 
 // POST /api/exam/start — Generate a 110-question exam
-router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
+router.post('/start', verifyAuth, requireSimAccessClaiming, async (req, res) => {
   try {
     const userId = req.user._id.toString();
 
@@ -212,6 +239,12 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
         inProgress = undefined; // start a clean attempt below
       }
     }
+    // A school licence that ended while this attempt was open let the student
+    // back in only to finish it (requireSimAccess). The expiry above has
+    // already graded it if its time ran out; there is no new exam to start.
+    if (!inProgress && req.simAccess?.grace) {
+      return res.status(403).send({ msg: 'Your school\'s licence for the Exam Simulation has ended.', reason: 'ended' });
+    }
     if (inProgress) {
       // Resume the STORED attempt, and hand back everything needed to restore
       // the session exactly: the original questions (the client must not
@@ -261,6 +294,10 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
       timeLimit: TIME_LIMIT_SECONDS,
       startedAt,
       totalQuestions: examQuestions.length,
+      // How the student got in, so a licence that ends mid-exam does not end
+      // the exam (requireSimAccess).
+      accessVia: req.simAccess?.via || 'purchase',
+      ...(req.simAccess?.via === 'school' ? { schoolLicenseId: req.simAccess.license._id } : {}),
     });
 
     res.send({
@@ -294,6 +331,7 @@ async function saveProgress(req, res) {
       answerTimes, flaggedAt, indexAt,
     } = req.body;
     if (!attemptId) return res.status(400).send({ msg: 'attemptId is required' });
+    if (outsideGrace(req, attemptId)) return res.status(403).send({ msg: 'Exam Simulation access has ended', reason: 'ended' });
 
     const attempt = await DB.getExamAttempt(attemptId, userId);
     if (!attempt) return res.status(404).send({ msg: 'Exam attempt not found' });
@@ -338,17 +376,17 @@ async function saveProgress(req, res) {
   }
 }
 
-router.patch('/answers', verifyAuth, requirePurchase, saveProgress);
+router.patch('/answers', verifyAuth, requireSimAccess, saveProgress);
 
 // POST /api/exam/answers-beacon — same save, reachable by navigator.sendBeacon.
 // On pagehide a normal fetch is routinely killed mid-flight; sendBeacon is the
 // only transport browsers guarantee to deliver, and it can only POST. This is
 // the last-chance save when a user closes the tab mid-exam, which is exactly
 // when answers used to vanish.
-router.post('/answers-beacon', verifyAuth, requirePurchase, saveProgress);
+router.post('/answers-beacon', verifyAuth, requireSimAccess, saveProgress);
 
 // POST /api/exam/submit — Submit completed exam
-router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
+router.post('/submit', verifyAuth, requireSimAccess, async (req, res) => {
   try {
   const userId = req.user._id.toString();
   const email = req.user.email;
@@ -358,6 +396,9 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
 
   if (!attemptId || !answers || !Array.isArray(answers)) {
     return res.status(400).send({ msg: 'attemptId and answers array are required' });
+  }
+  if (outsideGrace(req, attemptId)) {
+    return res.status(403).send({ msg: 'Exam Simulation access has ended', reason: 'ended' });
   }
 
   const attempt = await DB.getExamAttempt(attemptId, userId);
@@ -399,7 +440,7 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
 });
 
 // GET /api/exam/attempts — List user's past attempts
-router.get('/attempts', verifyAuth, requirePurchase, async (req, res) => {
+router.get('/attempts', verifyAuth, requireSimAccess, async (req, res) => {
   const userId = req.user._id.toString();
   const attempts = await DB.getExamAttempts(userId);
 
@@ -420,7 +461,7 @@ router.get('/attempts', verifyAuth, requirePurchase, async (req, res) => {
 });
 
 // GET /api/exam/attempt/:id — Get specific attempt details
-router.get('/attempt/:id', verifyAuth, requirePurchase, async (req, res) => {
+router.get('/attempt/:id', verifyAuth, requireSimAccess, async (req, res) => {
   const userId = req.user._id.toString();
   const attempt = await DB.getExamAttempt(req.params.id, userId);
 

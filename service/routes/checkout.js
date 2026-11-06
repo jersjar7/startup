@@ -10,6 +10,8 @@ const { generateNumericCode, hashToken } = require('../crypto.js');
 const { daysUntilExam, examTimingFromMetadata } = require('../profile.js');
 const { isModeMismatch, describeMode } = require('../stripeMode.js');
 const { sendStudentCodeEmail } = require('../email.js');
+const { resolveSimAccess } = require('../simAccess.js');
+const { publicSchool } = require('../schoolAccess.js');
 
 const router = express.Router();
 
@@ -39,6 +41,11 @@ router.post('/create-session', verifyAuth, async (req, res) => {
   const alreadyPurchased = await DB.hasPurchased(userId);
   if (alreadyPurchased) {
     return res.status(400).send({ msg: 'You already own the Exam Simulation' });
+  }
+  // A student their school already covers is never sent to pay (ADR 0040).
+  const viaSchool = await resolveSimAccess(req.user);
+  if (viaSchool.access) {
+    return res.status(400).send({ msg: 'Your school already gives you the Exam Simulation' });
   }
 
   // Use Referer/Origin so Stripe redirects back to the frontend (not the API server)
@@ -177,7 +184,17 @@ router.post('/student/confirm', verifyAuth, async (req, res) => {
     studentVerifiedAt: new Date(),
   });
   await DB.unsetUserFields(user.email, STUDENT_CODE_FIELDS);
-  res.send({ verified: true, student: STUDENT_CENTS / 100 });
+  // The same code also proves the address for a school licence (ADR 0040).
+  // Answer what it unlocked so the page can go straight to the simulation.
+  const after = await resolveSimAccess({
+    ...user, studentVerified: true, verifiedStudentEmail: user.studentCodeEmail,
+  });
+  res.send({
+    verified: true,
+    student: STUDENT_CENTS / 100,
+    schoolAccess: after.access && after.via === 'school',
+    ...(after.license ? { school: publicSchool(after.license), schoolReason: after.access ? null : after.reason } : {}),
+  });
 });
 
 // GET /api/checkout/status — Check purchase status for current user
@@ -219,9 +236,23 @@ router.get('/status', verifyAuth, async (req, res) => {
     }
   }
 
-  const result = { purchased };
+  // `purchased` has always meant "can use the simulation" to every page that
+  // reads it (the gate, the dashboard road, the profile), so a student their
+  // school covers reads true too. `access` says which. Reading this never
+  // claims a seat; starting an exam does (routes/exam.js).
+  const result = { purchased, access: purchased ? 'purchase' : null };
   if (purchased) {
     result.purchaseDate = req.user.examSimPurchaseDate || null;
+  } else {
+    const school = await resolveSimAccess(req.user);
+    if (school.access) {
+      result.purchased = true;
+      result.access = 'school';
+    }
+    if (school.license) {
+      result.school = publicSchool(school.license);
+      if (!school.access) result.schoolReason = school.reason; // 'unverified' | 'seats_full'
+    }
   }
 
   res.send(result);

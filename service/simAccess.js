@@ -12,7 +12,10 @@
 // Reads through the DB facade (not the db/ modules directly) so route tests
 // can stand in for the database.
 const DB = require('./database.js');
-const { decideSimAccess, verifiedSchoolDomains, emailDomain } = require('./schoolAccess.js');
+const {
+  decideSimAccess, verifiedSchoolDomains, emailDomain, isLicensableDomain,
+} = require('./schoolAccess.js');
+const { domainsForSchoolName } = require('./schoolDirectory.js');
 
 /// user: the full user document (req.user, or the row a job is looping over).
 ///
@@ -25,13 +28,17 @@ async function resolveSimAccess(user, { claim = false, now = new Date() } = {}) 
   const uid = user._id.toString();
   if (await DB.hasPurchased(uid)) return decideSimAccess({ purchased: true });
 
-  const domains = [...new Set([...verifiedSchoolDomains(user), emailDomain(user.email)].filter(Boolean))];
+  // The school on their profile is only a hint (see decideSimAccess).
+  const hintDomains = domainsForSchoolName(user.school?.name);
+  // Only academic domains can carry a licence, so nobody else costs a query.
+  const domains = [...new Set([...verifiedSchoolDomains(user), emailDomain(user.email), ...hintDomains])]
+    .filter(isLicensableDomain);
   if (!domains.length) return decideSimAccess({ user, now });
   const licenses = await DB.findLicensesForDomains(domains);
   if (!licenses.length) return decideSimAccess({ user, now });
   const claims = await DB.getClaimsForUser(uid);
 
-  let decision = decideSimAccess({ user, licenses, claims, now });
+  let decision = decideSimAccess({ user, licenses, claims, hintDomains, now });
   if (!(decision.access && decision.needsClaim) || !claim) return decision;
 
   // Two tries: the second covers losing the last seat to another student in
@@ -41,7 +48,7 @@ async function resolveSimAccess(user, { claim = false, now = new Date() } = {}) 
       return { ...decision, needsClaim: false };
     }
     const fresh = await DB.findLicensesForDomains(domains);
-    decision = decideSimAccess({ user, licenses: fresh, claims, now });
+    decision = decideSimAccess({ user, licenses: fresh, claims, hintDomains, now });
     if (!(decision.access && decision.needsClaim)) return decision;
   }
   return { ...decision, access: false, via: null, reason: 'seats_full', needsClaim: false };
