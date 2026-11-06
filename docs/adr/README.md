@@ -71,7 +71,7 @@ that supersedes it, so the history of thinking stays readable.
 | [0037](0037-weekly-leagues.md) | Weekly leagues replace the weekly top-30 board | 2026-11-01 | Accepted |
 | [0038](0038-metal-leagues-and-honest-xp.md) | Metal league names, a fourth Profile figure, and XP the server decides | 2026-11-01 | Accepted |
 | [0039](0039-adapting-the-app-to-tablets.md) | On a tablet the dock becomes a rail, and screens with two things show both | 2026-11-03 | Accepted |
-| [0040](0040-school-site-licences.md) | A college buys a site licence, and its verified students get the simulation | 2026-11-06 | Accepted |
+| [0040](0040-school-site-licenses.md) | A college buys a site license, and its verified students get the simulation | 2026-11-06 | Accepted |
 
 Records 0002–0005 were written on 2026-08-04, backfilled from commit messages.
 The **Date** column is when the decision was made, not when it was written up.

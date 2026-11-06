@@ -1,12 +1,12 @@
 // THE entitlement check for the Exam Simulation (ADR 0040).
 //
 // A student has the simulation when they bought it (hasPurchased, unchanged)
-// OR a school site licence covers one of their verified school addresses and
+// OR a school site license covers one of their verified school addresses and
 // they hold, or can take, a seat on it. Every place that gates the simulation
-// asks this; hasPurchased alone misses licence students.
+// asks this; hasPurchased alone misses license students.
 //
 // It deliberately writes nothing to `purchases` and never sets examSimAccess on
-// the user, so licence students can never reach a sales or revenue count
+// the user, so license students can never reach a sales or revenue count
 // (collectedSales.js, scripts/baseline-report.js).
 //
 // Reads through the DB facade (not the db/ modules directly) so route tests
@@ -30,7 +30,7 @@ async function resolveSimAccess(user, { claim = false, now = new Date() } = {}) 
 
   // The school on their profile is only a hint (see decideSimAccess).
   const hintDomains = domainsForSchoolName(user.school?.name);
-  // Only academic domains can carry a licence, so nobody else costs a query.
+  // Only academic domains can carry a license, so nobody else costs a query.
   const domains = [...new Set([...verifiedSchoolDomains(user), emailDomain(user.email), ...hintDomains])]
     .filter(isLicensableDomain);
   if (!domains.length) return decideSimAccess({ user, now });

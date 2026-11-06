@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-// End-to-end check of school site licences (ADR 0040) through the real UI, as
+// End-to-end check of school site licenses (ADR 0040) through the real UI, as
 // real users would use it, against a THROWAWAY in-memory MongoDB.
 //
 // What runs: an in-memory mongod, the real API (service/index.js) with email
 // captured to a file instead of sent, and the Vite dev server. Playwright then
-// drives four kinds of people: the owner creating licences on /admin, a
+// drives four kinds of people: the owner creating licenses on /admin, a
 // student at a licensed school verifying their school email, a student at a
-// school with no licence, and an unverified student. It also races two
-// students for a last seat, ends a licence mid-exam, and deletes an account.
+// school with no license, and an unverified student. It also races two
+// students for a last seat, ends a license mid-exam, and deletes an account.
 //
 // It never reads service/.env, never sets the production DB_* variables, and
 // refuses to start if they are present. Stripe is given a dummy test key and
@@ -117,11 +117,11 @@ try {
   const sam = await person('sam@byu.edu', { emailVerified: false, verifiedAt: null, school: { name: 'Brigham Young University' } });
   // An unverified student at the same school who gets the code wrong.
   const kim = await person('kim@byu.edu', { emailVerified: false, verifiedAt: null });
-  // A student at a school with no licence, school address verified by code.
+  // A student at a school with no license, school address verified by code.
   const lee = await person('lee@gmail.com', { studentVerified: true, verifiedStudentEmail: 'lee@utah.edu', studentVerifiedAt: new Date() });
   // A student who has verified nothing and whose school we do not know.
   const max = await person('max@gmail.com');
-  // Two students at a school whose licence has one seat.
+  // Two students at a school whose license has one seat.
   const first = await person('first@usu.edu');
   const pat = await person('pat@gmail.com', { studentVerified: true, verifiedStudentEmail: 'pat@usu.edu', studentVerifiedAt: new Date() });
 
@@ -159,39 +159,39 @@ try {
     return m ? m[1] : null;
   };
 
-  // ── 1. The owner creates licences on /admin ───────────────────────────────
+  // ── 1. The owner creates licenses on /admin ───────────────────────────────
   const ap = await pageFor(admin);
   await ap.goto(`${WEB}/admin`, { waitUntil: 'networkidle' });
   await ap.getByRole('tab', { name: /Schools/ }).click();
-  await ap.getByText('No licences yet').waitFor();
-  await shoot(ap, '01-admin-licences-empty');
+  await ap.getByText('No licenses yet').waitFor();
+  await shoot(ap, '01-admin-licenses-empty');
 
-  await ap.getByRole('button', { name: /New licence/ }).click();
-  const form = ap.getByRole('form', { name: 'New licence' });
+  await ap.getByRole('button', { name: /New license/ }).click();
+  const form = ap.getByRole('form', { name: 'New license' });
   await form.getByPlaceholder('Brigham Young University').fill('Brigham Young University');
   await form.getByPlaceholder('byu.edu, student.byu.edu').fill('byu.edu');
   await form.getByRole('spinbutton').fill('500');
   await form.getByPlaceholder('Dr. Ames').fill('Dr. Ames');
   await form.getByPlaceholder('department@byu.edu').fill('civil@byu.edu');
   await form.getByPlaceholder('Invoice, purchase order, renewal terms').fill('Signed 2026-11-06, invoice 1001');
-  await shoot(ap, '02-admin-new-licence-form');
-  await form.getByRole('button', { name: 'Create licence' }).click();
+  await shoot(ap, '02-admin-new-license-form');
+  await form.getByRole('button', { name: 'Create license' }).click();
   await ap.getByRole('article', { name: 'Brigham Young University' }).waitFor();
 
   // A lookalike domain is refused with the reason.
-  await ap.getByRole('button', { name: /New licence/ }).click();
-  const bad = ap.getByRole('form', { name: 'New licence' });
+  await ap.getByRole('button', { name: /New license/ }).click();
+  const bad = ap.getByRole('form', { name: 'New license' });
   await bad.getByPlaceholder('Brigham Young University').fill('Evil');
   await bad.getByPlaceholder('byu.edu, student.byu.edu').fill('byu.edu.evil.com');
-  await bad.getByRole('button', { name: 'Create licence' }).click();
+  await bad.getByRole('button', { name: 'Create license' }).click();
   const refusal = await ap.getByRole('alert').textContent();
   check('admin: a lookalike domain is refused', /not a school domain/.test(refusal), refusal);
   await bad.getByPlaceholder('Brigham Young University').fill('Utah State University');
   await bad.getByPlaceholder('byu.edu, student.byu.edu').fill('usu.edu');
   await bad.getByRole('spinbutton').fill('1');
-  await bad.getByRole('button', { name: 'Create licence' }).click();
+  await bad.getByRole('button', { name: 'Create license' }).click();
   await ap.getByRole('article', { name: 'Utah State University' }).waitFor();
-  check('admin: two licences stored', (await db.collection('schoolLicenses').countDocuments()) === 2);
+  check('admin: two licenses stored', (await db.collection('schoolLicenses').countDocuments()) === 2);
 
   // The only Utah State seat goes to the first student who starts an exam.
   const firstStart = await apiFetch(first, '/api/exam/start', { method: 'POST', body: '{}' });
@@ -229,7 +229,7 @@ try {
   const samAttempt = await db.collection('examAttempts').findOne({ userId: sam.id });
   check('licensed student: attempt records it came through the school', samAttempt?.accessVia === 'school');
   const notAdmin = await apiFetch(sam, '/api/admin/school-licenses');
-  check('a student cannot reach the admin licence endpoints', notAdmin.status === 403, `status ${notAdmin.status}`);
+  check('a student cannot reach the admin license endpoints', notAdmin.status === 403, `status ${notAdmin.status}`);
 
   // ── 3. An unverified student who gets the code wrong ──────────────────────
   const kp = await pageFor(kim);
@@ -243,7 +243,7 @@ try {
   const kimStart = await apiFetch(kim, '/api/exam/start', { method: 'POST', body: '{}' });
   check('unverified student: still no simulation', kimStart.status === 403, `status ${kimStart.status}`);
 
-  // ── 4. A verified student at a school with no licence ─────────────────────
+  // ── 4. A verified student at a school with no license ─────────────────────
   const lp = await pageFor(lee);
   await lp.goto(`${WEB}/exam`, { waitUntil: 'networkidle' });
   await lp.getByRole('button', { name: /Buy the Exam Simulation for \$35/ }).waitFor();
@@ -256,8 +256,8 @@ try {
 
   const mp = await pageFor(max);
   await mp.goto(`${WEB}/exam`, { waitUntil: 'networkidle' });
-  await mp.getByText(/nothing if their school has a licence with us/).waitFor();
-  check('student with nothing verified: told a school licence would make it free', true);
+  await mp.getByText(/nothing if their school has a license with us/).waitFor();
+  check('student with nothing verified: told a school license would make it free', true);
   await shoot(mp, '10-student-nothing-verified');
 
   // ── 5. Seats full ─────────────────────────────────────────────────────────
@@ -273,38 +273,50 @@ try {
   await ap.reload({ waitUntil: 'networkidle' });
   await ap.getByRole('tab', { name: /Schools/ }).click();
   await ap.getByRole('meter', { name: '1 of 500 seats used' }).waitFor();
-  await shoot(ap, '03-admin-licences-seats');
+  await shoot(ap, '03-admin-licenses-seats');
 
-  // ── 7. The licence ends mid-exam ──────────────────────────────────────────
+  // ── 7. The license ends mid-exam ──────────────────────────────────────────
   ap.once('dialog', (d) => d.accept());
   await ap.getByRole('article', { name: 'Brigham Young University' }).getByRole('button', { name: 'End now' }).click();
   await ap.getByText('Ended early').waitFor();
-  await shoot(ap, '12-admin-licence-ended');
+  await shoot(ap, '12-admin-license-ended');
 
   await sp.goto(`${WEB}/exam`, { waitUntil: 'networkidle' });
   await sp.getByRole('button', { name: /Finish my exam/ }).waitFor();
-  await shoot(sp, '13-student-licence-ended-finish-exam');
+  await shoot(sp, '13-student-license-ended-finish-exam');
   await sp.getByRole('button', { name: /Finish my exam/ }).click();
   await sp.waitForURL(/\/exam\/session/);
   await sp.waitForFunction(() => !document.body.innerText.includes('Preparing your exam'), null, { timeout: 30000 });
-  check('licence ended: the open exam still resumes', /\/exam\/session/.test(sp.url()));
+  check('license ended: the open exam still resumes', /\/exam\/session/.test(sp.url()));
   const resumed = await apiFetch(sam, '/api/exam/start', { method: 'POST', body: '{}' });
   const resumedBody = await resumed.json();
-  check('licence ended: resume returns the same stored attempt',
+  check('license ended: resume returns the same stored attempt',
     resumed.status === 200 && resumedBody.attemptId === samAttempt._id.toString() && resumedBody.resumed === true);
   const q = resumedBody.questions[0];
   const saved = await apiFetch(sam, '/api/exam/answers', {
     method: 'PATCH', body: JSON.stringify({ attemptId: resumedBody.attemptId, answers: { [q.id]: q.choices[0].id } }),
   });
-  check('licence ended: autosave still works', saved.status === 200, `status ${saved.status}`);
+  check('license ended: autosave still works', saved.status === 200, `status ${saved.status}`);
   const submitted = await apiFetch(sam, '/api/exam/submit', {
     method: 'POST', body: JSON.stringify({ attemptId: resumedBody.attemptId, answers: [], timeUsedSeconds: 120 }),
   });
   const submittedBody = await submitted.json();
-  check('licence ended: submit grades it and keeps the autosaved answer',
+  check('license ended: submit grades it and keeps the autosaved answer',
     submitted.status === 200 && submittedBody.totalAttempted === 1, `attempted ${submittedBody.totalAttempted}`);
   const again = await apiFetch(sam, '/api/exam/start', { method: 'POST', body: '{}' });
-  check('licence ended: no new exam can start', again.status === 403, `status ${again.status}`);
+  check('license ended: no new exam can start', again.status === 403, `status ${again.status}`);
+  // Their results stay theirs: the gate lists them, and the result opens.
+  await sp.goto(`${WEB}/exam`, { waitUntil: 'networkidle' });
+  await sp.getByText("Your results from your school's license").waitFor();
+  check('license ended: the gate still lists their results', true);
+  await shoot(sp, '14-student-license-ended-results');
+  await sp.locator('.exam-attempt-row').first().click();
+  await sp.waitForURL(/\/exam\/results\//);
+  await sp.waitForLoadState('networkidle');
+  await sp.waitForTimeout(800);
+  const resultText = await sp.locator('main').innerText();
+  check('license ended: a past result still opens', !/purchase required|Exam Simulation purchase/i.test(resultText) && /\d+%/.test(resultText));
+  await shoot(sp, '15-student-license-ended-result-opens');
 
   // ── 8. Two students race for the last seat (real MongoDB) ─────────────────
   const created = await apiFetch(admin, '/api/admin/school-licenses', {
@@ -331,12 +343,30 @@ try {
   const samClaims = await db.collection('schoolLicenseClaims').countDocuments({ userId: sam.id });
   const byuAfter = await db.collection('schoolLicenses').findOne({ domains: 'byu.edu' });
   check('deletion: the student\'s seat claim is gone', del.status === 200 && samClaims === 0, `status ${del.status}`);
-  check('deletion: the seat stays counted for the school', byuAfter.seatsUsed === 1);
+  check('deletion: the seat goes back to the school', byuAfter.seatsUsed === 0, `seatsUsed ${byuAfter.seatsUsed}`);
+  // Deleting again (nothing left to release) never takes the count below zero.
+  const ghost = await person('ghost@gmail.com', { studentVerified: true, verifiedStudentEmail: 'ghost@byu.edu' });
+  const delGhost = await apiFetch(ghost, '/api/user/account', {
+    method: 'DELETE', body: JSON.stringify({ password: PASSWORD, confirmation: 'DELETE' }),
+  });
+  const byuFinal = await db.collection('schoolLicenses').findOne({ domains: 'byu.edu' });
+  check('deletion: a student without a seat changes nothing, never below zero', delGhost.status === 200 && byuFinal.seatsUsed === 0);
+  // Two deletions racing for the same student's seat hand it back once.
+  const r1Id = r1.id;
+  const r1Del = () => apiFetch(r1, '/api/user/account', {
+    method: 'DELETE', body: JSON.stringify({ password: PASSWORD, confirmation: 'DELETE' }),
+  });
+  await Promise.all([r1Del(), r1Del()]);
+  const raceAfter = await db.collection('schoolLicenses').findOne({ domains: 'race.edu' });
+  const r1Claims = await db.collection('schoolLicenseClaims').countDocuments({ userId: r1Id });
+  const winner = [s1.status, s2.status][0] === 200;
+  check('deletion race: the seat is returned exactly once',
+    r1Claims === 0 && raceAfter.seatsUsed === (winner ? 0 : 1), `seatsUsed ${raceAfter.seatsUsed}`);
 
   // ── 10. None of it is a sale ──────────────────────────────────────────────
   const sales = await db.collection('purchases').countDocuments();
   const flagged = await db.collection('users').countDocuments({ examSimAccess: true });
-  check('no purchase rows and no purchase flags from licence access', sales === 0 && flagged === 0, `purchases ${sales}`);
+  check('no purchase rows and no purchase flags from license access', sales === 0 && flagged === 0, `purchases ${sales}`);
   const mails = fs.readFileSync(MAIL, 'utf8').trim().split('\n').filter(Boolean).length;
   check('every email was captured locally, none sent', mails >= 2, `${mails} captured`);
 

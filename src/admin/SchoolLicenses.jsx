@@ -1,7 +1,7 @@
 import React from 'react';
 import { GraduationCap, Plus, PencilSimple, X } from '@phosphor-icons/react';
 
-// School site licences (ADR 0040): a college pays yearly, and every student
+// School site licenses (ADR 0040): a college pays yearly, and every student
 // with a verified address on its email domain gets the Exam Simulation. The
 // owner creates, edits and ends them here and watches the seats fill.
 
@@ -43,9 +43,9 @@ function LicenseForm({ initial, onSave, onCancel, busy, error }) {
     onSave({ ...f, seatCap: Number(f.seatCap) });
   };
   return (
-    <form className="lic-form" onSubmit={submit} aria-label={initial ? 'Edit licence' : 'New licence'}>
+    <form className="lic-form" onSubmit={submit} aria-label={initial ? 'Edit license' : 'New license'}>
       <div className="lic-form-head">
-        <h4>{initial ? `Edit ${initial.schoolName}` : 'New licence'}</h4>
+        <h4>{initial ? `Edit ${initial.schoolName}` : 'New license'}</h4>
         <button type="button" className="lic-icon-btn" onClick={onCancel} aria-label="Close">
           <X weight="bold" size={16} />
         </button>
@@ -88,7 +88,7 @@ function LicenseForm({ initial, onSave, onCancel, busy, error }) {
       {error && <p className="lic-error" role="alert">{error}</p>}
       <div className="lic-form-actions">
         <button type="submit" className="btn-primary lic-save" disabled={busy}>
-          {busy ? 'Saving…' : initial ? 'Save changes' : 'Create licence'}
+          {busy ? 'Saving…' : initial ? 'Save changes' : 'Create license'}
         </button>
         <button type="button" className="btn-secondary" onClick={onCancel} disabled={busy}>Cancel</button>
       </div>
@@ -150,7 +150,7 @@ function LicenseCard({ l, onEdit, onEnd, onReopen, busy }) {
 export function SchoolLicensesPanel() {
   const [licenses, setLicenses] = React.useState(null);
   const [loadError, setLoadError] = React.useState('');
-  const [editing, setEditing] = React.useState(null); // null | 'new' | licence
+  const [editing, setEditing] = React.useState(null); // null | 'new' | license
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState('');
 
@@ -158,7 +158,7 @@ export function SchoolLicensesPanel() {
     fetch('/api/admin/school-licenses')
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((b) => { setLicenses(b.licenses || []); setLoadError(''); })
-      .catch(() => setLoadError('Could not load licences.'));
+      .catch(() => setLoadError('Could not load licenses.'));
   }, []);
   React.useEffect(() => { load(); }, [load]);
 
@@ -191,7 +191,7 @@ export function SchoolLicensesPanel() {
   }
 
   async function end(l) {
-    if (!window.confirm(`End the ${l.schoolName} licence now? Students mid-exam can still finish.`)) return;
+    if (!window.confirm(`End the ${l.schoolName} license now? Students mid-exam can still finish.`)) return;
     await send(`/api/admin/school-licenses/${l.id}/end`, 'POST');
   }
 
@@ -199,24 +199,24 @@ export function SchoolLicensesPanel() {
   const seatsInUse = active.reduce((n, l) => n + l.seatsUsed, 0);
 
   return (
-    <section className="lic" aria-label="School licences">
+    <section className="lic" aria-label="School licenses">
       <div className="lic-top">
         <div className="admin-section-head">
           <GraduationCap weight="bold" size={18} />
-          <h3>School licences</h3>
+          <h3>School licenses</h3>
           <span className="admin-section-note">
             {licenses ? `${active.length} active · ${seatsInUse} ${seatsInUse === 1 ? 'seat' : 'seats'} in use` : 'loading'}
           </span>
         </div>
         {editing !== 'new' && (
           <button type="button" className="btn-primary lic-new" onClick={() => { setError(''); setEditing('new'); }}>
-            <Plus weight="bold" size={16} /> New licence
+            <Plus weight="bold" size={16} /> New license
           </button>
         )}
       </div>
       <p className="lic-intro">
-        Students whose verified school email is on a licence&apos;s domain get the Exam Simulation free. A seat is
-        taken the first time a student starts an exam, and stays theirs for the licence&apos;s life. Licence
+        Students whose verified school email is on a license&apos;s domain get the Exam Simulation free. A seat is
+        taken the first time a student starts an exam and stays theirs until the license ends or they delete their account. License
         students never count as sales.
       </p>
 
@@ -226,7 +226,7 @@ export function SchoolLicensesPanel() {
 
       {loadError && <p className="lic-error" role="alert">{loadError}</p>}
       {licenses && licenses.length === 0 && editing !== 'new' && (
-        <p className="lic-empty">No licences yet. Create one when a college signs.</p>
+        <p className="lic-empty">No licenses yet. Create one when a college signs.</p>
       )}
 
       <div className="lic-list">

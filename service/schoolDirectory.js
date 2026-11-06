@@ -139,7 +139,7 @@ function schoolForDomain(domain) {
 }
 
 /// The email domains the directory lists for a school name ("Brigham Young
-/// University" or a known alias), or []. A HINT for school licences (ADR 0040):
+/// University" or a known alias), or []. A HINT for school licenses (ADR 0040):
 /// a self-reported school can point a student at verification, never grant
 /// anything.
 function domainsForSchoolName(name) {

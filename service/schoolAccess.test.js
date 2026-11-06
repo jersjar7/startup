@@ -4,7 +4,7 @@ const {
   licenseCoversDomain, isLicenseActive, licenseState, seatsLeft, decideSimAccess, publicSchool,
 } = require('./schoolAccess.js');
 
-// The rule behind school site licences (ADR 0040), from facts in hand.
+// The rule behind school site licenses (ADR 0040), from facts in hand.
 
 const NOW = new Date('2026-11-06T12:00:00Z');
 const license = (over = {}) => ({
@@ -61,11 +61,11 @@ describe('licenseCoversDomain: exact match only', () => {
     expect(licenseCoversDomain(license({ domains: ['BYU.edu'] }), 'byu.edu')).toBe(true);
   });
 
-  it('does not admit a subdomain the licence does not list', () => {
+  it('does not admit a subdomain the license does not list', () => {
     expect(licenseCoversDomain(l, 'student.byu.edu')).toBe(false);
   });
 
-  it('admits a subdomain the licence lists', () => {
+  it('admits a subdomain the license lists', () => {
     expect(licenseCoversDomain(license({ domains: ['byu.edu', 'student.byu.edu'] }), 'student.byu.edu')).toBe(true);
   });
 
@@ -99,7 +99,7 @@ describe('verified school addresses', () => {
   });
 });
 
-describe('licence dates', () => {
+describe('license dates', () => {
   it('is active from startsAt up to (not including) endsAt', () => {
     const l = license();
     expect(isLicenseActive(l, NOW)).toBe(true);
@@ -177,7 +177,7 @@ describe('decideSimAccess', () => {
     expect(decideSimAccess({ user: codeVerified('jane@student.byu.edu'), licenses: [l], now: NOW }).access).toBe(true);
   });
 
-  it('an expired, ended or not-yet-started licence does not', () => {
+  it('an expired, ended or not-yet-started license does not', () => {
     for (const l of [
       license({ endsAt: new Date('2026-11-01') }),
       license({ endedAt: new Date('2026-10-01') }),
@@ -187,19 +187,19 @@ describe('decideSimAccess', () => {
     }
   });
 
-  it('an expired licence takes a held seat away too', () => {
+  it('an expired license takes a held seat away too', () => {
     const l = license({ endsAt: new Date('2026-11-01') });
     const d = decideSimAccess({ user: codeVerified('jane@byu.edu'), licenses: [l], claims: [{ licenseId: 'lic1' }], now: NOW });
     expect(d.access).toBe(false);
   });
 
-  it('a full licence turns away a new student, and says so', () => {
+  it('a full license turns away a new student, and says so', () => {
     const l = license({ seatCap: 3, seatsUsed: 3 });
     const d = decideSimAccess({ user: codeVerified('jane@byu.edu'), licenses: [l], now: NOW });
     expect(d).toMatchObject({ access: false, reason: 'seats_full', domain: 'byu.edu' });
   });
 
-  it('a full licence keeps a student who already holds a seat', () => {
+  it('a full license keeps a student who already holds a seat', () => {
     const l = license({ seatCap: 3, seatsUsed: 3 });
     const d = decideSimAccess({ user: codeVerified('jane@byu.edu'), licenses: [l], claims: [{ licenseId: 'lic1' }], now: NOW });
     expect(d).toMatchObject({ access: true, needsClaim: false });
@@ -211,7 +211,7 @@ describe('decideSimAccess', () => {
     expect(decideSimAccess({ user: codeVerified('new@byu.edu'), licenses: [l], now: NOW }).access).toBe(false);
   });
 
-  it('falls through to a second licence with room', () => {
+  it('falls through to a second license with room', () => {
     const full = license({ _id: 'a', seatCap: 1, seatsUsed: 1 });
     const open = license({ _id: 'b', seatCap: 10, seatsUsed: 1 });
     const d = decideSimAccess({ user: codeVerified('jane@byu.edu'), licenses: [full, open], now: NOW });

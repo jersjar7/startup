@@ -46,7 +46,7 @@ const waitlistCollection = db.collection('waitlist');
 // one standing per student holding their tier.
 const leagueGroupsCollection = db.collection('leagueGroups');
 const leagueStandingCollection = db.collection('leagueStanding');
-// School site licences (ADR 0040, ./schoolLicenses.js): one row per licence,
+// School site licenses (ADR 0040, ./schoolLicenses.js): one row per license,
 // and one claim per student holding a seat on it.
 const schoolLicensesCollection = db.collection('schoolLicenses');
 const schoolLicenseClaimsCollection = db.collection('schoolLicenseClaims');
@@ -102,7 +102,7 @@ if (!process.env.VITEST) (async function testConnection() {
     await leagueGroupsCollection.createIndex({ closedAt: 1, weekId: 1 });
     await leagueStandingCollection.createIndex({ email: 1 }, { unique: true });
     await schoolLicensesCollection.createIndex({ domains: 1 });
-    // One seat per student per licence, whatever races to claim it.
+    // One seat per student per license, whatever races to claim it.
     await schoolLicenseClaimsCollection.createIndex({ licenseId: 1, userId: 1 }, { unique: true });
     await schoolLicenseClaimsCollection.createIndex({ userId: 1 });
   } catch (ex) {

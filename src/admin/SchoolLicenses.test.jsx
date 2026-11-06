@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen, fireEvent, within, waitFor } from '@testing-library/react';
 import { SchoolLicensesPanel } from './SchoolLicenses';
 
-// The owner's school licence list on /admin (ADR 0040).
+// The owner's school license list on /admin (ADR 0040).
 
 const lic = (over = {}) => ({
   id: 'l1', schoolName: 'Brigham Young University', domains: ['byu.edu', 'student.byu.edu'],
@@ -57,7 +57,7 @@ describe('SchoolLicensesPanel', () => {
     vi.restoreAllMocks();
   });
 
-  it('lists each licence with its domains, dates and seats used', async () => {
+  it('lists each license with its domains, dates and seats used', async () => {
     render(<SchoolLicensesPanel />);
     const card = await screen.findByRole('article', { name: 'Brigham Young University' });
     expect(within(card).getByText('@byu.edu, @student.byu.edu')).toBeInTheDocument();
@@ -66,44 +66,44 @@ describe('SchoolLicensesPanel', () => {
     expect(screen.getByText('2 active · 77 seats in use')).toBeInTheDocument();
   });
 
-  it('says plainly when a licence is full', async () => {
+  it('says plainly when a license is full', async () => {
     render(<SchoolLicensesPanel />);
     const card = await screen.findByRole('article', { name: 'Utah State University' });
     expect(within(card).getByText(/Full\. New students are told to ask their department/)).toBeInTheDocument();
   });
 
-  it('creates a licence', async () => {
+  it('creates a license', async () => {
     list = [];
     render(<SchoolLicensesPanel />);
-    fireEvent.click(await screen.findByRole('button', { name: /New licence/ }));
-    const form = screen.getByRole('form', { name: 'New licence' });
+    fireEvent.click(await screen.findByRole('button', { name: /New license/ }));
+    const form = screen.getByRole('form', { name: 'New license' });
     fireEvent.change(within(form).getByPlaceholderText('Brigham Young University'), { target: { value: 'Weber State University' } });
     fireEvent.change(within(form).getByPlaceholderText('byu.edu, student.byu.edu'), { target: { value: 'weber.edu' } });
     fireEvent.change(within(form).getByRole('spinbutton'), { target: { value: '120' } });
-    fireEvent.click(within(form).getByRole('button', { name: 'Create licence' }));
+    fireEvent.click(within(form).getByRole('button', { name: 'Create license' }));
     expect(await screen.findByRole('article', { name: 'Weber State University' })).toBeInTheDocument();
     const post = calls.find((c) => c.method === 'POST');
     expect(post.body).toMatchObject({ schoolName: 'Weber State University', domains: 'weber.edu', seatCap: 120 });
     expect(post.body.startsAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 
-  it('shows the server\'s reason when a licence is refused', async () => {
+  it('shows the server\'s reason when a license is refused', async () => {
     list = [];
     render(<SchoolLicensesPanel />);
-    fireEvent.click(await screen.findByRole('button', { name: /New licence/ }));
-    const form = screen.getByRole('form', { name: 'New licence' });
+    fireEvent.click(await screen.findByRole('button', { name: /New license/ }));
+    const form = screen.getByRole('form', { name: 'New license' });
     fireEvent.change(within(form).getByPlaceholderText('Brigham Young University'), { target: { value: 'X' } });
     fireEvent.change(within(form).getByPlaceholderText('byu.edu, student.byu.edu'), { target: { value: 'gmail.com' } });
     nextError = 'gmail.com is not a school domain (.edu, .edu.xx or .ac.xx).';
-    fireEvent.click(within(form).getByRole('button', { name: 'Create licence' }));
+    fireEvent.click(within(form).getByRole('button', { name: 'Create license' }));
     expect(await screen.findByRole('alert')).toHaveTextContent('gmail.com is not a school domain');
   });
 
-  it('edits seats on a licence', async () => {
+  it('edits seats on a license', async () => {
     render(<SchoolLicensesPanel />);
     const card = await screen.findByRole('article', { name: 'Brigham Young University' });
     fireEvent.click(within(card).getByRole('button', { name: /Edit/ }));
-    const form = screen.getByRole('form', { name: 'Edit licence' });
+    const form = screen.getByRole('form', { name: 'Edit license' });
     expect(within(form).getByDisplayValue('byu.edu, student.byu.edu')).toBeInTheDocument();
     fireEvent.change(within(form).getByRole('spinbutton'), { target: { value: '600' } });
     fireEvent.click(within(form).getByRole('button', { name: 'Save changes' }));
@@ -111,7 +111,7 @@ describe('SchoolLicensesPanel', () => {
     expect(calls.find((c) => c.method === 'PATCH').body.seatCap).toBe(600);
   });
 
-  it('ends a licence after a confirmation', async () => {
+  it('ends a license after a confirmation', async () => {
     list = [lic()];
     render(<SchoolLicensesPanel />);
     const card = await screen.findByRole('article', { name: 'Brigham Young University' });

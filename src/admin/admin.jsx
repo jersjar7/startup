@@ -22,13 +22,13 @@ const RANGES = [
 
 // Four groups, each answering one question the owner actually asks:
 // how many people are arriving, whether they study, whether they pay, and who
-// they are. A fifth holds the school licences, which the owner edits here. The range toggle and the summary row sit above all four.
+// they are. A fifth holds the school licenses, which the owner edits here. The range toggle and the summary row sit above all four.
 const TABS = [
   { id: 'growth', label: 'Growth', icon: ChartLineUp },
   { id: 'engagement', label: 'Engagement', icon: Lightning },
   { id: 'revenue', label: 'Revenue', icon: CurrencyDollar },
   { id: 'users', label: 'Users', icon: Users },
-  // School site licences (ADR 0040): who pays for their students.
+  // School site licenses (ADR 0040): who pays for their students.
   { id: 'schools', label: 'Schools', icon: GraduationCap },
 ];
 

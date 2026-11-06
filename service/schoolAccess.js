@@ -1,10 +1,10 @@
 // Who gets the Exam Simulation through their school (ADR 0040).
 //
-// A college buys a yearly site licence for one or more email domains. A student
+// A college buys a yearly site license for one or more email domains. A student
 // gets the simulation when one of their VERIFIED school addresses is on a
-// domain an active licence lists, and a seat is free or already theirs.
+// domain an active license lists, and a seat is free or already theirs.
 //
-// Everything here is pure: the caller hands in the user, the licences and the
+// Everything here is pure: the caller hands in the user, the licenses and the
 // student's existing seat claims. The database half (looking those up and
 // claiming a seat without a race) is in db/schoolLicenses.js.
 
@@ -27,7 +27,7 @@ function emailDomain(email) {
   return normalizeDomain(s.slice(at + 1));
 }
 
-/// A licence may only list academic domains: the code flow that proves a
+/// A license may only list academic domains: the code flow that proves a
 /// student owns a school inbox only mails academic addresses.
 function isLicensableDomain(domain) {
   const d = normalizeDomain(domain);
@@ -56,7 +56,7 @@ function verifiedSchoolDomains(user) {
   return [...new Set(verifiedSchoolEmails(user).map(emailDomain).filter(Boolean))];
 }
 
-/// Exact match only. A subdomain counts only when the licence lists it, so
+/// Exact match only. A subdomain counts only when the license lists it, so
 /// byu.edu never admits student.byu.edu by itself and byu.edu.evil.com or
 /// evilbyu.edu never match anything.
 function licenseCoversDomain(license, domain) {
@@ -77,7 +77,7 @@ function isLicenseActive(license, now = new Date()) {
   return s <= t && t < e;
 }
 
-/// Where a licence stands, for the admin list.
+/// Where a license stands, for the admin list.
 function licenseState(license, now = new Date()) {
   if (!license) return 'unknown';
   if (license.endedAt) return 'ended';
@@ -97,20 +97,20 @@ function seatsLeft(license) {
 ///
 ///   purchased  hasPurchased(userId): a completed (not refunded) purchase
 ///   user       the user document
-///   licenses   licences that MIGHT apply (any state); filtered here
+///   licenses   licenses that MIGHT apply (any state); filtered here
 ///   claims     this user's seat claims ({ licenseId })
 ///   hintDomains domains we only GUESS are theirs (their profile school's);
 ///              they can point a student at verification, never grant access
 ///
 /// Returns { access, via, license, domain, reason, needsClaim }:
 ///   via 'purchase'   bought it; nothing about schools matters
-///   via 'school'     holds (or can take) a seat on an active licence
+///   via 'school'     holds (or can take) a seat on an active license
 ///   reason, when access is false:
-///     'none'          no purchase and no licence for any verified domain
-///     'unverified'    a licence seems to cover them (their account domain or
+///     'none'          no purchase and no license for any verified domain
+///     'unverified'    a license seems to cover them (their account domain or
 ///                     profile school) but no address on it is verified yet
-///     'seats_full'    a licence covers them but every seat is taken
-///   needsClaim true   access via a licence they do not hold a seat on yet
+///     'seats_full'    a license covers them but every seat is taken
+///   needsClaim true   access via a license they do not hold a seat on yet
 function decideSimAccess({
   purchased = false, user = null, licenses = [], claims = [], hintDomains = [], now = new Date(),
 } = {}) {
@@ -132,7 +132,7 @@ function decideSimAccess({
   }
   if (full) return { access: false, via: null, license: full.license, domain: full.domain, reason: 'seats_full', needsClaim: false };
 
-  // Not verified, but we have reason to think a licence covers them: the
+  // Not verified, but we have reason to think a license covers them: the
   // account address sits on a licensed domain, or the school on their profile
   // owns one (hintDomains). Never access, only a pointer: tell the student
   // their school covers them so they verify instead of paying.
@@ -148,7 +148,7 @@ function decideSimAccess({
   return { access: false, via: null, license: null, domain: null, reason: 'none', needsClaim: false };
 }
 
-/// What the browser is told about a licence. Never the contact or the notes.
+/// What the browser is told about a license. Never the contact or the notes.
 function publicSchool(license) {
   if (!license) return null;
   return { name: license.schoolName, domains: license.domains || [], endsAt: license.endsAt };
@@ -169,7 +169,7 @@ function parseDate(v) {
 
 /// Check and clean what the admin form sends. Returns { fields } or { error }.
 /// partial: true (an edit) only checks the fields that were sent, then the
-/// dates against the stored licence (existing).
+/// dates against the stored license (existing).
 function parseLicenseInput(body = {}, { partial = false, existing = null } = {}) {
   const b = body || {};
   const out = {};
@@ -192,7 +192,7 @@ function parseLicenseInput(body = {}, { partial = false, existing = null } = {})
       if (!domains.includes(d)) domains.push(d);
     }
     if (!domains.length) return { error: 'Add at least one email domain, like byu.edu.' };
-    if (domains.length > 20) return { error: 'At most 20 domains per licence.' };
+    if (domains.length > 20) return { error: 'At most 20 domains per license.' };
     out.domains = domains;
   }
   for (const k of ['startsAt', 'endsAt']) {
@@ -220,7 +220,7 @@ function parseLicenseInput(body = {}, { partial = false, existing = null } = {})
   return { fields: out };
 }
 
-/// A licence as the admin page shows it.
+/// A license as the admin page shows it.
 function adminLicense(license, now = new Date()) {
   return {
     id: String(license._id),
