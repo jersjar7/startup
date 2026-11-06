@@ -297,7 +297,7 @@ router.post('/start', verifyAuth, requireSimAccessClaiming, async (req, res) => 
       // How the student got in, so a licence that ends mid-exam does not end
       // the exam (requireSimAccess).
       accessVia: req.simAccess?.via || 'purchase',
-      ...(req.simAccess?.via === 'school' ? { schoolLicenseId: req.simAccess.license._id } : {}),
+      ...(req.simAccess?.via === 'school' ? { schoolLicenseId: String(req.simAccess.license._id) } : {}),
     });
 
     res.send({

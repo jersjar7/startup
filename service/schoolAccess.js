@@ -154,7 +154,95 @@ function publicSchool(license) {
   return { name: license.schoolName, domains: license.domains || [], endsAt: license.endsAt };
 }
 
+
+// ── Admin input ────────────────────────────────────────────────────────────
+
+const MAX_SEATS = 100000;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function parseDate(v) {
+  if (v == null || v === '') return null;
+  // A bare YYYY-MM-DD from a date input is a whole day in UTC.
+  const d = /^\d{4}-\d{2}-\d{2}$/.test(String(v)) ? new Date(`${v}T00:00:00Z`) : new Date(v);
+  return Number.isFinite(d.getTime()) ? d : null;
+}
+
+/// Check and clean what the admin form sends. Returns { fields } or { error }.
+/// partial: true (an edit) only checks the fields that were sent, then the
+/// dates against the stored licence (existing).
+function parseLicenseInput(body = {}, { partial = false, existing = null } = {}) {
+  const b = body || {};
+  const out = {};
+  const has = (k) => Object.prototype.hasOwnProperty.call(b, k);
+
+  if (!partial || has('schoolName')) {
+    const name = String(b.schoolName || '').trim();
+    if (!name) return { error: 'School name is required.' };
+    if (name.length > 120) return { error: 'School name is too long.' };
+    out.schoolName = name;
+  }
+  if (!partial || has('domains')) {
+    const raw = Array.isArray(b.domains) ? b.domains : String(b.domains || '').split(/[\s,;]+/);
+    const domains = [];
+    for (const r of raw) {
+      if (!String(r || '').trim()) continue;
+      const d = normalizeDomain(r);
+      if (!d) return { error: `"${String(r).trim()}" is not a domain.` };
+      if (!isLicensableDomain(d)) return { error: `${d} is not a school domain (.edu, .edu.xx or .ac.xx).` };
+      if (!domains.includes(d)) domains.push(d);
+    }
+    if (!domains.length) return { error: 'Add at least one email domain, like byu.edu.' };
+    if (domains.length > 20) return { error: 'At most 20 domains per licence.' };
+    out.domains = domains;
+  }
+  for (const k of ['startsAt', 'endsAt']) {
+    if (!partial || has(k)) {
+      const d = parseDate(b[k]);
+      if (!d) return { error: `${k === 'startsAt' ? 'Start' : 'End'} date is required.` };
+      out[k] = d;
+    }
+  }
+  const starts = out.startsAt || existing?.startsAt;
+  const ends = out.endsAt || existing?.endsAt;
+  if (starts && ends && new Date(ends) <= new Date(starts)) return { error: 'The end date must be after the start date.' };
+  if (!partial || has('seatCap')) {
+    const n = Number(b.seatCap);
+    if (!Number.isInteger(n) || n < 1 || n > MAX_SEATS) return { error: 'Seats must be a whole number from 1 to 100,000.' };
+    out.seatCap = n;
+  }
+  if (!partial || has('contactName')) out.contactName = String(b.contactName || '').trim().slice(0, 120);
+  if (!partial || has('contactEmail')) {
+    const e = String(b.contactEmail || '').trim().toLowerCase();
+    if (e && !EMAIL_RE.test(e)) return { error: 'Contact email does not look right.' };
+    out.contactEmail = e;
+  }
+  if (!partial || has('notes')) out.notes = String(b.notes || '').trim().slice(0, 2000);
+  return { fields: out };
+}
+
+/// A licence as the admin page shows it.
+function adminLicense(license, now = new Date()) {
+  return {
+    id: String(license._id),
+    schoolName: license.schoolName,
+    domains: license.domains || [],
+    startsAt: license.startsAt,
+    endsAt: license.endsAt,
+    endedAt: license.endedAt || null,
+    seatCap: license.seatCap,
+    seatsUsed: Number(license.seatsUsed) || 0,
+    seatsLeft: seatsLeft(license),
+    state: licenseState(license, now),
+    contactName: license.contactName || '',
+    contactEmail: license.contactEmail || '',
+    notes: license.notes || '',
+    createdAt: license.createdAt,
+  };
+}
+
 module.exports = {
+  parseLicenseInput,
+  adminLicense,
   normalizeDomain,
   emailDomain,
   isLicensableDomain,

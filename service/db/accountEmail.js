@@ -23,7 +23,10 @@ const {
 // This list is the same one deleteAllUserData walks, for the same reason, and
 // the two must stay in step. If a collection is added there, it belongs here.
 //
-// Purchases and exam attempts are keyed by userId and are untouched on purpose.
+// Purchases, exam attempts and school seat claims (schoolLicenseClaims, ADR
+// 0040) are keyed by userId and are untouched on purpose. School access is
+// re-read from the account's CURRENT verified addresses on every check, so a
+// new address that is not verified yet cannot carry a licence with it.
 const EMAIL_KEYED = [
   ['userStats', userStatsCollection],
   ['problemHistory', problemHistoryCollection],

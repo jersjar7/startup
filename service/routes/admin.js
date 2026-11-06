@@ -151,4 +151,54 @@ router.post('/email-test', verifyAuth, requireAdmin, async (req, res) => {
   res.send({ to, ...getEmailConfig(), ...result });
 });
 
+// ── School site licences (ADR 0040) ────────────────────────────────────────
+// A college pays yearly; its verified students get the Exam Simulation.
+const { parseLicenseInput, adminLicense } = require('../schoolAccess.js');
+
+// GET /api/admin/school-licenses — every licence with its seats.
+router.get('/school-licenses', verifyAuth, requireAdmin, async (req, res) => {
+  const now = new Date();
+  res.send({ licenses: (await DB.listSchoolLicenses()).map((l) => adminLicense(l, now)) });
+});
+
+// POST /api/admin/school-licenses — create one.
+router.post('/school-licenses', verifyAuth, requireAdmin, async (req, res) => {
+  const { fields, error } = parseLicenseInput(req.body);
+  if (error) return res.status(400).send({ msg: error });
+  const created = await DB.createSchoolLicense(fields);
+  console.log(`[admin] school licence created: ${fields.schoolName} (${fields.domains.join(', ')}), ${fields.seatCap} seats`);
+  res.status(201).send(adminLicense(created));
+});
+
+// PATCH /api/admin/school-licenses/:id — edit any field. Seats already
+// claimed stay claimed when the cap goes down (ADR 0040).
+router.patch('/school-licenses/:id', verifyAuth, requireAdmin, async (req, res) => {
+  const existing = await DB.getSchoolLicense(req.params.id);
+  if (!existing) return res.status(404).send({ msg: 'No such licence' });
+  const { fields, error } = parseLicenseInput(req.body, { partial: true, existing });
+  if (error) return res.status(400).send({ msg: error });
+  const updated = await DB.updateSchoolLicense(req.params.id, fields);
+  res.send(adminLicense(updated || { ...existing, ...fields }));
+});
+
+// POST /api/admin/school-licenses/:id/end — end it now. Kept, not deleted, so
+// the record of what a school bought survives. A student mid-exam still
+// finishes (routes/exam.js).
+router.post('/school-licenses/:id/end', verifyAuth, requireAdmin, async (req, res) => {
+  const existing = await DB.getSchoolLicense(req.params.id);
+  if (!existing) return res.status(404).send({ msg: 'No such licence' });
+  if (existing.endedAt) return res.send(adminLicense(existing));
+  const updated = await DB.updateSchoolLicense(req.params.id, { endedAt: new Date() });
+  console.log(`[admin] school licence ended: ${existing.schoolName}`);
+  res.send(adminLicense(updated || { ...existing, endedAt: new Date() }));
+});
+
+// POST /api/admin/school-licenses/:id/reopen — undo an early end.
+router.post('/school-licenses/:id/reopen', verifyAuth, requireAdmin, async (req, res) => {
+  const existing = await DB.getSchoolLicense(req.params.id);
+  if (!existing) return res.status(404).send({ msg: 'No such licence' });
+  const updated = await DB.updateSchoolLicense(req.params.id, { endedAt: null });
+  res.send(adminLicense(updated || { ...existing, endedAt: null }));
+});
+
 module.exports = router;

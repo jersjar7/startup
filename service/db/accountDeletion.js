@@ -16,6 +16,7 @@ const {
   deletionLogCollection,
   leagueStandingCollection,
   leagueGroupsCollection,
+  schoolLicenseClaimsCollection,
 } = require('./connection');
 const { deletionRecord } = require('../deletionRecord.js');
 
@@ -64,6 +65,9 @@ async function deleteAllUserData(email, userId, { reason = 'user' } = {}) {
     ...(userId ? [
       purchasesCollection.deleteMany({ userId }),
       examAttemptsCollection.deleteMany({ userId }),
+      // A school seat (ADR 0040): the claim goes, the licence's seatsUsed
+      // counter does not go down. The school paid for that seat.
+      schoolLicenseClaimsCollection.deleteMany({ userId }),
     ] : []),
   ]);
   await userCollection.deleteOne({ email });

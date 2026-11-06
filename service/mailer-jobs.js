@@ -16,7 +16,7 @@ const {
   isVerifyReminderDue,
 } = require('./lifecycle.js');
 const { daysUntilExam } = require('./profile.js');
-const { hasPurchased } = require('./db/purchases.js');
+const { hasSimAccess } = require('./simAccess.js');
 const { shouldPitchSimInDigest } = require('./digestPitch.js');
 const { weightedMastery } = require('./examWeights.js');
 const { canSendLifecycle, counts: budgetCounts, DAILY_CAP, MONTHLY_CAP } = require('./sendBudget.js');
@@ -367,7 +367,9 @@ async function sendWeeklyDigests(now) {
       // it. Treat an error as "already purchased" so the footer is dropped.
       let owns = true;
       try {
-        owns = await hasPurchased(u._id.toString());
+        // Bought it, or their school gives it to them (ADR 0040). Never
+        // claims a seat: an email is not someone using the simulation.
+        owns = await hasSimAccess(u);
       } catch (e) {
         console.error('[lifecycle] purchase check failed for', u.email, e.message);
       }
@@ -417,7 +419,12 @@ async function sendExamCountdowns(now, phase = 'morning') {
     if (!pick) continue;
     // Pitch the exam simulation to non-buyers who are ~2-4 weeks out (a milestone
     // send always lands inside 12-30 days). Once per user, guarded by simPitchedAt.
-    const pitchSim = !u.examSimAccess && !u.simPitchedAt && daysLeft >= 12 && daysLeft <= 30;
+    let pitchSim = !u.examSimAccess && !u.simPitchedAt && daysLeft >= 12 && daysLeft <= 30;
+    // Never sell it to a student their school already gives it to (ADR 0040).
+    // A failed lookup drops the pitch rather than risk selling it to them.
+    if (pitchSim) {
+      try { if (await hasSimAccess(u)) pitchSim = false; } catch { pitchSim = false; }
+    }
     // Route by send window: pitches wait for the evening run; everything else is
     // a morning send. Skipping here leaves the milestone unsent for the other run.
     if (phase === 'evening' && !pitchSim) continue;
@@ -530,6 +537,8 @@ async function sendSimPitchFollowups(now) {
   for (const u of users) {
     const daysLeft = daysUntilExam(u.examDate, now);
     if (daysLeft == null || daysLeft < 3) continue; // no time left to sit a 5h20m sim
+    // Their school gives it to them (ADR 0040): nothing to follow up on.
+    try { if (await hasSimAccess(u)) continue; } catch { continue; }
     if (!(await canSendLifecycle(now))) break;       // out of daily/monthly send budget
     try {
       const token = await ensureUnsubToken(u);
