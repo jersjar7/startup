@@ -13,6 +13,8 @@ import {
   ChartBar,
   MagnifyingGlass,
   Heart,
+  GraduationCap,
+  UsersThree,
 } from '@phosphor-icons/react';
 import './exam.css';
 import { isStudentEmail, STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
@@ -35,6 +37,13 @@ export function ExamGate({ userName }) {
   const [code, setCode] = React.useState('');
   const [studentBusy, setStudentBusy] = React.useState(false);
   const [studentMsg, setStudentMsg] = React.useState('');
+  // School site licence (ADR 0040), from /api/checkout/status:
+  // access 'school' when their school gives it to them; schoolReason
+  // 'unverified' (verify to get it) or 'seats_full' when it does not yet.
+  const [access, setAccess] = React.useState(null);
+  const [school, setSchool] = React.useState(null);
+  const [schoolReason, setSchoolReason] = React.useState(null);
+  const [buyInstead, setBuyInstead] = React.useState(false);
 
   React.useEffect(() => {
     if (!userName) {
@@ -56,6 +65,9 @@ export function ExamGate({ userName }) {
           isPurchased = !!data.purchased;
           setPurchased(data.purchased);
           setPurchaseDate(data.purchaseDate);
+          setAccess(data.access || null);
+          setSchool(data.school || null);
+          setSchoolReason(data.schoolReason || null);
         } else {
           setPurchased(false);
         }
@@ -63,15 +75,17 @@ export function ExamGate({ userName }) {
         setPurchased(false);
       }
       // Attempts are purchase-gated (403 for free users), only fetch if owned.
-      if (isPurchased) {
-        try {
-          const r = await fetch('/api/exam/attempts');
-          if (r.ok) setAttempts(await r.json());
-        } catch { /* ignore */ }
-      }
+      if (isPurchased) await loadAttempts();
       setLoading(false);
     })();
   }, [userName, navigate]);
+
+  async function loadAttempts() {
+    try {
+      const r = await fetch('/api/exam/attempts');
+      if (r.ok) setAttempts(await r.json());
+    } catch { /* ignore */ }
+  }
 
   // Re-check purchase status after Stripe redirect
   React.useEffect(() => {
@@ -104,6 +118,14 @@ export function ExamGate({ userName }) {
       })
       .catch(() => {});
   }, [userName]);
+
+  // On the school gate, a student whose account address is already on the
+  // school's domain should not have to type it again.
+  React.useEffect(() => {
+    if (schoolReason !== 'unverified' || !school || !userName) return;
+    const mine = String(userName).toLowerCase();
+    if ((school.domains || []).some((d) => mine.endsWith(`@${d}`))) setEduEmail((e) => e || mine);
+  }, [schoolReason, school, userName]);
 
   const isEduInput = isStudentEmail(eduEmail);
   const studentApplies = !!pricing?.applies;
@@ -153,6 +175,14 @@ export function ExamGate({ userName }) {
       }
       setPricing((p) => ({ ...(p || {}), applies: true, studentVerified: true, verifiedStudentEmail: eduEmail.trim().toLowerCase() }));
       setStudentStep('verified');
+      // The same code proves the address for a school licence: straight in.
+      if (body.school) setSchool(body.school);
+      setSchoolReason(body.schoolAccess ? null : (body.schoolReason || null));
+      if (body.schoolAccess) {
+        setAccess('school');
+        setPurchased(true);
+        await loadAttempts();
+      }
     } catch {
       setStudentMsg('Network error. Please try again.');
     } finally {
@@ -181,6 +211,74 @@ export function ExamGate({ userName }) {
     }
   }
 
+  // The emailed-code step, shared by the price gate and the school gate: the
+  // one verification flow (a typed address never counts, ADR 0040).
+  function renderStudentVerify({ label, placeholder = 'you@university.edu', sendLabel = 'Send my code' }) {
+    return (
+      <div className="exam-student-verify">
+        {studentStep === 'unavailable' ? (
+          <p className="exam-student-unavailable">
+            {studentMsg || 'Student verification is being set up. Please check back soon.'}
+          </p>
+        ) : studentStep === 'code' ? (
+          <>
+            <label htmlFor="student-code">
+              Enter the 6-digit code sent to <strong>{eduEmail.trim().toLowerCase()}</strong>:
+            </label>
+            <div className="exam-student-row">
+              <input
+                id="student-code"
+                className="exam-code-input"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                maxLength={6}
+                placeholder="123456"
+                value={code}
+                onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
+              />
+              <button
+                type="button"
+                className="btn-secondary exam-student-btn"
+                onClick={handleVerifyCode}
+                disabled={studentBusy || code.trim().length !== 6}
+              >
+                {studentBusy ? 'Verifying…' : 'Verify'}
+              </button>
+            </div>
+            <button type="button" className="exam-link-btn"
+              onClick={() => { setStudentStep('idle'); setCode(''); setStudentMsg(''); }}>
+              Use a different email
+            </button>
+          </>
+        ) : (
+          <>
+            <label htmlFor="student-email">{label}</label>
+            <div className="exam-student-row">
+              <input
+                id="student-email"
+                type="email"
+                placeholder={placeholder}
+                value={eduEmail}
+                onChange={(e) => setEduEmail(e.target.value)}
+              />
+              <button
+                type="button"
+                className="btn-secondary exam-student-btn"
+                onClick={handleSendCode}
+                disabled={studentBusy || !isEduInput}
+              >
+                {studentBusy ? 'Sending…' : sendLabel}
+              </button>
+            </div>
+          </>
+        )}
+        {studentMsg && studentStep !== 'unavailable' && (
+          <p className="exam-student-msg" role="alert">{studentMsg}</p>
+        )}
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <main className="exam-main">
@@ -188,6 +286,91 @@ export function ExamGate({ userName }) {
       </main>
     );
   }
+
+  // What you get, the same list whichever way in.
+  const features = (
+        <div className="exam-gate-features">
+          <div className="exam-gate-feature">
+            <Exam weight="bold" size={20} className="egf-icon egf-icon--ember" />
+            <div>
+              <span className="egf-label">110 questions</span>
+              <span className="egf-desc">Weighted by the official NCEES topic distribution</span>
+            </div>
+          </div>
+          <div className="exam-gate-feature">
+            <ClockCountdown weight="bold" size={20} className="egf-icon egf-icon--sunbeam" />
+            <div>
+              <span className="egf-label">5 hours 20 minutes</span>
+              <span className="egf-desc">Same time limit as the real exam</span>
+            </div>
+          </div>
+          <div className="exam-gate-feature">
+            <ChartBar weight="bold" size={20} className="egf-icon egf-icon--forest" />
+            <div>
+              <span className="egf-label">Per-chapter score breakdown</span>
+              <span className="egf-desc">See exactly where you're strong and where to focus</span>
+            </div>
+          </div>
+          <div className="exam-gate-feature">
+            <MagnifyingGlass weight="bold" size={20} className="egf-icon egf-icon--sunbeam" />
+            <div>
+              <span className="egf-label">Review every answer</span>
+              <span className="egf-desc">Afterward, see every question you got right and wrong, each with a step-by-step explanation</span>
+            </div>
+          </div>
+          <div className="exam-gate-feature">
+            <ListChecks weight="bold" size={20} className="egf-icon egf-icon--ember" />
+            <div>
+              <span className="egf-label">Unlimited retakes</span>
+              <span className="egf-desc">Take it as many times as you want, with a different, randomly drawn exam each time</span>
+            </div>
+          </div>
+        </div>
+  );
+
+  // ═══ SCHOOL GATE: their school covers them, they only need to verify ═══
+  // ADR 0040. A licence covers the domain of their account address or of the
+  // school on their profile, and no address on it is verified yet. The
+  // emailed code is the one proof we take; once it lands they are in.
+  if (!purchased && schoolReason === 'unverified' && school && !buyInstead) {
+    const domain = (school.domains || [])[0] || 'your school';
+    return (
+      <main className="exam-main">
+        <div className="exam-gate">
+          <div className="exam-gate-card exam-gate-card--school">
+            <button className="exam-gate-back" onClick={() => navigate('/dashboard')}>
+              <ArrowLeft size={16} weight="bold" />
+              Dashboard
+            </button>
+
+            <span className="exam-gate-overline">{school.name}</span>
+            <h1 className="exam-gate-title">Your school gives you the exam simulation</h1>
+            <p className="exam-gate-subtitle">
+              {school.name} pays for its students, so there is nothing for you to buy.
+              Confirm your @{domain} email and the full 110-question simulation is yours.
+            </p>
+
+            {renderStudentVerify({
+              label: (
+                <>
+                  Your <strong>@{domain}</strong> email. We will send a 6-digit code to it.
+                </>
+              ),
+              placeholder: `you@${domain}`,
+              sendLabel: 'Send my code',
+            })}
+
+            {features}
+
+            <button type="button" className="exam-link-btn exam-gate-not-mine" onClick={() => setBuyInstead(true)}>
+              Not a student there? See the price instead
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
 
   // ═══ NOT PURCHASED ═══
   if (!purchased) {
@@ -204,6 +387,19 @@ export function ExamGate({ userName }) {
             <p className="exam-gate-subtitle">
               The closest thing to sitting for the real FE Civil exam.
             </p>
+
+            {schoolReason === 'seats_full' && school && (
+              <div className="exam-gate-seats-full" role="status">
+                <UsersThree weight="bold" size={20} className="exam-gate-seats-full-icon" />
+                <div>
+                  <p className="exam-gate-seats-full-title">Every seat at {school.name} is taken</p>
+                  <p className="exam-gate-seats-full-text">
+                    Your school gives the simulation to its students, and all of its seats are in use.
+                    Ask your department to add seats; you get in the moment they do. You can also buy it yourself below.
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* Price and the buy button first, what you get under them */}
             <div className="exam-gate-price">
@@ -230,115 +426,21 @@ export function ExamGate({ userName }) {
                 <CheckCircle weight="fill" size={15} />
                 {' '}Student price applied{pricing?.verifiedStudentEmail ? ` (verified ${pricing.verifiedStudentEmail})` : ''}.
               </p>
-            ) : (
-              <div className="exam-student-verify">
-                {studentStep === 'unavailable' ? (
-                  <p className="exam-student-unavailable">
-                    {studentMsg || 'Student verification is being set up. Please check back soon.'}
-                  </p>
-                ) : studentStep === 'code' ? (
-                  <>
-                    <label htmlFor="student-code">
-                      Enter the 6-digit code sent to <strong>{eduEmail.trim().toLowerCase()}</strong>:
-                    </label>
-                    <div className="exam-student-row">
-                      <input
-                        id="student-code"
-                        className="exam-code-input"
-                        inputMode="numeric"
-                        autoComplete="one-time-code"
-                        maxLength={6}
-                        placeholder="123456"
-                        value={code}
-                        onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-                      />
-                      <button
-                        type="button"
-                        className="btn-secondary exam-student-btn"
-                        onClick={handleVerifyCode}
-                        disabled={studentBusy || code.trim().length !== 6}
-                      >
-                        {studentBusy ? 'Verifying…' : 'Verify'}
-                      </button>
-                    </div>
-                    <button type="button" className="exam-link-btn"
-                      onClick={() => { setStudentStep('idle'); setCode(''); setStudentMsg(''); }}>
-                      Use a different email
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <label htmlFor="student-email">
-                      Students pay ${studentPrice}. Enter your <strong>.edu</strong> email and we will send you a 6-digit code.
-                    </label>
-                    <div className="exam-student-row">
-                      <input
-                        id="student-email"
-                        type="email"
-                        placeholder="you@university.edu"
-                        value={eduEmail}
-                        onChange={(e) => setEduEmail(e.target.value)}
-                      />
-                      <button
-                        type="button"
-                        className="btn-secondary exam-student-btn"
-                        onClick={handleSendCode}
-                        disabled={studentBusy || !isEduInput}
-                      >
-                        {studentBusy ? 'Sending…' : 'Send my code'}
-                      </button>
-                    </div>
-                  </>
-                )}
-                {studentMsg && studentStep !== 'unavailable' && (
-                  <p className="exam-student-msg" role="alert">{studentMsg}</p>
-                )}
-              </div>
-            )}
+            ) : renderStudentVerify({
+              label: (
+                <>
+                  Students pay ${studentPrice}, and nothing if their school has a licence with us.
+                  Enter your <strong>.edu</strong> email and we will send you a 6-digit code.
+                </>
+              ),
+            })}
 
             <button className="exam-gate-preview-btn" onClick={() => navigate('/exam/preview')}>
               Try 10 questions free first
             </button>
 
 
-            {/* What you get */}
-            <div className="exam-gate-features">
-              <div className="exam-gate-feature">
-                <Exam weight="bold" size={20} className="egf-icon egf-icon--ember" />
-                <div>
-                  <span className="egf-label">110 questions</span>
-                  <span className="egf-desc">Weighted by the official NCEES topic distribution</span>
-                </div>
-              </div>
-              <div className="exam-gate-feature">
-                <ClockCountdown weight="bold" size={20} className="egf-icon egf-icon--sunbeam" />
-                <div>
-                  <span className="egf-label">5 hours 20 minutes</span>
-                  <span className="egf-desc">Same time limit as the real exam</span>
-                </div>
-              </div>
-              <div className="exam-gate-feature">
-                <ChartBar weight="bold" size={20} className="egf-icon egf-icon--forest" />
-                <div>
-                  <span className="egf-label">Per-chapter score breakdown</span>
-                  <span className="egf-desc">See exactly where you're strong and where to focus</span>
-                </div>
-              </div>
-              <div className="exam-gate-feature">
-                <MagnifyingGlass weight="bold" size={20} className="egf-icon egf-icon--sunbeam" />
-                <div>
-                  <span className="egf-label">Review every answer</span>
-                  <span className="egf-desc">Afterward, see every question you got right and wrong, each with a step-by-step explanation</span>
-                </div>
-              </div>
-              <div className="exam-gate-feature">
-                <ListChecks weight="bold" size={20} className="egf-icon egf-icon--ember" />
-                <div>
-                  <span className="egf-label">Unlimited retakes</span>
-                  <span className="egf-desc">Take it as many times as you want, with a different, randomly drawn exam each time</span>
-                </div>
-              </div>
-            </div>
+            {features}
 
             {/* Why we charge: the genuine message */}
             <div className="exam-gate-why">
@@ -382,6 +484,12 @@ export function ExamGate({ userName }) {
           <p className="exam-hub-subtitle">
             110 questions, 5h 20min, weighted by NCEES distribution.
           </p>
+          {access === 'school' && school && (
+            <p className="exam-hub-school">
+              <GraduationCap weight="bold" size={16} />
+              Given to you by {school.name}
+            </p>
+          )}
         </div>
 
         <div className="exam-hub-body">

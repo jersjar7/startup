@@ -184,10 +184,10 @@ describe('Admin dashboard', () => {
     expect(container.querySelector('.admin-panel')?.contains(summary)).toBe(false);
   });
 
-  it('renders all four tabs, Growth first', async () => {
+  it('renders all five tabs, Growth first', async () => {
     await renderAdmin();
     const tabs = screen.getAllByRole('tab').filter((b) => b.className.includes('admin-tab'));
-    expect(tabs.map((b) => b.textContent)).toEqual(['Growth', 'Engagement', 'Revenue', 'Users']);
+    expect(tabs.map((b) => b.textContent)).toEqual(['Growth', 'Engagement', 'Revenue', 'Users', 'Schools']);
     expect(tab('Growth')).toHaveAttribute('aria-selected', 'true');
   });
 

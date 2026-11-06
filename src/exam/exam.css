@@ -320,6 +320,64 @@
   text-decoration: underline;
 }
 
+/* ── School site licence (ADR 0040) ── */
+.exam-gate-card--school {
+  border-top-color: var(--forest);
+}
+.exam-gate-overline {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+.exam-gate-card--school .exam-student-verify {
+  margin-top: 0.75rem;
+}
+.exam-gate-card--school .exam-gate-features {
+  margin-top: 1rem;
+}
+.exam-gate-not-mine {
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+.exam-gate-seats-full {
+  display: flex;
+  gap: 0.75rem;
+  background: var(--sunbeam-bg);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  text-align: left;
+  margin: 0.25rem 0 0.5rem;
+}
+.exam-gate-seats-full-icon {
+  color: var(--charcoal);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.exam-gate-seats-full-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--charcoal);
+  margin-bottom: 0.3rem;
+}
+.exam-gate-seats-full-text {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--gray-600);
+}
+.exam-hub-school {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--forest);
+}
+
 /* ── Free preview result ── */
 .ex-preview-result {
   max-width: 560px;

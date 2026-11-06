@@ -387,7 +387,11 @@ export function Profile({ userName, onLogout }) {
           <div>
             <dt>Exam Simulation</dt>
             <dd className="profile-stat-text">
-              {purchaseStatus?.purchased ? (
+              {purchaseStatus?.purchased && purchaseStatus.access === 'school' ? (
+                <span className="verified-badge">
+                  <CheckCircle size={16} weight="bold" /> From {purchaseStatus.school?.name || 'your school'}
+                </span>
+              ) : purchaseStatus?.purchased ? (
                 <>
                   <span className="verified-badge"><CheckCircle size={16} weight="bold" /> Purchased</span>
                   {purchaseStatus.purchaseDate && (

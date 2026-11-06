@@ -99,6 +99,8 @@ describe('what the page promises matches what the code erases', () => {
       'chapterTestAttempts',
       // Weekly leagues (ADR 0037); the page's XP line covers them.
       'leagueStanding',
+      // A school licence seat (ADR 0040); the page's simulation line covers it.
+      'schoolLicenseClaims',
     ]));
   });
 

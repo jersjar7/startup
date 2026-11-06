@@ -76,7 +76,7 @@ export function DeleteAccount() {
             <li>Every problem you have answered and the mastery built from it</li>
             <li>Session history, XP, badges, days studied and your league results</li>
             <li>Diagnostic, quick-start and chapter test results</li>
-            <li>Exam Simulation attempts and your purchase records</li>
+            <li>Exam Simulation attempts, your purchase records and any seat your school gave you</li>
             <li>Everything the mobile app recorded: rounds, Daily results, hand-offs to paper, and feedback</li>
             <li>Your answer to how you found us</li>
           </ul>
