@@ -77,7 +77,9 @@ const massRounds = <MassRound>[
   ),
   MassRound(
     subject: 'the same two blocks, a different question',
-    setting: 'The same two blocks arriving at the bottom of that ramp.',
+    setting:
+        'The same five kilogram and fifty kilogram blocks, let go together, '
+        'arriving at the bottom of the same frictionless ramp.',
     asked: 'Which one arrives with more ENERGY?',
     answer: Heavier.heavy,
     formula: r'T = \tfrac{1}{2}mv^2',

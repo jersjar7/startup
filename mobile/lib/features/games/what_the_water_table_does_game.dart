@@ -122,8 +122,8 @@ const tableMoveRounds = <ChangeRound>[
   ChangeRound(
     subject: 'and what the grains feel',
     asked:
-        'The same pumping. What happens to the EFFECTIVE stress at that same '
-        'point?',
+        'The water table is pumped from the surface down to six feet again. '
+        'What happens to the EFFECTIVE stress at the bottom of the clay?',
     before: _high,
     after: _pumped,
     at: 16,
@@ -174,7 +174,9 @@ const tableMoveRounds = <ChangeRound>[
   ),
   ChangeRound(
     subject: 'and what the fill does to the grains',
-    asked: 'The same fill. What happens to the effective stress in the clay?',
+    asked:
+        'Four hundred pounds a square foot of fill is spread over the whole '
+        'site again. What happens to the effective stress in the clay?',
     before: _plain,
     after: _loaded,
     at: 16,

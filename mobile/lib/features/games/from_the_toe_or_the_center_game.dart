@@ -178,8 +178,9 @@ const landingRounds = <LandingRound>[
   LandingRound(
     subject: 'what a student reported',
     asked:
-        'On the six foot base a student reports an eccentricity of 2.40 ft. '
-        'What have they actually reported?',
+        'On the six foot base the resultant crosses 2.40 ft from the toe, '
+        'and a student reports an eccentricity of 2.40 ft. What have they '
+        'actually reported?',
     wall: _sixFoot,
     showResultant: true,
     options: [

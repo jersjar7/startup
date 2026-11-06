@@ -141,8 +141,9 @@ const wedgeRounds = <WedgeRound>[
   WedgeRound(
     subject: 'dropping the cohesion',
     asked:
-        'Somebody forgets the cohesion term on that same wedge. What happens '
-        'to the answer?',
+        'Somebody forgets the cohesion term on the same wedge, whose factor '
+        'of safety is about 1.5 with it. What happens to the factor of '
+        'safety?',
     wedge: _noCohesion,
     options: [
       'It falls to about 0.78, and the slope is reported as failing',

@@ -114,7 +114,9 @@ const dropRounds = <DropRound>[
   ),
   DropRound(
     subject: 'the web of the same T',
-    setting: 'Same section, same reference. Now the WEB is picked out.',
+    setting:
+        'Same section, and the reference is still the bottom edge. Now the '
+        'WEB is picked out.',
     profile: _tee,
     piece: 0,
     drops: [
@@ -152,8 +154,8 @@ const dropRounds = <DropRound>[
   DropRound(
     subject: 'the web in the middle of three',
     setting:
-        'The same built-up section with the web picked out. It sits between '
-        'the two flanges.',
+        'The same built-up section, the reference still the bottom edge, with '
+        'the web picked out. It sits between the two flanges.',
     profile: _builtUp,
     piece: 1,
     drops: [

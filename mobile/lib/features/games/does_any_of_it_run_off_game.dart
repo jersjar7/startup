@@ -87,7 +87,7 @@ const soakRounds = <SoakRound>[
     source: 'wr-rr-q2',
   ),
   SoakRound(
-    subject: 'the same storm on a car park',
+    subject: 'a two inch storm on a car park',
     setting: 'Two inches of rain on paving with a curve number of 98.',
     soak: Soak(curveNumber: 98, rain: 2),
     why:

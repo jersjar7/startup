@@ -187,8 +187,8 @@ const furnaceRounds = <FurnaceRound>[
   FurnaceRound(
     subject: 'never got hot enough',
     setting:
-        'Heated to five hundred, held, and quenched into water just as hard '
-        'as the first one was.',
+        'Heated to five hundred, held, and then dropped into cold water. It '
+        'is at room temperature in seconds.',
     cool: _tooCool,
     options: [
       Comes.hardBrittle,

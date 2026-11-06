@@ -181,8 +181,9 @@ const startRounds = <StartRound>[
   StartRound(
     subject: 'the arithmetic that is not addition',
     asked:
-        'A student answers the two activity question with fifteen days. What '
-        'did they do?',
+        'A takes five days and B three, with B starting only when A is '
+        'finished. A student says B finishes on day fifteen. What did they '
+        'do?',
     network: _twoTask,
     highlight: 'B',
     options: [

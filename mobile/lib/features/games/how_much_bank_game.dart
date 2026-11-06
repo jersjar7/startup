@@ -97,8 +97,9 @@ const tiltRounds = <TiltRound>[
   TiltRound(
     subject: 'a student who forgot the tires',
     asked:
-        'Another student reports 22.5 per cent for this curve. What did they '
-        'leave out?',
+        'This curve asks for 0.225 and the tires can hold 0.15 of it. A '
+        'student reports 22.5 per cent for the tilt. What did they leave '
+        'out?',
     curve: _theCurve,
     options: [
       'The side friction: they asked the pavement for the whole demand',
@@ -118,7 +119,8 @@ const tiltRounds = <TiltRound>[
   TiltRound(
     subject: 'a decimal where a rate belongs',
     asked:
-        'A third student reports 0.075 per cent. What is the matter with it?',
+        'The tilt this curve needs is 0.075 as a decimal. A student reports '
+        '0.075 per cent. What is the matter with it?',
     curve: _theCurve,
     options: [
       'Nothing: it is the same number',

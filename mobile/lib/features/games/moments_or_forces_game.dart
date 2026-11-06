@@ -76,8 +76,9 @@ const checkRounds = <CheckRound>[
   CheckRound(
     subject: 'the ratio upside down',
     asked:
-        'Another student works the same wall and reports a factor of safety '
-        'of 0.33. What did they do?',
+        'A wall has 15,000 of resisting moment and 5,000 of overturning '
+        'moment. A student reports a factor of safety against overturning of '
+        '0.33. What did they do?',
     wall: _lessonWall,
     which: Check.overturning,
     options: [

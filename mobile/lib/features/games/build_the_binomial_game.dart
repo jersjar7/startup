@@ -115,7 +115,9 @@ const binomialRounds = <BinomialRound>[
     source: 'stat-dist-q2',
   ),
   BinomialRound(
-    scenario: 'The same ten samples, from the same plant.',
+    scenario:
+        'The same ten asphalt samples, from the same plant, where 90% of '
+        'samples pass the Marshall stability test.',
     ask: 'exactly 2 of the 10 fail',
     n: 10,
     x: 2,

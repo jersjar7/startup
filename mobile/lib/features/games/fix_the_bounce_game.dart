@@ -207,8 +207,9 @@ const bounceRounds = <BounceRound>[
   BounceRound(
     subject: 'timber against steel',
     setting:
-        'The same joist, the same span, the same load. One of the changes on '
-        'offer is to make it out of something else entirely.',
+        'A timber floor joist over a four meter room, under its usual load. '
+        'One of the changes on offer is to make it out of something else '
+        'entirely.',
     entry: Entry.ssUdl,
     span: 4000,
     cures: [

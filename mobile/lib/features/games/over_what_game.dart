@@ -121,8 +121,8 @@ const overRounds = <RatioRound2>[
   RatioRound2(
     subject: 'which side of the diagram',
     asked:
-        'Three of the four properties so far are ratios of volumes. The one '
-        'taken from the weights divides by what?',
+        'Of void ratio, porosity, water content and saturation, three are '
+        'ratios of volumes. The one taken from the weights divides by what?',
     soil: Soil(gs: 2.65, water: 0.15, voidRatio: 0.586),
     over: Phase.water,
     under: Phase.solids,

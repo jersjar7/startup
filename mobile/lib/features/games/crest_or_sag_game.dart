@@ -113,8 +113,8 @@ const criterionRounds = <CriterionRound>[
   CriterionRound(
     subject: 'the wrong rule on the right curve',
     asked:
-        'For this sag the answer is 497 ft. A student reports 334 ft. What '
-        'did they do?',
+        'This sag has an 8 per cent break and 300 ft to see, and the answer '
+        'is 497 ft. A student reports 334 ft. What did they do?',
     criterion: _theSag,
     options: [
       'Used the crest denominator on a sag curve',

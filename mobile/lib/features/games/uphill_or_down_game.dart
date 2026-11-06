@@ -134,7 +134,8 @@ const hillRounds = <HillRound>[
   HillRound(
     subject: 'a student with the sign reversed',
     asked:
-        'The right answer for the downgrade is 610 ft. A student reports 530. '
+        'On this 60 mph road the level answer is 566 ft and the four per '
+        'cent downgrade needs 610. A student reports 530 for the downgrade. '
         'What did they do?',
     stop: _down,
     against: _up,

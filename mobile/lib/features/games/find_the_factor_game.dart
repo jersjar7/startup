@@ -148,8 +148,8 @@ const cellRounds = <CellRound>[
   CellRound(
     subject: 'equipment that has run out',
     asset:
-        'The survey equipment from the first round is now in its seventh year '
-        'and is still in daily use.',
+        'The survey equipment from the first round, five year property, is '
+        'now in its seventh year and is still in daily use.',
     recovery: 5,
     ask: 'the deduction in year seven',
     year: 7,

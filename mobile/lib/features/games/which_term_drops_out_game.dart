@@ -176,8 +176,9 @@ const termGoneRounds = <TermRound3>[
   TermRound3(
     subject: 'the same clay, buried',
     asked:
-        'The clay footing from the first round is buried four feet deep. '
-        'Which term comes back?',
+        'A strip footing that sat on the surface of a clay, with the friction '
+        'angle taken as zero, is now buried four feet deep. Which term comes '
+        'back?',
     footing: _buriedClay,
     answer: Piece4.depth,
     why:

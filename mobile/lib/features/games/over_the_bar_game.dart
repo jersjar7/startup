@@ -113,7 +113,7 @@ const hurdleRounds = <HurdleRound>[
     subject: 'a year when nothing is worth doing',
     setting:
         'Borrowing costs have risen and the board has moved its minimum to '
-        'twenty percent. The same three proposals are back.',
+        'twenty percent. Three proposals come back.',
     marr: 20,
     projects: [('Transit', 18), ('Garage', 12), ('Plaza', 6)],
     why:

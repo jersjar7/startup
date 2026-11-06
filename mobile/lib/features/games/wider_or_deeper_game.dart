@@ -100,8 +100,8 @@ const fixRounds = <FixRound>[
   FixRound(
     subject: 'a footing on a sand',
     asked:
-        'The same question on a clean sand with a friction angle of 30 '
-        'degrees. Wider, deeper, or both?',
+        'A footing on a clean sand with a friction angle of 30 degrees is '
+        'short of bearing capacity. Wider, deeper, or both?',
     footing: _sand,
     answer: Remedy.both,
     why:
@@ -158,7 +158,9 @@ const fixRounds = <FixRound>[
   ),
   FixRound(
     subject: 'the flooded clay',
-    asked: 'The clay site floods too. Does widening the footing help NOW?',
+    asked:
+        'The footing on the undrained clay floods, so the clay is now below '
+        'the water table. Does widening the footing help NOW?',
     footing: _clay,
     answer: Remedy.deeper,
     why:

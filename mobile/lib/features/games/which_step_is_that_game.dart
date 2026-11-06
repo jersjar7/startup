@@ -76,8 +76,8 @@ const forecastStepRounds = <ForecastStepRound>[
   ForecastStepRound(
     subject: 'car, bus or on foot',
     asked:
-        'Now the model decides what fraction of those trips will be made by '
-        'transit. Which step?',
+        'Now the model decides what fraction of the trips between zones will '
+        'be made by transit. Which step?',
     highlight: Forecast.mode,
     answer: Forecast.mode,
     why:

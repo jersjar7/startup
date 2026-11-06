@@ -176,7 +176,8 @@ final transformRounds = <TransformRound>[
     subject: 'a timber beam with an aluminum cap',
     setting:
         'Aluminum is about six times stiffer than timber, so the ratio is '
-        'smaller and the three drawings sit closer together.',
+        'smaller and the three drawings sit closer together. Which drawing is '
+        'this beam written as though it were all timber?',
     beam: _clad,
     options: [Done.widenSoft, Done.widenStiff, Done.narrowStiff],
     why:
@@ -190,7 +191,9 @@ final transformRounds = <TransformRound>[
   TransformRound(
     subject: 'the same plated beam, with a fourth drawing on offer',
     setting:
-        'One of these keeps every width and makes the steel DEEPER instead.',
+        'Steel is about eight times stiffer than concrete. Which drawing is '
+        'this beam written as though it were all concrete? One of these keeps '
+        'every width and makes the steel DEEPER instead.',
     beam: _plated,
     options: [Done.deepenStiff, Done.widenStiff, Done.widenSoft],
     why:
@@ -204,8 +207,10 @@ final transformRounds = <TransformRound>[
   TransformRound(
     subject: 'the concrete beam again',
     setting:
-        'Two of these three drawings would give you a section stiffer than '
-        'the real beam and one would give you a softer one.',
+        'Steel is about eight times stiffer than concrete. Which drawing is '
+        'this beam written as though it were all concrete? Two of these three '
+        'would give you a section stiffer than the real beam and one would '
+        'give you a softer one.',
     beam: _sandwich,
     options: [Done.widenSoft, Done.narrowStiff, Done.widenStiff],
     why:
@@ -218,7 +223,9 @@ final transformRounds = <TransformRound>[
   ),
   TransformRound(
     subject: 'the timber and aluminum beam once more',
-    setting: 'Last one. The rule has not moved.',
+    setting:
+        'Last one. Aluminum is about six times stiffer than timber. Which '
+        'drawing is this beam written as though it were all timber?',
     beam: _clad,
     options: [Done.narrowStiff, Done.widenSoft, Done.widenStiff],
     why:

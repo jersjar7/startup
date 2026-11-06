@@ -73,8 +73,8 @@ const deepRounds = <DeepRound>[
   DeepRound(
     subject: 'the answer that is backwards',
     asked:
-        'One of the choices said the point was to increase the bearing '
-        'pressure on the soft clay. What is wrong with it?',
+        'Somebody says piles go under a column on soft clay to increase the '
+        'bearing pressure on the clay. What is wrong with that?',
     piles: 1,
     onFooting: true,
     options: [
@@ -162,8 +162,9 @@ const deepRounds = <DeepRound>[
   DeepRound(
     subject: 'and so the group settles',
     asked:
-        'Given that, how does the settlement of the group compare with the '
-        'settlement of a single pile under the same load per pile?',
+        'A pile group stresses the ground much deeper than one pile does. '
+        'How does the settlement of the group compare with the settlement of '
+        'a single pile under the same load per pile?',
     piles: 3,
     onFooting: false,
     options: [

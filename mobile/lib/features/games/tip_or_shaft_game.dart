@@ -186,8 +186,9 @@ const pileRounds = <PileRound>[
   PileRound(
     subject: 'what a bigger tip buys',
     asked:
-        'This pile is redesigned with twice the tip area and the same length. '
-        'What happens to the capacity?',
+        'The lesson\'s pile, 400 kN at the tip and 600 kN along the shaft, is '
+        'redesigned with twice the tip area and the same length. What happens '
+        'to the capacity?',
     pile: _theLessonPile,
     onRock: false,
     options: [

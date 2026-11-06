@@ -68,7 +68,9 @@ const verdicts = <Verdict>[
     source: 'math-lsc-q3',
   ),
   Verdict(
-    given: 'Same setup, different triangle.',
+    given:
+        'You worked the rearranged Law of Cosines on a different triangle and '
+        'this came out. What kind of angle is C?',
     latex: r'\cos C = 0.43',
     answer: AngleKind.acute,
     why: 'A positive cosine is an angle under 90 degrees.',

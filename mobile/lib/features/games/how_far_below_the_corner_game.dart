@@ -75,7 +75,10 @@ const pviOffsetRounds = <PviOffsetRound>[
   ),
   PviOffsetRound(
     subject: 'where the eight comes from',
-    asked: 'Why is the divisor eight, rather than four?',
+    asked:
+        'Plus three into minus five over 800 ft passes the corner by the '
+        'break as a decimal, times the length, over eight. Why is the '
+        'divisor eight, rather than four?',
     curve: _lessonCurve,
     options: [
       'It is arbitrary, and worth memorizing',
@@ -133,8 +136,9 @@ const pviOffsetRounds = <PviOffsetRound>[
   PviOffsetRound(
     subject: 'what the offset is for',
     asked:
-        'Why does a designer want this offset rather than just the curve '
-        'length?',
+        'Plus three into minus five over 800 ft passes eight feet from the '
+        'corner where the grades cross. Why does a designer want that offset '
+        'rather than just the curve length?',
     curve: _lessonCurve,
     options: [
       'It sets the design speed',

@@ -84,7 +84,9 @@ const shearRounds = <ShearRound>[
   ),
   ShearRound(
     subject: 'in between',
-    asked: 'And if the factored shear at the section were 15 kips?',
+    asked:
+        'The same beam, its concrete worth 26.3 kips, but the factored shear '
+        'at the section is 15 kips. What does the section need?',
     check: ShearCheck(concrete: 26.3, demand: 15),
     why:
         'Minimum stirrups. Between half the usable capacity and all of it, '

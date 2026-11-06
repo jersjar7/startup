@@ -118,8 +118,10 @@ const heatRounds = <HeatRound>[
   HeatRound(
     subject: 'the same gap, warmed further',
     setting:
-        'The identical bar and the identical gap, warmed by a hundred and '
-        'twenty degrees this time.',
+        'The identical steel bar, a meter long, with the identical gap of '
+        'nine tenths of a millimeter, warmed by a hundred and twenty degrees '
+        'this time. At forty degrees it wanted to grow about half a '
+        'millimeter.',
     rod: Rod(
       length: 1000,
       stuff: Stuff.steel,

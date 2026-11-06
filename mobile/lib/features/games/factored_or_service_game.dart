@@ -153,7 +153,9 @@ const designRounds = <DesignRound>[
   ),
   DesignRound(
     subject: 'are both allowed',
-    asked: 'Do the two methods both give a design the code will accept?',
+    asked:
+        'Do the two methods, LRFD and allowable stress design, both give a '
+        'design the code will accept?',
     options: [
       'Yes: they are two routes to the same margin and either may be used',
       'No: allowable stress design is no longer permitted',

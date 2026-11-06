@@ -148,8 +148,9 @@ const tubeRounds = <TubeRound>[
   TubeRound(
     subject: 'narrow oil against wide water',
     setting:
-        'A one millimeter tube in the oil, against a three millimeter tube in '
-        'water.',
+        'A one millimeter tube in an oil with about half the surface tension '
+        'of water and a slightly lighter body, against a three millimeter '
+        'tube in water.',
     left: Straw(millimeters: 1, sigma: 0.03, gamma: 8500, liquid: 'oil'),
     right: Straw(millimeters: 3),
     why:

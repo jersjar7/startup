@@ -177,7 +177,10 @@ const curveQuoteRounds = <CurveQuoteRound>[
   ),
   CurveQuoteRound(
     subject: 'the piece the road actually follows',
-    asked: 'On the same curve, what is the 628 ft on the list of choices?',
+    asked:
+        'On this curve, radius 1,200 ft turning through 30 degrees, a student '
+        'hands in 628 ft for the distance out to the corner. What is that '
+        '628 ft?',
     bend: _twelveHundred,
     piece: Bit.arc,
     note: 'R = 1,200, I = 30',

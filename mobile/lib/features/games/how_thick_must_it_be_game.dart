@@ -156,8 +156,9 @@ const thicknessRounds = <ThicknessRound>[
   ThicknessRound(
     subject: 'trading between courses',
     asked:
-        'An inch of asphalt is added instead. How much base could come out '
-        'while keeping the same structural number?',
+        'An inch of asphalt, worth 0.44 an inch, is added to this section. '
+        'How much base, worth 0.14 an inch, could come out while keeping the '
+        'same structural number?',
     pavement: _needsABase,
     options: [
       'One inch',

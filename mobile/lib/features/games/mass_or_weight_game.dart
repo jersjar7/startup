@@ -123,7 +123,7 @@ const unitRounds = <UnitRound>[
   ),
   UnitRound(
     subject: 'a force given in newtons',
-    setting: 'A horizontal push of 240 newtons acts on that crate.',
+    setting: 'A horizontal push of 240 newtons acts on a crate.',
     wanted: 'the FORCE, to put into F equals m a',
     answer: Prep.useAsIs,
     why:

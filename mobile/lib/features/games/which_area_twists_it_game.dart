@@ -71,7 +71,9 @@ const areaRounds = <AreaRound>[
   ),
   AreaRound(
     subject: 'a square hollow section',
-    setting: 'A square tube, the sort a handrail is made from. Same question.',
+    setting:
+        'A square tube, the sort a handrail is made from. Which shaded area '
+        'is A sub m?',
     tube: Tube(shape: TubeShape.square, width: 80, height: 80, wall: 4),
     panels: [Region.outer, Region.material, Region.median],
     why:

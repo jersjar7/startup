@@ -69,7 +69,9 @@ const gammaRounds = <GammaRound>[
   ),
   GammaRound(
     subject: 'the lightest of them',
-    asked: 'And which is the smallest?',
+    asked:
+        'For one soil at one void ratio, which of the four unit weights is '
+        'the smallest number?',
     soil: Soil(gs: 2.65, water: 0.15, voidRatio: 0.586),
     answer: Gamma.submerged,
     why:

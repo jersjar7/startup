@@ -179,7 +179,10 @@ const pairRounds = <PairRound>[
     source: 'mm-ssd-q2',
   ),
   PairRound(
-    setting: 'The same two materials.',
+    setting:
+        'The same two materials. The first yields at 250 and breaks at 400 '
+        'with 25 percent elongation. The second yields at 830, breaks at '
+        '830, and elongates half a percent.',
     ask: Ask.warns,
     first: Specimen(
       label: 'material one',

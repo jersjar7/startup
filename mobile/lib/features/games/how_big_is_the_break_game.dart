@@ -96,7 +96,7 @@ const breakRounds = <BreakRound>[
     subject: 'a sag with the same break',
     asked:
         'This one runs minus four into plus four. How does its break compare '
-        'with the crest above?',
+        'with a crest that runs plus three into minus five?',
     curve: _sag,
     options: [
       'Smaller: the grades are gentler',

@@ -130,8 +130,9 @@ const lapRounds = <LapRound>[
   LapRound(
     subject: 'two and a half turns round a post',
     setting:
-        'The same rope taken round and round the post instead. The load is '
-        'still trying to run away in the same direction.',
+        'A rope is taken two and a half turns round a post. A load on one end '
+        'is winning and the rope is creeping as the chevrons show. One hand '
+        'holds the other end.',
     lap: Lap(
       startDeg: 90,
       sweepDeg: 900,

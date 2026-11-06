@@ -100,8 +100,8 @@ const batchRounds = <ChangeRound>[
     before: Mix(wc: 0.45),
     after: Mix(wc: 0.45, plasticized: true),
     change:
-        'The same stiff mix, but a superplasticizer goes in rather than the '
-        'extra water. It pours well now.',
+        'The mix is stiff and hard to place, so a superplasticizer goes in '
+        'rather than more water. It pours well now.',
     why:
         'No real change in strength, which is the whole point of the '
         'admixture. Workability went up and the ratio did not move, so the '

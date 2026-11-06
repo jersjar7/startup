@@ -160,8 +160,9 @@ const downdragRounds = <DowndragRound>[
   DowndragRound(
     subject: 'the choice that reverses it',
     asked:
-        'One of the wrong answers called it positive skin friction that '
-        'increases capacity. Why is that tempting?',
+        'Clay settling past a pile drags it down. A common wrong answer calls '
+        'that drag friction that adds to the pile capacity. Why is that '
+        'tempting?',
     pile: _pile,
     dragging: true,
     options: [

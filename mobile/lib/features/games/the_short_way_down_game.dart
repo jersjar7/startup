@@ -111,8 +111,8 @@ const profileWalkRounds = <RouteRound>[
   RouteRound(
     subject: 'above it',
     asked:
-        'And for the dry sand above the water table, walking the same way '
-        'down?',
+        'Walking down the profile to build the effective stress directly, '
+        'which weight do you use for the dry sand above the water table?',
     deposit: _sandOverClay,
     at: 13,
     options: [

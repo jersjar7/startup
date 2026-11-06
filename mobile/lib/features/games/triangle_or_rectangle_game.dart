@@ -76,7 +76,10 @@ const shapeRounds2 = <ShapeRound2>[
   ),
   ShapeRound2(
     subject: 'where the soil pushes',
-    asked: 'Whereabouts on the wall does the resultant of that triangle act?',
+    asked:
+        'With only soil behind the wall, the pressure is a triangle: nothing '
+        'at the top, most at the base. Whereabouts on the wall does the '
+        'resultant of that triangle act?',
     backfill: _plainWall,
     options: [
       'Half way up',
@@ -114,7 +117,9 @@ const shapeRounds2 = <ShapeRound2>[
   ),
   ShapeRound2(
     subject: 'where the surcharge pushes',
-    asked: 'And where does the rectangle\'s resultant act?',
+    asked:
+        'The surcharge adds a rectangle of pressure, the same at every '
+        'depth. Where does that rectangle\'s resultant act?',
     backfill: _loadedWall,
     options: [
       'A third of the way up',

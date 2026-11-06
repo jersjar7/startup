@@ -121,8 +121,8 @@ const wallHeightRounds = <WallHeightRound>[
   WallHeightRound(
     subject: 'and the overturning',
     asked:
-        'That same doubling: what happens to the moment trying to tip the '
-        'wall about its toe?',
+        'The wall goes from fifteen feet to thirty on the same soil. What '
+        'happens to the moment trying to tip the wall about its toe?',
     backfill: _thirty,
     against: _fifteen,
     options: [
