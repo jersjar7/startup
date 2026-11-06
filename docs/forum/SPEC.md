@@ -196,7 +196,7 @@ Two new collections, plus one field on users.
 - `_id`, `questionId`, `body`, `authorEmail`, `authorName`, `status`,
   `createdAt`, `reports`
 
-`users.forumTrusted: true` after the first approval, and
+`users.forumTrusted: true` after three posts go up with none hidden, `users.forumHiddenCount`, and
 `users.forumEmails: false` when a student turns forum emails off.
 
 Indexes: `forumQuestions` on `slug` (unique), `{status, pinned, lastActivityAt}`,
