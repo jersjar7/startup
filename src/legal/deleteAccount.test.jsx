@@ -99,9 +99,14 @@ describe('what the page promises matches what the code erases', () => {
       'chapterTestAttempts',
       // Weekly leagues (ADR 0037); the page's XP line covers them.
       'leagueStanding',
-      // A school licence seat (ADR 0040); the page's simulation line covers it.
-      'schoolLicenseClaims',
     ]));
+  });
+
+  it('gives a school seat back, and the page says so', () => {
+    // ADR 0040: the claim is removed and the school's seat count goes down.
+    expect(deletion).toContain('releaseClaimsForDeletedUser(userId)');
+    mount();
+    expect(screen.getByText(/seat your school gave you goes back to your school/i)).toBeInTheDocument();
   });
 
   it('keeps exactly one row, the tally, and the page says so', () => {

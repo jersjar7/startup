@@ -16,8 +16,8 @@ const {
   deletionLogCollection,
   leagueStandingCollection,
   leagueGroupsCollection,
-  schoolLicenseClaimsCollection,
 } = require('./connection');
+const { releaseClaimsForDeletedUser } = require('./schoolLicenses');
 const { deletionRecord } = require('../deletionRecord.js');
 
 // Remove every trace of a user across all collections — email-keyed AND
@@ -65,9 +65,9 @@ async function deleteAllUserData(email, userId, { reason = 'user' } = {}) {
     ...(userId ? [
       purchasesCollection.deleteMany({ userId }),
       examAttemptsCollection.deleteMany({ userId }),
-      // A school seat (ADR 0040): the claim goes, the licence's seatsUsed
-      // counter does not go down. The school paid for that seat.
-      schoolLicenseClaimsCollection.deleteMany({ userId }),
+      // A school seat (ADR 0040): the claim goes and the seat goes back to
+      // the school, so another student can take it.
+      releaseClaimsForDeletedUser(userId),
     ] : []),
   ]);
   await userCollection.deleteOne({ email });

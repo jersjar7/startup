@@ -75,13 +75,12 @@ describe('account changes', () => {
     expect(decideSimAccess({ user: moved, licenses: [lic] })).toMatchObject({ access: false, reason: 'unverified' });
   });
 
-  it('account deletion removes the seat claim and leaves the seat counted', () => {
+  it('account deletion releases the seat claim, giving the seat back', () => {
     const src = fs.readFileSync(path.join(__dirname, 'db/accountDeletion.js'), 'utf8');
-    expect(src).toContain('schoolLicenseClaimsCollection.deleteMany({ userId })');
-    expect(src).not.toMatch(/schoolLicensesCollection|\$inc/);
+    expect(src).toContain('releaseClaimsForDeletedUser(userId)');
   });
 
-  it('licence access never writes a purchase or the purchase flag', () => {
+  it('license access never writes a purchase or the purchase flag', () => {
     for (const f of ['simAccess.js', 'schoolAccess.js', 'db/schoolLicenses.js']) {
       const src = fs.readFileSync(path.join(__dirname, f), 'utf8');
       expect(src, f).not.toMatch(/recordPurchase|purchasesCollection|examSimAccess:\s*true/);

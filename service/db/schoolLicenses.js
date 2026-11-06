@@ -1,14 +1,14 @@
-// School site licences (ADR 0040): storage. The rule is schoolAccess.js and
+// School site licenses (ADR 0040): storage. The rule is schoolAccess.js and
 // the entitlement check that joins the two is simAccess.js.
 //
-// schoolLicenses        one row per licence a college bought
+// schoolLicenses        one row per license a college bought
 // schoolLicenseClaims   one row per student holding a seat, unique per
-//                       (licenseId, userId); the licence's seatsUsed counter is
+//                       (licenseId, userId); the license's seatsUsed counter is
 //                       the number that is compared to the cap
 const { ObjectId } = require('mongodb');
 const { schoolLicensesCollection, schoolLicenseClaimsCollection } = require('./connection');
 
-/// Licences that list any of these domains. All states; the rule filters.
+/// Licenses that list any of these domains. All states; the rule filters.
 async function findLicensesForDomains(domains) {
   const list = [...new Set((domains || []).filter(Boolean))];
   if (!list.length) return [];
@@ -19,7 +19,7 @@ async function getClaimsForUser(userId) {
   return schoolLicenseClaimsCollection.find({ userId: String(userId) }).toArray();
 }
 
-/// Take a seat on a licence for a student. Idempotent: a student who already
+/// Take a seat on a license for a student. Idempotent: a student who already
 /// holds one gets true without a second seat being counted.
 ///
 /// The claim row goes in first (its unique index stops a double claim), then
@@ -72,13 +72,25 @@ async function updateSchoolLicense(id, fields) {
   return res && res.value !== undefined ? res.value : res;
 }
 
-/// Account deletion: the student's claim goes, the seat stays counted. The
-/// school paid for that seat and a counter that went down would let the
-/// licence quietly hand out more seats than it was sold.
+/// Account deletion gives the seat back to the school (owner, 2026-11-06).
+///
+/// Race-safe: each claim is removed by its own id, and only the request that
+/// actually removed it lowers the counter, so two deletions arriving together
+/// cannot hand back one seat twice. The counter never goes below zero.
 async function releaseClaimsForDeletedUser(userId) {
   if (!userId) return 0;
-  const res = await schoolLicenseClaimsCollection.deleteMany({ userId: String(userId) });
-  return res.deletedCount || 0;
+  const claims = await schoolLicenseClaimsCollection.find({ userId: String(userId) }).toArray();
+  let released = 0;
+  for (const c of claims) {
+    const gone = await schoolLicenseClaimsCollection.deleteOne({ _id: c._id });
+    if (gone.deletedCount !== 1) continue;
+    await schoolLicensesCollection.updateOne(
+      { _id: c.licenseId, seatsUsed: { $gt: 0 } },
+      { $inc: { seatsUsed: -1 } },
+    );
+    released += 1;
+  }
+  return released;
 }
 
 module.exports = {
