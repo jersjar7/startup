@@ -3,13 +3,13 @@
   "title": "FE Civil",
   "format": 2,
   "latest": {
-    "version": 26,
+    "version": 27,
     "format": 2,
-    "file": "fe-civil-v26-cafd1657567b.json",
-    "sha256": "cafd1657567be1e6bc7c70ce05589efb15ccbaf2cf9edf733aad9edd5b695d72",
-    "bytes": 55883726,
-    "gzipBytes": 3526817,
-    "published": "2026-11-06T01:47:02.880Z",
+    "file": "fe-civil-v27-645f319fbc4d.json",
+    "sha256": "645f319fbc4d7251d8f2e24ff10947ec7e6a9152094a94a694dc7ea2e30699de",
+    "bytes": 55886541,
+    "gzipBytes": 3527225,
+    "published": "2026-11-06T04:57:10.282Z",
     "lessons": {
       "mathematics/straight-lines-quadratics": "1.2.0",
       "mathematics/logarithms": "1.2.0",
@@ -149,14 +149,14 @@
     },
     "chapters": {
       "mathematics": {
-        "file": "fe-civil.mathematics.166e54626f3c.json",
-        "sha256": "166e54626f3cd4856f6864e441c16452691098988e0fcc44a82f3fb10195792a",
-        "gzipBytes": 367606
+        "file": "fe-civil.mathematics.fa43ce7b68b9.json",
+        "sha256": "fa43ce7b68b9d23a0b626b28f628134479e6a64df247b2adb67bb4375b349ee4",
+        "gzipBytes": 367602
       },
       "statistics": {
-        "file": "fe-civil.statistics.c8d69d1d9927.json",
-        "sha256": "c8d69d1d992723f512671ce466cc49bc9e0bf0fe52d8b48e9681bbd7579ca0ba",
-        "gzipBytes": 271044
+        "file": "fe-civil.statistics.8d848f3f459c.json",
+        "sha256": "8d848f3f459c76bc5222afb88e374dbdfb41190da976745a4486b3b68dfaab7e",
+        "gzipBytes": 271050
       },
       "ethics": {
         "file": "fe-civil.ethics.f238a07b2fcb.json",
@@ -164,34 +164,34 @@
         "gzipBytes": 85080
       },
       "economics": {
-        "file": "fe-civil.economics.d093f48f2c0b.json",
-        "sha256": "d093f48f2c0b11c3cae048703fbb8f749f23b25ff42bb6e3a08ecacae1ac8671",
-        "gzipBytes": 145576
+        "file": "fe-civil.economics.f0c7c53d33c4.json",
+        "sha256": "f0c7c53d33c42fef8551257c9e46cc71ea9da17ed273fd4cc561c75a39be0e33",
+        "gzipBytes": 145573
       },
       "statics": {
-        "file": "fe-civil.statics.af7642db35ce.json",
-        "sha256": "af7642db35ce934b952c7e49d81cd39e8a6c7f631d994d0c0988449d712f5c33",
-        "gzipBytes": 448097
+        "file": "fe-civil.statics.a9890f380203.json",
+        "sha256": "a9890f38020395891f4209677056fdbbeb712bbfd50b8a5fc01eadd86f4eaa95",
+        "gzipBytes": 448123
       },
       "dynamics": {
-        "file": "fe-civil.dynamics.a0d36750a329.json",
-        "sha256": "a0d36750a32971dd7e1164a50c3254defce31b20bd109515a0167d1f930ccd4f",
-        "gzipBytes": 267169
+        "file": "fe-civil.dynamics.0577dd9fe099.json",
+        "sha256": "0577dd9fe09970a5dc82a332a13bdf9314238d99eee53e768f8ca0965bb986d9",
+        "gzipBytes": 267177
       },
       "mechanics-materials": {
-        "file": "fe-civil.mechanics-materials.f5fa473c9b6d.json",
-        "sha256": "f5fa473c9b6d502c09a5f24d73dc6b64607e0da9cf1736a95f11a25a5895f428",
-        "gzipBytes": 258927
+        "file": "fe-civil.mechanics-materials.8606562a5216.json",
+        "sha256": "8606562a5216948fb0c4af063775d6d8f8be8203754b22d3681d413b10a31bf0",
+        "gzipBytes": 258977
       },
       "materials": {
-        "file": "fe-civil.materials.5c9f4782c5b4.json",
-        "sha256": "5c9f4782c5b4503b823d9f4e8c184d2863a7676e4929eb6ace172295e8c4a73e",
-        "gzipBytes": 147569
+        "file": "fe-civil.materials.8950c14856d8.json",
+        "sha256": "8950c14856d8b93fbc2da6ced291e5dd42aaf4d63d2d95f6d0b6504bb56c770e",
+        "gzipBytes": 147557
       },
       "fluid-mechanics": {
-        "file": "fe-civil.fluid-mechanics.bf24606cc244.json",
-        "sha256": "bf24606cc2441cf59a5152279b121ecbbc0a1b3cd831aeea5c0ca92d371a7fc3",
-        "gzipBytes": 192911
+        "file": "fe-civil.fluid-mechanics.4ed3c92e94a0.json",
+        "sha256": "4ed3c92e94a06a894a6f1ec70db8a38109c05c72f0a3ee81b88559e7c0fe11e1",
+        "gzipBytes": 192940
       },
       "surveying": {
         "file": "fe-civil.surveying.cab588be33be.json",
@@ -199,29 +199,29 @@
         "gzipBytes": 259245
       },
       "water-resources": {
-        "file": "fe-civil.water-resources.371bfcc4a06c.json",
-        "sha256": "371bfcc4a06c2db415cf38d4922c1842e6fded38e2309b6c58b8addd4c729898",
+        "file": "fe-civil.water-resources.e00bf5f0099e.json",
+        "sha256": "e00bf5f0099eaa7dc82dbc1f5f0dde3052083e04d2d7bf57a37f4999ac4019ee",
         "gzipBytes": 253494
       },
       "structural": {
-        "file": "fe-civil.structural.b4f2e5a1bd93.json",
-        "sha256": "b4f2e5a1bd93e6b66b9d6bac94f07a3c8958c28f5d8fdb6361a371e1e0d193b1",
-        "gzipBytes": 163214
+        "file": "fe-civil.structural.adc34a9bd21a.json",
+        "sha256": "adc34a9bd21aaeb4ce9d6d6807d5d7e77a7c9c9ff0256280a9524da66d1a4f4e",
+        "gzipBytes": 163218
       },
       "geotechnical": {
-        "file": "fe-civil.geotechnical.22ba49a6f09d.json",
-        "sha256": "22ba49a6f09d5991666bf9f9812b7300f82235bc4a5f4fdc121aa2c9560d8a16",
-        "gzipBytes": 350884
+        "file": "fe-civil.geotechnical.a7739b52fa75.json",
+        "sha256": "a7739b52fa75b4bc3e2bc81a392e1d5781c60e32ecfda9c77ea6f5e0aed05f62",
+        "gzipBytes": 351006
       },
       "transportation": {
-        "file": "fe-civil.transportation.ed64620223f3.json",
-        "sha256": "ed64620223f3dc0985d37833fbb24976048ca10872ad75e1481beebc9515d8a1",
-        "gzipBytes": 271931
+        "file": "fe-civil.transportation.68da14e1a05c.json",
+        "sha256": "68da14e1a05c8777832fe37891f1a22ede7191e16426de5a7e558e41914f8aa8",
+        "gzipBytes": 272098
       },
       "construction": {
-        "file": "fe-civil.construction.3f1270c5d47d.json",
-        "sha256": "3f1270c5d47de5dd66aff96a52b1a19c2d82a22abe392e0e9d493269fac35dcd",
-        "gzipBytes": 38057
+        "file": "fe-civil.construction.1d0e52ecde39.json",
+        "sha256": "1d0e52ecde395931f6ac9b2d35000f068ea34cd367a714be28e673fc22a3e4a1",
+        "gzipBytes": 38075
       }
     }
   },
@@ -281,6 +281,13 @@
       "file": "fe-civil-v26-cafd1657567b.json",
       "sha256": "cafd1657567be1e6bc7c70ce05589efb15ccbaf2cf9edf733aad9edd5b695d72",
       "published": "2026-11-06T01:47:02.880Z"
+    },
+    {
+      "version": 27,
+      "format": 2,
+      "file": "fe-civil-v27-645f319fbc4d.json",
+      "sha256": "645f319fbc4d7251d8f2e24ff10947ec7e6a9152094a94a694dc7ea2e30699de",
+      "published": "2026-11-06T04:57:10.282Z"
     }
   ]
 }
