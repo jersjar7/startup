@@ -115,6 +115,11 @@ export function Admin({ userName, onLogout }) {
     }
   }
 
+  // On a phone the tab row scrolls sideways; keep the open tab in view.
+  React.useEffect(() => {
+    document.getElementById(`admin-tab-${tab}`)?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
+  }, [tab]);
+
   const handleLogout = () => { onLogout(); navigate('/'); };
 
   if (state.loading) return <LoadingState />;

@@ -205,7 +205,7 @@ export function SchoolLicensesPanel() {
           <GraduationCap weight="bold" size={18} />
           <h3>School licences</h3>
           <span className="admin-section-note">
-            {licenses ? `${active.length} active · ${seatsInUse} seats in use` : 'loading'}
+            {licenses ? `${active.length} active · ${seatsInUse} ${seatsInUse === 1 ? 'seat' : 'seats'} in use` : 'loading'}
           </span>
         </div>
         {editing !== 'new' && (

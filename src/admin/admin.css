@@ -801,20 +801,20 @@
   white-space: pre-wrap;
   word-break: break-all;
 }
+/* Type alone, never on a pill. */
 .lic-state {
   flex-shrink: 0;
-  font-family: var(--font-heading);
+  font-family: var(--font-mono);
   font-weight: 600;
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-radius: 6px;
-  padding: 0.25rem 0.5rem;
+  padding-top: 0.2rem;
 }
-.lic-state--active { background: var(--forest-bg); color: var(--forest); }
-.lic-state--scheduled { background: var(--sunbeam-bg); color: var(--charcoal); }
+.lic-state--active { color: var(--forest); }
+.lic-state--scheduled { color: var(--charcoal); }
 .lic-state--expired,
-.lic-state--ended { background: var(--cream-dark); color: var(--gray-600); }
+.lic-state--ended { color: var(--gray-500); }
 .lic-dates {
   font-size: 0.85rem;
   color: var(--gray-600);
@@ -961,5 +961,5 @@
   .lic-list { grid-template-columns: minmax(0, 1fr); }
   .lic-card, .lic-form { padding: 1.1rem 1.1rem 1.25rem; }
   .lic-form-grid { grid-template-columns: minmax(0, 1fr); }
-  .lic-new { width: 100%; justify-content: center; }
+  .lic-new { width: 100%; justify-content: center; margin-bottom: 0.5rem; }
 }

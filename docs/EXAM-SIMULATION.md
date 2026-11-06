@@ -76,6 +76,17 @@ someone the app still considers active.
 
 ---
 
+## Who has access
+
+`resolveSimAccess` in `service/simAccess.js` is the one check: a completed
+purchase (`hasPurchased`), or a seat on an active school site licence for one
+of the student's verified school addresses ([ADR-0040](adr/0040-school-site-licences.md)).
+Every `/exam/*` route and `/checkout/status` ask it; only `/exam/start` claims a
+seat. A licence that ends while an attempt it started is `in_progress` does not
+end that attempt: it can still be resumed, autosaved, submitted and graded on
+expiry, but no new one starts. Licence access never writes a purchase row, so
+it never reaches a sales or revenue figure.
+
 ## Data model (`examAttempts`)
 
 | Field | Meaning |
@@ -88,6 +99,8 @@ someone the app still considers active.
 | `autoSubmitted` | true when graded by expiry rather than by the customer |
 | `lateSubmission` | submitted past the deadline; recorded, never rejected |
 | `timeUsedSeconds` | max(client-reported, server elapsed), capped at the limit |
+| `accessVia` | `purchase` \| `school`: how the student got in (ADR-0040) |
+| `schoolLicenseId` | the licence, when `accessVia` is `school` |
 
 A late submit is **recorded, not refused** — refusing it would throw away the
 customer's work, which is the failure this whole area exists to prevent.
