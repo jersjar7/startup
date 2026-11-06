@@ -1,6 +1,10 @@
 const { MongoClient } = require('mongodb');
 
-const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOSTNAME}`;
+// DB_URL, when set, is a full connection string and wins. It exists for local
+// end-to-end runs against a throwaway in-memory MongoDB; production sets the
+// three DB_* parts and never DB_URL.
+const url = process.env.DB_URL
+  || `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOSTNAME}`;
 const client = new MongoClient(url);
 const db = client.db('fe4raccoons');
 
@@ -42,6 +46,10 @@ const waitlistCollection = db.collection('waitlist');
 // one standing per student holding their tier.
 const leagueGroupsCollection = db.collection('leagueGroups');
 const leagueStandingCollection = db.collection('leagueStanding');
+// School site licences (ADR 0040, ./schoolLicenses.js): one row per licence,
+// and one claim per student holding a seat on it.
+const schoolLicensesCollection = db.collection('schoolLicenses');
+const schoolLicenseClaimsCollection = db.collection('schoolLicenseClaims');
 
 // Test connection and create indexes on startup
 // Unit tests import route modules that pull this in; they never touch the
@@ -49,7 +57,7 @@ const leagueStandingCollection = db.collection('leagueStanding');
 if (!process.env.VITEST) (async function testConnection() {
   try {
     await db.command({ ping: 1 });
-    console.log(`DB connected to ${process.env.DB_HOSTNAME}`);
+    console.log(`DB connected to ${process.env.DB_URL ? 'DB_URL' : process.env.DB_HOSTNAME}`);
 
     // Ensure indexes exist
     await topicCollection.createIndex({ topicId: 1 }, { unique: true });
@@ -93,6 +101,10 @@ if (!process.env.VITEST) (async function testConnection() {
     await leagueGroupsCollection.createIndex({ weekId: 1, members: 1 });
     await leagueGroupsCollection.createIndex({ closedAt: 1, weekId: 1 });
     await leagueStandingCollection.createIndex({ email: 1 }, { unique: true });
+    await schoolLicensesCollection.createIndex({ domains: 1 });
+    // One seat per student per licence, whatever races to claim it.
+    await schoolLicenseClaimsCollection.createIndex({ licenseId: 1, userId: 1 }, { unique: true });
+    await schoolLicenseClaimsCollection.createIndex({ userId: 1 });
   } catch (ex) {
     console.log(`Unable to connect to database because ${ex.message}`);
     process.exit(1);
@@ -111,6 +123,8 @@ module.exports = {
   waitlistCollection,
   leagueGroupsCollection,
   leagueStandingCollection,
+  schoolLicensesCollection,
+  schoolLicenseClaimsCollection,
   client,
   db,
   ping,

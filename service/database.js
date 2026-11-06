@@ -18,6 +18,7 @@ const daily = require('./db/daily');
 const chapterTests = require('./db/chapterTests');
 const waitlist = require('./db/waitlist');
 const leagues = require('./db/leagues');
+const schoolLicenses = require('./db/schoolLicenses');
 
 module.exports = {
   ...syncEvents,
@@ -28,6 +29,7 @@ module.exports = {
   ...chapterTests,
   ...waitlist,
   ...leagues,
+  ...schoolLicenses,
   ping,
   ...users,
   ...topics,
