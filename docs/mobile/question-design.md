@@ -386,7 +386,7 @@ whether the kit is right, and only then spend the 135-lesson authoring budget.
 ## The item-level litmus test
 
 The North Star's six questions still gate every *feature*. Every *item* also has
-to pass these five:
+to pass these six:
 
 1. **No arithmetic?** Could a student answer it correctly with no pen, no
    calculator, standing on a bus?
@@ -396,6 +396,14 @@ to pass these five:
 4. **Traceable?** Does every word trace to the source problem's own text?
 5. **Honest?** Does it avoid implying that getting it right means they can solve
    the real problem?
+6. **Stands alone?** Can the round be answered from its own question plus what
+   is on screen BEFORE the answer? Every number the student needs is in the
+   question or visible in the drawing up front, never only in the reveal. A
+   round may build on the round before ("the same beam"), but it names the
+   thing again in a few words and restates any value it needs. No bare
+   "those", "that one" or "it" pointing back to an earlier round.
+   (Student flag, 2026-11-05: Damage, Not Weight round 3 said "those axles"
+   and its factor only appeared after answering.)
 
 Fail any one and the item is redesigned or dropped.
 
