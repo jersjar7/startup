@@ -320,7 +320,7 @@
   text-decoration: underline;
 }
 
-/* ── School site licence (ADR 0040) ── */
+/* ── School site license (ADR 0040) ── */
 .exam-gate-card--school {
   border-top-color: var(--forest);
 }
@@ -565,6 +565,13 @@
   border-radius: var(--radius-xl);
   padding: 1.5rem 2rem;
   box-shadow: var(--shadow-card);
+}
+/* Inside the gate card: the card is already the surface. */
+.exam-attempts-section--inline {
+  padding: 0;
+  box-shadow: none;
+  border-radius: 0;
+  margin: 0.25rem 0 0.5rem;
 }
 
 .exam-attempts-title {

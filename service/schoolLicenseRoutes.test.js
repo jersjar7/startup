@@ -8,7 +8,7 @@ const { ObjectId } = require('mongodb');
 const DB = require('./database.js');
 const { hashToken } = require('./crypto.js');
 
-// School site licences (ADR 0040) through the real routes, against an
+// School site licenses (ADR 0040) through the real routes, against an
 // in-memory store: the exam gate, the checkout status the pages read, the
 // student code that unlocks it, and the owner-only admin endpoints.
 
@@ -66,7 +66,7 @@ beforeEach(() => {
     logEvent: async () => {},
 
     hasPurchased: async (userId) => purchases.some((p) => p.userId === userId && p.status === 'completed'),
-    recordPurchase: async () => { throw new Error('a licence must never record a purchase'); },
+    recordPurchase: async () => { throw new Error('a license must never record a purchase'); },
 
     findLicensesForDomains: async (domains) => licenses
       .filter((l) => l.domains.some((d) => domains.includes(d)))
@@ -135,7 +135,7 @@ const start = (server, email) => request(server).post('/api/exam/start').set(as(
 const status = (server, email) => request(server).get('/api/checkout/status').set(as(email));
 const codeVerifiedAt = (school) => ({ studentVerified: true, verifiedStudentEmail: school });
 
-describe('the exam gate, through a school licence', () => {
+describe('the exam gate, through a school license', () => {
   it('lets a code-verified student in, takes one seat, and never records a sale', async () => {
     const lic = addLicense();
     const u = addUser('jane@gmail.com', codeVerifiedAt('jane@byu.edu'));
@@ -171,7 +171,7 @@ describe('the exam gate, through a school licence', () => {
     expect(lic.seatsUsed).toBe(0);
   });
 
-  it('turns away a verified student at a school with no licence', async () => {
+  it('turns away a verified student at a school with no license', async () => {
     addLicense();
     const u = addUser('lee@gmail.com', codeVerifiedAt('lee@utah.edu'));
     const res = await start(app(), u.email);
@@ -206,13 +206,13 @@ describe('the exam gate, through a school licence', () => {
     expect(claims).toHaveLength(1);
   });
 
-  it('an expired licence lets nobody start', async () => {
+  it('an expired license lets nobody start', async () => {
     addLicense({ endsAt: new Date(Date.now() - DAY) });
     const u = addUser('jane@gmail.com', codeVerifiedAt('jane@byu.edu'));
     expect((await start(app(), u.email)).status).toBe(403);
   });
 
-  it('a licence ending mid-exam does not end the exam, but no new one starts', async () => {
+  it('a license ending mid-exam does not end the exam, but no new one starts', async () => {
     const lic = addLicense();
     const u = addUser('jane@gmail.com', codeVerifiedAt('jane@byu.edu'));
     const server = app();
@@ -246,7 +246,60 @@ describe('the exam gate, through a school licence', () => {
     expect(next.status).toBe(403);
   });
 
-  it('the status tells a student whose licence ended that their exam is still open', async () => {
+  it('after a license ends, a student keeps their past results and reviews, and cannot start again', async () => {
+    const lic = addLicense();
+    const u = addUser('jane@gmail.com', codeVerifiedAt('jane@byu.edu'));
+    const server = app();
+    const first = await start(server, u.email);
+    await request(server).post('/api/exam/submit').set(as(u.email))
+      .send({ attemptId: first.body.attemptId, answers: [], timeUsedSeconds: 60 });
+    lic.endedAt = new Date();
+
+    const list = await request(server).get('/api/exam/attempts').set(as(u.email));
+    expect(list.status).toBe(200);
+    expect(list.body.map((a) => a.attemptId)).toEqual([first.body.attemptId]);
+
+    const one = await request(server).get(`/api/exam/attempt/${first.body.attemptId}`).set(as(u.email));
+    expect(one.status).toBe(200);
+    expect(one.body.questions).toHaveLength(110);
+
+    const st = await status(server, u.email);
+    expect(st.body).toMatchObject({ purchased: false, schoolHistory: true });
+
+    expect((await start(server, u.email)).status).toBe(403);
+  });
+
+  it('after a license ends, results sat on a refunded purchase stay hidden', async () => {
+    const lic = addLicense();
+    const u = addUser('jane@gmail.com', codeVerifiedAt('jane@byu.edu'));
+    const server = app();
+    const school = await start(server, u.email);
+    await request(server).post('/api/exam/submit').set(as(u.email))
+      .send({ attemptId: school.body.attemptId, answers: [], timeUsedSeconds: 60 });
+    const bought = new ObjectId();
+    attempts.push({ _id: bought, userId: u._id.toString(), attemptNumber: 2, status: 'completed', accessVia: 'purchase', questions: [] });
+    lic.endedAt = new Date();
+
+    const list = await request(server).get('/api/exam/attempts').set(as(u.email));
+    expect(list.body.map((a) => a.attemptId)).toEqual([school.body.attemptId]);
+    const hidden = await request(server).get(`/api/exam/attempt/${bought}`).set(as(u.email));
+    expect(hidden.status).toBe(403);
+  });
+
+  it('a refunded buyer keeps today\'s behaviour: past results close with the refund', async () => {
+    const u = addUser('buyer@gmail.com');
+    purchases.push({ userId: u._id.toString(), status: 'completed' });
+    const server = app();
+    const first = await start(server, u.email);
+    await request(server).post('/api/exam/submit').set(as(u.email))
+      .send({ attemptId: first.body.attemptId, answers: [], timeUsedSeconds: 60 });
+    purchases[0].status = 'refunded';
+    expect((await request(server).get('/api/exam/attempts').set(as(u.email))).status).toBe(403);
+    expect((await request(server).get(`/api/exam/attempt/${first.body.attemptId}`).set(as(u.email))).status).toBe(403);
+    expect((await status(server, u.email)).body.schoolHistory).toBeUndefined();
+  });
+
+  it('the status tells a student whose license ended that their exam is still open', async () => {
     const lic = addLicense();
     const u = addUser('jane@gmail.com', codeVerifiedAt('jane@byu.edu'));
     const server = app();
@@ -256,7 +309,7 @@ describe('the exam gate, through a school licence', () => {
     expect(res.body).toMatchObject({ purchased: false, unfinishedSchoolExam: true });
   });
 
-  it('an attempt that ran out of time after the licence ended is graded, not dropped', async () => {
+  it('an attempt that ran out of time after the license ended is graded, not dropped', async () => {
     addLicense({ endedAt: new Date() });
     const u = addUser('jane@gmail.com', codeVerifiedAt('jane@byu.edu'));
     const questions = Array.from({ length: 20 }, (_, i) => ({
@@ -338,7 +391,7 @@ describe('GET /api/checkout/status', () => {
     expect(res.body).toMatchObject({ purchased: false, schoolReason: 'unverified' });
   });
 
-  it('a full licence says so', async () => {
+  it('a full license says so', async () => {
     addLicense({ seatCap: 1, seatsUsed: 1 });
     const u = addUser('late@gmail.com', codeVerifiedAt('late@byu.edu'));
     const res = await status(app(), u.email);
@@ -353,7 +406,7 @@ describe('GET /api/checkout/status', () => {
   });
 });
 
-describe('the student code unlocks the licence', () => {
+describe('the student code unlocks the license', () => {
   it('confirming a code for a licensed domain answers schoolAccess', async () => {
     addLicense();
     const u = addUser('jane@gmail.com', {
@@ -386,7 +439,7 @@ describe('the student code unlocks the licence', () => {
   });
 });
 
-describe('admin: school licences', () => {
+describe('admin: school licenses', () => {
   const valid = {
     schoolName: 'Brigham Young University', domains: 'byu.edu, Student.BYU.edu',
     startsAt: '2026-08-01', endsAt: '2027-08-01', seatCap: 500,
@@ -414,7 +467,7 @@ describe('admin: school licences', () => {
     expect(res.status).toBe(401);
   });
 
-  it('creates a licence with clean domains and dates', async () => {
+  it('creates a license with clean domains and dates', async () => {
     addUser(ADMIN);
     const res = await request(app()).post('/api/admin/school-licenses').set(as(ADMIN)).send(valid);
     expect(res.status).toBe(201);
@@ -445,7 +498,7 @@ describe('admin: school licences', () => {
     expect(licenses).toHaveLength(0);
   });
 
-  it('lists licences with seats used, without anything a student reads', async () => {
+  it('lists licenses with seats used, without anything a student reads', async () => {
     addUser(ADMIN);
     addLicense({ seatsUsed: 12, seatCap: 40 });
     const res = await request(app()).get('/api/admin/school-licenses').set(as(ADMIN));
@@ -469,7 +522,7 @@ describe('admin: school licences', () => {
     expect(reopen.body.state).toBe('active');
   });
 
-  it('404s an unknown licence', async () => {
+  it('404s an unknown license', async () => {
     addUser(ADMIN);
     const res = await request(app()).post(`/api/admin/school-licenses/${new ObjectId()}/end`).set(as(ADMIN));
     expect(res.status).toBe(404);

@@ -4,7 +4,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { ExamGate } from './ExamGate';
 
-// The exam simulation gate with school site licences (ADR 0040): what a
+// The exam simulation gate with school site licenses (ADR 0040): what a
 // student sees depends on what /api/checkout/status says about their school.
 
 const BYU = { name: 'Brigham Young University', domains: ['byu.edu'], endsAt: '2027-08-01T00:00:00Z' };
@@ -13,6 +13,7 @@ const PRICING = { standard: 49, student: 35, applies: false, studentVerified: fa
 let status;
 let confirmBody;
 let calls;
+let pastAttempts;
 
 function mockFetch() {
   calls = [];
@@ -22,7 +23,7 @@ function mockFetch() {
     const ok = (body) => Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(body) });
     if (u.startsWith('/api/checkout/status')) return ok(status);
     if (u.startsWith('/api/checkout/pricing')) return ok(PRICING);
-    if (u.startsWith('/api/exam/attempts')) return ok([]);
+    if (u.startsWith('/api/exam/attempts')) return ok(pastAttempts);
     if (u.startsWith('/api/checkout/student/start')) return ok({ sent: true });
     if (u.startsWith('/api/checkout/student/confirm')) return ok(confirmBody);
     return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve({}) });
@@ -35,10 +36,11 @@ const renderGate = (userName = 'sam@byu.edu') => render(
   </MemoryRouter>,
 );
 
-describe('ExamGate and school licences', () => {
+describe('ExamGate and school licenses', () => {
   beforeEach(() => {
     status = { purchased: false, access: null };
     confirmBody = { verified: true, student: 35, schoolAccess: false };
+    pastAttempts = [];
     vi.stubGlobal('fetch', mockFetch());
   });
   afterEach(() => {
@@ -79,10 +81,10 @@ describe('ExamGate and school licences', () => {
     expect(await screen.findByRole('button', { name: /Buy the Exam Simulation for \$49/ })).toBeInTheDocument();
   });
 
-  it('a student at an unlicensed school sees the ordinary page, told a licence would make it free', async () => {
+  it('a student at an unlicensed school sees the ordinary page, told a license would make it free', async () => {
     renderGate('lee@gmail.com');
     expect(await screen.findByRole('button', { name: /Buy the Exam Simulation for \$49/ })).toBeInTheDocument();
-    expect(screen.getByText(/nothing if their school has a licence with us/)).toBeInTheDocument();
+    expect(screen.getByText(/nothing if their school has a license with us/)).toBeInTheDocument();
     expect(screen.queryByText(/Your school gives you/)).not.toBeInTheDocument();
   });
 
@@ -107,9 +109,28 @@ describe('ExamGate and school licences', () => {
     expect(screen.getByText(/Ask your department to add seats/)).toBeInTheDocument();
   });
 
-  it('a student whose licence ended mid-exam is offered to finish it', async () => {
+  it('a student whose license ended mid-exam is offered to finish it', async () => {
     status = { purchased: false, access: null, unfinishedSchoolExam: true };
     renderGate();
     expect(await screen.findByRole('button', { name: /Finish my exam/ })).toBeInTheDocument();
+  });
+
+  it('after a license ends, the student still sees the results they sat under it', async () => {
+    status = { purchased: false, access: null, schoolHistory: true };
+    pastAttempts = [{
+      attemptId: 'a1', attemptNumber: 1, status: 'completed', totalCorrect: 70, totalQuestions: 110,
+      overallPercentage: 64, completedAt: '2026-11-01T12:00:00Z',
+    }];
+    renderGate('jane@gmail.com');
+    expect(await screen.findByText("Your results from your school's license")).toBeInTheDocument();
+    expect(screen.getByText('64%')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Buy the Exam Simulation/ })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Start New Exam/ })).not.toBeInTheDocument();
+  });
+
+  it('a student with no school history is never sent to fetch attempts', async () => {
+    renderGate('lee@gmail.com');
+    await screen.findByRole('button', { name: /Buy the Exam Simulation/ });
+    expect(calls.some((c) => c.url.startsWith('/api/exam/attempts'))).toBe(false);
   });
 });

@@ -37,7 +37,7 @@ export function ExamGate({ userName }) {
   const [code, setCode] = React.useState('');
   const [studentBusy, setStudentBusy] = React.useState(false);
   const [studentMsg, setStudentMsg] = React.useState('');
-  // School site licence (ADR 0040), from /api/checkout/status:
+  // School site license (ADR 0040), from /api/checkout/status:
   // access 'school' when their school gives it to them; schoolReason
   // 'unverified' (verify to get it) or 'seats_full' when it does not yet.
   const [access, setAccess] = React.useState(null);
@@ -59,6 +59,7 @@ export function ExamGate({ userName }) {
 
     (async () => {
       let isPurchased = false;
+      let schoolHistory = false;
       try {
         const r = await fetch(statusUrl);
         if (r.ok) {
@@ -70,6 +71,7 @@ export function ExamGate({ userName }) {
           setSchool(data.school || null);
           setSchoolReason(data.schoolReason || null);
           setUnfinishedSchoolExam(data.unfinishedSchoolExam === true);
+          schoolHistory = data.schoolHistory === true;
         } else {
           setPurchased(false);
         }
@@ -77,7 +79,8 @@ export function ExamGate({ userName }) {
         setPurchased(false);
       }
       // Attempts are purchase-gated (403 for free users), only fetch if owned.
-      if (isPurchased) await loadAttempts();
+      // A license that has ended still shows the results sat under it.
+      if (isPurchased || schoolHistory) await loadAttempts();
       setLoading(false);
     })();
   }, [userName, navigate]);
@@ -177,7 +180,7 @@ export function ExamGate({ userName }) {
       }
       setPricing((p) => ({ ...(p || {}), applies: true, studentVerified: true, verifiedStudentEmail: eduEmail.trim().toLowerCase() }));
       setStudentStep('verified');
-      // The same code proves the address for a school licence: straight in.
+      // The same code proves the address for a school license: straight in.
       if (body.school) setSchool(body.school);
       setSchoolReason(body.schoolAccess ? null : (body.schoolReason || null));
       if (body.schoolAccess) {
@@ -289,6 +292,37 @@ export function ExamGate({ userName }) {
     );
   }
 
+  // Finished attempts. Shown on the hub, and on the gate to a student whose
+  // school license has ended: their results stay theirs (ADR 0040).
+  const completedAttempts = attempts.filter(a => a.status === 'completed');
+  function renderPastAttempts(title, extraClass = '') {
+    if (completedAttempts.length === 0) return null;
+    return (
+      <div className={`exam-attempts-section ${extraClass}`.trim()}>
+        <h3 className="exam-attempts-title">{title}</h3>
+        <div className="exam-attempts-list">
+          {completedAttempts.map(a => (
+            <button
+              key={a.attemptId}
+              className="exam-attempt-row"
+              onClick={() => navigate(`/exam/results/${a.attemptId}`)}
+            >
+              <span className="ea-num">#{a.attemptNumber}</span>
+              <span className="ea-score">{a.totalCorrect}/{a.totalQuestions}</span>
+              <span className="ea-pct" style={{ color: a.overallPercentage >= 50 ? 'var(--forest)' : 'var(--error)' }}>
+                {a.overallPercentage}%
+              </span>
+              <span className="ea-date">
+                {a.completedAt ? new Date(a.completedAt).toLocaleDateString() : ''}
+              </span>
+              <ArrowRight size={14} weight="bold" className="ea-arrow" />
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   // What you get, the same list whichever way in.
   const features = (
         <div className="exam-gate-features">
@@ -331,7 +365,7 @@ export function ExamGate({ userName }) {
   );
 
   // ═══ SCHOOL GATE: their school covers them, they only need to verify ═══
-  // ADR 0040. A licence covers the domain of their account address or of the
+  // ADR 0040. A license covers the domain of their account address or of the
   // school on their profile, and no address on it is verified yet. The
   // emailed code is the one proof we take; once it lands they are in.
   if (!purchased && schoolReason === 'unverified' && school && !buyInstead) {
@@ -393,7 +427,7 @@ export function ExamGate({ userName }) {
             {unfinishedSchoolExam && (
               <div className="exam-gate-unfinished" role="status">
                 <p>
-                  Your school&apos;s licence has ended, and the exam you started under it is still open.
+                  Your school&apos;s license has ended, and the exam you started under it is still open.
                   You can finish it.
                 </p>
                 <button type="button" className="btn-primary exam-gate-finish" onClick={() => navigate('/exam/session')}>
@@ -402,6 +436,8 @@ export function ExamGate({ userName }) {
                 </button>
               </div>
             )}
+
+            {renderPastAttempts('Your results from your school\'s license', 'exam-attempts-section--inline')}
 
             {schoolReason === 'seats_full' && school && (
               <div className="exam-gate-seats-full" role="status">
@@ -444,7 +480,7 @@ export function ExamGate({ userName }) {
             ) : renderStudentVerify({
               label: (
                 <>
-                  Students pay ${studentPrice}, and nothing if their school has a licence with us.
+                  Students pay ${studentPrice}, and nothing if their school has a license with us.
                   Enter your <strong>.edu</strong> email and we will send you a 6-digit code.
                 </>
               ),
@@ -482,7 +518,6 @@ export function ExamGate({ userName }) {
   }
 
   // ═══ PURCHASED ═══
-  const completedAttempts = attempts.filter(a => a.status === 'completed');
   const bestScore = completedAttempts.length > 0
     ? Math.max(...completedAttempts.map(a => a.overallPercentage || 0))
     : null;
@@ -534,31 +569,7 @@ export function ExamGate({ userName }) {
             </div>
           </div>
 
-          {/* Past attempts */}
-          {completedAttempts.length > 0 && (
-            <div className="exam-attempts-section">
-              <h3 className="exam-attempts-title">Past Attempts</h3>
-              <div className="exam-attempts-list">
-                {completedAttempts.map(a => (
-                  <button
-                    key={a.attemptId}
-                    className="exam-attempt-row"
-                    onClick={() => navigate(`/exam/results/${a.attemptId}`)}
-                  >
-                    <span className="ea-num">#{a.attemptNumber}</span>
-                    <span className="ea-score">{a.totalCorrect}/{a.totalQuestions}</span>
-                    <span className="ea-pct" style={{ color: a.overallPercentage >= 50 ? 'var(--forest)' : 'var(--error)' }}>
-                      {a.overallPercentage}%
-                    </span>
-                    <span className="ea-date">
-                      {a.completedAt ? new Date(a.completedAt).toLocaleDateString() : ''}
-                    </span>
-                    <ArrowRight size={14} weight="bold" className="ea-arrow" />
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
+          {renderPastAttempts('Past Attempts')}
         </div>
       </div>
     </main>

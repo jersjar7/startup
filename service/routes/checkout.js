@@ -184,7 +184,7 @@ router.post('/student/confirm', verifyAuth, async (req, res) => {
     studentVerifiedAt: new Date(),
   });
   await DB.unsetUserFields(user.email, STUDENT_CODE_FIELDS);
-  // The same code also proves the address for a school licence (ADR 0040).
+  // The same code also proves the address for a school license (ADR 0040).
   // Answer what it unlocked so the page can go straight to the simulation.
   const after = await resolveSimAccess({
     ...user, studentVerified: true, verifiedStudentEmail: user.studentCodeEmail,
@@ -253,13 +253,17 @@ router.get('/status', verifyAuth, async (req, res) => {
       result.school = publicSchool(school.license);
       if (!school.access) result.schoolReason = school.reason; // 'unverified' | 'seats_full'
     }
-    // A licence that ended mid-exam leaves that exam open to finish
-    // (routes/exam.js). Only a student could have one, so nobody else pays
-    // for the lookup.
+    // A license that ended mid-exam leaves that exam open to finish, and the
+    // results sat under it stay viewable (routes/exam.js). Only a student
+    // could have either, so nobody else pays for the lookup.
     if (!result.purchased && (req.user.studentVerified === true || isStudentEmail(req.user.email))) {
       const attempts = await DB.getExamAttempts(userId);
       if (attempts.some((a) => a.status === 'in_progress' && a.accessVia === 'school')) {
         result.unfinishedSchoolExam = true;
+      }
+      // Their results from a license that has ended stay theirs to view.
+      if (attempts.some((a) => a.status === 'completed' && a.accessVia === 'school')) {
+        result.schoolHistory = true;
       }
     }
   }

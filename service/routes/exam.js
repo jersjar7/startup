@@ -36,12 +36,17 @@ const TIME_LIMIT_SECONDS = 5 * 3600 + 20 * 60; // 5 hours 20 minutes = 19200 sec
 // (requireSimAccessClaiming); the other routes only read, so opening the page
 // or listing past attempts never spends one.
 //
-// A school licence can end while a student is mid-exam. That must not cost
-// them the exam (docs/EXAM-SIMULATION.md): an attempt started under a licence
-// stays resumable, savable and submittable after the licence ends, and an
+// A school license can end while a student is mid-exam. That must not cost
+// them the exam (docs/EXAM-SIMULATION.md): an attempt started under a license
+// stays resumable, savable and submittable after the license ends, and an
 // expired one is still graded by /start. They cannot start a new one.
 // Purchases keep their old behaviour (a refund ends access).
-const simAccessGate = (claim) => async function requireSimAccess(req, res, next) {
+//
+// After a license ends, the student also keeps their past results and
+// reviews (owner, 2026-11-06): the read routes (history: true) let them see
+// the completed attempts they sat under a license, and only those. A
+// refunded buyer gets nothing new here: their attempts were not school ones.
+const simAccessGate = (claim, { history = false } = {}) => async function requireSimAccess(req, res, next) {
   const userId = req.user._id.toString();
   const decision = await resolveSimAccess(req.user, { claim });
   if (decision.access) {
@@ -50,17 +55,25 @@ const simAccessGate = (claim) => async function requireSimAccess(req, res, next)
   }
   const attempts = await DB.getExamAttempts(userId);
   const open = attempts.find((a) => a.status === 'in_progress' && a.accessVia === 'school');
-  if (open) {
-    req.simAccess = { ...decision, grace: true, graceAttemptId: open._id.toString() };
+  const sat = history && attempts.some((a) => a.status === 'completed' && a.accessVia === 'school');
+  if (open || sat) {
+    req.simAccess = {
+      ...decision,
+      grace: !!open,
+      graceAttemptId: open ? open._id.toString() : null,
+      // Read routes show only school attempts to a student without access.
+      limited: true,
+    };
     return next();
   }
   const msg = decision.reason === 'seats_full'
-    ? 'Every seat on your school\'s licence is taken. Ask your department to add seats.'
+    ? 'Every seat on your school\'s license is taken. Ask your department to add seats.'
     : 'Exam Simulation purchase required';
   return res.status(403).send({ msg, reason: decision.reason });
 };
 const requireSimAccess = simAccessGate(false);
 const requireSimAccessClaiming = simAccessGate(true);
+const requireSimAccessOrHistory = simAccessGate(false, { history: true });
 
 // In grace (see requireSimAccess) a request may only touch the attempt that
 // was already open.
@@ -239,11 +252,11 @@ router.post('/start', verifyAuth, requireSimAccessClaiming, async (req, res) => 
         inProgress = undefined; // start a clean attempt below
       }
     }
-    // A school licence that ended while this attempt was open let the student
+    // A school license that ended while this attempt was open let the student
     // back in only to finish it (requireSimAccess). The expiry above has
     // already graded it if its time ran out; there is no new exam to start.
     if (!inProgress && req.simAccess?.grace) {
-      return res.status(403).send({ msg: 'Your school\'s licence for the Exam Simulation has ended.', reason: 'ended' });
+      return res.status(403).send({ msg: 'Your school\'s license for the Exam Simulation has ended.', reason: 'ended' });
     }
     if (inProgress) {
       // Resume the STORED attempt, and hand back everything needed to restore
@@ -294,7 +307,7 @@ router.post('/start', verifyAuth, requireSimAccessClaiming, async (req, res) => 
       timeLimit: TIME_LIMIT_SECONDS,
       startedAt,
       totalQuestions: examQuestions.length,
-      // How the student got in, so a licence that ends mid-exam does not end
+      // How the student got in, so a license that ends mid-exam does not end
       // the exam (requireSimAccess).
       accessVia: req.simAccess?.via || 'purchase',
       ...(req.simAccess?.via === 'school' ? { schoolLicenseId: String(req.simAccess.license._id) } : {}),
@@ -440,9 +453,10 @@ router.post('/submit', verifyAuth, requireSimAccess, async (req, res) => {
 });
 
 // GET /api/exam/attempts — List user's past attempts
-router.get('/attempts', verifyAuth, requireSimAccess, async (req, res) => {
+router.get('/attempts', verifyAuth, requireSimAccessOrHistory, async (req, res) => {
   const userId = req.user._id.toString();
-  const attempts = await DB.getExamAttempts(userId);
+  let attempts = await DB.getExamAttempts(userId);
+  if (req.simAccess?.limited) attempts = attempts.filter((a) => a.accessVia === 'school');
 
   res.send(attempts.map(a => ({
     attemptId: a._id.toString(),
@@ -461,12 +475,16 @@ router.get('/attempts', verifyAuth, requireSimAccess, async (req, res) => {
 });
 
 // GET /api/exam/attempt/:id — Get specific attempt details
-router.get('/attempt/:id', verifyAuth, requireSimAccess, async (req, res) => {
+router.get('/attempt/:id', verifyAuth, requireSimAccessOrHistory, async (req, res) => {
   const userId = req.user._id.toString();
   const attempt = await DB.getExamAttempt(req.params.id, userId);
 
   if (!attempt) {
     return res.status(404).send({ msg: 'Attempt not found' });
+  }
+  // Without access, only a finished school attempt can be opened.
+  if (req.simAccess?.limited && (attempt.accessVia !== 'school' || attempt.status !== 'completed')) {
+    return res.status(403).send({ msg: 'Exam Simulation purchase required' });
   }
 
   res.send({
