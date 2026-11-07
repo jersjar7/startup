@@ -28,7 +28,7 @@ export function About() {
 
           <h1>Why this exists</h1>
           <p>
-            I'm Jerson, a recent graduate. I finished my master's in Civil Engineering at BYU in May 2025.
+            I'm Jerson, a recent graduate. I finished my master's in Civil Engineering at BYU in April 2026.
           </p>
           <p>
             Some engineering concepts were really hard for me. Not all of them, but some took a lot of
